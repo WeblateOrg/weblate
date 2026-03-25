@@ -6,8 +6,8 @@
 import re
 
 from django.urls import reverse
+from rest_framework.authtoken.models import Token
 
-from weblate.auth.models import User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -32,11 +32,15 @@ class ProjectTokenTest(ViewTestCase):
         self.assertIsNotNone(result)
         return result.group(1)
 
-    def delete_token(self) -> None:
-        token = User.objects.filter(is_bot=True).exclude(username__contains=":").get()
+    def get_token_user(self, token_key):
+        """Get the User associated with a token key."""
+        return Token.objects.get(key=token_key).user
+
+    def delete_token(self, token_key) -> None:
+        token_user = self.get_token_user(token_key)
         response = self.client.post(
             reverse("delete-user", kwargs=self.kw_project),
-            {"user": token.username},
+            {"user": token_user.username},
             follow=True,
         )
 
@@ -64,7 +68,7 @@ class ProjectTokenTest(ViewTestCase):
     def test_revoke_token(self) -> None:
         """Create a token revoke it, check that usage is not allowed."""
         token = self.create_token()
-        self.delete_token()
+        self.delete_token(token)
         self.client.logout()
 
         response = self.client.get(
@@ -76,10 +80,8 @@ class ProjectTokenTest(ViewTestCase):
 
     def test_remove_all_groups_token(self) -> None:
         """Removing all teams from a token should not be allowed."""
-        self.create_token()
-        token_user = (
-            User.objects.filter(is_bot=True).exclude(username__contains=":").get()
-        )
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
         # Verify the token is currently visible on the access page
         response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
         self.assertContains(response, token_user.username)

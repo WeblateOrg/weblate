@@ -3241,14 +3241,15 @@ class ProjectUserGroupForm(UserManageForm):
         self.fields["user"].widget = forms.HiddenInput()
         self.fields["groups"].queryset = project.defined_groups.all()
 
-    def clean(self) -> None:
-        super().clean()
-        user = self.cleaned_data.get("user")
-        groups = self.cleaned_data.get("groups")
+    def clean(self) -> dict[str, Any]:
+        cleaned_data = super().clean()
+        user = cleaned_data.get("user")
+        groups = cleaned_data.get("groups")
         if user and user.is_bot and not groups:
             raise ValidationError(
                 gettext_lazy("At least one team is required for a project token.")
             )
+        return cleaned_data
 
 
 class ProjectFilterForm(forms.Form):
