@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for automatix fixups."""
+"""Tests for automatic fixups."""
 
 from django.test import TestCase
 
