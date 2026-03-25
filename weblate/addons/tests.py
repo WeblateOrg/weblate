@@ -183,7 +183,7 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         self.assertEqual(category.addon_set.count(), 1)
         self.assertIn("Test category", str(addon.instance))
         self.component.drop_addons_cache()
-        self.assertIn("weblate.base.test", self.component.addons_cache["__names__"])
+        self.assertIn("weblate.base.test", self.component.addons_cache.names)
 
         sitewide = Addon.objects.filter_sitewide()
         self.assertEqual(sitewide.count(), 0)
@@ -250,7 +250,7 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         self.component.save()
         NoOpAddon.create(category=parent, acting_user=self.user)
         self.component.drop_addons_cache()
-        self.assertIn("weblate.base.test", self.component.addons_cache["__names__"])
+        self.assertIn("weblate.base.test", self.component.addons_cache.names)
 
 
 class IntegrationTest(TestAddonMixin, ViewTestCase):
@@ -299,12 +299,10 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertIn("po/cs.po", commit)
 
     def test_crash(self) -> None:
-        self.assertEqual([], self.component.addons_cache["__names__"])
+        self.assertEqual([], self.component.addons_cache.names)
 
         addon = CrashAddon.create(component=self.component)
-        self.assertEqual(
-            ["weblate.base.crash"], self.component.addons_cache["__names__"]
-        )
+        self.assertEqual(["weblate.base.crash"], self.component.addons_cache.names)
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
 
         with self.assertRaises(CrashAddonError):
@@ -317,7 +315,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             user=None,
         )
 
-        self.assertEqual([], self.component.addons_cache["__names__"])
+        self.assertEqual([], self.component.addons_cache.names)
         self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
 
     def test_process_error(self) -> None:

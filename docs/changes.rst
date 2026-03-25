@@ -7,6 +7,8 @@ Weblate 5.17
 
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
 * Added new management command :wladmin:`list_format_features`, which generates RST documentation snippets describing the supported features for every file format.
+* Shared components can now be categorized within the target project.
+* :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
 
 .. rubric:: Improvements
 
@@ -20,6 +22,8 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Prevented removing the last team from a project token.
+* Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
@@ -30,6 +34,9 @@ Weblate 5.17
 * Improved API access control for pending tasks.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
+* :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
+* :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
+* Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 
 .. rubric:: Compatibility
 
@@ -1118,8 +1125,8 @@ Weblate 5.9
 
 * Per-project :ref:`machine-translation-setup` can now be configured via the Project :ref:`api`.
 
-  * Added :http:get:`/api/projects/{string:project}/machinery_settings/`.
-  * Added :http:post:`/api/projects/{string:project}/machinery_settings/`.
+  * Added :http:get:`/api/projects/(string:project)/machinery_settings/`.
+  * Added :http:post:`/api/projects/(string:project)/machinery_settings/`.
 
 * Translation memory import now supports files with XLIFF, PO and CSV formats, see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`.
 * The registration CAPTCHA now includes proof-of-work mechanism ALTCHA.

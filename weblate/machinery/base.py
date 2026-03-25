@@ -410,6 +410,12 @@ class BatchMachineTranslation(DocVersionsMixin):
             code = code.rsplit("_", 1)[0]
             yield self.map_language_code(code)
 
+    def get_source_language_possibilities(self, language: Language) -> Iterator[str]:
+        return self.get_language_possibilities(language)
+
+    def get_target_language_possibilities(self, language: Language) -> Iterator[str]:
+        return self.get_language_possibilities(language)
+
     def get_languages(
         self, source_language: Language, target_language: Language
     ) -> tuple[str, str]:
@@ -417,8 +423,8 @@ class BatchMachineTranslation(DocVersionsMixin):
             msg = "Same languages"
             raise UnsupportedLanguageError(msg)
 
-        for source in self.get_language_possibilities(source_language):
-            for target in self.get_language_possibilities(target_language):
+        for source in self.get_source_language_possibilities(source_language):
+            for target in self.get_target_language_possibilities(target_language):
                 if self.is_supported(source, target):
                     return source, target
 

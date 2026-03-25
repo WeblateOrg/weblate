@@ -1102,6 +1102,42 @@ class RepoOperations(TextChoices):
     )
 
 
+class ComponentLinkRequestSerializer(ReadOnlySerializer):
+    project_slug = serializers.SlugField(required=True)
+    category_id = serializers.IntegerField(required=False, allow_null=True)
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        request = self.context["request"]
+        component = self.context["component"]
+
+        project_slug = attrs["project_slug"]
+        try:
+            project = request.user.allowed_projects.exclude(
+                pk=component.project_id
+            ).get(slug=project_slug)
+        except Project.DoesNotExist as error:
+            msg = f"No project slug {project_slug!r} found!"
+            raise serializers.ValidationError({"project_slug": msg}) from error
+        attrs["project"] = project
+
+        category_id = attrs.get("category_id")
+        if category_id is not None:
+            try:
+                category = Category.objects.get(pk=category_id)
+            except Category.DoesNotExist as error:
+                msg = "Category not found."
+                raise serializers.ValidationError({"category_id": msg}) from error
+            if category.project != project:
+                msg = "The category does not belong to the selected project."
+                raise serializers.ValidationError({"category_id": msg})
+            attrs["category"] = category
+        else:
+            attrs["category"] = None
+
+        return attrs
+
+
 class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
         choices=RepoOperations.choices,

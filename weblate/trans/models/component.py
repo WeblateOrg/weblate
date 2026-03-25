@@ -8,6 +8,7 @@ import os
 import re
 import time
 from collections import defaultdict
+from contextlib import suppress
 from glob import glob
 from itertools import chain
 from typing import TYPE_CHECKING, Any, TypedDict, cast
@@ -29,7 +30,7 @@ from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q, Value
 from django.db.models.functions import MD5
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
@@ -150,7 +151,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.addons.models import Addon
+    from weblate.addons.models import Addon, AddonCache
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
@@ -385,6 +386,33 @@ class ComponentQuerySet(models.QuerySet):
             "category__category__category",
             "category__category__category__project",
         )
+
+
+class ComponentLink(models.Model):
+    component = models.ForeignKey(
+        "trans.Component",
+        on_delete=models.CASCADE,
+    )
+    project = models.ForeignKey(
+        "trans.Project",
+        on_delete=models.CASCADE,
+    )
+    category = models.ForeignKey(
+        "trans.Category",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        app_label = "trans"
+        db_table = "trans_component_links"
+        unique_together = (("component", "project"),)
+
+    def __str__(self) -> str:
+        if self.category:
+            return f"{self.component} -> {self.category}"
+        return f"{self.component} -> {self.project}"
 
 
 class OldComponentSettings(TypedDict):
@@ -831,6 +859,7 @@ class Component(
         verbose_name=gettext_lazy("Share in projects"),
         blank=True,
         related_name="shared_components",
+        through="ComponentLink",
         help_text=gettext_lazy(
             "Choose additional projects where this component will be listed."
         ),
@@ -3163,15 +3192,10 @@ class Component(
             self.branch = self.repository_class.get_remote_branch(self.repo)
 
     def clean_category(self) -> None:
-        if self.category:
-            if self.category.project != self.project:
-                raise ValidationError(
-                    {"category": gettext("Category does not belong to this project.")}
-                )
-            if self.pk and self.links.exists():
-                raise ValidationError(
-                    gettext("Categorized component can not be shared.")
-                )
+        if self.category and self.category.project != self.project:
+            raise ValidationError(
+                {"category": gettext("Category does not belong to this project.")}
+            )
 
     def clean_repo_link(self) -> None:
         """Validate repository link."""
@@ -3728,7 +3752,7 @@ class Component(
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point. This complements
             # installation in install_autoaddon.
-            for addon in self.addons_cache["__all__"]:
+            for addon in self.addons_cache.addons:
                 # Skip addons installed elsewhere (repo/project wide)
                 if addon.component_id != self.id:
                     continue
@@ -3874,12 +3898,11 @@ class Component(
 
     @property
     def count_push_branch_outgoing(self):
-        if self.push_branch:
-            try:
-                return self.repository.count_outgoing(self.push_branch)
-            except RepositoryError:
-                # We silently ignore this error as push branch might not be existing if not needed
-                pass
+        try:
+            return len(self.repository.get_push_revisions(self.push_branch))
+        except RepositoryError:
+            # We silently ignore this error as push branch might not be existing if not needed
+            pass
         return self.count_repo_outgoing
 
     def needs_commit(self):
@@ -3892,7 +3915,20 @@ class Component(
 
     def repo_needs_push(self, retry: bool = True):
         """Check for something to push to remote repository."""
-        return self.count_push_branch_outgoing > 0
+        try:
+            return self.repository.needs_push(self.push_branch)
+        except RepositoryError as error:
+            error_text = self.error_text(error)
+            if retry and "Host key verification failed" in error_text:
+                self.add_ssh_host_key()
+                return self.repo_needs_push(retry=False)
+            report_error(
+                "Could not check if push is needed",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
+            self.add_alert("PushFailure", error=error_text)
+            return False
 
     @property
     def file_format_name(self) -> StrOrPromise:
@@ -4244,7 +4280,7 @@ class Component(
         return [guide(self) for guide in GUIDELINES]
 
     @cached_property
-    def addons_cache(self):
+    def addons_cache(self) -> AddonCache:
         from weblate.addons.models import Addon
 
         # Use prefetch_for_components to populate the cache
@@ -4253,7 +4289,7 @@ class Component(
         return self.__dict__["addons_cache"]
 
     def get_addon(self, name: str) -> Addon | None:
-        return self.addons_cache["__lookup__"].get(name)
+        return self.addons_cache.lookup.get(name)
 
     def schedule_sync_terminology(self) -> None:
         """Trigger terminology sync in the background."""
@@ -4402,12 +4438,12 @@ class Component(
         return filename
 
 
-@receiver(m2m_changed, sender=Component.links.through)
+@receiver(post_save, sender=ComponentLink)
+@receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
-def change_component_link(sender, instance, action, pk_set, **kwargs) -> None:
+def change_component_link(sender, instance, **kwargs) -> None:
     from weblate.trans.models import Project
 
-    if action not in {"post_add", "post_remove", "post_clear"}:
-        return
-    for project in Project.objects.filter(pk__in=pk_set):
+    with suppress(Project.DoesNotExist):
+        project = Project.objects.get(pk=instance.project_id)
         project.invalidate_glossary_cache()

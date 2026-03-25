@@ -1656,6 +1656,18 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         # (commits are in origin for that branch, fork not checked)
         self.assertEqual(self.repo.count_outgoing(different_branch), 0)
 
+    def test_needs_push_non_default_branch_ignores_stale_fork(self) -> None:
+        """Direct-push branch checks should not be suppressed by stale fork refs."""
+        self.test_commit()
+
+        credentials = self.repo.get_credentials()
+        fork_branch_name = self.repo.get_fork_branch_name()
+        fork_ref = f"refs/remotes/{credentials['username']}/{fork_branch_name}"
+        self.repo.execute(["update-ref", fork_ref, "HEAD"], needs_lock=False)
+
+        different_branch = "develop" if self.repo.branch != "develop" else "feature"
+        self.assertTrue(self.repo.needs_push(different_branch))
+
 
 @override_settings(
     PAGURE_CREDENTIALS={"pagure.io": {"username": "test", "token": "token"}}

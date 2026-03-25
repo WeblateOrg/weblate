@@ -894,9 +894,13 @@ class GitMergeRequestBase(GitForcePushRepository):
             return f"weblate-{self.component.project.slug}-{self.component.slug}"
         return f"weblate-{self.branch}"
 
-    def count_outgoing(self, branch: str | None = None) -> int:
+    def get_tracked_outgoing_revisions(self) -> list[str]:
+        """List revisions missing from the tracked upstream branch."""
+        return super().get_outgoing_revisions()
+
+    def get_outgoing_revisions(self, branch: str | None = None) -> list[str]:
         """
-        Count outgoing commits.
+        List outgoing commits.
 
         For merge request workflows, we need to check against both the origin
         remote (to see if commits are already merged) and the fork remote (to see
@@ -907,14 +911,14 @@ class GitMergeRequestBase(GitForcePushRepository):
         # Check if fork is used for this branch (default and matching branches use fork)
         if not self.should_use_fork(branch):
             # Fork not used: check specified branch directly on origin
-            return super().count_outgoing(branch)
+            return super().get_outgoing_revisions(branch)
 
         # Fork workflow: check if commits have been merged to origin's pull branch
         # Omit branch parameter to check the repository's default pull branch
-        origin_outgoing = super().count_outgoing()
-        if origin_outgoing == 0:
+        origin_outgoing = super().get_outgoing_revisions()
+        if not origin_outgoing:
             # All commits are in origin, nothing to push
-            return 0
+            return []
 
         # Check if commits are in the fork (already pushed)
         # The fork branch name is determined by get_fork_branch_name()
@@ -924,19 +928,17 @@ class GitMergeRequestBase(GitForcePushRepository):
         fork_branch = f"{fork_remote}/{fork_branch_name}"
 
         try:
-            fork_outgoing = len(
+            fork_outgoing = set(
                 self.log_revisions(self.ref_from_remote.format(fork_branch))
             )
-            # If fork has all commits, don't need to push
-            if fork_outgoing == 0:
-                return 0
         except RepositoryError:
             # Fork branch doesn't exist yet or is not accessible,
             # indicating commits haven't been pushed to fork
-            pass
+            return origin_outgoing
 
-        # Commits are not in origin or fork, need to push
-        return origin_outgoing
+        # Commits still need to be pushed only when they are missing from both
+        # the target branch and the fork branch.
+        return [revision for revision in origin_outgoing if revision in fork_outgoing]
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False

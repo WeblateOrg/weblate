@@ -183,29 +183,3 @@ class SettingsTest(ViewTestCase):
             self.assertFalse(
                 unit.translated, f"{unit} should not be marked as translated"
             )
-
-    def test_shared_component(self) -> None:
-        self.project.add_user(self.user, "Administration")
-        url = reverse("settings", kwargs=self.kw_component)
-
-        # Create extra project
-        other = Project.objects.create(name="Other", slug="other")
-
-        response = self.client.get(url)
-        self.assertContains(response, "Settings")
-        data = get_form_data(response.context["form"].initial)
-        data["links"] = other.pk
-        del data["enforced_checks"]
-
-        # Can not add link to non owned project
-        response = self.client.post(url, data, follow=True)
-        self.assertNotContains(response, "Settings saved")
-        response = self.client.get(other.get_absolute_url())
-        self.assertNotContains(response, self.component.get_absolute_url())
-
-        # Add link to owned project
-        other.add_user(self.user, "Administration")
-        response = self.client.post(url, data, follow=True)
-        self.assertContains(response, "Settings saved")
-        response = self.client.get(other.get_absolute_url())
-        self.assertContains(response, self.component.get_absolute_url())

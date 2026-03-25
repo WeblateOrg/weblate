@@ -196,8 +196,14 @@ class Category(
             self.check_rename(old, validate=True)
 
     def get_child_components_access(self, user: User):
-        """List child components."""
-        return self.component_set.filter_access(user).prefetch().order()
+        """List child components, including shared components linked to this category."""
+        from weblate.trans.models.component import Component, ComponentLink
+
+        shared_ids = ComponentLink.objects.filter(category=self).values_list(
+            "component_id", flat=True
+        )
+        qs = Component.objects.filter(Q(category=self) | Q(pk__in=shared_ids))
+        return qs.filter_access(user).prefetch().order()
 
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
         """Return a queryset of components within the category that the given user can add new languages to."""
@@ -209,10 +215,18 @@ class Category(
 
     @cached_property
     def languages(self):
-        """Return list of all languages used in project."""
+        """Return list of all languages used in category, including shared components."""
+        from weblate.trans.models.component import ComponentLink
+
+        shared_ids = ComponentLink.objects.filter(
+            Q(category=self)
+            | Q(category__category=self)
+            | Q(category__category__category=self)
+        ).values_list("component_id", flat=True)
         return (
             Language.objects.filter(
-                translation__component_id__in=self.all_component_ids
+                Q(translation__component_id__in=self.all_component_ids)
+                | Q(translation__component_id__in=shared_ids)
             )
             .distinct()
             .order()

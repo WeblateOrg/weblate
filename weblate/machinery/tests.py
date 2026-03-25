@@ -228,6 +228,7 @@ DEEPL_TARGET_LANG_RESPONSE = [
     {"language": "EN-GB", "name": "English (British)"},
     {"language": "DE", "name": "Deutsch", "supports_formality": True},
     {"language": "PT-BR", "name": "Portuguese (Brasilian)"},
+    {"language": "PT-PT", "name": "Portuguese (European)", "supports_formality": True},
 ]
 
 LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
@@ -2121,9 +2122,12 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.mock_languages()
         lang_pt = Language.objects.get(code="pt")
         lang_pt_br = Language.objects.get(code="pt_BR")
+        lang_pt_pt = Language.objects.get(code="pt_PT")
         lang_en = Language.objects.get(code="en")
         self.assertEqual(machine.get_languages(lang_pt_br, lang_en), ("PT", "EN"))
         self.assertEqual(machine.get_languages(lang_pt, lang_pt_br), ("PT", "PT-BR"))
+        self.assertEqual(machine.get_languages(lang_en, lang_pt), ("EN", "PT-PT"))
+        self.assertEqual(machine.get_languages(lang_en, lang_pt_pt), ("EN", "PT-PT"))
 
 
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
@@ -2823,6 +2827,40 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                     "output_tokens": 5,
                 },
             },
+        )
+
+    @responses.activate
+    def test_empty_base_url_uses_default(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": '["Hallo Welt"]',
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+
+        machine = self.MACHINE_CLS({**self.CONFIGURATION, "base_url": ""})
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
         )
 
     @responses.activate
