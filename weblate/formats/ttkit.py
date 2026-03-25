@@ -1728,7 +1728,6 @@ class JSONFormat[S: JsonFile, U: BaseJsonUnit, T: JSONUnit](DictStoreFormat[S, U
     autoload: tuple[str, ...] = ("*.json",)
     empty_file_template = "{}\n"
     set_context_bilingual = False
-    monolingual = True
 
     @staticmethod
     def mimetype() -> str:

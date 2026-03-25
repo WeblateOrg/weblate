@@ -63,16 +63,22 @@ class Command(DocGeneratorCommand):
         # ignore formats that are merged into other formats
         ignore_list = set(chain(*FORMAT_DOC_SNIPPETS_MERGES.values()))
 
-        def new_field_list_item(
-            table, title: str, value: str | bool, comment: str | None = None
+        def new_list_table_row(
+            lines, feature_name: str, value: str | bool, doc_link: str | None = ""
         ) -> None:
             if isinstance(value, bool):
                 value = "Yes" if value else "No"
             if not value:
                 return
-            table.append(f":{title}: `{value}`")
-            if comment:
-                table.append(f"   {comment}")
+
+            doc_link = f":ref:`↗ <{doc_link}>`" if doc_link else ""
+
+            lines.extend(
+                [
+                    f"   * - {feature_name} {doc_link}",
+                    f"     - ``{value}``",
+                ]
+            )
 
         def get_extensions(file_format) -> set[str]:
             try:
@@ -95,61 +101,68 @@ class Command(DocGeneratorCommand):
                 continue
             file_path = snippets_dir / f"{format_id}-features.rst"
             output = []
-            output.extend(["Supported features", "++++++++++++++++++", ""])
+            output.extend(
+                [
+                    ".. list-table:: Supported features",
+                    "   :stub-columns: 1",
+                    "",
+                ]
+            )
+
             match file_format.monolingual:
                 case True:
-                    linguality = "mono"
+                    linguality = "Monolingual"
                 case False:
-                    linguality = "bilingual"
+                    linguality = "Bilingual"
                 case None:
-                    linguality = "both"
+                    linguality = "Both monolingual and bilingual"
                 case _:
                     msg = f"Invalid monolinguality: {file_format.monolingual}"
                     raise ValueError(msg)
 
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Common extensions",
                 ", ".join(sorted(get_extensions(file_format))),
             )
-            new_field_list_item(output, "Linguality", linguality, "See :ref:`bimono`")
-            new_field_list_item(
+            new_list_table_row(output, "Linguality", linguality, "bimono")
+            new_list_table_row(
                 output,
                 "Supports plural",
                 file_format.supports_plural,
-                "See :ref:`format-plurals`",
+                "format-plurals",
             )
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Supports descriptions",
                 file_format.supports_descriptions,
-                "See :ref:`format-description`",
+                "format-description",
             )
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Supports explanation",
                 file_format.supports_explanation,
-                "See :ref:`format-explanation`",
+                "format-explanation",
             )
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Supports context",
                 file_format.supports_context,
-                "See :ref:`format-context`",
+                "format-context",
             )
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Supports location",
                 file_format.supports_location,
-                "See :ref:`format-location`",
+                "format-location",
             )
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Supports flags",
                 file_format.supports_flags,
-                "See :ref:`format-flags`",
+                "format-flags",
             )
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Additional states",
                 ", ".join(
@@ -157,22 +170,22 @@ class Command(DocGeneratorCommand):
                         [str(state.label) for state in file_format.additional_states]
                     )
                 ),
-                "See :ref:`format-states`",
+                "format-states",
             )
             api_identifiers = [file_format.format_id]
             api_identifiers.extend(
                 FORMAT_DOC_SNIPPETS_MERGES.get(file_format.format_id, [])
             )
 
-            new_field_list_item(
+            new_list_table_row(
                 output, "API identifier", ", ".join(sorted(api_identifiers))
             )
 
-            new_field_list_item(
+            new_list_table_row(
                 output,
                 "Supports read-only strings",
                 file_format.supports_read_only,
-                "See :ref:`read-only-strings`",
+                "read-only-strings",
             )
 
             if file_path.exists():
