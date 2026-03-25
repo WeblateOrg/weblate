@@ -1089,7 +1089,7 @@ class PlaceholdersJSONUnit(JSONUnit):
             # WebExtension placeholders
             placeholder_ids = [f"${key.upper()}$" for key in placeholders]
             flags.merge("case-insensitive")
-        flags.set_value("placeholders", Flags.format_flag(placeholder_ids))
+        flags.merge(("placeholders", *placeholder_ids))
         return flags
 
 
