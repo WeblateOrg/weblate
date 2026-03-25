@@ -150,7 +150,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.addons.models import Addon
+    from weblate.addons.models import Addon, AddonCache
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
@@ -3728,7 +3728,7 @@ class Component(
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point. This complements
             # installation in install_autoaddon.
-            for addon in self.addons_cache["__all__"]:
+            for addon in self.addons_cache.addons:
                 # Skip addons installed elsewhere (repo/project wide)
                 if addon.component_id != self.id:
                     continue
@@ -4244,7 +4244,7 @@ class Component(
         return [guide(self) for guide in GUIDELINES]
 
     @cached_property
-    def addons_cache(self):
+    def addons_cache(self) -> AddonCache:
         from weblate.addons.models import Addon
 
         # Use prefetch_for_components to populate the cache
@@ -4253,7 +4253,7 @@ class Component(
         return self.__dict__["addons_cache"]
 
     def get_addon(self, name: str) -> Addon | None:
-        return self.addons_cache["__lookup__"].get(name)
+        return self.addons_cache.lookup.get(name)
 
     def schedule_sync_terminology(self) -> None:
         """Trigger terminology sync in the background."""

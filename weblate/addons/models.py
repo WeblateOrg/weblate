@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
 import sentry_sdk
@@ -54,6 +55,23 @@ if TYPE_CHECKING:
 ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
 
 
+@dataclass
+class AddonCache:
+    """
+    Cache for add-ons associated with a component.
+
+    Stores all add-ons, their names, a name-to-addon lookup, and per-event lists.
+    """
+
+    addons: list[Addon] = field(default_factory=list)
+    names: list[str] = field(default_factory=list)
+    lookup: dict[str, Addon] = field(default_factory=dict)
+    events: dict[int, list[Addon]] = field(default_factory=lambda: defaultdict(list))
+
+    def get_event(self, event: int) -> list[Addon]:
+        return self.events[event]
+
+
 class AddonQuerySet(models.QuerySet):
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
@@ -70,7 +88,7 @@ class AddonQuerySet(models.QuerySet):
         )
 
     def filter_event(self, component, event):
-        return component.addons_cache[event]
+        return component.addons_cache.get_event(event)
 
     def prefetch_for_components(self, components: Iterable[Component]) -> None:
         """
@@ -118,8 +136,7 @@ class AddonQuerySet(models.QuerySet):
 
         # Group addons by component
         for component in components:
-            result = defaultdict(list)
-            result["__lookup__"] = {}
+            result = AddonCache()
 
             # Build set of ancestor category IDs for this component
             ancestor_category_ids = set()
@@ -157,10 +174,10 @@ class AddonQuerySet(models.QuerySet):
                     or is_sitewide_addon
                 ):
                     for installed in addon.event_set.all():
-                        result[installed.event].append(addon)
-                    result["__all__"].append(addon)
-                    result["__names__"].append(addon.name)
-                    result["__lookup__"][addon.name] = addon
+                        result.events[installed.event].append(addon)
+                    result.addons.append(addon)
+                    result.names.append(addon.name)
+                    result.lookup[addon.name] = addon
 
             # Set the cache on the component
             component.__dict__["addons_cache"] = result
