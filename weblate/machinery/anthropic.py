@@ -59,7 +59,8 @@ class AnthropicTranslation(BaseLLMTranslation):
             ],
         }
         api_url = urljoin(
-            self.settings.get("base_url", "https://api.anthropic.com"), self.end_point
+            self.settings.get("base_url") or "https://api.anthropic.com",
+            self.end_point,
         )
         response = self.request("post", api_url, json=payload)
         response_data = response.json()

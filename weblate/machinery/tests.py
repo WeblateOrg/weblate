@@ -2830,6 +2830,40 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_empty_base_url_uses_default(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": '["Hallo Welt"]',
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+
+        machine = self.MACHINE_CLS({**self.CONFIGURATION, "base_url": ""})
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
+        )
+
+    @responses.activate
     def test_error_non_json(self) -> None:
         responses.add(
             responses.POST,
