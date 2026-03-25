@@ -54,6 +54,8 @@ services:
       WEBLATE_EMAIL_PORT: 1025
       WEBLATE_EMAIL_USE_TLS: 0
       WEBLATE_EMAIL_USE_SSL: 0
+      WEB_WORKERS: 1
+      GRANIAN_ARGS: "--reload --reload-paths /app/src/weblate"
     env_file:
     - ./environment
     ports:
