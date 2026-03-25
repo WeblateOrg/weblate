@@ -90,6 +90,10 @@ class ProjectTokenTest(ViewTestCase):
             {"user": token_user.username},
             follow=True,
         )
+        # Verify error message is shown
+        self.assertContains(
+            response, "At least one team is required for a project token."
+        )
         # The token should still have groups
         self.assertTrue(
             token_user.groups.filter(defining_project=self.project).exists()
