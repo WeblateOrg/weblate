@@ -273,7 +273,7 @@
                     {% translate "Suggest" %}
                   </button>
                 {% endif %}
-                <a class="btn btn-link btn-spaced skip" href="{{ next_unit_url }}" rel="next">
+                <a class="btn btn-link green btn-spaced skip" href="{{ next_unit_url }}" rel="next">
                   {% if LANGUAGE_BIDI %}
                     {% icon "rewind.svg" %}
                   {% else %}
@@ -797,7 +797,7 @@
               </div>
               {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
                 <div class="list-group-item card-footer-links">
-                  <a class="btn btn-link"
+                  <a class="btn btn-link green"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
@@ -843,7 +843,7 @@
                 {% endfor %}
                 {% if user_can_add_screenshot %}
                   <br />
-                  <a class="btn btn-link"
+                  <a class="btn btn-link green"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
