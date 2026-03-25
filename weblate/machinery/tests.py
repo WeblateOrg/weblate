@@ -2856,7 +2856,12 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
 
         machine = self.MACHINE_CLS({**self.CONFIGURATION, "base_url": ""})
-        machine.translate_batch(self.ENGLISH, self.SUPPORTED, [self.SOURCE_BLANK])
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
+        )
 
     @responses.activate
     def test_error_non_json(self) -> None:
