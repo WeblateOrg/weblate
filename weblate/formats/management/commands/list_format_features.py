@@ -71,7 +71,7 @@ class Command(DocGeneratorCommand):
             if not value:
                 return
 
-            doc_link = f":ref:`↗ <{doc_link}>`" if doc_link else ""
+            doc_link = f":ref:`ⓘ <{doc_link}>`" if doc_link else ""
 
             lines.extend(
                 [

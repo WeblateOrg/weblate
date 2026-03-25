@@ -2022,7 +2022,6 @@ class YAMLFormat(DictStoreFormat):
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.pyml",)
     empty_file_template = "{}\n"
-    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2042,6 +2041,7 @@ class RubyYAMLFormat(YAMLFormat):
     loader = ("yaml", "RubyYAMLFile")
     autoload: tuple[str, ...] = ("*.ryml", "*.yml", "*.yaml")
     supports_plural: bool = True
+    monolingual = True
 
 
 class DTDFormat(TTKitFormat):
