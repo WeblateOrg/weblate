@@ -37,6 +37,7 @@ from weblate.trans.models import (
     Category,
     Change,
     Component,
+    ComponentLink,
     ComponentList,
     Project,
     Translation,
@@ -3868,6 +3869,78 @@ class ComponentAPITest(APIBaseTest):
             method="delete",
             code=204,
             superuser=True,
+        )
+
+    def test_links_with_category(self) -> None:
+        self.create_acl()
+        category = Category.objects.create(
+            name="Test Category",
+            slug="test-cat",
+            project=Project.objects.get(slug="acl"),
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": category.pk},
+        )
+        link = ComponentLink.objects.get(
+            component=self.component, project=category.project
+        )
+        self.assertEqual(link.category, category)
+
+    def test_links_with_wrong_project_category(self) -> None:
+        """Category from a different project should be rejected."""
+        self.create_acl()
+        category = Category.objects.create(
+            name="Wrong Category", slug="wrong-cat", project=self.component.project
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": category.pk},
+        )
+        self.assertFalse(
+            ComponentLink.objects.filter(
+                component=self.component, project__slug="acl"
+            ).exists()
+        )
+
+    def test_links_with_invalid_category(self) -> None:
+        """Non-existent category_id should be rejected."""
+        self.create_acl()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": 99999},
+        )
+
+    def test_links_duplicate(self) -> None:
+        """Adding a link to an already linked project should return 400."""
+        self.create_acl()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={"project_slug": "acl"},
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl"},
         )
 
     def test_credits(self) -> None:

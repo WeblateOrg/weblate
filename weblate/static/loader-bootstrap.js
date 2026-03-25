@@ -1777,4 +1777,36 @@ $(function () {
     }
     timespan.textContent = value;
   });
+
+  /* Filter category select options based on selected project for component links */
+  $("[data-link-category-select]").each(function () {
+    const $source = $(this);
+    const $target = $($source.data("link-category-select"));
+    if (!$target.length) return;
+
+    let categoriesMap;
+    try {
+      categoriesMap = JSON.parse(
+        $source.attr("data-link-category-map") || "{}",
+      );
+    } catch (e) {
+      console.error("Could not parse link category map", e);
+      return;
+    }
+
+    const emptyLabel = $target.find("option").first().text() || "---------";
+
+    $source.on("change", () => {
+      const key = $source.val();
+      $target.empty();
+      $target.append($("<option>").val("").text(emptyLabel));
+      const items = categoriesMap[key] || [];
+      for (const item of items) {
+        $target.append($("<option>").val(item.id).text(item.name));
+      }
+    });
+
+    // Filter initial state
+    $source.trigger("change");
+  });
 });
