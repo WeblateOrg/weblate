@@ -3038,7 +3038,7 @@ class TranslationDeleteForm(BaseDeleteForm):
         context = super().get_template_context(obj)
         context["languages_addon"] = any(
             addon.name == "weblate.consistency.languages"
-            for addon in obj.component.addons_cache["__all__"]
+            for addon in obj.component.addons_cache.addons
         )
         return context
 

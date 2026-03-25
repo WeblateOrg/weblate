@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import logging
-from collections import defaultdict
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
 import sentry_sdk
@@ -42,8 +42,6 @@ from .base import BaseAddon
 from .events import AddonEvent
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
@@ -52,6 +50,23 @@ if TYPE_CHECKING:
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
+
+
+@dataclass
+class AddonCache:
+    """
+    Cache for add-ons associated with a component.
+
+    Stores all add-ons, their names, a name-to-addon lookup, and per-event lists.
+    """
+
+    addons: list[Addon] = field(default_factory=list)
+    names: list[str] = field(default_factory=list)
+    lookup: dict[str, Addon] = field(default_factory=dict)
+    events: dict[int, list[Addon]] = field(default_factory=dict)
+
+    def get_event(self, event: int) -> list[Addon]:
+        return self.events.get(event, [])
 
 
 class AddonQuerySet(models.QuerySet):
@@ -70,9 +85,11 @@ class AddonQuerySet(models.QuerySet):
         )
 
     def filter_event(self, component, event):
-        return component.addons_cache[event]
+        return component.addons_cache.get_event(event)
 
-    def prefetch_for_components(self, components: Iterable[Component]) -> None:
+    def prefetch_for_components(
+        self, components: list[Component] | QuerySet[Component]
+    ) -> None:
         """
         Prefetch add-ons for multiple components in a single query.
 
@@ -118,8 +135,7 @@ class AddonQuerySet(models.QuerySet):
 
         # Group addons by component
         for component in components:
-            result = defaultdict(list)
-            result["__lookup__"] = {}
+            result = AddonCache()
 
             # Build set of ancestor category IDs for this component
             ancestor_category_ids = set()
@@ -157,10 +173,10 @@ class AddonQuerySet(models.QuerySet):
                     or is_sitewide_addon
                 ):
                     for installed in addon.event_set.all():
-                        result[installed.event].append(addon)
-                    result["__all__"].append(addon)
-                    result["__names__"].append(addon.name)
-                    result["__lookup__"][addon.name] = addon
+                        result.events.setdefault(installed.event, []).append(addon)
+                    result.addons.append(addon)
+                    result.names.append(addon.name)
+                    result.lookup[addon.name] = addon
 
             # Set the cache on the component
             component.__dict__["addons_cache"] = result
@@ -727,7 +743,7 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
         change.pk
         for change in instances
         if change.component is None
-        or AddonEvent.EVENT_CHANGE in change.component.addons_cache
+        or AddonEvent.EVENT_CHANGE in change.component.addons_cache.events
     ]
 
     if filtered:
