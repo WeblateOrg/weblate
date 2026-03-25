@@ -1311,7 +1311,7 @@ Projects
     :>json string change_count: Number of changes done in the time range
 
 
-.. http:get:: /api/projects/{string:project}/machinery_settings/
+.. http:get:: /api/projects/(string:project)/machinery_settings/
 
     .. versionadded:: 5.9
 
@@ -1322,7 +1322,7 @@ Projects
     :>json object suggestion_settings: Configuration for all installed services.
 
 
-.. http:post:: /api/projects/{string:project}/machinery_settings/
+.. http:post:: /api/projects/(string:project)/machinery_settings/
 
     .. versionadded:: 5.9
 
