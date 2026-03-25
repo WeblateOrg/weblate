@@ -96,6 +96,9 @@ class AddonQuerySet(models.QuerySet):
         This builds a combined query that fetches all relevant addons for all
         components at once, avoiding N+1 queries.
         """
+        # Materialize to allow multiple iterations (generators would be
+        # consumed by the first loop).
+        components = list(components)
         if not components:
             return
 
