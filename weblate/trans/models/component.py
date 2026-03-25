@@ -3874,12 +3874,11 @@ class Component(
 
     @property
     def count_push_branch_outgoing(self):
-        if self.push_branch:
-            try:
-                return self.repository.count_outgoing(self.push_branch)
-            except RepositoryError:
-                # We silently ignore this error as push branch might not be existing if not needed
-                pass
+        try:
+            return len(self.repository.get_push_revisions(self.push_branch))
+        except RepositoryError:
+            # We silently ignore this error as push branch might not be existing if not needed
+            pass
         return self.count_repo_outgoing
 
     def needs_commit(self):
@@ -3892,7 +3891,20 @@ class Component(
 
     def repo_needs_push(self, retry: bool = True):
         """Check for something to push to remote repository."""
-        return self.count_push_branch_outgoing > 0
+        try:
+            return self.repository.needs_push(self.push_branch)
+        except RepositoryError as error:
+            error_text = self.error_text(error)
+            if retry and "Host key verification failed" in error_text:
+                self.add_ssh_host_key()
+                return self.repo_needs_push(retry=False)
+            report_error(
+                "Could not check if push is needed",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
+            self.add_alert("PushFailure", error=error_text)
+            return False
 
     @property
     def file_format_name(self) -> StrOrPromise:
