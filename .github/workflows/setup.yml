@@ -109,7 +109,7 @@ jobs:
     - name: check-wheel-contents
       run: uvx check-wheel-contents dist/*.whl
     - name: check-manifest
-      run: uvx check-manifest -v
+      run: uvx --with pip check-manifest -v
     - name: install
       run: |
         uv venv .venv-install
