@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import logging
-from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
@@ -66,10 +65,10 @@ class AddonCache:
     addons: list[Addon] = field(default_factory=list)
     names: list[str] = field(default_factory=list)
     lookup: dict[str, Addon] = field(default_factory=dict)
-    events: dict[int, list[Addon]] = field(default_factory=lambda: defaultdict(list))
+    events: dict[int, list[Addon]] = field(default_factory=dict)
 
     def get_event(self, event: int) -> list[Addon]:
-        return self.events[event]
+        return self.events.get(event, [])
 
 
 class AddonQuerySet(models.QuerySet):
@@ -174,7 +173,7 @@ class AddonQuerySet(models.QuerySet):
                     or is_sitewide_addon
                 ):
                     for installed in addon.event_set.all():
-                        result.events[installed.event].append(addon)
+                        result.events.setdefault(installed.event, []).append(addon)
                     result.addons.append(addon)
                     result.names.append(addon.name)
                     result.lookup[addon.name] = addon
