@@ -6,14 +6,13 @@ from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING
-from django import forms
-from django.utils.translation import gettext_lazy as _
 
 from .base import MachineTranslation
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 try:
@@ -30,23 +29,28 @@ class ArgosTranslation(MachineTranslation):
 
     name = "Argos Translate"
     settings_form = None
+    is_available = bool(argostranslate)
 
     def is_supported(self, source_language, target_language):
         """Supported if the language model package is installed in argostranslate."""
-        if not argostranslate:
+        if not self.is_available:
             return False
-            
+
         src = source_language.split("-")[0].lower()
         tgt = target_language.split("-")[0].lower()
 
         installed_languages = argostranslate.translate.get_installed_languages()
-        
-        src_lang = next((lang for lang in installed_languages if lang.code == src), None)
-        tgt_lang = next((lang for lang in installed_languages if lang.code == tgt), None)
-        
+
+        src_lang = next(
+            (lang for lang in installed_languages if lang.code == src), None
+        )
+        tgt_lang = next(
+            (lang for lang in installed_languages if lang.code == tgt), None
+        )
+
         if src_lang and tgt_lang:
             return src_lang.get_translation(tgt_lang) is not None
-            
+
         return False
 
     def download_translations(
@@ -59,7 +63,7 @@ class ArgosTranslation(MachineTranslation):
         threshold: int = 75,
     ) -> DownloadTranslations:
         """Translate using argostranslate."""
-        if not argostranslate:
+        if not self.is_available:
             return
 
         src = source_language.split("-")[0].lower()
@@ -75,6 +79,10 @@ class ArgosTranslation(MachineTranslation):
                     "source": text,
                 }
         except Exception as e:
-            logger.debug("Argos translation failed for %s to %s: %s", source_language, target_language, e)
+            logger.debug(
+                "Argos translation failed for %s to %s: %s",
+                source_language,
+                target_language,
+                e,
+            )
             return
-
