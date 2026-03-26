@@ -105,11 +105,20 @@ class Command(DocGeneratorCommand):
                 table: list[list[CellType]] = [
                     [
                         f"``{name}``",
-                        str(field.label),
-                        self.get_help_text(field, name),
+                        str(
+                            self.get_documented_field(
+                                obj.settings_form, name, field
+                            ).label
+                        ),
+                        self.get_help_text(
+                            self.get_documented_field(obj.settings_form, name, field),
+                            field,
+                            name,
+                        ),
                     ]
                     for name, field in form.fields.items()
                     if (addon_name, name) not in SKIP_FIELDS
+                    and not field.widget.is_hidden
                 ]
 
                 for table_row in format_table(table, None):
@@ -123,6 +132,8 @@ class Command(DocGeneratorCommand):
 
                 for name in self.params & set(form.fields):
                     field = form.fields[name]
+                    if field.widget.is_hidden:
+                        continue
                     choices = list(field.choices)
                     if name == "engines":
                         choices.extend(
@@ -164,10 +175,17 @@ class Command(DocGeneratorCommand):
             ["\n".join(items) for items in self.param_docs.values()],
         )
 
-    def get_help_text(self, field, name: str) -> str:
+    def get_documented_field(self, form_class, name: str, field):
+        return (
+            form_class.base_fields.get(name)
+            or form_class.declared_fields.get(name)
+            or field
+        )
+
+    def get_help_text(self, doc_field, field, name: str) -> str:
         result = []
-        if field.help_text:
-            result.append(format_rst_string(field.help_text))
+        if doc_field.help_text:
+            result.append(format_rst_string(doc_field.help_text))
         choices = getattr(field, "choices", None)
         if choices:
             if name in SHARED_PARAMS:
