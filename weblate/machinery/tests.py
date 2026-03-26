@@ -37,8 +37,8 @@ from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
 from weblate.machinery.anthropic import AnthropicTranslation
-from weblate.machinery.argos import ArgosTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
+from weblate.machinery.argos import ArgosTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
@@ -3391,10 +3391,13 @@ class ArgosTranslationTest(BaseMachineTranslationTest):
         mock_lang_cs = MagicMock()
         mock_lang_cs.code = "cs"
         mock_lang_en.get_translation.return_value = True
-        
-        mock_argostranslate.translate.get_installed_languages.return_value = [mock_lang_en, mock_lang_cs]
+
+        mock_argostranslate.translate.get_installed_languages.return_value = [
+            mock_lang_en,
+            mock_lang_cs,
+        ]
         mock_argostranslate.translate.translate.return_value = "Nazdar"
-        
+
         super().test_translate(**kwargs)
 
     @patch("weblate.machinery.argos.ArgosTranslation.is_available", True)
@@ -3405,10 +3408,13 @@ class ArgosTranslationTest(BaseMachineTranslationTest):
         mock_lang_cs = MagicMock()
         mock_lang_cs.code = "cs"
         mock_lang_en.get_translation.return_value = True
-        
-        mock_argostranslate.translate.get_installed_languages.return_value = [mock_lang_en, mock_lang_cs]
+
+        mock_argostranslate.translate.get_installed_languages.return_value = [
+            mock_lang_en,
+            mock_lang_cs,
+        ]
         mock_argostranslate.translate.translate.return_value = "Nazdar"
-        
+
         super().test_batch(**kwargs)
 
     @patch("weblate.machinery.argos.ArgosTranslation.is_available", True)
@@ -3419,14 +3425,18 @@ class ArgosTranslationTest(BaseMachineTranslationTest):
         mock_lang_cs = MagicMock()
         mock_lang_cs.code = "cs"
         mock_lang_en.get_translation.return_value = True
-        
-        mock_argostranslate.translate.get_installed_languages.return_value = [mock_lang_en, mock_lang_cs]
-        
+
+        mock_argostranslate.translate.get_installed_languages.return_value = [
+            mock_lang_en,
+            mock_lang_cs,
+        ]
+
         super().test_support(**kwargs)
-        
+
     def test_is_available(self):
         machine = self.get_machine()
         from weblate.machinery.argos import argostranslate
+
         self.assertEqual(machine.is_available, bool(argostranslate))
 
 
