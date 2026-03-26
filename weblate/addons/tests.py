@@ -1045,7 +1045,8 @@ class CommandTest(ViewTestCase):
             "components in the current project.",
             generated,
         )
-        self.assertNotIn("update_po_files", generated)
+        # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
+        self.assertNotIn("confirm", generated)
 
     def test_install_not_supported(self) -> None:
         output = StringIO()
