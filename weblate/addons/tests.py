@@ -1038,7 +1038,15 @@ class CommandTest(ViewTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)
-        self.assertIn("msgmerge", output.getvalue())
+        generated = output.getvalue()
+        self.assertIn("msgmerge", generated)
+        self.assertIn(
+            "Enter slug of a component to use as source, keep blank to use all "
+            "components in the current project.",
+            generated,
+        )
+        # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
+        self.assertNotIn("confirm", generated)
 
     def test_install_not_supported(self) -> None:
         output = StringIO()
