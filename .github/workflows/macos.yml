@@ -39,6 +39,7 @@ jobs:
         persist-credentials: false
     - run: brew update
     - run: brew upgrade
+      continue-on-error: true
     - run: brew list --versions
     - run: brew deps --tree --installed
     - run: brew config
