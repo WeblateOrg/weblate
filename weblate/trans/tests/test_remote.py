@@ -13,6 +13,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
@@ -882,6 +883,73 @@ class FileScanTest(ViewTestCase):
     def test_fuzzy_state_commit_policy_po(self) -> None:
         component = self.create_po(name="Po component", project=self.project)
         self._test_fuzzy_state_commit_policy(component)
+
+    def _test_auto_translated_cleared_on_state_change_from_repo(
+        self, component, expect_auto_translated: bool
+    ) -> None:
+        """Test that automatically_translated flag is cleared on any repo update."""
+        request = self.get_request()
+        translation = component.translation_set.get(language_code="cs")
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(
+            self.user,
+            "Nazdar svete!\n",
+            STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+        )
+        unit.refresh_from_db()
+        self.assertTrue(unit.automatically_translated)
+
+        component.commit_pending("test", None)
+
+        # Directly edit the file on disk to mark the string as fuzzy
+        # (state change without content change)
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        ttk_unit.unit.markfuzzy(True)
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(request.user, "TEST <test@example.net>")
+
+        component.do_file_scan(request)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.automatically_translated, expect_auto_translated)
+
+    def test_auto_translated_cleared_on_state_change_from_repo_po(self) -> None:
+        component = self.create_po(name="Po component", project=self.project)
+        self._test_auto_translated_cleared_on_state_change_from_repo(component, False)
+
+    def test_auto_translated_cleared_on_state_change_from_repo_xliff(self) -> None:
+        component = self.create_xliff_mono(name="Xliff component", project=self.project)
+        # XLIFF stores auto-translated state in state-qualifier attribute,
+        # which is not cleared by markfuzzy - the file state is trusted
+        self._test_auto_translated_cleared_on_state_change_from_repo(component, True)
+
+    def test_auto_translated_ignored_on_empty_target_xliff(self) -> None:
+        """Test that state-qualifier is ignored when the unit target is empty."""
+        component = self.create_xliff_mono(name="Xliff component", project=self.project)
+        request = self.get_request()
+        translation = component.translation_set.get(language_code="cs")
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        # Clear the target on disk while keeping state-qualifier="leveraged-mt"
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        ttk_unit.set_target("t")
+        ttk_unit.unit.markfuzzy(False)
+        for node in ttk_unit.get_xliff_nodes():
+            if node is not None:
+                node.set("state-qualifier", "leveraged-mt")
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(request.user, "TEST <test@example.net>")
+
+        component.do_file_scan(request)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_EMPTY)
+        self.assertFalse(unit.automatically_translated)
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):
