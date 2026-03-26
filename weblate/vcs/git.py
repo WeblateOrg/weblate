@@ -512,10 +512,16 @@ class GitRepository(Repository):
 
         return True
 
-    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
+    def remove(
+        self,
+        files: list[str],
+        message: str,
+        author: str | None = None,
+        extra_files: list[str] | None = None,
+    ) -> None:
         """Remove files and creates new revision."""
         self.execute(["rm", "--force", "--", *files])
-        self.commit(message, author)
+        self.commit(message, author, files=extra_files)
 
     def get_remote_configure(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True

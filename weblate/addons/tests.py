@@ -363,6 +363,18 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertIn("po/LINGUAS", commit)
         self.assertIn("configure", commit)
 
+    def test_remove(self) -> None:
+        UpdateLinguasAddon.create(component=self.component)
+        UpdateConfigureAddon.create(component=self.component)
+        NoOpAddon.create(component=self.component)
+        translation = self.component.translation_set.get(language_code="cs")
+        rev = self.component.repository.last_revision
+        translation.remove(self.user)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("po/LINGUAS", commit)
+        self.assertIn("configure", commit)
+
     def test_update(self) -> None:
         rev = self.component.repository.last_revision
         MsgmergeAddon.create(component=self.component)
