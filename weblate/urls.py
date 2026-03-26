@@ -432,6 +432,22 @@ real_patterns = [
         weblate.trans.views.settings.add_category,
         name="add-category",
     ),
+    # Share component in projects
+    path(
+        "link-add/<object_path:path>/",
+        weblate.trans.views.settings.component_link_add,
+        name="component-link-add",
+    ),
+    path(
+        "link-delete/<object_path:path>/",
+        weblate.trans.views.settings.component_link_delete,
+        name="component-link-delete",
+    ),
+    path(
+        "link-categories/<object_path:path>/",
+        weblate.trans.views.settings.component_link_categories,
+        name="component-link-categories",
+    ),
     # Alerts dismiss
     path(
         "alerts/<object_path:path>/dismiss/",

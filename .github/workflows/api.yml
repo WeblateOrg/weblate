@@ -64,7 +64,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.10.12
+        version: 0.11.1
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Used versions

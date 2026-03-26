@@ -21,7 +21,7 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Category, Component, Project
 
 
 class FlagBase(BaseAddon):
@@ -35,12 +35,15 @@ class FlagBase(BaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         # Following formats support fuzzy flag, so avoid messing up with them
         if component is not None and component.file_format in {"ts", "po", "po-mono"}:
             return False
-        return super().can_install(component=component, project=project)
+        return super().can_install(
+            component=component, category=category, project=project
+        )
 
 
 class SourceEditAddon(FlagBase):

@@ -24,6 +24,10 @@ Developing add-ons
 
    ORM object for a translation.
 
+.. class:: Category
+
+   ORM object for a category.
+
 .. class:: Project
 
    ORM object for a project.

@@ -6,6 +6,8 @@ Weblate 5.17
 .. rubric:: New features
 
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
+* Shared components can now be categorized within the target project.
+* :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
 
 .. rubric:: Improvements
 
@@ -14,17 +16,27 @@ Weblate 5.17
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 * Improved error messages in some of the :ref:`api` endpoints.
 * Added :ref:`check-objc-format`.
+* Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 
 .. rubric:: Bug fixes
 
+* Prevented removing the last team from a project token.
+* Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
+* Fixed sorting by the **Unreviewed** column in listings.
+* Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
+* Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
+* :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
+* :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
+* Push branches are no longer updated with upstream-only commits in multi-branch workflows.
+* Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 
 .. rubric:: Compatibility
 
@@ -40,7 +52,7 @@ Weblate 5.17
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE``; please adjust your settings accordingly.
+* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
@@ -1113,8 +1125,8 @@ Weblate 5.9
 
 * Per-project :ref:`machine-translation-setup` can now be configured via the Project :ref:`api`.
 
-  * Added :http:get:`/api/projects/{string:project}/machinery_settings/`.
-  * Added :http:post:`/api/projects/{string:project}/machinery_settings/`.
+  * Added :http:get:`/api/projects/(string:project)/machinery_settings/`.
+  * Added :http:post:`/api/projects/(string:project)/machinery_settings/`.
 
 * Translation memory import now supports files with XLIFF, PO and CSV formats, see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`.
 * The registration CAPTCHA now includes proof-of-work mechanism ALTCHA.

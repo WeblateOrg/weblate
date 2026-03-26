@@ -844,6 +844,34 @@ class WebExtensionJSONFormatTest(JSONFormatTest):
     ]
     MONOLINGUAL = True
 
+    def test_multiple_placeholder_flags(self) -> None:
+        testfile = os.path.join(self.tempdir, "test-webext-multiple.json")
+        Path(testfile).write_text(
+            """{
+  "hello": {
+    "message": "Hello $URL$ and $COUNT$",
+    "description": "Description",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://example.com"
+      },
+      "count": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  }
+}
+""",
+            encoding="utf-8",
+        )
+
+        unit = self.parse_file(testfile).content_units[0]
+        self.assertEqual(
+            unit.flags, Flags("placeholders:$URL$:$COUNT$,case-insensitive")
+        )
+
 
 class GoI18NV1JSONFormatTest(JSONFormatTest):
     format_class = GoI18JSONFormat

@@ -55,7 +55,7 @@ repos:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
 - repo: https://github.com/pappasam/toml-sort
-  rev: v0.24.3
+  rev: v0.24.4
   hooks:
   - id: toml-sort-fix
 - repo: https://github.com/executablebooks/mdformat
@@ -65,7 +65,7 @@ repos:
     additional_dependencies:
     - mdformat-gfm==1.0.0
 - repo: https://github.com/scop/pre-commit-shfmt
-  rev: v3.12.0-2
+  rev: v3.13.0-1
   hooks:
   - id: shfmt
     args: [--write]
@@ -79,7 +79,7 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.4.8
+  rev: v2.4.9
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
