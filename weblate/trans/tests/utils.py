@@ -406,8 +406,10 @@ class RepoTestMixin:
     def create_xliff(self, name="default", **kwargs) -> Component:
         return self._create_component("xliff", f"xliff/*/{name}.xlf", **kwargs)
 
-    def create_xliff_mono(self) -> Component:
-        return self._create_component("xliff", "xliff-mono/*.xlf", "xliff-mono/en.xlf")
+    def create_xliff_mono(self, **kwargs) -> Component:
+        return self._create_component(
+            "xliff", "xliff-mono/*.xlf", "xliff-mono/en.xlf", **kwargs
+        )
 
     def create_xliff_auto(self) -> Component:
         return self._create_component("xliff", "xliff-auto/*.xlf")
