@@ -3,10 +3,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.utils.db import re_escape
+from weblate.utils.db import adjust_similarity_threshold, re_escape
 
 BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
@@ -15,6 +16,22 @@ class DbTest(TestCase):
     def test_re_escape(self) -> None:
         self.assertEqual(re_escape("[a-z]"), "\\[a\\-z\\]")
         self.assertEqual(re_escape("a{1,4}"), "a\\{1,4\\}")
+
+    @patch("weblate.utils.db.connections")
+    def test_adjust_similarity_threshold_applies_boundary_updates(
+        self, connections_mock
+    ) -> None:
+        cursor = MagicMock()
+        cursor.__enter__.return_value = cursor
+        connection = MagicMock()
+        connection.cursor.return_value = cursor
+        connection.weblate_similarity = 0.97
+        connections_mock.__contains__.return_value = False
+        connections_mock.__getitem__.return_value = connection
+
+        adjust_similarity_threshold(0.92)
+
+        cursor.execute.assert_called_once_with("SELECT set_limit(%s)", [0.92])
 
 
 class PostgreSQLOperatorTest(TestCase):
