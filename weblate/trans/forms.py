@@ -970,6 +970,15 @@ class RevertForm(UnitForm):
 class AutoForm(forms.Form):
     """Automatic translation form."""
 
+    COMPONENT_SLUG_HELP_TEXT = gettext_lazy(
+        "Enter slug of a component to use as source, keep blank to use all "
+        "components in the current project."
+    )
+    COMPONENT_SELECT_HELP_TEXT = gettext_lazy(
+        "Turn on contribution to shared translation memory for the project to "
+        "get access to additional components."
+    )
+
     mode = forms.ChoiceField(
         label=gettext_lazy("Automatic translation mode"),
         initial="suggest",
@@ -994,10 +1003,7 @@ class AutoForm(forms.Form):
     component = forms.ChoiceField(
         label=gettext_lazy("Component"),
         required=False,
-        help_text=gettext_lazy(
-            "Turn on contribution to shared translation memory for the project to "
-            "get access to additional components."
-        ),
+        help_text=COMPONENT_SLUG_HELP_TEXT,
         initial="",
     )
     engines = forms.MultipleChoiceField(
@@ -1047,10 +1053,7 @@ class AutoForm(forms.Form):
             self.fields["component"] = forms.CharField(
                 required=False,
                 label=gettext("Component"),
-                help_text=gettext(
-                    "Enter slug of a component to use as source, "
-                    "keep blank to use all components in the current project."
-                ),
+                help_text=self.fields["component"].help_text,
             )
         else:
             choices = [
@@ -1062,6 +1065,7 @@ class AutoForm(forms.Form):
                 ("", gettext("All components in current project")),
                 *choices,
             ]
+            self.fields["component"].help_text = self.COMPONENT_SELECT_HELP_TEXT
 
         engines = sorted(
             (
