@@ -81,17 +81,19 @@ The code should follow :pep:`8` coding guidelines and should be formatted using
 To check the code quality, you can use :program:`ruff`, its configuration is
 stored in :file:`pyproject.toml`.
 
-The easiest approach to enforce all this is to install `pre-commit`_. The
-repository contains configuration for it to verify the committed files are sane.
-After installing it (it is already included in the
-:file:`pyproject.toml`) turn it on by running ``pre-commit install`` in
-Weblate checkout. This way all your changes will be automatically checked.
+The easiest approach to enforce all this is to install :program:`prek`. This is
+a third-party reimplementation of the `pre-commit`_ tool used by Weblate. It is
+included in the development dependencies declared in :file:`pyproject.toml`, so
+installing those dependencies makes :program:`prek` available.
 
-You can also trigger check manually, to check all files run:
+To check all files manually, run:
 
 .. code-block:: sh
 
-    pre-commit run --all
+    prek run --all-files
+
+If you prefer the original :program:`pre-commit` client, it uses the same
+configuration from :file:`.pre-commit-config.yaml`.
 
 .. _pre-commit: https://pre-commit.com/
 

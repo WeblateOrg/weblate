@@ -2452,6 +2452,28 @@ WEBSITE_REQUIRED
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
 
+.. setting:: WEBSITE_ALERTS_ENABLED
+
+WEBSITE_ALERTS_ENABLED
+----------------------
+
+.. versionadded:: 5.17
+
+Default: ``True``
+
+Defines whether Weblate should check project website availability and show
+alerts for unreachable project websites.
+
+When set to ``False``, Weblate will skip website availability checks and
+will not generate project website alerts. This is useful when:
+
+- Your websites are behind firewalls that block Weblate's requests
+- You want to avoid 403/503-type errors from bot protection
+- Project website availability is not a concern for your installation
+
+.. seealso::
+
+   :setting:`WEBSITE_REQUIRED`
 
 .. _settings-credentials:
 

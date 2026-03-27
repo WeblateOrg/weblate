@@ -24,7 +24,7 @@ from weblate.utils.state import STATE_TRANSLATED
 if TYPE_CHECKING:
     from weblate.addons.models import Addon
     from weblate.auth.models import User
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Category, Component, Project
 
 
 class CDNJSAddon(BaseAddon):
@@ -68,6 +68,7 @@ class CDNJSAddon(BaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         if (
@@ -82,7 +83,9 @@ class CDNJSAddon(BaseAddon):
             )
         ):
             return False
-        return super().can_install(component=component, project=project)
+        return super().can_install(
+            component=component, category=category, project=project
+        )
 
     def cdn_path(self, filename: str) -> str:
         return os.path.join(

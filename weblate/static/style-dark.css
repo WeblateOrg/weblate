@@ -1013,12 +1013,6 @@ fieldset[disabled] .btn-link {
   text-decoration-color: currentcolor;
   background-color: transparent;
 }
-a.btn-link:hover {
-  color: #6cf8d8;
-  path {
-    fill: #6cf8d8;
-  }
-}
 .btn-link[disabled]:hover,
 fieldset[disabled] .btn-link:hover,
 .btn-link[disabled]:focus,
@@ -2253,18 +2247,6 @@ span.replaced {
   color: #6cf8d8;
   text-decoration-color: currentcolor;
 }
-th .sort-icon.sort-up {
-  background-image: url("sort/up-dark.svg");
-}
-th .sort-icon.sort-down {
-  background-image: url("sort/down-dark.svg");
-}
-th:hover .sort-icon {
-  background-image: url("sort/hover-down.svg");
-}
-th:hover .sort-icon.sort-up {
-  background-image: url("sort/hover-up.svg");
-}
 .bignumbers .col-md-4:first-child {
   border-left-color: currentcolor;
 }
@@ -2624,6 +2606,7 @@ a.language:hover {
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px inset;
 }
 .editor-wrap > textarea.form-control[readonly],
+.editor-wrap > textarea.form-control:focus,
 .editor-wrap > textarea {
   color: transparent;
   caret-color: #fffdfa;

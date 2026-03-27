@@ -107,6 +107,29 @@ differently from ``None`` meaning "no items". Use different keys or contexts to
 distinguish these terms for translators. You can provide additional context in
 Weblate, such as :ref:`screenshots` or :ref:`additional-explanation`.
 
+The technical side is only part of the work. Translators also notice the
+project workflow around strings, releases, and communication. A few practices
+make collaboration much easier:
+
+* Respond to translator questions and comments, and make sure the advertised
+  contact channel is actually monitored.
+* Avoid unnecessary churn in source strings. Rewording or replacing existing
+  strings without a user-visible reason creates avoidable translation work.
+* Add enough context for translators to understand short or ambiguous strings.
+  Avoid concatenating sentences from fragments, use placeholders that can be
+  reordered, and rely on built-in plural handling.
+* Ship translations regularly so completed work does not stay unused in
+  Weblate for long periods.
+* Communicate workflow or policy changes, and keep contribution requirements
+  realistic for smaller language teams.
+* If a project is no longer maintained, reflect that in the translation
+  workflow instead of leaving components open indefinitely.
+
+Weblate can help with some of these issues. In particular, regular automatic
+commits from Weblate make translation progress visible in the source code
+history and reduce the risk that finished work is forgotten before a release.
+See :ref:`continuous-translation` for automation options.
+
 .. seealso::
 
 

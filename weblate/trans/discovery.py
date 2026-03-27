@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 from itertools import chain
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -23,6 +23,8 @@ from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from weblate.formats.base import TranslationFormat
 
 # Attributes to copy from main component
@@ -64,13 +66,48 @@ class DiscoveryErrorMatch(TypedDict):
     slug: str
     base_file: str
     mask: str
+    files_langs: tuple[tuple[str, str], ...]
+
+
+class DiscoveryKwargs(TypedDict):
+    match: Required[str]
+    name_template: Required[str]
+    language_regex: NotRequired[str]
+    base_file_template: NotRequired[str]
+    new_base_template: NotRequired[str]
+    intermediate_template: NotRequired[str]
+    file_format: Required[str]
+    copy_addons: NotRequired[bool]
+
+
+class MutableDiscoveryMatch(TypedDict):
+    files: set[str]
+    languages: set[str]
     files_langs: set[tuple[str, str]]
+    base_file: str
+    new_base: str
+    intermediate: str
+    mask: str
+    name: str
+    slug: str
+
+
+class DiscoveryMatch(TypedDict):
+    files: set[str]
+    languages: set[str]
+    files_langs: tuple[tuple[str, str], ...]
+    base_file: str
+    new_base: str
+    intermediate: str
+    mask: str
+    name: str
+    slug: str
 
 
 class ComponentDiscovery:
     def __init__(
         self,
-        component,
+        component: Component,
         *,
         match: str,
         name_template: str,
@@ -79,8 +116,8 @@ class ComponentDiscovery:
         base_file_template: str = "",
         new_base_template: str = "",
         intermediate_template: str = "",
-        path=None,
-        copy_addons=True,
+        path: str | None = None,
+        copy_addons: bool = True,
     ) -> None:
         self.component = component
         self.match = match
@@ -105,7 +142,7 @@ class ComponentDiscovery:
             "slug": "",
             "base_file": "",
             "mask": mask,
-            "files_langs": set(),
+            "files_langs": (),
         }
         error = (match, reason)
         if error not in self.errors:
@@ -116,21 +153,28 @@ class ComponentDiscovery:
         return FILE_FORMATS[self.file_format]
 
     @staticmethod
-    def extract_kwargs(params):
+    def extract_kwargs(params: Mapping[str, object]) -> DiscoveryKwargs:
         """Extract kwargs for discovery from wider dict."""
-        attrs = (
-            "match",
-            "name_template",
-            "language_regex",
-            "base_file_template",
-            "new_base_template",
-            "intermediate_template",
-            "file_format",
-            "copy_addons",
-        )
-        return {k: v for k, v in params.items() if k in attrs}
+        kwargs: DiscoveryKwargs = {
+            "match": cast("str", params["match"]),
+            "name_template": cast("str", params["name_template"]),
+            "file_format": cast("str", params["file_format"]),
+        }
+        if "language_regex" in params:
+            kwargs["language_regex"] = cast("str", params["language_regex"])
+        if "base_file_template" in params:
+            kwargs["base_file_template"] = cast("str", params["base_file_template"])
+        if "new_base_template" in params:
+            kwargs["new_base_template"] = cast("str", params["new_base_template"])
+        if "intermediate_template" in params:
+            kwargs["intermediate_template"] = cast(
+                "str", params["intermediate_template"]
+            )
+        if "copy_addons" in params:
+            kwargs["copy_addons"] = cast("bool", params["copy_addons"])
+        return kwargs
 
-    def compile_match(self, match):
+    def compile_match(self, match: str):
         parts = match.split("(?P=language)")
         offset = 1
         while len(parts) > 1:
@@ -231,9 +275,9 @@ class ComponentDiscovery:
         return [x[0] for x in self.matches]
 
     @cached_property
-    def matched_components(self):
+    def matched_components(self) -> dict[str, DiscoveryMatch]:
         """Return list of matched components."""
-        result = {}
+        result: dict[str, MutableDiscoveryMatch] = {}
         for path, groups, mask in self.matches:
             if mask not in result:
                 name = render_template(self.name_template, **groups)
@@ -254,7 +298,13 @@ class ComponentDiscovery:
                 result[mask]["files"].add(path)
                 result[mask]["languages"].add(groups["language"])
                 result[mask]["files_langs"].add((path, groups["language"]))
-        return result
+        return {
+            mask: {
+                **match,
+                "files_langs": tuple(sorted(match["files_langs"])),
+            }
+            for mask, match in result.items()
+        }
 
     def log(self, *args) -> None:
         if self.component:

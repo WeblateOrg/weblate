@@ -19,12 +19,12 @@ class DbTest(TestCase):
 
 class PostgreSQLOperatorTest(TestCase):
     def test_search(self) -> None:
-        queryset = Unit.objects.filter(source__search="test").only("id")
+        queryset = Unit.objects.filter(source__trgm_search="test").only("id")
         self.assertEqual(
             str(queryset.query),
             f'{BASE_SQL}"trans_unit"."source" % test = true',
         )
-        queryset = Unit.objects.filter(source__search="'''").only("id")
+        queryset = Unit.objects.filter(source__trgm_search="'''").only("id")
         self.assertEqual(
             str(queryset.query),
             f'{BASE_SQL}UPPER("trans_unit"."source") LIKE UPPER(%\'\'\'%)',

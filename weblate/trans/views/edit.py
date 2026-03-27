@@ -101,6 +101,15 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None
     )
 
 
+def format_newly_failing_checks_message(check_names: set[str]) -> str:
+    ordered_checks = [CHECKS[check].name for check in sorted(check_names)]
+    return ngettext(
+        "The translation has been saved, however there is a newly failing check: {checks}",
+        "The translation has been saved, however there are some newly failing checks: {checks}",
+        len(ordered_checks),
+    ).format(checks=format_html_join_comma("{}", list_to_tuples(ordered_checks)))
+
+
 def get_other_units(unit):
     """Return other units to show while translating."""
     with sentry_sdk.start_span(op="unit.others", name=f"{unit.pk}"):
@@ -311,7 +320,7 @@ def search(
 
 
 def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
-    """Handle suggesion saving."""
+    """Handle suggestion saving."""
     if not form.cleaned_data["target"][0]:
         messages.error(request, gettext("Your suggestion is empty!"))
         # Stay on same entry
@@ -429,14 +438,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
         # Show message to user
         messages.error(
             request,
-            gettext(
-                "The translation has been saved, however there "
-                "are some newly failing checks: {0}"
-            ).format(
-                format_html_join_comma(
-                    "{}", list_to_tuples(CHECKS[check].name for check in newchecks)
-                )
-            ),
+            format_newly_failing_checks_message(newchecks),
         )
         # Stay on same entry
         return False

@@ -95,6 +95,10 @@ XML_CDATA_MATCH = re.compile(r"<!\[CDATA\[(.*?)]]>")
 
 SINGLE_LETTER_MATCH = regex.compile(r"\p{L}")
 
+# Arabic letter Waw ("و", meaning "and") is a conjunction that commonly attaches
+# directly to the adjacent word without a space
+ARABIC_WAW = "\u0648"
+
 # Extracted from Sphinx sphinx/util/docutils.py
 RST_EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
 
@@ -348,7 +352,15 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
     def char_check(self, src_char: str, tgt_char: str) -> bool:
         src_letter = bool(SINGLE_LETTER_MATCH.search(src_char))
         tgt_letter = bool(SINGLE_LETTER_MATCH.search(tgt_char))
-        return src_letter ^ tgt_letter
+        if not src_letter ^ tgt_letter:
+            return False
+        # Arabic letter Waw ("و") is a conjunction that commonly attaches directly
+        # to the adjacent word without a space, so don't flag *whitespace* vs Waw.
+        if ARABIC_WAW in {src_char, tgt_char}:
+            other_char = tgt_char if src_char == ARABIC_WAW else src_char
+            if other_char.isspace():
+                return False
+        return True
 
 
 class MarkdownBaseCheck(TargetCheck):

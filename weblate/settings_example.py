@@ -290,13 +290,13 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
+    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
-    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.password_reset",
 )
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -433,6 +433,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
     # Third party Django modules
@@ -798,6 +799,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.gettext.GettextAuthorComments",
 #     "weblate.addons.cleanup.CleanupAddon",
 #     "weblate.addons.cleanup.RemoveBlankAddon",
+#     "weblate.addons.cleanup.ResetAddon",
 #     "weblate.addons.consistency.LanguageConsistencyAddon",
 #     "weblate.addons.discovery.DiscoveryAddon",
 #     "weblate.addons.autotranslate.AutoTranslateAddon",
@@ -889,6 +891,8 @@ SILENCED_SYSTEM_CHECKS = [
     "admin.E408",
     # Using custom authentication middleware with LoginRequiredMiddleware
     "auth.E013",
+    # pytest overrides string_if_invalid with a non-string value
+    "templates.E002",
     # Silence drf_spectacular until these are addressed
     "drf_spectacular.W001",
     "drf_spectacular.W002",
@@ -932,6 +936,10 @@ AUTO_UPDATE = False
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = None
+
+# Website availability checks
+# Set to False to disable broken website alerts
+WEBSITE_ALERTS_ENABLED = True
 
 # Third party services integration
 MATOMO_SITE_ID = None
