@@ -23,6 +23,10 @@ For application-developer workflows and broader product integration guidance, us
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend
   patterns.
+- Write commit messages using the Conventional Commits format
+  `<type>(<optional scope>): <description>`. Common types include `feat`,
+  `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:
+  `fix(translations): handle empty component slug`.
 - Include the GPL-3.0-or-later license header in new Python files.
 
 ## Weblate-specific guardrails
@@ -39,6 +43,9 @@ For application-developer workflows and broader product integration guidance, us
 
 - Install the development dependencies first using
   `uv sync --all-extras --dev`.
+- After syncing, prefer `uv run ...` for subsequent commands so they use the
+  virtual environment created in `.venv`. If needed, you can also activate it
+  with `source .venv/bin/activate` or invoke tools from `.venv/bin/`.
 - Prefer `prek run --all-files` as the primary linting/formatting command because
   it runs the repository's configured pre-commit framework checks.
 - `prek` is a third-party reimplementation of the `pre-commit` tool.

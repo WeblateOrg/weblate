@@ -72,6 +72,9 @@ def set_groups(request: AuthenticatedHttpRequest, project):
         request, project, form_class=ProjectUserGroupForm, pass_project=True
     )
 
+    if form is None:
+        return redirect_param("manage-access", "", project=obj.slug)
+
     user = form.cleaned_data["user"]
     desired_groups = {group.id for group in form.cleaned_data["groups"]}
     current_groups = set(

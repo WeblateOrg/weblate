@@ -12,7 +12,7 @@ from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, Component, Project
+from weblate.trans.models import Category, Component, ComponentLink, Project
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import category_removal
 from weblate.trans.tests.test_views import ViewTestCase
@@ -257,7 +257,7 @@ class CategoriesTest(ViewTestCase):
 
     def test_move_linked_component(self) -> None:
         project = Project.objects.create(name="other", slug="other")
-        self.component.links.add(project)
+        ComponentLink.objects.create(component=self.component, project=project)
 
         response = self.client.post(
             reverse("add-category", kwargs={"path": self.project.get_url_path()}),
@@ -280,7 +280,8 @@ class CategoriesTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "Categorized component can not be shared.")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.category, category)
 
     def test_move_category_linked_repo(self) -> None:
         component = self.create_link_existing()

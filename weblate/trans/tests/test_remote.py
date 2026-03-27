@@ -6,6 +6,7 @@
 
 import os
 import pathlib
+from unittest.mock import patch
 
 from django.db import transaction
 from django.test.utils import override_settings
@@ -614,6 +615,39 @@ class MultiRepoTest(ViewTestCase):
         )
         unit.refresh_from_db()
         self.assertEqual(unit.target, new_target)
+
+    def test_push_branch_skips_upstream_only_commits(self) -> None:
+        """Push branch should stay untouched when only the tracked branch advanced."""
+        if self._vcs != "git":
+            self.skipTest("Push branch divergence is covered for Git only")
+
+        self.component.allow_translation_propagation = False
+        self.component.push_branch = "push-branch"
+        self.component.save(
+            update_fields=["allow_translation_propagation", "push_branch"]
+        )
+        self.component2.allow_translation_propagation = False
+        self.component2.save(update_fields=["allow_translation_propagation"])
+
+        with self.component.repository.lock:
+            self.component.repository.push(self.component.push_branch)
+
+        upstream_translation = self.component2.translation_set.get(language_code="cs")
+        upstream_unit = upstream_translation.unit_set.get(source="Hello, world!\n")
+        upstream_unit.translate(
+            self.user, "Upstream branch only change\n", STATE_TRANSLATED
+        )
+        self.assertTrue(self.component2.do_push(self.request))
+
+        self.assertTrue(self.component.do_update(self.request))
+        self.assertEqual(self.component.count_repo_outgoing, 0)
+        self.assertEqual(self.component.count_push_branch_outgoing, 0)
+        self.assertFalse(self.component.repo_needs_push())
+
+        with patch.object(self.component.repository, "push") as mock_push:
+            self.assertTrue(self.component.do_push(self.request))
+
+        mock_push.assert_not_called()
 
     def test_api(self):
         """Test the project repository API works for various VCS."""

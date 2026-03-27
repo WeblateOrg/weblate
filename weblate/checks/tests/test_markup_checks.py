@@ -191,6 +191,29 @@ class XMLCharsAroundTagsCheckTest(CheckTestCase):
         self.do_test(False, ("<a> b</a>", "<a>b</a>", "safe-html"))
         self.do_test(True, ("<a> b</a>", "<a>b</a>", "xml-text"))
 
+    def test_arabic_waw(self) -> None:
+        # Arabic Waw "و" (and) is a conjunction that commonly attaches directly
+        # to the adjacent word without a space — should not be flagged
+        self.do_test(
+            False,
+            ("and <a>updates</a>", "و<a>التحديثات</a>", ""),
+        )
+        # Waw after a closing tag should also not flag
+        self.do_test(
+            False,
+            ("<a>updates</a> and", "<a>التحديثات</a>و", ""),
+        )
+        # Other Arabic letters adjacent to tags should still flag
+        self.do_test(
+            True,
+            ("text <a>word</a>", "نص<a>كلمة</a>", ""),
+        )
+        # Punctuation vs Waw should still flag
+        self.do_test(
+            True,
+            (".<a>word</a>", "و<a>كلمة</a>", ""),
+        )
+
 
 class MarkdownRefLinkCheckTest(CheckTestCase):
     check = MarkdownRefLinkCheck()

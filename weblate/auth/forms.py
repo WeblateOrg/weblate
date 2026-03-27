@@ -49,9 +49,11 @@ class InviteUserForm(forms.ModelForm):
         self.project = project
         super().__init__(data=data, files=files, **kwargs)
         if project:
-            self.fields["group"].queryset = project.group_set.all()
+            self.fields["group"].queryset = project.group_set.order()
         else:
-            self.fields["group"].queryset = Group.objects.filter(defining_project=None)
+            self.fields["group"].queryset = Group.objects.filter(
+                defining_project=None
+            ).order()
         for field in ("user", "email"):
             if field in self.fields:
                 self.fields[field].required = True
