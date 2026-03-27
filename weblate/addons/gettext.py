@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 
+from django.core.exceptions import ValidationError
 from django.core.management.utils import find_command
 from django.utils.translation import gettext_lazy
 
@@ -103,7 +104,11 @@ class UpdateLinguasAddon(GettextBaseAddon):
             return False
         if component is None:
             return True
-        path = cls.get_linguas_path(component)
+        try:
+            path = cls.get_linguas_path(component)
+            component.check_file_is_valid(path)
+        except ValidationError:
+            return False
         return bool(path) and os.path.exists(path)
 
     @staticmethod
@@ -145,6 +150,8 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return changed, lines
 
     def sync_linguas(self, component: Component, path: str) -> bool:
+        component.check_file_is_valid(path)
+
         with open(path, encoding="utf-8") as handle:
             lines = handle.readlines()
 
@@ -166,8 +173,12 @@ class UpdateLinguasAddon(GettextBaseAddon):
         self, translation: Translation, activity_log_id: int | None = None
     ) -> None:
         with translation.component.repository.lock:
-            path = self.get_linguas_path(translation.component)
-            if self.sync_linguas(translation.component, path):
+            try:
+                path = self.get_linguas_path(translation.component)
+                changed = self.sync_linguas(translation.component, path)
+            except ValidationError:
+                return
+            if changed:
                 translation.addon_commit_files.append(path)
 
     def daily_component(
@@ -176,8 +187,12 @@ class UpdateLinguasAddon(GettextBaseAddon):
         activity_log_id: int | None = None,
     ) -> None:
         with component.repository.lock:
-            path = self.get_linguas_path(component)
-            if self.sync_linguas(component, path):
+            try:
+                path = self.get_linguas_path(component)
+                changed = self.sync_linguas(component, path)
+            except ValidationError:
+                return
+            if changed:
                 self.commit_and_push(component, [path])
 
 
@@ -195,10 +210,12 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
     @staticmethod
     def get_configure_paths(component: Component) -> Generator[str]:
-        base = component.full_path
         for name in ("configure", "configure.in", "configure.ac"):
-            path = os.path.join(base, name)
-            if os.path.exists(path):
+            try:
+                path = component.get_validated_component_filename(name)
+            except ValidationError:
+                continue
+            if path and os.path.exists(path):
                 yield path
 
     @classmethod

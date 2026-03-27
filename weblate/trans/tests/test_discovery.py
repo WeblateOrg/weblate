@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
+import tempfile
 from unittest.mock import patch
 
 from django.test.utils import override_settings
@@ -248,6 +250,26 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
+
+    def test_skip_reason_rejects_symlinked_auxiliary_file(self) -> None:
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        linked_name = "discovery-base.pot"
+        linked_path = os.path.join(self.component.full_path, linked_name)
+        os.symlink(handle.name, linked_path)
+
+        reason = self.discovery.get_skip_reason(
+            {
+                "mask": "discovered/*.po",
+                "base_file": linked_name,
+                "new_base": "",
+                "intermediate": "",
+            }
+        )
+
+        self.assertEqual(reason, "discovery-base.pot (base_file) does not exist.")
 
     def test_named_group(self) -> None:
         discovery = ComponentDiscovery(

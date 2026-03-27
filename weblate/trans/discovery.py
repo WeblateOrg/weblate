@@ -446,8 +446,11 @@ class ComponentDiscovery:
             name = match[param]
             if not name:
                 continue
-            fullname = os.path.join(self.component.full_path, name)
-            if not os.path.exists(fullname):
+            try:
+                fullname = self.component.get_validated_component_filename(name)
+            except ValidationError:
+                fullname = None
+            if not fullname or not os.path.exists(fullname):
                 return gettext("{filename} ({parameter}) does not exist.").format(
                     filename=name,
                     parameter=param,

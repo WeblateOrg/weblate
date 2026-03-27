@@ -4,6 +4,8 @@
 
 """Test for alerts."""
 
+import os
+import tempfile
 from unittest.mock import patch
 
 from django.test import override_settings
@@ -178,6 +180,22 @@ class AlertTest(ViewTestCase):
         other.delete()
 
         self.assertFalse(component.alert_set.filter(name="DuplicateFilemask").exists())
+
+    def test_inexistent_files_reject_symlinked_auxiliary_file(self) -> None:
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        self.component.new_base = "alert-base.pot"
+        self.component.save(update_fields=["new_base"])
+        os.symlink(
+            handle.name, os.path.join(self.component.full_path, "alert-base.pot")
+        )
+
+        update_alerts(self.component, {"InexistantFiles"})
+
+        alert = self.component.alert_set.get(name="InexistantFiles")
+        self.assertEqual(alert.details["files"], ["alert-base.pot"])
 
 
 class LanguageAlertTest(ViewTestCase):
