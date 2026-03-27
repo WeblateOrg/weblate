@@ -424,14 +424,14 @@ class MissingLicense(BaseAlert):
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
 
 
 @register
 class CDNAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
     doc_anchor = "addon-weblate-cdn-cdnjs"
 
 
@@ -439,7 +439,7 @@ class CDNAddonError(MultiAlert):
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
     doc_anchor = "addon-weblate-gettext-msgmerge"
 
 
