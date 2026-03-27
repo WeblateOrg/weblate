@@ -21,6 +21,7 @@ Weblate 5.17
 .. rubric:: Bug fixes
 
 * Component file handling now validates repository symlinks.
+* Improved REST API permission enforcement.
 * Prevented removing the last team from a project token.
 * Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.
