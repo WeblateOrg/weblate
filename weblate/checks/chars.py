@@ -535,18 +535,28 @@ class PunctuationSpacingCheck(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Remove XML/HTML entities first (indices must match the string we iterate over)
         target = strip_entities(target)
-        # skip punctuation inside placeables (e.g XLIFF equiv-text, RST)
-        highlighted_indices = frozenset(
-            i
-            for start, end, _ in highlight_string(target, unit)
-            for i in range(start, end)
-        )
-
+        # Skip punctuation inside placeables (e.g XLIFF equiv-text, RST)
+        highlighted_ranges = [
+            (start, end) for start, end, _ in highlight_string(target, unit)
+        ]
+        highlighted_ranges.sort()
         whitespace = {" ", "\u00a0", "\u202f", "\u2009"}
-
         total = len(target)
+        range_index = 0
+        current_start, current_end = (
+            highlighted_ranges[0] if highlighted_ranges else (None, None)
+        )
         for i, char in enumerate(target):
-            if i in highlighted_indices:
+            # Advance to the next highlighted range if we've passed the current one.
+            while current_start is not None and i >= current_end:
+                range_index += 1
+                if range_index < len(highlighted_ranges):
+                    current_start, current_end = highlighted_ranges[range_index]
+                else:
+                    current_start = current_end = None
+                    break
+            # Skip characters that fall inside a highlighted range.
+            if current_start is not None and current_start <= i < current_end:
                 continue
             if char in FRENCH_PUNCTUATION:
                 if i == 0:

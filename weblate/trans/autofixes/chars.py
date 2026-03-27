@@ -113,13 +113,19 @@ class PunctuationSpacing(AutoFix):
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
             highlights = highlight_string(target, unit)
-            highlighted = frozenset(
-                i for start, end, _ in highlights for i in range(start, end)
-            )
+            highlight_ranges = [(start, end) for start, end, _ in highlights]
+
+            def is_highlighted(pos: int) -> bool:
+                for start, end in highlight_ranges:
+                    if start > pos:
+                        break
+                    if start <= pos < end:
+                        return True
+                return False
 
             def make_replacer(replacement_char: str):
                 def replacer(matchobj: re.Match) -> str:
-                    if matchobj.start(2) in highlighted:
+                    if is_highlighted(matchobj.start(2)):
                         return matchobj.group(0)
                     return f"{replacement_char}{matchobj.group(2)}"
 
