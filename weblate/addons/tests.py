@@ -354,6 +354,46 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
 
+    def test_update_linguas_rejects_symlink(self) -> None:
+        translation = self.get_translation()
+        addon = UpdateLinguasAddon.create(component=translation.component)
+
+        with tempfile.NamedTemporaryFile(
+            delete=False, mode="w", encoding="utf-8"
+        ) as handle:
+            handle.write("outside repository\n")
+        self.addCleanup(os.unlink, handle.name)
+
+        linguas_path = os.path.join(self.component.full_path, "po", "LINGUAS")
+        os.unlink(linguas_path)
+        os.symlink(handle.name, linguas_path)
+
+        self.assertFalse(
+            UpdateLinguasAddon.can_install(component=translation.component)
+        )
+
+        addon.post_add(translation)
+        self.assertEqual(translation.addon_commit_files, [])
+        self.assertEqual(
+            Path(handle.name).read_text(encoding="utf-8"), "outside repository\n"
+        )
+
+    def test_update_linguas_invalid_new_base_returns_false(self) -> None:
+        translation = self.get_translation()
+        addon = UpdateLinguasAddon.create(component=self.component)
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        new_base_path = os.path.join(self.component.full_path, self.component.new_base)
+        os.unlink(new_base_path)
+        os.symlink(handle.name, new_base_path)
+
+        self.assertFalse(UpdateLinguasAddon.can_install(component=self.component))
+        addon.post_add(translation)
+        self.assertEqual(translation.addon_commit_files, [])
+
     def assert_linguas(self, source, expected_add, expected_remove) -> None:
         # Test no-op
         self.assertEqual(
@@ -400,6 +440,17 @@ class GettextAddonTest(ViewTestCase):
         addon = UpdateConfigureAddon.create(component=translation.component)
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
+
+    def test_update_configure_rejects_symlink(self) -> None:
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b'ALL_LINGUAS="cs"\n')
+        self.addCleanup(os.unlink, handle.name)
+
+        configure_path = os.path.join(self.component.full_path, "configure")
+        os.unlink(configure_path)
+        os.symlink(handle.name, configure_path)
+
+        self.assertFalse(UpdateConfigureAddon.can_install(component=self.component))
 
     def test_generate(self) -> None:
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))

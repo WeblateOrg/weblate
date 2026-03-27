@@ -6,7 +6,11 @@
 
 from __future__ import annotations
 
+import os
+import tempfile
 from io import BytesIO
+from pathlib import Path
+from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
 from django.test import SimpleTestCase
@@ -20,6 +24,7 @@ from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.models import Change, ComponentList, PendingUnitChange
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
 
 TEST_PO = get_test_file("cs.po")
@@ -852,6 +857,35 @@ class DownloadMultiTest(ViewTestCase):
         )
         content = self.assert_zip(response, "test-test-cs.xlsx")
         load_workbook(BytesIO(content))
+
+    def test_component_skips_symlinked_template(self) -> None:
+        self.component.template = "template.pot"
+        self.component.save(update_fields=["template"])
+
+        template_path = os.path.join(self.component.full_path, self.component.template)
+        Path(template_path).write_bytes(Path(TEST_POT).read_bytes())
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        os.unlink(template_path)
+        os.symlink(handle.name, template_path)
+
+        response = self.client.get(reverse("download", kwargs=self.kw_component))
+        self.assertEqual(response.status_code, 200)
+
+        with ZipFile(BytesIO(response.content), "r") as zipfile:
+            zip_names = set(zipfile.namelist())
+
+        root = data_dir("vcs")
+        translation_filename = self.get_translation().get_filename()
+        self.assertIsNotNone(translation_filename)
+        translation_rel = os.path.relpath(translation_filename, root)
+        template_rel = os.path.relpath(template_path, root)
+
+        self.assertIn(translation_rel, zip_names)
+        self.assertNotIn(template_rel, zip_names)
 
 
 EXPECTED_CSV = """location,source,target,id,fuzzy,context,translator_comments,developer_comments\r

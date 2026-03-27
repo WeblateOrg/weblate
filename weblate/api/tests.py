@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import tempfile
 import zipfile
 from copy import copy
 from datetime import UTC, datetime, timedelta
@@ -3135,6 +3136,39 @@ class ProjectAPITest(APIBaseTest):
         self.assertIn(template_rel, zip_names)
         self.assertNotIn(missing_new_base_rel, zip_names)
         self.assertGreater(len(zip_names), 0)
+
+    def test_project_language_zip_skips_symlinked_template(self) -> None:
+        self.attach_component_template(self.component)
+        template_path = os.path.join(self.component.full_path, self.component.template)
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        os.unlink(template_path)
+        os.symlink(handle.name, template_path)
+
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        root = data_dir("vcs")
+        translation_filename = self.component.translation_set.get(
+            language__code="cs"
+        ).get_filename()
+        self.assertIsNotNone(translation_filename)
+        translation_rel = os.path.relpath(translation_filename, root)
+        template_rel = os.path.relpath(template_path, root)
+
+        self.assertIn(translation_rel, zip_names)
+        self.assertNotIn(template_rel, zip_names)
 
     def test_download_project_translations_language_path_filter(self) -> None:
         other_component = self.create_po(name="Other", project=self.component.project)
