@@ -23,7 +23,10 @@ def batch_update_checks(
     component_id: int, checks: list[str], component: Component | None = None
 ) -> None:
     if component is None:
-        component = Component.objects.get(pk=component_id)
+        try:
+            component = Component.objects.get(pk=component_id)
+        except Component.DoesNotExist:
+            return
     with component.lock:
         for check in checks:
             check_obj = CHECKS[check]
