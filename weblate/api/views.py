@@ -1515,7 +1515,9 @@ class ProjectViewSet(
                 raise ValidationError({"service": "Missing service name"}) from error
 
             service, configuration, errors = validate_service_configuration(
-                service_name, request.data.get("configuration", "{}")
+                service_name,
+                request.data.get("configuration", "{}"),
+                allow_private_targets=False,
             )
 
             if service is None or errors:
@@ -1554,7 +1556,9 @@ class ProjectViewSet(
             valid_configurations: dict[str, dict] = {}
             for service_name, configuration in request.data.items():
                 service, configuration, errors = validate_service_configuration(
-                    service_name, configuration
+                    service_name,
+                    configuration,
+                    allow_private_targets=False,
                 )
 
                 if service is None or errors:

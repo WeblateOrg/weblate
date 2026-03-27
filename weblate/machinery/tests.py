@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from copy import copy
 from datetime import UTC, datetime
@@ -19,9 +20,11 @@ import responses
 import respx
 from aliyunsdkcore.client import AcsClient
 from botocore.stub import ANY, Stubber
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
@@ -29,6 +32,7 @@ from google.cloud.translate import (
     TranslateTextResponse,
     TranslationServiceClient,
 )
+from requests.exceptions import HTTPError, JSONDecodeError
 
 import weblate.machinery.models
 from weblate.checks.tests.test_checks import MockUnit
@@ -855,6 +859,35 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             "translate?api-version=3.0&from=en&to=de&category=&textType=html",
             json=MICROSOFT_RESPONSE,
         )
+
+    @responses.activate
+    def test_regional_host_string_payload_raises_error(self) -> None:
+        machine = self.MACHINE_CLS(
+            {
+                **self.CONFIGURATION,
+                "base_url": "api-eur.cognitive.microsofttranslator.com",
+            }
+        )
+        responses.add(
+            responses.POST,
+            "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken"
+            "?Subscription-Key=KEY",
+            body="TOKEN",
+        )
+        responses.add(
+            responses.GET,
+            "https://api-eur.cognitive.microsofttranslator.com/languages?api-version=3.0",
+            json=MS_SUPPORTED_LANG_RESP,
+        )
+        responses.add(
+            responses.POST,
+            "https://api-eur.cognitive.microsofttranslator.com/"
+            "translate?api-version=3.0&from=en&to=cs&category=general&textType=html",
+            json="Regional host error",
+        )
+
+        with self.assertRaisesRegex(MachineTranslationError, "Regional host error"):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0, machine=machine)
 
 
 class GoogleTranslationTest(BaseMachineTranslationTest):
@@ -2650,6 +2683,56 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
         form = machine.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_runtime_url_validation(self, mocked_getaddrinfo) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION.copy())
+        machine.delete_cache()
+        machine.settings["_project"] = Mock()
+
+        with (
+            patch.object(machine.client.models, "list") as mocked_list,
+            self.assertRaises(ValidationError),
+        ):
+            machine.get_model()
+
+        mocked_getaddrinfo.assert_called_once()
+        mocked_list.assert_not_called()
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_runtime_url_validation_uses_proxy_settings(
+        self, mocked_getaddrinfo
+    ) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION.copy())
+        machine.delete_cache()
+        machine.settings["_project"] = Mock()
+
+        with (
+            patch.dict(
+                os.environ,
+                {
+                    "HTTPS_PROXY": "http://127.0.0.1:8080",
+                    "HTTP_PROXY": "",
+                    "ALL_PROXY": "",
+                    "NO_PROXY": "",
+                },
+            ),
+            patch.object(
+                machine.client.models,
+                "list",
+                return_value=[Mock(id="gpt-5-nano")],
+            ) as mocked_list,
+        ):
+            self.assertEqual(machine.get_model(), "gpt-5-nano")
+
+        mocked_getaddrinfo.assert_not_called()
+        mocked_list.assert_called_once()
+
 
 class AzureOpenAITranslationTest(OpenAITranslationTest):
     MACHINE_CLS: type[BatchMachineTranslation] = AzureOpenAITranslation
@@ -2691,6 +2774,42 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
                 },
             )
         )
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_runtime_url_validation_uses_proxy_settings(
+        self, mocked_getaddrinfo
+    ) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION.copy())
+        machine.settings["_project"] = Mock()
+        completion = Mock()
+        completion.choices = [Mock(message=Mock(content='["Ahoj světe"]'))]
+
+        with (
+            patch.dict(
+                os.environ,
+                {
+                    "HTTPS_PROXY": "http://127.0.0.1:8080",
+                    "HTTP_PROXY": "",
+                    "ALL_PROXY": "",
+                    "NO_PROXY": "",
+                },
+            ),
+            patch.object(
+                machine.client.chat.completions,
+                "create",
+                return_value=completion,
+            ) as mocked_create,
+        ):
+            self.assertEqual(
+                machine.fetch_llm_translations("prompt", "content", "prev", "resp"),
+                '["Ahoj světe"]',
+            )
+
+        mocked_getaddrinfo.assert_not_called()
+        mocked_create.assert_called_once()
 
 
 class OllamaTranslationTest(BaseMachineTranslationTest):
@@ -3316,6 +3435,234 @@ class ViewsTest(FixtureTestCase):
                 category=SettingCategory.MT, name=identifier
             ).exists()
         )
+
+
+class MachineryValidationTest(TestCase):
+    def test_project_machinery_rejects_private_url(self) -> None:
+        form = DeepLTranslation.settings_form(
+            DeepLTranslation,
+            data={"key": "x", "url": "http://127.0.0.1:11434/"},
+            allow_private_targets=False,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("URL domain is not allowed.", form.errors["__all__"])
+
+    def test_check_failure_hides_response_body(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "500 Server Error: Internal Server Error for url: http://127.0.0.1/api"
+        )
+        response.url = "http://127.0.0.1/api"
+        response.text = "aws_secret_key=AKIAIOSFODNN7EXAMPLE"
+        machine = DummyTranslation({})
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertNotIn("aws_secret_key", str(raised.exception))
+
+    def test_check_failure_shows_trusted_provider_message(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "400 Client Error: Bad Request for url: https://api.deepl.com/v2/translate"
+        )
+        response.url = "https://api.deepl.com/v2/translate"
+        response.json.return_value = {"message": "Auth key is invalid."}
+        machine = DeepLTranslation({"key": "x", "url": "https://api.deepl.com/v2/"})
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertIn("Auth key is invalid.", str(raised.exception))
+
+    def test_check_failure_shows_trusted_provider_plain_text_message(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "429 Client Error: Too Many Requests for url: https://api.deepl.com/v2/translate"
+        )
+        response.url = "https://api.deepl.com/v2/translate"
+        response.text = "Rate limit exceeded."
+        response.json.side_effect = JSONDecodeError("Expecting value", "", 0)
+        machine = DeepLTranslation(
+            {"key": "x", "url": "https://api.deepl.com/v2/", "_project": Mock()}
+        )
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertIn("Rate limit exceeded.", str(raised.exception))
+
+    def test_check_failure_shows_fixed_provider_plain_text_message(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "503 Server Error: Service Unavailable for url: https://translation.googleapis.com/language/translate/v2"
+        )
+        response.url = "https://translation.googleapis.com/language/translate/v2"
+        response.text = "Service temporarily unavailable."
+        response.json.side_effect = JSONDecodeError("Expecting value", "", 0)
+        machine = GoogleTranslation({"key": "x", "_project": Mock()})
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertIn("Service temporarily unavailable.", str(raised.exception))
+
+    def test_check_failure_hides_untrusted_provider_message(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "400 Client Error: Bad Request for url: https://custom.example.com/v1"
+        )
+        response.url = "https://custom.example.com/v1"
+        response.json.return_value = {"message": "Top secret."}
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+                "base_url": "https://custom.example.com/",
+                "_project": Mock(),
+            }
+        )
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertNotIn("Top secret.", str(raised.exception))
+
+    def test_get_error_message_hides_untrusted_response_body(self) -> None:
+        response = Mock()
+        response.url = "https://custom.example.com/v1"
+        response.text = "Top secret."
+        response.json.return_value = {"message": "Top secret."}
+        error = HTTPError(
+            "400 Client Error: Bad Request for url: https://custom.example.com/v1",
+            response=response,
+        )
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+                "base_url": "https://custom.example.com/",
+                "_project": Mock(),
+            }
+        )
+
+        message = machine.get_error_message(error)
+
+        self.assertNotIn("Top secret.", message)
+
+    def test_check_failure_does_not_trust_non_endpoint_choice_values(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "400 Client Error: Bad Request for url: https://auto/v1"
+        )
+        response.url = "https://auto/v1"
+        response.json.return_value = {"message": "Top secret."}
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+                "base_url": "https://custom.example.com/",
+                "_project": Mock(),
+            }
+        )
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertNotIn("Top secret.", str(raised.exception))
+
+    @override_settings(ALLOWED_MACHINERY_DOMAINS=["api.sap.com"])
+    def test_check_failure_handles_non_string_project_settings(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "400 Client Error: Bad Request for url: https://api.sap.com/v1/translate"
+        )
+        response.url = "https://api.sap.com/v1/translate"
+        response.json.return_value = {"message": "Invalid credentials."}
+        machine = SAPTranslationHub(
+            {
+                "key": "x",
+                "username": "",
+                "password": "",
+                "enable_mt": True,
+                "domain": "",
+                "url": "https://api.sap.com",
+                "_project": Mock(),
+            }
+        )
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertIn("Invalid credentials.", str(raised.exception))
+
+    def test_check_failure_shows_libretranslate_plain_text_message(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "429 Client Error: Too Many Requests for url: https://libretranslate.com/translate"
+        )
+        response.url = "https://libretranslate.com/translate"
+        response.text = "Too many requests."
+        response.json.side_effect = JSONDecodeError("Expecting value", "", 0)
+        machine = LibreTranslateTranslation(
+            {"key": "", "url": "https://libretranslate.com/", "_project": Mock()}
+        )
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertIn("Too many requests.", str(raised.exception))
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_project_validation_uses_runtime_url_guard(
+        self, mocked_getaddrinfo
+    ) -> None:
+        form = DeepLTranslation.settings_form(
+            DeepLTranslation,
+            data={"key": "x", "url": "https://api.deepl.com/v2/"},
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_getaddrinfo.assert_called()
+        mocked_request.assert_not_called()
+        self.assertIn("URL domain is not allowed.", str(form.non_field_errors()))
+
+    @override_settings(ALLOWED_MACHINERY_DOMAINS=[".example.com"])
+    def test_check_failure_shows_wildcard_allowlisted_provider_message(self) -> None:
+        response = Mock()
+        response.raise_for_status.side_effect = HTTPError(
+            "400 Client Error: Bad Request for url: https://api.example.com/v1"
+        )
+        response.url = "https://api.example.com/v1"
+        response.json.return_value = {"message": "Allowlisted provider error."}
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+                "base_url": "https://api.example.com/",
+                "_project": Mock(),
+            }
+        )
+
+        with self.assertRaises(HTTPError) as raised:
+            machine.check_failure(response)
+
+        self.assertIn("Allowlisted provider error.", str(raised.exception))
 
 
 class CommandTest(FixtureTestCase):
