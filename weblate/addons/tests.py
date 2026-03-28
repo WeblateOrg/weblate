@@ -744,6 +744,52 @@ class GettextAddonTest(ViewTestCase):
         self.component.new_base = "weblate/locale/django.pot"
         self.assertFalse(SphinxAddon.can_install(component=self.component))
 
+    def test_sphinx_can_install_uses_runtime_venv_bin(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+        with tempfile.TemporaryDirectory(prefix="weblate-sphinx-venv-") as tempdir:
+            venv_bin = Path(tempdir) / "bin"
+            venv_bin.mkdir(parents=True, exist_ok=True)
+            fake_python = venv_bin / "python"
+            fake_python.write_text("", encoding="utf-8")
+            fake_python.chmod(0o755)
+            sphinx_build = venv_bin / "sphinx-build"
+            sphinx_build.write_text("", encoding="utf-8")
+            sphinx_build.chmod(0o755)
+
+            with (
+                patch("weblate.addons.gettext.find_command", return_value=None),
+                patch("weblate.addons.gettext.sys.executable", os.fspath(fake_python)),
+            ):
+                self.assertTrue(SphinxAddon.can_install(component=self.component))
+
+    def test_sphinx_can_install_uses_symlinked_runtime_venv_bin(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+        with tempfile.TemporaryDirectory(
+            prefix="weblate-sphinx-symlinked-venv-"
+        ) as tempdir:
+            venv_bin = Path(tempdir) / "bin"
+            venv_bin.mkdir(parents=True, exist_ok=True)
+            fake_python_target = Path(tempdir) / "python3"
+            fake_python_target.write_text("", encoding="utf-8")
+            fake_python_target.chmod(0o755)
+            fake_python = venv_bin / "python"
+            fake_python.symlink_to(fake_python_target)
+            sphinx_build = venv_bin / "sphinx-build"
+            sphinx_build.write_text("", encoding="utf-8")
+            sphinx_build.chmod(0o755)
+
+            with (
+                patch("weblate.addons.gettext.find_command", return_value=None),
+                patch("weblate.addons.gettext.sys.executable", os.fspath(fake_python)),
+            ):
+                self.assertTrue(SphinxAddon.can_install(component=self.component))
+
     def test_sphinx_form_missing_source_dir(self) -> None:
         self.component.new_base = "docs/locales/docs.pot"
         form = SphinxAddon.get_add_form(
