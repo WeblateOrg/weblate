@@ -102,7 +102,7 @@ class AssetRequestTest(SimpleTestCase):
 
 class GetUriErrorTest(SimpleTestCase):
     @responses.activate
-    def test_get_uri_error_does_not_follow_redirects(self) -> None:
+    def test_get_uri_error_follows_redirects(self) -> None:
         responses.add(
             responses.GET,
             "https://example.com/source",
@@ -118,12 +118,16 @@ class GetUriErrorTest(SimpleTestCase):
 
         self.assertEqual(
             get_uri_error("https://example.com/source"),
-            "URL redirects with HTTP 302 to https://internal.example.test/final.",
+            None,
         )
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(responses.calls), 2)
         self.assertEqual(
             responses.calls[0].request.url,
             "https://example.com/source",
+        )
+        self.assertEqual(
+            responses.calls[1].request.url,
+            "https://internal.example.test/final",
         )
 
 

@@ -318,16 +318,7 @@ def get_uri_error(uri: str) -> str | None:
         LOGGER.debug("URL check for %s, cached failure", uri)
         return cached
     try:
-        with http_request("get", uri, stream=True, allow_redirects=False) as response:
-            if response.is_redirect:
-                location = response.headers.get("Location", "")
-                result = (
-                    f"URL redirects with HTTP {response.status_code}"
-                    f"{f' to {location}' if location else ''}."
-                )
-                cache.set(cache_key, result, 3600)
-                LOGGER.debug("URL check for %s, redirect blocked", uri)
-                return result
+        with http_request("get", uri, stream=True, allow_redirects=True):
             cache.set(cache_key, True, 12 * 3600)
             LOGGER.debug("URL check for %s, tested success", uri)
             return None
