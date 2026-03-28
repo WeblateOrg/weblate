@@ -18,6 +18,7 @@ Weblate 5.17
 * Improved error messages in some of the :ref:`api` endpoints.
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* Improved performance of :ref:`mt-weblate` lookups.
 
 .. rubric:: Bug fixes
 
@@ -40,6 +41,7 @@ Weblate 5.17
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
+* POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
 
 .. rubric:: Compatibility
 
@@ -49,7 +51,6 @@ Weblate 5.17
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
 * Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
-* URL health checks for configured project and repository links no longer follow HTTP redirects.
 
 .. rubric:: Upgrading
 

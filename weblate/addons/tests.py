@@ -48,6 +48,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_EMPTY,
@@ -1499,6 +1500,27 @@ class GettextAddonTest(ViewTestCase):
         )
         self.assertNotIn("FIRST AUTHOR", content)
 
+    def test_extract_pot_normalize_header_uses_component_url_for_bugs(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        self.component.report_source_bugs = ""
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER\n# This file is distributed under the same license as the PACKAGE package.\nmsgid ""\nmsgstr ""\n"Project-Id-Version: PACKAGE VERSION\\n"\n"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"\n""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+
+        self.assertIn(
+            f'"Report-Msgid-Bugs-To: {get_site_url(self.component.get_absolute_url())}\\n"',
+            content,
+        )
+
     def test_django_command(self) -> None:
         self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
@@ -2049,6 +2071,33 @@ class GettextAddonTest(ViewTestCase):
             addon.post_configure_run()
 
         mocked_create.assert_called_once()
+
+    def test_extract_pot_post_configure_triggers_newly_installed_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        self.component.drop_addons_cache()
+        _ = self.component.addons_cache
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+        ):
+            addon.post_configure_run()
+
+        mocked.assert_called_once()
 
     def test_extract_pot_installs_msgmerge_for_project_scope(self) -> None:
         self.create_po_new_base(

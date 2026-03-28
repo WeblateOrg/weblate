@@ -34,6 +34,7 @@ from weblate.formats.exporters import MoExporter
 from weblate.trans.util import get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
 
@@ -460,14 +461,14 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
             if arg in {"--no-location", "--no-wrap"}
         ]
 
-    def ensure_msgmerge_addon(self) -> None:
+    def ensure_msgmerge_addon(self) -> bool:
         from weblate.addons.models import Addon
 
         install_msgmerge = self.instance.configuration.get("_install_msgmerge", False)
         if not install_msgmerge:
-            return
+            return False
         if self.has_applicable_msgmerge_addon(Addon):
-            return
+            return False
         kwargs = self.get_msgmerge_addon_create_kwargs()
         if not MsgmergeAddon.can_install(**kwargs):
             self.warnings.append(
@@ -480,8 +481,9 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
                     "error": "Could not install the msgmerge add-on for PO updates",
                 }
             )
-            return
+            return False
         MsgmergeAddon.create(run=False, **kwargs)
+        return True
 
     def has_applicable_msgmerge_addon(self, addon_model) -> bool:
         if self.instance.component is not None:
@@ -541,7 +543,8 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         return {}
 
     def post_configure_run(self) -> None:
-        self.ensure_msgmerge_addon()
+        if self.ensure_msgmerge_addon() and self.instance.component is not None:
+            self.instance.component.drop_addons_cache()
         super().post_configure_run()
         if self.instance.configuration.pop("_install_msgmerge", False):
             self.instance.save(update_fields=["configuration"])
@@ -699,8 +702,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         ]
 
         header_updates = {"project_id_version": component_name}
-        if component.report_source_bugs:
-            header_updates["report_msgid_bugs_to"] = component.report_source_bugs
+        report_msgid_bugs_to = component.report_source_bugs or get_site_url(
+            component.get_absolute_url()
+        )
+        if report_msgid_bugs_to:
+            header_updates["report_msgid_bugs_to"] = report_msgid_bugs_to
         store.update_header(**header_updates)
 
         if had_descriptive_title:
