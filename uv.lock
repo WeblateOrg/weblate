@@ -4780,11 +4780,11 @@ wheels = [
 
 [[package]]
 name = "types-dateparser"
-version = "1.3.0.20260323"
+version = "1.4.0.20260328"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a5/38/9ec759a044b8f0cad872b01b267af60030c218501bdea039e9a78db17d23/types_dateparser-1.3.0.20260323.tar.gz", hash = "sha256:3918dd41c9a69681e14f0e7796efa819897b0b3510a7c837e7da3f9354c333fe", size = 17515, upload-time = "2026-03-23T04:15:24.237Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/73/4a/2977f29ca9a667353f8c5b833722399b40fc97e2a4409934509145683b61/types_dateparser-1.4.0.20260328.tar.gz", hash = "sha256:c6beef9fec92e8a253605d8c841d56de80cee39663d8c70ececfa50b617e9880", size = 17529, upload-time = "2026-03-28T04:07:58.295Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e0/ad/2037c07d3257924d8938c9aa87f20b1aad50275c998e07418723a5381c1e/types_dateparser-1.3.0.20260323-py3-none-any.whl", hash = "sha256:898bccc5fe82957d22cee34edc781cca3442d43828ca90d8cda9625198e652cb", size = 24927, upload-time = "2026-03-23T04:15:23.071Z" },
+    { url = "https://files.pythonhosted.org/packages/33/ff/4150ae5e72634007d4ac905e1caff6a0e542b25ac398da8ad76e8f31fd53/types_dateparser-1.4.0.20260328-py3-none-any.whl", hash = "sha256:f8a6f195282dddd0897a33d04e02ff418b3d13c5fec57da54b9de4363788945a", size = 24875, upload-time = "2026-03-28T04:07:57.369Z" },
 ]
 
 [[package]]
@@ -5239,6 +5239,7 @@ all = [
     { name = "mercurial" },
     { name = "openai" },
     { name = "psycopg", extra = ["binary"] },
+    { name = "sphinx" },
 ]
 amazon = [
     { name = "boto3" },
@@ -5270,6 +5271,9 @@ saml = [
 ]
 saml2idp = [
     { name = "djangosaml2idp2" },
+]
+sphinx = [
+    { name = "sphinx" },
 ]
 wlhosted = [
     { name = "wlhosted" },
@@ -5481,20 +5485,21 @@ requires-dist = [
     { name = "siphashc", specifier = ">=2.5,<3.0" },
     { name = "social-auth-app-django", specifier = ">=5.5.1,<6.0.0" },
     { name = "social-auth-core", specifier = ">=4.7.0,<5.0.0" },
+    { name = "sphinx", marker = "extra == 'sphinx'" },
     { name = "tesserocr", specifier = ">=2.8.0,<2.11.0" },
     { name = "translate-toolkit", extras = ["toml"], specifier = ">=3.19.3,<3.20" },
     { name = "translation-finder", specifier = ">=2.22,<3.0" },
     { name = "unidecode", specifier = ">=1.4.0,<1.5" },
     { name = "urllib3", extras = ["brotli", "zstd"], specifier = ">=2.6.3,<3.0" },
     { name = "user-agents", specifier = ">=2.2.0,<2.3" },
-    { name = "weblate", extras = ["alibaba", "amazon", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "zxcvbn"], marker = "extra == 'all'" },
+    { name = "weblate", extras = ["alibaba", "amazon", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "sphinx", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-fonts", specifier = "==2026.1" },
     { name = "weblate-language-data", specifier = ">=2026.6" },
     { name = "weblate-schemas", specifier = "==2025.6" },
     { name = "wlhosted", marker = "extra == 'wlhosted'" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = ">=2026.2" },
 ]
-provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "openai", "postgres", "saml", "saml2idp", "wlhosted", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "openai", "postgres", "saml", "saml2idp", "sphinx", "wlhosted", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -5534,7 +5539,7 @@ dev = [
     { name = "sphinxext-opengraph", specifier = "==0.13.0" },
     { name = "standardwebhooks", specifier = "==1.0.1" },
     { name = "tinyunicodeblock", specifier = "==1.3" },
-    { name = "types-dateparser", specifier = "==1.3.0.20260323" },
+    { name = "types-dateparser", specifier = "==1.4.0.20260328" },
     { name = "types-docutils", specifier = "==0.22.3.20260322" },
     { name = "types-jsonschema", specifier = "==4.26.0.20260325" },
     { name = "types-lxml", specifier = "==2026.2.16" },
@@ -5595,7 +5600,7 @@ types = [
     { name = "djangorestframework-stubs", specifier = "==3.16.8" },
     { name = "mypy", specifier = "==1.19.1" },
     { name = "pygobject-stubs", specifier = "==2.17.0" },
-    { name = "types-dateparser", specifier = "==1.3.0.20260323" },
+    { name = "types-dateparser", specifier = "==1.4.0.20260328" },
     { name = "types-docutils", specifier = "==0.22.3.20260322" },
     { name = "types-jsonschema", specifier = "==4.26.0.20260325" },
     { name = "types-lxml", specifier = "==2026.2.16" },

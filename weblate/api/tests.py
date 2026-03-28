@@ -3775,6 +3775,24 @@ class ProjectAPITest(APIBaseTest):
 
         self.assertEqual(new_config, response.data)
 
+    def test_install_machinery_blocks_private_project_target(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=False,
+            request={
+                "service": "deepl",
+                "configuration": {"key": "x", "url": "http://127.0.0.1:11434/"},
+            },
+            format="json",
+        )
+
+        self.assertIn("URL domain is not allowed.", str(response.data))
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self) -> None:
