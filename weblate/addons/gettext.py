@@ -34,6 +34,7 @@ from weblate.formats.exporters import MoExporter
 from weblate.trans.util import get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
 
@@ -699,8 +700,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         ]
 
         header_updates = {"project_id_version": component_name}
-        if component.report_source_bugs:
-            header_updates["report_msgid_bugs_to"] = component.report_source_bugs
+        report_msgid_bugs_to = component.report_source_bugs or get_site_url(
+            component.get_absolute_url()
+        )
+        if report_msgid_bugs_to:
+            header_updates["report_msgid_bugs_to"] = report_msgid_bugs_to
         store.update_header(**header_updates)
 
         if had_descriptive_title:

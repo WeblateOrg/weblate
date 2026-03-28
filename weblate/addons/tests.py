@@ -48,6 +48,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_EMPTY,
@@ -1498,6 +1499,27 @@ class GettextAddonTest(ViewTestCase):
             content,
         )
         self.assertNotIn("FIRST AUTHOR", content)
+
+    def test_extract_pot_normalize_header_uses_component_url_for_bugs(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        self.component.report_source_bugs = ""
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER\n# This file is distributed under the same license as the PACKAGE package.\nmsgid ""\nmsgstr ""\n"Project-Id-Version: PACKAGE VERSION\\n"\n"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"\n""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+
+        self.assertIn(
+            f'"Report-Msgid-Bugs-To: {get_site_url(self.component.get_absolute_url())}\\n"',
+            content,
+        )
 
     def test_django_command(self) -> None:
         self.component.new_base = "locale/django.pot"
