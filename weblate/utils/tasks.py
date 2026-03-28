@@ -83,19 +83,28 @@ def settings_backup() -> None:
 
 @app.task(trail=False)
 def update_translation_stats_parents(pk: int) -> None:
-    translation = Translation.objects.get(pk=pk)
+    try:
+        translation = Translation.objects.get(pk=pk)
+    except Translation.DoesNotExist:
+        return
     translation.stats.update_parents()
 
 
 @app.task(trail=False)
 def update_language_stats_parents(pk: int) -> None:
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        return
     component.stats.update_language_stats_parents()
 
 
 @app.task(trail=False)
 def update_project_stats_link(pk: int) -> None:
-    project = Project.objects.get(pk=pk)
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
     for language in project.stats.get_language_stats():
         language.update_stats(update_parents=False)
     project.stats.update_stats()

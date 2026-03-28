@@ -923,11 +923,20 @@ class Unit(models.Model, LoggerMixin):
         self,
         unit,
         string_changed: bool,
+        state_changed: bool,
         disk_automatically_translated: bool | None = None,
     ) -> bool:
+        if not unit.is_translated():
+            return False
+
+        is_existing_automatically_translated = (
+            self.automatically_translated or disk_automatically_translated
+        )
+
         return unit.is_automatically_translated(
-            (self.automatically_translated or disk_automatically_translated)
+            is_existing_automatically_translated
             and not string_changed
+            and not state_changed
         )
 
     @staticmethod
@@ -1110,10 +1119,6 @@ class Unit(models.Model, LoggerMixin):
         )
         original_state = self.get_unit_state(unit, None, include_weblate_readonly=False)
 
-        automatically_translated = self.get_unit_automatically_translated(
-            unit, string_changed, comparison_state["automatically_translated"]
-        )
-
         # Monolingual files handling (without target change)
         if (
             not created
@@ -1150,6 +1155,14 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks on fuzzy update or on content change
         same_state = state == comparison_state["state"] and flags == Flags(self.flags)
+
+        automatically_translated = self.get_unit_automatically_translated(
+            unit,
+            string_changed=string_changed,
+            state_changed=not same_state,
+            disk_automatically_translated=comparison_state["automatically_translated"],
+        )
+
         same_metadata = (
             location == self.location
             and note == self.note

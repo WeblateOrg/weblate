@@ -8,6 +8,7 @@ Weblate 5.17
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
 * Shared components can now be categorized within the target project.
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
+* Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 
 .. rubric:: Improvements
 
@@ -21,6 +22,9 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Component file handling now validates repository symlinks.
+* Improved REST API permission enforcement.
+* Hardened project-level machine translation against SSRF by blocking private-network targets for untrusted endpoints and hiding untrusted remote error details.
 * Prevented removing the last team from a project token.
 * Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.

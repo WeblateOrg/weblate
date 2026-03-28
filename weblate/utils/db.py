@@ -37,7 +37,7 @@ def adjust_similarity_threshold(value: float) -> None:
 
     current_similarity = getattr(connection, "weblate_similarity", -1)
     # Ignore small differences
-    if abs(current_similarity - value) < 0.05:
+    if round(abs(current_similarity - value), 3) < 0.05:
         return
 
     with connection.cursor() as cursor:
