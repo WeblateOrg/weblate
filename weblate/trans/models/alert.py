@@ -444,6 +444,44 @@ class MsgmergeAddonError(MultiAlert):
 
 
 @register
+class ExtractPotAddonError(MultiAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not update POT file.")
+    doc_page = "addons"
+
+
+@register
+class ExtractPotMissingMsgmerge(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("POT updates do not update PO files.")
+    dismissable = True
+    doc_page = "addons"
+    doc_anchor = "addon-weblate-gettext-msgmerge"
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        extractors = {
+            "weblate.gettext.xgettext",
+            "weblate.gettext.django",
+            "weblate.gettext.sphinx",
+        }
+        has_extractor = False
+        has_msgmerge = False
+
+        for addon in component.addons_cache.addons:
+            if not addon.is_valid:
+                continue
+            if not addon.addon.can_process(component=component):
+                continue
+            if addon.name in extractors:
+                has_extractor = True
+            elif addon.name == "weblate.gettext.msgmerge":
+                has_msgmerge = True
+
+        return has_extractor and not has_msgmerge
+
+
+@register
 class MonolingualTranslation(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Misconfigured monolingual translation.")

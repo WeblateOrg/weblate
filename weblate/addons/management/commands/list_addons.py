@@ -101,7 +101,9 @@ class Command(DocGeneratorCommand):
             addon_lines.append(f":Add-on ID: ``{obj.name}``")
             prefix = ":Configuration: "
             if obj.settings_form:
-                form = obj(fake_addon).get_settings_form(None)  # type: ignore[operator]
+                addon = obj(fake_addon)  # type: ignore[operator]
+                addon.documentation_build = True
+                form = addon.get_settings_form(None)
                 table: list[list[CellType]] = [
                     [
                         f"``{name}``",
