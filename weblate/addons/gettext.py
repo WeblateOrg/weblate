@@ -54,6 +54,21 @@ class GettextBaseAddon(BaseAddon):
     compat: ClassVar[CompatDict] = {"file_format": {"po", "po-mono"}}
 
 
+def find_runtime_command(command: str) -> str | None:
+    """Find executable either on PATH or next to the active Python interpreter."""
+    if path := find_command(command):
+        return path
+    interpreter_dir = Path(sys.executable).parent
+    candidates = [
+        interpreter_dir / command,
+        interpreter_dir / f"{command}.exe",
+    ]
+    for candidate in candidates:
+        if candidate.is_file() and os.access(candidate, os.X_OK):
+            return os.fspath(candidate)
+    return None
+
+
 class GenerateMoAddon(GettextBaseAddon):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
@@ -336,7 +351,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        if find_command("msgmerge") is None:
+        if find_runtime_command("msgmerge") is None:
             return False
         return super().can_install(
             component=component, category=category, project=project
@@ -833,7 +848,7 @@ class XgettextAddon(ExtractPotBaseAddon):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        return find_command("xgettext") is not None and super().can_install(
+        return find_runtime_command("xgettext") is not None and super().can_install(
             component=component, category=category, project=project
         )
 
@@ -1116,8 +1131,8 @@ class DjangoAddon(ExtractPotBaseAddon):
         project: Project | None = None,
     ) -> bool:
         if not (
-            find_command("xgettext") is not None
-            and find_command("msguniq") is not None
+            find_runtime_command("xgettext") is not None
+            and find_runtime_command("msguniq") is not None
             and super().can_install(
                 component=component, category=category, project=project
             )
@@ -1274,7 +1289,7 @@ class SphinxAddon(ExtractPotBaseAddon):
         project: Project | None = None,
     ) -> bool:
         if not (
-            find_command("sphinx-build") is not None
+            find_runtime_command("sphinx-build") is not None
             and super().can_install(
                 component=component, category=category, project=project
             )
