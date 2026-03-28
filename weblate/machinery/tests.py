@@ -24,7 +24,6 @@ from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase
-from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from google.api_core import exceptions as google_api_exceptions
@@ -3628,8 +3627,8 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
         self.assertEqual([item["text"] for item in results], ["First", "Second"])
         self.assertEqual(machine.comparer.similarity.call_count, 2)
-        
-        
+
+
 class MachineryValidationTest(TestCase):
     def test_project_machinery_rejects_private_url(self) -> None:
         form = DeepLTranslation.settings_form(
