@@ -22,6 +22,7 @@ from drf_spectacular.utils import (
 )
 from drf_standardized_errors.openapi_serializers import ServerErrorEnum
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
@@ -225,6 +226,13 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
 
 
 class FullUserSerializer(serializers.ModelSerializer[User]):
+    privileged_fields = (
+        "groups",
+        "is_superuser",
+        "is_active",
+        "is_bot",
+        "date_expires",
+    )
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail",
         lookup_field="id",
@@ -249,6 +257,18 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
     contributions_url = serializers.HyperlinkedIdentityField(
         view_name="api:user-contributions", lookup_field="username"
     )
+
+    def get_fields(self):
+        fields = super().get_fields()
+        request = self.context.get("request")
+        if self.context.get("view") is not None and getattr(
+            self.context["view"], "swagger_fake_view", False
+        ):
+            return fields
+        if request is None or not request.user.has_perm("user.edit"):
+            for field_name in self.privileged_fields:
+                fields[field_name].read_only = True
+        return fields
 
     class Meta:
         model = User
@@ -280,6 +300,25 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
         }
 
 
+class SelfUserSerializer(serializers.ModelSerializer[User]):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "full_name",
+            "username",
+        )
+        read_only_fields = (
+            "id",
+            "username",
+        )
+        # Self-service PUT must accept the fields returned by the basic self view.
+        extra_kwargs = {  # noqa: RUF012
+            "email": {"required": False},
+        }
+
+
 class BasicUserSerializer(serializers.ModelSerializer[User]):
     class Meta:
         model = User
@@ -308,6 +347,25 @@ class PermissionSerializer(serializers.RelatedField[Permission, str, str]):
             msg = "Permission with this codename was not found."
             raise serializers.ValidationError(msg)
         return data
+
+
+class DefiningProjectField(serializers.HyperlinkedRelatedField):
+    def get_queryset(self):
+        request = self.context.get("request")
+        if request is None:
+            return Project.objects.none()
+        if request.user.has_perm("group.edit"):
+            return Project.objects.all()
+        return request.user.projects_with_perm("project.permissions")
+
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            request = self.context.get("request")
+            if request is not None and not request.user.has_perm("group.edit"):
+                raise PermissionDenied from None
+            raise
 
 
 class RoleSerializer(serializers.ModelSerializer[Role]):
@@ -404,6 +462,22 @@ class CommentSerializer(serializers.Serializer[Comment]):
 
         return value
 
+    def validate(self, attrs):
+        request = self.context.get("request")
+        unit: Unit | None = self.context.get("unit")
+        if (
+            attrs.get("timestamp") is not None or attrs.get("user_email") is not None
+        ) and (
+            request is None
+            or unit is None
+            or not request.user.has_perm(
+                "project.edit", unit.translation.component.project
+            )
+        ):
+            raise PermissionDenied
+
+        return attrs
+
     def create(self, validated_data):
         request = self.context["request"]
         unit = self.context["unit"]
@@ -430,6 +504,12 @@ class CommentSerializer(serializers.Serializer[Comment]):
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
+    internal_fields = (
+        "name",
+        "project_selection",
+        "language_selection",
+        "defining_project",
+    )
     roles = serializers.HyperlinkedIdentityField(
         view_name="api:role-detail",
         lookup_field="id",
@@ -460,10 +540,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         many=True,
         read_only=True,
     )
-    defining_project = serializers.HyperlinkedRelatedField(
+    defining_project = DefiningProjectField(
         view_name="api:project-detail",
         lookup_field="slug",
-        queryset=Project.objects.none(),
         required=False,
     )
     admins = serializers.HyperlinkedRelatedField(
@@ -494,10 +573,39 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},
         }
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        user = self.context["request"].user
-        self.fields["defining_project"].queryset = user.managed_projects
+    def validate(self, attrs):
+        if self.instance is not None and self.instance.internal:
+            errors = {
+                field: gettext_lazy("Cannot change this on a built-in team.")
+                for field in self.internal_fields
+                if field in attrs and attrs[field] != getattr(self.instance, field)
+            }
+            if errors:
+                raise serializers.ValidationError(errors)
+        if (
+            self.instance is not None
+            and "defining_project" in attrs
+            and attrs["defining_project"] != self.instance.defining_project
+        ):
+            raise serializers.ValidationError(
+                {
+                    "defining_project": gettext_lazy(
+                        "Cannot change this on an existing team."
+                    )
+                }
+            )
+        request = self.context.get("request")
+        if (
+            self.instance is not None
+            and self.instance.defining_project is not None
+            and (
+                "project_selection" in attrs
+                and attrs["project_selection"] != self.instance.project_selection
+            )
+            and (request is None or not request.user.has_perm("group.edit"))
+        ):
+            raise PermissionDenied
+        return attrs
 
 
 class ProjectSerializer(serializers.ModelSerializer[Project]):
