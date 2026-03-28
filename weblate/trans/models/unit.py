@@ -530,6 +530,11 @@ class Unit(models.Model, LoggerMixin):
                 models.F("translation"),
                 name="unit_explanation_fulltext",
             ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("source"), name="gin_trgm_ops"),
+                condition=Q(state__gte=STATE_TRANSLATED) & ~Q(target=""),
+                name="trans_unit_source_tm_idx",
+            ),
         ]
 
     def __str__(self) -> str:
