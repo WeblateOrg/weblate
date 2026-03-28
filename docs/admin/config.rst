@@ -51,11 +51,15 @@ This enhances security by preventing loading assets from untrusted sources.
 Assets are downloaded once by the Weblate server and stored locally, rather than
 being served directly from external domains to users.
 
+The allowlist is applied to the initial URL and to every HTTP redirect target
+before Weblate follows it. Redirects to hosts outside of this allowlist are
+rejected.
+
 It expects a list of host/domain names. You can use fully qualified names
 (e.g ``www.example.com``) or prepend with a period as a wildcard to match
 all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or ``static.example.com``).
 
-Defaults to `[*]` which will allow all domains.
+Defaults to ``["*"]``, which allows all domains.
 
 **Example**
 
@@ -76,6 +80,30 @@ This is currently used in the following places:
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_SIZE`
+
+.. setting:: ALLOWED_MACHINERY_DOMAINS
+
+ALLOWED_MACHINERY_DOMAINS
+-------------------------
+
+Configures which custom machinery domains are explicitly allowed in project-level
+machine translation configuration.
+
+This setting applies only to machinery services and does not affect
+:setting:`ALLOWED_ASSET_DOMAINS`.
+
+It expects a list of host/domain names. You can use fully qualified names or
+prepend with a period as a wildcard to match all subdomains.
+
+Defaults to ``[]``.
+
+The allowlist affects project-managed machinery in two ways: it permits the
+configured endpoint during outbound validation, and it marks matching hosts as
+trusted when deciding whether remote provider error details or response bodies
+can be shown to the user. For direct connections, runtime checks still reject
+destinations that resolve to private or otherwise non-public addresses. When an
+HTTP(S) proxy is used, runtime validation falls back to hostname validation and
+does not perform the same local DNS or peer-IP checks.
 
 .. setting:: ALLOWED_ASSET_SIZE
 
@@ -2460,6 +2488,28 @@ WEBSITE_REQUIRED
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
 
+.. setting:: WEBSITE_ALERTS_ENABLED
+
+WEBSITE_ALERTS_ENABLED
+----------------------
+
+.. versionadded:: 5.17
+
+Default: ``True``
+
+Defines whether Weblate should check project website availability and show
+alerts for unreachable project websites.
+
+When set to ``False``, Weblate will skip website availability checks and
+will not generate project website alerts. This is useful when:
+
+- Your websites are behind firewalls that block Weblate's requests
+- You want to avoid 403/503-type errors from bot protection
+- Project website availability is not a concern for your installation
+
+.. seealso::
+
+   :setting:`WEBSITE_REQUIRED`
 
 .. _settings-credentials:
 

@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 import sentry_sdk
 from django.conf import settings
+from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
@@ -499,6 +500,36 @@ class Unit(models.Model, LoggerMixin):
             models.Index(
                 MD5(Lower("context")), "translation", name="trans_unit_context_md5"
             ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("source"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_source_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("target"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_target_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("context"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_context_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("note"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_note_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("location"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_location_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("explanation"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_explanation_fulltext",
+            ),
         ]
 
     def __str__(self) -> str:
@@ -887,11 +918,20 @@ class Unit(models.Model, LoggerMixin):
         self,
         unit,
         string_changed: bool,
+        state_changed: bool,
         disk_automatically_translated: bool | None = None,
     ) -> bool:
+        if not unit.is_translated():
+            return False
+
+        is_existing_automatically_translated = (
+            self.automatically_translated or disk_automatically_translated
+        )
+
         return unit.is_automatically_translated(
-            (self.automatically_translated or disk_automatically_translated)
+            is_existing_automatically_translated
             and not string_changed
+            and not state_changed
         )
 
     @staticmethod
@@ -1074,10 +1114,6 @@ class Unit(models.Model, LoggerMixin):
         )
         original_state = self.get_unit_state(unit, None, include_weblate_readonly=False)
 
-        automatically_translated = self.get_unit_automatically_translated(
-            unit, string_changed, comparison_state["automatically_translated"]
-        )
-
         # Monolingual files handling (without target change)
         if (
             not created
@@ -1114,6 +1150,14 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks on fuzzy update or on content change
         same_state = state == comparison_state["state"] and flags == Flags(self.flags)
+
+        automatically_translated = self.get_unit_automatically_translated(
+            unit,
+            string_changed=string_changed,
+            state_changed=not same_state,
+            disk_automatically_translated=comparison_state["automatically_translated"],
+        )
+
         same_metadata = (
             location == self.location
             and note == self.note

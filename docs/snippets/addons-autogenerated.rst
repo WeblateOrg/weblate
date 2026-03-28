@@ -126,33 +126,33 @@ Automatic translation
 ---------------------
 
 :Add-on ID: ``weblate.autotranslate.autotranslate``
-:Configuration: +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``mode``        | Automatic translation mode       | .. list-table:: Available choices:                                                                        |
-                |                 |                                  |    :width: 100%                                                                                           |
-                |                 |                                  |                                                                                                           |
-                |                 |                                  |    * - ``suggest``                                                                                        |
-                |                 |                                  |      - Add as suggestion                                                                                  |
-                |                 |                                  |    * - ``translate``                                                                                      |
-                |                 |                                  |      - Add as translation                                                                                 |
-                |                 |                                  |    * - ``fuzzy``                                                                                          |
-                |                 |                                  |      - Add as "Needing edit"                                                                              |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``q``           | Query                            | Please note that translating all strings will discard all existing translations.                          |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                        |
-                |                 |                                  |    :width: 100%                                                                                           |
-                |                 |                                  |                                                                                                           |
-                |                 |                                  |    * - ``others``                                                                                         |
-                |                 |                                  |      - Other translation components                                                                       |
-                |                 |                                  |    * - ``mt``                                                                                             |
-                |                 |                                  |      - Machine translation                                                                                |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``component``   | Component                        | Turn on contribution to shared translation memory for the project to get access to additional components. |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``engines``     | Machine translation engines      | :ref:`addon-choice-engines`                                                                               |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``threshold``   | Score threshold                  |                                                                                                           |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
+:Configuration: +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``mode``        | Automatic translation mode       | .. list-table:: Available choices:                                                                   |
+                |                 |                                  |    :width: 100%                                                                                      |
+                |                 |                                  |                                                                                                      |
+                |                 |                                  |    * - ``suggest``                                                                                   |
+                |                 |                                  |      - Add as suggestion                                                                             |
+                |                 |                                  |    * - ``translate``                                                                                 |
+                |                 |                                  |      - Add as translation                                                                            |
+                |                 |                                  |    * - ``fuzzy``                                                                                     |
+                |                 |                                  |      - Add as "Needing edit"                                                                         |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``q``           | Query                            | Please note that translating all strings will discard all existing translations.                     |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                   |
+                |                 |                                  |    :width: 100%                                                                                      |
+                |                 |                                  |                                                                                                      |
+                |                 |                                  |    * - ``others``                                                                                    |
+                |                 |                                  |      - Other translation components                                                                  |
+                |                 |                                  |    * - ``mt``                                                                                        |
+                |                 |                                  |      - Machine translation                                                                           |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``component``   | Component                        | Enter slug of a component to use as source, keep blank to use all components in the current project. |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``engines``     | Machine translation engines      | :ref:`addon-choice-engines`                                                                          |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``threshold``   | Score threshold                  |                                                                                                      |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`
 
@@ -330,8 +330,6 @@ Component discovery
                 | ``copy_addons``           | Clone add-ons from the main component to the newly created ones |                                                                                                                                                             |
                 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``remove``                | Remove components for inexistent files                          |                                                                                                                                                             |
-                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``confirm``               | I confirm the above matches look correct                        |                                                                                                                                                             |
                 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
@@ -1440,6 +1438,24 @@ or an implementation of the "Standard Webhooks Specification".
    * `Standard Webhooks Specification <https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md>`_
    * :ref:`schema-messaging`
    * `Python library for Standard Webhooks <https://pypi.org/project/standardwebhooks/>`_
+
+.. AUTOGENERATED START: weblate.hosted.reset
+.. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
+
+.. _addon-weblate.hosted.reset:
+
+Reset repository to upstream
+----------------------------
+
+.. versionadded:: 5.17
+
+:Add-on ID: ``weblate.hosted.reset``
+:Configuration: `This add-on has no configuration.`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`
+
+Discards all changes in the Weblate repository each night.
+
+.. AUTOGENERATED END: weblate.hosted.reset
 
 
 .. Depreciated Addons

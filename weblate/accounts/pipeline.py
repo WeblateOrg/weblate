@@ -425,7 +425,9 @@ def handle_invite(
 ) -> None:
     # Accept triggering invitation
     if invitation_pk:
-        Invitation.objects.get(pk=invitation_pk).accept(strategy.request, user)
+        invitation = Invitation.objects.filter(pk=invitation_pk).first()
+        if invitation is not None:
+            invitation.accept(strategy.request, user)
     # Merge possibly pending invitations for this e-mail address
     Invitation.objects.filter(email=user.email).update(user=user, email="")
 

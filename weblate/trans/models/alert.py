@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Count, Q
 from django.template.loader import render_to_string
@@ -423,14 +424,14 @@ class MissingLicense(BaseAlert):
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
 
 
 @register
 class CDNAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
     doc_anchor = "addon-weblate-cdn-cdnjs"
 
 
@@ -438,7 +439,7 @@ class CDNAddonError(MultiAlert):
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
     doc_anchor = "addon-weblate-gettext-msgmerge"
 
 
@@ -564,6 +565,9 @@ class BrokenProjectURL(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
+        if not settings.WEBSITE_ALERTS_ENABLED:
+            return False
+
         if component.project.web:
             location_error = get_uri_error(component.project.web)
             if location_error is not None:
@@ -669,11 +673,16 @@ class InexistantFiles(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        missing_files = [
-            name
-            for name in (component.template, component.intermediate, component.new_base)
-            if name and not os.path.exists(os.path.join(component.full_path, name))
-        ]
+        missing_files = []
+        for name in (component.template, component.intermediate, component.new_base):
+            if not name:
+                continue
+            try:
+                fullname = component.get_validated_component_filename(name)
+            except ValidationError:
+                fullname = None
+            if not fullname or not os.path.exists(fullname):
+                missing_files.append(name)
         if missing_files:
             return {"files": missing_files}
         return False

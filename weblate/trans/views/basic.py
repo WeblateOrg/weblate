@@ -33,6 +33,8 @@ from weblate.trans.forms import (
     CategoryLanguageDeleteForm,
     CategoryRenameForm,
     ComponentDeleteForm,
+    ComponentLinkAddForm,
+    ComponentLinkCategoryForm,
     ComponentRenameForm,
     DownloadForm,
     ProjectDeleteForm,
@@ -57,6 +59,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.component import (
+    ComponentLink,
     prefetch_tasks,
     translation_prefetch_tasks,
 )
@@ -337,7 +340,7 @@ def show_project_language(
                 user,
                 "translation.auto",
                 obj,
-                obj=obj,
+                obj=obj.project,
                 user=user,
             ),
             "bulk_state_form": optional_form(
@@ -431,7 +434,19 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
         if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
             qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
-        return qs.filter(category=None)
+        # Show at project root:
+        # - Owned components without a category (project=obj ensures we
+        #   don't match shared components whose source category is None)
+        # - Shared components whose link to this project has no category
+        #   (scoped to this project to avoid matching links to other projects
+        #   if a component is shared to multiple projects)
+        return qs.filter(
+            Q(project=obj, category=None)
+            | Q(
+                componentlink__project=obj,
+                componentlink__category__isnull=True,
+            )
+        )
 
     user = request.user
 
@@ -533,6 +548,10 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
         stats=True,
         sort_by=request.GET.get("sort_by"),
     )
+    for component in all_components:
+        component.is_shared = (
+            None if component.project == obj.project else component.project
+        )
 
     language_stats = obj.stats.get_language_stats()
     can_add_language_components = obj.components_user_can_add_new_language(user)
@@ -591,7 +610,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
                 user,
                 "translation.auto",
                 obj,
-                obj=obj,
+                obj=obj.project,
                 user=user,
             ),
             "bulk_state_form": optional_form(
@@ -687,8 +706,38 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
             if "alerts" not in request.GET
             else obj.alert_set.all(),
             "user_can_add_translation": user_can_add_translation,
+            "component_links_formset": _get_component_links_formset(obj, user),
+            "component_link_add_form": _get_component_link_add_form(request, obj, user),
         },
     )
+
+
+def _get_component_link_add_form(request, obj, user):
+    """Build the form for adding a new component link."""
+    if not user.has_perm("component.edit", obj):
+        return None
+    return ComponentLinkAddForm(request=request, component=obj, prefix="link_add")
+
+
+def _get_component_links_formset(obj, user):
+    """Build a list of ComponentLinkCategoryForm instances for the component."""
+    if not user.has_perm("component.edit", obj):
+        return None
+
+    links = ComponentLink.objects.filter(component=obj).select_related(
+        "project", "category"
+    )
+    if not links:
+        return None
+    forms = []
+    for link in links:
+        form = ComponentLinkCategoryForm(
+            initial={"link_id": link.pk, "category": link.category},
+            project=link.project,
+        )
+        form.project_name = link.project.name
+        forms.append(form)
+    return forms
 
 
 def show_translation(

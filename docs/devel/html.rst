@@ -69,7 +69,7 @@ these manually, use API to create them or list files or URLs using
 :guilabel:`Extract strings from HTML files` and Weblate will extract them
 automatically. The files have to present in the repository or contain remote
 URLs which will be download and parsed regularly by Weblate. Remote URLs are
-restricted by :setting:`ALLOWED_ASSET_DOMAINS`.
+restricted by :setting:`ALLOWED_ASSET_DOMAINS`, including any redirect targets.
 
 The default configuration for :guilabel:`CSS selector` extracts elements with
 CSS class ``l10n``, for example it would extract two strings from following

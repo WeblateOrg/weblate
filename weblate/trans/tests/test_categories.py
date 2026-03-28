@@ -12,7 +12,7 @@ from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, Component, Project
+from weblate.trans.models import Category, Component, ComponentLink, Project
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import category_removal
 from weblate.trans.tests.test_views import ViewTestCase
@@ -257,7 +257,7 @@ class CategoriesTest(ViewTestCase):
 
     def test_move_linked_component(self) -> None:
         project = Project.objects.create(name="other", slug="other")
-        self.component.links.add(project)
+        ComponentLink.objects.create(component=self.component, project=project)
 
         response = self.client.post(
             reverse("add-category", kwargs={"path": self.project.get_url_path()}),
@@ -280,7 +280,8 @@ class CategoriesTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "Categorized component can not be shared.")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.category, category)
 
     def test_move_category_linked_repo(self) -> None:
         component = self.create_link_existing()
@@ -418,7 +419,7 @@ class CategoriesTest(ViewTestCase):
         executed: list[str] = []
         original_flush = RemovalBatch.flush
 
-        def record_flush(batch_self) -> None:
+        def record_flush(batch_self: RemovalBatch) -> None:
             collected.append(set(batch_self.stats_to_update))
             with ExitStack() as stack:
                 for stats in batch_self.stats_to_update.values():
@@ -449,4 +450,52 @@ class CategoriesTest(ViewTestCase):
             self.project.change_set.filter(
                 action=ActionEvents.REMOVE_COMPONENT
             ).count(),
+        )
+
+    def test_category_removal_updates_nested_categories_before_global(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Parent category", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.project,
+            category=category,
+            name="Child category",
+            slug="child",
+        )
+        self.create_po(
+            project=self.project,
+            name="Category A",
+            slug="category-a",
+            category=child,
+        )
+
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self: RemovalBatch) -> None:
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            category_removal(category.pk, self.user.pk)
+
+        self.assertLess(
+            executed.index(child.stats.cache_key),
+            executed.index(category.stats.cache_key),
+        )
+        self.assertLess(
+            executed.index(category.stats.cache_key),
+            executed.index(GlobalStats().cache_key),
         )

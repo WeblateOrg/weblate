@@ -32,7 +32,7 @@ lint = [
   {include-group = "pylint"}
 ]
 pre-commit = [
-  "prek==0.3.6"
+  "prek==0.3.8"
 ]
 pylint = [
   "pylint==4.0.5"
@@ -42,14 +42,14 @@ schemas = [
 ]
 scripts = [
   "django-debug-toolbar==6.2.0",
-  "PyICU==2.16.1",
+  "PyICU==2.16.2",
   "reuse==6.2.0",
   "scour==0.38.2",
   "tinyunicodeblock==1.3"
 ]
 test = [
   "coverage==7.13.5",
-  "pytest-cov==7.0.0",
+  "pytest-cov==7.1.0",
   "pytest-django==4.12.0",
   "pytest-github-actions-annotate-failures==0.4.0",
   "pytest-profiling==1.8.1",
@@ -61,22 +61,22 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.42.72",
+  "boto3-stubs==1.42.78",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.1",
   "django-stubs[compatible-mypy]==6.0.1",
   "djangorestframework-stubs==3.16.8",
   "mypy==1.19.1",
-  "PyGObject-stubs==2.16.0",
-  "types-dateparser==1.3.0.20260211",
-  "types-docutils==0.22.3.20260316",
-  "types-jsonschema==4.26.0.20260202",
+  "PyGObject-stubs==2.17.0",
+  "types-dateparser==1.4.0.20260328",
+  "types-docutils==0.22.3.20260322",
+  "types-jsonschema==4.26.0.20260325",
   "types-lxml==2026.2.16",
-  "types-openpyxl==3.1.5.20260316",
+  "types-openpyxl==3.1.5.20260322",
   "types-Pillow==10.2.0.20240822",
-  "types-python-dateutil==2.9.0.20260305",
+  "types-python-dateutil==2.9.0.20260323",
   "types-regex==2026.2.28.20260301",
-  "types-requests==2.32.4.20260107",
+  "types-requests==2.33.0.20260327",
   "types-setuptools==82.0.0.20260210"
 ]
 
@@ -116,7 +116,7 @@ dependencies = [
   "cssselect>=1.3.0,<1.5",
   "cyrtranslit>=1.2.0,<1.3.0",
   "Cython>=3.1.0,<3.3",
-  "dateparser>=1.2.0,<1.4.0",
+  "dateparser>=1.2.0,<1.5.0",
   "diff-match-patch==20241021",
   "disposable-email-domains>=0.0.125",
   "django-appconf>=1.1.0,<1.3",
@@ -152,7 +152,7 @@ dependencies = [
   "pyaskalono>=0.2.0,<0.3.0",
   "pycairo>=1.20.0",
   "Pygments>=2.19.0,<3.0",
-  "PyGObject>=3.54.5,<3.57.0",
+  "PyGObject>=3.56.0,<3.57.0",
   "pyicumessageformat>=1.0.0,<1.1",
   "pyparsing>=3.2.0,<3.4",
   "python-dateutil>=2.9.0.post0",
@@ -160,7 +160,7 @@ dependencies = [
   "rapidfuzz>=3.12.1,<3.15",
   "redis>=5.2.0,<8.0.0",
   "regex>=2024.11.6,<2027",
-  "requests>=2.32.2,<2.33",
+  "requests>=2.33,<3.0",
   "ruamel.yaml>=0.18.0,<0.20.0",
   "sentry-sdk>=2.28.0,<3.0",
   "siphashc>=2.5,<3.0",
@@ -240,7 +240,7 @@ wsgi = [
   "granian==2.7.2"
 ]
 zxcvbn = [
-  "django-zxcvbn-password-validator>=1.5.3,<1.6"
+  "django-zxcvbn-password-validator>=1.5.3,<1.7"
 ]
 
 [project.readme]
@@ -276,6 +276,7 @@ ignore = [
   ".weblate",
   ".well-known/*",
   ".yamllint.yml",
+  "AGENTS.md",
   "ci/*",
   "ci/migrate-scripts/*",
   "client/*",

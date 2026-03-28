@@ -10,6 +10,7 @@ from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
@@ -414,6 +415,39 @@ class BackupsTest(ViewTestCase):
                 f"refs/heads/{component.branch}",
             )
             restored.do_reset()
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_invalid_screenshot(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Tampered screenshot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("screenshot.png", File(handle))
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    data = source_zip.read(item.filename)
+                    if item.filename.startswith("screenshots/"):
+                        data = b"not an image"
+                    target_zip.writestr(item, data)
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            with self.assertRaises(ValidationError):
+                restore.restore(
+                    project_name="Restored", project_slug="restored", user=self.user
+                )
         finally:
             os.unlink(temp_name)
 

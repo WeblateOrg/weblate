@@ -877,6 +877,10 @@ Generic settings
 
    Configures :setting:`DEFAULT_AUTOCLEAN_TM`.
 
+.. envvar:: WEBLATE_COMMIT_PENDING_HOURS
+
+   Configures the default value for :ref:`component-commit_pending_age` for new components, see :setting:`COMMIT_PENDING_HOURS`.
+
 .. envvar:: WEBLATE_GPG_IDENTITY
 
    Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`.
@@ -1120,6 +1124,11 @@ Generic settings
 
       Allows CORS requests to API from all origins.
 
+.. envvar:: WEBLATE_WEBSITE_ALERTS_ENABLED
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`WEBSITE_ALERTS_ENABLED`.
 
 .. envvar:: CLIENT_MAX_BODY_SIZE
 

@@ -15,9 +15,19 @@
   {% endif %}
   <li class="breadcrumb-item">
     {% if instance %}
-      <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
+      <a href="{% url 'addon-detail' pk=instance.pk %}">
+        {% if addon %}
+          {{ addon.verbose }}
+        {% else %}
+          {{ addon_name }}
+        {% endif %}
+      </a>
     {% else %}
-      {{ addon.verbose }}
+      {% if addon %}
+        {{ addon.verbose }}
+      {% else %}
+        {{ addon_name }}
+      {% endif %}
     {% endif %}
   </li>
 {% endblock breadcrumbs %}
@@ -29,13 +39,17 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">
-            {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+            {% if addon %}
+              {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+            {% endif %}
             {% translate "Configure add-on" %}
           </h4>
         </div>
         <div class="card-body">
           <input type="hidden" name="form" value="1" />
-          <input type="hidden" name="name" value="{{ addon.name }}" />
+          <input type="hidden"
+                 name="name"
+                 value="{% if instance %}{{ instance.name }}{% else %}{{ addon.name }}{% endif %}" />
           {% crispy form %}
         </div>
         <div class="card-footer">

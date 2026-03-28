@@ -104,7 +104,10 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
                 category="backup", message="borg output", stdout=error.stdout
             )
             report_error("Borg failed")
-            raise BackupError(cleanup_error_message(error.stdout)) from error
+            msg = cleanup_error_message(error.stdout or "")
+            if not msg.strip():
+                msg = f"Borg exited with status {error.returncode} without any output"
+            raise BackupError(msg) from error
 
 
 def initialize(location: str, passphrase: str) -> str:

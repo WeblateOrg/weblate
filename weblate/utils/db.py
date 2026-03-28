@@ -23,10 +23,6 @@ class MissingTransactionError(ProgrammingError):
     pass
 
 
-def using_postgresql():
-    return connections["default"].vendor == "postgresql"
-
-
 def adjust_similarity_threshold(value: float) -> None:
     """
     Adjust pg_trgm.similarity_threshold for the % operator.
@@ -73,7 +69,7 @@ class PostgreSQLFallbackLookupMixin(Lookup):
     def process_lhs(self, compiler, connection, lhs=None):
         if self._needs_fallback:  # type: ignore[attr-defined]
             lhs_sql, params = super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]
-            if self.lookup_name in {"search", "substring"}:
+            if self.lookup_name in {"trgm_search", "substring"}:
                 # These are matched against UPPER, so convert them
                 return f"UPPER({lhs_sql})", params
             # This concatenation will prevent using trigram index
@@ -96,7 +92,7 @@ class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
 
 
 class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
-    lookup_name = "search"
+    lookup_name = "trgm_search"
 
     def process_rhs(self, qn, connection):
         if not self._needs_fallback:

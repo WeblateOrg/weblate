@@ -255,7 +255,7 @@ class AddonGuideline(Guideline):
     url = "addons"
 
     def is_passing(self):
-        return self.addon in self.component.addons_cache["__names__"]
+        return self.addon in self.component.addons_cache.names
 
     def is_relevant(self):
         if self.addon not in ADDONS:

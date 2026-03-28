@@ -59,6 +59,7 @@ from weblate.api.serializers import (
     CategorySerializer,
     ChangeSerializer,
     CommentSerializer,
+    ComponentLinkRequestSerializer,
     ComponentListSerializer,
     ComponentSerializer,
     FullUserSerializer,
@@ -109,6 +110,7 @@ from weblate.trans.models import (
     Category,
     Change,
     Component,
+    ComponentLink,
     ComponentList,
     Label,
     PendingUnitChange,
@@ -597,6 +599,10 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == "POST":
             obj.add_team(request, group)
         if request.method == "DELETE":
+            if obj.is_bot and not obj.groups.exclude(pk=group.pk).exists():
+                raise ValidationError(
+                    gettext_lazy("At least one team is required for a project token.")
+                )
             obj.remove_team(request, group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
 
@@ -1175,7 +1181,9 @@ class ProjectViewSet(
         page = super().paginate_queryset(queryset)
         if not isinstance(queryset, ProjectQuerySet):
             return page
-        return prefetch_project_flags(page)
+        if page is None:
+            return None
+        return prefetch_project_flags(cast("list[Project]", page))
 
     @extend_schema(
         description="Return a list of translation components in the given project.",
@@ -1507,7 +1515,9 @@ class ProjectViewSet(
                 raise ValidationError({"service": "Missing service name"}) from error
 
             service, configuration, errors = validate_service_configuration(
-                service_name, request.data.get("configuration", "{}")
+                service_name,
+                request.data.get("configuration", "{}"),
+                allow_private_targets=False,
             )
 
             if service is None or errors:
@@ -1546,7 +1556,9 @@ class ProjectViewSet(
             valid_configurations: dict[str, dict] = {}
             for service_name, configuration in request.data.items():
                 service, configuration, errors = validate_service_configuration(
-                    service_name, configuration
+                    service_name,
+                    configuration,
+                    allow_private_targets=False,
                 )
 
                 if service is None or errors:
@@ -1814,24 +1826,29 @@ class ComponentViewSet(
     def add_link(self, request: Request, instance: Component):
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
-        if "project_slug" not in request.data:
-            msg = "Missing 'project_slug' parameter"
+
+        serializer = ComponentLinkRequestSerializer(
+            data=request.data,
+            context={"request": request, "component": instance},
+        )
+        serializer.is_valid(raise_exception=True)
+
+        project = serializer.validated_data["project"]
+        category = serializer.validated_data["category"]
+
+        _link, created = ComponentLink.objects.get_or_create(
+            component=instance, project=project, defaults={"category": category}
+        )
+        if not created:
+            msg = f"This component is already shared in {project}."
             raise ValidationError({"project_slug": msg})
 
-        project_slug = request.data["project_slug"]
-
-        try:
-            project = request.user.allowed_projects.exclude(pk=instance.project_id).get(
-                slug=project_slug
-            )
-        except Project.DoesNotExist as error:
-            msg = f"No project slug {project_slug!r} found!"
-            raise ValidationError({"project_slug": msg}) from error
-
-        instance.links.add(project)
-        serializer = self.serializer_class(instance, context={"request": request})
-
-        return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+        response_serializer = self.serializer_class(
+            instance, context={"request": request}
+        )
+        return Response(
+            data={"data": response_serializer.data}, status=HTTP_201_CREATED
+        )
 
     @extend_schema(
         description="Return projects linked with a component.", methods=["get"]
@@ -1861,12 +1878,12 @@ class ComponentViewSet(
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
 
-        try:
-            project = instance.links.get(slug=project_slug)
-        except Project.DoesNotExist as error:
+        deleted, _ = ComponentLink.objects.filter(
+            component=instance, project__slug=project_slug
+        ).delete()
+        if not deleted:
             msg = "Project not found"
-            raise Http404(msg) from error
-        instance.links.remove(project)
+            raise Http404(msg)
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["get"])
