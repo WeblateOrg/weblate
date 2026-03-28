@@ -289,7 +289,7 @@ class ViewTest(RepoTestCase):
             response, "This username/password combination was not found."
         )
 
-    @override_settings(
+    @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
             "django.contrib.auth.backends.ModelBackend",
             "weblate.accounts.auth.WeblateUserBackend",
@@ -301,7 +301,7 @@ class ViewTest(RepoTestCase):
         response = self.client.get(reverse("login"))
         self.assertContains(response, 'href="https://id.example.net/password-reset"')
 
-    @override_settings(
+    @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
             "django.contrib.auth.backends.ModelBackend",
             "weblate.accounts.auth.WeblateUserBackend",
@@ -312,6 +312,18 @@ class ViewTest(RepoTestCase):
     def test_login_without_configured_password_reset_url(self) -> None:
         response = self.client.get(reverse("login"))
         self.assertNotContains(response, reverse("password_reset"))
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.email.EmailAuth",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        REGISTRATION_OPEN=False,
+        PASSWORD_RESET_URL=None,
+    )
+    def test_login_uses_internal_password_reset_url(self) -> None:
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, f'href="{reverse("password_reset")}"')
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False) -> None:

@@ -134,6 +134,9 @@ class WeblateAccountsConf(AppConf):
     SOCIAL_AUTH_SAML_IMAGE = "saml.svg"
     SOCIAL_AUTH_SAML_TITLE = "SAML"
 
+    # URL for password reset page when using external identity provider
+    PASSWORD_RESET_URL = None
+
     MAXIMAL_PASSWORD_LENGTH = 72
 
     # Login required URLs

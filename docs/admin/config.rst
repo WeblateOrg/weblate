@@ -1459,6 +1459,18 @@ Defaults to 0, which means strength checking is disabled.
    * :ref:`password-authentication`
    * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
+.. setting:: PASSWORD_RESET_URL
+
+PASSWORD_RESET_URL
+------------------
+
+.. versionadded:: 5.17
+
+URL for password reset when authentication is handled by an external identity provider
+such as LDAP, SAML, or OAuth.
+
+When set, :guilabel:`Forgot your password?` on the sign-in page links to this URL
+instead of Weblate's built-in password reset page.
 
 .. setting:: PRIVACY_URL
 

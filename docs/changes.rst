@@ -8,6 +8,8 @@ Weblate 5.17
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
 * Shared components can now be categorized within the target project.
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
+* Added :setting:`PASSWORD_RESET_URL` to customize the sign-in page password reset link, useful for external identity providers (Docker env: :envvar:`WEBLATE_PASSWORD_RESET_URL`).
+
 
 .. rubric:: Improvements
 
