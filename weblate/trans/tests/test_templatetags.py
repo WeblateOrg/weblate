@@ -706,6 +706,7 @@ Tradução [Translation]">Translation</span> comment</span>
             """,
         )
 
+
 class DiffTestCase(SimpleTestCase):
     """Testing of HTML diff function."""
 
