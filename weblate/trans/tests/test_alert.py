@@ -4,11 +4,16 @@
 
 """Test for alerts."""
 
+import os
+import tempfile
+from pathlib import Path
 from unittest.mock import patch
 
 from django.test import override_settings
 from django.urls import reverse
 
+from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
+from weblate.addons.models import Addon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.alert import update_alerts
@@ -179,6 +184,22 @@ class AlertTest(ViewTestCase):
 
         self.assertFalse(component.alert_set.filter(name="DuplicateFilemask").exists())
 
+    def test_inexistent_files_reject_symlinked_auxiliary_file(self) -> None:
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        self.component.new_base = "alert-base.pot"
+        self.component.save(update_fields=["new_base"])
+        os.symlink(
+            handle.name, os.path.join(self.component.full_path, "alert-base.pot")
+        )
+
+        update_alerts(self.component, {"InexistantFiles"})
+
+        alert = self.component.alert_set.get(name="InexistantFiles")
+        self.assertEqual(alert.details["files"], ["alert-base.pot"])
+
 
 class LanguageAlertTest(ViewTestCase):
     def create_component(self):
@@ -190,6 +211,101 @@ class LanguageAlertTest(ViewTestCase):
         component.add_new_language(Language.objects.get(code="ku"), self.get_request())
         component.update_alerts()
         self.assertTrue(component.alert_set.filter(name="AmbiguousLanguage").exists())
+
+
+class ExtractPotAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_missing_msgmerge_alert(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        self.component.update_alerts()
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
+
+    def test_missing_msgmerge_alert_cleared_by_project_msgmerge(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        self.component.update_alerts()
+        MsgmergeAddon.create(project=self.component.project, run=False)
+        self.component.refresh_from_db()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
+
+    def test_missing_msgmerge_alert_ignores_inherited_incompatible_extractor(
+        self,
+    ) -> None:
+        SphinxAddon.create(
+            project=self.component.project,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "filter_mode": "none",
+            },
+        )
+
+        self.component.update_alerts()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
+
+    def test_missing_msgmerge_alert_ignores_invalid_addon(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        Addon.objects.bulk_create(
+            [Addon(component=self.component, name="weblate.addon.nonexisting")]
+        )
+
+        self.component.update_alerts()
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
 
 
 class MonolingualAlertTest(ViewTestCase):

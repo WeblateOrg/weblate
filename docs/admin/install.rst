@@ -254,6 +254,9 @@ Django REST Framework
      * - ``saml2idp``
        - | `djangosaml2idp2 <https://pypi.org/project/djangosaml2idp2>`_
        - Integrating SAML 2 IDP into Weblate
+     * - ``sphinx``
+       - | `Sphinx <https://pypi.org/project/Sphinx>`_
+       - Needed for :ref:`addon-weblate.gettext.sphinx`
 
      * - ``wlhosted``
        - | `wlhosted <https://pypi.org/project/wlhosted>`_

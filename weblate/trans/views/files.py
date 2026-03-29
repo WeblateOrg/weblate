@@ -6,7 +6,7 @@ from __future__ import annotations
 import os
 from typing import TYPE_CHECKING
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext
@@ -89,15 +89,17 @@ def download_multi(
             if translation.component_id in components:
                 continue
             components.add(translation.component_id)
-            for filename in (
-                translation.component.template,
-                translation.component.new_base,
-                translation.component.intermediate,
+            for getter in (
+                translation.component.get_template_filename,
+                translation.component.get_new_base_filename,
+                translation.component.get_intermediate_filename,
             ):
-                if filename:
-                    fullname = os.path.join(translation.component.full_path, filename)
-                    if os.path.exists(fullname):
-                        filenames.add(fullname)
+                try:
+                    fullname = getter()
+                except ValidationError:
+                    continue
+                if fullname and os.path.exists(fullname):
+                    filenames.add(fullname)
 
     return zip_download(data_dir("vcs"), sorted(filenames), name, extra=extra)
 

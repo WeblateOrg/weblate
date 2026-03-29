@@ -46,6 +46,10 @@ class DeepLTranslation(
     target_language_map: ClassVar[dict[str, str]] = {
         "PT": "PT-PT",
     }
+    trusted_error_hosts: ClassVar[set[str]] = {
+        "api.deepl.com",
+        "api-free.deepl.com",
+    }
     highlight_syntax = True
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000

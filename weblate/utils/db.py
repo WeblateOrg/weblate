@@ -37,7 +37,7 @@ def adjust_similarity_threshold(value: float) -> None:
 
     current_similarity = getattr(connection, "weblate_similarity", -1)
     # Ignore small differences
-    if abs(current_similarity - value) < 0.05:
+    if round(abs(current_similarity - value), 3) < 0.05:
         return
 
     with connection.cursor() as cursor:
@@ -53,6 +53,10 @@ def adjust_similarity_threshold(value: float) -> None:
 
 def count_alnum(string):
     return sum(map(str.isalnum, string))
+
+
+def use_trgm_fallback(string: str) -> bool:
+    return count_alnum(string) <= 3
 
 
 class PostgreSQLFallbackLookupMixin(Lookup):
@@ -79,7 +83,7 @@ class PostgreSQLFallbackLookupMixin(Lookup):
 
 class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
     def __init__(self, lhs, rhs) -> None:
-        self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
+        self._needs_fallback = isinstance(rhs, str) and use_trgm_fallback(rhs)
         super().__init__(lhs, rhs)
 
 

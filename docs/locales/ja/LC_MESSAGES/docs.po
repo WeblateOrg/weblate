@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-21 10:10+0000\n"
+"PO-Revision-Date: 2026-03-28 18:13+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -26379,16 +26379,13 @@ msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"新しい管理コマンド :wladmin:`list_change_events` が追加されました。これは利用"
+"可能なすべての変更イベントを一覧表示するものです。参照: :ref:`addon-choice-"
+"events`。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "Added new Ollama machinery tool for local Ollama AI model integration, "
-#| "see :ref:`mt-ollama`."
 msgid "Added Anthropic machinery integration, see :ref:`mt-anthropic`."
-msgstr ""
-"ローカルの Ollama AI モデルと連携するための新しいOllama翻訳支援ツールを追加し"
-"ました。詳細は :ref:`mt-ollama` を参照してください。"
+msgstr "Anthropic の機械翻訳統合が追加されました。参照: :ref:`mt-anthropic`。"
 
 #: ../../changes.rst:38
 msgid ""
@@ -26396,14 +26393,17 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+":ref:`formats` のエンコーディングは、:ref:`file_format_params` （例: "
+"``csv_encoding``、``properties_encoding``）を使用して設定できるようになりまし"
+"た。"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid ""
 "Added support for anonymous commit names "
 "via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr ":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` を設定します。"
+msgstr ""
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE` により、匿名のコミット名がサポートさ"
+"れるようになりました。"
 
 #: ../../changes.rst:40
 msgid ""
@@ -26411,16 +26411,23 @@ msgid ""
 "and :ref:`txt` files using ``*merge_duplicates`` parameters "
 "in :ref:`file_format_params`."
 msgstr ""
+":ref:`file_format_params` の ``*merge_duplicates`` パラメーターを使用して"
+"、:ref:`markdown`、:ref:`html`、:ref:`txt` ファイル内の同一文字列を統合します"
+"。"
 
 #: ../../changes.rst:44
 msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"お知らせの削除権限はチームに割り当てることができます。参照: "
+":ref:`privileges`。"
 
 #: ../../changes.rst:45
 msgid ":doc:`/user/search` better reports errors in the query strings."
 msgstr ""
+":doc:`/user/search` は、クエリ文字列内のエラーをより適切に報告するようになり"
+"ました。"
 
 #: ../../changes.rst:46
 msgid "Regular repository maintenance is now performed in the background."
@@ -44893,10 +44900,8 @@ msgid ""
 msgstr "一部のファイル形式のより詳細なワークフローは以下の章で説明します。"
 
 #: ../../devel/starting.rst:89
-#, fuzzy
-#| msgid "Starting with internationalization"
 msgid "Educating developers for proper internationalization"
-msgstr "国際化に向けた取り組み"
+msgstr "適切な国際化手法について開発者を教育する"
 
 #: ../../devel/starting.rst:91
 msgid ""
@@ -44907,6 +44912,11 @@ msgid ""
 "frameworks have good support for this, so please follow their instructions "
 "for all these areas."
 msgstr ""
+"ソフトウェアの国際化は、単に文字列を翻訳できるようにするだけではなく、他国の"
+"ユーザーにとってそのソフトウェア全体が“自分の国のもの”として自然に見えるよう"
+"にすることです。これには、日付や数値の書式、通貨の表示、文字入力の方向なども"
+"含まれます。ほとんどのソフトウェア フレームワークはこれに対応しているため、各"
+"分野についてフレームワークの指示に従ってください。"
 
 #: ../../devel/starting.rst:97
 msgid ""
@@ -44917,6 +44927,11 @@ msgid ""
 "might not be clear how to translate, and it is even challenging to "
 "distinguish whether the word is a verb or a noun."
 msgstr ""
+"文字列の翻訳は、必ずしも単純な作業ではありません。特にキャプションや"
+"ボタンラベルのような短い文字列ではその傾向が強くなります。言語ごとに異なる規"
+"則があり、同じ文字列が常に同じように翻訳されるとは限りません。また、多くの場"
+"面で適切な訳し方が明確でないこともあり、単語が動詞なのか名詞なのかを判断する"
+"ことさえ難しい場合があります。"
 
 #: ../../devel/starting.rst:104
 msgid ""
@@ -44927,6 +44942,12 @@ msgid ""
 "additional context in Weblate, such as :ref:`screenshots` "
 "or :ref:`additional-explanation`."
 msgstr ""
+"すべての開発者はこれを理解し、異なるスコープで使用される文字列を一意に識別す"
+"る必要があります。たとえば、「ユーザーがいない」という意味の ``None`` は、「"
+"項目がない」という意味の ``None`` とは異なる訳になる可能性があります。翻訳者"
+"が区別できるように、異なるキーやコンテキストを使用してください。Weblate では"
+"、:ref:`screenshots` や :ref:`additional-explanation` などの追加コンテキスト"
+"を提供できます。"
 
 #: ../../devel/success-stories.rst:2
 msgid "Success stories"
@@ -46740,10 +46761,8 @@ msgid "Help text"
 msgstr "説明"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "System encoding"
 msgid "csv_encoding"
-msgstr "システムのエンコーディング"
+msgstr "csv_encoding"
 
 #: ../../formats/apple.rst:37 ../../formats/java.rst:48
 #: ../../snippets/file-format-parameters.rst:7
@@ -46772,10 +46791,8 @@ msgid "UTF-8"
 msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "csv_simple_encoding"
-msgstr "ファイル名のエンコーディング"
+msgstr "csv_simple_encoding"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
@@ -46812,10 +46829,8 @@ msgid "FlatXML value name"
 msgstr "FlatXML 変数名"
 
 #: ../../snippets/file-format-parameters.rst:36
-#, fuzzy
-#| msgid "System encoding"
 msgid "gwt_encoding"
-msgstr "システムのエンコーディング"
+msgstr "gwt_encoding"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
@@ -46863,7 +46878,7 @@ msgstr "区切り文字の後にスペースを入れない"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid "merge_duplicates"
-msgstr ""
+msgstr "merge_duplicates"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid "Deduplicate identical strings"
@@ -46934,10 +46949,8 @@ msgid "Do not include location information in the file"
 msgstr "ファイルにロケーション情報を含めないでください"
 
 #: ../../snippets/file-format-parameters.rst:115
-#, fuzzy
-#| msgid "properties"
 msgid "properties_encoding"
-msgstr "プロパティ"
+msgstr "properties_encoding"
 
 #: ../../snippets/file-format-parameters.rst:115
 msgid "Encoding used for Java Properties files"
@@ -46949,10 +46962,8 @@ msgid "UTF-16"
 msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:128
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "strings_encoding"
-msgstr "ファイル名のエンコーディング"
+msgstr "strings_encoding"
 
 #: ../../snippets/file-format-parameters.rst:128
 msgid "Encoding used for iOS strings files"
@@ -47235,14 +47246,12 @@ msgstr ""
 "Localizable.strings``"
 
 #: ../../formats/apple.rst:35
-#, fuzzy
-#| msgid "iOS strings"
 msgid "`iOS Strings`"
-msgstr "iOS の文字列"
+msgstr "`iOS Strings`"
 
 #: ../../formats/apple.rst:37
 msgid "`UTF-8`"
-msgstr ""
+msgstr "`UTF-8`"
 
 #: ../../formats/appstore.rst:6
 msgid ""
@@ -47423,21 +47432,14 @@ msgstr ""
 "さい。参照: :ref:`bimono`。"
 
 #: ../../formats/csv.rst:27
-#, fuzzy
-#| msgid ""
-#| "By default, the CSV format does autodetection of file encoding. This can "
-#| "be unreliable in some corner cases and causes performance penalty. Please "
-#| "choose file format variant with encoding to avoid this (for "
-#| "example :guilabel:`CSV file (UTF-8)`)."
 msgid ""
 "By default, the CSV format does autodetection of file encoding. This can be "
 "unreliable in some corner cases and causes performance penalty. Please "
 "choose a file format encoding to avoid this (for example :guilabel:`UTF-8`)."
 msgstr ""
-"デフォルトでは、CSV 形式を選択するとファイルのエンコーディングを自動検出しま"
-"す。一部の特殊なケースでは、正確に判別できず検出速度が低下します。これを避け"
-"るには、エンコーディングを指定したファイル形式を選択してください"
-"（例 :guilabel:`CSV ファイル（UTF-8）`）。"
+"CSV 形式はデフォルトでファイルのエンコーディングを自動検出しますが、これは一"
+"部のケースでは信頼性に欠け、性能の低下を招きます。これを避けるため、ファイル"
+"形式のエンコーディングを指定してください（例：:guilabel:`UTF-8`）。"
 
 #: ../../formats/csv.rst:33
 msgid ""
@@ -47882,10 +47884,8 @@ msgstr "`HTML ファイル`"
 
 #: ../../formats/html.rst:41 ../../formats/markdown.rst:43
 #: ../../formats/txt.rst:49
-#, fuzzy
-#| msgid "Drops duplicate strings."
 msgid "Handling duplicate strings"
-msgstr "重複する文字列を削除する。"
+msgstr "重複文字列の処理"
 
 #: ../../formats/html.rst:43
 msgid ""
@@ -47894,6 +47894,9 @@ msgid ""
 "HTML files, where moving elements changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Weblate はデフォルトで、文字列の各出現箇所を行ベースのコンテキストを提供する"
+"ために別々の翻訳単位として扱います。しかし、HTML ファイルでは要素を移動すると"
+"コンテキストが変化し、翻訳が失われる原因となる場合があります。"
 
 #: ../../formats/html.rst:48 ../../formats/markdown.rst:50
 #: ../../formats/txt.rst:56
@@ -47902,6 +47905,9 @@ msgid ""
 "enable :guilabel:`Deduplicate identical strings` in the :ref:`component-"
 "file_format_params`."
 msgstr ""
+"同一の文字列を 1 つの翻訳単位に統合するには、:ref:`component-"
+"file_format_params` で :guilabel:`Deduplicate identical strings` を有効にして"
+"ください。"
 
 #: ../../formats/html.rst:53
 msgid ""
@@ -47909,6 +47915,9 @@ msgid ""
 "ensuring that translations remain stable even if elements are moved within "
 "the document."
 msgstr ""
+"このオプションを有効にすると、統合された翻訳単位に対する行ベースの"
+"コンテキストが無効になり、ドキュメント内で要素が移動された場合でも翻訳が安定"
+"して保持されます。"
 
 #: ../../formats/i18next.rst:6
 msgid "i18next JSON files"
@@ -48097,14 +48106,12 @@ msgstr ""
 "wiki/.properties>`_"
 
 #: ../../formats/java.rst:46
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "`Java Properties`"
-msgstr "Java プロパティファイル (UTF-8)"
+msgstr "`Java プロパティ`"
 
 #: ../../formats/java.rst:48
 msgid "`ISO-8859-1`"
-msgstr ""
+msgstr "`ISO-8859-1`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
@@ -48246,6 +48253,9 @@ msgid ""
 "Markdown tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Weblate はデフォルトで、文字列の各出現箇所を行ベースのコンテキストを提供する"
+"ために別々の翻訳単位として扱います。しかし、Markdown の表では行を並べ替えると"
+"コンテキストが変化し、翻訳が失われる原因となる場合があります。"
 
 #: ../../formats/markdown.rst:55
 msgid ""
@@ -48253,6 +48263,9 @@ msgid ""
 "ensuring that translations remain stable even if rows or sections are moved "
 "within the document."
 msgstr ""
+"このオプションを有効にすると、統合された翻訳単位に対する行ベースの"
+"コンテキストが無効になり、ドキュメント内で行やセクションが移動された場合でも"
+"翻訳が安定して保持されます。"
 
 #: ../../formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -48666,12 +48679,19 @@ msgid ""
 "paragraphs are frequently reordered, as it changes the context and can lead "
 "to translation loss."
 msgstr ""
+"Weblate はデフォルトで、各段落を行ベースのコンテキストを提供するために別々の"
+"翻訳単位として扱います。しかし、段落の並べ替えが頻繁に行われる"
+"テキストファイルでは、コンテキストが変化して翻訳が失われる原因となる場合があ"
+"ります。"
 
 #: ../../formats/txt.rst:61
 msgid ""
 "This parameter is shared with **DokuWiki** and **MediaWiki** formats. "
 "Enabling this option disables line-based context for the merged units."
 msgstr ""
+"このパラメーターは **DokuWiki** および **MediaWiki** 形式と共通です。この"
+"オプションを有効にすると、統合された翻訳単位に対する行ベースのコンテキストが"
+"無効になります。"
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -49716,6 +49736,8 @@ msgid ""
 "**Data Protection Officer (DPO):** Evaluates if personal data (PII) was "
 "compromised and manages mandatory GDPR notifications."
 msgstr ""
+"**データ保護責任者 (DPO):** 個人データ（PII）が侵害されたかどうかを評価し、"
+"GDPR に基づく必須の通知対応を管理します。"
 
 #: ../../security/incident-response-plan.rst:20
 msgid ""
@@ -49726,61 +49748,51 @@ msgstr ""
 "知を管理します。"
 
 #: ../../security/incident-response-plan.rst:23
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Communication logistics"
-msgstr "現地化コミュニティのチェックリスト"
+msgstr "コミュニケーション上の調整事項"
 
 #: ../../security/incident-response-plan.rst:25
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**Internal Communication:**"
-msgstr "**Weblate アプリケーション**"
+msgstr "**内部向けコミュニケーション：**"
 
 #: ../../security/incident-response-plan.rst:26
 msgid "Primary channel is **Signal** for human-to-human coordination."
-msgstr ""
+msgstr "主要な連絡チャネルは、人同士の調整に **Signal** を使用します。"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Technical alerts remain outside of Signal to avoid noise."
-msgstr ""
+msgstr "技術的な警告はノイズを避けるため、Signal には流さないようにします。"
 
 #: ../../security/incident-response-plan.rst:28
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**External Communication:**"
-msgstr "**Weblate アプリケーション**"
+msgstr "**対外コミュニケーション：**"
 
 #: ../../security/incident-response-plan.rst:29
 msgid "**E-mail** is used to reach customers."
-msgstr ""
+msgstr "顧客への連絡には **メール** を使用します。"
 
 #: ../../security/incident-response-plan.rst:30
 msgid ""
 "Customer contact lists are maintained in several locations to ensure access "
 "during service outages."
 msgstr ""
+"サービス停止中にも接続できるよう、顧客連絡先一覧は複数の場所で管理しています"
+"。"
 
 #: ../../security/incident-response-plan.rst:31
-#, fuzzy
-#| msgid "**Information disclosure**"
 msgid "**Public Disclosure:**"
-msgstr "**情報漏えい**"
+msgstr "**公開情報の開示：**"
 
 #: ../../security/incident-response-plan.rst:32
-#, fuzzy
-#| msgid ""
-#| "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgid ""
 "If a security vulnerability is discovered, follow :doc:`/security/issues`."
 msgstr ""
-"依存関係の脆弱性スキャンを実施します。参照: :doc:`/security/dependencies`。"
+"セキュリティ脆弱性が発見された場合は、:doc:`/security/issues` に従って対応し"
+"てください。"
 
 #: ../../security/incident-response-plan.rst:35
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident categories and severity"
-msgstr "インシデントの分類"
+msgstr "インシデントの分類と重大度"
 
 #: ../../security/incident-response-plan.rst:38
 msgid "Incident categories"
@@ -49804,45 +49816,39 @@ msgstr "カテゴリ 4 – 設定ミスまたはデプロイメント エラー"
 
 #: ../../security/incident-response-plan.rst:46
 msgid "Severity levels and SLAs"
-msgstr ""
+msgstr "重大度レベルと SLA（サービスレベル合意）"
 
 #: ../../security/incident-response-plan.rst:49
 msgid "Severity"
 msgstr "重大度"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Definitions"
 msgid "Definition"
-msgstr "定義"
+msgstr "用語の定義"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target language"
 msgid "Target Acknowledge"
-msgstr "翻訳対象言語"
+msgstr "目標応答時間"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target translation"
 msgid "Target Initial Action"
-msgstr "翻訳先"
+msgstr "初動対応の目標時間"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Critical"
-msgstr ""
+msgstr "重大（クリティカル）"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Total outage; Admin compromise; Active data breach."
-msgstr ""
+msgstr "全サービス停止; 管理者アカウントの侵害; 進行中のデータ漏えい。"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "< 30 Minutes"
-msgstr ""
+msgstr "30 分以内"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "4 Hours"
-msgstr ""
+msgstr "4 時間"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "High"
@@ -49850,15 +49856,15 @@ msgstr "高"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Core feature failure; PII leak of single user."
-msgstr ""
+msgstr "コア機能の障害; 単一ユーザーの個人情報漏えい。"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "< 2 Hours"
-msgstr ""
+msgstr "2 時間以内"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "12 Hours"
-msgstr ""
+msgstr "12 時間"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Medium"
@@ -49866,15 +49872,15 @@ msgstr "中"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Performance degradation; Minor security issue."
-msgstr ""
+msgstr "性能劣化; 軽度のセキュリティ上の問題。"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "1 Business Day"
-msgstr ""
+msgstr "1 営業日"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "3 Business Days"
-msgstr ""
+msgstr "3 営業日"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Low"
@@ -49882,11 +49888,11 @@ msgstr "低"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "UI bugs; Staging issues; Non-security errors."
-msgstr ""
+msgstr "UI の不具合; ステージング環境での問題; 非セキュリティ系のエラー。"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Best Effort"
-msgstr ""
+msgstr "ベストエフォート"
 
 #: ../../security/incident-response-plan.rst:61
 msgid "Incident response lifecycle"
@@ -49897,34 +49903,25 @@ msgid "Preparation"
 msgstr "準備"
 
 #: ../../security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid ""
-#| "Ensure regular daily backups of the PostgreSQL database and the data "
-#| "directory."
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory using Weblate's built-in backup with rotation, see :ref:`backup`."
 msgstr ""
-"PostgreSQL データベースとデータディレクトリの毎日の定期バックアップを確実に実"
-"施します。"
+"PostgreSQL データベースおよびデータディレクトリについて、Weblate の"
+"ローテーション付き組み込みバックアップ機能を用いて、日次の定期バックアップを"
+"確実に実施してください。参照: :ref:`backup`。"
 
 #: ../../security/incident-response-plan.rst:67
-#, fuzzy
-#| msgid ""
-#| "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
-#| "1.2+)."
 msgid ""
 "Ensure Weblate uses a properly configured reverse proxy (e.g., NGINX) with "
 "HTTPS (TLS 1.2+)."
 msgstr ""
-"NGINX や Apache などのリバースプロキシと、HTTPS（TLS 1.2 以上）を使用して "
-"Weblate を保護します。"
+"Weblate は、HTTPS（TLS 1.2 以上）を有効化した適切に設定済みのリバースプロキシ"
+"（例：NGINX）経由で運用することが必要です。"
 
 #: ../../security/incident-response-plan.rst:68
-#, fuzzy
-#| msgid "Enable 2FA for admin-level accounts."
 msgid "Enable 2FA for all admin-level accounts."
-msgstr "管理者レベルのアカウントで 2FA を有効にします。"
+msgstr "管理者レベルのすべてのアカウントで 2FA を有効化してください。"
 
 #: ../../security/incident-response-plan.rst:69
 msgid ""
@@ -49961,20 +49958,12 @@ msgstr ""
 "す。"
 
 #: ../../security/incident-response-plan.rst:77
-#, fuzzy
-#| msgid ""
-#| "Configure alerting (e.g., via Prometheus, Zabbix, or SIEM) for: - "
-#| "Multiple login failures - Unexpected service restarts or memory usage "
-#| "spikes - Irregular push/pull actions from version control systems"
 msgid ""
 "Configure alerting (via Prometheus, Zabbix, or SIEM) for multiple login "
 "failures, unexpected restarts, or irregular VCS actions."
 msgstr ""
-"次の事象に対して、Prometheus、Zabbix、または SIEM などを用いてアラートを設定"
-"します：\n"
-"- 複数回のログイン失敗\n"
-"- 想定外のサービス再起動やメモリ使用量の急増\n"
-"- バージョン管理システムからの不規則な push / pull 操作"
+"複数回のログイン失敗、予期しない再起動、異常な VCS アクションを監視し、"
+"Prometheus、Zabbix、SIEM などで警告を適切に設定してください。"
 
 #: ../../security/incident-response-plan.rst:80
 msgid "Containment"
@@ -49985,16 +49974,20 @@ msgid ""
 "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
 "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgstr ""
+"**フォレンジック保全：** カテゴリ 1／2 のインシデント発生時は、影響を伴う作業"
+"に着手する前に、手動で **Hetzner Cloud Snapshot** を必ず取得してください。"
 
 #: ../../security/incident-response-plan.rst:83
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
-msgstr ""
+msgstr "名前形式: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``。"
 
 #: ../../security/incident-response-plan.rst:84
 msgid ""
 "These are separate from standard rotating backups and must be preserved for "
 "analysis."
 msgstr ""
+"これらは通常のローテーションバックアップとは独立しており、後続の分析に備えて"
+"必ず保全してください。"
 
 #: ../../security/incident-response-plan.rst:85
 msgid ""
@@ -50040,19 +50033,19 @@ msgid "Recovery"
 msgstr "復旧"
 
 #: ../../security/incident-response-plan.rst:99
-#, fuzzy
-#| msgid ""
-#| "Restore affected services or data from the latest known-good backups."
 msgid ""
 "Restore affected services or data from the latest known-good Weblate backups."
 msgstr ""
-"影響を受けたサービスやデータを、既知の正常な最新バックアップから復元します。"
+"影響を受けたサービスやデータは、正常性が確認されている最新の Weblate "
+"バックアップから復元してください。"
 
 #: ../../security/incident-response-plan.rst:100
 msgid ""
 "**PII Assessment:** DPO determines if the breach requires a 72-hour GDPR "
 "notification."
 msgstr ""
+"**PII 評価：** DPO が、当該侵害が GDPR に基づく 72 時間以内の通知対象かどうか"
+"を判定します。"
 
 #: ../../security/incident-response-plan.rst:101
 msgid "Reintroduce services in a phased approach."
@@ -50074,6 +50067,8 @@ msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
 "closure."
 msgstr ""
+"**タイムライン：** インシデント クローズ後 **5 営業日以内** に査読会議を実施"
+"してください。"
 
 #: ../../security/incident-response-plan.rst:108
 msgid "Compile a full incident timeline and actions taken."
@@ -50081,18 +50076,16 @@ msgstr ""
 "インシデントの発生から解決までのタイムラインと、実施した対応内容を整理する。"
 
 #: ../../security/incident-response-plan.rst:109
-#, fuzzy
-#| msgid "Perform Root Cause Analysis (RCA)."
 msgid ""
 "Perform Root Cause Analysis (RCA) and document it within **10 business "
 "days**."
-msgstr "根本原因分析（RCA）を実施する。"
+msgstr "根本原因分析（RCA）を実施し、結果を **10 営業日以内** に文書化すること。"
 
 #: ../../security/incident-response-plan.rst:110
-#, fuzzy
-#| msgid "Update security policies and IRP documentation."
 msgid "Update security policies and IRP documentation based on findings."
-msgstr "セキュリティポリシーと IRP（インシデント対応計画）文書を更新する。"
+msgstr ""
+"調査結果を踏まえ、セキュリティポリシーおよび IRP（インシデント対応手順）文書"
+"を更新すること。"
 
 #: ../../security/incident-response-plan.rst:111
 msgid "Review the effectiveness of detection and containment mechanisms."
@@ -51174,48 +51167,25 @@ msgid "Weblate threat model"
 msgstr "Weblate の脅威モデル"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
 "Celery), and integration with external VCS."
 msgstr ""
-"**スコープ：** Weblate のコアとなる Web アプリケーション、そのユーザー ブラウ"
-"ザとの相互作用、バックエンド コンポーネント（Web サーバー、WSGI、データベー"
-"ス、データストア、Celery）、および外部 VCS との統合。\n"
-"**前提条件：** 標準的な Weblate デプロイメントを想定し、一般的な構成要素"
-"（nginx / Apache、Gunicorn / uWSGI、PostgreSQL、データストア、Celery）と、"
-"ユーザー役割（未認証ユーザー、翻訳者、プロジェクトマネージャー、管理者）を含"
-"みます。"
+"**対象範囲：** Weblate のコア Web アプリケーション、ユーザーブラウザとの通信"
+"、バックエンド（Web サーバー、WSGI、データベース、データストア、Celery）およ"
+"び外部 VCS 連携を含む一連のコンポーネントを対象とします。"
 
 #: ../../security/threat-model.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Assumptions:** Standard Weblate deployment with typical components (nginx/"
 "Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user "
 "roles (Unauthenticated, Translator, Project Manager, Administrator)."
 msgstr ""
-"**スコープ：** Weblate のコアとなる Web アプリケーション、そのユーザー ブラウ"
-"ザとの相互作用、バックエンド コンポーネント（Web サーバー、WSGI、データベー"
-"ス、データストア、Celery）、および外部 VCS との統合。\n"
-"**前提条件：** 標準的な Weblate デプロイメントを想定し、一般的な構成要素"
-"（nginx / Apache、Gunicorn / uWSGI、PostgreSQL、データストア、Celery）と、"
-"ユーザー役割（未認証ユーザー、翻訳者、プロジェクトマネージャー、管理者）を含"
-"みます。"
+"**前提条件：** Weblate の標準的なデプロイ構成（nginx / Apache、granian / "
+"Gunicorn / uWSGI、PostgreSQL、データストア、Celery）および一般的な"
+"ユーザーロール（未認証、翻訳者、プロジェクトマネージャー、管理者）を前提とし"
+"ています。"
 
 #: ../../security/threat-model.rst:9
 msgid "System description and scope"
@@ -51904,6 +51874,8 @@ msgid ""
 "Weblate and all it's dependencies have publicly available source code "
 "meaning it can usually be exported and reexported without restriction."
 msgstr ""
+"Weblate およびその依存コンポーネントはすべて公開ソースコードで提供されている"
+"ため、一般的に輸出・再輸出に関する制限を受けません。"
 
 #: ../../security/us-compliance.rst:27
 msgid ""
@@ -51919,7 +51891,7 @@ msgstr "`Python <https://www.python.org/>`_"
 
 #: ../../security/us-compliance.rst:31
 msgid "`Cryptography <https://cryptography.io/>`_"
-msgstr ""
+msgstr "`暗号技術 <https://cryptography.io/>`_"
 
 #: ../../security/us-compliance.rst:32
 msgid "`GnuPG <https://www.gnupg.org/>`_"
@@ -53833,6 +53805,10 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"誤った大文字化を検出するために、通常は小文字または一般的な大文字化で書かれる"
+"文中で、連続した大文字を含む単語（例: ``HEllo`` や ``CAmelCase``）を検査しま"
+"す。元の文字列に大文字が含まれている場合、翻訳でも同様に大文字を使用して構い"
+"ません。"
 
 #: ../../user/checks.rst:1501
 msgid "Non‑standard characters in Kabyle"
@@ -53979,14 +53955,12 @@ msgstr ""
 "います。"
 
 #: ../../user/checks.rst:1643
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ""
 "Use :ref:`check-placeholders` for detecting missing placeholders in the "
 "string."
 msgstr ""
-":ref:`check-same` 検査は、厳密モードでもプレースホルダを優先するように改良。"
+"プレースホルダーの欠落を検出するには、:ref:`check-placeholders` を使用してく"
+"ださい。"
 
 #: ../../user/checks.rst:1647
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
@@ -54245,10 +54219,8 @@ msgstr ""
 "可能性があるためです。"
 
 #: ../../user/checks.rst:1896
-#, fuzzy
-#| msgid "Number of characters"
 msgid "XML surrounding characters"
-msgstr "文字数"
+msgstr "XML の囲み文字"
 
 #: ../../user/checks.rst:1899
 msgid ""
@@ -54261,6 +54233,9 @@ msgid ""
 "both source and translation. Ensures letters are not replaced with non-"
 "letters, and vice versa."
 msgstr ""
+"XML タグの前後にある文字が、原文と翻訳で一致しているかを検証します。文字が非"
+"文字に置換されていないこと、また非文字が文字に置換されていないことを確認しま"
+"す。"
 
 #: ../../user/checks.rst:1918
 msgid "XML syntax"
@@ -56364,11 +56339,6 @@ msgid "Actual permissions might vary depending on your Weblate configuration."
 msgstr "実際の権限は、Weblate の構成によって異なります。"
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "Anonymous users (by default) can only forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about a "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
@@ -56376,9 +56346,10 @@ msgid ""
 "existing suggestion into the translation fields, including plural forms, and "
 "use it as the basis for a new suggestion or translation."
 msgstr ""
-"匿名のユーザーは、（デフォルトでは）提案しかできません。サインインしている"
-"ユーザーも、翻訳に不安がある場合は、他の翻訳者に翻訳を確認してもらうために提"
-"案を使用できます。"
+"匿名ユーザー（初期設定）には提案の転送のみが許可されます。この機能は、翻訳内"
+"容に不確実性がある場合に他の翻訳者の確認を促す目的で、ログインユーザーでも利"
+"用可能です。すべてのユーザーは、既存の提案を翻訳フィールド（複数形フォームを"
+"含む）へ複製し、新たな提案または翻訳の基礎として使用できます。"
 
 #: ../../user/translating.rst:60
 msgid ""
@@ -56396,6 +56367,10 @@ msgid ""
 "suggestions from trusted contributors. Suggestions failing quality checks "
 "are skipped and remain for manual review."
 msgstr ""
+":guilabel:`提案を承認` 権限を持つユーザーは、特定ユーザーの提案横に表示される"
+"アカウントチェックアイコンをクリックすることで、そのユーザーの提案を一括承認"
+"できます。これは信頼性の高い貢献者からの提案を効率的に処理する際に有用です。"
+"品質検査に不合格となった提案は自動承認されず、手動査読として残ります。"
 
 #: ../../user/translating.rst:74
 msgid "Three types of comments can be posted:"
@@ -56509,17 +56484,14 @@ msgstr ""
 "（参照: :ref:`secondary-languages`）。"
 
 #: ../../user/translating.rst:141
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestions made by others, to "
 "be accepted (✓), accepted with changes (✏️), bulk accepted for a specific "
 "user (👤✓), cloned into the translation fields (📑) or deleted (🗑)."
 msgstr ""
-"翻訳文の下に他の翻訳者からの提案が表示され、採用 (✓) 、採用して編集 (✏️)、また"
-"は削除 (🗑) ができます。"
+"翻訳欄の下には、他のユーザーが提出した提案が一覧表示されます。翻訳者は、提案"
+"を承認（✓）、修正して承認（✏️）、特定ユーザー分を一括承認（👤✓）、翻訳"
+"フィールドへ複製（📑）、または削除（🗑）する操作ができます。"
 
 #: ../../user/translating.rst:148
 msgid "Plurals"
@@ -56887,6 +56859,8 @@ msgid ""
 "Further clarification can be provided in Weblate via :ref:`additional-"
 "explanation`."
 msgstr ""
+"必要に応じて、Weblate の :ref:`additional-explanation` を使用して追加の説明を"
+"提供できます。"
 
 #: ../../user/translating.rst:311
 msgid ""
@@ -58298,10 +58272,8 @@ msgstr ""
 "が必要です。"
 
 #: ../../wlc.rst:22
-#, fuzzy
-#| msgid "You can also designate what project :program:`wlc` should work on:"
 msgid "You can also execute it directly using :program:`uvx`:"
-msgstr ":program:`wlc` で作業するプロジェクトの指定方法:"
+msgstr ":program:`uvx` を使用して直接実行することもできます。"
 
 #: ../../wlc.rst:30
 msgid ""

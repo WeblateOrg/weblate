@@ -65,6 +65,8 @@ class WeblateConf(AppConf):
 def validate_service_configuration(
     service_name: str,
     configuration: str | SettingsDict,
+    *,
+    allow_private_targets: bool = True,
 ) -> tuple[BatchMachineTranslation | None, SettingsDict, list[str]]:
     """
     Validate given service configuration.
@@ -94,7 +96,11 @@ def validate_service_configuration(
 
     errors = []
     if service.settings_form is not None:
-        form = service.settings_form(service, data=service_configuration)
+        form = service.settings_form(
+            service,
+            data=service_configuration,
+            allow_private_targets=allow_private_targets,
+        )
         # validate form
         if not form.is_valid():
             errors.extend([str(error) for error in form.non_field_errors()])
