@@ -19,12 +19,13 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Count, F
+from django.db.models import Count, Exists, F, OuterRef
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import override
 
+from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
@@ -530,6 +531,37 @@ def category_removal(pk: int, uid: int) -> None:
     transaction.on_commit(batch.flush)
 
 
+def cleanup_project_tokens(project: Project, user: User | None) -> None:
+    """Remove project-scoped tokens before project groups are deleted."""
+    other_project_groups = User.groups.through.objects.filter(
+        user_id=OuterRef("pk"),
+        group__defining_project__isnull=False,
+    ).exclude(group__defining_project=project)
+    project_tokens = (
+        User.objects.filter(
+            groups__defining_project=project,
+            is_bot=True,
+            username__startswith="bot-",
+            email__endswith="@bots.noreply.weblate.org",
+        )
+        .exclude(username__contains=":")
+        .exclude(full_name="Deleted User")
+        .annotate(has_other_project_groups=Exists(other_project_groups))
+        .filter(has_other_project_groups=False)
+        .distinct()
+        .order_by("pk")
+    )
+    username = user.username if user is not None else None
+    for token_user in project_tokens.iterator():
+        remove_user(
+            token_user,
+            None,
+            activity="token-removed",
+            project=project.name,
+            username=username,
+        )
+
+
 @app.task(
     trail=False,
     autoretry_for=(IntegrityError,),
@@ -554,6 +586,7 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
             user=user,
             author=user,
         )
+        cleanup_project_tokens(project, user)
         batch = RemovalBatch()
         with removal_batch_context(batch):
             project.delete()

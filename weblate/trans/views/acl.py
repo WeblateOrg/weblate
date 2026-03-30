@@ -209,7 +209,13 @@ def delete_user(request: AuthenticatedHttpRequest, project):
         else:
             if user.is_bot:
                 redirect_url = "#api"
-                remove_user(user, request)
+                remove_user(
+                    user,
+                    request,
+                    activity="token-removed",
+                    project=obj.name,
+                    username=request.user.username,
+                )
             else:
                 obj.remove_user(user)
             obj.change_set.create(
@@ -315,7 +321,7 @@ def create_token(request: AuthenticatedHttpRequest, project):
     form = ProjectTokenCreateForm(obj, request.POST)
 
     if form.is_valid():
-        token = form.save()
+        token = form.save(acting_user=request.user)
         messages.info(
             request,
             render_to_string(

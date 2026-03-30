@@ -22,6 +22,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Project token cleanup now removes stale bots on project deletion and upgrade.
 * Component file handling now validates repository symlinks.
 * Improved REST API permission enforcement.
 * Hardened project-level machine translation against SSRF by blocking private-network targets for untrusted endpoints and hiding untrusted remote error details.
