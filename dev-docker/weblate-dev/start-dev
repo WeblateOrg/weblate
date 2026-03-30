@@ -35,8 +35,8 @@ echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblat
 echo "Installing Weblate requirements..."
 install_deps
 if ! python -c "import xmlsec" 2> /dev/null; then
-    # Clean uv cache in case lxml does not work (typically caused by
-    # upgrade of underlying system or otherwise mixed up libxml versions)
+    # Clean uv cache in case xmlsec (and related lxml/libxml bindings) does not work
+    # (typically caused by upgrade of underlying system or otherwise mixed up libxml versions)
     uv cache clean
     install_deps
 fi

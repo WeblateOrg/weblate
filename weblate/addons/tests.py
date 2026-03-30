@@ -5,13 +5,17 @@
 from __future__ import annotations
 
 import base64
+import contextlib
 import json
 import os
+import shutil
+import subprocess
+import sys
 import tempfile
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 from unittest.mock import patch
 
 import jsonschema.exceptions
@@ -19,6 +23,10 @@ import requests
 import responses
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.core.management.commands.makemessages import (
+    Command as DjangoMakemessagesCommand,
+)
+from django.core.management.utils import find_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -27,6 +35,7 @@ from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -40,6 +49,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_EMPTY,
@@ -48,6 +58,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.unittest import tempdir_setting
+from weblate.vcs.base import RepositoryError
 
 from .autotranslate import AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
@@ -74,26 +85,33 @@ from .generate import (
     PseudolocaleAddon,
 )
 from .gettext import (
+    DJANGO_EXTRACT_RUNNER,
+    DjangoAddon,
     GenerateMoAddon,
     GettextAuthorComments,
     MsgmergeAddon,
+    SphinxAddon,
     UpdateConfigureAddon,
     UpdateLinguasAddon,
+    XgettextAddon,
 )
 from .git import GitSquashAddon
 from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
-from .tasks import addon_change, cleanup_addon_activity_log, daily_addons
+from .tasks import (
+    addon_change,
+    cleanup_addon_activity_log,
+    daily_addons,
+    language_consistency,
+)
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
     from weblate.trans.models import (
         Project,
     )
-
-    from .webhooks import JSONWebhookBaseAddon
 
 
 class NoOpAddon(BaseAddon):
@@ -126,6 +144,7 @@ class CrashAddon(UpdateBaseAddon):
         cls,
         *,
         component: Component | None = None,  # noqa: ARG003
+        category: Category | None = None,  # noqa: ARG003
         project: Project | None = None,  # noqa: ARG003
     ) -> bool:
         return False
@@ -151,6 +170,13 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
+    def test_needs_component_blocks_non_component_install(self) -> None:
+        """Addons with needs_component=True cannot be installed at category/project/site level."""
+        self.assertFalse(DiscoveryAddon.can_install(project=self.project))
+        category = self.create_category(self.project)
+        self.assertFalse(DiscoveryAddon.can_install(category=category))
+        self.assertFalse(DiscoveryAddon.can_install())
+
     def test_example(self) -> None:
         self.assertTrue(ExampleAddon.can_install(component=self.component))
         addon = ExampleAddon.create(component=self.component)
@@ -160,6 +186,20 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon = NoOpAddon.create(component=self.component)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
+
+    def test_create_category_addon(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        addon = NoOpAddon.create(category=category, acting_user=self.user)
+        self.assertEqual(addon.name, "weblate.base.test")
+        self.assertEqual(category.addon_set.count(), 1)
+        self.assertIn("Test category", str(addon.instance))
+        self.component.drop_addons_cache()
+        self.assertIn("weblate.base.test", self.component.addons_cache.names)
+
+        sitewide = Addon.objects.filter_sitewide()
+        self.assertEqual(sitewide.count(), 0)
 
     def test_create_project_addon(self) -> None:
         self.component.project.acting_user = self.component.acting_user
@@ -184,6 +224,16 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon = self.component.addon_set.all()[0]
         self.assertEqual(addon.name, "weblate.base.test")
 
+    def test_add_form_category_addon(self) -> None:
+        category = self.create_category(self.project)
+        form = NoOpAddon.get_add_form(None, category=category, data={})
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(category.addon_set.count(), 1)
+
+        addon = category.addon_set.all()[0]
+        self.assertEqual(addon.name, "weblate.base.test")
+
     def test_add_form_project_addon(self) -> None:
         form = NoOpAddon.get_add_form(None, project=self.component.project, data={})
         self.assertTrue(form.is_valid())
@@ -202,6 +252,18 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
 
         addon = addon_object[0]
         self.assertEqual("Test add-on: site-wide", str(addon))
+
+    def test_nested_category_addon_in_component_cache(self) -> None:
+        """Addon on a parent category should appear in child component's cache."""
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            name="Child", slug="child", project=self.project, category=parent
+        )
+        self.component.category = child
+        self.component.save()
+        NoOpAddon.create(category=parent, acting_user=self.user)
+        self.component.drop_addons_cache()
+        self.assertIn("weblate.base.test", self.component.addons_cache.names)
 
 
 class IntegrationTest(TestAddonMixin, ViewTestCase):
@@ -250,12 +312,10 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertIn("po/cs.po", commit)
 
     def test_crash(self) -> None:
-        self.assertEqual([], self.component.addons_cache["__names__"])
+        self.assertEqual([], self.component.addons_cache.names)
 
         addon = CrashAddon.create(component=self.component)
-        self.assertEqual(
-            ["weblate.base.crash"], self.component.addons_cache["__names__"]
-        )
+        self.assertEqual(["weblate.base.crash"], self.component.addons_cache.names)
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
 
         with self.assertRaises(CrashAddonError):
@@ -268,7 +328,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             user=None,
         )
 
-        self.assertEqual([], self.component.addons_cache["__names__"])
+        self.assertEqual([], self.component.addons_cache.names)
         self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
 
     def test_process_error(self) -> None:
@@ -306,6 +366,46 @@ class GettextAddonTest(ViewTestCase):
         commit = other.repository.show(other.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
+
+    def test_update_linguas_rejects_symlink(self) -> None:
+        translation = self.get_translation()
+        addon = UpdateLinguasAddon.create(component=translation.component)
+
+        with tempfile.NamedTemporaryFile(
+            delete=False, mode="w", encoding="utf-8"
+        ) as handle:
+            handle.write("outside repository\n")
+        self.addCleanup(os.unlink, handle.name)
+
+        linguas_path = os.path.join(self.component.full_path, "po", "LINGUAS")
+        os.unlink(linguas_path)
+        os.symlink(handle.name, linguas_path)
+
+        self.assertFalse(
+            UpdateLinguasAddon.can_install(component=translation.component)
+        )
+
+        addon.post_add(translation)
+        self.assertEqual(translation.addon_commit_files, [])
+        self.assertEqual(
+            Path(handle.name).read_text(encoding="utf-8"), "outside repository\n"
+        )
+
+    def test_update_linguas_invalid_new_base_returns_false(self) -> None:
+        translation = self.get_translation()
+        addon = UpdateLinguasAddon.create(component=self.component)
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        new_base_path = os.path.join(self.component.full_path, self.component.new_base)
+        os.unlink(new_base_path)
+        os.symlink(handle.name, new_base_path)
+
+        self.assertFalse(UpdateLinguasAddon.can_install(component=self.component))
+        addon.post_add(translation)
+        self.assertEqual(translation.addon_commit_files, [])
 
     def assert_linguas(self, source, expected_add, expected_remove) -> None:
         # Test no-op
@@ -353,6 +453,1972 @@ class GettextAddonTest(ViewTestCase):
         addon = UpdateConfigureAddon.create(component=translation.component)
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
+
+    def test_update_configure_rejects_symlink(self) -> None:
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b'ALL_LINGUAS="cs"\n')
+        self.addCleanup(os.unlink, handle.name)
+
+        configure_path = os.path.join(self.component.full_path, "configure")
+        os.unlink(configure_path)
+        os.symlink(handle.name, configure_path)
+
+        self.assertFalse(UpdateConfigureAddon.can_install(component=self.component))
+
+    def test_xgettext_form(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "src/*.py\ntemplates/*.html\n",
+                "potfiles_path": "",
+            },
+        )
+        self.assertTrue(form.is_valid())
+        self.assertEqual(
+            form.cleaned_data["source_patterns"],
+            ["src/*.py", "templates/*.html"],
+        )
+
+    def test_xgettext_form_potfiles(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "po/POTFILES.in",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["source_patterns"], [])
+        self.assertEqual(form.cleaned_data["potfiles_path"], "po/POTFILES.in")
+
+    def test_xgettext_form_missing_files(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_xgettext_form_missing_potfiles_path(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_xgettext_form_rejects_potfiles_directory(self) -> None:
+        (Path(self.component.full_path) / "po").mkdir(parents=True, exist_ok=True)
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "po",
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_extract_pot_settings_form_hides_install_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        form = addon.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        self.assertIn("update_po_files", form.fields)
+        self.assertTrue(form.fields["update_po_files"].widget.is_hidden)
+
+    def test_extract_pot_settings_form_ignores_posted_install_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        form = addon.get_settings_form(
+            None,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "src/*.py",
+                "potfiles_path": "",
+            },
+        )
+
+        self.assertIsNotNone(form)
+        self.assertTrue(form.is_valid())
+        self.assertNotIn("_install_msgmerge", form.serialize_form())
+
+    def test_xgettext_settings_form_roundtrips_source_patterns(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": ["src/*.py", "templates/*.html"],
+            },
+        )
+
+        form = addon.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form()["source_patterns"],
+            ["src/*.py", "templates/*.html"],
+        )
+
+    def test_xgettext_settings_form_roundtrips_potfiles_path(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": [],
+                "potfiles_path": "po/POTFILES.in",
+            },
+        )
+
+        form = addon.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form()["input_mode"], "potfiles")
+        self.assertEqual(form.serialize_form()["potfiles_path"], "po/POTFILES.in")
+
+    def test_django_form(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        form = DjangoAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_django_form_invalid_domain(self) -> None:
+        self.component.new_base = "locale/website.pot"
+        form = DjangoAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_django_form_project_scope(self) -> None:
+        form = DjangoAddon.get_add_form(
+            None,
+            project=self.project,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_django_can_install_is_component_specific(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        self.assertTrue(DjangoAddon.can_install(component=self.component))
+
+        self.component.new_base = "po/hello.pot"
+        self.assertFalse(DjangoAddon.can_install(component=self.component))
+
+    def test_sphinx_form_invalid_component(self) -> None:
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_sphinx_form_valid_component(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        (Path(self.component.full_path) / "docs").mkdir(parents=True, exist_ok=True)
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_sphinx_form_valid_root_component(self) -> None:
+        self.component.new_base = "locales/docs.pot"
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_sphinx_form_project_scope(self) -> None:
+        form = SphinxAddon.get_add_form(
+            None,
+            project=self.project,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_sphinx_can_install_is_component_specific(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+        self.assertTrue(SphinxAddon.can_install(component=self.component))
+
+        self.component.new_base = "weblate/locale/django.pot"
+        self.assertFalse(SphinxAddon.can_install(component=self.component))
+
+    def test_sphinx_can_install_uses_runtime_venv_bin(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+        with tempfile.TemporaryDirectory(prefix="weblate-sphinx-venv-") as tempdir:
+            venv_bin = Path(tempdir) / "bin"
+            venv_bin.mkdir(parents=True, exist_ok=True)
+            fake_python = venv_bin / "python"
+            fake_python.write_text("", encoding="utf-8")
+            fake_python.chmod(0o755)
+            sphinx_build = venv_bin / "sphinx-build"
+            sphinx_build.write_text("", encoding="utf-8")
+            sphinx_build.chmod(0o755)
+
+            with (
+                patch(
+                    "weblate.utils.commands.find_command",
+                    side_effect=lambda command, path=None: shutil.which(
+                        command,
+                        path=None if path is None else os.pathsep.join(path),
+                    ),
+                ),
+                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
+            ):
+                self.assertTrue(SphinxAddon.can_install(component=self.component))
+
+    def test_sphinx_can_install_uses_symlinked_runtime_venv_bin(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+        with tempfile.TemporaryDirectory(
+            prefix="weblate-sphinx-symlinked-venv-"
+        ) as tempdir:
+            venv_bin = Path(tempdir) / "bin"
+            venv_bin.mkdir(parents=True, exist_ok=True)
+            fake_python_target = Path(tempdir) / "python3"
+            fake_python_target.write_text("", encoding="utf-8")
+            fake_python_target.chmod(0o755)
+            fake_python = venv_bin / "python"
+            fake_python.symlink_to(fake_python_target)
+            sphinx_build = venv_bin / "sphinx-build"
+            sphinx_build.write_text("", encoding="utf-8")
+            sphinx_build.chmod(0o755)
+
+            with (
+                patch(
+                    "weblate.utils.commands.find_command",
+                    side_effect=lambda command, path=None: shutil.which(
+                        command,
+                        path=None if path is None else os.pathsep.join(path),
+                    ),
+                ),
+                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
+            ):
+                self.assertTrue(SphinxAddon.can_install(component=self.component))
+
+    def test_sphinx_can_install_ignores_relative_runtime_executable(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+
+        with (
+            patch("weblate.utils.commands.find_command", return_value=None),
+            patch("weblate.utils.commands.sys.executable", "python"),
+        ):
+            self.assertFalse(SphinxAddon.can_install(component=self.component))
+
+    def test_sphinx_form_missing_source_dir(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_extract_pot_requires_component_new_base(self) -> None:
+        self.component.new_base = ""
+        self.component.save(update_fields=["new_base"])
+
+        self.assertFalse(XgettextAddon.can_install(component=self.component))
+        self.assertFalse(DjangoAddon.can_install(component=self.component))
+        self.assertFalse(SphinxAddon.can_install(component=self.component))
+
+    def test_xgettext(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        mocked.assert_called_once()
+        command = mocked.call_args.args[1]
+        self.assertEqual(
+            command[:4], ["xgettext", "--output", "po/hello.pot", "--language"]
+        )
+        self.assertIn("Python", command)
+        self.assertIn("src/messages.py", command)
+        self.assertIn("--", command)
+        self.assertIn(
+            os.path.join(self.component.full_path, "po/hello.pot"),
+            addon.extra_files,
+        )
+
+    def test_xgettext_uses_potfiles_manifest(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
+        manifest.parent.mkdir(parents=True, exist_ok=True)
+        manifest.write_text("../src/messages.py\n", encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po/POTFILES.in",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+
+        with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("src/messages.py", command)
+        self.assertIn("--", command)
+
+    def test_xgettext_rejects_potfiles_directory_at_runtime(self) -> None:
+        manifest = Path(self.component.full_path) / "po"
+        manifest.mkdir(parents=True, exist_ok=True)
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+
+        with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
+            result = addon.execute_update(self.component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "POTFILES path has to point to a file",
+        )
+
+    def test_xgettext_invalid_potfiles_surfaces_alert_without_relevant_diff(
+        self,
+    ) -> None:
+        manifest = Path(self.component.full_path) / "po"
+        manifest.mkdir(parents=True, exist_ok=True)
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["README.md"],
+        ):
+            addon.update_translations(self.component, "old-revision")
+
+        self.assertTrue(self.component.alert_set.filter(name=addon.alert).exists())
+
+    def test_xgettext_uses_delimiter_before_filenames(self) -> None:
+        source = Path(self.component.full_path) / "src" / "--help.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--", command)
+        self.assertLess(command.index("--"), command.index("src/--help.py"))
+
+    def test_xgettext_runs_on_install(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+        ):
+            XgettextAddon.create(
+                component=self.component,
+                configuration={
+                    "interval": "weekly",
+                    "update_po_files": False,
+                    "language": "Python",
+                    "source_patterns": ["src/*.py"],
+                },
+            )
+
+        mocked.assert_called_once()
+
+    def test_xgettext_form_save_runs_on_install(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": "",
+                "update_po_files": "",
+                "language": "Python",
+                "source_patterns": "src/*.py",
+            },
+        )
+
+        self.assertIsNotNone(form)
+        self.assertTrue(form.is_valid(), form.errors)
+
+        with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
+            form.save()
+
+        mocked.assert_called_once()
+
+    def test_xgettext_uses_file_format_gettext_flags(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True, "po_line_wrap": -1})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
+        self.assertIn("--no-wrap", command)
+
+    def test_xgettext_skip_without_relevant_change(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(
+                self.component.repository,
+                "list_changed_files",
+                return_value=["README.md"],
+            ),
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+        ):
+            addon.update_translations(self.component, "old-revision")
+
+        mocked.assert_not_called()
+
+    def test_xgettext_potfiles_change_detection_tracks_manifest(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po/POTFILES.in",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+        manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
+        manifest.parent.mkdir(parents=True, exist_ok=True)
+        manifest.write_text("../src/messages.py\n", encoding="utf-8")
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("", encoding="utf-8")
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["po/POTFILES.in"],
+        ):
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+    def test_xgettext_potfiles_change_detection_tracks_manifest_entries(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po/POTFILES.in",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+        manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
+        manifest.parent.mkdir(parents=True, exist_ok=True)
+        manifest.write_text("../src/messages.py\n", encoding="utf-8")
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("", encoding="utf-8")
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["src/messages.py"],
+        ):
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+    def test_xgettext_ignores_symlinked_source_directory(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/**/*.py"],
+            },
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-xgettext-outside-") as tempdir:
+            outside_dir = Path(tempdir)
+            (outside_dir / "messages.py").write_text(
+                'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+            )
+            (Path(self.component.full_path) / "src").symlink_to(
+                outside_dir, target_is_directory=True
+            )
+
+            with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
+                result = addon.execute_update(self.component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "No source files matched configured patterns",
+        )
+
+    def test_extract_pot_weekly_schedule(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date().isoformat()
+        )
+
+        self.assertFalse(addon.is_schedule_due(self.component))
+
+    def test_extract_pot_monthly_schedule(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "monthly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date() - timedelta(days=29)
+        ).isoformat()
+
+        self.assertFalse(addon.is_schedule_due(self.component))
+
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date() - timedelta(days=30)
+        ).isoformat()
+
+        self.assertTrue(addon.is_schedule_due(self.component))
+
+    def test_extract_pot_post_configure_bypasses_schedule(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date().isoformat()
+        )
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+        addon.save_state()
+
+        with patch.object(
+            XgettextAddon, "execute_update", return_value=False
+        ) as mocked:
+            addon.post_configure_run_component(self.component)
+
+        mocked.assert_called_once_with(self.component, "")
+
+    def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["src/messages.py"],
+        ) as mocked:
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+        mocked.assert_called_once_with(
+            self.component.repository.ref_to_remote.format("stored-revision")
+        )
+
+    def test_xgettext_falls_back_to_full_run_on_missing_last_revision(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            side_effect=RepositoryError(1, "bad revision"),
+        ) as mocked:
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+        mocked.assert_called_once_with(
+            self.component.repository.ref_to_remote.format("stored-revision")
+        )
+
+    def test_xgettext_change_detection_uses_same_glob_semantics(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/**/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["src/nested/messages.py"],
+        ):
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+    def test_xgettext_change_detection_is_evaluated_once_per_refresh(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with (
+            patch.object(
+                self.component.repository,
+                "list_changed_files",
+                return_value=["src/messages.py"],
+            ) as mocked,
+            patch.object(XgettextAddon, "run_process", return_value=""),
+        ):
+            addon.update_translations(self.component, "previous-head")
+
+        mocked.assert_called_once_with(
+            self.component.repository.ref_to_remote.format("stored-revision")
+        )
+
+    def test_xgettext_updates_last_revision_after_commit(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        revision_before = self.component.repository.last_revision
+
+        def run_process(component, command, env=None, cwd=None, extra_path=None):
+            template = Path(component.full_path) / "po" / "hello.pot"
+            template.parent.mkdir(parents=True, exist_ok=True)
+            template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
+            return ""
+
+        with patch.object(XgettextAddon, "run_process", side_effect=run_process):
+            addon.post_update(self.component, revision_before, True)
+
+        revision_after = self.component.repository.last_revision
+        self.assertNotEqual(revision_before, revision_after)
+        self.assertEqual(
+            addon.get_component_state(self.component)["last_revision"], revision_after
+        )
+
+    def test_xgettext_does_not_mark_success_before_failed_commit(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        revision_before = self.component.repository.last_revision
+
+        def run_process(component, command, env=None, cwd=None, extra_path=None):
+            template = Path(component.full_path) / "po" / "hello.pot"
+            template.parent.mkdir(parents=True, exist_ok=True)
+            template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
+            return ""
+
+        with (
+            patch.object(XgettextAddon, "run_process", side_effect=run_process),
+            patch.object(
+                self.component, "commit_files", side_effect=RuntimeError("push failed")
+            ),
+            self.assertRaisesRegex(RuntimeError, "push failed"),
+        ):
+            addon.post_update(self.component, revision_before, True)
+
+        self.assertNotIn(
+            "last_revision",
+            addon.get_component_state(self.component),
+        )
+
+    def test_xgettext_configuration_change_is_relevant(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+        addon.instance.configuration["language"] = "C"
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["README.md"],
+        ) as mocked:
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+        mocked.assert_not_called()
+
+    def test_extract_pot_state_is_per_component_for_project_addon(self) -> None:
+        project_component = self.create_po_new_base(
+            project=self.component.project,
+            name="Project scoped",
+            slug="project-scoped",
+        )
+        addon = XgettextAddon.create(
+            project=self.component.project,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date().isoformat()
+        )
+
+        self.assertFalse(addon.is_schedule_due(self.component))
+        self.assertTrue(addon.is_schedule_due(project_component))
+
+    def test_extract_pot_component_state_updates_merge_for_project_addon(self) -> None:
+        project_component = self.create_po_new_base(
+            project=self.component.project,
+            name="Project scoped",
+            slug="project-scoped-merge",
+        )
+        addon = XgettextAddon.create(
+            project=self.component.project,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon_other = XgettextAddon(Addon.objects.get(pk=addon.instance.pk))
+
+        addon.mark_successful_run(self.component, "revision-one")
+        addon_other.mark_successful_run(project_component, "revision-two")
+
+        addon.instance.refresh_from_db()
+        self.assertEqual(
+            addon.get_component_state(self.component)["last_revision"],
+            "revision-one",
+        )
+        self.assertEqual(
+            addon.get_component_state(project_component)["last_revision"],
+            "revision-two",
+        )
+
+    def test_extract_pot_commit_not_blocked_by_alerts(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.alerts.append(
+            {
+                "addon": addon.name,
+                "command": "xgettext",
+                "output": "po/hello.pot",
+                "error": "partial failure",
+            }
+        )
+
+        with (
+            patch.object(self.component.repository, "needs_commit", return_value=True),
+            patch.object(self.component, "commit_files") as mocked_commit,
+        ):
+            committed = addon.commit_and_push(
+                self.component, files=["po/hello.pot"], skip_push=True
+            )
+
+        self.assertTrue(committed)
+        mocked_commit.assert_called_once()
+
+    def test_extract_pot_normalize_header(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        self.component.project.name = 'Test "Project"'
+        self.component.name = r"Test\Component"
+        self.component.report_source_bugs = "bugs@example.com"
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER\n# This file is distributed under the same license as the PACKAGE package.\nmsgid ""\nmsgstr ""\n"Project-Id-Version: PACKAGE VERSION\\n"\n"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"\n"SOME DESCRIPTIVE TITLE.\\n"\n""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+        self.assertIn(
+            '"Project-Id-Version: Test \\"Project\\" / Test\\\\Component\\n"', content
+        )
+        self.assertIn('"Report-Msgid-Bugs-To: bugs@example.com\\n"', content)
+        self.assertIn(
+            '"Translations for Test \\"Project\\" / Test\\\\Component.\\n"',
+            content,
+        )
+        self.assertNotIn("FIRST AUTHOR", content)
+
+    def test_extract_pot_normalize_header_uses_component_url_for_bugs(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        self.component.report_source_bugs = ""
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER\n# This file is distributed under the same license as the PACKAGE package.\nmsgid ""\nmsgstr ""\n"Project-Id-Version: PACKAGE VERSION\\n"\n"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"\n""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+
+        self.assertIn(
+            f'"Report-Msgid-Bugs-To: {get_site_url(self.component.get_absolute_url())}\\n"',
+            content,
+        )
+
+    def test_django_command(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertEqual(
+            command[:2], [sys.executable, os.fspath(DJANGO_EXTRACT_RUNNER)]
+        )
+        self.assertIn("django", command)
+        self.assertIn("--source-prefix", command)
+        self.assertIn(".", command)
+        self.assertNotIn("--keep-pot", command)
+        self.assertNotIn("-a", command)
+        self.assertIn("WEBLATE_EXTRACT_LOCALE_PATH", mocked.call_args.kwargs["env"])
+        self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
+
+    def test_django_scopes_to_pot_parent_tree(self) -> None:
+        self.component.new_base = "weblate/locale/django.pot"
+        source_dir = Path(self.component.full_path) / "weblate"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
+        self.assertIn("--source-prefix", command)
+        self.assertIn("weblate", command)
+
+    def test_django_conf_locale_scopes_to_repo_root(self) -> None:
+        self.component.new_base = "conf/locale/django.pot"
+        conf_dir = Path(self.component.full_path) / "conf"
+        conf_dir.mkdir(parents=True, exist_ok=True)
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
+        self.assertIn("--source-prefix", command)
+        self.assertIn(".", command)
+
+    def test_django_uses_file_format_gettext_flags(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True, "po_line_wrap": -1})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
+        self.assertIn("--no-wrap", command)
+
+    def test_sphinx_scopes_to_repo_root_locales(self) -> None:
+        self.component.new_base = "locales/docs.pot"
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with (
+            patch.object(SphinxAddon, "run_process", return_value="") as mocked,
+            tempfile.TemporaryDirectory(prefix="weblate-sphinx-test-") as tempdir,
+            patch("weblate.addons.gettext.tempfile.TemporaryDirectory") as mocked_tmp,
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+        ):
+            build_dir = Path(tempdir) / "build"
+            (build_dir / "docs").mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs" / "docs.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            mocked_tmp.return_value.__enter__.return_value = tempdir
+            mocked_tmp.return_value.__exit__.return_value = False
+            addon.execute_update(self.component, "")
+
+        self.assertEqual(mocked.call_args.args[1][-2], ".")
+        self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
+
+    def prepare_django_extraction_fixture(self) -> tuple[Path, Path, Path, Path, Path]:
+        self.component.new_base = "extract-app/locale/django.pot"
+        source_dir = Path(self.component.full_path) / "extract-app"
+        module_one = source_dir / "module_one"
+        module_two = source_dir / "module_two"
+        top_level_locale = source_dir / "locale"
+        module_one.mkdir(parents=True, exist_ok=True)
+        (module_two / "templates" / "module_two").mkdir(parents=True, exist_ok=True)
+        top_level_locale.mkdir(parents=True, exist_ok=True)
+
+        (module_one / "views.py").write_text(
+            "from django.utils.translation import gettext as _\n"
+            '_("Module one string")\n',
+            encoding="utf-8",
+        )
+        (module_two / "templates" / "module_two" / "page.html").write_text(
+            '{% load i18n %}{% translate "Module two template" %}\n',
+            encoding="utf-8",
+        )
+
+        module_one_po = module_one / "locale" / "cs" / "LC_MESSAGES" / "django.po"
+        module_one_po.parent.mkdir(parents=True, exist_ok=True)
+        module_one_po.write_text("module one sentinel\n", encoding="utf-8")
+
+        module_two_po = module_two / "locale" / "de" / "LC_MESSAGES" / "django.po"
+        module_two_po.parent.mkdir(parents=True, exist_ok=True)
+        module_two_po.write_text("module two sentinel\n", encoding="utf-8")
+
+        top_level_po = top_level_locale / "fr" / "LC_MESSAGES" / "django.po"
+        top_level_po.parent.mkdir(parents=True, exist_ok=True)
+        top_level_po.write_text("top level sentinel\n", encoding="utf-8")
+        top_level_en_po = top_level_locale / "en" / "LC_MESSAGES" / "django.po"
+        top_level_en_po.parent.mkdir(parents=True, exist_ok=True)
+        top_level_en_po.write_text(
+            'msgid ""\nmsgstr ""\n"Language: en\\n"\n\nmsgid "Old string"\nmsgstr ""\n',
+            encoding="utf-8",
+        )
+        preexisting_top_level_pot = top_level_locale / "django.pot"
+        preexisting_top_level_pot.write_text("stale pot\n", encoding="utf-8")
+        return (
+            source_dir,
+            module_one_po,
+            module_two_po,
+            top_level_po,
+            top_level_en_po,
+        )
+
+    def test_stock_django_uses_repository_locale_dir(self) -> None:
+        source_dir, module_one_po, module_two_po, _top_level_po, top_level_en_po = (
+            self.prepare_django_extraction_fixture()
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-django-stock-") as tempdir:
+            original_cwd = os.getcwd()
+            with (
+                override_settings(
+                    LOCALE_PATHS=[os.path.join(tempdir, "locale")],
+                    LOCALE_FILTER_FILES=False,
+                ),
+                contextlib.ExitStack() as stack,
+            ):
+                stack.callback(os.chdir, original_cwd)
+                os.chdir(source_dir)
+                DjangoMakemessagesCommand().handle(
+                    locale=["en"],
+                    exclude=[],
+                    domain="django",
+                    verbosity=0,
+                    all=False,
+                    extensions=None,
+                    symlinks=False,
+                    ignore_patterns=[],
+                    use_default_ignore_patterns=True,
+                    no_wrap=False,
+                    no_location=False,
+                    add_location=None,
+                    no_obsolete=False,
+                    keep_pot=True,
+                )
+
+        module_one_en_po = module_one_po.parents[2] / "en" / "LC_MESSAGES" / "django.po"
+        module_two_en_po = module_two_po.parents[2] / "en" / "LC_MESSAGES" / "django.po"
+        self.assertEqual(
+            top_level_en_po.read_text(encoding="utf-8"),
+            'msgid ""\nmsgstr ""\n"Language: en\\n"\n\nmsgid "Old string"\nmsgstr ""\n',
+        )
+        self.assertTrue(module_one_en_po.exists())
+        self.assertTrue(module_two_en_po.exists())
+        self.assertIn(
+            'msgid "Module one string"', module_one_en_po.read_text(encoding="utf-8")
+        )
+        self.assertIn(
+            'msgid "Module two template"',
+            module_two_en_po.read_text(encoding="utf-8"),
+        )
+
+    def test_django_ignores_repository_locale_dirs_during_extraction(self) -> None:
+        (
+            _source_dir,
+            module_one_po,
+            module_two_po,
+            top_level_po,
+            top_level_en_po,
+        ) = self.prepare_django_extraction_fixture()
+
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with patch.object(DjangoAddon, "validate_repository_tree", return_value=True):
+            result = addon.execute_update(self.component, "")
+
+        self.assertTrue(result)
+        generated = (
+            Path(self.component.full_path) / "extract-app" / "locale" / "django.pot"
+        )
+        content = generated.read_text(encoding="utf-8")
+        self.assertIn('msgid "Module one string"', content)
+        self.assertIn('msgid "Module two template"', content)
+        self.assertNotEqual(content, "stale pot\n")
+        self.assertEqual(
+            top_level_po.read_text(encoding="utf-8"), "top level sentinel\n"
+        )
+        self.assertEqual(
+            top_level_en_po.read_text(encoding="utf-8"),
+            'msgid ""\nmsgstr ""\n"Language: en\\n"\n\nmsgid "Old string"\nmsgstr ""\n',
+        )
+        self.assertEqual(
+            module_one_po.read_text(encoding="utf-8"), "module one sentinel\n"
+        )
+        self.assertEqual(
+            module_two_po.read_text(encoding="utf-8"), "module two sentinel\n"
+        )
+        self.assertFalse((module_one_po.parent / "django.pot").exists())
+        self.assertFalse((module_two_po.parent / "django.pot").exists())
+
+    def test_sphinx_command(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        (source_dir / "index.rst").write_text("Heading\n=======\n", encoding="utf-8")
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            result = addon.execute_update(self.component, "")
+
+        self.assertTrue(result)
+        command = mocked.call_args.args[1]
+        self.assertEqual(command[0], "sphinx-build")
+        self.assertIn("-E", command)
+        self.assertIn("-d", command)
+        self.assertIn("-c", command)
+        self.assertIn(".", command)
+        self.assertEqual(mocked.call_args.kwargs["cwd"], os.fspath(source_dir))
+        self.assertEqual(
+            command[command.index("-c") + 1],
+            os.fspath(
+                Path(__file__).resolve().parent.parent
+                / "addons"
+                / "extractors"
+                / "sphinx"
+            ),
+        )
+        doctree_dir = Path(command[command.index("-d") + 1])
+        self.assertEqual(doctree_dir.name, "doctrees")
+        self.assertNotIn("env", mocked.call_args.kwargs)
+        self.assertIn(
+            os.path.join(self.component.full_path, "docs/locales/docs.pot"),
+            addon.extra_files,
+        )
+
+    def test_sphinx_refuses_out_of_tree_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.parent.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-sphinx-outside-") as tempdir:
+            outside_dir = Path(tempdir)
+            (outside_dir / "index.rst").write_text(
+                "Heading\n=======\n", encoding="utf-8"
+            )
+            source_dir.symlink_to(outside_dir, target_is_directory=True)
+
+            with patch.object(SphinxAddon, "run_process", return_value="") as mocked:
+                result = addon.execute_update(self.component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_sphinx_disables_docutils_file_insertion(self) -> None:
+        if find_command("sphinx-build") is None:
+            self.skipTest("sphinx-build is not installed")
+
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+
+        with tempfile.NamedTemporaryFile(
+            prefix="weblate-sphinx-include-",
+            suffix=".txt",
+            mode="w",
+            encoding="utf-8",
+            delete=False,
+        ) as included:
+            included.write("TOP SECRET INCLUDED CONTENT\n")
+            include_path = included.name
+
+        self.addCleanup(
+            lambda: os.path.exists(include_path) and os.unlink(include_path)
+        )
+
+        (source_dir / "index.rst").write_text(
+            f"Heading\n=======\n\n.. include:: {include_path}\n",
+            encoding="utf-8",
+        )
+
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
+            result = addon.execute_update(self.component, "")
+
+        generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
+        if result:
+            self.assertTrue(generated.exists())
+            self.assertNotIn(
+                "TOP SECRET INCLUDED CONTENT",
+                generated.read_text(encoding="utf-8"),
+            )
+        else:
+            self.assertTrue(addon.alerts)
+            self.assertNotIn(
+                "TOP SECRET INCLUDED CONTENT",
+                addon.alerts[-1].get("output", ""),
+            )
+
+    def test_sphinx_emits_relative_source_references(self) -> None:
+        if find_command("sphinx-build") is None:
+            self.skipTest("sphinx-build is not installed")
+
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        admin_dir = source_dir / "admin"
+        admin_dir.mkdir(parents=True, exist_ok=True)
+        (source_dir / "conf.py").write_text(
+            'project = "Documentation"\n', encoding="utf-8"
+        )
+        (source_dir / "index.rst").write_text(
+            ".. toctree::\n   :maxdepth: 1\n\n   admin/access\n",
+            encoding="utf-8",
+        )
+        (admin_dir / "access.rst").write_text(
+            "Access\n======\n\nWelcome to the admin docs.\n",
+            encoding="utf-8",
+        )
+
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
+            result = addon.execute_update(self.component, "")
+
+        self.assertTrue(result, addon.alerts)
+        generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
+        content = generated.read_text(encoding="utf-8")
+        self.assertIn("#: admin/access.rst:", content)
+        self.assertNotIn(self.component.full_path, content)
+
+    def test_sphinx_weblate_docs_filter(self) -> None:
+        if find_command("sphinx-build") is None:
+            self.skipTest("sphinx-build is not installed")
+
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        admin_dir = source_dir / "admin"
+        admin_dir.mkdir(parents=True, exist_ok=True)
+        (source_dir / "conf.py").write_text(
+            'project = "Documentation"\n', encoding="utf-8"
+        )
+        (source_dir / "index.rst").write_text(
+            ".. toctree::\n   :maxdepth: 1\n\n   admin/access\n   admin/management\n",
+            encoding="utf-8",
+        )
+        (admin_dir / "access.rst").write_text(
+            "Access\n======\n\nDjango\n\nWelcome to the admin docs.\n",
+            encoding="utf-8",
+        )
+        (admin_dir / "management.rst").write_text(
+            "Management\n==========\n\nfoo_bar\n",
+            encoding="utf-8",
+        )
+
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "filter_mode": "weblate_docs",
+            },
+        )
+
+        with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
+            result = addon.execute_update(self.component, "")
+
+        self.assertTrue(result, addon.alerts)
+        generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
+        content = generated.read_text(encoding="utf-8")
+        self.assertIn("Welcome to the admin docs.", content)
+        self.assertNotIn('\nmsgid "Django"\n', content)
+        self.assertNotIn('\nmsgid "foo_bar"\n', content)
+
+    def test_django_refuses_out_of_tree_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        self.component.new_base = "locale/website.pot"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-django-outside-") as tempdir:
+            outside_dir = Path(tempdir)
+            (outside_dir / "messages.py").write_text(
+                'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+            )
+            (Path(self.component.full_path) / "src").symlink_to(
+                outside_dir, target_is_directory=True
+            )
+
+            with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
+                result = addon.execute_update(self.component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_extract_pot_installs_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(MsgmergeAddon, "can_install", return_value=True),
+            patch.object(MsgmergeAddon, "create", autospec=True) as mocked_create,
+            patch.object(XgettextAddon, "run_process", return_value=""),
+        ):
+            addon.post_configure_run()
+
+        mocked_create.assert_called_once()
+
+    def test_extract_pot_post_configure_triggers_newly_installed_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        self.component.drop_addons_cache()
+        _ = self.component.addons_cache
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+        ):
+            addon.post_configure_run()
+
+        mocked.assert_called_once()
+
+    def test_extract_pot_installs_msgmerge_for_project_scope(self) -> None:
+        self.create_po_new_base(
+            project=self.component.project,
+            name="Project scoped",
+            slug="project-scoped-msgmerge",
+        )
+        addon = XgettextAddon.create(
+            project=self.component.project,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(MsgmergeAddon, "can_install", return_value=True),
+            patch.object(MsgmergeAddon, "create", autospec=True) as mocked_create,
+            patch.object(XgettextAddon, "run_process", return_value=""),
+        ):
+            addon.post_configure_run()
+
+        mocked_create.assert_called_once()
+        self.assertEqual(
+            mocked_create.call_args.kwargs["project"], self.component.project
+        )
+        self.assertNotIn("component", mocked_create.call_args.kwargs)
+        self.assertNotIn("_install_msgmerge", addon.instance.configuration)
+
+    def test_extract_pot_reuses_inherited_msgmerge_on_install(self) -> None:
+        MsgmergeAddon.create(project=self.component.project, run=False)
+        self.component.drop_addons_cache()
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(MsgmergeAddon, "can_install", return_value=True),
+            patch.object(MsgmergeAddon, "create", autospec=True) as mocked_create,
+            patch.object(XgettextAddon, "run_process", return_value=""),
+        ):
+            addon.post_configure_run()
+
+        mocked_create.assert_not_called()
+
+    def test_extract_pot_warns_without_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(MsgmergeAddon, "can_install", return_value=False),
+            patch.object(XgettextAddon, "run_process", return_value=""),
+        ):
+            addon.post_configure_run()
+
+        self.assertFalse(addon.warnings)
+        self.assertTrue(self.component.alert_set.filter(name=addon.alert).exists())
+
+    def test_extract_pot_runtime_uses_existing_msgmerge_even_if_disabled(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        msgmerge = MsgmergeAddon.create(component=self.component, run=False)
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        mocked.assert_called_once()
+        self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
+        self.assertIs(mocked.call_args.args[1], self.component)
+        self.assertEqual(mocked.call_args.args[2], "")
+
+    def test_extract_pot_forces_msgmerge_after_local_template_update(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        msgmerge = MsgmergeAddon.create(component=self.component, run=False)
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                self.component.repository,
+                "list_changed_files",
+                return_value=["src/messages.py"],
+            ),
+        ):
+            addon.update_translations(self.component, "old-revision")
+
+        mocked.assert_called_once()
+        self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
+        self.assertIs(mocked.call_args.args[1], self.component)
+        self.assertEqual(mocked.call_args.args[2], "")
+
+    def test_extract_pot_uses_project_level_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        msgmerge = MsgmergeAddon.create(project=self.component.project, run=False)
+        self.component.drop_addons_cache()
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        mocked.assert_called_once()
+        self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
+        self.assertIs(mocked.call_args.args[1], self.component)
+        self.assertEqual(mocked.call_args.args[2], "")
+
+    def test_extract_pot_timeout(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with patch(
+            "weblate.addons.gettext.subprocess.check_output",
+            side_effect=subprocess.TimeoutExpired(
+                ["xgettext"], timeout=addon.PROCESS_TIMEOUT
+            ),
+        ):
+            output = addon.run_process(self.component, ["xgettext"])
+
+        self.assertIsNone(output)
+        self.assertEqual(len(addon.alerts), 1)
+        self.assertIn("timed out", addon.alerts[0]["error"].lower())
+
+    def test_extract_pot_uses_runtime_interpreter_path_for_commands(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-runtime-command-") as tempdir:
+            runtime_bin = Path(tempdir) / "runtime-bin"
+            runtime_bin.mkdir(parents=True, exist_ok=True)
+            fake_python = runtime_bin / "python"
+            fake_python.write_text("", encoding="utf-8")
+            fake_python.chmod(0o755)
+            xgettext = runtime_bin / "xgettext"
+            xgettext.write_text("#!/bin/sh\necho runtime-xgettext\n", encoding="utf-8")
+            xgettext.chmod(0o755)
+
+            with (
+                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
+                patch(
+                    "weblate.utils.commands.sys.exec_prefix",
+                    os.fspath(Path(tempdir) / "other-prefix"),
+                ),
+                patch.dict(os.environ, {"PATH": "/usr/bin"}),
+            ):
+                output = addon.run_process(self.component, ["xgettext"])
+
+        self.assertEqual(output, "runtime-xgettext\n")
+
+    def test_django_can_install_requires_msguniq(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        self.component.save(update_fields=["new_base"])
+
+        def fake_find_command(name, path=None):
+            if name == "xgettext":
+                return "/usr/bin/xgettext"
+            if name == "msguniq":
+                return None
+            return "/usr/bin/other"
+
+        with patch(
+            "weblate.utils.commands.find_command", side_effect=fake_find_command
+        ):
+            self.assertFalse(DjangoAddon.can_install(component=self.component))
 
     def test_generate(self) -> None:
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))
@@ -789,6 +2855,17 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "Installed 1 add-on")
 
+    def test_add_simple_category_addon(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        response = self.client.post(
+            reverse("addons", kwargs={"path": category.get_url_path()}),
+            {"name": "weblate.consistency.languages"},
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
     def test_add_simple_site_wide_addon(self) -> None:
         response = self.client.post(
             reverse("manage-addons"),
@@ -980,7 +3057,16 @@ class CommandTest(ViewTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)
-        self.assertIn("msgmerge", output.getvalue())
+        generated = output.getvalue()
+        self.assertIn("msgmerge", generated)
+        self.assertIn(
+            "Enter slug of a component to use as source, keep blank to use all "
+            "components in the current project.",
+            generated,
+        )
+        # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
+        self.assertNotIn("confirm", generated)
+        self.assertNotIn("Update PO files using msgmerge", generated)
 
     def test_install_not_supported(self) -> None:
         output = StringIO()
@@ -1315,6 +3401,152 @@ class LanguageConsistencyTest(ViewTestCase):
         # not one per component
         self.assertEqual(after - before, 1)
 
+    def test_consistency_daily_category_level(self) -> None:
+        """Test consistency addon at category level runs once via daily_addons."""
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        self.create_po(new_base="po/project.pot", project=self.project, name="Second")
+        LanguageConsistencyAddon.create(category=category)
+
+        before = AddonActivityLog.objects.count()
+        daily_addons(modulo=False)
+        after = AddonActivityLog.objects.count()
+
+        self.assertEqual(after - before, 1)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_consistency_post_configure_category(self) -> None:
+        """Test post_configure_run fires daily event for category addons."""
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+
+        before = AddonActivityLog.objects.count()
+        LanguageConsistencyAddon.create(category=category)
+        after = AddonActivityLog.objects.count()
+
+        self.assertEqual(after - before, 1)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_consistency_category_only_affects_category_components(self) -> None:
+        """
+        Category-level consistency addon should only affect components in that category.
+
+        Hierarchy:
+          top_category/
+            comp_top (self.component) — PO, has cs + de + it + en (source)
+            nested_category/
+              comp_nested — TS, has cs + en (source) only
+          outside_component — TS, has cs + en (source) only, no category
+        """
+        top_category = self.create_category(self.project)
+        nested_category = Category.objects.create(
+            name="Nested",
+            slug="nested",
+            project=self.project,
+            category=top_category,
+        )
+
+        # comp_top: PO component in top_category
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.category = top_category
+        self.component.save()
+
+        # comp_nested: TS component in nested_category (fewer languages than comp_top)
+        comp_nested = self.create_ts(
+            name="Nested TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+        comp_nested.category = nested_category
+        comp_nested.save()
+
+        # outside_component: TS component with no category
+        outside_component = self.create_ts(
+            name="Outside TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+
+        # Snapshot languages before installing addon
+        nested_langs_before = set(
+            Translation.objects.filter(component=comp_nested).values_list(
+                "language__code", flat=True
+            )
+        )
+        outside_langs_before = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+
+        # Install consistency addon at top_category level
+        LanguageConsistencyAddon.create(category=top_category)
+
+        # comp_nested should gain languages from comp_top (they share the category tree)
+        nested_langs_after = set(
+            Translation.objects.filter(component=comp_nested).values_list(
+                "language__code", flat=True
+            )
+        )
+        top_langs = set(
+            Translation.objects.filter(component=self.component).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertEqual(nested_langs_after, top_langs)
+        self.assertTrue(nested_langs_after - nested_langs_before)
+
+        # outside_component should be completely untouched
+        outside_langs_after = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertEqual(outside_langs_after, outside_langs_before)
+
+        # Part 2: Simulate post_add by calling the task directly with a
+        # single language that is missing from comp_nested, and verify it
+        # propagates within the category but NOT to outside_component.
+        addon_instance = Addon.objects.get(name="weblate.consistency.languages")
+        new_lang = Language.objects.get(code="it")
+
+        # Remove "it" from comp_nested so we can verify it gets re-added
+        Translation.objects.filter(component=comp_nested, language=new_lang).delete()
+
+        outside_langs_before_post_add = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+
+        # Call the task directly (as post_add would, bypassing delay_on_commit)
+        language_consistency(
+            addon_instance.id,
+            [new_lang.id],
+            category_id=top_category.pk,
+        )
+
+        # comp_nested should have gained "it" back
+        nested_langs_after_post_add = set(
+            Translation.objects.filter(component=comp_nested).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertIn("it", nested_langs_after_post_add)
+
+        # outside_component still untouched
+        outside_langs_final = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertEqual(outside_langs_final, outside_langs_before_post_add)
+
     def test_consistency_daily_sitewide(self) -> None:
         """Test sitewide consistency addon runs once per project."""
         project_b = self.create_project(name="Project B", slug="project-b")
@@ -1340,7 +3572,8 @@ class LanguageConsistencyTest(ViewTestCase):
         self.assertEqual(Translation.objects.count(), 10)
 
         # Installation should make languages consistent
-        addon = LanguageConsistencyAddon.create(component=self.component)
+        addon = LanguageConsistencyAddon.create(project=self.project)
+        self.component.drop_addons_cache()
         self.assertEqual(Translation.objects.count(), 12)
 
         # check that activity is correctly logged
@@ -1479,18 +3712,38 @@ class GitSquashAddonTest(ViewTestCase):
 
 
 class TestRemoval(ViewTestCase):
-    def install(self, sitewide: bool = False, project: bool = False):
+    def install(
+        self,
+        sitewide: bool = False,
+        project: bool = False,
+        category: Category | None = None,
+    ):
         self.assertTrue(RemoveComments.can_install(component=self.component))
         self.assertTrue(RemoveSuggestions.can_install(component=self.component))
+        addon_component: Component | None = None
+        addon_project: Project | None = None
+        addon_category: Category | None = None
         if sitewide:
-            kwargs = {"component": None, "project": None}
+            pass
         elif project:
-            kwargs = {"component": None, "project": self.project}
+            addon_project = self.project
+        elif category is not None:
+            addon_category = category
         else:
-            kwargs = {"component": self.component}
+            addon_component = self.component
         return (
-            RemoveSuggestions.create(configuration={"age": 7}, **kwargs),
-            RemoveComments.create(configuration={"age": 7}, **kwargs),
+            RemoveSuggestions.create(
+                configuration={"age": 7},
+                component=addon_component,
+                project=addon_project,
+                category=addon_category,
+            ),
+            RemoveComments.create(
+                configuration={"age": 7},
+                component=addon_component,
+                project=addon_project,
+                category=addon_category,
+            ),
         )
 
     def assert_count(self, comments=0, suggestions=0) -> None:
@@ -1564,6 +3817,29 @@ class TestRemoval(ViewTestCase):
         daily_addons()
         # Ensure the add-on is executed
         daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_daily_category(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        self.install(category=category)
+        self.add_content()
+        self.age_content()
+        daily_addons()
+        daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_old_category_direct(self) -> None:
+        """Test removal addon daily method works with category kwarg."""
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        suggestions, comments = self.install(category=category)
+        self.add_content()
+        self.age_content()
+        suggestions.daily(category=category)
+        comments.daily(category=category)
         self.assert_count()
 
 
@@ -1944,7 +4220,7 @@ class TasksTest(TestCase):
 
 class BaseWebhookTests:
     addon_configuration: ClassVar[dict]
-    WEBHOOK_CLS: type[JSONWebhookBaseAddon]
+    WEBHOOK_CLS: type[BaseAddon]
     WEBHOOK_URL: str
 
     def setUp(self) -> None:
@@ -2340,7 +4616,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             },
         )
 
-        request_body = json.loads(responses.calls[0].request.body)
+        request_body = json.loads(cast("bytes", responses.calls[0].request.body))
         self.assertIn("child-category", request_body["category"])
         self.assertIn("parent-category", request_body["category"])
         self.assertIn("sub-category", request_body["category"])

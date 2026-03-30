@@ -47,6 +47,7 @@ SUPPORTED_FORMATS = (
 )
 
 MIN_SIMILARITY_THRESHOLD = 0.3
+MEMORY_LOOKUP_LIMIT = 50
 
 
 class MemoryDict(TypedDict):
@@ -113,6 +114,9 @@ class MemoryQuerySet(models.QuerySet):
                 ]
         return super().filter(*args, **kwargs)
 
+    def get_lookup_length(self, text: str) -> int:
+        return len(NON_WORD_RE.sub("", text))
+
     def threshold_to_similarity(self, text: str, threshold: int) -> float:
         """
         Convert machinery threshold into PostgreSQL similarity threshold.
@@ -129,6 +133,9 @@ class MemoryQuerySet(models.QuerySet):
         We exclude non-word characters while calculating this as those are
         excluded in the trigram matching.
         """
+        if threshold >= 100:
+            return 1.0
+
         # Highest similarity we want to get
         high = 0.985
         # Limit the number of decimals to avoid too frequent flipping of the setting
@@ -149,14 +156,34 @@ class MemoryQuerySet(models.QuerySet):
 
         # Measure the length of alphanumeric characters in the text
         max_length = 2000
-        length = min(max(1, len(NON_WORD_RE.sub("", text))), max_length)
+        length = min(max(1, self.get_lookup_length(text)), max_length)
 
         # Apply boost based on square root of length so that it grows faster
         # for shorter strings
         boost = (maximum - base) * math.sqrt(length) / math.sqrt(max_length)
 
-        # Cap result into reasonable limits
-        return max(0.6, min(1.0, round(base + boost, decimals)))
+        similarity = max(0.6, min(1.0, round(base + boost, decimals)))
+
+        # Short, common strings tend to produce broad trigram matches. Start with
+        # a stricter threshold for those so that we avoid expensive fuzzy scans.
+        if threshold >= 75:
+            if length <= 8:
+                similarity = max(similarity, 0.97)
+            elif length <= 16:
+                similarity = max(similarity, 0.95)
+
+        return similarity
+
+    def minimum_similarity(self, text: str, threshold: int) -> float:
+        if threshold >= 100:
+            return 1.0
+        if threshold >= 75:
+            length = self.get_lookup_length(text)
+            if length <= 8:
+                return 0.92
+            if length <= 16:
+                return 0.90
+        return MIN_SIMILARITY_THRESHOLD
 
     def lookup(
         self,
@@ -168,36 +195,50 @@ class MemoryQuerySet(models.QuerySet):
         use_shared,
         threshold: int = 75,
     ):
+        base = self.prefetch_project().filter_type(
+            # Type filtering
+            user=user,
+            project=project,
+            use_shared=use_shared,
+            from_file=True,
+        )
+
+        if threshold >= 100:
+            return base.filter(
+                source=text,
+                source_language=source_language,
+                target_language=target_language,
+            )[:MEMORY_LOOKUP_LIMIT]
+
         # Adjust similarity based on string length to get more relevant matches
         # for long strings
         similarity_threshold = self.threshold_to_similarity(text, threshold)
+        minimum_similarity = self.minimum_similarity(text, threshold)
 
         results = self.none()
 
-        while len(results) == 0 and similarity_threshold > MIN_SIMILARITY_THRESHOLD:
+        while len(results) == 0 and similarity_threshold >= minimum_similarity:
             # Change PostgreSQL similarity threshold configuration
             adjust_similarity_threshold(similarity_threshold)
 
             # Actual database query
-            results = (
-                self.prefetch_project()
-                .filter_type(
-                    # Type filtering
-                    user=user,
-                    project=project,
-                    use_shared=use_shared,
-                    from_file=True,
-                )
-                .filter(
-                    # Full-text search on source
-                    source__trgm_search=text,
-                    # Language filtering
-                    source_language=source_language,
-                    target_language=target_language,
-                )[:50]
+            results = base.filter(
+                # Full-text search on source
+                source__trgm_search=text,
+                # Language filtering
+                source_language=source_language,
+                target_language=target_language,
             )
+            results = results[:MEMORY_LOOKUP_LIMIT]
             # Decrease threshold in case no matches were found
-            similarity_threshold -= 0.05
+            similarity_threshold = round(similarity_threshold - 0.05, 3)
+            if (
+                len(results) == 0
+                and similarity_threshold
+                < minimum_similarity
+                < similarity_threshold + 0.05
+            ):
+                similarity_threshold = minimum_similarity
 
         return results
 

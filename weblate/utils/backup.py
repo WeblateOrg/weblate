@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.files import cleanup_error_message
@@ -104,7 +104,10 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
                 category="backup", message="borg output", stdout=error.stdout
             )
             report_error("Borg failed")
-            raise BackupError(cleanup_error_message(error.stdout)) from error
+            msg = cleanup_error_message(error.stdout or "")
+            if not msg.strip():
+                msg = f"Borg exited with status {error.returncode} without any output"
+            raise BackupError(msg) from error
 
 
 def initialize(location: str, passphrase: str) -> str:

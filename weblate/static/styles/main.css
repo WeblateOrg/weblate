@@ -426,20 +426,22 @@ td .list-group {
   margin: 0 5px;
 }
 
-th .sort-icon.sort-up {
-  background-image: url("../sort/up.svg");
-}
-
-th .sort-icon.sort-down {
-  background-image: url("../sort/down.svg");
-}
-
-th:hover .sort-icon {
-  background-image: url("../sort/hover-down.svg");
-}
-
+th .sort-icon.sort-up,
 th:hover .sort-icon.sort-up {
-  background-image: url("../sort/hover-up.svg");
+  -webkit-mask-image: url("../sort/up.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url("../sort/up.svg");
+  mask-repeat: no-repeat;
+  background: currentColor !important;
+}
+
+th .sort-icon.sort-down,
+th:hover .sort-icon {
+  -webkit-mask-image: url("../sort/down.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url("../sort/down.svg");
+  mask-repeat: no-repeat;
+  background: currentColor !important;
 }
 
 .asteriskField {
@@ -1366,20 +1368,6 @@ thead th {
   text-decoration: none;
 }
 
-a.btn-link {
-  color: var(--bs-link-color);
-  path {
-    fill: var(--bs-link-color);
-  }
-}
-
-a.btn-link:hover {
-  color: var(--bs-btn-hover-color);
-  path {
-    fill: var(--bs-btn-hover-color);
-  }
-}
-
 .btn-link.btn-xs {
   padding: 0;
   border: none;
@@ -1977,16 +1965,13 @@ a.language:hover {
 
 .editor-wrap > textarea.form-control[readonly],
 .editor-wrap > textarea.form-control[disabled],
+.editor-wrap > textarea.form-control:focus,
 .editor-wrap > textarea {
   position: relative;
   z-index: 1;
   color: transparent;
   caret-color: black;
   background-color: transparent;
-}
-
-.form-control:focus {
-  background-color: inherit;
 }
 
 .editor-wrap .highlighted-output {

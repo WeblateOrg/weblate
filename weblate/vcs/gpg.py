@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.cache import cache
 from siphashc import siphash
 
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 

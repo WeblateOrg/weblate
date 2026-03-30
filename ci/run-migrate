@@ -6,6 +6,7 @@
 
 # Migrations test executor
 
+# shellcheck source=/dev/null
 . ci/lib.sh
 
 if [ -n "$1" ]; then
@@ -46,8 +47,10 @@ check
 # - Force PyGobject 3.52 to be compatible with girepository-2.0
 uv pip install --override "$MIGRATE_DIR/migrate-override.txt" -e ".[all,ci]"
 check
-echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
-check
+if [ -n "$CI_DB_HOST" ]; then
+    echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
+    check
+fi
 if [ -n "$CI_DB_PASSWORD" ]; then
     echo "DATABASES['default']['PASSWORD'] = '$CI_DB_PASSWORD'" >> weblate/settings_test.py
     check
@@ -69,6 +72,10 @@ check
 
 # Setup migration testing
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-base.py"
+check
+
+# Add component links for through-model migration test
+./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-links.py"
 check
 
 # Add a pending unit
@@ -117,6 +124,10 @@ run_coverage ./manage.py migrate
 check
 # Check migrated vote exists
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-vote.py"
+check
+
+# Check component links survived through-model migration
+uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-links.py"
 check
 
 # Check migrated pending unit

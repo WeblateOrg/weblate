@@ -257,7 +257,7 @@
                   {% translate "Save and continue" %}
                 </button>
 
-                <button class="btn btn-warning btn-spaced"
+                <button class="btn btn-primary btn-spaced"
                         type="submit"
                         name="save-stay"
                         {% if locked %} disabled="disabled" {% elif not user_can_translate and not user_can_edit_flags %} disabled="disabled" {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %} disabled="disabled" {% endif %}>
@@ -273,7 +273,9 @@
                     {% translate "Suggest" %}
                   </button>
                 {% endif %}
-                <a class="btn btn-link btn-spaced skip" href="{{ next_unit_url }}" rel="next">
+                <a class="btn btn-link green btn-spaced skip"
+                   href="{{ next_unit_url }}"
+                   rel="next">
                   {% if LANGUAGE_BIDI %}
                     {% icon "rewind.svg" %}
                   {% else %}
@@ -797,7 +799,7 @@
               </div>
               {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
                 <div class="list-group-item card-footer-links">
-                  <a class="btn btn-link"
+                  <a class="btn btn-link green"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
@@ -843,7 +845,7 @@
                 {% endfor %}
                 {% if user_can_add_screenshot %}
                   <br />
-                  <a class="btn btn-link"
+                  <a class="btn btn-link green"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>

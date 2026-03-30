@@ -30,7 +30,7 @@ from weblate.utils.backup import (
     prune,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
-from weblate.utils.requests import http_request
+from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
@@ -206,10 +206,7 @@ class SupportStatus(models.Model):
         ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
-        response = http_request(
-            "post", settings.SUPPORT_API_URL, data=data, timeout=360
-        )
-        response.raise_for_status()
+        response = fetch_url("post", settings.SUPPORT_API_URL, data=data, timeout=360)
         payload = response.json()
         self.name = payload["name"]
         self.expiry = dateutil.parser.parse(payload["expiry"])
@@ -294,26 +291,36 @@ class BackupService(models.Model):
 
     @cached_property
     def has_errors(self) -> bool:
+        return self.current_error is not None
+
+    @cached_property
+    def current_error(self) -> BackupLog | None:
+        # Any unresolved error keeps backup status failed; only a newer backup
+        # success clears it for the management UI.
         for log in self.last_logs:
             if log.event == "error":
-                return True
+                return log
             if log.event == "backup":
-                return False
-        return False
+                return None
+        return None
 
-    def ensure_init(self) -> None:
-        if not self.paperkey:
+    def ensure_init(self) -> bool:
+        if self.paperkey:
+            return True
+
+        try:
+            self.paperkey = get_paper_key(self.repository)
+            self.save(update_fields=["paperkey"])
+        except BackupError:
             try:
+                log = initialize(self.repository, self.passphrase)
+                self.backuplog_set.create(event="init", log=log)
                 self.paperkey = get_paper_key(self.repository)
                 self.save(update_fields=["paperkey"])
-            except BackupError:
-                try:
-                    log = initialize(self.repository, self.passphrase)
-                    self.backuplog_set.create(event="init", log=log)
-                    self.paperkey = get_paper_key(self.repository)
-                    self.save()
-                except BackupError as error:
-                    self.backuplog_set.create(event="error", log=str(error))
+            except BackupError as error:
+                self.backuplog_set.create(event="error", log=str(error))
+                return False
+        return True
 
     def backup(self) -> None:
         try:
