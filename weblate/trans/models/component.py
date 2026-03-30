@@ -1826,7 +1826,7 @@ class Component(
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content(
-                        get_encoding_param(self.file_format_params)
+                        get_encoding_param(self.file_format, self.file_format_params)
                     )
                     is None
                 ):
@@ -1835,7 +1835,7 @@ class Component(
                     self.full_path,
                     {
                         self.template: self.file_format_cls.get_new_file_content(
-                            get_encoding_param(self.file_format_params)
+                            get_encoding_param(self.file_format, self.file_format_params)
                         )
                     }
                     if self.template
