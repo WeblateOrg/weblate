@@ -9,6 +9,7 @@ from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import responses
@@ -54,6 +55,7 @@ from weblate.trans.tests.utils import (
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_EMPTY,
     STATE_NEEDS_CHECKING,
@@ -6099,6 +6101,86 @@ class UnitAPITest(APIBaseTest):
         component = Component.objects.get(pk=component.pk)
         self.assertNotEqual(revision, component.repository.last_revision)
         self.assertEqual(component.stats.all, 12)
+
+    def test_delete_unit_locked(self) -> None:
+        component = self._create_component(
+            "po-mono",
+            "po-mono/*.po",
+            "po-mono/en.po",
+            project=self.component.project,
+            name="mono",
+        )
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        ).source_unit
+
+        with patch(
+            "weblate.trans.models.translation.Translation.delete_unit",
+            side_effect=WeblateLockTimeoutError(
+                "repository locked",
+                lock=SimpleNamespace(scope="repo", origin="test/component"),
+            ),
+        ):
+            self.do_request(
+                "api:unit-detail",
+                kwargs={"pk": unit.pk},
+                method="delete",
+                code=423,
+                superuser=True,
+                data={
+                    "type": "client_error",
+                    "errors": [
+                        {
+                            "code": "repository-locked",
+                            "detail": "Could not remove the string because another background operation is in progress. Please try again later.",
+                            "attr": None,
+                        }
+                    ],
+                },
+                format="json",
+            )
+
+    def test_delete_unit_component_locked(self) -> None:
+        component = self._create_component(
+            "po-mono",
+            "po-mono/*.po",
+            "po-mono/en.po",
+            project=self.component.project,
+            name="mono",
+        )
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        ).source_unit
+
+        with patch(
+            "weblate.trans.models.translation.Translation.delete_unit",
+            side_effect=WeblateLockTimeoutError(
+                "component locked",
+                lock=SimpleNamespace(scope="component-update", origin="test/component"),
+            ),
+        ):
+            self.do_request(
+                "api:unit-detail",
+                kwargs={"pk": unit.pk},
+                method="delete",
+                code=423,
+                superuser=True,
+                data={
+                    "type": "client_error",
+                    "errors": [
+                        {
+                            "code": "component-locked",
+                            "detail": "Could not obtain the update lock for component test/component to perform the operation.",
+                            "attr": None,
+                        }
+                    ],
+                },
+                format="json",
+            )
 
     def test_unit_translations(self) -> None:
         unit = Unit.objects.get(
