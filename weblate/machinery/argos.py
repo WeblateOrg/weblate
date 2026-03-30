@@ -27,7 +27,6 @@ class ArgosTranslation(MachineTranslation):
 
     name = "Argos Translate"
     settings_form = None
-    is_available = bool(argostranslate)
 
     def is_supported(self, source_language, target_language):
         """Supported if the language model package is installed in argostranslate."""
