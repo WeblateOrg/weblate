@@ -90,7 +90,7 @@ class WeblateConf(AppConf):
 
     ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
     ALLOWED_MACHINERY_DOMAINS: ClassVar[list[str]] = []
-    ALLOWED_ASSET_SIZE: ClassVar[int] = 4194304
+    ALLOWED_ASSET_SIZE: ClassVar[int] = 10_000_000
 
     class Meta:
         prefix = ""

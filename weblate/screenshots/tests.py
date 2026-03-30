@@ -74,6 +74,12 @@ class ViewTest(FixtureTestCase):
         response = self.do_upload(image="")
         self.assertContains(response, "Could not upload screenshot")
 
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_upload_too_big(self) -> None:
+        self.make_manager()
+        response = self.do_upload()
+        self.assertContains(response, "Uploaded file is too big.")
+
     def test_upload_source(self) -> None:
         self.make_manager()
         source = self.component.source_translation.unit_set.all()[0]
@@ -410,6 +416,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "Unsupported image type")
 
     @responses.activate
+    @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_invalid_image_url_size(self) -> None:
         self.make_manager()
         # Mock a too big image

@@ -16,7 +16,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
-from weblate.utils.forms import SortedSelect
+from weblate.utils.forms import AssetImageField, SortedSelect
 from weblate.utils.requests import open_asset_url
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
@@ -30,7 +30,8 @@ class ScreenshotImageValidationMixin(BaseForm):
     ) -> dict[str, Any]:
         image = cleaned_data.get("image")
         image_url = cleaned_data.get("image_url")
-        if not image and not image_url:
+        image_submitted = "image" in self.files
+        if not image and not image_url and not image_submitted:
             raise forms.ValidationError(
                 gettext("You need to provide either image file or image URL.")
             )
@@ -121,6 +122,7 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
         widgets = {  # noqa: RUF012
             "image": ScreenshotInput,
         }
+        field_classes = {"image": AssetImageField}  # noqa: RUF012
 
     def clean(self):
         cleaned_data = super().clean()
@@ -150,6 +152,7 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
             "image": ScreenshotInput,
         }
         field_classes = {  # noqa: RUF012
+            "image": AssetImageField,
             "translation": LanguageChoiceField,
         }
 
