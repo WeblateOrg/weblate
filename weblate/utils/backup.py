@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.files import cleanup_error_message

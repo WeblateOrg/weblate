@@ -42,6 +42,7 @@ Weblate 5.17
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
+* Improved repository lock error handling when deleting units.
 
 .. rubric:: Compatibility
 

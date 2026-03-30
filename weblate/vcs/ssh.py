@@ -18,8 +18,8 @@ from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, pgettext_lazy
 
-from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.hash import calculate_checksum
