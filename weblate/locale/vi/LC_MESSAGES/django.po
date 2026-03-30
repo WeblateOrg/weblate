@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-03-30 02:11+0000\n"
+"PO-Revision-Date: 2026-03-31 03:10+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -1727,7 +1727,7 @@ msgstr "Tần suất cập nhật"
 
 #: weblate/addons/forms.py:112
 msgid "Daily"
-msgstr ""
+msgstr "Hằng ngày"
 
 #: weblate/addons/forms.py:113
 #, fuzzy
@@ -1744,10 +1744,12 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
+"Tần suất cập nhật tệp POT của tiện ích bổ sung khi thành phần được làm mới "
+"là bao nhiêu."
 
 #: weblate/addons/forms.py:123
 msgid "Normalize POT header"
-msgstr ""
+msgstr "Tiêu đề POT bình thường"
 
 #: weblate/addons/forms.py:127
 #, fuzzy
@@ -1766,6 +1768,8 @@ msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
 msgstr ""
+"Đảm bảo tiện ích bổ sung msgmerge được cài đặt và kích hoạt nó sau khi tệp "
+"POT được cập nhật."
 
 #: weblate/addons/forms.py:161
 #, fuzzy
@@ -1782,13 +1786,15 @@ msgstr "PHP strings"
 
 #: weblate/addons/forms.py:164
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "Tệp kê khai POTFILES"
 
 #: weblate/addons/forms.py:169
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Chọn xem xgettext nên đọc các tệp nguồn từ các mẫu glob hay từ tệp kê khai "
+"POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:174
 #, fuzzy
@@ -1799,22 +1805,27 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 #: weblate/addons/forms.py:178
 msgid "Programming language passed to xgettext, for example Python or C."
 msgstr ""
+"Ngôn ngữ lập trình được truyền cho hàm xgettext, ví dụ như Python hoặc C."
 
 #: weblate/addons/forms.py:186
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Các mẫu glob tương đối với kho lưu trữ được phân tách bằng dấu xuống dòng "
+"dùng để trích xuất tệp bằng xgettext."
 
 #: weblate/addons/forms.py:191
 msgid "POTFILES path"
-msgstr ""
+msgstr "Đường dẫn POTFILES"
 
 #: weblate/addons/forms.py:195
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to that file."
 msgstr ""
+"Đường dẫn tương đối đến thư mục POTFILES hoặc POTFILES.in. Các mục được giải "
+"quyết tương đối so với tệp đó."
 
 #: weblate/addons/forms.py:232 weblate/addons/forms.py:239
 #, fuzzy
@@ -1824,7 +1835,7 @@ msgstr "Trường này là bắt buộc."
 
 #: weblate/addons/forms.py:248
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "Đường dẫn POTFILES phải trỏ đến một tệp."
 
 #: weblate/addons/forms.py:265
 #, fuzzy
@@ -1837,6 +1848,8 @@ msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\" or \"djangojs.pot\"."
 msgstr ""
+"Tiện ích bổ sung Django yêu cầu mẫu cho các bản dịch mới phải được đặt tên "
+"là \"django.pot\" hoặc \"djangojs.pot\"."
 
 #: weblate/addons/forms.py:281
 #, fuzzy
@@ -1860,6 +1873,8 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"Tùy chọn loại bỏ các chuỗi không hữu ích cho việc dịch sau khi trích xuất "
+"bằng Sphinx."
 
 #: weblate/addons/forms.py:312
 #, fuzzy
@@ -2280,25 +2295,30 @@ msgstr "Cập nhật các tệp PO để phù hợp với POT (msgmerge)"
 #: weblate/addons/gettext.py:814
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
+"Cập nhật mẫu gettext bằng cách sử dụng xgettext trên các tệp nguồn đã chọn."
 
 #: weblate/addons/gettext.py:1098
 msgid "Update POT file (Django)"
-msgstr ""
+msgstr "Cập nhật tệp POT (Django)"
 
 #: weblate/addons/gettext.py:1100
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
+"Cập nhật mẫu gettext bằng cách sử dụng lệnh makemessages tích hợp sẵn của "
+"Django."
 
 #: weblate/addons/gettext.py:1229
 msgid "Update POT file (Sphinx)"
-msgstr ""
+msgstr "Cập nhật tệp POT (Sphinx)"
 
 #: weblate/addons/gettext.py:1231
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"Cập nhật mẫu gettext bằng trình tạo gettext của Sphinx mà không cần tải cấu "
+"hình dự án."
 
 #: weblate/addons/gettext.py:1444
 msgid "Contributors in comment"
@@ -2565,7 +2585,7 @@ msgstr ""
 
 #: weblate/api/views.py:611 weblate/trans/forms.py:3320
 msgid "At least one team is required for a project token."
-msgstr ""
+msgstr "Để nhận được token dự án, cần ít nhất một nhóm."
 
 #: weblate/api/views.py:2072 weblate/trans/views/files.py:265
 #, python-format
@@ -5164,7 +5184,7 @@ msgstr "Tệp văn bản MediaWiki"
 #. Translators: File format name
 #: weblate/formats/convert.py:706
 msgid "AsciiDoc file"
-msgstr ""
+msgstr "Tệp AsciiDoc"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:754
@@ -5924,16 +5944,20 @@ msgstr "Cookies xác thực được yêu cầu để nhận diện người dù
 #: weblate/legal/templates/legal/cookies.html:43
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
+"Cookie tùy chọn dùng để lưu trữ các tùy chọn của người dùng trong một số "
+"trường hợp nhất định."
 
 #: weblate/legal/templates/legal/cookies.html:46
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not "
 "Track\" settings in your browser."
 msgstr ""
+"Trang web này sử dụng Matomo để phân tích lưu lượng truy cập. Trang web này "
+"tôn trọng cài đặt \"Không theo dõi\" trong trình duyệt của bạn."
 
 #: weblate/legal/templates/legal/cookies.html:50
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "Trang web này sử dụng Google Analytics để phân tích lưu lượng truy cập."
 
 #: weblate/legal/templates/legal/index.html:17
 msgid "Legal Terms Overview"
@@ -6047,6 +6071,8 @@ msgid ""
 "The ID of a translation domain, for example, BC. If you do not specify a "
 "domain, the method searches for translations in all available domains."
 msgstr ""
+"Mã định danh (ID) của miền dịch thuật, ví dụ: BC. Nếu bạn không chỉ định "
+"miền, phương thức này sẽ tìm kiếm bản dịch trong tất cả các miền khả dụng."
 
 #: weblate/machinery/forms.py:163
 #, fuzzy
@@ -6057,7 +6083,7 @@ msgstr "Vui lòng nhập tên người dùng và mật khẩu đúng."
 #: weblate/machinery/forms.py:171
 msgctxt "Automatic suggestion service configuration"
 msgid "Application base URL"
-msgstr ""
+msgstr "URL cơ sở của ứng dụng"
 
 #: weblate/machinery/forms.py:188
 #, fuzzy
@@ -6069,6 +6095,8 @@ msgstr "Xác thực"
 #: weblate/machinery/forms.py:197
 msgid "Regional or multi-service can be specified using region field below."
 msgstr ""
+"Bạn có thể chỉ định vùng hoặc nhiều dịch vụ bằng cách sử dụng trường vùng "
+"bên dưới."
 
 #: weblate/machinery/forms.py:203
 #, fuzzy
@@ -6087,16 +6115,17 @@ msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
 msgstr ""
+"Hãy chỉ định ID danh mục hệ thống tùy chỉnh để sử dụng thay vì ID chung."
 
 #: weblate/machinery/forms.py:222
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Translate service account info"
-msgstr ""
+msgstr "Thông tin tài khoản dịch vụ Google Translate"
 
 #: weblate/machinery/forms.py:227
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter a JSON key for the service account."
-msgstr ""
+msgstr "Nhập khóa JSON cho tài khoản dịch vụ."
 
 #: weblate/machinery/forms.py:232
 #, fuzzy
@@ -6108,7 +6137,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 #: weblate/machinery/forms.py:236
 msgctxt "Google Cloud Translation configuration"
 msgid "Enter the numeric or alphanumeric ID of your Google Cloud project."
-msgstr ""
+msgstr "Nhập ID số hoặc chữ và số của dự án Google Cloud của bạn."
 
 #: weblate/machinery/forms.py:241
 #, fuzzy
@@ -6123,11 +6152,13 @@ msgid ""
 "Choose a Google Cloud Translation region that is used for the Google Cloud "
 "project or is closest to you."
 msgstr ""
+"Chọn vùng dịch thuật Google Cloud được sử dụng cho dự án Google Cloud của "
+"bạn hoặc vùng gần bạn nhất."
 
 #: weblate/machinery/forms.py:250
 msgctxt "Google Cloud region"
 msgid "Global"
-msgstr ""
+msgstr "Chung"
 
 #: weblate/machinery/forms.py:251
 msgctxt "Google Cloud region"
@@ -6203,16 +6234,18 @@ msgstr "Khoá thành phần"
 #: weblate/machinery/forms.py:311
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
+"Danh sách các ID bộ nhớ phân tách bằng dấu phẩy:trọng số. Ví dụ: "
+"1234:0.123,4567:0.456"
 
 #: weblate/machinery/forms.py:324
 #, python-format
 msgid "The context vector is not valid: %s"
-msgstr ""
+msgstr "Vectơ ngữ cảnh không hợp lệ: %s"
 
 #: weblate/machinery/forms.py:328
 #, python-format
 msgid "The weight value must be between 0 and 1: %s"
-msgstr ""
+msgstr "Giá trị trọng số phải nằm trong khoảng từ 0 đến 1: %s"
 
 #: weblate/machinery/forms.py:339
 #, fuzzy
@@ -6224,6 +6257,8 @@ msgstr "Tiếng Somali"
 #: weblate/machinery/forms.py:341
 msgid "Uses the specified formality if language is not specified as (in)formal"
 msgstr ""
+"Sử dụng mức độ trang trọng đã chỉ định nếu ngôn ngữ không được chỉ định là "
+"trang trọng hoặc không trang trọng"
 
 #: weblate/machinery/forms.py:356
 #, fuzzy
@@ -6236,21 +6271,21 @@ msgstr "Tập tin dịch kiểu XLIFF"
 msgid ""
 "Describe the context of the translation to improve the accuracy of the "
 "translation."
-msgstr ""
+msgstr "Mô tả bối cảnh của phiên dịch để cải thiện đổ chính xác của phiên dịch."
 
 #: weblate/machinery/forms.py:367
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "Sử dụng mô hình thế hệ tiếp theo"
 
 #: weblate/machinery/forms.py:370
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "Ưu tiên LLM thế hệ mới thay vì mô hình dịch máy truyền thống."
 
 #: weblate/machinery/forms.py:384
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
-msgstr ""
+msgstr "Mô hình LLM"
 
 #: weblate/machinery/forms.py:391
 #, fuzzy
@@ -6264,6 +6299,8 @@ msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
 msgstr ""
+"Mô tả vai trò của người dịch để nâng cao độ chính xác của bản dịch. Ví dụ: “"
+"Bạn là người nuôi sóc.”"
 
 #: weblate/machinery/forms.py:402
 #, fuzzy
@@ -6276,6 +6313,7 @@ msgstr "Tập tin dịch kiểu XLIFF"
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr ""
+"Hãy mô tả phong cách dịch thuật. Ví dụ: “Sử dụng ngôn ngữ không trang trọng.”"
 
 #: weblate/machinery/forms.py:419
 msgctxt "OpenAI model selection"
@@ -6290,7 +6328,7 @@ msgstr "Mô hình tùy chỉnh"
 #: weblate/machinery/forms.py:440
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
-msgstr ""
+msgstr "URL cơ sở OpenAI API"
 
 #: weblate/machinery/forms.py:444
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
@@ -6308,7 +6346,7 @@ msgstr "Tên mô hình tùy chỉnh"
 
 #: weblate/machinery/forms.py:461 weblate/machinery/forms.py:561
 msgid "Only needed when model is set to 'Custom model'"
-msgstr ""
+msgstr "Chỉ cần thiết khi mô hình được đặt thành 'Mô hình tùy chỉnh'"
 
 #: weblate/machinery/forms.py:471 weblate/machinery/forms.py:581
 #, fuzzy
@@ -6318,7 +6356,7 @@ msgstr "Tài khoản hoặc mật khẩu"
 
 #: weblate/machinery/forms.py:475 weblate/machinery/forms.py:585
 msgid "Choose custom model here to enable it."
-msgstr ""
+msgstr "Chọn mô hình tùy chỉnh tại đây để kích hoạt."
 
 #: weblate/machinery/forms.py:484
 msgctxt "Automatic suggestion service configuration"
@@ -6804,7 +6842,7 @@ msgstr "Trang bạn đang tìm hiện không tồn tại."
 #: weblate/templates/404.html:17
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr ""
+msgstr "Dự án bạn đang tìm kiếm không tồn tại hoặc không được công khai."
 
 #: weblate/templates/500.html:7 weblate/trans/views/error.py:73
 msgid "Internal Server Error"
@@ -6908,10 +6946,13 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
+"Phiên bản Weblate này lưu trữ các bản dịch cho nhiều dự án phần mềm mã nguồn "
+"mở khác nhau."
 
 #: weblate/templates/about/index.html:32
 msgid "Weblate can host your project as well, please get in touch."
 msgstr ""
+"Weblate cũng có thể lưu trữ dự án của bạn, vui lòng liên hệ với chúng tôi."
 
 #: weblate/templates/about/index.html:35
 #: weblate/templates/accounts/hosting.html:58
@@ -7059,6 +7100,9 @@ msgid ""
 "For questions about a specific translation project, don’t use this form. "
 "Refer to the project’s Info tab and contact its maintainers."
 msgstr ""
+"Đối với các câu hỏi về một dự án dịch thuật cụ thể, vui lòng không sử dụng "
+"biểu mẫu này. Hãy tham khảo mục Thông tin của dự án và liên hệ với người "
+"quản lý dự án."
 
 #: weblate/templates/accounts/contact.html:29
 #, python-format
@@ -7200,15 +7244,15 @@ msgstr "Hồ sơ người dùng"
 
 #: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
-msgstr ""
+msgstr "Bạn sẽ có 14 ngày để thiết lập dự án của mình."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
-msgstr ""
+msgstr "Vui lòng yêu cầu phê duyệt dự án sau khi hoàn tất thiết lập."
 
 #: weblate/templates/accounts/hosting.html:39
 msgid "Unapproved projects will be removed."
-msgstr ""
+msgstr "Các dự án chưa được phê duyệt sẽ bị xóa bỏ."
 
 #: weblate/templates/accounts/hosting.html:40
 msgid ""
@@ -7330,7 +7374,7 @@ msgstr "Vui lòng sửa lỗi trong biểu mẫu."
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
-msgstr ""
+msgstr "Hãy gửi yêu cầu đến dự án bạn muốn dịch để bổ sung ngôn ngữ còn thiếu."
 
 #: weblate/templates/accounts/profile.html:79
 #: weblate/templates/accounts/profile.html:96
@@ -7370,6 +7414,8 @@ msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
 msgstr ""
+"Thêm tất cả các dự án bạn muốn dịch để xem chúng là các dự án đã theo dõi "
+"trên bảng điều khiển."
 
 #: weblate/templates/accounts/profile.html:123
 #: weblate/templates/mail/base.html:109
@@ -7674,6 +7720,9 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
+"Bằng cách đăng ký, bạn đồng ý sử dụng tên và email của mình trong các cam "
+"kết và cung cấp đóng góp của bạn theo giấy phép được xác định bởi từng dự án "
+"bản địa hóa."
 
 #: weblate/templates/accounts/profile.html:633
 msgid "You have agreed to the following as a contributor:"
@@ -7779,6 +7828,8 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Bạn sẽ mất quyền truy cập vào các dự án mà bạn quản lý. Bản thân các dự án "
+"sẽ không bị xóa."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
@@ -7874,6 +7925,8 @@ msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Bạn cung cấp đóng góp của mình theo giấy phép được quy định bởi từng dự án "
+"mà bạn đã đóng góp."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 #, fuzzy
@@ -8689,6 +8742,7 @@ msgstr "Thêm người dùng"
 #, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
 msgstr ""
+"Thao tác này sẽ loại bỏ quyền truy cập của <b>%(user)s</b> vào dự án này."
 
 #: weblate/templates/auth/team.html:239 weblate/templates/base.html:304
 #: weblate/templates/category.html:258 weblate/templates/category.html:316
@@ -8988,7 +9042,7 @@ msgstr "Chuỗi hệ điều hành iOS"
 #: weblate/templates/billing/detail.html:45
 #: weblate/templates/billing/detail.html:62
 msgid "To terminate billing you have to remove all projects first."
-msgstr ""
+msgstr "Để chấm dứt việc tính phí, trước tiên bạn phải xóa tất cả các dự án."
 
 #: weblate/templates/billing/detail.html:51
 msgid "Change plan or payment method"
@@ -9111,7 +9165,7 @@ msgstr ""
 #: weblate/templates/billing/list.html:34
 #: weblate/templates/billing/status.html:115
 msgid "No projects currently assigned!"
-msgstr ""
+msgstr "Hiện chưa có dự án nào được giao!"
 
 #: weblate/templates/billing/list.html:42 weblate/templates/data.html:80
 #: weblate/templates/mail/base.html:58 weblate/templates/mail/base.html:74
@@ -9141,6 +9195,8 @@ msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
 msgstr ""
+"Nếu bạn không có quyền truy cập vào thông tin thanh toán của dự án, hãy hỏi "
+"quản trị viên cấp quyền truy cập cho bạn."
 
 #: weblate/templates/billing/overview.html:30
 #: weblate/templates/projects.html:19
@@ -9244,11 +9300,13 @@ msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
+"Chỉ sử dụng tùy chọn này nếu bạn biết mình đang làm gì, việc kích hoạt nó có "
+"thể dẫn đến việc bạn bị thu hồi quyền truy cập vào dự án này."
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:77
 #: weblate/trans/forms.py:2438 weblate/trans/forms.py:2513
 msgid "You do not have permission to change project access control."
-msgstr ""
+msgstr "Bạn không có quyền thay đổi quyền truy cập dự án."
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:79
 #: weblate/templates/snippets/billing-failure.html:13
@@ -9435,7 +9493,7 @@ msgstr "Tập tin dịch kiểu XLIFF"
 #: weblate/templates/language-project.html:160
 #: weblate/templates/project.html:260 weblate/templates/project.html:267
 msgid "Browse all project changes"
-msgstr ""
+msgstr "Xem tất cả các thay đổi dự án"
 
 #: weblate/templates/category.html:251 weblate/templates/project.html:356
 #, fuzzy
@@ -9475,6 +9533,8 @@ msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
+"Thông báo này sẽ hiển thị cho tất cả các bản dịch trong dự án, cho đến khi "
+"hết hạn hoặc vĩnh viễn cho đến khi bị xóa."
 
 #: weblate/templates/category.html:326 weblate/templates/component.html:445
 #: weblate/templates/dashboard/user.html:141 weblate/templates/project.html:414
@@ -9494,6 +9554,9 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
+"Liệt kê tất cả các dịch giả đóng góp cho dự án này trong một khoảng thời "
+"gian nhất định. Hữu ích để đưa vào tài liệu hoặc chính ứng dụng, nhằm cảm ơn "
+"các dịch giả và tạo phản hồi cho họ."
 
 #: weblate/templates/category.html:348 weblate/templates/category.html:369
 #: weblate/templates/component.html:467 weblate/templates/component.html:488
