@@ -48,6 +48,24 @@ class WebsiteAlertSettingTest(ViewTestCase):
         )
         mocked_get_uri_error.assert_called_once_with("https://example.com/project")
 
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    @patch("weblate.trans.models.alert.get_uri_error")
+    def test_website_alert_uses_validator_error_without_fetch(
+        self, mocked_get_uri_error
+    ) -> None:
+        self.project.web = "https://localhost/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        self.assertEqual(
+            self.component.alert_set.get(name="BrokenProjectURL").details["error"],
+            "This URL is prohibited",
+        )
+        mocked_get_uri_error.assert_not_called()
+
 
 class AlertTest(ViewTestCase):
     def create_component(self):

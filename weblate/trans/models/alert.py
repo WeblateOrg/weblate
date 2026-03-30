@@ -23,11 +23,14 @@ from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
-from weblate.utils.requests import get_uri_error
+from weblate.utils.requests import format_validation_error, get_uri_error
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.validators import WeblateURLValidator, validate_project_web
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
@@ -37,6 +40,17 @@ if TYPE_CHECKING:
 
 ALERTS: dict[str, type[BaseAlert]] = {}
 ALERTS_IMPORT: set[str] = set()
+
+
+def _get_validated_uri_error(
+    uri: str, validators: tuple[Callable[[str], None], ...]
+) -> str | None:
+    for validator in validators:
+        try:
+            validator(uri)
+        except ValidationError as error:
+            return format_validation_error(error)
+    return get_uri_error(uri)
 
 
 def register(cls: type[BaseAlert]) -> type[BaseAlert]:
@@ -581,7 +595,10 @@ class BrokenBrowserURL(BaseAlert):
                     if location_link is None:
                         continue
                     # We only test first link
-                    location_error = get_uri_error(location_link)
+                    location_error = _get_validated_uri_error(
+                        location_link,
+                        validators=(WeblateURLValidator(),),
+                    )
                     break
         if location_error:
             return {"link": location_link, "error": location_error}
@@ -607,7 +624,10 @@ class BrokenProjectURL(BaseAlert):
             return False
 
         if component.project.web:
-            location_error = get_uri_error(component.project.web)
+            location_error = _get_validated_uri_error(
+                component.project.web,
+                validators=(WeblateURLValidator(), validate_project_web),
+            )
             if location_error is not None:
                 return {"error": location_error}
         return False
