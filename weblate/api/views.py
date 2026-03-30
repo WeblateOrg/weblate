@@ -167,6 +167,9 @@ DOC_TEXT = """
 <p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
 description of the API.</p>
 """
+DELETE_UNIT_LOCKED_DETAIL = gettext_lazy(
+    "Could not remove the string because another background operation is in progress. Please try again later."
+)
 
 
 class LockedError(APIException):
@@ -2398,6 +2401,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             self.permission_denied(request, can_delete.reason)
         try:
             obj.translation.delete_unit(request, obj)
+        except WeblateLockTimeoutError as error:
+            if error.lock.scope == "repo":
+                raise LockedError(
+                    code="repository-locked",
+                    detail=DELETE_UNIT_LOCKED_DETAIL,
+                ) from None
+            raise
         except FileParseError as error:
             obj.translation.component.update_import_alerts(delete=False)
             return Response(
