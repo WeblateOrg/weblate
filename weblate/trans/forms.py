@@ -40,6 +40,7 @@ from django.utils.text import normalize_newlines, slugify
 from django.utils.translation import gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
+from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
@@ -3263,7 +3264,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.project = project
         super().__init__(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, acting_user: User | None = None, **kwargs):
         self.instance.is_bot = True
         base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
         while User.objects.filter(
@@ -3274,6 +3275,13 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.instance.email = f"{name}@bots.noreply.weblate.org"
         result = super().save(*args, **kwargs)
         self.project.add_user(self.instance, "Administration")
+        AuditLog.objects.create(
+            self.instance,
+            None,
+            "token-created",
+            project=self.project.name,
+            username=acting_user.username if acting_user is not None else None,
+        )
         return result
 
     def clean_expires(self):
