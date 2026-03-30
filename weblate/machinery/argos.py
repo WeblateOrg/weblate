@@ -7,7 +7,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-import argostranslate.package
 import argostranslate.translate
 
 from .base import MachineTranslation
