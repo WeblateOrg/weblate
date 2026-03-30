@@ -3627,30 +3627,24 @@ class Component(
 
     def get_template_filename(self) -> str | None:
         """Create absolute filename for template."""
-        if not self.template:
-            return None
-        filename = os.path.join(self.full_path, self.template)
-        # Throws an exception in case of error
-        self.check_file_is_valid(filename)
-        return filename
+        return self.get_validated_component_filename(self.template)
 
     def get_intermediate_filename(self) -> str | None:
         """Create absolute filename for intermediate."""
-        if not self.intermediate:
-            return None
-        filename = os.path.join(self.full_path, self.intermediate)
-        # Throws an exception in case of error
-        self.check_file_is_valid(filename)
-        return filename
+        return self.get_validated_component_filename(self.intermediate)
 
     def get_new_base_filename(self) -> str | None:
         """Create absolute filename for base file for new translations."""
-        if not self.new_base:
+        return self.get_validated_component_filename(self.new_base)
+
+    def get_validated_component_filename(self, filename: str | None) -> str | None:
+        """Create a validated absolute filename for a component-managed file."""
+        if not filename:
             return None
-        filename = os.path.join(self.full_path, self.new_base)
+        fullname = os.path.join(self.full_path, filename)
         # Throws an exception in case of error
-        self.check_file_is_valid(filename)
-        return filename
+        self.check_file_is_valid(fullname)
+        return fullname
 
     def create_template_if_missing(self) -> None:
         """Create blank template in case intermediate language is enabled."""
@@ -4160,6 +4154,12 @@ class Component(
         with self.repository.lock:
             if create_translations:
                 self.commit_pending("add language", None)
+
+            try:
+                self.check_file_is_valid(fullname)
+            except ValidationError:
+                fail_message(gettext("Could not add new translation file."))
+                return None
 
             # Create or get translation object
             translation, created = self.translation_set.get_or_create(

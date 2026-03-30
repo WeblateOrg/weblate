@@ -8,6 +8,7 @@ import json
 import tempfile
 from io import StringIO
 from typing import Any
+from unittest.mock import MagicMock, call, patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -19,7 +20,7 @@ from weblate_schemas import load_schema
 from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.models import Memory
+from weblate.memory.models import Memory, MemoryQuerySet
 from weblate.memory.tasks import (
     handle_unit_translation_change,
     import_memory,
@@ -861,7 +862,7 @@ class ThresholdTestCase(SimpleTestCase):
 
     def test_auto(self) -> None:
         self.assertAlmostEqual(
-            Memory.objects.threshold_to_similarity("x", 80), 0.96, delta=0.01
+            Memory.objects.threshold_to_similarity("x", 80), 0.97, delta=0.01
         )
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x" * 50, 80), 0.96, delta=0.01
@@ -877,7 +878,7 @@ class ThresholdTestCase(SimpleTestCase):
 
     def test_machine(self) -> None:
         self.assertAlmostEqual(
-            Memory.objects.threshold_to_similarity("x", 75), 0.95, delta=0.01
+            Memory.objects.threshold_to_similarity("x", 75), 0.97, delta=0.01
         )
         self.assertAlmostEqual(
             Memory.objects.threshold_to_similarity("x" * 50, 75), 0.96, delta=0.01
@@ -905,4 +906,47 @@ class ThresholdTestCase(SimpleTestCase):
             Memory.objects.threshold_to_similarity("<" * 50 + "x" * 50 + ">" * 50, 100),
             1.0,
             delta=0.01,
+        )
+
+    def test_minimum_similarity_short_strings(self) -> None:
+        self.assertEqual(Memory.objects.minimum_similarity("Username", 75), 0.92)
+        self.assertEqual(Memory.objects.minimum_similarity("Display name", 75), 0.9)
+        self.assertEqual(Memory.objects.minimum_similarity("x" * 50, 75), 0.3)
+        self.assertEqual(Memory.objects.minimum_similarity("x", 100), 1.0)
+
+
+class LookupPolicyTest(SimpleTestCase):
+    @patch("weblate.memory.models.adjust_similarity_threshold")
+    def test_lookup_short_strings_stop_backing_off_early(
+        self, adjust_threshold
+    ) -> None:
+        base = MagicMock()
+        base.filter_type.return_value = base
+        base.filter.return_value = []
+
+        with patch.object(MemoryQuerySet, "prefetch_project", return_value=base):
+            results = Memory.objects.lookup("en", "cs", "Username", None, None, False)
+
+        self.assertEqual(list(results), [])
+        self.assertEqual(adjust_threshold.call_args_list, [call(0.97), call(0.92)])
+
+    @patch("weblate.memory.models.adjust_similarity_threshold")
+    def test_lookup_exact_threshold_uses_single_exact_probe(
+        self, adjust_threshold
+    ) -> None:
+        base = MagicMock()
+        base.filter_type.return_value = base
+        base.filter.return_value = []
+
+        with patch.object(MemoryQuerySet, "prefetch_project", return_value=base):
+            results = Memory.objects.lookup(
+                "en", "cs", "Username", None, None, False, 100
+            )
+
+        self.assertEqual(list(results), [])
+        adjust_threshold.assert_not_called()
+        base.filter.assert_called_once_with(
+            source="Username",
+            source_language="en",
+            target_language="cs",
         )

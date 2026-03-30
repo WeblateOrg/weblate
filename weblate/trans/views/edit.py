@@ -25,7 +25,7 @@ from django.http import (
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.translation import gettext, ngettext
+from django.utils.translation import gettext, gettext_lazy, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS, get_display_checks
@@ -67,6 +67,7 @@ from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import (
@@ -84,6 +85,9 @@ if TYPE_CHECKING:
     )
 
 SESSION_SEARCH_CACHE_TTL = 1800
+DELETE_UNIT_LOCKED_MESSAGE = gettext_lazy(
+    "Could not remove the string because another background operation is in progress. Please try again later."
+)
 
 
 def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None:
@@ -1136,6 +1140,9 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
 
     try:
         unit.translation.delete_unit(request, unit)
+    except WeblateLockTimeoutError:
+        messages.error(request, DELETE_UNIT_LOCKED_MESSAGE)
+        return redirect(unit)
     except FileParseError as error:
         unit.translation.component.update_import_alerts(delete=False)
         messages.error(request, gettext("Could not remove the string: %s") % error)

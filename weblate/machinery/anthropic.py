@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
 from urllib.parse import urljoin
 
 from .base import MachineryRateLimitError
@@ -20,6 +21,7 @@ class AnthropicTranslation(BaseLLMTranslation):
     """
 
     name = "Anthropic"
+    trusted_error_hosts: ClassVar[set[str]] = {"api.anthropic.com"}
     end_point = "/v1/messages"
     settings_form = AnthropicMachineryForm
     version_added = "5.16"

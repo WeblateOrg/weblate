@@ -81,6 +81,30 @@ This is currently used in the following places:
 
    * :setting:`ALLOWED_ASSET_SIZE`
 
+.. setting:: ALLOWED_MACHINERY_DOMAINS
+
+ALLOWED_MACHINERY_DOMAINS
+-------------------------
+
+Configures which custom machinery domains are explicitly allowed in project-level
+machine translation configuration.
+
+This setting applies only to machinery services and does not affect
+:setting:`ALLOWED_ASSET_DOMAINS`.
+
+It expects a list of host/domain names. You can use fully qualified names or
+prepend with a period as a wildcard to match all subdomains.
+
+Defaults to ``[]``.
+
+The allowlist affects project-managed machinery in two ways: it permits the
+configured endpoint during outbound validation, and it marks matching hosts as
+trusted when deciding whether remote provider error details or response bodies
+can be shown to the user. For direct connections, runtime checks still reject
+destinations that resolve to private or otherwise non-public addresses. When an
+HTTP(S) proxy is used, runtime validation falls back to hostname validation and
+does not perform the same local DNS or peer-IP checks.
+
 .. setting:: ALLOWED_ASSET_SIZE
 
 ALLOWED_ASSET_SIZE

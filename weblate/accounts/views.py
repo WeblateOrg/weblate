@@ -399,9 +399,7 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
                 is_active=i == 0,
                 prefix=prefix,
                 data=request.POST,
-                # TODO: This is most likely wrong
-                # pylint: disable-next=undefined-loop-variable
-                initial=initials[details[0]],
+                initial=initials[active],
             )
 
 

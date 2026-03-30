@@ -38,6 +38,7 @@ from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded
+from weblate.utils.outbound import validate_outbound_hostname, validate_outbound_url
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
@@ -402,6 +403,25 @@ def validate_asset_url(value: str) -> None:
         urlparse(value).hostname or "", settings.ALLOWED_ASSET_DOMAINS
     ):
         raise ValidationError(gettext("URL domain is not allowed."))
+
+
+def validate_machinery_url(value: str, *, allow_private_targets: bool = True) -> None:
+    WeblateServiceURLValidator()(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=allow_private_targets,
+        allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+    )
+
+
+def validate_machinery_hostname(
+    value: str, *, allow_private_targets: bool = True
+) -> None:
+    validate_outbound_hostname(
+        value,
+        allow_private_targets=allow_private_targets,
+        allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+    )
 
 
 class WeblateEditorURLValidator(WeblateURLValidator):

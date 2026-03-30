@@ -7,7 +7,9 @@
 from __future__ import annotations
 
 import time
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
 
 from django.urls import reverse
 
@@ -19,6 +21,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import format_newly_failing_checks_message
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
@@ -616,6 +619,29 @@ class EditPoMonoTest(EditTest):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
         self.assertEqual(unit_count - 4, Unit.objects.count())
+
+    def test_remove_unit_locked(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        unit = self.get_unit().source_unit
+
+        with patch(
+            "weblate.trans.models.translation.Translation.delete_unit",
+            side_effect=WeblateLockTimeoutError(
+                "repository locked",
+                lock=SimpleNamespace(scope="repo", origin="test/component"),
+            ),
+        ):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": unit.pk}),
+                follow=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Could not remove the string because another background operation is in progress. Please try again later.",
+        )
 
 
 class EditIphoneTest(EditTest):

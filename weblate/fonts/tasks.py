@@ -8,8 +8,8 @@ from celery.schedules import crontab
 
 from weblate.fonts.models import FONT_STORAGE, Font
 from weblate.fonts.utils import configure_fontconfig
-from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
+from weblate.utils.commands import get_clean_env
 
 
 @app.task(trail=False)

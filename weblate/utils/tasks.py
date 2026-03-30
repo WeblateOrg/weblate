@@ -25,9 +25,9 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Component, Project, Translation
-from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -83,19 +83,28 @@ def settings_backup() -> None:
 
 @app.task(trail=False)
 def update_translation_stats_parents(pk: int) -> None:
-    translation = Translation.objects.get(pk=pk)
+    try:
+        translation = Translation.objects.get(pk=pk)
+    except Translation.DoesNotExist:
+        return
     translation.stats.update_parents()
 
 
 @app.task(trail=False)
 def update_language_stats_parents(pk: int) -> None:
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        return
     component.stats.update_language_stats_parents()
 
 
 @app.task(trail=False)
 def update_project_stats_link(pk: int) -> None:
-    project = Project.objects.get(pk=pk)
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
     for language in project.stats.get_language_stats():
         language.update_stats(update_parents=False)
     project.stats.update_stats()

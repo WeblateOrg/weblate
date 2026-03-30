@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Count, Q
 from django.template.loader import render_to_string
@@ -22,11 +23,14 @@ from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
-from weblate.utils.requests import get_uri_error
+from weblate.utils.requests import format_validation_error, get_uri_error
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.validators import WeblateURLValidator, validate_project_web
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
@@ -36,6 +40,17 @@ if TYPE_CHECKING:
 
 ALERTS: dict[str, type[BaseAlert]] = {}
 ALERTS_IMPORT: set[str] = set()
+
+
+def _get_validated_uri_error(
+    uri: str, validators: tuple[Callable[[str], None], ...]
+) -> str | None:
+    for validator in validators:
+        try:
+            validator(uri)
+        except ValidationError as error:
+            return format_validation_error(error)
+    return get_uri_error(uri)
 
 
 def register(cls: type[BaseAlert]) -> type[BaseAlert]:
@@ -423,14 +438,14 @@ class MissingLicense(BaseAlert):
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
 
 
 @register
 class CDNAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
     doc_anchor = "addon-weblate-cdn-cdnjs"
 
 
@@ -438,8 +453,46 @@ class CDNAddonError(MultiAlert):
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not run add-on.")
-    doc_page = "adons"
+    doc_page = "admin/addons"
     doc_anchor = "addon-weblate-gettext-msgmerge"
+
+
+@register
+class ExtractPotAddonError(MultiAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not update POT file.")
+    doc_page = "addons"
+
+
+@register
+class ExtractPotMissingMsgmerge(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("POT updates do not update PO files.")
+    dismissable = True
+    doc_page = "addons"
+    doc_anchor = "addon-weblate-gettext-msgmerge"
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        extractors = {
+            "weblate.gettext.xgettext",
+            "weblate.gettext.django",
+            "weblate.gettext.sphinx",
+        }
+        has_extractor = False
+        has_msgmerge = False
+
+        for addon in component.addons_cache.addons:
+            if not addon.is_valid:
+                continue
+            if not addon.addon.can_process(component=component):
+                continue
+            if addon.name in extractors:
+                has_extractor = True
+            elif addon.name == "weblate.gettext.msgmerge":
+                has_msgmerge = True
+
+        return has_extractor and not has_msgmerge
 
 
 @register
@@ -542,7 +595,10 @@ class BrokenBrowserURL(BaseAlert):
                     if location_link is None:
                         continue
                     # We only test first link
-                    location_error = get_uri_error(location_link)
+                    location_error = _get_validated_uri_error(
+                        location_link,
+                        validators=(WeblateURLValidator(),),
+                    )
                     break
         if location_error:
             return {"link": location_link, "error": location_error}
@@ -568,7 +624,10 @@ class BrokenProjectURL(BaseAlert):
             return False
 
         if component.project.web:
-            location_error = get_uri_error(component.project.web)
+            location_error = _get_validated_uri_error(
+                component.project.web,
+                validators=(WeblateURLValidator(), validate_project_web),
+            )
             if location_error is not None:
                 return {"error": location_error}
         return False
@@ -672,11 +731,16 @@ class InexistantFiles(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        missing_files = [
-            name
-            for name in (component.template, component.intermediate, component.new_base)
-            if name and not os.path.exists(os.path.join(component.full_path, name))
-        ]
+        missing_files = []
+        for name in (component.template, component.intermediate, component.new_base):
+            if not name:
+                continue
+            try:
+                fullname = component.get_validated_component_filename(name)
+            except ValidationError:
+                fullname = None
+            if not fullname or not os.path.exists(fullname):
+                missing_files.append(name)
         if missing_files:
             return {"files": missing_files}
         return False

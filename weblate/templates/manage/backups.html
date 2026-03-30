@@ -60,6 +60,12 @@
               </div>
             </div>
           {% endif %}
+          {% if service.current_error %}
+            <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">{% translate "Latest backup attempt failed" %}</h4>
+              <pre class="mb-0">{{ service.current_error.log }}</pre>
+            </div>
+          {% endif %}
           <div class="card">
             <div class="card-header" role="tab">
               <h4 class="card-title">

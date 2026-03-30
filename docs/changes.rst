@@ -9,6 +9,7 @@ Weblate 5.17
 * Added new management command :wladmin:`list_format_features`, which generates RST documentation snippets describing the supported features for every file format.
 * Shared components can now be categorized within the target project.
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
+* Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 
 .. rubric:: Improvements
 
@@ -19,9 +20,13 @@ Weblate 5.17
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 * Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
+* Improved performance of :ref:`mt-weblate` lookups.
 
 .. rubric:: Bug fixes
 
+* Component file handling now validates repository symlinks.
+* Improved REST API permission enforcement.
+* Hardened project-level machine translation against SSRF by blocking private-network targets for untrusted endpoints and hiding untrusted remote error details.
 * Prevented removing the last team from a project token.
 * Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.
@@ -37,6 +42,9 @@ Weblate 5.17
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
+* Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
+* POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
+* Improved repository lock error handling when deleting units.
 
 .. rubric:: Compatibility
 
@@ -46,7 +54,6 @@ Weblate 5.17
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
 * Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
-* URL health checks for configured project and repository links no longer follow HTTP redirects.
 
 .. rubric:: Upgrading
 

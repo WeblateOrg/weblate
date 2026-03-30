@@ -81,6 +81,7 @@ from weblate.api.serializers import (
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
+    SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
     TranslationSerializer,
@@ -166,6 +167,9 @@ DOC_TEXT = """
 <p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
 description of the API.</p>
 """
+DELETE_UNIT_LOCKED_DETAIL = gettext_lazy(
+    "Could not remove the string because another background operation is in progress. Please try again later."
+)
 
 
 class LockedError(APIException):
@@ -498,6 +502,12 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = (UserFilterBackend,)
 
     def get_serializer_class(self):
+        if getattr(self, "swagger_fake_view", False):
+            return FullUserSerializer
+        if self.action in {"update", "partial_update"}:
+            if self.request.user.has_perm("user.edit"):
+                return FullUserSerializer
+            return SelfUserSerializer
         if self.request.user.has_perm("user.view") or self.request.user.has_perm(
             "user.edit"
         ):
@@ -789,7 +799,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def update(self, request: Request, *args, **kwargs):
         """Change the group parameters."""
-        self.perm_check(request)
+        self.perm_check(request, self.get_object())
         return super().update(request, *args, **kwargs)
 
     def perform_create(self, serializer) -> None:
@@ -800,7 +810,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete the group."""
-        self.perm_check(request)
+        self.perm_check(request, self.get_object())
         return super().destroy(request, *args, **kwargs)
 
     @extend_schema(description="Associate roles with a group.", methods=["post"])
@@ -1515,7 +1525,9 @@ class ProjectViewSet(
                 raise ValidationError({"service": "Missing service name"}) from error
 
             service, configuration, errors = validate_service_configuration(
-                service_name, request.data.get("configuration", "{}")
+                service_name,
+                request.data.get("configuration", "{}"),
+                allow_private_targets=False,
             )
 
             if service is None or errors:
@@ -1554,7 +1566,9 @@ class ProjectViewSet(
             valid_configurations: dict[str, dict] = {}
             for service_name, configuration in request.data.items():
                 service, configuration, errors = validate_service_configuration(
-                    service_name, configuration
+                    service_name,
+                    configuration,
+                    allow_private_targets=False,
                 )
 
                 if service is None or errors:
@@ -2387,6 +2401,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             self.permission_denied(request, can_delete.reason)
         try:
             obj.translation.delete_unit(request, obj)
+        except WeblateLockTimeoutError as error:
+            if error.lock.scope == "repo":
+                raise LockedError(
+                    code="repository-locked",
+                    detail=DELETE_UNIT_LOCKED_DETAIL,
+                ) from None
+            raise
         except FileParseError as error:
             obj.translation.component.update_import_alerts(delete=False)
             return Response(
@@ -2440,13 +2461,6 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 },
             )
             serializer.is_valid(raise_exception=True)
-
-            timestamp = serializer.validated_data.get("timestamp")
-            user_email = serializer.validated_data.get("user_email")
-            if (timestamp is not None or user_email is not None) and (
-                not user.has_perm("project.edit", unit.translation.component.project)
-            ):
-                self.permission_denied(request)
 
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
