@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
+from weblate.utils.outbound import validate_runtime_ip, validate_runtime_url
 from weblate.utils.render import validate_editor
 from weblate.utils.validators import (
     EmailValidator,
@@ -287,6 +288,12 @@ class WebsiteTest(SimpleTestCase):
                 "http://127.0.0.1:11434", allow_private_targets=False
             )
 
+    def test_machinery_url_validator_rejects_shared_address_space(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_machinery_url(
+                "http://100.64.0.1:11434", allow_private_targets=False
+            )
+
     @override_settings(ALLOWED_MACHINERY_DOMAINS=["ollama"])
     def test_machinery_hostname_allowlist(self) -> None:
         validate_machinery_hostname("ollama", allow_private_targets=False)
@@ -314,6 +321,29 @@ class BackupTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
         validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))
+
+
+class OutboundAddressValidationTest(SimpleTestCase):
+    def test_validate_runtime_ip_rejects_shared_address_space(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_runtime_ip("100.64.0.1", allow_private_targets=False)
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("100.64.0.1", 443))],
+    )
+    def test_validate_runtime_url_rejects_shared_address_space(
+        self, mocked_getaddrinfo
+    ) -> None:
+        with self.assertRaises(ValidationError):
+            validate_runtime_url(
+                "https://shared-address-space.example",
+                allow_private_targets=False,
+            )
+
+        mocked_getaddrinfo.assert_called_once_with(
+            "shared-address-space.example", None, type=1
+        )
 
 
 class RepoURLValidationTestCase(SimpleTestCase):
