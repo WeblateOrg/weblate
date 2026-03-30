@@ -8,6 +8,7 @@ import base64
 import contextlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -761,8 +762,14 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.chmod(0o755)
 
             with (
-                patch("weblate.addons.gettext.find_command", return_value=None),
-                patch("weblate.addons.gettext.sys.executable", os.fspath(fake_python)),
+                patch(
+                    "weblate.utils.commands.find_command",
+                    side_effect=lambda command, path=None: shutil.which(
+                        command,
+                        path=None if path is None else os.pathsep.join(path),
+                    ),
+                ),
+                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
             ):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
@@ -786,10 +793,28 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.chmod(0o755)
 
             with (
-                patch("weblate.addons.gettext.find_command", return_value=None),
-                patch("weblate.addons.gettext.sys.executable", os.fspath(fake_python)),
+                patch(
+                    "weblate.utils.commands.find_command",
+                    side_effect=lambda command, path=None: shutil.which(
+                        command,
+                        path=None if path is None else os.pathsep.join(path),
+                    ),
+                ),
+                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
             ):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
+
+    def test_sphinx_can_install_ignores_relative_runtime_executable(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        docs_dir = Path(self.component.full_path) / "docs"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        (docs_dir / "conf.py").write_text("", encoding="utf-8")
+
+        with (
+            patch("weblate.utils.commands.find_command", return_value=None),
+            patch("weblate.utils.commands.sys.executable", "python"),
+        ):
+            self.assertFalse(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_form_missing_source_dir(self) -> None:
         self.component.new_base = "docs/locales/docs.pot"
@@ -2345,11 +2370,45 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(len(addon.alerts), 1)
         self.assertIn("timed out", addon.alerts[0]["error"].lower())
 
+    def test_extract_pot_uses_runtime_interpreter_path_for_commands(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-runtime-command-") as tempdir:
+            runtime_bin = Path(tempdir) / "runtime-bin"
+            runtime_bin.mkdir(parents=True, exist_ok=True)
+            fake_python = runtime_bin / "python"
+            fake_python.write_text("", encoding="utf-8")
+            fake_python.chmod(0o755)
+            xgettext = runtime_bin / "xgettext"
+            xgettext.write_text("#!/bin/sh\necho runtime-xgettext\n", encoding="utf-8")
+            xgettext.chmod(0o755)
+
+            with (
+                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
+                patch(
+                    "weblate.utils.commands.sys.exec_prefix",
+                    os.fspath(Path(tempdir) / "other-prefix"),
+                ),
+                patch.dict(os.environ, {"PATH": "/usr/bin"}),
+            ):
+                output = addon.run_process(self.component, ["xgettext"])
+
+        self.assertEqual(output, "runtime-xgettext\n")
+
     def test_django_can_install_requires_msguniq(self) -> None:
         self.component.new_base = "locale/django.pot"
         self.component.save(update_fields=["new_base"])
 
-        def fake_find_command(name):
+        def fake_find_command(name, path=None):
             if name == "xgettext":
                 return "/usr/bin/xgettext"
             if name == "msguniq":
@@ -2357,7 +2416,7 @@ class GettextAddonTest(ViewTestCase):
             return "/usr/bin/other"
 
         with patch(
-            "weblate.addons.gettext.find_command", side_effect=fake_find_command
+            "weblate.utils.commands.find_command", side_effect=fake_find_command
         ):
             self.assertFalse(DjangoAddon.can_install(component=self.component))
 

@@ -16,7 +16,6 @@ from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.core.exceptions import ValidationError
-from django.core.management.utils import find_command
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -31,7 +30,7 @@ from weblate.addons.forms import (
 )
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.site import get_site_url
@@ -52,21 +51,6 @@ if TYPE_CHECKING:
 
 class GettextBaseAddon(BaseAddon):
     compat: ClassVar[CompatDict] = {"file_format": {"po", "po-mono"}}
-
-
-def find_runtime_command(command: str) -> str | None:
-    """Find executable either on PATH or next to the active Python interpreter."""
-    if path := find_command(command):
-        return path
-    interpreter_dir = Path(sys.executable).parent
-    candidates = [
-        interpreter_dir / command,
-        interpreter_dir / f"{command}.exe",
-    ]
-    for candidate in candidates:
-        if candidate.is_file() and os.access(candidate, os.X_OK):
-            return os.fspath(candidate)
-    return None
 
 
 class GenerateMoAddon(GettextBaseAddon):

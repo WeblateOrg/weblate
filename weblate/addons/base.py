@@ -21,8 +21,8 @@ from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.templatetags.translations import format_json
-from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
