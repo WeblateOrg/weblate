@@ -9,15 +9,15 @@ from __future__ import annotations
 import os
 from functools import cache, lru_cache
 from io import BytesIO
-from typing import NamedTuple
+from typing import TYPE_CHECKING, NamedTuple
 
 import cairo
 import gi
 from django.core.cache import cache as django_cache
-from django.db.models.fields.files import FieldFile
 from PIL import ImageFont
 
 from weblate.utils.data import data_path
+from weblate.utils.files import read_file_bytes
 from weblate.utils.hash import calculate_hash
 from weblate.utils.icons import find_static_file
 
@@ -26,6 +26,10 @@ gi.require_version("Pango", "1.0")
 
 # pylint: disable-next=wrong-import-position,wrong-import-order
 from gi.repository import Pango, PangoCairo  # noqa: E402
+
+if TYPE_CHECKING:
+    from django.core.files.base import File
+    from django.db.models.fields.files import FieldFile
 
 
 class Dimensions(NamedTuple):
@@ -146,6 +150,7 @@ def _render_size(
 ) -> tuple[Dimensions, int, bytes]:
     """Check whether rendered text fits."""
     configure_fontconfig()
+    normalized_weight = None if weight is None else Pango.Weight(weight)
 
     # Setup Pango/Cairo
     if surface_height is None:
@@ -160,8 +165,8 @@ def _render_size(
     # Load and configure font
     fontdesc = Pango.FontDescription.from_string(font)
     fontdesc.set_absolute_size(size * Pango.SCALE)
-    if weight:
-        fontdesc.set_weight(weight)
+    if normalized_weight:
+        fontdesc.set_weight(normalized_weight)
     layout.set_font_description(fontdesc)
 
     # Configure spacing
@@ -190,7 +195,7 @@ def _render_size(
             return _render_size(
                 text,
                 font=font,
-                weight=weight,
+                weight=normalized_weight,
                 size=size,
                 spacing=spacing,
                 width=width,
@@ -245,7 +250,7 @@ def render_size(
     text: str,
     *,
     font: str = "Kurinto Sans",
-    weight: int | None = Pango.Weight.NORMAL,
+    weight: int | Pango.Weight | None = Pango.Weight.NORMAL,
     size: int = 11,
     spacing: int = 0,
     width: int = 1000,
@@ -283,7 +288,7 @@ def render_size(
 def check_render_size(
     *,
     font: str,
-    weight: int | None,
+    weight: int | Pango.Weight | None,
     size: int,
     spacing: int,
     text: str,
@@ -305,12 +310,8 @@ def check_render_size(
     return rendered_size.width <= width and actual_lines <= lines
 
 
-def get_font_name(filelike):
+def get_font_name(filelike: FieldFile | File) -> tuple[str, str]:
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
-    # Form uploaded file
-    if isinstance(filelike, FieldFile):
-        filelike = filelike.file
-
-    if not hasattr(filelike, "loaded_font"):
-        filelike.loaded_font = ImageFont.truetype(filelike)
-    return filelike.loaded_font.getname()
+    # Parse fonts from in-memory bytes so Pillow does not keep the original
+    # file descriptor alive after validation.
+    return ImageFont.truetype(BytesIO(read_file_bytes(filelike))).getname()
