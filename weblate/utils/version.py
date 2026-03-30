@@ -79,9 +79,9 @@ class Release(NamedTuple):
 
 
 def download_version_info() -> list[Release]:
-    from weblate.utils.requests import http_request
+    from weblate.utils.requests import fetch_url
 
-    response = http_request("get", PYPI)
+    response = fetch_url("get", PYPI)
     result = []
     for version, info in response.json()["releases"].items():
         if not info:
