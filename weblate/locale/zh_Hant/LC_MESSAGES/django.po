@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-03-30 02:10+0000\n"
+"PO-Revision-Date: 2026-03-31 03:10+0000\n"
 "Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -133,7 +133,7 @@ msgstr "驗證已過期。請再試一次。"
 
 #: weblate/accounts/forms.py:479
 msgid "I'm not a robot"
-msgstr "我不是機器人哪"
+msgstr "我不是機器人"
 
 #: weblate/accounts/forms.py:480
 msgid "Verification completed"
@@ -714,8 +714,8 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"請輸入原始碼的自訂 URL 連結。可使用 {{branch}} 作為分支名， {{filename}} 和 "
-"{{line}} 分別作為檔名和列號的佔位符。"
+"請輸入原始碼的自訂 URL 連結。可使用 {{branch}} 作為分支名， {{filename}} 和 {"
+"{line}} 分別作為檔名和列號的佔位符號。"
 
 #: weblate/accounts/models.py:694
 msgid "Translation editor mode"
@@ -1190,7 +1190,7 @@ msgstr "只能在登入時確認註冊。"
 msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
-msgstr "您的郵件信箱不再屬於驗證過的帳號，所以已更改為 {0}。"
+msgstr "您的郵件信箱不再屬於驗證過的帳號，所以已變更為 {0}。"
 
 #: weblate/accounts/templatetags/authnames.py:57
 msgid "Use security key (WebAuthn)"
@@ -1321,10 +1321,8 @@ msgid "Register e-mail"
 msgstr "註冊郵件信箱"
 
 #: weblate/accounts/views.py:1066
-#, fuzzy
-#| msgid "Please complete your sign-in using second factor credential."
 msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "請使用雙重要素憑證完成登入。"
+msgstr "請在繼續之前使用第二種驗證來確認您的身分。"
 
 #: weblate/accounts/views.py:1082 weblate/accounts/views.py:1158
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1334,7 +1332,7 @@ msgstr "無法重設密碼，郵件信箱身份核對功能已停用。"
 #: weblate/templates/accounts/profile.html:206
 #: weblate/wladmin/templates/admin/base.html:13
 msgid "Change password"
-msgstr "更動密碼"
+msgstr "變更密碼"
 
 #: weblate/accounts/views.py:1123
 msgid "Password reset has been already completed."
@@ -1433,7 +1431,7 @@ msgstr "通知設定已調整。"
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
-msgstr "通知更動連結已無效，請登入以設定通知。"
+msgstr "通知變更連結已無效，請登入以設定通知。"
 
 #: weblate/accounts/views.py:1730
 msgid "The security key was removed."
@@ -1536,7 +1534,7 @@ msgstr "組件探索"
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
-msgstr "根據版本控制系統中的檔案更動自動加入或移除專案組件。"
+msgstr "根據版本控制系統中的檔案變更自動加入或移除專案組件。"
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -1626,7 +1624,7 @@ msgid ""
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"當版本控制系統中的字串翻譯有更動時，Weblate 會將其標記為需要重新撰寫。這項功"
+"當版本控制系統中的字串翻譯有變更時，Weblate 會將其標記為需要重新撰寫。這項功"
 "能在翻譯檔案經常被手動更新或由外部服務修改的情況下特別實用。"
 
 #: weblate/addons/forms.py:73
@@ -1648,20 +1646,16 @@ msgid ""
 msgstr "需要編輯的字串 (fuzzy) 通常無法直接被用為譯文。"
 
 #: weblate/addons/forms.py:110
-#, fuzzy
-#| msgid "Frequency"
 msgid "Update frequency"
-msgstr "頻率"
+msgstr "更新頻率"
 
 #: weblate/addons/forms.py:112
 msgid "Daily"
-msgstr ""
+msgstr "每天"
 
 #: weblate/addons/forms.py:113
-#, fuzzy
-#| msgid "Weekly digest"
 msgid "Weekly"
-msgstr "每週摘要"
+msgstr "每週"
 
 #: weblate/addons/forms.py:114
 msgid "Monthly"
@@ -1684,10 +1678,8 @@ msgid "Updates selected gettext header fields using component configuration."
 msgstr "選擇要複製的現有組件配置。"
 
 #: weblate/addons/forms.py:131
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update PO files using msgmerge"
-msgstr "更新 PO 檔以符合 POT (msgmerge)"
+msgstr "使用 msgmerge 更新 PO 檔案"
 
 #: weblate/addons/forms.py:136
 msgid ""
@@ -1696,18 +1688,12 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Input source"
-msgstr "編輯來源"
+msgstr "輸入來源"
 
 #: weblate/addons/forms.py:163 weblate/addons/forms.py:182
-#, fuzzy
-#| msgctxt "Number of source characters"
-#| msgid "Source characters"
 msgid "Source file patterns"
-msgstr "來源字元"
+msgstr "來源檔案形式"
 
 #: weblate/addons/forms.py:164
 msgid "POTFILES manifest"
@@ -1720,10 +1706,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "Target language"
 msgid "xgettext language"
-msgstr "目標語言"
+msgstr "xgettext 語言"
 
 #: weblate/addons/forms.py:178
 msgid "Programming language passed to xgettext, for example Python or C."
@@ -1746,10 +1730,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:232 weblate/addons/forms.py:239
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This field is required."
-msgstr "禁止使用這個名稱"
+msgstr "此欄必填。"
 
 #: weblate/addons/forms.py:248
 msgid "POTFILES path has to point to a file."
@@ -1768,10 +1750,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:281
-#, fuzzy
-#| msgid "Filters"
 msgid "Filtering"
-msgstr "篩選器"
+msgstr "篩選中"
 
 #: weblate/addons/forms.py:283
 msgctxt "None filtering"
@@ -1841,8 +1821,8 @@ msgstr "每位作者"
 #: weblate/addons/forms.py:388
 msgid "Append trailers to squashed commit message"
 msgstr ""
-"在將多個提交壓縮（squash）為一個提交時，將某些特定的元資料（trailers）附加到"
-"最終的提交資訊中"
+"在將多個提交壓縮（squash）為一個提交時，將某些特定的詮釋資料（trailers）附加"
+"到最終的提交資訊中"
 
 #: weblate/addons/forms.py:392
 msgid ""
@@ -2193,10 +2173,8 @@ msgstr ""
 "設定的）POT 檔案同步。"
 
 #: weblate/addons/gettext.py:812
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "更新 PO 檔以符合 POT (msgmerge)"
+msgstr "更新 POT 檔案 (xgettext)"
 
 #: weblate/addons/gettext.py:814
 msgid "Updates the gettext template using xgettext on selected source files."
@@ -2237,7 +2215,7 @@ msgstr "匯併 Git 提交"
 
 #: weblate/addons/git.py:28
 msgid "Squash Git commits prior to pushing changes."
-msgstr "推送更動前先匯併 Git 提交。"
+msgstr "推送變更前先匯併 Git 提交。"
 
 #: weblate/addons/properties.py:146
 msgid "Format the Java properties file"
@@ -2384,17 +2362,17 @@ msgstr "評註者的電子信箱"
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
-msgstr "如果您是管理員，您可以透過電子信箱將評註者更改為另一名使用者。"
+msgstr "如果您是管理員，您可以透過電子信箱將評註者變更為另一名使用者。"
 
 #: weblate/api/serializers.py:579 weblate/auth/forms.py:164
 msgid "Cannot change this on a built-in team."
-msgstr "無法更改內建團隊的這個設定。"
+msgstr "無法變更內建團隊的這個設定。"
 
 #: weblate/api/serializers.py:593
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
 msgid "Cannot change this on an existing team."
-msgstr "無法更改內建團隊的這個設定。"
+msgstr "無法變更內建團隊的這個設定。"
 
 #: weblate/api/serializers.py:1185 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -2423,7 +2401,7 @@ msgstr "推送"
 
 #: weblate/api/serializers.py:1194 weblate/templates/js/git-status.html:166
 msgid "Reset all changes in the Weblate repository"
-msgstr "重設 Weblate 儲存庫中的所有更動"
+msgstr "重設 Weblate 儲存庫中的所有變更"
 
 #: weblate/api/serializers.py:1197 weblate/templates/js/git-status.html:178
 msgid "Reset the Weblate repository and reapply translations"
@@ -2431,7 +2409,7 @@ msgstr "重設 Weblate 儲存庫，並重新套用翻譯"
 
 #: weblate/api/serializers.py:1201 weblate/templates/js/git-status.html:189
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "清理 Weblate 儲存庫中所有未追蹤的更動"
+msgstr "清理 Weblate 儲存庫中所有未追蹤的變更"
 
 #: weblate/api/serializers.py:1205 weblate/templates/js/git-status.html:200
 msgid "Force writing all translations to the Weblate repository"
@@ -2565,7 +2543,7 @@ msgstr "當選擇組件時，這不會被使用。"
 #. Translators: Permission name
 #: weblate/auth/data.py:21
 msgid "Download changes"
-msgstr "下載更動處"
+msgstr "下載變更處"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:23
@@ -2650,19 +2628,19 @@ msgstr "下載報表"
 #. Translators: Permission name
 #: weblate/auth/data.py:55 weblate/templates/translate.html:852
 msgid "Add screenshot"
-msgstr "加入畫面快照"
+msgstr "加入擷圖"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/base.html:529
 #: weblate/templates/screenshots/screenshot_detail.html:96
 msgid "Edit screenshot"
-msgstr "編輯畫面快照"
+msgstr "編輯擷圖"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:59
 #: weblate/templates/screenshots/screenshot_detail.html:131
 msgid "Delete screenshot"
-msgstr "刪除畫面快照"
+msgstr "刪除擷圖"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:61 weblate/templates/translate.html:989
@@ -2682,7 +2660,7 @@ msgstr "移除字串"
 #. Translators: Permission name
 #: weblate/auth/data.py:67
 msgid "Dismiss failing check"
-msgstr "略過未通過查核"
+msgstr "略過未通過檢查"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:69
@@ -2958,7 +2936,7 @@ msgstr "管理翻譯記憶庫"
 #: weblate/auth/data.py:254
 msgctxt "Access-control role"
 msgid "Manage screenshots"
-msgstr "管理畫面快照"
+msgstr "管理擷圖"
 
 #: weblate/auth/data.py:258
 msgctxt "Access-control role"
@@ -3038,7 +3016,7 @@ msgstr "記憶"
 #: weblate/auth/data.py:312
 msgctxt "Per-project access-control team name"
 msgid "Screenshots"
-msgstr "畫面快照"
+msgstr "擷圖"
 
 #: weblate/auth/data.py:315
 msgctxt "Per-project access-control team name"
@@ -3289,11 +3267,11 @@ msgstr "請輸入既有的 Weblate 帳號名稱或郵件信箱。"
 
 #: weblate/auth/models.py:1217
 msgid "Suggest username for the user. It can be changed later."
-msgstr "向使用者提供名稱建議。使用者名稱之後可以更改。"
+msgstr "向使用者提供名稱建議。使用者名稱之後可以變更。"
 
 #: weblate/auth/models.py:1226
 msgid "Suggest full name for the user. It can be changed later."
-msgstr "向使用者提供全名建議。全名之後可以更改。"
+msgstr "向使用者提供全名建議。全名之後可以變更。"
 
 #: weblate/auth/models.py:1232 weblate/templates/accounts/profile.html:438
 #: weblate/templates/accounts/user.html:328
@@ -3510,7 +3488,7 @@ msgstr "限制之內"
 
 #: weblate/billing/models.py:283
 msgid "Changes in last month"
-msgstr "近一個月的更動"
+msgstr "近一個月的變更"
 
 #: weblate/billing/models.py:287
 msgid "Number of changes"
@@ -3752,7 +3730,7 @@ msgstr "斷列符不相配"
 
 #: weblate/checks/chars.py:437
 msgid "Number of new lines in translation does not match source."
-msgstr "譯文中的換行數和源文不符。"
+msgstr "譯文中的換行數和來源不符。"
 
 #: weblate/checks/chars.py:445 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
@@ -3837,12 +3815,9 @@ msgid "Different strings are translated the same."
 msgstr "不同字串的譯文相同。"
 
 #: weblate/checks/consistency.py:196
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "其他來源字串：%s"
+msgstr[0] "其他來源字串："
 
 #: weblate/checks/consistency.py:199
 #, python-format
@@ -3909,7 +3884,7 @@ msgstr "唯讀"
 
 #: weblate/checks/flags.py:78
 msgid "Strict unchanged check"
-msgstr "字串未變更查核"
+msgstr "字串未變更檢查"
 
 #: weblate/checks/flags.py:79
 msgid "Strict format string checks"
@@ -3925,11 +3900,11 @@ msgstr "專有名詞"
 
 #: weblate/checks/flags.py:82
 msgid "Ignore all checks"
-msgstr "忽略所有查核"
+msgstr "忽略所有檢查"
 
 #: weblate/checks/flags.py:83
 msgid "Use case insensitive placeholders"
-msgstr "使用區分大小寫的佔位符"
+msgstr "使用區分大小寫的佔位符號"
 
 #: weblate/checks/flags.py:87 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:25
@@ -4346,10 +4321,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "譯文中 Fluent 的語法有錯。"
 
 #: weblate/checks/format.py:501
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "下列格式字串的順序錯誤：%s"
+msgstr "下列格式字串的排序錯誤："
 
 #: weblate/checks/format.py:590
 msgid "Python format"
@@ -4489,11 +4462,11 @@ msgstr "ECMAScript 範本字面值與來源不相符。"
 
 #: weblate/checks/format.py:830
 msgid "Percent placeholders"
-msgstr "百分比佔位符"
+msgstr "百分比佔位符號"
 
 #: weblate/checks/format.py:831
 msgid "The percent placeholders do not match source."
-msgstr "百分比佔位符與來源不符。"
+msgstr "百分比佔位符號與來源不符。"
 
 #: weblate/checks/format.py:839
 msgid "Vue I18n formatting"
@@ -4561,78 +4534,53 @@ msgstr "ICU MessageFormat"
 #: weblate/checks/icu.py:292
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
-msgstr "ICU MessageFormat 字串有語法錯誤或是佔位符不相符。"
+msgstr "ICU MessageFormat 字串有語法錯誤或是佔位符號不相符。"
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "語法錯誤：%s"
+msgstr "語法錯誤："
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "翻譯中有一或多個未知佔位符：%s"
+msgstr "翻譯中有一或多個未知佔位符號："
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "翻譯中缺少一或多個佔位符：%s"
+msgstr "翻譯中缺少一或多個佔位符號："
 
 #: weblate/checks/icu.py:492
-#, fuzzy
-#| msgid "One or more placeholder types are incorrect: %s"
 msgid "One or more placeholder types are incorrect:"
-msgstr "一或多個佔位符的類型不正確：%s"
+msgstr "一或多個佔位符號的類型不正確："
 
 #: weblate/checks/icu.py:499
-#, fuzzy
-#| msgid "Missing other sub-message for: %s"
 msgid "Missing other sub-message for:"
-msgstr "缺少下列項目的其他子訊息：%s"
+msgstr "缺少下列項目的其他子訊息："
 
 #: weblate/checks/icu.py:506
-#, fuzzy
-#| msgid "Incorrect plural selectors for: %s"
 msgid "Incorrect plural selectors for:"
-msgstr "下列項目的複數形選擇器不正確：%s"
+msgstr "下列項目的複數形選擇器不正確："
 
 #: weblate/checks/icu.py:515
-#, fuzzy
-#| msgid "Incorrect sub-message selectors for: %s"
 msgid "Incorrect sub-message selectors for:"
-msgstr "下列項目的子訊息選擇器不正確：%s"
+msgstr "下列項目的子訊息選擇器不正確："
 
 #: weblate/checks/icu.py:526
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should have a corresponding XML tag in the "
-#| "translation: %s"
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation:"
-msgstr "一或多個佔位符應在翻譯中有對應的 XML 標記：%s"
+msgstr "一或多個佔位符號應在翻譯中有對應的 XML 標記："
 
 #: weblate/checks/icu.py:535
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should not be an XML tag in the translation: %s"
 msgid "One or more placeholders should not be an XML tag in the translation:"
-msgstr "翻譯中的一或多個佔位符不應為 XML 標記：%s"
+msgstr "翻譯中的一或多個佔位符號不應為 XML 標記："
 
 #: weblate/checks/icu.py:544
-#, fuzzy
-#| msgid "One or more XML tags has unexpected content in the translation: %s"
 msgid "One or more XML tags has unexpected content in the translation:"
-msgstr "翻譯中的一或多個 XML 標記中有非預期內容：%s"
+msgstr "翻譯中的一或多個 XML 標記中有非預期內容："
 
 #: weblate/checks/icu.py:552
-#, fuzzy
-#| msgid "One or more XML tags missing content in the translation: %s"
 msgid "One or more XML tags missing content in the translation:"
-msgstr "翻譯中有一或多個 XML 標記缺少內容：%s"
+msgstr "翻譯中有一或多個 XML 標記缺少內容："
 
 #: weblate/checks/markup.py:139
 msgid "BBCode markup"
@@ -4736,11 +4684,11 @@ msgstr "翻譯開頭不應該以清單符號開頭。"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
-msgstr "佔位符"
+msgstr "佔位符號"
 
 #: weblate/checks/placeholders.py:32
 msgid "Translation is missing some placeholders."
-msgstr "翻譯缺少一些佔位符。"
+msgstr "翻譯缺少一些佔位符號。"
 
 #: weblate/checks/placeholders.py:146
 msgid "Regular expression"
@@ -4793,7 +4741,7 @@ msgstr "Ruby 格式字串與來源不符。"
 
 #: weblate/checks/same.py:151
 msgid "Unchanged translation"
-msgstr "未更動的翻譯"
+msgstr "未變更的翻譯"
 
 #: weblate/checks/same.py:152
 msgid "Source and translation are identical."
@@ -4812,25 +4760,22 @@ msgid "Ellipsis"
 msgstr "刪節號"
 
 #: weblate/checks/source.py:51
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)."
 msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
-msgstr "該字串使用三個點（...）而非刪節號（…）。"
+msgstr "該字串使用三個點 ``（...）`` 而非刪節號 ``（…）``。"
 
 #: weblate/checks/source.py:62
 msgid "Multiple failing checks"
-msgstr "多項未通過查核"
+msgstr "多項未通過檢查"
 
 #: weblate/checks/source.py:64
 msgid "The translations in several languages have failing checks."
-msgstr "多個語言的翻譯有未通過查核的項目。"
+msgstr "多個語言的翻譯有未通過檢查的項目。"
 
 #: weblate/checks/source.py:124
 msgid "Following checks are failing:"
-msgstr "未通過以下查核："
+msgstr "未通過以下檢查："
 
 #: weblate/checks/source.py:150
 msgid "Long untranslated"
@@ -4847,11 +4792,11 @@ msgstr "字串很久都沒有翻譯。"
 #: weblate/templates/language.html:30 weblate/templates/project.html:34
 #: weblate/templates/translation.html:44
 msgid "Failing checks"
-msgstr "未通過查核"
+msgstr "未通過檢查"
 
 #: weblate/checks/views.py:230
 msgid "Check"
-msgstr "查核"
+msgstr "檢查"
 
 #: weblate/checks/views.py:236 weblate/templates/accounts/user.html:206
 #: weblate/templates/accounts/user_contributions.html:20
@@ -4875,10 +4820,8 @@ msgid "Weblate configuration"
 msgstr "Weblate 設定配置"
 
 #: weblate/examples/check_czech.py:14 weblate/examples/check_foo.py:14
-#, fuzzy
-#| msgid "Failing check"
 msgid "Foo check"
-msgstr "未通過查核"
+msgstr "Foo 檢查"
 
 #: weblate/examples/check_czech.py:17 weblate/examples/check_foo.py:17
 #, fuzzy
@@ -4911,7 +4854,7 @@ msgstr "字型群組名稱"
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
-msgstr "在查核中用來選取此字型群組的辨識符名稱。請避免使用空白及特殊字元。"
+msgstr "在檢查中用來選取此字型群組的辨識符名稱。請避免使用空白及特殊字元。"
 
 #: weblate/fonts/models.py:115 weblate/templates/fonts/font_list.html:42
 #: weblate/templates/fonts/fontgroup_detail.html:29
@@ -5021,10 +4964,8 @@ msgstr ""
 
 #. Translators: File format name
 #: weblate/formats/convert.py:754
-#, fuzzy
-#| msgid "Localization guide"
 msgid "WixLocalization file"
-msgstr "在地化指南"
+msgstr "WixLocalization 檔案"
 
 #: weblate/formats/exporters.py:58
 msgid "gettext PO"
@@ -6432,7 +6373,7 @@ msgstr "影像會下載並儲存。"
 #: weblate/screenshots/models.py:58
 #: weblate/templates/screenshots/screenshot_list.html:47
 msgid "Screenshot name"
-msgstr "畫面快照名稱"
+msgstr "擷圖名稱"
 
 #: weblate/screenshots/models.py:61
 msgid "Repository path to screenshot"
@@ -6440,7 +6381,7 @@ msgstr "要擷圖的儲存庫路徑"
 
 #: weblate/screenshots/models.py:62
 msgid "Scan for screenshot file change on repository update."
-msgstr "儲存庫更新時掃描螢幕擷圖檔案的更動。"
+msgstr "儲存庫更新時掃描螢幕擷圖檔案的變更。"
 
 #: weblate/screenshots/models.py:67
 #: weblate/templates/screenshots/screenshot_detail.html:83
@@ -6454,16 +6395,16 @@ msgstr "上傳至多 2000x2000 像素的影像。"
 
 #: weblate/screenshots/views.py:248
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr "畫面快照已上傳，您現在可以將其指派給來源字串。"
+msgstr "擷圖已上傳，您現在可以將其指派給來源字串。"
 
 #: weblate/screenshots/views.py:254
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "上傳畫面快照失敗，請嘗試修正下列錯誤。"
+msgstr "上傳擷圖失敗，請嘗試修正下列錯誤。"
 
 #: weblate/screenshots/views.py:327
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "%s 畫面快照已刪除。"
+msgstr "%s 擷圖已刪除。"
 
 #: weblate/screenshots/views.py:347
 msgid "Invalid unit."
@@ -6638,7 +6579,7 @@ msgstr[0] "待處理問題"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "最近更動"
+msgstr[0] "最近變更"
 
 #: weblate/templates/about/index.html:19
 #: weblate/templates/manage/index.html:102
@@ -6984,7 +6925,7 @@ msgstr "您仍可以透過第三方服務核對身份。"
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "The password is used to verify important changes on your account."
-msgstr "這個密碼會用來驗證您帳號的重大更動動作。"
+msgstr "這個密碼會用來驗證您帳號的重大變更動作。"
 
 #: weblate/templates/accounts/password-warning.html:13
 msgid "Configure the password"
@@ -6998,7 +6939,7 @@ msgstr "為了確保您的密碼輸入正確，請輸入您的新密碼兩次。
 
 #: weblate/templates/accounts/password.html:29
 msgid "Change my password"
-msgstr "更動我的密碼"
+msgstr "變更我的密碼"
 
 #: weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:88
@@ -7525,8 +7466,8 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
-"此外，您的名稱和郵件信箱可能會被用於版本控制系統的提交記錄中，用來署名您的更"
-"動。這些資訊可能會被無限期地儲存在該系統中。"
+"此外，您的名稱和郵件信箱可能會被用於版本控制系統的提交記錄中，用來署名您的變"
+"更。這些資訊可能會被無限期地儲存在該系統中。"
 
 #: weblate/templates/accounts/snippets/login-info.html:34
 msgid ""
@@ -7542,7 +7483,7 @@ msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
-"此外，您的名稱可能會被用於版本控制系統的提交記錄中，用來署名您的更動。這些資"
+"此外，您的名稱可能會被用於版本控制系統的提交記錄中，用來署名您的變更。這些資"
 "訊可能會被無限期地儲存在該系統中。"
 
 #: weblate/templates/accounts/snippets/login-info.html:45
@@ -7704,7 +7645,7 @@ msgstr "活動"
 
 #: weblate/templates/accounts/user.html:176
 msgid "Recent changes"
-msgstr "最近更動"
+msgstr "最近變更"
 
 #: weblate/templates/accounts/user.html:180
 msgid "User identities"
@@ -7742,7 +7683,7 @@ msgstr "瀏覽所有關注的專案"
 
 #: weblate/templates/accounts/user.html:236
 msgid "Browse all changes made by this user"
-msgstr "瀏覽使用者進行的所有更動"
+msgstr "瀏覽使用者進行的所有變更"
 
 #: weblate/templates/accounts/user.html:245
 msgid "Identity"
@@ -8364,26 +8305,26 @@ msgstr "瀏覽所有語言"
 #: weblate/templates/check_list.html:90
 #: weblate/templates/snippets/list-objects.html:126
 msgid "Checks"
-msgstr "查核"
+msgstr "檢查"
 
 #: weblate/templates/base.html:217
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
-msgstr "%(project)s — %(language)s 中的未通過查核"
+msgstr "%(project)s — %(language)s 中的未通過檢查"
 
 #: weblate/templates/base.html:226
 #, python-format
 msgid "Failing checks in %(project)s"
-msgstr "%(project)s 中的未通過查核"
+msgstr "%(project)s 中的未通過檢查"
 
 #: weblate/templates/base.html:236
 #, python-format
 msgid "Failing checks in %(language)s"
-msgstr "%(language)s 中的未通過查核"
+msgstr "%(language)s 中的未通過檢查"
 
 #: weblate/templates/base.html:244
 msgid "Checks overview"
-msgstr "查核概覽"
+msgstr "檢查概覽"
 
 #: weblate/templates/base.html:260 weblate/templates/base.html:262
 msgid "Administration"
@@ -8517,7 +8458,7 @@ msgstr "您的 Weblate 超出服務限額。請升級訂購方案。"
 #: weblate/templates/base.html:529
 #: weblate/templates/screenshots/screenshot_detail.html:108
 msgid "Screenshot details"
-msgstr "畫面快照細節"
+msgstr "擷圖細節"
 
 #: weblate/templates/billing/detail.html:30
 msgid "Recurring payment"
@@ -8693,7 +8634,7 @@ msgstr "目前方案"
 
 #: weblate/templates/billing/status.html:13
 msgid "Change plan"
-msgstr "更動方案"
+msgstr "變更方案"
 
 #: weblate/templates/billing/status.html:26
 #: weblate/templates/billing/status.html:40
@@ -8786,7 +8727,7 @@ msgstr ""
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:77
 #: weblate/trans/forms.py:2438 weblate/trans/forms.py:2513
 msgid "You do not have permission to change project access control."
-msgstr "您無權更改專案存取控制。"
+msgstr "您無權變更專案存取控制。"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:79
 #: weblate/templates/snippets/billing-failure.html:13
@@ -8875,7 +8816,7 @@ msgstr "整理或移除"
 #: weblate/templates/language-project.html:153
 #: weblate/templates/language.html:83
 msgid "Browse all changes for this language"
-msgstr "瀏覽此語言的所有更動"
+msgstr "瀏覽此語言的所有變更"
 
 #: weblate/templates/category-language.html:120
 #: weblate/templates/category.html:215 weblate/templates/component.html:269
@@ -8947,7 +8888,7 @@ msgstr "發布公告"
 #: weblate/templates/language-project.html:160
 #: weblate/templates/project.html:260 weblate/templates/project.html:267
 msgid "Browse all project changes"
-msgstr "瀏覽專案的所有更動"
+msgstr "瀏覽專案的所有變更"
 
 #: weblate/templates/category.html:251 weblate/templates/project.html:356
 msgid "Add a category"
@@ -9087,7 +9028,7 @@ msgstr "資料匯出"
 #: weblate/templates/component.html:57 weblate/templates/guide.html:8
 #: weblate/templates/guide.html:25
 msgid "Community localization checklist"
-msgstr "社群在地化查核清單"
+msgstr "社群在地化檢查清單"
 
 #: weblate/templates/component.html:105
 msgid "Matrix view"
@@ -9136,7 +9077,7 @@ msgstr "請登入以查看警告。"
 
 #: weblate/templates/component.html:299
 msgid "Browse all component changes"
-msgstr "瀏覽組件的所有更動"
+msgstr "瀏覽組件的所有變更"
 
 #: weblate/templates/component.html:316
 msgid ""
@@ -9152,10 +9093,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/component.html:355
-#, fuzzy
-#| msgid "Current plan"
 msgid "Current links"
-msgstr "目前方案"
+msgstr "目前連結"
 
 #: weblate/templates/component.html:363
 #: weblate/templates/project-labels.html:26
@@ -9290,7 +9229,7 @@ msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
 msgstr ""
-"在接上通知掛勾後，Weblate 會自動匯入您開發者所做的更動，如此打造出接連不斷的"
+"在接上通知掛勾後，Weblate 會自動匯入您開發者所做的變更，如此打造出接連不斷的"
 "持續性在地化流程。"
 
 #: weblate/templates/data.html:123 weblate/templates/data.html:131
@@ -9299,7 +9238,7 @@ msgstr "掛勾"
 
 #: weblate/templates/data.html:138
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "您可以透過以下方式從遠端儲存庫中拉入更動："
+msgstr "您可以透過以下方式從遠端儲存庫中拉入變更："
 
 #: weblate/templates/data.html:148
 msgid ""
@@ -9602,7 +9541,7 @@ msgstr "這將使用上游變更來更新 Weblate 儲存庫。"
 
 #: weblate/templates/js/git-status.html:118
 msgid "Allow changes to the Weblate repository"
-msgstr "允許對 Weblate 儲存庫做更動"
+msgstr "允許對 Weblate 儲存庫做變更"
 
 #: weblate/templates/js/git-status.html:118
 #: weblate/templates/snippets/component/lock.html:13
@@ -9611,7 +9550,7 @@ msgstr "解除鎖定"
 
 #: weblate/templates/js/git-status.html:124
 msgid "Prevent any changes in the Weblate repository"
-msgstr "防止 Weblate 儲存庫中的任何更動"
+msgstr "防止 Weblate 儲存庫中的任何變更"
 
 #: weblate/templates/js/git-status.html:124
 msgid "Lock"
@@ -9660,8 +9599,8 @@ msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
-"重設 Weblate 的儲存庫，使其符合上游的提交記錄，並捨棄 Weblate 中的任何未決更"
-"動。"
+"重設 Weblate 的儲存庫，使其符合上游的提交記錄，並捨棄 Weblate 中的任何未決變"
+"更。"
 
 #: weblate/templates/js/git-status.html:169
 msgid "Use when you want the upstream to be the authority for translations."
@@ -9671,7 +9610,7 @@ msgstr "適合用於要以上游為譯文權威來源的情況。"
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
-msgstr "這將會捨棄 Weblate 儲存庫中的更動，並將其與上游儲存庫同步。"
+msgstr "這將會捨棄 Weblate 儲存庫中的變更，並將其與上游儲存庫同步。"
 
 #: weblate/templates/js/git-status.html:177
 msgid "Reset and reapply"
@@ -9693,7 +9632,7 @@ msgstr "適合用於要以 Weblate 為譯文權威來源的情況。"
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
-msgstr "這將會保留 Weblate 儲存庫中的更動，但將其儲存庫與上游儲存庫同步。"
+msgstr "這將會保留 Weblate 儲存庫中的變更，但將其儲存庫與上游儲存庫同步。"
 
 #: weblate/templates/js/git-status.html:188
 msgid "Cleanup"
@@ -9761,7 +9700,7 @@ msgstr "儲存庫細節"
 
 #: weblate/templates/js/git-status.html:245
 msgid "Repository changes"
-msgstr "儲存庫更動"
+msgstr "儲存庫變更"
 
 #: weblate/templates/js/git-status.html:250
 msgid "Browse all repository changes"
@@ -9781,11 +9720,11 @@ msgstr "開啟可用的鍵盤快捷鍵。"
 
 #: weblate/templates/keyboard-shortcuts.html:37
 msgid "Navigate to the first translation in the current search."
-msgstr "導航至目前搜尋中的第一個翻譯。"
+msgstr "導覽至目前搜尋中的第一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:43
 msgid "Navigate to the last translation in the current search."
-msgstr "導航至目前搜尋中的最後一個翻譯。"
+msgstr "導覽至目前搜尋中的最後一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:47
 #: weblate/templates/keyboard-shortcuts.html:49
@@ -9814,11 +9753,11 @@ msgstr "或"
 
 #: weblate/templates/keyboard-shortcuts.html:56
 msgid "Navigate to the previous translation in the current search."
-msgstr "導航至目前搜尋中的上一個翻譯。"
+msgstr "導覽至目前搜尋中的上一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:69
 msgid "Navigate to the next translation in the current search."
-msgstr "導航至目前搜尋中的下一個翻譯。"
+msgstr "導覽至目前搜尋中的下一個翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:79
 msgid ""
@@ -9875,7 +9814,7 @@ msgstr "將指定數量的機器翻譯複製到目前的翻譯。"
 
 #: weblate/templates/keyboard-shortcuts.html:155
 msgid "Ignore one item in the list of failing checks."
-msgstr "忽略清單中的其中一個失敗查核項目。"
+msgstr "忽略清單中的其中一個失敗檢查項目。"
 
 #: weblate/templates/keyboard-shortcuts.html:163
 msgid "Shows the Nearby strings tab."
@@ -10181,7 +10120,7 @@ msgstr "您的付費方案已過期"
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
 msgid "Translation change"
-msgstr "翻譯更動"
+msgstr "翻譯變更"
 
 #: weblate/templates/mail/changed_translation.html:20
 #: weblate/templates/mail/new_comment.html:14
@@ -10194,7 +10133,7 @@ msgstr "編輯此字串"
 #: weblate/templates/mail/changed_translation_subject.txt:6
 #, python-format
 msgid "Changed translation in %(translation)s"
-msgstr "%(translation)s 中的翻譯已更動"
+msgstr "%(translation)s 中的翻譯已變更"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/changed_translation_subject.txt:9
@@ -10536,7 +10475,7 @@ msgstr "來源字串位置"
 #: weblate/templates/mail/snippets/unit-screenshots.html:11
 #: weblate/templates/translate.html:840
 msgid "Screenshot context"
-msgstr "畫面快照情境"
+msgstr "擷圖情境"
 
 #: weblate/templates/mail/todo_strings.html:10 weblate/trans/filter.py:26
 #: weblate/trans/filter.py:123
@@ -10768,7 +10707,7 @@ msgstr ""
 
 #: weblate/templates/manage/performance.html:74
 msgid "System checks"
-msgstr "系統查核"
+msgstr "系統檢查"
 
 #: weblate/templates/manage/performance.html:111
 msgid "Celery queues"
@@ -11336,7 +11275,7 @@ msgstr "指派的來源字串"
 #: weblate/templates/screenshots/screenshot_detail.html:42
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
-msgstr "畫面快照來可以為所有列出的來源字串補充所見的情境。"
+msgstr "擷圖來可以為所有列出的來源字串補充所見的情境。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:53
 msgid "Assign source strings"
@@ -11352,12 +11291,12 @@ msgstr "來源字串搜尋"
 
 #: weblate/templates/screenshots/screenshot_detail.html:135
 msgid "Deleting screenshot will remove it from all associated source strings."
-msgstr "刪除畫面快照會一併將之從所有相連動的來源字串中移除。"
+msgstr "刪除擷圖會一併將之從所有相連動的來源字串中移除。"
 
 #: weblate/templates/screenshots/screenshot_list.html:32
 #: weblate/templates/translate.html:1095
 msgid "Add new screenshot"
-msgstr "新增畫面快照"
+msgstr "新增擷圖"
 
 #: weblate/templates/screenshots/screenshot_list.html:49
 #: weblate/templates/snippets/translation.html:22
@@ -11398,8 +11337,8 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate 是款與版本控制系統緊密整合的網頁翻譯工具。它具備簡潔直觀的使用者介"
-"面、跨組件翻譯傳播、品質查核，以及自動連結至來源檔案等功能。"
+"Weblate 是個與版本控制系統緊密整合的網頁翻譯工具。它具備簡潔直觀的使用者介面"
+"、跨組件翻譯傳播、品質檢查，以及自動連結至來源檔案等功能。"
 
 #: weblate/templates/snippets/about.html:8
 #, python-format
@@ -11434,7 +11373,7 @@ msgstr "近 12 個月內的活動"
 #, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)s 次更動"
+msgstr[0] "%(count)s 次變更"
 
 #: weblate/templates/snippets/autoform.html:18
 msgid ""
@@ -11465,7 +11404,7 @@ msgstr "這可能是您的帳單資料到期或超過上限而失效。"
 
 #: weblate/templates/snippets/bulk-help.html:3
 msgid "You can change the state of all strings matching given type at once."
-msgstr "您可以一次更動所有符合指定類型的字串狀態。"
+msgstr "您可以一次變更所有符合指定類型的字串狀態。"
 
 #: weblate/templates/snippets/component-progress.html:8
 #: weblate/templates/snippets/last-changes-content.html:39
@@ -11565,7 +11504,7 @@ msgstr ""
 #: weblate/templates/snippets/git-info.html:7
 #: weblate/trans/models/component.py:462
 msgid "Source code repository"
-msgstr "來源碼儲存庫"
+msgstr "原始碼儲存庫"
 
 #: weblate/templates/snippets/git-info.html:17
 #: weblate/trans/templatetags/translations.py:1093
@@ -11719,7 +11658,7 @@ msgstr "翻譯檔"
 
 #: weblate/templates/snippets/info.html:165
 msgid "Last change"
-msgstr "上次更改"
+msgstr "上次變更"
 
 #: weblate/templates/snippets/info.html:169
 msgid "Last change made by"
@@ -11819,7 +11758,7 @@ msgstr "唯讀"
 #: weblate/templates/snippets/info.html:354
 msgctxt "Number of strings"
 msgid "Failing checks"
-msgstr "未通過查核"
+msgstr "未通過檢查"
 
 #: weblate/templates/snippets/info.html:363
 msgctxt "Number of strings"
@@ -11915,7 +11854,7 @@ msgstr "請先檢查您的專案是否得以在此網站上免費託管。"
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid "Libre project with open-source code"
-msgstr "開放來源碼的自由專案"
+msgstr "開放原始碼的自由專案"
 
 #: weblate/templates/snippets/libre-basic.html:10
 #, python-format
@@ -11975,7 +11914,7 @@ msgstr "專案已經活躍開發至少有三個月。"
 
 #: weblate/templates/snippets/libre-checklist.html:16
 msgid "Review guidelines from the community localization checklist."
-msgstr "檢閱社群在地化的指導規範查核清單。"
+msgstr "檢閱社群在地化的指導規範檢查清單。"
 
 #: weblate/templates/snippets/list-objects.html:42
 msgid "Add project"
@@ -12001,10 +11940,8 @@ msgid "Approved"
 msgstr "已核可"
 
 #: weblate/templates/snippets/list-objects.html:80
-#, fuzzy
-#| msgid "review"
 msgid "Unreviewed"
-msgstr "檢討"
+msgstr "尚未檢閱"
 
 #: weblate/templates/snippets/list-objects.html:90
 msgid "Unfinished"
@@ -12138,7 +12075,7 @@ msgid ""
 "still change before being approved as a libre project."
 msgstr ""
 "貢獻時需要注意這個專案正處於試用期。在專案核定為自由軟體專案之前，設定可能仍"
-"會有所更改。"
+"會有所變更。"
 
 #: weblate/templates/snippets/project/billing-trial.html:9
 msgid "This project is in the trial period."
@@ -12226,7 +12163,7 @@ msgstr "有評註內容的字串"
 #: weblate/templates/snippets/query-builder.html:155 weblate/trans/filter.py:40
 #: weblate/trans/filter.py:129
 msgid "Strings with any failing checks"
-msgstr "任何未通過查核的字串"
+msgstr "任何未通過檢查的字串"
 
 #: weblate/templates/snippets/query-builder.html:164
 msgid "Strings with suggestions from others"
@@ -12266,22 +12203,21 @@ msgstr "查詢"
 msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
-msgstr "不用擔心會弄亂字串。這分成兩個步驟：先預覽編輯字串，才會確認實際更動。"
+msgstr "不用擔心會弄亂字串。這分成兩個步驟：先預覽編輯字串，才會確認實際變更。"
 
 #: weblate/templates/snippets/settings-organize.html:6
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
 "remove it."
-msgstr "使用 <a href=\"%(url)s\">整理專案</a> 更改專案的 URL slug 或移除專案。"
+msgstr "使用 <a href=\"%(url)s\">整理專案</a> 變更專案的 URL slug 或移除專案。"
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
-msgstr ""
-"使用 <a href=\"%(url)s\">整理組件 </a> 更改組件的 URL slug 或移動／移除組件。"
+msgstr "使用 <a href=\"%(url)s\">整理組件 </a> 變更組件的 URL slug 或移動／移除組件。"
 
 #: weblate/templates/snippets/share-menu.html:5
 msgid "Community"
@@ -12412,13 +12348,13 @@ msgstr "拒絕建議"
 
 #: weblate/templates/snippets/suggestions.html:111
 msgid "Suggested change:"
-msgstr "建議的更動："
+msgstr "建議的變更："
 
 #: weblate/templates/snippets/suggestions.html:116
 #: weblate/trans/templatetags/translations.py:883
 msgctxt "String state"
 msgid "Failing checks:"
-msgstr "未通過查核："
+msgstr "未通過檢查："
 
 #: weblate/templates/snippets/translation.html:14
 #: weblate/templates/widgets.html:80 weblate/trans/views/widgets.py:105
@@ -12762,7 +12698,7 @@ msgstr "新翻譯的範本"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Weblate 無法在更新儲存庫時合併上游更動。"
+msgstr "Weblate 無法在更新儲存庫時合併上游變更。"
 
 #: weblate/templates/trans/alert/missinglicense.html:4
 msgid ""
@@ -12840,14 +12776,14 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"相較於上游，VCS 儲存庫已有許多更動。請手動合併更動，或是設定推送自動完成作"
-"業。"
+"相較於上游，VCS 儲存庫已有許多變更。請手動合併變更，或是設定推送自動完成作業"
+"。"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
-msgstr "VCS 儲存庫與上游間沒有同步。請手動合併更動，或是設定掛鈎自動完成作業。"
+msgstr "VCS 儲存庫與上游間沒有同步。請手動合併變更，或是設定掛鈎自動完成作業。"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
 #: weblate/trans/models/component.py:450
@@ -12873,20 +12809,19 @@ msgstr "如果組件已經不再使用，可以考慮將其移除。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:5
 msgid "Following enforced checks are not used anywhere:"
-msgstr "以下強制查核未在任何地方使用："
+msgstr "以下強制檢查未在任何地方使用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:11
 #, python-format
 msgid "%(check)s quality check is enforced, but it is not available."
-msgstr "%(check)s 品質查核是強制執行的，但未能使用。"
+msgstr "%(check)s 品質檢查是強制執行的，但未能使用。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:15
 #, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
-msgstr ""
-"%(check)s 品質查核是強制執行的，但未使用開啟 <code>%(flag)s</code> 旗標。"
+msgstr "%(check)s 品質檢查是強制執行的，但未使用開啟 <code>%(flag)s</code> 旗標。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:21
 msgid ""
@@ -12900,11 +12835,11 @@ msgstr "至少有一個螢幕擷圖沒有指派至任何字串。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:6
 msgid "Manage screenshots"
-msgstr "管理畫面快照"
+msgstr "管理擷圖"
 
 #: weblate/templates/trans/alert/updatefailure.html:3
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr "Weblate 無法在更新儲存庫時擷取上游更動。"
+msgstr "Weblate 無法在更新儲存庫時擷取上游變更。"
 
 #: weblate/templates/trans/alert/updatefailure.html:14
 msgid "Update the repository"
@@ -12937,12 +12872,12 @@ msgstr[0] "備份會在 %(keep_days)s 天後移除。"
 #: weblate/templates/trans/change_list.html:13
 #: weblate/trans/views/changes.py:88
 msgid "Changes"
-msgstr "更動"
+msgstr "變更"
 
 #: weblate/templates/trans/change_list.html:33
 #: weblate/templates/trans/change_list.html:37
 msgid "Download latest changes as CSV"
-msgstr "將最近的更動以 CSV 檔下載"
+msgstr "將最近的變更以 CSV 檔下載"
 
 #: weblate/templates/trans/change_list.html:42
 msgid "Follow using RSS"
@@ -13368,7 +13303,7 @@ msgstr "詞彙表字詞"
 
 #: weblate/templates/translate.html:122 weblate/templates/zen-units.html:75
 msgid "Source change"
-msgstr "來源更動"
+msgstr "來源變更"
 
 #: weblate/templates/translate.html:138
 msgid "Intermediate language"
@@ -13458,7 +13393,7 @@ msgstr "其他語言"
 
 #: weblate/templates/translate.html:374
 msgid "List of recent changes done in Weblate"
-msgstr "最近 Weblate 中所做的更動清單"
+msgstr "最近 Weblate 中所做的變更清單"
 
 #: weblate/templates/translate.html:410
 msgid "Showing only subset of the strings as there were too many matches."
@@ -13502,7 +13437,7 @@ msgstr "瀏覽所有字串變更"
 
 #: weblate/templates/translate.html:523
 msgid "Suggested change"
-msgstr "建議的更動"
+msgstr "建議的變更"
 
 #: weblate/templates/translate.html:525
 msgid "Origin"
@@ -13528,7 +13463,7 @@ msgstr "對此字串留下評註來給其他翻譯人員和開發人員閱讀。
 
 #: weblate/templates/translate.html:609
 msgid "Things to check"
-msgstr "要查核的事項"
+msgstr "要檢查的事項"
 
 #: weblate/templates/translate.html:621
 #, python-format
@@ -13617,7 +13552,7 @@ msgstr "字串資訊"
 
 #: weblate/templates/translate.html:845
 msgid "No screenshot currently associated."
-msgstr "目前無關聯的畫面快照。"
+msgstr "目前無關聯的擷圖。"
 
 #: weblate/templates/translate.html:872
 msgid "No explanation currently provided."
@@ -13737,7 +13672,7 @@ msgstr "瀏覽所有組件"
 
 #: weblate/templates/translation.html:175
 msgid "Browse all translation changes"
-msgstr "瀏覽翻譯的所有更動"
+msgstr "瀏覽翻譯的所有變更"
 
 #: weblate/templates/translation.html:235
 #: weblate/templates/translation.html:269
@@ -14175,7 +14110,7 @@ msgstr "已安裝附加元件"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:125
 msgid "Add-on configuration changed"
-msgstr "已更改附加元件配置"
+msgstr "已變更附加元件配置"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:127
@@ -14295,7 +14230,7 @@ msgstr "已強制重新掃描翻譯"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:176
 msgid "Screenshot removed"
-msgstr "畫面快照已移除"
+msgstr "擷圖已移除"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:178
@@ -14336,7 +14271,7 @@ msgstr "更新 VCS 儲存庫"
 
 #: weblate/trans/admin.py:60
 msgid "Update quality checks"
-msgstr "更新品質查核"
+msgstr "更新品質檢查"
 
 #: weblate/trans/admin.py:93
 msgid "Administrators"
@@ -14419,7 +14354,7 @@ msgstr "N/A"
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
-msgstr "「%(component)s」組件的授權條款已從 %(old)s 更改為 %(target)s。"
+msgstr "「%(component)s」組件的授權條款已從 %(old)s 變更為 %(target)s。"
 
 #: weblate/trans/change_display.py:293
 msgid "Original revision: {}"
@@ -14464,10 +14399,8 @@ msgid "This site runs Weblate for localizing various software projects."
 msgstr "本站採用 Weblate 在地化各種軟體專案。"
 
 #: weblate/trans/discovery.py:141
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Discovery configuration"
-msgstr "良好的配置"
+msgstr "探索配置"
 
 #: weblate/trans/discovery.py:212
 #, fuzzy
@@ -14499,29 +14432,29 @@ msgstr "{filename}（{parameter}）不存在。"
 #: weblate/trans/feeds.py:46
 #, python-format
 msgid "Recent changes on %s"
-msgstr "%s 的最近更動"
+msgstr "%s 的最近變更"
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:50
 #, python-format
 msgid "All recent changes made using Weblate on %s."
-msgstr "最近使用 %s Weblate 所作的所有更動。"
+msgstr "最近使用 %s Weblate 所作的所有變更。"
 
 #. Translators: %s is translation name
 #: weblate/trans/feeds.py:64
 #, python-format
 msgid "Recent changes in %s"
-msgstr "最近 %s 中的更動"
+msgstr "最近 %s 中的變更"
 
 #. Translators: %s is translation name
 #: weblate/trans/feeds.py:68
 #, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "最近 %s 中使用 Weblate 所作的所有更動。"
+msgstr "最近 %s 中使用 Weblate 所作的所有變更。"
 
 #: weblate/trans/file_format_params.py:208
 msgid "Sort JSON keys"
-msgstr "短 JSON 金鑰"
+msgstr "排序 JSON 金鑰"
 
 #: weblate/trans/file_format_params.py:224
 msgid "JSON indentation"
@@ -14722,7 +14655,7 @@ msgstr "有變體的字串"
 
 #: weblate/trans/filter.py:31
 msgid "Strings with screenshots"
-msgstr "有截圖的字串"
+msgstr "有擷圖的字串"
 
 #: weblate/trans/filter.py:32
 msgid "Strings with labels"
@@ -14738,11 +14671,11 @@ msgstr "無翻譯建議的未完成字串"
 
 #: weblate/trans/filter.py:43
 msgid "Translated strings with any failing checks"
-msgstr "任何未通過查核的已翻譯字串"
+msgstr "任何未通過檢查的已翻譯字串"
 
 #: weblate/trans/filter.py:48
 msgid "Translated strings with dismissed checks"
-msgstr "任何有略過查核的已翻譯字串"
+msgstr "任何有略過檢查的已翻譯字串"
 
 #: weblate/trans/filter.py:51 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -14754,7 +14687,7 @@ msgstr "等候檢閱的字串"
 
 #: weblate/trans/filter.py:64
 msgid "Strings without screenshots"
-msgstr "無截圖的字串"
+msgstr "無擷圖的字串"
 
 #: weblate/trans/filter.py:67
 msgid "Strings without a label"
@@ -14766,7 +14699,7 @@ msgstr "複數化字串"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:137
 msgid "Failing check: {}"
-msgstr "未通過查核：{}"
+msgstr "未通過檢查：{}"
 
 #: weblate/trans/filter.py:88
 msgid "Custom search"
@@ -14830,13 +14763,13 @@ msgstr "譯文解釋"
 
 #: weblate/trans/forms.py:611
 msgid "The source string has changed meanwhile. Please check your changes."
-msgstr "此刻來源字串已經更動。請檢查您的變更。"
+msgstr "此刻來源字串已經變更。請檢查您的變更。"
 
 #: weblate/trans/forms.py:622
 msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
-msgstr "此刻字串翻譯已經更動。請檢查您的變更。"
+msgstr "此刻字串翻譯已經變更。請檢查您的變更。"
 
 #: weblate/trans/forms.py:635
 msgid "Translation text too long!"
@@ -14874,15 +14807,15 @@ msgstr "如果字串已經有翻譯時是否要覆寫現在的翻譯。"
 
 #: weblate/trans/forms.py:745
 msgid "Change only untranslated strings"
-msgstr "僅更動未翻譯字串"
+msgstr "僅變更未翻譯字串"
 
 #: weblate/trans/forms.py:746
 msgid "Change translated strings"
-msgstr "更動已翻譯的字串"
+msgstr "變更已翻譯的字串"
 
 #: weblate/trans/forms.py:749
 msgid "Change translated and approved strings"
-msgstr "更動已經翻譯且核可的字串"
+msgstr "變更已經翻譯且核可的字串"
 
 #: weblate/trans/forms.py:764
 msgid "Author name"
@@ -14898,7 +14831,7 @@ msgstr "找不到合併的字串。"
 
 #: weblate/trans/forms.py:965
 msgid "Could not find the reverted change."
-msgstr "找不到還原的更動。"
+msgstr "找不到還原的變更。"
 
 #: weblate/trans/forms.py:974
 msgid ""
@@ -15236,7 +15169,7 @@ msgstr "不能翻譯的專有名詞"
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
-msgstr "若句子應與來源語言保持相同，不應更動，請核取此選項。"
+msgstr "若句子應與來源語言保持相同，不應變更，請核取此選項。"
 
 #: weblate/trans/forms.py:2916
 msgid "You do not have permission to create terminology."
@@ -15453,7 +15386,7 @@ msgstr "儲存庫過期了。"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:406
 msgid "Repository has changes."
-msgstr "儲存庫有更動。"
+msgstr "儲存庫有變更。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:414
@@ -15464,7 +15397,7 @@ msgstr "缺少授權條款資訊。"
 #: weblate/trans/models/alert.py:426 weblate/trans/models/alert.py:433
 #: weblate/trans/models/alert.py:441
 msgid "Could not run add-on."
-msgstr "無法執行外掛程式。"
+msgstr "無法執行附加元件程式。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:449
@@ -15515,7 +15448,7 @@ msgstr "不符合自由軟體託管條件。"
 
 #: weblate/trans/models/alert.py:673
 msgid "Unused enforced checks."
-msgstr "未使用的強制查核。"
+msgstr "未使用的強制檢查。"
 
 #: weblate/trans/models/alert.py:684
 msgid "No file mask matches."
@@ -15793,7 +15726,7 @@ msgstr "已匯出儲存庫 URL"
 
 #: weblate/trans/models/component.py:501
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "儲存庫的 URL，使用者可以從 Weblate 取得更動的地方"
+msgstr "儲存庫的 URL，使用者可以從 Weblate 取得變更的地方"
 
 #: weblate/trans/models/component.py:506
 msgid "Source string bug reporting address"
@@ -15819,7 +15752,7 @@ msgid ""
 "pushing directly to the repository. When using pull/merge requests, specify "
 "a branch name different from the repository branch."
 msgstr ""
-"推送更動用的分支。若留空，直接推送到儲存庫時，會使用儲存庫的分支。使用拉取/合"
+"推送變更用的分支。若留空，直接推送到儲存庫時，會使用儲存庫的分支。使用拉取/合"
 "併請求時，請指定與儲存庫分支不同的分支名稱。"
 
 #: weblate/trans/models/component.py:536
@@ -15930,11 +15863,11 @@ msgstr "額外以逗號分隔的旗標影響 Weblate 行為。"
 
 #: weblate/trans/models/component.py:668
 msgid "Enforced checks"
-msgstr "強制查核"
+msgstr "強制檢查"
 
 #: weblate/trans/models/component.py:669
 msgid "List of checks which can not be dismissed."
-msgstr "不能忽略的查核清單。"
+msgstr "不能忽略的檢查清單。"
 
 #: weblate/trans/models/component.py:687
 msgid ""
@@ -15981,7 +15914,7 @@ msgstr "合併類型"
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
-msgstr "定義是 Weblate 是否應該與上游儲存庫合併，或是將更動衍合進去。"
+msgstr "定義是 Weblate 是否應該與上游儲存庫合併，或是將變更衍合進去。"
 
 #: weblate/trans/models/component.py:733
 msgid "Commit message when translating"
@@ -16026,12 +15959,12 @@ msgstr "是否在每次提交到儲存庫時都推送到上游。"
 
 #: weblate/trans/models/component.py:795
 msgid "Age of changes to commit"
-msgstr "更動後提交的經過時間"
+msgstr "變更後提交的經過時間"
 
 #: weblate/trans/models/component.py:799
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "任何未決的更動提交到 VCS 後的時間，以小時計。"
+msgstr "任何未決的變更提交到 VCS 後的時間，以小時計。"
 
 #: weblate/trans/models/component.py:804
 msgid "Lock on error"
@@ -16785,7 +16718,7 @@ msgstr "需注意"
 #: weblate/trans/templatetags/translations.py:888
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "忽略的查核："
+msgstr "忽略的檢查："
 
 #: weblate/trans/templatetags/translations.py:891
 msgctxt "String state"
@@ -17108,31 +17041,31 @@ msgstr "找不到建議。"
 #, python-format
 msgctxt "Changes of string in a translation"
 msgid "Changes of string in %s"
-msgstr "%s 中字串的更改"
+msgstr "%s 中字串的變更"
 
 #: weblate/trans/views/changes.py:69
 #, python-format
 msgctxt "Changes in translation"
 msgid "Changes in %s"
-msgstr "%s 的更動"
+msgstr "%s 的變更"
 
 #: weblate/trans/views/changes.py:73
 #, python-format
 msgctxt "Changes in component"
 msgid "Changes in %s"
-msgstr "%s 的更動"
+msgstr "%s 的變更"
 
 #: weblate/trans/views/changes.py:77 weblate/trans/views/changes.py:85
 #, python-format
 msgctxt "Changes in project"
 msgid "Changes in %s"
-msgstr "%s 的更動"
+msgstr "%s 的變更"
 
 #: weblate/trans/views/changes.py:81
 #, python-format
 msgctxt "Changes in language"
 msgid "Changes in %s"
-msgstr "%s 的更動"
+msgstr "%s 的變更"
 
 #: weblate/trans/views/create.py:76
 msgid "The supplied configuration is incorrect. Please check the errors below."
@@ -17181,7 +17114,7 @@ msgid ""
 msgid_plural ""
 "The translation has been saved, however there are some newly failing checks: "
 "{checks}"
-msgstr[0] "翻譯已儲存，但有一些新的未通過查核項目：{0}"
+msgstr[0] "翻譯已儲存，但有一些新的未通過檢查項目：{0}"
 
 #: weblate/trans/views/edit.py:325
 msgid "Your suggestion is empty!"
@@ -17431,7 +17364,7 @@ msgstr "已排程備份，稍後即可取用。"
 
 #: weblate/trans/views/source.py:66
 msgid "Could not change additional string info!"
-msgstr "無法更動附加字串資訊！"
+msgstr "無法變更附加字串資訊！"
 
 #. Translators: status widget name
 #: weblate/trans/widgets.py:290
@@ -17897,7 +17830,7 @@ msgstr "評註數"
 
 #: weblate/utils/views.py:218
 msgid "Number of failing checks"
-msgstr "未通過查核數"
+msgstr "未通過檢查數"
 
 #: weblate/utils/views.py:220
 msgid "String location"
@@ -17909,7 +17842,7 @@ msgstr "組件與優先度"
 
 #: weblate/vcs/base.py:85
 msgid "This will push changes to the upstream repository."
-msgstr "這會將更動推送至上游儲存庫。"
+msgstr "這會將變更推送至上游儲存庫。"
 
 #: weblate/vcs/git.py:106
 msgid "This will push changes to the upstream Git repository."
@@ -17921,11 +17854,11 @@ msgstr "可行清理方案："
 
 #: weblate/vcs/git.py:651
 msgid "This will push changes to Gerrit for a review."
-msgstr "這會推送更動到 Gerrit 以供審閱。"
+msgstr "這會推送變更到 Gerrit 以供審閱。"
 
 #: weblate/vcs/git.py:698
 msgid "This will commit changes to the Subversion repository."
-msgstr "這會將更動提交至 Subversion 儲存庫。"
+msgstr "這會將變更提交至 Subversion 儲存庫。"
 
 #: weblate/vcs/git.py:875
 msgid "Git with force push"
@@ -17933,7 +17866,7 @@ msgstr "Git 使用強制推送"
 
 #: weblate/vcs/git.py:879
 msgid "This will force push changes to the upstream repository."
-msgstr "這將會強制推送更動到上游儲存庫。"
+msgstr "這將會強制推送變更到上游儲存庫。"
 
 #: weblate/vcs/git.py:1395
 msgid "Azure DevOps pull request"
@@ -17941,7 +17874,7 @@ msgstr "Azure DevOps 拉取請求"
 
 #: weblate/vcs/git.py:1407
 msgid "This will push changes and create a Azure DevOps pull request."
-msgstr "這將會推送更動，並建立一個 Azure DevOps 拉取請求。"
+msgstr "這將會推送變更，並建立一個 Azure DevOps 拉取請求。"
 
 #: weblate/vcs/git.py:1651
 msgid "GitHub pull request"
@@ -17949,7 +17882,7 @@ msgstr "GitHub 拉取請求"
 
 #: weblate/vcs/git.py:1656
 msgid "This will push changes and create a GitHub pull request."
-msgstr "這將會推送更動，並建立一個 GitHub 拉取請求。"
+msgstr "這將會推送變更，並建立一個 GitHub 拉取請求。"
 
 #: weblate/vcs/git.py:1789
 msgid "Gitea pull request"
@@ -17957,7 +17890,7 @@ msgstr "Gitea 拉取請求"
 
 #: weblate/vcs/git.py:1794
 msgid "This will push changes and create a Gitea pull request."
-msgstr "這將會推送更動，並建立一個 Gitea 拉取請求。"
+msgstr "這將會推送變更，並建立一個 Gitea 拉取請求。"
 
 #: weblate/vcs/git.py:1866
 msgid "No remote repository"
@@ -17969,7 +17902,7 @@ msgstr "GitLab 合併請求"
 
 #: weblate/vcs/git.py:1976
 msgid "This will push changes and create a GitLab merge request."
-msgstr "這將會推送更動，並建立一個 GitLab 合併請求。"
+msgstr "這將會推送變更，並建立一個 GitLab 合併請求。"
 
 #: weblate/vcs/git.py:2125
 msgid "Pagure merge request"
@@ -17977,7 +17910,7 @@ msgstr "Pagure 合併請求"
 
 #: weblate/vcs/git.py:2130
 msgid "This will push changes and create a Pagure merge request."
-msgstr "這將會推送更動，並建立一個 Pagure 合併請求。"
+msgstr "這將會推送變更，並建立一個 Pagure 合併請求。"
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
 #: weblate/vcs/git.py:2230
@@ -17986,7 +17919,7 @@ msgstr "Bitbucket 資料中心拉取請求"
 
 #: weblate/vcs/git.py:2237
 msgid "This will push changes and create a Bitbucket Data Center pull request."
-msgstr "這將會推送更動，並建立 Bitbucket 資料中心拉取請求。"
+msgstr "這將會推送變更，並建立 Bitbucket 資料中心拉取請求。"
 
 #: weblate/vcs/git.py:2387
 msgid "Bitbucket Cloud merge request"
@@ -17994,7 +17927,7 @@ msgstr "Bitbucket Cloud 合併請求"
 
 #: weblate/vcs/mercurial.py:57
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "這將會推送更動至上游 Mercurial 儲存庫。"
+msgstr "這將會推送變更至上游 Mercurial 儲存庫。"
 
 #: weblate/vcs/ssh.py:64
 msgctxt "SSH key type"
@@ -18222,7 +18155,7 @@ msgstr "必填欄位以粗體標註。"
 #: weblate/wladmin/templates/admin/trans/change_form.html:43
 msgid ""
 "Do not change the object here, please use the Weblate interface instead."
-msgstr "不要在這裡更動物件，請使用 Weblate 介面代替。"
+msgstr "不要在這裡變更物件，請使用 Weblate 介面代替。"
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
@@ -18253,7 +18186,7 @@ msgstr "無法寄送測試信件：%s"
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in discover."
-msgstr "請更改設定中的 SITE_TITLE，讓您的 Weblate 更容易被發現。"
+msgstr "請變更設定中的 SITE_TITLE，讓您的 Weblate 更容易被發現。"
 
 #: weblate/wladmin/views.py:272 weblate/wladmin/views.py:289
 msgid "Could not activate your installation. Please try again later."
