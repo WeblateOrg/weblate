@@ -126,33 +126,33 @@ Automatic translation
 ---------------------
 
 :Add-on ID: ``weblate.autotranslate.autotranslate``
-:Configuration: +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``mode``        | Automatic translation mode       | .. list-table:: Available choices:                                                                        |
-                |                 |                                  |    :width: 100%                                                                                           |
-                |                 |                                  |                                                                                                           |
-                |                 |                                  |    * - ``suggest``                                                                                        |
-                |                 |                                  |      - Add as suggestion                                                                                  |
-                |                 |                                  |    * - ``translate``                                                                                      |
-                |                 |                                  |      - Add as translation                                                                                 |
-                |                 |                                  |    * - ``fuzzy``                                                                                          |
-                |                 |                                  |      - Add as "Needing edit"                                                                              |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``q``           | Query                            | Please note that translating all strings will discard all existing translations.                          |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                        |
-                |                 |                                  |    :width: 100%                                                                                           |
-                |                 |                                  |                                                                                                           |
-                |                 |                                  |    * - ``others``                                                                                         |
-                |                 |                                  |      - Other translation components                                                                       |
-                |                 |                                  |    * - ``mt``                                                                                             |
-                |                 |                                  |      - Machine translation                                                                                |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``component``   | Component                        | Turn on contribution to shared translation memory for the project to get access to additional components. |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``engines``     | Machine translation engines      | :ref:`addon-choice-engines`                                                                               |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
-                | ``threshold``   | Score threshold                  |                                                                                                           |
-                +-----------------+----------------------------------+-----------------------------------------------------------------------------------------------------------+
+:Configuration: +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``mode``        | Automatic translation mode       | .. list-table:: Available choices:                                                                   |
+                |                 |                                  |    :width: 100%                                                                                      |
+                |                 |                                  |                                                                                                      |
+                |                 |                                  |    * - ``suggest``                                                                                   |
+                |                 |                                  |      - Add as suggestion                                                                             |
+                |                 |                                  |    * - ``translate``                                                                                 |
+                |                 |                                  |      - Add as translation                                                                            |
+                |                 |                                  |    * - ``fuzzy``                                                                                     |
+                |                 |                                  |      - Add as "Needing edit"                                                                         |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``q``           | Query                            | Please note that translating all strings will discard all existing translations.                     |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``auto_source`` | Source of automated translations | .. list-table:: Available choices:                                                                   |
+                |                 |                                  |    :width: 100%                                                                                      |
+                |                 |                                  |                                                                                                      |
+                |                 |                                  |    * - ``others``                                                                                    |
+                |                 |                                  |      - Other translation components                                                                  |
+                |                 |                                  |    * - ``mt``                                                                                        |
+                |                 |                                  |      - Machine translation                                                                           |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``component``   | Component                        | Enter slug of a component to use as source, keep blank to use all components in the current project. |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``engines``     | Machine translation engines      | :ref:`addon-choice-engines`                                                                          |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
+                | ``threshold``   | Score threshold                  |                                                                                                      |
+                +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`
 
@@ -330,8 +330,6 @@ Component discovery
                 | ``copy_addons``           | Clone add-ons from the main component to the newly created ones |                                                                                                                                                             |
                 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``remove``                | Remove components for inexistent files                          |                                                                                                                                                             |
-                +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``confirm``               | I confirm the above matches look correct                        |                                                                                                                                                             |
                 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
@@ -1458,6 +1456,129 @@ Reset repository to upstream
 Discards all changes in the Weblate repository each night.
 
 .. AUTOGENERATED END: weblate.hosted.reset
+.. AUTOGENERATED START: weblate.gettext.django
+.. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
+
+.. _addon-weblate.gettext.django:
+
+Update POT file (Django)
+------------------------
+
+.. versionadded:: 5.17
+
+:Add-on ID: ``weblate.gettext.django``
+:Configuration: +----------------------+----------------------+----------------------------------------------------------------------------------+
+                | ``interval``         | Update frequency     | How often the add-on should update the POT file when the component is refreshed. |
+                |                      |                      |                                                                                  |
+                |                      |                      | .. list-table:: Available choices:                                               |
+                |                      |                      |    :width: 100%                                                                  |
+                |                      |                      |                                                                                  |
+                |                      |                      |    * - ``daily``                                                                 |
+                |                      |                      |      - Daily                                                                     |
+                |                      |                      |    * - ``weekly``                                                                |
+                |                      |                      |      - Weekly                                                                    |
+                |                      |                      |    * - ``monthly``                                                               |
+                |                      |                      |      - Monthly                                                                   |
+                +----------------------+----------------------+----------------------------------------------------------------------------------+
+                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.            |
+                +----------------------+----------------------+----------------------------------------------------------------------------------+
+
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+
+Updates the gettext template using Django's built-in makemessages command.
+
+.. AUTOGENERATED END: weblate.gettext.django
+.. AUTOGENERATED START: weblate.gettext.sphinx
+.. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
+
+.. _addon-weblate.gettext.sphinx:
+
+Update POT file (Sphinx)
+------------------------
+
+.. versionadded:: 5.17
+
+:Add-on ID: ``weblate.gettext.sphinx``
+:Configuration: +----------------------+----------------------+-------------------------------------------------------------------------------------+
+                | ``interval``         | Update frequency     | How often the add-on should update the POT file when the component is refreshed.    |
+                |                      |                      |                                                                                     |
+                |                      |                      | .. list-table:: Available choices:                                                  |
+                |                      |                      |    :width: 100%                                                                     |
+                |                      |                      |                                                                                     |
+                |                      |                      |    * - ``daily``                                                                    |
+                |                      |                      |      - Daily                                                                        |
+                |                      |                      |    * - ``weekly``                                                                   |
+                |                      |                      |      - Weekly                                                                       |
+                |                      |                      |    * - ``monthly``                                                                  |
+                |                      |                      |      - Monthly                                                                      |
+                +----------------------+----------------------+-------------------------------------------------------------------------------------+
+                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.               |
+                +----------------------+----------------------+-------------------------------------------------------------------------------------+
+                | ``filter_mode``      | Filtering            | Optionally remove strings that are not useful to translate after Sphinx extraction. |
+                |                      |                      |                                                                                     |
+                |                      |                      | .. list-table:: Available choices:                                                  |
+                |                      |                      |    :width: 100%                                                                     |
+                |                      |                      |                                                                                     |
+                |                      |                      |    * - ``none``                                                                     |
+                |                      |                      |      - None                                                                         |
+                |                      |                      |    * - ``weblate_docs``                                                             |
+                |                      |                      |      - Weblate documentation                                                        |
+                +----------------------+----------------------+-------------------------------------------------------------------------------------+
+
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+
+Updates the gettext template using Sphinx's gettext builder without loading
+project configuration.
+
+.. AUTOGENERATED END: weblate.gettext.sphinx
+.. AUTOGENERATED START: weblate.gettext.xgettext
+.. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
+
+.. _addon-weblate.gettext.xgettext:
+
+Update POT file (xgettext)
+--------------------------
+
+.. versionadded:: 5.17
+
+:Add-on ID: ``weblate.gettext.xgettext``
+:Configuration: +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+                | ``interval``         | Update frequency     | How often the add-on should update the POT file when the component is refreshed.                             |
+                |                      |                      |                                                                                                              |
+                |                      |                      | .. list-table:: Available choices:                                                                           |
+                |                      |                      |    :width: 100%                                                                                              |
+                |                      |                      |                                                                                                              |
+                |                      |                      |    * - ``daily``                                                                                             |
+                |                      |                      |      - Daily                                                                                                 |
+                |                      |                      |    * - ``weekly``                                                                                            |
+                |                      |                      |      - Weekly                                                                                                |
+                |                      |                      |    * - ``monthly``                                                                                           |
+                |                      |                      |      - Monthly                                                                                               |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.                                        |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+                | ``input_mode``       | Input source         | Choose whether xgettext should read source files from glob patterns or from a POTFILES/POTFILES.in manifest. |
+                |                      |                      |                                                                                                              |
+                |                      |                      | .. list-table:: Available choices:                                                                           |
+                |                      |                      |    :width: 100%                                                                                              |
+                |                      |                      |                                                                                                              |
+                |                      |                      |    * - ``patterns``                                                                                          |
+                |                      |                      |      - Source file patterns                                                                                  |
+                |                      |                      |    * - ``potfiles``                                                                                          |
+                |                      |                      |      - POTFILES manifest                                                                                     |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+                | ``language``         | xgettext language    | Programming language passed to xgettext, for example Python or C.                                            |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+                | ``source_patterns``  | Source file patterns | Newline-separated repository-relative glob patterns for files to extract with xgettext.                      |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+                | ``potfiles_path``    | POTFILES path        | Repository-relative path to POTFILES or POTFILES.in. Entries are resolved relative to that file.             |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------+
+
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+
+Updates the gettext template using xgettext on selected source files.
+
+.. AUTOGENERATED END: weblate.gettext.xgettext
 
 
 .. Depreciated Addons

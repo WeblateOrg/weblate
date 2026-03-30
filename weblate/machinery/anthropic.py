@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
 from urllib.parse import urljoin
 
 from .base import MachineryRateLimitError
@@ -20,6 +21,7 @@ class AnthropicTranslation(BaseLLMTranslation):
     """
 
     name = "Anthropic"
+    trusted_error_hosts: ClassVar[set[str]] = {"api.anthropic.com"}
     end_point = "/v1/messages"
     settings_form = AnthropicMachineryForm
     version_added = "5.16"
@@ -59,7 +61,8 @@ class AnthropicTranslation(BaseLLMTranslation):
             ],
         }
         api_url = urljoin(
-            self.settings.get("base_url", "https://api.anthropic.com"), self.end_point
+            self.settings.get("base_url") or "https://api.anthropic.com",
+            self.end_point,
         )
         response = self.request("post", api_url, json=payload)
         response_data = response.json()

@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -21,6 +22,56 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
 GUIDELINES = []
+XGETTEXT_GUIDE_SUFFIXES = {
+    ".c",
+    ".cc",
+    ".cpp",
+    ".cs",
+    ".go",
+    ".h",
+    ".hpp",
+    ".java",
+    ".js",
+    ".jsx",
+    ".kt",
+    ".m",
+    ".mm",
+    ".php",
+    ".pl",
+    ".py",
+    ".rb",
+    ".rs",
+    ".swift",
+    ".ts",
+    ".tsx",
+    ".vala",
+}
+XGETTEXT_GUIDE_IGNORED_DIRS = {
+    ".git",
+    ".venv",
+    "_build",
+    "build",
+    "dist",
+    "locale",
+    "locales",
+    "node_modules",
+    "venv",
+}
+XGETTEXT_GUIDE_SCAN_LIMIT = 2000
+
+
+def get_locales_parent(component) -> Path | None:
+    if not component.new_base:
+        return None
+    template = Path(component.new_base)
+    parts = template.parts
+    if "locales" not in parts:
+        return None
+    locales_index = parts.index("locales")
+    if locales_index == 0:
+        return Path(component.full_path)
+    source_dir = Path(component.full_path).joinpath(*parts[:locales_index])
+    return source_dir if source_dir.is_dir() else None
 
 
 def register(cls):
@@ -255,7 +306,7 @@ class AddonGuideline(Guideline):
     url = "addons"
 
     def is_passing(self):
-        return self.addon in self.component.addons_cache["__names__"]
+        return self.addon in self.component.addons_cache.names
 
     def is_relevant(self):
         if self.addon not in ADDONS:
@@ -325,3 +376,70 @@ class GenerateMoGuideline(AddonGuideline):
             return False
         mofilename = f"{translation.get_filename()[:-3]}.mo"
         return os.path.exists(mofilename)
+
+
+@register
+class XgettextGuideline(AddonGuideline):
+    addon = "weblate.gettext.xgettext"
+    hint = True
+
+    def is_relevant(self):
+        if not super().is_relevant():
+            return False
+        if not self.component.new_base or Path(self.component.new_base).stem in {
+            "django",
+            "djangojs",
+            "docs",
+        }:
+            return False
+
+        scanned = 0
+        for _root, dirs, files in os.walk(self.component.full_path):
+            dirs[:] = [name for name in dirs if name not in XGETTEXT_GUIDE_IGNORED_DIRS]
+            for filename in files:
+                scanned += 1
+                if scanned > XGETTEXT_GUIDE_SCAN_LIMIT:
+                    return False
+                if os.path.splitext(filename)[1] in XGETTEXT_GUIDE_SUFFIXES:
+                    return True
+        return False
+
+
+@register
+class DjangoGuideline(AddonGuideline):
+    addon = "weblate.gettext.django"
+    hint = True
+
+    def is_relevant(self):
+        return super().is_relevant() and Path(self.component.new_base).stem in {
+            "django",
+            "djangojs",
+        }
+
+
+@register
+class SphinxGuideline(AddonGuideline):
+    addon = "weblate.gettext.sphinx"
+    hint = True
+
+    def is_relevant(self):
+        if not super().is_relevant():
+            return False
+        if Path(self.component.new_base).stem != "docs":
+            return False
+        source_dir = get_locales_parent(self.component)
+        if source_dir is None:
+            return False
+        if not (source_dir / "conf.py").exists():
+            return False
+
+        scanned = 0
+        for _root, dirs, files in os.walk(source_dir):
+            dirs[:] = [name for name in dirs if name not in XGETTEXT_GUIDE_IGNORED_DIRS]
+            for filename in files:
+                scanned += 1
+                if scanned > XGETTEXT_GUIDE_SCAN_LIMIT:
+                    return False
+                if filename.endswith(".rst"):
+                    return True
+        return False

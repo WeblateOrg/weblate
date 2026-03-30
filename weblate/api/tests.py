@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import tempfile
 import zipfile
 from copy import copy
 from datetime import UTC, datetime, timedelta
@@ -37,6 +38,7 @@ from weblate.trans.models import (
     Category,
     Change,
     Component,
+    ComponentLink,
     ComponentList,
     Project,
     Translation,
@@ -528,6 +530,27 @@ class UserAPITest(APIBaseTest):
             "http://example.com/api/groups/{group.id}/", response.data["groups"]
         )
 
+    def test_remove_last_group_bot(self) -> None:
+        bot = User.objects.create(
+            username="bot-test",
+            full_name="Test Bot",
+            is_bot=True,
+            is_active=True,
+        )
+        group = Group.objects.get(name="Viewers")
+        # Clear auto-assigned groups and keep only one
+        bot.groups.set([group])
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": bot.username},
+            method="delete",
+            superuser=True,
+            code=400,
+            request={"group_id": group.id},
+        )
+        # Bot should still have the group
+        self.assertTrue(bot.groups.filter(pk=group.pk).exists())
+
     def test_list_notifications(self) -> None:
         self.do_request(
             "api:user-notifications",
@@ -785,6 +808,21 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(User.objects.get(username="apitest2").full_name, "Name")
 
+    def test_put_self_without_user_view_keeps_email(self) -> None:
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="put",
+            code=200,
+            request={
+                "full_name": "Renamed",
+                "username": self.user.username,
+            },
+        )
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Renamed")
+        self.assertEqual(self.user.email, "apitest@example.org")
+
     def test_patch(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -824,6 +862,50 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(
             User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name, "Other"
         )
+
+    def test_patch_self_with_user_view_permission(self) -> None:
+        self.grant_perm_to_user("user.view")
+        self.authenticate(False)
+
+        response = self.client.get(
+            reverse("api:user-detail", kwargs={"username": self.user.username})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("email", response.data)
+        self.assertIn("is_superuser", response.data)
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            request={"full_name": "Viewed User", "email": "viewed@example.org"},
+        )
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.full_name, "Viewed User")
+        self.assertEqual(self.user.email, "viewed@example.org")
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            request={"is_superuser": True, "is_active": False, "is_bot": True},
+        )
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.is_superuser)
+        self.assertTrue(self.user.is_active)
+        self.assertFalse(self.user.is_bot)
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            request={"date_expires": "2030-01-01T00:00:00Z"},
+        )
+        self.user.refresh_from_db()
+        self.assertIsNone(self.user.date_expires)
 
 
 class GroupAPITest(APIBaseTest):
@@ -941,12 +1023,11 @@ class GroupAPITest(APIBaseTest):
         admin = User.objects.create_user("admin", "admin@example.com")
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
 
-        # serializer validation fails before perm check even happens causing 400 error
-        # if trying to use a project without permissions
+        # User without group.edit or project.permissions cannot create project team.
         self.do_request(
             "api:group-list",
             method="post",
-            code=400,
+            code=403,
             authenticated=False,
             format="json",
             request={
@@ -972,6 +1053,59 @@ class GroupAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Group.objects.count(), 9)
+
+        other_component = self.create_acl()
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=403,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project Other",
+                "defining_project": reverse(
+                    "api:project-detail",
+                    kwargs={"slug": other_component.project.slug},
+                ),
+            },
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=403,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project Missing",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs={"slug": "missing"}
+                ),
+            },
+        )
+
+        global_admin = User.objects.create_user("groupadmin", "groupadmin@example.com")
+        permission = Permission.objects.get(codename="group.edit")
+        role = Role.objects.create(name="Global group edit")
+        role.permissions.add(permission)
+        team = Group.objects.create(name="Global group editors")
+        team.roles.add(role)
+        global_admin.groups.add(team)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {global_admin.auth_token.key}"
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Project Global",
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
 
     def test_add_role(self) -> None:
         role = Role.objects.get(name="Administration")
@@ -1341,7 +1475,7 @@ class GroupAPITest(APIBaseTest):
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Group").id},
             method="put",
-            code=403,
+            code=404,
         )
         self.do_request(
             "api:group-detail",
@@ -1355,6 +1489,9 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(Group.objects.get(name="Group").language_selection, 1)
 
     def test_patch(self) -> None:
+        group = Group.objects.create(
+            name="Group", project_selection=0, language_selection=0
+        )
         self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -1363,13 +1500,34 @@ class GroupAPITest(APIBaseTest):
         )
         self.do_request(
             "api:group-detail",
-            kwargs={"id": Group.objects.get(name="Users").id},
+            kwargs={"id": group.id},
             method="patch",
             superuser=True,
             code=200,
             request={"language_selection": 1},
         )
-        self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
+        self.assertEqual(Group.objects.get(name="Group").language_selection, 1)
+
+    def test_patch_internal_group_blocked(self) -> None:
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"language_selection": SELECTION_ALL},
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"project_selection": SELECTION_MANUAL},
+        )
+        self.assertEqual(Group.objects.get(name="Users").project_selection, 3)
 
     def test_grant_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
@@ -1449,7 +1607,7 @@ class GroupAPITest(APIBaseTest):
         self.assertNotIn(user.id, admins_ids)
 
     def test_project_admin_group_visibility(self) -> None:
-        """Project admins can see project-scoped groups but cannot edit their properties."""
+        """Project admins can manage project-scoped groups but not global-only actions."""
         # Create a non-superuser with project admin rights
         admin = User.objects.create_user("project_admin", "admin@example.com")
         self.component.project.add_user(admin, "Administration")
@@ -1475,15 +1633,97 @@ class GroupAPITest(APIBaseTest):
             code=200,
         )
 
-        # Project admin cannot update group properties (only global admins can)
+        # Project admin can update project-scoped group properties
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            authenticated=False,
+            code=200,
+            request={"language_selection": 1},
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, 1)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="put",
+            authenticated=False,
+            code=200,
+            format="json",
+            request={
+                "name": group.name,
+                "defining_project": reverse(
+                    "api:project-detail",
+                    kwargs={"slug": self.component.project.slug},
+                ),
+                "project_selection": group.project_selection,
+                "language_selection": group.language_selection,
+            },
+        )
+
+        # Project admin cannot change project scope fields on a project-scoped group
         self.do_request(
             "api:group-detail",
             kwargs={"id": group.id},
             method="patch",
             authenticated=False,
             code=403,
-            request={"language_selection": 1},
+            format="json",
+            request={"project_selection": SELECTION_ALL},
         )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            authenticated=False,
+            code=200,
+            format="json",
+            request={
+                "defining_project": reverse(
+                    "api:project-detail",
+                    kwargs={"slug": self.component.project.slug},
+                )
+            },
+        )
+        acl_component = self.create_acl()
+        acl_component.project.add_user(admin, "Administration")
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            authenticated=False,
+            code=400,
+            format="json",
+            request={
+                "defining_project": reverse(
+                    "api:project-detail",
+                    kwargs={"slug": acl_component.project.slug},
+                )
+            },
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.project_selection, SELECTION_MANUAL)
+        self.assertEqual(group.defining_project, self.component.project)
+
+        internal_group = Group.objects.create(
+            name="Project ACL",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+            defining_project=self.component.project,
+            internal=True,
+        )
+        internal_group.projects.add(self.component.project)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": internal_group.id},
+            method="patch",
+            authenticated=False,
+            code=400,
+            request={"language_selection": SELECTION_MANUAL},
+        )
+        internal_group.refresh_from_db()
+        self.assertEqual(internal_group.language_selection, SELECTION_ALL)
 
         # Project admin cannot add roles to the group (only global admins can)
         role = Role.objects.get(name="Administration")
@@ -1495,6 +1735,63 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"role_id": role.id},
         )
+
+        # Project admin can delete the project-scoped group
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+        self.assertFalse(Group.objects.filter(pk=group.pk).exists())
+
+    def test_project_permissions_user_can_put_group_with_unchanged_defining_project(
+        self,
+    ) -> None:
+        admin = User.objects.create_user(
+            "project_permissions", "permissions@example.com"
+        )
+        permission = Permission.objects.get(codename="project.permissions")
+        role = Role.objects.create(name="Project permissions only")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Project Permissions Team",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+        )
+        group.projects.add(self.component.project)
+        group.roles.add(role)
+        admin.groups.add(group)
+
+        scoped_group = Group.objects.create(
+            name="Project Team",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+            defining_project=self.component.project,
+        )
+        scoped_group.projects.add(self.component.project)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": scoped_group.id},
+            method="put",
+            authenticated=False,
+            code=200,
+            format="json",
+            request={
+                "name": scoped_group.name,
+                "defining_project": reverse(
+                    "api:project-detail",
+                    kwargs={"slug": self.component.project.slug},
+                ),
+                "project_selection": scoped_group.project_selection,
+                "language_selection": SELECTION_MANUAL,
+            },
+        )
+        scoped_group.refresh_from_db()
+        self.assertEqual(scoped_group.language_selection, SELECTION_MANUAL)
 
     def test_non_project_admin_group_visibility(self) -> None:
         """Users without project admin rights cannot see project-scoped groups."""
@@ -3114,6 +3411,39 @@ class ProjectAPITest(APIBaseTest):
         self.assertNotIn(missing_new_base_rel, zip_names)
         self.assertGreater(len(zip_names), 0)
 
+    def test_project_language_zip_skips_symlinked_template(self) -> None:
+        self.attach_component_template(self.component)
+        template_path = os.path.join(self.component.full_path, self.component.template)
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        os.unlink(template_path)
+        os.symlink(handle.name, template_path)
+
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        root = data_dir("vcs")
+        translation_filename = self.component.translation_set.get(
+            language__code="cs"
+        ).get_filename()
+        self.assertIsNotNone(translation_filename)
+        translation_rel = os.path.relpath(translation_filename, root)
+        template_rel = os.path.relpath(template_path, root)
+
+        self.assertIn(translation_rel, zip_names)
+        self.assertNotIn(template_rel, zip_names)
+
     def test_download_project_translations_language_path_filter(self) -> None:
         other_component = self.create_po(name="Other", project=self.component.project)
         self.attach_component_template(self.component)
@@ -3444,6 +3774,24 @@ class ProjectAPITest(APIBaseTest):
         )
 
         self.assertEqual(new_config, response.data)
+
+    def test_install_machinery_blocks_private_project_target(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+
+        response = self.do_request(
+            "api:project-machinery-settings",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=False,
+            request={
+                "service": "deepl",
+                "configuration": {"key": "x", "url": "http://127.0.0.1:11434/"},
+            },
+            format="json",
+        )
+
+        self.assertIn("URL domain is not allowed.", str(response.data))
 
 
 class ComponentAPITest(APIBaseTest):
@@ -3847,6 +4195,78 @@ class ComponentAPITest(APIBaseTest):
             method="delete",
             code=204,
             superuser=True,
+        )
+
+    def test_links_with_category(self) -> None:
+        self.create_acl()
+        category = Category.objects.create(
+            name="Test Category",
+            slug="test-cat",
+            project=Project.objects.get(slug="acl"),
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": category.pk},
+        )
+        link = ComponentLink.objects.get(
+            component=self.component, project=category.project
+        )
+        self.assertEqual(link.category, category)
+
+    def test_links_with_wrong_project_category(self) -> None:
+        """Category from a different project should be rejected."""
+        self.create_acl()
+        category = Category.objects.create(
+            name="Wrong Category", slug="wrong-cat", project=self.component.project
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": category.pk},
+        )
+        self.assertFalse(
+            ComponentLink.objects.filter(
+                component=self.component, project__slug="acl"
+            ).exists()
+        )
+
+    def test_links_with_invalid_category(self) -> None:
+        """Non-existent category_id should be rejected."""
+        self.create_acl()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": 99999},
+        )
+
+    def test_links_duplicate(self) -> None:
+        """Adding a link to an already linked project should return 400."""
+        self.create_acl()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={"project_slug": "acl"},
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl"},
         )
 
     def test_credits(self) -> None:
@@ -5854,6 +6274,21 @@ class UnitAPITest(APIBaseTest):
                 "scope": "global",
                 "comment": "test comment",
                 "timestamp": "20240101T12:00:00.000Z",
+                "user_email": self.user.email,
+            },
+            method="post",
+            authenticated=False,
+            code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to perform this action.",
+        )
+        response = self.do_request(
+            reverse("api:unit-comments", kwargs={"pk": unit.pk}),
+            request={
+                "scope": "global",
+                "comment": "test comment",
                 "user_email": self.user.email,
             },
             method="post",

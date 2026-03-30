@@ -56,7 +56,6 @@ from translate.storage.xliff2 import Xliff2File, Xliff2Unit
 from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUnit
 
 import weblate.utils.version
-from weblate.checks.flags import Flags
 from weblate.formats.base import (
     BilingualUpdateMixin,
     MissingTemplateError,
@@ -93,6 +92,7 @@ if TYPE_CHECKING:
     from translate.storage.placeables import StringElem
     from translate.storage.properties import propfile, propunit
 
+    from weblate.checks.flags import Flags
     from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
 
@@ -1092,7 +1092,7 @@ class PlaceholdersJSONUnit(JSONUnit):
             # WebExtension placeholders
             placeholder_ids = [f"${key.upper()}$" for key in placeholders]
             flags.merge("case-insensitive")
-        flags.set_value("placeholders", Flags.format_flag(placeholder_ids))
+        flags.set_values("placeholders", *placeholder_ids)
         return flags
 
 

@@ -21,6 +21,8 @@ from weblate.utils.validators import (
     validate_backup_path,
     validate_filename,
     validate_fullname,
+    validate_machinery_hostname,
+    validate_machinery_url,
     validate_project_web,
     validate_re,
     validate_repo_url,
@@ -276,6 +278,22 @@ class WebsiteTest(SimpleTestCase):
         validate_asset_url("https://cdn.allowed.com/image.png")
         with self.assertRaises(ValidationError):
             validate_asset_url("https://blocked.example.com/image.png")
+
+    def test_machinery_url_validator(self) -> None:
+        validate_machinery_url("http://127.0.0.1:11434", allow_private_targets=True)
+        validate_machinery_url("https://api.deepl.com/v2/", allow_private_targets=False)
+        with self.assertRaises(ValidationError):
+            validate_machinery_url(
+                "http://127.0.0.1:11434", allow_private_targets=False
+            )
+
+    @override_settings(ALLOWED_MACHINERY_DOMAINS=["ollama"])
+    def test_machinery_hostname_allowlist(self) -> None:
+        validate_machinery_hostname("ollama", allow_private_targets=False)
+
+    def test_machinery_hostname_rejects_loopback_with_port(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_machinery_hostname("127.0.0.1:11434", allow_private_targets=False)
 
 
 class BackupTest(SimpleTestCase):

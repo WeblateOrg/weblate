@@ -4,10 +4,14 @@
 
 """Test for adding new language."""
 
+import os
+import tempfile
+
 from django.core import mail
 from django.urls import reverse
 
 from weblate.auth.models import Permission, Role
+from weblate.lang.models import Language
 from weblate.utils.ratelimit import reset_rate_limit
 
 from .test_views import ViewTestCase
@@ -218,6 +222,24 @@ class AndroidNewLangTest(NewLangTest):
 
     def create_component(self):
         return self.create_android(new_lang="add")
+
+    def test_add_rejects_symlinked_target(self) -> None:
+        request = self.get_request()
+        target_dir = os.path.join(self.component.full_path, "android", "values-af")
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            os.symlink(tempdir, target_dir)
+
+            self.assertIsNone(
+                self.component.add_new_language(
+                    Language.objects.get(code="af"), request, show_messages=True
+                )
+            )
+            self.assertFalse(os.path.exists(os.path.join(tempdir, "strings.xml")))
+
+        self.assertFalse(
+            self.component.translation_set.filter(language__code="af").exists()
+        )
 
 
 class AppStoreNewLangTest(NewLangTest):
