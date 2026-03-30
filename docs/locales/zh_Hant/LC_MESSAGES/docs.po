@@ -26,13 +26,14 @@
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
 # EESF-2 <eesf-2@users.noreply.hosted.weblate.org>, 2026.
 # Candied-Ecard <weblate.barbell454@simplelogin.com>, 2026.
+# UDP <udp@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
 "PO-Revision-Date: 2026-03-30 02:11+0000\n"
-"Last-Translator: EESF-2 <eesf-2@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -101,13 +102,13 @@ msgstr "任何通過身份驗證的使用者都可以貢獻。"
 
 #: ../../admin/access.rst:30
 msgid "VCS repository might be exposed to everybody."
-msgstr "所有人都可能可以存取VCS 儲存庫。"
+msgstr "所有人都可能可以存取 VCS 儲存庫。"
 
 #: ../../admin/access.rst:32
 msgid ""
 "**Choose this for open-source projects, or when your Weblate instance is "
 "private or locked-down.**"
-msgstr "**選擇這是開源專案，或是 Weblate 站台是私有或是鎖定。**"
+msgstr "**選擇這是開源專案，或是 Weblate 實例是私有或是鎖定。**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:542
 msgid ":guilabel:`Protected`"
@@ -160,7 +161,7 @@ msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
-"**如果您想以一種特定的、精細定制的通道定義存取，請在你自己的Weblate實例上選擇"
+"**如果您想以一種特定的、精細自訂的通道定義存取，請在你自己的Weblate實例上選擇"
 "這個。**"
 
 #: ../../admin/access.rst:62
@@ -231,10 +232,8 @@ msgid "All available permissions for the project."
 msgstr "包含此專案所有可使用的權限。"
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Review"
 msgid "`Review`"
-msgstr "檢閱"
+msgstr "`檢閱`"
 
 #: ../../admin/access.rst:106
 #, fuzzy
@@ -252,37 +251,27 @@ msgstr "只限‘受保護’及‘私有’專案："
 
 #: ../../admin/access.rst:112 ../../snippets/roles.rst:156
 msgid "`Translate`"
-msgstr "`Translate`"
+msgstr "`翻譯`"
 
 #: ../../admin/access.rst:113
-#, fuzzy
-#| msgid "Can translate the project and upload translations made offline."
 msgid "Translate the project and upload translations made offline."
-msgstr "可以翻譯專案，並將離線的翻譯上傳。"
+msgstr "翻譯專案，並將離線的翻譯上傳。"
 
 #: ../../admin/access.rst:115
-#, fuzzy
-#| msgid "Sources"
 msgid "`Sources`"
-msgstr "原文"
+msgstr "`來源`"
 
 #: ../../admin/access.rst:116
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings (if allowed in the :ref:`project settings "
-#| "<component-manage_units>`) and source string info."
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"可以編輯來源字串 (如果在 :ref:`project settings <component-manage_units>` 中"
-"允許的話 )及來源字串資訊。"
+"編輯來源字串 (如果在 :ref:`project settings <component-manage_units>` 中允許"
+"的話 )及來源字串資訊。"
 
 #: ../../admin/access.rst:119
-#, fuzzy
-#| msgid "Languages"
 msgid "`Languages`"
-msgstr "語言"
+msgstr "`語言`"
 
 #: ../../admin/access.rst:120
 #, fuzzy
@@ -3021,7 +3010,7 @@ msgstr "蘋果 iOS 字串"
 
 #: ../../admin/addons.rst:405
 msgid "Android resource strings, split into several files."
-msgstr "Android 資源字串，切分為多份檔案。"
+msgstr "Android 資來源字串，切分為多份檔案。"
 
 #: ../../admin/addons.rst:416
 #, fuzzy
@@ -7816,8 +7805,8 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
-"通常規則是，任何檢查都使用識別文字來命名 ``ignore-*``，所以能夠將規則應用在定"
-"制檢查中。"
+"通常規則是，任何檢查都使用識別文字來命名 ``ignore-*``，所以能夠將規則應用在自"
+"訂檢查中。"
 
 #: ../../admin/checks.rst:352
 msgid ""
@@ -7825,7 +7814,7 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
-"每個源字串的設定，在 :ref:`component` 設定中，並且在翻譯檔案自身中（例如在 "
+"每個來源字串的設定，在 :ref:`component` 設定中，並且在翻譯檔案自身中（例如在 "
 "GNU gettex 中），能夠理解這些標記。"
 
 #: ../../admin/checks.rst:358
@@ -9987,7 +9976,7 @@ msgstr ""
 #| msgid ""
 #| "In case Weblate is running on non-standard port, include it here as well."
 msgid "If Weblate is running on a non-standard port, include it here as well."
-msgstr "在 Weblate 執行在非標準端口時，這裡同樣要包括它。"
+msgstr "在 Weblate 執行在非標準連接埠時，這裡同樣要包括它。"
 
 #: ../../admin/config.rst:1953
 #, fuzzy
@@ -12856,7 +12845,7 @@ msgstr ""
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
-msgstr "到資料庫伺服器的連接性，細節請查看 Django 的說明文件。"
+msgstr "到資料庫伺服器的連線能力，細節請查看 Django 的說明文件。"
 
 #: ../../admin/install.rst:914
 msgid ""
@@ -14485,8 +14474,8 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
-"如果您已經在同一伺服器上託管其他站點，則反向代理（例如 NGINX ）可能會使用端"
-"口 ``80`` 和 ``443``。要將 HTTPS 連接從 NGINX 傳遞到 docker 容器，可以使用以"
+"如果您已經在同一伺服器上託管其他站點，則反向代理（例如 NGINX ）可能會使用連接"
+"埠 ``80`` 和 ``443``。要將 HTTPS 連線從 NGINX 傳遞到 docker 容器，可以使用以"
 "下配置："
 
 #: ../../admin/install/docker.rst:186
@@ -14990,7 +14979,7 @@ msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
-"這不會使 Weblate 容器接受 HTTPS 連接，您同樣需要配置它，例子請參見 "
+"這不會使 Weblate 容器接受 HTTPS 連線，您同樣需要配置它，例子請參見 "
 ":ref:`docker-ssl`。"
 
 #: ../../admin/install/docker.rst:729
@@ -15928,7 +15917,7 @@ msgid ""
 "setting :envvar:`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
 "與 SMTP 伺服器通信時是否使用隱式 TLS（安全）連接。在大多數電子郵件文件中，這"
-"種 TLS 連接類型稱為 SSL。通常在連接埠 465 上使用。如果遇到問題，請參閱顯式 "
+"種 TLS 連線類型稱為 SSL。通常在連接埠 465 上使用。如果遇到問題，請參閱顯式 "
 "TLS 設定 :envvar:`WEBLATE_EMAIL_USE_TLS`。"
 
 #: ../../admin/install/docker.rst:1792 ../../admin/install/docker.rst:1810
@@ -15944,9 +15933,9 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS "
 "setting :envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
-"與 SMTP 伺服器通訊時是否使用 TLS（安全）連接。這用於顯式 TLS 連接，通常在端"
-"口 587 或 25 上。如果您遇到掛起的連接，請參見隱式 TLS 設"
-"定 :envvar:`WEBLATE_EMAIL_USE_SSL`。"
+"與 SMTP 伺服器通訊時是否使用 TLS（安全）連接。這用於顯式 TLS 連線，通常在連接"
+"埠 587 或 25 上。如果您遇到掛起的連接，請參見隱式 TLS 設定 "
+":envvar:`WEBLATE_EMAIL_USE_SSL`。"
 
 #: ../../admin/install/docker.rst:1821
 msgid "Configures Django back-end to use for sending e-mails."
@@ -19568,7 +19557,7 @@ msgstr "清理無主的檢查和翻譯建議。這通常不需要手動執行，
 #| msgid "Removes control characters if the source does not contain any."
 msgid ""
 "Removes all obsolete entries with pending status from the translation memory."
-msgstr "去掉控制字元，如果源字串不包含的話。"
+msgstr "去掉控制字元，如果來源字串不包含的話。"
 
 #: ../../admin/management.rst:293
 msgid "Performs cleanup of stored SSH host keys:"
@@ -19864,7 +19853,7 @@ msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
-"第一個是 Debian 手冊翻譯，那裡的每種語言都有各自的文件夾，裡面有 每個章節的翻"
+"第一個是 Debian 手冊翻譯，那裡的每種語言都有各自的資料夾，裡面有 每個章節的翻"
 "譯："
 
 #: ../../admin/management.rst:541
@@ -19874,7 +19863,7 @@ msgid ""
 "in single folder:"
 msgstr ""
 "然後 Tangaguru 工具，那裡需要指定文件格式和譯文範本文件，並且指定所有組件和翻"
-"譯如何位於單一一個文件夾中："
+"譯如何位於單一一個資料夾中："
 
 #: ../../admin/management.rst:555
 msgid ""
@@ -19895,7 +19884,7 @@ msgstr "匯入 Sphinx 文件，分成多個文件："
 
 #: ../../admin/management.rst:585
 msgid "Importing Sphinx documentation split to multiple files and directories:"
-msgstr "匯入 Sphinx 文件，分成多個文件和文件夾："
+msgstr "匯入 Sphinx 文件，分成多個文件和資料夾："
 
 #: ../../admin/management.rst:600
 #, fuzzy
@@ -20577,7 +20566,7 @@ msgstr "將 TMX 或 JSON 文件匯入翻譯記憶庫"
 #, fuzzy
 #| msgid "Removes control characters if the source does not contain any."
 msgid "Removes all entries with pending status from the translation memory"
-msgstr "去掉控制字元，如果源字串不包含的話。"
+msgstr "去掉控制字元，如果來源字串不包含的話。"
 
 #: ../../admin/memory.rst:165
 msgid ""
@@ -20814,7 +20803,7 @@ msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
 msgstr ""
-"編輯 :file:`weblate/legal/templates/legal/` 文件夾中的而法律文件，與您的服務"
+"編輯 :file:`weblate/legal/templates/legal/` 資料夾中的而法律文件，與您的服務"
 "匹配。"
 
 #: ../../admin/optionals.rst:181
@@ -20946,7 +20935,7 @@ msgstr "允許的嘗試"
 
 #: ../../admin/optionals.rst:256
 msgid "Ratelimit window"
-msgstr "頻次限制窗口"
+msgstr "頻次限制視窗"
 
 #: ../../admin/optionals.rst:256
 msgid "Lockout period"
@@ -21672,9 +21661,9 @@ msgid ""
 "(see :ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/"
 "{{filename|parentdir}}#L{{line}}``"
 msgstr ""
-"在您的路徑相對於不同文件夾的時候，您會想使用``parentdir`` filter "
-"(see :ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/{{ branch}}/"
-"{{filename|parentdir}}#L{{line}}``，來剝除前導文件夾"
+"在您的路徑相對於不同資料夾的時候，您會想使用``parentdir`` filter (see "
+":ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/{{ branch}}/{"
+"{filename|parentdir}}#L{{line}}``，來剝除前導資料夾"
 
 #: ../../admin/projects.rst:460
 msgid "Exported repository URL"
@@ -21863,7 +21852,7 @@ msgid ""
 "source strings."
 msgstr ""
 "對於 :ref:`monolingual` 的單一語言文件。在多數情況下，這是開發者提供的翻譯文"
-"件，並且在新增真正的源字串時使用。"
+"件，並且在新增真正的來源字串時使用。"
 
 #: ../../admin/projects.rst:582
 #, fuzzy
@@ -22537,7 +22526,7 @@ msgstr "來源語言"
 msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
-msgstr "用於源字串的語言。如果您要翻譯的不是英語，請更改此選項。"
+msgstr "用於來源字串的語言。如果您要翻譯的不是英語，請更改此選項。"
 
 #: ../../admin/projects.rst:967
 msgid ""
@@ -23153,7 +23142,7 @@ msgstr "你正在執行的版本"
 #| "Tallies of some objects in your Weblate database (projects, components, "
 #| "languages, source strings and users)"
 msgid "Tallies of projects, components, languages, source strings, and users"
-msgstr "您 Weblate 資料庫中一些對象的記錄（項目、組件、語言、源字串和使用者）"
+msgstr "您 Weblate 資料庫中一些對象的記錄（項目、組件、語言、來源字串和使用者）"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
@@ -23452,7 +23441,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
-msgstr "源字串另外的資訊"
+msgstr "來源字串另外的資訊"
 
 #: ../../admin/translating.rst:49
 msgid ""
@@ -23517,8 +23506,8 @@ msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
 msgstr ""
-"使用解釋來明確翻譯的範圍或翻譯的 使用。您可以使用 Markdown 來包括連接和其它標"
-"誌。"
+"使用解釋來明確翻譯的範圍或翻譯的使用。您可以使用 Markdown 來包括連結和其它標"
+"記。"
 
 #: ../../admin/translating.rst:114
 msgid ""
@@ -23542,8 +23531,8 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
-"您可以將顯示您程式中使用的給定源字串的截屏上傳。這幫助譯者理解它用在哪裡，並"
-"且應該如何翻譯。"
+"您可以將顯示您程式中使用的給定來源字串的截屏上傳。這幫助譯者理解它用在哪裡，"
+"並且應該如何翻譯。"
 
 #: ../../admin/translating.rst:130
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
@@ -23570,7 +23559,7 @@ msgstr ""
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
-msgstr "一旦上傳了截屏，那麼這個介面處理管理以及源字串的聯繫："
+msgstr "一旦上傳了截屏，那麼這個介面處理管理以及來源字串的聯繫："
 
 #: ../../admin/translating.rst:145
 msgid ""
@@ -24262,7 +24251,7 @@ msgstr "剩餘的執行請求數"
 
 #: ../../api.rst:218
 msgid "Number of seconds until the rate-limit window resets"
-msgstr "直到速率限制窗口重設時的秒數"
+msgstr "直到速率限制視窗重設時的秒數"
 
 #: ../../api.rst:223
 msgid "Added ratelimiting status headers."
@@ -26116,7 +26105,7 @@ msgstr "來源字串"
 
 #: ../../api.rst:2301
 msgid "previous source string used for fuzzy matching"
-msgstr "用於模糊匹配的之前的源字串"
+msgstr "用於模糊匹配的之前的來源字串"
 
 #: ../../api.rst:2302 ../../api.rst:2338 ../../api.rst:2352
 msgid "target string"
@@ -26128,7 +26117,7 @@ msgstr "單元的唯一識別文字"
 
 #: ../../api.rst:2304
 msgid "unique identifier of the source string"
-msgstr "源字串的唯一識別文字"
+msgstr "來源字串的唯一識別文字"
 
 #: ../../api.rst:2305
 msgid "location of the unit in source code"
@@ -26480,7 +26469,7 @@ msgstr "下載文件的 URL；請參見 :http:get:`/api/screenshots/(int:id)/fil
 msgid ""
 "link to associated source string information; see :http:get:`/api/units/"
 "(int:id)/`"
-msgstr "與源字串資訊相關的連結；請參見 :http:get:`/api/units/(int:id)/`"
+msgstr "與來源字串資訊相關的連結；請參見 :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2465
 msgid "Download the screenshot image."
@@ -26492,7 +26481,7 @@ msgstr "替換螢幕截圖。"
 
 #: ../../api.rst:2489
 msgid "Associate source string with screenshot."
-msgstr "與螢幕截圖相關的源字串。"
+msgstr "與螢幕截圖相關的來源字串。"
 
 #: ../../api.rst:2501
 #, fuzzy
@@ -29326,7 +29315,7 @@ msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 #| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
-msgstr "修復了 :ref:`check-translated` 來正確低處理源字串更改。"
+msgstr "修復了 :ref:`check-translated` 來正確低處理來源字串更改。"
 
 #: ../../changes.rst:615
 #, fuzzy
@@ -31474,7 +31463,7 @@ msgstr ":ref:`component-language_code_style`"
 #, fuzzy
 #| msgid "Record source string changes in history."
 msgid "Display more details on source string change in history."
-msgstr "在歷史中記錄源字串更改。"
+msgstr "在歷史中記錄來源字串更改。"
 
 #: ../../changes.rst:1474
 #, fuzzy
@@ -32497,7 +32486,7 @@ msgstr "修復了顯示元件的白板資訊。"
 #, fuzzy
 #| msgid "Show source string comment more prominently."
 msgid "Show plural form examples more prominently."
-msgstr "更突出地顯示源字串註釋。"
+msgstr "更突出地顯示來源字串註釋。"
 
 #: ../../changes.rst:1820
 #, fuzzy
@@ -32515,7 +32504,7 @@ msgstr "為組件和項目刪除新增了支援。"
 #, fuzzy
 #| msgid "Show source string comment more prominently."
 msgid "Show disabled save button reason more prominently."
-msgstr "更突出地顯示源字串註釋。"
+msgstr "更突出地顯示來源字串註釋。"
 
 #: ../../changes.rst:1823
 #, fuzzy
@@ -33425,7 +33414,7 @@ msgstr "跨所有字串的搜尋。"
 
 #: ../../changes/v1.rst:33
 msgid "Better tracking of source strings."
-msgstr "更好地追蹤源字串。"
+msgstr "更好地追蹤來源字串。"
 
 #: ../../changes/v1.rst:34
 msgid "Captcha protection for registration."
@@ -33720,7 +33709,7 @@ msgstr "改進了自動翻譯鎖定行為。"
 
 #: ../../changes/v1.rst:121
 msgid "Support for showing changes from previous source string."
-msgstr "支援顯示不同於之前的源字串的更改。"
+msgstr "支援顯示不同於之前的來源字串的更改。"
 
 #: ../../changes/v1.rst:122
 msgid "Added support for substring search."
@@ -33803,7 +33792,7 @@ msgstr "檢查與支援來源字串的審查。"
 
 #: ../../changes/v1.rst:146
 msgid "Support for user comments for both translations and source strings."
-msgstr "支援翻譯和源字串的使用者註釋。"
+msgstr "支援翻譯和來源字串的使用者註釋。"
 
 #: ../../changes/v1.rst:147
 msgid "Better changes log tracking."
@@ -34493,7 +34482,7 @@ msgstr "確保搜尋連結可以被分享。"
 
 #: ../../changes/v2.rst:165
 msgid "Included source string information and screenshots in the API."
-msgstr "在 API 中包括了源字串資訊和螢幕截圖。"
+msgstr "在 API 中包括了來源字串資訊和螢幕截圖。"
 
 #: ../../changes/v2.rst:166
 msgid "Allow to overwrite translations through API upload."
@@ -34629,7 +34618,7 @@ msgstr "為配置帶有特殊字元的虛擬鍵盤新增了支援。"
 #: ../../changes/v2.rst:210
 msgid ""
 "Improved screenshot management with OCR support for matching source strings."
-msgstr "改進了帶有 OCR 支援的螢幕截圖管理來匹配源字串。"
+msgstr "改進了帶有 OCR 支援的螢幕截圖管理來匹配來源字串。"
 
 #: ../../changes/v2.rst:211
 msgid "Default commit message now includes translation information and URL."
@@ -34842,7 +34831,7 @@ msgstr "儲存後保持偏好標籤被選擇。"
 
 #: ../../changes/v2.rst:276
 msgid "Show source string comment more prominently."
-msgstr "更突出地顯示源字串註釋。"
+msgstr "更突出地顯示來源字串註釋。"
 
 #: ../../changes/v2.rst:277
 msgid "Automatically install Gettext PO merge driver for Git repositories."
@@ -35159,7 +35148,7 @@ msgstr "改進了解析錯誤的通知。"
 #: ../../changes/v2.rst:369
 msgid ""
 "Added option to import components with duplicate name to import_project."
-msgstr "新增了選項將帶有復制名稱的組件匯入 import_project。"
+msgstr "新增了選項將帶有複製名稱的組件匯入 import_project。"
 
 #: ../../changes/v2.rst:371
 msgid "Added XLIFF export for dictionary."
@@ -35375,7 +35364,7 @@ msgstr "允許在禪模式下顯示第二語言。"
 
 #: ../../changes/v2.rst:431
 msgid "Support for hiding source string in favor of secondary language."
-msgstr "支援隱藏源字串而有利於第二語言。"
+msgstr "支援隱藏來源字串而有利於第二語言。"
 
 #: ../../changes/v2.rst:434
 msgid "Weblate 2.2"
@@ -35486,7 +35475,7 @@ msgstr "改進了儲存庫鎖定。"
 
 #: ../../changes/v2.rst:466
 msgid "Customizable quality checks per source string."
-msgstr "每個源字串可客製的品質檢查。"
+msgstr "每個來源字串可客製的品質檢查。"
 
 #: ../../changes/v2.rst:467
 msgid "Allow to hide completed translations from dashboard."
@@ -35815,7 +35804,7 @@ msgstr "改進了 Matomo 整合。"
 
 #: ../../changes/v3.rst:75
 msgid "Fixed :ref:`check-translated` to correctly handle source string change."
-msgstr "修復了 :ref:`check-translated` 來正確低處理源字串更改。"
+msgstr "修復了 :ref:`check-translated` 來正確低處理來源字串更改。"
 
 #: ../../changes/v3.rst:76
 msgid "Extended automatic updates configuration by :setting:`AUTO_UPDATE`."
@@ -36079,7 +36068,7 @@ msgstr "修復了向 JSON 文件新增字串可能的崩潰。"
 
 #: ../../changes/v3.rst:160
 msgid "Safe HTML check and fixup now honor source string markup."
-msgstr "安全 HTML 檢查於修復現在接受源字串標記。"
+msgstr "安全 HTML 檢查於修復現在接受來源字串標記。"
 
 #: ../../changes/v3.rst:161
 msgid "Avoid sending notifications to invited and deleted users."
@@ -36347,7 +36336,7 @@ msgstr "新增了配置來更好地符合單一項目安裝。"
 #: ../../changes/v3.rst:233
 msgid ""
 "Notify about new string on source string change on monolingual translations."
-msgstr "在單語言翻譯中通過源字串更改中的新字串。"
+msgstr "在單語言翻譯中通過來源字串更改中的新字串。"
 
 #: ../../changes/v3.rst:234
 msgid "Added separate view for translation memory with search capability."
@@ -36586,7 +36575,7 @@ msgstr "警告 Python 2 的使用計劃於 2020 年 04 月終止。"
 
 #: ../../changes/v3.rst:308
 msgid "Extract special characters from the source string for visual keyboard."
-msgstr "為視覺鍵盤從源字串中提取特定字元。"
+msgstr "為視覺鍵盤從來源字串中提取特定字元。"
 
 #: ../../changes/v3.rst:309
 msgid "Extended contributor stats to reflect both source and target counts."
@@ -36652,7 +36641,7 @@ msgstr "修復了帶有登入的 HTTP 儲存庫的通知。"
 #: ../../changes/v3.rst:328
 msgid ""
 "Fixed race condition in editing source string for monolingual translations."
-msgstr "修復了單語言翻譯中編輯源字串的競態條件。"
+msgstr "修復了單語言翻譯中編輯來源字串的競態條件。"
 
 #: ../../changes/v3.rst:329
 msgid "Include output of failed add-on execution in the logs."
@@ -41745,7 +41734,7 @@ msgstr "未通過查核的訊息"
 
 #: ../../changes/v4.rst:1250
 msgid "Record source string changes in history."
-msgstr "在歷史中記錄源字串更改。"
+msgstr "在歷史中記錄來源字串更改。"
 
 #: ../../changes/v4.rst:1251
 msgid "Upgraded Microsoft Translator to version 3 API."
@@ -44792,11 +44781,11 @@ msgstr "目前覆寫後面的內容："
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr "翻譯文件中復制的源字串"
+msgstr "翻譯文件中複製的來源字串"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr "翻譯中復制的語言"
+msgstr "翻譯中複製的語言"
 
 #: ../../devel/alerts.rst:13
 #, fuzzy
@@ -44885,7 +44874,7 @@ msgstr ""
 
 #: ../../devel/alerts.rst:35
 msgid "A component with both duplicated strings and languages looks like this:"
-msgstr "帶有復制的字串和語言的組件看起來像這樣："
+msgstr "帶有複製的字串和語言的組件看起來像這樣："
 
 #: ../../devel/community.rst:2
 msgid "Building a translators community"
@@ -46966,8 +46955,7 @@ msgstr "活動報告檢查項目、組件或獨立使用者的翻譯的更改。
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
-msgstr ""
-"專案或元件的活動報告可以從其儀錶板上存取，具體位置在 :guilabel:`Info` 頁籤。"
+msgstr "專案或元件的活動報告可以從其儀錶板上存取，具體位置在 :guilabel:`Info` 分頁。"
 
 #: ../../devel/review.rst:18
 #, fuzzy
@@ -46989,7 +46977,7 @@ msgstr ""
 
 #: ../../devel/review.rst:25
 msgid "Source strings checks"
-msgstr "源字串的檢查"
+msgstr "來源字串的檢查"
 
 #: ../../devel/review.rst:27
 #, fuzzy
@@ -47019,8 +47007,8 @@ msgid ""
 "of reporting it - a typical example is a missing full stop at the end of a "
 "sentence."
 msgstr ""
-"翻譯字串檢查失敗錯誤地指示問題在源字串。翻譯者有時在翻譯中更正錯誤而不是將其"
-"匯報——典型的例子是在句子的末尾丟掉句號。"
+"翻譯字串檢查失敗錯誤地指示問題在來源字串。翻譯者有時在翻譯中更正錯誤而不是將"
+"其匯報——典型的例子是在句子的末尾丟掉句號。"
 
 #: ../../devel/review.rst:40
 msgid ""
@@ -47063,10 +47051,10 @@ msgid ""
 "an eye on when problems arise in translation, take care of them, and fix "
 "them quickly."
 msgstr ""
-"翻譯者可以為翻譯和源字串新增註釋。每個 :ref:`component` 都可以配置電子郵箱地"
-"址來接收這樣的註釋（請參見 :ref:`component-report_source_bugs`），並且使用開"
-"發者郵件清單通常是最佳方式。可以以這種方式關注翻譯中出現的問題，處理它們，並"
-"迅速修復。"
+"翻譯者可以為翻譯和來源字串新增註釋。每個 :ref:`component` 都可以配置電子郵箱"
+"地址來接收這樣的註釋（請參見 :ref:`component-report_source_bugs`），並且使用"
+"開發者郵件清單通常是最佳方式。可以以這種方式關注翻譯中出現的問題，處理它們，"
+"並迅速修復。"
 
 #: ../../devel/share.rst:4
 #, fuzzy
@@ -48255,15 +48243,15 @@ msgstr ""
 
 #: ../../faq.rst:330
 msgid "How do I provide feedback on a source string?"
-msgstr "如何提供源字串的回饋？"
+msgstr "如何提供來源字串的回饋？"
 
 #: ../../faq.rst:332
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
-"在翻譯下面的文本標籤上，可以使用 :guilabel:`Comments` 標籤來提供源字串的回饋"
-"，或者與其他翻譯者討論。"
+"在翻譯下面的文本標籤上，可以使用 :guilabel:`Comments` 標籤來提供來源字串的回"
+"饋，或者與其他翻譯者討論。"
 
 #: ../../faq.rst:341
 msgid "How can I use existing translations while translating?"
@@ -48509,8 +48497,8 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
-"當源語言有翻譯時這會典型發生。 Weblate 追蹤源字串，並為此保留源字串。相同語言"
-"的附加字串不會被處理。"
+"當源語言有翻譯時這會典型發生。 Weblate 追蹤來源字串，並為此保留來源字串。相同"
+"語言的附加字串不會被處理。"
 
 #: ../../faq.rst:504
 #, fuzzy
@@ -50002,7 +49990,7 @@ msgid ""
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
 "在上傳用於翻譯的XLSX文件時，請注意，只考慮活動工作表，並且必須至少包含一個名"
-"為“源字串”的列以及稱為“目標”（包含的列）譯文）。此外，應該有一個名為“"
+"為“來源字串”的列以及稱為“目標”（包含的列）譯文）。此外，應該有一個名為“"
 "context``的”列（其中包含翻譯字串的上下文路徑）。如果使用XLSX下載將翻譯匯出到"
 "Excel工作簿中，則您已經獲得了具有正確文件格式的文件。"
 
@@ -54397,7 +54385,7 @@ msgstr "控制字元"
 
 #: ../../user/checks.rst:47
 msgid "Removes control characters if the source does not contain any."
-msgstr "去掉控制字元，如果源字串不包含的話。"
+msgstr "去掉控制字元，如果來源字串不包含的話。"
 
 #: ../../user/checks.rst:50
 msgid "Devanagari danda"
@@ -56141,7 +56129,8 @@ msgid ""
 "Specifics on how each plural form is used can be found in the string "
 "definition."
 msgstr ""
-"檢查已翻譯所有復數形式的源字串。可以在字串定義中找到每個複數表單的具體細節。"
+"檢查已翻譯所有復數形式的來源字串。可以在字串定義中找到每個複數表單的具體細節"
+"。"
 
 #: ../../user/checks.rst:1476
 msgid ""
@@ -56362,7 +56351,7 @@ msgstr "有些複數形沒有以相同方式翻譯。"
 msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
-msgstr "如果在翻譯中復制了一些複數，請檢查失敗。在大多數語言中他們必須不同。"
+msgstr "如果在翻譯中複製了一些複數，請檢查失敗。在大多數語言中他們必須不同。"
 
 #: ../../user/checks.rst:1711
 msgid "Starting newline"
@@ -56378,8 +56367,8 @@ msgid ""
 "additions can lead to formatting problems when the translated text is put to "
 "use."
 msgstr ""
-"紐丁通常出現在源字串中，有效原因，遺漏或新增可以導致翻譯文本使用時的格式化問"
-"題。"
+"紐丁通常出現在來源字串中，有效原因，遺漏或新增可以導致翻譯文本使用時的格式化"
+"問題。"
 
 #: ../../user/checks.rst:1731
 msgid "Starting spaces"
@@ -56637,7 +56626,7 @@ msgstr ""
 #: ../../user/checks.rst:1965
 msgid ""
 "Source checks can help developers improve the quality of source strings."
-msgstr "源檢查可以幫助開發人員提高源字串的品質。"
+msgstr "源檢查可以幫助開發人員提高來源字串的品質。"
 
 #: ../../user/checks.rst:1970
 msgid "Ellipsis"
@@ -56885,7 +56874,8 @@ msgid ""
 "usually an indication that something could be done to improve the source "
 "string."
 msgstr ""
-"此字串的許多翻譯都沒有品質檢查。這通常是可以進行某些東西來改進源字串的指示。"
+"此字串的許多翻譯都沒有品質檢查。這通常是可以進行某些東西來改進來源字串的指示"
+"。"
 
 #: ../../user/checks.rst:2206
 msgid ""
@@ -56894,7 +56884,7 @@ msgid ""
 "translation, while it would be better to fix it in the source string."
 msgstr ""
 "此檢查失敗通常可以在句子末尾的缺失完整停止遺失或類似的次要問題傾向於在翻譯中"
-"解決，而在源字串中將其更好。"
+"解決，而在來源字串中將其更好。"
 
 #: ../../user/checks.rst:2213
 msgid "Multiple unnamed variables"
@@ -57239,7 +57229,7 @@ msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
 msgstr ""
-"更新雙語翻譯文件中的源字串。這類似於什麼 :ref:`addon-"
+"更新雙語翻譯文件中的來源字串。這類似於什麼 :ref:`addon-"
 "weblate.gettext.msgmerge` 。"
 
 #: ../../user/files.rst:138
@@ -57787,7 +57777,7 @@ msgid ""
 "list`, you have to select which component list will be displayed from "
 "the :guilabel:`Default component list` drop-down."
 msgstr ""
-"在\\ :guilabel:`偏好設定`\\ 頁籤，您可以預設選擇要呈現的可用儀錶板檢視。如果"
+"在\\ :guilabel:`偏好設定`\\ 分頁，您可以預設選擇要呈現的可用儀錶板檢視。如果"
 "選擇\\ :guilabel:`組件清單`\\ ，則必須從以下內容中選取哪些組件清單\\ "
 ":guilabel:`預設組件清單`\\ 下拉選單。"
 
@@ -57901,7 +57891,7 @@ msgid ""
 "various services you can use to sign in into Weblate, completely remove your "
 "account, or download your user data (see :ref:`schema-userdata`)."
 msgstr ""
-":guilabel:`Account` 頁籤讓您設定基本的帳號資訊細節、連線其他登入帳號服務並可"
+":guilabel:`Account` 分頁讓您設定基本的帳號資訊細節、連線其他登入帳號服務並可"
 "透過它們來登入 Weblate、完整的移除您的帳號或封裝下載您的使用者資訊（請參見 "
 ":ref:`schema-userdata` 以了解詳情）。"
 
@@ -58450,8 +58440,8 @@ msgid ""
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
 "您可以使用``=``運算子在不同的字串字段上進行完全匹配查詢。例如，搜尋完全匹配的"
-"源字串匹配“您好世界”，使用：“來源：=”Hello World“``。用於搜尋單詞表達式，您可"
-"以跳過引號。例如，搜尋匹配``hello``的所有源字串：``source：= hello``。"
+"來源字串匹配“您好世界”，使用：“來源：=”Hello World“``。用於搜尋單詞表達式，您"
+"可以跳過引號。例如，搜尋匹配``hello``的所有來源字串：``source：= hello``。"
 
 #: ../../user/search.rst:202
 #, fuzzy
@@ -58802,8 +58792,8 @@ msgid ""
 "frontend of your project can then utilize different strings depending on the "
 "size of a screen or window."
 msgstr ""
-"變體用於分組串的不同長度變體。然後，項目前端可以使用不同的字串，具體取決於屏"
-"幕或窗口大小。"
+"變體用於分組串的不同長度變體。然後，項目前端可以使用不同的字串，具體取決於螢"
+"幕或視窗大小。"
 
 #: ../../user/translating.rst:107
 msgid "Labels"
@@ -59164,7 +59154,7 @@ msgstr ":kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:261
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr "顯示 :guilabel:`Nearby strings` 頁籤。"
+msgstr "顯示 :guilabel:`Nearby strings` 分頁。"
 
 #: ../../user/translating.rst:265
 msgid ":kbd:`Ctrl+S` or"
@@ -61602,8 +61592,8 @@ msgid ""
 "strings. The actual process depends on whether bilingual or monolingual "
 "formats are in use."
 msgstr ""
-"通過允許 :ref:`project-source_review`，複查過程可以應用到源字串上。一旦允許，"
-"使用者可以匯報源字串種的情況。實際過程相依於使用雙語言還是單語言格式。"
+"通過允許 :ref:`project-source_review`，複查過程可以應用到來源字串上。一旦允許"
+"，使用者可以匯報來源字串種的情況。實際過程相依於使用雙語言還是單語言格式。"
 
 #: ../../workflows.rst:291
 #, fuzzy
@@ -61616,8 +61606,8 @@ msgid ""
 "to :ref:`reviews` — once an issue with a source string is reported, the "
 "source string is marked as :guilabel:`Needs editing`."
 msgstr ""
-"對於單語言格式，源字串複查的行為與 :ref:`reviews` 相似——一旦源字串匯報了情"
-"況，就會被標記為 :guilabel:`Needs editing`。"
+"對於單語言格式，來源字串複查的行為與 :ref:`reviews` 相似——一旦來源字串匯報了"
+"情況，就會被標記為 :guilabel:`Needs editing`。"
 
 #: ../../workflows.rst:295
 #, fuzzy
