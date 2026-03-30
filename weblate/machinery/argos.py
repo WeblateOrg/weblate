@@ -7,6 +7,9 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
+import argostranslate.package
+import argostranslate.translate
+
 from .base import MachineTranslation
 
 if TYPE_CHECKING:
@@ -15,11 +18,6 @@ if TYPE_CHECKING:
 
     from .base import DownloadTranslations
 
-try:
-    import argostranslate.package
-    import argostranslate.translate
-except ImportError:
-    argostranslate = None
 
 logger = logging.getLogger(__name__)
 
