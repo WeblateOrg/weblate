@@ -20,7 +20,12 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
+from weblate.auth.forms import (
+    BulkInviteForm,
+    InviteEmailForm,
+    InviteUserForm,
+    ProjectTeamForm,
+)
 from weblate.auth.models import Invitation, User
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
@@ -182,12 +187,13 @@ def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
     if not can_invite_users(request):
         raise PermissionDenied
+    form_class = BulkInviteForm if "emails" in request.POST else InviteEmailForm
     obj, form = check_user_form(
-        request, project, form_class=InviteEmailForm, pass_project=True
+        request, project, form_class=form_class, pass_project=True
     )
 
     if form is not None:
-        form.save(request, obj)
+        form.save(request)
 
     return redirect("manage-access", project=obj.slug)
 
@@ -287,15 +293,29 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             "invitations": Invitation.objects.filter(
                 group__defining_project=obj
             ).select_related("user"),
-            "create_project_token_form": ProjectTokenCreateForm(obj),
+            "create_project_token_form": ProjectTokenCreateForm(
+                obj, auto_id="id_project_token_%s"
+            ),
             "create_team_form": ProjectTeamForm(
-                project=obj, initial={"language_selection": SELECTION_ALL}
+                project=obj,
+                initial={"language_selection": SELECTION_ALL},
+                auto_id="id_project_team_%s",
             ),
             "block_user_form": UserBlockForm(
-                initial={"user": request.GET.get("block_user")}
+                initial={"user": request.GET.get("block_user")},
+                auto_id="id_project_block_%s",
             ),
-            "invite_user_form": InviteUserForm(project=obj),
-            "invite_email_form": InviteEmailForm(project=obj)
+            "invite_user_form": InviteUserForm(
+                project=obj, auto_id="id_project_add_user_%s"
+            ),
+            "invite_email_form": InviteEmailForm(
+                project=obj, auto_id="id_project_invite_%s"
+            )
+            if can_invite_users(request)
+            else None,
+            "bulk_invite_form": BulkInviteForm(
+                project=obj, auto_id="id_project_bulk_invite_%s"
+            )
             if can_invite_users(request)
             else None,
             "public_ssh_keys": get_all_key_data(),
