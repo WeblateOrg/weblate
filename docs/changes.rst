@@ -21,6 +21,7 @@ Weblate 5.17
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 * Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
+* Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting non-global IP ranges, and exposed it in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`.
 * Improved performance of :ref:`mt-weblate` lookups.
 * Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
 
@@ -47,6 +48,7 @@ Weblate 5.17
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
 * Improved repository lock error handling when deleting units.
+* :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
 
 .. rubric:: Compatibility
 
@@ -62,6 +64,7 @@ Weblate 5.17
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
+* Project website and repository browser URLs pointing to private or other non-global IP ranges are now rejected by default. If your setup intentionally links to internal addresses, set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to ``False`` or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``.
 
 .. rubric:: Contributors
 

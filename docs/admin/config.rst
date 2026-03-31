@@ -1681,6 +1681,7 @@ Default configuration:
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 
@@ -1697,6 +1698,25 @@ Reject using numeric IP address in project website. On by default.
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+
+.. setting:: PROJECT_WEB_RESTRICT_PRIVATE
+
+PROJECT_WEB_RESTRICT_PRIVATE
+----------------------------
+
+.. versionadded:: 5.17
+
+Reject using project website and repository browser URLs pointing to non-global
+IP ranges. On by default.
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :ref:`component-repoweb`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. setting:: PROJECT_WEB_RESTRICT_RE
@@ -1713,6 +1733,7 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
 
 .. setting:: PUBLIC_ENGAGE
 

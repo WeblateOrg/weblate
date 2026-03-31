@@ -118,6 +118,24 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "Picture")
         self.assertEqual(Screenshot.objects.all()[0].name, "Picture")
 
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_edit_metadata_with_existing_oversized_image(self) -> None:
+        self.make_manager()
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot = Screenshot.objects.create(
+                name="Obrazek",
+                translation=self.component.source_translation,
+                user=self.user,
+            )
+            screenshot.image.save("screenshot.png", File(handle))
+
+        response = self.client.post(
+            screenshot.get_absolute_url(), {"name": "Picture"}, follow=True
+        )
+        self.assertContains(response, "Picture")
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.name, "Picture")
+
     def test_view(self) -> None:
         self.make_manager()
         self.do_upload()
@@ -574,6 +592,38 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
         )[0].image.size
         self.assertNotEqual(existing_ss_size, updated_ss_size)
 
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_update_screenshots_from_repo_too_big(self) -> None:
+        repository = self.component.repository
+        last_revision = repository.last_revision
+        existing_ss_size = Screenshot.objects.filter(
+            translation__component=self.component,
+            repository_filename="test-update.png",
+        )[0].image.size
+
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test-update.png"))
+        with repository.lock:
+            repository.set_committer("Second Bar", "second@example.net")
+            repository.commit(
+                "Test commit",
+                "Foo Bar <foo@bar.com>",
+                timezone.now(),
+                ["test-update.png"],
+            )
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertEqual(
+            Screenshot.objects.filter(
+                translation__component=self.component,
+                repository_filename="test-update.png",
+            )[0].image.size,
+            existing_ss_size,
+        )
+
     def test_add_screenshots_from_repo(self) -> None:
         repository = self.component.repository
         last_revision = repository.last_revision
@@ -598,4 +648,29 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
                 repository_filename="test.png",
             ).count(),
             1,
+        )
+
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_add_screenshots_from_repo_too_big(self) -> None:
+        repository = self.component.repository
+        last_revision = repository.last_revision
+
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test.png"))
+        with repository.lock:
+            repository.set_committer("Second Bar", "second@example.net")
+            repository.commit(
+                "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), ["test.png"]
+            )
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertEqual(
+            Screenshot.objects.filter(
+                translation__component=self.component,
+                repository_filename="test.png",
+            ).count(),
+            0,
         )

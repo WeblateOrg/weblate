@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
 
+from weblate.utils.outbound import validate_runtime_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
 
@@ -178,8 +179,21 @@ def validate_repoweb(val: str, allow_editor: bool = False) -> None:
         and val.split("://", 1)[0].lower() in WeblateEditorURLValidator.schemes
     ):
         validator = WeblateEditorURLValidator()
+    elif allow_editor:
+        validator = WeblateURLValidator()
     else:
         validator = WeblateURLValidator()
+        try:
+            validate_runtime_url(
+                url, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+            )
+        except ValidationError as error:
+            if not isinstance(error.__cause__, OSError):
+                raise
+        except UnicodeError as error:
+            raise ValidationError(
+                gettext("Could not resolve the URL domain: {}").format(error)
+            ) from error
     validator(url)
 
 

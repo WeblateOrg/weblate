@@ -21,12 +21,14 @@ from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
 from zipfile import ZipFile
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.db import transaction
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.utils.timezone import make_aware
+from django.utils.translation import gettext
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
@@ -904,7 +906,13 @@ class ProjectBackup:
                 restored_image = File(
                     BytesIO(handle.read()), name=os.path.basename(item["image"])
                 )
-                validate_bitmap(restored_image)
+                try:
+                    validate_bitmap(restored_image)
+                except ValidationError as error:
+                    raise ValidationError(
+                        gettext("Could not restore screenshot %(name)s: %(error)s")
+                        % {"name": item["image"], "error": error}
+                    ) from error
                 screenshot.image.save(
                     os.path.basename(item["image"]), restored_image, save=False
                 )

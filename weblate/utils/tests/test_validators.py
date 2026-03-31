@@ -12,7 +12,7 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.utils.outbound import validate_runtime_ip, validate_runtime_url
-from weblate.utils.render import validate_editor
+from weblate.utils.render import validate_editor, validate_repoweb
 from weblate.utils.validators import (
     EmailValidator,
     WeblateServiceURLValidator,
@@ -237,7 +237,9 @@ class WebsiteTest(SimpleTestCase):
             validate_project_web("https://localhost")
         with self.assertRaises(ValidationError):
             validate_project_web("https://localHOST")
-        with override_settings(PROJECT_WEB_RESTRICT_HOST={}):
+        with override_settings(
+            PROJECT_WEB_RESTRICT_HOST={}, PROJECT_WEB_RESTRICT_PRIVATE=False
+        ):
             validate_project_web("https://localhost")
         with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
             with self.assertRaises(ValidationError):
@@ -250,9 +252,89 @@ class WebsiteTest(SimpleTestCase):
             validate_project_web("https://1.1.1.1")
         with self.assertRaises(ValidationError):
             validate_project_web("https://[2606:4700:4700::1111]")
-        with override_settings(PROJECT_WEB_RESTRICT_NUMERIC=False):
+        with override_settings(
+            PROJECT_WEB_RESTRICT_NUMERIC=False, PROJECT_WEB_RESTRICT_PRIVATE=False
+        ):
             validate_project_web("https://[2606:4700:4700::1111]")
             validate_project_web("https://1.1.1.1")
+
+    def test_private(self) -> None:
+        with (
+            self.assertRaises(ValidationError),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_project_web("https://private.example")
+        with (
+            self.assertRaises(ValidationError),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("::1", 443))],
+            ),
+        ):
+            validate_project_web("https://private-v6.example")
+        with (
+            override_settings(PROJECT_WEB_RESTRICT_PRIVATE=False),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_project_web("https://private.example")
+
+    def test_repoweb_private(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError),
+        ):
+            validate_repoweb("https://private.example/{{ filename }}")
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("::1", 443))],
+            ),
+            self.assertRaises(ValidationError),
+        ):
+            validate_repoweb("https://private-v6.example/{{ filename }}")
+        with (
+            override_settings(PROJECT_WEB_RESTRICT_PRIVATE=False),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_repoweb("https://private.example/{{ filename }}")
+
+    @patch(
+        "weblate.utils.validators.validate_runtime_url",
+        side_effect=UnicodeError("label empty or too long"),
+    )
+    def test_project_web_malformed_idna_is_validation_error(
+        self, mocked_validate_runtime_url
+    ) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_project_web("https://a..b")
+
+        self.assertIn("Could not resolve the URL domain", str(error.exception))
+        mocked_validate_runtime_url.assert_called_once()
+
+    @patch(
+        "weblate.utils.render.validate_runtime_url",
+        side_effect=UnicodeError("label empty or too long"),
+    )
+    def test_repoweb_malformed_idna_is_validation_error(
+        self, mocked_validate_runtime_url
+    ) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_repoweb("https://a..b/{{ filename }}")
+
+        self.assertIn("Could not resolve the URL domain", str(error.exception))
+        mocked_validate_runtime_url.assert_called_once()
 
     def verify_validator(self, validator) -> None:
         validator("https://1.1.1.1")

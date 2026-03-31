@@ -85,6 +85,7 @@ class WeblateConf(AppConf):
     PROJECT_WEB_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_HOST: ClassVar[set[str]] = {"localhost"}
     PROJECT_WEB_RESTRICT_NUMERIC = True
+    PROJECT_WEB_RESTRICT_PRIVATE = True
 
     LOCALE_FILTER_FILES = True
 

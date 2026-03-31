@@ -28,6 +28,7 @@ from django.core.validators import (
     validate_domain_name,
     validate_ipv46_address,
 )
+from django.db.models.fields.files import FieldFile
 from django.http.request import validate_host
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
@@ -38,13 +39,16 @@ from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, read_file_bytes
-from weblate.utils.outbound import validate_outbound_hostname, validate_outbound_url
+from weblate.utils.outbound import (
+    validate_outbound_hostname,
+    validate_outbound_url,
+    validate_runtime_url,
+)
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 
 if TYPE_CHECKING:
     from django.core.files.base import File
     from django.core.files.base import File as DjangoFile
-    from django.db.models.fields.files import FieldFile
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -129,6 +133,8 @@ def validate_bitmap(
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
+    if not (isinstance(value, FieldFile) and getattr(value, "_committed", True)):
+        validate_upload_size(value)
 
     # Ensure we have image object and content type
     # Pretty much copy from django.forms.fields.ImageField:
@@ -367,6 +373,18 @@ def validate_project_web(value) -> None:
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+    try:
+        validate_runtime_url(
+            value, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+        )
+    except ValidationError as error:
+        if not isinstance(error.__cause__, OSError):
+            raise
+    except UnicodeError as error:
+        raise ValidationError(
+            gettext("Could not resolve the URL domain: {}").format(error)
+        ) from error
 
 
 def validate_webhook_secret_string(value: str) -> None:
