@@ -97,6 +97,27 @@ class RenderTest(SimpleTestCase):
             )
         )
 
+    def test_render_output_rescales_from_small_surface(self) -> None:
+        pixel_size, _, buffer = _render_size(
+            text="This text fills 70% long_word",
+            font="sans",
+            weight=get_font_weight("normal"),
+            size=19,
+            spacing=0,
+            width=180,
+            lines=1,
+            needs_output=True,
+            surface_width=50,
+            surface_height=10,
+        )
+
+        image = Image.open(BytesIO(buffer))
+
+        self.assertEqual(image.size[0], max(180, pixel_size.width))
+        self.assertEqual(image.size[1], pixel_size.height)
+        self.assertGreater(image.size[0], 50)
+        self.assertGreater(image.size[1], 10)
+
 
 class FontNameTest(FontTestCase):
     def test_get_font_name_repeated_for_uploaded_file(self) -> None:
