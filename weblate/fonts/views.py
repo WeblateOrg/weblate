@@ -120,7 +120,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
             messages.error(request, gettext("Font deleted."))
             return redirect("fonts", project=self.project.slug)
 
-        form = self._fort_form = FontForm(data=request.POST, files=request.FILES)
+        form = self._font_form = FontForm(data=request.POST, files=request.FILES)
         if not form.is_valid():
             return self.get(request, **kwargs)
 

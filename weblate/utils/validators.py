@@ -28,6 +28,7 @@ from django.core.validators import (
     validate_domain_name,
     validate_ipv46_address,
 )
+from django.db.models.fields.files import FieldFile
 from django.http.request import validate_host
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
@@ -44,7 +45,6 @@ from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 if TYPE_CHECKING:
     from django.core.files.base import File
     from django.core.files.base import File as DjangoFile
-    from django.db.models.fields.files import FieldFile
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -129,6 +129,8 @@ def validate_bitmap(
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
+    if not (isinstance(value, FieldFile) and getattr(value, "_committed", True)):
+        validate_upload_size(value)
 
     # Ensure we have image object and content type
     # Pretty much copy from django.forms.fields.ImageField:

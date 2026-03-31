@@ -16,7 +16,7 @@ import responses
 from django.conf import settings
 from django.core.cache import cache
 from django.core.files import File
-from django.test.utils import modify_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
@@ -6534,6 +6534,31 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.test_upload(True, 400, TEST_PO)
+
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_upload_too_big(self) -> None:
+        self.authenticate(True)
+        Screenshot.objects.get().image.delete()
+
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            self.do_request(
+                "api:screenshot-file",
+                kwargs={"pk": Screenshot.objects.get().pk},
+                method="post",
+                code=400,
+                superuser=True,
+                data={
+                    "errors": [
+                        {
+                            "attr": "image",
+                            "code": "invalid",
+                            "detail": "Uploaded file is too big.",
+                        }
+                    ],
+                    "type": "validation_error",
+                },
+                request={"image": handle},
+            )
 
     def test_create(self) -> None:
         with open(TEST_SCREENSHOT, "rb") as handle:
