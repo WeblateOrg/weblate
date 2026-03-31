@@ -868,6 +868,8 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             threshold=autoform.cleaned_data["threshold"],
         )
         messages.success(request, result["message"])
+        for warning in result.get("warnings", []):
+            messages.warning(request, warning)
     else:
         task = auto_translate.delay(
             translation_id=translation_id,

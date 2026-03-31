@@ -633,9 +633,9 @@ def auto_translate(  # noqa: PLR0913
                 source_component_id=source_component_id,
             )
         except PermissionDenied as error:
-            result.update({"message": str(error)})
+            result.update({"message": str(error), "warnings": auto.get_warnings()})
         else:
-            result.update({"message": message})
+            result.update({"message": message, "warnings": auto.get_warnings()})
         return result
 
 

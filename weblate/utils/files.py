@@ -10,12 +10,15 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db.models import TextChoices
+from django.db.models.fields.files import FieldFile
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from translation_finder.finder import EXCLUDES
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from pathlib import Path
+
+    from django.core.files.base import File
 
 WEBLATE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(WEBLATE_DIR)
@@ -100,3 +103,22 @@ def cleanup_error_message(text: str) -> str:
     return text.replace(settings.CACHE_DIR or "NONEXISTING_CACHE", "...").replace(
         settings.DATA_DIR, "..."
     )
+
+
+def read_file_bytes(filelike: FieldFile | File) -> bytes:
+    """Read file content without breaking Django's upload/save lifecycle."""
+    if isinstance(filelike, FieldFile):
+        if getattr(filelike, "_committed", True):
+            filelike.open("rb")
+            try:
+                return filelike.read()
+            finally:
+                filelike.close()
+        content = filelike.read()
+        filelike.seek(0)
+        return content
+
+    content = filelike.read()
+    if hasattr(filelike, "seek"):
+        filelike.seek(0)
+    return content
