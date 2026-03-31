@@ -2447,7 +2447,7 @@ class Component(
                 store_hash=store_hash,
             )
 
-        with self.start_sentry_span("commit_files"):
+        with self.start_sentry_span("commit_files"), self.repository.lock:
             if message is None:
                 if template is None:
                     msg = "Missing template when message is not specified"
