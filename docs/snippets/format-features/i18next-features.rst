@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.json, .php``
+     - ``.json``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Both monolingual and bilingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`

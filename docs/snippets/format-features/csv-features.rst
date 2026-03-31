@@ -23,7 +23,7 @@
    * - Additional states :ref:`ⓘ <format-states>`
      - ``Needs editing``
    * - API identifier
-     - ``csv, csv-multi, csv-simple``
+     - ``csv``, ``csv-multi``, ``csv-simple``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``No``
 

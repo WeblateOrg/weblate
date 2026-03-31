@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.csv, .xlsx``
+     - ``.csv``, ``.xlsx``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Both monolingual and bilingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`

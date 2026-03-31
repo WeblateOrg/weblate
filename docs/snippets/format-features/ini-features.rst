@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.dtd, .ini, .json, .php, .yml``
+     - ``.ini``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Monolingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`

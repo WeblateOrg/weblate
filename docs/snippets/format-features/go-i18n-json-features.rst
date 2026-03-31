@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.json, .php``
+     - ``.json``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Both monolingual and bilingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`
@@ -21,7 +21,7 @@
    * - Supports flags :ref:`ⓘ <format-flags>`
      - ``No``
    * - API identifier
-     - ``go-i18n-json, go-i18n-json-v2``
+     - ``go-i18n-json``, ``go-i18n-json-v2``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``No``
 

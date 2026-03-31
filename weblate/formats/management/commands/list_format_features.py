@@ -63,39 +63,6 @@ class Command(DocGeneratorCommand):
         # ignore formats that are merged into other formats
         ignore_list = set(chain(*FORMAT_DOC_SNIPPETS_MERGES.values()))
 
-        def new_list_table_row(
-            lines, feature_name: str, value: str | bool, doc_link: str | None = ""
-        ) -> None:
-            if isinstance(value, bool):
-                value = "Yes" if value else "No"
-            if not value:
-                return
-
-            doc_link = f":ref:`ⓘ <{doc_link}>`" if doc_link else ""
-
-            lines.extend(
-                [
-                    f"   * - {feature_name} {doc_link}",
-                    f"     - ``{value}``",
-                ]
-            )
-
-        def get_extensions(file_format) -> set[str]:
-            try:
-                common_extensions = file_format.get_class().Extensions
-            except AttributeError:
-                # non TTKitFormat formats
-                common_extensions = []
-            common_extensions.append(file_format.extension())
-
-            if file_format.format_id in FORMAT_DOC_SNIPPETS_MERGES:
-                for similar_format in FORMAT_DOC_SNIPPETS_MERGES[file_format.format_id]:
-                    common_extensions.extend(
-                        get_extensions(FILE_FORMATS[similar_format])
-                    )
-
-            return set(common_extensions)
-
         for format_id, file_format in FILE_FORMATS.items():
             if format_id in ignore_list:
                 continue
@@ -120,61 +87,55 @@ class Command(DocGeneratorCommand):
                     msg = f"Invalid monolinguality: {file_format.monolingual}"
                     raise ValueError(msg)
 
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "File extensions",
-                ", ".join(
-                    [
-                        f".{extension}"
-                        for extension in sorted(get_extensions(file_format))
-                    ]
-                ),
+                [
+                    f".{extension}"
+                    for extension in sorted(self.get_extensions(file_format))
+                ],
             )
-            new_list_table_row(output, "Linguality", linguality, "bimono")
-            new_list_table_row(
+            self.new_list_table_row(output, "Linguality", linguality, "bimono")
+            self.new_list_table_row(
                 output,
                 "Supports plural",
                 file_format.supports_plural,
                 "format-plurals",
             )
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Supports descriptions",
                 file_format.supports_descriptions,
                 "format-description",
             )
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Supports explanation",
                 file_format.supports_explanation,
                 "format-explanation",
             )
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Supports context",
                 file_format.supports_context,
                 "format-context",
             )
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Supports location",
                 file_format.supports_location,
                 "format-location",
             )
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Supports flags",
                 file_format.supports_flags,
                 "format-flags",
             )
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Additional states",
-                ", ".join(
-                    sorted(
-                        [str(state.label) for state in file_format.additional_states]
-                    )
-                ),
+                sorted([str(state.label) for state in file_format.additional_states]),
                 "format-states",
             )
             api_identifiers = [file_format.format_id]
@@ -182,11 +143,9 @@ class Command(DocGeneratorCommand):
                 FORMAT_DOC_SNIPPETS_MERGES.get(file_format.format_id, [])
             )
 
-            new_list_table_row(
-                output, "API identifier", ", ".join(sorted(api_identifiers))
-            )
+            self.new_list_table_row(output, "API identifier", sorted(api_identifiers))
 
-            new_list_table_row(
+            self.new_list_table_row(
                 output,
                 "Supports read-only strings",
                 file_format.supports_read_only,
@@ -211,3 +170,47 @@ class Command(DocGeneratorCommand):
             )
             lines.append("")
             file_path.write_text("\n".join(lines), encoding="utf-8")
+
+    def new_list_table_row(
+        self,
+        lines,
+        feature_name: str,
+        value: str | bool | list[str],
+        doc_link: str | None = "",
+    ) -> None:
+        if isinstance(value, bool):
+            value = "Yes" if value else "No"
+
+        if isinstance(value, list):
+            value = ", ".join([f"``{item}``" for item in value])
+        else:
+            value = f"``{value}``"
+
+        if not value:
+            return
+
+        if doc_link:
+            feature_name = f"{feature_name} :ref:`ⓘ <{doc_link}>`"
+
+        lines.extend(
+            [
+                f"   * - {feature_name}",
+                f"     - {value}",
+            ]
+        )
+
+    def get_extensions(self, file_format) -> set[str]:
+        try:
+            common_extensions = list(file_format.get_class().Extensions)
+        except AttributeError:
+            # non TTKitFormat formats
+            common_extensions = []
+        common_extensions.append(file_format.extension())
+
+        if file_format.format_id in FORMAT_DOC_SNIPPETS_MERGES:
+            for similar_format in FORMAT_DOC_SNIPPETS_MERGES[file_format.format_id]:
+                common_extensions.extend(
+                    self.get_extensions(FILE_FORMATS[similar_format])
+                )
+
+        return set(common_extensions)

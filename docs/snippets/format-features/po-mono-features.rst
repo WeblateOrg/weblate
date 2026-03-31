@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.po, .pot``
+     - ``.po``, ``.pot``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Monolingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`

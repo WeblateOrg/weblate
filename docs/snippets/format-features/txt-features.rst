@@ -21,7 +21,7 @@
    * - Supports flags :ref:`ⓘ <format-flags>`
      - ``No``
    * - API identifier
-     - ``dokuwiki, mediawiki, txt``
+     - ``dokuwiki``, ``mediawiki``, ``txt``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``No``
 

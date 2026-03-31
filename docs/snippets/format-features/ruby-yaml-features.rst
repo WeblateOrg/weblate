@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.json, .php, .yml``
+     - ``.yml``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Monolingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`

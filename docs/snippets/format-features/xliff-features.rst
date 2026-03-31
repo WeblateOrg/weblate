@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.sdlxliff, .xlf, .xliff``
+     - ``.sdlxliff``, ``.xlf``, ``.xliff``
    * - Linguality :ref:`ⓘ <bimono>`
      - ``Both monolingual and bilingual``
    * - Supports plural :ref:`ⓘ <format-plurals>`
@@ -21,9 +21,9 @@
    * - Supports flags :ref:`ⓘ <format-flags>`
      - ``Yes``
    * - Additional states :ref:`ⓘ <format-states>`
-     - ``Approved, Needs editing``
+     - ``Approved``, ``Needs editing``
    * - API identifier
-     - ``apple-xliff, plainxliff, poxliff, xliff``
+     - ``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``Yes``
 
