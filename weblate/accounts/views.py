@@ -798,9 +798,8 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
     )
 
 
-@login_not_required
-def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
-    """User avatar view."""
+def validate_avatar_size(size: int) -> int:
+    """Validate requested avatar size."""
     allowed_sizes = (
         # Used in top navigation
         24,
@@ -814,6 +813,13 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
     if size not in allowed_sizes:
         msg = f"Not supported size: {size}"
         raise Http404(msg)
+    return size
+
+
+@login_not_required
+def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
+    """User avatar view."""
+    size = validate_avatar_size(size)
 
     avatar_user = get_object_or_404(User, username=user)
     email = avatar_user.email
@@ -825,10 +831,10 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
         )
     # Bot and anonymous accounts
     if not email or (email.startswith("noreply") and email.endswith("@weblate.org")):
-        return redirect(get_fallback_avatar_url(int(size)), permanent=True)
+        return redirect(get_fallback_avatar_url(size), permanent=True)
     # Project API tokens
     if email.endswith("@bots.noreply.weblate.org"):
-        return redirect(get_fallback_avatar_url(int(size), "api"), permanent=True)
+        return redirect(get_fallback_avatar_url(size, "api"), permanent=True)
 
     response = HttpResponse(
         content_type="image/png", content=get_avatar_image(avatar_user, size)
