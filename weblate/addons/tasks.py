@@ -146,8 +146,9 @@ def language_consistency(
 
     try:
         for component in components.iterator():
-            # Avoid two language consistency add-ons working at same on a single component
-            with component.lock:
+            # Keep the standard lock ordering: repository first, then component.
+            # This avoids inverting the order used by create_translations().
+            with component.repository.lock, component.lock:
                 missing = languages.exclude(
                     Q(translation__component=component) | Q(component=component)
                 )
