@@ -96,6 +96,16 @@ class VcsClassLoader(ClassLoader):
             if issubclass(vcs, GitRepository)
         }
 
+    @cached_property
+    def merge_request_based(self) -> set[str]:
+        from weblate.vcs.git import GitMergeRequestBase
+
+        return {
+            vcs.get_identifier()
+            for vcs in self.values()
+            if issubclass(vcs, GitMergeRequestBase)
+        }
+
 
 # Initialize VCS list
 VCS_REGISTRY = VcsClassLoader()

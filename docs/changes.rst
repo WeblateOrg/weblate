@@ -15,6 +15,7 @@ Weblate 5.17
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
+* Added a component alert for conflicting merge request repository setup, see :ref:`alerts`.
 * Improved plural handling in :ref:`auto-translation`.
 * Improved error messages in some of the :ref:`api` endpoints.
 * Improved performance of project and category search result pages with very large match sets.
