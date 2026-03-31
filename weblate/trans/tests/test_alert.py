@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.test import override_settings
 from django.urls import reverse
 
@@ -63,6 +64,31 @@ class WebsiteAlertSettingTest(ViewTestCase):
         self.assertEqual(
             self.component.alert_set.get(name="BrokenProjectURL").details["error"],
             "This URL is prohibited",
+        )
+        mocked_get_uri_error.assert_not_called()
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    @patch(
+        "weblate.trans.models.alert.validate_request_url",
+        side_effect=ValidationError("URL domain is not allowed."),
+    )
+    @patch("weblate.trans.models.alert.get_uri_error")
+    def test_website_alert_uses_runtime_validation_without_fetch(
+        self, mocked_get_uri_error, mocked_validate_request_url
+    ) -> None:
+        self.project.web = "https://public.example/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        self.assertEqual(
+            self.component.alert_set.get(name="BrokenProjectURL").details["error"],
+            "URL domain is not allowed.",
+        )
+        mocked_validate_request_url.assert_called_once_with(
+            "https://public.example/project", allow_private_targets=False
         )
         mocked_get_uri_error.assert_not_called()
 

@@ -23,7 +23,11 @@ from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
-from weblate.utils.requests import format_validation_error, get_uri_error
+from weblate.utils.requests import (
+    format_validation_error,
+    get_uri_error,
+    validate_request_url,
+)
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import WeblateURLValidator, validate_project_web
 from weblate.vcs.models import VCS_REGISTRY
@@ -50,6 +54,12 @@ def _get_validated_uri_error(
             validator(uri)
         except ValidationError as error:
             return format_validation_error(error)
+    try:
+        validate_request_url(
+            uri, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+        )
+    except ValidationError as error:
+        return format_validation_error(error)
     return get_uri_error(uri)
 
 

@@ -39,7 +39,11 @@ from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, read_file_bytes
-from weblate.utils.outbound import validate_outbound_hostname, validate_outbound_url
+from weblate.utils.outbound import (
+    validate_outbound_hostname,
+    validate_outbound_url,
+    validate_runtime_url,
+)
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 
 if TYPE_CHECKING:
@@ -369,6 +373,18 @@ def validate_project_web(value) -> None:
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+    try:
+        validate_runtime_url(
+            value, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+        )
+    except ValidationError as error:
+        if not isinstance(error.__cause__, OSError):
+            raise
+    except UnicodeError as error:
+        raise ValidationError(
+            gettext("Could not resolve the URL domain: {}").format(error)
+        ) from error
 
 
 def validate_webhook_secret_string(value: str) -> None:
