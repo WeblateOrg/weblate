@@ -3,12 +3,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from io import BytesIO
 from pathlib import Path
+from typing import cast
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.files.base import File
 from django.test import SimpleTestCase
 
-from weblate.utils.files import remove_tree
+from weblate.utils.files import read_file_bytes, remove_tree
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -37,3 +41,23 @@ class FilesTestCase(SimpleTestCase):
             os.chmod(nested, 0)
 
         self.test_remove(callback_readonly)
+
+    def test_read_file_bytes_rejects_oversized_file(self) -> None:
+        with self.assertRaisesMessage(ValidationError, "Uploaded file is too big."):
+            read_file_bytes(File(BytesIO(b"test"), name="test.bin"), max_size=3)
+
+    def test_read_file_bytes_rejects_oversized_file_without_size(self) -> None:
+        class FileWithoutSize(BytesIO):
+            @property
+            def size(self):
+                raise AttributeError
+
+        with self.assertRaisesMessage(ValidationError, "Uploaded file is too big."):
+            read_file_bytes(cast("File", FileWithoutSize(b"test")), max_size=3)
+
+    def test_read_file_bytes_resets_position_to_start(self) -> None:
+        filelike = File(BytesIO(b"test"), name="test.bin")
+        filelike.seek(2)
+
+        self.assertEqual(read_file_bytes(filelike, max_size=10), b"test")
+        self.assertEqual(filelike.tell(), 0)
