@@ -115,3 +115,5 @@ class Command(WeblateTranslationCommand):
             threshold=options["threshold"],
         )
         self.stdout.write(message)
+        for warning in auto.get_warnings():
+            self.stdout.write(warning)
