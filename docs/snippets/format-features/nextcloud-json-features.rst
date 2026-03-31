@@ -7,7 +7,7 @@
    * - File extensions
      - ``.json``
    * - Linguality :ref:`ⓘ <bimono>`
-     - ``Bilingual``
+     - Bilingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
      - ``Yes``
    * - Supports descriptions :ref:`ⓘ <format-description>`

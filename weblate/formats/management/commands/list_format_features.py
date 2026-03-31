@@ -179,12 +179,9 @@ class Command(DocGeneratorCommand):
         doc_link: str | None = "",
     ) -> None:
         if isinstance(value, bool):
-            value = "Yes" if value else "No"
-
-        if isinstance(value, list):
+            value = "``Yes``" if value else "``No``"
+        elif isinstance(value, list):
             value = ", ".join([f"``{item}``" for item in value])
-        else:
-            value = f"``{value}``"
 
         if not value:
             return

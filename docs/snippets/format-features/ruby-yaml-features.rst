@@ -7,7 +7,7 @@
    * - File extensions
      - ``.yml``
    * - Linguality :ref:`ⓘ <bimono>`
-     - ``Monolingual``
+     - Monolingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
      - ``Yes``
    * - Supports descriptions :ref:`ⓘ <format-description>`

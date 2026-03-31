@@ -7,7 +7,7 @@
    * - File extensions
      - ``.strings``
    * - Linguality :ref:`ⓘ <bimono>`
-     - ``Both monolingual and bilingual``
+     - Both monolingual and bilingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
      - ``No``
    * - Supports descriptions :ref:`ⓘ <format-description>`

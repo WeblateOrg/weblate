@@ -7,7 +7,7 @@
    * - File extensions
      - ``.rc``
    * - Linguality :ref:`ⓘ <bimono>`
-     - ``Monolingual``
+     - Monolingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
      - ``No``
    * - Supports descriptions :ref:`ⓘ <format-description>`

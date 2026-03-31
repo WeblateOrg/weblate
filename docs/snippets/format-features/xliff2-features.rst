@@ -7,7 +7,7 @@
    * - File extensions
      - ``.xlf``, ``.xliff``
    * - Linguality :ref:`ⓘ <bimono>`
-     - ``Bilingual``
+     - Bilingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
      - ``Yes``
    * - Supports descriptions :ref:`ⓘ <format-description>`
