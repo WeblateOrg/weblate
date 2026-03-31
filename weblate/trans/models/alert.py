@@ -302,6 +302,40 @@ class DuplicateFilemask(BaseAlert):
 
 
 @register
+class ConflictingRepositorySetup(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Conflicting repository setup.")
+
+    def __init__(self, instance: Alert, component_ids: list[int]) -> None:
+        super().__init__(instance)
+        self.component_ids = component_ids
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        conflicts = list(
+            component.get_conflicting_setup_components().values_list("id", flat=True)
+        )
+        if conflicts:
+            return {"component_ids": conflicts}
+        return False
+
+    def get_analysis(self) -> dict[str, Any]:
+        return {"repo_link": self.instance.component.get_repo_link_url()}
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        from weblate.trans.models import Component
+
+        result = super().get_context(user)
+        result["analysis"]["conflicts"] = list(
+            Component.objects.filter(pk__in=self.component_ids)
+            .filter_access(user)
+            .select_related("project")
+            .order_by("project__slug", "slug")
+        )
+        return result
+
+
+@register
 class MergeFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not merge the repository.")
