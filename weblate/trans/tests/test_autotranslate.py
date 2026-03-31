@@ -9,11 +9,12 @@ from django.core.management.base import CommandError
 from django.test.utils import override_settings
 from django.urls import reverse
 
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, PendingUnitChange, Project
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 
 
@@ -54,6 +55,26 @@ class AutoTranslationTest(ViewTestCase):
 
     def make_different(self, language: str = "cs") -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
+
+    def set_mismatched_plural(self) -> None:
+        source_translation = self.get_translation()
+        source_translation.plural = source_translation.language.plural_set.create(
+            source=Plural.SOURCE_GETTEXT,
+            number=2,
+            formula="(n != 1)",
+        )
+        source_translation.save(update_fields=["plural"])
+
+    def translate_plural_source(self) -> None:
+        plural_unit = self.get_unit("Orangutan has %d banana.\n")
+        plural_unit.translate(
+            self.user,
+            [
+                "Orangutan ma %d banan.\n",
+                "Orangutani maji %d banany.\n",
+            ],
+            STATE_TRANSLATED,
+        )
 
     def perform_auto(
         self, expected=1, expected_count=None, path_params=None, success=True, **kwargs
@@ -101,6 +122,64 @@ class AutoTranslationTest(ViewTestCase):
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto()
+
+    def test_plural_mismatch_warning(self) -> None:
+        self.set_mismatched_plural()
+        self.edit_unit("Thank you for using Weblate.", "Diky za pouzivani Weblate.")
+        self.translate_plural_source()
+        path_params = {"path": [*self.component2.get_url_path(), "cs"]}
+
+        response = self.client.post(
+            reverse("auto_translation", kwargs=path_params),
+            {
+                "auto_source": "others",
+                "component": self.component.id,
+                "threshold": "100",
+                "q": "state:<translated",
+                "mode": "translate",
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        self.assertContains(
+            response,
+            "Automatic translation completed, 1 string was updated.",
+        )
+        self.assertContains(response, "do not match the target translation")
+
+        translation = self.component2.translation_set.get(language_code="cs")
+        singular = self.get_unit(
+            "Thank you for using Weblate.", translation=translation
+        )
+        self.assertEqual(singular.target, "Diky za pouzivani Weblate.")
+        target_plural = self.get_unit(
+            "Orangutan has %d banana.\n", translation=translation
+        )
+        self.assertEqual(target_plural.get_target_plurals(), ["", "", ""])
+
+    def test_plural_mismatch_task_warning(self) -> None:
+        self.set_mismatched_plural()
+        self.edit_unit("Thank you for using Weblate.", "Diky za pouzivani Weblate.")
+        self.translate_plural_source()
+
+        result = auto_translate(
+            translation_id=self.component2.translation_set.get(language_code="cs").id,
+            user_id=self.user.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, 1 string was updated.",
+        )
+        self.assertEqual(len(result["warnings"]), 1)
+        self.assertIn("do not match the target translation", result["warnings"][0])
 
     def test_suggest(self) -> None:
         """Test for automatic suggestion."""

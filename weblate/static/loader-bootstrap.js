@@ -978,6 +978,8 @@ $(function () {
   $("[data-task]").each(function () {
     const $message = $(this);
     const $bar = $message.find(".progress-bar");
+    const $messageText = $message.find(".task-message");
+    const $warnings = $message.find(".task-warnings");
     $bar.attr("data-completed", "0");
 
     const progressCompleted = () => {
@@ -1000,7 +1002,16 @@ $(function () {
           if (data.completed) {
             progressCompleted();
             if (data.result.message) {
-              $message.text(data.result.message);
+              $messageText.text(data.result.message);
+            }
+            if (data.result.warnings?.length) {
+              $warnings.empty();
+              data.result.warnings.forEach((warning) => {
+                $("<div>")
+                  .addClass("text-warning mt-2")
+                  .text(warning)
+                  .appendTo($warnings);
+              });
             }
           }
         }).fail((jqXhr) => {
