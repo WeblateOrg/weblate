@@ -694,6 +694,14 @@ Generic settings
       environment:
         WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS: 1
 
+.. envvar:: WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.
