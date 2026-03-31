@@ -22,7 +22,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.auth.models import Group
+from weblate.auth.models import Group, Invitation
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -395,6 +395,26 @@ class AdminTest(ViewTestCase):
         )
         self.assertContains(response, "User invitation e-mail was sent")
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_bulk_invite_user(self) -> None:
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "emails": "noreply@example.com second@example.com invalid second@example.com",
+                "group": Group.objects.get(name="Users").pk,
+                "is_superuser": "on",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "2 invitation e-mails were sent.")
+        self.assertContains(response, "Skipped 2 addresses")
+        self.assertContains(response, "invalid: Enter a valid e-mail address.")
+        self.assertContains(
+            response, "second@example.com: duplicate address in the submission"
+        )
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(Invitation.objects.count(), 2)
+        self.assertEqual(Invitation.objects.filter(is_superuser=True).count(), 2)
 
     def test_check_user(self) -> None:
         response = self.client.get(
