@@ -451,7 +451,7 @@ autodoc_mock_imports = [
     "rest_framework",
 ]
 
-# Create single gettext PO file for while documentation,
+# Create single gettext PO file for whole documentation,
 # instead of having one file per chapter.
 gettext_compact = "docs"
 
