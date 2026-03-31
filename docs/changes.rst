@@ -45,6 +45,7 @@ Weblate 5.17
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
 * Improved repository lock error handling when deleting units.
+* :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
 
 .. rubric:: Compatibility
 

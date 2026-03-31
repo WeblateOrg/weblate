@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 from functools import cache, lru_cache
 from io import BytesIO
+from math import ceil
 from typing import TYPE_CHECKING, NamedTuple
 
 import cairo
@@ -201,8 +202,8 @@ def _render_size(
                 width=width,
                 lines=lines,
                 needs_output=needs_output,
-                surface_height=pixel_size.height,
-                surface_width=pixel_size.width,
+                surface_height=max(surface_height, pixel_size.height),
+                surface_width=max(width, surface_width, pixel_size.width),
             )
 
         # Render background
@@ -212,11 +213,29 @@ def _render_size(
         context.paint()
         context.restore()
 
-        # Show text
+        expected_height = ceil(lines * pixel_size.height / line_count)
+
+        # Render the text clipped to the allowed area.
+        context.save()
+        context.rectangle(0, 0, width, expected_height)
+        context.clip()
+        context.set_source_rgb(0, 0, 0)
         PangoCairo.show_layout(context, layout)
+        context.restore()
+
+        # Highlight overflowing parts in red instead of hiding them.
+        if pixel_size.width > width or line_count > lines:
+            context.save()
+            context.rectangle(0, 0, surface_width, surface_height)
+            context.rectangle(0, 0, width, expected_height)
+            context.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
+            context.clip()
+            context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
+            PangoCairo.update_layout(context, layout)
+            PangoCairo.show_layout(context, layout)
+            context.restore()
 
         # Render box around desired size
-        expected_height = lines * pixel_size.height / line_count
         context.new_path()
         context.set_source_rgb(0.1, 0.1, 0.1)
         context.set_line_width(1)
