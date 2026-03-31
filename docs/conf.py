@@ -47,7 +47,7 @@ class WeblateTags(Tags):
 
 
 def setup(app) -> None:
-    # Monkey path gettext build tags handling, this is workaround until
+    # Monkey patch gettext build tags handling, this is workaround until
     # https://github.com/sphinx-doc/sphinx/issues/13307 is addressed.
     sphinx.builders.gettext.I18nTags = WeblateTags
     # Used in Sphinx docs, needed for intersphinx links to it
