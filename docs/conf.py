@@ -166,14 +166,14 @@ html_theme_options = {
     "dark_css_variables": {
         "font-stack": '"Source Sans 3", sans-serif',
         "font-stack--monospace": '"Source Code Pro", monospace',
-        "color-brand-primary": "#1fa385",
-        "color-brand-content": "#1fa385",
+        "color-brand-primary": "#107a62",
+        "color-brand-content": "#107a62",
     },
     "light_css_variables": {
         "font-stack": '"Source Sans 3", sans-serif',
         "font-stack--monospace": '"Source Code Pro", monospace',
-        "color-brand-primary": "#1fa385",
-        "color-brand-content": "#1fa385",
+        "color-brand-primary": "#107a62",
+        "color-brand-content": "#107a62",
     },
 }
 

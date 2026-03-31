@@ -119,10 +119,10 @@ def optional_form(form, perm_user, perm, perm_obj, **kwargs):
 
 def get_percent_color(percent) -> str:
     if percent >= 85:
-        return "#2eccaa"
+        return "#158068"
     if percent >= 50:
-        return "#38f"
-    return "#f6664c"
+        return "#1565c0"
+    return "#cc3d20"
 
 
 def get_page_limit(request: AuthenticatedHttpRequest, default: int) -> tuple[int, int]:
