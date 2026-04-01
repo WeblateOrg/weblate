@@ -701,7 +701,6 @@ def auto_translate_component(
         threshold=threshold,
         source_component_id=source_component_id,
     )
-    component_obj.update_source_checks()
     component_obj.run_batched_checks()
     return {"component": component_obj.id}
 

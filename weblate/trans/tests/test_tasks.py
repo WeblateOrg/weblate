@@ -8,7 +8,7 @@ from unittest.mock import patch
 from django.test.utils import override_settings
 from django.utils import timezone
 
-from weblate.checks.tasks import batch_update_checks
+from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.models import Comment, PendingUnitChange, Suggestion
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
@@ -254,5 +254,5 @@ class TasksTest(ViewTestCase):
     def test_update_project_stats_link_missing_project(self) -> None:
         update_project_stats_link(-1)
 
-    def test_batch_update_checks_missing_component(self) -> None:
-        batch_update_checks(-1, ["same"])
+    def test_finalize_component_checks_missing_component(self) -> None:
+        finalize_component_checks(-1, [], ["same"], batch_mode=True)
