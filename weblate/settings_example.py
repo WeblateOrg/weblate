@@ -371,6 +371,9 @@ REGISTRATION_OPEN = True
 # Allow registration with disposable e-mail domains
 REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 
+# Project website restriction allowlist
+# PROJECT_WEB_RESTRICT_ALLOWLIST = {"trusted-project"}
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
 

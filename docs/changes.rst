@@ -5,6 +5,7 @@ Weblate 5.17
 
 .. rubric:: New features
 
+* Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project slugs from project website restriction settings.
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
 * Added new management command :wladmin:`list_format_features`, which generates RST documentation snippets describing the supported features for every file format.
 * Shared components can now be categorized within the target project.

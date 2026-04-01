@@ -231,6 +231,16 @@ class WebsiteTest(SimpleTestCase):
             self.assertRaises(ValidationError),
         ):
             validate_project_web("https://weblate.org")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_RE="https://weblate.org",
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"},
+        ):
+            validate_project_web("https://weblate.org", project_slug="trusted-project")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_RE="https://weblate.org",
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"Trusted-Project"},
+        ):
+            validate_project_web("https://weblate.org", project_slug="trusted-project")
 
     def test_host(self) -> None:
         with self.assertRaises(ValidationError):
@@ -246,6 +256,13 @@ class WebsiteTest(SimpleTestCase):
                 validate_project_web("https://example.com")
             with self.assertRaises(ValidationError):
                 validate_project_web("https://foo.example.com")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_HOST={"example.com"},
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"},
+        ):
+            validate_project_web(
+                "https://foo.example.com", project_slug="trusted-project"
+            )
 
     def test_numeric(self) -> None:
         with self.assertRaises(ValidationError):
@@ -257,6 +274,8 @@ class WebsiteTest(SimpleTestCase):
         ):
             validate_project_web("https://[2606:4700:4700::1111]")
             validate_project_web("https://1.1.1.1")
+        with override_settings(PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"}):
+            validate_project_web("https://1.1.1.1", project_slug="trusted-project")
 
     def test_private(self) -> None:
         with (
@@ -283,6 +302,16 @@ class WebsiteTest(SimpleTestCase):
             ),
         ):
             validate_project_web("https://private.example")
+        with (
+            override_settings(PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"}),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_project_web(
+                "https://private.example", project_slug="trusted-project"
+            )
 
     def test_repoweb_private(self) -> None:
         with (
