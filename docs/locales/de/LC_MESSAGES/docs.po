@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
-"PO-Revision-Date: 2026-03-31 03:10+0000\n"
+"PO-Revision-Date: 2026-04-01 08:36+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -2697,15 +2697,11 @@ msgid "Project level backups"
 msgstr "Sicherungen auf Projektebene"
 
 #: admin/backup.rst:15
-#, fuzzy
-#| msgid ""
-#| "Restoring backups is only supported when using PostgreSQL or MariaDB "
-#| "10.5+ as a database."
 msgid ""
 "Restoring backups is only supported when using PostgreSQL as a database."
 msgstr ""
 "Das Wiederherstellen von Sicherungen wird nur unterstützt, wenn PostgreSQL "
-"oder MariaDB 10.5+ als Datenbank verwendet wird."
+"als Datenbank verwendet wird."
 
 #: admin/backup.rst:17
 msgid ""
@@ -2764,6 +2760,12 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Die Importvalidierung von hochgeladenen Projektsicherungen kann mit "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` und "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO` eingestellt "
+"werden."
 
 #: admin/backup.rst:41
 msgid ""
@@ -2806,14 +2808,8 @@ msgstr ""
 "werden."
 
 #: admin/backup.rst:63
-#, fuzzy
-#| msgid ""
-#| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
-#| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
-msgstr ""
-"Sowohl PostgreSQL- als auch MySQL/MariaDB-Datenbanken sind in den "
-"automatischen Sicherungen enthalten."
+msgstr "PostgreSQL-Datenbanken sind in den automatischen Sicherungen enthalten."
 
 #: admin/backup.rst:65
 msgid ""
@@ -3221,21 +3217,15 @@ msgid "Native database backup"
 msgstr "Native Datenbanksicherung"
 
 #: admin/backup.rst:261
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
-"Es wird empfohlen, einen Auszug der Datenbank mit datenbankeigenen Tools "
-"wie :program:`pg_dump` oder :program:`mysqldump` zu speichern. Diese Methode "
-"ist normalerweise leistungsfähiger als die Django-Sicherung und stellt "
-"vollständige Tabellen mit allen Daten wieder her."
+"Es wird empfohlen, einen Auszug der Datenbank mit datenbankeigenen Tools wie "
+":program:`pg_dump` zu speichern. Diese Methode ist normalerweise "
+"leistungsfähiger als die Django-Sicherung und stellt vollständige Tabellen "
+"mit allen Daten wieder her."
 
 #: admin/backup.rst:265
 msgid ""
