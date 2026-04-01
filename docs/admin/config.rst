@@ -1454,8 +1454,7 @@ PASSWORD_RESET_URL
 
 .. versionadded:: 5.17
 
-URL for password reset when authentication is handled by an external identity provider
-such as LDAP, SAML, or OAuth.
+URL for password reset when authentication is handled by an external identity provider, such as LDAP, SAML, or OAuth.
 
 When set, :guilabel:`Forgot your password?` on the sign-in page links to this URL
 instead of Weblate's built-in password reset page.
