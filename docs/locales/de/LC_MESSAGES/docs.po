@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
-"PO-Revision-Date: 2026-04-01 09:18+0000\n"
+"PO-Revision-Date: 2026-04-01 09:45+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5627,6 +5627,8 @@ msgid ""
 "Reject using project website and repository browser URLs pointing to non-"
 "global IP ranges. On by default."
 msgstr ""
+"Verwirft URLs der Projektwebsite und des Repository-Browsers, die auf nicht-"
+"globale IP-Bereiche verweisen. Standardmäßig eingeschaltet."
 
 #: admin/config.rst:1729
 msgid ""
@@ -5639,6 +5641,8 @@ msgstr ""
 #: admin/config.rst:1745
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Ermöglicht eine öffentliche Beteiligungsseite auch mit "
+":setting:`REQUIRE_LOGIN`."
 
 #: admin/config.rst:1758
 msgid "Limits how many notifications for a single user will be sent out."
@@ -5779,6 +5783,8 @@ msgid ""
 "Allow registration with disposable e-mail domains. When enabled, the "
 "disposable domain blocklist is bypassed. Default is ``False``."
 msgstr ""
+"Ermöglicht die Registrierung mit Einweg-E-Mail-Domains. Bei Aktivierung wird "
+"die Sperrliste für Einweg-Domains umgangen. Der Standardwert ist ``False``."
 
 #: admin/config.rst:1905
 msgid ""
@@ -6360,34 +6366,41 @@ msgstr ""
 "Serverkonfigurationen geeignet ist."
 
 #: admin/config.rst:2507
-#, fuzzy
-#| msgid "Defaults to ``True``."
 msgid "Default: ``True``"
-msgstr "Der Standardwert ist ``True``."
+msgstr "Standardwert: ``True``"
 
 #: admin/config.rst:2509
 msgid ""
 "Defines whether Weblate should check project website availability and show "
 "alerts for unreachable project websites."
 msgstr ""
+"Legt fest, ob Weblate die Verfügbarkeit von Projektwebsites prüfen und "
+"Warnungen für nicht erreichbare Projektwebsites anzeigen soll."
 
 #: admin/config.rst:2512
 msgid ""
 "When set to ``False``, Weblate will skip website availability checks and "
 "will not generate project website alerts. This is useful when:"
 msgstr ""
+"Wenn auf ``False`` gesetzt, überspringt Weblate Prüfungen der Website-"
+"Verfügbarkeit und generiert keine Projektwebsite-Warnungen. Dies ist "
+"nützlich, wenn:"
 
 #: admin/config.rst:2515
 msgid "Your websites are behind firewalls that block Weblate's requests"
 msgstr ""
+"Ihre Websites sich hinter Firewalls befinden, welche die Anfragen von "
+"Weblate blockieren"
 
 #: admin/config.rst:2516
 msgid "You want to avoid 403/503-type errors from bot protection"
-msgstr ""
+msgstr "Sie möchten Fehler vom Typ 403/503 aufgrund des Bot-Schutzes vermeiden"
 
 #: admin/config.rst:2517
 msgid "Project website availability is not a concern for your installation"
 msgstr ""
+"Die Verfügbarkeit der Projektwebsite ist für Ihre Installation nicht von "
+"Belang"
 
 #: admin/config.rst:2526
 msgid "Configuring version control credentials"
@@ -7944,16 +7957,12 @@ msgid "Integrating SAML 2 IDP into Weblate"
 msgstr "Integration von SAML 2 IDP in Weblate"
 
 #: admin/install.rst:258
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`Sphinx <https://pypi.org/project/Sphinx>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`Sphinx <https://pypi.org/project/Sphinx>`_"
 
 #: admin/install.rst:259
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid "Needed for :ref:`addon-weblate.gettext.sphinx`"
-msgstr "Neue Erweiterung :ref:`addon-weblate.generate.prefill`."
+msgstr "Erforderlich für :ref:`addon-weblate.gettext.sphinx`"
 
 #: admin/install.rst:263 admin/install.rst:267
 msgid "Hosted Weblate integration"
@@ -9436,13 +9445,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Beispielkonfiguration für NGINX und uWSGI"
 
 #: admin/install.rst:1409
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the WSGI wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`). Don't forget to set the Python "
-#| "search path to your virtualenv as well (for example using ``virtualenv = /"
-#| "home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate "
 "(when using a Python environment it is installed as :file:`~/weblate-env/lib/"
@@ -9451,10 +9453,11 @@ msgid ""
 "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgstr ""
 "Um einen produktiven Webserver zu betreiben, verwenden Sie den mit Weblate "
-"installierten WSGI-Wrapper (in der virtuellen Umgebung wird er als :file:`~/"
-"weblate-env/lib/python3.9/site-packages/weblate/wsgi.py` installiert). "
-"Vergessen Sie nicht, den Python-Suchpfad auch in virtualenv zu setzen (zum "
-"Beispiel mit ``virtualenv = /home/user/weblate-env`` in uWSGI)."
+"installierten WSGI-Wrapper (beim Verwenden einer Python-Umgebung wird er als "
+":file:`~/weblate-env/lib/python3.14/site-packages/weblate/wsgi.py` "
+"installiert). Vergessen Sie nicht, den Python-Suchpfad auch auf die Python-"
+"Einsatzumgebung einzustellen (zum Beispiel mit ``virtualenv = /home/user/"
+"weblate-env`` in uWSGI)."
 
 #: admin/install.rst:1415
 msgid ""
@@ -9980,23 +9983,15 @@ msgid "Migrating database"
 msgstr "Datenbank migrieren"
 
 #: admin/install.rst:1803
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward approach is to use "
-#| "database native tools, as they are usually the most effective "
-#| "(e.g. :command:`mysqldump` or :command:`pg_dump`). Alternatively you can "
-#| "use replication in case your database supports it."
 msgid ""
 "The most straightforward approach is to use database native tools, as they "
 "are usually the most effective (e.g. :command:`pg_dump`). Alternatively you "
 "can use replication if your database supports it."
 msgstr ""
-"Abhängig von Ihrem Datenbank-Backend haben Sie mehrere Möglichkeiten, die "
-"Datenbank zu migrieren. Der einfachste Ansatz ist die Verwendung "
-"datenbankeigener Tools, da diese normalerweise am effektivsten sind "
-"(z. B. :command:`mysqldump` oder :command:`pg_dump`). Alternativ können Sie "
-"auch die Replikation verwenden, falls Ihre Datenbank dies unterstützt."
+"Der einfachste Ansatz ist das Verwenden datenbankeigener Tools, da diese "
+"normalerweise am effektivsten sind (z. B. :command:`pg_dump`). Alternativ "
+"können Sie auch die Replikation verwenden, falls Ihre Datenbank dies "
+"unterstützt."
 
 #: admin/install.rst:1809
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -10840,16 +10835,12 @@ msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr "Konfiguriert :std:setting:`REGISTRATION_REBIND`."
 
 #: admin/install/docker.rst:688
-#, fuzzy
-#| msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgid "Configures :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
-msgstr "Konfiguriert :std:setting:`REGISTRATION_REBIND`."
+msgstr "Konfiguriert :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
 
 #: admin/install/docker.rst:701
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
-msgstr "Konfiguriert :setting:`WEBSITE_REQUIRED`."
+msgstr "Konfiguriert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:703
 #, fuzzy
