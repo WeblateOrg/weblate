@@ -354,7 +354,9 @@ def validate_project_web(value) -> None:
     if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
         settings.PROJECT_WEB_RESTRICT_RE, value
     ):
-        raise ValidationError(gettext("This URL is prohibited"))
+        raise ValidationError(
+            gettext("This URL is prohibited because it matches a restricted pattern.")
+        )
     parsed = urlparse(value)
     hostname = parsed.hostname or ""
     hostname = hostname.lower()
@@ -363,7 +365,9 @@ def validate_project_web(value) -> None:
     if any(
         hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
     ):
-        raise ValidationError(gettext("This URL is prohibited"))
+        raise ValidationError(
+            gettext("This URL is prohibited because it uses a restricted host.")
+        )
 
     # Numeric address filtering
     if settings.PROJECT_WEB_RESTRICT_NUMERIC:
@@ -372,7 +376,9 @@ def validate_project_web(value) -> None:
         except ValidationError:
             pass
         else:
-            raise ValidationError(gettext("This URL is prohibited"))
+            raise ValidationError(
+                gettext("This URL is prohibited because it uses a numeric IP address.")
+            )
 
     try:
         validate_runtime_url(

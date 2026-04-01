@@ -63,7 +63,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
         )
         self.assertEqual(
             self.component.alert_set.get(name="BrokenProjectURL").details["error"],
-            "This URL is prohibited",
+            "This URL is prohibited because it uses a restricted host.",
         )
         mocked_get_uri_error.assert_not_called()
 

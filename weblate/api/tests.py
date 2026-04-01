@@ -3793,7 +3793,7 @@ class ProjectAPITest(APIBaseTest):
             format="json",
         )
 
-        self.assertIn("URL domain is not allowed.", str(response.data))
+        self.assertIn("internal or non-public address", str(response.data))
 
 
 class ComponentAPITest(APIBaseTest):

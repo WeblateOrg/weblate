@@ -3638,7 +3638,10 @@ class MachineryValidationTest(TestCase):
         )
 
         self.assertFalse(form.is_valid())
-        self.assertIn("URL domain is not allowed.", form.errors["__all__"])
+        self.assertIn(
+            "internal or non-public address",
+            str(form.errors["__all__"]),
+        )
 
     def test_check_failure_hides_response_body(self) -> None:
         response = Mock()
@@ -3830,7 +3833,10 @@ class MachineryValidationTest(TestCase):
 
         mocked_getaddrinfo.assert_called()
         mocked_request.assert_not_called()
-        self.assertIn("URL domain is not allowed.", str(form.non_field_errors()))
+        self.assertIn(
+            "internal or non-public address",
+            str(form.non_field_errors()),
+        )
 
     @override_settings(ALLOWED_MACHINERY_DOMAINS=[".example.com"])
     def test_check_failure_shows_wildcard_allowlisted_provider_message(self) -> None:
