@@ -1061,6 +1061,9 @@ class Component(
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
+        cleanup_configs = (
+            self.get_conflicting_repository_setup_configs() if self.id else set()
+        )
         cleanup_conflicting_repository_setup = (
             self.has_conflicting_repository_setup_changed() if self.id else False
         )
@@ -1069,7 +1072,11 @@ class Component(
         super().save(*args, **kwargs)
 
         if cleanup_conflicting_repository_setup:
-            transaction.on_commit(self.cleanup_conflicting_repository_setup_alerts)
+            transaction.on_commit(
+                lambda: self.cleanup_conflicting_repository_setup_alerts(
+                    cleanup_configs
+                )
+            )
 
         if create:
             self.install_autoaddon()
@@ -4455,8 +4462,13 @@ class Component(
             != self.get_conflicting_repository_setup_config()
         )
 
-    def cleanup_conflicting_repository_setup_alerts(self) -> None:
-        for push, push_branch in self.get_conflicting_repository_setup_configs():
+    def cleanup_conflicting_repository_setup_alerts(
+        self, cleanup_configs: set[tuple[str, str]] | None = None
+    ) -> None:
+        if cleanup_configs is None:
+            cleanup_configs = self.get_conflicting_repository_setup_configs()
+
+        for push, push_branch in cleanup_configs:
             matching = Component.objects.filter(
                 push=push,
                 push_branch=push_branch,
