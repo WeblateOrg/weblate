@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
-"PO-Revision-Date: 2026-03-31 03:10+0000\n"
+"PO-Revision-Date: 2026-04-01 13:35+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -2693,15 +2693,11 @@ msgid "Project level backups"
 msgstr "Copias de respaldo a nivel del proyecto"
 
 #: admin/backup.rst:15
-#, fuzzy
-#| msgid ""
-#| "Restoring backups is only supported when using PostgreSQL or MariaDB "
-#| "10.5+ as a database."
 msgid ""
 "Restoring backups is only supported when using PostgreSQL as a database."
 msgstr ""
 "Restaurar las copias de respaldo solo es compatible cuando se usa PostgreSQL "
-"o MariaDB 10.5+ como base de datos."
+"como una base de datos."
 
 #: admin/backup.rst:17
 msgid ""
@@ -2759,6 +2755,11 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Importar validación de respaldos de proyecto subidos puede ser ajustado "
+"utilizando :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, y "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:41
 msgid ""
@@ -2800,14 +2801,10 @@ msgstr ""
 "pestaña :guilabel:`Backups`."
 
 #: admin/backup.rst:63
-#, fuzzy
-#| msgid ""
-#| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
-#| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
 msgstr ""
-"Se incluyen las bases de datos de tanto PostgreSQL como MySQL/MariaDB en las "
-"copias de respaldo automatizadas."
+"Se incluye la base de datos PostgreSQL en las copias de respaldo "
+"automatizadas."
 
 #: admin/backup.rst:65
 msgid ""
@@ -3215,21 +3212,15 @@ msgid "Native database backup"
 msgstr "Copia de seguridad de la base de datos nativa"
 
 #: admin/backup.rst:261
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
 "El enfoque recomendado es guardar un volcado de la base de datos utilizando "
-"herramientas nativas de la base de datos como :program:`pg_dump` "
-"o :program:`mysqldump`. Suele funcionar mejor que la copia de seguridad de "
-"Django, y restaura tablas completas con todos sus datos."
+"herramientas nativas de la base de datos como :program:`pg_dump`. Suele "
+"funcionar mejor que la copia de seguridad de Django, y restaura tablas "
+"completas con todos sus datos."
 
 #: admin/backup.rst:265
 msgid ""
@@ -3575,16 +3566,13 @@ msgstr ""
 "consulta :ref:`formats`."
 
 #: admin/checks.rst:40
-#, fuzzy
-#| msgid ""
-#| "Translation flags (currently only ``read-only`` flag for bilingual source "
-#| "string)."
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string or when monolingual template editing is turned off)."
 msgstr ""
-"Indicadores de traducción (actualmente solo indicadores ``de sólo lectura``` "
-"para cadenas de origen bilingües)."
+"Indicadores de traducción (actualmente solo indicadores ``de sólo lectura`` "
+"para cadenas de origen bilingües o cuando está apagada la edición de "
+"plantilla monolingüe)."
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
@@ -4071,6 +4059,9 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
+"El listado de permiso está aplicada para el URL inicial y para cada "
+"redirección en HTTP destino antes de que Weblate la siga. Las redirecciones "
+"los host fuera de este listado de permiso son rechazadas."
 
 #: admin/config.rst:58
 msgid ""
@@ -4085,10 +4076,8 @@ msgstr ""
 "``cdn.example.com`` o ``static.example.com``)."
 
 #: admin/config.rst:62
-#, fuzzy
-#| msgid "Defaults to `[*]` which will allow all domains."
 msgid "Defaults to ``[\"*\"]``, which allows all domains."
-msgstr "Lo predeterminado para `[*]`, el cual concederá todos los dominios."
+msgstr "Lo predeterminado para ``[\"*\"]``, lo cual concede todos los dominios."
 
 #: admin/config.rst:64
 msgid "**Example**"
@@ -4103,46 +4092,43 @@ msgid "Screenshot uploads, see :ref:`screenshots`"
 msgstr "Subida de capturas de pantalla, consulte :ref:`screenshots`"
 
 #: admin/config.rst:78
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
-msgstr "Configuración para :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Las descargas de HTML remota para el complemento :ref:`addon-"
+"weblate.cdn.cdnjs`"
 
 #: admin/config.rst:89
 msgid ""
 "Configures which custom machinery domains are explicitly allowed in project-"
 "level machine translation configuration."
 msgstr ""
+"Configura cuales dominios de la maquinaria personal son concedidos "
+"explícitamente en la configuración de máquina traductora en nivel de "
+"proyecto."
 
 #: admin/config.rst:92
 msgid ""
 "This setting applies only to machinery services and does not "
 "affect :setting:`ALLOWED_ASSET_DOMAINS`."
 msgstr ""
+"Estos ajustes se aplican solo para servicios de maquinaria y no afecta a "
+":setting:`ALLOWED_ASSET_DOMAINS`."
 
 #: admin/config.rst:95
-#, fuzzy
-#| msgid ""
-#| "It expects a list of host/domain names. You can use fully qualified names "
-#| "(e.g ``www.example.com``) or prepend with a period as a wildcard to match "
-#| "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
-#| "``static.example.com``)."
 msgid ""
 "It expects a list of host/domain names. You can use fully qualified names or "
 "prepend with a period as a wildcard to match all subdomains."
 msgstr ""
-"Se espera una lista de nombres de host/dominio. Puede usar nombres completos "
-"(p.e., ``www.example.com``) o anteponer un punto como comodín para que "
-"coincida con todos los subdominios (p.e. ``.example.com`` coincidirá con "
-"``cdn.example.com`` o ``static.example.com``)."
+"Se espera una lista de nombres de host/dominio. Puede usar nombres "
+"calificados o anteponer con un punto como un comodín para que coincida con "
+"todos los sub‐dominios."
 
 #: admin/config.rst:98
-#, fuzzy
-#| msgid "Defaults to ``True``."
 msgid "Defaults to ``[]``."
-msgstr "Por defecto a ``True``."
+msgstr "Por defecto a ``[]``."
 
 #: admin/config.rst:100
+#, fuzzy
 msgid ""
 "The allowlist affects project-managed machinery in two ways: it permits the "
 "configured endpoint during outbound validation, and it marks matching hosts "
@@ -4153,16 +4139,22 @@ msgid ""
 "hostname validation and does not perform the same local DNS or peer-IP "
 "checks."
 msgstr ""
+"El listado concedido afecta a la maquinaria gestionada por proyecto en dos "
+"maneras: permitir el punto final configurado durante validación externa, y "
+"lo marca los host coincidentes como confiados cuando decida si los detalles "
+"del error del proveedor remoto o responde los cuerpos pueden ser mostrados "
+"al usuario. Para conexiones directas, comprueba en tiempo de ejecución los "
+"destinos rechazados que resuelvan a direcciones privadas o en otro caso no "
+"públicas. Cuando se utiliza un proxy de HTTP(S), la validación en tiempo de "
+"ejecución falla devueltas al nombre de host y no realizan las comprobaciones "
+"de DNS local o por IP."
 
 #: admin/config.rst:115
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
 msgid ""
 "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgstr ""
 "Configura el límite de tamaño para obtener recursos en Weblate. Lo "
-"predeterminado es de 4 MB."
+"predeterminado es de 10 MB."
 
 #: admin/config.rst:128
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
@@ -5505,18 +5497,24 @@ msgid ""
 "Defines the maximum number of ZIP entries allowed when importing a project "
 "backup."
 msgstr ""
+"Defina el número máximo de apuntes ZIP concedidos cuando importa un respaldo "
+"de proyecto."
 
 #: admin/config.rst:1585
 msgid ""
 "This is a safeguard against malformed or intentionally fragmented archives. "
 "Defaults to 100000 entries."
 msgstr ""
+"Esto es un vigía frente a archivadores fragmentados intencionalmente o "
+"malformados. Por defecto son 100.000 apuntes."
 
 #: admin/config.rst:1599
 msgid ""
 "Defines the maximum uncompressed size, in bytes, for a single highly "
 "compressed ZIP entry in an imported project backup."
 msgstr ""
+"Define el tamaño descomprimido máximo, en bytes, para un único apunte zip "
+"altamente comprimido en un respaldo de proyecto importado."
 
 #: admin/config.rst:1602
 msgid ""
@@ -5525,12 +5523,20 @@ msgid ""
 "allowed here and are expected to be constrained by the HTTP upload limit. "
 "Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
+"Este límite solo es aplicado a apuntes que son suficiente grandes y "
+"comprimidos suficientes para parecer sospechosos. Los archivos grandes con "
+"compresión baja son concedidos aquí intencionalmente como esperados para ser "
+"restringidos por el límite de subida por HTTP. Por defecto a 262.144.000 "
+"bytes (250 MiB)."
 
 #: admin/config.rst:1618
 msgid ""
 "Defines the minimum uncompressed size, in bytes, at which Weblate starts "
 "considering the ZIP compression ratio during project backup import."
 msgstr ""
+"Define el tamaño descomprimido mínimo, en bytes, en los cuales Weblate "
+"inicie considerando la proporción de compresión de zip durante la "
+"importación del respaldo del proyecto."
 
 #: admin/config.rst:1621
 msgid ""
@@ -5538,12 +5544,18 @@ msgid ""
 "avoid rejecting reasonably sized files that compress well. Defaults to "
 "1048576 bytes (1 MiB)."
 msgstr ""
+"Los archivos más pequeños son omitidos para la validación basada en la "
+"proporción de compresión para evitar rechazar archivos de tamaños razonables "
+"que se compriman bien. Por defecto son 1.048.576 bytes (1 MiB)."
 
 #: admin/config.rst:1636
 msgid ""
 "Defines the maximum allowed ratio between the uncompressed and compressed "
 "size for a large ZIP entry during project backup import."
 msgstr ""
+"Define la proporción máxima permitida entre el tamaño comprimido y "
+"descomprimido para un apunte de zip grande durante la importación del "
+"respaldo del proyecto."
 
 #: admin/config.rst:1639
 msgid ""
@@ -5553,6 +5565,12 @@ msgid ""
 "compressed entries while still allowing large repository pack files and "
 "other low-compression content. Defaults to 250."
 msgstr ""
+"Esto es utilizado junto con "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE` y "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` para detectar apuntes de "
+"compresión sospechosamente mientras aún concede archivos de paquete del "
+"repositorio grandes y otros contenidos de compresión baja. Por defecto son "
+"250."
 
 #: admin/config.rst:1656
 msgid ""
@@ -5589,6 +5607,8 @@ msgid ""
 "Reject using project website and repository browser URLs pointing to non-"
 "global IP ranges. On by default."
 msgstr ""
+"Rechaza utilizar sitio web del proyecto y las URL del explorador del "
+"repositorio a intervalos de IP no globales. Activado por defecto."
 
 #: admin/config.rst:1729
 msgid ""
@@ -5601,6 +5621,7 @@ msgstr ""
 #: admin/config.rst:1745
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Concede evento de página del motor público con :setting:`REQUIRE_LOGIN`."
 
 #: admin/config.rst:1758
 msgid "Limits how many notifications for a single user will be sent out."
@@ -5740,6 +5761,9 @@ msgid ""
 "Allow registration with disposable e-mail domains. When enabled, the "
 "disposable domain blocklist is bypassed. Default is ``False``."
 msgstr ""
+"Concede registrado con dominios de correo-e desechable. Cuando se habilite, "
+"el listado de bloqueo del dominio desechable es eludido. Por defecto es "
+"``False``."
 
 #: admin/config.rst:1905
 msgid ""
@@ -6310,34 +6334,39 @@ msgstr ""
 "público."
 
 #: admin/config.rst:2507
-#, fuzzy
-#| msgid "Defaults to ``True``."
 msgid "Default: ``True``"
-msgstr "Por defecto a ``True``."
+msgstr "Por defecto: ``True``."
 
 #: admin/config.rst:2509
 msgid ""
 "Defines whether Weblate should check project website availability and show "
 "alerts for unreachable project websites."
 msgstr ""
+"Define su Weblate comprobaría la disponibilidad del sitio web del proyecto y "
+"mostraría alertas para sitios web del proyecto no alcanzables."
 
 #: admin/config.rst:2512
 msgid ""
 "When set to ``False``, Weblate will skip website availability checks and "
 "will not generate project website alerts. This is useful when:"
 msgstr ""
+"Cuando establezca a ``False``, Weblate omitirá las comprobaciones de "
+"disponibilidad del sitio web y no generará alertas del sitio web del "
+"proyecto. Esto es útil cuando:"
 
 #: admin/config.rst:2515
 msgid "Your websites are behind firewalls that block Weblate's requests"
 msgstr ""
+"Sus sitios web estén tras cortafuegos que bloquean solicitudes de Weblate"
 
 #: admin/config.rst:2516
 msgid "You want to avoid 403/503-type errors from bot protection"
-msgstr ""
+msgstr "Desea evitar errores de tipo 403/503 desde protección del bot"
 
 #: admin/config.rst:2517
 msgid "Project website availability is not a concern for your installation"
 msgstr ""
+"Disponibilidad del sitio web del proyecto no está acorde con su instalación"
 
 #: admin/config.rst:2526
 msgid "Configuring version control credentials"
@@ -7888,16 +7917,12 @@ msgid "Integrating SAML 2 IDP into Weblate"
 msgstr "Integración de SAML 2 IDP en Weblate"
 
 #: admin/install.rst:258
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`Sphinx <https://pypi.org/project/Sphinx>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`<https://pypi.org/project/Sphinx>`_"
 
 #: admin/install.rst:259
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid "Needed for :ref:`addon-weblate.gettext.sphinx`"
-msgstr "Complemento nuevo :ref:`addon-weblate.generate.prefill`."
+msgstr "Necesario para :ref:`addon-weblate.gettext.sphinx`"
 
 #: admin/install.rst:263 admin/install.rst:267
 msgid "Hosted Weblate integration"
@@ -9375,13 +9400,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Muestra de configuración para NGINX y uWSGI"
 
 #: admin/install.rst:1409
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the WSGI wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`). Don't forget to set the Python "
-#| "search path to your virtualenv as well (for example using ``virtualenv = /"
-#| "home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate "
 "(when using a Python environment it is installed as :file:`~/weblate-env/lib/"
@@ -9390,10 +9408,11 @@ msgid ""
 "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgstr ""
 "Para ejecutar el servidor web de producción, use el contenedor WSGI "
-"instalado con Weblate (en el caso de env virtual, se instala como :file:`~/"
-"weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). No olvide "
-"establecer también la ruta de búsqueda de Python en su virtualenv (por "
-"ejemplo, usando ``virtualenv = /home/user/weblate-env`` en uWSGI)."
+"instalado con Weblate (cuando utiliza un entorno de Python esté instalado "
+"como :file:`~/weblate-env/lib/python3.14/site-packages/weblate/wsgi.py`). No "
+"olvide establecer también la ruta de búsqueda de Python en su entorno de "
+"Python también (p.e., usando ``virtualenv = /home/user/weblate-env`` en "
+"uWSGI)."
 
 #: admin/install.rst:1415
 msgid ""
@@ -9914,24 +9933,14 @@ msgid "Migrating database"
 msgstr "Migrar base de datos"
 
 #: admin/install.rst:1803
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward approach is to use "
-#| "database native tools, as they are usually the most effective "
-#| "(e.g. :command:`mysqldump` or :command:`pg_dump`). Alternatively you can "
-#| "use replication in case your database supports it."
 msgid ""
 "The most straightforward approach is to use database native tools, as they "
 "are usually the most effective (e.g. :command:`pg_dump`). Alternatively you "
 "can use replication if your database supports it."
 msgstr ""
-"Según el backend de la base de datos, es posible que tenga varias opciones "
-"para migrar la base de datos. El enfoque más sencillo es utilizar "
-"herramientas nativas de la base de datos, ya que suelen ser las más "
-"efectivas (por ejemplo :command:`mysqldump` o :command:`pg_dump`). "
-"Alternativamente, puede usar la replicación en caso de que su base de datos "
-"lo admita."
+"El enfoque más sencillo es utilizar herramientas nativas de la base de "
+"datos, ya que suelen ser las más efectivas (p.ej. :command:`pg_dump`). "
+"Alternativamente puede usar replicación si su base de datos lo admita."
 
 #: admin/install.rst:1809
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -10768,22 +10777,16 @@ msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr "Configura :std:setting:`REGISTRATION_REBIND`."
 
 #: admin/install/docker.rst:688
-#, fuzzy
-#| msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgid "Configures :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
-msgstr "Configura :std:setting:`REGISTRATION_REBIND`."
+msgstr "Configura :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
 
 #: admin/install/docker.rst:701
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:703
-#, fuzzy
-#| msgid "Defaults to 5."
 msgid "Defaults to enabled."
-msgstr "Predeterminado a 5."
+msgstr "Predeterminado a habilitado."
 
 #: admin/install/docker.rst:707
 msgid ""
@@ -10905,10 +10908,8 @@ msgid ""
 msgstr "Habilita :setting:`REQUIRE_LOGIN` la autenticación en todo Weblate."
 
 #: admin/install/docker.rst:825
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
-msgstr "Configura :setting:`BASIC_LANGUAGES`."
+msgstr "Habilita :setting:`PUBLIC_ENGAGE`."
 
 #: admin/install/docker.rst:829
 msgid ""
@@ -10984,16 +10985,12 @@ msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
 msgstr "Configure :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: admin/install/docker.rst:890
-#, fuzzy
-#| msgid ""
-#| "Configures the default value for :ref:`component-restricted` for new "
-#| "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid ""
 "Configures the default value for :ref:`component-commit_pending_age` for new "
 "components, see :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
-"Configure el valor predeterminado para :ref:`component-restricted` para "
-"componentes nuevos, consulte :setting:`DEFAULT_RESTRICTED_COMPONENT`."
+"Configure el valor predeterminado para :ref:`component-commit_pending_age` "
+"para componentes nuevos, consulte :setting:`COMMIT_PENDING_HOURS`."
 
 #: admin/install/docker.rst:894
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
@@ -11165,10 +11162,8 @@ msgid "Allows CORS requests to API from all origins."
 msgstr "Permite solicitudes CORS al API desde todos los orígenes."
 
 #: admin/install/docker.rst:1139
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`WEBSITE_ALERTS_ENABLED`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`WEBSITE_ALERTS_ENABLED`."
 
 #: admin/install/docker.rst:1145
 msgid "Configures maximal body size accepted by the built-in web server."
@@ -12936,10 +12931,8 @@ msgstr ""
 "cifradas, consulte :ref:`verify`."
 
 #: admin/install/source.rst:21
-#, fuzzy
-#| msgid "Install current Weblate code into the virtualenv:"
 msgid "Install current Weblate code into the Python environment:"
-msgstr "Instalar el código actual de Weblate en el virtualenv:"
+msgstr "Instalar el código actual de Weblate en el entorno de Python:"
 
 #: admin/install/source.rst:30
 msgid ""
@@ -13108,16 +13101,12 @@ msgstr ""
 "instalación o regístrese con nuevos usuarios."
 
 #: admin/install/steps/install-after.rst:8
-#, fuzzy
-#| msgid ""
-#| "You can now run Weblate commands using :command:`weblate` command when "
-#| "Weblate virtualenv is active, see :ref:`manage`."
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate Python environment is active, see :ref:`manage`."
 msgstr ""
-"Ahora puede ejecutar comandos de Weblate usando :command:`weblate` cuando "
-"Weblate virtualenv está activo, ver :ref:`manage`."
+"Ahora puede ejecutar comandos de Weblate usando :command:`weblate` cuando el "
+"entorno de Python en Weblate está activo, consulte :ref:`manage`."
 
 #: admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
@@ -13192,17 +13181,12 @@ msgid "Configuring Weblate"
 msgstr "Configurar Weblate"
 
 #: admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "The following assumes the virtualenv used by Weblate is activated (by "
-#| "executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
-#| "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the Python environment used by Weblate is activated "
 "(by executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
 "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"A continuación se asume que el entorno virtual utilizado por Weblate está "
+"Lo siguiente se asume que el entorno de Python utilizado por Weblate está "
 "activado (ejecutando ``. ~/weblate-env/bin/activate``). De no ser así, "
 "especifique la ruta completa al comando :command:`weblate` como ``~/weblate-"
 "env/bin/weblate``."
@@ -13279,22 +13263,16 @@ msgid "Python modules"
 msgstr "Módulos de Python"
 
 #: admin/install/steps/install-python.rst:6
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "We're installing Weblate in a separate Python environment."
-msgstr "Actualizaciones continuas en un entorno de producción"
+msgstr "Estamos instalando Weblate en un entorno de Python separado."
 
 #: admin/install/steps/install-python.rst:9
-#, fuzzy
-#| msgid "Create the virtualenv for Weblate:"
 msgid "Create the Python environment for Weblate:"
-msgstr "Cree el entorno virtual para Weblate:"
+msgstr "Cree el entorno de Python para Weblate:"
 
 #: admin/install/steps/install-python.rst:15
-#, fuzzy
-#| msgid "Activate the virtualenv for Weblate:"
 msgid "Activate the Python environment for Weblate:"
-msgstr "Active el entorno virtual para Weblate:"
+msgstr "Active el entorno de Python para Weblate:"
 
 #: admin/install/steps/install-python.rst:21
 msgid "Install Weblate including all optional dependencies:"
@@ -13307,7 +13285,7 @@ msgstr "Consultar :ref:`python-deps` para ajustar las dependencias opcionales."
 
 #: admin/install/steps/install-python.rst:32
 msgid "`Using Python environments`_"
-msgstr ""
+msgstr "`Utilizar entornos de Python`_"
 
 #: admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -13943,17 +13921,14 @@ msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr "Como ya se mencionó, la invocación dependerá de cómo instaló Weblate."
 
 #: admin/management.rst:22
-#, fuzzy
-#| msgid ""
-#| "If using virtualenv for Weblate, you can either specify the full path "
-#| "to :command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgid ""
 "If using a Python environment for Weblate, you can either specify the full "
 "path to :command:`weblate`, or activate the Python environment prior to "
 "invoking it:"
 msgstr ""
-"Si utilizando virtualenv para Weblate, puede especificar la ruta completa "
-"a :command:`weblate`, o activar el virtualenv antes de invocarlo:"
+"Si utiliza un entorno de Python para Weblate, puede especificar la ruta "
+"completa a :command:`weblate`, o activar el entorno de Python antes de "
+"invocarlo:"
 
 #: admin/management.rst:34
 msgid ""
@@ -13966,21 +13941,15 @@ msgstr ""
 "en las fuentes de Weblate. Para ejecutarlo:"
 
 #: admin/management.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you've installed Weblate using the pip installer, or by using "
-#| "the :file:`./setup.py` script, the :command:`weblate` is installed to "
-#| "your path (or virtualenv path), from where you can use it to control "
-#| "Weblate:"
 msgid ""
 "If you've installed Weblate using the pip installer, or by using "
 "the :file:`./setup.py` script, the :command:`weblate` is installed to your "
 "path (or Python environment path), from where you can use it to control "
 "Weblate:"
 msgstr ""
-"Si ha instalado Weblate utilizando el instalador pip, o utilizando el "
-"script :file:`./setup.py`, el :command:`weblate` está instalado en su ruta "
-"(o ruta virtualenv), desde donde puede utilizarlo para controlar Weblate:"
+"Si ha instalado Weblate utilizando el instalador pip, o utilizando el script "
+":file:`./setup.py`, el :command:`weblate` está instalado en su ruta (o ruta "
+"de entorno de Python), desde donde puede utilizarlo para controlar Weblate:"
 
 #: admin/management.rst:50
 msgid ""
@@ -18101,13 +18070,6 @@ msgstr ""
 "manipulaciones de gestión y origen:"
 
 #: admin/translating.rst:145
-#, fuzzy
-#| msgid ""
-#| "You can upload a screenshot from a local file or provide a URL to "
-#| "download an image from an external source. URL-based uploads may be "
-#| "restricted based on the :setting:`ALLOWED_ASSET_DOMAINS` setting, which "
-#| "controls which domains are trusted for downloading external assets, "
-#| "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgid ""
 "You can upload a screenshot from a local file or provide a URL to download "
 "an image from an external source. URL-based uploads may be restricted based "
@@ -18118,11 +18080,11 @@ msgid ""
 msgstr ""
 "Puede subir una captura de un archivo local o proporcionar una URL para "
 "descargar una imagen desde un origen externo. Las subidas basadas en URL "
-"pueden estar restringidas según los "
-"ajustes :setting:`ALLOWED_ASSET_DOMAINS`, los cuales controlan cuáles "
-"dominios están confiados para descargar activos externos, "
-"y :setting:`ALLOWED_ASSET_SIZE`, el cual limita el tamaño máximo para el "
-"activo."
+"pueden estar restringidas según los ajustes "
+":setting:`ALLOWED_ASSET_DOMAINS`, los cuales controlan cuáles dominios están "
+"confiados para descargar activos externos, incluyendo cualquier redurección "
+"seguida mientras obtenga la imagen y :setting:`ALLOWED_ASSET_SIZE`, el cual "
+"limita el tamaño máximo para el activo."
 
 #: admin/translating.rst:152
 msgid ""
@@ -18381,24 +18343,20 @@ msgid ""
 "MySQL and MariaDB are no longer supported in Weblate. You must migrate to "
 "PostgreSQL before upgrading."
 msgstr ""
+"MySQL y MariaDB no son mantenidos por más tiempo en Weblate. Debe migrar a "
+"PostgreSQL antes de mejorar."
 
 #: admin/upgrade.rst:148
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with MySQL or MariaDB, consider migrating to "
 "PostgreSQL for better performance by doing the following steps. Remember to "
 "stop both, the web and Celery servers beforehand, otherwise you might end up "
 "with inconsistent data."
 msgstr ""
-"Si está ejecutando Weblate con una base de datos diferente que la de "
-"PostgreSQL, considere migrar a PostgreSQL para un rendimiento mejor haciendo "
-"los pasos siguientes. Recuerde detener ambos, la web y los servidores Celert "
-"antes de todo, en otro caso tal vez finalice con datos inconsistentes."
+"Si está ejecutando Weblate con MySQL o MariaDB, considere migrar a "
+"PostgreSQL para un rendimiento mejor haciendo los pasos siguientes. Recuerde "
+"detener ambos, la web y los servidores Celert antes de todo, en otro caso "
+"tal vez finalice con datos inconsistentes."
 
 #: admin/upgrade.rst:156
 msgid ""
@@ -18801,10 +18759,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.17"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.17"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -18824,16 +18780,22 @@ msgid ""
 "Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project "
 "website availability checks and alerts."
 msgstr ""
+"Ajuste :setting:`WEBSITE_ALERTS_ENABLED` añadido para conceder deshabilitar "
+"las comprobaciones y alertas de disponibilidad del sitio web del proyecto."
 
 #: changes.rst:9
 msgid "Shared components can now be categorized within the target project."
 msgstr ""
+"Componentes compartidos ahora pueden estar categorizados con el proyecto del "
+"destino."
 
 #: changes.rst:10
 msgid ""
 ":ref:`api` supports specifying a category when sharing a component via "
 "``category_id`` parameter."
 msgstr ""
+":ref:`api` mantiene especificar una categoría cuando comparta un componente "
+"por medio del parámetro ``category_id``."
 
 #: changes.rst:11
 msgid ""
@@ -18858,51 +18820,42 @@ msgid "Improvements"
 msgstr "Mejoras"
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Better tracking of source strings."
 msgid "Track origin of newly added source strings."
-msgstr "Mejor seguimiento de las cadenas de origen."
+msgstr "Pista origen de cadenas de origen añadidas nuevamente."
 
 #: changes.rst:16
-#, fuzzy
-#| msgid "Improved admin interface for groups."
 msgid "Improved LLM interfaces for better reliability."
-msgstr "Interfaz administrativa mejorada para grupos."
+msgstr "Interfaces de LLM mejoradas para mejor rendimiento."
 
 #: changes.rst:17
 msgid ""
 "Improved logic for adding monolingual plurals in :doc:`/formats/gettext`."
 msgstr ""
+"Lógica mejorada para añadir plurales monolingües en :doc:`/formats/gettext`."
 
 #: changes.rst:18
-#, fuzzy
-#| msgid "Improved error handling in :ref:`machine-translation-setup`."
 msgid "Improved plural handling in :ref:`auto-translation`."
-msgstr "Manejo de errores mejorado en :ref:`machine-translation-setup`."
+msgstr "Manejo de plural mejorado en :ref:`auto-translation`."
 
 #: changes.rst:19
-#, fuzzy
-#| msgid "Improved performance of some :ref:`api` endpoints."
 msgid "Improved error messages in some of the :ref:`api` endpoints."
-msgstr "Rendimiento mejorado de algunos puntos finales :ref:`api`."
+msgstr ""
+"Mensajes de error mejorados en algunos de los puntos finales de :ref:`api`."
 
 #: changes.rst:20
-#, fuzzy
-#| msgid "Improved performance of project creation and saving."
 msgid ""
 "Improved performance of project and category search result pages with very "
 "large match sets."
-msgstr "Rendimiento mejorado de creación y guardado de proyecto."
+msgstr ""
+"Rendimiento mejorado de páginas de resultado de búsqueda en proyecto y "
+"categoría con conjuntos muy grandes de coincidencias."
 
 #: changes.rst:21
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker "
-#| "container."
 msgid ""
 ":envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container."
 msgstr ""
-":envvar:`WEBLATE_REGISTRATION_CAPTCHA` ahora disponible en Docker Container."
+":envvar:`WEBLATE_COMMIT_PENDING_HOURS` ahora está disponible en el "
+"contenedor de Docker."
 
 #: changes.rst:22
 msgid ""
@@ -18910,18 +18863,22 @@ msgid ""
 "repository browser URLs targeting non-global IP ranges, and exposed it in "
 "Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`."
 msgstr ""
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` añadido para rechazar las URL de "
+"sitio web de proyecto y explorador de repositorio apuntando a intervalos de "
+"IP no global, y expuesto en Docker como "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: changes.rst:23
-#, fuzzy
-#| msgid "Improved performance of file updates."
 msgid "Improved performance of :ref:`mt-weblate` lookups."
-msgstr "Se mejoró el rendimiento de actualizaciones de archivo."
+msgstr "Se mejoró el rendimiento de búsquedas de :ref:`mt-weblate`."
 
 #: changes.rst:24
 msgid ""
 "Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` "
 "which now defaults to 10 MB."
 msgstr ""
+"Subida de captura de pantalla y fuente tipográfica ahora honra "
+":setting:`ALLOWED_ASSET_SIZE` el cual por defecto ahora alcanza 10 MB."
 
 #: changes.rst:27 changes.rst:88 changes.rst:123 changes.rst:177
 #: changes.rst:216 changes.rst:261 changes.rst:312 changes.rst:351
@@ -18945,12 +18902,12 @@ msgstr "Correcciones de defectos"
 #: changes.rst:28
 msgid "Component file handling now validates repository symlinks."
 msgstr ""
+"Archivo de componente ahora manipula validaciones de enlaces simbólicos del "
+"repositorio."
 
 #: changes.rst:29
-#, fuzzy
-#| msgid "Improved API error messages on permission denied."
 msgid "Improved REST API permission enforcement."
-msgstr "Se mejoraron el API de mensajes de error en permisos denegados."
+msgstr "Se refuerza el permiso de REST del API mejorados."
 
 #: changes.rst:30
 msgid ""
@@ -18961,7 +18918,7 @@ msgstr ""
 
 #: changes.rst:31
 msgid "Prevented removing the last team from a project token."
-msgstr ""
+msgstr "Se ha impedido quitar el último equipo desde un vale del proyecto."
 
 #: changes.rst:32
 msgid ""
@@ -18971,30 +18928,25 @@ msgstr ""
 
 #: changes.rst:33
 msgid "Fixed sorting by the **Unreviewed** column in listings."
-msgstr ""
+msgstr "Ordenado reparado por la columna **No revisado** en listados."
 
 #: changes.rst:34
 msgid ""
 "Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter "
 "Waw (\"و\") adjacent to XML tags."
 msgstr ""
+"Reparado falso positivo en :ref:`check-xml-chars-around-tags` para letra Waw "
+"árabe (\"و\") adyacente a etiqueta XML."
 
 #: changes.rst:35
-#, fuzzy
-#| msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgid ":ref:`addon-weblate.git.squash` better handle commits applied upstream."
 msgstr ""
-"Se corrigió :ref:`addon-weblate.git.squash` en repositorios vinculados."
+":ref:`addon-weblate.git.squash` manipula subidas mejor aplicadas a "
+"desarrollo."
 
 #: changes.rst:36
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ":ref:`addon-weblate.cdn.cdnjs` validates parsed locations."
-msgstr ""
-"El complemento :ref:`addon-weblate.cdn.cdnjs` proporciona escasas opciones "
-"de configuración."
+msgstr ":ref:`addon-weblate.cdn.cdnjs` valida lugares interpretados."
 
 #: changes.rst:37
 msgid ""
@@ -19002,12 +18954,17 @@ msgid ""
 "redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-"
 "weblate.cdn.cdnjs`."
 msgstr ""
+"Descargas activas refuerzan ahora :setting:`ALLOWED_ASSET_DOMAINS` a través "
+"de redirecciones HTTP para URL de capturas de pantalla subidas y obtención "
+"de HTML en :ref:`addon-weblate.cdn.cdnjs`."
 
 #: changes.rst:38
 msgid ""
 "Watched translations on the dashboard now use a stable language-aware "
 "ordering."
 msgstr ""
+"Transacciones vigiladas en el cuadro de mando ahora utilizan una ordenación "
+"estable sensible al idioma."
 
 #: changes.rst:39
 #, fuzzy
