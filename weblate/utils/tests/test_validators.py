@@ -228,7 +228,7 @@ class WebsiteTest(SimpleTestCase):
         validate_project_web("https://weblate.org")
         with (
             override_settings(PROJECT_WEB_RESTRICT_RE="https://weblate.org"),
-            self.assertRaises(ValidationError),
+            self.assertRaises(ValidationError) as error,
         ):
             validate_project_web("https://weblate.org")
         with override_settings(
@@ -242,9 +242,12 @@ class WebsiteTest(SimpleTestCase):
         ):
             validate_project_web("https://weblate.org", project_slug="trusted-project")
 
+        self.assertIn("matches a restricted pattern", str(error.exception))
+
     def test_host(self) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_project_web("https://localhost")
+        self.assertIn("uses a restricted host", str(error.exception))
         with self.assertRaises(ValidationError):
             validate_project_web("https://localHOST")
         with override_settings(
@@ -252,8 +255,9 @@ class WebsiteTest(SimpleTestCase):
         ):
             validate_project_web("https://localhost")
         with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
-            with self.assertRaises(ValidationError):
+            with self.assertRaises(ValidationError) as error:
                 validate_project_web("https://example.com")
+            self.assertIn("uses a restricted host", str(error.exception))
             with self.assertRaises(ValidationError):
                 validate_project_web("https://foo.example.com")
         with override_settings(
@@ -265,8 +269,9 @@ class WebsiteTest(SimpleTestCase):
             )
 
     def test_numeric(self) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_project_web("https://1.1.1.1")
+        self.assertIn("uses a numeric IP address", str(error.exception))
         with self.assertRaises(ValidationError):
             validate_project_web("https://[2606:4700:4700::1111]")
         with override_settings(
@@ -279,13 +284,14 @@ class WebsiteTest(SimpleTestCase):
 
     def test_private(self) -> None:
         with (
-            self.assertRaises(ValidationError),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
             ),
+            self.assertRaises(ValidationError) as error,
         ):
             validate_project_web("https://private.example")
+        self.assertIn("internal or non-public address", str(error.exception))
         with (
             self.assertRaises(ValidationError),
             patch(
@@ -436,8 +442,9 @@ class BackupTest(SimpleTestCase):
 
 class OutboundAddressValidationTest(SimpleTestCase):
     def test_validate_runtime_ip_rejects_shared_address_space(self) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_runtime_ip("100.64.0.1", allow_private_targets=False)
+        self.assertIn("internal or non-public address", str(error.exception))
 
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -446,11 +453,12 @@ class OutboundAddressValidationTest(SimpleTestCase):
     def test_validate_runtime_url_rejects_shared_address_space(
         self, mocked_getaddrinfo
     ) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_runtime_url(
                 "https://shared-address-space.example",
                 allow_private_targets=False,
             )
+        self.assertIn("internal or non-public address", str(error.exception))
 
         mocked_getaddrinfo.assert_called_once_with(
             "shared-address-space.example", None, type=1
