@@ -10,10 +10,14 @@ from binascii import Error
 from django.test import RequestFactory, SimpleTestCase
 
 from weblate.middleware import INLINE_PATHS
-from weblate.utils.djangosaml2idp import handle_sso_entry, sso_entry
+from weblate.utils.djangosaml2idp import WeblateSamlIDPErrorView
+from weblate.utils.djangosaml2idp_views import handle_sso_entry, sso_entry
 
 
 class Djangosaml2idpTest(SimpleTestCase):
+    def test_error_view_can_be_imported(self) -> None:
+        self.assertEqual(WeblateSamlIDPErrorView.__name__, "WeblateSamlIDPErrorView")
+
     def test_wrapped_sso_entry_is_in_inline_paths(self) -> None:
         self.assertIn("saml_login_binding", INLINE_PATHS)
 
