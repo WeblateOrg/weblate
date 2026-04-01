@@ -4,12 +4,13 @@
 
 from __future__ import annotations
 
+import os
 import time
 from datetime import datetime, timedelta
 from itertools import chain
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, TypedDict, cast
 
 import sentry_sdk
 from django.conf import settings
@@ -27,6 +28,8 @@ from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
+from weblate.utils.data import data_dir
+from weblate.utils.lock import WeblateLock
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -46,6 +49,18 @@ if TYPE_CHECKING:
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
+
+
+class UnitSnapshot(TypedDict):
+    state: int
+    num_words: int
+    num_chars: int
+    active_checks_count: int
+    dismissed_checks_count: int
+    suggestion_count: int
+    label_count: int
+    comment_count: int
+
 
 BASICS = {
     "all",
@@ -271,6 +286,22 @@ class BaseStats:
     def cache_key(self) -> str:
         return f"stats-{self._object.cache_key}"
 
+    @cached_property
+    def lock(self) -> WeblateLock:
+        lock_path = data_dir("cache", "stats-locks")
+        os.makedirs(lock_path, exist_ok=True)
+        return WeblateLock(
+            lock_path=lock_path,
+            scope="stats-update",
+            key=self.cache_key,
+            slug=self.cache_key,
+            cache_template="lock:{scope}:{key}",
+            file_template="{slug}.lock",
+            timeout=5,
+            expiry_timeout=300,
+            origin=self.cache_key,
+        )
+
     def remove_stats(self, *names: str) -> None:
         self.ensure_loaded()
         if not self._data:
@@ -356,6 +387,7 @@ class BaseStats:
 
     def calculate_by_name(self, name: str) -> None:
         if name in self.basic_keys:
+            self.clear()
             self.calculate_basic()
             self.save()
 
@@ -367,7 +399,8 @@ class BaseStats:
 
     def save(self, update_parents: bool = True) -> None:
         """Save stats to cache."""
-        cache.set(self.cache_key, self._data, 30 * 86400)
+        with self.lock:
+            cache.set(self.cache_key, self._data, 30 * 86400)
 
     def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         yield GlobalStats()
@@ -525,6 +558,18 @@ class DummyTranslationStats(BaseStats):
 class TranslationStats(BaseStats):
     """Per translation stats."""
 
+    UNIT_DELTA_KEYS = BASIC_KEYS - frozenset(
+        {
+            "languages",
+            "last_changed",
+            "last_author",
+            "recent_changes",
+            "monthly_changes",
+            "total_changes",
+            "stats_timestamp",
+        }
+    )
+
     @cached_property
     def is_source(self):
         return self._object.is_source
@@ -574,6 +619,128 @@ class TranslationStats(BaseStats):
     @cached_property
     def has_review(self):
         return self._object.enable_review
+
+    @staticmethod
+    def capture_unit_snapshot(unit) -> UnitSnapshot:
+        if unit.source_unit_id == unit.pk:
+            labels = unit.get_label_count()
+        else:
+            labels = unit.source_unit.get_label_count()
+        return {
+            "state": unit.state,
+            "num_words": unit.num_words,
+            "num_chars": len(unit.source),
+            "active_checks_count": len(unit.active_checks),
+            "dismissed_checks_count": len(unit.dismissed_checks),
+            "suggestion_count": len(unit.suggestions),
+            "label_count": labels,
+            "comment_count": len(unit.unresolved_comments),
+        }
+
+    @staticmethod
+    def _update_bucket(
+        bucket: dict[str, int],
+        prefix: str,
+        num_words: int,
+        num_chars: int,
+        present: bool = True,
+    ) -> None:
+        if not present:
+            return
+        bucket[prefix] = bucket.get(prefix, 0) + 1
+        bucket[f"{prefix}_words"] = bucket.get(f"{prefix}_words", 0) + num_words
+        bucket[f"{prefix}_chars"] = bucket.get(f"{prefix}_chars", 0) + num_chars
+
+    @classmethod
+    def snapshot_to_bucket(cls, snapshot: UnitSnapshot) -> dict[str, int]:
+        bucket: dict[str, int] = {}
+        state = snapshot["state"]
+        num_words = snapshot["num_words"]
+        num_chars = snapshot["num_chars"]
+        has_active_checks = snapshot["active_checks_count"] > 0
+        has_dismissed_checks = snapshot["dismissed_checks_count"] > 0
+        has_suggestions = snapshot["suggestion_count"] > 0
+        has_labels = snapshot["label_count"] > 0
+        has_comments = snapshot["comment_count"] > 0
+
+        cls._update_bucket(bucket, "all", num_words, num_chars)
+        cls._update_bucket(bucket, "fuzzy", num_words, num_chars, state in FUZZY_STATES)
+        cls._update_bucket(
+            bucket, "readonly", num_words, num_chars, state == STATE_READONLY
+        )
+        cls._update_bucket(
+            bucket, "translated", num_words, num_chars, state >= STATE_TRANSLATED
+        )
+        cls._update_bucket(
+            bucket, "todo", num_words, num_chars, state < STATE_TRANSLATED
+        )
+        cls._update_bucket(
+            bucket, "nottranslated", num_words, num_chars, state == STATE_EMPTY
+        )
+        cls._update_bucket(
+            bucket, "approved", num_words, num_chars, state == STATE_APPROVED
+        )
+        cls._update_bucket(
+            bucket, "unapproved", num_words, num_chars, state == STATE_TRANSLATED
+        )
+        cls._update_bucket(bucket, "unlabeled", num_words, num_chars, not has_labels)
+        cls._update_bucket(bucket, "allchecks", num_words, num_chars, has_active_checks)
+        cls._update_bucket(
+            bucket,
+            "translated_checks",
+            num_words,
+            num_chars,
+            has_active_checks and state in {STATE_TRANSLATED, STATE_APPROVED},
+        )
+        cls._update_bucket(
+            bucket, "dismissed_checks", num_words, num_chars, has_dismissed_checks
+        )
+        cls._update_bucket(bucket, "suggestions", num_words, num_chars, has_suggestions)
+        cls._update_bucket(
+            bucket,
+            "nosuggestions",
+            num_words,
+            num_chars,
+            not has_suggestions and state < STATE_TRANSLATED,
+        )
+        cls._update_bucket(
+            bucket,
+            "approved_suggestions",
+            num_words,
+            num_chars,
+            has_suggestions and state == STATE_APPROVED,
+        )
+        cls._update_bucket(bucket, "comments", num_words, num_chars, has_comments)
+        return bucket
+
+    def can_apply_delta(self) -> bool:
+        self.ensure_loaded()
+        return bool(self._data) and all(key in self._data for key in self.basic_keys)
+
+    def get_data_copy(self) -> StatDict:
+        self.ensure_loaded()
+        return self._data.copy()
+
+    def apply_source_delta(
+        self, base_stats_timestamp: StatItem, delta: dict[str, int]
+    ) -> bool:
+        with self.lock:
+            self.set_data(self.load())
+            if (
+                not self.can_apply_delta()
+                or self.stats_timestamp != base_stats_timestamp
+            ):
+                return False
+            for key in tuple(self._data):
+                if key.startswith(("check:", "label:")):
+                    del self._data[key]
+            for key, value in delta.items():
+                self.store(key, cast("int", self.aggregate_get(key)) + value)
+            self.last_change_cache = None
+            self.fetch_last_change()
+            self.count_changes()
+            self.save(update_parents=False)
+            return True
 
     def _calculate_basic(self) -> None:  # noqa: PLR0914
         values = (

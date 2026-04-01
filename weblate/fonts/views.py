@@ -19,6 +19,7 @@ from weblate.fonts.utils import get_font_name
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project
 from weblate.utils import messages
+from weblate.utils.files import read_file_bytes
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
@@ -119,7 +120,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
             messages.error(request, gettext("Font deleted."))
             return redirect("fonts", project=self.project.slug)
 
-        form = self._fort_form = FontForm(data=request.POST, files=request.FILES)
+        form = self._font_form = FontForm(data=request.POST, files=request.FILES)
         if not form.is_valid():
             return self.get(request, **kwargs)
 
@@ -143,7 +144,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
         current_content = self.object.font.read()
         self.object.font.close()
 
-        if new_file.loaded_font.font_bytes == current_content:
+        if read_file_bytes(new_file) == current_content:
             messages.info(
                 request,
                 gettext("The uploaded font file is identical to the current one."),

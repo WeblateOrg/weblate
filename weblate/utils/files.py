@@ -9,13 +9,17 @@ import stat
 from typing import TYPE_CHECKING
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db.models import TextChoices
+from django.db.models.fields.files import FieldFile
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from translation_finder.finder import EXCLUDES
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from pathlib import Path
+
+    from django.core.files.base import File
 
 WEBLATE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(WEBLATE_DIR)
@@ -100,3 +104,35 @@ def cleanup_error_message(text: str) -> str:
     return text.replace(settings.CACHE_DIR or "NONEXISTING_CACHE", "...").replace(
         settings.DATA_DIR, "..."
     )
+
+
+def _validate_file_size(size: int | None, max_size: int | None) -> None:
+    if max_size is not None and size is not None and size > max_size:
+        raise ValidationError(gettext("Uploaded file is too big."))
+
+
+def _read_content(filelike: FieldFile | File, max_size: int | None) -> bytes:
+    _validate_file_size(getattr(filelike, "size", None), max_size)
+    if max_size is None:
+        return filelike.read()
+
+    content = filelike.read(max_size + 1)
+    if len(content) > max_size:
+        raise ValidationError(gettext("Uploaded file is too big."))
+    return content
+
+
+def read_file_bytes(filelike: FieldFile | File, max_size: int | None = None) -> bytes:
+    """Read file content without breaking Django's upload/save lifecycle."""
+    if isinstance(filelike, FieldFile) and getattr(filelike, "_committed", True):
+        filelike.open("rb")
+        try:
+            return _read_content(filelike, max_size)
+        finally:
+            filelike.close()
+
+    filelike.seek(0)
+    try:
+        return _read_content(filelike, max_size)
+    finally:
+        filelike.seek(0)

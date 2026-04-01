@@ -10,18 +10,25 @@ Weblate 5.17
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
 * Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 * Added :setting:`PASSWORD_RESET_URL` to customize the sign-in page password reset link, useful for external identity providers (Docker env: :envvar:`WEBLATE_PASSWORD_RESET_URL`).
+* Added :ref:`bulk user invitations <invite-user>`.
+
 .. rubric:: Improvements
 
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
+* Added a component alert for conflicting merge request repository setup, see :ref:`alerts`.
+* Improved plural handling in :ref:`auto-translation`.
 * Improved error messages in some of the :ref:`api` endpoints.
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting non-global IP ranges, and exposed it in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`.
 * Improved performance of :ref:`mt-weblate` lookups.
+* Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
 
 .. rubric:: Bug fixes
 
+* Project token cleanup now removes stale bots on project deletion and upgrade.
 * Component file handling now validates repository symlinks.
 * Improved REST API permission enforcement.
 * Hardened project-level machine translation against SSRF by blocking private-network targets for untrusted endpoints and hiding untrusted remote error details.
@@ -42,6 +49,8 @@ Weblate 5.17
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
+* Improved repository lock error handling when deleting units.
+* :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
 
 .. rubric:: Compatibility
 
@@ -57,6 +66,7 @@ Weblate 5.17
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
+* Project website and repository browser URLs pointing to private or other non-global IP ranges are now rejected by default. If your setup intentionally links to internal addresses, set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to ``False`` or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``.
 
 .. rubric:: Contributors
 

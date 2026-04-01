@@ -11,13 +11,17 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from requests.cookies import RequestsCookieJar
 
-from weblate.utils.requests import asset_request, get_uri_error, http_request
+from weblate.utils.requests import (
+    fetch_validated_url,
+    get_uri_error,
+    open_asset_url,
+)
 
 
-class AssetRequestTest(SimpleTestCase):
+class OpenAssetURLTest(SimpleTestCase):
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_asset_request_follows_allowed_redirect(self) -> None:
+    def test_open_asset_url_follows_allowed_redirect(self) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -31,7 +35,7 @@ class AssetRequestTest(SimpleTestCase):
             body=b"image-data",
         )
 
-        with asset_request(
+        with open_asset_url(
             "get", "https://images.allowed.com/redirect-image.png"
         ) as response:
             self.assertEqual(response.content, b"image-data")
@@ -44,7 +48,7 @@ class AssetRequestTest(SimpleTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_asset_request_blocks_disallowed_redirect(self) -> None:
+    def test_open_asset_url_blocks_disallowed_redirect(self) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -60,7 +64,7 @@ class AssetRequestTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            asset_request("get", "https://images.allowed.com/redirect-image.png"),
+            open_asset_url("get", "https://images.allowed.com/redirect-image.png"),
         ):
             pass
 
@@ -72,7 +76,7 @@ class AssetRequestTest(SimpleTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_asset_request_preserves_redirect_cookies(self) -> None:
+    def test_open_asset_url_preserves_redirect_cookies(self) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -89,7 +93,7 @@ class AssetRequestTest(SimpleTestCase):
             body=b"image-data",
         )
 
-        with asset_request(
+        with open_asset_url(
             "get", "https://images.allowed.com/redirect-image.png"
         ) as response:
             self.assertEqual(response.content, b"image-data")
@@ -99,52 +103,67 @@ class AssetRequestTest(SimpleTestCase):
             "asset-token=allowed",
         )
 
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_open_asset_url_raises_validation_error_for_http_status(self) -> None:
+        responses.add(
+            responses.GET,
+            "https://images.allowed.com/missing-image.png",
+            status=404,
+        )
+
+        with (
+            self.assertRaisesMessage(
+                ValidationError,
+                "Unable to download asset from the provided URL (HTTP status code: 404).",
+            ),
+            open_asset_url("get", "https://images.allowed.com/missing-image.png"),
+        ):
+            pass
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_open_asset_url_raises_validation_error_for_redirect_status(self) -> None:
+        responses.add(
+            responses.GET,
+            "https://images.allowed.com/redirect-image.png",
+            status=301,
+        )
+
+        with (
+            self.assertRaisesMessage(
+                ValidationError,
+                "Unable to download asset from the provided URL (HTTP status code: 301).",
+            ),
+            open_asset_url("get", "https://images.allowed.com/redirect-image.png"),
+        ):
+            pass
+
 
 class GetUriErrorTest(SimpleTestCase):
     @responses.activate
-    def test_get_uri_error_follows_redirects(self) -> None:
+    def test_get_uri_error_allows_internal_host_by_default(self) -> None:
         responses.add(
             responses.GET,
-            "https://example.com/source",
-            status=302,
-            headers={"Location": "https://internal.example.test/final"},
-        )
-        responses.add(
-            responses.GET,
-            "https://internal.example.test/final",
+            "https://gitlab.intranet.example/project",
             status=200,
-            body=b"should-not-be-fetched",
+            body=b"ok",
         )
+
+        self.assertIsNone(get_uri_error("https://gitlab.intranet.example/project"))
+
+    @patch("weblate.utils.requests._probe_validated_url")
+    def test_get_uri_error_flattens_validation_error(self, mocked_probe) -> None:
+        mocked_probe.side_effect = ValidationError("This URL is prohibited")
 
         self.assertEqual(
             get_uri_error("https://example.com/source"),
-            None,
-        )
-        self.assertEqual(len(responses.calls), 2)
-        self.assertEqual(
-            responses.calls[0].request.url,
-            "https://example.com/source",
-        )
-        self.assertEqual(
-            responses.calls[1].request.url,
-            "https://internal.example.test/final",
+            "This URL is prohibited",
         )
 
 
-class HTTPRequestValidationTest(SimpleTestCase):
-    def test_http_request_rejects_streaming_validation(self) -> None:
-        with self.assertRaisesMessage(
-            ValueError,
-            "Streaming requests are not supported with URL validation enabled.",
-        ):
-            http_request(
-                "get",
-                "https://public.example.com/source",
-                validate_url=True,
-                stream=True,
-            )
-
-    def test_http_request_strips_auth_on_cross_origin_redirect(self) -> None:
+class FetchValidatedURLTest(SimpleTestCase):
+    def test_fetch_validated_url_strips_auth_on_cross_origin_redirect(self) -> None:
         recorded_calls: list[tuple[dict[str, str], bool]] = []
         redirect_response = Mock()
         redirect_response.is_redirect = True
@@ -172,10 +191,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
 
             mocked_request.side_effect = record_request
 
-            http_request(
+            fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                validate_url=True,
                 headers={"Authorization": "Bearer secret"},
                 auth=("user", "pass"),
                 allow_redirects=True,
@@ -186,7 +204,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
         self.assertNotIn("Authorization", recorded_calls[1][0])
         self.assertFalse(recorded_calls[1][1])
 
-    def test_http_request_preserves_delete_method_on_301_redirect(self) -> None:
+    def test_fetch_validated_url_preserves_delete_method_on_301_redirect(self) -> None:
         recorded_calls: list[tuple[str, dict[str, object]]] = []
         redirect_response = Mock()
         redirect_response.is_redirect = True
@@ -215,10 +233,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
 
             mocked_request.side_effect = record_request
 
-            http_request(
+            fetch_validated_url(
                 "delete",
                 "https://public.example.com/source",
-                validate_url=True,
                 allow_redirects=True,
                 data=b"payload",
             )
@@ -233,7 +250,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
-    def test_http_request_blocks_private_target(self, mocked_getaddrinfo) -> None:
+    def test_fetch_validated_url_blocks_private_target(
+        self, mocked_getaddrinfo
+    ) -> None:
         responses.add(
             responses.GET,
             "https://public.example.com/source",
@@ -242,10 +261,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
         )
 
         with self.assertRaises(ValidationError):
-            http_request(
+            fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 
@@ -261,7 +279,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
             [(0, 0, 0, "", ("127.0.0.1", 443))],
         ],
     )
-    def test_http_request_blocks_private_redirect(
+    def test_fetch_validated_url_blocks_private_redirect(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         responses.add(
@@ -278,10 +296,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
         )
 
         with self.assertRaises(ValidationError):
-            http_request(
+            fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 
@@ -295,7 +312,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
-    def test_http_request_blocks_private_peer_after_public_dns(
+    def test_fetch_validated_url_blocks_private_peer_after_public_dns(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         responses.add(
@@ -306,10 +323,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
         )
 
         with self.assertRaises(ValidationError):
-            http_request(
+            fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 
@@ -323,7 +339,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
-    def test_http_request_skips_peer_validation_through_proxy(
+    def test_fetch_validated_url_skips_peer_validation_through_proxy(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         responses.add(
@@ -342,10 +358,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
                 "NO_PROXY": "",
             },
         ):
-            response = http_request(
+            response = fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 
@@ -360,7 +375,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_http_request_allows_proxy_resolved_hostname(
+    def test_fetch_validated_url_allows_proxy_resolved_hostname(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         responses.add(
@@ -379,10 +394,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
                 "NO_PROXY": "",
             },
         ):
-            response = http_request(
+            response = fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 
@@ -397,7 +411,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_http_request_allows_allowlisted_hostname_through_proxy(
+    def test_fetch_validated_url_allows_allowlisted_hostname_through_proxy(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         responses.add(
@@ -416,10 +430,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
                 "NO_PROXY": "",
             },
         ):
-            response = http_request(
+            response = fetch_validated_url(
                 "get",
                 "http://ollama/api/tags",
-                validate_url=True,
                 allow_private_targets=False,
                 allowed_domains=["ollama"],
             )
@@ -430,7 +443,7 @@ class HTTPRequestValidationTest(SimpleTestCase):
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
-    def test_http_request_blocks_localhost_alias_through_proxy(self) -> None:
+    def test_fetch_validated_url_blocks_localhost_alias_through_proxy(self) -> None:
         responses.add(
             responses.GET,
             "http://localhost./source",
@@ -450,17 +463,16 @@ class HTTPRequestValidationTest(SimpleTestCase):
             ),
             self.assertRaises(ValidationError),
         ):
-            http_request(
+            fetch_validated_url(
                 "get",
                 "http://localhost./source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 
         self.assertEqual(len(responses.calls), 0)
 
     @responses.activate
-    def test_http_request_blocks_shorthand_loopback_through_proxy(self) -> None:
+    def test_fetch_validated_url_blocks_shorthand_loopback_through_proxy(self) -> None:
         responses.add(
             responses.GET,
             "http://127.1/source",
@@ -480,10 +492,9 @@ class HTTPRequestValidationTest(SimpleTestCase):
             ),
             self.assertRaises(ValidationError),
         ):
-            http_request(
+            fetch_validated_url(
                 "get",
                 "http://127.1/source",
-                validate_url=True,
                 allow_private_targets=False,
             )
 

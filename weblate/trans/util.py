@@ -8,7 +8,6 @@ import locale
 import os
 import platform
 import re
-import sys
 from operator import itemgetter
 from types import GeneratorType
 from typing import TYPE_CHECKING, Any, cast
@@ -26,7 +25,6 @@ from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.auth.results import Denied
-from weblate.utils.data import data_dir
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
@@ -142,55 +140,6 @@ def translation_percent(
     if promile == 1000 and translated < total:
         return 99.9
     return promile / 10
-
-
-def get_clean_env(
-    extra: dict[str, str] | None = None, extra_path: str | None = None
-) -> dict[str, str]:
-    """Return cleaned up environment for subprocess execution."""
-    environ = {
-        "LANG": "C.UTF-8",
-        "LC_ALL": "C.UTF-8",
-        "HOME": data_dir("home"),
-        "PATH": "/bin:/usr/bin:/usr/local/bin",
-    }
-    if extra is not None:
-        environ.update(extra)
-    variables = (
-        # Keep PATH setup
-        "PATH",
-        # Keep Python search path
-        "PYTHONPATH",
-        # Keep linker configuration
-        "LD_LIBRARY_PATH",
-        "LD_PRELOAD",
-        # Fontconfig configuration by weblate.fonts
-        "FONTCONFIG_FILE",
-        # Needed by Git on Windows
-        "SystemRoot",
-        # Pass proxy configuration
-        "http_proxy",
-        "https_proxy",
-        "HTTPS_PROXY",
-        "NO_PROXY",
-        # below two are needed for openshift3 deployment,
-        # where nss_wrapper is used
-        # more on the topic on below link:
-        # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
-        "NSS_WRAPPER_GROUP",
-        "NSS_WRAPPER_PASSWD",
-    )
-    for var in variables:
-        if var in os.environ:
-            environ[var] = os.environ[var]
-    # Extend path to include Python environment, avoid inserting already existing ones to
-    # not break existing ordering (for example PATH injection used in tests)
-    venv_path = os.path.join(sys.exec_prefix, "bin")
-    if venv_path not in environ["PATH"]:
-        environ["PATH"] = f"{venv_path}:{environ['PATH']}"
-    if extra_path and extra_path not in environ["PATH"]:
-        environ["PATH"] = f"{extra_path}:{environ['PATH']}"
-    return environ
 
 
 def cleanup_repo_url(url: str, text: str | None = None) -> str:

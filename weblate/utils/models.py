@@ -85,12 +85,13 @@ class WeblateConf(AppConf):
     PROJECT_WEB_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_HOST: ClassVar[set[str]] = {"localhost"}
     PROJECT_WEB_RESTRICT_NUMERIC = True
+    PROJECT_WEB_RESTRICT_PRIVATE = True
 
     LOCALE_FILTER_FILES = True
 
     ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
     ALLOWED_MACHINERY_DOMAINS: ClassVar[list[str]] = []
-    ALLOWED_ASSET_SIZE: ClassVar[int] = 4194304
+    ALLOWED_ASSET_SIZE: ClassVar[int] = 10_000_000
 
     class Meta:
         prefix = ""

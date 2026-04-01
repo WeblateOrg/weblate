@@ -114,6 +114,9 @@ def component_post_delete(sender, instance: Component, **kwargs) -> None:
     if not instance.is_repo_link:
         delete_object_dir(instance)
 
+    if batch is None:
+        instance.cleanup_conflicting_repository_setup_alerts()
+
 
 @receiver(post_delete, sender=Translation)
 def translation_post_delete(sender, instance: Translation, **kwargs) -> None:

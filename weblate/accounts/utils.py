@@ -37,13 +37,19 @@ SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
 SECOND_FACTOR_VERIFY_SECONDS = 600
 
 
-def remove_user(user: User, request: AuthenticatedHttpRequest, **params) -> None:
+def remove_user(
+    user: User,
+    request: AuthenticatedHttpRequest | None,
+    *,
+    activity: str = "removed",
+    **params,
+) -> None:
     """Remove user account."""
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
-    AuditLog.objects.create(user, request, "removed", **params)
+    AuditLog.objects.create(user, request, activity, **params)
 
     # Remove any email validation codes
     invalidate_reset_codes(user)

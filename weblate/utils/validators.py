@@ -14,7 +14,7 @@ from email.headerregistry import Address
 from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
 from pathlib import Path
-from typing import cast
+from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import urlparse
 
 import regex
@@ -28,6 +28,7 @@ from django.core.validators import (
     validate_domain_name,
     validate_ipv46_address,
 )
+from django.db.models.fields.files import FieldFile
 from django.http.request import validate_host
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
@@ -37,9 +38,17 @@ from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_excluded
-from weblate.utils.outbound import validate_outbound_hostname, validate_outbound_url
+from weblate.utils.files import is_excluded, read_file_bytes
+from weblate.utils.outbound import (
+    validate_outbound_hostname,
+    validate_outbound_url,
+    validate_runtime_url,
+)
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
+
+if TYPE_CHECKING:
+    from django.core.files.base import File
+    from django.core.files.base import File as DjangoFile
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -113,22 +122,25 @@ def validate_re_nonempty(value: str) -> None:
     validate_re(value, allow_empty=False)
 
 
-def validate_bitmap(value) -> None:
+def validate_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.ALLOWED_ASSET_SIZE:
+        raise ValidationError(gettext("Uploaded file is too big."))
+
+
+def validate_bitmap(
+    value: FieldFile | File | None,
+) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
+    if not (isinstance(value, FieldFile) and getattr(value, "_committed", True)):
+        validate_upload_size(value)
 
     # Ensure we have image object and content type
     # Pretty much copy from django.forms.fields.ImageField:
 
-    # We need to get a file object for Pillow. We might have a path or we
-    # might have to read the data into memory.
-    if hasattr(value, "temporary_file_path"):
-        content = value.temporary_file_path()
-    elif hasattr(value, "read"):
-        content = BytesIO(value.read())
-    else:
-        content = BytesIO(value["content"])
+    content_target: Any = value
+    content = BytesIO(read_file_bytes(value))
 
     try:
         # load() could spot a truncated JPEG, but it loads the entire
@@ -139,21 +151,19 @@ def validate_bitmap(value) -> None:
 
         # Pillow doesn't detect the MIME type of all formats. In those
         # cases, content_type will be None.
-        value.file.content_type = Image.MIME.get(cast("str", image.format))
+        content_type = Image.MIME.get(cast("str", image.format))
+        if content_target is not None:
+            content_target.content_type = content_type
     except Exception as exc:
         # Pillow doesn't recognize it as an image.
         raise ValidationError(
             gettext("The uploaded image was invalid."), code="invalid_image"
         ).with_traceback(sys.exc_info()[2]) from exc
-    if hasattr(value.file, "seek") and callable(value.file.seek):
-        value.file.seek(0)
 
     # Check image type
-    if value.file.content_type not in ALLOWED_IMAGES:
+    if content_type not in ALLOWED_IMAGES:
         image.close()
-        raise ValidationError(
-            gettext("Unsupported image type: %s") % value.file.content_type
-        )
+        raise ValidationError(gettext("Unsupported image type: %s") % content_type)
 
     # Check dimensions
     width, height = image.size
@@ -363,6 +373,18 @@ def validate_project_web(value) -> None:
             pass
         else:
             raise ValidationError(gettext("This URL is prohibited"))
+
+    try:
+        validate_runtime_url(
+            value, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+        )
+    except ValidationError as error:
+        if not isinstance(error.__cause__, OSError):
+            raise
+    except UnicodeError as error:
+        raise ValidationError(
+            gettext("Could not resolve the URL domain: {}").format(error)
+        ) from error
 
 
 def validate_webhook_secret_string(value: str) -> None:

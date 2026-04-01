@@ -32,7 +32,11 @@ from weblate.utils.errors import report_error
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.outbound import is_allowlisted_hostname
-from weblate.utils.requests import http_request, validate_request_url
+from weblate.utils.requests import (
+    fetch_url,
+    fetch_validated_url,
+    validate_request_url,
+)
 from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
@@ -316,18 +320,28 @@ class BatchMachineTranslation(DocVersionsMixin):
             headers.update(self.get_headers())
 
         # Fire request
-        response = http_request(
-            method,
-            url,
-            headers=headers,
-            timeout=self.request_timeout,
-            auth=self.get_auth(),
-            raise_for_status=False,
-            validate_url=not self.allow_private_targets,
-            allow_private_targets=self.allow_private_targets,
-            allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
-            **kwargs,
-        )
+        if self.allow_private_targets:
+            response = fetch_url(
+                method,
+                url,
+                headers=headers,
+                timeout=self.request_timeout,
+                auth=self.get_auth(),
+                raise_for_status=False,
+                **kwargs,
+            )
+        else:
+            response = fetch_validated_url(
+                method,
+                url,
+                headers=headers,
+                timeout=self.request_timeout,
+                auth=self.get_auth(),
+                raise_for_status=False,
+                allow_private_targets=False,
+                allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+                **kwargs,
+            )
 
         self.check_failure(response)
 

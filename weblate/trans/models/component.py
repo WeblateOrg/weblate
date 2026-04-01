@@ -417,6 +417,10 @@ class ComponentLink(models.Model):
 
 class OldComponentSettings(TypedDict):
     check_flags: str
+    vcs: str
+    push: str
+    push_branch: str
+    repo: str
 
 
 class Component(
@@ -948,9 +952,7 @@ class Component(
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
         self.updated_sources: dict[int, Unit] = {}
-        self.old_component_settings: OldComponentSettings = {
-            "check_flags": self.check_flags
-        }
+        self.old_component_settings = self.get_old_component_settings()
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
         self.logs: list[str] = []
@@ -1059,8 +1061,22 @@ class Component(
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
+        cleanup_configs = (
+            self.get_conflicting_repository_setup_configs() if self.id else set()
+        )
+        cleanup_conflicting_repository_setup = (
+            self.has_conflicting_repository_setup_changed() if self.id else False
+        )
+
         # Save/Create object
         super().save(*args, **kwargs)
+
+        if cleanup_conflicting_repository_setup:
+            transaction.on_commit(
+                lambda: self.cleanup_conflicting_repository_setup_alerts(
+                    cleanup_configs
+                )
+            )
 
         if create:
             self.install_autoaddon()
@@ -1098,6 +1114,8 @@ class Component(
                 lambda: self.schedule_update_checks(update_state=True)
             )
 
+        self.old_component_settings = self.get_old_component_settings()
+
         # Invalidate source language cache just to be sure, as it is relatively
         # cheap to update
         self.project.invalidate_source_language_cache()
@@ -1106,6 +1124,24 @@ class Component(
 
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
+
+    def get_old_component_settings(self) -> OldComponentSettings:
+        current = getattr(self, "old_component_settings", {})
+        return {
+            "check_flags": self.__dict__.get(
+                "check_flags", current.get("check_flags", "")
+            ),
+            "vcs": self.__dict__.get("vcs", current.get("vcs", "")),
+            "push": self.__dict__.get("push", current.get("push", "")),
+            "push_branch": self.__dict__.get(
+                "push_branch", current.get("push_branch", "")
+            ),
+            "repo": self.__dict__.get("repo", current.get("repo", "")),
+        }
+
+    def refresh_from_db(self, *args, **kwargs) -> None:
+        super().refresh_from_db(*args, **kwargs)
+        self.old_component_settings = self.get_old_component_settings()
 
     @cached_property
     def cached_links(self) -> models.QuerySet[Project]:
@@ -2447,7 +2483,7 @@ class Component(
                 store_hash=store_hash,
             )
 
-        with self.start_sentry_span("commit_files"):
+        with self.start_sentry_span("commit_files"), self.repository.lock:
             if message is None:
                 if template is None:
                     msg = "Missing template when message is not specified"
@@ -4366,6 +4402,83 @@ class Component(
             return same_repo[0].get_repo_link_url()
         except IndexError:
             return None
+
+    def get_conflicting_setup_components(self) -> ComponentQuerySet:
+        if self.is_repo_link or not self.push or not self.push_branch:
+            return Component.objects.none()
+
+        if self.vcs not in VCS_REGISTRY.merge_request_based:
+            return Component.objects.none()
+
+        return Component.objects.filter(
+            push=self.push,
+            push_branch=self.push_branch,
+            vcs__in=VCS_REGISTRY.merge_request_based,
+            linked_component__isnull=True,
+        ).exclude(pk=self.pk)
+
+    def get_conflicting_repository_setup_config(
+        self, old_settings: OldComponentSettings | None = None
+    ) -> tuple[str, str] | None:
+        if old_settings is None:
+            push = self.push
+            push_branch = self.push_branch
+            repo = self.repo
+            vcs = self.vcs
+        else:
+            push = old_settings["push"]
+            push_branch = old_settings["push_branch"]
+            repo = old_settings["repo"]
+            vcs = old_settings["vcs"]
+
+        if (
+            vcs not in VCS_REGISTRY.merge_request_based
+            or not push
+            or not push_branch
+            or is_repo_link(repo)
+        ):
+            return None
+        return (push, push_branch)
+
+    def get_conflicting_repository_setup_configs(
+        self,
+    ) -> set[tuple[str, str]]:
+        return {
+            config
+            for config in (
+                self.get_conflicting_repository_setup_config(
+                    old_settings=self.old_component_settings
+                ),
+                self.get_conflicting_repository_setup_config(),
+            )
+            if config is not None
+        }
+
+    def has_conflicting_repository_setup_changed(self) -> bool:
+        return (
+            self.get_conflicting_repository_setup_config(
+                old_settings=self.old_component_settings
+            )
+            != self.get_conflicting_repository_setup_config()
+        )
+
+    def cleanup_conflicting_repository_setup_alerts(
+        self, cleanup_configs: set[tuple[str, str]] | None = None
+    ) -> None:
+        if cleanup_configs is None:
+            cleanup_configs = self.get_conflicting_repository_setup_configs()
+
+        for push, push_branch in cleanup_configs:
+            matching = Component.objects.filter(
+                push=push,
+                push_branch=push_branch,
+                vcs__in=VCS_REGISTRY.merge_request_based,
+                linked_component__isnull=True,
+            ).exclude(pk=self.pk)
+            if matching.count() == 1:
+                Alert.objects.filter(
+                    name="ConflictingRepositorySetup", component__in=matching
+                ).delete()
 
     @cached_property
     def enable_review(self):

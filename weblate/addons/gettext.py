@@ -16,7 +16,6 @@ from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.core.exceptions import ValidationError
-from django.core.management.utils import find_command
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -31,7 +30,7 @@ from weblate.addons.forms import (
 )
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.site import get_site_url
@@ -336,7 +335,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        if find_command("msgmerge") is None:
+        if find_runtime_command("msgmerge") is None:
             return False
         return super().can_install(
             component=component, category=category, project=project
@@ -833,7 +832,7 @@ class XgettextAddon(ExtractPotBaseAddon):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        return find_command("xgettext") is not None and super().can_install(
+        return find_runtime_command("xgettext") is not None and super().can_install(
             component=component, category=category, project=project
         )
 
@@ -1116,8 +1115,8 @@ class DjangoAddon(ExtractPotBaseAddon):
         project: Project | None = None,
     ) -> bool:
         if not (
-            find_command("xgettext") is not None
-            and find_command("msguniq") is not None
+            find_runtime_command("xgettext") is not None
+            and find_runtime_command("msguniq") is not None
             and super().can_install(
                 component=component, category=category, project=project
             )
@@ -1274,7 +1273,7 @@ class SphinxAddon(ExtractPotBaseAddon):
         project: Project | None = None,
     ) -> bool:
         if not (
-            find_command("sphinx-build") is not None
+            find_runtime_command("sphinx-build") is not None
             and super().can_install(
                 component=component, category=category, project=project
             )

@@ -707,6 +707,9 @@ REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 REGISTRATION_ALLOW_DISPOSABLE_EMAILS = get_env_bool(
     "WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS", False
 )
+PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
+    "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE", True
+)
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:

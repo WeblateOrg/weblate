@@ -7,7 +7,7 @@ from __future__ import annotations
 import codecs
 import os
 import tempfile
-from contextlib import suppress
+from contextlib import contextmanager, suppress
 from datetime import UTC
 from itertools import chain
 from pathlib import Path
@@ -234,6 +234,8 @@ class Translation(
         self.addon_commit_files: list[str] = []
         self.reason = ""
         self._invalidate_scheduled = False
+        self._suppress_cache_invalidation_depth = 0
+        self._stats_delta_requires_full_rebuild = False
         self.update_changes: list[Change] = []
         self.pending_unit_changes: list[PendingUnitChange] = []
         # Project backup integration
@@ -1674,11 +1676,30 @@ class Translation(
 
     def invalidate_cache(self) -> None:
         """Invalidate any cached stats."""
+        if self._suppress_cache_invalidation_depth:
+            return
         # Invalidate summary stats
         if self._invalidate_scheduled:
             return
         self._invalidate_scheduled = True
         transaction.on_commit(self._invalidate_trigger)
+
+    @contextmanager
+    def suppress_cache_invalidation(self):
+        self._suppress_cache_invalidation_depth += 1
+        try:
+            yield
+        finally:
+            self._suppress_cache_invalidation_depth -= 1
+
+    def require_full_stats_rebuild(self) -> None:
+        self._stats_delta_requires_full_rebuild = True
+
+    def consume_full_stats_rebuild_requirement(self) -> bool:
+        if not self._stats_delta_requires_full_rebuild:
+            return False
+        self._stats_delta_requires_full_rebuild = False
+        return True
 
     def detect_completed_translation(self, change: Change, old_translated: int) -> None:
         translated = self.stats.translated

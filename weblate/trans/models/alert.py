@@ -23,11 +23,18 @@ from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
-from weblate.utils.requests import get_uri_error
+from weblate.utils.requests import (
+    format_validation_error,
+    get_uri_error,
+    validate_request_url,
+)
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.validators import WeblateURLValidator, validate_project_web
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
@@ -37,6 +44,23 @@ if TYPE_CHECKING:
 
 ALERTS: dict[str, type[BaseAlert]] = {}
 ALERTS_IMPORT: set[str] = set()
+
+
+def _get_validated_uri_error(
+    uri: str, validators: tuple[Callable[[str], None], ...]
+) -> str | None:
+    for validator in validators:
+        try:
+            validator(uri)
+        except ValidationError as error:
+            return format_validation_error(error)
+    try:
+        validate_request_url(
+            uri, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+        )
+    except ValidationError as error:
+        return format_validation_error(error)
+    return get_uri_error(uri)
 
 
 def register(cls: type[BaseAlert]) -> type[BaseAlert]:
@@ -275,6 +299,40 @@ class DuplicateFilemask(BaseAlert):
                 for filename in self.duplicates
             ]
         }
+
+
+@register
+class ConflictingRepositorySetup(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Conflicting repository setup.")
+
+    def __init__(self, instance: Alert, component_ids: list[int]) -> None:
+        super().__init__(instance)
+        self.component_ids = component_ids
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        conflicts = list(
+            component.get_conflicting_setup_components().values_list("id", flat=True)
+        )
+        if conflicts:
+            return {"component_ids": conflicts}
+        return False
+
+    def get_analysis(self) -> dict[str, Any]:
+        return {"repo_link": self.instance.component.get_repo_link_url()}
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        from weblate.trans.models import Component
+
+        result = super().get_context(user)
+        result["analysis"]["conflicts"] = list(
+            Component.objects.filter(pk__in=self.component_ids)
+            .filter_access(user)
+            .select_related("project")
+            .order_by("project__slug", "slug")
+        )
+        return result
 
 
 @register
@@ -581,7 +639,10 @@ class BrokenBrowserURL(BaseAlert):
                     if location_link is None:
                         continue
                     # We only test first link
-                    location_error = get_uri_error(location_link)
+                    location_error = _get_validated_uri_error(
+                        location_link,
+                        validators=(WeblateURLValidator(),),
+                    )
                     break
         if location_error:
             return {"link": location_link, "error": location_error}
@@ -607,7 +668,10 @@ class BrokenProjectURL(BaseAlert):
             return False
 
         if component.project.web:
-            location_error = get_uri_error(component.project.web)
+            location_error = _get_validated_uri_error(
+                component.project.web,
+                validators=(WeblateURLValidator(), validate_project_web),
+            )
             if location_error is not None:
                 return {"error": location_error}
         return False

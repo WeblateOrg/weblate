@@ -47,7 +47,7 @@ class WeblateTags(Tags):
 
 
 def setup(app) -> None:
-    # Monkey path gettext build tags handling, this is workaround until
+    # Monkey patch gettext build tags handling, this is workaround until
     # https://github.com/sphinx-doc/sphinx/issues/13307 is addressed.
     sphinx.builders.gettext.I18nTags = WeblateTags
     # Used in Sphinx docs, needed for intersphinx links to it
@@ -380,6 +380,8 @@ linkcheck_ignore = [
     "http://ftp.pwg.org/",
     # Access to our service has been temporarily blocked
     "https://yandex.com/dev/translate/",
+    # Times out in CI
+    "https://ai.youdao.com/product-fanyi-text.s",
     # 403
     "https://openai.com/",
     "https://platform.openai.com/api-keys",
@@ -449,7 +451,7 @@ autodoc_mock_imports = [
     "rest_framework",
 ]
 
-# Create single gettext PO file for while documentation,
+# Create single gettext PO file for whole documentation,
 # instead of having one file per chapter.
 gettext_compact = "docs"
 

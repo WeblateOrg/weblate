@@ -9,13 +9,14 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.test import override_settings
 from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Unit
 from weblate.trans.models.alert import update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -47,6 +48,49 @@ class WebsiteAlertSettingTest(ViewTestCase):
             self.component.alert_set.filter(name="BrokenProjectURL").exists()
         )
         mocked_get_uri_error.assert_called_once_with("https://example.com/project")
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    @patch("weblate.trans.models.alert.get_uri_error")
+    def test_website_alert_uses_validator_error_without_fetch(
+        self, mocked_get_uri_error
+    ) -> None:
+        self.project.web = "https://localhost/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        self.assertEqual(
+            self.component.alert_set.get(name="BrokenProjectURL").details["error"],
+            "This URL is prohibited",
+        )
+        mocked_get_uri_error.assert_not_called()
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    @patch(
+        "weblate.trans.models.alert.validate_request_url",
+        side_effect=ValidationError("URL domain is not allowed."),
+    )
+    @patch("weblate.trans.models.alert.get_uri_error")
+    def test_website_alert_uses_runtime_validation_without_fetch(
+        self, mocked_get_uri_error, mocked_validate_request_url
+    ) -> None:
+        self.project.web = "https://public.example/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        self.assertEqual(
+            self.component.alert_set.get(name="BrokenProjectURL").details["error"],
+            "URL domain is not allowed.",
+        )
+        mocked_validate_request_url.assert_called_once_with(
+            "https://public.example/project", allow_private_targets=False
+        )
+        mocked_get_uri_error.assert_not_called()
 
 
 class AlertTest(ViewTestCase):
@@ -199,6 +243,179 @@ class AlertTest(ViewTestCase):
 
         alert = self.component.alert_set.get(name="InexistantFiles")
         self.assertEqual(alert.details["files"], ["alert-base.pot"])
+
+
+@override_settings(
+    GITHUB_CREDENTIALS={
+        "api.github.com": {
+            "username": "test",
+            "token": "token",
+        }
+    }
+)
+class ConflictingRepositorySetupAlertTest(ViewTestCase):
+    @staticmethod
+    def clear_vcs_registry_cache() -> None:
+        from weblate.vcs.models import VCS_REGISTRY
+
+        for key in ("data", "merge_request_based", "git_based"):
+            VCS_REGISTRY.__dict__.pop(key, None)
+
+    def create_component(self):
+        return self.create_po()
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        super().setUpTestData()
+
+        cls.clear_vcs_registry_cache()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.clear_vcs_registry_cache()
+        super().tearDownClass()
+
+    def create_conflicting_component(self, **kwargs) -> Component:
+        name = kwargs.pop("name", "Test2")
+        push = kwargs.pop("push", None)
+        component = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name=name,
+            **kwargs,
+        )
+        config_kwargs = {}
+        if push is not None:
+            config_kwargs["push"] = push
+        self.configure_merge_request_component(component, **config_kwargs)
+        return component
+
+    def configure_merge_request_component(self, component: Component, **kwargs) -> None:
+        defaults = {"vcs": "github", "push_branch": "weblate-test"}
+        defaults.update(kwargs)
+        Component.objects.filter(pk=component.pk).update(**defaults)
+        component.refresh_from_db()
+
+    def test_conflicting_repository_setup(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        self.assertEqual(alert.details["component_ids"], [other.pk])
+        self.assertTrue(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "same repository and push branch")
+        self.assertContains(response, self.component.get_repo_link_url())
+
+    def test_conflicting_repository_setup_ignored_for_forks(self) -> None:
+        self.configure_merge_request_component(self.component, push="")
+        other = self.create_conflicting_component(push="")
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+        self.assertFalse(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_after_branch_change(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        Component.objects.filter(pk=other.pk).update(push_branch="weblate-test-2")
+        other.refresh_from_db()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_from_peer_on_save(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        other.push_branch = "weblate-test-2"
+        with patch.object(Component, "queue_background_task", return_value=None):
+            other.save()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_from_peer_on_delete(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        other.delete()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_not_removed_from_peer_on_unrelated_save(
+        self,
+    ) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        other.name = "Renamed"
+        with patch.object(Component, "queue_background_task", return_value=None):
+            other.save()
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_kept_for_remaining_peers_on_delete(
+        self,
+    ) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+        third = self.create_conflicting_component(name="Test3")
+
+        for component in (self.component, other, third):
+            update_alerts(component, {"ConflictingRepositorySetup"})
+
+        other.delete()
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+        self.assertTrue(
+            third.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
 
 
 class LanguageAlertTest(ViewTestCase):

@@ -21,7 +21,8 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
-from weblate.trans.util import get_clean_env, path_separator
+from weblate.trans.util import path_separator
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import is_excluded

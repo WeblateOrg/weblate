@@ -79,12 +79,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.4.9
+  rev: v2.4.10
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.4.8'
+    - '@biomejs/biome@2.4.9'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
@@ -171,7 +171,7 @@ repos:
     require_serial: true
     pass_filenames: false
 - repo: https://github.com/rhysd/actionlint
-  rev: v1.7.11
+  rev: v1.7.12
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
@@ -184,7 +184,7 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.90.0
+  rev: v1.92.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]

@@ -149,6 +149,7 @@ This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. _project-instructions:
@@ -453,6 +454,10 @@ In case your paths are relative to different folder (path contains ``..``), you
 might want to strip leading directory by ``parentdir`` filter (see
 :ref:`markup`):
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
+
+.. seealso::
+
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
 
 .. _component-git_export:
 

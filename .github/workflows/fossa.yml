@@ -23,12 +23,12 @@ jobs:
       with:
         persist-credentials: false
     - name: Run FOSSA Scan
-      uses: fossas/fossa-action@c414b9ad82eaad041e47a7cf62a4f02411f427a0 # v1.8.0
+      uses: fossas/fossa-action@ff70fe9fe17cbd2040648f1c45e8ec4e4884dcf3 # v1.9.0
       with:
         api-key: ${{secrets.fossaApiKey}} # zizmor: ignore[secrets-outside-env]
 
     - name: Run FOSSA Test
-      uses: fossas/fossa-action@c414b9ad82eaad041e47a7cf62a4f02411f427a0 # v1.8.0
+      uses: fossas/fossa-action@ff70fe9fe17cbd2040648f1c45e8ec4e4884dcf3 # v1.9.0
       with:
         api-key: ${{secrets.fossaApiKey}} # zizmor: ignore[secrets-outside-env]
         run-tests: true

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import quote, urlparse
 
@@ -81,7 +81,7 @@ class HandlerResponse(TypedDict):
     repo_url: str
     repos: list[str]
     branch: str | None
-    full_name: str
+    full_name: str | None
 
 
 HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
@@ -90,13 +90,50 @@ HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
 HOOK_HANDLERS: dict[str, HandlerType] = {}
 
 
-def validate_full_name(full_name: str) -> bool:
+class HookPayloadError(Exception):
+    """Raised for malformed but expected webhook payload problems."""
+
+
+def validate_full_name(full_name: str | None) -> bool:
     """
     Validate that repository full name is suitable for endswith matching.
 
     This is to avoid using too short expression with possibly too broad matches.
     """
+    if not full_name:
+        return False
     return "/" in full_name and len(full_name) > 5
+
+
+def normalize_branch_ref(ref: str | None) -> str:
+    """Normalize a Git ref to a branch name."""
+    if not isinstance(ref, str) or not ref:
+        msg = "Missing ref in payload"
+        raise HookPayloadError(msg)
+    return re.sub(r"^refs/heads/", "", ref)
+
+
+def require_mapping(value: object, field_name: str) -> Mapping[str, object]:
+    """Validate that the payload field is a mapping."""
+    if not isinstance(value, Mapping):
+        msg = f"Invalid {field_name} in payload"
+        raise HookPayloadError(msg)
+    return value
+
+
+def require_string(value: object, field_name: str) -> str:
+    """Validate that the payload field is a string."""
+    if not isinstance(value, str):
+        msg = f"Invalid {field_name} in payload"
+        raise HookPayloadError(msg)
+    return value
+
+
+def optional_string(value: object, field_name: str) -> str | None:
+    """Validate that the payload field is a string or null."""
+    if value is None:
+        return None
+    return require_string(value, field_name)
 
 
 def register_hook(handler: HandlerType) -> HandlerType:
@@ -237,6 +274,9 @@ class ServiceHookView(APIView):
         # Send the request data to the service handler.
         try:
             service_data = hook_helper(data, request)
+        except HookPayloadError as exc:
+            msg = f"Invalid data in json payload: {exc}"
+            raise ValidationError(msg) from exc
         except Exception as exc:
             report_error("Invalid service data")
             msg = "Invalid data in json payload!"
@@ -457,7 +497,7 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     o_data = data["repository"]["owner"]
     owner = o_data["login"] if "login" in o_data else o_data["name"]
     slug = data["repository"]["name"]
-    branch = re.sub(r"^refs/heads/", "", data["ref"])
+    branch = normalize_branch_ref(data.get("ref"))
 
     params = {"owner": owner, "slug": slug}
 
@@ -486,16 +526,19 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
 
 @register_hook
 def gitea_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+    repository = require_mapping(data.get("repository"), "repository")
     return {
         "service_long_name": "Gitea",
-        "repo_url": data["repository"]["html_url"],
+        "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
         "repos": [
-            data["repository"]["clone_url"],
-            data["repository"]["ssh_url"],
-            data["repository"]["html_url"],
+            require_string(repository.get("clone_url"), "repository.clone_url"),
+            require_string(repository.get("ssh_url"), "repository.ssh_url"),
+            require_string(repository.get("html_url"), "repository.html_url"),
         ],
-        "branch": re.sub(r"^refs/heads/", "", data["ref"]),
-        "full_name": data["repository"]["full_name"],
+        "branch": normalize_branch_ref(data.get("ref")),
+        "full_name": optional_string(
+            repository.get("full_name"), "repository.full_name"
+        ),
     }
 
 
@@ -511,7 +554,7 @@ def gitee_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
             data["repository"]["ssh_url"],
             data["repository"]["html_url"],
         ],
-        "branch": re.sub(r"^refs/heads/", "", data["ref"]),
+        "branch": normalize_branch_ref(data.get("ref")),
         "full_name": data["repository"]["path_with_namespace"],
     }
 
@@ -524,7 +567,7 @@ def gitlab_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
         return None
     ssh_url = data["repository"]["url"]
     http_url = f"{data['repository']['homepage']}.git"
-    branch = re.sub(r"^refs/heads/", "", data["ref"])
+    branch = normalize_branch_ref(data.get("ref"))
 
     # Construct possible repository URLs
     repos = [
