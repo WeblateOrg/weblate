@@ -388,6 +388,7 @@ class AddonsConf(AppConf):
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
         "weblate.addons.gettext.XgettextAddon",
+        "weblate.addons.gettext.MesonAddon",
         "weblate.addons.gettext.DjangoAddon",
         "weblate.addons.gettext.SphinxAddon",
         "weblate.addons.gettext.GettextAuthorComments",

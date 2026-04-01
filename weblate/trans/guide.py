@@ -406,6 +406,12 @@ class XgettextGuideline(AddonGuideline):
 
 
 @register
+class MesonGuideline(AddonGuideline):
+    addon = "weblate.gettext.meson"
+    hint = True
+
+
+@register
 class DjangoGuideline(AddonGuideline):
     addon = "weblate.gettext.django"
     hint = True
