@@ -22,6 +22,8 @@ The Laravel PHP localization files are supported as well with plurals:
 
 .. _Localization in Laravel: https://laravel.com/docs/localization
 
+.. include:: /snippets/format-features/laravel-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 
