@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-03-30 02:10+0000\n"
+"PO-Revision-Date: 2026-04-01 07:36+0000\n"
 "Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
@@ -130,11 +130,11 @@ msgstr "用于邮件通知，如果未在下方配置，则用作提交邮箱。
 
 #: weblate/accounts/forms.py:477
 msgid "Verification failed. Try again later."
-msgstr "验证失败。请稍后再试。"
+msgstr "验证失败。请稍后重试。"
 
 #: weblate/accounts/forms.py:478
 msgid "Verification expired. Try again."
-msgstr "验证已过期。请再试。"
+msgstr "验证已过期。请重试。"
 
 #: weblate/accounts/forms.py:479
 msgid "I'm not a robot"
@@ -170,7 +170,7 @@ msgstr "输入不正确，请重试。"
 
 #: weblate/accounts/forms.py:599 weblate/accounts/forms.py:606
 msgid "Validation failed, please try again."
-msgstr "验证失败，请再试。"
+msgstr "验证失败，请重试。"
 
 #: weblate/accounts/forms.py:625
 msgid "Subject"
@@ -2153,7 +2153,7 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"添加新翻译时更新 configure、configure.in 或 configure.ac 文件中的 "
+"当添加新的翻译时，更新“configure”、“configure.in”或“configure.ac”文件中的 "
 "ALL_LINGUAS 变量。"
 
 #: weblate/addons/gettext.py:316
@@ -2165,8 +2165,8 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"用 msgmerge 更新所有 PO 文件(由 \"File mask\" 配置)以匹配 POT 文件(由\"新翻译"
-"模板\"配置)。"
+"使用 msgmerge 更新所有的 PO 文件（由“文件掩码”配置）以匹配 POT 文件（由“新翻"
+"译模板”配置）。"
 
 #: weblate/addons/gettext.py:812
 msgid "Update POT file (xgettext)"
@@ -4746,7 +4746,7 @@ msgstr "省略号"
 msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
-msgstr "字符串使用三个点 ``(...)`` 而不是省略号 ``(…)``."
+msgstr "这条字符串使用三个句点 ``(...)`` 代替了省略号 ``(…)``。"
 
 #: weblate/checks/source.py:62
 msgid "Multiple failing checks"
@@ -6350,11 +6350,11 @@ msgstr "截图名称"
 
 #: weblate/screenshots/models.py:61
 msgid "Repository path to screenshot"
-msgstr "截屏的仓库路径"
+msgstr "截图的仓库路径"
 
 #: weblate/screenshots/models.py:62
 msgid "Scan for screenshot file change on repository update."
-msgstr "仓库更新时扫描截屏文件变化。"
+msgstr "仓库更新时扫描截图文件变化。"
 
 #: weblate/screenshots/models.py:67
 #: weblate/templates/screenshots/screenshot_detail.html:83
@@ -6372,7 +6372,7 @@ msgstr "截图已上传，您现在可以将它指定于源字符串。"
 
 #: weblate/screenshots/views.py:254
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "无法上传截屏，请修正如下错误。"
+msgstr "无法上传截图，请修正以下错误。"
 
 #: weblate/screenshots/views.py:327
 #, python-format
@@ -9002,7 +9002,7 @@ msgstr "仓库维护"
 #: weblate/templates/screenshots/screenshot_list.html:16
 #: weblate/templates/snippets/info.html:521 weblate/trans/forms.py:1834
 msgid "Screenshots"
-msgstr "截屏"
+msgstr "截图"
 
 #: weblate/templates/component.html:146
 msgid "Duplicate this component"
@@ -11190,11 +11190,11 @@ msgstr "您的请求被拒绝，因为您最近执行了太多操作。"
 
 #: weblate/templates/ratelimit.html:6
 msgid "You have been signed out, please sign in and try again later."
-msgstr "您已退出登录，请重新登录并稍后再试。"
+msgstr "您已退出登录，请重新登录并稍后重试。"
 
 #: weblate/templates/ratelimit.html:8
 msgid "Please try again later."
-msgstr "请稍后再试。"
+msgstr "请稍后重试。"
 
 #: weblate/templates/registration/logged_out.html:11
 msgid "Thank you for using Weblate"
@@ -12784,7 +12784,7 @@ msgstr "可以通过将相应的标记添加到字符串或组件标记来打开
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
 msgid "At least one screenshot has no string assigned to it."
-msgstr "至少有一张截屏未分配到字符串。"
+msgstr "至少有一张截图未分配到字符串。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:6
 msgid "Manage screenshots"
@@ -15685,13 +15685,13 @@ msgstr ""
 
 #: weblate/trans/models/component.py:542
 msgid "Screenshot file mask"
-msgstr "截屏文件掩码"
+msgstr "截图文件掩码"
 
 #: weblate/trans/models/component.py:547
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
-msgstr "相对于仓库根目录的截屏文件路径，如：docs/screenshots/*.png。"
+msgstr "相对于仓库根目录的截图文件路径，如：docs/screenshots/*.png。"
 
 #: weblate/trans/models/component.py:556
 msgid ""
@@ -17193,7 +17193,7 @@ msgstr "搜索 %s"
 
 #: weblate/trans/views/search.py:196
 msgid "Too many search queries, please try again later."
-msgstr "搜索查询请求次数过多，请稍后再试。"
+msgstr "搜索查询请求次数过多，请稍后重试。"
 
 #: weblate/trans/views/search.py:199
 msgid "Invalid search query!"
@@ -18077,18 +18077,18 @@ msgstr "请在设置中更改 SITE_TITLE 让你的 Weblate 在”发现“中容
 
 #: weblate/wladmin/views.py:272 weblate/wladmin/views.py:289
 msgid "Could not activate your installation. Please try again later."
-msgstr "不能激活安装，请稍后再试。"
+msgstr "无法激活您的安装。请稍后重试。"
 
 #: weblate/wladmin/views.py:281
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
-msgstr "不能激活安装，请检查您的 token 是否正确。"
+msgstr "无法激活您的安装。请确保您的激活令牌正确。"
 
 #: weblate/wladmin/views.py:296
 #, python-format
 msgid "Could not activate your installation: %s"
-msgstr "无法激活你的安装：%s"
+msgstr "无法激活您的安装：%s"
 
 #: weblate/wladmin/views.py:304
 msgid "Activation completed."
