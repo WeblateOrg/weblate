@@ -509,6 +509,8 @@ filterwarnings = [
   "ignore:Implicitly cleaning up <TemporaryDirectory.*/xdist-:ResourceWarning",
   # Happens via dateparser
   "ignore:Parsing dates involving a day of month without a year specified:Warning",
+  # Warning in the third-party module (xmlschema on Python 3.14)
+  "ignore:pathlib.PurePath.as_uri:DeprecationWarning:xmlschema.resources",
   # There is no way to address this in a backwards compatible way
   "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
   # Warning in the third-party module (borg)
