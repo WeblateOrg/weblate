@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-03-31 03:10+0000\n"
+"PO-Revision-Date: 2026-04-02 14:15+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1622,11 +1622,11 @@ msgstr ""
 
 #: weblate/addons/cleanup.py:130
 msgid "Reset repository to upstream"
-msgstr "Restablecer repositorio a ascendente"
+msgstr "Restablece repositorio al desarrollo"
 
 #: weblate/addons/cleanup.py:132
 msgid "Discards all changes in the Weblate repository each night."
-msgstr "Descarta todos los cambios en el repositorio de Weblate cada noche."
+msgstr "Descarta todos los cambios en el repositorio Weblate cada noche."
 
 #: weblate/addons/consistency.py:26
 msgid "Add missing languages"
@@ -1788,15 +1788,15 @@ msgstr "Semanalmente"
 
 #: weblate/addons/forms.py:114
 msgid "Monthly"
-msgstr "Al mes"
+msgstr "Mensualmente"
 
 #: weblate/addons/forms.py:119
 msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
-"¿Cuánto a menudo el complemento actualizaría el archivo POT cuando el "
-"complemento es refrescado."
+"Cuanto a menudo el complemento actualizaría el archivo POT cuando el "
+"componente sea recargado."
 
 #: weblate/addons/forms.py:123
 msgid "Normalize POT header"
@@ -1805,8 +1805,8 @@ msgstr "Normalizar cabecera de POT"
 #: weblate/addons/forms.py:127
 msgid "Updates selected gettext header fields using component configuration."
 msgstr ""
-"Actualiza configuración del componente de campos de cabeceras gettext "
-"seleccionadas."
+"Actualice los campos de cabecera gettext utilizando la configuración del "
+"complemento."
 
 #: weblate/addons/forms.py:131
 msgid "Update PO files using msgmerge"
@@ -1830,32 +1830,31 @@ msgstr "Patrones de archivo origen"
 
 #: weblate/addons/forms.py:164
 msgid "POTFILES manifest"
-msgstr "Declaración de POTFILES"
+msgstr "POTFILES declarado"
 
 #: weblate/addons/forms.py:169
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
-"Elija si xgettext leería archivos fuentes desde patrones globales o desde "
-"una declaración de POTFILES/POTFILES.in."
+"Elija si xgettext leería archivos origen desde patrones glob o desde un "
+"manifiesto POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:174
 msgid "xgettext language"
-msgstr "Idioma de xgettext"
+msgstr "idioma de xgettext"
 
 #: weblate/addons/forms.py:178
 msgid "Programming language passed to xgettext, for example Python or C."
-msgstr ""
-"Lenguaje de programación aprobado para xgettext, por ejemplo Python o C."
+msgstr "Programar lenguaje aprobado para xgettext, por ejemplo Python o C."
 
 #: weblate/addons/forms.py:186
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
-"Patrones del separador de línea nueva relativa al repositorio global para "
-"archivos que extraigan con xgettext."
+"Patrones nueva línea separada en repositorio-relativo para archivos en "
+"extracción con xgettext."
 
 #: weblate/addons/forms.py:191
 msgid "POTFILES path"
@@ -1866,8 +1865,8 @@ msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to that file."
 msgstr ""
-"Ruta relativa al repo para POTFILES o POTFILES.in. Los apuntes son resueltos "
-"relativos a ese archivo."
+"Ruta relativa del repositorio para POTFILES o POTFILES.in. Los apuntes son "
+"resueltos relativos a ese archivo."
 
 #: weblate/addons/forms.py:232 weblate/addons/forms.py:239
 msgid "This field is required."
@@ -1892,7 +1891,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:281
 msgid "Filtering"
-msgstr "Filtrar"
+msgstr "Filtrado"
 
 #: weblate/addons/forms.py:283
 msgctxt "None filtering"
@@ -1908,8 +1907,8 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
-"Retira cadenas opcionalmente que no sean útiles para traducir tras "
-"extracción de Sphinx."
+"Opcionalmente retira cadenas que no son útiles para traducir tras extracción "
+"de Sphinx."
 
 #: weblate/addons/forms.py:312
 msgid ""
@@ -2319,8 +2318,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Actualiza la variable ALL_LINGUAS en «configure», «configure.in» o "
-"«configure.ac» al añadir una traducción nueva."
+"Actualiza la variable ALL_LINGUAS dentro de los archivos \"configure\", "
+"\"configure.in\" or \"configure.ac\", cuando se agregue una traducción nueva."
 
 #: weblate/addons/gettext.py:316
 msgid "Update PO files to match POT (msgmerge)"
@@ -2331,42 +2330,42 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Actualiza todos los archivos PO (como se hayan configurado en «Máscara de "
-"archivos») para que coincidan con el archivo PO (como se haya configurado en "
-"«Plantilla para traducciones nuevas») utilizando msgmerge."
+"Actualiza todos los archivos PO (tal como se configuraron mediante “Máscara "
+"de archivo”) para coincidir con el archivo POT (según esté configurado por “"
+"Plantilla para traducciones nuevas”) utilizando msgmerge."
 
 #: weblate/addons/gettext.py:812
 msgid "Update POT file (xgettext)"
-msgstr "Actualiza el archivo POT (xgettext)"
+msgstr "Actualizar archivo POT (xgettext)"
 
 #: weblate/addons/gettext.py:814
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
-"Actualiza la plantilla gettext utilizando xgettext en archivo fuentes "
+"Actualiza la plantilla gettext utilizando xgettext en archivos origen "
 "seleccionados."
 
 #: weblate/addons/gettext.py:1098
 msgid "Update POT file (Django)"
-msgstr "Actualiza archivo POT (Django)"
+msgstr "Actualiza el archivo POT (Django)"
 
 #: weblate/addons/gettext.py:1100
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
-"Actualiza la plantilla gettext utilizando la instrucción makemessages "
-"integrada en Django."
+"Actualiza la plantilla de gettext utilizando la instrucción de makemessages "
+"incorporada en Django."
 
 #: weblate/addons/gettext.py:1229
 msgid "Update POT file (Sphinx)"
-msgstr "Actualiza el archivo POT (Sphinx)"
+msgstr "Actualizar archivo POT (Sphinx)"
 
 #: weblate/addons/gettext.py:1231
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
-"Actualiza la plantilla gettext utilizando al creador gettext de Sphinx sin "
-"cargar la configuración del proyecto."
+"Actualiza la plantilla gettext utilizando el constructor gettext de Sphinx "
+"sin cargar la configuración del proyecto."
 
 #: weblate/addons/gettext.py:1444
 msgid "Contributors in comment"
@@ -4886,7 +4885,7 @@ msgstr ""
 
 #: weblate/checks/markup.py:307
 msgid "Chars around XML tags"
-msgstr "Caracteres alrededor de las etiquetas XML"
+msgstr "Caracteres alrededor de etiquetas XML"
 
 #: weblate/checks/markup.py:309
 msgid ""
@@ -5043,7 +5042,7 @@ msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
 msgstr ""
-"La cadena utiliza tres puntos ``(...)`` en lugar del carácter de puntos "
+"La cadena utiliza tres puntos ``(...)`` en lugar de un carácter de puntos "
 "suspensivos ``(…)``."
 
 #: weblate/checks/source.py:62
@@ -15094,12 +15093,12 @@ msgstr "Purga de repositorio"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:184
 msgid "Source string added in the upload"
-msgstr "Cadena origen agregada al la subida"
+msgstr "Cadena origen agregada a la subida"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:186
 msgid "Source string added in the repository"
-msgstr "Cadena fuente agregada al repositorio"
+msgstr "Cadena origen agregada al repositorio"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
