@@ -89,6 +89,7 @@ from .gettext import (
     DjangoAddon,
     GenerateMoAddon,
     GettextAuthorComments,
+    MesonAddon,
     MsgmergeAddon,
     SphinxAddon,
     UpdateConfigureAddon,
@@ -746,6 +747,58 @@ class GettextAddonTest(ViewTestCase):
         self.component.new_base = "weblate/locale/django.pot"
         self.assertFalse(SphinxAddon.can_install(component=self.component))
 
+    def test_meson_form_valid_component(self) -> None:
+        self.component.new_base = "po/messages.pot"
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        form = MesonAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "preset": "glib",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_meson_can_install_is_component_specific(self) -> None:
+        self.component.new_base = "po/messages.pot"
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
+        self.assertTrue(MesonAddon.can_install(component=self.component))
+
+        (gettext_dir / "POTFILES").unlink()
+        self.assertFalse(MesonAddon.can_install(component=self.component))
+
+    def test_meson_can_install_requires_parent_meson_project(self) -> None:
+        self.component.new_base = "po/messages.pot"
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
+
+        self.assertFalse(MesonAddon.can_install(component=self.component))
+
+    def test_meson_can_install_allows_root_gettext_layout(self) -> None:
+        self.component.new_base = "messages.pot"
+        root = Path(self.component.full_path)
+        (root / "meson.build").write_text("project('test', 'c')\n", encoding="utf-8")
+        (root / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
+
+        self.assertTrue(MesonAddon.can_install(component=self.component))
+
     def test_sphinx_can_install_uses_runtime_venv_bin(self) -> None:
         self.component.new_base = "docs/locales/docs.pot"
         docs_dir = Path(self.component.full_path) / "docs"
@@ -834,6 +887,7 @@ class GettextAddonTest(ViewTestCase):
         self.component.save(update_fields=["new_base"])
 
         self.assertFalse(XgettextAddon.can_install(component=self.component))
+        self.assertFalse(MesonAddon.can_install(component=self.component))
         self.assertFalse(DjangoAddon.can_install(component=self.component))
         self.assertFalse(SphinxAddon.can_install(component=self.component))
 
@@ -881,7 +935,7 @@ class GettextAddonTest(ViewTestCase):
         )
         manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
         manifest.parent.mkdir(parents=True, exist_ok=True)
-        manifest.write_text("../src/messages.py\n", encoding="utf-8")
+        manifest.write_text("src/messages.py\n", encoding="utf-8")
         addon = XgettextAddon.create(
             component=self.component,
             run=False,
@@ -901,6 +955,34 @@ class GettextAddonTest(ViewTestCase):
         command = mocked.call_args.args[1]
         self.assertIn("src/messages.py", command)
         self.assertIn("--", command)
+
+    def test_xgettext_potfiles_skip_excludes_entries(self) -> None:
+        source = Path(self.component.full_path) / "src"
+        source.mkdir(parents=True, exist_ok=True)
+        (source / "messages.py").write_text("", encoding="utf-8")
+        (source / "skip.py").write_text("", encoding="utf-8")
+        manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
+        manifest.parent.mkdir(parents=True, exist_ok=True)
+        manifest.write_text("src/messages.py\nsrc/skip.py\n", encoding="utf-8")
+        (manifest.parent / "POTFILES.skip").write_text(
+            "src/skip.py\n", encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po/POTFILES.in",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+
+        self.assertEqual(
+            addon.resolve_potfiles_entries(self.component), ["src/messages.py"]
+        )
 
     def test_xgettext_rejects_potfiles_directory_at_runtime(self) -> None:
         manifest = Path(self.component.full_path) / "po"
@@ -1062,6 +1144,132 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
 
+    def test_meson_uses_glib_preset_and_potfiles(self) -> None:
+        source = Path(self.component.full_path) / "src" / "main.c"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('_("Hello");\n', encoding="utf-8")
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+            },
+        )
+
+        with patch.object(MesonAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertEqual(command[:3], ["xgettext", "--output", "po/messages.pot"])
+        self.assertNotIn("--language", command)
+        self.assertIn("--keyword=g_dcgettext:2", command)
+        self.assertIn("--keyword=g_dpgettext2:2c,3", command)
+        self.assertIn("--flag=g_snprintf:3:c-format", command)
+        self.assertIn("src/main.c", command)
+        self.assertEqual(addon.get_effective_input_mode(self.component), "potfiles")
+        self.assertEqual(
+            addon.get_effective_potfiles_path(self.component), "po/POTFILES.in"
+        )
+
+    def test_meson_prefers_potfiles_over_potfiles_in(self) -> None:
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/other.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+            },
+        )
+
+        self.assertEqual(
+            addon.get_effective_potfiles_path(self.component), "po/POTFILES"
+        )
+
+    def test_meson_change_detection_tracks_manifest_transition(self) -> None:
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        source = Path(self.component.full_path) / "src" / "main.c"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("", encoding="utf-8")
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+            },
+        )
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["po/POTFILES"],
+        ):
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+    def test_meson_potfiles_skip_excludes_entries(self) -> None:
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        source = Path(self.component.full_path) / "src"
+        source.mkdir(parents=True, exist_ok=True)
+        (source / "main.c").write_text("", encoding="utf-8")
+        (source / "skip.c").write_text("", encoding="utf-8")
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text(
+            "src/main.c\nsrc/skip.c\n", encoding="utf-8"
+        )
+        (gettext_dir / "POTFILES.skip").write_text("src/skip.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+            },
+        )
+
+        self.assertEqual(addon.resolve_potfiles_entries(self.component), ["src/main.c"])
+
     def test_xgettext_skip_without_relevant_change(self) -> None:
         addon = XgettextAddon.create(
             component=self.component,
@@ -1101,7 +1309,7 @@ class GettextAddonTest(ViewTestCase):
         )
         manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
         manifest.parent.mkdir(parents=True, exist_ok=True)
-        manifest.write_text("../src/messages.py\n", encoding="utf-8")
+        manifest.write_text("src/messages.py\n", encoding="utf-8")
         source = Path(self.component.full_path) / "src" / "messages.py"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text("", encoding="utf-8")
@@ -1132,7 +1340,7 @@ class GettextAddonTest(ViewTestCase):
         )
         manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
         manifest.parent.mkdir(parents=True, exist_ok=True)
-        manifest.write_text("../src/messages.py\n", encoding="utf-8")
+        manifest.write_text("src/messages.py\n", encoding="utf-8")
         source = Path(self.component.full_path) / "src" / "messages.py"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text("", encoding="utf-8")
@@ -1145,6 +1353,38 @@ class GettextAddonTest(ViewTestCase):
             self.component.repository,
             "list_changed_files",
             return_value=["src/messages.py"],
+        ):
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+    def test_xgettext_potfiles_change_detection_tracks_skip_manifest(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "input_mode": "potfiles",
+                "potfiles_path": "po/POTFILES.in",
+                "language": "Python",
+                "source_patterns": [],
+            },
+        )
+        manifest = Path(self.component.full_path) / "po" / "POTFILES.in"
+        manifest.parent.mkdir(parents=True, exist_ok=True)
+        manifest.write_text("src/messages.py\n", encoding="utf-8")
+        (manifest.parent / "POTFILES.skip").write_text("", encoding="utf-8")
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("", encoding="utf-8")
+        addon.get_component_state(self.component)["last_revision"] = "stored-revision"
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["po/POTFILES.skip"],
         ):
             self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
 

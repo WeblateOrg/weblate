@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 import regex
 from crispy_forms.helper import FormHelper
@@ -42,6 +42,7 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from weblate.addons.cdn import CDNJSAddon  # noqa: F401
+    from weblate.addons.gettext import MesonAddon
     from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.trans.models import Component, Project
@@ -193,7 +194,8 @@ class XgettextExtractPotForm(BaseExtractPotForm):
         initial="",
         help_text=gettext_lazy(
             "Repository-relative path to POTFILES or POTFILES.in. Entries are "
-            "resolved relative to that file."
+            "resolved relative to the repository root. If present next to the "
+            "manifest, POTFILES.skip excludes listed files from extraction."
         ),
     )
 
@@ -250,6 +252,45 @@ class XgettextExtractPotForm(BaseExtractPotForm):
             cleaned_data["source_patterns"] = []
             cleaned_data["potfiles_path"] = potfiles_path
         return cleaned_data
+
+
+class MesonExtractPotForm(BaseExtractPotForm):
+    preset = forms.ChoiceField(
+        label=gettext_lazy("Meson preset"),
+        choices=(("glib", gettext_lazy("GLib")),),
+        required=True,
+        initial="glib",
+        help_text=gettext_lazy(
+            "Built-in xgettext argument preset matching Meson gettext integration. "
+            "The GLib preset adds the keyword and format-flag options used by "
+            "Meson's gettext helper."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+            Field("preset"),
+        )
+
+    def clean(self) -> dict[str, Any]:
+        super().clean()
+        component = self._addon.instance.component
+        if component is None:
+            return self.cleaned_data
+        addon = cast("MesonAddon", self._addon)
+        if not addon.is_meson_layout(component):
+            self.add_error(
+                None,
+                gettext(
+                    "The Meson add-on expects a Meson gettext directory with "
+                    "meson.build and POTFILES or POTFILES.in."
+                ),
+            )
+        return self.cleaned_data
 
 
 class DjangoExtractPotForm(BaseExtractPotForm):

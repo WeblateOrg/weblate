@@ -10,6 +10,7 @@ Weblate 5.17
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
 * Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 * Added :ref:`bulk user invitations <invite-user>`.
+* Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 
 .. rubric:: Improvements
 
