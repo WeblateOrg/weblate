@@ -193,7 +193,6 @@ def bulk_perform(  # noqa: C901
 
         if prev_updated != updated:
             component.invalidate_cache()
-            component.update_source_checks()
             component.run_batched_checks()
 
     return updated

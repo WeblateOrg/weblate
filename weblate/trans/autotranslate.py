@@ -153,7 +153,6 @@ class AutoTranslate(BaseAutoTranslate):
             self.translation.log_info("finalizing automatic translation")
             self.translation.store_update_changes()
             if not self.component_wide:
-                self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()
             self.translation.invalidate_cache()
             if self.user:

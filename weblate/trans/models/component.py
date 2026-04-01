@@ -951,7 +951,7 @@ class Component(
         self.stats = ComponentStats(self)
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
-        self.updated_sources: dict[int, Unit] = {}
+        self.updated_sources: set[int] = set()
         self.old_component_settings = self.get_old_component_settings()
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
@@ -1253,6 +1253,19 @@ class Component(
         )
 
     @cached_property
+    def checks_lock(self):
+        return WeblateLock(
+            lock_path=self.project.full_path,
+            scope="component-checks",
+            key=self.pk,
+            slug=self.slug,
+            cache_template="{scope}-lock-{key}",
+            file_template="{slug}-checks.lock",
+            timeout=5,
+            origin=self.full_slug,
+        )
+
+    @cached_property
     def update_key(self) -> str:
         return f"component-update-{self.pk}"
 
@@ -1411,7 +1424,7 @@ class Component(
             check_new=False,
             save=save,
         )
-        self.updated_sources[source.id] = source
+        self.updated_sources.add(source.id)
         return change
 
     def bulk_create_sources(
@@ -2731,13 +2744,6 @@ class Component(
             return [self.template, *sorted(matches)]
         return sorted(matches)
 
-    def update_source_checks(self) -> None:
-        self.log_info("running source checks for %d strings", len(self.updated_sources))
-        for unit in self.updated_sources.values():
-            unit.is_batch_update = True
-            unit.run_checks()
-        self.updated_sources = {}
-
     @cached_property
     def all_active_alerts(self):
         result = self.alert_set.filter(dismissed=False)
@@ -2945,7 +2951,7 @@ class Component(
         self.drop_template_store_cache()
         self.unload_sources()
         self.needs_cleanup = False
-        self.updated_sources = {}
+        self.updated_sources = set()
         self.alerts_trigger = {}
         self.start_batched_checks()
         was_change = False
@@ -3083,10 +3089,6 @@ class Component(
                     report_error("Failed linked component update", project=self.project)
                 continue
 
-        # Run source checks on updated source strings
-        if self.updated_sources:
-            self.update_source_checks()
-
         # Update flags
         if was_change:
             self.invalidate_cache()
@@ -3122,17 +3124,34 @@ class Component(
         self.batched_checks = set()
 
     def run_batched_checks(self) -> None:
-        # Batch checks
-        if self.batched_checks:
-            from weblate.checks.tasks import batch_update_checks
+        source_unit_ids = list(self.updated_sources)
+        batched_checks = list(self.batched_checks)
+        batch_mode = self.batch_checks
 
-            batched_checks = list(self.batched_checks)
-            if settings.CELERY_TASK_ALWAYS_EAGER:
-                batch_update_checks(self.id, batched_checks, component=self)
-            else:
-                batch_update_checks.delay_on_commit(self.id, batched_checks)
+        self.updated_sources = set()
         self.batch_checks = False
         self.batched_checks = set()
+
+        if not source_unit_ids and not batched_checks:
+            return
+
+        from weblate.checks.tasks import finalize_component_checks
+
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            finalize_component_checks(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+                component=self,
+            )
+        else:
+            finalize_component_checks.delay_on_commit(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+            )
 
     def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False
