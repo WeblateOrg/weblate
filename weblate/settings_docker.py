@@ -710,6 +710,9 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = get_env_bool(
 PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
     "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE", True
 )
+PROJECT_WEB_RESTRICT_ALLOWLIST = set(
+    get_env_list("WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST", [])
+)
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:

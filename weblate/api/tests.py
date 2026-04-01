@@ -2190,6 +2190,20 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Project.objects.count(), 2)
 
+    def test_create_restricted_web(self) -> None:
+        with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
+            self.do_request(
+                "api:project-list",
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "name": "Blocked API project",
+                    "slug": "blocked-api-project",
+                    "web": "https://example.com/",
+                },
+            )
+
     def test_create_with_billing(self) -> None:
         with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
             response = self.do_request(
@@ -2819,6 +2833,18 @@ class ProjectAPITest(APIBaseTest):
             request={"slug": "new-slug"},
         )
         self.assertEqual(response.data["slug"], "new-slug")
+
+    def test_patch_restricted_web(self) -> None:
+        with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
+            self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"web": "https://example.com/"},
+            )
 
     def test_create_component_docfile(self) -> None:
         with open(TEST_DOC, "rb") as handle:

@@ -5,6 +5,7 @@ Weblate 5.17
 
 .. rubric:: New features
 
+* Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project slugs from project website restriction settings.
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
 * Shared components can now be categorized within the target project.
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.

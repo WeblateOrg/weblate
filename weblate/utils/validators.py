@@ -349,10 +349,16 @@ def validate_project_name(value) -> None:
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_project_web(value) -> None:
+def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
+    allowlisted = project_slug is not None and project_slug.lower() in {
+        slug.lower() for slug in settings.PROJECT_WEB_RESTRICT_ALLOWLIST
+    }
+
     # Regular expression filtering
-    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
-        settings.PROJECT_WEB_RESTRICT_RE, value
+    if (
+        not allowlisted
+        and settings.PROJECT_WEB_RESTRICT_RE is not None
+        and re.match(settings.PROJECT_WEB_RESTRICT_RE, value)
     ):
         raise ValidationError(gettext("This URL is prohibited"))
     parsed = urlparse(value)
@@ -360,13 +366,13 @@ def validate_project_web(value) -> None:
     hostname = hostname.lower()
 
     # Hostname filtering
-    if any(
+    if not allowlisted and any(
         hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
     ):
         raise ValidationError(gettext("This URL is prohibited"))
 
     # Numeric address filtering
-    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
+    if not allowlisted and settings.PROJECT_WEB_RESTRICT_NUMERIC:
         try:
             validate_ipv46_address(hostname)
         except ValidationError:
@@ -376,7 +382,9 @@ def validate_project_web(value) -> None:
 
     try:
         validate_runtime_url(
-            value, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+            value,
+            allow_private_targets=allowlisted
+            or not settings.PROJECT_WEB_RESTRICT_PRIVATE,
         )
     except ValidationError as error:
         if not isinstance(error.__cause__, OSError):
