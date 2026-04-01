@@ -22,6 +22,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs-webext.json
     :language: json
 
+.. include:: /snippets/format-features/webextension-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

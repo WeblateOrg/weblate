@@ -19,6 +19,8 @@ Example file:
    source1 context1 remarks1 target1
    source2 context2 remarks2 target2
 
+.. include:: /snippets/format-features/catkeys-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

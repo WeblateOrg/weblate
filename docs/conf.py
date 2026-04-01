@@ -112,6 +112,11 @@ exclude_patterns = [
     "Thumbs.db",
     ".DS_Store",
     "devel/reporting-example.rst",
+    # exclude snippets from being treated as standalone documents
+    # as they are already included in the real pages
+    # this prevents some labels defined in snippets from being marked as duplicate
+    "snippets/*",
+    "snippets/**/*",
 ]
 
 ogp_social_cards = {

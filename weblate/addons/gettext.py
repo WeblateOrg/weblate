@@ -25,6 +25,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import (
     DjangoExtractPotForm,
     GenerateMoForm,
+    MesonExtractPotForm,
     SphinxExtractPotForm,
     XgettextExtractPotForm,
 )
@@ -842,11 +843,102 @@ class XgettextAddon(ExtractPotBaseAddon):
     def get_input_mode(self) -> str:
         return self.instance.configuration.get("input_mode", "patterns")
 
+    def get_effective_input_mode(self, component: Component) -> str:
+        return self.get_input_mode()
+
     def get_potfiles_path(self) -> str:
         return self.instance.configuration.get("potfiles_path", "")
 
+    def get_effective_potfiles_path(self, component: Component) -> str:
+        return self.get_potfiles_path()
+
+    def get_watched_potfiles_paths(self, component: Component) -> set[str]:
+        path = self.get_effective_potfiles_path(component)
+        if not path:
+            return set()
+        manifest = Path(path)
+        return {
+            path,
+            manifest.parent.joinpath("POTFILES.skip").as_posix(),
+        }
+
+    def get_language(self) -> str | None:
+        return self.instance.configuration["language"]
+
+    def get_extra_xgettext_args(self, component: Component) -> list[str]:
+        return []
+
     def get_potfiles_manifest_filename(self, component: Component) -> Path:
-        return Path(component.full_path) / self.get_potfiles_path()
+        return Path(component.full_path) / self.get_effective_potfiles_path(component)
+
+    @staticmethod
+    def iter_manifest_lines(manifest: Path) -> list[str]:
+        return [
+            line.strip()
+            for line in manifest.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+
+    def get_potfiles_skip_manifest_filename(self, manifest: Path) -> Path:
+        return manifest.parent / "POTFILES.skip"
+
+    def resolve_manifest_entries(
+        self, component: Component, manifest: Path, *, require_exists: bool
+    ) -> set[str] | None:
+        result: set[str] = set()
+        base_dir = Path(component.full_path)
+        for line in self.iter_manifest_lines(manifest):
+            candidate = Path(line)
+            if candidate.is_absolute():
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": "xgettext",
+                        "output": line,
+                        "error": "POTFILES entries must be relative paths",
+                    }
+                )
+                return None
+            resolved = (base_dir / candidate).resolve(strict=False)
+            try:
+                component.repository.resolve_symlinks(os.fspath(resolved))
+            except ValueError:
+                component.log_error(
+                    "refused to read POTFILES input out of repository: %s", resolved
+                )
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": "xgettext",
+                        "output": line,
+                        "error": "POTFILES entry points outside repository",
+                    }
+                )
+                return None
+            try:
+                relative = resolved.relative_to(Path(component.full_path))
+            except ValueError:
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": "xgettext",
+                        "output": line,
+                        "error": "POTFILES entry points outside repository",
+                    }
+                )
+                return None
+            if require_exists and not resolved.is_file():
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": "xgettext",
+                        "output": line,
+                        "error": "POTFILES entry not found",
+                    }
+                )
+                return None
+            result.add(relative.as_posix())
+        return result
 
     def resolve_potfiles_manifest(self, component: Component) -> Path | None:
         manifest = self.get_potfiles_manifest_filename(component)
@@ -870,7 +962,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": self.get_potfiles_path(),
+                    "output": self.get_effective_potfiles_path(component),
                     "error": "POTFILES manifest not found",
                 }
             )
@@ -880,74 +972,67 @@ class XgettextAddon(ExtractPotBaseAddon):
                 {
                     "addon": self.name,
                     "command": "xgettext",
-                    "output": self.get_potfiles_path(),
+                    "output": self.get_effective_potfiles_path(component),
                     "error": "POTFILES path has to point to a file",
                 }
             )
             return None
         return manifest
 
+    def resolve_optional_potfiles_skip_manifest(
+        self, component: Component, manifest: Path
+    ) -> Path | None:
+        skip_manifest = self.get_potfiles_skip_manifest_filename(manifest)
+        try:
+            component.repository.resolve_symlinks(os.fspath(skip_manifest))
+        except ValueError:
+            component.log_error(
+                "refused to read POTFILES.skip manifest out of repository: %s",
+                skip_manifest,
+            )
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "xgettext",
+                    "output": os.fspath(skip_manifest),
+                    "error": "POTFILES.skip manifest points outside repository",
+                }
+            )
+            return None
+        if not skip_manifest.exists():
+            return None
+        if not skip_manifest.is_file():
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "xgettext",
+                    "output": os.fspath(skip_manifest.relative_to(component.full_path)),
+                    "error": "POTFILES.skip path has to point to a file",
+                }
+            )
+            return None
+        return skip_manifest
+
     def resolve_potfiles_entries(self, component: Component) -> list[str]:
         manifest = self.resolve_potfiles_manifest(component)
         if manifest is None:
             return []
 
-        result: set[str] = set()
-        base_dir = manifest.parent
-        for raw_line in manifest.read_text(encoding="utf-8").splitlines():
-            line = raw_line.strip()
-            if not line or line.startswith("#"):
-                continue
-            candidate = Path(line)
-            if candidate.is_absolute():
-                self.alerts.append(
-                    {
-                        "addon": self.name,
-                        "command": "xgettext",
-                        "output": line,
-                        "error": "POTFILES entries must be relative paths",
-                    }
-                )
+        result = self.resolve_manifest_entries(component, manifest, require_exists=True)
+        if result is None:
+            return []
+        skip_manifest = self.resolve_optional_potfiles_skip_manifest(
+            component, manifest
+        )
+        if self.alerts:
+            return []
+        if skip_manifest is not None:
+            skipped = self.resolve_manifest_entries(
+                component, skip_manifest, require_exists=False
+            )
+            if skipped is None:
                 return []
-            resolved = (base_dir / candidate).resolve(strict=False)
-            try:
-                component.repository.resolve_symlinks(os.fspath(resolved))
-            except ValueError:
-                component.log_error(
-                    "refused to read POTFILES input out of repository: %s", resolved
-                )
-                self.alerts.append(
-                    {
-                        "addon": self.name,
-                        "command": "xgettext",
-                        "output": line,
-                        "error": "POTFILES entry points outside repository",
-                    }
-                )
-                return []
-            try:
-                relative = resolved.relative_to(Path(component.full_path))
-            except ValueError:
-                self.alerts.append(
-                    {
-                        "addon": self.name,
-                        "command": "xgettext",
-                        "output": line,
-                        "error": "POTFILES entry points outside repository",
-                    }
-                )
-                return []
-            if not resolved.is_file():
-                self.alerts.append(
-                    {
-                        "addon": self.name,
-                        "command": "xgettext",
-                        "output": line,
-                        "error": "POTFILES entry not found",
-                    }
-                )
-                return []
-            result.add(relative.as_posix())
+            result.difference_update(skipped)
         return sorted(result)
 
     def get_relevant_changes_cache_key(
@@ -996,12 +1081,12 @@ class XgettextAddon(ExtractPotBaseAddon):
             )
             self._relevant_changes_cache[cache_key] = True
             return True
-        if self.get_input_mode() == "potfiles":
+        if self.get_effective_input_mode(component) == "potfiles":
             watched_paths = set(self.resolve_potfiles_entries(component))
             if self.alerts:
                 self._relevant_changes_cache[cache_key] = True
                 return True
-            watched_paths.add(self.get_potfiles_path())
+            watched_paths.update(self.get_watched_potfiles_paths(component))
             result = any(path in watched_paths for path in changed)
         else:
             result = any(
@@ -1013,7 +1098,7 @@ class XgettextAddon(ExtractPotBaseAddon):
         return result
 
     def resolve_input_files(self, component: Component) -> list[str]:
-        if self.get_input_mode() == "potfiles":
+        if self.get_effective_input_mode(component) == "potfiles":
             return self.resolve_potfiles_entries(component)
         result: set[str] = set()
         root = Path(component.full_path)
@@ -1076,7 +1161,8 @@ class XgettextAddon(ExtractPotBaseAddon):
             return False
 
         Path(template).parent.mkdir(parents=True, exist_ok=True)
-        language = self.instance.configuration["language"]
+        language = self.get_language()
+        language_args = ["--language", language] if language else []
         if (
             self.run_process(
                 component,
@@ -1084,8 +1170,8 @@ class XgettextAddon(ExtractPotBaseAddon):
                     "xgettext",
                     "--output",
                     component.new_base,
-                    "--language",
-                    language,
+                    *language_args,
+                    *self.get_extra_xgettext_args(component),
                     *self.get_gettext_format_args(component),
                     "--",
                     *files,
@@ -1095,6 +1181,133 @@ class XgettextAddon(ExtractPotBaseAddon):
         ):
             return False
         return self.finalize_template(component)
+
+
+class MesonAddon(XgettextAddon):
+    name = "weblate.gettext.meson"
+    version_added = "5.17"
+    verbose = gettext_lazy("Update POT file (Meson)")
+    description = gettext_lazy(
+        "Updates the gettext template using Meson gettext conventions."
+    )
+    settings_form = MesonExtractPotForm
+    PRESET_GLIB: ClassVar[list[str]] = [
+        "--from-code=UTF-8",
+        "--add-comments",
+        "--keyword=_",
+        "--keyword=N_",
+        "--keyword=C_:1c,2",
+        "--keyword=NC_:1c,2",
+        "--keyword=g_dcgettext:2",
+        "--keyword=g_dngettext:2,3",
+        "--keyword=g_dpgettext2:2c,3",
+        "--flag=N_:1:pass-c-format",
+        "--flag=C_:2:pass-c-format",
+        "--flag=NC_:2:pass-c-format",
+        "--flag=g_dngettext:2:pass-c-format",
+        "--flag=g_strdup_printf:1:c-format",
+        "--flag=g_string_printf:2:c-format",
+        "--flag=g_string_append_printf:2:c-format",
+        "--flag=g_error_new:3:c-format",
+        "--flag=g_set_error:4:c-format",
+        "--flag=g_markup_printf_escaped:1:c-format",
+        "--flag=g_log:3:c-format",
+        "--flag=g_print:1:c-format",
+        "--flag=g_printerr:1:c-format",
+        "--flag=g_printf:1:c-format",
+        "--flag=g_fprintf:2:c-format",
+        "--flag=g_sprintf:2:c-format",
+        "--flag=g_snprintf:3:c-format",
+    ]
+    PRESETS: ClassVar[dict[str, list[str]]] = {"glib": PRESET_GLIB}
+
+    @classmethod
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if not super().can_install(
+            component=component, category=category, project=project
+        ):
+            return False
+        if component is None:
+            return True
+        addon = cls(cls.create_object(component=component))
+        return addon.is_meson_layout(component)
+
+    def get_preset(self) -> str:
+        return str(self.instance.configuration.get("preset", "glib"))
+
+    def get_language(self) -> str | None:
+        return None
+
+    def get_effective_input_mode(self, component: Component) -> str:
+        return "potfiles"
+
+    def get_effective_potfiles_path(self, component: Component) -> str:
+        if configured := self.get_potfiles_path():
+            return configured
+        return self.get_meson_potfiles_path(component) or ""
+
+    def get_watched_potfiles_paths(self, component: Component) -> set[str]:
+        if configured := self.get_potfiles_path():
+            return {
+                configured,
+                Path(configured).parent.joinpath("POTFILES.skip").as_posix(),
+            }
+        gettext_dir = self.get_meson_gettext_dir(component)
+        if gettext_dir is None:
+            return set()
+        return {
+            os.path.relpath(gettext_dir / name, component.full_path).replace(
+                os.sep, "/"
+            )
+            for name in ("POTFILES", "POTFILES.in", "POTFILES.skip")
+        }
+
+    def get_extra_xgettext_args(self, component: Component) -> list[str]:
+        return self.PRESETS.get(self.get_preset(), self.PRESET_GLIB)
+
+    def get_meson_gettext_dir(self, component: Component) -> Path | None:
+        template_dir = Path(component.new_base).parent
+        gettext_dir = Path(component.full_path) / template_dir
+        if not gettext_dir.is_dir():
+            return None
+        return gettext_dir
+
+    def get_meson_potfiles_path(self, component: Component) -> str | None:
+        gettext_dir = self.get_meson_gettext_dir(component)
+        if gettext_dir is None:
+            return None
+        for name in ("POTFILES", "POTFILES.in"):
+            candidate = gettext_dir / name
+            if candidate.is_file():
+                return os.path.relpath(candidate, component.full_path).replace(
+                    os.sep, "/"
+                )
+        return None
+
+    def is_meson_layout(self, component: Component) -> bool:
+        gettext_dir = self.get_meson_gettext_dir(component)
+        if gettext_dir is None or not (gettext_dir / "meson.build").is_file():
+            return False
+        if self.get_meson_potfiles_path(component) is None:
+            return False
+        root = Path(component.full_path)
+        if gettext_dir == root:
+            return True
+        current = gettext_dir.parent
+        while True:
+            if (current / "meson.build").is_file():
+                return True
+            if current == root:
+                return False
+            if current.parent == current:
+                return False
+            current = current.parent
 
 
 class DjangoAddon(ExtractPotBaseAddon):

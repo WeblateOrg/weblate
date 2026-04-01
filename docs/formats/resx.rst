@@ -26,6 +26,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.resx
     :language: xml
 
+.. include:: /snippets/format-features/resx-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

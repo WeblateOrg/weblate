@@ -520,6 +520,7 @@ class ExtractPotMissingMsgmerge(BaseAlert):
     def check_component(component: Component) -> bool | dict | None:
         extractors = {
             "weblate.gettext.xgettext",
+            "weblate.gettext.meson",
             "weblate.gettext.django",
             "weblate.gettext.sphinx",
         }

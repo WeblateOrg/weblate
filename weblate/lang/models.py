@@ -43,7 +43,7 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
     from django_stubs_ext import StrOrPromise
 
@@ -471,13 +471,53 @@ class LanguageQuerySet(models.QuerySet["Language"]):
     def prefetch(self) -> Self:
         return self.prefetch_related("plural_set")
 
-    def filter_for_add(self, project: Project) -> Self:
+    def get_addable_codes(self) -> list[str]:
         codes = BASIC_LANGUAGES
         if settings.BASIC_LANGUAGES is not None:
             codes = settings.BASIC_LANGUAGES
+        return list(codes)
+
+    def get_allowed_add_language_ids(
+        self, project: Project, language_ids: Iterable[int]
+    ) -> set[int]:
+        from weblate.trans.models import Component, Translation
+
+        candidate_language_ids = set(language_ids)
+        if not candidate_language_ids:
+            return set()
+
+        allowed_language_ids = set(
+            self.filter(
+                id__in=candidate_language_ids,
+                code__in=self.get_addable_codes(),
+            ).values_list("id", flat=True)
+        )
+        remaining_language_ids = candidate_language_ids - allowed_language_ids
+        if not remaining_language_ids:
+            return allowed_language_ids
+
+        allowed_language_ids.update(
+            Component.objects.filter(
+                project=project,
+                source_language_id__in=remaining_language_ids,
+            )
+            .values_list("source_language_id", flat=True)
+            .distinct()
+        )
+        allowed_language_ids.update(
+            Translation.objects.filter(
+                component__project=project,
+                language_id__in=remaining_language_ids,
+            )
+            .values_list("language_id", flat=True)
+            .distinct()
+        )
+        return allowed_language_ids
+
+    def filter_for_add(self, project: Project) -> Self:
         return self.filter(
             # Include basic languages
-            Q(code__in=codes)
+            Q(code__in=self.get_addable_codes())
             # Include source languages in a project
             | Q(component__project=project)
             # Include translations in a project

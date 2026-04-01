@@ -566,6 +566,7 @@ class WindowsRCFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U
     format_id = "rc"
     autoload = ("*.rc",)
     language_format = "bcp"
+    supports_descriptions: bool = True
 
     @staticmethod
     def needs_target_sync(template_store: TranslationFormat | None) -> bool:
