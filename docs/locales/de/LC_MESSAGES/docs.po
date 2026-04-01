@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
-"PO-Revision-Date: 2026-04-01 08:36+0000\n"
+"PO-Revision-Date: 2026-04-01 09:10+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -3574,16 +3574,13 @@ msgstr ""
 "siehe :ref:`formats`."
 
 #: admin/checks.rst:40
-#, fuzzy
-#| msgid ""
-#| "Translation flags (currently only ``read-only`` flag for bilingual source "
-#| "string)."
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string or when monolingual template editing is turned off)."
 msgstr ""
 "Übersetzungsmarkierungen (aktuell nur ``read-only``-Markierung für "
-"zweisprachige Ausgangszeichenketten)."
+"zweisprachige Ausgangszeichenketten oder wenn einsprachige "
+"Vorlagenbearbeitung ausgeschaltet ist)."
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
@@ -4076,6 +4073,9 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
+"Die Positivliste wird auf die ursprüngliche URL und auf jedes Ziel einer "
+"HTTP-Weiterleitung angewendet, bevor Weblate dieser folgt. Weiterleitungen "
+"zu Hosts außerhalb dieser Liste werden abgelehnt."
 
 #: admin/config.rst:58
 msgid ""
@@ -4090,10 +4090,8 @@ msgstr ""
 "``.example.com`` passt zu ``cdn.example.com`` oder ``static.example.com``)."
 
 #: admin/config.rst:62
-#, fuzzy
-#| msgid "Defaults to `[*]` which will allow all domains."
 msgid "Defaults to ``[\"*\"]``, which allows all domains."
-msgstr "Der Standardwert ist `[*]` , der alle Domains zulässt."
+msgstr "Der Standardwert ist ``[\"*\"]``, der alle Domains zulässt."
 
 #: admin/config.rst:64
 msgid "**Example**"
@@ -4108,44 +4106,39 @@ msgid "Screenshot uploads, see :ref:`screenshots`"
 msgstr "Bildschirmfoto-Uploads, siehe :ref:`screenshots`"
 
 #: admin/config.rst:78
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
-msgstr "Konfiguration für :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Remote-HTML-Downloads für die Erweiterung :ref:`addon-weblate.cdn.cdnjs`"
 
 #: admin/config.rst:89
 msgid ""
 "Configures which custom machinery domains are explicitly allowed in project-"
 "level machine translation configuration."
 msgstr ""
+"Legt fest, welche benutzerdefinierten Domains von Maschinendiensten in der "
+"Konfiguration der maschinellen Übersetzungen auf Projektebene explizit "
+"erlaubt sind."
 
 #: admin/config.rst:92
 msgid ""
 "This setting applies only to machinery services and does not "
 "affect :setting:`ALLOWED_ASSET_DOMAINS`."
 msgstr ""
+"Diese Einstellung gilt nur für Maschinendienste und hat keinen Einfluss auf "
+":setting:`ALLOWED_ASSET_DOMAINS`."
 
 #: admin/config.rst:95
-#, fuzzy
-#| msgid ""
-#| "It expects a list of host/domain names. You can use fully qualified names "
-#| "(e.g ``www.example.com``) or prepend with a period as a wildcard to match "
-#| "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
-#| "``static.example.com``)."
 msgid ""
 "It expects a list of host/domain names. You can use fully qualified names or "
 "prepend with a period as a wildcard to match all subdomains."
 msgstr ""
 "Es wird eine Liste von Host/Domain-Namen erwartet. Sie können voll "
-"qualifizierte Namen verwenden (z. B. ``www.example.com``) oder einen Punkt "
-"als Platzhalter voranstellen, um alle Subdomains zu finden (z. B. "
-"``.example.com`` passt zu ``cdn.example.com`` oder ``static.example.com``)."
+"qualifizierte Namen verwenden oder einen Punkt als Platzhalter voranstellen, "
+"um alle Subdomains zu finden."
 
 #: admin/config.rst:98
-#, fuzzy
-#| msgid "Defaults to ``True``."
 msgid "Defaults to ``[]``."
-msgstr "Der Standardwert ist ``True``."
+msgstr "Der Standardwert ist ``[]``."
 
 #: admin/config.rst:100
 msgid ""
@@ -4158,16 +4151,23 @@ msgid ""
 "hostname validation and does not perform the same local DNS or peer-IP "
 "checks."
 msgstr ""
+"Die Positivliste wirkt sich auf zwei Arten auf projektverwaltete "
+"Maschinendienste aus: Sie lässt den konfigurierten Endpunkt während der "
+"Validierung ausgehender Verbindungen zu und markiert übereinstimmende Hosts "
+"als vertrauenswürdig, wenn es darum geht zu entscheiden, ob dem Benutzer "
+"Fehlerdetails oder Antwortinhalte von Remote-Anbietern angezeigt werden "
+"können. Bei direkten Verbindungen lehnen die Laufzeitprüfungen weiterhin "
+"Ziele ab, die auf private oder anderweitig nicht-öffentliche Adressen "
+"verweisen. Wenn ein HTTP(S)-Proxy verwendet wird, greift die "
+"Laufzeitvalidierung auf die Validierung des Rechnernamens zurück und führt "
+"nicht die gleichen lokalen DNS- oder Peer-IP-Prüfungen durch."
 
 #: admin/config.rst:115
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
 msgid ""
 "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgstr ""
 "Konfiguriert das Größenlimit für den Abruf von Assets in Weblate. Der "
-"Standardwert ist 4 MB."
+"Standardwert ist 10 MB."
 
 #: admin/config.rst:128
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
@@ -5516,18 +5516,24 @@ msgid ""
 "Defines the maximum number of ZIP entries allowed when importing a project "
 "backup."
 msgstr ""
+"Legt die maximale Anzahl von ZIP-Einträgen fest, die beim Importieren einer "
+"Projektsicherung zulässig sind."
 
 #: admin/config.rst:1585
 msgid ""
 "This is a safeguard against malformed or intentionally fragmented archives. "
 "Defaults to 100000 entries."
 msgstr ""
+"Dies dient als Schutz vor fehlerhaften oder absichtlich fragmentierten "
+"Archiven. Die Standardeinstellung ist 100.000 Einträge."
 
 #: admin/config.rst:1599
 msgid ""
 "Defines the maximum uncompressed size, in bytes, for a single highly "
 "compressed ZIP entry in an imported project backup."
 msgstr ""
+"Legt die maximale unkomprimierte Größe in Bytes für einen einzelnen "
+"hochkomprimierten ZIP-Eintrag in einer importierten Projektsicherung fest."
 
 #: admin/config.rst:1602
 msgid ""
@@ -5536,12 +5542,19 @@ msgid ""
 "allowed here and are expected to be constrained by the HTTP upload limit. "
 "Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
+"Dieses Limit gilt nur für Einträge, die groß genug und ausreichend "
+"komprimiert sind, um verdächtig zu wirken. Große Dateien mit geringer "
+"Komprimierung sind hier bewusst erlaubt und werden voraussichtlich durch das "
+"HTTP-Upload-Limit eingeschränkt. Der Standardwert ist 262.144.000 Bytes (250 "
+"MiB)."
 
 #: admin/config.rst:1618
 msgid ""
 "Defines the minimum uncompressed size, in bytes, at which Weblate starts "
 "considering the ZIP compression ratio during project backup import."
 msgstr ""
+"Legt die minimale unkomprimierte Größe in Bytes fest, ab der Weblate die ZIP-"
+"Komprimierung beim Import von Projektsicherungen berücksichtigt."
 
 #: admin/config.rst:1621
 msgid ""
@@ -5549,12 +5562,19 @@ msgid ""
 "avoid rejecting reasonably sized files that compress well. Defaults to "
 "1048576 bytes (1 MiB)."
 msgstr ""
+"Kleinere Dateien werden bei der Validierung auf der Grundlage des "
+"Kompressionsverhältnisses ignoriert, um zu vermeiden, dass auch gut "
+"komprimierte Dateien von angemessener Größe zurückgewiesen werden. Der "
+"Standardwert ist 1048.576 Bytes (1 MiB)."
 
 #: admin/config.rst:1636
 msgid ""
 "Defines the maximum allowed ratio between the uncompressed and compressed "
 "size for a large ZIP entry during project backup import."
 msgstr ""
+"Legt das maximal zulässige Verhältnis zwischen der unkomprimierten und der "
+"komprimierten Größe für einen großen ZIP-Eintrag beim Import von "
+"Projektsicherungen fest."
 
 #: admin/config.rst:1639
 msgid ""
