@@ -1145,6 +1145,7 @@ CHECK_LIST = [
     "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
+    "weblate.checks.format.LaravelFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",
     "weblate.checks.format.PercentPlaceholdersCheck",
@@ -1204,6 +1205,7 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
     "weblate.trans.autofixes.chars.DevanagariDanda",
+    "weblate.trans.autofixes.chars.PunctuationSpacing",
     "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
@@ -1215,6 +1217,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.UpdateConfigureAddon",
     "weblate.addons.gettext.MsgmergeAddon",
     "weblate.addons.gettext.XgettextAddon",
+    "weblate.addons.gettext.MesonAddon",
     "weblate.addons.gettext.DjangoAddon",
     "weblate.addons.gettext.SphinxAddon",
     "weblate.addons.gettext.GettextAuthorComments",
