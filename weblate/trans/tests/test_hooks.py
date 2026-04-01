@@ -6,7 +6,6 @@
 
 import json
 from abc import ABC, abstractmethod
-from typing import Never
 from unittest.mock import patch
 from urllib.parse import urlencode
 
@@ -16,7 +15,13 @@ from django.urls import reverse
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.views.hooks import HOOK_HANDLERS, validate_full_name
+from weblate.trans.views.hooks import (
+    HOOK_HANDLERS,
+    HookPayloadError,
+    normalize_branch_ref,
+    require_mapping,
+    validate_full_name,
+)
 
 GITHUB_PAYLOAD = """
 {
@@ -1588,7 +1593,7 @@ class HookBackendTestCase(SimpleTestCase, ABC):
         self.assertEqual(expected, result)
 
     @abstractmethod
-    def test_git(self) -> Never:
+    def test_git(self) -> None:
         raise NotImplementedError
 
 
@@ -1948,11 +1953,50 @@ class ValidateFullNameTest(SimpleTestCase):
         """Test empty full_name."""
         self.assertFalse(validate_full_name(""))
 
+    def test_validate_full_name_none(self) -> None:
+        """Test missing full_name."""
+        self.assertFalse(validate_full_name(None))
+
     def test_validate_full_name_multiple_slashes(self) -> None:
         """Test full_name with multiple slashes (still valid)."""
         # These are valid as they have slash and length > 5
         self.assertTrue(validate_full_name("org/project/repo"))
         self.assertTrue(validate_full_name("user/sub/project"))
+
+
+class NormalizeBranchRefTest(SimpleTestCase):
+    """Test branch ref normalization."""
+
+    def test_normalize_branch_ref(self) -> None:
+        """Test standard branch ref normalization."""
+        self.assertEqual(normalize_branch_ref("refs/heads/main"), "main")
+
+    def test_normalize_branch_ref_none(self) -> None:
+        """Test missing branch ref."""
+        with self.assertRaises(HookPayloadError) as cm:
+            normalize_branch_ref(None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_normalize_branch_ref_invalid_type(self) -> None:
+        """Test invalid branch ref type."""
+        with self.assertRaises(HookPayloadError) as cm:
+            normalize_branch_ref(123)  # type: ignore[arg-type]
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+
+class RequireMappingTest(SimpleTestCase):
+    """Test payload mapping validation."""
+
+    def test_require_mapping(self) -> None:
+        """Test valid mapping."""
+        payload = {"html_url": "https://example.invalid/repo"}
+        self.assertEqual(require_mapping(payload, "repository"), payload)
+
+    def test_require_mapping_none(self) -> None:
+        """Test missing mapping."""
+        with self.assertRaises(HookPayloadError) as cm:
+            require_mapping(None, "repository")
+        self.assertIn("Invalid repository in payload", str(cm.exception))
 
 
 class InvalidBackendTest(SimpleTestCase):
@@ -1981,8 +2025,9 @@ class InvalidBackendTest(SimpleTestCase):
         handler = HOOK_HANDLERS["github"]
         payload = json.loads(GITHUB_PAYLOAD)
         del payload["ref"]
-        with self.assertRaises(KeyError):
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
 
     def test_bitbucket_no_full_name_components(self) -> None:
         """Test Bitbucket handler when full_name cannot be determined."""
@@ -2022,8 +2067,46 @@ class InvalidBackendTest(SimpleTestCase):
         handler = HOOK_HANDLERS["gitea"]
         payload = json.loads(GITEA_PAYLOAD)
         del payload["repository"]["full_name"]
-        with self.assertRaises(KeyError):
+        result = handler(payload, None)
+        if result is None:
+            self.fail("Expected Gitea handler to return hook data")
+        self.assertIsNone(result["full_name"])
+
+    def test_gitea_null_ref(self) -> None:
+        """Test Gitea handler with null ref."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["ref"] = None
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_gitea_missing_ref(self) -> None:
+        """Test Gitea handler with missing ref."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        del payload["ref"]
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_gitea_invalid_ref_type(self) -> None:
+        """Test Gitea handler with non-string ref."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["ref"] = 123
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_gitea_null_repository(self) -> None:
+        """Test Gitea handler with null repository."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"] = None
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Invalid repository in payload", str(cm.exception))
 
     def test_gitee_missing_path_with_namespace(self) -> None:
         """Test Gitee handler with missing path_with_namespace."""
@@ -2168,6 +2251,49 @@ class InvalidPayloadTest(ViewTestCase):
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_full_name_none(self) -> None:
+        """Test Gitea webhook with null full_name."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["full_name"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_ref_none(self) -> None:
+        """Test Gitea webhook with null ref."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["ref"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Missing ref in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_repository_none(self) -> None:
+        """Test Gitea webhook with null repository."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
         )
 
     @override_settings(ENABLE_HOOKS=True)
@@ -2324,7 +2450,11 @@ class InvalidPayloadTest(ViewTestCase):
             reverse("webhook", kwargs={"service": "gitea"}),
             {"payload": json.dumps(payload)},
         )
-        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_gitee_missing_repository_key(self) -> None:
