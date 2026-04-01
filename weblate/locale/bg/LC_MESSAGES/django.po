@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-04-01 09:10+0000\n"
+"PO-Revision-Date: 2026-04-01 11:08+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1746,20 +1746,16 @@ msgstr ""
 "готови за ползване като преводи."
 
 #: weblate/addons/forms.py:110
-#, fuzzy
-#| msgid "Frequency"
 msgid "Update frequency"
-msgstr "Честота"
+msgstr "Честота на обновяване"
 
 #: weblate/addons/forms.py:112
 msgid "Daily"
-msgstr ""
+msgstr "Ежедневно"
 
 #: weblate/addons/forms.py:113
-#, fuzzy
-#| msgid "Weekly digest"
 msgid "Weekly"
-msgstr "Ежеседмично резюме"
+msgstr "Ежеседмично"
 
 #: weblate/addons/forms.py:114
 msgid "Monthly"
@@ -1770,6 +1766,7 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
+"Колко често добавката да обновява файла POT при опресняване на компонента."
 
 #: weblate/addons/forms.py:123
 msgid "Normalize POT header"
@@ -1794,27 +1791,24 @@ msgstr ""
 "обновяване на файла POT."
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Input source"
-msgstr "Промяна на изходния низ"
+msgstr "Източник на данните"
 
 #: weblate/addons/forms.py:163 weblate/addons/forms.py:182
-#, fuzzy
-#| msgid "Special characters"
 msgid "Source file patterns"
-msgstr "Специални знаци"
+msgstr "Шаблони за изходните файлове"
 
 #: weblate/addons/forms.py:164
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "Манифест POTFILES"
 
 #: weblate/addons/forms.py:169
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Изберете дали xgettext да чете изходните файлове в съответствие със зададен "
+"шаблон или от манифест POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:174
 msgid "xgettext language"
@@ -12537,7 +12531,7 @@ msgstr "Сортиране на колоната"
 #: weblate/templates/snippets/list-objects.html:61
 #: weblate/trans/templatetags/translations.py:802
 msgid "Approved"
-msgstr "Одобрено"
+msgstr "Одобрени"
 
 #: weblate/templates/snippets/list-objects.html:80
 #, fuzzy
@@ -14368,12 +14362,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translate.html:1019
-#, fuzzy, python-format
-#| msgid "<code>%(flags)s</code> is inherited from %(object)s."
+#, python-format
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for %(format)s."
-msgstr "<code>%(flags)s</code> е наследено от %(object)s."
+msgstr ""
+"<code>%(flags)s</code> е наследено от %(object)s, тъй като редактирането на "
+"изходни низове не е възможно за %(format)s."
 
 #: weblate/templates/translate.html:1021
 #, fuzzy, python-format
@@ -15168,16 +15163,12 @@ msgid "Discovery configuration"
 msgstr "Добра настройка"
 
 #: weblate/trans/discovery.py:212
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
-"Регулярният израз за търсене на файлове за превод трябва да съдържа две "
-"именувани групи, които да откриват компонента и езика. Ето няколко примера:"
+"Регулярният израз използван за съвпадения с откритите файлове е твърде "
+"сложен и отне твърде много време да се изпълни."
 
 #: weblate/trans/discovery.py:237
 msgid ""
@@ -15829,16 +15820,12 @@ msgid "The category does not belong to the selected project."
 msgstr "Категорията не принадлежи на този проект."
 
 #: weblate/trans/forms.py:2450
-#, fuzzy
-#| msgid ""
-#| "You must specify a license for these components to make them publicly "
-#| "accessible: %s"
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible:"
 msgstr ""
 "Трябва да посочите лиценз за тези компоненти, за да могат те да бъдат "
-"публично достъпни: %s"
+"публично достъпни:"
 
 #: weblate/trans/forms.py:2471
 msgid ""
@@ -16203,10 +16190,8 @@ msgstr "Добавката не може да бъде изпълнена."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:449
-#, fuzzy
-#| msgid "Could not parse TMX file: %s"
 msgid "Could not update POT file."
-msgstr "Неуспешен анализ на файла TMX: %s"
+msgstr "Файлът POT не може да бъде обновен."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:456
@@ -17025,10 +17010,8 @@ msgstr ""
 "но не сте подсигурили базов файл за целта."
 
 #: weblate/trans/models/component.py:3357
-#, fuzzy
-#| msgid "Could not parse base file for new translations: %s"
 msgid "Could not parse base file for new translations:"
-msgstr "Базовият файл за новите преводи не може да бъде анализиран: %s"
+msgstr "Базовият файл за новите преводи не може да бъде анализиран:"
 
 #: weblate/trans/models/component.py:3362
 msgid "Unrecognized base file for new translations."
@@ -17445,10 +17428,9 @@ msgid "Could not commit pending changes: %s"
 msgstr "Чакащите промени не успяха да бъдат подадени: %s"
 
 #: weblate/trans/models/translation.py:1472
-#, fuzzy, python-brace-format
-#| msgid "Could not parse {file}: {error}"
+#, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Неуспешен анализ на файла „{file}“: {error}"
+msgstr "Каченият файл не може да бъде анализиран като {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:2153
 msgid "Plurals are not supported by the file format."
@@ -18045,26 +18027,21 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr "Моля, въведете пълно име и е-поща в профила си."
 
 #: weblate/trans/views/edit.py:95
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following fix-up was applied to the translation:"
 msgid_plural "The following fix-ups were applied to the translation:"
-msgstr[0] "Към превода са приложени следните поправки: %s"
-msgstr[1] "Към превода са приложени следните поправки: %s"
+msgstr[0] "Към превода е приложена следната поправка:"
+msgstr[1] "Към превода са приложени следните поправки:"
 
 #: weblate/trans/views/edit.py:107
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The translation has been saved, however there are some newly failing "
-#| "checks: {0}"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there is a newly failing check: "
 "{checks}"
 msgid_plural ""
 "The translation has been saved, however there are some newly failing checks: "
 "{checks}"
-msgstr[0] "Преводът е запазен, но не преминава някои проверки: {0}"
-msgstr[1] "Преводът е запазен, но не преминава някои проверки: {0}"
+msgstr[0] "Преводът е запазен, но сега не преминава една проверка: {checks}"
+msgstr[1] "Преводът е запазен, но сега не преминава някои проверки: {checks}"
 
 #: weblate/trans/views/edit.py:325
 msgid "Your suggestion is empty!"
@@ -18316,10 +18293,9 @@ msgstr ""
 "%(error)s"
 
 #: weblate/trans/views/settings.py:313
-#, fuzzy, python-format
-#| msgid "This component is currently locked."
+#, python-format
 msgid "This component is already shared in %s."
-msgstr "Този компонент в момента е заключен."
+msgstr "Този компонент вече е споделен в %s."
 
 #: weblate/trans/views/settings.py:495
 msgid "Backup scheduled. It will be available soon."
@@ -18542,10 +18518,8 @@ msgid "URL domain is not allowed."
 msgstr "Домейнът в адреса на изображението е забранен."
 
 #: weblate/utils/outbound.py:114 weblate/utils/outbound.py:164
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse URL."
-msgstr "Неуспешен анализ на адреса: {}"
+msgstr "Адресът не може да бъде прочетен."
 
 #: weblate/utils/outbound.py:149
 #, fuzzy
