@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-03-31 13:14+0000\n"
+"PO-Revision-Date: 2026-04-01 08:36+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1817,58 +1817,57 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "Target language"
 msgid "xgettext language"
-msgstr "Целеви език"
+msgstr "Език за xgettext"
 
 #: weblate/addons/forms.py:178
 msgid "Programming language passed to xgettext, for example Python or C."
 msgstr ""
+"Език за програмиране, който се подава към xgettext – например Python или C."
 
 #: weblate/addons/forms.py:186
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Разделени със запетая шаблони за търсене, относителни за хранилището, чрез "
+"които да се претърсват файлове за извличане чрез xgettext."
 
 #: weblate/addons/forms.py:191
 msgid "POTFILES path"
-msgstr ""
+msgstr "Път до POTFILES"
 
 #: weblate/addons/forms.py:195
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to that file."
 msgstr ""
+"Относителен за хранилището път до POTFILES или POTFILES.in. Елементите се "
+"отчитат относително спрямо този файл."
 
 #: weblate/addons/forms.py:232 weblate/addons/forms.py:239
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This field is required."
-msgstr "Това име е забранено"
+msgstr "Това поле е задължително."
 
 #: weblate/addons/forms.py:248
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "Пътят до POTFILES трябва да посочва файл."
 
 #: weblate/addons/forms.py:265
-#, fuzzy
-#| msgid "Unrecognized base file for new translations."
 msgid "The component has to define a POT file for new translations."
-msgstr "Неразпознат базов файл за новите преводи."
+msgstr "Компонентът трябва да посочва файл POT за новите преводи."
 
 #: weblate/addons/forms.py:272
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\" or \"djangojs.pot\"."
 msgstr ""
+"Добавката за Django очаква шаблонът за нови преводи да се бъде с име „"
+"django.pot“ или „djangojs.pot“."
 
 #: weblate/addons/forms.py:281
-#, fuzzy
-#| msgid "Filters"
 msgid "Filtering"
-msgstr "Филтри"
+msgstr "Филтриране"
 
 #: weblate/addons/forms.py:283
 msgctxt "None filtering"
@@ -1884,28 +1883,28 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"По желание може да се премахват низовете, които няма нужда да се превеждат, "
+"след извличането на Sphinx."
 
 #: weblate/addons/forms.py:312
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Sphinx add-on expects the template for new translations to be a .pot "
 "file."
-msgstr "Шаблонът за нови преводи е неправилен."
+msgstr ""
+"Добавката за Sphinx очаква шаблонът за нови преводи да бъде файл с "
+"разширение „.pot“."
 
 #: weblate/addons/forms.py:323
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Sphinx add-on expects the template for new translations to live in a "
 "\"locales\" directory."
-msgstr "Шаблонът за нови преводи е неправилен."
+msgstr ""
+"Добавката за Sphinx очаква шаблонът за нови преводи да се намира в папка „"
+"locales“."
 
 #: weblate/addons/forms.py:335
-#, fuzzy
-#| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
-msgstr "Неуспешно създаване на папка на проекта: %s"
+msgstr "Не може да се определи изходната папка за Sphinx."
 
 #: weblate/addons/forms.py:342
 msgid "Name of generated file"
@@ -2313,34 +2312,36 @@ msgstr ""
 "използвайки msgmerge."
 
 #: weblate/addons/gettext.py:812
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr ""
-"Обновяване на файловете PO, така че да отговарят на файла POT (чрез msgmerge)"
+msgstr "Обновяване на файла POT (чрез xgettext)"
 
 #: weblate/addons/gettext.py:814
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
+"Обновява шаблона на gettext чрез изпълнение на xgettext върху избраните "
+"изходни файлове."
 
 #: weblate/addons/gettext.py:1098
 msgid "Update POT file (Django)"
-msgstr ""
+msgstr "Обновяване на файла POT (чрез Django)"
 
 #: weblate/addons/gettext.py:1100
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
+"Обновява шаблона на gettext чрез вградената в Django команда „makemessages“."
 
 #: weblate/addons/gettext.py:1229
 msgid "Update POT file (Sphinx)"
-msgstr ""
+msgstr "Обновяване на файла POT (чрез Sphinx)"
 
 #: weblate/addons/gettext.py:1231
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"Обновява шаблона на gettext чрез системата за работа с gettext на Sphinx, "
+"без да зарежда конфигурацията на проекта."
 
 #: weblate/addons/gettext.py:1444
 msgid "Contributors in comment"
@@ -2527,10 +2528,8 @@ msgid "Cannot change this on a built-in team."
 msgstr "Промяната на това е забранена за вградените екипи."
 
 #: weblate/api/serializers.py:593
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change this on an existing team."
-msgstr "Промяната на това е забранена за вградените екипи."
+msgstr "Промяната на това е забранена за вече съществуващите екипи."
 
 #: weblate/api/serializers.py:1185 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -2618,7 +2617,7 @@ msgstr ""
 
 #: weblate/api/views.py:611 weblate/trans/forms.py:3320
 msgid "At least one team is required for a project token."
-msgstr ""
+msgstr "За създаването на проектен идентификатор е нужен поне един екип."
 
 #: weblate/api/views.py:2072 weblate/trans/views/files.py:265
 #, python-format
@@ -3624,10 +3623,8 @@ msgstr ""
 "Моля, опишете проекта и Вашата връзка с него, за предпочитане на английски."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Преглед на информацията относно таксуването"
+msgstr "Добавяне на администратор за плащанията"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3769,26 +3766,22 @@ msgstr ""
 "абонамент или след като проектът бъде премахнат."
 
 #: weblate/billing/views.py:203 weblate/billing/views.py:222
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Промяната на това е забранена за вградените екипи."
+msgstr "Такова таксуване не може да бъде обединено."
 
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "Потребителят %s беше добавен като администратор за плащанията."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "Не можете да премахнете себе си!"
+msgstr "Не можете да премахнете себе си."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "Потребителят %s беше премахнат от администраторите за плащанията."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -4020,13 +4013,10 @@ msgid "Different strings are translated the same."
 msgstr "Различни низове имат един и същ превод."
 
 #: weblate/checks/consistency.py:196
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "Друг изходен низ: %s"
-msgstr[1] "Други изходни низове: %s"
+msgstr[0] "Друг изходен низ:"
+msgstr[1] "Други изходни низове:"
 
 #: weblate/checks/consistency.py:199
 #, python-format
@@ -4560,10 +4550,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "Грешка в синтаксиса на Fluent в превода."
 
 #: weblate/checks/format.py:501
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "Следните низове за форматиране са в грешен ред: %s"
+msgstr "Следните низове за форматиране са в грешен ред:"
 
 #: weblate/checks/format.py:590
 msgid "Python format"
@@ -4784,79 +4772,52 @@ msgstr ""
 "ICU MessageFormat."
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "Синтактична грешка: %s"
+msgstr "Синтактична грешка:"
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "Един или повече неизвестни заместители в превода: %s"
+msgstr "Един или повече неизвестни заместители в превода:"
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "В превода липсва един или повече заместители: %s"
+msgstr "В превода липсва един или повече заместители:"
 
 #: weblate/checks/icu.py:492
-#, fuzzy
-#| msgid "One or more placeholder types are incorrect: %s"
 msgid "One or more placeholder types are incorrect:"
-msgstr "Един или повече типове на заместители са неправилни: %s"
+msgstr "Един или повече типове на заместители са неправилни:"
 
 #: weblate/checks/icu.py:499
-#, fuzzy
-#| msgid "Missing other sub-message for: %s"
 msgid "Missing other sub-message for:"
-msgstr "Липсва друго под-съобщение за: %s"
+msgstr "Липсва друго под-съобщение за:"
 
 #: weblate/checks/icu.py:506
-#, fuzzy
-#| msgid "Incorrect plural selectors for: %s"
 msgid "Incorrect plural selectors for:"
-msgstr "Неправилни селектори за множествено число за: %s"
+msgstr "Неправилни селектори за множествено число за:"
 
 #: weblate/checks/icu.py:515
-#, fuzzy
-#| msgid "Incorrect sub-message selectors for: %s"
 msgid "Incorrect sub-message selectors for:"
-msgstr "Неправилни селектори на под-съобщения за: %s"
+msgstr "Неправилни селектори на под-съобщения за:"
 
 #: weblate/checks/icu.py:526
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should have a corresponding XML tag in the "
-#| "translation: %s"
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation:"
 msgstr ""
 "В превода един или повече заместители трябва да имат съответстващ XML-"
-"елемент: %s"
+"елемент:"
 
 #: weblate/checks/icu.py:535
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should not be an XML tag in the translation: %s"
 msgid "One or more placeholders should not be an XML tag in the translation:"
-msgstr ""
-"В превода един или повече заместители не трябва да бъдат XML-елементи: %s"
+msgstr "В превода един или повече заместители не трябва да бъдат XML-елементи:"
 
 #: weblate/checks/icu.py:544
-#, fuzzy
-#| msgid "One or more XML tags has unexpected content in the translation: %s"
 msgid "One or more XML tags has unexpected content in the translation:"
-msgstr ""
-"Един или повече XML-елемента имат неочаквано съдържание в превода: „%s“"
+msgstr "Един или повече XML-елемента имат неочаквано съдържание в превода:"
 
 #: weblate/checks/icu.py:552
-#, fuzzy
-#| msgid "One or more XML tags missing content in the translation: %s"
 msgid "One or more XML tags missing content in the translation:"
-msgstr "В един или повече XML-елемента липсва съдържание в превода: „%s“"
+msgstr "В един или повече XML-елемента липсва съдържание в превода:"
 
 #: weblate/checks/markup.py:139
 msgid "BBCode markup"
@@ -4884,7 +4845,7 @@ msgstr "Елементите на XML в превода не съвпадат с
 
 #: weblate/checks/markup.py:307
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Знаци около елементи на XML"
 
 #: weblate/checks/markup.py:309
 msgid ""
@@ -5036,13 +4997,10 @@ msgid "Ellipsis"
 msgstr "Многоточие"
 
 #: weblate/checks/source.py:51
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)."
 msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
-msgstr "Низът използва три точки (...) вместо знака за многоточие (…)."
+msgstr "Низът използва три точки ``(...)`` вместо знака за многоточие ``(…)``."
 
 #: weblate/checks/source.py:62
 msgid "Multiple failing checks"
