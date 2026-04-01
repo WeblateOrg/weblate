@@ -325,8 +325,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
 
 .. _azure-auth:
 
-Microsoft Azure Active Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID
+~~~~~~~~~~~~~~~~~~
 
 Weblate can be configured to use common or specific tenants for authentication.
 
@@ -342,7 +342,7 @@ You will need following:
 
 .. code-block:: python
 
-    # Azure AD common
+    # Microsoft Entra ID common
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
@@ -357,7 +357,7 @@ You will need following:
 
 .. code-block:: python
 
-    # Azure AD Tenant
+    # Microsoft Entra ID with Tenant
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (

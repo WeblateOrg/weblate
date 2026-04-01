@@ -1519,22 +1519,22 @@ Gitea
 
    Enables Gitea authentication.
 
-Azure Active Directory
-~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID
+~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
 
-    Enables Azure Active Directory authentication, see :ref:`azure-auth`.
+    Enables Microsoft Entra ID authentication, see :ref:`azure-auth`.
 
-Azure Active Directory with Tenant support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID with Tenant support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
 
-    Enables Azure Active Directory authentication with Tenant support, see
+    Enables Microsoft Entra ID authentication with Tenant support, see
     :ref:`azure-auth`.
 
 Keycloak
