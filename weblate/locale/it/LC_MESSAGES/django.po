@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
 "PO-Revision-Date: 2026-04-02 14:12+0000\n"
-"Last-Translator: tfr tint <tfrtint@gmail.com>\n"
+"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -1748,7 +1748,7 @@ msgstr "Frequenza di aggiornamento"
 
 #: weblate/addons/forms.py:112
 msgid "Daily"
-msgstr ""
+msgstr "Giornalmente"
 
 #: weblate/addons/forms.py:113
 msgid "Weekly"
@@ -1763,10 +1763,12 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
+"Con quale frequenza il componente aggiuntivo deve aggiornare il file POT "
+"quando il componente viene aggiornato."
 
 #: weblate/addons/forms.py:123
 msgid "Normalize POT header"
-msgstr ""
+msgstr "Normalizza l'intestazione POT"
 
 #: weblate/addons/forms.py:127
 msgid "Updates selected gettext header fields using component configuration."
@@ -1783,6 +1785,8 @@ msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
 msgstr ""
+"Garantisce l'installazione del componente aggiuntivo msgmerge e lo attiva "
+"dopo l'aggiornamento del file POT."
 
 #: weblate/addons/forms.py:161
 msgid "Input source"
@@ -1794,13 +1798,15 @@ msgstr "Modelli file di origine"
 
 #: weblate/addons/forms.py:164
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "Manifesti di POTFILES"
 
 #: weblate/addons/forms.py:169
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Scegli se xgettext deve leggere i file sorgente dai pattern glob o da un "
+"manifesto POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:174
 msgid "xgettext language"
@@ -1808,23 +1814,27 @@ msgstr "linguaggio xgettext"
 
 #: weblate/addons/forms.py:178
 msgid "Programming language passed to xgettext, for example Python or C."
-msgstr ""
+msgstr "Linguaggio di programmazione passato a xgettext, ad esempio Python o C."
 
 #: weblate/addons/forms.py:186
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Pattern glob relativi al repository, separati da interruzioni di riga, per i "
+"file da estrarre con xgettext."
 
 #: weblate/addons/forms.py:191
 msgid "POTFILES path"
-msgstr ""
+msgstr "Percorso POTFILES"
 
 #: weblate/addons/forms.py:195
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to that file."
 msgstr ""
+"Percorso relativo al repository per POTFILES o POTFILES.in. Le voci vengono "
+"risolte rispetto a quel file."
 
 #: weblate/addons/forms.py:232 weblate/addons/forms.py:239
 msgid "This field is required."
@@ -1832,7 +1842,7 @@ msgstr "Questo campo è obbligatorio."
 
 #: weblate/addons/forms.py:248
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "Il percorso POTFILES deve puntare a un file."
 
 #: weblate/addons/forms.py:265
 msgid "The component has to define a POT file for new translations."
@@ -1843,6 +1853,8 @@ msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\" or \"djangojs.pot\"."
 msgstr ""
+"L'add-on Django prevede che il template per le nuove traduzioni si chiami "
+"\"django.pot\" o \"djangojs.pot\"."
 
 #: weblate/addons/forms.py:281
 msgid "Filtering"
@@ -1862,6 +1874,8 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"Facoltativamente, è possibile rimuovere le stringhe non utili alla "
+"traduzione dopo l'estrazione con Sphinx."
 
 #: weblate/addons/forms.py:312
 msgid ""
@@ -2293,25 +2307,31 @@ msgstr "Aggiorna il file POT (xgettext)"
 #: weblate/addons/gettext.py:814
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
+"Aggiorna il modello gettext utilizzando xgettext sui file sorgente "
+"selezionati."
 
 #: weblate/addons/gettext.py:1098
 msgid "Update POT file (Django)"
-msgstr ""
+msgstr "Aggiorna il file POT (Django)"
 
 #: weblate/addons/gettext.py:1100
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
+"Aggiorna il template gettext utilizzando il comando makemessages integrato "
+"di Django."
 
 #: weblate/addons/gettext.py:1229
 msgid "Update POT file (Sphinx)"
-msgstr ""
+msgstr "Aggiorna il file POT (Sphinx)"
 
 #: weblate/addons/gettext.py:1231
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"Aggiorna il template gettext utilizzando il generatore gettext di Sphinx "
+"senza caricare la configurazione del progetto."
 
 #: weblate/addons/gettext.py:1444
 msgid "Contributors in comment"
@@ -2581,7 +2601,7 @@ msgstr ""
 
 #: weblate/api/views.py:611 weblate/trans/forms.py:3320
 msgid "At least one team is required for a project token."
-msgstr ""
+msgstr "Per ottenere un token di progetto è necessario almeno un team."
 
 #: weblate/api/views.py:2072 weblate/trans/views/files.py:265
 #, python-format
@@ -5049,7 +5069,7 @@ msgstr "La tua traduzione è generica"
 
 #: weblate/examples/fix_foo.py:9
 msgid "Foobar"
-msgstr ""
+msgstr "Foobar"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:94
@@ -5186,13 +5206,12 @@ msgstr "File testo MediaWiki"
 #. Translators: File format name
 #: weblate/formats/convert.py:706
 msgid "AsciiDoc file"
-msgstr ""
+msgstr "File AsciiDoc"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:754
-#, fuzzy
 msgid "WixLocalization file"
-msgstr "WixLocalization file"
+msgstr "File WixLocalization"
 
 #: weblate/formats/exporters.py:58
 msgid "gettext PO"
@@ -9469,6 +9488,8 @@ msgstr ""
 msgid ""
 "Share this component in other projects, optionally placing it in a category."
 msgstr ""
+"Condividi questo componente in altri progetti, inserendolo eventualmente in "
+"una categoria."
 
 #: weblate/templates/component.html:355
 msgid "Current links"
@@ -11066,7 +11087,7 @@ msgstr "Gestisci il tuo abbonamento"
 
 #: weblate/templates/manage/backups.html:65
 msgid "Latest backup attempt failed"
-msgstr ""
+msgstr "L'ultimo tentativo di backup non è riuscito"
 
 #: weblate/templates/manage/backups.html:80
 msgid "Backup service credentials"
@@ -13065,7 +13086,7 @@ msgstr "Weblate non può eseguire l'add-on script."
 #: weblate/templates/trans/alert/parseerror.html:5
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:5
 msgid "The following occurrences were found:"
-msgstr "Si sono verificati i seguenti eventi:"
+msgstr "Sono state rilevate le seguenti ricorrenze:"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
 msgid "Command"
@@ -13324,12 +13345,16 @@ msgid ""
 "This component updates the POT file automatically, but does not update the "
 "PO files."
 msgstr ""
+"Questo componente aggiorna automaticamente il file POT, ma non aggiorna i "
+"file PO."
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:6
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
 msgstr ""
+"Installa anche il componente aggiuntivo msgmerge se desideri che i file di "
+"traduzione si adattino automaticamente alle modifiche del modello."
 
 #: weblate/templates/trans/alert/inexistantfiles.html:5
 msgid "Following files are no longer present in the repository:"
@@ -14367,6 +14392,8 @@ msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for bilingual formats."
 msgstr ""
+"<code>%(flags)s</code> viene ereditato da %(object)s perché la modifica "
+"delle stringhe sorgente non è disponibile per i formati bilingue."
 
 #: weblate/templates/translate.html:1019
 #, python-format
@@ -15174,6 +15201,8 @@ msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
 msgstr ""
+"L'espressione regolare per il filtro linguistico è troppo complessa e ha "
+"richiesto troppo tempo per essere valutata."
 
 #: weblate/trans/discovery.py:443
 msgid "File mask matches the main component."
@@ -16208,7 +16237,7 @@ msgstr "Impossibile aggiornare il file POT."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:456
 msgid "POT updates do not update PO files."
-msgstr ""
+msgstr "Gli aggiornamenti POT non aggiornano i file PO."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:487
@@ -18978,12 +19007,14 @@ msgstr "Porta"
 
 #: weblate/wladmin/forms.py:38
 msgid "Keep blank for using the default SSH port."
-msgstr ""
+msgstr "Lascia vuoto per utilizzare la porta SSH predefinita."
 
 #: weblate/wladmin/forms.py:44
 msgid ""
 "Fingerprint of key to add. Keep blank to add all keys offered by the host."
 msgstr ""
+"Impronta digitale della chiave da aggiungere. Lascia vuoto per aggiungere "
+"tutte le chiavi offerte dall'host."
 
 #: weblate/wladmin/forms.py:58
 msgid "The test e-mail will be sent to this address."
