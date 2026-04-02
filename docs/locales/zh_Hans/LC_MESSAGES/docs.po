@@ -34,7 +34,8 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
 "PO-Revision-Date: 2026-04-02 14:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -16986,6 +16987,9 @@ msgid ""
 "party add-ons that used ``project_scope = True`` should override "
 "``can_install()`` to return ``False`` when ``component`` is not ``None``."
 msgstr ""
+"已删除附加组件的 ``project_scope`` 类属性。 当 ``component`` 不是 ``None`` 时"
+"，使用 ``project_scope = True`` 的第三方附加组件应该覆盖 ``can_install()`` 返"
+"回 ``False`` 。"
 
 #: changes.rst:54
 msgid ""
@@ -16997,6 +17001,11 @@ msgid ""
 "project scope should override ``daily(component, project)`` directly to "
 "implement project-level logic."
 msgstr ""
+"附加组件的 ``daily()`` 方式签名已更改。之前覆盖 ``daily(component)`` 来执行每"
+"一部件工作的附加组件现在应该覆盖 ``daily_component(component)`` 。基础的 "
+"``daily()`` 方式自动迭代部件并为每个附加组件调用 ``daily_component()`` 。可被"
+"优化以在项目范围运行的附加组件应该直接覆盖 ``daily(component, project)`` 来实"
+"现项目级逻辑。"
 
 #: changes.rst:55
 msgid "Dropped support for MySQL and MariaDB as the database engine."
@@ -17015,6 +17024,8 @@ msgid ""
 "Uploaded project backups are now validated more strictly during import and "
 "suspicious ZIP archives can be rejected; see :ref:`projectbackup`."
 msgstr ""
+"现在在导入期间更加严格地验证上传的项目备份，可以拦截可以的 ZIP 压缩包；见 "
+":ref:`projectbackup`。"
 
 #: changes.rst:61 changes.rst:98 changes.rst:137 changes.rst:194
 #: changes.rst:233 changes.rst:269 changes.rst:336 changes.rst:356
@@ -17081,6 +17092,9 @@ msgid ""
 "links to internal addresses, set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to "
 "``False`` or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``."
 msgstr ""
+"现在默认拒绝指向私有或其他非全球 IP 地址段的项目网站和仓库浏览器 URL。如您的"
+"设置是有意链接到内部地址，请设置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE` 为 "
+"``False`` 或 设置 :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` 为 ``0`` 。"
 
 #: changes.rst:68 changes.rst:102 changes.rst:141 changes.rst:198
 #: changes.rst:239 changes.rst:273 changes.rst:340 changes.rst:360
@@ -17116,6 +17130,8 @@ msgid ""
 "New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even "
 "with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"新设置 :setting:`PUBLIC_ENGAGE` 可在使用 :setting:`REQUIRE_LOGIN` 设置情况下"
+"允许公开访问参与页面。"
 
 #: changes.rst:84
 msgid "Improved matching in :doc:`/admin/memory`."
@@ -17129,7 +17145,7 @@ msgstr "显示列表中待审校的字符串数量。"
 msgid ""
 "Avoid displaying confusing status icons for ghost languages on project or "
 "category level."
-msgstr ""
+msgstr "避免在项目或类别层级显示令人困惑的幽灵语言图标。"
 
 #: changes.rst:90
 msgid ""
@@ -17146,7 +17162,7 @@ msgstr "改进了编辑字符串时的 API 验证。"
 
 #: changes.rst:93
 msgid "Disabled throttling for incoming webhooks."
-msgstr ""
+msgstr "禁用了传入 webhooks 的节流。"
 
 #: changes.rst:94
 msgid "Avoid displaying non-actionable ghost languages."
@@ -17186,6 +17202,9 @@ msgid ""
 "disposable e-mail domains during registration (Docker "
 "env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 msgstr ""
+"新增可选的 :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` 设置允许在注册时使"
+"用临时邮箱 (Docker env: "
+":envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)。"
 
 #: changes.rst:119
 msgid ""
@@ -17193,6 +17212,8 @@ msgid ""
 "between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, "
 "and :guilabel:`Needs checking` states."
 msgstr ""
+"改进了翻译状态文档阐明 :guilabel:`Needs editing`、:guilabel:`Needs "
+"rewriting` 和 :guilabel:`Needs checking` 状态之间的区别。"
 
 #: changes.rst:120
 msgid ""
@@ -17228,19 +17249,21 @@ msgstr "用户可以通过 API 管理自己的通知订阅。"
 msgid ""
 "Project administrators can manage teams in their projects via the API, "
 "according to access control rules."
-msgstr ""
+msgstr "项目管理员可按照访问控制规则通过 API 管理项目中的团队。"
 
 #: changes.rst:132
 msgid ""
 "The add-ons listing in the API now correctly honors user permissions "
 "(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 msgstr ""
+"API 中列举的附加组件现在正确地遵照用户权限 (:cve:`2026-27457` / :ghsa:`wppc-"
+"7cq7-cgfv`)。"
 
 #: changes.rst:134
 msgid ""
 "Fixed source column being cleared when translating monolingual :doc:`/"
 "formats/csv`."
-msgstr ""
+msgstr "修复了单语言 :doc:`/formats/csv` 时原文列被清除的问题。"
 
 #: changes.rst:144
 msgid ""
@@ -17372,7 +17395,7 @@ msgstr ""
 msgid ""
 "Argument injection in the management console "
 "(:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)."
-msgstr ""
+msgstr "管理控制台中的变量注入漏洞 (:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)。"
 
 #: changes.rst:179
 msgid ""
@@ -32192,6 +32215,8 @@ msgid ""
 "`translate-toolkit`_, the library to manipulate the translation files, "
 "originally third-party library but now maintained by Weblate."
 msgstr ""
+"处理翻译文件的库 `translate-toolkit`_ 原本由第三方维护，现在改由 Weblate 维护"
+"。"
 
 #: contributing/modules.rst:20
 msgid "Extending built-in language definitions"
@@ -32503,6 +32528,9 @@ msgid ""
 "in :file:`pyproject.toml`, so installing those dependencies "
 "makes :program:`prek` available."
 msgstr ""
+"强制所有这些的最简单方法是安装 :program:`prek`。这是 Weblate 所用的 `pre-"
+"commit`_ 工具的第三方重新实现。它被包含在 :file:`pyproject.toml` 中声明的开发"
+"依赖中，因此安装这些依赖让 :program:`prek` 变得可用。"
 
 #: contributing/snippets/code-guide.rst:89
 msgid "To check all files manually, run:"
@@ -32513,6 +32541,8 @@ msgid ""
 "If you prefer the original :program:`pre-commit` client, it uses the same "
 "configuration from :file:`.pre-commit-config.yaml`."
 msgstr ""
+"如果偏好原版 :program:`pre-commit` 客户端，它使用来自 :file:`.pre-commit-"
+"config.yaml` 的相同配置。"
 
 #: contributing/snippets/code-guide.rst:101
 msgid "Coding securely"
@@ -32825,17 +32855,19 @@ msgstr ""
 
 #: contributing/submodules.rst:2
 msgid "Subprojects and embedded code"
-msgstr ""
+msgstr "子项目和内嵌代码"
 
 #: contributing/submodules.rst:4
 msgid ""
 "Weblate would not be possible without other projects it depends on. This "
 "document describes how other code is used in Weblate."
 msgstr ""
+"没有所依赖的其他项目就不可能有 Weblate。本文档描述其他代码在 Weblate 中是如何"
+"被使用的。"
 
 #: contributing/submodules.rst:8
 msgid "Vendored frontend code"
-msgstr ""
+msgstr "拷贝的前端源代码"
 
 #: contributing/submodules.rst:10
 msgid ""
@@ -32844,10 +32876,14 @@ msgid ""
 "REUSE as described in :doc:`license`. The up-to-date list of dependencies "
 "can be reviewed in :ref:`sbom`."
 msgstr ""
+"Weblate 将几个 JavaScript 库的源代码拷贝到自己的源码中。我们在 "
+":doc:`frontend` 中描述了这一过程，每个被拷贝的库的许可证均按照 "
+":doc:`license` 中的描述通过 REUSE 进行文档记录。依赖的最新列表可以在 "
+":ref:`sbom` 中查看。"
 
 #: contributing/submodules.rst:16
 msgid "SPDX license data"
-msgstr ""
+msgstr "SPDX 许可证数据"
 
 #: contributing/submodules.rst:18
 msgid ""
@@ -32855,6 +32891,8 @@ msgid ""
 "and :file:`weblate/utils/licensedata.py` is generated using :file:`scripts/"
 "generate-license-data.py`."
 msgstr ""
+"SPDX 许可证数据以 Git 子模块形式包含在源代码中，使用 :file:`scripts/generate-"
+"license-data.py` 生成 :file:`weblate/utils/licensedata.py`。"
 
 #: contributing/submodules.rst:23
 msgid "Test data"
@@ -32866,6 +32904,8 @@ msgid ""
 "repo.*.tar` are generated from https://github.com/WeblateOrg/test, "
 "see :ref:`test-data`."
 msgstr ""
+":file:`weblate/trans/tests/data/test-base-repo.*.tar` 中的测试仓库生成自 "
+"https://github.com/WeblateOrg/test，见 :ref:`test-data`。"
 
 #: contributing/submodules.rst:31
 msgid ""
