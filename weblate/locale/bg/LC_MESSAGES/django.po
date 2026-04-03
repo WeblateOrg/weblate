@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-28 13:40-0500\n"
-"PO-Revision-Date: 2026-04-01 11:08+0000\n"
+"PO-Revision-Date: 2026-04-04 03:10+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -14371,12 +14371,13 @@ msgstr ""
 "изходни низове не е възможно за %(format)s."
 
 #: weblate/templates/translate.html:1021
-#, fuzzy, python-format
-#| msgid "<code>%(flags)s</code> is inherited from %(object)s."
+#, python-format
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
-msgstr "<code>%(flags)s</code> е наследено от %(object)s."
+msgstr ""
+"<code>%(flags)s</code> се наследява от %(object)s, тъй като редактирането на "
+"изходните низове е изключено."
 
 #: weblate/templates/translate.html:1066
 #, python-format
@@ -15001,17 +15002,13 @@ msgstr "Почистване на хранилището"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:184
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "Добавен е низ в качването"
+msgstr "Изходен низ е добавен в качването"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:186
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "Добавен е низ в хранилището"
+msgstr "Изходен низ е добавен в хранилището"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -15157,10 +15154,8 @@ msgstr ""
 "проекти."
 
 #: weblate/trans/discovery.py:141
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Discovery configuration"
-msgstr "Добра настройка"
+msgstr "Настройка за откриването"
 
 #: weblate/trans/discovery.py:212
 msgid ""
@@ -15175,6 +15170,8 @@ msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
 msgstr ""
+"Регулярният израз използван като езиков филтър е твърде сложен и отне твърде "
+"много време да се изпълни."
 
 #: weblate/trans/discovery.py:443
 msgid "File mask matches the main component."
@@ -15329,10 +15326,8 @@ msgid "FlatXML key name"
 msgstr "Име на ключ във FlatXML"
 
 #: weblate/trans/file_format_params.py:460
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Открит е дублиран низ"
+msgstr "Обединяване на еднаквите низове"
 
 #: weblate/trans/file_format_params.py:464
 msgid ""
@@ -15340,6 +15335,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Обединява еднаквите изходни низове в една обща единица за превод. Това "
+"предотвратява загубата на преводи при преструктуриране на файлове или "
+"таблици, тъй като премахва контекста, зависещ от местоположението на низа."
 
 #: weblate/trans/file_format_params.py:474
 #: weblate/trans/file_format_params.py:491
@@ -15352,7 +15350,7 @@ msgstr "Кодировка на файла"
 #: weblate/trans/file_format_params.py:477
 #: weblate/trans/file_format_params.py:496
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:478
 #: weblate/trans/file_format_params.py:495
@@ -15360,17 +15358,17 @@ msgstr ""
 #: weblate/trans/file_format_params.py:524
 #: weblate/trans/file_format_params.py:538
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:481
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Кодировка за файловете с низове за iOS"
 
 #: weblate/trans/file_format_params.py:494
 #: weblate/trans/file_format_params.py:525
 #: weblate/trans/file_format_params.py:539
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:499
 msgid "Encoding used for Java Properties files"
@@ -15379,7 +15377,7 @@ msgstr "Кодировка използвана за файловете „prope
 #: weblate/trans/file_format_params.py:509
 #: weblate/trans/file_format_params.py:523
 msgid "Auto-detect"
-msgstr ""
+msgstr "Автоматично разпознаване"
 
 #: weblate/trans/file_format_params.py:513
 msgid "Encoding used for CSV files"
@@ -17957,10 +17955,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "Няма намерени низове."
+msgstr "Няма намерени предложения."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -18512,20 +18508,16 @@ msgstr "Открити са още възможни потребители."
 #: weblate/utils/outbound.py:68 weblate/utils/outbound.py:86
 #: weblate/utils/outbound.py:93 weblate/utils/outbound.py:98
 #: weblate/utils/outbound.py:100 weblate/utils/validators.py:405
-#, fuzzy
-#| msgid "Image URL domain is not allowed."
 msgid "URL domain is not allowed."
-msgstr "Домейнът в адреса на изображението е забранен."
+msgstr "Домейнът в адреса е забранен."
 
 #: weblate/utils/outbound.py:114 weblate/utils/outbound.py:164
 msgid "Could not parse URL."
 msgstr "Адресът не може да бъде прочетен."
 
 #: weblate/utils/outbound.py:149
-#, fuzzy
-#| msgid "Could not remove the string: %s"
 msgid "Could not resolve the URL domain: {}"
-msgstr "Низът не може да бъде премахнат: %s"
+msgstr "Домейнът на адреса не може да бъде разпознат: {}"
 
 #: weblate/utils/render.py:26
 #, python-format
@@ -18918,26 +18910,18 @@ msgid "Invalid host name given!"
 msgstr "Въведеното име на хост е грешно!"
 
 #: weblate/vcs/ssh.py:286
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Добавен е ключ на хост %(host)s с отпечатък %(fingerprint)s (%(keytype)s). "
-"Моля, уверете се, че всичко е правилно."
+"Добавен е ключ на хост %(host)s с отпечатък %(fingerprint)s (%(keytype)s)."
 
 #: weblate/vcs/ssh.py:299
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Добавен е ключ на хост %(host)s с отпечатък %(fingerprint)s (%(keytype)s). "
-"Моля, уверете се, че всичко е правилно."
+"Пропуснат е ключ на хост %(host)s с отпечатък %(fingerprint)s (%(keytype)s)."
 
 #: weblate/vcs/ssh.py:311
 #, python-format
@@ -18965,12 +18949,14 @@ msgstr "Порт"
 
 #: weblate/wladmin/forms.py:38
 msgid "Keep blank for using the default SSH port."
-msgstr ""
+msgstr "Оставете празно, за да се ползва стандартният порт за SSH."
 
 #: weblate/wladmin/forms.py:44
 msgid ""
 "Fingerprint of key to add. Keep blank to add all keys offered by the host."
 msgstr ""
+"Отпечатък на ключ, който да бъде добавен. Оставете празно, ако искате да се "
+"добавят всички ключове, предлагани от сървъра."
 
 #: weblate/wladmin/forms.py:58
 msgid "The test e-mail will be sent to this address."
