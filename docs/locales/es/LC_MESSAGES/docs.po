@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
-"PO-Revision-Date: 2026-04-01 13:35+0000\n"
+"PO-Revision-Date: 2026-04-02 14:10+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -6335,7 +6335,7 @@ msgstr ""
 
 #: admin/config.rst:2507
 msgid "Default: ``True``"
-msgstr "Por defecto: ``True``."
+msgstr "Por defecto: ``True``"
 
 #: admin/config.rst:2509
 msgid ""
@@ -18803,6 +18803,9 @@ msgid ""
 "weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update "
 "POT files with configurable update cadence."
 msgstr ""
+"Fue añadido :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
+"weblate.gettext.django`, y :ref:`addon-weblate.gettext.sphinx` para "
+"actualizar archivos POT con cadencia de actualización configurable."
 
 #: changes.rst:14 changes.rst:83 changes.rst:118 changes.rst:165
 #: changes.rst:209 changes.rst:254 changes.rst:295 changes.rst:371
@@ -18915,6 +18918,9 @@ msgid ""
 "network targets for untrusted endpoints and hiding untrusted remote error "
 "details."
 msgstr ""
+"Traducción reforzada de máquina de nivel-proyecto frente a SSRF bloqueando "
+"destinos de red-privada para puntos finales no confiados y eludiendo "
+"detalles de error remoto no confiado."
 
 #: changes.rst:31
 msgid "Prevented removing the last team from a project token."
@@ -18925,6 +18931,8 @@ msgid ""
 "Batch automatic translation now uses project-level machinery configuration "
 "instead of only site-wide settings."
 msgstr ""
+"Traducción automática en lote ahora utiliza configuración de maquinaria a "
+"nivel de proyecto en vez de solo ajustes de anchura del sitio."
 
 #: changes.rst:33
 msgid "Fixed sorting by the **Unreviewed** column in listings."
@@ -18967,67 +18975,77 @@ msgstr ""
 "estable sensible al idioma."
 
 #: changes.rst:39
-#, fuzzy
-#| msgid "Extended API to cover translation memory."
 msgid "Removed unintended API endpoints for translation memory."
-msgstr "Amplió el API para abarcar la memoria de traducción."
+msgstr ""
+"Quitado el punto final de API no intencionado para memoria de traducción."
 
 #: changes.rst:40
 msgid "Improved API access control for pending tasks."
-msgstr ""
+msgstr "Mejora de control de acceso al API para tareas pendientes."
 
 #: changes.rst:41
-#, fuzzy
-#| msgid "Faster comment and component removal."
 msgid "Faster category and project removals."
-msgstr "Retirada más rápida de comentario y componente."
+msgstr "Categoría y retirada de proyecto más rápida."
 
 #: changes.rst:42
 msgid ""
 "Project backup restore no longer trusts repository-local VCS configuration "
 "and hooks from the uploaded archive."
 msgstr ""
+"Restauración de respaldo de proyecto no confían más en la configuración de "
+"VCS local del repositorio y ganchos desde el archivador subido."
 
 #: changes.rst:43
 msgid ""
 ":doc:`/admin/machine` now falls back to the default API URL when base URL is "
 "empty."
 msgstr ""
+":doc:`/admin/machine` ahora revuelve fallo para el URL del API por defecto "
+"cuando la URL base está vacía."
 
 #: changes.rst:44
 msgid ":ref:`mt-deepl` maps plain Portuguese to European Portuguese."
-msgstr ""
+msgstr ":ref:`mt-deepl` asigna el portugués en plano al portugués europeo."
 
 #: changes.rst:45
+#, fuzzy
 msgid ""
 "Push branches are no longer updated with upstream-only commits in multi-"
 "branch workflows."
 msgstr ""
+"Inserta ramas no más largas actualizadas con solo en desarrollo en flujos de "
+"trabajos de multi‐rama."
 
 #: changes.rst:46
 msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
+"Estado :ref:`backup` mejorado informando mientras que conserva mantenimiento "
+"tras intentos de respaldo incorrectos."
 
 #: changes.rst:47
 msgid ""
 "POT update add-ons now fall back to the component URL for the ``Report-Msgid-"
 "Bugs-To`` header when the component setting is empty."
 msgstr ""
+"POT actualiza complemento ahora falla en la URL del componente para la "
+"cabecera ``Report-Msgid-Bugs-To`` cuando los ajustes del componente están "
+"vacíos."
 
 #: changes.rst:48
-#, fuzzy
-#| msgid "Improved syntax error handling in Fluent format."
 msgid "Improved repository lock error handling when deleting units."
 msgstr ""
-"Se mejoró el tratamiento de los errores sintácticos en el formato Fluent."
+"Se mejoró la manipulación de error de bloqueo de repositorio cuando elimina "
+"unidades."
 
 #: changes.rst:49
 msgid ""
 ":ref:`check-max-size` previews now keep the configured text box visible and "
 "render overflowing text in red."
 msgstr ""
+":ref:`check-max-size` previene ahora conservar la caja de texto configurada "
+"visible y representa texto desbordado en rojo."
 
 #: changes.rst:52 changes.rst:186 changes.rst:229 changes.rst:326
 #: changes.rst:469 changes.rst:564 changes.rst:619 changes.rst:742
@@ -19044,8 +19062,13 @@ msgid ""
 "party add-ons that used ``project_scope = True`` should override "
 "``can_install()`` to return ``False`` when ``component`` is not ``None``."
 msgstr ""
+"El atributo de clase ``project_scope`` en complemento ha sido retirado. Los "
+"complementos de terceros que utilizaron ``project_scope = True`` "
+"sobrescribirían ``can_install()`` para devolver ``False`` cuando "
+"``component`` no es ``None``."
 
 #: changes.rst:54
+#, fuzzy
 msgid ""
 "The ``daily()`` method signature on add-ons has changed. Add-ons that "
 "previously overrode ``daily(component)`` to perform per-component work "
@@ -19055,30 +19078,35 @@ msgid ""
 "project scope should override ``daily(component, project)`` directly to "
 "implement project-level logic."
 msgstr ""
+"La firma del método ``daily()`` en los complementos ha cambiado. Los "
+"complementos que antes sobrescribían ``daily(component)`` para realizar "
+"tareas por componente ahora deben sobrescribir ``daily_component(component)"
+"``. El método base ``daily()`` itera automáticamente sobre los componentes y "
+"llama a ``daily_component()`` para cada uno. Los complementos que se pueden "
+"optimizar para operar a nivel de proyecto deben sobrescribir directamente "
+"``daily(component, project)`` para implementar la lógica a nivel de proyecto."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid "Dropped support for Django 1.6 and South migrations."
 msgid "Dropped support for MySQL and MariaDB as the database engine."
-msgstr "Se eliminó el soporte para Django 1.6 y migraciones del Sur."
+msgstr ""
+"Se abandona el soporte para MySQL y MariaDB como el motor de base de datos."
 
 #: changes.rst:56
-#, fuzzy
-#| msgid "Weblate now requires Django 3.2."
 msgid "Weblate now requires Django 6.0."
-msgstr "Weblate ahora requiere Django 3.2."
+msgstr "Weblate ahora requiere Django 6.0."
 
 #: changes.rst:57
-#, fuzzy
-#| msgid "Weblate now requires Git 2.28 or newer."
 msgid "Weblate now requires Git 2.46 or newer."
-msgstr "Weblate ahora requiere Git 2.28 o posterior."
+msgstr "Weblate ahora requiere Git 2.46 o posterior."
 
 #: changes.rst:58
 msgid ""
 "Uploaded project backups are now validated more strictly during import and "
 "suspicious ZIP archives can be rejected; see :ref:`projectbackup`."
 msgstr ""
+"Los respaldos del proyecto subidos ahora son validados más estrictos durante "
+"archivadores zip sospechosos pueden ser rechazados; consulte "
+":ref:`projectbackup`."
 
 #: changes.rst:61 changes.rst:98 changes.rst:137 changes.rst:194
 #: changes.rst:233 changes.rst:269 changes.rst:336 changes.rst:356
@@ -19130,28 +19158,30 @@ msgstr ""
 "actualización."
 
 #: changes.rst:64
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; "
-#| "please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most "
 "notably :setting:`ADMINS` syntax has changed in Django and "
 "``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please "
 "adjust your settings accordingly."
 msgstr ""
-"Hay varios cambios en :file:`settings_example.py`, lo más notable son las "
-"configuraciones modificadas ``AUTH_PASSWORD_VALIDATORS`` y "
-"``INSTALLED_APPS``; ajuste su parámetros en consecuencia."
+"Hay varios cambios en :file:`settings_example.py`, lo más notablemente son "
+"la sintaxis de :setting:`ADMINS` ha cambiado en Django y "
+"``SOCIAL_AUTH_PIPELINE`` y ``INSTALLED_APPS`` necesitan ajustes; por favor, "
+"ajuste sus parámetros en consecuencia."
 
 #: changes.rst:65
+#, fuzzy
 msgid ""
 "Project website and repository browser URLs pointing to private or other non-"
 "global IP ranges are now rejected by default. If your setup intentionally "
 "links to internal addresses, set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to "
 "``False`` or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``."
 msgstr ""
+"Las URL del sitio web del proyecto y del repositorio que apuntan a rangos de "
+"IP privados o no globales ahora se rechazan de forma predeterminada. Si su "
+"configuración enlaza intencionalmente a direcciones internas, establezca "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` en ``False`` o "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` en ``0``."
 
 #: changes.rst:68 changes.rst:102 changes.rst:141 changes.rst:198
 #: changes.rst:239 changes.rst:273 changes.rst:340 changes.rst:360
@@ -19167,124 +19197,97 @@ msgid "Contributors"
 msgstr "Colaboradores"
 
 #: changes.rst:71
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "58?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/158?"
 "closed=1>`__."
 msgstr ""
 "`Todos los cambios en detalle <https://github.com/WeblateOrg/weblate/"
-"milestone/58?closed=1>`__."
+"milestone/158?closed=1>`__."
 
 #: changes.rst:74
-#, fuzzy
-#| msgid "Weblate 5.6.2"
 msgid "Weblate 5.16.2"
-msgstr "Weblate 5.6.2"
+msgstr "Weblate 5.16.2"
 
 #: changes.rst:76
-#, fuzzy
-#| msgid "*Released on March 26th 2024.*"
 msgid "*Released on March 6th 2026.*"
-msgstr "*Publicada el 26 de marzo de 2024.*"
+msgstr "*Publicada el 6 de marzo de 2026.*"
 
 #: changes.rst:80
 msgid ""
 "New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even "
 "with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Ajuste :setting:`PUBLIC_ENGAGE` nuevo para hacer que el evento del motor de "
+"página pública con :setting:`REQUIRE_LOGIN`."
 
 #: changes.rst:84
-#, fuzzy
-#| msgid "Improved navigation in dictionary."
 msgid "Improved matching in :doc:`/admin/memory`."
-msgstr "Se mejoró la navegación en el área de diccionarios."
+msgstr "Se mejoró la coincidencia en :doc:`/admin/memory`."
 
 #: changes.rst:85
-#, fuzzy
-#| msgid "number of strings marked for review"
 msgid "Show the number of strings waiting for review in listings."
-msgstr "número de cadenas marcadas para revisión"
+msgstr "Muestra el número de cadenas esperando revisión en listados."
 
 #: changes.rst:89
 msgid ""
 "Avoid displaying confusing status icons for ghost languages on project or "
 "category level."
 msgstr ""
+"Evita representar iconos de estado confusos para idiomas fantasmas en "
+"proyecto o nivel de categoría."
 
 #: changes.rst:90
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid ""
 "Fixed missing plural source strings when creating new bilingual plural units."
 msgstr ""
-"Se corrigió la exhibición de origen plural para idiomas con formato de "
-"plural único."
+"Se corrigieron las cadenas origen plural cuando crea unidades nuevas de "
+"plural bilingüe."
 
 #: changes.rst:91
-#, fuzzy
-#| msgid "Fixed per-language statistics on nested categories."
 msgid "Crash on certain pages with nested categories."
-msgstr "Se corrigieron las estadísticas por idioma en categorías anidadas."
+msgstr "Cuelgue en ciertas páginas con categorías anidadas."
 
 #: changes.rst:92
-#, fuzzy
-#| msgid "Improved validation while adding/saving component."
 msgid "Improved API validation when adding strings."
-msgstr "Validación mejorada al agregar/guardar componentes."
+msgstr "Validación mejorada de API al agregar cadenas."
 
 #: changes.rst:93
 msgid "Disabled throttling for incoming webhooks."
 msgstr ""
+"Se ha desactivado la limitación de ancho de banda para los webhooks "
+"entrantes."
 
 #: changes.rst:94
-#, fuzzy
-#| msgid "Improved displaying of translation changes."
 msgid "Avoid displaying non-actionable ghost languages."
-msgstr "Se mejoró la visualización de los cambios a la traducción."
+msgstr "Se evitó la visualización de los idiomas fantasmas no procesables."
 
 #: changes.rst:95
-#, fuzzy
-#| msgid "Fixed searching in the translation memory."
 msgid "Fixed highlighting in the translation editor."
-msgstr "Se corrigió búsqueda en la memoria de traducción."
+msgstr "Se corrigió resalto en el editor de traducción."
 
 #: changes.rst:105
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "63?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/163?"
 "closed=1>`__."
 msgstr ""
 "`Todos los cambios en detalle <https://github.com/WeblateOrg/weblate/"
-"milestone/63?closed=1>`__."
+"milestone/163?closed=1>`__."
 
 #: changes.rst:108
 msgid "Weblate 5.16.1"
 msgstr "Weblate 5.16.1"
 
 #: changes.rst:110
-#, fuzzy
-#| msgid "*Released on February 16th 2026.*"
 msgid "*Released on February 26th 2026.*"
-msgstr "*Liberada el 16 de febrero de 2026.*"
+msgstr "*Liberada el 26 de febrero de 2026.*"
 
 #: changes.rst:114
-#, fuzzy
-#| msgid ""
-#| ":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
-#| "resjson`, and :doc:`/formats/toml` are now supported file formats."
 msgid ""
 ":doc:`/formats/asciidoc`, :doc:`/formats/xliff` with Apple extensions, "
 "and :doc:`/formats/wxl` are now supported file formats."
 msgstr ""
-":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
-"resjson`, y :doc:`/formats/toml` ahora admiten los formatos de archivo."
+":doc:`/formats/asciidoc`, :doc:`/formats/xliff` con extensiones Apple, y "
+":doc:`/formats/wxl` ahora admiten los formatos de archivo."
 
 #: changes.rst:115
 msgid ""
@@ -19292,6 +19295,9 @@ msgid ""
 "disposable e-mail domains during registration (Docker "
 "env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 msgstr ""
+"Añadida :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` a opcional concede "
+"dominios de correo-e desechables durante el registro (Docker "
+"env::envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 
 #: changes.rst:119
 msgid ""
@@ -19299,72 +19305,68 @@ msgid ""
 "between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, "
 "and :guilabel:`Needs checking` states."
 msgstr ""
+"Documentación mejorada para estados de traducción para clarificar la "
+"diferencia entre los estados :guilabel:`Needs editing`, :guilabel:`Needs "
+"rewriting`, y :guilabel:`Needs checking`."
 
 #: changes.rst:120
-#, fuzzy
-#| msgid ""
-#| "Better preserve translation on source file change in :doc:`/formats/html` "
-#| "and :doc:`/formats/txt`."
 msgid ""
 "Improved initial import of translations for :doc:`/formats/markdown` "
 "and :doc:`/formats/html`."
 msgstr ""
-"Mejor preservar traducción en cambio de archivo fuente en :doc:`/formats/"
-"html` y :doc:`/formats/txt`."
+"Importación inicial mejorada para traducciones en :doc:`/formats/markdown` y "
+":doc:`/formats/html`."
 
 #: changes.rst:124
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
 msgid ":ref:`addon-weblate.webhook.slack` properly delivers all events."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` entrega de sucesos de todo el proyecto."
+":ref:`addon-weblate.webhook.slack` entrega apropiadamente todos los eventos."
 
 #: changes.rst:125
-#, fuzzy
-#| msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgid ":ref:`check-punctuation-spacing` better handles XML markup."
-msgstr ":ref:`check-punctuation-spacing` ya no se aplica al bretón."
+msgstr ":ref:`check-punctuation-spacing` mejor manipula marcaje de xml."
 
 #: changes.rst:126
-#, fuzzy
-#| msgid ":doc:`/formats/excel` better handles blank cells."
 msgid ":doc:`/formats/stringsdict` better handle some plurals."
-msgstr ":doc:`/formats/excel` manipula mejor las celdas en blanco."
+msgstr ":doc:`/formats/stringsdict` manipula mejor algunos plurales."
 
 #: changes.rst:127
-#, fuzzy
-#| msgid "Improved handling of long language names."
 msgid "Improved plurals handling for language variants."
-msgstr "Manejo mejorado de nombres de idiomas largos."
+msgstr "Manejo mejorado de plurales para variantes de idioma."
 
 #: changes.rst:128
-#, fuzzy
-#| msgid "Set up access control"
 msgid "Fixed API access control."
-msgstr "Ajustar control de acceso"
+msgstr "Repara control de acceso del API."
 
 #: changes.rst:130
 msgid "Users can manage their own notification subscriptions via the API."
 msgstr ""
+"Los usuarios pueden gestionar sus propias suscripciones de notificación por "
+"medio de API."
 
 #: changes.rst:131
 msgid ""
 "Project administrators can manage teams in their projects via the API, "
 "according to access control rules."
 msgstr ""
+"Administradores de proyecto pueden gestionar equipos en sus proyectos via el "
+"API, de acuerdo a reglas de control de acceso."
 
 #: changes.rst:132
 msgid ""
 "The add-ons listing in the API now correctly honors user permissions "
 "(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 msgstr ""
+"Los complementos listados en el API ahora honra correctamente los permisos "
+"de usuario (:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 
 #: changes.rst:134
 msgid ""
 "Fixed source column being cleared when translating monolingual :doc:`/"
 "formats/csv`."
 msgstr ""
+"Columna origen solucionada al vaciarla cuando traduzca :doc:`/formats/csv` "
+"monolingües."
 
 #: changes.rst:144
 msgid ""
@@ -19513,6 +19515,8 @@ msgid ""
 "Argument injection in the management console "
 "(:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)."
 msgstr ""
+"Inyección argumental dentro de la consola de gestión (:cve:`2026-24126` / "
+":ghsa:`33fm-6gp7-4p47`)."
 
 #: changes.rst:179
 msgid ""
@@ -21931,19 +21935,13 @@ msgstr ""
 "través del Proyecto :ref:`api`."
 
 #: changes.rst:1138
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
 msgid "Added :http:get:`/api/projects/(string:project)/machinery_settings/`."
-msgstr ""
-"Añadido :http:get:`/api/projects/{string:project}/machinery_settings/`."
+msgstr "Añadido :http:get:`/api/projects/(string:project)/machinery_settings/`."
 
 #: changes.rst:1139
-#, fuzzy
-#| msgid ""
-#| "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
 msgid "Added :http:post:`/api/projects/(string:project)/machinery_settings/`."
-msgstr "Añade :http:post:`/api/projects/{string:project}/machinery_settings/`."
+msgstr ""
+"Añadido :http:post:`/api/projects/(string:project)/machinery_settings/`."
 
 #: changes.rst:1141
 msgid ""
@@ -24320,6 +24318,8 @@ msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
 "Malte L., StoyanDimitrov, 49"
 msgstr ""
+"Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
+"Malte L., StoyanDimitrov, 49"
 
 #: changes/contributors/5.10.1.rst:7 changes/contributors/5.10.2.rst:7
 #: changes/contributors/5.10.3.rst:7 changes/contributors/5.10.4.rst:7
@@ -24358,6 +24358,22 @@ msgid ""
 "qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
 "leyakid803, 김인수, bovirus"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus"
 
 #: changes/contributors/5.10.1.rst:12 changes/contributors/5.10.2.rst:12
 #: changes/contributors/5.10.3.rst:12 changes/contributors/5.10.4.rst:12
@@ -24383,12 +24399,12 @@ msgstr "Contribuidores de documentación"
 
 #: changes/contributors/5.10.1.rst:15 changes/contributors/5.10.2.rst:15
 #: changes/contributors/5.10.3.rst:15 changes/contributors/5.10.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, gersona, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Rafael Fontenelle, AliceVisek, Gersona, StoyanDimitrov, Mehdi "
 "El Oualy"
-msgstr "Michal Čihař, gersona, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Rafael Fontenelle, AliceVisek, Gersona, StoyanDimitrov, Mehdi "
+"El Oualy"
 
 #: changes/contributors/5.10.1.rst:10
 msgid ""
@@ -24411,6 +24427,24 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 
 #: changes/contributors/5.10.2.rst:10
 msgid ""
@@ -24433,6 +24467,24 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 
 #: changes/contributors/5.10.3.rst:10
 msgid ""
@@ -24456,6 +24508,25 @@ msgid ""
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
 "í Felli, Basheer Radman, dedakir923, xuars"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
+"í Felli, Basheer Radman, dedakir923, xuars"
 
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
 #: changes/contributors/5.11.2.rst:5 changes/contributors/5.11.2.rst:15
@@ -24477,12 +24548,16 @@ msgid ""
 "Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
 "chen, Michal Čihař, cat"
 msgstr ""
+"Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
+"chen, Michal Čihař, cat"
 
 #: changes/contributors/5.11.rst:5
 msgid ""
 "Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
 "Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 msgstr ""
+"Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
+"Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 
 #: changes/contributors/5.11.rst:10
 msgid ""
@@ -24498,14 +24573,25 @@ msgid ""
 "Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
 "Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 msgstr ""
+"Michal Čihař, Vinko Kastelic, Dick Groskamp, ButterflyOfFire, Amalia "
+"Nostalgia, VfBFan, Balázs Úr, william chen, Alexander Gabilondo, cat, Fjuro, "
+"Ritwik, Rafael Fontenelle, Bee Crankson, Ldm Public, Christian Wia, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), தமிழ்நேரம், Emilia Meza, elid, xuars, Andi Chandler, "
+"RViktor, Tuukka Salminen, Yaron Shahrabani, Chang-Chia Tseng, Manuela Silva, "
+"Espea Tiviq, dedakir923, Besnik Bleta, ប៉ុកណូ រ៉ូយ៉ាល់, Dag Høidahl, Priit Jõerüüt, "
+"pan93412, Miguel A. Bouzada, Vũ Minh Nguyên, CyrTranslit, Avi Markovitz, "
+"Temuri Doghonadze, Matthaiks, Champ0999, Yauhen, Massimo Pissarello, "
+"Sketch6580, Максим Горпиніч, Emin Tufan Çetin, Agnieszka C, Ettore Atalan, "
+"Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
+"Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 
 #: changes/contributors/5.11.rst:15
 msgid "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
-msgstr ""
+msgstr "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
 
 #: changes/contributors/5.11.1.rst:5
 msgid "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
 
 #: changes/contributors/5.11.1.rst:10
 msgid ""
@@ -24516,10 +24602,16 @@ msgid ""
 "Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
 "Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 msgstr ""
+"xuars, Fjuro, Yaron Shahrabani, VfBFan, Michal Čihař, Yauhen, RViktor, cat, "
+"Andrei Stepanov, Ettore Atalan, 大学没毕业, Miguel A. Bouzada, ssantos, Emin "
+"Tufan Çetin, Jeff Huang, Christian Wia, Murun Battulga, Сергей, Peter Vančo, "
+"Dick Groskamp, amano, Julien Humbert, தமிழ்நேரம், WofWca, dedakir923, Rafael "
+"Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
+"Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 
 #: changes/contributors/5.11.1.rst:15
 msgid "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
 
 #: changes/contributors/5.11.2.rst:10
 msgid ""
@@ -24528,10 +24620,14 @@ msgid ""
 "dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
 "jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 msgstr ""
+"Yauhen, Michal Čihař, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 
 #: changes/contributors/5.11.4.rst:5
 msgid "Michal Čihař, مهدي الوالي"
-msgstr ""
+msgstr "Michal Čihař, مهدي الوالي"
 
 #: changes/contributors/5.12.rst:5
 msgid ""
@@ -24539,6 +24635,9 @@ msgid ""
 "KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
 "michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 msgstr ""
+"Michal Čihař, nijel, Kartik Ohri, مهدي الوالي, Gersona, Mehdi El Oualy, "
+"KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
+"michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 
 #: changes/contributors/5.12.rst:10
 msgid ""
@@ -24560,6 +24659,23 @@ msgid ""
 "hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
 "Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 msgstr ""
+"Michal Čihař, Yauhen, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri, "
+"Miguel A. Bouzada, Yaron Shahrabani, Fjuro, Jose Delvani, Jim Spentzos, "
+"Michał Korczak, Taufik Adi Wicaksono, joel MKO, Ldm Public, Carmelo "
+"Serraino, Yu Ting, Alex, Yago Raña Gayoso, Boonsita Noijad, Massimo "
+"Pissarello, 大王叫我来巡山, rimasx, Abhinav Ohri, Любомир Василев, Manuela "
+"Silva, Juzé, Licaon Kter, Anon, Ecron, ButterflyOfFire, Milo Ivir, Yuliia "
+"Ozkan, Christian Wia, Nat A, Drugi Sapog, Martin Srebotnjak, "
+"searinminecraft, Chou Chamnan, Priit Jõerüüt, Matthaiks, Sketch6580, Максим "
+"Горпиніч, Сергей, cat, Roland Reck, Agnieszka C, VfBFan, Besnik Bleta, Dick "
+"Groskamp, Pierfrancesco Passerini, PriitUring, Ding User, 大学没毕业, Peter "
+"Vančo, pan93412, Κyriaki L, Marijn Scholtus, Emin Tufan Çetin, Zulfar, Oasis "
+"Tri, zenobit, Abduqadir Abliz, ssantos, தமிழ்நேரம், lm, gogu, Andi Chandler, "
+"hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
+"Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 
 #: changes/contributors/5.12.rst:15
 msgid ""
@@ -24567,10 +24683,13 @@ msgid ""
 "ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
 "Yuki Noda, zoe, Zoe"
 msgstr ""
+"Michal Čihař, Kartik Ohri, AliceVisek, Gersona, KasukabeDefenceForce, "
+"ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
+"Yuki Noda, zoe, Zoe"
 
 #: changes/contributors/5.12.1.rst:10
 msgid "VfBFan, qywter11 qywter11, Manuela Silva"
-msgstr ""
+msgstr "VfBFan, qywter11 qywter11, Manuela Silva"
 
 #: changes/contributors/5.12.2.rst:10
 msgid ""
@@ -24579,6 +24698,10 @@ msgid ""
 "Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
 "Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 msgstr ""
+"eulalio, Linerly, Peter Vančo, Yaron Shahrabani, VfBFan, Roland Reck, "
+"Manuela Silva, Abduqadir Abliz, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Zahid Rizky "
+"Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
+"Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 
 #: changes/contributors/5.13.rst:5
 msgid ""
@@ -24587,6 +24710,10 @@ msgid ""
 "Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
 "Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, michael-smt, Kartik Ohri, مهدي الوالي, Benjamin Alan "
+"Jamie, Gersona, KarenKonou, Julian Wachholz, Jana, softworkz, Luc Didry, "
+"Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
+"Chilukuri"
 
 #: changes/contributors/5.13.rst:10
 msgid ""
@@ -24608,6 +24735,23 @@ msgid ""
 "Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
 "Alexander"
 msgstr ""
+"Emin Tufan Çetin, VfBFan, 大王叫我来巡山, Horus68, Aindriú Mac Giolla Eoin, "
+"Zulfar, Сергей, Besnik Bleta, Andi Chandler, Drugi Sapog, Eisuke Kawashima, "
+"wang, தமிழ்நேரம், Abduqadir Abliz, Yago Raña Gayoso, Manuela Silva, Arantxa, "
+"Linerly, Dick Groskamp, John, Peter Vančo, Jim Kats, WaldiS, caendeith, "
+"Michal Čihař, Florent, RViktor, hugoalh, Arun K Varghese, Wael Ibrahim, Juno "
+"Takano, Chang-Chia Tseng, eulalio, Fjuro, jonnysemon, Michael Neuendorf, "
+"Shizeeg Unadequatov, oxisol, Pierfrancesco Passerini, 大学没毕业, Любомир "
+"Василев, Ильсур Фаритович Ирназаров, Rafael Fontenelle, Yu Ting, J. Lavoie, "
+"Ilsur Irnazarov, Poesty Li, Xentrox Aero, amano, ButterflyOfFire, gfbdrgn, "
+"Zahid Rizky Fakhri, searinminecraft, Miguel A. Bouzada, pan93412, Mohammed "
+"Al Otaibi, Pexauteau Santander, Avi Markovitz, Helder Santana, qtm, "
+"Christian Wia, Ricky Tigg, Priit Jõerüüt, LucasMZ, VisionR1, ssantos, "
+"Yauhen, Clément Lyonnet, yangyangdaji, Максим Горпиніч, Matthaiks, Agnieszka "
+"C, Aleš Hakl, Yaron Shahrabani, Massimo Pissarello, 이정희, Dinh Nguyen, "
+"Martin Srebotnjak, Thunderstrike116, sletego, Sketch6580, 안정언, AlaxLima, "
+"Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
+"Alexander"
 
 #: changes/contributors/5.13.rst:15
 msgid ""
@@ -24615,12 +24759,17 @@ msgid ""
 "Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
 "Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, Benjamin Alan Jamie, Julian Wachholz, Jana, Nik "
+"Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
+"Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 
 #: changes/contributors/5.13.1.rst:5
 msgid ""
 "Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
 "Paul Harriet Asiñero"
 msgstr ""
+"Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
+"Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.1.rst:10
 msgid ""
@@ -24643,26 +24792,40 @@ msgid ""
 "Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
 "Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 msgstr ""
+"pan93412, eulalio, Zahid Rizky Fakhri, Maciej Olko, Aindriú Mac Giolla Eoin, "
+"Christian Wia, Fjuro, Brian Njoroge, ssantos, Junghyuk Kwon, hugoalh, Alexis "
+"Launay, Wolf, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Yaron Shahrabani, Marija "
+"Grineviciute, Milo Ivir, Данил Костенков, Dick Groskamp, abdelbasset "
+"jabrane, CyrTranslit, cat, Michal Čihař, VfBFan, Wuzzy, Michalis, Deleted "
+"User, Francisco Serrador, Adolfo Jayme Barrientos, Ricky Tigg, Nicolas Van "
+"Aarsen, Julien Humbert, Jérôme, Nifou, Miguel A. Bouzada, elid, RViktor, "
+"Taufik Adi Wicaksono, Reza Almanda, Sveinn í Felli, Massimo Pissarello, "
+"Kyotaro Iijima, amano, 이정희, WaldiS, tomkolp, Piotr Kołtun, Horus68, "
+"Manuela Silva, Alan Marques, Rafael Fontenelle, Alefsander Ribeiro "
+"Nascimento, Simona Iacob, Nicoara Alex, Golubev Alexander, Сергей, "
+"Blueberry, Mingun, xXx, Vin, BouenMarsh, gfbdrgn, Igor Polyakov, qtm, Alexey "
+"Napalkov, Julija Juli, Reno Tx, தமிழ்நேரம், Kaya Zeren, Yuri Chornoivan, Ihor "
+"Hordiichuk, Mirka Danylenko, Tymofii Lytvynenko, Andrij Mizyk, Максим "
+"Горпиніч, 大王叫我来巡山, Sketch6580, JY3, 大学没毕业, Xiang Heng Wei, "
+"yangyangdaji, Xzonn, Peter Dave Hello, 峡州仙士, Winston Sung, Toomore "
+"Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
+"Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 
 #: changes/contributors/5.13.1.rst:15
 msgid "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
-msgstr ""
+msgstr "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.2.rst:10
 msgid "Divarrek, VfBFan"
-msgstr ""
+msgstr "Divarrek, VfBFan"
 
 #: changes/contributors/5.13.2.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Robin"
 msgid "Michal Čihař, nijel"
-msgstr "Michal Čihař, Robin"
+msgstr "Michal Čihař, nijel"
 
 #: changes/contributors/5.13.3.rst:5 changes/contributors/5.13.3.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
 
 #: changes/contributors/5.13.3.rst:10
 msgid ""
@@ -24670,6 +24833,9 @@ msgid ""
 "Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
 "Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 
 #: changes/contributors/5.14.rst:5
 msgid ""
@@ -24677,6 +24843,9 @@ msgid ""
 "Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
 "Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, softworkz, Gersona, Benjamin Alan Jamie, Kartik Ohri, Kai "
+"Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
+"Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 
 #: changes/contributors/5.14.rst:10
 msgid ""
@@ -24693,6 +24862,18 @@ msgid ""
 "webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
 "Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute, "
+"Peter Vančo, Laurent FAVOLE, Сергей, Royston Shufflebotham, Massimo "
+"Pissarello, Emin Tufan Çetin, Juno Takano, Horus68, Martin Srebotnjak, "
+"Altos, ovl-1, 이정희, Yauhen, cat, Jessica Patricio, Alejandro Moctezuma, "
+"Kristijan \\\"Fremen\\\" Velkovski, Liviu Roman, Sveinn í Felli, Yamin "
+"Siahmargooei, Besnik Bleta, Øjvind Fritjof Arnfred, Danial Behzadi, Miguel "
+"A. Bouzada, CRISTIAN ANDREI, Denis96, Ldm Public, ROSPL-GR2-2025, Dick "
+"Groskamp, Jim Kats, Graaati, coronabond, VfBFan, Любомир Василев, GitHub "
+"webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
+"Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 
 #: changes/contributors/5.14.rst:15
 msgid ""
@@ -24700,12 +24881,13 @@ msgid ""
 "michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
 "eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, Gersona, Kai Kewley, Raphael Michel, Benjamin Alan Jamie, "
+"michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
+"eulalio, Sketch6580"
 
 #: changes/contributors/5.14.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Gersona"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Gersona"
 
 #: changes/contributors/5.14.1.rst:10
 msgid ""
@@ -24718,12 +24900,18 @@ msgid ""
 "学没毕业, Francisco Serrador, hoanghuy309, Arantxa, Denys Nykula, Martin "
 "Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 msgstr ""
+"Agnieszka C, Žiga Deisinger, Anthony Guéchoum, VfBFan, eulalio, Zahid Rizky "
+"Fakhri, Максим Горпиніч, Fjuro, Aindriú Mac Giolla Eoin, Peter Vančo, Dick "
+"Groskamp, Kyotaro Iijima, Pavel Miniutka, delvani, 大王叫我来巡山, Kaya "
+"Zeren, Øjvind Fritjof Arnfred, cat, mdfaruk896852-code, Michal Čihař, GitHub "
+"webhook, Besnik Bleta, Horus68, Hotripak, Aitor Astorga, Massimo Pissarello, "
+"Rafael Fontenelle, Sketch6580, Любомир Василев, Danial Behzadi, Milo Ivir, 大"
+"学没毕业, Francisco Serrador, hoanghuy309, Arantxa, Denys Nykula, Martin "
+"Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 
 #: changes/contributors/5.14.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, DeMiro5001, Gersona, Steffen"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, DeMiro5001, Gersona, Steffen"
 
 #: changes/contributors/5.15.rst:5
 msgid ""
@@ -24731,6 +24919,9 @@ msgid ""
 "Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
 "Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Steven Loria, Tudor Gradinaru, Karen Konou, "
+"Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
+"Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.rst:10
 msgid ""
@@ -24749,18 +24940,36 @@ msgid ""
 "Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
 "Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 msgstr ""
+"Miguel A. Bouzada, Turkish Language Team 🇹🇷, Francisco Serrador, "
+"hoanghuy309, Priit Jõerüüt, Ldm Public, eulalio, ssantos, Christian Wia, "
+"Andi Chandler, Joel A, Peter Vančo, Dick Groskamp, Besnik Bleta, Dũng Vũ, "
+"Nicola Bortoletto, Ricky Tigg, Chang-Chia Tseng, 大学没毕业, Yaron "
+"Shahrabani, Karen Konou, Michal Čihař, Minh Tâm Nguyễn, VfBFan, Miniontoby, "
+"pan93412, ButterflyOfFire, 이정희, Wirjadisastra Wiki, Sketch6580, liilliil, "
+"dreigiau, Blueberry, Jim Kats, Arif Budiman, marvel at flowers, 大王叫我来巡"
+"山, Golubev Alexander, Alyaksandr Koshal, Yauhen, 109247019824, Сергей, "
+"Manuela Silva, ابْنُ السَدِيمِ, Changseop Yeom, Daniel Nylander, Kristoffer "
+"Grundström, Annamurat Ovezov, gattyan61, Fulup Jakez, Milo Ivir, پرویز قادر, "
+"Xusi Fons, Anusuk Sangubon, Matthaiks, Gašper Pintar, Максим Горпиніч, "
+"Aindriú Mac Giolla Eoin, Fjuro, Любомир Василев, Massimo Pissarello, "
+"Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
+"Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 
 #: changes/contributors/5.15.rst:15
 msgid ""
 "Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
 "Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
+"Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.1.rst:5
 msgid ""
 "Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
 "aditi, Edison Dao, biplopghimire"
 msgstr ""
+"Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
+"aditi, Edison Dao, biplopghimire"
 
 #: changes/contributors/5.15.1.rst:10
 msgid ""
@@ -24771,18 +24980,28 @@ msgid ""
 "Massimo Pissarello, មនុញ្ញ - MᴇᴀнNսɴн, Jim Kats, Aindriú Mac Giolla Eoin, "
 "VfBFan"
 msgstr ""
+"eulalio, Yauhen, Emin Tufan Çetin, Priit Jõerüüt, Любомир Василев, Fjuro, "
+"Zahid Rizky Fakhri, Takeru Mikenu, ButterflyOfFire, 김인수, Manuela Silva, "
+"Pierfrancesco Passerini, Michal Čihař, 大王叫我来巡山, Dick Groskamp, Максим "
+"Горпиніч, Matthaiks, γλωσσολαλιά, Turkish Language Team 🇹🇷, Besnik Bleta, "
+"Massimo Pissarello, មនុញ្ញ - MᴇᴀнNսɴн, Jim Kats, Aindriú Mac Giolla Eoin, "
+"VfBFan"
 
 #: changes/contributors/5.15.1.rst:15
 msgid ""
 "Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
 "biplopghimire"
 msgstr ""
+"Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
+"biplopghimire"
 
 #: changes/contributors/5.15.2.rst:5
 msgid ""
 "Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
 "Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
+"Benjamin Alan Jamie"
 
 #: changes/contributors/5.15.2.rst:10
 msgid ""
@@ -24797,12 +25016,24 @@ msgid ""
 "Sangubon, پرویز قادر, Fulup Jakez, Matthaiks, Besnik Bleta, Hotripak, 大王叫"
 "我来巡山, Agnieszka C"
 msgstr ""
+"Jim Kats, Horus68, Francisco Serrador, VfBFan, Fjuro, Andi Chandler, Eduard "
+"Ereza Martínez, Takeru Mikenu, eulalio, Mickaël Binos, Любомир Василев, "
+"Peter Vančo, Mateus Liberale Gomes, Hanu E., Pierfrancesco Passerini, amano, "
+"Blueberry, ButterflyOfFire, Basheer Radman, therealmate, មនុញ្ញ - MᴇᴀнNսɴн, "
+"தமிழ்நேரம், EdoAug, Zahid Rizky Fakhri, Milo Ivir, Kristoffer Grundström, "
+"searinminecraft, Kyotaro Iijima, adecorte, Priit Jõerüüt, Rhoslyn Prys, Shah "
+"Zaman Pathan, Daniel Nylander, Michal Čihař, Kristijan \\\"Fremen\\\" "
+"Velkovski, Aindriú Mac Giolla Eoin, Tuomas Hietala, 이정희, pan93412, Anusuk "
+"Sangubon, پرویز قادر, Fulup Jakez, Matthaiks, Besnik Bleta, Hotripak, 大王叫"
+"我来巡山, Agnieszka C"
 
 #: changes/contributors/5.15.2.rst:15
 msgid ""
 "Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
 "alexis-pinon, Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
+"alexis-pinon, Benjamin Alan Jamie"
 
 #: changes/contributors/5.16.rst:5
 msgid ""
@@ -24810,6 +25041,9 @@ msgid ""
 "softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Serrano Pereira, moonchoe, "
+"softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 
 #: changes/contributors/5.16.rst:10
 msgid ""
@@ -24828,6 +25062,20 @@ msgid ""
 "Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
 "Duverne, 大学没毕业, Hotripak, delvani, A J."
 msgstr ""
+"தமிழ்நேரம், Andi Chandler, Daniel Nylander, Michal Čihař, VfBFan, "
+"ButterflyOfFire, Emin Tufan Çetin, eulalio, Milo Ivir, Yuri Chornoivan, 大王"
+"叫我来巡山, Zahid Rizky Fakhri, Peter Vančo, Kyotaro Iijima, amano, "
+"Hyeonjeong Lee, Yaron Shahrabani, Massimo Pissarello, Blueberry, Aindriú Mac "
+"Giolla Eoin, CRISTIAN ANDREI, Максим Горпиніч, Shah Zaman Pathan, Eduard "
+"Ereza Martínez, Alexis Launay, Luis Carlos González Morales, AlaxLima, "
+"Andrei Stepanov, Pierfrancesco Passerini, Valentin Ljuba, Anusuk Sangubon, "
+"Supaplex, Besnik Bleta, Matthaiks, Agnieszka C, Sketch6580, Mickaël Binos, U "
+"G, Kristoffer Grundström, Fjuro, 109247019824, Miguel A. Bouzada, Jim "
+"Spentzos, Fulup Jakez, Jim Kats, Omer I.S., nautilusx, jonnysemon, Martin "
+"Srebotnjak, Umida Hikmatilla, Arif Budiman, Ldm Public, pan93412, Heimen "
+"Stoffels, Romhányi-Kakucska Viktor, Pedro Leite, RViktor, Dick Groskamp, "
+"Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
+"Duverne, 大学没毕业, Hotripak, delvani, A J."
 
 #: changes/contributors/5.16.rst:15
 msgid ""
@@ -24835,10 +25083,13 @@ msgid ""
 "shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11"
 msgstr ""
+"Michal Čihař, Kartik Ohri, moonchoe, Karen Konou, softworkz, Serhii H., "
+"shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11"
 
 #: changes/contributors/5.16.1.rst:5
 msgid "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.1.rst:10
 msgid ""
@@ -24853,16 +25104,24 @@ msgid ""
 "justcontributor, Valentin Ljuba, Daniel Nylander, Arantxa, Marino Díaz, "
 "Artemka"
 msgstr ""
+"Heimen Stoffels, Michal Čihař, delvani, Yaron Shahrabani, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/"
+"ℂ𝕠𝕠𝕠𝕝), Priit Jõerüüt, Zahid Rizky Fakhri, Pierfrancesco Passerini, Massimo "
+"Pissarello, Romhányi-Kakucska Viktor, Mickaël Binos, Milo Ivir, Blueberry, 大"
+"王叫我来巡山, VfBFan, Besnik Bleta, Nikolay Korotkiy, Pavel Borecki, "
+"Matthaiks, Agnieszka C, Emin Tufan Çetin, Agustina Giselle, Fjuro, RViktor, "
+"ojppe, eulalio, Pavel Miniutka, Kristoffer Grundström, Aindriú Mac Giolla "
+"Eoin, reducedradius, Максим Горпиніч, Руслан Пузич, Francisco Serrador, "
+"Kyotaro Iijima, Petr Kadlec, தமிழ்நேரம், Dick Groskamp, PICOPress, "
+"justcontributor, Valentin Ljuba, Daniel Nylander, Arantxa, Marino Díaz, "
+"Artemka"
 
 #: changes/contributors/5.16.1.rst:15
 msgid "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.2.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Kartik Ohri"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -24889,7 +25148,7 @@ msgid ""
 msgstr ""
 "Jose Delvani, Julija Juli, Andi Chandler, pan93412, Milo Ivir, "
 "gallegonovato, ngocanhtve, kapatych, Marco Ciampa, Balázs Úr, Artemka, Ricky "
-"From Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
+"desde Hong Kong, Massimo Pissarello, dreigiau, Ihor Hordiichuk, Allan "
 "Nordhøy, Selyan Sliman Amiri, iwonder, Besnik Bleta, Nathan, yangyangdaji, "
 "Priit Jõerüüt, Aindriú Mac Giolla Eoin, Diego Beraldin, Marino Díaz, پرویز "
 "قادر, Horus68, ssantos, M. D. Kulkarni (MDK), Miguel A. Bouzada, A. Bento, "
@@ -32633,16 +32892,12 @@ msgid "Django 3.1 is now required."
 msgstr "Ahora es obligatorio el uso de Django 3.1."
 
 #: changes/v4.rst:941
-#, fuzzy
-#| msgid ""
-#| "In case you are using MySQL or MariaDB, the minimal required versions "
-#| "have increased, see :ref:`mysql`."
 msgid ""
 "In case you are using MySQL or MariaDB, the minimal required versions have "
 "increased."
 msgstr ""
-"Si utiliza MySQL o MariaDB, las versiones mínimas requeridas han aumentado, "
-"consulte :ref:`mysql`."
+"En caso que esté utilizando MySQL o MariaDB, las versiones mínimas "
+"requeridas han aumentado."
 
 #: changes/v4.rst:945
 msgid ""
@@ -33929,10 +34184,8 @@ msgid "ORM object for a translation."
 msgstr "Objeto ORM para una traducción."
 
 #: contributing/addons.rst:29
-#, fuzzy
-#| msgid "ORM object for an change."
 msgid "ORM object for a category."
-msgstr "Objeto ORM para un cambio."
+msgstr "Objeto ORM para una categoría."
 
 #: contributing/addons.rst:33
 msgid "ORM object for a project."
@@ -35652,6 +35905,9 @@ msgid ""
 "`translate-toolkit`_, the library to manipulate the translation files, "
 "originally third-party library but now maintained by Weblate."
 msgstr ""
+"`translate-toolkit`_, la biblioteca para manipular los archivos de "
+"traducción, originalmente biblioteca de terceros pero ahora mantenida por "
+"Weblate."
 
 #: contributing/modules.rst:20
 msgid "Extending built-in language definitions"
@@ -35992,16 +36248,23 @@ msgid ""
 "in :file:`pyproject.toml`, so installing those dependencies "
 "makes :program:`prek` available."
 msgstr ""
+"La forma más sencilla de garantizar todo esto es instalar :program:`prek`. "
+"Se trata de una re‐implementación de terceros de la herramienta `pre-"
+"commit`_ utilizada por Weblate. Está incluida en las dependencias de "
+"desarrollo declaradas en :file:`pyproject.toml`, por lo que al instalar "
+"dichas dependencias, :program:`prek` estará disponible."
 
 #: contributing/snippets/code-guide.rst:89
 msgid "To check all files manually, run:"
-msgstr ""
+msgstr "Para comprobar todos los archivos manualmente, ejecute:"
 
 #: contributing/snippets/code-guide.rst:95
 msgid ""
 "If you prefer the original :program:`pre-commit` client, it uses the same "
 "configuration from :file:`.pre-commit-config.yaml`."
 msgstr ""
+"Si prefiere el :program:`pre-commit` original del cliente, utilice la misma "
+"configuración desde :file:`.pre-commit-config.yaml`."
 
 #: contributing/snippets/code-guide.rst:101
 msgid "Coding securely"
@@ -36103,29 +36366,22 @@ msgid "Running Weblate locally"
 msgstr "Ejecutar Weblate localmente"
 
 #: contributing/start.rst:19
-#, fuzzy
-#| msgid ""
-#| "The most comfortable approach to get started with Weblate development is "
-#| "to follow :doc:`../admin/install/source`. It will get you a virtualenv "
-#| "with editable Weblate sources."
 msgid ""
 "The most comfortable approach to get started with Weblate development is to "
 "follow :doc:`../admin/install/source`. It will get you a Python environment "
 "with editable Weblate sources."
 msgstr ""
 "La forma más cómoda de comenzar a desarrollar con Weblate es seguir :doc:`../"
-"admin/install/source`. Esto le proporcionará un entorno virtual con fuentes "
-"de Weblate editables."
+"admin/install/source`. Esto le proporcionará un entorno de Python con "
+"fuentes de Weblate editables."
 
 #: contributing/start.rst:23
 msgid "Clone the Weblate source code:"
 msgstr "Clone el código fuente de Weblate:"
 
 #: contributing/start.rst:30
-#, fuzzy
-#| msgid "Creating a Python module"
 msgid "Create a Python environment:"
-msgstr "Crear un módulo de Python"
+msgstr "Crea un entorno de Python:"
 
 #: contributing/start.rst:37
 msgid ""
@@ -36287,24 +36543,14 @@ msgstr ""
 "paso es especificar el intérprete que desea usar:"
 
 #: contributing/start.rst:146
-#, fuzzy
-#| msgid ""
-#| "You can either choose to let PyCharm create the virtualenv for you, or "
-#| "select an already existing one:"
 msgid ""
 "You can either choose to let PyCharm create the Python environment for you, "
 "or select an already existing one:"
 msgstr ""
-"Puedes elegir para crear el “virtualenv” de Pycham por ti, o seleccionar uno "
-"ya existente:"
+"Puedes o bien elegir para establecer un PyCham que cree el entorno Python "
+"pot ti, o bien seleccionar uno ya existente:"
 
 #: contributing/start.rst:151
-#, fuzzy
-#| msgid ""
-#| "Don't forget to install the dependencies once the interpreter is set: "
-#| "Either through the console (the console from the IDE will directly use "
-#| "your virtualenv by default), or through the interface when you get a "
-#| "warning about missing dependencies."
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set: Either "
 "through the console (the console from the IDE will directly use your Python "
@@ -36312,8 +36558,8 @@ msgid ""
 "about missing dependencies."
 msgstr ""
 "No olvides instalar las dependencias una vez configurado el intérprete: ya "
-"sea a través de la consola (la consola del IDE usará directamente tu "
-"virtualenv por defecto), o a través de la interfaz cuando recibas una "
+"sea a través de la consola (la consola del IDE usará directamente tu entorno "
+"de Python por defecto), o a través de la interfaz cuando recibas una "
 "advertencia sobre dependencias ausentes."
 
 #: contributing/start.rst:156
@@ -36364,17 +36610,19 @@ msgstr ""
 
 #: contributing/submodules.rst:2
 msgid "Subprojects and embedded code"
-msgstr ""
+msgstr "Sub‐proyectos y código embebido"
 
 #: contributing/submodules.rst:4
 msgid ""
 "Weblate would not be possible without other projects it depends on. This "
 "document describes how other code is used in Weblate."
 msgstr ""
+"Weblate no sería posible sin otros proyectos que dependa. Este documento "
+"describe como otro código es utilizado en Weblate."
 
 #: contributing/submodules.rst:8
 msgid "Vendored frontend code"
-msgstr ""
+msgstr "Código de primer plano del proveedor"
 
 #: contributing/submodules.rst:10
 msgid ""
@@ -36383,10 +36631,14 @@ msgid ""
 "REUSE as described in :doc:`license`. The up-to-date list of dependencies "
 "can be reviewed in :ref:`sbom`."
 msgstr ""
+"Weblate proporciona varias bibliotecas de JavaScript. EL proceso está "
+"descrito en :doc:`frontend` y la licencia de cada biblioteca del proveedor "
+"está documentada por REUSO como se describe en :doc:`license`. La lista al "
+"día de dependencias puede ser revisada en :ref:`sbom`."
 
 #: contributing/submodules.rst:16
 msgid "SPDX license data"
-msgstr ""
+msgstr "Datos licenciatarios de SPDX"
 
 #: contributing/submodules.rst:18
 msgid ""
@@ -36394,12 +36646,13 @@ msgid ""
 "and :file:`weblate/utils/licensedata.py` is generated using :file:`scripts/"
 "generate-license-data.py`."
 msgstr ""
+"Los datos de la licencia de SPDX están incluidos como un submódulo de Git en "
+"el código fuente y :file:`weblate/utils/licensedata.py` se genera utilizando "
+":file:`scripts/generate-license-data.py`."
 
 #: contributing/submodules.rst:23
-#, fuzzy
-#| msgid "Test cases"
 msgid "Test data"
-msgstr "Casos de prueba"
+msgstr "Datos de prueba"
 
 #: contributing/submodules.rst:25
 msgid ""
@@ -36407,6 +36660,9 @@ msgid ""
 "repo.*.tar` are generated from https://github.com/WeblateOrg/test, "
 "see :ref:`test-data`."
 msgstr ""
+"Los repositorio de pruebas en :file:`weblate/trans/tests/data/test-base-"
+"repo.*.tar` son generados desde https://github.com/WeblateOrg/test, consulte "
+":ref:`test-data`."
 
 #: contributing/submodules.rst:31
 msgid ""
@@ -36415,6 +36671,10 @@ msgid ""
 "in :ref:`sbom`. The most important dependencies are also described "
 "in :ref:`python-deps`."
 msgstr ""
+"Weblate no pudo ser posible sin muchas dependencias de terceros. Las "
+"dependencias actuales son en :file:`pyproject.toml` y puede ser revisada en "
+":ref:`sbom`. Las dependencias más importantes también son descritas en "
+":ref:`python-deps`."
 
 #: contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -36484,6 +36744,7 @@ msgstr ""
 #: contributing/tests.rst:26
 msgid "Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_."
 msgstr ""
+"Los cambios visuales de pruebas utilizan `Argos CI <https://argos-ci.com>`_."
 
 #: contributing/tests.rst:27
 msgid ""
@@ -36491,6 +36752,9 @@ msgid ""
 "third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_ "
 "framework."
 msgstr ""
+"Formato de código utilizando `prek <https://pypi.org/project/prek/>`_, una "
+"reimplementación de terceros más rápida del framework `pre-commit <https://"
+"pre-commit.com/>`_."
 
 #: contributing/tests.rst:30
 msgid "Migration testing from all supported releases"
@@ -37102,10 +37366,10 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Máscara del archivo duplicado utilizada para los componentes enlazados"
 
 #: devel/alerts.rst:26
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
-msgstr "Configura :setting:`UNUSED_ALERT_DAYS`."
+msgstr ""
+"El componente parece no utilizado (configurable en "
+":setting:`UNUSED_ALERT_DAYS`)"
 
 #: devel/alerts.rst:28
 msgid ""
@@ -37121,6 +37385,9 @@ msgid ""
 "using :setting:`WEBSITE_ALERTS_ENABLED`, in which case Weblate will no "
 "longer generate alerts for unreachable project websites."
 msgstr ""
+"Disponibilidad del sitio web de proyecto puede ser inhabilitado utilizando "
+":setting:`WEBSITE_ALERTS_ENABLED`, en el cual caso Weblate no generará más "
+"alertas para sitios web del proyecto no alcanzables."
 
 #: devel/alerts.rst:35
 msgid ""
@@ -37779,14 +38046,6 @@ msgid "String extraction for Weblate CDN"
 msgstr "Extracción de cadenas para la CDN de Weblate"
 
 #: devel/html.rst:67
-#, fuzzy
-#| msgid ""
-#| "The translation strings have to be present in Weblate. You can either "
-#| "manage these manually, use API to create them or list files or URLs "
-#| "using :guilabel:`Extract strings from HTML files` and Weblate will "
-#| "extract them automatically. The files have to present in the repository "
-#| "or contain remote URLs which will be download and parsed regularly by "
-#| "Weblate."
 msgid ""
 "The translation strings have to be present in Weblate. You can either manage "
 "these manually, use API to create them or list files or URLs "
@@ -37801,7 +38060,9 @@ msgstr ""
 "URL mediante :guilabel:`Extraer cadenas de archivos HTML` y Weblate las "
 "extraerá automáticamente. Los archivos deben estar presentes en el "
 "repositorio o contener URL remotas que Weblate descargará y analizará "
-"periódicamente ."
+"periódicamente . Las URL remotas están restringidas por "
+":setting:`ALLOWED_ASSET_DOMAINS`, incluyendo cualquier destino de "
+"redirección."
 
 #: devel/html.rst:74
 msgid ""
@@ -39144,180 +39405,132 @@ msgid "The translator's join date is also included in the report."
 msgstr "La fecha de unión del traductor además está incluida en el informe."
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr "Correo-e"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "*Date joined*"
 msgid "Date joined"
-msgstr "*Fecha de incorporación*"
+msgstr "Fecha de incorporación"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Document to translate"
 msgid "Count total"
-msgstr "Documento para traducir"
+msgstr "Contador total"
 
 #: devel/reporting-example.rst:2
 msgid "Edits total"
-msgstr ""
+msgstr "Ediciones totales"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source words`"
 msgid "Source words total"
-msgstr "`Palabras fuentes`"
+msgstr "Total de palabras fuentes"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source characters`"
 msgid "Source chars total"
-msgstr "`Caracteres de origen`"
+msgstr "Total de caracteres de origen"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target words`"
 msgid "Target words total"
-msgstr "`Palabras destino`"
+msgstr "Total de palabras destino"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target characters`"
 msgid "Target chars total"
-msgstr "`Caracteres objetivo`"
+msgstr "Total de caracteres destino"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Count`"
 msgid "Count new"
-msgstr "`Conteo`"
+msgstr "Conteo nuevo"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Edits`"
 msgid "Edits new"
-msgstr "`Editadas`"
+msgstr "Nuevas editadas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source words`"
 msgid "Source words new"
-msgstr "`Palabras fuentes`"
+msgstr "Nuevas palabras fuente"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Source checks"
 msgid "Source chars new"
-msgstr "Comprobaciones de origen"
+msgstr "Caracteres de fuente nuevas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target words`"
 msgid "Target words new"
-msgstr "`Palabras destino`"
+msgstr "Palabras destino nuevas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target characters`"
 msgid "Target chars new"
-msgstr "`Caracteres objetivo`"
+msgstr "Caracteres destino nuevas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Font removed"
 msgid "Count approved"
-msgstr "Tipografía retirada"
+msgstr "Conteo aprobado"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "needs editing, approved"
 msgid "Edits approved"
-msgstr "necesita editar, aprobado"
+msgstr "Ediciones aprobadas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source words`"
 msgid "Source words approved"
-msgstr "`Palabras fuentes`"
+msgstr "Palabras fuente aprobadas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source characters`"
 msgid "Source chars approved"
-msgstr "`Caracteres de origen`"
+msgstr "Caracteres fuente aprobados"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target words`"
 msgid "Target words approved"
-msgstr "`Palabras destino`"
+msgstr "Palabras destino aprobadas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target characters`"
 msgid "Target chars approved"
-msgstr "`Caracteres objetivo`"
+msgstr "Caracteres destino aprobados"
 
 #: devel/reporting-example.rst:2
 msgid "Count edited"
-msgstr ""
+msgstr "Conteo editado"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edits edited"
-msgstr "Editar archivo de base"
+msgstr "Editar editado"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source words`"
 msgid "Source words edited"
-msgstr "`Palabras fuentes`"
+msgstr "Palabras origen editadas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Source characters`"
 msgid "Source chars edited"
-msgstr "`Caracteres de origen`"
+msgstr "Caracteres origen editados"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target words`"
 msgid "Target words edited"
-msgstr "`Palabras destino`"
+msgstr "Palabras destino editadas"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Target characters`"
 msgid "Target chars edited"
-msgstr "`Caracteres objetivo`"
+msgstr "Caracteres destino editadas"
 
 #: devel/reporting-example.rst:4
 msgid "John Done"
-msgstr ""
+msgstr "Nombre ejemplo"
 
 #: devel/reporting-example.rst:4
 msgid "john@example.com"
-msgstr ""
+msgstr "nombre@ejemplo.com"
 
 #: devel/reporting-example.rst:4
 msgid "2025-03-13T14:08:02.681269+00:00"
-msgstr ""
+msgstr "2025-03-13T14:08:02.681269+00:00"
 
 #: devel/reporting-example.rst:5
 msgid "Jane Done"
-msgstr ""
+msgstr "Nombre ejemplo 2"
 
 #: devel/reporting-example.rst:5
 msgid "jane@example.com"
-msgstr ""
+msgstr "jane@ejemplo.com"
 
 #: devel/reporting-example.rst:5
 msgid "2025-03-01T11:00:00.000000+00:00"
-msgstr ""
+msgstr "2025-03-01T11:00:00.000000+00:00"
 
 #: devel/review.rst:4
 msgid "Reviewing strings"
@@ -39818,51 +40031,76 @@ msgid ""
 "project workflow around strings, releases, and communication. A few "
 "practices make collaboration much easier:"
 msgstr ""
+"El lado técnico solo es parte de la palabra. Los traductores además noticia "
+"el flujo del proyecto alrededor de cadenas, liberaciones, y comunicación. "
+"Unas pocas prácticas hacen colaboración más sencilla:"
 
 #: devel/starting.rst:114
 msgid ""
 "Respond to translator questions and comments, and make sure the advertised "
 "contact channel is actually monitored."
 msgstr ""
+"Responda a cuestiones del traductor y comentarios, y segúrese el canal de "
+"contacto advertido actualmente está monitorizado."
 
 #: devel/starting.rst:116
 msgid ""
 "Avoid unnecessary churn in source strings. Rewording or replacing existing "
 "strings without a user-visible reason creates avoidable translation work."
 msgstr ""
+"Evite discusión innecesaria en cadenas origen. Cambiar palabras o remplazar "
+"cadenas existentes sin una razón visible por usuario crea trabajo de "
+"traducción evitable."
 
 #: devel/starting.rst:118
+#, fuzzy
 msgid ""
 "Add enough context for translators to understand short or ambiguous strings. "
 "Avoid concatenating sentences from fragments, use placeholders that can be "
 "reordered, and rely on built-in plural handling."
 msgstr ""
+"Añade suficiente contexto para que los traductores puedan entender las "
+"cadenas cortas o ambiguas. Evita concatenar frases a partir de fragmentos, "
+"utiliza marcadores de posición que se puedan reordenar y aprovecha la "
+"gestión del plural integrada."
 
 #: devel/starting.rst:121
 msgid ""
 "Ship translations regularly so completed work does not stay unused in "
 "Weblate for long periods."
 msgstr ""
+"Trasladar traducciones regularmente tal que el trabajo completado no "
+"mantenga sin usarse en Weblate por un periodo largo."
 
 #: devel/starting.rst:123
 msgid ""
 "Communicate workflow or policy changes, and keep contribution requirements "
 "realistic for smaller language teams."
 msgstr ""
+"Comunicar el flujo de trabajo o cambios de normativa, y conservar "
+"contribución requiere realística para equipos de idioma más pequeños."
 
 #: devel/starting.rst:125
 msgid ""
 "If a project is no longer maintained, reflect that in the translation "
 "workflow instead of leaving components open indefinitely."
 msgstr ""
+"Si un proyecto no está más mantenido, refleje eso en el flujo de trabajo de "
+"traducción en vez de abandonar componentes abiertos indefinidamente."
 
 #: devel/starting.rst:128
+#, fuzzy
 msgid ""
 "Weblate can help with some of these issues. In particular, regular automatic "
 "commits from Weblate make translation progress visible in the source code "
 "history and reduce the risk that finished work is forgotten before a "
 "release. See :ref:`continuous-translation` for automation options."
 msgstr ""
+"Weblate puede ayudar a resolver algunos de estos problemas. En concreto, las "
+"actualizaciones automáticas periódicas de Weblate permiten ver el progreso "
+"de la traducción en el historial del código fuente y reducen el riesgo de "
+"que el trabajo ya realizado se olvide antes de una publicación. Consulta "
+":ref:`continuous-translation` para conocer las opciones de automatización."
 
 #: devel/success-stories.rst:2
 msgid "Success stories"
@@ -40266,14 +40504,10 @@ msgstr ""
 "(cuando :ref:`component-manage_units` está activado):"
 
 #: devel/translations.rst:153
-#, fuzzy
-#| msgid ""
-#| "The password has to be at least 10 characters long, and at most 72 "
-#| "characters long."
 msgid "The variant source string has to be at most 768 characters long."
 msgstr ""
-"La contraseña tiene que ser de al menos 10 caracteres largos, y como mucho "
-"72 caracteres largos."
+"La cadena origen variante tiene que ser de como mucho 763 caracteres de "
+"largo."
 
 #: devel/translations.rst:161
 msgid "Variants while translating"
@@ -42038,22 +42272,16 @@ msgid "`ARB file`"
 msgstr "`Archivo ARB`"
 
 #: formats/asciidoc.rst:4
-#, fuzzy
-#| msgid "Local files"
 msgid "AsciiDoc files"
-msgstr "Archivos locales"
+msgstr "Archivos AsciiDoc"
 
 #: formats/asciidoc.rst:10
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the HTML files and offered for "
-#| "the translation."
 msgid ""
 "The translatable content is extracted from the AsciiDoc files and offered "
 "for the translation."
 msgstr ""
-"El contenido traducible se extrae de los archivos HTML y se ofrece para la "
-"traducción."
+"El contenido traducible se extrae desde los archivos AsciiDoc y se ofrece "
+"para la traducción."
 
 #: formats/asciidoc.rst:18 formats/catkeys.rst:14 formats/csv.rst:56
 #: formats/fluent.rst:20 formats/formatjs.rst:15 formats/html.rst:16
@@ -42067,10 +42295,8 @@ msgid "Example file:"
 msgstr "Archivo de ejemplo:"
 
 #: formats/asciidoc.rst:34
-#, fuzzy
-#| msgid "`ARB file`"
 msgid "`AsciiDoc file`"
-msgstr "`Archivo ARB`"
+msgstr "`Archivo AsciiDoc`"
 
 #: formats/asciidoc.rst:40 formats/html.rst:41 formats/markdown.rst:43
 #: formats/txt.rst:49
@@ -42078,12 +42304,6 @@ msgid "Handling duplicate strings"
 msgstr "Manipula cadenas duplicadas"
 
 #: formats/asciidoc.rst:42
-#, fuzzy
-#| msgid ""
-#| "By default, Weblate treats each occurrence of a string as a separate "
-#| "translation unit to provide line-based context. This can be problematic "
-#| "in Markdown tables, where reordering rows changes the context and can "
-#| "lead to translation loss."
 msgid ""
 "By default, Weblate treats each occurrence of a string as a separate "
 "translation unit to provide line-based context. This can be problematic in "
@@ -42092,7 +42312,7 @@ msgid ""
 msgstr ""
 "De forma predeterminada, Weblate trata cada ocurrencia de una cadena como "
 "una unidad de traducción independiente para proporcionar contexto basado en "
-"líneas. Esto puede ser problemático en tablas Markdown, donde reordenar las "
+"líneas. Esto puede ser problemático en tablas AsciiDoc, donde reordenar las "
 "filas cambia el contexto y puede provocar pérdidas de traducción."
 
 #: formats/asciidoc.rst:47 formats/html.rst:48 formats/markdown.rst:50
@@ -43553,34 +43773,24 @@ msgid "`RC file`"
 msgstr "`Archivo RC`"
 
 #: formats/wxl.rst:2 snippets/addons-autogenerated.rst:1793
-#, fuzzy
-#| msgid "Localization file formats"
 msgid "WixLocalization file"
-msgstr "Formatos de archivos de localizaciónn"
+msgstr "Archivo WixLocalization"
 
 #: formats/wxl.rst:8
-#, fuzzy
-#| msgid ""
-#| "RC files are language files used to localize translatable text, dialogs, "
-#| "menus, for Windows applications."
 msgid ""
 "WixLocalization (WXL) files are language files used to localize translatable "
 "text, dialogs, menus, for WiX Toolset."
 msgstr ""
-"Los archivos RC son archivos de idioma que se utilizan para localizar texto "
-"traducible, cuadros de diálogo y menús para aplicaciones de Windows."
+"Los archivos WixLocalization (WXL) son archivos de idioma que se utilizan "
+"para localizar texto traducible, cuadros de diálogo y menús para WiX Toolset."
 
 #: formats/wxl.rst:18
-#, fuzzy
-#| msgid "Example XLIFF file:"
 msgid "Example WXL file:"
-msgstr "Ejemplo de archivo XLIFF:"
+msgstr "Ejemplo de archivo WXL:"
 
 #: formats/wxl.rst:35
-#, fuzzy
-#| msgid "Localization file formats"
 msgid "`WixLocalization file`"
-msgstr "Formatos de archivos de localizaciónn"
+msgstr "`Archivo WixLocalization`"
 
 #: formats/xliff.rst:4
 msgid "XLIFF 1.1 and 1.2"
@@ -43648,20 +43858,12 @@ msgstr ""
 "soportar plurales."
 
 #: formats/xliff.rst:26
-#, fuzzy
-#| msgid "`XLIFF 1.2 with gettext extensions`"
 msgid "`XLIFF 1.2 with Apple extensions`"
-msgstr "`XLIFF 1.2 con extensión de gettext`"
+msgstr "`XLIFF 1.2 con extensión de Apple`"
 
 #: formats/xliff.rst:27
-#, fuzzy
-#| msgid ""
-#| "XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to "
-#| "support plurals."
 msgid "XLIFF enriched by Apple to support plurals."
-msgstr ""
-"XLIFF enriquecido con `XLIFF 1.2 Representation Guide for Gettext PO`_ para "
-"soportar plurales."
+msgstr "XLIFF enriquecido con Apple para soportar plurales."
 
 #: formats/xliff.rst:32
 msgid "`XML Localization Interchange File Format (XLIFF)`_ specification"
@@ -48088,11 +48290,6 @@ msgid "Fills in translation strings with source string."
 msgstr "Completa las cadenas de traducción con las de origen."
 
 #: snippets/addons-autogenerated.rst:927
-#, fuzzy
-#| msgid ""
-#| "All untranslated strings in the component will be filled with the source "
-#| "string, and marked as needing edit. Use this when you can not have empty "
-#| "strings in the translation files."
 msgid ""
 "All untranslated strings in the component will be filled with the source "
 "string, and marked as needing edit. Use this when you can not have empty "
@@ -48102,7 +48299,9 @@ msgid ""
 msgstr ""
 "Todas las cadenas no traducidas del componente se rellenarán con la cadena "
 "de origen y se marcarán como necesiten editar. Use esto cuando no pueda "
-"tener cadenas vacías en los archivos de traducción."
+"tener cadenas vacías en los archivos de traducción. ..INICIO AUTO‐GENERADO: "
+"weblate.generate.pseudolocale .. Estas sección es generada automáticamente "
+"por `./manage.py list_addons`. No la edite manualmente."
 
 #: snippets/addons-autogenerated.rst:936
 msgid "Pseudolocale generation"
@@ -48264,18 +48463,12 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Actualización de la variable ALL_LINGUAS en el archivo \"configurar\""
 
 #: snippets/addons-autogenerated.rst:1044
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable "
-#| "in :file:`configure`, :file:`configure.in` or any :file:`configure.ac` "
-#| "files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Actualiza la variable ALL_LINGUAS del "
-"archivo :file:`configure`, :file:`configure.in` o cualquier "
-"archivo :file:`configure.ac`, cuando es agregada una traducción nueva."
+"Actualiza la variable ALL_LINGUAS dentro de los archivos \"configure\", "
+"\"configure.in\" or \"configure.ac\", cuando se agregue una traducción nueva."
 
 #: snippets/addons-autogenerated.rst:1049
 msgid ""
@@ -48364,18 +48557,13 @@ msgstr ""
 "a :ref:`file_format_params`."
 
 #: snippets/addons-autogenerated.rst:1120
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files (as configured by :ref:`component-filemask`) to "
-#| "match the POT file (as configured by :ref:`component-new_base`) "
-#| "using :program:`msgmerge`."
 msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Actualiza todos los archivos PO (tal como se configuraron "
-"mediante :ref:`component-filemask`) a juego con el archivo POT (según esté "
-"configurado por :ref:`component-new_base`) utilizando :program:`msgmerge`."
+"Actualiza todos los archivos PO (tal como se configuraron mediante “Máscara "
+"de archivo”) para coincidir con el archivo POT (según esté configurado por “"
+"Plantilla para traducciones nuevas”) utilizando msgmerge."
 
 #: snippets/addons-autogenerated.rst:1125
 msgid ""
@@ -48774,28 +48962,22 @@ msgstr ""
 "standardwebhooks/>`_"
 
 #: snippets/addons-autogenerated.rst:1448
-#, fuzzy
-#| msgid "Repository post-update"
 msgid "Reset repository to upstream"
-msgstr "Repositorio posterior al ser actualizado"
+msgstr "Restablece repositorio al desarrollo"
 
 #: snippets/addons-autogenerated.rst:1456
-#, fuzzy
-#| msgid "Strings are changed in the repository."
 msgid "Discards all changes in the Weblate repository each night."
-msgstr "Cadenas son modificadas dentro del repositorio."
+msgstr "Descarta todos los cambios en el repositorio Weblate cada noche."
 
 #: snippets/addons-autogenerated.rst:1465
 msgid "Update POT file (Django)"
-msgstr ""
+msgstr "Actualiza el archivo POT (Django)"
 
 #: snippets/addons-autogenerated.rst:1471
 #: snippets/addons-autogenerated.rst:1503
 #: snippets/addons-autogenerated.rst:1546
-#, fuzzy
-#| msgid "Data residency"
 msgid "Update frequency"
-msgstr "Datos de residencia"
+msgstr "Actualizar frecuencia"
 
 #: snippets/addons-autogenerated.rst:1471
 #: snippets/addons-autogenerated.rst:1503
@@ -48804,61 +48986,63 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
+"Cuanto a menudo el complemento actualizaría el archivo POT cuando el "
+"componente sea recargado."
 
 #: snippets/addons-autogenerated.rst:1479
 #: snippets/addons-autogenerated.rst:1511
 #: snippets/addons-autogenerated.rst:1554
 msgid "Weekly"
-msgstr ""
+msgstr "Semanalmente"
 
 #: snippets/addons-autogenerated.rst:1481
 #: snippets/addons-autogenerated.rst:1513
 #: snippets/addons-autogenerated.rst:1556
 msgid "Monthly"
-msgstr ""
+msgstr "Mensualmente"
 
 #: snippets/addons-autogenerated.rst:1483
 #: snippets/addons-autogenerated.rst:1515
 #: snippets/addons-autogenerated.rst:1558
 msgid "Normalize POT header"
-msgstr ""
+msgstr "Normalizar cabecera de POT"
 
 #: snippets/addons-autogenerated.rst:1483
 #: snippets/addons-autogenerated.rst:1515
 #: snippets/addons-autogenerated.rst:1558
-#, fuzzy
-#| msgid "Update the existing add-on configuration."
 msgid "Updates selected gettext header fields using component configuration."
-msgstr "Actualice la configuración del complemento existente."
+msgstr ""
+"Actualice los campos de cabecera gettext utilizando la configuración del "
+"complemento."
 
 #: snippets/addons-autogenerated.rst:1488
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
+"Actualiza la plantilla de gettext utilizando la instrucción de makemessages "
+"incorporada en Django."
 
 #: snippets/addons-autogenerated.rst:1497
 msgid "Update POT file (Sphinx)"
-msgstr ""
+msgstr "Actualizar archivo POT (Sphinx)"
 
 #: snippets/addons-autogenerated.rst:1517
-#, fuzzy
-#| msgid "string"
 msgid "Filtering"
-msgstr "cadena"
+msgstr "Filtrado"
 
 #: snippets/addons-autogenerated.rst:1517
 msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"Opcionalmente retira cadenas que no son útiles para traducir tras extracción "
+"de Sphinx."
 
 #: snippets/addons-autogenerated.rst:1523
 msgid "None"
 msgstr "Ninguno"
 
 #: snippets/addons-autogenerated.rst:1525
-#, fuzzy
-#| msgid "Weblate Documentation"
 msgid "Weblate documentation"
 msgstr "Documentación de Weblate"
 
@@ -48867,65 +49051,67 @@ msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"Actualiza la plantilla gettext utilizando el constructor gettext de Sphinx "
+"sin cargar la configuración del proyecto."
 
 #: snippets/addons-autogenerated.rst:1540
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "Actualizar archivos PO para que coincidan con POT (msgmerge)"
+msgstr "Actualizar archivo POT (xgettext)"
 
 #: snippets/addons-autogenerated.rst:1560
-#, fuzzy
-#| msgid "source"
 msgid "Input source"
-msgstr "fuente"
+msgstr "Origen de entrada"
 
 #: snippets/addons-autogenerated.rst:1560
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Elija si xgettext leería archivos origen desde patrones glob o desde un "
+"manifiesto POTFILES/POTFILES.in."
 
 #: snippets/addons-autogenerated.rst:1566
 #: snippets/addons-autogenerated.rst:1572
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source file patterns"
-msgstr "Cadenas de origen"
+msgstr "Patrones de archivo origen"
 
 #: snippets/addons-autogenerated.rst:1568
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "POTFILES declarado"
 
 #: snippets/addons-autogenerated.rst:1570
-#, fuzzy
-#| msgid "Per language"
 msgid "xgettext language"
-msgstr "Por idioma"
+msgstr "idioma de xgettext"
 
 #: snippets/addons-autogenerated.rst:1570
 msgid "Programming language passed to xgettext, for example Python or C."
-msgstr ""
+msgstr "Programar lenguaje aprobado para xgettext, por ejemplo Python o C."
 
 #: snippets/addons-autogenerated.rst:1572
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Patrones nueva línea separada en repositorio-relativo para archivos en "
+"extracción con xgettext."
 
 #: snippets/addons-autogenerated.rst:1574
 msgid "POTFILES path"
-msgstr ""
+msgstr "Ruta de POTFILES"
 
 #: snippets/addons-autogenerated.rst:1574
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to that file."
 msgstr ""
+"Ruta relativa del repositorio para POTFILES o POTFILES.in. Los apuntes son "
+"resueltos relativos a ese archivo."
 
 #: snippets/addons-autogenerated.rst:1579
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
+"Actualiza la plantilla gettext utilizando xgettext en archivos origen "
+"seleccionados."
 
 #: snippets/addons-autogenerated.rst:1588
 msgid "Customize XML output"
@@ -49064,10 +49250,8 @@ msgid "tmserver"
 msgstr "tmserver"
 
 #: snippets/addons-autogenerated.rst:1677
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "XLIFF 1.2 with Apple extensions"
-msgstr "XLIFF 1.2 con extensiones gettext"
+msgstr "XLIFF 1.2 con extensiones Apple"
 
 #: snippets/addons-autogenerated.rst:1681
 msgid "ARB file"
@@ -49079,7 +49263,7 @@ msgstr "Recurso de cadenas de Android"
 
 #: snippets/addons-autogenerated.rst:1685
 msgid "AsciiDoc file"
-msgstr ""
+msgstr "Archivo AsciiDoc"
 
 #: snippets/addons-autogenerated.rst:1687
 msgid "Advanced SubStation Alpha subtitle file"
@@ -49194,10 +49378,8 @@ msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 con extensiones gettext"
 
 #: snippets/addons-autogenerated.rst:1761
-#, fuzzy
-#| msgid "`Java Properties`"
 msgid "Java Properties"
-msgstr "`Propiedades de Java`"
+msgstr "Propiedades de Java"
 
 #: snippets/addons-autogenerated.rst:1763
 msgid "RC file"
@@ -49228,10 +49410,8 @@ msgid "SubStation Alpha subtitle file"
 msgstr "Archivo de subtítulos SubStation Alpha"
 
 #: snippets/addons-autogenerated.rst:1777
-#, fuzzy
-#| msgid "`iOS Strings`"
 msgid "iOS strings"
-msgstr "`Cadenas de iOS`"
+msgstr "Cadenas de iOS"
 
 #: snippets/addons-autogenerated.rst:1779
 msgid "Stringsdict file"
@@ -49618,16 +49798,12 @@ msgid "Repository cleanup"
 msgstr "Purga de repositorio"
 
 #: snippets/addons-autogenerated.rst:1986
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "Cadena agregada al ser subida"
+msgstr "Cadena origen agregada a la subida"
 
 #: snippets/addons-autogenerated.rst:1988
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "Cadena agregada al repositorio"
+msgstr "Cadena origen agregada al repositorio"
 
 #: snippets/basics.rst:2
 msgid "Weblate basics"
@@ -49909,278 +50085,191 @@ msgstr ""
 "de :ref:`check-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:53
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an Bulletin Board Code (BBCode) document, "
-#| "affects :ref:`check-same`."
 msgid ""
 "Treat a text as an Bulletin Board Code (BBCode) document, "
 "affects :ref:`check-same`. Enables the :ref:`check-bbcode` quality check."
 msgstr ""
-"Tratar un texto como un documento Bulletin Board Code (BBCode), afecta "
-"a :ref:`check-same`."
+"Tratar un texto como un documento Bulletin Board Code (BBCode), afecta a "
+":ref:`check-same`. Habilita el comprobante de calidad :ref:`check-bbcode`."
 
 #: snippets/check-flags-autogenerated.rst:56
-#, fuzzy
-#| msgid "Enable the :ref:`check-check-glossary` quality check."
 msgid "Enables the :ref:`check-check-glossary` quality check."
 msgstr "Activar el control de calidad :ref:`check-check-glossary`."
 
 #: snippets/check-flags-autogenerated.rst:58
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Enables the :ref:`check-fluent-parts` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-fluent-parts`."
+msgstr "Habilita el comprobante de calidad :ref:`check-fluent-parts`."
 
 #: snippets/check-flags-autogenerated.rst:60
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-references` quality check."
 msgid "Enables the :ref:`check-fluent-references` quality check."
-msgstr ""
-"Pasa por alto la comprobación de calidad :ref:`check-fluent-references`."
+msgstr "Habilita el comprobante de calidad :ref:`check-fluent-references`."
 
 #: snippets/check-flags-autogenerated.rst:62
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-inner-html` quality check."
 msgid "Enables the :ref:`check-fluent-target-inner-html` quality check."
-msgstr "Activa el control de calidad :ref:`check-fluent-source-inner-html`."
+msgstr "Activa el control de calidad :ref:`check-fluent-target-inner-html`."
 
 #: snippets/check-flags-autogenerated.rst:64
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-syntax` quality check."
 msgid "Enables the :ref:`check-fluent-target-syntax` quality check."
-msgstr "Activar el control de calidad :ref:`check-fluent-source-syntax`."
+msgstr "Activar el control de calidad :ref:`check-fluent-target-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:66
-#, fuzzy
-#| msgid "Enable the :ref:`check-angularjs-format` quality check."
 msgid "Enables the :ref:`check-angularjs-format` quality check."
 msgstr "Activar el control de calidad :ref:`check-angularjs-format`."
 
 #: snippets/check-flags-autogenerated.rst:68
-#, fuzzy
-#| msgid "Skip the :ref:`check-automattic-components-format` quality check."
 msgid "Enables the :ref:`check-automattic-components-format` quality check."
 msgstr ""
-"Pasa por alto la comprobación de calidad :ref:`check-automattic-components-"
-"format`."
+"Activa la comprobación de calidad :ref:`check-automattic-components-format`."
 
 #: snippets/check-flags-autogenerated.rst:70
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-c-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-c-format`."
+msgstr "Activa el control de calidad :ref:`check-c-format`."
 
 #: snippets/check-flags-autogenerated.rst:72
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-sharp-format` quality check."
 msgid "Enables the :ref:`check-c-sharp-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-c-sharp-format`."
+msgstr "Activa el control de calidad :ref:`check-c-sharp-format`."
 
 #: snippets/check-flags-autogenerated.rst:74
-#, fuzzy
-#| msgid "Enable the :ref:`check-es-format` quality check."
 msgid "Enables the :ref:`check-es-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-es-format`."
+msgstr "Activa el control de calidad :ref:`check-es-format`."
 
 #: snippets/check-flags-autogenerated.rst:76
-#, fuzzy
-#| msgid "Enable the :ref:`check-i18next-interpolation` quality check."
 msgid "Enables the :ref:`check-i18next-interpolation` quality check."
-msgstr "Activar el control de calidad :ref:`check-i18next-interpolation`."
+msgstr "Activa el control de calidad :ref:`check-i18next-interpolation`."
 
 #: snippets/check-flags-autogenerated.rst:78
-#, fuzzy
-#| msgid "Enable the :ref:`check-icu-message-format-syntax` quality check."
 msgid ""
 "Enables the :ref:`check-icu-message-format` and :ref:`check-icu-message-"
 "format-syntax` quality checks."
-msgstr "Habilite el control de calidad :ref:`check-icu-message-format-syntax`."
+msgstr ""
+"Activa los controles de calidad :ref:`check-icu-message-format` y "
+":ref:`check-icu-message-format-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:80
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-printf-format` quality check."
 msgid "Enables the :ref:`check-java-printf-format` quality check."
-msgstr "Habilite el control de calidad :ref:`check-java-printf-format`."
+msgstr "Activa el control de calidad :ref:`check-java-printf-format`."
 
 #: snippets/check-flags-autogenerated.rst:82
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-format` quality check."
 msgid "Enables the :ref:`check-java-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-java-format`."
+msgstr "Activa el control de calidad :ref:`check-java-format`."
 
 #: snippets/check-flags-autogenerated.rst:84
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enables the :ref:`check-javascript-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-javascript-format`."
+msgstr "Activa el control de calidad :ref:`check-javascript-format`."
 
 #: snippets/check-flags-autogenerated.rst:86
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-laravel-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-lua-format`."
+msgstr "Activa el control de calidad :ref:`check-laravel-format`."
 
 #: snippets/check-flags-autogenerated.rst:88
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-lua-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-lua-format`."
+msgstr "Activa el control de calidad :ref:`check-lua-format`."
 
 #: snippets/check-flags-autogenerated.rst:90
-#, fuzzy
-#| msgid "Enable the :ref:`check-object-pascal-format` quality check."
 msgid "Enables the :ref:`check-object-pascal-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-object-pascal-format`."
+msgstr "Activa el control de calidad :ref:`check-object-pascal-format`."
 
 #: snippets/check-flags-autogenerated.rst:92
-#, fuzzy
-#| msgid "Enable the :ref:`check-percent-placeholders` quality check."
 msgid "Enables the :ref:`check-percent-placeholders` quality check."
-msgstr "Activar el control de calidad :ref:`check-percent-placeholders`."
+msgstr "Activa el control de calidad :ref:`check-percent-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:94
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-brace-format` quality check."
 msgid "Enables the :ref:`check-perl-brace-format` quality check."
 msgstr "Activa el control de calidad :ref:`check-perl-brace-format`."
 
 #: snippets/check-flags-autogenerated.rst:96
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-format` quality check."
 msgid "Enables the :ref:`check-perl-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-perl-format`."
+msgstr "Activa el control de calidad :ref:`check-perl-format`."
 
 #: snippets/check-flags-autogenerated.rst:98
-#, fuzzy
-#| msgid "Enable the :ref:`check-php-format` quality check."
 msgid "Enables the :ref:`check-php-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-php-format`."
+msgstr "Activa el control de calidad :ref:`check-php-format`."
 
 #: snippets/check-flags-autogenerated.rst:100
-#, fuzzy
-#| msgid "Enable the :ref:`check-python-brace-format` quality check."
 msgid "Enables the :ref:`check-python-brace-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-python-brace-format`."
+msgstr "Activa el control de calidad :ref:`check-python-brace-format`."
 
 #: snippets/check-flags-autogenerated.rst:102
-#, fuzzy
-#| msgid "Enable the :ref:`check-python-format` quality check."
 msgid "Enables the :ref:`check-python-format` quality check."
-msgstr "Activar el control de calidad :ref:`check-python-format`."
+msgstr "Activa el control de calidad :ref:`check-python-format`."
 
 #: snippets/check-flags-autogenerated.rst:104
-#, fuzzy
-#| msgid "Enable the :ref:`check-qt-format` quality check."
 msgid "Enables the :ref:`check-qt-format` quality check."
 msgstr "Activa el control de calidad :ref:`check-qt-format`."
 
 #: snippets/check-flags-autogenerated.rst:106
-#, fuzzy
-#| msgid "Enable the :ref:`check-qt-plural-format` quality check."
 msgid "Enables the :ref:`check-qt-plural-format` quality check."
 msgstr "Activa el control de calidad :ref:`check-qt-plural-format`."
 
 #: snippets/check-flags-autogenerated.rst:108
-#, fuzzy
-#| msgid "Enable the :ref:`check-ruby-format` quality check."
 msgid "Enables the :ref:`check-ruby-format` quality check."
 msgstr "Activa el control de calidad :ref:`check-ruby-format`."
 
 #: snippets/check-flags-autogenerated.rst:110
-#, fuzzy
-#| msgid "Enable the :ref:`check-scheme-format` quality check."
 msgid "Enables the :ref:`check-scheme-format` quality check."
 msgstr "Activa el control de calidad :ref:`check-scheme-format`."
 
 #: snippets/check-flags-autogenerated.rst:112
-#, fuzzy
-#| msgid "Enable the :ref:`check-vue-format` quality check."
 msgid "Enables the :ref:`check-vue-format` quality check."
 msgstr "Activa el control de calidad :ref:`check-vue-format`."
 
 #: snippets/check-flags-autogenerated.rst:114
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
-#| "Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`."
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
 "Enables the :ref:`check-rst-references` and :ref:`check-rst-syntax` quality "
 "checks."
 msgstr ""
 "Tratar un texto como un documento reStructuredText, afecta a :ref:`check-"
-"same`. Encienda :ref:`check-rst-syntax` y :ref:`check-rst-references`."
+"same`. Habilita los controles de calidad en :ref:`check-rst-syntax` y "
+":ref:`check-rst-references`."
 
 #: snippets/check-flags-autogenerated.rst:117
-#, fuzzy
-#| msgid ""
-#| "Treat text as a Markdown document, and provide Markdown syntax "
-#| "highlighting on the translation text area. Enables :ref:`check-md-"
-#| "link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgid ""
 "Treat a text as a Markdown document, and provide Markdown syntax "
 "highlighting on the translation text area. Enables the :ref:`check-md-"
 "link`, :ref:`check-md-reflink` and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Trata el texto como un documento Markdown, y proporciona resaltado de "
+"Trata un texto como un documento Markdown, y proporciona resaltado de "
 "sintaxis Markdown en el área de texto de la traducción. Activa las "
-"comprobaciones de calidad :ref:`check-md-link`, :ref:`check-md-reflink` "
-"y :ref:`check-md-syntax`."
+"comprobaciones de calidad :ref:`check-md-link`, :ref:`check-md-reflink` y "
+":ref:`check-md-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:120
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-length` quality check."
 msgid "Enables the :ref:`check-max-length` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-max-length`."
+msgstr "Habilita la comprobación de calidad en :ref:`check-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:122
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-size` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-max-size`."
+msgstr "Habilita la comprobación de calidad en :ref:`check-max-size`."
 
 #: snippets/check-flags-autogenerated.rst:124
-#, fuzzy
-#| msgid "Enable the :ref:`check-percent-placeholders` quality check."
 msgid "Enables the :ref:`check-placeholders` quality check."
-msgstr "Activar el control de calidad :ref:`check-percent-placeholders`."
+msgstr "Habilita el control de calidad en :ref:`check-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:126
-#, fuzzy
-#| msgid "Skip the :ref:`check-regex` quality check."
 msgid "Enables the :ref:`check-regex` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-regex`."
+msgstr "Habilita la comprobación de calidad en :ref:`check-regex`."
 
 #: snippets/check-flags-autogenerated.rst:128
-#, fuzzy
-#| msgid "Enable the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-safe-html` quality check."
-msgstr "Activa el control de calidad :ref:`check-safe-html`."
+msgstr "Habilita el control de calidad en :ref:`check-safe-html`."
 
 #: snippets/check-flags-autogenerated.rst:130
-#, fuzzy
-#| msgid ""
-#| "The string should consist of only a URL. Enable the :ref:`check-url` "
-#| "quality check."
 msgid ""
 "The string should consist of only a URL. Enables the :ref:`check-url` "
 "quality check."
 msgstr ""
-"La cadena debe consistir de solo una URL. Activa el control de "
-"calidad :ref:`check-url`."
+"La cadena consistiría solo un URL. Habilita el control de calidad "
+":ref:`check-url`."
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-inner-html` quality check."
 msgid "Enables the :ref:`check-fluent-source-inner-html` quality check."
-msgstr "Activa el control de calidad :ref:`check-fluent-source-inner-html`."
+msgstr ""
+"Habilita el control de calidad en :ref:`check-fluent-source-inner-html`."
 
 #: snippets/check-flags-autogenerated.rst:135
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-syntax` quality check."
 msgid "Enables the :ref:`check-fluent-source-syntax` quality check."
-msgstr "Activar el control de calidad :ref:`check-fluent-source-syntax`."
+msgstr "Habilita el control de calidad en :ref:`check-fluent-source-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:140
 msgid "Ignore all quality checks."
@@ -50191,10 +50280,10 @@ msgid "Skip the :ref:`check-bbcode` quality check."
 msgstr "Pasa por alto la comprobación de calidad :ref:`check-bbcode`."
 
 #: snippets/check-flags-autogenerated.rst:148
-#, fuzzy
-#| msgid "Skip the :ref:`check-xml-tags` quality check."
 msgid "Skip the :ref:`check-xml-chars-around-tags` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-xml-tags`."
+msgstr ""
+"Pasa por alto la comprobación de calidad en :ref:`check-xml-chars-around-"
+"tags`."
 
 #: snippets/check-flags-autogenerated.rst:150
 msgid "Skip the :ref:`check-duplicate` quality check."
@@ -50276,10 +50365,9 @@ msgstr ""
 "Pasa por alto la comprobación de calidad :ref:`check-javascript-format`."
 
 #: snippets/check-flags-autogenerated.rst:184
-#, fuzzy
-#| msgid "Skip the :ref:`check-lua-format` quality check."
 msgid "Skip the :ref:`check-laravel-format` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-lua-format`."
+msgstr ""
+"Pasa por alto la comprobación de calidad en :ref:`check-laravel-format`."
 
 #: snippets/check-flags-autogenerated.rst:186
 msgid "Skip the :ref:`check-lua-format` quality check."
@@ -50415,11 +50503,9 @@ msgid "Skip the :ref:`check-plurals` quality check."
 msgstr "Pasa por alto la comprobación de calidad :ref:`check-plurals`."
 
 #: snippets/check-flags-autogenerated.rst:250
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid "Skip the :ref:`check-multiple-capital` quality check."
 msgstr ""
-"Pasa por alto la comprobación de calidad :ref:`check-multiple-failures`."
+"Pasa por alto la comprobación de calidad en :ref:`check-multiple-capital`."
 
 #: snippets/check-flags-autogenerated.rst:252
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
@@ -50701,7 +50787,7 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:45
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Caracteres alrededor de etiquetas XML"
 
 #: snippets/checks-autogenerated.rst:47
 msgid ""
@@ -51491,16 +51577,12 @@ msgid "Java MessageFormat string does not match source."
 msgstr "La cadena con MessageFormat de Java no coincide con la de origen."
 
 #: snippets/checks-autogenerated.rst:698
-#, fuzzy
-#| msgid ""
-#| "``java-format``, ``auto-java-messageformat`` enables check only if there "
-#| "is a format string in the source"
 msgid ""
 "``auto-java-messageformat`` enables check only if there is a format string "
 "in the source"
 msgstr ""
-"``java-format``, ``auto-java-messageformat`` habilita el comprobante solo si "
-"hay un formato de cadena dentro de la fuente"
+"``auto-java-messageformat`` habilita el comprobante solo si hay un formato "
+"de cadena dentro de la fuente"
 
 #: snippets/checks-autogenerated.rst:703
 msgid ""
@@ -52728,10 +52810,8 @@ msgid "The translation uses unsafe HTML markup."
 msgstr "La traducción utiliza marcación HTML insegura."
 
 #: snippets/checks-autogenerated.rst:2060
-#, fuzzy
-#| msgid ":ref:`html`, :ref:`markdown`"
 msgid ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
-msgstr ":ref:`html`, :ref:`markdown`"
+msgstr ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
 
 #: snippets/checks-autogenerated.rst:2066
 msgid ""
@@ -52875,16 +52955,12 @@ msgid "Ellipsis"
 msgstr "Puntos suspensivos"
 
 #: snippets/checks-autogenerated.rst:2199
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (``...``) instead of an ellipsis character (``…"
-#| "``)."
 msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
 msgstr ""
-"La cadena utiliza tres puntos (``...``) en lugar del carácter de puntos "
-"suspensivos (``…``)."
+"La cadena utiliza tres puntos ``(...)`` en lugar de un carácter de puntos "
+"suspensivos ``(…)``."
 
 #: snippets/checks-autogenerated.rst:2200
 #: snippets/checks-autogenerated.rst:2228
@@ -54555,16 +54631,12 @@ msgid "``gpt-5-mini`` -- GPT-5-mini"
 msgstr "``gpt-5-mini`` -- GPT-5-mini"
 
 #: snippets/machines-autogenerated.rst:854
-#, fuzzy
-#| msgid "``gpt-5`` -- GPT-5"
 msgid "``gpt-5.2`` -- GPT-5.2"
-msgstr "``gpt-5`` -- GPT-5"
+msgstr "``gpt-5.2`` -- GPT-5.2"
 
 #: snippets/machines-autogenerated.rst:856
-#, fuzzy
-#| msgid "``gpt-4.1`` -- GPT-4.1"
 msgid "``gpt-5.1`` -- GPT-5.1"
-msgstr "``gpt-4.1`` -- GPT-4.1"
+msgstr "``gpt-5.1`` -- GPT-5.1"
 
 #: snippets/machines-autogenerated.rst:858
 msgid "``gpt-5`` -- GPT-5"
@@ -56895,16 +56967,13 @@ msgid "Timestamp for when the string was added to Weblate."
 msgstr "Marca de tiempo de cuando la cadena fue agregada a Weblate."
 
 #: user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string states (``approved``, ``translated``, ``needs-"
-#| "editing``, ``empty``, ``read-only``)."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``needs-rewriting``, ``needs-checking``, ``empty``, ``read-only``)."
 msgstr ""
 "Búsqueda para estados de cadena (``approved``, ``translated``, ``needs-"
-"editing``, ``empty``, ``read-only``)."
+"editing``, ``needs-rewriting``, ``needs-checking``, ``empty``, ``read-only``)"
+"."
 
 #: user/search.rst:50
 msgid ""
@@ -56959,12 +57028,12 @@ msgid "``needs-editing`` or ``fuzzy``"
 msgstr "``needs-editing`` o ``fuzzy``"
 
 #: user/search.rst:65
-#, fuzzy
-#| msgid "Needing editing strings, same as ``state:needs-editing``."
 msgid ""
 "Needing editing/checking/rewriting strings, same as ``state:needs-editing OR "
 "state:needs-rewriting OR state:needs-checking``."
-msgstr "Necesitando editar cadenas, lo mismo que ``state:needs-editing``."
+msgstr ""
+"Necesitando editar/comprobar/reescribir cadenas, lo mismo que ``state:needs-"
+"editing`` O state:needs-rewriting O state:needs-checking``."
 
 #: user/search.rst:67
 msgid "Translated strings, same as ``state:>translated``."
@@ -57307,33 +57376,22 @@ msgstr ""
 "cualquier dígito entre 2 y 5, utiliza ``source:r\"[2-5]\"``."
 
 #: user/search.rst:224
-#, fuzzy
-#| msgid ""
-#| "The regular expressions are evaluated by the database backend and might "
-#| "use different extensions, please consult the database documentation below "
-#| "for more details."
 msgid ""
 "The regular expressions are evaluated by the database backend and might use "
 "different extensions, please consult the database documentation for more "
 "details:"
 msgstr ""
-"Las expresiones regulares son evaluadas por el backend de la base de datos y "
-"pueden utilizar diferentes extensiones, por favor consulte la documentación "
-"de la base de datos para más detalles."
+"Las expresiones regulares son evaluadas por la base de datos en segundo "
+"plano y pueden utilizar diferentes extensiones, por favor consulte la "
+"documentación de la base de datos para más detalles:"
 
 #: user/search.rst:228
-#, fuzzy
-#| msgid ""
-#| "`PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/"
-#| "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the "
-#| "default database engine for Weblate)"
 msgid ""
 "`PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/"
 "current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_"
 msgstr ""
-"` Detalles de Expresiones Regulares de PostgreSQL <https://"
-"www.postgresql.org/docs/current /functions-matching.html#POSIX-SYNTAX-"
-"DETAILS>`_ (este es el motor de base de datos predeterminado para Weblate)"
+"`Detalles de Expresiones Regulares de PostgreSQL <https://www.postgresql.org/"
+"docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_"
 
 #: user/search.rst:231
 msgid "Predefined queries"
@@ -58241,12 +58299,18 @@ msgstr ""
 "sobre un umbral de cierta calidad."
 
 #: user/translating.rst:391
+#, fuzzy
 msgid ""
 "When using other components as the source, Weblate applies translations only "
 "when plural forms are compatible. If the source component uses different "
 "plural rules, pluralized strings are skipped and Weblate shows a warning, "
 "while single-form strings are still translated."
 msgstr ""
+"Al usar otros componentes como origen, Weblate aplica las traducciones solo "
+"cuando las formas plurales son compatibles. Si el componente de origen usa "
+"reglas de plural diferentes, las cadenas pluralizadas se omiten y Weblate "
+"muestra una advertencia, mientras que las cadenas en forma simple se siguen "
+"traduciendo."
 
 #: user/translating.rst:396
 msgid "You can also choose which strings are to be auto-translated."
@@ -59957,37 +60021,34 @@ msgstr ""
 "que :program:`wlc` sepa con qué servidor debe comunicarse."
 
 #: wlc.rst:354
-#, fuzzy
-#| msgid "Docker environment variables"
 msgid "Environment variables"
-msgstr "Variables de entorno de Docker"
+msgstr "Variables de entorno"
 
 #: wlc.rst:358
+#, fuzzy
 msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows:"
 msgstr ""
+"La URL y la clave de la API también se pueden configurar mediante variables "
+"de entorno. Esto resulta especialmente útil para los flujos de trabajo de "
+"integración continua:"
 
 #: wlc.rst:369
-#, fuzzy
-#| msgid "Notable configuration or dependencies changes:"
 msgid "The configuration precedence (highest to lowest) is:"
-msgstr "Cambios de configuración o dependencia notable:"
+msgstr "La precedencia de configuración (de más alta a más baja) es:"
 
 #: wlc.rst:371
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."
-msgstr ""
+msgstr "Argumentos de línea de comando (:option:`--url`, :option:`--key`)."
 
 #: wlc.rst:372
 msgid "Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
-msgstr ""
+msgstr "Variables de entorno (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
 
 #: wlc.rst:373
-#, fuzzy
-#| msgid "Overrides the configuration file path, see :ref:`wlc-config`."
 msgid "Configuration file (see :ref:`wlc-config`)."
-msgstr ""
-"Sustituye la ruta del archivo de configuración, consulte :ref:`wlc-config`."
+msgstr "Archivo de configuración (consulte :ref:`wlc-config`)."
 
 #: wlc.rst:376
 msgid "Examples"
@@ -60149,24 +60210,15 @@ msgstr ""
 "dependiendo del formato del archivo."
 
 #: workflows.rst:67
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change, fuzzy matching or translator action. The translation is stored in "
-#| "the file if the :ref:`project-commit_policy` allows it. Depending on the "
-#| "file format it might be marked as needing edit (for example as it gets a "
-#| "``fuzzy`` flag in the gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of fuzzy matching or "
 "translator action. Depending on the file format it might be marked as "
 "needing edit (for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
-"La traducción necesita editarse, esto usualmente es el resultado de un "
-"cambio de cadena origen, coincidencia difusa o acción de traductor. La "
-"traducción está almacenada en el archivo si el :ref:`project-commit_policy` "
-"lo concede. Dependiendo del formato del archivo estaría marcado como edición "
-"necesaria (por ejemplo como obtener un indicador ``fuzzy`` en el archivo "
-"gettext)."
+"La traducción necesita editarse, esto usualmente es el resultado de "
+"coincidencia difusa o acción de traductor. Dependiendo del formato del "
+"archivo estaría marcado como edición necesaria (p.ej. como obtener un "
+"indicador ``fuzzy`` en el archivo gettext)."
 
 #: workflows.rst:69
 msgid "Needs rewriting"
@@ -60175,29 +60227,36 @@ msgstr "Necesita re-escritura"
 #: workflows.rst:70
 msgid "Translation needs to be rewritten because of a source string change."
 msgstr ""
+"La transacción necesita ser rescrita porque ha cambiado una cadena origen."
 
 #: workflows.rst:71
 msgid "Needs checking"
 msgstr "Necesita marcado"
 
 #: workflows.rst:72
+#, fuzzy
 msgid ""
 "State used for source/template strings that need developer review. It is "
 "typically set for new source strings imported from the VCS when the Source "
 "edit addon is enabled, or when a source string is reported for checking."
 msgstr ""
+"Estado utilizado para las cadenas de origen/plantilla que requieren revisión "
+"por parte del desarrollador. Normalmente se establece para las nuevas "
+"cadenas de origen importadas desde el sistema de control de versiones cuando "
+"se habilita el complemento de edición de origen, o cuando se informa de una "
+"cadena de origen para su revisión."
 
 #: workflows.rst:76
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Translated / Waiting for review"
-msgstr "Revisión pendiente"
+msgstr "Traducido / Revisión pendiente"
 
 #: workflows.rst:77
 msgid ""
 "Translation is made. The translated state is shown as \"Waiting for review\" "
 "if reviews are enabled."
 msgstr ""
+"La traducción está hecha. El estado de traducido se muestra como «Esperando "
+"para revisión» si las revisiones están habilitadas."
 
 #: workflows.rst:79
 msgid ""
@@ -60239,31 +60298,22 @@ msgstr ""
 "Los estados se señalan en los archivos de traducción siempre que es posible."
 
 #: workflows.rst:95
-#, fuzzy
-#| msgid ""
-#| "If the file format you use does not support storing states, you might "
-#| "want to use the :ref:`addon-weblate.flags.same_edit` add-on to flag "
-#| "unchanged strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
 "strings as needing rewriting."
 msgstr ""
 "Si el formato del archivo que utiliza no admite estados de almacenaje, quizá "
-"desea utilizar el :ref:`addon-weblate.flags.same_edit` adjunto para "
-"indicadores no cambiados de cadenas como necesiten al editar."
+"desea utilizar el complemento :ref:`addon-weblate.flags.same_edit` para "
+"indicar las cadenas no cambiadas como necesita reescritura."
 
 #: workflows.rst:101
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`project-commit_policy` setting to control which translations "
-#| "are included when committing changes."
 msgid ""
 "The :ref:`project-commit_policy` determines which translation states are "
 "stored in the file."
 msgstr ""
-"Agregados ajustes :ref:`project-commit_policy` para control de cuales "
-"traducciones son incluidas cuando consoliden los cambios."
+"El :ref:`project-commit_policy` determina cual estado de traducción está "
+"almacenada en el archivo."
 
 #: workflows.rst:110
 msgid "Direct translation"
