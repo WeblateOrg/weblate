@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-04 03:10+0000\n"
+"PO-Revision-Date: 2026-04-05 01:45+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1881,7 +1881,7 @@ msgstr "Хранилището е нулирано"
 
 #: weblate/addons/forms.py:260
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:264
 msgid ""
@@ -1889,12 +1889,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Интеграция на вградено напасване на аргументите на xgettext към тези на "
+"gettext на Meson. Настройките на GLib добавят ключовите думи и форматиращите "
+"флагове използвани от помощната система за gettext на Meson."
 
 #: weblate/addons/forms.py:289
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Добавката на Meson очаква папка за gettext на Meson, в която да има файлове „"
+"meson.build“ и „POTFILES“ или „POTFILES.in“."
 
 #: weblate/addons/forms.py:306
 msgid "The component has to define a POT file for new translations."
@@ -3269,7 +3274,7 @@ msgstr "Система за контрол на версиите"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; и още %(count)d"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3289,37 +3294,36 @@ msgstr "Адреси на е-пощи"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Въведете един или повече адреси на е-пощи, разделени с интервал."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: в подадените данни има дублиран адрес"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: вече има чакаща покана"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Имейлът за покана на потребител е изпратен."
-msgstr[1] "Имейлът за покана на потребител е изпратен."
+msgstr[0] "Изпратено е %(count)d е-писмо с покана."
+msgstr[1] "Изпратени са %(count)d е-писма с покани."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Пропуснат е %(count)d адрес: %(details)s"
+msgstr[1] "Пропуснати са %(count)d адреса: %(details)s"
 
 #: weblate/auth/forms.py:410
 #, fuzzy
@@ -13359,16 +13363,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Има друг компонент, който е настроен да изпраща заявки за сливане към същото "
+"хранилище и същия клон."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "Това може да направи така, че данните в клона да бъдат презаписани."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Използвайте различен клон за всеки компонент, или споделете хранилището "
+"използвайки следния адрес на Weblate:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -13475,13 +13483,15 @@ msgstr ""
 msgid ""
 "This component updates the POT file automatically, but does not update the "
 "PO files."
-msgstr ""
+msgstr "Този компонент обновява автоматично файла POT, но не и файловете PO."
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:6
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
 msgstr ""
+"Инсталирайте и добавката за msgmerge, ако искате файловете за превод да "
+"бъдат автоматично обновявани при промени в шаблона."
 
 #: weblate/templates/trans/alert/inexistantfiles.html:5
 msgid "Following files are no longer present in the repository:"
@@ -14505,6 +14515,8 @@ msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for bilingual formats."
 msgstr ""
+"<code>%(flags)s</code> е наследено от %(object)s, тъй като редактирането на "
+"изходни низове не е възможно за двуезични формати."
 
 #: weblate/templates/translate.html:1019
 #, python-format
@@ -15217,6 +15229,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Формите за множествено число в %(component)s не отговарят на целевия превод. "
+"Автоматичният превод е пропуснал низовете с множествено число и е обработил "
+"само тези с една форма."
 
 #: weblate/trans/autotranslate.py:382
 #, python-format
@@ -15224,10 +15239,8 @@ msgid "Automatic translation failed: %s"
 msgstr "Автоматичният превод беше неуспешен: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot showing usage of this string"
 msgid "Screenshot image is missing."
-msgstr "Екранна снимка, показваща къде се използва този текст"
+msgstr "Липсва екранна снимка."
 
 #: weblate/trans/backups.py:916
 #, fuzzy, python-format
@@ -15546,15 +15559,15 @@ msgstr "Автоматично разпознаване"
 
 #: weblate/trans/file_format_params.py:513
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Кодировка ползвана за файловете CSV"
 
 #: weblate/trans/file_format_params.py:528
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Кодировка ползвана за простите файлове CSV"
 
 #: weblate/trans/file_format_params.py:542
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Кодировка ползвана за файлове със свойства на GWT"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16307,10 +16320,8 @@ msgstr "Дублирана файлова маска."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Could not get repository status!"
 msgid "Conflicting repository setup."
-msgstr "Състоянието на хранилището не може да бъде получено!"
+msgstr "Има конфликт в настройките на хранилището."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -16366,7 +16377,7 @@ msgstr "Файлът POT не може да бъде обновен."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:514
 msgid "POT updates do not update PO files."
-msgstr ""
+msgstr "Промените на файла POT не обновяват файловете PO."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:546
@@ -18106,7 +18117,7 @@ msgstr "Грешна заявка."
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
 msgid "Too many suggestions ({count}). Please contact an administrator."
-msgstr ""
+msgstr "Твърде много предложения: ({count}). Моля, свържете се с администратор."
 
 #: weblate/trans/views/bulk_suggestions.py:109
 #, python-format
@@ -18124,7 +18135,11 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"Прието е %(accepted)d от %(total)d предложение от %(user)s. Неуспешни заради "
+"права или проверки: %(failed)d."
 msgstr[1] ""
+"Приети са %(accepted)d от %(total)d предложения от %(user)s. Неуспешни "
+"заради права или проверки: %(failed)d."
 
 #: weblate/trans/views/bulk_suggestions.py:137
 msgid "No suggestions found."
@@ -18690,7 +18705,7 @@ msgstr "Открити са още възможни потребители."
 msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
-msgstr ""
+msgstr "Този адрес е забранен, тъй като е вътрешен или не е публичен."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 msgid "Could not parse URL."
@@ -18908,15 +18923,15 @@ msgstr "Синтактична грешка в езиковите псевдон
 
 #: weblate/utils/validators.py:364
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr ""
+msgstr "Този адрес е забранен, тъй като съвпада с шаблон за забрана."
 
 #: weblate/utils/validators.py:375
 msgid "This URL is prohibited because it uses a restricted host."
-msgstr ""
+msgstr "Този адрес е забранен, тъй като използва забранен сървър."
 
 #: weblate/utils/validators.py:386
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "Този адрес е забранен, тъй като използва числов IP адрес."
 
 #: weblate/utils/validators.py:412
 msgid "Invalid base64 encoded string"
