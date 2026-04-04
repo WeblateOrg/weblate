@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-02 14:11+0000\n"
+"PO-Revision-Date: 2026-04-05 01:45+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.17-dev\n"
 
 #: weblate/accounts/avatar.py:89
@@ -617,17 +617,15 @@ msgstr "Baineadh an t-úsáideoir den fhoireann {team} le {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Cuireadh bac ar rochtain ar thionscadal {project}."
+msgstr "Cruthaíodh comhartha tionscadail do {project}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:319
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Baineadh do thionscadal aistriúcháin"
+msgstr "Baineadh comhartha tionscadail do {project}."
 
 #: weblate/accounts/models.py:322
 msgid "Two-factor authentication recovery codes were generated"
@@ -714,10 +712,9 @@ msgid "Account activity"
 msgstr "Gníomhaíocht an chuntais"
 
 #: weblate/accounts/models.py:547
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Tugadh cuireadh go {project} ag {username}."
+msgstr "Spreagtha ag {username}."
 
 #: weblate/accounts/models.py:641
 msgid "Interface Language"
@@ -1883,17 +1880,14 @@ msgid "POTFILES path"
 msgstr "Cosán POTFILES"
 
 #: weblate/addons/forms.py:196
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"Cosán gaolmhar leis an stór chuig POTFILES nó POTFILES.in. Réitítear "
-"iontrálacha i gcoibhneas leis an gcomhad sin."
+"Cosán gaolmhar leis an stórlann chuig POTFILES nó POTFILES.in. Réitítear "
+"iontrálacha i gcoibhneas le fréamh an stórlainne. Má tá sé i láthair in aice "
+"leis an manifíse, ní dhéanann POTFILES.skip comhaid liostaithe a eastóscadh."
 
 #: weblate/addons/forms.py:234 weblate/addons/forms.py:241
 msgid "This field is required."
@@ -1904,14 +1898,12 @@ msgid "POTFILES path has to point to a file."
 msgstr "Caithfidh cosán POTFILES pointeáil chuig comhad."
 
 #: weblate/addons/forms.py:259
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Athshocrú stór"
+msgstr "Réamhshocrú Meson"
 
 #: weblate/addons/forms.py:260
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:264
 msgid ""
@@ -1919,12 +1911,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Réamhshocrú argóinte xgettext ionsuite a mheaitseálann comhtháthú gettext "
+"Meson. Cuireann an réamhshocrú GLib na roghanna eochairfhocail agus brataí "
+"formáide a úsáideann cúntóir gettext Meson leis."
 
 #: weblate/addons/forms.py:289
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Tá an breiseán Meson ag súil le heolaire gettext Meson le meson.build agus "
+"POTFILES nó POTFILES.in."
 
 #: weblate/addons/forms.py:306
 msgid "The component has to define a POT file for new translations."
@@ -2395,19 +2392,14 @@ msgstr ""
 "chomhaid foinse roghnaithe."
 
 #: weblate/addons/gettext.py:1189
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Nuashonraigh comhad POT (Django)"
+msgstr "Nuashonraigh comhad POT (Meson)"
 
 #: weblate/addons/gettext.py:1191
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
 msgstr ""
-"Nuashonraíonn sé an teimpléad gettext ag baint úsáide as xgettext ar "
-"chomhaid foinse roghnaithe."
+"Nuashonraíonn sé an teimpléad gettext ag baint úsáide as coinbhinsiúin "
+"gettext Meson."
 
 #: weblate/addons/gettext.py:1316
 msgid "Update POT file (Django)"
@@ -2670,12 +2662,12 @@ msgid "Weblate's REST API"
 msgstr "API REST Weblate"
 
 #: weblate/api/views.py:171 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
-msgstr "Níorbh fhéidir an stór a ghlasáil, tá oibríocht eile ar siúl."
+msgstr ""
+"Níorbh fhéidir an teaghrán a bhaint mar go bhfuil oibríocht chúlra eile ar "
+"siúl. Déan iarracht arís ar ball."
 
 #: weblate/api/views.py:177
 msgid "Could not obtain the lock to perform the operation."
@@ -3296,7 +3288,7 @@ msgstr "VCS"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; agus %(count)d eile"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3309,56 +3301,51 @@ msgid "Team"
 msgstr "Foireann"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "IP addresses"
 msgid "E-mail addresses"
-msgstr "Seoltaí IP"
+msgstr "Seoltaí ríomhphoist"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Cuir isteach seoladh ríomhphoist amháin nó níos mó scartha le spás bán."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: seoladh dúblach san aighneacht"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: tá cuireadh ar feitheamh ann cheana féin"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Seoladh ríomhphost le cuireadh úsáideora."
-msgstr[1] "Seoladh ríomhphost le cuireadh úsáideora."
-msgstr[2] "Seoladh ríomhphost le cuireadh úsáideora."
-msgstr[3] "Seoladh ríomhphost le cuireadh úsáideora."
-msgstr[4] "Seoladh ríomhphost le cuireadh úsáideora."
+msgstr[0] "Seoladh %(count)d ríomhphost cuireadh."
+msgstr[1] "Seoladh %(count)d ríomhphoist cuireadh."
+msgstr[2] "Seoladh %(count)d ríomhphoist cuireadh."
+msgstr[3] "Seoladh %(count)d ríomhphoist cuireadh."
+msgstr[4] "Seoladh %(count)d ríomhphoist cuireadh."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Seoladh %(count)d scipeáilte: %(details)s"
+msgstr[1] "Seoltaí %(count)d scipeáilte: %(details)s"
+msgstr[2] "Seoltaí %(count)d scipeáilte: %(details)s"
+msgstr[3] "Seoltaí %(count)d scipeáilte: %(details)s"
+msgstr[4] "Seoltaí %(count)d scipeáilte: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Baineadh cuireadh úsáideora."
+msgstr "Níor cruthaíodh aon chuireadh."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -11809,10 +11796,8 @@ msgstr "Cuir úsáideoir nua leis"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Bulk edit strings"
 msgid "Bulk invite users"
-msgstr "Teaghráin eagarthóireachta mórchóir"
+msgstr "Cuir cuireadh mórchóir ar úsáideoirí"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -13603,16 +13588,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Tá comhpháirt eile cumraithe chun iarratais chumasc a bhrú chuig an stór "
+"céanna agus brainse a bhrú."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "D’fhéadfadh sé seo a bheith ina chúis le róscríobh an bhrainse."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Bain úsáid as brainse brú difriúil do gach comhpháirt, nó roinn an stórlann "
+"ag baint úsáide as an URL Weblate seo a leanas:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -15530,6 +15519,8 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Ní hionann na foirmeacha iolra i %(component)s agus an t-aistriúchán sprice. "
+"Níor próiseáladh ach teaghráin aonfhoirmeacha san aistriúchán uathoibríoch."
 
 #: weblate/trans/autotranslate.py:382
 #, python-format
@@ -15537,16 +15528,13 @@ msgid "Automatic translation failed: %s"
 msgstr "Theip ar aistriúchán uathoibríoch: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
-msgstr "Masc comhaid scáileáin"
+msgstr "Tá íomhá an scáileáin ar iarraidh."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Níorbh fhéidir comhad %(file)s a pharsáil: %(error)s"
+msgstr "Níorbh fhéidir an scáileán %(name)s a athchóiriú: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16631,10 +16619,8 @@ msgstr "Masc comhaid dhúbailt."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Could not get repository status!"
 msgid "Conflicting repository setup."
-msgstr "Níorbh fhéidir stádas stórtha a fháil!"
+msgstr "Socrú stórais contrártha."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -19090,10 +19076,8 @@ msgstr[4] ""
 
 #: weblate/utils/files.py:111 weblate/utils/files.py:121
 #: weblate/utils/validators.py:127
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Tá an íomhá rómhór."
+msgstr "Tá an comhad uaslódáilte rómhór."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -19118,6 +19102,8 @@ msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
 msgstr ""
+"Tá an URL seo toirmiscthe mar go bhfuil sé ag tagairt do sheoladh inmheánach "
+"nó neamhphoiblí."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 msgid "Could not parse URL."
@@ -19146,15 +19132,12 @@ msgstr ""
 "an teimpléid ina ionad."
 
 #: weblate/utils/requests.py:439
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Ní féidir an íomhá a íoslódáil ón URL a cuireadh ar fáil (cód stádais HTTP: "
-"%(code)s)."
+"Ní féidir an tsócmhainn a íoslódáil ón URL a cuireadh ar fáil (cód stádais "
+"HTTP: %(code)s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
@@ -19336,15 +19319,15 @@ msgstr "Earráid chomhréire in ailiasanna teanga."
 
 #: weblate/utils/validators.py:364
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr ""
+msgstr "Tá an URL seo toirmiscthe mar go bhfuil sé ag teacht le patrún srianta."
 
 #: weblate/utils/validators.py:375
 msgid "This URL is prohibited because it uses a restricted host."
-msgstr ""
+msgstr "Tá an URL seo toirmiscthe mar go n-úsáideann sé óstach srianta."
 
 #: weblate/utils/validators.py:386
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "Tá an URL seo toirmiscthe mar úsáideann sé seoladh IP uimhriúil."
 
 #: weblate/utils/validators.py:412
 msgid "Invalid base64 encoded string"
