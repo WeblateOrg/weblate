@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-01 09:18+0000\n"
+"PO-Revision-Date: 2026-04-05 01:45+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -624,17 +624,15 @@ msgstr "Benutzer wurde von {username} aus dem Team {team} entfernt."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Zugriff auf Projekt {project} wurde gesperrt."
+msgstr "Projekt-Token für {project} wurde erstellt."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:319
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Ihr Übersetzungsprojekt wurde entfernt"
+msgstr "Projekt-Token für {project} wurde entfernt."
 
 #: weblate/accounts/models.py:322
 msgid "Two-factor authentication recovery codes were generated"
@@ -727,10 +725,9 @@ msgid "Account activity"
 msgstr "Kontoaktivität"
 
 #: weblate/accounts/models.py:547
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Eingeladen zu {project} von {username}."
+msgstr "Ausgelöst durch {username}."
 
 #: weblate/accounts/models.py:641
 msgid "Interface Language"
@@ -1898,17 +1895,15 @@ msgid "POTFILES path"
 msgstr "POTFILES-Pfad"
 
 #: weblate/addons/forms.py:196
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"Repository-relativer Pfad zu POTFILES oder POTFILES.in. Einträge werden "
-"relativ zu dieser Datei aufgelöst."
+"Repository-relativer Pfad zu POTFILES oder POTFILES.in. Die Einträge werden "
+"relativ zum Stammverzeichnis des Repositorys aufgelöst. Falls neben dem "
+"Manifest vorhanden, schließt POTFILES.skip die aufgeführten Dateien von der "
+"Extraktion aus."
 
 #: weblate/addons/forms.py:234 weblate/addons/forms.py:241
 msgid "This field is required."
@@ -1919,14 +1914,12 @@ msgid "POTFILES path has to point to a file."
 msgstr "POTFILES-Pfad muss auf eine Datei zeigen."
 
 #: weblate/addons/forms.py:259
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Repository zurückgesetzt"
+msgstr "Meson-Voreinstellung"
 
 #: weblate/addons/forms.py:260
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:264
 msgid ""
@@ -1934,12 +1927,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Voreingestellte xgettext-Argumente passend zur gettext-Integration von "
+"Meson. Die GLib-Voreinstellung fügt die Schlüsselwort- und Format-"
+"Markierungsoptionen hinzu, die von Mesons gettext-Helper verwendet werden."
 
 #: weblate/addons/forms.py:289
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Die Meson-Erweiterung erwartet ein Meson-gettext-Verzeichnis mit meson.build "
+"und POTFILES oder POTFILES.in."
 
 #: weblate/addons/forms.py:306
 msgid "The component has to define a POT file for new translations."
@@ -2412,19 +2410,13 @@ msgstr ""
 "Quelldateien."
 
 #: weblate/addons/gettext.py:1189
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "POT-Datei aktualisieren (Django)"
+msgstr "POT-Datei aktualisieren (Meson)"
 
 #: weblate/addons/gettext.py:1191
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
 msgstr ""
-"Aktualisiert die gettext-Vorlage mithilfe von xgettext für ausgewählte "
-"Quelldateien."
+"Aktualisiert die gettext-Vorlage mithilfe der Meson-gettext-Konventionen."
 
 #: weblate/addons/gettext.py:1316
 msgid "Update POT file (Django)"
@@ -2687,14 +2679,12 @@ msgid "Weblate's REST API"
 msgstr "Weblates REST-API"
 
 #: weblate/api/views.py:171 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Das Repository konnte nicht gesperrt werden, ein anderer Vorgang wird "
-"durchgeführt."
+"Die Zeichenkette konnte nicht entfernt werden, da ein anderer "
+"Hintergrundvorgang läuft. Bitte später erneut versuchen."
 
 #: weblate/api/views.py:177
 msgid "Could not obtain the lock to perform the operation."
@@ -3315,7 +3305,7 @@ msgstr "VCS"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; und %(count)d mehr"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3328,50 +3318,46 @@ msgid "Team"
 msgstr "Team"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "E-Mail-Adressen"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
 msgstr ""
+"Geben Sie eine oder mehrere durch Leerzeichen getrennte E-Mail-Adressen ein."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: doppelte Adresse in der Vorlage"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: ausstehende Einladung existiert bereits"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "E-Mail-Einladung wurde versendet."
-msgstr[1] "E-Mail-Einladung wurde versendet."
+msgstr[0] "%(count)d Einladungs-E-Mail wurde versendet."
+msgstr[1] "%(count)d Einladungs-E-Mails wurden versendet."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)d Adresse übersprungen: %(details)s"
+msgstr[1] "%(count)d Adressen übersprungen: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Benutzereinladung wurde entfernt."
+msgstr "Es wurden keine Einladungen erstellt."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -5328,7 +5314,7 @@ msgstr "Nicht unterstütztes Dateiformat."
 
 #: weblate/fonts/views.py:80
 msgid "Font with the same name already exists."
-msgstr "Schriftart mit demselben Namen ist bereits vorhanden."
+msgstr "Schriftart mit demselben Namen existiert bereits."
 
 #: weblate/fonts/views.py:87
 msgid "Creation failed, please fix the errors below."
@@ -5359,7 +5345,7 @@ msgstr "Schriftart erfolgreich aktualisiert."
 
 #: weblate/fonts/views.py:202 weblate/fonts/views.py:218
 msgid "Font group with the same name already exists."
-msgstr "Eine Schriftartgruppe mit demselben Namen ist bereits vorhanden."
+msgstr "Eine Schriftartgruppe mit demselben Namen existiert bereits."
 
 #: weblate/fonts/views.py:231
 msgid "No override found."
@@ -11780,10 +11766,8 @@ msgstr "Neuen Benutzer hinzufügen"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Eingeladener Nutzer"
+msgstr "Masseneinladung von Benutzern"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -13551,16 +13535,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Eine andere Komponente ist so konfiguriert, dass sie Merge Requests an "
+"dasselbe Repository und denselben Branch pusht."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "Dies kann dazu führen, dass der Branch überschrieben wird."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Verwenden Sie für jede Komponente einen anderen Branch zum Pushen, oder "
+"geben Sie das Repository über die folgende Weblate-URL frei:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -15446,6 +15434,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Pluralformen in %(component)s stimmen nicht mit der Zielübersetzung überein. "
+"Die automatische Übersetzung übersprang Zeichenketten mit Pluralformen und "
+"verarbeitete nur Zeichenketten in einfacher Form."
 
 #: weblate/trans/autotranslate.py:382
 #, python-format
@@ -15453,16 +15444,14 @@ msgid "Automatic translation failed: %s"
 msgstr "Automatische Übersetzung fehlgeschlagen: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot showing usage of this string"
 msgid "Screenshot image is missing."
-msgstr "Bildschirmfoto, das die Verwendung dieser Zeichenkette zeigt"
+msgstr "Das Bildschirmfoto fehlt."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Datei %(file)s konnte nicht analysiert werden: %(error)s"
+msgstr ""
+"Das Bildschirmfoto %(name)s konnte nicht wiederhergestellt werden: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16567,10 +16556,8 @@ msgstr "Doppelte Dateimaske."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Confirm resetting repository"
 msgid "Conflicting repository setup."
-msgstr "Bestätige das Ersetzen des Repository"
+msgstr "Konflikt bei der Repository-Einrichtung."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -18969,10 +18956,8 @@ msgstr[1] ""
 
 #: weblate/utils/files.py:111 weblate/utils/files.py:121
 #: weblate/utils/validators.py:127
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Das Bild ist zu groß."
+msgstr "Die hochgeladene Datei ist zu groß."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18997,6 +18982,8 @@ msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
 msgstr ""
+"Diese URL ist unzulässig, da sie auf eine interne oder nicht-öffentliche "
+"Adresse verweist."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 msgid "Could not parse URL."
@@ -19025,14 +19012,11 @@ msgstr ""
 "stattdessen die Vorlagensprache."
 
 #: weblate/utils/requests.py:439
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Das Bild kann nicht von der angegebenen URL heruntergeladen werden (HTTP-"
+"Das Asset kann nicht von der angegebenen URL heruntergeladen werden (HTTP-"
 "Statuscode: %(code)s)."
 
 #: weblate/utils/search.py:173
@@ -19222,14 +19206,17 @@ msgstr "Syntaxfehler in Sprachaliasnamen."
 #: weblate/utils/validators.py:364
 msgid "This URL is prohibited because it matches a restricted pattern."
 msgstr ""
+"Diese URL ist unzulässig, da sie einem eingeschränkten Muster entspricht."
 
 #: weblate/utils/validators.py:375
 msgid "This URL is prohibited because it uses a restricted host."
 msgstr ""
+"Diese URL ist unzulässig, weil sie einen eingeschränkten Host verwendet."
 
 #: weblate/utils/validators.py:386
 msgid "This URL is prohibited because it uses a numeric IP address."
 msgstr ""
+"Diese URL ist unzulässig, weil sie eine numerische IP-Adresse verwendet."
 
 #: weblate/utils/validators.py:412
 msgid "Invalid base64 encoded string"
