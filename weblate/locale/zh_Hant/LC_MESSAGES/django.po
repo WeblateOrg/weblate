@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-05 01:46+0000\n"
+"PO-Revision-Date: 2026-04-06 02:11+0000\n"
 "Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -680,10 +680,9 @@ msgid "Account activity"
 msgstr "帳號活動"
 
 #: weblate/accounts/models.py:547
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "由 {username} 邀請至 {project}。"
+msgstr "被 {username} 觸發。"
 
 #: weblate/accounts/models.py:641
 msgid "Interface Language"
@@ -1759,10 +1758,8 @@ msgid "POTFILES path has to point to a file."
 msgstr ""
 
 #: weblate/addons/forms.py:259
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "已重設儲存庫"
+msgstr "Meson 預設"
 
 #: weblate/addons/forms.py:260
 msgid "GLib"
@@ -2225,10 +2222,8 @@ msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
 
 #: weblate/addons/gettext.py:1189
-#, fuzzy
-#| msgid "Update POT file (xgettext)"
 msgid "Update POT file (Meson)"
-msgstr "更新 POT 檔案 (xgettext)"
+msgstr "更新 POT 檔案 (Meson)"
 
 #: weblate/addons/gettext.py:1191
 #, fuzzy
@@ -3113,8 +3108,6 @@ msgid "Team"
 msgstr "團隊"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "電子郵件位址"
 
@@ -4936,10 +4929,8 @@ msgid "Weblate configuration"
 msgstr "Weblate 設定配置"
 
 #: weblate/examples/check_czech.py:18 weblate/examples/check_foo.py:18
-#, fuzzy
-#| msgid "No translation found."
 msgid "Your translation is foo"
-msgstr "找不到翻譯。"
+msgstr "您的翻譯是 foo"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:94
@@ -5170,10 +5161,8 @@ msgstr "XLIFF 1.2 附 gettext 擴充功能"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1502
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "XLIFF 1.2 with Apple extensions"
-msgstr "XLIFF 1.2 附 gettext 擴充功能"
+msgstr "XLIFF 1.2 附 Apple 擴充功能"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1510
@@ -8128,10 +8117,8 @@ msgid "Matched files"
 msgstr "符合的檔案"
 
 #: weblate/templates/addons/discovery_preview.html:14
-#, fuzzy
-#| msgid "The following errors were found:"
 msgid "The following errors were found"
-msgstr "找到下列錯誤："
+msgstr "找到下列錯誤"
 
 #: weblate/templates/addons/discovery_preview.html:27
 #: weblate/templates/addons/discovery_preview.html:67
@@ -11067,10 +11054,8 @@ msgstr "加入新使用者"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "邀請了使用者"
+msgstr "批量邀請使用者"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -13585,10 +13570,8 @@ msgid "Similarity"
 msgstr "相似度"
 
 #: weblate/templates/translate.html:552
-#, fuzzy
-#| msgid "Confirm deleting all translation memory entries"
 msgid "Remove selected translation memory entries"
-msgstr "確認刪除所有編輯翻譯記庫條目"
+msgstr "刪除選定翻譯記憶條目"
 
 #: weblate/templates/translate.html:582 weblate/trans/forms.py:1167
 msgid "New comment"
@@ -14466,10 +14449,8 @@ msgid "Automatic translation failed: %s"
 msgstr "自動翻譯失敗: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
-msgstr "螢幕擷圖檔案遮罩"
+msgstr "缺少螢幕擷圖。"
 
 #: weblate/trans/backups.py:916
 #, python-format
@@ -14749,12 +14730,12 @@ msgstr "檔案編碼方式"
 #: weblate/trans/file_format_params.py:524
 #: weblate/trans/file_format_params.py:538
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:478
 #: weblate/trans/file_format_params.py:496
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:481
 msgid "Encoding used for iOS strings files"
@@ -14764,18 +14745,16 @@ msgstr ""
 #: weblate/trans/file_format_params.py:525
 #: weblate/trans/file_format_params.py:539
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:499
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Encoding used for Java Properties files"
+msgstr "Java 屬性檔案使用的編碼方式"
 
 #: weblate/trans/file_format_params.py:509
 #: weblate/trans/file_format_params.py:523
 msgid "Auto-detect"
-msgstr ""
+msgstr "自動偵測"
 
 #: weblate/trans/file_format_params.py:513
 msgid "Encoding used for CSV files"
@@ -14799,7 +14778,7 @@ msgstr "唯讀字串"
 
 #: weblate/trans/filter.py:25 weblate/trans/filter.py:122
 msgid "Untranslated strings"
-msgstr "未翻譯字串"
+msgstr "未翻譯的字串"
 
 #: weblate/trans/filter.py:28 weblate/trans/filter.py:125
 msgid "Strings marked for edit"
@@ -14835,7 +14814,7 @@ msgstr "任何有略過檢查的已翻譯字串"
 
 #: weblate/trans/filter.py:51 weblate/trans/filter.py:130
 msgid "Approved strings"
-msgstr "核可字串數"
+msgstr "已核可的字串數"
 
 #: weblate/trans/filter.py:59 weblate/trans/filter.py:132
 msgid "Strings waiting for review"
@@ -15564,10 +15543,8 @@ msgstr "無法執行附加元件程式。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:507
-#, fuzzy
-#| msgid "Could not parse TMX file: %s"
 msgid "Could not update POT file."
-msgstr "無法解析 TMX 檔案：%s"
+msgstr "無法更新 POT 檔案。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:514
@@ -17976,10 +17953,8 @@ msgid "This website cannot be used. Please provide a different one."
 msgstr "不能使用這個網站，請改成其他服務。"
 
 #: weblate/utils/validators.py:441
-#, fuzzy
-#| msgid "Image URL domain is not allowed."
 msgid "URL domain is not allowed."
-msgstr "影像 URL 域名不允許。"
+msgstr "URL 域名不被允許。"
 
 #: weblate/utils/validators.py:517
 msgid "Could not parse URL: {}"
