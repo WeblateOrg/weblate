@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-05 01:46+0000\n"
-"Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
+"PO-Revision-Date: 2026-04-06 21:38+0000\n"
+"Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -591,17 +591,15 @@ msgstr "{username} 님이 {team} 팀에서 사용자를 제거했습니다."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "{project} 프로젝트에 대한 접근이 차단되었습니다."
+msgstr "{project}의 프로젝트 토큰이 생성되었습니다."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:319
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "번역 프로젝트가 삭제되었습니다"
+msgstr "{project}의 프로젝트 토큰이 삭제되었습니다."
 
 #: weblate/accounts/models.py:322
 msgid "Two-factor authentication recovery codes were generated"
@@ -684,10 +682,9 @@ msgid "Account activity"
 msgstr "계정 활동"
 
 #: weblate/accounts/models.py:547
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "{username} 님이 {project}에 초대했습니다."
+msgstr "{username} 님이 트리거했습니다."
 
 #: weblate/accounts/models.py:641
 msgid "Interface Language"
@@ -1364,10 +1361,8 @@ msgid "Register e-mail"
 msgstr "이메일 등록"
 
 #: weblate/accounts/views.py:1077
-#, fuzzy
-#| msgid "Please complete your sign-in using second factor credential."
 msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "두 번째 인증 정보를 사용하여 로그인을 완료하세요."
+msgstr "진행하기 전 2단계 인증으로 본인 확인을 끝내 주세요."
 
 #: weblate/accounts/views.py:1093 weblate/accounts/views.py:1169
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1500,7 +1495,7 @@ msgstr "인증 앱 %s이 등록되었습니다."
 
 #: weblate/accounts/views.py:1937
 msgid "Second factor sign in"
-msgstr "두 번째 요소 로그인"
+msgstr "2단계 인증 로그인"
 
 #: weblate/addons/autotranslate.py:37
 #: weblate/templates/snippets/autoform.html:13
@@ -1725,7 +1720,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:124
 msgid "Normalize POT header"
-msgstr ""
+msgstr "POT 헤더 정규화"
 
 #: weblate/addons/forms.py:128
 #, fuzzy
@@ -1847,10 +1842,8 @@ msgid "None"
 msgstr "없음"
 
 #: weblate/addons/forms.py:325
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate documentation"
-msgstr "웹레이트 관리"
+msgstr "Weblate 문서"
 
 #: weblate/addons/forms.py:330
 msgid ""
@@ -6925,11 +6918,11 @@ msgstr "통계"
 
 #: weblate/templates/accounts/2fa.html:20
 msgid "Second factor sign-in"
-msgstr "2차 인증 로그인"
+msgstr "2단계 인증 로그인"
 
 #: weblate/templates/accounts/2fa.html:25
 msgid "Please complete your sign-in using second factor credential."
-msgstr "두 번째 인증 정보를 사용하여 로그인을 완료하세요."
+msgstr "2단계 인증 정보를 사용하여 로그인을 완료하세요."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:7
@@ -7563,9 +7556,9 @@ msgid ""
 "password and other second factors. If you cannot find these codes when "
 "needed, you will lose access to your account."
 msgstr ""
-"복구 코드를 비밀번호 관리자와 같은 안전한 곳에 보관하세요. 이 코드는 비밀번호"
-"와 다른 2차 요소를 분실했을 때 계정에 접속하는 마지막 수단입니다. 필요할 때 "
-"이 코드를 찾을 수 없으면 계정에 접속할 수 없게 됩니다."
+"복구 코드를 비밀번호 관리자와 같은 안전한 곳에 보관하세요. 이 코드는 "
+"비밀번호와 다른 2단계 인증 수단을 분실했을 때 계정에 접속하는 마지막 "
+"수단입니다. 필요할 때 이 코드를 찾을 수 없으면 계정에 접속할 수 없게 됩니다."
 
 #: weblate/templates/accounts/recovery-codes.html:40
 msgid "Recovery codes copied to clipboard."
@@ -7769,8 +7762,8 @@ msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"인증기 앱은 로그인 시 본인 확인을 위한 보조 요소로 사용되는 일회용 비밀번호"
-"를 생성합니다."
+"인증기 앱은 로그인 시 본인 확인을 위한 2단계 인증에 쓰이는 일회용 비밀번호를 "
+"생성합니다."
 
 #: weblate/templates/accounts/totp.html:30
 msgid "Scan the QR code"
@@ -9348,10 +9341,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/component.html:355
-#, fuzzy
-#| msgid "Current plan"
 msgid "Current links"
-msgstr "현재 요금제"
+msgstr "현재 링크"
 
 #: weblate/templates/component.html:363
 #: weblate/templates/project-labels.html:26
