@@ -39,7 +39,7 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2026.3.2
+  rev: v2026.3.26.2
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
@@ -164,7 +164,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.45.0
+  rev: v1
   hooks:
   - id: typos
     args: []
