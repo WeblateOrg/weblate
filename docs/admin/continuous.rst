@@ -325,6 +325,22 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
    * :http:post:`/hooks/gitea/`
    * :ref:`hosted-push`
 
+.. _forgejo-setup:
+
+Automatically receiving changes from Forgejo Repos
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` for
+:guilabel:`Push events` event with destination to ``/hooks/forgejo/`` URL on your
+Weblate installation (for example ``https://hosted.weblate.org/hooks/forgejo/``).
+This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
+
+.. seealso::
+
+   * `Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/webhooks/>`_
+   * :http:post:`/hooks/forgejo/`
+   * :ref:`hosted-push`
+
 .. _gitee-setup:
 
 Automatically receiving changes from Gitee Repos

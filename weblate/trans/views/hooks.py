@@ -216,7 +216,7 @@ class PayloadFormParserParser(parsers.FormParser, PayloadMixin):
     parameters=[
         OpenApiParameter(
             "service",
-            enum=["bitbucket", "github", "gitea", "gitee", "gitlab", "pagure", "azure"],
+            enum=["bitbucket", "github", "gitea", "gitee", "gitlab", "pagure", "azure", "forgejo"],
             location=OpenApiParameter.PATH,
         ),
     ],
@@ -529,6 +529,24 @@ def gitea_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
     repository = require_mapping(data.get("repository"), "repository")
     return {
         "service_long_name": "Gitea",
+        "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
+        "repos": [
+            require_string(repository.get("clone_url"), "repository.clone_url"),
+            require_string(repository.get("ssh_url"), "repository.ssh_url"),
+            require_string(repository.get("html_url"), "repository.html_url"),
+        ],
+        "branch": normalize_branch_ref(data.get("ref")),
+        "full_name": optional_string(
+            repository.get("full_name"), "repository.full_name"
+        ),
+    }
+
+
+@register_hook
+def forgejo_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+    repository = require_mapping(data.get("repository"), "repository")
+    return {
+        "service_long_name": "Forgejo",
         "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
         "repos": [
             require_string(repository.get("clone_url"), "repository.clone_url"),
