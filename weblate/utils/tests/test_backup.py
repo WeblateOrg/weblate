@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import nullcontext
 from typing import cast
 from unittest.mock import patch

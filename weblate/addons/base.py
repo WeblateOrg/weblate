@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import suppress
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast
@@ -557,7 +557,7 @@ class BaseAddon(DocVersionsMixin):
     ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(
+            output = subprocess.check_output(  # noqa: S603
                 cmd,
                 env=get_clean_env(env),
                 cwd=component.full_path,

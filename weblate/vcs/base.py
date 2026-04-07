@@ -10,7 +10,7 @@ import hashlib
 import logging
 import os
 import os.path
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict

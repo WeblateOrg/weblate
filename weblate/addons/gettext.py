@@ -8,7 +8,7 @@ import json
 import os
 import re
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import sys
 import tempfile
 from datetime import date, timedelta
@@ -634,7 +634,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     ) -> str | None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(
+            output = subprocess.check_output(  # noqa: S603
                 cmd,
                 env=get_clean_env(env, extra_path),
                 cwd=component.full_path if cwd is None else cwd,
