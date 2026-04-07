@@ -264,10 +264,17 @@ Upgrading PostgreSQL container
 
 .. note::
 
-   PostgreSQL 18 changed the location of the volume inside the container. If
-   upgrading from an older version, you will have to adjust the volume path in
-   your Docker configuration.
+   PostgreSQL 18 changed the default data directory inside the container. A
+   common older setup mounted the database volume at
+   ``/var/lib/postgresql/data``, while PostgreSQL 18 now uses
+   ``/var/lib/postgresql`` by default.
 
+   If you are upgrading from an older version, either update the mount target
+   in your Docker configuration to the new path, or keep the old mount target
+   and set ``PGDATA`` accordingly.
+
+   Leaving the old mount target unchanged without setting ``PGDATA`` can cause
+   PostgreSQL to write its data outside the persisted volume.
    See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for
    more information.
 
