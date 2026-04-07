@@ -1965,3 +1965,22 @@ class ObjCFormatCheckTest(CFormatCheckTest):
         self.assertTrue(
             self.check.check_format("%@ string", "%d string", False, Unit())
         )
+
+    def test_objc_stringsdict_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "%#@count@ string", "%#@count@ string", False, Unit()
+            )
+        )
+
+    def test_objc_stringsdict_wrong_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format(
+                "%#@count@ string", "%#@total@ string", False, Unit()
+            )
+        )
+
+    def test_objc_stringsdict_missing_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("%#@count@ string", "string", False, Unit())
+        )

@@ -97,12 +97,13 @@ OBJC_PRINTF_MATCH = re.compile(
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$@
     (?P<fullvar>
-        [ +#'-]*                # flags
-        (?:\d+)?                # width
-        (?:\.\d+)?              # precision
-        (hh|h|l|ll)?            # length formatting
-        (?P<type>[a-zA-Z@%])    # type (%s, %d, %@ etc.)
-        |)                      # incomplete format string
+        \#@[^@]+@              # Stringsdict token like %#@name@
+        |[ +#'-]*              # flags
+        (?:\d+)?               # width
+        (?:\.\d+)?             # precision
+        (hh|h|l|ll)?           # length formatting
+        (?P<type>[a-zA-Z@%])   # type (%s, %d, %@ etc.)
+        |)                     # incomplete format string
     )""",
     re.VERBOSE,
 )
