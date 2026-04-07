@@ -1729,6 +1729,49 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Check if content matches
         self.assert_same(newdata, testdata)
 
+    def test_save_partially_translated_file(self) -> None:
+        # Parse test file
+        storage = self.parse_file(self.SOURCE_FILE)
+        units = storage.all_units
+
+        # Create appropriate target file
+        translation_file = os.path.join(
+            self.tempdir, os.path.basename(self.EXPECTED_PATH)
+        )
+        self.format_class.add_language(
+            translation_file, Language.objects.get(code="it"), self.BASE
+        )
+        translation_data = self.format_class(
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
+        )
+
+        # Only materialize one translated unit so untouched content units still
+        # go through the XWiki save path.
+        self.translate_unit(
+            units,
+            translation_data,
+            0,
+            "L'area test o sandbox e una parte del wiki che si puo modificare.",
+        )
+
+        translation_data.save()
+
+        reloaded = self.format_class(
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
+        )
+        reloaded_units = reloaded.all_units
+
+        self.assertEqual(self.COUNT, len(reloaded_units))
+        self.assertEqual(
+            "L'area test o sandbox e una parte del wiki che si puo modificare.",
+            reloaded_units[0].target,
+        )
+        self.assertEqual(units[1].source, reloaded_units[1].source)
+
 
 class TBXFormatTest(XMLMixin, BaseFormatTest):
     format_class = TBXFormat
