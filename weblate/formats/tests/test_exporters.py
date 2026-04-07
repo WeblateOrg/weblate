@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import tempfile
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -420,16 +420,18 @@ class MultiCSVExporterTest(PoExporterTest):
         try:
             # Initialize git repository
 
-            subprocess.run(["git", "init"], cwd=git_dir, check=True)
+            subprocess.run(["git", "init"], cwd=git_dir, check=True)  # noqa: S607
             subprocess.run(
-                ["git", "config", "user.name", "Test User"], cwd=git_dir, check=True
-            )
-            subprocess.run(
-                ["git", "config", "user.email", "test@example.com"],
+                ["git", "config", "user.name", "Test User"],  # noqa: S607
                 cwd=git_dir,
                 check=True,
             )
-            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+                cwd=git_dir,
+                check=True,
+            )
+            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)  # noqa: S607
 
             # Create the CSV file with real data
             csv_content = '''"source","target","context","developer_comments"
@@ -442,9 +444,11 @@ class MultiCSVExporterTest(PoExporterTest):
             Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
-            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
+            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)  # noqa: S607
             subprocess.run(
-                ["git", "commit", "-m", "Initial commit"], cwd=git_dir, check=True
+                ["git", "commit", "-m", "Initial commit"],  # noqa: S607
+                cwd=git_dir,
+                check=True,
             )
 
             # Create language

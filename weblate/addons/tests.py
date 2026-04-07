@@ -9,7 +9,7 @@ import contextlib
 import json
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import sys
 import tempfile
 from datetime import timedelta

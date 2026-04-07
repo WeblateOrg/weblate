@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-import subprocess
+import subprocess  # noqa: S404
 import tempfile
 from base64 import b64encode
 from typing import TYPE_CHECKING
@@ -178,8 +178,8 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
                     f"http://{self.user.username}:{self.user.auth_token.key}@",
                 )
             )
-            process = subprocess.Popen(
-                ["git", "clone", url],
+            process = subprocess.Popen(  # noqa: S603
+                ["git", "clone", url],  # noqa: S607
                 cwd=testdir,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,

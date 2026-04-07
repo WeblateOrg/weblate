@@ -12,7 +12,7 @@ import importlib
 import inspect
 import os
 import re
-import subprocess
+import subprocess  # noqa: S404
 from io import StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar
@@ -1350,7 +1350,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise ValueError(msg)
 
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # noqa: S603
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import subprocess
+import subprocess  # noqa: S404
 
 from django.core.cache import cache
 from django.test import TestCase
@@ -29,7 +29,7 @@ class GPGTest(TestCase):
         super().setUpClass()
         try:
             result = subprocess.run(
-                ["gpg", "--version"],
+                ["gpg", "--version"],  # noqa: S607
                 check=True,
                 text=True,
                 capture_output=True,

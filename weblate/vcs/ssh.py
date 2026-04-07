@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import os
 import stat
-import subprocess
+import subprocess  # noqa: S404
 from base64 import b64decode, b64encode
 from contextlib import suppress
 from typing import TYPE_CHECKING, Any, Literal, NotRequired, TypedDict
@@ -179,8 +179,8 @@ def generate_ssh_key(
     pubkeyfile = ssh_file(key_info["public"])
     try:
         # Actually generate the key
-        subprocess.run(
-            [
+        subprocess.run(  # noqa: S603
+            [  # noqa: S607
                 "ssh-keygen",
                 "-q",
                 *key_info["keygen"],
@@ -263,7 +263,7 @@ def add_host_key(
             cmdline.extend(["-p", str(port)])
         cmdline.append(host)
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # noqa: S603
                 cmdline,
                 env=get_clean_env(),
                 check=True,

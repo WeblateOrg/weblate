@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import os.path
-import subprocess
+import subprocess  # noqa: S404
 from base64 import b64decode
 from contextlib import suppress
 from email import message_from_string
@@ -160,7 +160,7 @@ class GitHTTPBackendWrapper:
             raise SuspiciousOperation(msg)
 
         # Invoke Git HTTP backend
-        self.process = subprocess.Popen(
+        self.process = subprocess.Popen(  # noqa: S603
             [git_http_backend],
             env=self.get_env(),
             stdin=subprocess.PIPE,
