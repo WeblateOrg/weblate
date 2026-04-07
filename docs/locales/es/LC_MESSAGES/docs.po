@@ -31,8 +31,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-07 10:29+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-07 15:08+0000\n"
+"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -407,6 +407,14 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
+"El mismo tipo de invitaciones está disponible en todo el sitio desde la "
+":ref:`management interface <management-interface>` en la pestaña "
+":guilabel:`Users` Tanto los administradores del proyecto como los "
+"administradores del sitio pueden invitar a varios usuarios a la vez pegando "
+"direcciones de correo electrónico separadas por espacios en blanco. Todas "
+"las invitaciones creadas en una acción masiva utilizan el equipo "
+"seleccionado, y las invitaciones masivas para todo el sitio también aplican "
+"el indicador de superusuario seleccionada."
 
 #: admin/access.rst:188
 msgid ""
@@ -414,6 +422,9 @@ msgid ""
 "with an already pending invitation are skipped while valid invitations are "
 "still created and sent."
 msgstr ""
+"Las invitaciones masivas se procesan individualmente. Las direcciones no "
+"válidas y las que ya tienen una invitación pendiente se omiten, mientras que "
+"las invitaciones válidas se crean y envían igualmente."
 
 #: admin/access.rst:194
 msgid ""
@@ -1013,6 +1024,9 @@ msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
+"Las invitaciones se generan mediante el envío masivo a través de la interfaz "
+"de usuario. Los usuarios existentes aún deben confirmar la invitación antes "
+"de convertirse en miembros del equipo."
 
 #: admin/access.rst:481
 msgid "Default teams and roles"
@@ -5606,6 +5620,12 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
+"Define un conjunto de identificadores de proyecto exentos de las "
+"restricciones :setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` y :setting:`PROJECT_WEB_RESTRICT_RE` "
+"al validar el sitio web del proyecto. Los identificadores de proyecto se "
+"comparan sin distinción entre mayúsculas y minúsculas."
 
 #: admin/config.rst:1703
 msgid ""
@@ -5614,6 +5634,11 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
+"Esta exención debilita las protecciones de URL salientes para los proyectos "
+"coincidentes, incluida la restricción de destino privado impuesta por "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Úsela solo para proyectos de "
+"confianza administrados por el administrador, donde omitir estas "
+"comprobaciones sea intencional."
 
 #: admin/config.rst:1730
 msgid "Reject using numeric IP address in project website. On by default."
@@ -14451,12 +14476,16 @@ msgid ""
 "Generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"Genera fragmentos de documentación RST que describen las características "
+"compatibles con cada formato de archivo."
 
 #: admin/management.rst:818
 msgid ""
 "The command generates one file for every format, that can be found in the "
 "specified output directory."
 msgstr ""
+"El comando genera un archivo para cada formato, que se puede encontrar en el "
+"directorio de salida especificado."
 
 #: admin/management.rst:826
 msgid ""
@@ -14464,6 +14493,10 @@ msgid ""
 "sources such as :doc:`/formats`. See also :file:`weblate/formats/management/"
 "commands/list_format_features.py` for customization and merging logic."
 msgstr ""
+"Los archivos de documentación generados están pensados para incluirse en "
+"fuentes de documentación como :doc:`/formats`. Consulte también "
+":file:`weblate/formats/management/commands/list_format_features.py` para "
+"obtener información sobre la lógica de personalización y fusión."
 
 #: admin/management.rst:834
 msgid ""
@@ -18820,6 +18853,9 @@ msgid ""
 "Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project "
 "slugs from project website restriction settings."
 msgstr ""
+"Se agregó :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` para eximir a "
+"determinados slugs de proyectos de los ajustes de restricciones del sitio "
+"web del proyecto."
 
 #: changes.rst:9
 msgid ""
@@ -18835,6 +18871,9 @@ msgid ""
 "generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"Se ha añadido un nuevo comando :wladmin:`list_format_features` de gestión, "
+"que genera fragmentos de documentación RST que describen las características "
+"compatibles con cada formato de archivo."
 
 #: changes.rst:11
 msgid "Shared components can now be categorized within the target project."
@@ -18851,23 +18890,19 @@ msgstr ""
 "por medio del parámetro ``category_id``."
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-#| "weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to "
-#| "update POT files with configurable update cadence."
 msgid ""
 "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
 "weblate.gettext.sphinx` to update POT files with configurable update cadence."
 msgstr ""
 "Fue añadido :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-"weblate.gettext.django`, y :ref:`addon-weblate.gettext.sphinx` para "
-"actualizar archivos POT con cadencia de actualización configurable."
+"weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, y :ref:`addon-"
+"weblate.gettext.sphinx` para actualizar archivos POT con cadencia de "
+"actualización configurable."
 
 #: changes.rst:14
 msgid "Added :ref:`bulk user invitations <invite-user>`."
-msgstr ""
+msgstr "Se ha añadido :ref:`bulk user invitations <invite-user>`."
 
 #: changes.rst:17 changes.rst:89 changes.rst:124 changes.rst:171
 #: changes.rst:215 changes.rst:260 changes.rst:301 changes.rst:377
@@ -18899,14 +18934,12 @@ msgstr ""
 "Lógica mejorada para añadir plurales monolingües en :doc:`/formats/gettext`."
 
 #: changes.rst:21
-#, fuzzy
-#| msgid "Added component alert for broken repository browser URLs."
 msgid ""
 "Added a component alert for conflicting merge request repository setup, "
 "see :ref:`alerts`."
 msgstr ""
-"Se añadió alerta de componente para las URL rotas del navegador del "
-"repositorio."
+"Se ha añadido una alerta de componente para conflicto con unión de la "
+"configuración del repositorio, consulte :ref:`alerts`."
 
 #: changes.rst:22
 msgid "Improved plural handling in :ref:`auto-translation`."
@@ -18938,6 +18971,9 @@ msgid ""
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines."
 msgstr ""
+"Documentación mejorada con fragmentos auto‐generados para máquinas "
+":ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, y :ref:`machine-"
+"translation`."
 
 #: changes.rst:27
 msgid ""
@@ -18985,6 +19021,8 @@ msgstr "Correcciones de defectos"
 msgid ""
 "Project token cleanup now removes stale bots on project deletion and upgrade."
 msgstr ""
+"Ahora la purga del vale del proyecto retira los bot retirados en borrado y "
+"mejora del proyecto."
 
 #: changes.rst:34
 msgid "Component file handling now validates repository symlinks."
@@ -37452,6 +37490,7 @@ msgstr "Máscara del archivo duplicado utilizada para los componentes enlazados"
 #: devel/alerts.rst:26
 msgid "Conflicting merge request repository setup"
 msgstr ""
+"Conflicto al unir solicitud de unión de la configuración del repositorio"
 
 #: devel/alerts.rst:27
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
@@ -37493,10 +37532,8 @@ msgid "A component with both duplicated strings and languages looks like this:"
 msgstr "Un componente con ambas cadenas duplicadas e idiomas como esto:"
 
 #: devel/alerts.rst:45
-#, fuzzy
-#| msgid "Configure repository integration:"
 msgid "Conflicting repository setup"
-msgstr "Configura la integración del repositorio:"
+msgstr "Conflicto al configurar repositorio"
 
 #: devel/alerts.rst:47
 msgid ""
@@ -37504,6 +37541,10 @@ msgid ""
 "workflows are configured to push to the same repository and push branch. "
 "Such a setup can overwrite the shared branch."
 msgstr ""
+"Esta alerta se muestra cuando varios componentes que utilizan flujos de "
+"trabajo de solicitud de extracción o fusión están configurados para enviar "
+"cambios al mismo repositorio y rama. Esta configuración puede sobrescribir "
+"la rama compartida."
 
 #: devel/alerts.rst:51
 msgid ""
@@ -37511,6 +37552,9 @@ msgid ""
 "each component or share the repository between components using a "
 "``weblate://project/component`` repository URL."
 msgstr ""
+"Para resolver esto, configure un :guilabel:`Push branch` diferente por cada "
+"componente o bien comparta el repositorio entre componentes utilizando una "
+"URL del repositorio ``weblate://project/component``."
 
 #: devel/community.rst:2
 msgid "Building a translators community"
@@ -41617,6 +41661,9 @@ msgid ""
 "Please refer to the documentation page of each individual file format for "
 "information about which features are supported in that format."
 msgstr ""
+"Refiérase a la página de documentación de cada formato de archivo individual "
+"para información acerca de cuales características están mantenidas en ese "
+"formato."
 
 #: formats.rst:40
 msgid "Bilingual and monolingual formats"
@@ -53635,10 +53682,8 @@ msgstr "Características admitidas"
 #: snippets/format-features/xliff2-features.rst:7
 #: snippets/format-features/xlsx-features.rst:7
 #: snippets/format-features/yaml-features.rst:7
-#, fuzzy
-#| msgid "Web extensions"
 msgid "File extensions"
-msgstr "Extensiones web"
+msgstr "Extensiones de archivo"
 
 #: snippets/format-features/appstore-features.rst:9
 #: snippets/format-features/arb-features.rst:9
@@ -53692,7 +53737,7 @@ msgstr "Extensiones web"
 #: snippets/format-features/xlsx-features.rst:9
 #: snippets/format-features/yaml-features.rst:9
 msgid "Linguality :ref:`ⓘ <bimono>`"
-msgstr ""
+msgstr "Lingüística :ref:`ⓘ <bimono>`"
 
 #: snippets/format-features/appstore-features.rst:10
 #: snippets/format-features/aresource-features.rst:10
@@ -53724,10 +53769,8 @@ msgstr ""
 #: snippets/format-features/txt-features.rst:10
 #: snippets/format-features/webextension-features.rst:10
 #: snippets/format-features/wxl-features.rst:10
-#, fuzzy
-#| msgid "Monolingual gettext"
 msgid "Monolingual"
-msgstr "gettext monolingüe"
+msgstr "Monolingüe"
 
 #: snippets/format-features/appstore-features.rst:11
 #: snippets/format-features/arb-features.rst:11
@@ -53780,10 +53823,8 @@ msgstr "gettext monolingüe"
 #: snippets/format-features/xliff2-features.rst:11
 #: snippets/format-features/xlsx-features.rst:11
 #: snippets/format-features/yaml-features.rst:11
-#, fuzzy
-#| msgid "See :ref:`format-plurals`"
 msgid "Supports plural :ref:`ⓘ <format-plurals>`"
-msgstr "Consulte :ref:`format-plurals`"
+msgstr "Admite plural :ref:`ⓘ <format-plurals>`"
 
 #: snippets/format-features/appstore-features.rst:13
 #: snippets/format-features/arb-features.rst:13
@@ -53836,10 +53877,8 @@ msgstr "Consulte :ref:`format-plurals`"
 #: snippets/format-features/xliff2-features.rst:13
 #: snippets/format-features/xlsx-features.rst:13
 #: snippets/format-features/yaml-features.rst:13
-#, fuzzy
-#| msgid "See :ref:`format-description`"
 msgid "Supports descriptions :ref:`ⓘ <format-description>`"
-msgstr "Consulte :ref:`format-description`"
+msgstr "Admite descripciones :ref:`ⓘ <format-description>`"
 
 #: snippets/format-features/appstore-features.rst:15
 #: snippets/format-features/arb-features.rst:15
@@ -53892,14 +53931,8 @@ msgstr "Consulte :ref:`format-description`"
 #: snippets/format-features/xliff2-features.rst:15
 #: snippets/format-features/xlsx-features.rst:15
 #: snippets/format-features/yaml-features.rst:15
-#, fuzzy
-#| msgid ""
-#| "Some file formats support storing explanation within the file, "
-#| "see :ref:`format-explanation`."
 msgid "Supports explanation :ref:`ⓘ <format-explanation>`"
-msgstr ""
-"Algunos formatos de archivo admiten explicación de almacenaje dentro del "
-"archivo, consulte :ref:`format-explanation`."
+msgstr "Admite explicación :ref:`ⓘ <format-explanation>`"
 
 #: snippets/format-features/appstore-features.rst:17
 #: snippets/format-features/arb-features.rst:17
@@ -53952,10 +53985,8 @@ msgstr ""
 #: snippets/format-features/xliff2-features.rst:17
 #: snippets/format-features/xlsx-features.rst:17
 #: snippets/format-features/yaml-features.rst:17
-#, fuzzy
-#| msgid "See :ref:`format-context`"
 msgid "Supports context :ref:`ⓘ <format-context>`"
-msgstr "Consulte :ref:`format-context`"
+msgstr "Admite contexto :ref:`ⓘ <format-context>`"
 
 #: snippets/format-features/appstore-features.rst:19
 #: snippets/format-features/arb-features.rst:19
@@ -54008,10 +54039,8 @@ msgstr "Consulte :ref:`format-context`"
 #: snippets/format-features/xliff2-features.rst:19
 #: snippets/format-features/xlsx-features.rst:19
 #: snippets/format-features/yaml-features.rst:19
-#, fuzzy
-#| msgid "See :ref:`format-location`"
 msgid "Supports location :ref:`ⓘ <format-location>`"
-msgstr "Consulte :ref:`format-location`"
+msgstr "Admite lugar :ref:`ⓘ <format-location>`"
 
 #: snippets/format-features/appstore-features.rst:21
 #: snippets/format-features/arb-features.rst:21
@@ -54064,10 +54093,8 @@ msgstr "Consulte :ref:`format-location`"
 #: snippets/format-features/xliff2-features.rst:21
 #: snippets/format-features/xlsx-features.rst:21
 #: snippets/format-features/yaml-features.rst:21
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "Supports flags :ref:`ⓘ <format-flags>`"
-msgstr "Consulte :ref:`format-flags`."
+msgstr "Admite indicadores :ref:`ⓘ <format-flags>`"
 
 #: snippets/format-features/appstore-features.rst:23
 #: snippets/format-features/arb-features.rst:23
@@ -54120,10 +54147,8 @@ msgstr "Consulte :ref:`format-flags`."
 #: snippets/format-features/xliff2-features.rst:25
 #: snippets/format-features/xlsx-features.rst:25
 #: snippets/format-features/yaml-features.rst:23
-#, fuzzy
-#| msgid "unit identifier"
 msgid "API identifier"
-msgstr "identificador de unidad"
+msgstr "Identificador de API"
 
 #: snippets/format-features/appstore-features.rst:25
 #: snippets/format-features/arb-features.rst:25
@@ -54177,7 +54202,7 @@ msgstr "identificador de unidad"
 #: snippets/format-features/xlsx-features.rst:27
 #: snippets/format-features/yaml-features.rst:25
 msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
-msgstr ""
+msgstr "Admite cadenas de solo lectura en :ref:`ⓘ <read-only-strings>`"
 
 #: snippets/format-features/arb-features.rst:10
 #: snippets/format-features/csv-features.rst:10
@@ -54194,10 +54219,8 @@ msgstr ""
 #: snippets/format-features/xliff-features.rst:10
 #: snippets/format-features/xlsx-features.rst:10
 #: snippets/format-features/yaml-features.rst:10
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "Both monolingual and bilingual"
-msgstr "Definir el nombre del archivo de base monolingüe"
+msgstr "Ambos monolingüe y bilingüe"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -54205,10 +54228,8 @@ msgstr "Definir el nombre del archivo de base monolingüe"
 #: snippets/format-features/resjson-features.rst:10
 #: snippets/format-features/tbx-features.rst:10
 #: snippets/format-features/xliff2-features.rst:10
-#, fuzzy
-#| msgid "bilingual"
 msgid "Bilingual"
-msgstr "bilingüe"
+msgstr "Bilingüe"
 
 #: snippets/format-features/csv-features.rst:23
 #: snippets/format-features/po-features.rst:23
@@ -54217,38 +54238,31 @@ msgstr "bilingüe"
 #: snippets/format-features/xliff-features.rst:23
 #: snippets/format-features/xliff2-features.rst:23
 #: snippets/format-features/xlsx-features.rst:23
-#, fuzzy
-#| msgid "See :ref:`format-states`"
 msgid "Additional states :ref:`ⓘ <format-states>`"
-msgstr "Consulte :ref:`format-states`"
+msgstr "Estados :ref:`ⓘ <format-states>` adicionales"
 
 #: snippets/format-features/csv-features.rst:26
 msgid "``csv``, ``csv-multi``, ``csv-simple``"
-msgstr ""
+msgstr "``csv``, ``csv-multi``, ``csv-simple``"
 
 #: snippets/format-features/go-i18n-json-features.rst:24
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
-msgstr ""
+msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
-msgstr ""
+msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
 msgid "``.po``, ``.pot``"
-msgstr ""
+msgstr "``.po``, ``.pot``"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Administrative status"
 msgstr "Estado de administración"
 
 #: snippets/format-features/tbx-features.rst:30
-#, fuzzy
-#| msgid ""
-#| "Terms with administrative status ``forbidden`` or ``obsolete`` in "
-#| "``<termNote type=\"administrativeStatus\">`` are marked with the "
-#| "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgid ""
 "Terms with administrative status ``forbidden`` or ``obsolete`` in "
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
@@ -54256,84 +54270,70 @@ msgid ""
 msgstr ""
 "Los términos con estado administrativo ``prohibido`` u ``obsoleto`` en "
 "``<termNote type=\"administrativeStatus\">`` están marcados con el indicador "
-"``prohibido`` (:ref:`glossary-forbidden`)."
+"``prohibido`` (:ref:`glossary-forbidden`).,"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Translation needed"
 msgstr "Traducción necesaria"
 
 #: snippets/format-features/tbx-features.rst:31
-#, fuzzy
-#| msgid ""
-#| "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
-#| "marked as read-only (:ref:`glossary-untranslatable`)."
 msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`).,"
 msgstr ""
 "Los términos con ``<termNote type=\"translationNote\">`` que contienen "
-"``no`` están marcados como de solo lectura (:ref:`glossary-untranslatable`)."
+"``no`` están marcados como de solo lectura (:ref:`glossary-untranslatable`).,"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Usage notes"
 msgstr "Notas de uso"
 
 #: snippets/format-features/tbx-features.rst:32
-#, fuzzy
-#| msgid ""
-#| "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in "
-#| "the glossary."
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary.,"
 msgstr ""
 "Notas de uso desde etiquetas ``<descrip type=\"Nota de uso\">`` son "
-"exhibidas dentro del glosario."
+"exhibidas dentro del glosario.,"
 
 #: snippets/format-features/tbx-features.rst:36
-#, fuzzy
-#| msgid ""
-#| "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
-#| "translation string explanation from ``<note from=\"translator\">``."
 msgid ""
 ":ref:`format-explanation`: Source string explanation is saved and loaded "
 "from the ``<descrip>`` tag, translation string explanation from ``<note "
 "from=\"translator\">``"
 msgstr ""
-"La explicación de la cadena de origen se guarda y se carga desde la etiqueta "
-"``<descrip>``, la explicación de la cadena de traducción desde ``<note "
-"from=\"translator\">``."
+"La explicación de la cadena de origen :ref:`format-explanation` se guarda y "
+"se carga desde la etiqueta ``<descrip>``, la explicación de la cadena de "
+"traducción desde ``<note from=\"translator\">``"
 
 #: snippets/format-features/txt-features.rst:24
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
-msgstr ""
+msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
 msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
-#, fuzzy
-#| msgid "``10`` -- Needs editing"
 msgid "``Approved``, ``Needs editing``"
-msgstr "``10`` -- Necesita ser editado"
+msgstr "``Aprobado``, ``Necesita editar``"
 
 #: snippets/format-features/xliff-features.rst:26
 msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
-msgstr ""
+msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 
 #: snippets/format-features/xliff2-features.rst:8
 msgid "``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff2-features.rst:26
 msgid "``xliff2``, ``xliff2-placeables``"
-msgstr ""
+msgstr "``xliff2``, ``xliff2-situables``"
 
 #: snippets/format-features/xlsx-features.rst:8
 msgid "``.csv``, ``.xlsx``"
-msgstr ""
+msgstr "``.csv``, ``.xlsx``"
 
 #: snippets/format-in-development.rst:3
 msgid ""
