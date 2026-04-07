@@ -275,7 +275,7 @@ Upgrading PostgreSQL container
 
    Leaving the old mount target unchanged without setting ``PGDATA`` can cause
    PostgreSQL to write its data outside the persisted volume.
-   
+
    See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for
    more information.
 
