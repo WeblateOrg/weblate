@@ -270,7 +270,7 @@ class CategoriesTest(ViewTestCase):
         category = Category.objects.get()
         self.assertRedirects(response, category_url)
         self.assertContains(response, "Nothing to list here.")
-        response = self.client.post(
+        self.client.post(
             reverse("rename", kwargs=self.kw_component),
             {
                 "project": self.project.pk,
