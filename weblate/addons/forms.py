@@ -125,7 +125,7 @@ class BaseExtractPotForm(BaseAddonForm[BaseAddon]):
         required=False,
         initial=False,
         help_text=gettext_lazy(
-            "Updates selected gettext header fields using component configuration."
+            "Updates gettext headers and replaces placeholder POT comments."
         ),
     )
     update_po_files = forms.BooleanField(
