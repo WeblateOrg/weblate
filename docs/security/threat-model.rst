@@ -3,7 +3,7 @@ Weblate threat model
 
 **Scope:** Core Weblate web application, its interactions with user browsers, backend components (web server, WSGI, database, datastore, Celery), and integration with external VCS.
 
-**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
+**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (unauthenticated user, authenticated user, reviewer, project manager, administrator, project-scoped API token).
 
 System description and scope
 ----------------------------
@@ -11,6 +11,13 @@ System description and scope
 Weblate is an open-source web-based localization platform built on Django. It
 integrates tightly with Git repositories to manage translations and offers
 CI/CD-style features for automation, hooks, and VCS synchronization.
+
+Authorization in Weblate is not limited to instance-wide administrator versus
+regular user access. Permissions can be delegated per site, project,
+component, language, glossary, or other scope, including dedicated VCS,
+translation memory, screenshot, review, and project access management
+permissions. Project-scoped API tokens can also be granted team memberships and
+permissions similar to users.
 
 Assets:
 
@@ -30,6 +37,7 @@ Conceptual data flow diagram
       edge [fontname = "sans-serif", fontsize=10, dir=both];
 
       "External user (browser)" -> "Web server (nginx/Apache)" [label="HTTPS"];
+      "External webhook source" -> "Web server (nginx/Apache)" [label="HTTPS webhook"];
       "Web server (nginx/Apache)" -> "Weblate application (WSGI, Celery)" [label="Internal API"];
       "Weblate application (WSGI, Celery)" -> "Database (PostgreSQL)" [label="Database access"];
       "Weblate application (WSGI, Celery)" -> "Datastore (Valkey/Redis)" [label="Key/value access"];
@@ -43,12 +51,14 @@ Trust boundaries
 ----------------
 
 * **Internet ↔ Web server:** Public internet traffic interacting with the first line of defense.
+* **Webhook source ↔ Web server:** External code hosting services or other callers invoking repository hooks, sometimes with unauthenticated endpoints enabled per project.
 * **Web server ↔ Weblate application:** Communication between the reverse proxy/web server and the application logic.
-* **Weblate application ↔ Database** Application logic accessing persistent and cached data.
+* **Weblate application ↔ Database:** Application logic accessing persistent and cached data.
 * **Weblate application ↔ Logging:** Application logic creating logs.
 * **Weblate application ↔ Internal VCS repository:** Application logic interacting with its local copy of the VCS repository.
 * **Weblate application ↔ External VCS repository:** Weblate reaching out to external code hosting platforms.
-* **Authenticated User ↔ Unauthenticated User:** Different privilege levels within the web application.
+* **Unauthenticated caller ↔ Authenticated user/token:** Different privilege levels for browser, API, and webhook access.
+* **Authenticated user/token ↔ Project manager/reviewer/VCS manager:** Delegated project- and component-scoped permissions create additional privilege boundaries inside the application.
 
 Threat identification
 ---------------------
@@ -72,6 +82,18 @@ Threat identification
      - **Tampering**
      - **Malicious request injection:** Attacker injects malicious data into HTTP headers or request bodies.
      - Potential for SQL injection, XSS, or other injections if not properly handled by the backend.
+   * - **Webhook handling**
+     - **Spoofing**
+     - **Forged webhook delivery:** An attacker submits a fake webhook payload to trigger repository updates or other automation, especially when unauthenticated hooks are enabled.
+     - Unauthorized repository synchronization, noisy task execution, or follow-on abuse of automation paths.
+   * -
+     - **Tampering**
+     - **Payload manipulation or replay:** An attacker replays or modifies webhook payloads so Weblate processes repository states or branches different from the legitimate event.
+     - Unexpected updates, repository confusion, or misuse of privileged VCS credentials.
+   * -
+     - **DoS**
+     - **Hook flooding:** An attacker sends excessive webhook requests or oversized payloads, overwhelming request handling or background workers.
+     - Weblate slowdown or unavailability.
    * - **Weblate application**
      - **Spoofing**
      - **User impersonation:** Attacker gains access to a legitimate user's session (e.g., via session hijacking, compromised credentials).
@@ -152,8 +174,12 @@ Mitigation strategies
     * Strong password policies, see :doc:`/security/passwords`.
     * Enforced 2FA, see :ref:`2fa`.
     * Robust session management.
-    * Role-based access control (RBAC) to enforce the least privilege (e.g., translators can only edit translations, not change project configs), see :doc:`/admin/access`.
+    * Role-based access control (RBAC) to enforce the least privilege (for example separating translation, review, VCS, translation memory, screenshot, and project access management permissions), see :doc:`/admin/access`.
     * Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/admin/auth`.
+* **Webhook security:**
+    * Prefer authenticated or otherwise verified webhook deliveries, and enable unauthenticated hooks only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`.
+    * Validate webhook origin, event type, and payload before triggering repository updates or tasks.
+    * Apply rate limiting and request size limits on webhook endpoints at the reverse proxy and application layers.
 * **Input validation and output encoding:**
     * Strict validation of all user inputs (forms, API requests, VCS URLs) to prevent injection attacks (SQL injection, command injection, XSS).
     * Context-aware output encoding for all user-supplied data displayed on the web UI to prevent XSS.

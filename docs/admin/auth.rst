@@ -830,6 +830,10 @@ Recovery codes
 Each user can configure this in :ref:`profile-account` and second factor will
 be required to sign in addition to the existing authentication method.
 
-This can be enforced for users at the project (see :ref:`project-enforced_2fa`) or team level.
+This can be enforced for users at the project (see :ref:`project-enforced_2fa`)
+or team level. In site-wide deployments, this can also be used to enforce
+two-factor authentication for all users by enabling it on the default
+:guilabel:`Users` team, which is assigned automatically to new users by
+:ref:`automatic team assignment <autoteam>`.
 
 The permissions of a team with enforced two-factor authentication won't be applied to users who do not have it configured.
