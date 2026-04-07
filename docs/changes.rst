@@ -31,6 +31,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Matching exporters now honor component file format parameters.
 * Project token cleanup now removes stale bots on project deletion and upgrade.
 * Component file handling now validates repository symlinks.
 * Improved REST API permission enforcement.
