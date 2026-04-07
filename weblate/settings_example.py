@@ -644,7 +644,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Apply session coookie settings to language cookie as well with exception
+# Apply session cookie settings to language cookie as well with exception
 # of SameSite as we want language to be honored in CSRF error messages.
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
