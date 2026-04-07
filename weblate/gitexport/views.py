@@ -160,6 +160,7 @@ class GitHTTPBackendWrapper:
             raise SuspiciousOperation(msg)
 
         # Invoke Git HTTP backend
+        # pylint: disable-next=consider-using-with
         self.process = subprocess.Popen(  # noqa: S603
             [git_http_backend],
             env=self.get_env(),
