@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-06 21:38+0000\n"
+"PO-Revision-Date: 2026-04-08 20:13+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -609,10 +609,9 @@ msgstr "Token projektu {project} byl vytvořen."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:319
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Vaše překladové projekty byly odstraněny"
+msgstr "Token projektu {project} byl odstraněn."
 
 #: weblate/accounts/models.py:322
 msgid "Two-factor authentication recovery codes were generated"
@@ -697,10 +696,9 @@ msgid "Account activity"
 msgstr "Aktivita na účtu"
 
 #: weblate/accounts/models.py:547
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Pozvánka do {project} od {username}."
+msgstr "Spuštěno uživatelem {username}."
 
 #: weblate/accounts/models.py:641
 msgid "Interface Language"
@@ -1820,17 +1818,14 @@ msgid "POTFILES path"
 msgstr "Cesta k POTFILES"
 
 #: weblate/addons/forms.py:196
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
 "Cesta k souboru POTFILES nebo POTFILES.in relativní k repozitáři. Položky "
-"budou zpracovány relativně k danému souboru."
+"budou zpracovány relativně ke kořenu repozitáře. Pokud se nachází vedle "
+"manifestu, soubor POTFILES.skip vyloučí zapsané soubory z extrahování."
 
 #: weblate/addons/forms.py:234 weblate/addons/forms.py:241
 msgid "This field is required."
@@ -1841,14 +1836,12 @@ msgid "POTFILES path has to point to a file."
 msgstr "Cesta POTFILES musí ukazovat na soubor."
 
 #: weblate/addons/forms.py:259
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Repozitář resetován"
+msgstr "Předvolba Meson"
 
 #: weblate/addons/forms.py:260
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:264
 msgid ""
@@ -1856,12 +1849,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Vestavěný argument xgettext odpovídající integraci Meson gettext. Předvolba "
+"GLib přidá klíčové slovo a možnosti formátování používané pomocnou funkcí "
+"gettext Meson."
 
 #: weblate/addons/forms.py:289
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Doplněk Meson očekává adresář Meson gettext se soubory meson.build a "
+"POTFILES nebo POTFILES.in."
 
 #: weblate/addons/forms.py:306
 msgid "The component has to define a POT file for new translations."
@@ -2320,19 +2318,12 @@ msgstr ""
 "souborech."
 
 #: weblate/addons/gettext.py:1189
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Aktualizovat soubor POT (Django)"
+msgstr "Aktualizovat soubor POT (Meson)"
 
 #: weblate/addons/gettext.py:1191
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"Aktualizuje šablonu gettext pomocí nástroje xgettext na zvolených zdrojových "
-"souborech."
+msgstr "Aktualizuje šablonu gettext v souladu s konvencemi Meson gettext."
 
 #: weblate/addons/gettext.py:1316
 msgid "Update POT file (Django)"
@@ -2590,12 +2581,12 @@ msgid "Weblate's REST API"
 msgstr "REST API Weblate"
 
 #: weblate/api/views.py:171 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
-msgstr "Nepodařilo se zamknout repozitář, právě probíhá jiná operace."
+msgstr ""
+"Nepodařilo se odstranit řetězec, protože na pozadí probíhá jiná operace. "
+"Zkuste to prosím znovu později."
 
 #: weblate/api/views.py:177
 msgid "Could not obtain the lock to perform the operation."
@@ -3210,7 +3201,7 @@ msgstr "VCS"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; a %(count)d dalších"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3223,52 +3214,47 @@ msgid "Team"
 msgstr "Tým"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "E-mailové adresy"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Zadejte jednu nebo více e-mailových adres oddělených mezerami."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: duplicitní adresa v odeslaném formuláři"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: čekající pozvánka již existuje"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "E-mail s pozvánkou byl odeslán."
-msgstr[1] "E-mail s pozvánkou byl odeslán."
-msgstr[2] "E-mail s pozvánkou byl odeslán."
+msgstr[0] "Byl odeslán %(count)d e-mail s pozvánkou."
+msgstr[1] "Byly odeslány %(count)d e-maily s pozvánkami."
+msgstr[2] "Bylo odesláno %(count)d e-mailů s pozvánkami."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Přeskočena %(count)d adresa: %(details)s"
+msgstr[1] "Přeskočeny %(count)d adresy: %(details)s"
+msgstr[2] "Přeskočeno %(count)d adres: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Pozvánka uživatele byla odstraněna."
+msgstr "Nebyly vytvořeny žádné pozvánky."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -11479,10 +11465,8 @@ msgstr "Přidat nového uživatele"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Uživatel pozván"
+msgstr "Hromadně pozvat uživatele"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -13218,16 +13202,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Jiná součást byla nastavena, aby odesílala žádosti o sloučení do stejného "
+"repozitáře a větve."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "Toto může způsobit přepsání větve."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Použijte jinou větev pro odesílání pro každou součást, nebo sdílejte "
+"repozitář pomocí následující adresy Weblate:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -15070,6 +15058,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Formy plurálů v součásti %(component)s neodpovídají cílovému překladu. "
+"Automatický překlad přeskočil pluralizované řetězce a zpracoval pouze "
+"řetězce v singulární formě."
 
 #: weblate/trans/autotranslate.py:382
 #, python-format
@@ -15077,16 +15068,13 @@ msgid "Automatic translation failed: %s"
 msgstr "Automatický překlad selhal: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot showing usage of this string"
 msgid "Screenshot image is missing."
-msgstr "Snímek obrazovky ukazující použití tohoto řetezce"
+msgstr "Chybí snímek obrazovky."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
+msgstr "Nepodařilo se obnovit snímek obrazovky %(name)s: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16140,10 +16128,8 @@ msgstr "Duplicitní maska souborů."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Confirm resetting repository"
 msgid "Conflicting repository setup."
-msgstr "Potvrďte resetování repozitáře"
+msgstr "Konfliktní nastavení repozitáře."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -18468,10 +18454,8 @@ msgstr[2] ""
 
 #: weblate/utils/files.py:111 weblate/utils/files.py:121
 #: weblate/utils/validators.py:127
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Obrázek je příliš velký."
+msgstr "Nahraný soubor je příliš velký."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18495,7 +18479,7 @@ msgstr "Bylo nalezeno více možných uživatelů."
 msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
-msgstr ""
+msgstr "Adresa je zakázaná, protože směřuje na interní nebo neveřejnou adresu."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 msgid "Could not parse URL."
@@ -18524,15 +18508,12 @@ msgstr ""
 "šablony."
 
 #: weblate/utils/requests.py:439
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Nepodařilo se stáhnout obrázek ze zadané adresy URL (stavový kód HTTP: "
-"%(code)s)."
+"Nepodařilo se stáhnout zdroj ze zadané adresy URL (stavový kód HTTP: %(code)"
+"s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
@@ -18712,15 +18693,15 @@ msgstr "Chyba syntaxe v jazykových aliasech."
 
 #: weblate/utils/validators.py:364
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr ""
+msgstr "Tato adresa je zakázaná, protože odpovídá zakázanému vzorci."
 
 #: weblate/utils/validators.py:375
 msgid "This URL is prohibited because it uses a restricted host."
-msgstr ""
+msgstr "Tato adresa je zakázaná, protože odpovídá zakázanému hostiteli."
 
 #: weblate/utils/validators.py:386
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "Tato adresa je zakázaná, protože používá číselnou IP adresu."
 
 #: weblate/utils/validators.py:412
 msgid "Invalid base64 encoded string"
