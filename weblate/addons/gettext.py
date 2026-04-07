@@ -865,8 +865,37 @@ class XgettextAddon(ExtractPotBaseAddon):
     def get_language(self) -> str | None:
         return self.instance.configuration["language"]
 
-    def get_extra_xgettext_args(self, component: Component) -> list[str]:
+    def get_comment_mode(self) -> str:
+        return str(self.instance.configuration.get("comment_mode", "off"))
+
+    def get_comment_tag(self) -> str:
+        return str(self.instance.configuration.get("comment_tag", ""))
+
+    def get_checks(self) -> list[str]:
+        checks = self.instance.configuration.get("checks", [])
+        if isinstance(checks, str):
+            return [checks]
+        if isinstance(checks, (list, tuple)):
+            return [str(check) for check in checks]
         return []
+
+    def get_keyword(self) -> str:
+        return str(self.instance.configuration.get("keyword", ""))
+
+    def get_parametrized_xgettext_args(self) -> list[str]:
+        result = ["--from-code=UTF-8"]
+        comment_mode = self.get_comment_mode()
+        if comment_mode == "all":
+            result.append("--add-comments")
+        elif comment_mode == "tagged" and (comment_tag := self.get_comment_tag()):
+            result.append(f"--add-comments={comment_tag}")
+        result.extend(f"--check={name}" for name in self.get_checks())
+        if keyword := self.get_keyword():
+            result.append(f"--keyword={keyword}")
+        return result
+
+    def get_extra_xgettext_args(self, component: Component) -> list[str]:
+        return self.get_parametrized_xgettext_args()
 
     def get_potfiles_manifest_filename(self, component: Component) -> Path:
         return Path(component.full_path) / self.get_effective_potfiles_path(component)
@@ -1269,7 +1298,14 @@ class MesonAddon(XgettextAddon):
         }
 
     def get_extra_xgettext_args(self, component: Component) -> list[str]:
-        return self.PRESETS.get(self.get_preset(), self.PRESET_GLIB)
+        result: list[str] = []
+        for arg in [
+            *self.PRESETS.get(self.get_preset(), self.PRESET_GLIB),
+            *self.get_parametrized_xgettext_args(),
+        ]:
+            if arg not in result:
+                result.append(arg)
+        return result
 
     def get_meson_gettext_dir(self, component: Component) -> Path | None:
         template_dir = Path(component.new_base).parent
