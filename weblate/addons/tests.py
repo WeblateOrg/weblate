@@ -485,6 +485,54 @@ class GettextAddonTest(ViewTestCase):
             form.cleaned_data["source_patterns"],
             ["src/*.py", "templates/*.html"],
         )
+        self.assertEqual(form.cleaned_data["comment_mode"], "off")
+        self.assertEqual(form.cleaned_data["comment_tag"], "")
+        self.assertEqual(form.cleaned_data["checks"], [])
+        self.assertEqual(form.cleaned_data["keyword"], "")
+
+    def test_xgettext_form_tagged_comments_require_tag(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "src/*.py\n",
+                "potfiles_path": "",
+                "comment_mode": "tagged",
+                "comment_tag": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_xgettext_form_roundtrips_parameters(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "src/*.py\n",
+                "potfiles_path": "",
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode", "bullet-unicode"],
+                "keyword": "tr",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["comment_mode"], "tagged")
+        self.assertEqual(form.cleaned_data["comment_tag"], "TRANSLATORS")
+        self.assertEqual(
+            form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
+        )
+        self.assertEqual(form.cleaned_data["keyword"], "tr")
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -641,6 +689,34 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.serialize_form()["input_mode"], "potfiles")
         self.assertEqual(form.serialize_form()["potfiles_path"], "po/POTFILES.in")
 
+    def test_xgettext_settings_form_roundtrips_parameters(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode", "quote-unicode"],
+                "keyword": "tr",
+            },
+        )
+
+        form = addon.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form()["comment_mode"], "tagged")
+        self.assertEqual(form.serialize_form()["comment_tag"], "TRANSLATORS")
+        self.assertEqual(
+            form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
+        )
+        self.assertEqual(form.serialize_form()["keyword"], "tr")
+
     def test_django_form(self) -> None:
         self.component.new_base = "locale/django.pot"
         form = DjangoAddon.get_add_form(
@@ -767,6 +843,29 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         self.assertTrue(form.is_valid(), form.errors)
+
+    def test_meson_form_tagged_comments_require_tag(self) -> None:
+        self.component.new_base = "po/messages.pot"
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        form = MesonAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "preset": "glib",
+                "comment_mode": "tagged",
+                "comment_tag": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
 
     def test_meson_can_install_is_component_specific(self) -> None:
         self.component.new_base = "po/messages.pot"
@@ -917,9 +1016,10 @@ class GettextAddonTest(ViewTestCase):
         mocked.assert_called_once()
         command = mocked.call_args.args[1]
         self.assertEqual(
-            command[:4], ["xgettext", "--output", "po/hello.pot", "--language"]
+            command[:5],
+            ["xgettext", "--output", "po/hello.pot", "--language", "Python"],
         )
-        self.assertIn("Python", command)
+        self.assertIn("--from-code=UTF-8", command)
         self.assertIn("src/messages.py", command)
         self.assertIn("--", command)
         self.assertIn(
@@ -1144,6 +1244,40 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
 
+    def test_xgettext_uses_parametrized_arguments(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode", "bullet-unicode"],
+                "keyword": "tr",
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--from-code=UTF-8", command)
+        self.assertIn("--add-comments=TRANSLATORS", command)
+        self.assertIn("--check=ellipsis-unicode", command)
+        self.assertIn("--check=bullet-unicode", command)
+        self.assertIn("--keyword=tr", command)
+
     def test_meson_uses_glib_preset_and_potfiles(self) -> None:
         source = Path(self.component.full_path) / "src" / "main.c"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -1181,6 +1315,43 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             addon.get_effective_potfiles_path(self.component), "po/POTFILES.in"
         )
+
+    def test_meson_uses_shared_xgettext_parameters(self) -> None:
+        source = Path(self.component.full_path) / "src" / "main.c"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('_("Hello");\n', encoding="utf-8")
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode"],
+                "keyword": "custom_tr",
+            },
+        )
+
+        with patch.object(MesonAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--from-code=UTF-8", command)
+        self.assertIn("--add-comments", command)
+        self.assertIn("--add-comments=TRANSLATORS", command)
+        self.assertIn("--check=ellipsis-unicode", command)
+        self.assertIn("--keyword=custom_tr", command)
 
     def test_meson_prefers_potfiles_over_potfiles_in(self) -> None:
         gettext_dir = Path(self.component.full_path) / "po"
