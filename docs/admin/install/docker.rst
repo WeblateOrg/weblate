@@ -74,25 +74,25 @@ Choosing Docker image tag
 
 Please choose a tag that matches your environment and expectations:
 
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-| Tag name                | Description                                                                                                | Use case                                                                    |
-+=========================+============================================================================================================+=============================================================================+
-|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>``              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>.<MINOR>``      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<VERSION>.<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment                                |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``bleeding``             | Development version Weblate from Git                                                                       | Rolling updates to test upcoming Weblate features                           |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features                       |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Tag name                                | Description                                                                                                | Use case                                                                    |
++=========================================+============================================================================================================+=============================================================================+
+|``latest``                               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>``                              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>.<MINOR>``                      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>.<MINOR>.<PATCH>.<BUILD>``      | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``edge``                                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``edge-<DATE>-<SHA>``                    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment                                |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``bleeding``                             | Development version Weblate from Git                                                                       | Rolling updates to test upcoming Weblate features                           |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``                | Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features                       |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
 
 Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
 
@@ -593,7 +593,7 @@ Generic settings
 
 .. envvar:: WEBLATE_ADMIN_NOTIFY_ERROR
 
-   Whether to sent e-mail to admins upon server error. Turned on by default.
+   Whether to send e-mail to admins upon server error. Turned on by default.
 
    You might want to use other error collection like Sentry or Rollbar and turn this off.
 
@@ -928,7 +928,7 @@ Generic settings
 
 .. envvar:: WEBLATE_STATIC_URL
 
-   Configures URL prefix for static files server from :setting:`CACHE_DIR`.
+   Configures URL prefix for static files served from :setting:`CACHE_DIR`.
 
 .. envvar:: WEBLATE_SILENCED_SYSTEM_CHECKS
 
@@ -1523,7 +1523,7 @@ Slack
 ~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_SLACK_KEY
-.. envvar:: SOCIAL_AUTH_SLACK_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_SLACK_SECRET
 
     Enables Slack authentication, see :ref:`slack-auth`.
 
