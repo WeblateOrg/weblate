@@ -21,14 +21,15 @@
 # Serhii Horichenko <serhii@horichenko.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
 # Tarás Lavrentiev <fromkaniv@gmail.com>, 2026.
+# Максим Горпиніч <gorpinicmaksim2005ukr@protonmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-07 15:08+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-07 16:05+0000\n"
+"Last-Translator: Максим Горпиніч <gorpinicmaksim2005ukr@protonmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -409,6 +410,13 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
+"Подібні запрошення доступні для всього сайту в :ref:`інтерфейсі "
+"адміністрування <management-interface>` на вкладці :guilabel:`Користувачі`. "
+"Як адміністратори проєктів, так і адміністратори сайту можуть також "
+"запрошувати одразу декількох користувачів, вставивши адреси електронної "
+"пошти, розділені пробілами. Усі запрошення, створені в рамках однієї масової "
+"операції, використовують вибрану команду, а масові запрошення для всього "
+"сайту також застосовують вибраний прапорець суперкористувача."
 
 #: admin/access.rst:188
 msgid ""
@@ -416,6 +424,9 @@ msgid ""
 "with an already pending invitation are skipped while valid invitations are "
 "still created and sent."
 msgstr ""
+"Масові запрошення обробляються окремо. Недійсні адреси та адреси, на які вже "
+"надіслано запрошення, пропускаються, тоді як дійсні запрошення все одно "
+"створюються та надсилаються."
 
 #: admin/access.rst:194
 msgid ""
@@ -1011,6 +1022,9 @@ msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
+"Масове надсилання запрошень через інтерфейс користувача створює запрошення. "
+"Існуючі користувачі все одно повинні підтвердити запрошення, перш ніж стати "
+"членами команди."
 
 #: admin/access.rst:481
 msgid "Default teams and roles"
@@ -2682,15 +2696,11 @@ msgid "Project level backups"
 msgstr "Резервне копіювання на рівні проєктів"
 
 #: admin/backup.rst:15
-#, fuzzy
-#| msgid ""
-#| "Restoring backups is only supported when using PostgreSQL or MariaDB "
-#| "10.5+ as a database."
 msgid ""
 "Restoring backups is only supported when using PostgreSQL as a database."
 msgstr ""
 "Підтримку відновлення даних з резервних копій передбачено лише для баз даних "
-"PostgreSQL або MariaDB 10.5+."
+"PostgreSQL."
 
 #: admin/backup.rst:17
 msgid ""
@@ -2748,6 +2758,11 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Налаштування перевірки імпорту завантажених резервних копій проектів можна "
+"змінити за допомогою :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, та "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:41
 msgid ""
@@ -2789,14 +2804,8 @@ msgstr ""
 "вкладці :guilabel:`Резервні копії`."
 
 #: admin/backup.rst:63
-#, fuzzy
-#| msgid ""
-#| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
-#| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
-msgstr ""
-"До автоматичного резервного копіювання включено і базу даних PostgreSQL, і "
-"базу даних MySQL/MariaDB."
+msgstr "Бази даних PostgreSQL включені в автоматичне резервне копіювання."
 
 #: admin/backup.rst:65
 msgid ""
@@ -3201,22 +3210,15 @@ msgid "Native database backup"
 msgstr "Власна система резервного копіювання бази даних"
 
 #: admin/backup.rst:261
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
-"Рекомендованим способом є створення дампу бази даних, за допомогою "
-"вбудованих інструментів засобу керування базою даних, "
-"зокрема :program:`pg_dump` або :program:`mysqldump`. Такий інструмент, "
-"зазвичай, працює краще за засіб резервне копіювання Django і може "
-"відновлювати таблиці з усіма даними."
+"Рекомендується створювати дамп бази даних за допомогою вбудованих "
+"інструментів, таких як :program:`pg_dump`. Зазвичай це працює ефективніше, "
+"ніж резервне копіювання Django, і дозволяє відновити таблиці повністю, разом "
+"з усіма даними."
 
 #: admin/backup.rst:265
 msgid ""
@@ -3557,16 +3559,13 @@ msgstr ""
 "Прапорці окремих рядків буде видобуто з формату файла, див. :ref:`formats`."
 
 #: admin/checks.rst:40
-#, fuzzy
-#| msgid ""
-#| "Translation flags (currently only ``read-only`` flag for bilingual source "
-#| "string)."
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string or when monolingual template editing is turned off)."
 msgstr ""
-"Прапорці перекладу (у поточній версії лише прапорець ``read-only`` для "
-"двомовного початкового рядка)."
+"Прапорці перекладу (наразі доступний лише прапорець ``read-only`` для "
+"двомовних вихідних рядків або у разі, якщо редагування одномовних шаблонів "
+"вимкнено)."
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
@@ -4045,6 +4044,10 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
+"Список дозволених адрес застосовується до початкового URL-адреси та до "
+"кожного адреса перенаправлення HTTP перед тим, як Weblate перейде за ним. "
+"Перенаправлення на хости, що не входять до цього списку дозволених адрес, "
+"відхиляються."
 
 #: admin/config.rst:58
 msgid ""
