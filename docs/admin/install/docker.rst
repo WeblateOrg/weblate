@@ -713,6 +713,20 @@ Generic settings
 
    Defaults to enabled.
 
+.. envvar:: WEBLATE_WEBHOOK_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
+.. envvar:: WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.

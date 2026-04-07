@@ -29,6 +29,7 @@ from weblate.utils.validators import (
     validate_repo_url,
     validate_username,
     validate_webhook_secret_string,
+    validate_webhook_url,
 )
 
 
@@ -221,6 +222,39 @@ class WebhookSecretTestCase(SimpleTestCase):
             validate_webhook_secret_string(f"whsec_{value}")
         with self.assertRaises(ValidationError):
             validate_webhook_secret_string(value)
+
+
+class WebhookURLTest(SimpleTestCase):
+    def test_private(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            validate_webhook_url("https://private.example/hook")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_private_disabled(self) -> None:
+        with (
+            override_settings(WEBHOOK_RESTRICT_PRIVATE=False),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_webhook_url("https://private.example/hook")
+
+    def test_private_allowlisted(self) -> None:
+        with (
+            override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["private.example"]),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_webhook_url("https://private.example/hook")
 
 
 class WebsiteTest(SimpleTestCase):

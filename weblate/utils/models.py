@@ -87,6 +87,8 @@ class WeblateConf(AppConf):
     PROJECT_WEB_RESTRICT_ALLOWLIST: ClassVar[set[str]] = set()
     PROJECT_WEB_RESTRICT_NUMERIC = True
     PROJECT_WEB_RESTRICT_PRIVATE = True
+    WEBHOOK_RESTRICT_PRIVATE = True
+    WEBHOOK_PRIVATE_ALLOWLIST: ClassVar[list[str]] = []
 
     LOCALE_FILTER_FILES = True
 
