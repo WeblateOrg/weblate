@@ -88,6 +88,8 @@
     Enables the :ref:`check-lua-format` quality check.
 ``object-pascal-format``
     Enables the :ref:`check-object-pascal-format` quality check.
+``objc-format``
+    Enables the :ref:`check-objc-format` quality check.
 ``percent-placeholders``
     Enables the :ref:`check-percent-placeholders` quality check.
 ``perl-brace-format``
@@ -186,6 +188,8 @@
     Skip the :ref:`check-lua-format` quality check.
 ``ignore-object-pascal-format``
     Skip the :ref:`check-object-pascal-format` quality check.
+``ignore-objc-format``
+    Skip the :ref:`check-objc-format` quality check.
 ``ignore-percent-placeholders``
     Skip the :ref:`check-percent-placeholders` quality check.
 ``ignore-perl-brace-format``

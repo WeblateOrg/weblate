@@ -1832,7 +1832,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     BASE = ""
     NEW_UNIT_MATCH = b"<string>Source string</string>"
     MONOLINGUAL = True
-    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "objc-format"
     SUPPORTS_NOTES = False
 
     def test_get_plural(self) -> None:
