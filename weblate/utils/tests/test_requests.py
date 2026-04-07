@@ -334,6 +334,74 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_fetch_validated_url_allows_allowlisted_private_target(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://private.example/source",
+            status=200,
+            body=b"allowlisted-private-target",
+        )
+
+        response = fetch_validated_url(
+            "get",
+            "https://private.example/source",
+            allow_private_targets=False,
+            allowed_domains=["private.example"],
+        )
+
+        self.assertEqual(response.content, b"allowlisted-private-target")
+        mocked_getaddrinfo.assert_not_called()
+        mocked_get_peer.assert_not_called()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        side_effect=["93.184.216.34", "127.0.0.1"],
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("127.0.0.1", 443))],
+        ],
+    )
+    def test_fetch_validated_url_allows_redirect_to_allowlisted_private_target(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "https://private.example/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example/final",
+            status=200,
+            body=b"allowlisted-private-redirect",
+        )
+
+        response = fetch_validated_url(
+            "get",
+            "https://public.example.com/source",
+            allow_private_targets=False,
+            allowed_domains=["private.example"],
+        )
+
+        self.assertEqual(response.content, b"allowlisted-private-redirect")
+        self.assertEqual(mocked_getaddrinfo.call_count, 1)
+        self.assertEqual(mocked_get_peer.call_count, 1)
+        self.assertEqual(len(responses.calls), 2)
+
+    @responses.activate
     @patch("weblate.utils.requests._get_response_peer_ip")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -522,3 +590,21 @@ class FetchValidatedURLTest(SimpleTestCase):
             "connected peer address could not be determined.",
             "https://public.example.com/source",
         )
+
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
+    def test_validate_response_peer_skips_allowlisted_hostname(
+        self, mocked_get_peer
+    ) -> None:
+        response = Mock()
+        response.url = "https://private.example/source"
+
+        from weblate.utils.requests import _validate_response_peer
+
+        _validate_response_peer(
+            response,
+            allow_private_targets=False,
+            allowed_domains=["private.example"],
+            used_proxy=False,
+        )
+
+        mocked_get_peer.assert_not_called()

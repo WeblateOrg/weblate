@@ -5018,6 +5018,64 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         )
         self.assertContains(response, "Installed 1 add-on")
 
+    def test_form_blocks_private_webhook_target_by_default(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "http://localhost/hook",
+                "events": [ActionEvents.NEW],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertFalse(
+            Addon.objects.filter(
+                component=self.component, name="weblate.webhook.webhook"
+            ).exists()
+        )
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_allows_private_webhook_target_when_restriction_disabled(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "http://localhost/hook",
+                "events": [ActionEvents.NEW],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 1 add-on")
+
+    @override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["localhost"])
+    def test_form_allows_private_webhook_target_when_allowlisted(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "http://localhost/hook",
+                "events": [ActionEvents.NEW],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 1 add-on")
+
     @responses.activate
     def test_jsonschema_error(self) -> None:
         """Test payload schema validation error."""
@@ -5068,6 +5126,29 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.assertIn("child-category", request_body["category"])
         self.assertIn("parent-category", request_body["category"])
         self.assertIn("sub-category", request_body["category"])
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 80))],
+    )
+    def test_private_webhook_target_is_blocked(self, mocked_getaddrinfo) -> None:
+        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+        mocked_getaddrinfo.assert_called_once()
+        self.assertEqual(mocked_getaddrinfo.call_args.args[0], "example.com")
+        self.assertEqual(self.count_requests(), 0)
+
+        activity_log = AddonActivityLog.objects.filter(
+            addon__name=self.WEBHOOK_CLS.name
+        ).latest("created")
+        self.assertTrue(activity_log.details["error"])
+        self.assertIn("result", activity_log.details)
+        self.assertNotIsInstance(activity_log.details["result"], dict)
+        self.assertIsInstance(activity_log.details["result"], str)
+        self.assertTrue(activity_log.details["result"])
 
 
 class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):

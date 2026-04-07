@@ -38,6 +38,7 @@ from weblate.utils.validators import (
     validate_re,
     validate_re_nonempty,
     validate_webhook_secret_string,
+    validate_webhook_url,
 )
 
 if TYPE_CHECKING:
@@ -998,6 +999,11 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         "webhook_url",
         "events",
     ]
+
+    def clean_webhook_url(self) -> str:
+        value = self.cleaned_data["webhook_url"]
+        validate_webhook_url(value)
+        return value
 
 
 class WebhooksAddonForm(BaseWebhooksAddonForm):
