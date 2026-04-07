@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-03-31 13:14+0000\n"
-"PO-Revision-Date: 2026-04-05 01:46+0000\n"
+"PO-Revision-Date: 2026-04-07 09:00+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -19193,30 +19193,39 @@ msgid ""
 "Push branches are no longer updated with upstream-only commits in multi-"
 "branch workflows."
 msgstr ""
+"Push-Branches werden in Multi-Branch-Arbeitsabläufen nicht mehr mit Upstream-"
+"Only-Commits aktualisiert."
 
 #: changes.rst:46
 msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
+"Verbesserte „:ref:`backup`“-Statusberichte unter Beibehalten der Wartung "
+"nach fehlgeschlagenen Sicherungen."
 
 #: changes.rst:47
 msgid ""
 "POT update add-ons now fall back to the component URL for the ``Report-Msgid-"
 "Bugs-To`` header when the component setting is empty."
 msgstr ""
+"Erweiterungen für die POT-Aktualisierung greifen jetzt auf die Komponenten-"
+"URL für den Header ``Report-Msgid-Bugs-To`` zurück, wenn die Komponenten-"
+"Einstellung leer ist."
 
 #: changes.rst:48
-#, fuzzy
-#| msgid "Improved syntax error handling in Fluent format."
 msgid "Improved repository lock error handling when deleting units."
-msgstr "Verbesserte Syntaxfehlerbehandlung im Fluent-Format."
+msgstr ""
+"Verbesserte Fehlerbehandlung bei der Repository-Sperre beim Löschen von "
+"Einheiten."
 
 #: changes.rst:49
 msgid ""
 ":ref:`check-max-size` previews now keep the configured text box visible and "
 "render overflowing text in red."
 msgstr ""
+"In der „:ref:`check-max-size`“-Vorschau bleibt nun das konfigurierte "
+"Textfeld sichtbar und überlaufender Text wird in rot dargestellt."
 
 #: changes.rst:52 changes.rst:186 changes.rst:229 changes.rst:326
 #: changes.rst:469 changes.rst:564 changes.rst:619 changes.rst:742
@@ -19233,6 +19242,10 @@ msgid ""
 "party add-ons that used ``project_scope = True`` should override "
 "``can_install()`` to return ``False`` when ``component`` is not ``None``."
 msgstr ""
+"Das Klassenattribut ``project_scope`` für Erweiterungen wurde entfernt. "
+"Drittanbieter-Erweiterungen, die ``project_scope = True`` verwendet haben, "
+"sollten ``can_install()`` überschreiben, um ``False`` zurückzugeben, wenn "
+"``component`` nicht ``None`` ist."
 
 #: changes.rst:54
 msgid ""
@@ -19244,12 +19257,20 @@ msgid ""
 "project scope should override ``daily(component, project)`` directly to "
 "implement project-level logic."
 msgstr ""
+"Die Signatur der Methode ``daily()`` für Erweiterungen hat sich geändert. "
+"Erweiterungen, die zuvor ``daily(component)`` überschrieben haben, um die "
+"Arbeit pro Komponente auszuführen, sollten nun stattdessen ``daily_component"
+"(component)`` überschreiben. Die Basismethode ``daily()`` iteriert "
+"automatisch Komponenten und ruft ``daily_component()`` für jede Komponente "
+"auf. Erweiterungen, die für den Betrieb auf Projektebene optimiert werden "
+"können, sollten ``daily(component, project)`` direkt überschreiben, um die "
+"Logik auf Projektebene zu implementieren."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid "Dropped support for Django 1.6 and South migrations."
 msgid "Dropped support for MySQL and MariaDB as the database engine."
-msgstr "Die Unterstützung für Django 1.6 und South-Migrationen eingestellt."
+msgstr ""
+"Die Unterstützung für MySQL und MariaDB als Datenbank-Engine wurde "
+"eingestellt."
 
 #: changes.rst:56
 msgid "Weblate now requires Django 6.0."
@@ -19264,6 +19285,9 @@ msgid ""
 "Uploaded project backups are now validated more strictly during import and "
 "suspicious ZIP archives can be rejected; see :ref:`projectbackup`."
 msgstr ""
+"Hochgeladene Projektsicherungen werden jetzt beim Import strenger validiert, "
+"und verdächtige ZIP-Archive können zurückgewiesen werden; siehe "
+":ref:`projectbackup`."
 
 #: changes.rst:61 changes.rst:98 changes.rst:137 changes.rst:194
 #: changes.rst:233 changes.rst:269 changes.rst:336 changes.rst:356
@@ -19333,6 +19357,11 @@ msgid ""
 "links to internal addresses, set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to "
 "``False`` or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``."
 msgstr ""
+"Projektwebsites und Repository-Browser-URLs, die auf private oder andere "
+"nicht-globale IP-Bereiche zeigen, werden nun standardmäßig abgelehnt. Wenn "
+"Ihre Einrichtung absichtlich Links zu internen Adressen enthält, setzen Sie "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` auf ``False`` oder "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` auf ``0``."
 
 #: changes.rst:68 changes.rst:102 changes.rst:141 changes.rst:198
 #: changes.rst:239 changes.rst:273 changes.rst:340 changes.rst:360
@@ -19368,6 +19397,8 @@ msgid ""
 "New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even "
 "with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Neue Einstellung :setting:`PUBLIC_ENGAGE`, um die Beteiligungsseite auch mit "
+":setting:`REQUIRE_LOGIN` öffentlich zu machen."
 
 #: changes.rst:84
 msgid "Improved matching in :doc:`/admin/memory`."
