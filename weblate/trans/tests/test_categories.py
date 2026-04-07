@@ -24,7 +24,7 @@ class CategoriesTest(ViewTestCase):
         super().setUp()
         self.project.add_user(self.user, "Administration")
 
-    def add_and_organize(self):
+    def add_and_organize(self) -> Category:
         response = self.client.post(
             reverse("add-category", kwargs={"path": self.project.get_url_path()}),
             {"name": "Test category", "slug": "test-cat"},
