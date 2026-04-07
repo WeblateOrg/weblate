@@ -906,7 +906,7 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         "events",
     ]
 
-    def clean_webhook_url(self):
+    def clean_webhook_url(self) -> str:
         value = self.cleaned_data["webhook_url"]
         validate_webhook_url(value)
         return value
