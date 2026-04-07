@@ -178,16 +178,16 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
                     f"http://{self.user.username}:{self.user.auth_token.key}@",
                 )
             )
-            process = subprocess.Popen(  # noqa: S603
+            with subprocess.Popen(  # noqa: S603
                 ["git", "clone", url],  # noqa: S607
                 cwd=testdir,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 stdin=subprocess.PIPE,
                 text=True,
-            )
-            output = process.communicate()[0]
-            retcode = process.poll()
+            ) as process:
+                output = process.communicate()[0]
+                retcode = process.poll()
 
         check = self.assertEqual if self.acl else self.assertNotEqual
         check(retcode, 0, f"Failed: {output}")

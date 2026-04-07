@@ -586,6 +586,7 @@ def download_translation_file(
                 raise Http404(msg)
             # Create response
             response = FileResponse(
+                # pylint: disable-next=consider-using-with
                 open(filename, "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
