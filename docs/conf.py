@@ -393,6 +393,8 @@ linkcheck_ignore = [
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
     "https://api.sap.com/api/translationhub/overview",
+    # Anchor is not there for linkcheck
+    "https://hub.docker.com/_/postgres#pgdata",
     # Protected by Anubis
     "https://anubis.techaro.lol/",
     # Seems unstable
@@ -406,6 +408,8 @@ linkcheck_ignore = [
     "https://docs.github.com/",
     "https://translate.yandex.com/",
     "https://www.gnu.org/",
+    "https://www.contributor-covenant.org/",
+    "https://mymemory.translated.net/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]
