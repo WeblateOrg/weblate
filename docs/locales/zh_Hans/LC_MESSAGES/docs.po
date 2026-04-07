@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-07 12:06+0000\n"
+"PO-Revision-Date: 2026-04-07 15:08+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -380,6 +380,10 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
+"从 :guilabel:`Users` 标签页的 :ref:`management interface <management-"
+"interface>` 可创建全站范围的同类邀请。项目管理员和站点管理员可以通过粘贴英文"
+"空格分隔的电子邮件地址同时邀请多个用户。同一批次创建的所有邀请使用所选的团队"
+"，站点级的批量邀请也应用所选的超级用户标记。"
 
 #: admin/access.rst:188
 msgid ""
@@ -387,6 +391,8 @@ msgid ""
 "with an already pending invitation are skipped while valid invitations are "
 "still created and sent."
 msgstr ""
+"批量邀请中的每个邀请单独处理。将跳过无效的地址和有已待处理邀请的地址，但仍会"
+"创建并发送有效的邀请。"
 
 #: admin/access.rst:194
 msgid ""
@@ -923,7 +929,7 @@ msgstr ""
 msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
-msgstr ""
+msgstr "经用户界面创建的批量邀请创建邀请。在成为团队成员前现有用户仍需确认邀请。"
 
 #: admin/access.rst:481
 msgid "Default teams and roles"
@@ -4968,6 +4974,10 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
+"定义一组验证项目网站时排除在 "
+":setting:`PROJECT_WEB_RESTRICT_HOST`、:setting:`PROJECT_WEB_RESTRICT_NUMERIC`、:setting:`PROJECT_WEB_RESTRICT_PRIVATE` "
+"和 :setting:`PROJECT_WEB_RESTRICT_RE` 之外的项目标识符。项目标识符匹配不区分"
+"大小写。"
 
 #: admin/config.rst:1703
 msgid ""
@@ -4976,6 +4986,9 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
+"此排除削弱对匹配项目的外联 URL 保护，包括 "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` 所强制的内网目标限制。请只把它用于受"
+"信任的由管理员管理的项目，绕过这些检查在此类项目中是有意为之的。"
 
 #: admin/config.rst:1730
 msgid "Reject using numeric IP address in project website. On by default."
@@ -12899,13 +12912,13 @@ msgstr "列出所有可能的更改事件类型。"
 msgid ""
 "Generates RST documentation snippets describing the supported features for "
 "every file format."
-msgstr ""
+msgstr "生成描述每个文件格式受支持功能的 RST 文档片段。"
 
 #: admin/management.rst:818
 msgid ""
 "The command generates one file for every format, that can be found in the "
 "specified output directory."
-msgstr ""
+msgstr "此命令为每个格式生成一个文件，可以在指定的输出目录中找到此文件。"
 
 #: admin/management.rst:826
 msgid ""
@@ -12913,6 +12926,9 @@ msgid ""
 "sources such as :doc:`/formats`. See also :file:`weblate/formats/management/"
 "commands/list_format_features.py` for customization and merging logic."
 msgstr ""
+"所生成的文档文件用于包含在 :doc:`/formats` 等文档源中。另见 :file:`weblate/"
+"formats/management/commands/list_format_features.py` 获取自定义和合并逻辑的信"
+"息。"
 
 #: admin/management.rst:834
 msgid ""
@@ -16787,6 +16803,8 @@ msgid ""
 "Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project "
 "slugs from project website restriction settings."
 msgstr ""
+"新增 :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` 在项目网站限制设置中豁免选中的"
+"项目标识符。"
 
 #: changes.rst:9
 msgid ""
@@ -16802,6 +16820,8 @@ msgid ""
 "generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"新增新的管理命令 :wladmin:`list_format_features`，此命令生成描述每个文件格式"
+"的受支持功能的 RST 文档片段。"
 
 #: changes.rst:11
 msgid "Shared components can now be categorized within the target project."
@@ -16825,7 +16845,7 @@ msgstr ""
 
 #: changes.rst:14
 msgid "Added :ref:`bulk user invitations <invite-user>`."
-msgstr ""
+msgstr "新增 :ref:`bulk user invitations <invite-user>`。"
 
 #: changes.rst:17 changes.rst:89 changes.rst:124 changes.rst:171
 #: changes.rst:215 changes.rst:260 changes.rst:301 changes.rst:377
@@ -16886,6 +16906,8 @@ msgid ""
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines."
 msgstr ""
+"用 :ref:`addons`、:ref:`fmt_capabs`、:ref:`checks` 的自动生成文本片段和 "
+":ref:`machine-translation` 改进文档。"
 
 #: changes.rst:27
 msgid ""
@@ -16930,7 +16952,7 @@ msgstr "缺陷修复"
 #: changes.rst:33
 msgid ""
 "Project token cleanup now removes stale bots on project deletion and upgrade."
-msgstr ""
+msgstr "清理项目令牌现在在项目删除和升级时删除不活跃的机器人。"
 
 #: changes.rst:34
 msgid "Component file handling now validates repository symlinks."
@@ -33613,7 +33635,7 @@ msgstr "用于链接部件的重复的文件掩码"
 
 #: devel/alerts.rst:26
 msgid "Conflicting merge request repository setup"
-msgstr ""
+msgstr "冲突合并请求仓库设置"
 
 #: devel/alerts.rst:27
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
@@ -33659,6 +33681,8 @@ msgid ""
 "workflows are configured to push to the same repository and push branch. "
 "Such a setup can overwrite the shared branch."
 msgstr ""
+"多个使用拉取或合并请求的部件被配置为推送到相同仓库和推送分支时会显示此警报。"
+"这样的设置可能覆盖共享的分支。"
 
 #: devel/alerts.rst:51
 msgid ""
@@ -33666,6 +33690,8 @@ msgid ""
 "each component or share the repository between components using a "
 "``weblate://project/component`` repository URL."
 msgstr ""
+"要解决这个问题，要么为每个部件配置不同的 :guilabel:`Push branch`，要么用 "
+"``weblate://project/component`` 仓库 URL 在不同部件间共享一个仓库。"
 
 #: devel/community.rst:2
 msgid "Building a translators community"
@@ -37318,7 +37344,7 @@ msgstr "翻译类型功能"
 msgid ""
 "Please refer to the documentation page of each individual file format for "
 "information about which features are supported in that format."
-msgstr ""
+msgstr "请参考每个单一文件格式的文档页获得哪些功能在相应格式中是受支持的信息。"
 
 #: formats.rst:40
 msgid "Bilingual and monolingual formats"
@@ -48323,7 +48349,7 @@ msgstr "文件扩展名"
 #: snippets/format-features/xlsx-features.rst:9
 #: snippets/format-features/yaml-features.rst:9
 msgid "Linguality :ref:`ⓘ <bimono>`"
-msgstr ""
+msgstr "Linguality :ref:`ⓘ <bimono>`"
 
 #: snippets/format-features/appstore-features.rst:10
 #: snippets/format-features/aresource-features.rst:10
@@ -48788,7 +48814,7 @@ msgstr "API 标识符"
 #: snippets/format-features/xlsx-features.rst:27
 #: snippets/format-features/yaml-features.rst:25
 msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
-msgstr ""
+msgstr "支持只读字符串 :ref:`ⓘ <read-only-strings>`"
 
 #: snippets/format-features/arb-features.rst:10
 #: snippets/format-features/csv-features.rst:10
@@ -48829,15 +48855,15 @@ msgstr "额外状态 :ref:`ⓘ <format-states>`"
 
 #: snippets/format-features/csv-features.rst:26
 msgid "``csv``, ``csv-multi``, ``csv-simple``"
-msgstr ""
+msgstr "``csv``, ``csv-multi``, ``csv-simple``"
 
 #: snippets/format-features/go-i18n-json-features.rst:24
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
-msgstr ""
+msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
-msgstr ""
+msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -48890,11 +48916,11 @@ msgstr ""
 
 #: snippets/format-features/txt-features.rst:24
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
-msgstr ""
+msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
 msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
@@ -48903,19 +48929,19 @@ msgstr "``已核准``, ``需要编辑``"
 
 #: snippets/format-features/xliff-features.rst:26
 msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
-msgstr ""
+msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 
 #: snippets/format-features/xliff2-features.rst:8
 msgid "``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff2-features.rst:26
 msgid "``xliff2``, ``xliff2-placeables``"
-msgstr ""
+msgstr "``xliff2``, ``xliff2-placeables``"
 
 #: snippets/format-features/xlsx-features.rst:8
 msgid "``.csv``, ``.xlsx``"
-msgstr ""
+msgstr "``.csv``, ``.xlsx``"
 
 #: snippets/format-in-development.rst:3
 msgid ""
