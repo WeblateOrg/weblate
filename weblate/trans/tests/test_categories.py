@@ -53,7 +53,7 @@ class CategoriesTest(ViewTestCase):
             },
         )
         self.assertRedirects(response, new_component_url)
-        self.client.get(category_url)
+        response = self.client.get(category_url)
         self.assertNotContains(response, "Nothing to list here.")
         return category
 
