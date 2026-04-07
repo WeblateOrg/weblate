@@ -13,6 +13,7 @@ import inspect
 import os
 import re
 import subprocess  # noqa: S404
+from copy import copy
 from io import StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar
@@ -2287,7 +2288,13 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
         for unit in current_units:
             # If the translation unit is missing and the current unit is not
             # only about comment.
-            if unit.has_content() and unit.has_unit() and unit.unit.missing:
+            if unit.has_content() and not unit.has_unit():
+                # Materialize missing units before saving to avoid passing None
+                # into Translate Toolkit's addunit() implementation.
+                unit._unit = copy(unit.mainunit)  # noqa: SLF001
+                unit.unit.target = unit.mainunit.source
+                unit.unit.missing = True
+            elif unit.has_content() and unit.unit.missing:
                 # Ensure to display in the missing comment the value coming from the source
                 unit.unit.target = unit.mainunit.source
                 # The flag has been changed after setting the target, let's switch it back to true
