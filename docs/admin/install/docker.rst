@@ -230,12 +230,6 @@ Usually it is good idea to only update the Weblate container and keep the Postgr
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
 
-.. versionchanged:: 4.17-1
-
-   Since Weblate 4.17-1, the Docker container uses Django 4.2 what requires
-   PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate.
-   See :ref:`docker-postgres-upgrade`.
-
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
 
@@ -267,6 +261,23 @@ not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the Po
 
 Upgrading PostgreSQL container
 ++++++++++++++++++++++++++++++
+
+.. note::
+
+   PostgreSQL 18 changed the default data directory inside the container. A
+   common older setup mounted the database volume at
+   ``/var/lib/postgresql/data``, while PostgreSQL 18 now uses
+   ``/var/lib/postgresql`` by default.
+
+   If you are upgrading from an older version, either update the mount target
+   in your Docker configuration to the new path, or keep the old mount target
+   and set ``PGDATA`` accordingly.
+
+   Leaving the old mount target unchanged without setting ``PGDATA`` can cause
+   PostgreSQL to write its data outside the persisted volume.
+
+   See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for
+   more information.
 
 PostgreSQL containers do not support automatic upgrading between version, you
 need to perform the upgrade manually. Following steps show one of the options
