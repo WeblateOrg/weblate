@@ -36,7 +36,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-07 09:00+0000\n"
+"PO-Revision-Date: 2026-04-07 10:28+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -3309,27 +3309,24 @@ msgid "%(email)s: pending invitation already exists"
 msgstr "%(email)s: ожидающее приглашение уже существует"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Было отправлено электронное письмо с приглашением пользователя."
-msgstr[1] "Было отправлено электронное письмо с приглашением пользователя."
-msgstr[2] "Было отправлено электронное письмо с приглашением пользователя."
+msgstr[0] "%(count)d электронное письмо с приглашением было отправлено."
+msgstr[1] "%(count)d электронных письма с приглашением были отправлены."
+msgstr[2] "%(count)d электронных писем с приглашением были отправлены."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Пропущен %(count)d адрес: %(details)s"
+msgstr[1] "Пропущено %(count)d адреса: %(details)s"
+msgstr[2] "Пропущено %(count)d адресов: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Приглашение пользователя было удалено."
+msgstr "Не было создано приглашений."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -11633,10 +11630,8 @@ msgstr "Добавить пользователя"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Пользователь приглашён"
+msgstr "Массовое приглашение пользователей"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -13389,16 +13384,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Другой компонент настроен на отправку запросов на слияние в тот же "
+"репозиторий и ветку отправки."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "Это может привести к перезаписи ветки."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Используйте отдельную ветку отправки для каждого компонента или поделитесь "
+"репозиторием, используя следующий URL Weblate:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -15262,6 +15261,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Формы множественного числа в [%(component)s] не соответствуют целевому "
+"переводу. При автоматическом переводе множественные формы пропускались, и "
+"обрабатывались только строки с одной формой."
 
 #: weblate/trans/autotranslate.py:382
 #, python-format
@@ -15269,16 +15271,13 @@ msgid "Automatic translation failed: %s"
 msgstr "Автоматический перевод не удался: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot showing usage of this string"
 msgid "Screenshot image is missing."
-msgstr "Снимок экрана, показывающий использование этой строки"
+msgstr "Изображение снимка экрана отсутствует."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Не удалось разобрать файл %(file)s: %(error)s"
+msgstr "Не удалось восстановить снимок экрана «%(name)s»: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16350,10 +16349,8 @@ msgstr "Повторяющиеся маски файлов."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Confirm resetting repository"
 msgid "Conflicting repository setup."
-msgstr "Подтвердите сброс репозитория"
+msgstr "Проблемы с настройкой репозитория."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -18721,10 +18718,8 @@ msgstr[2] ""
 
 #: weblate/utils/files.py:111 weblate/utils/files.py:121
 #: weblate/utils/validators.py:127
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Изображение слишком велико."
+msgstr "Загруженный файл слишком велик."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18749,6 +18744,8 @@ msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
 msgstr ""
+"Этот URL-адрес запрещён, поскольку указывает на внутренний или непубличный "
+"адрес."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 msgid "Could not parse URL."
@@ -18777,14 +18774,11 @@ msgstr ""
 "шаблонов."
 
 #: weblate/utils/requests.py:439
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Не могу скачать изображение с этого URL (код состояния HTTP: %(code)s)."
+"Невозможно скачать ресурс с указанного URL (код состояния HTTP: %(code)s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
@@ -18971,14 +18965,15 @@ msgstr "Ошибка синтаксиса в псевдонимах языка."
 #: weblate/utils/validators.py:364
 msgid "This URL is prohibited because it matches a restricted pattern."
 msgstr ""
+"Этот URL-адрес запрещён, поскольку он соответствует запрещённому шаблону."
 
 #: weblate/utils/validators.py:375
 msgid "This URL is prohibited because it uses a restricted host."
-msgstr ""
+msgstr "Этот URL-адрес запрещён, так как использует ограниченный сервер."
 
 #: weblate/utils/validators.py:386
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "Этот URL-адрес запрещён, поскольку использует цифровой IP-адрес."
 
 #: weblate/utils/validators.py:412
 msgid "Invalid base64 encoded string"
