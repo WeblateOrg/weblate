@@ -101,9 +101,11 @@ Containment
   existing monitoring systems.
 - For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot**
   before taking disruptive action when it is safe to do so.
-    - Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``.
-    - These are separate from standard rotating backups and must be preserved
-      for analysis.
+
+  - Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``.
+  - These are separate from standard rotating backups and must be preserved
+    for analysis.
+
 - Isolate the affected host or service as needed (for example by firewall rules
   or service isolation).
 - Disable external integrations (Git/webhooks) if they are part of the attack
