@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
 from typing import TYPE_CHECKING
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from django.core.cache import cache
@@ -18,6 +18,7 @@ from requests.utils import select_proxy
 
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
+    is_allowlisted_hostname,
     validate_outbound_url,
     validate_runtime_ip,
     validate_runtime_url,
@@ -46,6 +47,14 @@ class RuntimeRedirectValidators(RedirectValidators):
     allowed_domains: list[str] | tuple[str, ...] = ()
 
     def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
+        hostname = urlparse(request_url).hostname or ""
+        if is_allowlisted_hostname(hostname, self.allowed_domains):
+            validate_outbound_url(
+                request_url,
+                allow_private_targets=False,
+                allowed_domains=self.allowed_domains,
+            )
+            return
         if used_proxy:
             validate_outbound_url(
                 request_url,
@@ -61,6 +70,7 @@ class RuntimeRedirectValidators(RedirectValidators):
         _validate_response_peer(
             response,
             allow_private_targets=self.allow_private_targets,
+            allowed_domains=self.allowed_domains,
             used_proxy=used_proxy,
         )
 
@@ -246,11 +256,18 @@ def _get_response_peer_ip(response: Response) -> str | None:
 
 
 def _validate_response_peer(
-    response: Response, *, allow_private_targets: bool, used_proxy: bool = False
+    response: Response,
+    *,
+    allow_private_targets: bool,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+    used_proxy: bool = False,
 ) -> None:
     if allow_private_targets:
         return
     if used_proxy:
+        return
+    hostname = urlparse(response.url).hostname or ""
+    if is_allowlisted_hostname(hostname, allowed_domains):
         return
 
     if (peer_ip := _get_response_peer_ip(response)) is None:

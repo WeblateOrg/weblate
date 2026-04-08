@@ -38,6 +38,7 @@ from weblate.utils.validators import (
     validate_re,
     validate_re_nonempty,
     validate_webhook_secret_string,
+    validate_webhook_url,
 )
 
 if TYPE_CHECKING:
@@ -125,7 +126,7 @@ class BaseExtractPotForm(BaseAddonForm[BaseAddon]):
         required=False,
         initial=False,
         help_text=gettext_lazy(
-            "Updates selected gettext header fields using component configuration."
+            "Updates gettext headers and replaces placeholder POT comments."
         ),
     )
     update_po_files = forms.BooleanField(
@@ -998,6 +999,11 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         "webhook_url",
         "events",
     ]
+
+    def clean_webhook_url(self) -> str:
+        value = self.cleaned_data["webhook_url"]
+        validate_webhook_url(value)
+        return value
 
 
 class WebhooksAddonForm(BaseWebhooksAddonForm):

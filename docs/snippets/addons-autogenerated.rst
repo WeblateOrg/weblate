@@ -1480,7 +1480,7 @@ Update POT file (Django)
                 |                      |                      |    * - ``monthly``                                                               |
                 |                      |                      |      - Monthly                                                                   |
                 +----------------------+----------------------+----------------------------------------------------------------------------------+
-                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.            |
+                | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                   |
                 +----------------------+----------------------+----------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
@@ -1512,7 +1512,7 @@ Update POT file (Meson)
                 |                      |                      |    * - ``monthly``                                                                                                                                             |
                 |                      |                      |      - Monthly                                                                                                                                                 |
                 +----------------------+----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.                                                                                          |
+                | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                                                                                                 |
                 +----------------------+----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``comment_mode``     | Code comments        | Choose whether xgettext should extract no comments, all comments, or only comments marked with a specific tag.                                                 |
                 |                      |                      |                                                                                                                                                                |
@@ -1582,7 +1582,7 @@ Update POT file (Sphinx)
                 |                      |                      |    * - ``monthly``                                                                  |
                 |                      |                      |      - Monthly                                                                      |
                 +----------------------+----------------------+-------------------------------------------------------------------------------------+
-                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.               |
+                | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                      |
                 +----------------------+----------------------+-------------------------------------------------------------------------------------+
                 | ``filter_mode``      | Filtering            | Optionally remove strings that are not useful to translate after Sphinx extraction. |
                 |                      |                      |                                                                                     |
@@ -1625,7 +1625,7 @@ Update POT file (xgettext)
                 |                      |                      |    * - ``monthly``                                                                                                                                                                               |
                 |                      |                      |      - Monthly                                                                                                                                                                                   |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``normalize_header`` | Normalize POT header | Updates selected gettext header fields using component configuration.                                                                                                                            |
+                | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                                                                                                                                   |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``comment_mode``     | Code comments        | Choose whether xgettext should extract no comments, all comments, or only comments marked with a specific tag.                                                                                   |
                 |                      |                      |                                                                                                                                                                                                  |

@@ -374,6 +374,12 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 # Project website restriction allowlist
 # PROJECT_WEB_RESTRICT_ALLOWLIST = {"trusted-project"}
 
+# Restrict private webhook targets
+# WEBHOOK_RESTRICT_PRIVATE = True
+
+# Private webhook target allowlist
+# WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
 
