@@ -56,6 +56,7 @@ from weblate.formats.ttkit import (
     RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
+    StringsFormat,
     TBXFormat,
     TOMLFormat,
     TSFormat,
@@ -132,6 +133,7 @@ TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
+TEST_STRINGS = get_test_file("cs.strings")
 TEST_FLUENT = get_test_file("cs.ftl")
 
 
@@ -1847,6 +1849,29 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(unit.source_explanation, "")
         self.assertEqual(unit.flags, Flags())
         self.assertEqual(unit.is_readonly(), False)
+
+
+class StringsFormatTest(BaseFormatTest):
+    format_class = StringsFormat
+    FILE = TEST_STRINGS
+    MIME = "text/plain"
+    COUNT = 3
+    EXT = "strings"
+    MASK = "Resources/*.lproj/Localizable.strings"
+    EXPECTED_PATH = "Resources/cs-CZ.lproj/Localizable.strings"
+    FIND = "hello"
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = "Ahoj světe!"
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "objc-format"
+    MONOLINGUAL = True
+
+    def assert_same(self, newdata, testdata) -> None:
+        self.assertEqual(
+            (newdata).strip().splitlines(),
+            (testdata).strip().splitlines(),
+        )
 
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
