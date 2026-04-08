@@ -122,6 +122,8 @@ class BaseFileFormatParam:
     @classmethod
     def get_value(cls, file_format_params: FileFormatParams):
         value = file_format_params.get(cls.name, cls.default)
+        if value is None:
+            return cls.default
         type_cast = type(cls.default)
         try:
             return type_cast(value)
@@ -174,16 +176,23 @@ def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
     raise ValueError(msg)
 
 
-def get_encoding_param(file_format_params: FileFormatParams | None) -> str | None:
+def get_encoding_param(
+    file_format: str, file_format_params: FileFormatParams | None
+) -> str | None:
     """Get encoding parameter from file format parameters."""
-    if file_format_params is None:
-        file_format_params = {}
-    for param_name, value in file_format_params.items():
-        try:
-            if get_param_for_name(param_name).is_encoding():
-                return cast("str", value)
-        except ValueError:
-            continue
+    raw_file_format_params = (
+        cast("FileFormatParams", {})
+        if file_format_params is None
+        else file_format_params
+    )
+    for param in get_params_for_file_format(file_format):
+        if param.is_encoding():
+            default_encoding = cast("str", param.default)
+            if param.name not in raw_file_format_params:
+                return default_encoding
+            if raw_file_format_params.get(param.name) is None:
+                return default_encoding
+            return cast("str", param.get_value(raw_file_format_params))
     return None
 
 
@@ -483,10 +492,7 @@ class StringsEncoding(BaseFileFormatParam):
 
 @register_file_format_param
 class PropertiesEncoding(BaseFileFormatParam):
-    file_formats = (
-        "properties",
-        "xwiki-page-properties",
-    )
+    file_formats = ("properties",)
     name = "properties_encoding"
     label = gettext_lazy("File encoding")
     field_class = forms.ChoiceField

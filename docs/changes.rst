@@ -13,6 +13,7 @@ Weblate 5.17
 * Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 * Added :ref:`bulk user invitations <invite-user>`.
 * Added :ref:`check-objc-format`.
+* Added Forgejo notification webhook, see :ref:`forgejo-setup`.
 
 .. rubric:: Improvements
 
@@ -59,6 +60,7 @@ Weblate 5.17
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
 * Improved repository lock error handling when deleting units.
 * :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
+* Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
 
 .. rubric:: Compatibility
 

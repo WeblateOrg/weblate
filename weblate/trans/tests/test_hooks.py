@@ -1142,6 +1142,77 @@ GITEA_PAYLOAD = """
 }
 """
 
+FORGEJO_PAYLOAD = """
+{
+  "secret": "3gEsCfjlV2ugRwgpU#w1*WaW*wa4NXgGmpCfkbG3",
+  "ref": "refs/heads/main",
+  "before": "28e1879d029cb852e4844d9c718537df08844e03",
+  "after": "bffeb74224043ba2feb48d137756c8a9331c449a",
+  "compare_url": "http://localhost:3000/forgejo/webhooks/compare/28e187...bffeb7422",
+  "commits": [
+    {
+      "id": "bffeb74224043ba2feb48d137756c8a9331c449a",
+      "message": "Webhooks Yay!",
+      "url": "http://localhost:3000/forgejo/webhooks/commit/bffeb74224043ba2feb4",
+      "author": {
+        "name": "Forgejo",
+        "email": "someone@forgejo.org",
+        "username": "forgejo"
+      },
+      "committer": {
+        "name": "Forgejo",
+        "email": "someone@forgejo.org",
+        "username": "forgejo"
+      },
+      "timestamp": "2017-03-13T13:52:11-04:00"
+    }
+  ],
+  "repository": {
+    "id": 140,
+    "owner": {
+      "id": 1,
+      "login": "forgejo",
+      "full_name": "Forgejo",
+      "email": "someone@forgejo.org",
+      "avatar_url": "https://localhost:3000/avatars/1",
+      "username": "forgejo"
+    },
+    "name": "webhooks",
+    "full_name": "forgejo/webhooks",
+    "description": "",
+    "private": false,
+    "fork": false,
+    "html_url": "http://localhost:3000/forgejo/webhooks",
+    "ssh_url": "ssh://forgejo@localhost:2222/forgejo/webhooks.git",
+    "clone_url": "http://localhost:3000/forgejo/webhooks.git",
+    "website": "",
+    "stars_count": 0,
+    "forks_count": 1,
+    "watchers_count": 1,
+    "open_issues_count": 7,
+    "default_branch": "main",
+    "created_at": "2017-02-26T04:29:06-05:00",
+    "updated_at": "2017-03-13T13:51:58-04:00"
+  },
+  "pusher": {
+    "id": 1,
+    "login": "forgejo",
+    "full_name": "Forgejo",
+    "email": "someone@forgejo.org",
+    "avatar_url": "https://localhost:3000/avatars/1",
+    "username": "forgejo"
+  },
+  "sender": {
+    "id": 1,
+    "login": "forgejo",
+    "full_name": "Forgejo",
+    "email": "someone@forgejo.org",
+    "avatar_url": "https://localhost:3000/avatars/1",
+    "username": "forgejo"
+  }
+}
+"""
+
 
 GITEE_PAYLOAD = """
 {
@@ -1329,6 +1400,17 @@ class HooksViewTest(ViewTestCase):
         self.component.save()
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitea"}), {"payload": GITEA_PAYLOAD}
+        )
+        self.assertContains(response, "Update triggered")
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_forgejo(self) -> None:
+        # Adjust matching repo
+        self.component.repo = "http://localhost:3000/forgejo/webhooks.git"
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": FORGEJO_PAYLOAD},
         )
         self.assertContains(response, "Update triggered")
 
@@ -2108,6 +2190,52 @@ class InvalidBackendTest(SimpleTestCase):
             handler(payload, None)
         self.assertIn("Invalid repository in payload", str(cm.exception))
 
+    def test_forgejo_missing_full_name(self) -> None:
+        """Test Forgejo handler with missing full_name."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        del payload["repository"]["full_name"]
+        result = handler(payload, None)
+        if result is None:
+            self.fail("Expected Forgejo handler to return hook data")
+        self.assertIsNone(result["full_name"])
+
+    def test_forgejo_null_ref(self) -> None:
+        """Test Forgejo handler with null ref."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["ref"] = None
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_forgejo_missing_ref(self) -> None:
+        """Test Forgejo handler with missing ref."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        del payload["ref"]
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_forgejo_invalid_ref_type(self) -> None:
+        """Test Forgejo handler with non-string ref."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["ref"] = 123
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_forgejo_null_repository(self) -> None:
+        """Test Forgejo handler with null repository."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"] = None
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Invalid repository in payload", str(cm.exception))
+
     def test_gitee_missing_path_with_namespace(self) -> None:
         """Test Gitee handler with missing path_with_namespace."""
         handler = HOOK_HANDLERS["gitee"]
@@ -2288,6 +2416,90 @@ class InvalidPayloadTest(ViewTestCase):
         payload["repository"] = None
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_full_name_empty(self) -> None:
+        """Test Forgejo webhook with empty full_name."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"]["full_name"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_full_name_no_slash(self) -> None:
+        """Test Forgejo webhook with full_name without slash."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"]["full_name"] = "invalidname"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_full_name_none(self) -> None:
+        """Test Forgejo webhook with null full_name."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"]["full_name"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_ref_none(self) -> None:
+        """Test Forgejo webhook with null ref."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["ref"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Missing ref in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_repository_none(self) -> None:
+        """Test Forgejo webhook with null repository."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_missing_repository_key(self) -> None:
+        """Test Forgejo webhook with missing repository key."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        del payload["repository"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
             {"payload": json.dumps(payload)},
         )
         self.assertContains(

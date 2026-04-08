@@ -49,6 +49,14 @@ Component.objects.bulk_create(
             filemask="properties/*.properties",
         ),
         Component(
+            name="XWiki Page Properties UTF-8",
+            slug="xwiki-page-properties-utf-8",
+            project_id=1,
+            repo="weblate://test/xwikipagepropertiesutf-8",
+            file_format="xwiki-page-properties",
+            filemask="xwiki/*.properties",
+        ),
+        Component(
             name="CSV Auto",
             slug="csv-auto",
             project_id=1,

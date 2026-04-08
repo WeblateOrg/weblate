@@ -880,7 +880,7 @@ class User(AbstractBaseUser):
 
     @property
     def component_permissions(self) -> SimplePermissionCacheType:
-        """List all project permissions."""
+        """List all component permissions."""
         return self._permissions["components"]
 
     @cached_property
