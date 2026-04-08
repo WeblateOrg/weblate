@@ -19641,13 +19641,28 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: project
+        schema:
+          type: string
+      - in: query
+        name: source
+        schema:
+          type: string
+      - in: query
+        name: source_language
+        schema:
+          type: string
+      - in: query
+        name: target_language
+        schema:
+          type: string
       tags:
       - memory
       security:
       - tokenAuth: []
       - bearerAuth: []
       - cookieAuth: []
-      - {}
       responses:
         '400':
           content:
@@ -19695,31 +19710,6 @@ paths:
                     errors:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
-                      attr: null
-          description: ''
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
                       attr: null
           description: ''
         '404':
@@ -19921,7 +19911,6 @@ paths:
       - tokenAuth: []
       - bearerAuth: []
       - cookieAuth: []
-      - {}
       responses:
         '400':
           content:
@@ -19969,31 +19958,6 @@ paths:
                     errors:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
-                      attr: null
-          description: ''
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
                       attr: null
           description: ''
         '404':
@@ -20243,31 +20207,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: ''
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: ''
         '404':
           content:
             application/json:
@@ -20429,6 +20368,256 @@ paths:
           description: ''
         '204':
           description: No response body
+  /api/memory/lookup/:
+    post:
+      operationId: api_memory_lookup_create
+      description: Look up translation memory matches for the provided source strings.
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+      - in: query
+        name: project
+        schema:
+          type: string
+        description: Project slug filter.
+      - in: query
+        name: source_language
+        schema:
+          type: string
+        description: Source language code.
+        required: true
+      - in: query
+        name: target_language
+        schema:
+          type: string
+        description: Target language code.
+        required: true
+      tags:
+      - memory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryLookupRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemoryLookupRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemoryLookupRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiMemoryLookupCreateErrorResponse400'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ApiMemoryLookupCreateErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemoryLookupResult'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemoryLookupResult'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/metrics/:
     get:
       operationId: api_metrics_retrieve
@@ -57901,13 +58090,228 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiMemoryListError:
+      oneOf:
+      - $ref: '#/components/schemas/ApiMemoryListSourceErrorComponent'
+      - $ref: '#/components/schemas/ApiMemoryListSourceLanguageErrorComponent'
+      - $ref: '#/components/schemas/ApiMemoryListTargetLanguageErrorComponent'
+      - $ref: '#/components/schemas/ApiMemoryListProjectErrorComponent'
+      discriminator:
+        propertyName: attr
+        mapping:
+          source: '#/components/schemas/ApiMemoryListSourceErrorComponent'
+          source_language: '#/components/schemas/ApiMemoryListSourceLanguageErrorComponent'
+          target_language: '#/components/schemas/ApiMemoryListTargetLanguageErrorComponent'
+          project: '#/components/schemas/ApiMemoryListProjectErrorComponent'
     ApiMemoryListErrorResponse400:
       oneOf:
+      - $ref: '#/components/schemas/ApiMemoryListValidationError'
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
         propertyName: type
         mapping:
+          validation_error: '#/components/schemas/ApiMemoryListValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiMemoryListProjectErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - project
+          type: string
+          description: '* `project` - project'
+        code:
+          enum:
+          - null_characters_not_allowed
+          type: string
+          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryListSourceErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - source
+          type: string
+          description: '* `source` - source'
+        code:
+          enum:
+          - null_characters_not_allowed
+          type: string
+          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryListSourceLanguageErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - source_language
+          type: string
+          description: '* `source_language` - source_language'
+        code:
+          enum:
+          - null_characters_not_allowed
+          type: string
+          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryListTargetLanguageErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - target_language
+          type: string
+          description: '* `target_language` - target_language'
+        code:
+          enum:
+          - null_characters_not_allowed
+          type: string
+          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryListValidationError:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ValidationErrorEnum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMemoryListError'
+      required:
+      - errors
+      - type
+    ApiMemoryLookupCreateError:
+      oneOf:
+      - $ref: '#/components/schemas/ApiMemoryLookupCreateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/ApiMemoryLookupCreateStringsErrorComponent'
+      - $ref: '#/components/schemas/ApiMemoryLookupCreateStringsINDEXErrorComponent'
+      discriminator:
+        propertyName: attr
+        mapping:
+          non_field_errors: '#/components/schemas/ApiMemoryLookupCreateNonFieldErrorsErrorComponent'
+          strings: '#/components/schemas/ApiMemoryLookupCreateStringsErrorComponent'
+          strings.INDEX: '#/components/schemas/ApiMemoryLookupCreateStringsINDEXErrorComponent'
+    ApiMemoryLookupCreateErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ApiMemoryLookupCreateValidationError'
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          validation_error: '#/components/schemas/ApiMemoryLookupCreateValidationError'
+          client_error: '#/components/schemas/ParseErrorResponse'
+    ApiMemoryLookupCreateNonFieldErrorsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - non_field_errors
+          type: string
+          description: '* `non_field_errors` - non_field_errors'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryLookupCreateStringsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - strings
+          type: string
+          description: '* `strings` - strings'
+        code:
+          enum:
+          - empty
+          - max_length
+          - not_a_list
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `empty` - empty
+            * `max_length` - max_length
+            * `not_a_list` - not_a_list
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryLookupCreateStringsINDEXErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - strings.INDEX
+          type: string
+          description: '* `strings.INDEX` - strings.INDEX'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiMemoryLookupCreateValidationError:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ValidationErrorEnum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMemoryLookupCreateError'
+      required:
+      - errors
+      - type
     ApiMemoryRetrieveErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
@@ -69083,6 +69487,50 @@ components:
       - source_language
       - target
       - target_language
+    MemoryLookupMatch:
+      type: object
+      properties:
+        id:
+          type: integer
+        source:
+          type: string
+        target:
+          type: string
+        origin:
+          type: string
+        exact:
+          type: boolean
+        quality:
+          type: integer
+      required:
+      - exact
+      - id
+      - origin
+      - quality
+      - source
+      - target
+    MemoryLookupRequest:
+      type: object
+      properties:
+        strings:
+          type: array
+          items:
+            type: string
+          maxItems: 100
+      required:
+      - strings
+    MemoryLookupResult:
+      type: object
+      properties:
+        query:
+          type: string
+        match:
+          oneOf:
+          - $ref: '#/components/schemas/MemoryLookupMatch'
+          - type: 'null'
+      required:
+      - match
+      - query
     MergeStyleEnum:
       enum:
       - merge

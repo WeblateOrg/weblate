@@ -13,6 +13,7 @@ Weblate 5.17
 * Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 * Added :ref:`bulk user invitations <invite-user>`.
 * Added Forgejo notification webhook, see :ref:`forgejo-setup`.
+* Added translation memory API filtering, scoped access, and bulk lookup support.
 
 .. rubric:: Improvements
 

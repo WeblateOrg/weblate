@@ -1465,6 +1465,32 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
         )
 
 
+class MemoryLookupRequestSerializer(serializers.Serializer):
+    strings = serializers.ListField(
+        child=serializers.CharField(
+            allow_blank=False,
+            trim_whitespace=False,
+            max_length=2000,
+        ),
+        allow_empty=False,
+        max_length=100,
+    )
+
+
+class MemoryLookupMatchSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    source = serializers.CharField()
+    target = serializers.CharField()
+    origin = serializers.CharField()
+    exact = serializers.BooleanField()
+    quality = serializers.IntegerField()
+
+
+class MemoryLookupResultSerializer(serializers.Serializer):
+    query = serializers.CharField()
+    match = MemoryLookupMatchSerializer(allow_null=True)
+
+
 class LabelSerializer(serializers.ModelSerializer[Label]):
     class Meta:
         model = Label
