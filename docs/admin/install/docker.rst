@@ -1495,6 +1495,13 @@ Keycloak
 
     Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
 
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY
+
+    .. versionadded:: 5.17
+
+    Configures which claim is used as the unique user identifier from Keycloak.
+    Defaults to ``email``.
+
     .. hint::
 
        When Keycloak is configured to abstract third-party IDP, you will need
