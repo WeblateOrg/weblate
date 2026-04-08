@@ -210,17 +210,6 @@ class PayloadFormParserParser(parsers.FormParser, PayloadMixin):
         )
 
 
-@extend_schema(
-    responses=HookResponseSerializer,
-    request=HookRequestSerializer,
-    parameters=[
-        OpenApiParameter(
-            "service",
-            enum=["bitbucket", "github", "gitea", "gitee", "gitlab", "pagure", "azure", "forgejo"],
-            location=OpenApiParameter.PATH,
-        ),
-    ],
-)
 class ServiceHookView(APIView):
     authentication_classes = []  # noqa: RUF012
     permission_classes = [AllowAny]  # noqa: RUF012
@@ -524,11 +513,12 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     }
 
 
-@register_hook
-def gitea_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+def _gitea_like_hook_helper(
+    data: dict, service_long_name: str
+) -> HandlerResponse | None:
     repository = require_mapping(data.get("repository"), "repository")
     return {
-        "service_long_name": "Gitea",
+        "service_long_name": service_long_name,
         "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
         "repos": [
             require_string(repository.get("clone_url"), "repository.clone_url"),
@@ -540,24 +530,16 @@ def gitea_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
             repository.get("full_name"), "repository.full_name"
         ),
     }
+
+
+@register_hook
+def gitea_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+    return _gitea_like_hook_helper(data, "Gitea")
 
 
 @register_hook
 def forgejo_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
-    repository = require_mapping(data.get("repository"), "repository")
-    return {
-        "service_long_name": "Forgejo",
-        "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
-        "repos": [
-            require_string(repository.get("clone_url"), "repository.clone_url"),
-            require_string(repository.get("ssh_url"), "repository.ssh_url"),
-            require_string(repository.get("html_url"), "repository.html_url"),
-        ],
-        "branch": normalize_branch_ref(data.get("ref")),
-        "full_name": optional_string(
-            repository.get("full_name"), "repository.full_name"
-        ),
-    }
+    return _gitea_like_hook_helper(data, "Forgejo")
 
 
 @register_hook
@@ -688,3 +670,18 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
         # Using just a repository name will avoid using endswith matching here
         "full_name": repository,
     }
+
+
+# Apply OpenAPI schema after all hook handlers are registered, so the service
+# enum is derived automatically from HOOK_HANDLERS instead of being hard-coded.
+ServiceHookView = extend_schema(
+    responses=HookResponseSerializer,
+    request=HookRequestSerializer,
+    parameters=[
+        OpenApiParameter(
+            "service",
+            enum=sorted(HOOK_HANDLERS.keys()),
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)(ServiceHookView)
