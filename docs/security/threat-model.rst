@@ -5,11 +5,11 @@ Weblate threat model
 
 **Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (unauthenticated user, authenticated user, reviewer, project manager, administrator, project-scoped API token).
 
-Webhook endpoints for some VCS integrations are intentionally compatibility
-oriented and can accept unauthenticated deliveries from supported forges.
-Weblate therefore treats webhook-triggered repository updates as a
-deployment-hardened interface rather than a cryptographically authenticated one
-by default.
+Webhook endpoints for some VCS integrations are intentionally
+compatibility-oriented and can accept unauthenticated deliveries from
+supported forges. Weblate therefore treats webhook-triggered repository
+updates as a deployment-hardened interface rather than a cryptographically
+authenticated one by default.
 
 Until native authenticated integrations are available for these platforms,
 webhook abuse resistance depends on compensating controls such as reverse-proxy
