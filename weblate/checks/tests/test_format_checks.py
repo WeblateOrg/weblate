@@ -1980,3 +1980,23 @@ class ObjCFormatCheckTest(CFormatCheckTest):
         self.assertTrue(
             self.check.check_format("%#@count@ string", "string", False, Unit())
         )
+
+    def test_objc_zd_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%zd items", "%zd items", False, Unit())
+        )
+
+    def test_objc_zd_wrong_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("%zd items", "%d items", False, Unit())
+        )
+
+    def test_objc_tu_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%tu items", "%tu items", False, Unit())
+        )
+
+    def test_objc_lf_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%Lf value", "%Lf value", False, Unit())
+        )

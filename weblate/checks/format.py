@@ -101,7 +101,7 @@ OBJC_PRINTF_MATCH = re.compile(
         |[ +#'-]*              # flags
         (?:\d+)?               # width
         (?:\.\d+)?             # precision
-        (hh|h|l|ll)?           # length formatting
+        (hh|ll|h|l|z|t|j|q|L)?  # length formatting
         (?P<type>[a-zA-Z@%])   # type (%s, %d, %@ etc.)
         |)                     # incomplete format string
     )""",
