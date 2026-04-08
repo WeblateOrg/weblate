@@ -1987,9 +1987,7 @@ class ObjCFormatCheckTest(CFormatCheckTest):
         )
 
     def test_objc_zd_wrong_format(self) -> None:
-        self.assertTrue(
-            self.check.check_format("%zd items", "%d items", False, Unit())
-        )
+        self.assertTrue(self.check.check_format("%zd items", "%d items", False, Unit()))
 
     def test_objc_tu_format(self) -> None:
         self.assertFalse(
