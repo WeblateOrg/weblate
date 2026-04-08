@@ -63,7 +63,8 @@ Severity levels and SLAs
 +----------+------------------------------------------------------+---------------------+-----------------------+
 | Severity | Definition                                           | Target Acknowledge  | Target Initial Action |
 +==========+======================================================+=====================+=======================+
-| Critical | Total outage; Admin compromise; Active data breach.  | < 30 Minutes        | Immediate containment |
+| Critical | Total outage; Admin compromise; Active data breach;  | < 30 Minutes        | < 4 Hours             |
+|          | requires immediate containment.                      |                     |                       |
 +----------+------------------------------------------------------+---------------------+-----------------------+
 | High     | Core feature failure; PII leak of single user.       | < 2 Hours           | 12 Hours              |
 +----------+------------------------------------------------------+---------------------+-----------------------+
