@@ -1952,14 +1952,10 @@ class ObjCFormatCheckTest(CFormatCheckTest):
         )
 
     def test_objc_missing_at_format(self) -> None:
-        self.assertTrue(
-            self.check.check_format("%@ string", "string", False, Unit())
-        )
+        self.assertTrue(self.check.check_format("%@ string", "string", False, Unit()))
 
     def test_objc_added_at_format(self) -> None:
-        self.assertTrue(
-            self.check.check_format("string", "%@ string", False, Unit())
-        )
+        self.assertTrue(self.check.check_format("string", "%@ string", False, Unit()))
 
     def test_objc_wrong_at_format(self) -> None:
         self.assertTrue(
