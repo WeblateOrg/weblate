@@ -70,6 +70,7 @@ from weblate.formats.ttkit import (
 )
 from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
+from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
@@ -194,6 +195,37 @@ class AutoLoadTest(SimpleTestCase):
         for format_class in FILE_FORMATS.values():
             if issubclass(format_class, TTKitFormat):
                 format_class.get_class()
+
+    def test_encoding_loader_defaults(self) -> None:
+        """Encoding fallback should come from parameter defaults, not loader order."""
+        self.assertEqual(get_encoding_param("strings", {}), "utf-8")
+        self.assertEqual(get_encoding_param("properties", {}), "iso-8859-1")
+        self.assertEqual(get_encoding_param("gwt", {}), "utf-8")
+        self.assertEqual(
+            get_encoding_param("properties", {"strings_encoding": "utf-16"}),
+            "iso-8859-1",
+        )
+        self.assertIsNone(
+            get_encoding_param("xwiki-fullpage", {"strings_encoding": "utf-16"})
+        )
+
+    def test_encoding_null_uses_default(self) -> None:
+        """Explicit null encoding params should behave like unset values."""
+        self.assertEqual(
+            get_encoding_param(
+                "properties",
+                cast("FileFormatParams", {"properties_encoding": None}),
+            ),
+            "iso-8859-1",
+        )
+        self.assertEqual(
+            get_encoding_param("csv", cast("FileFormatParams", {"csv_encoding": None})),
+            "auto",
+        )
+        self.assertEqual(
+            get_encoding_param("properties", {"properties_encoding": "iso-8859-1"}),
+            "iso-8859-1",
+        )
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):

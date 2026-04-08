@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import tempfile
 from io import BytesIO
 from pathlib import Path
 from typing import cast
@@ -12,7 +13,12 @@ from django.core.exceptions import ValidationError
 from django.core.files.base import File
 from django.test import SimpleTestCase
 
-from weblate.utils.files import read_file_bytes, remove_tree
+from weblate.utils.files import (
+    is_path_within_directory,
+    read_file_bytes,
+    remove_tree,
+    should_skip,
+)
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -61,3 +67,35 @@ class FilesTestCase(SimpleTestCase):
 
         self.assertEqual(read_file_bytes(filelike, max_size=10), b"test")
         self.assertEqual(filelike.tell(), 0)
+
+    def test_is_path_within_directory_accepts_descendants(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = os.path.join(tempdir, "repo")
+            nested_path = os.path.join(repo_path, "locale", "cs.po")
+            os.makedirs(os.path.dirname(nested_path))
+            Path(nested_path).write_text("test", encoding="utf-8")
+
+            self.assertTrue(is_path_within_directory(nested_path, repo_path))
+
+    def test_is_path_within_directory_rejects_prefix_collision(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = os.path.join(tempdir, "repo")
+            outside_path = os.path.join(tempdir, "repo_outside", "secrets.po")
+            os.makedirs(repo_path)
+            os.makedirs(os.path.dirname(outside_path))
+            Path(outside_path).write_text("test", encoding="utf-8")
+
+            self.assertFalse(is_path_within_directory(outside_path, repo_path))
+
+    def test_should_skip_rejects_prefix_collision(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            self.settings(
+                DATA_DIR=os.path.join(tempdir, "data"),
+            ),
+        ):
+            location = os.path.join(tempdir, "weblate-other", "locale", "django.po")
+            os.makedirs(os.path.dirname(location))
+            Path(location).write_text("test", encoding="utf-8")
+
+            self.assertTrue(should_skip(location))

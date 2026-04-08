@@ -479,7 +479,9 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     )
     SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
     SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
-    SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email"
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Fedora OpenIDConnect
@@ -713,6 +715,8 @@ PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
 PROJECT_WEB_RESTRICT_ALLOWLIST = set(
     get_env_list("WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST", [])
 )
+WEBHOOK_RESTRICT_PRIVATE = get_env_bool("WEBLATE_WEBHOOK_RESTRICT_PRIVATE", True)
+WEBHOOK_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST", [])
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:

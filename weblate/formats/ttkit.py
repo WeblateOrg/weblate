@@ -261,7 +261,7 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that searializing of empty values works correctly
+        # Propagate to value so that serializing of empty values works correctly
         if not target:
             self.unit.value = self.unit.target
 
@@ -292,7 +292,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             store.setsourcelanguage(self.source_language)
 
     def get_encoding(self) -> str | None:
-        return get_encoding_param(self.file_format_params)
+        return get_encoding_param(self.format_id, self.file_format_params)
 
     def load(
         self,
@@ -474,7 +474,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             store.store.savefile(filename)
         elif cls.empty_file_template is not None:
             Path(filename).write_bytes(
-                cls.get_new_file_content(get_encoding_param(file_format_params))
+                cls.get_new_file_content(
+                    get_encoding_param(cls.format_id, file_format_params)
+                )
             )
         else:
             msg = "Not supported"
@@ -534,6 +536,7 @@ class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
             if encoding in cls.loader:
                 module_name, class_name = cls.loader[encoding]
             else:
+                # Defensive fallback for missing/unknown encoding values.
                 module_name, class_name = next(iter(cls.loader.values()))
         elif isinstance(cls.loader, tuple):
             # Tuple style loader, import from translate toolkit
@@ -550,7 +553,7 @@ class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
 
     def get_store_instance(self, **kwargs) -> S:
         kwargs.update(self.get_format_class_kwargs())
-        store = self.get_class(get_encoding_param(self.file_format_params))(**kwargs)
+        store = self.get_class(self.get_encoding())(**kwargs)
 
         # Apply possible fixups
         self.fixup(store)

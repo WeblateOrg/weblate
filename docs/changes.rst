@@ -24,6 +24,7 @@ Weblate 5.17
 * Improved error messages in some of the :ref:`api` endpoints.
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is now available in Docker container to customize the Keycloak unique user identifier claim.
 * Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
 * Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting non-global IP ranges, and exposed it in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`.
 * Improved performance of :ref:`mt-weblate` lookups.
@@ -32,6 +33,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Tightened repository boundary checks for symlink targets.
 * Matching exporters now honor component file format parameters.
 * Project token cleanup now removes stale bots on project deletion and upgrade.
 * Component file handling now validates repository symlinks.
@@ -44,6 +46,7 @@ Weblate 5.17
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
+* Improved security of :ref:`addon-weblate.webhook.webhook`.
 * Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
@@ -56,6 +59,7 @@ Weblate 5.17
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
 * Improved repository lock error handling when deleting units.
 * :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
+* Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
 
 .. rubric:: Compatibility
 
@@ -71,7 +75,7 @@ Weblate 5.17
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
-* Project website and repository browser URLs pointing to private or other non-global IP ranges are now rejected by default. If your setup intentionally links to internal addresses, set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to ``False`` or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``.
+* Outbound project links and webhook URLs pointing to private or other non-global IP ranges are now rejected by default. If your setup intentionally uses internal addresses, adjust the corresponding restriction settings such as :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, or the related allowlists.
 
 .. rubric:: Contributors
 
