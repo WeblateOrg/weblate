@@ -2,12 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
+import pathlib
+import tempfile
 from unittest.mock import patch
 
 from django.test.utils import override_settings
 
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.utils.files import remove_tree
 
 
 class ComponentDiscoveryTest(RepoTestCase):
@@ -248,6 +252,72 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
+
+    def test_skip_reason_rejects_symlinked_auxiliary_file(self) -> None:
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(b"outside repository")
+        self.addCleanup(os.unlink, handle.name)
+
+        linked_name = "discovery-base.pot"
+        linked_path = os.path.join(self.component.full_path, linked_name)
+        os.symlink(handle.name, linked_path)
+
+        reason = self.discovery.get_skip_reason(
+            {
+                "mask": "discovered/*.po",
+                "base_file": linked_name,
+                "new_base": "",
+                "intermediate": "",
+            }
+        )
+
+        self.assertEqual(reason, "discovery-base.pot (base_file) does not exist.")
+
+    def test_matches_ignore_prefix_collision_symlink_targets(self) -> None:
+        repo_path = os.path.realpath(self.component.full_path)
+        outside_path = f"{repo_path}_outside"
+        os.makedirs(outside_path)
+        self.addCleanup(remove_tree, outside_path, True)
+
+        pathlib.Path(os.path.join(outside_path, "cs.po")).write_text(
+            'msgid "prefix-collision"\nmsgstr ""\n', encoding="utf-8"
+        )
+
+        os.symlink(
+            outside_path, os.path.join(self.component.full_path, "prefix-collision")
+        )
+
+        self.assertNotIn("prefix-collision/cs.po", self.discovery.matched_files)
+
+    def test_matches_prune_prefix_collision_symlink_directories(self) -> None:
+        repo_path = os.path.realpath(self.component.full_path)
+        outside_path = f"{repo_path}_outside"
+        os.makedirs(outside_path)
+        self.addCleanup(remove_tree, outside_path, True)
+
+        os.symlink(
+            outside_path, os.path.join(self.component.full_path, "prefix-collision")
+        )
+
+        walk_calls: list[str] = []
+
+        def fake_walk(path: str, *, followlinks: bool):
+            self.assertEqual(path, self.discovery.path)
+            self.assertTrue(followlinks)
+
+            dirnames = ["prefix-collision"]
+            walk_calls.append(path)
+            yield path, dirnames, []
+
+            if "prefix-collision" in dirnames:
+                nested = os.path.join(path, "prefix-collision")
+                walk_calls.append(nested)
+                yield nested, [], ["cs.po"]
+
+        with patch("weblate.trans.discovery.os.walk", side_effect=fake_walk):
+            self.assertEqual(self.discovery.matches, [])
+
+        self.assertEqual(walk_calls, [self.discovery.path])
 
     def test_named_group(self) -> None:
         discovery = ComponentDiscovery(

@@ -12,11 +12,14 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 from weblate.utils.forms import WeblateServiceURLField
+from weblate.utils.validators import validate_machinery_hostname, validate_machinery_url
 
 from .types import SourceLanguageChoices
 
 
 class BaseMachineryForm(forms.Form):
+    network_host_fields = frozenset({"base_url", "endpoint_url"})
+
     source_language = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Source language selection"
@@ -26,8 +29,11 @@ class BaseMachineryForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, machinery, *args, **kwargs) -> None:
+    def __init__(
+        self, machinery, *args, allow_private_targets: bool = True, **kwargs
+    ) -> None:
         self.machinery = machinery
+        self.allow_private_targets = allow_private_targets
         super().__init__(*args, **kwargs)
 
     def serialize_form(self):
@@ -40,8 +46,24 @@ class BaseMachineryForm(forms.Form):
                 continue
             if field not in settings:
                 return
+        self.validate_endpoint_fields(settings)
+        if not self.allow_private_targets:
+            settings = {**settings, "_project": True}
         machinery = self.machinery(settings)
         machinery.validate_settings()
+
+    def validate_endpoint_fields(self, settings) -> None:
+        for field_name, field in self.fields.items():
+            if (value := settings.get(field_name)) in {"", None}:
+                continue
+            if isinstance(field, WeblateServiceURLField):
+                validate_machinery_url(
+                    value, allow_private_targets=self.allow_private_targets
+                )
+            elif field_name in self.network_host_fields and isinstance(value, str):
+                validate_machinery_hostname(
+                    value, allow_private_targets=self.allow_private_targets
+                )
 
 
 class KeyMachineryForm(BaseMachineryForm):

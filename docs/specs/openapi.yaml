@@ -40187,10 +40187,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedBasicUserList'
+                $ref: '#/components/schemas/PaginatedFullUserList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/PaginatedBasicUserList'
+                $ref: '#/components/schemas/PaginatedFullUserList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -40216,13 +40216,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
         required: true
       security:
       - tokenAuth: []
@@ -40465,10 +40465,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
   /api/users/{username}/:
     get:
@@ -40732,10 +40732,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -40767,13 +40767,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
         required: true
       security:
       - tokenAuth: []
@@ -41016,10 +41016,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -41051,13 +41051,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedBasicUser'
+              $ref: '#/components/schemas/PatchedFullUser'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedBasicUser'
+              $ref: '#/components/schemas/PatchedFullUser'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedBasicUser'
+              $ref: '#/components/schemas/PatchedFullUser'
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -41299,10 +41299,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -41833,10 +41833,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -41869,13 +41869,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BasicUser'
+              $ref: '#/components/schemas/FullUser'
         required: true
       security:
       - tokenAuth: []
@@ -42118,10 +42118,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -44377,10 +44377,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
             text/csv:
               schema:
-                $ref: '#/components/schemas/BasicUser'
+                $ref: '#/components/schemas/FullUser'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -44408,6 +44408,7 @@ paths:
           enum:
           - azure
           - bitbucket
+          - forgejo
           - gitea
           - gitee
           - github
@@ -64509,17 +64510,85 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiUsersCreateDateExpiresErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - date_expires
+          type: string
+          description: '* `date_expires` - date_expires'
+        code:
+          enum:
+          - date
+          - invalid
+          - make_aware
+          - min_value
+          - overflow
+          type: string
+          description: |-
+            * `date` - date
+            * `invalid` - invalid
+            * `make_aware` - make_aware
+            * `min_value` - min_value
+            * `overflow` - overflow
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersCreateEmailErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - email
+          type: string
+          description: '* `email` - email'
+        code:
+          enum:
+          - blank
+          - invalid
+          - max_length
+          - null_characters_not_allowed
+          - surrogate_characters_not_allowed
+          - unique
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `max_length` - max_length
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+            * `unique` - unique
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiUsersCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersCreateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersCreateEmailErrorComponent'
       - $ref: '#/components/schemas/ApiUsersCreateFullNameErrorComponent'
       - $ref: '#/components/schemas/ApiUsersCreateUsernameErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersCreateIsSuperuserErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersCreateIsActiveErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersCreateIsBotErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersCreateDateExpiresErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiUsersCreateNonFieldErrorsErrorComponent'
+          email: '#/components/schemas/ApiUsersCreateEmailErrorComponent'
           full_name: '#/components/schemas/ApiUsersCreateFullNameErrorComponent'
           username: '#/components/schemas/ApiUsersCreateUsernameErrorComponent'
+          is_superuser: '#/components/schemas/ApiUsersCreateIsSuperuserErrorComponent'
+          is_active: '#/components/schemas/ApiUsersCreateIsActiveErrorComponent'
+          is_bot: '#/components/schemas/ApiUsersCreateIsBotErrorComponent'
+          date_expires: '#/components/schemas/ApiUsersCreateDateExpiresErrorComponent'
     ApiUsersCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersCreateValidationError'
@@ -64555,6 +64624,72 @@ components:
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersCreateIsActiveErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_active
+          type: string
+          description: '* `is_active` - is_active'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersCreateIsBotErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_bot
+          type: string
+          description: '* `is_bot` - is_bot'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersCreateIsSuperuserErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_superuser
+          type: string
+          description: '* `is_superuser` - is_superuser'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -64636,17 +64771,85 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiUsersGroupsCreateDateExpiresErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - date_expires
+          type: string
+          description: '* `date_expires` - date_expires'
+        code:
+          enum:
+          - date
+          - invalid
+          - make_aware
+          - min_value
+          - overflow
+          type: string
+          description: |-
+            * `date` - date
+            * `invalid` - invalid
+            * `make_aware` - make_aware
+            * `min_value` - min_value
+            * `overflow` - overflow
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersGroupsCreateEmailErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - email
+          type: string
+          description: '* `email` - email'
+        code:
+          enum:
+          - blank
+          - invalid
+          - max_length
+          - null_characters_not_allowed
+          - surrogate_characters_not_allowed
+          - unique
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `max_length` - max_length
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+            * `unique` - unique
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiUsersGroupsCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersGroupsCreateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersGroupsCreateEmailErrorComponent'
       - $ref: '#/components/schemas/ApiUsersGroupsCreateFullNameErrorComponent'
       - $ref: '#/components/schemas/ApiUsersGroupsCreateUsernameErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersGroupsCreateIsSuperuserErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersGroupsCreateIsActiveErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersGroupsCreateIsBotErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersGroupsCreateDateExpiresErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiUsersGroupsCreateNonFieldErrorsErrorComponent'
+          email: '#/components/schemas/ApiUsersGroupsCreateEmailErrorComponent'
           full_name: '#/components/schemas/ApiUsersGroupsCreateFullNameErrorComponent'
           username: '#/components/schemas/ApiUsersGroupsCreateUsernameErrorComponent'
+          is_superuser: '#/components/schemas/ApiUsersGroupsCreateIsSuperuserErrorComponent'
+          is_active: '#/components/schemas/ApiUsersGroupsCreateIsActiveErrorComponent'
+          is_bot: '#/components/schemas/ApiUsersGroupsCreateIsBotErrorComponent'
+          date_expires: '#/components/schemas/ApiUsersGroupsCreateDateExpiresErrorComponent'
     ApiUsersGroupsCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersGroupsCreateValidationError'
@@ -64682,6 +64885,72 @@ components:
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersGroupsCreateIsActiveErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_active
+          type: string
+          description: '* `is_active` - is_active'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersGroupsCreateIsBotErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_bot
+          type: string
+          description: '* `is_bot` - is_bot'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersGroupsCreateIsSuperuserErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_superuser
+          type: string
+          description: '* `is_superuser` - is_superuser'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -65327,17 +65596,85 @@ components:
       required:
       - errors
       - type
+    ApiUsersPartialUpdateDateExpiresErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - date_expires
+          type: string
+          description: '* `date_expires` - date_expires'
+        code:
+          enum:
+          - date
+          - invalid
+          - make_aware
+          - min_value
+          - overflow
+          type: string
+          description: |-
+            * `date` - date
+            * `invalid` - invalid
+            * `make_aware` - make_aware
+            * `min_value` - min_value
+            * `overflow` - overflow
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersPartialUpdateEmailErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - email
+          type: string
+          description: '* `email` - email'
+        code:
+          enum:
+          - blank
+          - invalid
+          - max_length
+          - null_characters_not_allowed
+          - surrogate_characters_not_allowed
+          - unique
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `max_length` - max_length
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+            * `unique` - unique
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiUsersPartialUpdateError:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersPartialUpdateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersPartialUpdateEmailErrorComponent'
       - $ref: '#/components/schemas/ApiUsersPartialUpdateFullNameErrorComponent'
       - $ref: '#/components/schemas/ApiUsersPartialUpdateUsernameErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersPartialUpdateIsSuperuserErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersPartialUpdateIsActiveErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersPartialUpdateIsBotErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersPartialUpdateDateExpiresErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiUsersPartialUpdateNonFieldErrorsErrorComponent'
+          email: '#/components/schemas/ApiUsersPartialUpdateEmailErrorComponent'
           full_name: '#/components/schemas/ApiUsersPartialUpdateFullNameErrorComponent'
           username: '#/components/schemas/ApiUsersPartialUpdateUsernameErrorComponent'
+          is_superuser: '#/components/schemas/ApiUsersPartialUpdateIsSuperuserErrorComponent'
+          is_active: '#/components/schemas/ApiUsersPartialUpdateIsActiveErrorComponent'
+          is_bot: '#/components/schemas/ApiUsersPartialUpdateIsBotErrorComponent'
+          date_expires: '#/components/schemas/ApiUsersPartialUpdateDateExpiresErrorComponent'
     ApiUsersPartialUpdateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersPartialUpdateValidationError'
@@ -65373,6 +65710,72 @@ components:
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersPartialUpdateIsActiveErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_active
+          type: string
+          description: '* `is_active` - is_active'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersPartialUpdateIsBotErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_bot
+          type: string
+          description: '* `is_bot` - is_bot'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersPartialUpdateIsSuperuserErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_superuser
+          type: string
+          description: '* `is_superuser` - is_superuser'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -65461,17 +65864,85 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiUsersUpdateDateExpiresErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - date_expires
+          type: string
+          description: '* `date_expires` - date_expires'
+        code:
+          enum:
+          - date
+          - invalid
+          - make_aware
+          - min_value
+          - overflow
+          type: string
+          description: |-
+            * `date` - date
+            * `invalid` - invalid
+            * `make_aware` - make_aware
+            * `min_value` - min_value
+            * `overflow` - overflow
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersUpdateEmailErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - email
+          type: string
+          description: '* `email` - email'
+        code:
+          enum:
+          - blank
+          - invalid
+          - max_length
+          - null_characters_not_allowed
+          - surrogate_characters_not_allowed
+          - unique
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `max_length` - max_length
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+            * `unique` - unique
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiUsersUpdateError:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersUpdateNonFieldErrorsErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersUpdateEmailErrorComponent'
       - $ref: '#/components/schemas/ApiUsersUpdateFullNameErrorComponent'
       - $ref: '#/components/schemas/ApiUsersUpdateUsernameErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersUpdateIsSuperuserErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersUpdateIsActiveErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersUpdateIsBotErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersUpdateDateExpiresErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiUsersUpdateNonFieldErrorsErrorComponent'
+          email: '#/components/schemas/ApiUsersUpdateEmailErrorComponent'
           full_name: '#/components/schemas/ApiUsersUpdateFullNameErrorComponent'
           username: '#/components/schemas/ApiUsersUpdateUsernameErrorComponent'
+          is_superuser: '#/components/schemas/ApiUsersUpdateIsSuperuserErrorComponent'
+          is_active: '#/components/schemas/ApiUsersUpdateIsActiveErrorComponent'
+          is_bot: '#/components/schemas/ApiUsersUpdateIsBotErrorComponent'
+          date_expires: '#/components/schemas/ApiUsersUpdateDateExpiresErrorComponent'
     ApiUsersUpdateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersUpdateValidationError'
@@ -65507,6 +65978,72 @@ components:
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersUpdateIsActiveErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_active
+          type: string
+          description: '* `is_active` - is_active'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersUpdateIsBotErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_bot
+          type: string
+          description: '* `is_bot` - is_bot'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersUpdateIsSuperuserErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - is_superuser
+          type: string
+          description: '* `is_superuser` - is_superuser'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -65594,24 +66131,6 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
-    BasicUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        full_name:
-          type: string
-          maxLength: 150
-        username:
-          type: string
-          description: 'Username may only contain letters, numbers or the following
-            characters: @ . + - _'
-          maxLength: 150
-      required:
-      - full_name
-      - id
-      - username
     BlankEnum:
       enum:
       - ''
@@ -66760,6 +67279,95 @@ components:
         * `2` - Daily digest
         * `3` - Weekly digest
         * `4` - Monthly digest
+    FullUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type:
+          - string
+          - 'null'
+          title: E-mail
+          format: email
+          maxLength: 190
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        notifications:
+          type: string
+          format: uri
+          readOnly: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: User has all possible permissions.
+        is_active:
+          type: boolean
+          title: Active
+          description: Mark user as inactive instead of removing.
+        is_bot:
+          type: boolean
+          title: Robot user
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        date_expires:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          title: Expires
+          description: The account will be disabled after the expiry.
+        last_login:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        contributions_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - contributions_url
+      - date_joined
+      - full_name
+      - groups
+      - id
+      - languages
+      - last_login
+      - notifications
+      - statistics_url
+      - url
+      - username
     FuzzyEnum:
       enum:
       - process
@@ -68702,27 +69310,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Addon'
-    PaginatedBasicUserList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/BasicUser'
     PaginatedCategoryList:
       type: object
       required:
@@ -68828,6 +69415,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ComponentList'
+    PaginatedFullUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FullUser'
     PaginatedGroupList:
       type: object
       required:
@@ -69071,20 +69679,6 @@ components:
           type: string
           format: uri
           readOnly: true
-    PatchedBasicUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        full_name:
-          type: string
-          maxLength: 150
-        username:
-          type: string
-          description: 'Username may only contain letters, numbers or the following
-            characters: @ . + - _'
-          maxLength: 150
     PatchedCategory:
       type: object
       properties:
@@ -69499,6 +70093,83 @@ components:
             $ref: '#/components/schemas/AutoComponentList'
           readOnly: true
         url:
+          type: string
+          format: uri
+          readOnly: true
+    PatchedFullUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type:
+          - string
+          - 'null'
+          title: E-mail
+          format: email
+          maxLength: 190
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        notifications:
+          type: string
+          format: uri
+          readOnly: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: User has all possible permissions.
+        is_active:
+          type: boolean
+          title: Active
+          description: Mark user as inactive instead of removing.
+        is_bot:
+          type: boolean
+          title: Robot user
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        date_expires:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          title: Expires
+          description: The account will be disabled after the expiry.
+        last_login:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        contributions_url:
           type: string
           format: uri
           readOnly: true

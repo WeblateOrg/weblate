@@ -35,6 +35,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.ini
     :language: ini
 
+.. include:: /snippets/format-features/ini-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

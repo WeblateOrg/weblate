@@ -18,7 +18,7 @@ from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, Suggestion, Translation, Unit
-from weblate.trans.util import split_plural
+from weblate.trans.util import is_plural, split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -53,6 +53,7 @@ class BaseAutoTranslate:
         self.mode: str = mode
         self.component_wide: bool = component_wide
         self.unit_ids: list[int] | None = unit_ids
+        self.warnings: list[str] = []
 
     def get_message(self) -> str:
         if self.updated == 0:
@@ -70,6 +71,13 @@ class BaseAutoTranslate:
     def get_task_meta(self) -> dict[str, Any]:
         """Return a metadata dictionary for Celery task progress tracking."""
         raise NotImplementedError
+
+    def add_warning(self, warning: str) -> None:
+        if warning not in self.warnings:
+            self.warnings.append(warning)
+
+    def get_warnings(self) -> list[str]:
+        return self.warnings
 
     def set_progress(self, current: int) -> None:
         if current_task and current_task.request.id and self.progress_steps:
@@ -145,7 +153,6 @@ class AutoTranslate(BaseAutoTranslate):
             self.translation.log_info("finalizing automatic translation")
             self.translation.store_update_changes()
             if not self.component_wide:
-                self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()
             self.translation.invalidate_cache()
             if self.user:
@@ -155,7 +162,7 @@ class AutoTranslate(BaseAutoTranslate):
     def process_others(self, source_component_id: int | None) -> None:
         """Perform automatic translation based on other components."""
         sources = Unit.objects.filter(
-            translation__plural=self.translation.plural,
+            translation__language=self.translation.language,
             state__gte=STATE_TRANSLATED,
         )
         source_language = self.translation.component.source_language
@@ -193,12 +200,37 @@ class AutoTranslate(BaseAutoTranslate):
         )
 
         # Fetch available translations
-        translations = {
-            source: split_plural(target)
-            for source, target in sources.filter(
-                source__lower__md5__in=source_md5s
-            ).values_list("source", "target")
-        }
+        translations: dict[str, list[str]] = {}
+        mismatched_translation_ids: set[int] = set()
+        source_units = (
+            sources.filter(source__lower__md5__in=source_md5s)
+            .values_list("source", "target", "translation_id", "translation__plural_id")
+            .order_by("translation_id")
+        )
+        target_plural_id = self.translation.plural_id
+        for source, target, translation_id, plural_id in source_units:
+            if plural_id != target_plural_id and (
+                is_plural(source) or is_plural(target)
+            ):
+                mismatched_translation_ids.add(translation_id)
+                continue
+            translations.setdefault(source, split_plural(target))
+
+        mismatched_components = (
+            Component.objects.filter(translation__in=mismatched_translation_ids)
+            .defer_huge()
+            .prefetch()
+            .distinct()
+            .order_project()
+        )
+        for component in mismatched_components:
+            self.add_warning(
+                gettext(
+                    "Plural forms in %(component)s do not match the target translation. "
+                    "Automatic translation skipped pluralized strings and processed only single-form strings."
+                )
+                % {"component": component}
+            )
 
         # Fetch translated unit IDs
         # Cannot use get_units() directly as SELECT FOR UPDATE cannot be used with JOIN
@@ -427,6 +459,8 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 source_component_id=source_component_id,
             )
             self.updated += auto_translate.updated
+            for warning in auto_translate.get_warnings():
+                self.add_warning(warning)
             self.set_progress(pos)
 
         return self.get_message()

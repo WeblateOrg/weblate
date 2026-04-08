@@ -5,13 +5,14 @@
 from __future__ import annotations
 
 import os
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import suppress
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.template.defaultfilters import linebreaksbr
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -20,8 +21,8 @@ from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.templatetags.translations import format_json
-from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
@@ -30,7 +31,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+    from collections.abc import Callable, Generator, Iterable
 
     from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
@@ -71,6 +72,7 @@ class BaseAddon(DocVersionsMixin):
         self.instance: Addon = storage
         self.alerts: list[dict[str, str]] = []
         self.extra_files: list[str] = []
+        self.documentation_build: bool = False
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} instance={self.instance}>"
@@ -125,7 +127,7 @@ class BaseAddon(DocVersionsMixin):
         run: bool = True,
         acting_user: User | None = None,
         **kwargs,
-    ) -> BaseAddon:
+    ) -> Self:
         storage = cls.create_object(
             component=component,
             category=category,
@@ -344,9 +346,50 @@ class BaseAddon(DocVersionsMixin):
     def post_uninstall(self) -> None:
         pass
 
+    def get_component_state(self, component: Component) -> dict[str, object]:
+        key = str(component.pk)
+        state = self.instance.state.setdefault("components", {})
+        if not isinstance(state, dict):
+            state = {}
+            self.instance.state["components"] = state
+        component_state = state.setdefault(key, {})
+        if not isinstance(component_state, dict):
+            component_state = {}
+            state[key] = component_state
+        return component_state
+
     def save_state(self) -> None:
         """Save add-on state information."""
         self.instance.save(update_fields=["state"])
+
+    def update_component_state(
+        self,
+        component: Component,
+        updater: Callable[[dict[str, object]], None],
+    ) -> None:
+        """Atomically merge component-scoped add-on state into the shared JSON field."""
+        with transaction.atomic():
+            storage = (
+                type(self.instance).objects.select_for_update().get(pk=self.instance.pk)
+            )
+            state = storage.state
+            if not isinstance(state, dict):
+                state = {}
+                storage.state = state
+            components_state = state.setdefault("components", {})
+            if not isinstance(components_state, dict):
+                components_state = {}
+                state["components"] = components_state
+
+            key = str(component.pk)
+            component_state = components_state.setdefault(key, {})
+            if not isinstance(component_state, dict):
+                component_state = {}
+                components_state[key] = component_state
+
+            updater(component_state)
+            storage.save(update_fields=["state"])
+            self.instance.state = storage.state
 
     @classmethod
     def can_install(
@@ -514,7 +557,7 @@ class BaseAddon(DocVersionsMixin):
     ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(
+            output = subprocess.check_output(  # noqa: S603
                 cmd,
                 env=get_clean_env(env),
                 cwd=component.full_path,

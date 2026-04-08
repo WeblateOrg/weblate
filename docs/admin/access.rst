@@ -180,6 +180,14 @@ team) would be sufficient.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+Both project administrators and site administrators can also invite multiple
+users at once by pasting whitespace-separated e-mail addresses. All
+invitations created in one bulk action use the selected team, and site-wide
+bulk invites also apply the selected superuser flag.
+
+Bulk invitations are processed individually. Invalid addresses and addresses
+with an already pending invitation are skipped while valid invitations are
+still created and sent.
 
 .. versionchanged:: 5.0
 
@@ -466,8 +474,8 @@ be accomplished with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
-    As for now, there is no way to bulk-add already existing users to some team
-    via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
+    Bulk inviting through the user interface creates invitations. Existing
+    users still have to confirm the invitation before they become team members.
 
 Default teams and roles
 -----------------------

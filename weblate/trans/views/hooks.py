@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import quote, urlparse
 
@@ -81,7 +81,7 @@ class HandlerResponse(TypedDict):
     repo_url: str
     repos: list[str]
     branch: str | None
-    full_name: str
+    full_name: str | None
 
 
 HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
@@ -90,13 +90,50 @@ HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
 HOOK_HANDLERS: dict[str, HandlerType] = {}
 
 
-def validate_full_name(full_name: str) -> bool:
+class HookPayloadError(Exception):
+    """Raised for malformed but expected webhook payload problems."""
+
+
+def validate_full_name(full_name: str | None) -> bool:
     """
     Validate that repository full name is suitable for endswith matching.
 
     This is to avoid using too short expression with possibly too broad matches.
     """
+    if not full_name:
+        return False
     return "/" in full_name and len(full_name) > 5
+
+
+def normalize_branch_ref(ref: str | None) -> str:
+    """Normalize a Git ref to a branch name."""
+    if not isinstance(ref, str) or not ref:
+        msg = "Missing ref in payload"
+        raise HookPayloadError(msg)
+    return re.sub(r"^refs/heads/", "", ref)
+
+
+def require_mapping(value: object, field_name: str) -> Mapping[str, object]:
+    """Validate that the payload field is a mapping."""
+    if not isinstance(value, Mapping):
+        msg = f"Invalid {field_name} in payload"
+        raise HookPayloadError(msg)
+    return value
+
+
+def require_string(value: object, field_name: str) -> str:
+    """Validate that the payload field is a string."""
+    if not isinstance(value, str):
+        msg = f"Invalid {field_name} in payload"
+        raise HookPayloadError(msg)
+    return value
+
+
+def optional_string(value: object, field_name: str) -> str | None:
+    """Validate that the payload field is a string or null."""
+    if value is None:
+        return None
+    return require_string(value, field_name)
 
 
 def register_hook(handler: HandlerType) -> HandlerType:
@@ -170,171 +207,6 @@ class PayloadFormParserParser(parsers.FormParser, PayloadMixin):
     def parse(self, stream, media_type=None, parser_context=None):
         return self.extract_payload(
             super().parse(stream, media_type=media_type, parser_context=parser_context)
-        )
-
-
-@extend_schema(
-    responses=HookResponseSerializer,
-    request=HookRequestSerializer,
-    parameters=[
-        OpenApiParameter(
-            "service",
-            enum=["bitbucket", "github", "gitea", "gitee", "gitlab", "pagure", "azure"],
-            location=OpenApiParameter.PATH,
-        ),
-    ],
-)
-class ServiceHookView(APIView):
-    authentication_classes = []  # noqa: RUF012
-    permission_classes = [AllowAny]  # noqa: RUF012
-    throttle_classes = []  # noqa: RUF012
-    http_method_names = ["post"]  # noqa: RUF012
-    parser_classes = (
-        parsers.JSONParser,
-        PayloadMultiPartParser,
-        PayloadFormParserParser,
-    )
-
-    def hook_response(
-        self,
-        response: str = "Update triggered",
-        status: int = 200,
-        match_status: HookMatchDict | None = None,
-        updated_components: list[Component] | None = None,
-    ) -> Response:
-        """Create a hook response."""
-        serializer = HookResponseSerializer(
-            {
-                "status": "success" if status in {200, 201} else "failure",
-                "message": response,
-                "match_status": match_status,
-                "updated_components": updated_components,
-            },
-            context={"request": self.request},
-        )
-        return Response(serializer.data, status=status)
-
-    def post(self, request: Request, service: str) -> Response:
-        """Process incoming webhook from a code hosting site."""
-        # We support only post methods
-        if not settings.ENABLE_HOOKS:
-            msg = "POST"
-            raise MethodNotAllowed(msg)
-
-        # Get service helper
-        try:
-            hook_helper = HOOK_HANDLERS[service]
-        except KeyError as exc:
-            msg = f"Hook {service} not supported"
-            raise NotFound(msg) from exc
-
-        # Check if we got payload
-        data = request.data
-        if not data:
-            msg = "Invalid data in json payload!"
-            raise ValidationError(msg)
-
-        # Send the request data to the service handler.
-        try:
-            service_data = hook_helper(data, request)
-        except Exception as exc:
-            report_error("Invalid service data")
-            msg = "Invalid data in json payload!"
-            raise ValidationError(msg) from exc
-
-        # This happens on ping request upon installation
-        if service_data is None:
-            return self.hook_response("Hook working", status=201)
-
-        # Log data
-        service_long_name = service_data["service_long_name"]
-        repos = service_data["repos"]
-        repo_url = service_data["repo_url"]
-        branch = service_data["branch"]
-        full_name = service_data["full_name"]
-
-        # Generate filter
-        spfilter = Q(repo__in=repos)
-
-        user = User.objects.get_or_create_bot(
-            scope="webhook",
-            name=service,
-            verbose=f"{service_data['service_long_name']} webhook",
-        )
-
-        for repo in repos:
-            # We need to match also URLs which include username and password
-            if repo.startswith("http://"):
-                spfilter |= Q(repo__startswith="http://") & Q(
-                    repo__endswith=f"@{repo[7:]}"
-                )
-            elif repo.startswith("https://"):
-                spfilter |= Q(repo__startswith="https://") & Q(
-                    repo__endswith=f"@{repo[8:]}"
-                )
-            # Include URLs with trailing slash
-            spfilter |= Q(repo=f"{repo}/")
-
-        repo_components = Component.objects.filter(spfilter)
-
-        if not repo_components.exists() and validate_full_name(full_name):
-            # Fall back to endswith matching if repository full name is reasonable
-            repo_components = Component.objects.filter(
-                Q(repo__iendswith=full_name)
-                | Q(repo__iendswith=f"{full_name}/")
-                | Q(repo__iendswith=f"{full_name}.git")
-            )
-
-        if branch is not None:
-            all_components = repo_components.filter(branch=branch)
-        else:
-            all_components = repo_components
-
-        all_components_count = all_components.count()
-        repo_components_count = repo_components.count()
-        enabled_components = all_components.filter(project__enable_hooks=True)
-
-        LOGGER.info(
-            "received %s notification on repository %s, URL %s, branch %s, "
-            "%d matching components, %d to process, %d linked",
-            service_long_name,
-            full_name,
-            repo_url,
-            branch,
-            all_components_count,
-            len(enabled_components),
-            Component.objects.filter(linked_component__in=enabled_components).count(),
-        )
-
-        # Trigger updates
-        updates = 0
-        for obj in enabled_components:
-            updates += 1
-            LOGGER.info("%s notification will update %s", service_long_name, obj)
-            obj.change_set.create(
-                action=ActionEvents.HOOK, details=service_data, user=user
-            )
-            perform_update.delay("Component", obj.pk, user_id=user.id)
-
-        match_status = HookMatchDict(
-            repository_matches=repo_components_count,
-            branch_matches=all_components_count,
-            enabled_hook_matches=len(enabled_components),
-        )
-
-        if updates == 0:
-            return self.hook_response(
-                "No matching repositories found!",
-                status=202,
-                match_status=match_status,
-            )
-
-        updated_components = [obj.full_slug for obj in enabled_components]
-
-        return self.hook_response(
-            f"Update triggered: {', '.join(updated_components)}",
-            match_status=match_status,
-            updated_components=updated_components,
         )
 
 
@@ -457,7 +329,7 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     o_data = data["repository"]["owner"]
     owner = o_data["login"] if "login" in o_data else o_data["name"]
     slug = data["repository"]["name"]
-    branch = re.sub(r"^refs/heads/", "", data["ref"])
+    branch = normalize_branch_ref(data.get("ref"))
 
     params = {"owner": owner, "slug": slug}
 
@@ -484,19 +356,33 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     }
 
 
+def _gitea_like_hook_helper(
+    data: dict, service_long_name: str
+) -> HandlerResponse | None:
+    repository = require_mapping(data.get("repository"), "repository")
+    return {
+        "service_long_name": service_long_name,
+        "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
+        "repos": [
+            require_string(repository.get("clone_url"), "repository.clone_url"),
+            require_string(repository.get("ssh_url"), "repository.ssh_url"),
+            require_string(repository.get("html_url"), "repository.html_url"),
+        ],
+        "branch": normalize_branch_ref(data.get("ref")),
+        "full_name": optional_string(
+            repository.get("full_name"), "repository.full_name"
+        ),
+    }
+
+
 @register_hook
 def gitea_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
-    return {
-        "service_long_name": "Gitea",
-        "repo_url": data["repository"]["html_url"],
-        "repos": [
-            data["repository"]["clone_url"],
-            data["repository"]["ssh_url"],
-            data["repository"]["html_url"],
-        ],
-        "branch": re.sub(r"^refs/heads/", "", data["ref"]),
-        "full_name": data["repository"]["full_name"],
-    }
+    return _gitea_like_hook_helper(data, "Gitea")
+
+
+@register_hook
+def forgejo_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+    return _gitea_like_hook_helper(data, "Forgejo")
 
 
 @register_hook
@@ -511,7 +397,7 @@ def gitee_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
             data["repository"]["ssh_url"],
             data["repository"]["html_url"],
         ],
-        "branch": re.sub(r"^refs/heads/", "", data["ref"]),
+        "branch": normalize_branch_ref(data.get("ref")),
         "full_name": data["repository"]["path_with_namespace"],
     }
 
@@ -524,7 +410,7 @@ def gitlab_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
         return None
     ssh_url = data["repository"]["url"]
     http_url = f"{data['repository']['homepage']}.git"
-    branch = re.sub(r"^refs/heads/", "", data["ref"])
+    branch = normalize_branch_ref(data.get("ref"))
 
     # Construct possible repository URLs
     repos = [
@@ -627,3 +513,173 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
         # Using just a repository name will avoid using endswith matching here
         "full_name": repository,
     }
+
+
+# ServiceHookView is defined after all @register_hook calls so the OpenAPI
+# service enum is derived automatically from HOOK_HANDLERS.
+@extend_schema(
+    responses=HookResponseSerializer,
+    request=HookRequestSerializer,
+    parameters=[
+        OpenApiParameter(
+            "service",
+            enum=sorted(HOOK_HANDLERS.keys()),
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)
+class ServiceHookView(APIView):
+    authentication_classes = []  # noqa: RUF012
+    permission_classes = [AllowAny]  # noqa: RUF012
+    throttle_classes = []  # noqa: RUF012
+    http_method_names = ["post"]  # noqa: RUF012
+    parser_classes = (
+        parsers.JSONParser,
+        PayloadMultiPartParser,
+        PayloadFormParserParser,
+    )
+
+    def hook_response(
+        self,
+        response: str = "Update triggered",
+        status: int = 200,
+        match_status: HookMatchDict | None = None,
+        updated_components: list[Component] | None = None,
+    ) -> Response:
+        """Create a hook response."""
+        serializer = HookResponseSerializer(
+            {
+                "status": "success" if status in {200, 201} else "failure",
+                "message": response,
+                "match_status": match_status,
+                "updated_components": updated_components,
+            },
+            context={"request": self.request},
+        )
+        return Response(serializer.data, status=status)
+
+    def post(self, request: Request, service: str) -> Response:
+        """Process incoming webhook from a code hosting site."""
+        # We support only post methods
+        if not settings.ENABLE_HOOKS:
+            msg = "POST"
+            raise MethodNotAllowed(msg)
+
+        # Get service helper
+        try:
+            hook_helper = HOOK_HANDLERS[service]
+        except KeyError as exc:
+            msg = f"Hook {service} not supported"
+            raise NotFound(msg) from exc
+
+        # Check if we got payload
+        data = request.data
+        if not data:
+            msg = "Invalid data in json payload!"
+            raise ValidationError(msg)
+
+        # Send the request data to the service handler.
+        try:
+            service_data = hook_helper(data, request)
+        except HookPayloadError as exc:
+            msg = f"Invalid data in json payload: {exc}"
+            raise ValidationError(msg) from exc
+        except Exception as exc:
+            report_error("Invalid service data")
+            msg = "Invalid data in json payload!"
+            raise ValidationError(msg) from exc
+
+        # This happens on ping request upon installation
+        if service_data is None:
+            return self.hook_response("Hook working", status=201)
+
+        # Log data
+        service_long_name = service_data["service_long_name"]
+        repos = service_data["repos"]
+        repo_url = service_data["repo_url"]
+        branch = service_data["branch"]
+        full_name = service_data["full_name"]
+
+        # Generate filter
+        spfilter = Q(repo__in=repos)
+
+        user = User.objects.get_or_create_bot(
+            scope="webhook",
+            name=service,
+            verbose=f"{service_data['service_long_name']} webhook",
+        )
+
+        for repo in repos:
+            # We need to match also URLs which include username and password
+            if repo.startswith("http://"):
+                spfilter |= Q(repo__startswith="http://") & Q(
+                    repo__endswith=f"@{repo[7:]}"
+                )
+            elif repo.startswith("https://"):
+                spfilter |= Q(repo__startswith="https://") & Q(
+                    repo__endswith=f"@{repo[8:]}"
+                )
+            # Include URLs with trailing slash
+            spfilter |= Q(repo=f"{repo}/")
+
+        repo_components = Component.objects.filter(spfilter)
+
+        if not repo_components.exists() and validate_full_name(full_name):
+            # Fall back to endswith matching if repository full name is reasonable
+            repo_components = Component.objects.filter(
+                Q(repo__iendswith=full_name)
+                | Q(repo__iendswith=f"{full_name}/")
+                | Q(repo__iendswith=f"{full_name}.git")
+            )
+
+        if branch is not None:
+            all_components = repo_components.filter(branch=branch)
+        else:
+            all_components = repo_components
+
+        all_components_count = all_components.count()
+        repo_components_count = repo_components.count()
+        enabled_components = all_components.filter(project__enable_hooks=True)
+
+        LOGGER.info(
+            "received %s notification on repository %s, URL %s, branch %s, "
+            "%d matching components, %d to process, %d linked",
+            service_long_name,
+            full_name,
+            repo_url,
+            branch,
+            all_components_count,
+            len(enabled_components),
+            Component.objects.filter(linked_component__in=enabled_components).count(),
+        )
+
+        # Trigger updates
+        updates = 0
+        for obj in enabled_components:
+            updates += 1
+            LOGGER.info("%s notification will update %s", service_long_name, obj)
+            obj.change_set.create(
+                action=ActionEvents.HOOK, details=service_data, user=user
+            )
+            perform_update.delay("Component", obj.pk, user_id=user.id)
+
+        match_status = HookMatchDict(
+            repository_matches=repo_components_count,
+            branch_matches=all_components_count,
+            enabled_hook_matches=len(enabled_components),
+        )
+
+        if updates == 0:
+            return self.hook_response(
+                "No matching repositories found!",
+                status=202,
+                match_status=match_status,
+            )
+
+        updated_components = [obj.full_slug for obj in enabled_components]
+
+        return self.hook_response(
+            f"Update triggered: {', '.join(updated_components)}",
+            match_status=match_status,
+            updated_components=updated_components,
+        )

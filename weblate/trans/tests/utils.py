@@ -112,9 +112,8 @@ class RepoTestMixin:
                 remove_tree(output)
 
             # Extract new content
-            tar = TarFile(tarname)
-            tar.extractall(settings.DATA_DIR)  # noqa: S202
-            tar.close()
+            with TarFile(tarname) as tar:
+                tar.extractall(settings.DATA_DIR)  # noqa: S202
 
             # Update directory timestamp
             os.utime(output, None)
@@ -406,8 +405,10 @@ class RepoTestMixin:
     def create_xliff(self, name="default", **kwargs) -> Component:
         return self._create_component("xliff", f"xliff/*/{name}.xlf", **kwargs)
 
-    def create_xliff_mono(self) -> Component:
-        return self._create_component("xliff", "xliff-mono/*.xlf", "xliff-mono/en.xlf")
+    def create_xliff_mono(self, **kwargs) -> Component:
+        return self._create_component(
+            "xliff", "xliff-mono/*.xlf", "xliff-mono/en.xlf", **kwargs
+        )
 
     def create_xliff_auto(self) -> Component:
         return self._create_component("xliff", "xliff-auto/*.xlf")

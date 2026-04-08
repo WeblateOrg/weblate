@@ -314,6 +314,10 @@ ACCOUNT_ACTIVITY = {
     # Translators: Audit log entry
     "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
     # Translators: Audit log entry
+    "token-created": gettext_lazy("Project token for {project} was created."),
+    # Translators: Audit log entry
+    "token-removed": gettext_lazy("Project token for {project} was removed."),
+    # Translators: Audit log entry
     "recovery-generate": gettext_lazy(
         "Two-factor authentication recovery codes were generated"
     ),
@@ -537,6 +541,10 @@ class AuditLog(models.Model):
         return format_html(str(message), **self.get_params())
 
     def get_extra_message(self) -> str | None:
+        if self.activity in {"token-created", "token-removed"} and self.params.get(
+            "username"
+        ):
+            return gettext("Triggered by {username}.").format(**self.params)
         if self.activity in EXTRA_MESSAGES:
             return EXTRA_MESSAGES[self.activity].format(**self.params)
         return None

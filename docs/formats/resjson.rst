@@ -20,6 +20,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.resjson
     :language: json
 
+.. include:: /snippets/format-features/resjson-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

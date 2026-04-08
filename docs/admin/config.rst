@@ -81,6 +81,30 @@ This is currently used in the following places:
 
    * :setting:`ALLOWED_ASSET_SIZE`
 
+.. setting:: ALLOWED_MACHINERY_DOMAINS
+
+ALLOWED_MACHINERY_DOMAINS
+-------------------------
+
+Configures which custom machinery domains are explicitly allowed in project-level
+machine translation configuration.
+
+This setting applies only to machinery services and does not affect
+:setting:`ALLOWED_ASSET_DOMAINS`.
+
+It expects a list of host/domain names. You can use fully qualified names or
+prepend with a period as a wildcard to match all subdomains.
+
+Defaults to ``[]``.
+
+The allowlist affects project-managed machinery in two ways: it permits the
+configured endpoint during outbound validation, and it marks matching hosts as
+trusted when deciding whether remote provider error details or response bodies
+can be shown to the user. For direct connections, runtime checks still reject
+destinations that resolve to private or otherwise non-public addresses. When an
+HTTP(S) proxy is used, runtime validation falls back to hostname validation and
+does not perform the same local DNS or peer-IP checks.
+
 .. setting:: ALLOWED_ASSET_SIZE
 
 ALLOWED_ASSET_SIZE
@@ -88,7 +112,7 @@ ALLOWED_ASSET_SIZE
 
 .. versionadded:: 5.14
 
-Configures size limit for fetching assets in Weblate. Defaults to 4 MB.
+Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
 
 .. seealso::
 
@@ -1657,6 +1681,42 @@ Default configuration:
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+   * :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`
+
+.. setting:: PROJECT_WEB_RESTRICT_ALLOWLIST
+
+PROJECT_WEB_RESTRICT_ALLOWLIST
+------------------------------
+
+.. versionadded:: 5.17
+
+Defines a set of project slugs exempt from
+:setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+:setting:`PROJECT_WEB_RESTRICT_PRIVATE`, and
+:setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website.
+Project slugs are matched case-insensitively.
+
+.. caution::
+
+   This exemption weakens outbound URL protections for matching projects,
+   including the private-target restriction enforced by
+   :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted,
+   administrator-managed projects where bypassing these checks is intentional.
+
+Default configuration:
+
+.. code-block:: python
+
+   PROJECT_WEB_RESTRICT_ALLOWLIST = set()
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 
@@ -1673,6 +1733,25 @@ Reject using numeric IP address in project website. On by default.
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+
+.. setting:: PROJECT_WEB_RESTRICT_PRIVATE
+
+PROJECT_WEB_RESTRICT_PRIVATE
+----------------------------
+
+.. versionadded:: 5.17
+
+Reject using project website and repository browser URLs pointing to non-global
+IP ranges. On by default.
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :ref:`component-repoweb`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. setting:: PROJECT_WEB_RESTRICT_RE
@@ -1689,6 +1768,44 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_PRIVATE_ALLOWLIST
+
+WEBHOOK_PRIVATE_ALLOWLIST
+-------------------------
+
+.. versionadded:: 5.17
+
+Defines hostnames or domains exempt from :setting:`WEBHOOK_RESTRICT_PRIVATE`
+for outbound webhook delivery. Entries follow Django host matching semantics,
+so values such as ``hooks.internal.example`` or ``.internal.example`` can be
+used.
+
+Default configuration:
+
+.. code-block:: python
+
+   WEBHOOK_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`WEBHOOK_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_RESTRICT_PRIVATE
+
+WEBHOOK_RESTRICT_PRIVATE
+------------------------
+
+.. versionadded:: 5.17
+
+Reject webhook URLs pointing to non-global IP ranges unless the target host is
+included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
+
+.. seealso::
+
+   * :ref:`addon-weblate.webhook.webhook`
+   * :setting:`WEBHOOK_PRIVATE_ALLOWLIST`
 
 .. setting:: PUBLIC_ENGAGE
 

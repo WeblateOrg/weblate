@@ -4,7 +4,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, cast
 
 import regex
 from crispy_forms.helper import FormHelper
@@ -12,10 +13,11 @@ from crispy_forms.layout import Field, Layout
 from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 from fedora_messaging.exceptions import ConfigurationException
 from lxml.cssselect import CSSSelector
 
+from weblate.addons.base import BaseAddon
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import ComponentDiscovery
@@ -36,18 +38,27 @@ from weblate.utils.validators import (
     validate_re,
     validate_re_nonempty,
     validate_webhook_secret_string,
+    validate_webhook_url,
 )
 
 if TYPE_CHECKING:
+    from weblate.addons.cdn import CDNJSAddon  # noqa: F401
+    from weblate.addons.gettext import MesonAddon
+    from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.trans.models import Component, Project
 
 
-class BaseAddonForm(forms.Form):
+class BaseAddonForm[AddonT: BaseAddon](forms.Form):
     def __init__(
-        self, user: User | None, addon, instance=None, *args, **kwargs
+        self,
+        user: User | None,
+        addon: AddonT,
+        instance: Addon | None = None,
+        *args,
+        **kwargs,
     ) -> None:
-        self._addon = addon
+        self._addon: AddonT = addon
         self.user = user
         forms.Form.__init__(self, *args, **kwargs)
 
@@ -94,6 +105,372 @@ class GenerateMoForm(BaseAddonForm):
         self.test_render(self.cleaned_data["path"])
         validate_filename(self.cleaned_data["path"])
         return self.cleaned_data["path"]
+
+
+class BaseExtractPotForm(BaseAddonForm[BaseAddon]):
+    interval = forms.ChoiceField(
+        label=gettext_lazy("Update frequency"),
+        choices=(
+            ("daily", gettext_lazy("Daily")),
+            ("weekly", gettext_lazy("Weekly")),
+            ("monthly", gettext_lazy("Monthly")),
+        ),
+        initial="weekly",
+        required=True,
+        help_text=gettext_lazy(
+            "How often the add-on should update the POT file when the component is refreshed."
+        ),
+    )
+    normalize_header = forms.BooleanField(
+        label=gettext_lazy("Normalize POT header"),
+        required=False,
+        initial=False,
+        help_text=gettext_lazy(
+            "Updates gettext headers and replaces placeholder POT comments."
+        ),
+    )
+    update_po_files = forms.BooleanField(
+        label=gettext_lazy("Update PO files using msgmerge"),
+        required=False,
+        initial=True,
+        widget=forms.HiddenInput(),
+        help_text=gettext_lazy(
+            "Ensures the msgmerge add-on is installed and triggers it after the POT file is updated."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        if self._addon.instance.pk is None and not self._addon.documentation_build:
+            self.fields["update_po_files"].widget = forms.CheckboxInput()
+        self.helper.layout = Layout(
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+        )
+
+    def serialize_form(self):
+        data = dict(super().serialize_form())
+        update_po_files = data.pop("update_po_files", False)
+        if self._addon.instance.pk is None and update_po_files:
+            data["_install_msgmerge"] = True
+        return data
+
+
+class BaseXgettextExtractPotForm(BaseExtractPotForm):
+    COMMENT_MODE_CHOICES = (
+        ("off", gettext_lazy("Do not extract comments")),
+        ("all", gettext_lazy("Extract all comments")),
+        ("tagged", gettext_lazy("Extract comments with tag")),
+    )
+    CHECK_CHOICES = (
+        ("ellipsis-unicode", "ellipsis-unicode"),
+        ("space-ellipsis", "space-ellipsis"),
+        ("quote-unicode", "quote-unicode"),
+        ("bullet-unicode", "bullet-unicode"),
+    )
+    comment_mode = forms.ChoiceField(
+        label=gettext_lazy("Code comments"),
+        choices=COMMENT_MODE_CHOICES,
+        required=True,
+        initial="off",
+        help_text=gettext_lazy(
+            "Choose whether xgettext should extract no comments, all comments, "
+            "or only comments marked with a specific tag."
+        ),
+    )
+    comment_tag = forms.CharField(
+        label=gettext_lazy("Comment tag"),
+        required=False,
+        help_text=gettext_lazy(
+            "Tag passed to xgettext for comment extraction when using tagged "
+            "comment mode."
+        ),
+    )
+    checks = forms.MultipleChoiceField(
+        label=gettext_lazy("xgettext checks"),
+        choices=CHECK_CHOICES,
+        required=False,
+        widget=forms.SelectMultiple(),
+        help_text=gettext_lazy(
+            "Additional xgettext validation checks to enable for extracted messages."
+        ),
+    )
+    keyword = forms.CharField(
+        label=gettext_lazy("Additional keyword"),
+        required=False,
+        help_text=gettext_lazy(
+            "Optional extra keyword passed to xgettext using --keyword."
+        ),
+    )
+
+    @staticmethod
+    def ensure_default_bound_value(data, key: str, value: str):
+        if data is None or key in data:
+            return data
+        if hasattr(data, "copy"):
+            data = data.copy()
+            if hasattr(data, "setlist"):
+                data.setlist(key, [value])
+            else:
+                data[key] = value
+        return data
+
+    def __init__(self, *args, **kwargs) -> None:
+        data = self.ensure_default_bound_value(
+            kwargs.get("data"), "comment_mode", "off"
+        )
+        if data is not None:
+            kwargs["data"] = data
+        super().__init__(*args, **kwargs)
+
+    def clean_xgettext_options(self, cleaned_data: dict[str, Any]) -> dict[str, Any]:
+        comment_mode = cleaned_data.get("comment_mode", "off")
+        comment_tag = cleaned_data.get("comment_tag", "").strip()
+        if comment_mode == "tagged":
+            if not comment_tag:
+                self.add_error("comment_tag", gettext("This field is required."))
+        else:
+            comment_tag = ""
+        cleaned_data["comment_tag"] = comment_tag
+        cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        return cleaned_data
+
+
+class XgettextExtractPotForm(BaseXgettextExtractPotForm):
+    input_mode = forms.ChoiceField(
+        label=gettext_lazy("Input source"),
+        choices=(
+            ("patterns", gettext_lazy("Source file patterns")),
+            ("potfiles", gettext_lazy("POTFILES manifest")),
+        ),
+        required=True,
+        initial="patterns",
+        help_text=gettext_lazy(
+            "Choose whether xgettext should read source files from glob patterns "
+            "or from a POTFILES/POTFILES.in manifest."
+        ),
+    )
+    language = forms.CharField(
+        label=gettext_lazy("xgettext language"),
+        required=True,
+        initial="Python",
+        help_text=gettext_lazy(
+            "Programming language passed to xgettext, for example Python or C."
+        ),
+    )
+    source_patterns = forms.CharField(
+        label=gettext_lazy("Source file patterns"),
+        required=False,
+        widget=forms.Textarea(),
+        help_text=gettext_lazy(
+            "Newline-separated repository-relative glob patterns for files to "
+            "extract with xgettext."
+        ),
+    )
+    potfiles_path = forms.CharField(
+        label=gettext_lazy("POTFILES path"),
+        required=False,
+        initial="",
+        help_text=gettext_lazy(
+            "Repository-relative path to POTFILES or POTFILES.in. Entries are "
+            "resolved relative to the repository root. If present next to the "
+            "manifest, POTFILES.skip excludes listed files from extraction."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        data = self.ensure_default_bound_value(
+            kwargs.get("data"), "input_mode", "patterns"
+        )
+        if data is not None:
+            source_patterns = data.get("source_patterns")
+            if isinstance(source_patterns, list):
+                data = data.copy()
+                data["source_patterns"] = "\n".join(source_patterns)
+            kwargs["data"] = data
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(*self.get_xgettext_layout_fields())
+
+    @classmethod
+    def get_xgettext_layout_fields(cls) -> list[Field]:
+        return [
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+            Field("input_mode"),
+            Field("language"),
+            Field("source_patterns"),
+            Field("potfiles_path"),
+            Field("comment_mode"),
+            Field("comment_tag"),
+            Field("checks"),
+            Field("keyword"),
+        ]
+
+    @staticmethod
+    def parse_patterns(value: str) -> list[str]:
+        return [line.strip() for line in value.splitlines() if line.strip()]
+
+    def clean(self) -> dict[str, Any]:
+        super().clean()
+        cleaned_data = self.cleaned_data
+        input_mode = cleaned_data.get("input_mode", "patterns")
+        patterns = self.parse_patterns(cleaned_data.get("source_patterns", ""))
+        potfiles_path = cleaned_data.get("potfiles_path", "").strip()
+        if input_mode == "patterns":
+            if not patterns:
+                self.add_error("source_patterns", gettext("This field is required."))
+            for pattern in patterns:
+                validate_filename(pattern)
+            cleaned_data["source_patterns"] = patterns
+            cleaned_data["potfiles_path"] = ""
+        else:
+            if not potfiles_path:
+                self.add_error("potfiles_path", gettext("This field is required."))
+            else:
+                validate_filename(potfiles_path)
+                component = self._addon.instance.component
+                if component is not None:
+                    manifest = Path(component.full_path) / potfiles_path
+                    if manifest.exists() and manifest.is_dir():
+                        self.add_error(
+                            "potfiles_path",
+                            gettext("POTFILES path has to point to a file."),
+                        )
+            cleaned_data["source_patterns"] = []
+            cleaned_data["potfiles_path"] = potfiles_path
+        return self.clean_xgettext_options(cleaned_data)
+
+
+class MesonExtractPotForm(BaseXgettextExtractPotForm):
+    preset = forms.ChoiceField(
+        label=gettext_lazy("Meson preset"),
+        choices=(("glib", gettext_lazy("GLib")),),
+        required=True,
+        initial="glib",
+        help_text=gettext_lazy(
+            "Built-in xgettext argument preset matching Meson gettext integration. "
+            "The GLib preset adds the keyword and format-flag options used by "
+            "Meson's gettext helper."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+            Field("preset"),
+            Field("comment_mode"),
+            Field("comment_tag"),
+            Field("checks"),
+            Field("keyword"),
+        )
+
+    def clean(self) -> dict[str, Any]:
+        super().clean()
+        cleaned_data = self.clean_xgettext_options(self.cleaned_data)
+        component = self._addon.instance.component
+        if component is None:
+            return cleaned_data
+        addon = cast("MesonAddon", self._addon)
+        if not addon.is_meson_layout(component):
+            self.add_error(
+                None,
+                gettext(
+                    "The Meson add-on expects a Meson gettext directory with "
+                    "meson.build and POTFILES or POTFILES.in."
+                ),
+            )
+        return cleaned_data
+
+
+class DjangoExtractPotForm(BaseExtractPotForm):
+    def clean(self) -> dict[str, Any]:
+        super().clean()
+        cleaned_data = self.cleaned_data
+        component = self._addon.instance.component
+        if component is None:
+            return cleaned_data
+        if not component.new_base.endswith(".pot"):
+            self.add_error(
+                None,
+                gettext("The component has to define a POT file for new translations."),
+            )
+            return cleaned_data
+        if Path(component.new_base).stem not in {"django", "djangojs"}:
+            self.add_error(
+                None,
+                gettext(
+                    "The Django add-on expects the template for new translations to "
+                    'be named "django.pot" or "djangojs.pot".'
+                ),
+            )
+        return cleaned_data
+
+
+class SphinxExtractPotForm(BaseExtractPotForm):
+    filter_mode = forms.ChoiceField(
+        label=gettext_lazy("Filtering"),
+        choices=(
+            ("none", pgettext_lazy("None filtering", "None")),
+            ("weblate_docs", gettext_lazy("Weblate documentation")),
+        ),
+        initial="none",
+        required=False,
+        help_text=gettext_lazy(
+            "Optionally remove strings that are not useful to translate after Sphinx extraction."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+            Field("filter_mode"),
+        )
+
+    def clean(self) -> dict[str, Any]:
+        super().clean()
+        cleaned_data = self.cleaned_data
+        component = self._addon.instance.component
+        if component is None:
+            return cleaned_data
+        if not component.new_base.endswith(".pot"):
+            self.add_error(
+                None,
+                gettext(
+                    "The Sphinx add-on expects the template for new translations "
+                    "to be a .pot file."
+                ),
+            )
+            return cleaned_data
+        template = Path(component.new_base)
+        parts = template.parts
+        if "locales" not in parts:
+            self.add_error(
+                None,
+                gettext(
+                    "The Sphinx add-on expects the template for new translations "
+                    'to live in a "locales" directory.'
+                ),
+            )
+            return cleaned_data
+        locales_index = parts.index("locales")
+        source_parts = parts[:locales_index]
+        if source_parts:
+            component_root = Path(component.full_path)
+            if not component_root.joinpath(*source_parts).is_dir():
+                self.add_error(
+                    None,
+                    gettext("Could not determine Sphinx source directory."),
+                )
+        return cleaned_data
 
 
 class GenerateForm(BaseAddonForm):
@@ -300,8 +677,12 @@ class DiscoveryForm(BaseAddonForm):
 
     @cached_property
     def discovery(self):
+        component = self._addon.instance.component
+        if component is None:
+            msg = "Discovery add-on requires a component"
+            raise ValueError(msg)
         return ComponentDiscovery(
-            self._addon.instance.component,
+            component,
             **ComponentDiscovery.extract_kwargs(self.cleaned_data),
         )
 
@@ -415,7 +796,7 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
         return result
 
 
-class CDNJSForm(BaseAddonForm):
+class CDNJSForm(BaseAddonForm["CDNJSAddon"]):
     threshold = forms.IntegerField(
         label=gettext_lazy("Translation threshold"),
         initial=0,
@@ -618,6 +999,11 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         "webhook_url",
         "events",
     ]
+
+    def clean_webhook_url(self) -> str:
+        value = self.cleaned_data["webhook_url"]
+        validate_webhook_url(value)
+        return value
 
 
 class WebhooksAddonForm(BaseWebhooksAddonForm):

@@ -7,8 +7,6 @@
 from __future__ import annotations
 
 import ast
-import base64
-import json
 import operator
 import time
 import urllib.parse
@@ -16,13 +14,15 @@ from functools import cache
 from random import SystemRandom
 from typing import TYPE_CHECKING, Literal
 
-from altcha import solve_challenge
+from altcha import PayloadV1 as Payload
+from altcha import solve_challenge_v1 as solve_challenge
 from django.utils.html import format_html
 
 from weblate.utils.templatetags.icons import icon
 
 if TYPE_CHECKING:
-    from altcha import Challenge, Solution
+    from altcha import ChallengeV1 as Challenge
+    from altcha import SolutionV1 as Solution
 
 TIMEDELTA = 600
 
@@ -127,27 +127,20 @@ def eval_node(node):
 
 
 def solve_altcha(challenge: Challenge, number: int | None = None) -> str:
-    solution: Solution = solve_challenge(
-        challenge=challenge.challenge,
-        salt=challenge.salt,
-        algorithm=challenge.algorithm,
-        max_number=challenge.max_number,
-        start=0,
-    )
+    solution: Solution | None = solve_challenge(challenge=challenge, start=0)
+    if solution is None:
+        msg = "Unable to solve ALTCHA challenge"
+        raise ValueError(msg)
     # Make sure the challenge expiry is in past
     split_salt = challenge.salt.split("?")
     params = urllib.parse.parse_qs(split_salt[1])
     expires = int(params["expires"][0])
     while time.time() == expires:
         time.sleep(0.1)
-    return base64.b64encode(
-        json.dumps(
-            {
-                "algorithm": challenge.algorithm,
-                "challenge": challenge.challenge,
-                "number": solution.number if number is None else number,
-                "salt": challenge.salt,
-                "signature": challenge.signature,
-            }
-        ).encode("utf-8")
-    ).decode("utf-8")
+    return Payload(
+        algorithm=challenge.algorithm,
+        challenge=challenge.challenge,
+        number=solution.number if number is None else number,
+        salt=challenge.salt,
+        signature=challenge.signature,
+    ).to_base64()

@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.fonts.models import Font, FontGroup
@@ -19,6 +20,32 @@ class FontViewTest(FontTestCase):
         response = self.client.get(self.fonts_url)
         self.assertContains(response, font.family)
         self.assertNotContains(response, "Add font")
+
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_upload_too_big(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        with FONT.open("rb") as handle:
+            response = self.client.post(self.fonts_url, {"font": handle}, follow=True)
+
+        self.assertContains(response, "Uploaded file is too big.")
+        self.assertEqual(Font.objects.count(), 0)
+
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_edit_too_big(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        font = self.add_font()
+        original_name = font.font.name
+
+        with FONT.open("rb") as handle:
+            response = self.client.post(font.get_absolute_url(), {"font": handle})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Uploaded file is too big.")
+        font.refresh_from_db()
+        self.assertEqual(font.font.name, original_name)
 
     def test_manage(self) -> None:
         self.user.is_superuser = True

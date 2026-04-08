@@ -298,6 +298,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # We should end up on login page as user was invalid
         self.driver.find_element(By.ID, "id_username")
 
+    def test_js_assets_are_loaded(self) -> None:
+        """Check that the main JS bundle is active and globals are available."""
+        self.assertTrue(
+            self.driver.execute_script(
+                "return typeof window.jQuery !== 'undefined' && typeof window.moment !== 'undefined' && typeof window.slugify !== 'undefined';"
+            )
+        )
+
     def test_login(self) -> None:
         # Do proper login with new user
         self.do_login()
@@ -768,9 +776,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Users")
-        element = self.driver.find_element(By.ID, "id_user")
+        element = self.driver.find_element(By.ID, "id_project_add_user_user")
         element.send_keys("testuser")
-        Select(self.driver.find_element(By.ID, "id_group")).select_by_index(1)
+        Select(
+            self.driver.find_element(By.ID, "id_project_add_user_group")
+        ).select_by_index(1)
         with self.wait_for_page_load():
             element.submit()
         user = User.objects.get(username="testuser")

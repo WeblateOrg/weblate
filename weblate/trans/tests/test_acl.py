@@ -10,7 +10,9 @@ from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from social_django.models import UserSocialAuth
 
+from weblate.accounts.models import VerifiedEmail
 from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -145,6 +147,184 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             action=ActionEvents.INVITE_USER
         )
         self.assertEqual(change.get_details_display(), self.user.username)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_user(self) -> None:
+        """Bulk invite creates invitations and skips invalid addresses."""
+        self.project.add_user(self.user, "Administration")
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": (
+                    f"{self.user.email}\n"
+                    "new@example.com invalid-address new@example.com"
+                ),
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "2 invitation e-mails were sent.")
+        self.assertContains(response, "Skipped 2 addresses")
+        self.assertContains(response, "invalid-address: Enter a valid e-mail address.")
+        self.assertContains(
+            response, "new@example.com: duplicate address in the submission"
+        )
+        self.assertEqual(Invitation.objects.count(), 2)
+        self.assertEqual(len(mail.outbox), 2)
+
+        invitation = Invitation.objects.get(user=self.user)
+        self.assertEqual(invitation.group, self.admin_group)
+
+        change = Project.objects.get(pk=self.project.pk).change_set.filter(
+            action=ActionEvents.INVITE_USER
+        )
+        self.assertEqual(change.count(), 2)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_skips_pending_invitation(self) -> None:
+        """Bulk invite skips equivalent pending invitations."""
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {"email": "existing@example.com", "group": self.admin_group.pk},
+            follow=True,
+        )
+        mail.outbox = []
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "existing@example.com another@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        self.assertContains(
+            response, "existing@example.com: pending invitation already exists"
+        )
+        self.assertEqual(Invitation.objects.count(), 2)
+        self.assertEqual(len(mail.outbox), 1)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_keeps_ambiguous_verified_email_email_based(self) -> None:
+        """Bulk invite does not bind ambiguous verified e-mails to one user."""
+        self.project.add_user(self.user, "Administration")
+        first_user = User.objects.create_user(
+            "verified-one", "verified-one@example.org", "testpassword"
+        )
+        second_user = User.objects.create_user(
+            "verified-two", "verified-two@example.net", "testpassword"
+        )
+        first_social = UserSocialAuth.objects.create(
+            user=first_user, provider="github", uid="verified-one"
+        )
+        second_social = UserSocialAuth.objects.create(
+            user=second_user, provider="gitlab", uid="verified-two"
+        )
+        VerifiedEmail.objects.create(
+            social=first_social, email="shared-verified@example.com"
+        )
+        VerifiedEmail.objects.create(
+            social=second_social, email="shared-verified@example.com"
+        )
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "shared-verified@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        invitation = Invitation.objects.get()
+        self.assertIsNone(invitation.user)
+        self.assertEqual(invitation.email, "shared-verified@example.com")
+
+    @override_settings(
+        REGISTRATION_OPEN=True,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_EMAIL_MATCH=r"^allowed@example\.com$",
+    )
+    def test_bulk_invite_uses_weblate_email_validation(self) -> None:
+        """Bulk invite reuses the same e-mail validation as single invite."""
+        self.project.add_user(self.user, "Administration")
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "blocked@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "No invitations were created.")
+        self.assertContains(
+            response, "blocked@example.com: This e-mail address is disallowed."
+        )
+        self.assertEqual(Invitation.objects.count(), 0)
+        self.assertEqual(len(mail.outbox), 0)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_clears_email_when_verified_user_resolved(self) -> None:
+        """Bulk invite keeps user-bound invitations in the expected either/or state."""
+        self.project.add_user(self.user, "Administration")
+        invited_user = User.objects.create_user(
+            "verified-match", "primary@example.org", "testpassword"
+        )
+        social = UserSocialAuth.objects.create(
+            user=invited_user, provider="github", uid="verified-match"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "secondary@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        invitation = Invitation.objects.get()
+        self.assertEqual(invitation.user, invited_user)
+        self.assertEqual(invitation.email, "")
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_skips_second_address_for_same_resolved_user(self) -> None:
+        """Bulk invite avoids duplicate invitations for one resolved account."""
+        self.project.add_user(self.user, "Administration")
+        invited_user = User.objects.create_user(
+            "same-user", "primary@example.org", "testpassword"
+        )
+        social = UserSocialAuth.objects.create(
+            user=invited_user, provider="github", uid="same-user"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "primary@example.org secondary@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        self.assertContains(
+            response, "secondary@example.com: pending invitation already exists"
+        )
+        self.assertEqual(Invitation.objects.count(), 1)
+        self.assertEqual(len(mail.outbox), 1)
+        invitation = Invitation.objects.get()
+        self.assertEqual(invitation.user, invited_user)
+        self.assertEqual(invitation.email, "")
 
     @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
     def test_invite_user_closed(self) -> None:

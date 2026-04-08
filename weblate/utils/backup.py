@@ -8,14 +8,14 @@ from __future__ import annotations
 
 import os
 import string
-import subprocess
+import subprocess  # noqa: S404
 from pathlib import Path
 from random import SystemRandom
 from urllib.parse import urlparse
 
 from django.conf import settings
 
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.files import cleanup_error_message
@@ -89,8 +89,8 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
     with backup_lock():
         SSH_WRAPPER.create()
         try:
-            return subprocess.check_output(
-                ["borg", "--rsh", SSH_WRAPPER.filename, *cmd],
+            return subprocess.check_output(  # noqa: S603
+                ["borg", "--rsh", SSH_WRAPPER.filename, *cmd],  # noqa: S607
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(env),
                 text=True,

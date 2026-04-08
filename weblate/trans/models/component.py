@@ -417,6 +417,10 @@ class ComponentLink(models.Model):
 
 class OldComponentSettings(TypedDict):
     check_flags: str
+    vcs: str
+    push: str
+    push_branch: str
+    repo: str
 
 
 class Component(
@@ -947,10 +951,8 @@ class Component(
         self.stats = ComponentStats(self)
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
-        self.updated_sources: dict[int, Unit] = {}
-        self.old_component_settings: OldComponentSettings = {
-            "check_flags": self.check_flags
-        }
+        self.updated_sources: set[int] = set()
+        self.old_component_settings = self.get_old_component_settings()
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
         self.logs: list[str] = []
@@ -1059,8 +1061,22 @@ class Component(
         self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
+        cleanup_configs = (
+            self.get_conflicting_repository_setup_configs() if self.id else set()
+        )
+        cleanup_conflicting_repository_setup = (
+            self.has_conflicting_repository_setup_changed() if self.id else False
+        )
+
         # Save/Create object
         super().save(*args, **kwargs)
+
+        if cleanup_conflicting_repository_setup:
+            transaction.on_commit(
+                lambda: self.cleanup_conflicting_repository_setup_alerts(
+                    cleanup_configs
+                )
+            )
 
         if create:
             self.install_autoaddon()
@@ -1098,6 +1114,8 @@ class Component(
                 lambda: self.schedule_update_checks(update_state=True)
             )
 
+        self.old_component_settings = self.get_old_component_settings()
+
         # Invalidate source language cache just to be sure, as it is relatively
         # cheap to update
         self.project.invalidate_source_language_cache()
@@ -1106,6 +1124,35 @@ class Component(
 
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
+
+    def get_old_component_settings(self) -> OldComponentSettings:
+        """
+        Capture settings needed for change detection without loading deferred fields.
+
+        Some callers fetch Component objects using only a subset of fields. Reading
+        the attributes directly here would trigger additional queries while the
+        instance is being initialized or refreshed, so this intentionally prefers
+        values already present in __dict__ and falls back to previously captured
+        settings.
+        """
+        current = getattr(self, "old_component_settings", {})
+        return {
+            "check_flags": self.get_old_component_setting("check_flags", current),
+            "vcs": self.get_old_component_setting("vcs", current),
+            "push": self.get_old_component_setting("push", current),
+            "push_branch": self.get_old_component_setting("push_branch", current),
+            "repo": self.get_old_component_setting("repo", current),
+        }
+
+    def get_old_component_setting(
+        self, name: str, current: OldComponentSettings | dict[str, str]
+    ) -> str:
+        """Read a tracked setting without forcing deferred field evaluation."""
+        return self.__dict__.get(name, current.get(name, ""))
+
+    def refresh_from_db(self, *args, **kwargs) -> None:
+        super().refresh_from_db(*args, **kwargs)
+        self.old_component_settings = self.get_old_component_settings()
 
     @cached_property
     def cached_links(self) -> models.QuerySet[Project]:
@@ -1212,6 +1259,19 @@ class Component(
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-update.lock",
+            timeout=5,
+            origin=self.full_slug,
+        )
+
+    @cached_property
+    def checks_lock(self):
+        return WeblateLock(
+            lock_path=self.project.full_path,
+            scope="component-checks",
+            key=self.pk,
+            slug=self.slug,
+            cache_template="{scope}-lock-{key}",
+            file_template="{slug}-checks.lock",
             timeout=5,
             origin=self.full_slug,
         )
@@ -1375,7 +1435,7 @@ class Component(
             check_new=False,
             save=save,
         )
-        self.updated_sources[source.id] = source
+        self.updated_sources.add(source.id)
         return change
 
     def bulk_create_sources(
@@ -1855,7 +1915,7 @@ class Component(
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content(
-                        get_encoding_param(self.file_format_params)
+                        get_encoding_param(self.file_format, self.file_format_params)
                     )
                     is None
                 ):
@@ -1864,7 +1924,9 @@ class Component(
                     self.full_path,
                     {
                         self.template: self.file_format_cls.get_new_file_content(
-                            get_encoding_param(self.file_format_params)
+                            get_encoding_param(
+                                self.file_format, self.file_format_params
+                            )
                         )
                     }
                     if self.template
@@ -2447,7 +2509,7 @@ class Component(
                 store_hash=store_hash,
             )
 
-        with self.start_sentry_span("commit_files"):
+        with self.start_sentry_span("commit_files"), self.repository.lock:
             if message is None:
                 if template is None:
                     msg = "Missing template when message is not specified"
@@ -2695,13 +2757,6 @@ class Component(
             return [self.template, *sorted(matches)]
         return sorted(matches)
 
-    def update_source_checks(self) -> None:
-        self.log_info("running source checks for %d strings", len(self.updated_sources))
-        for unit in self.updated_sources.values():
-            unit.is_batch_update = True
-            unit.run_checks()
-        self.updated_sources = {}
-
     @cached_property
     def all_active_alerts(self):
         result = self.alert_set.filter(dismissed=False)
@@ -2909,7 +2964,7 @@ class Component(
         self.drop_template_store_cache()
         self.unload_sources()
         self.needs_cleanup = False
-        self.updated_sources = {}
+        self.updated_sources = set()
         self.alerts_trigger = {}
         self.start_batched_checks()
         was_change = False
@@ -3047,10 +3102,6 @@ class Component(
                     report_error("Failed linked component update", project=self.project)
                 continue
 
-        # Run source checks on updated source strings
-        if self.updated_sources:
-            self.update_source_checks()
-
         # Update flags
         if was_change:
             self.invalidate_cache()
@@ -3086,17 +3137,34 @@ class Component(
         self.batched_checks = set()
 
     def run_batched_checks(self) -> None:
-        # Batch checks
-        if self.batched_checks:
-            from weblate.checks.tasks import batch_update_checks
+        source_unit_ids = list(self.updated_sources)
+        batched_checks = list(self.batched_checks)
+        batch_mode = self.batch_checks
 
-            batched_checks = list(self.batched_checks)
-            if settings.CELERY_TASK_ALWAYS_EAGER:
-                batch_update_checks(self.id, batched_checks, component=self)
-            else:
-                batch_update_checks.delay_on_commit(self.id, batched_checks)
+        self.updated_sources = set()
         self.batch_checks = False
         self.batched_checks = set()
+
+        if not source_unit_ids and not batched_checks:
+            return
+
+        from weblate.checks.tasks import finalize_component_checks
+
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            finalize_component_checks(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+                component=self,
+            )
+        else:
+            finalize_component_checks.delay_on_commit(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+            )
 
     def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False
@@ -3627,30 +3695,24 @@ class Component(
 
     def get_template_filename(self) -> str | None:
         """Create absolute filename for template."""
-        if not self.template:
-            return None
-        filename = os.path.join(self.full_path, self.template)
-        # Throws an exception in case of error
-        self.check_file_is_valid(filename)
-        return filename
+        return self.get_validated_component_filename(self.template)
 
     def get_intermediate_filename(self) -> str | None:
         """Create absolute filename for intermediate."""
-        if not self.intermediate:
-            return None
-        filename = os.path.join(self.full_path, self.intermediate)
-        # Throws an exception in case of error
-        self.check_file_is_valid(filename)
-        return filename
+        return self.get_validated_component_filename(self.intermediate)
 
     def get_new_base_filename(self) -> str | None:
         """Create absolute filename for base file for new translations."""
-        if not self.new_base:
+        return self.get_validated_component_filename(self.new_base)
+
+    def get_validated_component_filename(self, filename: str | None) -> str | None:
+        """Create a validated absolute filename for a component-managed file."""
+        if not filename:
             return None
-        filename = os.path.join(self.full_path, self.new_base)
+        fullname = os.path.join(self.full_path, filename)
         # Throws an exception in case of error
-        self.check_file_is_valid(filename)
-        return filename
+        self.check_file_is_valid(fullname)
+        return fullname
 
     def create_template_if_missing(self) -> None:
         """Create blank template in case intermediate language is enabled."""
@@ -4161,6 +4223,12 @@ class Component(
             if create_translations:
                 self.commit_pending("add language", None)
 
+            try:
+                self.check_file_is_valid(fullname)
+            except ValidationError:
+                fail_message(gettext("Could not add new translation file."))
+                return None
+
             # Create or get translation object
             translation, created = self.translation_set.get_or_create(
                 language=language,
@@ -4366,6 +4434,83 @@ class Component(
             return same_repo[0].get_repo_link_url()
         except IndexError:
             return None
+
+    def get_conflicting_setup_components(self) -> ComponentQuerySet:
+        if self.is_repo_link or not self.push or not self.push_branch:
+            return Component.objects.none()
+
+        if self.vcs not in VCS_REGISTRY.merge_request_based:
+            return Component.objects.none()
+
+        return Component.objects.filter(
+            push=self.push,
+            push_branch=self.push_branch,
+            vcs__in=VCS_REGISTRY.merge_request_based,
+            linked_component__isnull=True,
+        ).exclude(pk=self.pk)
+
+    def get_conflicting_repository_setup_config(
+        self, old_settings: OldComponentSettings | None = None
+    ) -> tuple[str, str] | None:
+        if old_settings is None:
+            push = self.push
+            push_branch = self.push_branch
+            repo = self.repo
+            vcs = self.vcs
+        else:
+            push = old_settings["push"]
+            push_branch = old_settings["push_branch"]
+            repo = old_settings["repo"]
+            vcs = old_settings["vcs"]
+
+        if (
+            vcs not in VCS_REGISTRY.merge_request_based
+            or not push
+            or not push_branch
+            or is_repo_link(repo)
+        ):
+            return None
+        return (push, push_branch)
+
+    def get_conflicting_repository_setup_configs(
+        self,
+    ) -> set[tuple[str, str]]:
+        return {
+            config
+            for config in (
+                self.get_conflicting_repository_setup_config(
+                    old_settings=self.old_component_settings
+                ),
+                self.get_conflicting_repository_setup_config(),
+            )
+            if config is not None
+        }
+
+    def has_conflicting_repository_setup_changed(self) -> bool:
+        return (
+            self.get_conflicting_repository_setup_config(
+                old_settings=self.old_component_settings
+            )
+            != self.get_conflicting_repository_setup_config()
+        )
+
+    def cleanup_conflicting_repository_setup_alerts(
+        self, cleanup_configs: set[tuple[str, str]] | None = None
+    ) -> None:
+        if cleanup_configs is None:
+            cleanup_configs = self.get_conflicting_repository_setup_configs()
+
+        for push, push_branch in cleanup_configs:
+            matching = Component.objects.filter(
+                push=push,
+                push_branch=push_branch,
+                vcs__in=VCS_REGISTRY.merge_request_based,
+                linked_component__isnull=True,
+            ).exclude(pk=self.pk)
+            if matching.count() == 1:
+                Alert.objects.filter(
+                    name="ConflictingRepositorySetup", component__in=matching
+                ).delete()
 
     @cached_property
     def enable_review(self):

@@ -5,21 +5,40 @@ Weblate 5.17
 
 .. rubric:: New features
 
+* Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project slugs from project website restriction settings.
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
+* Added new management command :wladmin:`list_format_features`, which generates RST documentation snippets describing the supported features for every file format.
 * Shared components can now be categorized within the target project.
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
+* Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
+* Added :ref:`bulk user invitations <invite-user>`.
+* Added Forgejo notification webhook, see :ref:`forgejo-setup`.
 
 .. rubric:: Improvements
 
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
+* Added a component alert for conflicting merge request repository setup, see :ref:`alerts`.
+* Improved plural handling in :ref:`auto-translation`.
 * Improved error messages in some of the :ref:`api` endpoints.
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is now available in Docker container to customize the Keycloak unique user identifier claim.
+* Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
+* Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting non-global IP ranges, and exposed it in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`.
+* Improved performance of :ref:`mt-weblate` lookups.
+* Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
+* Expanded :doc:`/security/threat-model` to cover webhook trust boundaries and delegated authorization boundaries, and clarified the instance-wide 2FA enforcement path in :doc:`/admin/auth`.
 
 .. rubric:: Bug fixes
 
+* Tightened repository boundary checks for symlink targets.
+* Matching exporters now honor component file format parameters.
+* Project token cleanup now removes stale bots on project deletion and upgrade.
+* Component file handling now validates repository symlinks.
+* Improved REST API permission enforcement.
+* Hardened project-level machine translation against SSRF by blocking private-network targets for untrusted endpoints and hiding untrusted remote error details.
 * Prevented removing the last team from a project token.
 * Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.
@@ -27,6 +46,7 @@ Weblate 5.17
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
+* Improved security of :ref:`addon-weblate.webhook.webhook`.
 * Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
@@ -37,6 +57,10 @@ Weblate 5.17
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
+* POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
+* Improved repository lock error handling when deleting units.
+* :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
+* Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
 
 .. rubric:: Compatibility
 
@@ -46,13 +70,13 @@ Weblate 5.17
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
 * Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
-* URL health checks for configured project and repository links no longer follow HTTP redirects.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
+* Outbound project links and webhook URLs pointing to private or other non-global IP ranges are now rejected by default. If your setup intentionally uses internal addresses, adjust the corresponding restriction settings such as :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, or the related allowlists.
 
 .. rubric:: Contributors
 

@@ -9,12 +9,14 @@ from typing import cast
 from django import forms
 
 from weblate.fonts.models import Font, FontGroup, FontOverride
+from weblate.utils.forms import AssetFileField
 
 
 class FontForm(forms.ModelForm):
     class Meta:
         model = Font
         fields = ("font",)
+        field_classes = {"font": AssetFileField}  # noqa: RUF012
 
 
 class FontGroupForm(forms.ModelForm):

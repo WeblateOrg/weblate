@@ -20,6 +20,8 @@ Example WXL file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs-cz.wxl
     :language: xml
 
+.. include:: /snippets/format-features/wxl-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

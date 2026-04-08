@@ -10,7 +10,7 @@ import hashlib
 import logging
 import os
 import os.path
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
@@ -21,10 +21,11 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
-from weblate.trans.util import get_clean_env, path_separator
+from weblate.trans.util import path_separator
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
-from weblate.utils.files import is_excluded
+from weblate.utils.files import is_excluded, is_path_within_resolved_directory
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -173,18 +174,21 @@ class Repository:
     def resolve_symlinks(self, path: str) -> str:
         """Resolve any symlinks in the path."""
         # Resolve symlinks first
-        real_path = path_separator(os.path.realpath(os.path.join(self.path, path)))
-        repository_path = path_separator(os.path.realpath(self.path))
+        real_path = Path(os.path.realpath(os.path.join(self.path, path)))
+        repository_path = Path(os.path.realpath(self.path))
 
-        if not real_path.startswith(repository_path):
+        if not is_path_within_resolved_directory(real_path, repository_path):
             msg = "Too many symlinks or link outside tree"
             raise RepositorySymlinkError(msg)
 
-        if is_excluded(real_path):
+        if is_excluded(path_separator(os.fspath(real_path))):
             msg = "Link to a restricted location"
             raise RepositorySymlinkError(msg)
 
-        return real_path[len(repository_path) :].lstrip("/")
+        relative_path = os.path.relpath(real_path, repository_path)
+        if relative_path == ".":
+            return ""
+        return path_separator(relative_path)
 
     @staticmethod
     def _getenv(

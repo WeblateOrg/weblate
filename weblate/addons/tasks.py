@@ -30,7 +30,7 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import asset_request
+from weblate.utils.requests import open_asset_url
 from weblate.utils.validators import validate_filename
 
 IGNORED_TAGS = {"script", "style"}
@@ -59,7 +59,7 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with asset_request("get", filename) as handle:
+                with open_asset_url("get", filename) as handle:
                     content = handle.text
             else:
                 content = read_component_file(component, filename)
@@ -146,8 +146,9 @@ def language_consistency(
 
     try:
         for component in components.iterator():
-            # Avoid two language consistency add-ons working at same on a single component
-            with component.lock:
+            # Keep the standard lock ordering: repository first, then component.
+            # This avoids inverting the order used by create_translations().
+            with component.repository.lock, component.lock:
                 missing = languages.exclude(
                     Q(translation__component=component) | Q(component=component)
                 )
