@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 from itertools import chain
+from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
@@ -19,6 +20,7 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
 from weblate.utils.errors import report_error
+from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
@@ -186,14 +188,19 @@ class ComponentDiscovery:
     def matches(self):
         """Return matched files together with match groups and mask."""
         result = []
-        base = os.path.realpath(self.path)
+        base = Path(self.path).resolve()
         timeout_detected = False
         for root, dirnames, filenames in os.walk(self.path, followlinks=True):
+            dirnames[:] = [
+                dirname
+                for dirname in dirnames
+                if is_path_within_resolved_directory(os.path.join(root, dirname), base)
+            ]
             for filename in chain(filenames, dirnames):
                 fullname = os.path.join(root, filename)
 
                 # Skip files outside our root
-                if not os.path.realpath(fullname).startswith(base):
+                if not is_path_within_resolved_directory(fullname, base):
                     continue
 
                 # Calculate relative path
