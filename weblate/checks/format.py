@@ -262,6 +262,13 @@ def c_format_is_position_based(string: str):
     return "$" not in string and string != "%"
 
 
+def objc_format_is_position_based(string: str):
+    # Stringsdict tokens like %#@name@ are named references, not positional
+    if string.startswith("#@"):
+        return False
+    return "$" not in string and string != "%"
+
+
 def pascal_format_is_position_based(string: str):
     return ":" not in string and string != "%"
 
@@ -367,7 +374,7 @@ FLAG_RULES: dict[
     ),
     "objc-format": (
         OBJC_PRINTF_MATCH,
-        c_format_is_position_based,
+        objc_format_is_position_based,
         extract_string_simple,
     ),
 }

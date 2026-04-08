@@ -1981,6 +1981,16 @@ class ObjCFormatCheckTest(CFormatCheckTest):
             self.check.check_format("%#@count@ string", "string", False, Unit())
         )
 
+    def test_objc_stringsdict_reorder_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "%#@apples@ and %#@oranges@",
+                "%#@oranges@ and %#@apples@",
+                False,
+                Unit(),
+            )
+        )
+
     def test_objc_zd_format(self) -> None:
         self.assertFalse(
             self.check.check_format("%zd items", "%zd items", False, Unit())
