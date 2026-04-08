@@ -1126,18 +1126,29 @@ class Component(
             import_memory.delay_on_commit(self.project.id, self.pk)
 
     def get_old_component_settings(self) -> OldComponentSettings:
+        """
+        Capture settings needed for change detection without loading deferred fields.
+
+        Some callers fetch Component objects using only a subset of fields. Reading
+        the attributes directly here would trigger additional queries while the
+        instance is being initialized or refreshed, so this intentionally prefers
+        values already present in __dict__ and falls back to previously captured
+        settings.
+        """
         current = getattr(self, "old_component_settings", {})
         return {
-            "check_flags": self.__dict__.get(
-                "check_flags", current.get("check_flags", "")
-            ),
-            "vcs": self.__dict__.get("vcs", current.get("vcs", "")),
-            "push": self.__dict__.get("push", current.get("push", "")),
-            "push_branch": self.__dict__.get(
-                "push_branch", current.get("push_branch", "")
-            ),
-            "repo": self.__dict__.get("repo", current.get("repo", "")),
+            "check_flags": self.get_old_component_setting("check_flags", current),
+            "vcs": self.get_old_component_setting("vcs", current),
+            "push": self.get_old_component_setting("push", current),
+            "push_branch": self.get_old_component_setting("push_branch", current),
+            "repo": self.get_old_component_setting("repo", current),
         }
+
+    def get_old_component_setting(
+        self, name: str, current: OldComponentSettings | dict[str, str]
+    ) -> str:
+        """Read a tracked setting without forcing deferred field evaluation."""
+        return self.__dict__.get(name, current.get(name, ""))
 
     def refresh_from_db(self, *args, **kwargs) -> None:
         super().refresh_from_db(*args, **kwargs)
