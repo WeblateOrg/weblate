@@ -1120,6 +1120,12 @@ Generic settings
 
    Configures :setting:`VCS_ALLOW_SCHEMES`.
 
+.. envvar:: WEBLATE_VCS_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`VCS_RESTRICT_PRIVATE`.
+
 .. envvar:: WEBLATE_VCS_CLONE_DEPTH
 
    .. versionadded:: 5.4

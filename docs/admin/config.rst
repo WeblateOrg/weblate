@@ -1754,8 +1754,8 @@ PROJECT_WEB_RESTRICT_PRIVATE
 
 .. versionadded:: 5.17
 
-Reject using project website and repository browser URLs pointing to non-global
-IP ranges. On by default.
+Reject using project website and repository browser URLs pointing to internal or
+non-public addresses. On by default.
 
 .. seealso::
 
@@ -1810,8 +1810,8 @@ WEBHOOK_RESTRICT_PRIVATE
 
 .. versionadded:: 5.17
 
-Reject webhook URLs pointing to non-global IP ranges unless the target host is
-included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
+Reject webhook URLs pointing to internal or non-public addresses unless the
+target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
 
 .. seealso::
 
@@ -2360,7 +2360,11 @@ VCS_ALLOW_HOSTS
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
+which does no filtering at all.
+
+When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
+from the private-target restriction.
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2369,7 +2373,18 @@ VCS_ALLOW_SCHEMES
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
+``ssh`` are allowed by default.
+
+.. setting:: VCS_RESTRICT_PRIVATE
+
+VCS_RESTRICT_PRIVATE
+--------------------
+
+.. versionadded:: 5.17
+
+Reject VCS repository URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
 
 .. setting:: VCS_API_DELAY
 

@@ -104,7 +104,24 @@ class GitNoVersionRepository(GitRepository):
     req_version = None
 
 
-class RepositoryTest(TestCase):
+class BrokenGitRepository(GitRepository):
+    _version = None
+
+    @classmethod
+    def _get_version(cls):
+        msg = "missing git"
+        raise FileNotFoundError(msg)
+
+
+class BrokenGitChildRepository(BrokenGitRepository):
+    _version = None
+
+    @classmethod
+    def _get_version(cls):
+        return "1.0"
+
+
+class RepositoryTest(SimpleTestCase):
     def test_not_supported(self) -> None:
         self.assertFalse(NonExistingRepository.is_supported())
         with self.assertRaises(FileNotFoundError):
@@ -125,6 +142,98 @@ class RepositoryTest(TestCase):
     def test_is_supported_cache(self) -> None:
         GitTestRepository.is_supported()
         self.assertTrue(GitTestRepository.is_supported())
+
+    def test_version_error_cache_is_per_class(self) -> None:
+        with self.assertRaises(FileNotFoundError):
+            BrokenGitRepository.get_version()
+
+        self.assertEqual(BrokenGitChildRepository.get_version(), "1.0")
+
+    def test_clone_runtime_private_url_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("https://private.example/repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_clone_runtime_malformed_idna_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                side_effect=UnicodeError("label empty or too long"),
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("git@a..b:repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn("Could not resolve the URL domain", str(error.exception))
+
+    def test_clone_runtime_file_host_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("file://localhost/repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn("Could not parse URL.", str(error.exception))
+
+    def test_clone_runtime_disallowed_scheme_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("git://example.com/repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn(
+            "Fetching VCS repository using git is not allowed.", str(error.exception)
+        )
 
 
 class GitBranchValidationTest(SimpleTestCase):
@@ -309,9 +418,63 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.update_remote()
 
+    def test_list_remote_branches_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.repo = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute") as mock_execute,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.list_remote_branches()
+
+        mock_execute.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_update_remote_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.repo = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute") as mock_execute,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.update_remote()
+
+        mock_execute.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
     def test_push(self, branch: str = "") -> None:
         with self.repo.lock:
             self.repo.push(branch)
+
+    def test_push_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.push = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute") as mock_execute,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.push("")
+
+        mock_execute.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
 
     def test_push_commit(self) -> None:
         self.test_commit()
@@ -831,7 +994,8 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         self._mock_push_to_fork.return_value = ""
 
     def tearDown(self) -> None:
-        self._mock_push_to_fork.stop()
+        if self._mock_push_to_fork is not None:
+            self._mock_push_to_fork.stop()
         super().tearDown()
 
     def mock_responses(self, pr_response, pr_status=200) -> None:

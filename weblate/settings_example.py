@@ -377,6 +377,9 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 # Restrict private webhook targets
 # WEBHOOK_RESTRICT_PRIVATE = True
 
+# Restrict private VCS repository targets
+# VCS_RESTRICT_PRIVATE = True
+
 # Private webhook target allowlist
 # WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
 

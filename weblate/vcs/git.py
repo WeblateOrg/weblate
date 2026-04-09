@@ -645,6 +645,7 @@ class GitRepository(Repository):
 
     def list_remote_branches(self) -> list[str]:
         """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
+        self.validate_pull_url()
         branches = self.execute(
             [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
             needs_lock=False,
@@ -659,6 +660,7 @@ class GitRepository(Repository):
         """Update remote repository."""
         branch = self.validate_branch_name(self.branch)
         # Update existing branch only, not changing depth
+        self.validate_pull_url()
         self.execute([*self.get_auth_args(), "fetch", "origin", branch])
         self.clean_revision_cache()
 
@@ -670,9 +672,11 @@ class GitRepository(Repository):
             if branch
             else current_branch
         )
+        self.validate_push_url()
         self.execute([*self._cmd_push, "origin", refspec])
 
     def unshallow(self) -> None:
+        self.validate_pull_url()
         self.execute([*self.get_auth_args(), "fetch", "--unshallow"])
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
@@ -726,6 +730,7 @@ class GitWithGerritRepository(GitRepository):
         return ""
 
     def push(self, branch) -> None:
+        self.validate_push_url()
         if self.needs_push():
             try:
                 self.execute(
@@ -852,6 +857,7 @@ class SubversionRepository(GitRepository):
 
     def update_remote(self) -> None:
         """Update remote repository."""
+        self.validate_pull_url()
         if self._fetch_revision:
             self.execute(["svn", "fetch", self._fetch_revision])
             self._fetch_revision = None
@@ -892,6 +898,7 @@ class SubversionRepository(GitRepository):
         if abort:
             self.execute(["rebase", "--abort"])
         else:
+            self.validate_pull_url()
             self.execute(["svn", "rebase"])
         self.clean_revision_cache()
 
@@ -928,6 +935,7 @@ class SubversionRepository(GitRepository):
 
     def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
+        self.validate_pull_url()
         self.execute(["svn", "dcommit", self.validate_branch_name(self.branch)])
 
 
@@ -1025,7 +1033,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         self, repo: str | None = None
     ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
-            repo = self.component.push or self.component.repo
+            component = self.component
+            if component is None:
+                raise RepositoryError(0, "Repository operation requires component.")
+            repo = component.push or component.repo
         parsed = urlparse(repo)
         host = parsed.hostname
         scheme: str | None = parsed.scheme
@@ -1210,6 +1221,9 @@ class GitMergeRequestBase(GitForcePushRepository):
         original repository.
         """
         current_branch = self.validate_branch_name(self.branch)
+        self.validate_pull_url()
+        if self.component is not None and self.component.push:
+            self.validate_push_url()
         credentials = self.get_credentials()
         if not self.should_use_fork(branch):
             fork_remote = "origin"
@@ -1266,8 +1280,11 @@ class GitMergeRequestBase(GitForcePushRepository):
         raise NotImplementedError
 
     def get_merge_message(self):
+        component = self.component
+        if component is None:
+            raise RepositoryError(0, "Repository operation requires component.")
         lines = render_template(
-            self.component.pull_message.strip(), component=self.component
+            component.pull_message.strip(), component=component
         ).splitlines()
         return lines[0], "\n".join(lines[1:]).strip()
 
@@ -1497,7 +1514,10 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         self, repo: str | None = None
     ) -> tuple[str | None, str | None, str | None, str, str, str]:
         if repo is None:
-            repo = self.component.repo
+            component = self.component
+            if component is None:
+                raise RepositoryError(0, "Repository operation requires component.")
+            repo = component.repo
 
         scheme_regex = r"^[a-z]+:\/\/.*"  # matches for example ssh://* and https://*
 
@@ -1989,6 +2009,10 @@ class LocalRepository(GitRepository):
         if not os.path.exists(target):
             os.makedirs(target)
         cls.create_blank_repository(target)
+
+    def clone_from(self, source: str) -> None:
+        """Create the local repository without validating an upstream URL."""
+        self._clone("local:", self.path, self.branch)
 
     @cached_property
     def last_remote_revision(self) -> str:
