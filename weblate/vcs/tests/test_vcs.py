@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, NoReturn
 from unittest.mock import patch
 
 import responses
+from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -24,7 +25,11 @@ from responses import matchers
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.render import render_template
-from weblate.vcs.base import RepositoryError, RepositorySymlinkError
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositorySymlinkError,
+    get_config_check_cache_key,
+)
 from weblate.vcs.git import (
     AzureDevOpsRepository,
     BitbucketCloudRepository,
@@ -41,6 +46,7 @@ from weblate.vcs.git import (
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
+from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
     from weblate.vcs.base import Repository
@@ -2182,6 +2188,27 @@ class VCSHgTest(VCSGitTest):
         self.assertEqual(
             self.repo.get_config("ui", "username"), "Foo Bar Žač <foo@example.net>"
         )
+
+    def test_ensure_config_updated_refreshes_ssh_path(self) -> None:
+        old_cache_key = f"sp-config-check-{self.repo.component.pk}"
+        new_cache_key = get_config_check_cache_key(self.repo.component.pk)
+        cache.set(old_cache_key, True, 86400)
+        cache.delete(new_cache_key)
+
+        with self.repo.lock:
+            self.repo.set_config_values(
+                ("ui", "ssh", os.path.join(self.tempdir, "legacy-ssh-wrapper"))
+            )
+
+        repo = self._class(
+            self.tempdir,
+            branch=self._remote_branch,
+            component=self.get_fake_component(),
+        )
+        with repo.lock:
+            repo.ensure_config_updated()
+
+        self.assertEqual(repo.get_config("ui", "ssh"), SSH_WRAPPER.filename.as_posix())
 
     def test_status(self) -> None:
         status = self.repo.status()

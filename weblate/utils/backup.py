@@ -63,6 +63,8 @@ def make_password(length: int = 50):
 def tag_cache_dirs() -> None:
     """Create CACHEDIR.TAG in our cache dirs to exclude from backups."""
     dirs = [
+        # SSH wrapper cache
+        data_dir("cache", "ssh"),
         # Fontconfig cache
         data_dir("cache", "fonts"),
         # Static files (default is inside data)

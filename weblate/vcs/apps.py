@@ -18,7 +18,11 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.gpg import get_gpg_errors, get_gpg_public_key
 from weblate.vcs.mercurial import HgRepository
-from weblate.vcs.ssh import ensure_ssh_key
+from weblate.vcs.ssh import (
+    cleanup_legacy_wrapper_dirs,
+    cleanup_stale_wrapper_dirs,
+    ensure_ssh_key,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
@@ -103,6 +107,8 @@ class VCSConfig(AppConfig):
         post_migrate.connect(self.post_migrate, sender=self)
 
     def post_migrate(self, sender: AppConfig, **kwargs) -> None:
+        cleanup_legacy_wrapper_dirs()
+        cleanup_stale_wrapper_dirs()
         ensure_ssh_key()
         home = data_dir("home")
 
