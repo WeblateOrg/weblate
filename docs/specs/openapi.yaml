@@ -58282,6 +58282,7 @@ components:
           enum:
           - blank
           - invalid
+          - max_length
           - 'null'
           - null_characters_not_allowed
           - required
@@ -58290,6 +58291,7 @@ components:
           description: |-
             * `blank` - blank
             * `invalid` - invalid
+            * `max_length` - max_length
             * `null` - null
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
@@ -69516,6 +69518,7 @@ components:
           type: array
           items:
             type: string
+            maxLength: 2000
           maxItems: 100
       required:
       - strings
