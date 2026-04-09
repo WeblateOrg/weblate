@@ -1863,7 +1863,7 @@ class StringsFormatTest(BaseFormatTest):
     FIND_CONTEXT = "hello"
     FIND_MATCH = "Ahoj světe!"
     MATCH = "\n"
-    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    NEW_UNIT_MATCH = b'"key" = "Source string";'
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
