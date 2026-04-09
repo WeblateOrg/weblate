@@ -41,6 +41,14 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.vcs")
 
 
+def get_config_check_cache_key(component_pk: int) -> str:
+    """Build cache key for repository configuration refresh."""
+    wrapper_hash = hashlib.sha256(
+        SSH_WRAPPER.filename.as_posix().encode("utf-8")
+    ).hexdigest()
+    return f"sp-config-check-{wrapper_hash}-{component_pk}"
+
+
 class SubprocessArgs(TypedDict, total=False):
     stdin: int
     input: str
@@ -156,7 +164,7 @@ class Repository:
         if self.component is None:
             msg = "Component not set!"
             raise TypeError(msg)
-        cache_key = f"sp-config-check-{self.component.pk}"
+        cache_key = get_config_check_cache_key(self.component.pk)
         if cache.get(cache_key) is None:
             self.check_config()
             cache.set(cache_key, True, 86400)

@@ -344,9 +344,10 @@ def check_data_writable(
         data_path("vcs"),
         data_path("backups"),
         data_path("fonts"),
+        data_path("cache") / "ssh",
         data_path("cache") / "fonts",
     ]
-    message = "Path {} is not writable, check your DATA_DIR settings."
+    message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."
     for path in dirs:
         path.mkdir(parents=True, exist_ok=True)
         if not os.access(path, os.W_OK):

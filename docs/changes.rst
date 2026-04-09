@@ -36,6 +36,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Generated SSH wrapper scripts are now stored in :setting:`CACHE_DIR` instead of persistent SSH storage, and obsolete or stale wrappers are cleaned up during upgrade.
 * Hardened Git branch handling to reject invalid branch names before repository operations.
 * Tightened repository boundary checks for symlink targets.
 * Matching exporters now honor component file format parameters.
