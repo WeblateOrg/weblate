@@ -410,6 +410,25 @@ class GlossaryTest(ViewTestCase):
         self.do_add_unit()
         self.do_add_unit()
 
+    def test_add_result_escapes_html(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        response = self.client.post(
+            reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
+            {
+                "context": "context",
+                "source_0": "<script>alert(1)</script>",
+                "target_0": '<img/src=x/onerror=1>"x="y',
+                "translation": self.glossary.pk,
+                "auto_context": 1,
+            },
+        )
+        content = response.json()
+        self.assertEqual(content["responseCode"], 200)
+        self.assertIn("&lt;script&gt;alert(1)&lt;/script&gt;", content["results"])
+        self.assertIn("&lt;img/src=x/onerror=1&gt;&quot;x=&quot;y", content["results"])
+        self.assertNotIn("<script>", content["results"])
+        self.assertNotIn('<img/src=x/onerror=1>"x="y', content["results"])
+
     def test_terminology(self) -> None:
         start = Unit.objects.count()
 
