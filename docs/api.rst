@@ -2258,6 +2258,28 @@ Memory
 
     Returns a list of memory results.
 
+    :query source: Case-insensitive substring filter on source text (optional)
+    :type source: string
+    :query source_language: Source language code filter (optional)
+    :type source_language: string
+    :query target_language: Target language code filter (optional)
+    :type target_language: string
+    :query project: Project slug filter (optional)
+    :type project: string
+
+.. http:post:: /api/memory/lookup/
+
+    Looks up translation memory matches for the provided source strings.
+
+    :query source_language: Source language code
+    :type source_language: string
+    :query target_language: Target language code
+    :type target_language: string
+    :query project: Project slug filter (optional)
+    :type project: string
+    :<json array strings: List of source strings to look up
+    :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
+
 .. http:delete:: /api/memory/(int:memory_object_id)/
 
     Deletes a memory object

@@ -10,7 +10,7 @@ from datetime import UTC, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import MagicMock, call, patch
 
 import responses
 from django.conf import settings
@@ -27,7 +27,12 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.addons.models import Addon
-from weblate.api.serializers import CommentSerializer, RepoOperations
+from weblate.api.serializers import (
+    CommentSerializer,
+    MemoryLookupRequestSerializer,
+    RepoOperations,
+)
+from weblate.api.views import MemoryViewSet
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
@@ -4570,29 +4575,615 @@ class TasksAPITest(APIBaseTest):
 
 
 class MemoryAPITest(APIBaseTest):
+    @staticmethod
+    def mock_queryset(*, db: str = "default") -> MagicMock:
+        queryset = MagicMock()
+        queryset.db = db
+        return queryset
+
+    @staticmethod
+    def mock_user_with_allowed_projects(
+        project_ids: list[int],
+        *,
+        is_superuser: bool = False,
+        has_manage_perm: bool = False,
+    ) -> MagicMock:
+        user = MagicMock()
+        user.is_authenticated = True
+        user.is_superuser = is_superuser
+        user.has_perm.return_value = has_manage_perm
+        user.allowed_projects.values_list.return_value = project_ids
+        user.allowed_projects.using.return_value = user.allowed_projects
+        return user
+
+    def create_memory(
+        self,
+        *,
+        source: str,
+        target: str,
+        user: User | None = None,
+        project: Project | None = None,
+        origin: str = "api-test",
+        from_file: bool = False,
+        shared: bool = False,
+        source_language: str = "en",
+        target_language: str = "cs",
+    ) -> Memory:
+        return Memory.objects.create(
+            source=source,
+            target=target,
+            user=user,
+            project=project,
+            origin=origin,
+            from_file=from_file,
+            shared=shared,
+            status=Memory.STATUS_ACTIVE,
+            source_language=Language.objects.get(code=source_language),
+            target_language=Language.objects.get(code=target_language),
+        )
+
+    def test_memory_lookup_request_serializer_preserves_whitespace(self) -> None:
+        serializer = MemoryLookupRequestSerializer(data={"strings": ["  padded  "]})
+
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        self.assertEqual(serializer.validated_data["strings"], ["  padded  "])
+
+    def test_memory_lookup_request_serializer_limits_string_length(self) -> None:
+        serializer = MemoryLookupRequestSerializer(data={"strings": ["x" * 2001]})
+
+        self.assertFalse(serializer.is_valid())
+        self.assertIn(
+            "Ensure this field has no more than 2000 characters.",
+            str(serializer.errors),
+        )
+
     def test_get(self) -> None:
+        self.authenticate()
+        public_entry = self.create_memory(
+            source="Visible public project entry",
+            target="Viditelny zaznam",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        personal_entry = self.create_memory(
+            source="Visible personal entry",
+            target="Osobni zaznam",
+            user=self.user,
+        )
+        self.create_memory(
+            source="Other user entry",
+            target="Cizi zaznam",
+            user=User.objects.create_user("memory-other", "other@example.org", "x"),
+        )
+        self.create_memory(
+            source="Visible imported entry",
+            target="Importovany zaznam",
+            from_file=True,
+        )
+        private_component = self.create_acl()
+        private_entry = self.create_memory(
+            source="Hidden private project entry",
+            target="Skryty zaznam",
+            project=private_component.project,
+            origin=private_component.full_slug,
+        )
+
         self.do_request(
             "api:memory-list",
             method="get",
-            superuser=True,
             code=200,
         )
+        response = self.client.get(reverse("api:memory-list"))
+        ids = {item["id"] for item in response.data["results"]}
+        self.assertIn(public_entry.id, ids)
+        self.assertIn(personal_entry.id, ids)
+        self.assertNotIn(private_entry.id, ids)
 
-        self.do_request(
-            "api:memory-list",
-            method="get",
-            superuser=False,
-            code=403,
+    def test_get_filters(self) -> None:
+        self.authenticate()
+        second_component = self.create_po(
+            project=self.component.project, name="Second", slug="second"
         )
+        source_match = self.create_memory(
+            source="Memory filter source needle",
+            target="Filtr zdroje",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        component_match = self.create_memory(
+            source="Memory filter component",
+            target="Filtr komponenty",
+            project=self.component.project,
+            origin=second_component.full_slug,
+        )
+        language_match = self.create_memory(
+            source="Memory filter language",
+            target="Sprachfilter",
+            target_language="de",
+            from_file=True,
+        )
+
+        response = self.client.get(reverse("api:memory-list"), {"source": "needle"})
+        ids = {item["id"] for item in response.data["results"]}
+        self.assertEqual(ids, {source_match.id})
+
+        response = self.client.get(
+            reverse("api:memory-list"),
+            {"target_language": "de", "source": "Memory filter language"},
+        )
+        ids = {item["id"] for item in response.data["results"]}
+        self.assertEqual(ids, {language_match.id})
+
+        response = self.client.get(
+            reverse("api:memory-list"), {"project": self.component.project.slug}
+        )
+        ids = {item["id"] for item in response.data["results"]}
+        self.assertIn(source_match.id, ids)
+        self.assertIn(component_match.id, ids)
+        self.assertNotIn(language_match.id, ids)
 
     def test_delete(self) -> None:
+        self.authenticate()
+        deletable = self.create_memory(
+            source="Delete my own entry",
+            target="Smazat muj zaznam",
+            user=self.user,
+        )
+        forbidden = self.create_memory(
+            source="Delete forbidden entry",
+            target="Zakazany zaznam",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        private_component = self.create_acl()
+        hidden = self.create_memory(
+            source="Delete hidden entry",
+            target="Skryty zaznam",
+            project=private_component.project,
+            origin=private_component.full_slug,
+        )
+
         self.do_request(
             "api:memory-detail",
-            kwargs={"pk": Memory.objects.all()[0].pk},
+            kwargs={"pk": deletable.pk},
             method="delete",
-            superuser=True,
             code=204,
         )
+        self.assertFalse(Memory.objects.filter(pk=deletable.pk).exists())
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": forbidden.pk},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": hidden.pk},
+            method="delete",
+            code=404,
+        )
+
+    def test_superuser_can_access_other_users_personal_memory(self) -> None:
+        other_user = User.objects.create_user(
+            "memory-admin-target", "memory-admin-target@example.org", "x"
+        )
+        personal_entry = self.create_memory(
+            source="Admin visible personal entry",
+            target="Admin vidi osobni zaznam",
+            user=other_user,
+        )
+
+        self.authenticate(superuser=True)
+
+        response = self.client.get(reverse("api:memory-list"))
+        self.assertEqual(response.status_code, 200)
+        ids = {item["id"] for item in response.data["results"]}
+        self.assertIn(personal_entry.id, ids)
+
+        response = self.client.delete(
+            reverse("api:memory-detail", kwargs={"pk": personal_entry.pk})
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(Memory.objects.filter(pk=personal_entry.pk).exists())
+
+    def test_lookup(self) -> None:
+        self.authenticate()
+        exact = self.create_memory(
+            source="Memory API exact",
+            target="Pamet API presne",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        self.create_memory(
+            source="Scoped lookup",
+            target="Prvni komponenta",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        second_component = self.create_po(
+            project=self.component.project, name="Lookup", slug="lookup"
+        )
+        self.create_memory(
+            source="Scoped lookup",
+            target="Druha komponenta",
+            project=self.component.project,
+            origin=second_component.full_slug,
+        )
+        fuzzy = self.create_memory(
+            source="Memory API fuzzy entry",
+            target="Pamet API priblizne",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {
+                "strings": [
+                    "Memory API exact",
+                    "memory API fuzzy entry",
+                    "Scoped lookup",
+                    "No hit",
+                ]
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["query"], "Memory API exact")
+        self.assertEqual(response.data[0]["match"]["id"], exact.id)
+        self.assertTrue(response.data[0]["match"]["exact"])
+        self.assertEqual(response.data[1]["match"]["id"], fuzzy.id)
+        self.assertFalse(response.data[1]["match"]["exact"])
+        self.assertIsNotNone(response.data[2]["match"])
+        self.assertIsNone(response.data[3]["match"])
+
+    def test_lookup_with_project_keeps_personal_shared_and_file_entries(self) -> None:
+        self.authenticate()
+        self.component.project.use_shared_tm = True
+        self.component.project.save(update_fields=["use_shared_tm"])
+
+        project_entry = self.create_memory(
+            source="Project scoped memory",
+            target="Projektova pamet",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        personal_entry = self.create_memory(
+            source="Personal scoped memory",
+            target="Osobni pamet",
+            user=self.user,
+        )
+        shared_entry = self.create_memory(
+            source="Shared scoped memory",
+            target="Sdilena pamet",
+            project=self.component.project,
+            origin=self.component.full_slug,
+            shared=True,
+        )
+        file_entry = self.create_memory(
+            source="File scoped memory",
+            target="Souborova pamet",
+            from_file=True,
+        )
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {
+                "strings": [
+                    "Project scoped memory",
+                    "Personal scoped memory",
+                    "Shared scoped memory",
+                    "File scoped memory",
+                ]
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["match"]["id"], project_entry.id)
+        self.assertEqual(response.data[1]["match"]["id"], personal_entry.id)
+        self.assertEqual(response.data[2]["match"]["id"], shared_entry.id)
+        self.assertEqual(response.data[3]["match"]["id"], file_entry.id)
+
+    def test_lookup_batches_exact_matches_before_fuzzy_fallback(self) -> None:
+        self.authenticate()
+        exact = self.create_memory(
+            source="Batch exact match",
+            target="Davkova presna shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        fuzzy = self.create_memory(
+            source="Batch fuzzy source",
+            target="Davkova fuzzy shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+
+        with patch.object(
+            MemoryViewSet,
+            "get_fuzzy_match",
+            autospec=True,
+            return_value=fuzzy,
+        ) as get_fuzzy_match:
+            response = self.client.post(
+                (
+                    f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                    f"&project={self.component.project.slug}"
+                ),
+                {
+                    "strings": ["Batch exact match", "Batch fuzzy sourca"]
+                },  # codespell:ignore sourca
+                format="json",
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["match"]["id"], exact.id)
+        self.assertEqual(response.data[1]["match"]["id"], fuzzy.id)
+        get_fuzzy_match.assert_called_once()
+        self.assertEqual(
+            get_fuzzy_match.call_args.args[4],
+            "Batch fuzzy sourca",  # codespell:ignore sourca
+        )
+
+    def test_get_exact_matches_uses_distinct_on_source(self) -> None:
+        first = self.create_memory(
+            source="Shared exact source",
+            target="Prvni shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        second = self.create_memory(
+            source="Another exact source",
+            target="Druha shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        queryset = self.mock_queryset()
+        filtered_queryset = self.mock_queryset()
+        ordered_queryset = self.mock_queryset()
+        distinct_queryset = self.mock_queryset()
+        distinct_queryset.__iter__.return_value = iter([first, second])
+        queryset.filter.return_value = filtered_queryset
+        filtered_queryset.order_by.return_value = ordered_queryset
+        ordered_queryset.distinct.return_value = distinct_queryset
+
+        view = MemoryViewSet()
+        matches = view.get_exact_matches(
+            queryset, ["Shared exact source", "Another exact source"]
+        )
+
+        filtered_queryset.order_by.assert_called_once_with("source", "-status", "id")
+        ordered_queryset.distinct.assert_called_once_with("source")
+        self.assertEqual(matches, {first.source: first, second.source: second})
+
+    def test_lookup_uses_read_alias_for_similarity_threshold(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        candidate = self.create_memory(
+            source="Memory routed fuzzy entry",
+            target="Smerovana fuzzy pamet",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        filtered_queryset = self.mock_queryset(db="memory_db")
+        annotated_queryset = self.mock_queryset(db="memory_db")
+        ordered_queryset = self.mock_queryset(db="memory_db")
+        ordered_queryset.__getitem__.return_value = [candidate]
+        annotated_queryset.order_by.return_value = ordered_queryset
+        filtered_queryset.annotate.return_value = annotated_queryset
+
+        base_queryset = self.mock_queryset(db="memory_db")
+        base_queryset.filter.return_value = filtered_queryset
+
+        queryset = self.mock_queryset()
+        queryset.filter.return_value = base_queryset
+
+        view = MemoryViewSet()
+        with (
+            patch("weblate.api.views.adjust_similarity_threshold") as adjust_threshold,
+            patch.object(Memory.objects, "threshold_to_similarity", return_value=0.8),
+            patch.object(Memory.objects, "minimum_similarity", return_value=0.8),
+            patch.object(view.comparer, "similarity", return_value=95),
+        ):
+            match = view.get_fuzzy_match(
+                queryset,
+                source_language,
+                target_language,
+                "Memory routed fuzzy entri",
+            )
+
+        self.assertEqual(match, candidate)
+        adjust_threshold.assert_called_once_with(0.8, alias="memory_db")
+
+    def test_lookup_retries_lower_similarity_threshold(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        low_quality_candidate = self.create_memory(
+            source="Retry fuzzy source",
+            target="Nizka fuzzy shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        candidate = self.create_memory(
+            source="Retry fuzzy sourca",  # codespell:ignore sourca
+            target="Opakovana fuzzy shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        first_filtered_queryset = self.mock_queryset(db="memory_db")
+        first_annotated_queryset = self.mock_queryset(db="memory_db")
+        first_ordered_queryset = self.mock_queryset(db="memory_db")
+        first_ordered_queryset.__getitem__.return_value = [low_quality_candidate]
+        first_annotated_queryset.order_by.return_value = first_ordered_queryset
+        first_filtered_queryset.annotate.return_value = first_annotated_queryset
+
+        second_filtered_queryset = self.mock_queryset(db="memory_db")
+        second_annotated_queryset = self.mock_queryset(db="memory_db")
+        second_ordered_queryset = self.mock_queryset(db="memory_db")
+        second_ordered_queryset.__getitem__.return_value = [
+            low_quality_candidate,
+            candidate,
+        ]
+        second_annotated_queryset.order_by.return_value = second_ordered_queryset
+        second_filtered_queryset.annotate.return_value = second_annotated_queryset
+
+        base_queryset = self.mock_queryset(db="memory_db")
+        base_queryset.filter.side_effect = [
+            first_filtered_queryset,
+            second_filtered_queryset,
+        ]
+
+        queryset = self.mock_queryset()
+        queryset.filter.return_value = base_queryset
+
+        view = MemoryViewSet()
+        with (
+            patch("weblate.api.views.adjust_similarity_threshold") as adjust_threshold,
+            patch.object(Memory.objects, "threshold_to_similarity", return_value=0.95),
+            patch.object(Memory.objects, "minimum_similarity", return_value=0.9),
+            patch.object(view.comparer, "similarity", side_effect=[60, 95]),
+        ):
+            match = view.get_fuzzy_match(
+                queryset,
+                source_language,
+                target_language,
+                "Retry fuzzy sourc",  # codespell:ignore sourc
+            )
+
+        self.assertIsNotNone(match)
+        self.assertEqual(
+            adjust_threshold.call_args_list,
+            [call(0.95, alias="memory_db"), call(0.9, alias="memory_db")],
+        )
+
+    def test_lookup_uses_later_fuzzy_candidate_meeting_quality_threshold(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        low_quality_candidate = self.create_memory(
+            source="Short source typo",
+            target="Nizka kvalita",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        accepted_candidate = self.create_memory(
+            source="Short source typa",
+            target="Prijata kvalita",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        filtered_queryset = self.mock_queryset(db="memory_db")
+        annotated_queryset = self.mock_queryset(db="memory_db")
+        ordered_queryset = self.mock_queryset(db="memory_db")
+        ordered_queryset.__getitem__.return_value = [
+            low_quality_candidate,
+            accepted_candidate,
+        ]
+        annotated_queryset.order_by.return_value = ordered_queryset
+        filtered_queryset.annotate.return_value = annotated_queryset
+
+        base_queryset = self.mock_queryset(db="memory_db")
+        base_queryset.filter.return_value = filtered_queryset
+
+        queryset = self.mock_queryset()
+        queryset.filter.return_value = base_queryset
+
+        view = MemoryViewSet()
+        with (
+            patch("weblate.api.views.adjust_similarity_threshold"),
+            patch.object(Memory.objects, "threshold_to_similarity", return_value=0.85),
+            patch.object(Memory.objects, "minimum_similarity", return_value=0.85),
+            patch.object(view.comparer, "similarity", side_effect=[60, 95]),
+        ):
+            match = view.get_fuzzy_match(
+                queryset,
+                source_language,
+                target_language,
+                "Short source typi",
+            )
+
+        self.assertEqual(match, accepted_candidate)
+
+    def test_get_scoped_queryset_uses_project_subquery_on_memory_db(self) -> None:
+        user = self.mock_user_with_allowed_projects([1, 2, 3])
+        allowed_projects = MagicMock()
+        user.allowed_projects.using.return_value = allowed_projects
+        request = MagicMock()
+        request.user = user
+        using_queryset = self.mock_queryset(db="memory_db")
+        filtered_queryset = self.mock_queryset(db="memory_db")
+        ordered_queryset = self.mock_queryset(db="memory_db")
+        using_queryset.filter.return_value = filtered_queryset
+        filtered_queryset.order_by.return_value = ordered_queryset
+
+        view = MemoryViewSet()
+        view.request = request
+
+        with patch.object(
+            Memory.objects, "using", return_value=using_queryset
+        ) as using:
+            result = view.get_scoped_queryset(alias="memory_db")
+
+        self.assertIs(result, ordered_queryset)
+        using.assert_called_once_with("memory_db")
+        user.allowed_projects.using.assert_called_once_with("memory_db")
+        query = using_queryset.filter.call_args.args[0]
+        self.assertIn(("project__in", allowed_projects), query.children)
+
+    def test_get_scoped_queryset_uses_project_subquery_on_default(self) -> None:
+        user = self.mock_user_with_allowed_projects([1, 2, 3])
+        allowed_projects = MagicMock()
+        user.allowed_projects.using.return_value = allowed_projects
+        request = MagicMock()
+        request.user = user
+        using_queryset = self.mock_queryset(db="default")
+        filtered_queryset = self.mock_queryset(db="default")
+        ordered_queryset = self.mock_queryset(db="default")
+        using_queryset.filter.return_value = filtered_queryset
+        filtered_queryset.order_by.return_value = ordered_queryset
+
+        view = MemoryViewSet()
+        view.request = request
+
+        with patch.object(
+            Memory.objects, "using", return_value=using_queryset
+        ) as using:
+            result = view.get_scoped_queryset(alias="default")
+
+        self.assertIs(result, ordered_queryset)
+        using.assert_called_once_with("default")
+        user.allowed_projects.using.assert_called_once_with("default")
+        query = using_queryset.filter.call_args.args[0]
+        self.assertIn(("project__in", allowed_projects), query.children)
+
+    def test_get_scoped_queryset_superuser_skips_project_materialization(self) -> None:
+        user = self.mock_user_with_allowed_projects([1, 2, 3], is_superuser=True)
+        request = MagicMock()
+        request.user = user
+        using_queryset = self.mock_queryset(db="memory_db")
+        filtered_queryset = self.mock_queryset(db="memory_db")
+        ordered_queryset = self.mock_queryset(db="memory_db")
+        using_queryset.filter.return_value = filtered_queryset
+        filtered_queryset.order_by.return_value = ordered_queryset
+
+        view = MemoryViewSet()
+        view.request = request
+
+        with patch.object(
+            Memory.objects, "using", return_value=using_queryset
+        ) as using:
+            result = view.get_scoped_queryset(alias="memory_db")
+
+        self.assertIs(result, ordered_queryset)
+        using.assert_called_once_with("memory_db")
+        user.allowed_projects.using.assert_not_called()
 
 
 class TranslationAPITest(APIBaseTest):
