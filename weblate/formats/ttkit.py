@@ -1568,6 +1568,7 @@ class StringsFormat(PropertiesBaseFormat):
         "utf-16": ("properties", "stringsfile"),
     }
     supports_descriptions = True
+    check_flags = ("objc-format",)
 
     @classmethod
     def get_new_translation(cls, encoding: str | None = None):
@@ -2502,6 +2503,7 @@ class StringsdictFormat(ZeroCLDRPluralMixin, DictStoreFormat):
     loader = ("stringsdict", "StringsDictFile")
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.stringsdict",)
+    check_flags = ("objc-format",)
     empty_file_template = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

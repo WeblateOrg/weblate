@@ -13,6 +13,7 @@ Weblate 5.17
 * Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
 * Added :setting:`PASSWORD_RESET_URL` to customize the sign-in page password reset link, useful for external identity providers (Docker env: :envvar:`WEBLATE_PASSWORD_RESET_URL`).
 * Added :ref:`bulk user invitations <invite-user>`.
+* Added :ref:`check-objc-format`.
 * Added Forgejo notification webhook, see :ref:`forgejo-setup`.
 * Added translation memory API filtering, scoped access, and bulk lookup support.
 * Added ``from_component`` support to the REST API for creating components from existing component content and for creating translations seeded by automatic translation from existing components.
