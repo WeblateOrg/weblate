@@ -106,6 +106,7 @@ class GitRepository(Repository):
         "This will push changes to the upstream Git repository."
     )
     req_version: ClassVar[str | None] = "2.46"
+    # TODO: switch to main with Git 3.0
     default_branch: ClassVar[str] = "master"
     ref_to_remote: ClassVar[str] = "..{0}"
     ref_from_remote: ClassVar[str] = "{0}.."
@@ -529,11 +530,13 @@ class GitRepository(Repository):
             )
             for protocol in ("file", "git", "http", "https", "ssh")
         ]
-        # Default committer
         updates.extend(
             (
+                # Default committer
                 ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
                 ("user", "name", settings.DEFAULT_COMMITER_NAME),
+                # Avoid the default branch warning
+                ("advice", "defaultBranchName", "false"),
             )
         )
         # Merge driver
