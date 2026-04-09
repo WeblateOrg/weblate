@@ -2258,13 +2258,13 @@ Memory
 
     Returns a list of memory results.
 
-    :param source: Case-insensitive substring filter on source text (optional)
+    :query source: Case-insensitive substring filter on source text (optional)
     :type source: string
-    :param source_language: Source language code filter (optional)
+    :query source_language: Source language code filter (optional)
     :type source_language: string
-    :param target_language: Target language code filter (optional)
+    :query target_language: Target language code filter (optional)
     :type target_language: string
-    :param project: Project slug filter (optional)
+    :query project: Project slug filter (optional)
     :type project: string
 
 .. http:post:: /api/memory/lookup/
