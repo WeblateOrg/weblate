@@ -9,7 +9,7 @@ import contextlib
 import json
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import sys
 import tempfile
 from datetime import timedelta
@@ -485,6 +485,54 @@ class GettextAddonTest(ViewTestCase):
             form.cleaned_data["source_patterns"],
             ["src/*.py", "templates/*.html"],
         )
+        self.assertEqual(form.cleaned_data["comment_mode"], "off")
+        self.assertEqual(form.cleaned_data["comment_tag"], "")
+        self.assertEqual(form.cleaned_data["checks"], [])
+        self.assertEqual(form.cleaned_data["keyword"], "")
+
+    def test_xgettext_form_tagged_comments_require_tag(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "src/*.py\n",
+                "potfiles_path": "",
+                "comment_mode": "tagged",
+                "comment_tag": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_xgettext_form_roundtrips_parameters(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": "src/*.py\n",
+                "potfiles_path": "",
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode", "bullet-unicode"],
+                "keyword": "tr",
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["comment_mode"], "tagged")
+        self.assertEqual(form.cleaned_data["comment_tag"], "TRANSLATORS")
+        self.assertEqual(
+            form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
+        )
+        self.assertEqual(form.cleaned_data["keyword"], "tr")
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -641,6 +689,34 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.serialize_form()["input_mode"], "potfiles")
         self.assertEqual(form.serialize_form()["potfiles_path"], "po/POTFILES.in")
 
+    def test_xgettext_settings_form_roundtrips_parameters(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "input_mode": "patterns",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode", "quote-unicode"],
+                "keyword": "tr",
+            },
+        )
+
+        form = addon.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form()["comment_mode"], "tagged")
+        self.assertEqual(form.serialize_form()["comment_tag"], "TRANSLATORS")
+        self.assertEqual(
+            form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
+        )
+        self.assertEqual(form.serialize_form()["keyword"], "tr")
+
     def test_django_form(self) -> None:
         self.component.new_base = "locale/django.pot"
         form = DjangoAddon.get_add_form(
@@ -767,6 +843,29 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         self.assertTrue(form.is_valid(), form.errors)
+
+    def test_meson_form_tagged_comments_require_tag(self) -> None:
+        self.component.new_base = "po/messages.pot"
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        form = MesonAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "preset": "glib",
+                "comment_mode": "tagged",
+                "comment_tag": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
 
     def test_meson_can_install_is_component_specific(self) -> None:
         self.component.new_base = "po/messages.pot"
@@ -917,9 +1016,10 @@ class GettextAddonTest(ViewTestCase):
         mocked.assert_called_once()
         command = mocked.call_args.args[1]
         self.assertEqual(
-            command[:4], ["xgettext", "--output", "po/hello.pot", "--language"]
+            command[:5],
+            ["xgettext", "--output", "po/hello.pot", "--language", "Python"],
         )
-        self.assertIn("Python", command)
+        self.assertIn("--from-code=UTF-8", command)
         self.assertIn("src/messages.py", command)
         self.assertIn("--", command)
         self.assertIn(
@@ -1144,6 +1244,40 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
 
+    def test_xgettext_uses_parametrized_arguments(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode", "bullet-unicode"],
+                "keyword": "tr",
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--from-code=UTF-8", command)
+        self.assertIn("--add-comments=TRANSLATORS", command)
+        self.assertIn("--check=ellipsis-unicode", command)
+        self.assertIn("--check=bullet-unicode", command)
+        self.assertIn("--keyword=tr", command)
+
     def test_meson_uses_glib_preset_and_potfiles(self) -> None:
         source = Path(self.component.full_path) / "src" / "main.c"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -1181,6 +1315,43 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             addon.get_effective_potfiles_path(self.component), "po/POTFILES.in"
         )
+
+    def test_meson_uses_shared_xgettext_parameters(self) -> None:
+        source = Path(self.component.full_path) / "src" / "main.c"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('_("Hello");\n', encoding="utf-8")
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+                "comment_mode": "tagged",
+                "comment_tag": "TRANSLATORS",
+                "checks": ["ellipsis-unicode"],
+                "keyword": "custom_tr",
+            },
+        )
+
+        with patch.object(MesonAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--from-code=UTF-8", command)
+        self.assertIn("--add-comments", command)
+        self.assertIn("--add-comments=TRANSLATORS", command)
+        self.assertIn("--check=ellipsis-unicode", command)
+        self.assertIn("--keyword=custom_tr", command)
 
     def test_meson_prefers_potfiles_over_potfiles_in(self) -> None:
         gettext_dir = Path(self.component.full_path) / "po"
@@ -1809,7 +1980,13 @@ class GettextAddonTest(ViewTestCase):
             '"Translations for Test \\"Project\\" / Test\\\\Component.\\n"',
             content,
         )
+        self.assertIn(
+            '# Generated translation template for Test "Project" / Test\\Component.',
+            content,
+        )
+        self.assertIn("# Generated by Weblate.", content)
         self.assertNotIn("FIRST AUTHOR", content)
+        self.assertNotIn("YEAR THE PACKAGE'S COPYRIGHT HOLDER", content)
 
     def test_extract_pot_normalize_header_uses_component_url_for_bugs(self) -> None:
         addon = DjangoAddon.create(
@@ -1831,6 +2008,37 @@ class GettextAddonTest(ViewTestCase):
             f'"Report-Msgid-Bugs-To: {get_site_url(self.component.get_absolute_url())}\\n"',
             content,
         )
+        self.assertIn(
+            f"# Generated translation template for {self.component.project.name} / {self.component.name}.",
+            content,
+        )
+        self.assertIn("# Generated by Weblate.", content)
+        self.assertNotIn("FIRST AUTHOR", content)
+        self.assertNotIn("YEAR THE PACKAGE'S COPYRIGHT HOLDER", content)
+        self.assertNotIn("This file is distributed under the same license", content)
+
+    def test_extract_pot_normalize_header_is_idempotent(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER\n# This file is distributed under the same license as the PACKAGE package.\nmsgid ""\nmsgstr ""\n"Project-Id-Version: PACKAGE VERSION\\n"\n"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"\n"SOME DESCRIPTIVE TITLE.\\n"\n""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+        generated_comment = f"# Generated translation template for {self.component.project.name} / {self.component.name}."
+
+        self.assertEqual(content.count(generated_comment), 1)
+        self.assertEqual(content.count("# Generated by Weblate."), 1)
+        self.assertNotIn("FIRST AUTHOR", content)
+        self.assertNotIn("YEAR THE PACKAGE'S COPYRIGHT HOLDER", content)
+        self.assertNotIn("This file is distributed under the same license", content)
 
     def test_django_command(self) -> None:
         self.component.new_base = "locale/django.pot"
@@ -4810,6 +5018,64 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         )
         self.assertContains(response, "Installed 1 add-on")
 
+    def test_form_blocks_private_webhook_target_by_default(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "http://localhost/hook",
+                "events": [ActionEvents.NEW],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertFalse(
+            Addon.objects.filter(
+                component=self.component, name="weblate.webhook.webhook"
+            ).exists()
+        )
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_allows_private_webhook_target_when_restriction_disabled(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "http://localhost/hook",
+                "events": [ActionEvents.NEW],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 1 add-on")
+
+    @override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["localhost"])
+    def test_form_allows_private_webhook_target_when_allowlisted(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "http://localhost/hook",
+                "events": [ActionEvents.NEW],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 1 add-on")
+
     @responses.activate
     def test_jsonschema_error(self) -> None:
         """Test payload schema validation error."""
@@ -4860,6 +5126,29 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.assertIn("child-category", request_body["category"])
         self.assertIn("parent-category", request_body["category"])
         self.assertIn("sub-category", request_body["category"])
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 80))],
+    )
+    def test_private_webhook_target_is_blocked(self, mocked_getaddrinfo) -> None:
+        self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+        mocked_getaddrinfo.assert_called_once()
+        self.assertEqual(mocked_getaddrinfo.call_args.args[0], "example.com")
+        self.assertEqual(self.count_requests(), 0)
+
+        activity_log = AddonActivityLog.objects.filter(
+            addon__name=self.WEBHOOK_CLS.name
+        ).latest("created")
+        self.assertTrue(activity_log.details["error"])
+        self.assertIn("result", activity_log.details)
+        self.assertNotIsInstance(activity_log.details["result"], dict)
+        self.assertIsInstance(activity_log.details["result"], str)
+        self.assertTrue(activity_log.details["result"])
 
 
 class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):

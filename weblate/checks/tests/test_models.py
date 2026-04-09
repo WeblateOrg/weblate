@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from weblate.checks.models import CHECKS, Check
-from weblate.checks.tasks import batch_update_checks
+from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.models import Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -102,8 +102,10 @@ class BatchUpdateTest(ViewTestCase):
     def test_noop(self) -> None:
         other = self.do_base()
         # The batch update should not remove it
-        batch_update_checks(self.component.id, ["inconsistent"])
-        batch_update_checks(other.id, ["inconsistent"])
+        finalize_component_checks(
+            self.component.id, [], ["inconsistent"], batch_mode=True
+        )
+        finalize_component_checks(other.id, [], ["inconsistent"], batch_mode=True)
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, {"inconsistent"})
 
@@ -128,7 +130,9 @@ class BatchUpdateTest(ViewTestCase):
             Unit.objects.filter(pk=one_unit.pk).update(target=update_one)
             Unit.objects.filter(pk=other_unit.pk).update(target=update_other)
 
-            batch_update_checks(self.component.id, ["inconsistent"])
+            finalize_component_checks(
+                self.component.id, [], ["inconsistent"], batch_mode=True
+            )
             unit = self.get_unit()
             self.assertEqual(unit.all_checks_names, expected)
 
@@ -136,6 +140,6 @@ class BatchUpdateTest(ViewTestCase):
             Unit.objects.filter(pk=one_unit.pk).update(target=update_one)
             Unit.objects.filter(pk=other_unit.pk).update(target=update_other)
 
-            batch_update_checks(other.id, ["inconsistent"])
+            finalize_component_checks(other.id, [], ["inconsistent"], batch_mode=True)
             unit = self.get_unit()
             self.assertEqual(unit.all_checks_names, expected)

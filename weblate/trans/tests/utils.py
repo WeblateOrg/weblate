@@ -112,9 +112,8 @@ class RepoTestMixin:
                 remove_tree(output)
 
             # Extract new content
-            tar = TarFile(tarname)
-            tar.extractall(settings.DATA_DIR)  # noqa: S202
-            tar.close()
+            with TarFile(tarname) as tar:
+                tar.extractall(settings.DATA_DIR)  # noqa: S202
 
             # Update directory timestamp
             os.utime(output, None)

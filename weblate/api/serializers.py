@@ -677,6 +677,17 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
 
+    def validate(self, attrs):
+        # Call model validation here, DRF does not do that
+        if self.instance:
+            instance = copy(self.instance)
+            for key, value in attrs.items():
+                setattr(instance, key, value)
+        else:
+            instance = Project(**attrs)
+        instance.clean()
+        return attrs
+
 
 class LinkedField(serializers.CharField):
     def get_attribute(self, instance):

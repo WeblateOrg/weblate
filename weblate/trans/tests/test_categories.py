@@ -24,7 +24,7 @@ class CategoriesTest(ViewTestCase):
         super().setUp()
         self.project.add_user(self.user, "Administration")
 
-    def add_and_organize(self):
+    def add_and_organize(self) -> Category:
         response = self.client.post(
             reverse("add-category", kwargs={"path": self.project.get_url_path()}),
             {"name": "Test category", "slug": "test-cat"},
@@ -53,7 +53,7 @@ class CategoriesTest(ViewTestCase):
             },
         )
         self.assertRedirects(response, new_component_url)
-        self.client.get(category_url)
+        response = self.client.get(category_url)
         self.assertNotContains(response, "Nothing to list here.")
         return category
 
@@ -270,7 +270,7 @@ class CategoriesTest(ViewTestCase):
         category = Category.objects.get()
         self.assertRedirects(response, category_url)
         self.assertContains(response, "Nothing to list here.")
-        response = self.client.post(
+        self.client.post(
             reverse("rename", kwargs=self.kw_component),
             {
                 "project": self.project.pk,

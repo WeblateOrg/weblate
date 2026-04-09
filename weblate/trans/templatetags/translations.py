@@ -498,6 +498,8 @@ class Formatter:
         yield from tags[len(value)]
 
     def format(self):
+        # Safe to mark because format_generator escapes raw string content inline
+        # and only emits formatter-controlled markup for diffs/highlights/tooltips.
         return mark_safe("".join(self.format_generator()))  # noqa: S308
 
 

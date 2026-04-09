@@ -3350,6 +3350,52 @@ class ViewsTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_translate_escapes_html(self) -> None:
+        self.ensure_dummy_mt()
+        unit = self.get_unit()
+        unit.target = ""
+        unit.save(update_fields=["target"])
+
+        payload = '<script>alert(1)</script>"x="y'
+        source_payload = "<img/src=x/onerror=1>"
+
+        with patch.object(
+            DummyTranslation,
+            "translate",
+            return_value=[
+                [
+                    {
+                        "quality": 100,
+                        "plural_form": 0,
+                        "service": "Dummy",
+                        "text": payload,
+                        "source": source_payload,
+                        "original_source": "",
+                    }
+                ]
+            ],
+        ):
+            response = self.client.post(
+                reverse("js-translate", kwargs={"unit_id": unit.id, "service": "dummy"})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        translation = response.json()["translations"][0]
+        self.assertEqual(
+            translation["html"],
+            "&lt;script&gt;alert(1)&lt;/script&gt;&quot;x=&quot;y",
+        )
+        self.assertEqual(
+            translation["diff"],
+            "<ins>&lt;script&gt;alert(1)&lt;/script&gt;&quot;x=&quot;y</ins>",
+        )
+        self.assertEqual(
+            translation["source_diff"],
+            "<ins>&lt;img/src=x/onerror=1&gt;</ins>",
+        )
+        self.assertNotIn("<script>", translation["html"])
+        self.assertNotIn("<img", translation["source_diff"])
+
     def test_memory(self) -> None:
         unit = self.get_unit()
         url = reverse("js-memory", kwargs={"unit_id": unit.id})
@@ -3638,7 +3684,10 @@ class MachineryValidationTest(TestCase):
         )
 
         self.assertFalse(form.is_valid())
-        self.assertIn("URL domain is not allowed.", form.errors["__all__"])
+        self.assertIn(
+            "internal or non-public address",
+            str(form.errors["__all__"]),
+        )
 
     def test_check_failure_hides_response_body(self) -> None:
         response = Mock()
@@ -3830,7 +3879,10 @@ class MachineryValidationTest(TestCase):
 
         mocked_getaddrinfo.assert_called()
         mocked_request.assert_not_called()
-        self.assertIn("URL domain is not allowed.", str(form.non_field_errors()))
+        self.assertIn(
+            "internal or non-public address",
+            str(form.non_field_errors()),
+        )
 
     @override_settings(ALLOWED_MACHINERY_DOMAINS=[".example.com"])
     def test_check_failure_shows_wildcard_allowlisted_provider_message(self) -> None:

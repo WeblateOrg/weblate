@@ -25,6 +25,50 @@ class ModelTest(FixtureTestCase):
             self.assertEqual(len(self.user.component_permissions), 0)
             self.assertEqual(len(self.user.project_permissions), 2)
 
+    def test_num_queries_mixed_group_resolution(self) -> None:
+        self.group.projects.remove(self.project)
+
+        power_user = Role.objects.get(name="Power user")
+        cs = Language.objects.get(code="cs")
+        de = Language.objects.get(code="de")
+        other_component = self.create_link_existing(
+            slug="test-second", name="Test second"
+        )
+
+        component_group = Group.objects.create(
+            name="Components", language_selection=SELECTION_MANUAL
+        )
+        component_group.roles.add(power_user)
+        component_group.components.add(self.component)
+        component_group.languages.add(cs)
+
+        componentlist = ComponentList.objects.create(
+            name="Component list", slug="component-list"
+        )
+        componentlist.components.add(other_component)
+        componentlist_group = Group.objects.create(
+            name="Component lists", language_selection=SELECTION_MANUAL
+        )
+        componentlist_group.roles.add(power_user)
+        componentlist_group.componentlists.add(componentlist)
+        componentlist_group.languages.add(cs)
+
+        project_group = Group.objects.create(
+            name="Projects", language_selection=SELECTION_MANUAL
+        )
+        project_group.roles.add(power_user)
+        project_group.projects.add(self.project)
+        project_group.languages.add(cs, de)
+
+        self.user.groups.add(component_group, componentlist_group, project_group)
+        self.user.clear_cache()
+
+        with self.assertNumQueries(9):
+            self.assertEqual(len(self.user.component_permissions), 2)
+            self.assertIn(self.component.pk, self.user.component_permissions)
+            self.assertIn(other_component.pk, self.user.component_permissions)
+            self.assertIn(self.project.pk, self.user.project_permissions)
+
     def test_project(self) -> None:
         # No permissions
         self.assertFalse(self.user.can_access_project(self.project))

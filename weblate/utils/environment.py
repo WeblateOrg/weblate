@@ -7,7 +7,7 @@ from __future__ import annotations
 import ast
 import os
 from pathlib import Path
-from typing import Any, Literal, overload
+from typing import Any, Literal, cast, overload
 from urllib.parse import quote
 
 from django.core.exceptions import ImproperlyConfigured
@@ -45,6 +45,7 @@ def get_env_str(
     fallback_name=None,
 ):
     file_env = f"{name}_FILE"
+    result: str | None
     if filename := os.environ.get(file_env):
         try:
             result = Path(filename).read_text(encoding="utf-8")
@@ -52,9 +53,12 @@ def get_env_str(
             msg = f"Failed to open {filename} as specified by {file_env}: {error}"
             raise ImproperlyConfigured(msg) from error
     else:
-        result = os.environ.get(
-            name,
-            default if not fallback_name else None,  # type: ignore[arg-type]
+        result = cast(
+            "str | None",
+            os.environ.get(
+                name,
+                default if not fallback_name else None,  # type: ignore[arg-type]
+            ),
         )
     # Also allow files for fallback names.
     # The logic is as follows (if fallback is given):

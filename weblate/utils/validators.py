@@ -40,6 +40,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, read_file_bytes
 from weblate.utils.outbound import (
+    is_allowlisted_hostname,
     validate_outbound_hostname,
     validate_outbound_url,
     validate_runtime_url,
@@ -349,35 +350,18 @@ def validate_project_name(value) -> None:
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_project_web(value) -> None:
-    # Regular expression filtering
-    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
-        settings.PROJECT_WEB_RESTRICT_RE, value
-    ):
-        raise ValidationError(gettext("This URL is prohibited"))
-    parsed = urlparse(value)
-    hostname = parsed.hostname or ""
-    hostname = hostname.lower()
-
-    # Hostname filtering
-    if any(
-        hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
-    ):
-        raise ValidationError(gettext("This URL is prohibited"))
-
-    # Numeric address filtering
-    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
-        try:
-            validate_ipv46_address(hostname)
-        except ValidationError:
-            pass
-        else:
-            raise ValidationError(gettext("This URL is prohibited"))
+def _validate_runtime_public_url(
+    value: str,
+    *,
+    allow_private_targets: bool,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+) -> None:
+    hostname = urlparse(value).hostname or ""
+    if allow_private_targets or is_allowlisted_hostname(hostname, allowed_domains):
+        return
 
     try:
-        validate_runtime_url(
-            value, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
-        )
+        validate_runtime_url(value, allow_private_targets=False)
     except ValidationError as error:
         if not isinstance(error.__cause__, OSError):
             raise
@@ -385,6 +369,49 @@ def validate_project_web(value) -> None:
         raise ValidationError(
             gettext("Could not resolve the URL domain: {}").format(error)
         ) from error
+
+
+def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
+    allowlisted = project_slug is not None and project_slug.lower() in {
+        slug.lower() for slug in settings.PROJECT_WEB_RESTRICT_ALLOWLIST
+    }
+
+    # Regular expression filtering
+    if (
+        not allowlisted
+        and settings.PROJECT_WEB_RESTRICT_RE is not None
+        and re.match(settings.PROJECT_WEB_RESTRICT_RE, value)
+    ):
+        raise ValidationError(
+            gettext("This URL is prohibited because it matches a restricted pattern.")
+        )
+    parsed = urlparse(value)
+    hostname = parsed.hostname or ""
+    hostname = hostname.lower()
+
+    # Hostname filtering
+    if not allowlisted and any(
+        hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
+    ):
+        raise ValidationError(
+            gettext("This URL is prohibited because it uses a restricted host.")
+        )
+
+    # Numeric address filtering
+    if not allowlisted and settings.PROJECT_WEB_RESTRICT_NUMERIC:
+        try:
+            validate_ipv46_address(hostname)
+        except ValidationError:
+            pass
+        else:
+            raise ValidationError(
+                gettext("This URL is prohibited because it uses a numeric IP address.")
+            )
+
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=allowlisted or not settings.PROJECT_WEB_RESTRICT_PRIVATE,
+    )
 
 
 def validate_webhook_secret_string(value: str) -> None:
@@ -443,6 +470,20 @@ def validate_machinery_hostname(
         value,
         allow_private_targets=allow_private_targets,
         allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+    )
+
+
+def validate_webhook_url(value: str) -> None:
+    WeblateServiceURLValidator()(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
 

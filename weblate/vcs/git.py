@@ -1945,9 +1945,11 @@ class LocalRepository(GitRepository):
 
     @classmethod
     def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:
-        with cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo:
-            # Extract zip file content, ignoring some files
-            zipobj = ZipFile(zipfile)
+        # Extract zip file content, ignoring some files
+        with (
+            cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo,
+            ZipFile(zipfile) as zipobj,
+        ):
             names = [name for name in zipobj.namelist() if not is_excluded(name)]
             zipobj.extractall(path=target, members=names)
             return repo

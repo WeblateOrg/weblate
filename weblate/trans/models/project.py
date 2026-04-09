@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, ClassVar, Self, cast
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Count, F, Q, QuerySet, Value
 from django.db.models.functions import Replace
@@ -193,7 +193,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Project website"),
         blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
-        validators=[WeblateURLValidator(), validate_project_web],
+        validators=[WeblateURLValidator()],
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
@@ -380,6 +380,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # Update translation memory on enabled sharing
         if update_tm:
             import_memory.delay_on_commit(self.id)
+
+    def clean(self) -> None:
+        super().clean()
+        if self.web:
+            try:
+                validate_project_web(self.web, project_slug=self.slug or None)
+            except ValidationError as error:
+                raise ValidationError({"web": error.messages}) from error
 
     def generate_changes(self, old: Project) -> None:
         tracked = (("slug", ActionEvents.RENAME_PROJECT),)

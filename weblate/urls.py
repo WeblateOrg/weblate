@@ -1098,7 +1098,7 @@ if "djangosaml2idp" in settings.INSTALLED_APPS:
     real_patterns.append(
         path(
             "idp/sso/<str:binding>/",
-            import_string("weblate.utils.djangosaml2idp.sso_entry"),
+            import_string("weblate.utils.djangosaml2idp_views.sso_entry"),
             name="saml_login_binding",
         ),
     )

@@ -1300,7 +1300,6 @@ class Translation(
 
         if accepted > 0:
             self.store_update_changes()
-            self.component.update_source_checks()
             self.component.run_batched_checks()
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
@@ -1541,7 +1540,6 @@ class Translation(
         if component.needs_variants_update:
             component.update_variants()
         component.schedule_sync_terminology()
-        component.update_source_checks()
         component.run_batched_checks()
         component_post_update.send(sender=self.__class__, component=component)
         return (0, skipped, accepted, len(store.content_units))

@@ -951,7 +951,7 @@ class Component(
         self.stats = ComponentStats(self)
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
-        self.updated_sources: dict[int, Unit] = {}
+        self.updated_sources: set[int] = set()
         self.old_component_settings = self.get_old_component_settings()
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
@@ -1126,18 +1126,29 @@ class Component(
             import_memory.delay_on_commit(self.project.id, self.pk)
 
     def get_old_component_settings(self) -> OldComponentSettings:
+        """
+        Capture settings needed for change detection without loading deferred fields.
+
+        Some callers fetch Component objects using only a subset of fields. Reading
+        the attributes directly here would trigger additional queries while the
+        instance is being initialized or refreshed, so this intentionally prefers
+        values already present in __dict__ and falls back to previously captured
+        settings.
+        """
         current = getattr(self, "old_component_settings", {})
         return {
-            "check_flags": self.__dict__.get(
-                "check_flags", current.get("check_flags", "")
-            ),
-            "vcs": self.__dict__.get("vcs", current.get("vcs", "")),
-            "push": self.__dict__.get("push", current.get("push", "")),
-            "push_branch": self.__dict__.get(
-                "push_branch", current.get("push_branch", "")
-            ),
-            "repo": self.__dict__.get("repo", current.get("repo", "")),
+            "check_flags": self.get_old_component_setting("check_flags", current),
+            "vcs": self.get_old_component_setting("vcs", current),
+            "push": self.get_old_component_setting("push", current),
+            "push_branch": self.get_old_component_setting("push_branch", current),
+            "repo": self.get_old_component_setting("repo", current),
         }
+
+    def get_old_component_setting(
+        self, name: str, current: OldComponentSettings | dict[str, str]
+    ) -> str:
+        """Read a tracked setting without forcing deferred field evaluation."""
+        return self.__dict__.get(name, current.get(name, ""))
 
     def refresh_from_db(self, *args, **kwargs) -> None:
         super().refresh_from_db(*args, **kwargs)
@@ -1248,6 +1259,19 @@ class Component(
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-update.lock",
+            timeout=5,
+            origin=self.full_slug,
+        )
+
+    @cached_property
+    def checks_lock(self):
+        return WeblateLock(
+            lock_path=self.project.full_path,
+            scope="component-checks",
+            key=self.pk,
+            slug=self.slug,
+            cache_template="{scope}-lock-{key}",
+            file_template="{slug}-checks.lock",
             timeout=5,
             origin=self.full_slug,
         )
@@ -1411,7 +1435,7 @@ class Component(
             check_new=False,
             save=save,
         )
-        self.updated_sources[source.id] = source
+        self.updated_sources.add(source.id)
         return change
 
     def bulk_create_sources(
@@ -1891,7 +1915,7 @@ class Component(
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content(
-                        get_encoding_param(self.file_format_params)
+                        get_encoding_param(self.file_format, self.file_format_params)
                     )
                     is None
                 ):
@@ -1900,7 +1924,9 @@ class Component(
                     self.full_path,
                     {
                         self.template: self.file_format_cls.get_new_file_content(
-                            get_encoding_param(self.file_format_params)
+                            get_encoding_param(
+                                self.file_format, self.file_format_params
+                            )
                         )
                     }
                     if self.template
@@ -2731,13 +2757,6 @@ class Component(
             return [self.template, *sorted(matches)]
         return sorted(matches)
 
-    def update_source_checks(self) -> None:
-        self.log_info("running source checks for %d strings", len(self.updated_sources))
-        for unit in self.updated_sources.values():
-            unit.is_batch_update = True
-            unit.run_checks()
-        self.updated_sources = {}
-
     @cached_property
     def all_active_alerts(self):
         result = self.alert_set.filter(dismissed=False)
@@ -2945,7 +2964,7 @@ class Component(
         self.drop_template_store_cache()
         self.unload_sources()
         self.needs_cleanup = False
-        self.updated_sources = {}
+        self.updated_sources = set()
         self.alerts_trigger = {}
         self.start_batched_checks()
         was_change = False
@@ -3083,10 +3102,6 @@ class Component(
                     report_error("Failed linked component update", project=self.project)
                 continue
 
-        # Run source checks on updated source strings
-        if self.updated_sources:
-            self.update_source_checks()
-
         # Update flags
         if was_change:
             self.invalidate_cache()
@@ -3122,17 +3137,34 @@ class Component(
         self.batched_checks = set()
 
     def run_batched_checks(self) -> None:
-        # Batch checks
-        if self.batched_checks:
-            from weblate.checks.tasks import batch_update_checks
+        source_unit_ids = list(self.updated_sources)
+        batched_checks = list(self.batched_checks)
+        batch_mode = self.batch_checks
 
-            batched_checks = list(self.batched_checks)
-            if settings.CELERY_TASK_ALWAYS_EAGER:
-                batch_update_checks(self.id, batched_checks, component=self)
-            else:
-                batch_update_checks.delay_on_commit(self.id, batched_checks)
+        self.updated_sources = set()
         self.batch_checks = False
         self.batched_checks = set()
+
+        if not source_unit_ids and not batched_checks:
+            return
+
+        from weblate.checks.tasks import finalize_component_checks
+
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            finalize_component_checks(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+                component=self,
+            )
+        else:
+            finalize_component_checks.delay_on_commit(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+            )
 
     def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False

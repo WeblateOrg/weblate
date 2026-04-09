@@ -23,7 +23,7 @@ from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import (
     AzureDevOpsRepository,
     BitbucketCloudRepository,
@@ -262,6 +262,20 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_cleanup(self) -> None:
         with self.repo.lock:
             self.repo.cleanup()
+
+    def test_resolve_symlinks_rejects_prefix_collision(self) -> None:
+        repo_path = os.path.realpath(self.repo.path)
+        outside_path = f"{repo_path}_outside"
+        os.makedirs(outside_path)
+        self.addCleanup(shutil.rmtree, outside_path, True)
+
+        Path(os.path.join(outside_path, "secrets.po")).write_text(
+            "TOPSECRET\n", encoding="utf-8"
+        )
+        os.symlink(outside_path, os.path.join(self.repo.path, "prefix-collision"))
+
+        with self.assertRaises(RepositorySymlinkError):
+            self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
     def test_merge_commit(self) -> None:
         self.test_commit()

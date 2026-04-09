@@ -260,6 +260,37 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertContains(response, "Thank you for using Weblate")
 
+    def test_login_next_redirect(self) -> None:
+        user = self.get_user()
+
+        response = self.client.post(
+            reverse("login"),
+            {
+                "username": user.username,
+                "password": "testpassword",
+                "next": f"{reverse('profile')}#account",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+
+    def test_login_rejects_unsafe_next(self) -> None:
+        user = self.get_user()
+
+        for next_url in ("https://evil.example/", "////evil.example"):
+            with self.subTest(next_url=next_url):
+                self.client.logout()
+                response = self.client.post(
+                    reverse("login"),
+                    {
+                        "username": user.username,
+                        "password": "testpassword",
+                        "next": next_url,
+                    },
+                )
+
+                self.assertRedirects(response, reverse("home"))
+
     @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
             "social_core.backends.github.GithubOAuth2",

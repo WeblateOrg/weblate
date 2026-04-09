@@ -3022,6 +3022,20 @@ update individual repositories; see
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
+.. http:post:: /hooks/forgejo/
+
+    Special hook for handling Forgejo Webhook notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`forgejo-setup`
+            For instruction on setting up Forgejo integration
+        https://forgejo.org/docs/latest/user/webhooks/
+            Generic information about Forgejo Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
 .. http:post:: /hooks/gitee/
 
     Special hook for handling Gitee Webhook notifications and automatically
