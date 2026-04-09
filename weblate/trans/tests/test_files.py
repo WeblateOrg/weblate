@@ -10,6 +10,7 @@ import os
 import tempfile
 from io import BytesIO
 from pathlib import Path
+from unittest.mock import patch
 from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
@@ -20,8 +21,9 @@ from openpyxl import load_workbook
 from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.exceptions import FailedCommitError
 from weblate.trans.forms import SimpleUploadForm
-from weblate.trans.models import Change, ComponentList, PendingUnitChange
+from weblate.trans.models import Change, ComponentList, PendingUnitChange, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.data import data_dir
@@ -140,6 +142,26 @@ class ImportTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
+
+    def test_import_commit_error_is_sanitized(self) -> None:
+        with patch.object(
+            Translation,
+            "handle_upload",
+            side_effect=FailedCommitError(
+                "Commit failed via "
+                "ssh://git@internal.example.net/private/repo.git "
+                f"in {self.component.full_path}/secret"
+            ),
+        ):
+            response = self.do_import(follow=True)
+
+        self.assertRedirects(response, self.translation_url)
+        messages = [message.message for message in response.context["messages"]]
+        self.assertIn("Commit failed", messages[0])
+        self.assertNotIn("internal.example.net", messages[0])
+        self.assertNotIn("ssh://", messages[0])
+        self.assertNotIn(self.component.full_path, messages[0])
+        self.assertIn(".../secret", messages[0])
 
     def test_import_overwrite(self) -> None:
         """Test importing with overwriting."""

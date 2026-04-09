@@ -85,6 +85,7 @@ from weblate.trans.util import (
     count_words,
     is_repo_link,
     path_separator,
+    sanitize_backend_error_message,
 )
 from weblate.trans.validators import (
     validate_autoaccept,
@@ -1817,10 +1818,11 @@ class Component(  # noqa: PLR0904
 
     def error_text(self, error: RepositoryError) -> str:
         """Return text message for a RepositoryError."""
-        message = error.get_message()
-        if not settings.HIDE_REPO_CREDENTIALS:
-            return message
-        return cleanup_repo_url(self.repo, message)
+        return sanitize_backend_error_message(
+            error.get_message(),
+            repo_urls=(self.repo, self.push),
+            extra_paths=(self.full_path,),
+        )
 
     def add_ssh_host_key(self) -> None:
         """
@@ -2570,8 +2572,12 @@ class Component(  # noqa: PLR0904
         if not error_message:
             error_message = getattr(error, "message", "")
         if not error_message:
-            error_message = str(error).replace(self.full_path, "")
-        return error_message
+            error_message = str(error)
+        return sanitize_backend_error_message(
+            error_message,
+            repo_urls=(self.repo, self.push),
+            extra_paths=(self.full_path,),
+        )
 
     def handle_parse_error(
         self, error, translation=None, filename=None, reraise: bool = True

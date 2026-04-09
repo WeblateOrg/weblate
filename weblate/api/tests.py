@@ -73,6 +73,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.vcs.base import RepositoryError
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
@@ -4084,6 +4085,40 @@ class ComponentAPITest(APIBaseTest):
         self.assertGreaterEqual(pending["total"], 2)
         self.assertGreater(pending["eligible_for_commit"], 0)
 
+    def test_repo_operation_error_is_sanitized(self) -> None:
+        repository_error = RepositoryError(
+            128,
+            (
+                "fatal: unable to access "
+                "'ssh://git@internal.example.net/private/repo.git': "
+                "Could not resolve host: internal.example.net\n"
+                f"{self.component.full_path}/.git/index.lock"
+            ),
+        )
+        with (
+            patch.object(Component, "repo_needs_push", return_value=True),
+            patch.object(Component, "do_update", return_value=True),
+            patch.object(Component, "repo_needs_merge", return_value=False),
+            patch.object(
+                self.component.repository.__class__,
+                "push",
+                side_effect=repository_error,
+            ),
+        ):
+            response = self.do_request(
+                "api:component-repository",
+                self.component_kwargs,
+                superuser=True,
+                method="post",
+                request={"operation": "push"},
+            )
+
+        self.assertEqual(response.data["result"], False)
+        self.assertIn("Could not push", response.data["detail"])
+        self.assertNotIn("internal.example.net", response.data["detail"])
+        self.assertNotIn(self.component.full_path, response.data["detail"])
+        self.assertIn(".../.git/index.lock", response.data["detail"])
+
     def test_statistics(self) -> None:
         self.do_request(
             "api:component-statistics",
@@ -6407,6 +6442,60 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertContains(response, "Commit failed", status_code=400)
 
+    def test_upload_parse_error_is_sanitized(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=FileParseError(
+                    "Broken PO header from "
+                    "ssh://git@internal.example.net/private/repo.git "
+                    f"in {self.component.full_path}/secret"
+                ),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        detail = response.data["errors"][0]["detail"]
+        self.assertIn("Broken PO header", detail)
+        self.assertNotIn("internal.example.net", detail)
+        self.assertNotIn("ssh://", detail)
+        self.assertNotIn(self.component.full_path, detail)
+        self.assertIn(".../secret", detail)
+
+    def test_upload_commit_error_is_sanitized(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=FailedCommitError(
+                    "Commit failed via "
+                    "ssh://git@internal.example.net/private/repo.git "
+                    f"in {self.component.full_path}/secret"
+                ),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        detail = response.data["errors"][0]["detail"]
+        self.assertIn("Commit failed", detail)
+        self.assertNotIn("internal.example.net", detail)
+        self.assertNotIn("ssh://", detail)
+        self.assertNotIn(self.component.full_path, detail)
+        self.assertIn(".../secret", detail)
+
     def test_upload_internal_error_is_sanitized(self) -> None:
         self.authenticate()
         with (
@@ -6424,8 +6513,8 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(response.status_code, 400)
         self.assertContains(response, "File upload has failed:", status_code=400)
-        self.assertContains(response, "/secret", status_code=400)
         self.assertNotContains(response, self.component.full_path, status_code=400)
+        self.assertContains(response, ".../secret", status_code=400)
 
     def test_upload_source(self) -> None:
         self.authenticate(True)
