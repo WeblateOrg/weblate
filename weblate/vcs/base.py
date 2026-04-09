@@ -88,6 +88,7 @@ class Repository:
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
     _version: ClassVar[str | None] = None
+    _version_error: ClassVar[Exception | None] = None
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -372,8 +373,35 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
+    @staticmethod
+    def validate_remote_url(url: str) -> None:
+        """Revalidate a remote URL before using it."""
+        from django.core.exceptions import ValidationError
+
+        from weblate.utils.validators import validate_repo_url
+
+        try:
+            validate_repo_url(url)
+        except ValidationError as error:
+            raise RepositoryError(0, "; ".join(error.messages)) from error
+
+    def validate_pull_url(self, url: str | None = None) -> None:
+        """Validate the pull URL in the current runtime context."""
+        if url is None and self.component is not None:
+            url = self.component.repo
+        if url:
+            self.validate_remote_url(url)
+
+    def validate_push_url(self, url: str | None = None) -> None:
+        """Validate the push URL in the current runtime context."""
+        if url is None and self.component is not None:
+            url = self.component.push or self.component.repo
+        if url:
+            self.validate_remote_url(url)
+
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
+        self.validate_pull_url(source)
         self._clone(source, self.path, self.branch)
 
     @classmethod
@@ -514,14 +542,20 @@ class Repository:
     @classmethod
     def get_version(cls):
         """Get cached backend version."""
-        if cls._version is None:
+        version = cls.__dict__.get("_version")
+        version_error = cls.__dict__.get("_version_error")
+
+        if version is None and version_error is None:
             try:
                 cls._version = cls._get_version()
             except Exception as error:
-                cls._version = error
-        if isinstance(cls._version, Exception):
-            raise cls._version
-        return cls._version
+                cls._version_error = error
+            version = cls.__dict__.get("_version")
+            version_error = cls.__dict__.get("_version_error")
+
+        if version_error is not None:
+            raise version_error
+        return version
 
     @classmethod
     def _get_version(cls):

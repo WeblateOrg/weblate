@@ -30,7 +30,7 @@ Weblate 5.17
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 * :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is now available in Docker container to customize the Keycloak unique user identifier claim.
 * Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
-* Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting non-global IP ranges, and exposed it in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`.
+* Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting internal or non-public addresses, :setting:`WEBHOOK_RESTRICT_PRIVATE` to reject webhook URLs targeting internal or non-public addresses, and :setting:`VCS_RESTRICT_PRIVATE` to reject repository and push URLs targeting internal or non-public addresses. These are exposed in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`.
 * Improved performance of :ref:`mt-weblate` lookups.
 * Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
 * Expanded :doc:`/security/threat-model` to cover webhook trust boundaries and delegated authorization boundaries, and clarified the instance-wide 2FA enforcement path in :doc:`/admin/auth`.
@@ -81,7 +81,7 @@ Weblate 5.17
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
-* Outbound project links and webhook URLs pointing to private or other non-global IP ranges are now rejected by default. If your setup intentionally uses internal addresses, adjust the corresponding restriction settings such as :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, or the related allowlists.
+* Outbound project links, webhook URLs, and repository or push URLs pointing to internal or non-public addresses are now rejected by default. If your setup intentionally uses internal addresses, adjust the corresponding restriction settings such as :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, or :setting:`VCS_RESTRICT_PRIVATE`, and the related allowlists such as :setting:`VCS_ALLOW_HOSTS`.
 
 .. rubric:: Contributors
 

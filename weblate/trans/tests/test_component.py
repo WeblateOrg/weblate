@@ -886,6 +886,32 @@ class ComponentValidationTest(RepoTestCase):
         ):
             self.component.full_clean()
 
+    def test_private_repo_rejected(self) -> None:
+        self.component.repo = "https://private.example/repo.git"
+        with (
+            patch("weblate.trans.models.component.Component.sync_git_repo"),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            self.component.full_clean()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_private_push_rejected(self) -> None:
+        self.component.push = "https://private.example/repo.git"
+        with (
+            patch("weblate.trans.models.component.Component.sync_git_repo"),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            self.component.full_clean()
+        self.assertIn("internal or non-public address", str(error.exception))
+
     def test_validation_mono(self) -> None:
         self.component.project.delete()
         project = self.create_po_mono()

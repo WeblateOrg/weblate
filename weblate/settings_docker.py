@@ -703,6 +703,7 @@ VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
 VCS_API_TIMEOUT = get_env_int("WEBLATE_VCS_API_TIMEOUT", 10)
 VCS_ALLOW_HOSTS = set(get_env_list("WEBLATE_VCS_ALLOW_HOSTS", []))
 VCS_ALLOW_SCHEMES = set(get_env_list("WEBLATE_VCS_ALLOW_SCHEMES", ["https", "ssh"]))
+VCS_RESTRICT_PRIVATE = get_env_bool("WEBLATE_VCS_RESTRICT_PRIVATE", True)
 
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
