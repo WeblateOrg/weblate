@@ -26,6 +26,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.util import sanitize_backend_error_message
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -255,15 +256,33 @@ def upload(request: AuthenticatedHttpRequest, path):
             ),
         )
     except FileParseError as error:
-        messages.error(request, str(error))
+        messages.error(
+            request,
+            sanitize_backend_error_message(
+                str(error),
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
+        )
     except FailedCommitError as error:
-        messages.error(request, str(error))
+        messages.error(
+            request,
+            sanitize_backend_error_message(
+                str(error),
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
+        )
         report_error("Upload error", project=obj.component.project)
     except Exception as error:
         messages.error(
             request,
             gettext("File upload has failed: %s")
-            % str(error).replace(obj.component.full_path, ""),
+            % sanitize_backend_error_message(
+                str(error),
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
         )
         report_error("Upload error", project=obj.component.project)
 
