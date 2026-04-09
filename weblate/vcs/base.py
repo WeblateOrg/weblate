@@ -102,7 +102,7 @@ class Repository:
         local: bool = False,
     ) -> None:
         self.path: str = path
-        if branch is None:
+        if not branch:
             self.branch = self.default_branch
         else:
             self.branch = branch
@@ -127,6 +127,10 @@ class Repository:
     @classmethod
     def get_remote_branch(cls, repo: str) -> str:  # noqa: ARG003
         return cls.default_branch
+
+    @classmethod
+    def validate_branch_name(cls, branch: str) -> str:
+        return branch
 
     @classmethod
     def add_breadcrumb(cls, message: str, **data) -> None:
@@ -676,7 +680,8 @@ class Repository:
         return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
     def get_remote_branch_name(self, branch: str | None = None) -> str:
-        return f"origin/{self.branch if branch is None else branch}"
+        branch_name = branch or self.branch
+        return f"origin/{self.validate_branch_name(branch_name)}"
 
     def list_remote_branches(self) -> list[str]:
         return []

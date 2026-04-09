@@ -33,6 +33,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Hardened Git branch handling to reject invalid branch names before repository operations.
 * Tightened repository boundary checks for symlink targets.
 * Matching exporters now honor component file format parameters.
 * Project token cleanup now removes stale bots on project deletion and upgrade.

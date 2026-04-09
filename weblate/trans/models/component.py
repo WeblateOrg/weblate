@@ -141,7 +141,7 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import RepositoryError, RepositorySymlinkError
-from weblate.vcs.git import GitMergeRequestBase, LocalRepository
+from weblate.vcs.git import GitMergeRequestBase, GitRepository, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
@@ -3540,6 +3540,7 @@ class Component(
         # Validate VCS repo
         try:
             self.set_default_branch()
+            self.clean_branches()
 
             self.sync_git_repo(validate=True, skip_push=True)
         except RepositoryError as error:
@@ -3568,6 +3569,23 @@ class Component(
                     "Push branch cannot be empty when using pull/merge requests and not pushing to a fork."
                 )
                 raise ValidationError({"push_branch": msg})
+
+    def clean_branches(self) -> None:
+        """Validate VCS branch names."""
+        if not issubclass(self.repository_class, GitRepository):
+            return
+
+        for field, message in (
+            ("branch", gettext("Invalid repository branch: %s")),
+            ("push_branch", gettext("Invalid push branch: %s")),
+        ):
+            branch = getattr(self, field)
+            if not branch:
+                continue
+            try:
+                self.repository_class.validate_branch_name(branch)
+            except RepositoryError as error:
+                raise ValidationError({field: message % error.get_message()}) from error
 
     def clean_file_format_params(self) -> None:
         for param in [
@@ -3634,6 +3652,8 @@ class Component(
             self.drop_repository_cache()
         if changed_git:
             self.clean_repo()
+        else:
+            self.clean_branches()
 
         self.clean_category()
 

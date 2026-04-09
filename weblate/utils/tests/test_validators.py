@@ -543,6 +543,13 @@ class RepoURLValidationTestCase(SimpleTestCase):
             validate_repo_url("username@example.com:path")
             validate_repo_url("username@example.com/path")
 
+    def test_ext_rejected(self):
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            self.assertRaises(ValidationError),
+        ):
+            validate_repo_url('ext::sh -c "id" dummy')
+
     def test_ssh_allow(self):
         with override_settings(
             VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
