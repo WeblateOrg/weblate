@@ -2115,7 +2115,16 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
-        self.assertEqual(len(responses.calls), 3)
+        self.assertEqual(len(responses.calls), 4)
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in responses.calls],
+            [
+                ("GET", "https://api.deepl.com/v2/languages?type=source"),
+                ("GET", "https://api.deepl.com/v2/languages?type=target"),
+                ("GET", "https://api.deepl.com/v2/glossary-language-pairs"),
+                ("POST", "https://api.deepl.com/v2/translate"),
+            ],
+        )
         responses.reset()
         # Fetch from cache
         machine = self.MACHINE_CLS(self.CONFIGURATION)
