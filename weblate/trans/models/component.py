@@ -4293,7 +4293,11 @@ class Component(
         if create_translations:
             # Forced scanning is needed in case adding file does not trigger commit,
             # for example when adding appstore metadata which only creates directory.
-            self.create_translations(request=request, force_scan=True)
+            self.create_translations(
+                request=request,
+                force_scan=True,
+                langs=[translation.language_code],
+            )
             if show_messages:
                 messages.info(
                     request,

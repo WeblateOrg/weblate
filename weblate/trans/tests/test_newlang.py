@@ -6,12 +6,16 @@
 
 import os
 import tempfile
+from unittest.mock import patch
 
 from django.core import mail
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.auth.models import Permission, Role
 from weblate.lang.models import Language
+from weblate.trans.tasks import perform_load
+from weblate.trans.views.basic import add_languages_to_component
 from weblate.utils.ratelimit import reset_rate_limit
 
 from .test_views import ViewTestCase
@@ -247,3 +251,75 @@ class AppStoreNewLangTest(NewLangTest):
 
     def create_component(self):
         return self.create_appstore(new_lang="add")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_add_queues_background_force_scan_for_added_language(self) -> None:
+        request = self.get_request()
+
+        with patch.object(self.component, "queue_background_task") as queue_task:
+            translation = self.component.add_new_language(
+                Language.objects.get(code="af"),
+                request,
+                show_messages=False,
+            )
+
+        self.assertIsNotNone(translation)
+        queue_task.assert_called_once()
+        self.assertIs(queue_task.call_args.args[0], perform_load)
+        self.assertEqual(queue_task.call_args.kwargs["pk"], self.component.pk)
+        self.assertTrue(queue_task.call_args.kwargs["force_scan"])
+        self.assertEqual(
+            queue_task.call_args.kwargs["langs"], [translation.language_code]
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_add_languages_to_component_queues_only_added_languages(self) -> None:
+        request = self.get_request()
+        languages = [
+            Language.objects.get(code="af"),
+            Language.objects.get(code="pt_BR"),
+        ]
+
+        with patch.object(self.component, "queue_background_task") as queue_task:
+            add_languages_to_component(
+                request,
+                self.user,
+                languages,
+                self.component,
+                show_messages=False,
+            )
+
+        added_codes = list(
+            self.component.translation_set.filter(language__code__in=["af", "pt_BR"])
+            .order_by("language__code")
+            .values_list("language_code", flat=True)
+        )
+
+        queue_task.assert_called_once()
+        self.assertIs(queue_task.call_args.args[0], perform_load)
+        self.assertEqual(queue_task.call_args.kwargs["pk"], self.component.pk)
+        self.assertTrue(queue_task.call_args.kwargs["force_scan"])
+        self.assertEqual(
+            sorted(queue_task.call_args.kwargs["langs"]),
+            sorted(added_codes),
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_add_languages_to_component_deduplicates_scan_languages(self) -> None:
+        request = self.get_request()
+        language = Language.objects.get(code="af")
+
+        with patch.object(self.component, "queue_background_task") as queue_task:
+            add_languages_to_component(
+                request,
+                self.user,
+                [language, language],
+                self.component,
+                show_messages=False,
+            )
+
+        queue_task.assert_called_once()
+        self.assertIs(queue_task.call_args.args[0], perform_load)
+        self.assertEqual(queue_task.call_args.kwargs["pk"], self.component.pk)
+        self.assertTrue(queue_task.call_args.kwargs["force_scan"])
+        self.assertEqual(queue_task.call_args.kwargs["langs"], ["af"])
