@@ -1864,7 +1864,7 @@ class StringsFormatTest(BaseFormatTest):
     FIND_MATCH = "Ahoj světe!"
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
-    EXPECTED_FLAGS: ClassVar[str | list[str]] = "objc-format"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
     def assert_same(self, newdata, testdata) -> None:
@@ -1889,7 +1889,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     BASE = ""
     NEW_UNIT_MATCH = b"<string>Source string</string>"
     MONOLINGUAL = True
-    EXPECTED_FLAGS: ClassVar[str | list[str]] = "objc-format"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     SUPPORTS_NOTES = False
 
     def test_get_plural(self) -> None:
