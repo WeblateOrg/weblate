@@ -548,6 +548,30 @@ class ComponentTest(RepoTestCase):
         component.push_branch = "branch"
         component.clean()
 
+    def test_invalid_git_branch_validation(self) -> None:
+        component = self.create_po()
+        component.branch = "--orphan"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        self.assertIn("Invalid repository branch", str(cm.exception))
+
+    def test_invalid_git_push_branch_validation(self) -> None:
+        component = self.create_po_push()
+        component.push_branch = "--orphan"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        self.assertIn("Invalid push branch", str(cm.exception))
+
     def _test_maintenance(self, component: Component) -> None:
         self.verify_component(component, 4, "cs", 4)
         with component.repository.lock:

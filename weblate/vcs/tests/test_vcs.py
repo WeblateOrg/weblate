@@ -16,13 +16,14 @@ from typing import TYPE_CHECKING, Any, ClassVar, NoReturn
 from unittest.mock import patch
 
 import responses
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
+from weblate.utils.render import render_template
 from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import (
     AzureDevOpsRepository,
@@ -32,6 +33,7 @@ from weblate.vcs.git import (
     GitForcePushRepository,
     GithubRepository,
     GitLabRepository,
+    GitMergeRequestBase,
     GitRepository,
     GitWithGerritRepository,
     LocalRepository,
@@ -125,6 +127,74 @@ class RepositoryTest(TestCase):
         self.assertTrue(GitTestRepository.is_supported())
 
 
+class GitBranchValidationTest(SimpleTestCase):
+    def test_empty_branch_in_constructor_uses_default(self) -> None:
+        repo = GitRepository(".", branch="", local=True)
+
+        self.assertEqual(repo.branch, repo.default_branch)
+
+    def test_usage_error_is_normalized(self) -> None:
+        with (
+            patch.object(
+                GitRepository, "_popen", side_effect=RepositoryError(129, "usage: git")
+            ),
+            self.assertRaises(RepositoryError) as cm,
+        ):
+            GitRepository.validate_branch_name("main")
+
+        self.assertEqual(str(cm.exception), "'main' is not a valid branch name")
+
+    def test_literal_ref_validation_is_used(self) -> None:
+        with patch.object(GitRepository, "_popen", return_value="") as mocked:
+            self.assertEqual("main", GitRepository.validate_branch_name("main"))
+
+        mocked.assert_called_once_with(
+            ["check-ref-format", "refs/heads/main"],
+            merge_err=False,
+        )
+
+    def test_shorthand_branch_is_rejected(self) -> None:
+        with self.assertRaises(RepositoryError) as cm:
+            GitRepository.validate_branch_name("@{-1}")
+
+        self.assertEqual(str(cm.exception), "'@{-1}' is not a valid branch name")
+
+    def test_full_ref_branch_is_rejected(self) -> None:
+        with self.assertRaises(RepositoryError) as cm:
+            GitRepository.validate_branch_name("refs/heads/main")
+
+        self.assertEqual(
+            str(cm.exception), "'refs/heads/main' is not a valid branch name"
+        )
+
+    def test_empty_branch_uses_default_remote_branch(self) -> None:
+        repo = GitMergeRequestBase(".", branch="main", local=True)
+
+        self.assertEqual(repo.get_remote_branch_name(""), "origin/main")
+
+    def test_merge_request_templates_use_git_component_repository(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            branch="main",
+            vcs="git",
+            repo="https://example.invalid/repo.git",
+            pk=-1,
+        )
+        component.pull_message = "Title\n\nBody"
+
+        repo = GithubFakeRepository(".", branch="main", component=component, local=True)
+
+        self.assertEqual(repo.get_merge_message(), ("Title", "Body"))
+        self.assertEqual(
+            render_template("{{ component_remote_branch }}", component=component),
+            "origin/main",
+        )
+        self.assertIsInstance(component.repository, GitRepository)
+
+
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class: type[Repository] = GitRepository
     _vcs = "git"
@@ -154,6 +224,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             slug="test",
             name="Test",
             project=Project(name="Test", slug="test", pk=-1),
+            branch=self._remote_branch,
+            vcs=self._vcs,
+            repo=self.get_remote_repo_url(),
             pk=-1,
         )
 
@@ -247,6 +320,33 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_push_branch(self) -> None:
         self.test_commit()
         self.test_push("push-branch")
+
+    def test_validate_branch_name(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git only")
+        self.assertEqual("main", GitRepository.validate_branch_name("main"))
+        with self.assertRaises(RepositoryError):
+            GitRepository.validate_branch_name("--orphan")
+
+    def test_configure_branch_rejects_option_like_name(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git only")
+        with (
+            patch.object(self.repo, "execute") as mocked,
+            self.assertRaises(RepositoryError),
+        ):
+            self.repo.configure_branch("--orphan")
+        mocked.assert_not_called()
+
+    def test_has_rev_uses_end_of_options(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git only")
+        with patch.object(self.repo, "execute", return_value="HEAD") as mocked:
+            self.assertTrue(self.repo.has_rev("--verify"))
+        mocked.assert_called_once_with(
+            ["rev-parse", "--verify", "--end-of-options", "--verify"],
+            needs_lock=False,
+        )
 
     def test_reset(self) -> None:
         with self.repo.lock:
