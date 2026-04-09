@@ -1914,6 +1914,10 @@ Site integration
 
    Configures :setting:`PRIVACY_URL`.
 
+.. envvar:: WEBLATE_PASSWORD_RESET_URL
+
+   Configures :setting:`PASSWORD_RESET_URL`.
+
 Collecting error reports and monitoring performance
 +++++++++++++++++++++++++++++++++++++++++++++++++++
 
