@@ -320,26 +320,37 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_js_unit_tests(self) -> None:
         self.assertEqual(self.driver.execute_script("return getNumber('1,23');"), 1.23)
         self.assertEqual(self.driver.execute_script("return getNumber('1.23');"), 1.23)
-        self.assertIsNone(self.driver.execute_script("return getNumber('not-a-number');"))
+        self.assertIsNone(
+            self.driver.execute_script("return getNumber('not-a-number');")
+        )
 
-        self.assertEqual(self.driver.execute_script("return quoteSearch('simple');"), 'simple')
-        self.assertEqual(self.driver.execute_script("return quoteSearch('two words');"), '"two words"')
+        self.assertEqual(
+            self.driver.execute_script("return quoteSearch('simple');"), "simple"
+        )
+        self.assertEqual(
+            self.driver.execute_script("return quoteSearch('two words');"),
+            '"two words"',
+        )
 
         self.assertEqual(self.driver.execute_script("return compareCells(1, 2);"), -1)
-        self.assertEqual(self.driver.execute_script("return compareCells('2,5%', '1,0%');"), 1)
-        self.assertEqual(self.driver.execute_script("return compareCells('abc', 'Abc');"), 0)
+        self.assertEqual(
+            self.driver.execute_script("return compareCells('2,5%', '1,0%');"), 1
+        )
+        self.assertEqual(
+            self.driver.execute_script("return compareCells('abc', 'Abc');"), 0
+        )
 
         self.assertEqual(
             self.driver.execute_script(
                 "const cell = document.createElement('td'); cell.setAttribute('data-value', 'x-val'); return extractText(cell);"
             ),
-            'x-val',
+            "x-val",
         )
         self.assertEqual(
             self.driver.execute_script(
                 "const cell = document.createElement('td'); cell.textContent = 'inner'; return extractText(cell);"
             ),
-            'inner',
+            "inner",
         )
 
     def test_login(self) -> None:
