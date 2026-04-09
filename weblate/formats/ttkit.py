@@ -1556,6 +1556,12 @@ class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
         return self.store.UnitClass(source, personality=self.store.personality.name)
 
 
+class StringsUnit(PropertiesUnit):
+    """Wrapper for iOS strings units with objc-format flag."""
+
+    add_flags: ClassVar[list[str]] = ["objc-format"]
+
+
 class StringsFormat(PropertiesBaseFormat):
     # Translators: File format name
     name = gettext_lazy("iOS strings")
@@ -1568,6 +1574,7 @@ class StringsFormat(PropertiesBaseFormat):
         "utf-16": ("properties", "stringsfile"),
     }
     supports_descriptions = True
+    unit_class = StringsUnit  # type: ignore[assignment]
     check_flags = ("objc-format",)
 
     @classmethod
@@ -2496,12 +2503,18 @@ class CatkeysFormat[S: CatkeysFile, U: CatkeysUnit, T: TTKitUnit](TTKitFormat[S,
         return "catkeys"
 
 
+class StringsdictUnit(MonolingualSimpleUnit):
+    """Wrapper for stringsdict units with objc-format flag."""
+
+    add_flags: ClassVar[list[str]] = ["objc-format"]
+
+
 class StringsdictFormat(ZeroCLDRPluralMixin, DictStoreFormat):
     # Translators: File format name
     name = gettext_lazy("Stringsdict file")
     format_id = "stringsdict"
     loader = ("stringsdict", "StringsDictFile")
-    unit_class = MonolingualSimpleUnit
+    unit_class = StringsdictUnit
     autoload: tuple[str, ...] = ("*.stringsdict",)
     check_flags = ("objc-format",)
     empty_file_template = """<?xml version="1.0" encoding="UTF-8"?>
