@@ -366,9 +366,7 @@ def announcement(request: AuthenticatedHttpRequest, path):
         request, path, (ProjectLanguage, Translation, Component, Project, Category)
     )
 
-    if not request.user.has_perm("component.edit", obj) and not request.user.has_perm(
-        "announcement.add", obj
-    ):
+    if not request.user.has_perm("announcement.add", obj):
         raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
