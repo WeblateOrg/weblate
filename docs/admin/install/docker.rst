@@ -848,6 +848,7 @@ Generic settings
 .. envvar:: WEBLATE_LEGAL_INTEGRATION
 
     Enables the :ref:`legal` module in Docker deployments.
+    By default, the integration is disabled; leave this variable unset or empty to disable it.
 
     Supported values are:
 

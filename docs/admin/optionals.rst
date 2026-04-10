@@ -142,7 +142,7 @@ documents.
 .. note::
 
     Legal documents for the Hosted Weblate service operated by Weblate s.r.o.
-    are available in this Git repository
+    are available in this Git repository:
     <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>.
 
     The bundled terms of service and related legal documents are specific to
