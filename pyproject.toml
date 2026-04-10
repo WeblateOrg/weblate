@@ -27,6 +27,9 @@ docs = [
   "sphinxext-opengraph==0.13.0",
   "weblate-fonts==2026.1"
 ]
+fuzzing = [
+  "atheris==3.0.0"
+]
 lint = [
   {include-group = "pre-commit"},
   {include-group = "pylint"}
@@ -262,6 +265,7 @@ ignore = [
   "*.toml",
   "*.yaml",
   "*.yml",
+  ".clusterfuzzlite/*",
   ".dclintrc",
   ".editorconfig",
   ".gitmodules",
@@ -282,6 +286,9 @@ ignore = [
   "docs/*/*",
   "docs/*/*/*",
   "docs/*/*/*/*",
+  "fuzzing/*",
+  "fuzzing/*/*",
+  "fuzzing/*/*/*",
   "LICENSES/*",
   "rundev.sh",
   "scripts/*",
@@ -596,6 +603,7 @@ max-complexity = 16  # TODO: should be lower
 "ci/migrate-scripts/*.py" = ["INP001", "S101"]
 "docs/_ext/*.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
+"fuzzing/targets.py" = ["PLC0415"]
 "scripts/*" = ["T201", "T203"]
 "weblate/*/migrations/*.py" = ["RUF012"]
 "weblate/*/tests**.py" = ["ANN001", "S105", "S106"]

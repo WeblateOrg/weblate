@@ -1,0 +1,103 @@
+# Copyright © Weblate contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: ClusterFuzzLite PR Fuzzing
+
+on:
+  pull_request:
+    paths:
+    - '**'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  pr-fuzzing:
+    outputs:
+      sarif_present: ${{ steps.sarif_file.outputs.present }}
+    permissions:
+      actions: read
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer:
+        - address
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+    - name: Build Fuzzers (${{ matrix.sanitizer }})
+      id: build
+      uses: google/clusterfuzzlite/actions/build_fuzzers@884713a6c30a92e5e8544c39945cd7cb630abcd1 # v1
+      with:
+        language: python
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        keep-unaffected-fuzz-targets: true
+        sanitizer: ${{ matrix.sanitizer }}
+        # Optional but recommended: use a dedicated storage repository with a
+        # fine-grained token instead of the main repository token.
+        # storage-repo: https://${{ secrets.CFLITE_STORAGE_TOKEN }}@github.com/OWNER/STORAGE-REPO.git
+        # storage-repo-branch: main
+    - name: Run Fuzzers (${{ matrix.sanitizer }})
+      id: run
+      timeout-minutes: 12
+      uses: ./.github/actions/cflite-run-fuzzers
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        fuzz-seconds: 180
+        mode: code-change
+        sanitizer: ${{ matrix.sanitizer }}
+        parallel-fuzzing: true
+        output-sarif: true
+    - name: Check SARIF Output (${{ matrix.sanitizer }})
+      if: always()
+      id: sarif_file
+      run: |
+        if [ -f cifuzz-sarif/results.sarif ]; then
+          echo "present=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "present=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Upload SARIF Artifact (${{ matrix.sanitizer }})
+      if: always() && steps.build.outcome == 'success' && steps.sarif_file.outputs.present == 'true'
+      id: upload_sarif
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: cflite-pr-sarif-${{ matrix.sanitizer }}
+        path: cifuzz-sarif/results.sarif
+        if-no-files-found: ignore
+
+  pr-fuzzing-sarif:
+    if: always() && needs.pr-fuzzing.result != 'cancelled' && needs.pr-fuzzing.outputs.sarif_present == 'true'
+    needs: pr-fuzzing
+    permissions:
+      contents: read
+      security-events: write
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer:
+        - address
+    steps:
+    - name: Download SARIF Artifact (${{ matrix.sanitizer }})
+      id: download_sarif
+      continue-on-error: true
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      with:
+        name: cflite-pr-sarif-${{ matrix.sanitizer }}
+        path: cflite-sarif/${{ matrix.sanitizer }}
+    - name: Upload SARIF (${{ matrix.sanitizer }})
+      if: steps.download_sarif.outcome == 'success'
+      uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89 # v4.31.10
+      with:
+        sarif_file: cflite-sarif/${{ matrix.sanitizer }}/results.sarif
+        category: clusterfuzzlite-pr-${{ matrix.sanitizer }}
