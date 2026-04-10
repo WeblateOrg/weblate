@@ -7,6 +7,7 @@
 from io import StringIO
 
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import SimpleTestCase
 
 from weblate.trans.tests.test_commands import WeblateComponentCommandTestCase
@@ -34,3 +35,13 @@ class ListTestCase(SimpleTestCase):
         output = StringIO()
         call_command("list_checks", stdout=output)
         self.assertIn(".. _check-same:", output.getvalue())
+
+    def test_list_checks_requires_sections_with_output(self) -> None:
+        with self.assertRaisesRegex(CommandError, "requires exactly one"):
+            call_command("list_checks", "-o", "checks.rst")
+
+    def test_list_checks_requires_single_section_with_output(self) -> None:
+        with self.assertRaisesRegex(CommandError, "requires exactly one"):
+            call_command(
+                "list_checks", "--sections", "checks", "flags", "-o", "checks.rst"
+            )

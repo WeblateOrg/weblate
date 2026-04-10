@@ -38,6 +38,7 @@ Weblate 5.17
 * Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
 * Expanded :doc:`/security/threat-model` to cover webhook trust boundaries and delegated authorization boundaries, and clarified the instance-wide 2FA enforcement path in :doc:`/admin/auth`.
 * :ref:`manage-vcs-reset-reapply` now recreates missing translation files when possible and otherwise reports a clearer recovery error instead of failing later with a generic parse error.
+* Updated :doc:`/contributing/documentation` to describe the current ``make -C docs update-docs`` workflow for generated snippets.
 
 .. rubric:: Bug fixes
 
@@ -58,6 +59,7 @@ Weblate 5.17
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
+* :wladmin:`list_checks` now requires exactly one ``--sections`` value when writing generated documentation to a file using ``--output``.
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
 * Improved security of :ref:`addon-weblate.webhook.webhook`.
 * Watched translations on the dashboard now use a stable language-aware ordering.
