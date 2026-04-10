@@ -9352,6 +9352,30 @@ class LabelAPITest(APIBaseTest):
 
 
 class AnnouncementAPITest(APIBaseTest):
+    def setUp(self) -> None:
+        super().setUp()
+        # Create announcements for get tests
+        self.project_announcement = Announcement.objects.create(
+            project=self.component.project
+        )
+        self.component_announcement = Announcement.objects.create(
+            project=self.component.project, component=self.component
+        )
+        self.translation_announcement = Announcement.objects.create(
+            project=self.component.project,
+            component=self.component,
+            language=Language.objects.get(code="cs"),
+        )
+
+    def test_get_project_announcement(self) -> None:
+        response = self.do_request(
+            "api:project-announcements",
+            kwargs=self.project_kwargs,
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
+
     def test_create_project_announcement(self) -> None:
         project = self.component.project
         self.authenticate(False)
@@ -9390,6 +9414,15 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNone(announcement.component)
         self.assertIsNone(announcement.language)
 
+    def test_get_component_announcement(self) -> None:
+        response = self.do_request(
+            "api:component-announcements",
+            kwargs=self.component_kwargs,
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
+
     def test_create_component_announcement(self) -> None:
         component = self.component
         self.authenticate(False)
@@ -9427,6 +9460,15 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertEqual(announcement.project, component.project)
         self.assertEqual(announcement.component, component)
         self.assertIsNone(announcement.language)
+
+    def test_get_translation_announcement(self) -> None:
+        response = self.do_request(
+            "api:translation-announcements",
+            kwargs=self.translation_kwargs,
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
 
     def test_create_translation_announcement(self) -> None:
         component = self.component
