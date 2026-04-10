@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-10 09:10+0000\n"
+"PO-Revision-Date: 2026-04-10 10:49+0000\n"
 "Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -3168,7 +3168,7 @@ msgid ""
 "Django's :djadmin:`django:dumpdata` command. That way the backup is database "
 "agnostic and can be used in case you want to change the database backend."
 msgstr ""
-"另外，可以使用 Django 的 :djadmin:`django:dumpdata` 命令備份您的資料庫。那種"
+"另外，可以使用 Django 的 :djadmin:`django:dumpdata` 指令備份您的資料庫。那種"
 "方式是不依托資料庫的，並且可以用於先要變更資料庫後端的情況。"
 
 #: admin/backup.rst:276
@@ -3354,7 +3354,7 @@ msgstr "手動備份的命令列"
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
-msgstr "使用 cron 作業，您可以設定一條每天執行的 Bash 命令，例如："
+msgstr "使用 cron 作業，您可以設定一條每天執行的 Bash 指令，例如："
 
 #: admin/backup.rst:377
 msgid ""
@@ -8332,7 +8332,7 @@ msgid ""
 "environment. The recommended approach is to define proxy settings "
 "in :file:`settings.py`:"
 msgstr ""
-"Weblate 執行版本控制系統（VCS ）命令，並且那些從環境中接受代理配置。推薦的方"
+"Weblate 執行版本控制系統（VCS ）指令，並且那些從環境中接受代理配置。推薦的方"
 "法是在 :file:`settings.py` 中定義代理設定："
 
 #: admin/install.rst:694
@@ -12032,7 +12032,7 @@ msgstr ""
 #, fuzzy
 #| msgid "The command to launch the container uses the following syntax:"
 msgid "When adding third-party containers, consider the following:"
-msgstr "啟動容器的命令使用以下語法："
+msgstr "啟動容器的指令使用以下語法："
 
 #: admin/install/docker.rst:2358
 msgid ""
@@ -12372,8 +12372,8 @@ msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
-"為了將 Weblate 範本上傳到您目前專案的範本庫中，使用後面的命令傳"
-"遞 :file:`template.yml` 文件："
+"為了將 Weblate 範本上傳到您目前專案的範本庫中，使用後面的指令傳遞 "
+":file:`template.yml` 文件："
 
 #: admin/install/openshift.rst:42
 msgid ""
@@ -12390,7 +12390,7 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
-"範本的 parameters 部分列出了您可以覆寫的參數。您可以通過使用後面的命令並指定"
+"範本的 parameters 部分列出了您可以覆寫的參數。您可以通過使用後面的指令並指定"
 "要使用的文件通過 CLI 列出它們："
 
 #: admin/install/openshift.rst:60
@@ -12659,8 +12659,8 @@ msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate Python environment is active, see :ref:`manage`."
 msgstr ""
-"現在，您可以在 Weblate virtualenv 活動時使用 :command:`weblate` 命令來執行 "
-"Weblate 命令。"
+"現在，您可以在 Weblate virtualenv 活動時使用 :command:`weblate` 指令來執行 "
+"Weblate 指令。"
 
 #: admin/install/steps/install-after.rst:10
 #, fuzzy
@@ -12753,8 +12753,8 @@ msgid ""
 "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
 "後面的步驟假定 Weblate 使用的 virtualevn 已經啟動（可以通過 ``. ~/weblate-"
-"env/bin/activate`` 來實現）。如果不是這種情況，您必須指定 "
-"到 :command:`weblate` 命令的完全路徑為 ``~/weblate-env/bin/weblate``。"
+"env/bin/activate`` 來實現）。如果不是這種情況，您必須指定 到 "
+":command:`weblate` 指令的完全路徑為 ``~/weblate-env/bin/weblate``。"
 
 #: admin/install/steps/install-configure.rst:10
 msgid ""
@@ -13469,7 +13469,7 @@ msgstr ""
 
 #: admin/management.rst:4
 msgid "Management commands"
-msgstr "管理命令"
+msgstr "管理指令"
 
 #: admin/management.rst:8
 msgid ""
@@ -13477,7 +13477,7 @@ msgid ""
 "webserver can result in files getting wrong permissions, please "
 "check :ref:`file-permissions` for more details."
 msgstr ""
-"不同使用者下執行管理命令而不是一人執行您的 web 伺服器，可以導致文件得到錯誤的"
+"不同使用者下執行管理指令而不是一人執行您的 web 伺服器，可以導致文件得到錯誤的"
 "權限，更多細節請查看 :ref:`file-permissions`。"
 
 #: admin/management.rst:12
@@ -13486,9 +13486,9 @@ msgid ""
 "the Django sources, or as an extended set in a script "
 "called :command:`weblate` installable atop Weblate)."
 msgstr ""
-"您會找到基本的管理命令（作為Django 來源中的 :file:`./manage.py` 來獲得它，或"
-"者作為可安裝在Weblate 頂層的指令碼呼叫 :command:`weblate` 中的擴充組來獲得"
-"它）。"
+"您會找到基本的管理指令（作為Django 來源中的 :file:`./manage.py` 來獲得它，或"
+"者作為可安裝在Weblate 頂層的指令碼呼叫 :command:`weblate` 中的擴充組來獲得它"
+"）。"
 
 #: admin/management.rst:18
 msgid "Invoking management commands"
@@ -13710,7 +13710,7 @@ msgid ""
 "command."
 msgstr ""
 "依據 <https://github.com/WeblateOrg/demo> 建立一個 Demo 專案與組件。請確認 "
-"Celery 已先啟用在執行此命令前。"
+"Celery 已先啟用在執行此指令前。"
 
 #: admin/management.rst:366
 msgid "This can be useful when developing Weblate."
@@ -13759,8 +13759,8 @@ msgid ""
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
-"import_project 命令現在基於 :ref:`addon-weblate.discovery.discovery` 附加元"
-"件，導致一些行為的變更，並接受一些參數。"
+"import_project 指令現在基於 :ref:`addon-weblate.discovery.discovery` 附加元件"
+"，導致一些行為的變更，並接受一些參數。"
 
 #: admin/management.rst:462
 msgid ""
@@ -14061,7 +14061,7 @@ msgid ""
 "using :wladmin:`createadmin` command."
 msgstr ""
 "在想要非互動式地執行安裝的情況下，可以使用 :samp:`weblate migrate --"
-"noinput`，然後使用 :djadmin:`createadmin` 命令來建立管理使用者。"
+"noinput`，然後使用 :djadmin:`createadmin` 指令來建立管理使用者。"
 
 #: admin/management.rst:888
 msgid ":djadmin:`django:migrate`"
@@ -14260,7 +14260,7 @@ msgid ""
 "the :wladmin:`import_memory` command makes memory content available to all "
 "users and projects."
 msgstr ""
-"使用 :djadmin:`import_memory` 命令匯入任意翻譯記憶庫資料，使記憶的內容可用於"
+"使用 :djadmin:`import_memory` 指令匯入任意翻譯記憶庫資料，使記憶的內容可用於"
 "所有的使用者和專案。"
 
 #: admin/memory.rst:38
@@ -14456,7 +14456,7 @@ msgid ""
 "operate on the translation memory as a whole, unfiltered by scopes (unless "
 "requested by parameters):"
 msgstr ""
-"有幾個管理命令來操作翻譯記憶庫的內容。它們整體操作翻譯記憶庫，不會被範圍來篩"
+"有幾個管理指令來操作翻譯記憶庫的內容。它們整體操作翻譯記憶庫，不會被範圍來篩"
 "選（除非被參數請求）："
 
 #: admin/memory.rst:157
@@ -16387,7 +16387,7 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
-"設定在背景工作或 :djadmin:`commit_pending`管理命令提交變更前，這些變更存在的"
+"設定在背景工作或 :djadmin:`commit_pending`管理指令提交變更前，這些變更存在的"
 "時長 (以小時為單位)。一旦存在至少一個比該時長更舊的變更，便會提交組件中的所有"
 "變更。"
 
@@ -16988,8 +16988,8 @@ msgid ""
 "all components and then run :wladmin:`import_project` "
 "or :wladmin:`import_json`."
 msgstr ""
-"對於管理命令，您需要新增包含所有組件的專案，然後執"
-"行 :djadmin:`import_project` 或 :djadmin:`import_json`。"
+"對於管理指令，您需要新增包含所有組件的專案，然後執行 "
+":djadmin:`import_project` 或 :djadmin:`import_json`。"
 
 #: admin/sample.rst:4
 msgid "Sample configuration"
@@ -24820,7 +24820,7 @@ msgstr "對檢查的各種修改和改進。"
 
 #: changes/v0.rst:32
 msgid "New command updatechecks."
-msgstr "新的命令更新檢查。"
+msgstr "新的指令更新檢查。"
 
 #: changes/v0.rst:33
 msgid "Lot of translation updates."
@@ -25070,7 +25070,7 @@ msgstr "不在維護與 Django 1.4 的相容性。"
 
 #: changes/v1.rst:11
 msgid "Management commands for locking/unlocking translations."
-msgstr "用於鎖定/解鎖翻譯的管理命令。"
+msgstr "用於鎖定/解鎖翻譯的管理指令。"
 
 #: changes/v1.rst:12
 msgid "Improved support for Qt TS files."
@@ -25307,7 +25307,7 @@ msgstr "行為圖示現在可用於每個翻譯、語言或使用者。"
 
 #: changes/v1.rst:88
 msgid "Extended options of import_project admin command."
-msgstr "擴充了 import_project admin 命令的選項。"
+msgstr "擴充了 import_project admin 指令的選項。"
 
 #: changes/v1.rst:89
 msgid "Compatible with Django 1.5."
@@ -26460,7 +26460,7 @@ msgstr "*發佈於 2016 年 11 月 4 日。*"
 
 #: changes/v2.rst:264
 msgid "Extended parameters for createadmin management command."
-msgstr "擴充了 createadmin 管理命令的參數。"
+msgstr "擴充了 createadmin 管理指令的參數。"
 
 #: changes/v2.rst:265
 msgid "Extended import_json to be able to handle with existing components."
@@ -26544,7 +26544,7 @@ msgstr "更新了捆綁的 javascript 庫。"
 
 #: changes/v2.rst:289
 msgid "Added list_translators management command."
-msgstr "新增了 list_translators 管理命令。"
+msgstr "新增了 list_translators 管理指令。"
 
 #: changes/v2.rst:290
 msgid "Django 1.8 is no longer supported."
@@ -26620,7 +26620,7 @@ msgstr "與 Mercurial 3.8 的相容性。"
 
 #: changes/v2.rst:312
 msgid "Added import_json management command."
-msgstr "新增了 import_json 管理命令。"
+msgstr "新增了 import_json 管理指令。"
 
 #: changes/v2.rst:313
 msgid "Correct ordering of listed translations."
@@ -26759,7 +26759,7 @@ msgstr "最佳化全文搜尋索引。"
 
 #: changes/v2.rst:356
 msgid "Added management command for auto translation."
-msgstr "為自動翻譯新增了管理命令。"
+msgstr "為自動翻譯新增了管理指令。"
 
 #: changes/v2.rst:357
 msgid "Added placeables highlighting."
@@ -26854,7 +26854,7 @@ msgstr "為匿名使用者新增 ACL 的能力。"
 
 #: changes/v2.rst:384
 msgid "Improved configurability of import_project command."
-msgstr "改進了 import_project 命令的配置。"
+msgstr "改進了 import_project 指令的配置。"
 
 #: changes/v2.rst:385
 msgid "Added CSV dump of history."
@@ -26888,7 +26888,7 @@ msgstr "鉤子指令碼以描述目前組件的環境變數來執行。"
 
 #: changes/v2.rst:392
 msgid "Add management command to optimize fulltext index."
-msgstr "新增了管理命令來最佳化全文索引。"
+msgstr "新增了管理指令來最佳化全文索引。"
 
 #: changes/v2.rst:393
 msgid "Added support for error reporting to Rollbar."
@@ -26954,7 +26954,7 @@ msgstr "帳戶刪除時提交待定的變更。"
 
 #: changes/v2.rst:408
 msgid "Add management command to change site name."
-msgstr "新增管理命令來變更網站名稱。"
+msgstr "新增管理指令來變更網站名稱。"
 
 #: changes/v2.rst:409
 msgid "Add option to configure default committer."
@@ -28566,7 +28566,7 @@ msgstr "*發佈於 2018 年 10 月 6 日。*"
 
 #: changes/v3.rst:426
 msgid "Add install_addon management command for automated add-on installation."
-msgstr "為自動化的附加元件安裝新增 install_addon 管理命令。"
+msgstr "為自動化的附加元件安裝新增 install_addon 管理指令。"
 
 #: changes/v3.rst:427
 #, fuzzy
@@ -28784,7 +28784,7 @@ msgstr "自動元件發現的新附加元件。"
 #: changes/v3.rst:496
 msgid ""
 "The import_project management command has now slightly different parameters."
-msgstr "import_project 管理命令現在有一些略微不同的參數。"
+msgstr "import_project 管理指令現在有一些略微不同的參數。"
 
 #: changes/v3.rst:497
 msgid "Added basic support for Windows RC files."
@@ -31476,7 +31476,7 @@ msgstr "*發佈於 2020 年 4 月 19 日。*"
 msgid ""
 "The auto_translate management command has now a parameter for specifying "
 "translation mode."
-msgstr "Auto_Translate Management命令現在具有用於指定翻譯模式的參數。"
+msgstr "Auto_Translate Management指令現在具有用於指定翻譯模式的參數。"
 
 #: changes/v4.rst:746
 msgid "Added support for :ref:`txt`."
@@ -33975,7 +33975,7 @@ msgid ""
 "manage` for instructions on how to invoke it in different environments) or "
 "by using :ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
-"可以通過使用:djadmin:`django:sendtestemail` 管理命令（關於在不同環境中如何呼"
+"可以通過使用:djadmin:`django:sendtestemail` 管理指令（關於在不同環境中如何呼"
 "叫它的指示說明請參見:ref:`invoke-manage` ）或:guilabel:`Tools` 標籤下"
 "的:ref:` management-interface` 來驗證向外發送的電子郵件是否正常工作。"
 
@@ -35423,7 +35423,7 @@ msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
-"小心在執行測試前您的 Docker 容易活動並執行。您可以通過執行 ``docker ps`` 命令"
+"小心在執行測試前您的 Docker 容易活動並執行。您可以通過執行 ``docker ps`` 指令"
 "來檢查。"
 
 #: contributing/start.rst:104
@@ -42618,7 +42618,7 @@ msgstr ":class:`Command`"
 
 #: python.rst:118
 msgid "Main class for invoking commands."
-msgstr "用於呼叫命令的主類別。"
+msgstr "用於呼叫指令的主類別。"
 
 #: security/data-residency.rst:2
 msgid "Data residency"
@@ -46790,7 +46790,7 @@ msgstr "使用組件配置欄位更新選定的 gettext 標頭欄位。"
 #: snippets/addons-autogenerated.rst:1488
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
-msgstr "使用 Django 內建的 makemessages 命令更新 gettext 範本。"
+msgstr "使用 Django 內建的 makemessages 指令更新 gettext 範本。"
 
 #: snippets/addons-autogenerated.rst:1497
 msgid "Update POT file (Meson)"
@@ -57536,9 +57536,9 @@ msgid ""
 "(see :setting:`DATA_DIR`), therefore editing the user configuration needs to "
 "be done in ``DATA_DIR/home/.git``."
 msgstr ""
-"Weblate 用 ``Home = $ Data_Dir / Home`` 觸發所有 VCS 命令（請參"
-"見 :setting:`DATA_DIR`），因此需要在 ``data_dir / home / .git`` 中編輯使用者"
-"配置。"
+"Weblate 用 ``Home = $ Data_Dir / Home`` 觸發所有 VCS 指令（請參見 "
+":setting:`DATA_DIR`），因此需要在 ``data_dir / home / .git`` 中編輯使用者配置"
+"。"
 
 #: vcs.rst:385
 msgid "GitHub pull requests"
@@ -57945,8 +57945,9 @@ msgid "Docker usage"
 msgstr "Docker 使用"
 
 #: wlc.rst:37
+#, fuzzy
 msgid "The Weblate Client is also available as a Docker image."
-msgstr "Web2用戶端也可作為Docker Image提供。"
+msgstr "The Weblate Client is also available as a Docker image."
 
 #: wlc.rst:39
 msgid ""
@@ -57968,7 +57969,7 @@ msgstr ""
 
 #: wlc.rst:51
 msgid "The command to launch the container uses the following syntax:"
-msgstr "啟動容器的命令使用以下語法："
+msgstr "啟動容器的指令使用以下語法："
 
 #: wlc.rst:63
 #, fuzzy
@@ -57999,7 +58000,7 @@ msgstr ""
 
 #: wlc.rst:87
 msgid "You can then invoke commands on the default server:"
-msgstr "然後，您可以在預設伺服器上呼叫命令："
+msgstr "然後，您可以在預設伺服器上呼叫指令："
 
 #: wlc.rst:101
 msgid "Legacy configuration"
@@ -58023,7 +58024,7 @@ msgstr "概要"
 
 #: wlc.rst:132
 msgid "Commands actually indicate which operation should be performed."
-msgstr "命令實際上指示應該執行哪個操作。"
+msgstr "指令實際上指示應該執行哪個操作。"
 
 #: wlc.rst:137
 msgid ""
@@ -58044,7 +58045,7 @@ msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
-"程式接受以下參數來定義輸出格式或使用哪個Weblate實例。這些參數必須位於任何命令"
+"程式接受以下參數來定義輸出格式或使用哪個Weblate實例。這些參數必須位於任何指令"
 "之前。"
 
 #: wlc.rst:149
@@ -58083,7 +58084,7 @@ msgstr "指令"
 
 #: wlc.rst:172
 msgid "The following commands are available:"
-msgstr "以下命令可用："
+msgstr "以下指令可用："
 
 #: wlc.rst:176
 msgid "Prints the current version."
@@ -58226,7 +58227,7 @@ msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
-"您可以通過傳遞``--help``取得更多有關呼叫單個命令的更詳細資訊：``wlc ls - "
+"您可以通過傳遞``--help``取得更多有關呼叫單個指令的更詳細資訊：``wlc ls - "
 "help``。"
 
 #: wlc.rst:296
