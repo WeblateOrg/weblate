@@ -9354,7 +9354,7 @@ class LabelAPITest(APIBaseTest):
 class AnnouncementAPITest(APIBaseTest):
     def setUp(self) -> None:
         super().setUp()
-        # Create announcements for get tests
+        # Create announcements for get and delete tests
         self.project_announcement = Announcement.objects.create(
             project=self.component.project
         )
@@ -9414,6 +9414,93 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNone(announcement.component)
         self.assertIsNone(announcement.language)
 
+    def test_delete_project_announcement(self) -> None:
+        """Test deleting a announcement from a project."""
+        announcement = self.project_announcement
+
+        # Test successful deletion
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={**self.project_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        # Verify announcement was deleted
+        self.assertFalse(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_announcement_permission_denied(self) -> None:
+        """Test that non-admin users cannot delete announcements."""
+        announcement: Announcement = self.project_announcement
+
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={**self.project_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_nonexistent_project_announcement(self) -> None:
+        """Test deleting a announcement that doesn't exist."""
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={**self.project_kwargs, "announcement_id": 9999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+    def test_delete_project_announcement_wrong_project(self) -> None:
+        """Test deleting a announcement from wrong project returns error."""
+        # Announcement from one project
+        announcement = self.project_announcement
+
+        # Create another project for testing
+        project2 = Project.objects.create(
+            name="Test Project 2",
+            slug="test-project-2",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={"slug": project2.slug, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_announcement_wrong_scope(self) -> None:
+        """Test deleting a project announcement via the component or translation scope returns not found."""
+        announcement: Announcement = self.project_announcement
+
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={**self.component_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={**self.translation_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
     def test_get_component_announcement(self) -> None:
         response = self.do_request(
             "api:component-announcements",
@@ -9460,6 +9547,97 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertEqual(announcement.project, component.project)
         self.assertEqual(announcement.component, component)
         self.assertIsNone(announcement.language)
+
+    def test_delete_component_announcement(self) -> None:
+        """Test deleting a announcement from a component."""
+        announcement = self.component_announcement
+
+        # Test successful deletion
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={**self.component_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        # Verify announcement was deleted
+        self.assertFalse(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_component_announcement_permission_denied(self) -> None:
+        """Test that non-admin users cannot delete announcements."""
+        announcement: Announcement = self.component_announcement
+
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={**self.component_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_nonexistent_component_announcement(self) -> None:
+        """Test deleting a announcement that doesn't exist."""
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={**self.component_kwargs, "announcement_id": 9999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+    def test_delete_component_announcement_wrong_component(self) -> None:
+        """Test deleting a announcement from wrong component returns error."""
+        # Announcement from one component
+        announcement = self.component_announcement
+
+        # Create another component for testing
+        component2 = self.create_po(
+            project=announcement.project,
+            name="Test Component 2",
+            slug="test-component-2",
+        )
+
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={
+                "slug": component2.slug,
+                "project__slug": component2.project.slug,
+                "announcement_id": announcement.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_component_announcement_wrong_scope(self) -> None:
+        """Test deleting a component announcement via the project or translation scope returns not found."""
+        announcement: Announcement = self.component_announcement
+
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={**self.project_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={**self.translation_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
 
     def test_get_translation_announcement(self) -> None:
         response = self.do_request(
@@ -9511,6 +9689,96 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertEqual(
             announcement.language.code, self.translation_kwargs["language__code"]
         )
+
+    def test_delete_translation_announcement(self) -> None:
+        """Test deleting a announcement from a translation."""
+        announcement = self.translation_announcement
+
+        # Test successful deletion
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={**self.translation_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        # Verify announcement was deleted
+        self.assertFalse(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_translation_announcement_permission_denied(self) -> None:
+        """Test that non-admin users cannot delete announcements."""
+        announcement: Announcement = self.translation_announcement
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={**self.translation_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_nonexistent_translation_announcement(self) -> None:
+        """Test deleting a announcement that doesn't exist."""
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={**self.translation_kwargs, "announcement_id": 9999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+    def test_delete_translation_announcement_wrong_translation(self) -> None:
+        """Test deleting a announcement from wrong translation returns error."""
+        # Announcement from one translation
+        announcement = self.translation_announcement
+
+        # Create another translation for testing
+        translation2, _created = Translation.objects.get_or_create(
+            component=self.component, language=Language.objects.get(code="en")
+        )
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={
+                "language__code": translation2.language.code,
+                "component__slug": translation2.component.slug,
+                "component__project__slug": translation2.component.project.slug,
+                "announcement_id": announcement.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_translation_announcement_wrong_scope(self) -> None:
+        """Test deleting a translation announcement via the project or component scope returns not found."""
+        announcement: Announcement = self.translation_announcement
+
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={**self.project_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={**self.component_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
 
 
 class OpenAPITest(APIBaseTest):
