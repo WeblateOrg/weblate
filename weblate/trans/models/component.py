@@ -2229,6 +2229,9 @@ class Component(  # noqa: PLR0904
 
         user = request.user if request else self.acting_user
         with self.repository.lock:
+            repo_unit_filter = Q(translation__component=self) | Q(
+                translation__component__linked_component=self
+            )
             try:
                 previous_head = self.repository.last_revision
             except RepositoryError:
@@ -2242,10 +2245,11 @@ class Component(  # noqa: PLR0904
             else:
                 # Explicitly remove all pending changes
                 PendingUnitChange.objects.filter(
-                    unit__translation__component=self
+                    Q(unit__translation__component=self)
+                    | Q(unit__translation__component__linked_component=self)
                 ).delete()
             # Remove disk state as we are going to change that
-            Unit.objects.filter(translation__component=self).clear_disk_state()
+            Unit.objects.filter(repo_unit_filter).clear_disk_state()
 
             # Do actual reset
             try:
@@ -2275,6 +2279,11 @@ class Component(  # noqa: PLR0904
             self.delete_alert("RepositoryOutdated")
             self.delete_alert("PushFailure")
 
+            if keep_changes and not self.restore_pending_translation_files(
+                request=request, user=user
+            ):
+                return False
+
             if not keep_changes:
                 self.trigger_post_update(
                     previous_head=previous_head,
@@ -2296,6 +2305,194 @@ class Component(  # noqa: PLR0904
                 previous_head=previous_head,
             )
         return True
+
+    def restore_pending_translation_files(
+        self,
+        *,
+        request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
+    ) -> bool:
+        """Recreate missing translation files before reapplying pending changes."""
+        missing_translations: list[Translation] = []
+        failures: list[tuple[Translation, str]] = []
+        checked_components: dict[int, tuple[bool, str | None]] = {}
+
+        translations = Translation.objects.filter(
+            pk__in=PendingUnitChange.objects.for_component(
+                self,
+                apply_filters=False,
+                include_linked=True,
+            )
+            .values_list("unit__translation_id", flat=True)
+            .distinct()
+        ).select_related("component", "language")
+
+        for translation in translations:
+            translation = self.reuse_component_for_translation(translation)
+            if not translation.filename:
+                continue
+
+            try:
+                fullname = translation.get_filename()
+            except ValidationError as error:
+                failures.append((translation, "; ".join(error.messages)))
+                continue
+
+            if fullname is None or os.path.exists(fullname):
+                continue
+
+            component = translation.component
+            if component.pk not in checked_components:
+                component.drop_template_store_cache()
+                try:
+                    checked_components[component.pk] = (
+                        component.can_restore_missing_translation_file(),
+                        component.new_lang_error_message,
+                    )
+                except ValidationError as error:
+                    checked_components[component.pk] = (
+                        False,
+                        "; ".join(error.messages),
+                    )
+
+            can_restore, error_message = checked_components[component.pk]
+            if not can_restore:
+                failures.append((translation, cast("str", error_message)))
+                continue
+
+            missing_translations.append(translation)
+
+        if failures:
+            for translation, reason in failures:
+                translation.component.log_warning(
+                    "reset/reapply can not restore missing translation file %s: %s",
+                    translation.filename,
+                    reason,
+                )
+
+            if request is not None:
+                filenames = ", ".join(
+                    sorted({translation.filename for translation, _reason in failures})
+                )
+                messages.error(
+                    request,
+                    ngettext(
+                        "Reset the repository, but could not reapply pending translations because %(files)s is missing. Pending changes were kept. To recover, add the file upstream and rescan, or configure the component so Weblate can create the translation file.",
+                        "Reset the repository, but could not reapply pending translations because these files are missing: %(files)s. Pending changes were kept. To recover, add the files upstream and rescan, or configure the component so Weblate can create the translation files.",
+                        len(failures),
+                    )
+                    % {"files": filenames},
+                )
+            return False
+
+        if not missing_translations:
+            return True
+
+        current_translation: Translation | None = None
+        restored_components: dict[int, Component] = {}
+        try:
+            with transaction.atomic():
+                for translation in missing_translations:
+                    current_translation = translation
+                    translation.component.restore_missing_translation_file(
+                        translation,
+                        user=user,
+                        skip_push=True,
+                        signals=False,
+                    )
+                    restored_components[translation.component.pk] = (
+                        translation.component
+                    )
+        except Exception as error:
+            return self.handle_restore_pending_translation_failure(
+                request=request,
+                missing_translations=missing_translations,
+                current_translation=current_translation,
+                error=error,
+            )
+
+        for component in restored_components.values():
+            component.send_post_commit_signal(store_hash=False)
+
+        return True
+
+    def handle_restore_pending_translation_failure(
+        self,
+        *,
+        request: AuthenticatedHttpRequest | None,
+        missing_translations: list[Translation],
+        current_translation: Translation | None,
+        error: Exception,
+    ) -> bool:
+        failed_component = (
+            current_translation.component if current_translation is not None else self
+        )
+        error_message = failed_component.get_parse_error_message(error)
+        report_error(
+            "Could not recreate missing translation file during reset",
+            project=failed_component.project,
+        )
+        if current_translation is not None:
+            failed_component.log_error(
+                "reset/reapply failed to recreate %s: %s",
+                current_translation.filename,
+                error_message,
+            )
+        else:
+            failed_component.log_error(
+                "reset/reapply failed before recreating missing translation files: %s",
+                error_message,
+            )
+        try:
+            with self.repository.lock:
+                self.repository.reset()
+                self.repository.cleanup_files()
+        except RepositoryError:
+            report_error(
+                "Could not roll back partial translation file restore during reset",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
+            self.log_error(
+                "reset/reapply failed to roll back partial missing translation restore"
+            )
+        if request is not None:
+            if current_translation is not None:
+                messages.error(
+                    request,
+                    gettext(
+                        "Reset the repository, but could not recreate %(file)s while reapplying pending translations. Pending changes were kept."
+                    )
+                    % {"file": current_translation.filename},
+                )
+            else:
+                filenames = ", ".join(
+                    sorted(
+                        {
+                            translation.filename
+                            for translation in missing_translations
+                            if translation.filename
+                        }
+                    )
+                )
+                if filenames:
+                    messages.error(
+                        request,
+                        ngettext(
+                            "Reset the repository, but could not recreate %(files)s while reapplying pending translations. Pending changes were kept.",
+                            "Reset the repository, but could not recreate these files while reapplying pending translations: %(files)s. Pending changes were kept.",
+                            len(missing_translations),
+                        )
+                        % {"files": filenames},
+                    )
+                else:
+                    messages.error(
+                        request,
+                        gettext(
+                            "Reset the repository, but could not recreate pending translations. Pending changes were kept."
+                        ),
+                    )
+        return False
 
     @perform_on_link
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
@@ -2391,21 +2588,26 @@ class Component(  # noqa: PLR0904
             for linked in self.linked_children
         ]
 
+    def reuse_component_for_translation(
+        self, translation: Translation, *, reuse_source: bool = False
+    ) -> Translation:
+        if translation.component_id == self.id:
+            translation.component = self
+        if translation.component.linked_component_id == self.id:
+            translation.component.linked_component = self
+        if (
+            reuse_source
+            and translation.pk == translation.component.source_translation.pk
+        ):
+            translation = translation.component.source_translation
+        return translation
+
     @perform_on_link
     def commit_pending(  # noqa: C901
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
         from weblate.auth.models import User
-
-        def reuse_self(translation: Translation) -> Translation:
-            if translation.component_id == self.id:
-                translation.component = self
-            if translation.component.linked_component_id == self.id:
-                translation.component.linked_component = self
-            if translation.pk == translation.component.source_translation.pk:
-                translation = translation.component.source_translation
-            return translation
 
         if user is None:
             user = User.objects.get_or_create_bot(
@@ -2447,7 +2649,9 @@ class Component(  # noqa: PLR0904
         with self.repository.lock:
             for translation in translations:
                 self.repository.lock.reacquire()
-                translation = reuse_self(translation)
+                translation = self.reuse_component_for_translation(
+                    translation, reuse_source=True
+                )
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -4257,6 +4461,13 @@ class Component(  # noqa: PLR0904
             return False
         return self.is_valid_base_for_new(fast=fast)
 
+    def can_restore_missing_translation_file(self) -> bool:
+        """Check whether reset/reapply can recreate a missing language file."""
+        # Reset/reapply is already authorized by ``vcs.reset``. Missing-file recovery
+        # is part of that maintenance operation, so it must not depend on the
+        # regular add-language policy or user-specific overrides.
+        return self.can_add_new_language(None)
+
     def format_new_language_code(self, language):
         # Language code used for file
         code = self.file_format_cls.get_language_code(
@@ -4400,6 +4611,63 @@ class Component(  # noqa: PLR0904
         self.delete_alert("NoMaskMatches")
 
         return translation
+
+    def restore_missing_translation_file(
+        self,
+        translation: Translation,
+        *,
+        user: User | None = None,
+        skip_push: bool = False,
+        signals: bool = True,
+        send_post_add_signal: bool = True,
+    ) -> None:
+        """Restore a missing translation file using the new-language template."""
+        fullname = translation.get_filename()
+        if fullname is None:
+            msg = "Attempt to restore translation without a filename."
+            raise ValueError(msg)
+        with self.repository.lock:
+            self._restore_missing_translation_file(
+                translation=translation,
+                fullname=fullname,
+                user=user,
+                skip_push=skip_push,
+                signals=signals,
+                send_post_add_signal=send_post_add_signal,
+            )
+
+    def _restore_missing_translation_file(
+        self,
+        *,
+        translation: Translation,
+        fullname: str,
+        user: User | None,
+        skip_push: bool,
+        signals: bool,
+        send_post_add_signal: bool,
+    ) -> None:
+        if os.path.exists(fullname):
+            return
+
+        self.file_format_cls.add_language(
+            fullname,
+            translation.language,
+            self.get_new_base_filename(),
+            file_format_params=self.file_format_params,
+        )
+        if send_post_add_signal:
+            translation_post_add.send(sender=self.__class__, translation=translation)
+        translation.git_commit(
+            user,
+            user.get_author_name() if user else "Weblate <noreply@weblate.org>",
+            skip_push=skip_push,
+            signals=signals,
+            template=self.add_message,
+            store_hash=False,
+        )
+
+        # Delete no matches alert as we have just recreated the file
+        self.delete_alert("NoMaskMatches")
 
     def do_lock(self, user: User | None, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""

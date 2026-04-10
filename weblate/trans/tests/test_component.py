@@ -7,22 +7,44 @@
 from __future__ import annotations
 
 import os
-from typing import cast
+import pathlib
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.contrib.messages import get_messages
+from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.exceptions import ValidationError
 from django.db.models import F
+from django.test.client import RequestFactory
 from django.test.utils import override_settings
 
+from weblate.auth.models import Group, setup_project_groups
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models import (
+    Component,
+    PendingUnitChange,
+    Project,
+    Translation,
+    Unit,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.utils import clear_users_cache, create_test_user
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.utils.state import (
+        StringState,
+    )
 
 
 class ComponentTest(RepoTestCase):
@@ -1094,6 +1116,574 @@ class ComponentErrorTest(RepoTestCase):
         self.component.source_language = Language.objects.get(code="cs")
         with self.assertRaises(ValidationError):
             self.component.clean()
+
+
+class RepoViewLiteTestCase(RepoTestCase):
+    @classmethod
+    def setUpTestData(cls) -> None:
+        clear_users_cache()
+        super().setUpTestData()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.factory = RequestFactory()
+        self.user = create_test_user()
+        self.user.groups.add(Group.objects.get(name="Users"))
+        self.component = self.create_component()
+        self.project = self.component.project
+        setup_project_groups(self, self.project)
+        self.translation = self.get_translation()
+
+    def get_request(self, user: User | None = None):
+        request = self.factory.get("/")
+        request.user = user or self.user
+        request.session = "session"
+        request._messages = FallbackStorage(request)  # noqa: SLF001
+        return request
+
+    def get_translation(self, language: str = "cs") -> Translation:
+        return self.component.translation_set.get(language__code=language)
+
+    def get_unit(
+        self,
+        source: str = "Hello, world!\n",
+        language: str = "cs",
+        translation: Translation | None = None,
+    ) -> Unit:
+        if translation is None:
+            translation = self.get_translation(language)
+        return translation.unit_set.get(source__startswith=source)
+
+    def change_unit(
+        self,
+        target: str,
+        source: str = "Hello, world!\n",
+        language: str = "cs",
+        translation: Translation | None = None,
+        user: User | None = None,
+        state: StringState = STATE_TRANSLATED,
+    ) -> Unit:
+        unit = self.get_unit(source, language, translation=translation)
+        unit.translate(user or self.user, target, state)
+        return unit
+
+
+class ResetReapplyMissingTranslationFileTest(RepoViewLiteTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.de_translation = self.ensure_translation("de")
+        self.local_missing_translation_contents: dict[int, bytes] = {}
+
+    def ensure_translation(self, language_code: str) -> Translation:
+        language = Language.objects.get(code=language_code)
+        if not self.component.translation_set.filter(language=language).exists():
+            self.assertIsNotNone(
+                self.component.add_new_language(
+                    language, self.get_request(), show_messages=False
+                )
+            )
+        return self.component.translation_set.get(language=language)
+
+    def prepare_missing_translation_file(
+        self,
+        translation: Translation,
+        *,
+        target: str | None = None,
+        commit_to_remote: bool = False,
+    ) -> None:
+        if target is not None:
+            self.change_unit(target, translation=translation)
+
+        filename = cast("str", translation.get_filename())
+        with translation.component.repository.lock:
+            if commit_to_remote:
+                self.local_missing_translation_contents[translation.pk] = pathlib.Path(
+                    filename
+                ).read_bytes()
+                translation.component.repository.remove(
+                    [translation.filename],
+                    f"Remove {translation.language.name} translation",
+                )
+                translation.component.repository.push(translation.component.push_branch)
+            else:
+                pathlib.Path(filename).unlink(missing_ok=True)
+
+    def restore_local_missing_translation_files(
+        self, *translations: Translation
+    ) -> None:
+        with self.component.repository.lock:
+            for translation in translations:
+                filename = cast("str", translation.get_filename())
+                pathlib.Path(filename).write_bytes(
+                    self.local_missing_translation_contents[translation.pk]
+                )
+                translation.component.repository.execute(
+                    ["add", "--force", "--", translation.filename]
+                )
+
+    def test_reset_keep_recreates_missing_translation_file(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        self.restore_local_missing_translation_files(self.de_translation)
+        self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
+
+        self.assertTrue(self.component.do_reset(self.get_request(), keep_changes=True))
+
+        self.de_translation.refresh_from_db()
+        self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
+        self.assertFalse(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        self.assertEqual(
+            self.get_unit(language="de", translation=self.de_translation).target,
+            "Hallo Welt!\n",
+        )
+
+    def test_reset_keep_recreates_missing_translation_file_for_vcs_user(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        self.restore_local_missing_translation_files(self.de_translation)
+        self.project.access_control = Project.ACCESS_PROTECTED
+        setup_project_groups(self, self.project)
+        self.component.new_lang = "contact"
+        self.component.save(update_fields=["new_lang"])
+        self.project.add_user(self.user, "VCS")
+
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
+
+        self.assertTrue(self.component.do_reset(self.get_request(), keep_changes=True))
+
+        self.de_translation.refresh_from_db()
+        self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
+        self.assertFalse(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        self.assertEqual(
+            self.get_unit(language="de", translation=self.de_translation).target,
+            "Hallo Welt!\n",
+        )
+
+    def test_reset_keep_reports_missing_translation_file_without_creation_support(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        self.restore_local_missing_translation_files(self.de_translation)
+        self.component.new_base = "po/missing.pot"
+        self.component.save(update_fields=["new_base"])
+
+        request = self.get_request()
+        self.assertFalse(self.component.do_reset(request, keep_changes=True))
+
+        self.de_translation.refresh_from_db()
+        self.assertFalse(
+            os.path.exists(cast("str", self.de_translation.get_filename()))
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("configure the component", messages[0])
+        self.assertIn(self.de_translation.filename, messages[0])
+
+    def test_reset_keep_reports_invalid_restore_configuration_validation_error(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        self.restore_local_missing_translation_files(self.de_translation)
+
+        request = self.get_request()
+        with patch.object(
+            Component,
+            "can_restore_missing_translation_file",
+            autospec=True,
+            side_effect=ValidationError("Invalid new translation base path."),
+        ):
+            self.assertFalse(self.component.do_reset(request, keep_changes=True))
+
+        self.de_translation.refresh_from_db()
+        self.assertFalse(
+            os.path.exists(cast("str", self.de_translation.get_filename()))
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Pending changes were kept", messages[0])
+        self.assertIn(self.de_translation.filename, messages[0])
+
+    def test_reset_keep_rolls_back_partial_missing_translation_restore(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        self.component.push_on_commit = True
+        self.component.save(update_fields=["push_on_commit"])
+        it_translation = self.ensure_translation("it")
+        self.prepare_missing_translation_file(
+            it_translation,
+            target="Ciao mondo!\n",
+            commit_to_remote=True,
+        )
+        self.restore_local_missing_translation_files(
+            self.de_translation, it_translation
+        )
+
+        restore_file = Component.restore_missing_translation_file
+        restore_calls = 0
+
+        def fail_second_restore(component, translation, **kwargs) -> None:
+            nonlocal restore_calls
+
+            restore_calls += 1
+            if restore_calls == 2:
+                msg = "restore failed"
+                raise OSError(msg)
+            restore_file(component, translation, **kwargs)
+
+        request = self.get_request()
+        with patch.object(
+            Component,
+            "restore_missing_translation_file",
+            autospec=True,
+            side_effect=fail_second_restore,
+        ):
+            self.assertFalse(self.component.do_reset(request, keep_changes=True))
+
+        self.de_translation.refresh_from_db()
+        it_translation.refresh_from_db()
+        for translation in (self.de_translation, it_translation):
+            self.assertFalse(os.path.exists(cast("str", translation.get_filename())))
+            self.assertTrue(
+                PendingUnitChange.objects.filter(unit__translation=translation).exists()
+            )
+
+        self.assertEqual(self.component.repository.count_outgoing(), 0)
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Pending changes were kept", messages[0])
+
+    def test_restore_pending_translation_files_checks_component_once(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        it_translation = self.ensure_translation("it")
+        self.prepare_missing_translation_file(
+            it_translation,
+            target="Ciao mondo!\n",
+        )
+
+        original_can_restore = Component.can_restore_missing_translation_file
+
+        with (
+            patch.object(
+                Component, "drop_template_store_cache", autospec=True
+            ) as mock_drop,
+            patch.object(
+                Component,
+                "can_restore_missing_translation_file",
+                autospec=True,
+                side_effect=original_can_restore,
+            ) as mock_can_restore,
+            patch.object(
+                Component, "restore_missing_translation_file", autospec=True
+            ) as mock_restore,
+            patch.object(Component, "send_post_commit_signal", autospec=True),
+        ):
+            self.assertTrue(
+                self.component.restore_pending_translation_files(
+                    request=self.get_request(),
+                    user=self.user,
+                )
+            )
+
+        self.assertEqual(mock_drop.call_count, 1)
+        self.assertEqual(mock_can_restore.call_count, 1)
+        self.assertEqual(mock_restore.call_count, 2)
+
+    def test_restore_missing_translation_file_uses_repository_lock(self) -> None:
+        self.prepare_missing_translation_file(self.de_translation)
+        lock_states: list[bool] = []
+
+        def record_add_language(*args, **kwargs) -> None:
+            lock_states.append(self.component.repository.lock.is_locked)
+
+        def record_git_commit(*args, **kwargs) -> bool:
+            lock_states.append(self.component.repository.lock.is_locked)
+            return True
+
+        self.assertFalse(self.component.repository.lock.is_locked)
+        with (
+            patch.object(
+                self.component.file_format_cls,
+                "add_language",
+                side_effect=record_add_language,
+            ),
+            patch.object(
+                Translation,
+                "git_commit",
+                autospec=True,
+                side_effect=record_git_commit,
+            ),
+            patch("weblate.trans.models.component.translation_post_add.send"),
+        ):
+            self.component.restore_missing_translation_file(
+                self.de_translation, user=self.user
+            )
+
+        self.assertEqual(lock_states, [True, True])
+
+    def test_restore_missing_translation_file_preserves_post_add_on_silent_commit(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(self.de_translation)
+        with (
+            patch.object(self.component.file_format_cls, "add_language"),
+            patch.object(Translation, "git_commit", autospec=True) as mock_commit,
+            patch(
+                "weblate.trans.models.component.translation_post_add.send"
+            ) as mock_send,
+        ):
+            self.component.restore_missing_translation_file(
+                self.de_translation,
+                user=self.user,
+                signals=False,
+            )
+
+        mock_send.assert_called_once_with(
+            sender=self.component.__class__, translation=self.de_translation
+        )
+        mock_commit.assert_called_once()
+        self.assertFalse(mock_commit.call_args.kwargs["signals"])
+
+    def test_restore_missing_translation_file_can_skip_post_add_signal(self) -> None:
+        self.prepare_missing_translation_file(self.de_translation)
+        with (
+            patch.object(self.component.file_format_cls, "add_language"),
+            patch.object(Translation, "git_commit", autospec=True) as mock_commit,
+            patch(
+                "weblate.trans.models.component.translation_post_add.send"
+            ) as mock_send,
+        ):
+            self.component.restore_missing_translation_file(
+                self.de_translation,
+                user=self.user,
+                send_post_add_signal=False,
+            )
+
+        mock_send.assert_not_called()
+        mock_commit.assert_called_once()
+        self.assertTrue(mock_commit.call_args.kwargs["signals"])
+
+    def test_restore_pending_translation_files_handles_atomic_start_failure(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+
+        class FailingAtomic:
+            def __enter__(self):
+                msg = "atomic failed"
+                raise OSError(msg)
+
+            def __exit__(self, exc_type, exc, tb) -> bool:
+                return False
+
+        request = self.get_request()
+        with (
+            patch(
+                "weblate.trans.models.component.transaction.atomic",
+                return_value=FailingAtomic(),
+            ),
+            patch.object(self.component.repository, "reset") as mock_reset,
+            patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
+            patch.object(
+                Component, "restore_missing_translation_file", autospec=True
+            ) as mock_restore,
+        ):
+            self.assertFalse(
+                self.component.restore_pending_translation_files(
+                    request=request,
+                    user=self.user,
+                )
+            )
+
+        self.de_translation.refresh_from_db()
+        self.assertFalse(
+            os.path.exists(cast("str", self.de_translation.get_filename()))
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_restore.assert_not_called()
+        mock_reset.assert_called_once_with()
+        mock_cleanup.assert_called_once_with()
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn(self.de_translation.filename, messages[0])
+        self.assertIn("Pending changes were kept", messages[0])
+
+    def test_restore_pending_translation_files_cleans_failed_restore_artifacts(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        addon_file = os.path.join(self.component.full_path, "po", "restore-extra.mo")
+
+        def fail_commit(translation, *args, **kwargs) -> bool:
+            pathlib.Path(addon_file).write_text("artifact", encoding="utf-8")
+            translation.addon_commit_files.append(addon_file)
+            msg = "commit failed"
+            raise OSError(msg)
+
+        request = self.get_request()
+        with (
+            self.component.repository.lock,
+            patch.object(
+                Translation,
+                "git_commit",
+                autospec=True,
+                side_effect=fail_commit,
+            ),
+            patch("weblate.trans.models.component.translation_post_add.send"),
+        ):
+            self.assertFalse(
+                self.component.restore_pending_translation_files(
+                    request=request,
+                    user=self.user,
+                )
+            )
+
+        self.de_translation.refresh_from_db()
+        self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
+        self.assertFalse(os.path.exists(addon_file))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+
+    def test_handle_restore_pending_translation_failure_without_translation(
+        self,
+    ) -> None:
+        request = self.get_request()
+        with (
+            patch.object(self.component.repository, "reset") as mock_reset,
+            patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
+            patch("weblate.trans.models.component.report_error") as mock_report_error,
+        ):
+            self.assertFalse(
+                self.component.handle_restore_pending_translation_failure(
+                    request=request,
+                    missing_translations=[],
+                    current_translation=None,
+                    error=OSError("atomic failed"),
+                )
+            )
+
+        mock_reset.assert_called_once_with()
+        mock_cleanup.assert_called_once_with()
+        mock_report_error.assert_called_once_with(
+            "Could not recreate missing translation file during reset",
+            project=self.component.project,
+        )
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Pending changes were kept", messages[0])
+
+
+class LinkedResetDiskStateTest(RepoViewLiteTestCase):
+    def create_component(self):
+        return self.create_link()
+
+    def test_reset_keep_clears_disk_state_for_linked_components(self) -> None:
+        unit = self.get_unit(translation=self.translation)
+        unit.translate(self.user, "Ahoj svete!", STATE_TRANSLATED)
+        unit.refresh_from_db()
+        self.assertIn("disk_state", unit.details)
+
+        with patch.object(Component, "queue_background_task", autospec=True):
+            self.assertTrue(
+                self.component.do_reset(self.get_request(), keep_changes=True)
+            )
+
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
+        self.assertTrue(
+            PendingUnitChange.objects.for_component(
+                cast("Component", self.component.linked_component),
+                apply_filters=False,
+                include_linked=True,
+            )
+            .filter(unit=unit)
+            .exists()
+        )
+
+    def test_restore_pending_translation_files_signals_linked_component(self) -> None:
+        root_component = cast("Component", self.component.linked_component)
+        self.change_unit("Ahoj svete!\n", translation=self.translation)
+        with root_component.repository.lock:
+            pathlib.Path(cast("str", self.translation.get_filename())).unlink(
+                missing_ok=True
+            )
+
+        with (
+            patch.object(
+                Component, "can_restore_missing_translation_file", return_value=True
+            ),
+            patch.object(Component, "restore_missing_translation_file", autospec=True),
+            patch.object(
+                Component, "send_post_commit_signal", autospec=True
+            ) as mock_signal,
+        ):
+            self.assertTrue(
+                root_component.restore_pending_translation_files(
+                    request=self.get_request(),
+                    user=self.user,
+                )
+            )
+
+        mock_signal.assert_called_once_with(self.component, store_hash=False)
 
 
 class LinkedEditTest(ViewTestCase):
