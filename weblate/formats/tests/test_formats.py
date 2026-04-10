@@ -988,6 +988,178 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
         )
 
 
+class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
+    source = (
+        "To manage the existing work profile, navigate to the <b>Work</b> tab in "
+        "the launcher"
+    )
+    template_content = """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help">To manage the existing work profile, navigate to the &lt;b&gt;Work&lt;/b&gt; tab in the launcher</string>
+</resources>
+"""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        self.remove_temp()
+        super().tearDown()
+
+    def create_storage(self, translated_content: str):
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(self.template_content, encoding="utf-8")
+        translated_file.write_text(translated_content, encoding="utf-8")
+
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(), template_store=template_storage
+        )
+        return target_storage, translated_file
+
+    def test_add_uses_template_target_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+"""
+        )
+        target = (
+            "To manage the active work profile, open the <b>Work</b> tab from the "
+            "launcher"
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertTrue(unit.template.target_markup)
+        self.assertTrue(unit.unit.target_markup)
+        self.assertIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target(target)
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;b&gt;Work&lt;/b&gt;", saved)
+        self.assertNotIn("<b>Work</b>", saved)
+
+    def test_edit_reapplies_template_target_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help">To manage the active work profile, open the <b>Work</b> tab from the launcher</string>
+</resources>
+"""
+        )
+        target = (
+            "To manage the active work profile, open the <b>Workspace</b> tab from "
+            "the launcher"
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertFalse(add)
+        self.assertTrue(unit.template.target_markup)
+        self.assertFalse(unit.unit.target_markup)
+        self.assertIn("safe-html", unit.flags)
+
+        unit.set_target(target)
+
+        self.assertTrue(unit.unit.target_markup)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;b&gt;Workspace&lt;/b&gt;", saved)
+        self.assertNotIn("<b>Workspace</b>", saved)
+
+    def test_units_with_real_xml_use_xml_text_flag(self) -> None:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content.replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+""",
+            encoding="utf-8",
+        )
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(),
+            template_store=template_storage,
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertFalse(unit.template.target_markup)
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+    def test_discard_safe_html_override_is_honored(self) -> None:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content.replace(
+                'name="existing_work_profile_help"',
+                'name="existing_work_profile_help" weblate-flags="discard:safe-html"',
+            ),
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+""",
+            encoding="utf-8",
+        )
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(),
+            template_store=template_storage,
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertNotIn("safe-html", unit.flags)
+
+    def test_discard_xml_text_override_is_honored(self) -> None:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content.replace(
+                'name="existing_work_profile_help"',
+                'name="existing_work_profile_help" weblate-flags="discard:xml-text"',
+            ).replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+""",
+            encoding="utf-8",
+        )
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(),
+            template_store=template_storage,
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertNotIn("xml-text", unit.flags)
+
+
 class XliffFormatTest(XMLMixin, BaseFormatTest):
     format_class = XliffFormat
     FILE = TEST_XLIFF

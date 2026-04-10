@@ -68,6 +68,7 @@ Weblate 5.17
 * Adding new languages now rescans only the newly added languages instead of forcing a full component scan.
 * :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
 * Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
+* :doc:`/formats/android` now preserves template-defined escaped markup formatting when saving translations.
 
 .. rubric:: Compatibility
 
