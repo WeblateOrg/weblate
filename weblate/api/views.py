@@ -2008,7 +2008,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         if user.is_superuser or user.has_perm("memory.manage"):
             query = Q()
         else:
-            query = Q(user=user) | Q(shared=True) | Q(from_file=True)
+            query = Q(user=user) | Q(shared=True) | Memory.objects.global_file_query()
             query |= Q(project__in=user.allowed_projects.using(alias))
 
         # Reads can use a dedicated memory_db alias when configured, but delete
@@ -2059,10 +2059,12 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
                 Project.objects.all() if can_manage_all else user.allowed_projects
             )
             project = get_object_or_404(project_queryset, slug=project_slug)
-            query = Q(project=project) | Q(user=user) | Q(from_file=True)
-            if project.use_shared_tm:
-                query |= Q(shared=True)
-            return queryset.filter(query)
+            return Memory.objects.filter_type(
+                user=user,
+                project=project,
+                use_shared=project.use_shared_tm,
+                from_file=True,
+            )
 
         return queryset
 
