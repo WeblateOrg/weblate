@@ -5672,14 +5672,35 @@ class MemoryAPITest(APIBaseTest):
             target="Osobni zaznam",
             user=self.user,
         )
+        imported_personal_entry = self.create_memory(
+            source="Visible imported personal entry",
+            target="Importovany osobni zaznam",
+            user=self.user,
+            from_file=True,
+        )
+        imported_project_entry = self.create_memory(
+            source="Visible imported project entry",
+            target="Importovany projektovy zaznam",
+            project=self.component.project,
+            origin=self.component.full_slug,
+            from_file=True,
+        )
         self.create_memory(
             source="Other user entry",
             target="Cizi zaznam",
             user=User.objects.create_user("memory-other", "other@example.org", "x"),
         )
-        self.create_memory(
+        global_file_entry = self.create_memory(
             source="Visible imported entry",
             target="Importovany zaznam",
+            from_file=True,
+        )
+        hidden_imported_other_user_entry = self.create_memory(
+            source="Hidden imported other user entry",
+            target="Skryty importovany cizi zaznam",
+            user=User.objects.create_user(
+                "memory-other-imported", "other-imported@example.org", "x"
+            ),
             from_file=True,
         )
         private_component = self.create_acl()
@@ -5688,6 +5709,13 @@ class MemoryAPITest(APIBaseTest):
             target="Skryty zaznam",
             project=private_component.project,
             origin=private_component.full_slug,
+        )
+        hidden_imported_private_entry = self.create_memory(
+            source="Hidden imported private project entry",
+            target="Skryty importovany projektovy zaznam",
+            project=private_component.project,
+            origin=private_component.full_slug,
+            from_file=True,
         )
 
         self.do_request(
@@ -5699,7 +5727,12 @@ class MemoryAPITest(APIBaseTest):
         ids = {item["id"] for item in response.data["results"]}
         self.assertIn(public_entry.id, ids)
         self.assertIn(personal_entry.id, ids)
+        self.assertIn(imported_personal_entry.id, ids)
+        self.assertIn(imported_project_entry.id, ids)
+        self.assertIn(global_file_entry.id, ids)
         self.assertNotIn(private_entry.id, ids)
+        self.assertNotIn(hidden_imported_other_user_entry.id, ids)
+        self.assertNotIn(hidden_imported_private_entry.id, ids)
 
     def test_get_filters(self) -> None:
         self.authenticate()
@@ -5873,22 +5906,39 @@ class MemoryAPITest(APIBaseTest):
             target="Projektova pamet",
             project=self.component.project,
             origin=self.component.full_slug,
+            from_file=True,
         )
         personal_entry = self.create_memory(
             source="Personal scoped memory",
             target="Osobni pamet",
             user=self.user,
+            from_file=True,
         )
         shared_entry = self.create_memory(
             source="Shared scoped memory",
             target="Sdilena pamet",
-            project=self.component.project,
             origin=self.component.full_slug,
             shared=True,
         )
         file_entry = self.create_memory(
             source="File scoped memory",
             target="Souborova pamet",
+            from_file=True,
+        )
+        self.create_memory(
+            source="Hidden personal file memory",
+            target="Skryta osobni souborova pamet",
+            user=User.objects.create_user(
+                "memory-other-lookup", "memory-other-lookup@example.org", "x"
+            ),
+            from_file=True,
+        )
+        private_component = self.create_acl()
+        self.create_memory(
+            source="Hidden project file memory",
+            target="Skryta projektova souborova pamet",
+            project=private_component.project,
+            origin=private_component.full_slug,
             from_file=True,
         )
 
@@ -5903,6 +5953,8 @@ class MemoryAPITest(APIBaseTest):
                     "Personal scoped memory",
                     "Shared scoped memory",
                     "File scoped memory",
+                    "Hidden personal file memory",
+                    "Hidden project file memory",
                 ]
             },
             format="json",
@@ -5913,6 +5965,8 @@ class MemoryAPITest(APIBaseTest):
         self.assertEqual(response.data[1]["match"]["id"], personal_entry.id)
         self.assertEqual(response.data[2]["match"]["id"], shared_entry.id)
         self.assertEqual(response.data[3]["match"]["id"], file_entry.id)
+        self.assertIsNone(response.data[4]["match"])
+        self.assertIsNone(response.data[5]["match"])
 
     def test_lookup_batches_exact_matches_before_fuzzy_fallback(self) -> None:
         self.authenticate()
