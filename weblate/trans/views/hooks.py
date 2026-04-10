@@ -3,10 +3,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import json
 import re
 from collections.abc import Callable, Mapping
-from typing import TYPE_CHECKING, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
@@ -22,6 +21,7 @@ from rest_framework.exceptions import (
 from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.settings import api_settings
 from rest_framework.views import APIView
 
 from weblate.api.serializers import MultiFieldHyperlinkedIdentityField
@@ -33,7 +33,7 @@ from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
-    from django.http import QueryDict
+    from django_stubs_ext import StrOrPromise
 
 BITBUCKET_GIT_REPOS = (
     "ssh://git@{server}/{full_name}.git",
@@ -75,6 +75,12 @@ AZURE_REPOS = (
     "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}",
 )
 
+type JSONScalar = str | int | float | bool | None
+type JSONValue = JSONScalar | list[JSONValue] | dict[str, JSONValue]
+type JSONDict = dict[str, JSONValue]
+type JSONMapping = Mapping[str, JSONValue]
+type FormData = Mapping[str, str | bytes]
+
 
 class HandlerResponse(TypedDict):
     service_long_name: str
@@ -113,7 +119,7 @@ def normalize_branch_ref(ref: str | None) -> str:
     return re.sub(r"^refs/heads/", "", ref)
 
 
-def require_mapping(value: object, field_name: str) -> Mapping[str, object]:
+def require_mapping(value: JSONValue, field_name: str) -> JSONMapping:
     """Validate that the payload field is a mapping."""
     if not isinstance(value, Mapping):
         msg = f"Invalid {field_name} in payload"
@@ -121,7 +127,7 @@ def require_mapping(value: object, field_name: str) -> Mapping[str, object]:
     return value
 
 
-def require_string(value: object, field_name: str) -> str:
+def require_string(value: JSONValue, field_name: str) -> str:
     """Validate that the payload field is a string."""
     if not isinstance(value, str):
         msg = f"Invalid {field_name} in payload"
@@ -129,7 +135,7 @@ def require_string(value: object, field_name: str) -> str:
     return value
 
 
-def optional_string(value: object, field_name: str) -> str | None:
+def optional_string(value: JSONValue, field_name: str) -> str | None:
     """Validate that the payload field is a string or null."""
     if value is None:
         return None
@@ -171,43 +177,46 @@ class HookResponseSerializer(serializers.Serializer):
 class HookRequestSerializer(serializers.Serializer):
     """Native webhook payload from the notifying service."""
 
+    default_error_messages: ClassVar[dict[str, StrOrPromise]] = {
+        "invalid": "Invalid data in json payload!",
+    }
 
-class PayloadMixin:
-    @staticmethod
-    def extract_payload(request_data: QueryDict | parsers.DataAndFiles | dict) -> dict:
-        data: QueryDict | dict
-        if isinstance(request_data, parsers.DataAndFiles):
-            data = request_data.data
-        else:
-            data = request_data
-        try:
-            payload = cast("str | bytes", data["payload"])
-        except KeyError as exc:
-            msg = "Missing payload parameter!"
-            raise ParseError(msg) from exc
-        try:
-            return json.loads(payload)
-        except ValueError as exc:
-            msg = f"JSON parse error - {exc!s}"
-            raise ParseError(msg) from exc
+    def to_internal_value(self, data: object) -> JSONDict:
+        if not isinstance(data, Mapping) or not data:
+            raise serializers.ValidationError(
+                {api_settings.NON_FIELD_ERRORS_KEY: [self.error_messages["invalid"]]}
+            )
+        return cast("JSONDict", dict(data))
 
 
-class PayloadMultiPartParser(parsers.MultiPartParser, PayloadMixin):
-    """Extract payload from application/x-www-form-urlencoded."""
-
-    def parse(self, stream, media_type=None, parser_context=None):
-        return self.extract_payload(
-            super().parse(stream, media_type=media_type, parser_context=parser_context)
-        )
+class HookPayloadSerializer(serializers.Serializer):
+    payload = serializers.JSONField()
 
 
-class PayloadFormParserParser(parsers.FormParser, PayloadMixin):
-    """Extract payload from multipart/form-data."""
+def extract_payload(request_data: FormData) -> JSONValue:
+    serializer = HookPayloadSerializer(data=request_data)
+    if not serializer.is_valid():
+        detail = serializer.errors.get(
+            "payload",
+            serializer.errors.get(
+                api_settings.NON_FIELD_ERRORS_KEY,
+                ["Invalid payload parameter!"],
+            ),
+        )[0]
+        raise ParseError(str(detail))
+    return cast("JSONValue", serializer.validated_data["payload"])
 
-    def parse(self, stream, media_type=None, parser_context=None):
-        return self.extract_payload(
-            super().parse(stream, media_type=media_type, parser_context=parser_context)
-        )
+
+def extract_request_data(
+    content_type: str | None,
+    request_data: JSONValue | FormData,
+) -> JSONValue:
+    media_type = (
+        content_type.partition(";")[0].strip().lower() if content_type else None
+    )
+    if media_type == parsers.JSONParser.media_type:
+        return cast("JSONValue", request_data)
+    return extract_payload(cast("FormData", request_data))
 
 
 def bitbucket_extract_changes(data: dict) -> list[dict]:
@@ -535,8 +544,8 @@ class ServiceHookView(APIView):
     http_method_names = ["post"]  # noqa: RUF012
     parser_classes = (
         parsers.JSONParser,
-        PayloadMultiPartParser,
-        PayloadFormParserParser,
+        parsers.MultiPartParser,
+        parsers.FormParser,
     )
 
     def hook_response(
@@ -572,11 +581,15 @@ class ServiceHookView(APIView):
             msg = f"Hook {service} not supported"
             raise NotFound(msg) from exc
 
-        # Check if we got payload
-        data = request.data
-        if not data:
-            msg = "Invalid data in json payload!"
-            raise ValidationError(msg)
+        request_data = extract_request_data(request.content_type, request.data)
+        request_serializer = HookRequestSerializer(data=request_data)
+        if not request_serializer.is_valid():
+            detail = request_serializer.errors.get(
+                api_settings.NON_FIELD_ERRORS_KEY,
+                ["Invalid data in json payload!"],
+            )[0]
+            raise ValidationError(str(detail))
+        data = cast("dict[str, object]", request_serializer.validated_data)
 
         # Send the request data to the service handler.
         try:
