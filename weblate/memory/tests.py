@@ -6,7 +6,8 @@ from __future__ import annotations
 
 import json
 import tempfile
-from io import StringIO
+from io import BytesIO, StringIO
+from pathlib import Path
 from typing import Any
 from unittest.mock import MagicMock, call, patch
 
@@ -16,12 +17,18 @@ from django.db.models import Q
 from django.test import SimpleTestCase
 from django.urls import reverse
 from jsonschema import validate
+from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
 from weblate_schemas import load_schema
 
 from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.models import Memory, MemoryQuerySet
+from weblate.memory.models import (
+    Memory,
+    MemoryQuerySet,
+    load_memory_json_data,
+    load_memory_tmx_store,
+)
 from weblate.memory.tasks import (
     handle_unit_translation_change,
     import_memory,
@@ -44,6 +51,27 @@ def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
         shared=False,
         status=Memory.STATUS_ACTIVE,
     )
+
+
+class MemoryParserTest(SimpleTestCase):
+    def test_load_memory_json_data(self) -> None:
+        data = load_memory_json_data(Path(get_test_file("memory.json")).read_bytes())
+
+        self.assertEqual(len(data), 1)
+        self.assertEqual(data[0]["source"], "Hello")
+
+    def test_load_memory_json_data_invalid_schema(self) -> None:
+        with self.assertRaises(JSONSchemaValidationError):
+            load_memory_json_data(
+                Path(get_test_file("memory-invalid.json")).read_bytes()
+            )
+
+    def test_load_memory_tmx_store(self) -> None:
+        store = load_memory_tmx_store(
+            BytesIO(Path(get_test_file("memory.tmx")).read_bytes())
+        )
+
+        self.assertEqual(len(list(store.units)), 1)
 
 
 class MemoryModelTest(FixtureTestCase):

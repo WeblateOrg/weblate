@@ -8,7 +8,7 @@ import json
 import math
 import os
 import re
-from typing import TYPE_CHECKING, BinaryIO, TypedDict
+from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
@@ -52,13 +52,13 @@ MEMORY_LOOKUP_LIMIT = 50
 
 class MemoryDict(TypedDict):
     source: str
-    context: str
     target: str
     source_language: str
     target_language: str
     origin: str
     category: int
-    status: int
+    context: NotRequired[str]
+    status: NotRequired[int]
 
 
 class MemoryImportError(Exception):
@@ -77,6 +77,21 @@ def get_node_data(unit, node):
         getXMLlang(node) or node.get("lang"),
         unit.getNodeText(node, getXMLspace(unit.xmlelement, "preserve")),
     )
+
+
+def load_memory_json_data(content: bytes) -> list[MemoryDict]:
+    """Load and validate a memory export payload."""
+    # Lazily import as this is expensive
+    from jsonschema import validate  # noqa: PLC0415
+
+    data = json.loads(force_str(content))
+    validate(data, load_schema("weblate-memory.schema.json"))
+    return cast("list[MemoryDict]", data)
+
+
+def load_memory_tmx_store(fileobj: BinaryIO):
+    """Parse a TMX file into a translate-toolkit store."""
+    return tmxfile.parsefile(fileobj)
 
 
 class MemoryQuerySet(models.QuerySet):
@@ -327,19 +342,15 @@ class MemoryManager(models.Manager):
         status: int = 0,
     ) -> int:
         # Lazily import as this is expensive
-        from jsonschema import validate  # noqa: PLC0415
         from jsonschema.exceptions import ValidationError  # noqa: PLC0415
 
-        content = fileobj.read()
         try:
-            data = json.loads(force_str(content))
+            data = load_memory_json_data(fileobj.read())
         except json.JSONDecodeError as error:
             report_error("Could not parse memory")
             raise MemoryImportError(
                 gettext("Could not parse JSON file: %s") % error
             ) from error
-        try:
-            validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
             report_error("Could not validate memory")
             raise MemoryImportError(
@@ -384,7 +395,7 @@ class MemoryManager(models.Manager):
         status: int = 0,
     ) -> int:
         try:
-            storage = tmxfile.parsefile(fileobj)
+            storage = load_memory_tmx_store(fileobj)
         except (SyntaxError, AssertionError) as error:
             report_error("Could not parse")
             raise MemoryImportError(
