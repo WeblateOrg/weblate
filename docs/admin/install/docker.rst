@@ -845,6 +845,35 @@ Generic settings
         environment:
           WEBLATE_REQUIRE_LOGIN: 1
 
+.. envvar:: WEBLATE_LEGAL_INTEGRATION
+
+    Enables the :ref:`legal` module in Docker deployments.
+
+    Supported values are:
+
+    * ``tos-confirm`` to enable the legal module and enforce terms of service
+      confirmation during social authentication and for signed-in users.
+    * ``wllegal`` to enable the same integration and additionally load the
+      hosted legal document templates from ``wllegal``. These templates are
+      used by services operated by Weblate s.r.o. and are not intended for
+      general use.
+
+    To provide your own legal documents in Docker, override the templates in
+    :file:`/app/data/python/customize/templates/legal/documents`, see
+    :ref:`docker-static-override`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_INTEGRATION: tos-confirm
+
+    .. seealso::
+
+       * :ref:`legal`
+       * :ref:`docker-static-override`
+
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 
    Enables :setting:`PUBLIC_ENGAGE`.
