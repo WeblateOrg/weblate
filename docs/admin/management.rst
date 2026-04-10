@@ -717,6 +717,12 @@ list_addons
 
 Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`.
 
+.. weblate-admin-option:: --sections {events,addons,parameters}
+
+   Filter the generated output to just the add-on event sections, the built-in
+   add-on sections, or the shared add-on parameter sections. If omitted, all
+   generated sections are shown.
+
 .. seealso::
 
    :doc:`/contributing/documentation`
@@ -738,6 +744,18 @@ list_checks
 .. weblate-admin:: list_checks
 
 Lists quality checks in reStructuredText as a template for :doc:`/admin/checks` and :doc:`/user/checks`.
+
+.. weblate-admin-option:: --sections {checks,flags}
+
+   Filter the generated output to just the quality check sections or the
+   shared check flag sections. If omitted, all generated sections are shown.
+
+.. note::
+
+   Using ``--output`` requires selecting exactly one value in ``--sections`` so
+   each generated snippet is written to its own file. This matches the
+   :doc:`/contributing/documentation` workflow and the ``make -C docs
+   update-docs`` targets.
 
 .. seealso::
 

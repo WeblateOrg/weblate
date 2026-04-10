@@ -5404,6 +5404,66 @@ class TestCommand(ViewTestCase):
         output = StringIO()
         call_command("list_addons", stdout=output)
         self.assertIn(".. _addon-event-add-on-installation:", output.getvalue())
+        self.assertIn("Common add-on parameters", output.getvalue())
 
         with self.assertRaises(FileNotFoundError):
             call_command("list_addons", "-o", "missing_fileXXX.rst", stdout=StringIO())
+
+    def test_list_addons_split_output(self) -> None:
+        with (
+            tempfile.NamedTemporaryFile(suffix=".rst", delete=False) as events_handle,
+            tempfile.NamedTemporaryFile(suffix=".rst", delete=False) as addons_handle,
+            tempfile.NamedTemporaryFile(
+                suffix=".rst", delete=False
+            ) as parameters_handle,
+        ):
+            events_path = Path(events_handle.name)
+            addons_path = Path(addons_handle.name)
+            parameters_path = Path(parameters_handle.name)
+        self.addCleanup(events_path.unlink)
+        self.addCleanup(addons_path.unlink)
+        self.addCleanup(parameters_path.unlink)
+
+        call_command(
+            "list_addons",
+            "--sections",
+            "events",
+            "-o",
+            events_path,
+            stdout=StringIO(),
+        )
+        call_command(
+            "list_addons",
+            "--sections",
+            "addons",
+            "-o",
+            addons_path,
+            stdout=StringIO(),
+        )
+        call_command(
+            "list_addons",
+            "--sections",
+            "parameters",
+            "-o",
+            parameters_path,
+            stdout=StringIO(),
+        )
+
+        events_content = events_path.read_text(encoding="utf-8")
+        addons_content = addons_path.read_text(encoding="utf-8")
+        parameters_content = parameters_path.read_text(encoding="utf-8")
+
+        self.assertIn("Events that trigger add-ons", events_content)
+        self.assertIn(".. _addon-event-add-on-installation:", events_content)
+        self.assertNotIn("Built-in add-ons", events_content)
+        self.assertNotIn("Common add-on parameters", events_content)
+
+        self.assertIn("Built-in add-ons", addons_content)
+        self.assertNotIn(".. _addon-event-add-on-installation:", addons_content)
+        self.assertNotIn("Common add-on parameters", addons_content)
+        self.assertNotIn("Customize XML output", addons_content)
+
+        self.assertIn("Common add-on parameters", parameters_content)
+        self.assertIn(".. _addon-choice-engines:", parameters_content)
+        self.assertNotIn("Built-in add-ons", parameters_content)
+        self.assertNotIn("Events that trigger add-ons", parameters_content)
