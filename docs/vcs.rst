@@ -45,9 +45,10 @@ repository (read-only is okay for cloning, write is required for pushing).
 Depending on the service and your organization’s settings, this happens immediately,
 or requires confirmation on the Weblate side.
 
-On GitHub, this is currently required even when you use the Hosted Weblate
-GitHub app. The app handles incoming notifications from GitHub, but pushing
-changes back still uses the Hosted Weblate :guilabel:`weblate` user.
+On GitHub, you need to add or invite the Hosted Weblate :guilabel:`weblate`
+user with write access even when you use the Hosted Weblate GitHub app. The
+app handles incoming notifications from GitHub, but pushing changes back
+still uses the Hosted Weblate :guilabel:`weblate` user.
 
 The :guilabel:`weblate` user on GitHub accepts invitations automatically within five minutes.
 Manual processing might be needed on the other services, so please be patient.
