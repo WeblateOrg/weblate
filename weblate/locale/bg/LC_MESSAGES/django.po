@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-03 23:13-0500\n"
-"PO-Revision-Date: 2026-04-05 01:45+0000\n"
+"PO-Revision-Date: 2026-04-10 09:10+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -607,17 +607,15 @@ msgstr "Потребител е премахнат от екип {team} от {us
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Достъпът до проекта {project} е спрян."
+msgstr "Беше създаден идентификатор за проекта {project}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:319
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Проектът за превод е премахнат"
+msgstr "Беше премахнат идентификаторът на проекта {project}."
 
 #: weblate/accounts/models.py:322
 msgid "Two-factor authentication recovery codes were generated"
@@ -706,10 +704,9 @@ msgid "Account activity"
 msgstr "Дейност на профила"
 
 #: weblate/accounts/models.py:547
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Поканен в {project} от {username}."
+msgstr "Предизвикано от {username}."
 
 #: weblate/accounts/models.py:641
 msgid "Interface Language"
@@ -1853,17 +1850,15 @@ msgid "POTFILES path"
 msgstr "Път до POTFILES"
 
 #: weblate/addons/forms.py:196
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
 "Относителен за хранилището път до POTFILES или POTFILES.in. Елементите се "
-"отчитат относително спрямо този файл."
+"отчитат относително спрямо основната папка на хранилището. Ако до манифеста "
+"съществува файл POTFILES.skip, то изброените в него файлове се пропускат при "
+"извличането."
 
 #: weblate/addons/forms.py:234 weblate/addons/forms.py:241
 msgid "This field is required."
@@ -1874,10 +1869,8 @@ msgid "POTFILES path has to point to a file."
 msgstr "Пътят до POTFILES трябва да посочва файл."
 
 #: weblate/addons/forms.py:259
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Хранилището е нулирано"
+msgstr "Конфигурация за Meson"
 
 #: weblate/addons/forms.py:260
 msgid "GLib"
@@ -2370,19 +2363,13 @@ msgstr ""
 "изходни файлове."
 
 #: weblate/addons/gettext.py:1189
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Обновяване на файла POT (чрез Django)"
+msgstr "Обновяване на файла POT (чрез Meson)"
 
 #: weblate/addons/gettext.py:1191
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
 msgstr ""
-"Обновява шаблона на gettext чрез изпълнение на xgettext върху избраните "
-"изходни файлове."
+"Обновява шаблона на gettext ползвайки начина на работа на gettext в Meson."
 
 #: weblate/addons/gettext.py:1316
 msgid "Update POT file (Django)"
@@ -2646,13 +2633,12 @@ msgid "Weblate's REST API"
 msgstr "ППИ REST на Weblate"
 
 #: weblate/api/views.py:171 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Заключването на хранилището е невъзможно. В момента протича друга операция."
+"Низът не може да бъде премахнат, защото в момента протича друга операция на "
+"заден план. Моля, опитайте отново по-късно."
 
 #: weblate/api/views.py:177
 msgid "Could not obtain the lock to perform the operation."
@@ -3287,8 +3273,6 @@ msgid "Team"
 msgstr "Екип"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "Адреси на е-пощи"
 
@@ -3326,10 +3310,8 @@ msgstr[0] "Пропуснат е %(count)d адрес: %(details)s"
 msgstr[1] "Пропуснати са %(count)d адреса: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Поканата към потребителя е премахната."
+msgstr "Не бяха създадени никакви покани."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -6521,11 +6503,12 @@ msgstr "Име на персонализирания модел"
 #: weblate/machinery/forms.py:567
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Макс. брой езикови единици"
 
 #: weblate/machinery/forms.py:569
 msgid "Maximum number of tokens to generate in the response."
 msgstr ""
+"Максимален брой езикови единици, които могат да се генерират в отговора."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -11605,10 +11588,8 @@ msgstr "Добавяне на потребител"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Поканен потребител"
+msgstr "Масово канене на потребители"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -12670,10 +12651,8 @@ msgid "Approved"
 msgstr "Одобрени"
 
 #: weblate/templates/snippets/list-objects.html:80
-#, fuzzy
-#| msgid "review"
 msgid "Unreviewed"
-msgstr "одобрение"
+msgstr "Неодобрени"
 
 #: weblate/templates/snippets/list-objects.html:90
 msgid "Unfinished"
@@ -12894,10 +12873,8 @@ msgid "Strings with comments"
 msgstr "Низове с коментари"
 
 #: weblate/templates/snippets/query-builder.html:146
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with comments mentioning you"
-msgstr "Низове с коментари"
+msgstr "Низове с коментари, които Ви споменават"
 
 #: weblate/templates/snippets/query-builder.html:155 weblate/trans/filter.py:40
 #: weblate/trans/filter.py:129
@@ -14334,10 +14311,8 @@ msgid "Similarity"
 msgstr "Сходство"
 
 #: weblate/templates/translate.html:552
-#, fuzzy
-#| msgid "Confirm deleting all translation memory entries"
 msgid "Remove selected translation memory entries"
-msgstr "Потвърдете изтриването на всички записи в паметта за преводи"
+msgstr "Премахване на избраните записи от паметта за преводи"
 
 #: weblate/templates/translate.html:582 weblate/trans/forms.py:1167
 msgid "New comment"
@@ -14399,16 +14374,13 @@ msgid "Automatically translated"
 msgstr "Автоматично преведено"
 
 #: weblate/templates/translate.html:738
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "Този низ е бил преведен автоматично от %(author)s."
+msgstr "Този низ е бил преведен автоматично."
 
 #: weblate/templates/translate.html:740
-#, fuzzy, python-format
-#| msgid "This string was translated automatically by %(author)s."
+#, python-format
 msgid "This string was translated automatically using %(author)s."
-msgstr "Този низ е бил преведен автоматично от %(author)s."
+msgstr "Този низ е бил преведен автоматично ползвайки %(author)s."
 
 #: weblate/templates/translate.html:742
 #, python-format
@@ -15243,10 +15215,9 @@ msgid "Screenshot image is missing."
 msgstr "Липсва екранна снимка."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Неуспешен анализ на файла „%(file)s“: %(error)s"
+msgstr "Екранната снимка %(name)s не може да бъде възстановена: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -15990,10 +15961,8 @@ msgid "Specify configuration manually"
 msgstr "Посочете конфигурацията ръчно"
 
 #: weblate/trans/forms.py:2330
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The category does not belong to the selected project."
-msgstr "Категорията не принадлежи на този проект."
+msgstr "Категорията не принадлежи на избрания проект."
 
 #: weblate/trans/forms.py:2451
 msgid ""
@@ -17199,10 +17168,9 @@ msgid "Unrecognized base file for new translations."
 msgstr "Неразпознат базов файл за новите преводи."
 
 #: weblate/trans/models/component.py:3438
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Adding and removing strings is not supported with this file format."
-msgstr "Редактирането на шаблони не се поддържа при този файлов формат."
+msgstr ""
+"Добавянето и премахването на низове не се поддържа при този файлов формат."
 
 #: weblate/trans/models/component.py:3443
 msgid "Editing template is not supported with this file format."
@@ -17261,24 +17229,21 @@ msgid "Could not update repository: %s"
 msgstr "Неуспешно обновяване на хранилището: %s"
 
 #: weblate/trans/models/component.py:3549
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Pull and push branches cannot be the same when using pull/merge requests and "
 "not pushing to a fork."
 msgstr ""
-"При създаване на заявка за сливане не е възможно клонът, от който се изтегля "
-"да е същия като този, към който се праща."
+"При създаване на заявка за изтегляне/сливане, която не е насочена към "
+"копирано хранилище, не е възможно клонът, от който се изтегля или към който "
+"се изпраща, да е един и същ."
 
 #: weblate/trans/models/component.py:3555
-#, fuzzy
-#| msgid "Push branch cannot be empty when using merge requests."
 msgid ""
 "Push branch cannot be empty when using pull/merge requests and not pushing "
 "to a fork."
 msgstr ""
 "Клонът за изпращане не може да бъде празен при използването на заявки за "
-"сливане."
+"изтегляне/сливане, които не са насочени към копирано хранилище."
 
 #: weblate/trans/models/component.py:3565
 #, python-format
@@ -17309,10 +17274,9 @@ msgstr ""
 "регулярен израз."
 
 #: weblate/trans/models/component.py:3654 weblate/utils/validators.py:102
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid "The regular expression is too complex and took too long to evaluate."
-msgstr "Регулярният израз не може да открива съвпадения с празни низове."
+msgstr ""
+"Регулярният израз е твърде сложен и отне твърде много време да се изпълни."
 
 #: weblate/trans/models/component.py:3672 weblate/trans/models/workflow.py:59
 msgid "Accepting suggestions automatically only works with voting turned on."
@@ -17361,10 +17325,8 @@ msgid "The given language already exists."
 msgstr "Езикът вече съществува."
 
 #: weblate/trans/models/component.py:4196
-#, fuzzy
-#| msgid "The given language already exists."
 msgid "The language filter timed out."
-msgstr "Езикът вече съществува."
+msgstr "Времето за изчакване на езиковия филтър изтече."
 
 #: weblate/trans/models/component.py:4200
 msgid "The given language is filtered by the language filter."
@@ -18678,10 +18640,8 @@ msgstr[1] ""
 
 #: weblate/utils/files.py:111 weblate/utils/files.py:121
 #: weblate/utils/validators.py:127
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Изображението е твърде голямо."
+msgstr "Каченият файл е твърде голям."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18734,15 +18694,12 @@ msgstr ""
 "език."
 
 #: weblate/utils/requests.py:439
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Изображението не може да бъде свалено от посочения адрес (Код на грешката на "
-"HTTP: %(code)s)."
+"Файлът не може да бъде свалено от посочения адрес (Код на грешката на HTTP: %"
+"(code)s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
