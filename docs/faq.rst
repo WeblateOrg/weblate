@@ -52,13 +52,29 @@ actions.
 
 .. note::
 
+   Weblate uses shallow clones by default to reduce cloning time and disk
+   usage. Because of this, the workflow below works best when you start from an
+   up-to-date checkout of the upstream repository. If you clone directly from
+   the exported Weblate repository, or if your upstream checkout is missing
+   recent commits, ``git remote update weblate`` can fail with errors such as
+   ``warning: no common commits``, ``bad revision``, or missing objects. This
+   does not necessarily mean that Weblate and the upstream repository have
+   conflicting changes. Administrators who want to make this workflow more
+   reliable can adjust :setting:`VCS_CLONE_DEPTH`.
+
+.. note::
+
    Depending on your setup, access to the Weblate repository might require
    authentication. When using the built-in :ref:`git-exporter` in Weblate, you
    authenticate with your username and the API key.
 
+The workflow usually looks like this when you start from an up-to-date checkout
+of the upstream repository:
+
 .. code-block:: sh
 
-    # Open an existing checkout of the upstream repository or perform a fresh one:
+    # Open an existing up-to-date checkout of the upstream repository or perform
+    # a fresh one:
     git clone UPSTREAM_REPOSITORY_URL
     cd REPO
     # Commit all pending changes in Weblate, you can do this in the UI as well:

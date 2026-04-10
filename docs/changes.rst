@@ -30,6 +30,7 @@ Weblate 5.17
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 * :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is now available in Docker container to customize the Keycloak unique user identifier claim.
 * Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
+* Clarified merge-conflict documentation for exported repositories using shallow clones by default.
 * Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting internal or non-public addresses, :setting:`WEBHOOK_RESTRICT_PRIVATE` to reject webhook URLs targeting internal or non-public addresses, and :setting:`VCS_RESTRICT_PRIVATE` to reject repository and push URLs targeting internal or non-public addresses. These are exposed in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`.
 * Improved performance of :ref:`mt-weblate` lookups.
 * Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
