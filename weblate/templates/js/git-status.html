@@ -12,7 +12,7 @@
   <div class="card">
     <div class="card-header">
       <h4 class="card-title">
-        {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+        {% documentation_icon 'admin/continuous' 'repository-maintenance' right=True %}
         {% translate "Repository status" %}
       </h4>
     </div>
@@ -154,7 +154,7 @@
     <div class="card">
       <div class="card-header text-bg-danger">
         <h4 class="card-title">
-          {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+          {% documentation_icon 'admin/continuous' 'repository-maintenance' right=True %}
           {% translate "Danger zone" %}
         </h4>
       </div>
@@ -177,9 +177,9 @@
              data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Reset the Weblate repository and reapply translations" %}</h6>
           <p class="mb-0">
-            {% translate "Resets Weblate’s repository to match upstream and replace upstream translations with the current state from Weblate." %}
+            {% translate "Resets Weblate’s repository to match upstream and reapplies pending translations onto the reset repository state." %}
             {% translate "Use when you want Weblate to be the authority for translations." %}
-            {% translate "It will keep changes from Weblate but bring its repository in sync with the upstream repository." %}
+            {% translate "Missing language files must already exist upstream or Weblate must be able to create them for the component." %}
           </p>
         </li>
         <li class="list-group-item">
