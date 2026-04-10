@@ -119,8 +119,10 @@ def git_export(
                 "git_request": git_request,
             },
         )
+        query_string = request.GET.urlencode()
+        target = f"{url}?{query_string}" if query_string else url
         return redirect(
-            f"{url}?{request.META['QUERY_STRING']}",
+            target,
             permanent=True,
         )
 
