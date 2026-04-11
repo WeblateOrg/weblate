@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-05 01:45+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -1794,7 +1794,7 @@ msgstr "Normalizuj nagłówek POT"
 
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "Aktualizuje nagłówki gettext i zastępuje zastępcze komentarze POT."
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1809,63 +1809,59 @@ msgstr ""
 "zaktualizowaniu pliku POT."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Nie udało się dodać komentarza!"
+msgstr "Nie wyodrębniaj komentarzy"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Przeglądaj wszystkie komponenty"
+msgstr "Wyodrębnij wszystkie komentarze"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Wyodrębnij komentarze z tagiem"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Komentarze użytkownika"
+msgstr "Komentarze w kodzie"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Wybierz, czy xgettext powinien nie wyodrębnić komentarzy, wyodrębnić "
+"wszystkie komentarze, czy wyodrębnić tylko komentarze oznaczone określonym "
+"tagiem."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Tekst komentarza"
+msgstr "Tag komentarza"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Tag przekazywany do xgettext w celu wyodrębnienia komentarzy podczas "
+"używania trybu komentarzy z tagami."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Kontrola systemu"
+msgstr "Kontrole xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Dodatkowe walidacje xgettext do włączenia dla wyodrębnionych wiadomości."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Dodatkowa gałąź"
+msgstr "Dodatkowe słowo kluczowe"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Opcjonalne dodatkowe słowo kluczowe przekazywane do xgettext z użyciem --"
+"keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4734,16 +4730,12 @@ msgid "C format string does not match source."
 msgstr "Ciąg w formacie C nie pasuje do źródła."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Format Object Pascal"
+msgstr "Format Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Ciąg w formacie C nie pasuje do źródła."
+msgstr "Ciąg formatu Objective-C nie pasuje do źródła."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5693,6 +5685,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Push nie jest obsługiwany przez eksporter Weblate Git. Zamiast tego wykonaj "
+"push do repozytorium upstream."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5700,12 +5694,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Push nie jest obsługiwany przez eksporter Weblate Git. Zamiast tego wykonaj "
+"push do repozytorium upstream: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Żądana wersja nie jest dostępna w lokalnym repozytorium Git Weblate. Pobierz "
+"ją najpierw z repozytorium upstream."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5713,6 +5711,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Żądana wersja nie jest dostępna w lokalnym repozytorium Git Weblate. Pobierz "
+"ją najpierw z repozytorium upstream: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5720,6 +5720,9 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Płytki Git checkout w Weblate nie współdzieli wystarczająco dużo historii z "
+"tym repozytorium, aby pobieranie się powiodło. Najpierw pobierz dane z "
+"repozytorium upstream lub użyj klonu, który współdzieli historię z Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5729,16 +5732,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Płytki Git checkout w Weblate nie współdzieli wystarczająco dużo historii z "
+"tym repozytorium, aby pobieranie się powiodło. Najpierw pobierz dane z "
+"repozytorium upstream lub użyj klonu, który współdzieli historię z Weblate. "
+"Repozytorium upstream: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Eksport Git nie powiódł się."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Nie wspierany plik!"
+msgstr "Nieobsługiwana usługa Git."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -14099,6 +14104,11 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Wyeksportowane repozytorium Weblate może być domyślnie płytkie, wtedy ten "
+"przepływ pracy działa najlepiej z aktualnego checkoutu upstream. Klonowanie "
+"z wyeksportowanego repozytorium Weblate lub przy użyciu nieaktualnej wersji "
+"upstream może się nie powieść, nawet jeśli Weblate i upstream są "
+"zsynchronizowane. Szczegółowe informacje można znaleźć w poniższym FAQ."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -17402,16 +17412,14 @@ msgstr ""
 "wypychania do forka."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Gałąź repozytorium"
+msgstr "Nieprawidłowa gałąź repozytorium: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Nieprawidłowy szukany ciąg!"
+msgstr "Nieprawidłowa gałąź push: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -18086,10 +18094,8 @@ msgid "Very low"
 msgstr "Bardzo niski"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "Adres URL repozytorium kopii zapasowych"
+msgstr "URL repozytorium"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
