@@ -29,6 +29,9 @@ from weblate.vcs.base import (
     RepositoryError,
     RepositorySymlinkError,
     get_config_check_cache_key,
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+    should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
     AzureDevOpsRepository,
@@ -308,6 +311,26 @@ class GitBranchValidationTest(SimpleTestCase):
             "origin/main",
         )
         self.assertIsInstance(component.repository, GitRepository)
+
+
+class RepositoryHostKeyErrorTest(SimpleTestCase):
+    def test_changed_host_key_is_not_tofu_retry(self) -> None:
+        errormessage = (
+            "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!\n"
+            "Host key for kallithea-scm.org has changed and you have requested strict checking.\n"
+            "Host key verification failed.\n"
+        )
+
+        self.assertTrue(is_ssh_host_key_verification_error(errormessage))
+        self.assertTrue(is_ssh_host_key_mismatch_error(errormessage))
+        self.assertFalse(should_auto_add_ssh_host_key(errormessage))
+
+    def test_missing_host_key_can_still_use_tofu_retry(self) -> None:
+        errormessage = "No ED25519 host key is known for example.com.\nHost key verification failed.\n"
+
+        self.assertTrue(is_ssh_host_key_verification_error(errormessage))
+        self.assertFalse(is_ssh_host_key_mismatch_error(errormessage))
+        self.assertTrue(should_auto_add_ssh_host_key(errormessage))
 
 
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):

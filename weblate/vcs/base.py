@@ -40,6 +40,8 @@ if TYPE_CHECKING:
 
 LOGGER = logging.getLogger("weblate.vcs")
 
+SSH_HOST_KEY_VERIFICATION_FAILED = "Host key verification failed"
+
 
 def get_config_check_cache_key(component_pk: int) -> str:
     """Build cache key for repository configuration refresh."""
@@ -72,6 +74,28 @@ class RepositoryError(Exception):
 
 class RepositorySymlinkError(ValueError):
     """Raised when symlink resolution fails due to links outside the repository tree or excessive symlink depth."""
+
+
+def is_ssh_host_key_verification_error(errormessage: str) -> bool:
+    """Detect SSH host key verification failures."""
+    return SSH_HOST_KEY_VERIFICATION_FAILED.lower() in errormessage.lower()
+
+
+def is_ssh_host_key_mismatch_error(errormessage: str) -> bool:
+    """Detect SSH host key mismatch warnings for changed remote identities."""
+    normalized = errormessage.lower()
+    return (
+        "remote host identification has changed" in normalized
+        or "possible dns spoofing detected" in normalized
+        or ("host key for" in normalized and "has changed" in normalized)
+    )
+
+
+def should_auto_add_ssh_host_key(errormessage: str) -> bool:
+    """Allow TOFU host key acceptance only for first-seen hosts."""
+    return is_ssh_host_key_verification_error(
+        errormessage
+    ) and not is_ssh_host_key_mismatch_error(errormessage)
 
 
 class Repository:

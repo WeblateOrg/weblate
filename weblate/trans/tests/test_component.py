@@ -8,13 +8,15 @@ from __future__ import annotations
 
 import os
 import pathlib
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.exceptions import ValidationError
 from django.db.models import F
+from django.test import SimpleTestCase
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 
@@ -34,17 +36,23 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.tests.utils import clear_users_cache, create_test_user
 from weblate.utils.files import remove_tree
-from weblate.utils.state import (
-    STATE_EMPTY,
-    STATE_READONLY,
-    STATE_TRANSLATED,
-)
+from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
+from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.utils.state import (
         StringState,
     )
+
+HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+remote: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+remote: The fingerprint for the ED25519 key sent by the remote host is
+remote: SHA256:iNmxXxZ8bWlHaurIAg+U/F0CnxJ5yEZECKlMeFJcB8E.
+remote: Host key for kallithea-scm.org has changed and you have requested strict checking.
+remote: Host key verification failed.
+"""
 
 
 class ComponentTest(RepoTestCase):
@@ -1684,6 +1692,57 @@ class LinkedResetDiskStateTest(RepoViewLiteTestCase):
             )
 
         mock_signal.assert_called_once_with(self.component, store_hash=False)
+
+
+class ComponentHostKeyHandlingTest(SimpleTestCase):
+    def test_handle_update_error_host_key_mismatch(self) -> None:
+        component = SimpleNamespace(
+            add_ssh_host_key=Mock(),
+            get_ssh_host_key_error_message=Component.get_ssh_host_key_error_message,
+            get_ssh_host_key_mismatch_error_message=(
+                Component.get_ssh_host_key_mismatch_error_message
+            ),
+        )
+
+        with self.assertRaises(ValidationError) as cm:
+            Component.handle_update_error(
+                component,
+                HOST_KEY_MISMATCH_ERROR,
+                retry=True,  # type: ignore[arg-type]
+            )
+
+        component.add_ssh_host_key.assert_not_called()
+        self.assertEqual(
+            cm.exception.message_dict["repo"],
+            [
+                "The SSH host key for the repository has changed. Verify the new fingerprint and replace the stored host key on the SSH page in the admin interface."
+            ],
+        )
+
+    def test_repo_needs_push_host_key_mismatch_skips_tofu_retry(self) -> None:
+        component = SimpleNamespace(
+            repository=Mock(
+                needs_push=Mock(
+                    side_effect=RepositoryError(255, HOST_KEY_MISMATCH_ERROR)
+                )
+            ),
+            error_text=Mock(return_value=HOST_KEY_MISMATCH_ERROR),
+            add_alert=Mock(),
+            add_ssh_host_key=Mock(),
+            push_branch="main",
+            project=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.report_error") as mocked_report:
+            self.assertFalse(
+                Component.repo_needs_push(component)  # type: ignore[arg-type]
+            )
+
+        component.add_ssh_host_key.assert_not_called()
+        component.add_alert.assert_called_once_with(
+            "PushFailure", error=HOST_KEY_MISMATCH_ERROR
+        )
+        mocked_report.assert_called_once()
 
 
 class LinkedEditTest(ViewTestCase):
