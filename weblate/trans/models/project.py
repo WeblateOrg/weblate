@@ -468,17 +468,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def languages(self) -> Iterable[Language]:
         """Return list of all languages used in project."""
-        return (
-            Language.objects.filter(
-                Q(translation__component__project=self)
-                | Q(translation__component__links=self)
-            )
-            .distinct()
-            .order()
-        )
+        return Language.objects.filter(pk__in=self._get_language_ids_queryset()).order()
 
-    def get_languages_count(self) -> int:
-        """Return count of all languages used in project."""
+    def _get_language_ids_queryset(self) -> QuerySet:
         from weblate.trans.models import Translation
 
         own = Translation.objects.filter(component__project=self).values_list(
@@ -488,9 +480,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             "language_id", flat=True
         )
         # Keep the own/shared branches separate. PostgreSQL can plan this much
-        # better than the equivalent LEFT JOIN + OR predicate used by
-        # Project.languages.count() on large projects with shared components.
-        return own.union(shared).count()
+        # better than the equivalent LEFT JOIN + OR predicate used by the
+        # language listing on large projects with shared components.
+        return own.union(shared)
+
+    def get_languages_count(self) -> int:
+        """Return count of all languages used in project."""
+        return self._get_language_ids_queryset().count()
 
     @property
     def count_pending_units(self) -> int:
