@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-05 01:45+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1698,7 +1698,7 @@ msgstr "正常化 POT 标头"
 
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "更新 gettext 标头并替换占位符 POT 注释。"
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1711,63 +1711,51 @@ msgid ""
 msgstr "确保安装了 msgmerge 附加组件并在更新 POT 文件后触发它。"
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "无法添加评论！"
+msgstr "不提取注释"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "浏览所有部件"
+msgstr "提取所有注释"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "提取带标签的注释"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "用户注释"
+msgstr "代码注释"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
-msgstr ""
+msgstr "选择 xgettext 是不提取注释、提取所有注释，还是只提取特定标签标记的注释。"
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "评论文本"
+msgstr "注释标签"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
-msgstr ""
+msgstr "使用标签注释模式时为提取注释而传递给 xgettext 的标签。"
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "系统检查"
+msgstr "xgettext 检查"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr ""
+msgstr "要为提取的消息而启用的额外的 xgettext 验证检查。"
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "其他分支"
+msgstr "附加关键词"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
-msgstr ""
+msgstr "用 --keyword 传递给 xgettext 的可选的附加关键词。"
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4505,16 +4493,12 @@ msgid "C format string does not match source."
 msgstr "C 格式的字符串与原文不匹配。"
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Object Pascal 格式"
+msgstr "Objective-C 格式"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "C 格式的字符串与原文不匹配。"
+msgstr "Objective-C 格式的字符串与原文不匹配。"
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5443,20 +5427,20 @@ msgstr "应用商店元数据文件"
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
-msgstr ""
+msgstr "不支持通过 Weblate Git 导出工具进行推送，请推送到上游仓库。"
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
-msgstr ""
+msgstr "不支持通过 Weblate Git 导出工具进行推送，请推送到上游仓库：{location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
-msgstr ""
+msgstr "Weblate 的本地 Git checkout 中没有所请求的 revision。请先从上游仓库获取它。"
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5464,6 +5448,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Weblate 的本地 Git checkout 中没有所请求的 revision。请先从上游仓库获取它："
+"{location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5471,6 +5457,8 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Weblate 的浅 Git checkout 没和这个仓库共享足够的历史记录来满足获取。请先从上"
+"游仓库获取，或使用和 Weblate 共享历史记录的克隆。"
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5480,16 +5468,16 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Weblate 的浅 Git checkout 没和这个仓库共享足够的历史记录来满足获取。请先从上"
+"游仓库获取，或使用和 Weblate 共享历史记录的克隆：{location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Git 导出失败。"
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "不支持的文件！"
+msgstr "不支持的 Git 服务。"
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -13320,6 +13308,9 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"导出的 Weblate 仓库默认可能是 shallow 类型，因而此工作流对最新的上游 "
+"checkout 效果最佳。即使当 Weblate 和上游仓库同步，从导出的 Weblate 仓库进行克"
+"隆或使用过时的上游 checkout 也可能失败。详见 FAQ。"
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -16438,16 +16429,14 @@ msgid ""
 msgstr "使用拉取/合并请求并且不推送到 fork 时，推送分支不能为空。"
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "仓库分支"
+msgstr "无效的仓库分支：%s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "搜索的字符无效！"
+msgstr "无效的推送分支：%s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -17072,10 +17061,8 @@ msgid "Very low"
 msgstr "极低"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "备份仓库 URL"
+msgstr "仓库 URL"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
