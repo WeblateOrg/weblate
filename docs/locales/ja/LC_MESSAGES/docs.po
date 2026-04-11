@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-11 01:24+0000\n"
+"PO-Revision-Date: 2026-04-11 05:52+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -385,6 +385,12 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
+"同様の招待は、サイト全体でも :ref:`管理画面 <management-interface>` の "
+":guilabel:`ユーザー` タブから使用できます。プロジェクト管理者とサイト管理者は"
+"、空白で区切った複数のメールアドレスを貼り付けることで、複数ユーザーを一度に"
+"招待することもできます。一度の一括操作で作成されたすべての招待には、選択した"
+"チームが適用され、サイト全体の一括招待では選択したスーパーユーザー権限も適用"
+"されます。"
 
 #: admin/access.rst:188
 msgid ""
@@ -392,6 +398,8 @@ msgid ""
 "with an already pending invitation are skipped while valid invitations are "
 "still created and sent."
 msgstr ""
+"一括招待は個別に処理されます。無効なアドレスや、既に保留中の招待がある"
+"メールアドレスは除外されますが、有効な招待は引き続き作成して送信されます。"
 
 #: admin/access.rst:194
 msgid ""
@@ -965,6 +973,8 @@ msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
+"ユーザーインターフェイスからの一括招待では、招待メールが作成されます。既存の"
+"ユーザーは、チームメンバーになる前に招待を承認することが必要です。"
 
 #: admin/access.rst:481
 msgid "Default teams and roles"
@@ -2576,15 +2586,11 @@ msgid "Project level backups"
 msgstr "プロジェクト レベルのバックアップ"
 
 #: admin/backup.rst:15
-#, fuzzy
-#| msgid ""
-#| "Restoring backups is only supported when using PostgreSQL or MariaDB "
-#| "10.5+ as a database."
 msgid ""
 "Restoring backups is only supported when using PostgreSQL as a database."
 msgstr ""
-"バックアップの復元は、PostgreSQL または MariaDB 10.5 以降をデータベースとして"
-"使用する場合にのみ対応しています。"
+"バックアップの復元は、をデータベースとして PostgreSQL を使用する場合にのみ対"
+"応しています。"
 
 #: admin/backup.rst:17
 msgid ""
@@ -2638,6 +2644,10 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"アップロードされたプロジェクトのバックアップのインポート検証は"
+"、:setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`、:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`、:setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`、"
+"および :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO` を使用して"
+"調整できます。"
 
 #: admin/backup.rst:41
 msgid ""
@@ -2678,14 +2688,8 @@ msgstr ""
 "` タブから管理します。"
 
 #: admin/backup.rst:63
-#, fuzzy
-#| msgid ""
-#| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
-#| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
-msgstr ""
-"PostgreSQL と MySQL/MariaDB の両方のデータベースが自動バックアップに含まれて"
-"います。"
+msgstr "PostgreSQL データベースは自動バックアップに含まれています。"
 
 #: admin/backup.rst:65
 msgid ""
@@ -3076,21 +3080,15 @@ msgid "Native database backup"
 msgstr "データベース自身でバックアップ"
 
 #: admin/backup.rst:261
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
-"推奨する方法は、:program:`pg_dump` や :program:`mysqldump` などのデータベース"
-"に搭載しているツールを使用して、データベースのダンプを保存することです。これ"
-"は通常 Django のバックアップよりも性能が良く、テーブルをすべてのデータと共に"
-"完全に復元できます。"
+"推奨する方法は、:program:`pg_dump` などのデータベースに搭載しているツールを使"
+"用して、データベースのダンプを保存することです。これは通常 Django の"
+"バックアップよりも性能が良く、すべてのデータを含む完全なテーブルを復元できま"
+"す。"
 
 #: admin/backup.rst:265
 msgid ""
@@ -3425,15 +3423,12 @@ msgstr ""
 "してください。"
 
 #: admin/checks.rst:40
-#, fuzzy
-#| msgid ""
-#| "Translation flags (currently only ``read-only`` flag for bilingual source "
-#| "string)."
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string or when monolingual template editing is turned off)."
 msgstr ""
-"翻訳フラグ（現在のところ、バイリンガルの原文の ``read-only`` フラグのみ）。"
+"翻訳フラグ（現在のところ、原文がバイリンガルの場合、またはモノリンガルの"
+"テンプレート編集が無効になっている場合の ``read-only`` フラグのみ）。"
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
@@ -3893,6 +3888,8 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
+"許可リストは、初期 URL と、Weblate がそれに従う前のすべての HTTP リダイレクト"
+"先に適用されます。許可リスト外のホストへのリダイレクトは拒否されます。"
 
 #: admin/config.rst:58
 msgid ""
@@ -3907,10 +3904,8 @@ msgstr ""
 "は ``cdn.example.com`` や ``static.example.com`` に一致します）。"
 
 #: admin/config.rst:62
-#, fuzzy
-#| msgid "Defaults to `[*]` which will allow all domains."
 msgid "Defaults to ``[\"*\"]``, which allows all domains."
-msgstr "デフォルトは `[*]` で、すべてのドメインを許可します。"
+msgstr "デフォルトは ``[\"*\"]`` で、すべてのドメインを許可します。"
 
 #: admin/config.rst:64
 msgid "**Example**"
@@ -3925,44 +3920,37 @@ msgid "Screenshot uploads, see :ref:`screenshots`"
 msgstr "スクリーンショットのアップロード。参照: :ref:`screenshots`。"
 
 #: admin/config.rst:78
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
-msgstr ":ref:`addon-weblate.cdn.cdnjs` の設定。"
+msgstr ":ref:`addon-weblate.cdn.cdnjs` アドオンによるリモート HTML のダウンロード"
 
 #: admin/config.rst:89
 msgid ""
 "Configures which custom machinery domains are explicitly allowed in project-"
 "level machine translation configuration."
 msgstr ""
+"プロジェクト レベルの機械翻訳設定で、どのカスタム機械翻訳ドメインを明示的に許"
+"可するかを設定します。"
 
 #: admin/config.rst:92
 msgid ""
 "This setting applies only to machinery services and does not "
 "affect :setting:`ALLOWED_ASSET_DOMAINS`."
 msgstr ""
+"この設定は機械翻訳サービスにのみ適用され、:setting:`ALLOWED_ASSET_DOMAINS` に"
+"は影響しません。"
 
 #: admin/config.rst:95
-#, fuzzy
-#| msgid ""
-#| "It expects a list of host/domain names. You can use fully qualified names "
-#| "(e.g ``www.example.com``) or prepend with a period as a wildcard to match "
-#| "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
-#| "``static.example.com``)."
 msgid ""
 "It expects a list of host/domain names. You can use fully qualified names or "
 "prepend with a period as a wildcard to match all subdomains."
 msgstr ""
-"ホスト名またはドメイン名のリストが必要です。完全修飾名（例: "
-"``www.example.com``）を使用するか、ピリオドを先頭に付けてワイルドカードとして"
-"使用し、すべてのサブドメインに一致させることもできます（例: ``.example.com`` "
-"は ``cdn.example.com`` や ``static.example.com`` に一致します）。"
+"これはホスト名 / ドメイン名のリストを想定しています。完全修飾名を使用すること"
+"も、先頭にピリオドを付けてワイルドカードとして扱い、すべてのサブドメインに一"
+"致させることもできます。"
 
 #: admin/config.rst:98
-#, fuzzy
-#| msgid "Defaults to ``True``."
 msgid "Defaults to ``[]``."
-msgstr "デフォルトは ``True`` です。"
+msgstr "デフォルトは ``[]`` です。"
 
 #: admin/config.rst:100
 msgid ""
@@ -3975,15 +3963,19 @@ msgid ""
 "hostname validation and does not perform the same local DNS or peer-IP "
 "checks."
 msgstr ""
+"許可リストは、プロジェクト管理下の機械翻訳に対して 2 つの方法で影響を与えます"
+"。送信時の検証で設定されたエンドポイントを許可し、リモートプロバイダーの"
+"エラー詳細やレスポンス本文をユーザーに表示できるかを判断する際に、一致する"
+"ホストを信頼済みとして扱います。直接接続の場合、実行時チェックでは、"
+"プライベートアドレスや非公開アドレスに解決される宛先は引き続き拒否されます。"
+"HTTP(S) プロキシを使用する場合、実行時検証はホスト名の検証にフォールバックし"
+"、ローカル DNS やピア IP の同様のチェックは行いません。"
 
 #: admin/config.rst:115
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
 msgid ""
 "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgstr ""
-"Weblate でアセットを取得する際のサイズ制限を設定します。デフォルトは 4 MB で"
+"Weblate でアセットを取得する際のサイズ制限を設定します。デフォルトは 10 MB で"
 "す。"
 
 #: admin/config.rst:128
@@ -5272,18 +5264,24 @@ msgid ""
 "Defines the maximum number of ZIP entries allowed when importing a project "
 "backup."
 msgstr ""
+"プロジェクトのバックアップをインポートする際に許可される ZIP エントリの最大数"
+"を定義します。"
 
 #: admin/config.rst:1585
 msgid ""
 "This is a safeguard against malformed or intentionally fragmented archives. "
 "Defaults to 100000 entries."
 msgstr ""
+"これは、不正な形式のアーカイブや意図的に断片化されたアーカイブに対する安全策"
+"です。既定値は 100000 エントリです。"
 
 #: admin/config.rst:1599
 msgid ""
 "Defines the maximum uncompressed size, in bytes, for a single highly "
 "compressed ZIP entry in an imported project backup."
 msgstr ""
+"インポートされたプロジェクトのバックアップ内で、単一の高圧縮 ZIP エントリに対"
+"して許可される非圧縮サイズ（バイト単位）の最大値を定義します。"
 
 #: admin/config.rst:1602
 msgid ""
@@ -5292,12 +5290,18 @@ msgid ""
 "allowed here and are expected to be constrained by the HTTP upload limit. "
 "Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
+"この制限は、十分に大きく、かつ高い圧縮率によって不審に見えるエントリにのみ適"
+"用されます。圧縮率の低い大きなファイルは意図的に許可されており、HTTP "
+"アップロード制限によって制約されることが想定されています。既定値は 262144000 "
+"バイト（250 MiB）です。"
 
 #: admin/config.rst:1618
 msgid ""
 "Defines the minimum uncompressed size, in bytes, at which Weblate starts "
 "considering the ZIP compression ratio during project backup import."
 msgstr ""
+"プロジェクトのバックアップのインポート時に、Weblate が ZIP の圧縮率を考慮し始"
+"める非圧縮サイズ（バイト単位）の最小値を定義します。"
 
 #: admin/config.rst:1621
 msgid ""
@@ -5305,6 +5309,9 @@ msgid ""
 "avoid rejecting reasonably sized files that compress well. Defaults to "
 "1048576 bytes (1 MiB)."
 msgstr ""
+"より小さいファイルは、圧縮率に基づく検証の対象外となります。これは、適切な"
+"サイズで高圧縮される正当なファイルが誤って拒否されるのを防ぐためです。既定値"
+"は 1048576 バイト（1 MiB）です。"
 
 #: admin/config.rst:1636
 msgid ""
@@ -47438,16 +47445,12 @@ msgid "Repository cleanup"
 msgstr "リポジトリのクリーンアップ"
 
 #: snippets/addons-autogenerated.rst:2026
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "アップロードでの文字列の追加"
+msgstr "アップロードで追加された原文"
 
 #: snippets/addons-autogenerated.rst:2028
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "リポジトリに文字列の追加"
+msgstr "リポジトリで追加された原文"
 
 #: snippets/basics.rst:2
 msgid "Weblate basics"
