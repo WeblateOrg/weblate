@@ -52,17 +52,17 @@ def finalize_component_checks(
         try:
             with transaction.atomic():
                 if unit_ids:
-                    units = component.source_translation.unit_set.filter(
-                        pk__in=unit_ids
-                    )
-                    unit_count = units.count()
-                    component.log_info(
-                        "running source checks for %d strings", unit_count
-                    )
-                    for unit in units.iterator(chunk_size=500):
-                        unit.translation.component = component
-                        unit.is_batch_update = True
-                        unit.run_checks()
+                    source_translation = component.get_source_translation()
+                    if source_translation is not None:
+                        units = source_translation.unit_set.filter(pk__in=unit_ids)
+                        unit_count = units.count()
+                        component.log_info(
+                            "running source checks for %d strings", unit_count
+                        )
+                        for unit in units.iterator(chunk_size=500):
+                            unit.translation.component = component
+                            unit.is_batch_update = True
+                            unit.run_checks()
                 if component.batched_checks:
                     _perform_batched_checks(component, list(component.batched_checks))
         finally:
