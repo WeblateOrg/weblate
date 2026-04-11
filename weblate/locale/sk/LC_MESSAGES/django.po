@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-02 14:15+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -600,17 +600,15 @@ msgstr "Používateľ bol odstránený z tímu {team} používateľom {username}
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Prístup k projektu {project} bol zablokovaný."
+msgstr "Token projektu {project} bol vytvorený."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Váš prekladateľský projekt bol odstránený"
+msgstr "Token projektu {project} bol odstránený."
 
 #: weblate/accounts/models.py:325
 msgid "Two-factor authentication recovery codes were generated"
@@ -696,10 +694,9 @@ msgid "Account activity"
 msgstr "Aktivita na účte"
 
 #: weblate/accounts/models.py:550
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Pozvánka do {project} od {username}."
+msgstr "Spustené používateľom {username}."
 
 #: weblate/accounts/models.py:644
 msgid "Interface Language"
@@ -1888,31 +1885,26 @@ msgid "POTFILES path"
 msgstr "Cesta k POTFILES"
 
 #: weblate/addons/forms.py:277
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"Cesta k súboru POTFILES alebo POTFILES.in relatívna k repozitáru. Položky "
-"budú spracované relatívne k danému súboru."
+"Cesta k súboru POTFILES alebo POTFILES.in relatívna k repozitáru. Položky sa "
+"vyhodnocujú relatívne ku koreňu repozitára. Ak sa vedľa manifestu nachádza "
+"súbor POTFILES.skip, vylúči z extrahovania uvedené súbory."
 
 #: weblate/addons/forms.py:340
 msgid "POTFILES path has to point to a file."
 msgstr "Cesta POTFILES musí smerovať na súbor."
 
 #: weblate/addons/forms.py:349
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Repozitár resetovaný"
+msgstr "Predvoľba Meson"
 
 #: weblate/addons/forms.py:350
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:354
 msgid ""
@@ -3288,14 +3280,12 @@ msgid "Team"
 msgstr "Tím"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "E-mailové adresy"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Zadajte jednu alebo viac e‑mailových adries oddelených medzerami."
 
 #: weblate/auth/forms.py:330
 #, python-format
