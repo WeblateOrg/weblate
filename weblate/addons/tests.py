@@ -15,6 +15,7 @@ import tempfile
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, cast
 from unittest.mock import patch
 
@@ -27,7 +28,7 @@ from django.core.management.commands.makemessages import (
     Command as DjangoMakemessagesCommand,
 )
 from django.core.management.utils import find_command
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -4305,7 +4306,54 @@ class AutoTranslateAddonTest(ViewTestCase):
                 "mode": "translate",
             },
         )
-        addon.component_update(self.component)
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+        )
+
+    def test_auto_change_event_normalizes_blank_component(self) -> None:
+        addon = AutoTranslateAddon.create(
+            project=self.project,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+
+        with patch(
+            "weblate.addons.autotranslate.auto_translate.delay_on_commit"
+        ) as mocked:
+            addon.trigger_autotranslate(
+                user_id=self.user.id,
+                translation_id=self.translation.id,
+                unit_ids=[1, 2],
+            )
+
+        mocked.assert_called_once_with(
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=self.user.id,
+            unit_ids=[1, 2],
+            translation_id=self.translation.id,
+        )
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_auto_change_event(self) -> None:
@@ -4344,6 +4392,70 @@ class AutoTranslateAddonTest(ViewTestCase):
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+
+
+class AutoTranslateAddonUnitTest(SimpleTestCase):
+    def test_trigger_autotranslate_normalizes_blank_component_for_translation_task(
+        self,
+    ) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            }
+        )
+
+        with patch(
+            "weblate.addons.autotranslate.auto_translate.delay_on_commit"
+        ) as mocked:
+            addon.trigger_autotranslate(user_id=1, translation_id=2, unit_ids=[3, 4])
+
+        mocked.assert_called_once_with(
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=1,
+            unit_ids=[3, 4],
+            translation_id=2,
+        )
+
+    def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
+        self,
+    ) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            }
+        )
+
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.trigger_autotranslate(component=SimpleNamespace(pk=123))
+
+        mocked.assert_called_once_with(
+            123,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+        )
 
 
 class BulkEditAddonTest(ViewTestCase):

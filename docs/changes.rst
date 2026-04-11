@@ -38,6 +38,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Fixed background failures in :ref:`addon-weblate.autotranslate.autotranslate`.
 * Git exporter now provides clearer push and missing-revision errors to authorized users.
 * Generated SSH wrapper scripts are now stored in :setting:`CACHE_DIR` instead of persistent SSH storage, and obsolete or stale wrappers are cleaned up during upgrade.
 * Hardened Git branch handling to reject invalid branch names before repository operations.

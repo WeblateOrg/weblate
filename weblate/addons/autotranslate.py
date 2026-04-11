@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict
 
 from django.conf import settings
 from django.utils import timezone
@@ -25,6 +25,15 @@ if TYPE_CHECKING:
     from weblate.trans.models import Change
 
 SKIP_ACTIONS = {ActionEvents.AUTO, ActionEvents.ENFORCED_CHECK}
+
+
+class AutoTranslateAddonConfiguration(TypedDict):
+    auto_source: Literal["mt", "others"]
+    component: int | None
+    engines: list[str]
+    mode: str
+    q: str
+    threshold: int
 
 
 class AutoTranslateAddon(BaseAddon):
@@ -48,6 +57,29 @@ class AutoTranslateAddon(BaseAddon):
     ) -> None:
         self.trigger_autotranslate(component=component)
 
+    def get_configuration(self) -> AutoTranslateAddonConfiguration:
+        configuration = self.instance.configuration
+        source_component_id = configuration["component"]
+        if not source_component_id:
+            source_component_id = None
+        elif source_component_id is not None and not isinstance(
+            source_component_id, int
+        ):
+            msg = (
+                "Automatic translation add-on component configuration must be an "
+                f"integer or None, got {source_component_id!r}"
+            )
+            raise ValueError(msg)
+
+        return {
+            "auto_source": configuration["auto_source"],
+            "component": source_component_id,
+            "engines": configuration["engines"],
+            "mode": configuration["mode"],
+            "q": configuration["q"],
+            "threshold": configuration["threshold"],
+        }
+
     def trigger_autotranslate(
         self,
         *,
@@ -56,7 +88,8 @@ class AutoTranslateAddon(BaseAddon):
         translation_id: int | None = None,
         unit_ids: list[int] | None = None,
     ) -> None:
-        conf = self.instance.configuration
+        conf = self.get_configuration()
+        source_component_id = conf["component"]
         if component is None:
             auto_translate.delay_on_commit(
                 mode=conf["mode"],
@@ -64,7 +97,7 @@ class AutoTranslateAddon(BaseAddon):
                 auto_source=conf["auto_source"],
                 engines=conf["engines"],
                 threshold=conf["threshold"],
-                source_component_id=conf["component"],
+                source_component_id=source_component_id,
                 user_id=user_id,
                 unit_ids=unit_ids,
                 translation_id=translation_id,
@@ -77,7 +110,7 @@ class AutoTranslateAddon(BaseAddon):
                 auto_source=conf["auto_source"],
                 engines=conf["engines"],
                 threshold=conf["threshold"],
-                source_component_id=conf["component"],
+                source_component_id=source_component_id,
             )
 
     def daily_component(
