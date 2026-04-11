@@ -477,6 +477,21 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             .order()
         )
 
+    def get_languages_count(self) -> int:
+        """Return count of all languages used in project."""
+        from weblate.trans.models import Translation
+
+        own = Translation.objects.filter(component__project=self).values_list(
+            "language_id", flat=True
+        )
+        shared = Translation.objects.filter(component__links=self).values_list(
+            "language_id", flat=True
+        )
+        # Keep the own/shared branches separate. PostgreSQL can plan this much
+        # better than the equivalent LEFT JOIN + OR predicate used by
+        # Project.languages.count() on large projects with shared components.
+        return own.union(shared).count()
+
     @property
     def count_pending_units(self) -> int:
         """Check whether there are any uncommitted changes."""

@@ -102,6 +102,22 @@ class ComponentLinkTestCase(ViewTestCase):
         self.assertEqual(project.stats.get_data(), other.stats.get_data())
         self.assertNotEqual(start_data, other.stats.get_data())
 
+    def test_stats_languages_count_with_shared_components(self) -> None:
+        """Project stats should count distinct languages across own and shared components."""
+        own_component = self.create_po(project=self.other, name="Other")
+
+        shared_language_ids = set(
+            self.component.translation_set.values_list("language_id", flat=True)
+        )
+        own_language_ids = set(
+            own_component.translation_set.values_list("language_id", flat=True)
+        )
+        self.assertEqual(shared_language_ids, own_language_ids)
+
+        other = Project.objects.get(pk=self.other.pk)
+        self.assertEqual(other.get_languages_count(), len(shared_language_ids))
+        self.assertEqual(other.stats.languages, len(shared_language_ids))
+
     def test_labels(self) -> None:
         self.other.label_set.create(name="test other", color="navy")
         self.project.label_set.create(name="test project", color="navy")
