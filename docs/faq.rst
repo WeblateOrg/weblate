@@ -68,6 +68,8 @@ actions.
    authentication. When using the built-in :ref:`git-exporter` in Weblate, you
    authenticate with your username and the API key.
 
+.. include:: /snippets/git-export-lfs-note.rst
+
 The workflow usually looks like this when you start from an up-to-date checkout
 of the upstream repository:
 

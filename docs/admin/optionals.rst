@@ -56,6 +56,8 @@ requires an API token which can be obtained in your
 
     git clone 'https://user:KEY@example.org/git/weblate/main/'
 
+.. include:: /snippets/git-export-lfs-note.rst
+
 .. hint::
 
    By default members or :guilabel:`Users` group and anonymous user have access

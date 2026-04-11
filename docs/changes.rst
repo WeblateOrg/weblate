@@ -70,6 +70,7 @@ Weblate 5.17
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
+* Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs.
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
 * Improved repository lock error handling when deleting units.
