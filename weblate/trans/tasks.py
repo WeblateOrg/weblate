@@ -17,7 +17,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Exists, F, OuterRef
 from django.http import Http404
@@ -632,28 +632,31 @@ def auto_translate(  # noqa: PLR0913
 ):
     result: dict[str, Any] = {}
     obj: Translation | Component | Category | ProjectLanguage
-    if translation_id is not None:
-        obj = Translation.objects.get(pk=translation_id)
-        result["translation"] = obj.id
-    elif component_id is not None:
-        obj = Component.objects.get(pk=component_id)
-        result["component"] = obj.id
-    elif category_id is not None:
-        obj = Category.objects.get(pk=category_id)
-        result["category"] = obj.id
-    elif project_id is not None:
-        if language_id is None:
-            msg = "language_id must be provided when project_id is given"
+    try:
+        if translation_id is not None:
+            obj = Translation.objects.get(pk=translation_id)
+            result["translation"] = obj.id
+        elif component_id is not None:
+            obj = Component.objects.get(pk=component_id)
+            result["component"] = obj.id
+        elif category_id is not None:
+            obj = Category.objects.get(pk=category_id)
+            result["category"] = obj.id
+        elif project_id is not None:
+            if language_id is None:
+                msg = "language_id must be provided when project_id is given"
+                raise ValueError(msg)
+            obj = ProjectLanguage(
+                project=Project.objects.get(pk=project_id),
+                language=Language.objects.get(pk=language_id),
+            )
+            result["project"] = obj.project.id
+            result["language"] = obj.language.id
+        else:
+            msg = "One of translation_id, component_id, category_id, or project_id must be provided"
             raise ValueError(msg)
-        obj = ProjectLanguage(
-            project=Project.objects.get(pk=project_id),
-            language=Language.objects.get(pk=language_id),
-        )
-        result["project"] = obj.project.id
-        result["language"] = obj.language.id
-    else:
-        msg = "One of translation_id, component_id, category_id, or project_id must be provided"
-        raise ValueError(msg)
+    except ObjectDoesNotExist:
+        return None
 
     user = User.objects.get(pk=user_id) if user_id else None
     with override(user.profile.language if user else "en"):
