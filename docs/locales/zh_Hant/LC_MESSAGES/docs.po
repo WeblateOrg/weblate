@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-10 10:49+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -3212,7 +3212,7 @@ msgid ""
 "what you can skip in detail."
 msgstr ""
 "如果您有足夠的備份空間，只需備份整個 :setting:`DATA_DIR`。這是一個安全帶，即"
-"使它包含一些您不想要的檔案。下面的部分詳細描述了應該備份和可以跳過的內容。"
+"使它包含一些您不想要的檔案。下面的部分詳細描述了應該備份和可以略過的內容。"
 
 #: admin/backup.rst:303
 msgid "Dumped data for backups"
@@ -3261,7 +3261,7 @@ msgid ""
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "資料庫備份預設儲存為純文字，但也可以透過 :setting:`DATABASE_BACKUP` 來進行壓"
-"縮或整個跳過。"
+"縮或整個略過。"
 
 #: admin/backup.rst:323
 #, fuzzy
@@ -4489,7 +4489,7 @@ msgstr "預設為 ``/home/weblate/data``，但預期需要被設定。"
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
-msgstr "資料庫備份應該儲存為純文字，壓縮還是跳過。授權值為："
+msgstr "資料庫備份應該儲存為純文字，壓縮還是略過。授權值為："
 
 #: admin/config.rst:566
 #, fuzzy
@@ -7787,10 +7787,8 @@ msgid "Hosted Weblate integration"
 msgstr "Hosted Weblate 整合"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "wsgi server for Weblate"
-msgstr "探索 Weblate"
+msgstr "Weblate wsgi 伺服器"
 
 #: admin/install.rst:277
 msgid ""
@@ -9850,10 +9848,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:73
-#, fuzzy
-#| msgid "Choosing Docker hub tag"
 msgid "Choosing Docker image tag"
-msgstr "選擇 Docker hub 標籤"
+msgstr "選擇 Docker 映像標籤"
 
 #: admin/install/docker.rst:75
 msgid "Please choose a tag that matches your environment and expectations:"
@@ -11618,13 +11614,8 @@ msgid ""
 msgstr "預設情況下，平行工作人員的數量基於 :envvar:`WEBLATE_WORKERS`。"
 
 #: admin/install/docker.rst:2051
-#, fuzzy
-#| msgid ""
-#| ":doc:`Celery worker options <celery:reference/"
-#| "celery.bin.worker>`, :ref:`celery`"
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
-msgstr ""
-":doc:`Celery worker 選項 <celery:reference/celery.bin.worker>`, :ref:`celery`"
+msgstr ":doc:`Celery worker 選項 <celery:reference/celery.bin.worker>`"
 
 #: admin/install/docker.rst:2058
 msgid ""
@@ -12536,10 +12527,8 @@ msgstr ""
 "和 Web 伺服器）上執行 Weblate 所需的最低配置："
 
 #: admin/install/steps/hw.rst:8
-#, fuzzy
-#| msgid "2 GB of RAM"
 msgid "3 GB of RAM"
-msgstr "2 GB 的記憶體"
+msgstr "3 GB 的記憶體"
 
 #: admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -12999,16 +12988,12 @@ msgstr ""
 "用 :djadmin:`setuplang` 來強制更新資料庫，從而匹配 Weblate 內建資料。"
 
 #: admin/languages.rst:27
-#, fuzzy
-#| msgid ""
-#| "The language definitions are in the `weblate-language-data repository "
-#| "<https://github.com/WeblateOrg/language-data/>`_."
 msgid ""
 "`Current language definitions <https://github.com/WeblateOrg/language-data/"
 "blob/main/languages.csv>`_"
 msgstr ""
-"語言定義是在`weblate-language-data儲存庫中<https://github.com/weblateorg/"
-"anguage-data/>`_。"
+"`當前語言定義 <https://github.com/WeblateOrg/language-data/blob/main/"
+"languages.csv>`_"
 
 #: admin/languages.rst:32
 msgid "Parsing language codes"
@@ -13117,10 +13102,8 @@ msgid ""
 msgstr ""
 
 #: admin/languages.rst:88
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language codes and macrolanguages"
-msgstr "語言代碼"
+msgstr "模稜兩可的語言代碼和巨集語言"
 
 #: admin/languages.rst:90
 #, fuzzy
@@ -13566,7 +13549,7 @@ msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
 msgstr ""
-"從文件匯入翻譯，來作為給定翻譯的建議來使用。它跳過了複製翻譯的步驟；只會新增"
+"從文件匯入翻譯，來作為給定翻譯的建議來使用。它略過了複製翻譯的步驟；只會新增"
 "不同的內容。"
 
 #: admin/management.rst:106
@@ -13987,10 +13970,8 @@ msgid "Lists all Weblate dependencies and their versions."
 msgstr "列出所有 Weblate 相依及其版本。"
 
 #: admin/management.rst:802
-#, fuzzy
-#| msgid "File format"
 msgid "Lists File format parameters."
-msgstr "檔案格式"
+msgstr "列出檔案格式參數。"
 
 #: admin/management.rst:809
 msgid "Lists all possible change event types."
@@ -15642,9 +15623,8 @@ msgstr ""
 "gettext 定義域），則您需要為每個檔案建立組件。"
 
 #: admin/projects.rst:511
-#, fuzzy
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
-msgstr "例如``po/*.po`` 或 ``locale/*/LC_MESSAGES/django.po``。"
+msgstr "例如 ``po/*.po`` 或 ``locale/*/LC_MESSAGES/django.po``。"
 
 #: admin/projects.rst:513
 #, fuzzy
@@ -17557,8 +17537,8 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
-"在升級前務必查看 :ref:`version-specific-instructions`。在您跳過一些版本的情況"
-"下，請務必遵從在升級中您所跳過的所有版本的指示。有時最好升級到一些中間版本以"
+"在升級前務必查看 :ref:`version-specific-instructions`。在您略過一些版本的情況"
+"下，請務必遵從在升級中您所略過的所有版本的指示。有時最好升級到一些中間版本以"
 "確保順利遷移。跨多個發行版本的升級應該可行，但還沒有像單一版本升級一樣經過充"
 "分測試！"
 
@@ -17689,7 +17669,7 @@ msgid ""
 "latest patch level for the initial major release. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
-"如果從 2.x 發佈版本升級，首先總是升級到 3.0.1，然後繼續在 3.x 系列中升級。跳"
+"如果從 2.x 發佈版本升級，首先總是升級到 3.0.1，然後繼續在 3.x 系列中升級。略"
 "過這步的升級不被支援，並且會中斷。"
 
 #: admin/upgrade.rst:128
@@ -17701,7 +17681,7 @@ msgstr ""
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
 msgstr ""
-"如果從 2.x 發佈版本升級，首先總是升級到 3.0.1，然後繼續在 3.x 系列中升級。跳"
+"如果從 2.x 發佈版本升級，首先總是升級到 3.0.1，然後繼續在 3.x 系列中升級。略"
 "過這步的升級不被支援，並且會中斷。"
 
 #: admin/upgrade.rst:129
@@ -17714,7 +17694,7 @@ msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
 msgstr ""
 "如果從 3.x 發佈版本升級，首先總是升級到 4.0.4 或 4.1.1，然後繼續在 4.x 系列中"
-"升級。跳過這步的升級不被支援，並且會中斷。"
+"升級。略過這步的升級不被支援，並且會中斷。"
 
 #: admin/upgrade.rst:130
 #, fuzzy
@@ -17726,7 +17706,7 @@ msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
 msgstr ""
 "如果從 3.x 發佈版本升級，首先總是升級到 4.0.4 或 4.1.1，然後繼續在 4.x 系列中"
-"升級。跳過這步的升級不被支援，並且會中斷。"
+"升級。略過這步的升級不被支援，並且會中斷。"
 
 #: admin/upgrade.rst:134
 #, fuzzy
@@ -18755,7 +18735,7 @@ msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 #, fuzzy
 #| msgid "Skip the \"Punctuation spacing\" quality check."
 msgid ":ref:`check-punctuation-spacing` better handles XML markup."
-msgstr "跳過“標點間距”品質檢查。"
+msgstr "略過“標點間距”品質檢查。"
 
 #: changes.rst:132
 msgid ":doc:`/formats/stringsdict` better handle some plurals."
@@ -18768,10 +18748,8 @@ msgid "Improved plurals handling for language variants."
 msgstr "改進了長語言名稱的處理。"
 
 #: changes.rst:134
-#, fuzzy
-#| msgid "Project access control"
 msgid "Fixed API access control."
-msgstr "專案存取控制"
+msgstr "已修復 API 存取控制。"
 
 #: changes.rst:136
 msgid "Users can manage their own notification subscriptions via the API."
@@ -19546,7 +19524,7 @@ msgstr "Docker 容器安全"
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid ":ref:`check-icu-message-format` correctly handles implicit plurals."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes.rst:412
 msgid ""
@@ -19944,7 +19922,7 @@ msgstr "使用者對象屬性被歸檔在 :http:get:`/api/users/(str:username)/`
 #, fuzzy
 #| msgid "Skip the \"Markdown references\" quality check."
 msgid ":ref:`check-rst-references` allows translatable reference names."
-msgstr "跳過“ Markdown 引用”品質檢查。"
+msgstr "略過“ Markdown 引用”品質檢查。"
 
 #: changes.rst:560
 msgid ":ref:`file_format_params` were not properly applied in some situations."
@@ -20458,7 +20436,7 @@ msgstr "在給定組件中新增新的翻譯。"
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid ":ref:`search-replace` correctly handles plurals."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes.rst:749
 msgid "The projects and categories default tab now shows translated languages."
@@ -20576,10 +20554,8 @@ msgid "Django 5.2 compatibility."
 msgstr "Django 5.2 相容性。"
 
 #: changes.rst:820
-#, fuzzy
-#| msgid "Avoid repeated words and characters."
 msgid "Avoid repeated glossary synchronizations."
-msgstr "請避免重複使用單字或字元。"
+msgstr "避免重複的詞彙表同步。"
 
 #: changes.rst:830
 #, fuzzy
@@ -21156,7 +21132,7 @@ msgstr ":ref:`mt-microsoft-translator`"
 msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes.rst:1051
 msgid ""
@@ -21186,7 +21162,7 @@ msgstr "一般佔位符號的檢查現在支援了正規表達式。"
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes.rst:1059
 #, fuzzy
@@ -21237,7 +21213,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Skip the \"Punctuation spacing\" quality check."
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
-msgstr "跳過“標點間距”品質檢查。"
+msgstr "略過“標點間距”品質檢查。"
 
 #: changes.rst:1067
 #, fuzzy
@@ -21492,7 +21468,7 @@ msgstr "修復了新增新的語言。"
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes.rst:1173
 msgid ""
@@ -21556,7 +21532,7 @@ msgstr "修復了報告中可能的崩潰。"
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes.rst:1202
 msgid ""
@@ -22023,7 +21999,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Skip the \"Python brace format\" quality check."
 msgid ":ref:`check-python-brace-format` detects extra curly braces."
-msgstr "跳過“ Python brace 格式”品質檢查。"
+msgstr "略過“ Python brace 格式”品質檢查。"
 
 #: changes.rst:1408
 #, fuzzy
@@ -25778,6 +25754,7 @@ msgid "*Released on February 15th 2018.*"
 msgstr "*發佈於 2018 年 2 月 15 日。*"
 
 #: changes/v2.rst:39
+#, fuzzy
 msgid "Fixed imports across some file formats."
 msgstr "修復了跨一些文件格式的匯入。"
 
@@ -25819,10 +25796,8 @@ msgid "Improved compatibility with some Subversion setups."
 msgstr "改進了一些 Subversion 設定的相容性。"
 
 #: changes/v2.rst:49
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Improved built-in machine translation service."
-msgstr "使用機器翻譯服務"
+msgstr "已改進內建機器翻譯服務。"
 
 #: changes/v2.rst:50
 msgid "Added support for SAP Translation Hub service."
@@ -30112,10 +30087,8 @@ msgid "Fixed variants cleanup when removing strings."
 msgstr "改進了 gitexport 模組中的錯誤處理。"
 
 #: changes/v4.rst:362
-#, fuzzy
-#| msgid "Compatibility with Django 2.1."
 msgid "Compatibility with Django 4.1."
-msgstr "與 Django 2.1 相容。"
+msgstr "與 Django 4.1 相容。"
 
 #: changes/v4.rst:363
 msgid "Added support for storing escaped XML elements in XLIFF."
@@ -30473,7 +30446,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid "Fixed false positives from :ref:`check-icu-message-format-syntax`."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: changes/v4.rst:469
 #, fuzzy
@@ -31212,10 +31185,8 @@ msgid "Added rate limiting on creating new projects."
 msgstr "新增了分開的權限來新增新的專案。"
 
 #: changes/v4.rst:669
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance of file updates."
-msgstr "效能概覽"
+msgstr "已改進檔案更新的效能。"
 
 #: changes/v4.rst:671
 #, fuzzy
@@ -32118,10 +32089,8 @@ msgid "Added tasks API."
 msgstr "新增了工作 API。"
 
 #: changes/v4.rst:924
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance of file upload."
-msgstr "效能概覽"
+msgstr "已改進檔案上傳的效能。"
 
 #: changes/v4.rst:925
 msgid "Improved display of user defined special characters."
@@ -32368,10 +32337,8 @@ msgid "Moved source language attribute from project to a component."
 msgstr "將來源語言屬性從專案移動到組件。"
 
 #: changes/v4.rst:997
-#, fuzzy
-#| msgid "Information"
 msgid "Add Vue I18n formatting check."
-msgstr "資訊"
+msgstr "新增 Vue I18n 格式檢查。"
 
 #: changes/v4.rst:998
 msgid "Generic placeholders check now supports regular expressions."
@@ -34619,10 +34586,8 @@ msgid "Integration of machine translation services."
 msgstr "機器翻譯服務的整合。"
 
 #: contributing/internals.rst:82
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Built-in translation memory, see :ref:`translation-memory`."
-msgstr "共享的翻譯記憶"
+msgstr "內建翻譯記憶，請參見 :ref:`translation-memory`。"
 
 #: contributing/internals.rst:86
 msgid "Screenshots management and OCR module."
@@ -34957,7 +34922,7 @@ msgid ""
 "skip this version - you always have to upgrade to x.0 before upgrading to "
 "higher x.y releases."
 msgstr ""
-"主要版本的變更指示了升級過程不能跳過這個版本——在升級到更高版本的版本 x.y 之前"
+"主要版本的變更指示了升級過程不能略過這個版本——在升級到更高版本的版本 x.y 之前"
 "總是必須升級到版本 x.0。"
 
 #: contributing/release.rst:17
@@ -37609,7 +37574,7 @@ msgstr "自訂翻譯品質控制："
 msgid ""
 "**Enable checks**: Review :ref:`checks` and enable any opt-in quality checks "
 "you need."
-msgstr "啟用 :ref:`check-i18next-interpolation` 品質確認。"
+msgstr "啟用 :ref:`check-i18next-interpolation` 品質檢查。"
 
 #: devel/migration.rst:181
 msgid ""
@@ -41687,14 +41652,8 @@ msgid ""
 msgstr "Qt Linguist 檔案既用作雙語言翻譯，也用作單語翻譯。"
 
 #: formats/qt.rst:16
-#, fuzzy
-#| msgid ""
-#| "`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-"
-#| "index.html>`_, :doc:`tt:formats/ts`, :ref:`bimono`"
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
-msgstr ""
-"`Qt Linguist 手冊 <https://doc.qt.io/qt-5/qtlinguist-"
-"index.html>`_, :doc:`tt:formats/ts`, :ref:`bimono`"
+msgstr "`Qt Linguist 使用手冊 <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:31
 msgid "Typical Weblate :ref:`component` when using as bilingual"
@@ -42461,10 +42420,8 @@ msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
 msgstr ""
 
 #: index.rst:36
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Joining a translation project"
-msgstr "推動翻譯專案"
+msgstr "加入翻譯專案"
 
 #: index.rst:37
 #, fuzzy
@@ -42477,10 +42434,8 @@ msgid ""
 msgstr "如果您想要協助貢獻 %(project)s 的翻譯，您需要在本伺服器上註冊 。"
 
 #: index.rst:40
-#, fuzzy
-#| msgid "Promoting translation projects"
 msgid "Starting a translation project"
-msgstr "推動翻譯專案"
+msgstr "啟動翻譯專案"
 
 #: index.rst:41
 msgid ""
@@ -44615,10 +44570,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:130
-#, fuzzy
-#| msgid "Security issues"
 msgid "Accountability issues."
-msgstr "Accountability issues."
+msgstr "當責問題。"
 
 #: security/threat-model.rst:131
 msgid "**User interaction**"
@@ -47755,7 +47708,7 @@ msgstr "定義渲染檢查的字母間隔，請參見 :ref:`fonts`。"
 msgid ""
 "Define flags for customizing the behavior of the :ref:`check-icu-message-"
 "format` quality check."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:26
 #, fuzzy
@@ -47763,7 +47716,7 @@ msgstr "跳過“ Java MesseageFormat ”品質檢查。"
 msgid ""
 "Set a required prefix for XML tags for the :ref:`check-icu-message-format` "
 "quality check."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過“ Java MesseageFormat ”品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:28
 msgid ""
@@ -47813,11 +47766,11 @@ msgid ""
 msgstr ""
 
 #: snippets/check-flags-autogenerated.rst:47
+#, fuzzy
 msgid ""
 "Adjust checks behavior to be case-insensitive. Currently affects "
 "only :ref:`check-placeholders` quality check."
-msgstr ""
-"調整檢查為不論字母大小寫。目前只影響 :ref:`check-placeholders` 品質檢查。"
+msgstr "調整檢查行為至不論字母大小寫。目前只影響 :ref:`check-placeholders` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:53
 #, fuzzy
@@ -47829,180 +47782,124 @@ msgid ""
 msgstr "將文字視為 reStructuredText 檔案，影響 :ref:`check-same`。"
 
 #: snippets/check-flags-autogenerated.rst:56
-#, fuzzy
-#| msgid "Enable the :ref:`check-check-glossary` quality check."
 msgid "Enables the :ref:`check-check-glossary` quality check."
-msgstr "啟用 :ref:`check-check-glossary` 品質確認。"
+msgstr "啟用 :ref:`check-check-glossary` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:58
-#, fuzzy
-#| msgid "Skip the \"Zero-width space\" quality check."
 msgid "Enables the :ref:`check-fluent-parts` quality check."
-msgstr "跳過“零寬空格”品質檢查。"
+msgstr "啟用 :ref:`check-fluent-parts` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:60
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Enables the :ref:`check-fluent-references` quality check."
-msgstr "跳過“換行開頭”品質檢查。"
+msgstr "啟用 :ref:`check-fluent-references` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:62
-#, fuzzy
-#| msgid "Enable the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-fluent-target-inner-html` quality check."
-msgstr "啟用 :ref:`check-safe-html` 品質確認。"
+msgstr "啟用 :ref:`check-fluent-target-inner-html` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:64
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-fluent-target-syntax` quality check."
-msgstr "啟用 :ref:`check-lua-format` 品質確認。"
+msgstr "啟用 :ref:`check-fluent-target-syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:66
-#, fuzzy
-#| msgid "Enable the :ref:`check-angularjs-format` quality check."
 msgid "Enables the :ref:`check-angularjs-format` quality check."
-msgstr "啟用 :ref:`check-angularjs-format` 品質確認。"
+msgstr "啟用 :ref:`check-angularjs-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:68
-#, fuzzy
-#| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid "Enables the :ref:`check-automattic-components-format` quality check."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "啟用 :ref:`check-automattic-components-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:70
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-c-format` quality check."
-msgstr "啟用 :ref:`check-c-format` 品質確認。"
+msgstr "啟用 :ref:`check-c-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:72
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-sharp-format` quality check."
 msgid "Enables the :ref:`check-c-sharp-format` quality check."
-msgstr "啟用 :ref:`check-c-sharp-format` 品質確認。"
+msgstr "啟用 :ref:`check-c-sharp-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:74
-#, fuzzy
-#| msgid "Enable the :ref:`check-es-format` quality check."
 msgid "Enables the :ref:`check-es-format` quality check."
-msgstr "啟用 :ref:`check-es-format` 品質確認。"
+msgstr "啟用 :ref:`check-es-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:76
-#, fuzzy
-#| msgid "Enable the :ref:`check-i18next-interpolation` quality check."
 msgid "Enables the :ref:`check-i18next-interpolation` quality check."
-msgstr "啟用 :ref:`check-i18next-interpolation` 品質確認。"
+msgstr "啟用 :ref:`check-i18next-interpolation` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:78
-#, fuzzy
-#| msgid "Enable the :ref:`check-icu-message-format` quality check."
 msgid ""
 "Enables the :ref:`check-icu-message-format` and :ref:`check-icu-message-"
 "format-syntax` quality checks."
-msgstr "啟用 :ref:`check-icu-message-format` 品質確認。"
+msgstr ""
+"啟用 :ref:`check-icu-message-format` 和 :ref:`check-icu-message-format-"
+"syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:80
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-printf-format` quality check."
 msgid "Enables the :ref:`check-java-printf-format` quality check."
-msgstr "啟用 :ref:`check-java-printf-format` 品質確認。"
+msgstr "啟用 :ref:`check-java-printf-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:82
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-format` quality check."
 msgid "Enables the :ref:`check-java-format` quality check."
-msgstr "啟用 :ref:`check-java-format` 品質確認。"
+msgstr "啟用 :ref:`check-java-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:84
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enables the :ref:`check-javascript-format` quality check."
-msgstr "啟用 :ref:`check-javascript-format` 品質確認。"
+msgstr "啟用 :ref:`check-javascript-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:86
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-laravel-format` quality check."
-msgstr "啟用 :ref:`check-lua-format` 品質確認。"
+msgstr "啟用 :ref:`check-laravel-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:88
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-lua-format` quality check."
-msgstr "啟用 :ref:`check-lua-format` 品質確認。"
+msgstr "啟用 :ref:`check-lua-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:90
-#, fuzzy
-#| msgid "Enable the :ref:`check-object-pascal-format` quality check."
 msgid "Enables the :ref:`check-object-pascal-format` quality check."
-msgstr "啟用 :ref:`check-object-pascal-format` 品質確認。"
+msgstr "啟用 :ref:`check-object-pascal-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:92
-#, fuzzy
-#| msgid "Enable the :ref:`check-percent-placeholders` quality check."
 msgid "Enables the :ref:`check-percent-placeholders` quality check."
-msgstr "啟用 :ref:`check-percent-placeholders` 品質確認。"
+msgstr "啟用 :ref:`check-percent-placeholders` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:94
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-format` quality check."
 msgid "Enables the :ref:`check-perl-brace-format` quality check."
-msgstr "啟用 :ref:`check-perl-format` 品質確認。"
+msgstr "啟用 :ref:`check-perl-brace-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:96
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-format` quality check."
 msgid "Enables the :ref:`check-perl-format` quality check."
-msgstr "啟用 :ref:`check-perl-format` 品質確認。"
+msgstr "啟用 :ref:`check-perl-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:98
-#, fuzzy
-#| msgid "Enable the :ref:`check-php-format` quality check."
 msgid "Enables the :ref:`check-php-format` quality check."
-msgstr "啟用 :ref:`check-php-format` 品質確認。"
+msgstr "啟用 :ref:`check-php-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:100
-#, fuzzy
-#| msgid "Enable the :ref:`check-python-brace-format` quality check."
 msgid "Enables the :ref:`check-python-brace-format` quality check."
-msgstr "啟用 :ref:`check-python-brace-format` 品質確認。"
+msgstr "啟用 :ref:`check-python-brace-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:102
-#, fuzzy
-#| msgid "Enable the :ref:`check-python-format` quality check."
 msgid "Enables the :ref:`check-python-format` quality check."
-msgstr "啟用 :ref:`check-python-format` 品質確認。"
+msgstr "啟用 :ref:`check-python-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:104
-#, fuzzy
-#| msgid "Enable the :ref:`check-qt-format` quality check."
 msgid "Enables the :ref:`check-qt-format` quality check."
-msgstr "啟用 :ref:`check-qt-format` 品質確認。"
+msgstr "啟用 :ref:`check-qt-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:106
-#, fuzzy
-#| msgid "Enable the :ref:`check-qt-plural-format` quality check."
 msgid "Enables the :ref:`check-qt-plural-format` quality check."
-msgstr "啟用 :ref:`check-qt-plural-format` 品質確認。"
+msgstr "啟用 :ref:`check-qt-plural-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:108
-#, fuzzy
-#| msgid "Enable the :ref:`check-ruby-format` quality check."
 msgid "Enables the :ref:`check-ruby-format` quality check."
-msgstr "啟用 :ref:`check-ruby-format` 品質確認。"
+msgstr "啟用 :ref:`check-ruby-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:110
-#, fuzzy
-#| msgid "Enable the :ref:`check-scheme-format` quality check."
 msgid "Enables the :ref:`check-scheme-format` quality check."
-msgstr "啟用 :ref:`check-scheme-format` 品質確認。"
+msgstr "啟用 :ref:`check-scheme-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:112
-#, fuzzy
-#| msgid "Enable the :ref:`check-vue-format` quality check."
 msgid "Enables the :ref:`check-vue-format` quality check."
-msgstr "啟用 :ref:`check-vue-format` 品質確認。"
+msgstr "啟用 :ref:`check-vue-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:114
 #, fuzzy
@@ -48028,34 +47925,24 @@ msgstr ""
 "tags`。"
 
 #: snippets/check-flags-autogenerated.rst:120
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Enables the :ref:`check-max-length` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "啟用 :ref:`check-max-length` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:122
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Enables the :ref:`check-max-size` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "啟用 :ref:`check-max-size` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:124
-#, fuzzy
-#| msgid "Enable the :ref:`check-percent-placeholders` quality check."
 msgid "Enables the :ref:`check-placeholders` quality check."
-msgstr "啟用 :ref:`check-percent-placeholders` 品質確認。"
+msgstr "啟用 :ref:`check-placeholders` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:126
-#, fuzzy
-#| msgid "Skip the \"Markdown references\" quality check."
 msgid "Enables the :ref:`check-regex` quality check."
-msgstr "跳過“ Markdown 引用”品質檢查。"
+msgstr "啟用 :ref:`check-regex` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:128
-#, fuzzy
-#| msgid "Enable the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-safe-html` quality check."
-msgstr "啟用 :ref:`check-safe-html` 品質確認。"
+msgstr "啟用 :ref:`check-safe-html` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:130
 #, fuzzy
@@ -48065,449 +47952,315 @@ msgstr "啟用 :ref:`check-safe-html` 品質確認。"
 msgid ""
 "The string should consist of only a URL. Enables the :ref:`check-url` "
 "quality check."
-msgstr "字串應為 URL 組成。啟用 :ref:`check-url` 品質確認。"
+msgstr "字串應為 URL 組成。啟用 :ref:`check-url` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Enable the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-fluent-source-inner-html` quality check."
-msgstr "啟用 :ref:`check-safe-html` 品質確認。"
+msgstr "啟用 :ref:`check-fluent-source-inner-html` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:135
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-fluent-source-syntax` quality check."
-msgstr "啟用 :ref:`check-lua-format` 品質確認。"
+msgstr "啟用 :ref:`check-fluent-source-syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:140
 msgid "Ignore all quality checks."
-msgstr "略過所有品質確認。"
+msgstr "忽略所有品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:146
 msgid "Skip the :ref:`check-bbcode` quality check."
-msgstr "略過 :ref:`check-bbcode` 品質確認。"
+msgstr "略過 :ref:`check-bbcode` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:148
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-xml-chars-around-tags` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-xml-chars-around-tags` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:150
 msgid "Skip the :ref:`check-duplicate` quality check."
-msgstr "略過 :ref:`check-duplicate` 品質確認。"
+msgstr "略過 :ref:`check-duplicate` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:152
 msgid "Skip the :ref:`check-check-glossary` quality check."
-msgstr "略過 :ref:`check-check-glossary` 品質確認。"
+msgstr "略過 :ref:`check-check-glossary` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:154
 msgid "Skip the :ref:`check-double-space` quality check."
-msgstr "略過 :ref:`check-double-space` 品質確認。"
+msgstr "略過 :ref:`check-double-space` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:156
-#, fuzzy
-#| msgid "Skip the \"Zero-width space\" quality check."
 msgid "Skip the :ref:`check-fluent-parts` quality check."
-msgstr "跳過“零寬空格”品質檢查。"
+msgstr "略過 :ref:`check-fluent-parts` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:158
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-fluent-references` quality check."
-msgstr "跳過“換行開頭”品質檢查。"
+msgstr "略過 :ref:`check-fluent-references` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:160
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-fluent-target-inner-html` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-fluent-target-inner-html` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:162
-#, fuzzy
-#| msgid "Skip the \"Markdown syntax\" quality check."
 msgid "Skip the :ref:`check-fluent-target-syntax` quality check."
-msgstr "跳過“ Markdown 語法”品質檢查。"
+msgstr "略過 :ref:`check-fluent-target-syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:164
 msgid "Skip the :ref:`check-angularjs-format` quality check."
-msgstr "略過 :ref:`check-angularjs-format` 品質確認。"
+msgstr "略過 :ref:`check-angularjs-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid "Skip the :ref:`check-automattic-components-format` quality check."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過 :ref:`check-automattic-components-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-c-format` quality check."
 msgstr "略過 :ref:`check-c-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:170
-#, fuzzy
-#| msgid "Skip the \"Perl format\" quality check."
 msgid "Skip the :ref:`check-c-sharp-format` quality check."
-msgstr "跳過“ Perl 格式”品質檢查。"
+msgstr "略過 :ref:`check-c-sharp-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:172
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-es-format` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-es-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:174
-#, fuzzy
-#| msgid "Skip the \"i18next interpolation\" quality check."
 msgid "Skip the :ref:`check-i18next-interpolation` quality check."
-msgstr "跳過“ i18next 插補”品質檢查。"
+msgstr "略過 :ref:`check-i18next-interpolation` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:176
-#, fuzzy
-#| msgid "Skip the \"Java MessageFormat\" quality check."
 msgid "Skip the :ref:`check-icu-message-format` quality check."
-msgstr "跳過“ Java MesseageFormat ”品質檢查。"
+msgstr "略過 :ref:`check-icu-message-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:178
-#, fuzzy
-#| msgid "Skip the \"JavaScript format\" quality check."
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr "提高過“JavaScript 格式”品質檢查。"
+msgstr "略過 :ref:`check-java-printf-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:180
-#, fuzzy
-#| msgid "Skip the \"Java format\" quality check."
 msgid "Skip the :ref:`check-java-format` quality check."
-msgstr "跳過“ Java 格式”品質檢查。"
+msgstr "略過 :ref:`check-java-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:182
-#, fuzzy
-#| msgid "Skip the \"JavaScript format\" quality check."
 msgid "Skip the :ref:`check-javascript-format` quality check."
-msgstr "提高過“JavaScript 格式”品質檢查。"
+msgstr "略過 :ref:`check-javascript-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:184
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-laravel-format` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-laravel-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:186
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-lua-format` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-lua-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:188
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-object-pascal-format` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-object-pascal-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:190
-#, fuzzy
-#| msgid "Skip the \"Percent placeholders\" quality check."
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
-msgstr "跳過“百分號佔位符號”品質檢查。"
+msgstr "略過 :ref:`check-percent-placeholders` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:192
-#, fuzzy
-#| msgid "Skip the \"Perl format\" quality check."
 msgid "Skip the :ref:`check-perl-brace-format` quality check."
-msgstr "跳過“ Perl 格式”品質檢查。"
+msgstr "略過 :ref:`check-perl-brace-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:194
-#, fuzzy
-#| msgid "Skip the \"Perl format\" quality check."
 msgid "Skip the :ref:`check-perl-format` quality check."
-msgstr "跳過“ Perl 格式”品質檢查。"
+msgstr "略過 :ref:`check-perl-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:196
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-php-format` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-php-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:198
-#, fuzzy
-#| msgid "Skip the \"Python brace format\" quality check."
 msgid "Skip the :ref:`check-python-brace-format` quality check."
-msgstr "跳過“ Python brace 格式”品質檢查。"
+msgstr "略過 :ref:`check-python-brace-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:200
-#, fuzzy
-#| msgid "Skip the \"Python format\" quality check."
 msgid "Skip the :ref:`check-python-format` quality check."
-msgstr "跳過“ Python 格式”品質檢查。"
+msgstr "略過 :ref:`check-python-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:202
-#, fuzzy
-#| msgid "Skip the \"Qt format\" quality check."
 msgid "Skip the :ref:`check-qt-format` quality check."
-msgstr "跳過“ Qt 格式”品質檢查。"
+msgstr "略過 :ref:`check-qt-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:204
-#, fuzzy
-#| msgid "Skip the \"Qt plural format\" quality check."
 msgid "Skip the :ref:`check-qt-plural-format` quality check."
-msgstr "跳過“Qt plural 格式”品質檢查。"
+msgstr "略過 :ref:`check-qt-plural-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:206
-#, fuzzy
-#| msgid "Skip the \"Ruby format\" quality check."
 msgid "Skip the :ref:`check-ruby-format` quality check."
-msgstr "跳過“ Ruby 格式”品質檢查。"
+msgstr "略過 :ref:`check-ruby-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:208
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-scheme-format` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-scheme-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:210
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-vue-format` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-vue-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:212
-#, fuzzy
-#| msgid "Skip the \"Has been translated\" quality check."
 msgid "Skip the :ref:`check-translated` quality check."
-msgstr "跳過“已被翻譯”品質檢查。"
+msgstr "略過 :ref:`check-translated` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:214
-#, fuzzy
-#| msgid "Skip the \"Inconsistent\" quality check."
 msgid "Skip the :ref:`check-inconsistent` quality check."
-msgstr "跳過“不一致的”品質檢查。"
+msgstr "略過 :ref:`check-inconsistent` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:216
-#, fuzzy
-#| msgid "Skip the \"Markdown references\" quality check."
 msgid "Skip the :ref:`check-rst-references` quality check."
-msgstr "跳過“ Markdown 引用”品質檢查。"
+msgstr "略過 :ref:`check-rst-references` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:218
-#, fuzzy
-#| msgid "Skip the \"Multiple failing checks\" quality check."
 msgid "Skip the :ref:`check-kashida` quality check."
-msgstr "跳過“多項檢查失敗”品質檢查。"
+msgstr "略過 :ref:`check-kashida` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:220
-#, fuzzy
-#| msgid "Skip the \"Markdown links\" quality check."
 msgid "Skip the :ref:`check-md-link` quality check."
-msgstr "跳過“ Markdown 連結”品質檢查。"
+msgstr "略過 :ref:`check-md-link` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:222
-#, fuzzy
-#| msgid "Skip the \"Markdown links\" quality check."
 msgid "Skip the :ref:`check-md-reflink` quality check."
-msgstr "跳過“ Markdown 連結”品質檢查。"
+msgstr "略過 :ref:`check-md-reflink` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:224
-#, fuzzy
-#| msgid "Skip the \"Markdown syntax\" quality check."
 msgid "Skip the :ref:`check-md-syntax` quality check."
-msgstr "跳過“ Markdown 語法”品質檢查。"
+msgstr "略過 :ref:`check-md-syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:226
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-max-length` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-max-length` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:228
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-max-size` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-max-size` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:230
-#, fuzzy
-#| msgid "Skip the \"Trailing newline\" quality check."
 msgid "Skip the :ref:`check-escaped-newline` quality check."
-msgstr "跳過“換行結尾”品質檢查。"
+msgstr "略過 :ref:`check-escaped-newline` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:232
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-colon` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-end-colon` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:234
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-ellipsis` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-end-ellipsis` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:236
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid "Skip the :ref:`check-end-exclamation` quality check."
-msgstr "驚嘆號符結尾"
+msgstr "略過 :ref:`check-end-exclamation` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:238
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-stop` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-end-stop` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:240
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "快取的範本載入器"
+msgstr "略過 :ref:`check-end-interrobang` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:242
 msgid "Skip the :ref:`check-end-question` quality check."
-msgstr "略過 :ref:`check-end-question` 品質確認。"
+msgstr "略過 :ref:`check-end-question` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:244
 msgid "Skip the :ref:`check-end-semicolon` quality check."
-msgstr "略過 :ref:`check-end-semicolon` 品質確認。"
+msgstr "略過 :ref:`check-end-semicolon` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:246
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-newline-count` quality check."
-msgstr "跳過“換行開頭”品質檢查。"
+msgstr "略過 :ref:`check-newline-count` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:248
-#, fuzzy
-#| msgid "Skip the \"Same plurals\" quality check."
 msgid "Skip the :ref:`check-plurals` quality check."
-msgstr "跳過“相同複數”品質檢查。"
+msgstr "略過 :ref:`check-plurals` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:250
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid "Skip the :ref:`check-multiple-capital` quality check."
-msgstr "略過 :ref:`check-multiple-failures` 品質檢查。"
+msgstr "略過 :ref:`check-multiple-capital` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "Skip the \"Zero-width space\" quality check."
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
-msgstr "跳過“零寬空格”品質檢查。"
+msgstr "略過 :ref:`check-kabyle-characters` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:254
-#, fuzzy
-#| msgid "Skip the \"Percent placeholders\" quality check."
 msgid "Skip the :ref:`check-placeholders` quality check."
-msgstr "跳過“百分號佔位符號”品質檢查。"
+msgstr "略過 :ref:`check-placeholders` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:256
-#, fuzzy
-#| msgid "Skip the \"Trailing space\" quality check."
 msgid "Skip the :ref:`check-prohibited-initial-character` quality check."
-msgstr "跳過“空格結尾”品質檢查。"
+msgstr "略過 :ref:`check-prohibited-initial-character` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:258
-#, fuzzy
-#| msgid "Skip the \"Punctuation spacing\" quality check."
 msgid "Skip the :ref:`check-punctuation-spacing` quality check."
-msgstr "跳過“標點間距”品質檢查。"
+msgstr "略過 :ref:`check-punctuation-spacing` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:260
-#, fuzzy
-#| msgid "Skip the \"Markdown references\" quality check."
 msgid "Skip the :ref:`check-regex` quality check."
-msgstr "跳過“ Markdown 引用”品質檢查。"
+msgstr "略過 :ref:`check-regex` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:262
-#, fuzzy
-#| msgid "Skip the \"Markdown syntax\" quality check."
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "跳過“ Markdown 語法”品質檢查。"
+msgstr "略過 :ref:`check-rst-syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:264
-#, fuzzy
-#| msgid "Skip the \"Markdown references\" quality check."
 msgid "Skip the :ref:`check-reused` quality check."
-msgstr "跳過“ Markdown 引用”品質檢查。"
+msgstr "略過 :ref:`check-reused` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:266
-#, fuzzy
-#| msgid "Skip the \"Same plurals\" quality check."
 msgid "Skip the :ref:`check-same-plurals` quality check."
-msgstr "跳過“相同複數”品質檢查。"
+msgstr "略過 :ref:`check-same-plurals` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:268
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-begin-newline` quality check."
-msgstr "跳過“換行開頭”品質檢查。"
+msgstr "略過 :ref:`check-begin-newline` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:270
-#, fuzzy
-#| msgid "Skip the \"Trailing space\" quality check."
 msgid "Skip the :ref:`check-begin-space` quality check."
-msgstr "跳過“空格結尾”品質檢查。"
+msgstr "略過 :ref:`check-begin-space` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:272
-#, fuzzy
-#| msgid "Skip the \"Starting newline\" quality check."
 msgid "Skip the :ref:`check-end-newline` quality check."
-msgstr "跳過“換行開頭”品質檢查。"
+msgstr "略過 :ref:`check-end-newline` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:274
-#, fuzzy
-#| msgid "Skip the \"Zero-width space\" quality check."
 msgid "Skip the :ref:`check-end-space` quality check."
-msgstr "跳過“零寬空格”品質檢查。"
+msgstr "略過 :ref:`check-end-space` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:276
-#, fuzzy
-#| msgid "Skip the \"Multiple failing checks\" quality check."
 msgid "Skip the :ref:`check-same` quality check."
-msgstr "跳過“多項檢查失敗”品質檢查。"
+msgstr "略過 :ref:`check-same` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:278
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-safe-html` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-safe-html` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:280
-#, fuzzy
-#| msgid "Skip the \"Placeholders\" quality check."
 msgid "Skip the :ref:`check-url` quality check."
-msgstr "跳過“佔位符號”品質檢查。"
+msgstr "略過 :ref:`check-url` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:282
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-xml-tags` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-xml-tags` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:284
-#, fuzzy
-#| msgid "Skip the \"Unpluralised\" quality check."
 msgid "Skip the :ref:`check-xml-invalid` quality check."
-msgstr "跳過“未複數化”品質檢查。"
+msgstr "略過 :ref:`check-xml-invalid` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:286
-#, fuzzy
-#| msgid "Skip the \"Zero-width space\" quality check."
 msgid "Skip the :ref:`check-zero-width-space` quality check."
-msgstr "跳過“零寬空格”品質檢查。"
+msgstr "略過 :ref:`check-zero-width-space` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:288
 msgid "Skip the :ref:`check-ellipsis` quality check."
 msgstr "略過 :ref:`check-ellipsis` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:290
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the :ref:`check-fluent-source-inner-html` quality check."
-msgstr "跳過“ C 格式”品質檢查。"
+msgstr "略過 :ref:`check-fluent-source-inner-html` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:292
-#, fuzzy
-#| msgid "Skip the \"Markdown syntax\" quality check."
 msgid "Skip the :ref:`check-fluent-source-syntax` quality check."
-msgstr "跳過“ Markdown 語法”品質檢查。"
+msgstr "略過 :ref:`check-fluent-source-syntax` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:294
 msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
@@ -48615,7 +48368,7 @@ msgstr "已翻譯好的字串"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Check class"
-msgstr "檢查類"
+msgstr "檢查類別"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Check identifier"
@@ -48663,11 +48416,11 @@ msgstr "此檢查確保在翻譯中也找到它們。"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Flag to enable"
-msgstr "啟用的旗標"
+msgstr "要啟用的旗標"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Flag to ignore"
-msgstr "忽略的標誌"
+msgstr "要忽略的旗標"
 
 #: snippets/checks-autogenerated.rst:29
 msgid ""
@@ -51927,10 +51680,8 @@ msgstr ""
 #: snippets/format-features/xliff-features.rst:10
 #: snippets/format-features/xlsx-features.rst:10
 #: snippets/format-features/yaml-features.rst:10
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "Both monolingual and bilingual"
-msgstr "定義單語的基礎檔名"
+msgstr "單語和雙語"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -55731,7 +55482,7 @@ msgid ""
 msgstr ""
 "您可以使用``=``運算子在不同的字串欄位上進行完全匹配查詢。例如，搜尋完全匹配的"
 "來源字串匹配“您好世界”，使用：“來源：=”Hello World“``。用於搜尋單詞表達式，您"
-"可以跳過引號。例如，搜尋匹配``hello``的所有來源字串：``source：= hello``。"
+"可以略過引號。例如，搜尋匹配``hello``的所有來源字串：``source：= hello``。"
 
 #: user/search.rst:202
 msgid "Searching for changes"
