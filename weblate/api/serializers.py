@@ -1007,7 +1007,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def to_internal_value(self, data):
         # Preprocess to inject params based on content
-        data = data.copy()
+        # QueryDict.copy() deep-copies values, which breaks multipart uploads
+        # backed by TemporaryUploadedFile on Python 3.13.
+        data = copy(data)
 
         source_component = None
         if "from_component" in data and "docfile" not in data and "zipfile" not in data:
