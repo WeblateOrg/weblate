@@ -4,11 +4,14 @@ Incident response plan for Weblate
 Scope and objectives
 --------------------
 
-This IRP covers incidents impacting the confidentiality, integrity, or availability of a Weblate deployment.
+This IRP covers incidents impacting the confidentiality, integrity, or
+availability of Weblate-operated deployments.
 
 .. note::
 
-    The plan is specifically designed for deployments of Weblate by Weblate s.r.o., but it can be applied to other deployments similarly.
+    This plan is specifically designed for deployments operated by Weblate
+    s.r.o. Other deployments need to adapt provider-specific and organizational
+    steps to their own environment.
 
 Roles and responsibilities
 --------------------------
@@ -34,6 +37,18 @@ Communication logistics
 Incident categories and severity
 --------------------------------
 
+Incident activation
+^^^^^^^^^^^^^^^^^^^
+
+- Declare an incident when an event is confirmed or strongly suspected to
+  affect the confidentiality, integrity, or availability of the service beyond
+  routine operational noise.
+- The **Security Officer** declares the incident, assigns the initial severity,
+  and appoints the **Incident Response Lead (IRL)**.
+- If the Security Officer is unavailable, any available senior operator may
+  declare the incident and hand over ownership as soon as practical.
+- Reclassify the incident if the scope or impact changes during investigation.
+
 Incident categories
 ^^^^^^^^^^^^^^^^^^^
 
@@ -48,7 +63,8 @@ Severity levels and SLAs
 +----------+------------------------------------------------------+---------------------+-----------------------+
 | Severity | Definition                                           | Target Acknowledge  | Target Initial Action |
 +==========+======================================================+=====================+=======================+
-| Critical | Total outage; Admin compromise; Active data breach.  | < 30 Minutes        | 4 Hours               |
+| Critical | Total outage; Admin compromise; Active data breach;  | < 30 Minutes        | < 4 Hours             |
+|          | requires immediate containment.                      |                     |                       |
 +----------+------------------------------------------------------+---------------------+-----------------------+
 | High     | Core feature failure; PII leak of single user.       | < 2 Hours           | 12 Hours              |
 +----------+------------------------------------------------------+---------------------+-----------------------+
@@ -79,12 +95,27 @@ Identification
 Containment
 ^^^^^^^^^^^
 
-- **Forensic Preservation:** For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot** before taking disruptive action.
-    - Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``.
-    - These are separate from standard rotating backups and must be preserved for analysis.
-- Temporarily restrict access (e.g., via firewall rules or service isolation).
-- Disable external integrations (Git/webhooks) if they are part of the attack vector.
+- Create an incident record with a case ID and record timeline updates as
+  actions are taken.
+- Coordinate human response in **Signal** and keep technical alerting in the
+  existing monitoring systems.
+- For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot**
+  before taking disruptive action when it is safe to do so.
+
+  - Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``.
+  - These are separate from standard rotating backups and must be preserved
+    for analysis.
+
+- Isolate the affected host or service as needed (for example by firewall rules
+  or service isolation).
+- Disable external integrations (Git/webhooks) if they are part of the attack
+  vector.
 - Suspend affected user accounts immediately.
+- Revoke or rotate affected administrative, API, VCS, and webhook credentials
+  as applicable.
+- Preserve relevant evidence, including system logs, reverse proxy logs,
+  Weblate application and audit logs, affected configuration state, and the
+  list of impacted credentials or integrations.
 
 Eradication
 ^^^^^^^^^^^
@@ -99,6 +130,11 @@ Recovery
 - Restore affected services or data from the latest known-good Weblate backups.
 - **PII Assessment:** DPO determines if the breach requires a 72-hour GDPR notification.
 - Reintroduce services in a phased approach.
+- Confirm the root cause has been removed or a compensating control is in
+  place before restoring normal traffic.
+- Rotate affected credentials and verify integrity of the restored system,
+  repositories, and configuration.
+- The Security Officer and IRL approve returning to normal operations.
 - Monitor logs and system behavior continuously for at least 72 hours post-recovery.
 
 Post-incident review
@@ -109,3 +145,5 @@ Post-incident review
 - Perform Root Cause Analysis (RCA) and document it within **10 business days**.
 - Update security policies and IRP documentation based on findings.
 - Review the effectiveness of detection and containment mechanisms.
+- Verify whether escalation, alerting, and external communication followed
+  :doc:`/security/issues` as expected.

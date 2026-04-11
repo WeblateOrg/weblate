@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import re
-import subprocess
+import subprocess  # noqa: S404
 import sys
 from pathlib import Path
 
@@ -110,9 +110,9 @@ files = [
     "uv.lock",
     version_contributors.as_posix(),
 ]
-subprocess.run(["git", "add", version_contributors.as_posix()], check=True)
-subprocess.run(
-    [
+subprocess.run(["git", "add", version_contributors.as_posix()], check=True)  # noqa: S603, S607
+subprocess.run(  # noqa: S603
+    [  # noqa: S607
         "uv",
         "run",
         "--only-group",
@@ -124,6 +124,7 @@ subprocess.run(
     ],
     check=False,
 )
-subprocess.run(
-    ["git", "commit", "-m", f"chore: setting version to {version}", *files], check=True
+subprocess.run(  # noqa: S603
+    ["git", "commit", "-m", f"chore: setting version to {version}", *files],  # noqa: S607
+    check=True,
 )

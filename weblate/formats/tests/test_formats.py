@@ -56,6 +56,7 @@ from weblate.formats.ttkit import (
     RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
+    StringsFormat,
     TBXFormat,
     TOMLFormat,
     TSFormat,
@@ -70,6 +71,7 @@ from weblate.formats.ttkit import (
 )
 from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
+from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
@@ -131,6 +133,7 @@ TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
+TEST_STRINGS = get_test_file("cs.strings")
 TEST_FLUENT = get_test_file("cs.ftl")
 
 
@@ -194,6 +197,37 @@ class AutoLoadTest(SimpleTestCase):
         for format_class in FILE_FORMATS.values():
             if issubclass(format_class, TTKitFormat):
                 format_class.get_class()
+
+    def test_encoding_loader_defaults(self) -> None:
+        """Encoding fallback should come from parameter defaults, not loader order."""
+        self.assertEqual(get_encoding_param("strings", {}), "utf-8")
+        self.assertEqual(get_encoding_param("properties", {}), "iso-8859-1")
+        self.assertEqual(get_encoding_param("gwt", {}), "utf-8")
+        self.assertEqual(
+            get_encoding_param("properties", {"strings_encoding": "utf-16"}),
+            "iso-8859-1",
+        )
+        self.assertIsNone(
+            get_encoding_param("xwiki-fullpage", {"strings_encoding": "utf-16"})
+        )
+
+    def test_encoding_null_uses_default(self) -> None:
+        """Explicit null encoding params should behave like unset values."""
+        self.assertEqual(
+            get_encoding_param(
+                "properties",
+                cast("FileFormatParams", {"properties_encoding": None}),
+            ),
+            "iso-8859-1",
+        )
+        self.assertEqual(
+            get_encoding_param("csv", cast("FileFormatParams", {"csv_encoding": None})),
+            "auto",
+        )
+        self.assertEqual(
+            get_encoding_param("properties", {"properties_encoding": "iso-8859-1"}),
+            "iso-8859-1",
+        )
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
@@ -952,6 +986,178 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
             ),
             "res/values-b+sr+Latn/strings.xml",
         )
+
+
+class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
+    source = (
+        "To manage the existing work profile, navigate to the <b>Work</b> tab in "
+        "the launcher"
+    )
+    template_content = """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help">To manage the existing work profile, navigate to the &lt;b&gt;Work&lt;/b&gt; tab in the launcher</string>
+</resources>
+"""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        self.remove_temp()
+        super().tearDown()
+
+    def create_storage(self, translated_content: str):
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(self.template_content, encoding="utf-8")
+        translated_file.write_text(translated_content, encoding="utf-8")
+
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(), template_store=template_storage
+        )
+        return target_storage, translated_file
+
+    def test_add_uses_template_target_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+"""
+        )
+        target = (
+            "To manage the active work profile, open the <b>Work</b> tab from the "
+            "launcher"
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertTrue(unit.template.target_markup)
+        self.assertTrue(unit.unit.target_markup)
+        self.assertIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target(target)
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;b&gt;Work&lt;/b&gt;", saved)
+        self.assertNotIn("<b>Work</b>", saved)
+
+    def test_edit_reapplies_template_target_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help">To manage the active work profile, open the <b>Work</b> tab from the launcher</string>
+</resources>
+"""
+        )
+        target = (
+            "To manage the active work profile, open the <b>Workspace</b> tab from "
+            "the launcher"
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertFalse(add)
+        self.assertTrue(unit.template.target_markup)
+        self.assertFalse(unit.unit.target_markup)
+        self.assertIn("safe-html", unit.flags)
+
+        unit.set_target(target)
+
+        self.assertTrue(unit.unit.target_markup)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;b&gt;Workspace&lt;/b&gt;", saved)
+        self.assertNotIn("<b>Workspace</b>", saved)
+
+    def test_units_with_real_xml_use_xml_text_flag(self) -> None:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content.replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+""",
+            encoding="utf-8",
+        )
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(),
+            template_store=template_storage,
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertFalse(unit.template.target_markup)
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+    def test_discard_safe_html_override_is_honored(self) -> None:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content.replace(
+                'name="existing_work_profile_help"',
+                'name="existing_work_profile_help" weblate-flags="discard:safe-html"',
+            ),
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+""",
+            encoding="utf-8",
+        )
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(),
+            template_store=template_storage,
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertNotIn("safe-html", unit.flags)
+
+    def test_discard_xml_text_override_is_honored(self) -> None:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content.replace(
+                'name="existing_work_profile_help"',
+                'name="existing_work_profile_help" weblate-flags="discard:xml-text"',
+            ).replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+""",
+            encoding="utf-8",
+        )
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(),
+            template_store=template_storage,
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertNotIn("xml-text", unit.flags)
 
 
 class XliffFormatTest(XMLMixin, BaseFormatTest):
@@ -1729,6 +1935,49 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Check if content matches
         self.assert_same(newdata, testdata)
 
+    def test_save_partially_translated_file(self) -> None:
+        # Parse test file
+        storage = self.parse_file(self.SOURCE_FILE)
+        units = storage.all_units
+
+        # Create appropriate target file
+        translation_file = os.path.join(
+            self.tempdir, os.path.basename(self.EXPECTED_PATH)
+        )
+        self.format_class.add_language(
+            translation_file, Language.objects.get(code="it"), self.BASE
+        )
+        translation_data = self.format_class(
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
+        )
+
+        # Only materialize one translated unit so untouched content units still
+        # go through the XWiki save path.
+        self.translate_unit(
+            units,
+            translation_data,
+            0,
+            "L'area test o sandbox e una parte del wiki che si puo modificare.",
+        )
+
+        translation_data.save()
+
+        reloaded = self.format_class(
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
+        )
+        reloaded_units = reloaded.all_units
+
+        self.assertEqual(self.COUNT, len(reloaded_units))
+        self.assertEqual(
+            "L'area test o sandbox e una parte del wiki che si puo modificare.",
+            reloaded_units[0].target,
+        )
+        self.assertEqual(units[1].source, reloaded_units[1].source)
+
 
 class TBXFormatTest(XMLMixin, BaseFormatTest):
     format_class = TBXFormat
@@ -1772,6 +2021,29 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(unit.source_explanation, "")
         self.assertEqual(unit.flags, Flags())
         self.assertEqual(unit.is_readonly(), False)
+
+
+class StringsFormatTest(BaseFormatTest):
+    format_class = StringsFormat
+    FILE = TEST_STRINGS
+    MIME = "text/plain"
+    COUNT = 3
+    EXT = "strings"
+    MASK = "Resources/*.lproj/Localizable.strings"
+    EXPECTED_PATH = "Resources/cs-CZ.lproj/Localizable.strings"
+    FIND = "hello"
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = "Ahoj světe!"
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b'"key" = "Source string";'
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    MONOLINGUAL = True
+
+    def assert_same(self, newdata, testdata) -> None:
+        self.assertEqual(
+            (newdata).strip().splitlines(),
+            (testdata).strip().splitlines(),
+        )
 
 
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):

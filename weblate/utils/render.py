@@ -190,10 +190,6 @@ def validate_repoweb(val: str, allow_editor: bool = False) -> None:
         except ValidationError as error:
             if not isinstance(error.__cause__, OSError):
                 raise
-        except UnicodeError as error:
-            raise ValidationError(
-                gettext("Could not resolve the URL domain: {}").format(error)
-            ) from error
     validator(url)
 
 

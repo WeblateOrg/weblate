@@ -40,6 +40,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, read_file_bytes
 from weblate.utils.outbound import (
+    is_allowlisted_hostname,
     validate_outbound_hostname,
     validate_outbound_url,
     validate_runtime_url,
@@ -349,42 +350,64 @@ def validate_project_name(value) -> None:
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_project_web(value) -> None:
+def _validate_runtime_public_url(
+    value: str,
+    *,
+    allow_private_targets: bool,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+) -> None:
+    hostname = urlparse(value).hostname or ""
+    if allow_private_targets or is_allowlisted_hostname(hostname, allowed_domains):
+        return
+
+    try:
+        validate_runtime_url(value, allow_private_targets=False)
+    except ValidationError as error:
+        if not isinstance(error.__cause__, OSError):
+            raise
+
+
+def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
+    allowlisted = project_slug is not None and project_slug.lower() in {
+        slug.lower() for slug in settings.PROJECT_WEB_RESTRICT_ALLOWLIST
+    }
+
     # Regular expression filtering
-    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
-        settings.PROJECT_WEB_RESTRICT_RE, value
+    if (
+        not allowlisted
+        and settings.PROJECT_WEB_RESTRICT_RE is not None
+        and re.match(settings.PROJECT_WEB_RESTRICT_RE, value)
     ):
-        raise ValidationError(gettext("This URL is prohibited"))
+        raise ValidationError(
+            gettext("This URL is prohibited because it matches a restricted pattern.")
+        )
     parsed = urlparse(value)
     hostname = parsed.hostname or ""
     hostname = hostname.lower()
 
     # Hostname filtering
-    if any(
+    if not allowlisted and any(
         hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
     ):
-        raise ValidationError(gettext("This URL is prohibited"))
+        raise ValidationError(
+            gettext("This URL is prohibited because it uses a restricted host.")
+        )
 
     # Numeric address filtering
-    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
+    if not allowlisted and settings.PROJECT_WEB_RESTRICT_NUMERIC:
         try:
             validate_ipv46_address(hostname)
         except ValidationError:
             pass
         else:
-            raise ValidationError(gettext("This URL is prohibited"))
+            raise ValidationError(
+                gettext("This URL is prohibited because it uses a numeric IP address.")
+            )
 
-    try:
-        validate_runtime_url(
-            value, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
-        )
-    except ValidationError as error:
-        if not isinstance(error.__cause__, OSError):
-            raise
-    except UnicodeError as error:
-        raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
-        ) from error
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=allowlisted or not settings.PROJECT_WEB_RESTRICT_PRIVATE,
+    )
 
 
 def validate_webhook_secret_string(value: str) -> None:
@@ -446,6 +469,20 @@ def validate_machinery_hostname(
     )
 
 
+def validate_webhook_url(value: str) -> None:
+    WeblateServiceURLValidator()(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+
+
 class WeblateEditorURLValidator(WeblateURLValidator):
     schemes: list[str] = [  # noqa: RUF012
         "editor",
@@ -492,12 +529,19 @@ class WeblateServiceURLValidator(WeblateURLValidator):
 
 
 def validate_repo_url(url: str) -> None:
-    parsed = urlparse(url)
+    normalized_url = url
+    parsed = urlparse(normalized_url)
     if not parsed.scheme:
+        if os.path.isabs(url) or url.startswith(("./", "../")):
+            if "file" not in settings.VCS_ALLOW_SCHEMES:
+                raise ValidationError(
+                    gettext("Fetching VCS repository using %s is not allowed.") % "file"
+                )
+            return
         # assume all links without schema are ssh links
-        url = f"ssh://{url}"
+        normalized_url = f"ssh://{url}"
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(normalized_url)
         except ValueError as error:
             raise ValidationError(
                 gettext("Could not parse URL: {}").format(error)
@@ -516,13 +560,35 @@ def validate_repo_url(url: str) -> None:
     # URL validation using for http (the URL validator is too strict to handle others)
     if parsed.scheme in {"http", "https"}:
         validator = URLValidator(schemes=list(settings.VCS_ALLOW_SCHEMES))
-        validator(url)
+        validator(normalized_url)
+
+    hostname = parsed.hostname
+
+    if parsed.scheme == "file":
+        if hostname is None:
+            return
+        raise ValidationError(gettext("Could not parse URL."))
+
+    if hostname is None:
+        raise ValidationError(gettext("Could not parse URL."))
 
     # Filter hosts if configured
-    if settings.VCS_ALLOW_HOSTS and parsed.hostname not in settings.VCS_ALLOW_HOSTS:
+    if settings.VCS_ALLOW_HOSTS and hostname not in settings.VCS_ALLOW_HOSTS:
         raise ValidationError(
-            gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
+            gettext("Fetching VCS repository from %s is not allowed.") % hostname
         )
+
+    allowlisted = hostname in settings.VCS_ALLOW_HOSTS
+    allow_private_targets = allowlisted or not settings.VCS_RESTRICT_PRIVATE
+
+    validate_outbound_url(
+        normalized_url,
+        allow_private_targets=allow_private_targets,
+    )
+    _validate_runtime_public_url(
+        normalized_url,
+        allow_private_targets=allow_private_targets,
+    )
 
 
 @deconstructible

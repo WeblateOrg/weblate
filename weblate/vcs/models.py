@@ -35,6 +35,7 @@ class VCSConf(AppConf):
     VCS_API_TIMEOUT = 10
     VCS_ALLOW_SCHEMES: ClassVar[set[str]] = {"https", "ssh"}
     VCS_ALLOW_HOSTS: ClassVar[set[str]] = set()
+    VCS_RESTRICT_PRIVATE = True
 
     # GitHub username for sending pull requests
     GITHUB_CREDENTIALS: ClassVar[dict] = {}

@@ -22,6 +22,7 @@ from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.checks.flags import Flags
+from weblate.trans.file_format_params import get_params_for_file_format
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash
@@ -37,6 +38,7 @@ if TYPE_CHECKING:
     from weblate.lang.models import Language, Plural
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Component, Translation, Unit
+    from weblate.utils.state import StringState
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -393,6 +395,12 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     has_multiple_strings: bool = False
     supports_explanation: bool = False
     supports_plural: bool = False
+    supports_descriptions: bool = False
+    supports_context: bool = False
+    supports_location: bool = False
+    supports_flags: bool = False
+    supports_read_only: bool = False
+    additional_states: tuple[StringState, ...] = ()
     can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
@@ -1005,6 +1013,7 @@ class BaseExporter:
     name = ""
     verbose: StrOrPromise = ""
     set_id = False
+    file_format = ""
     storage_class: ClassVar[type[TranslateToolkitStore]]
 
     def __init__(
@@ -1038,6 +1047,7 @@ class BaseExporter:
     @cached_property
     def storage(self):
         storage = self.get_storage()
+        self.setup_storage(storage)
         storage.setsourcelanguage(self.source_language.code)
         storage.settargetlanguage(self.language.code)
         return storage
@@ -1056,6 +1066,18 @@ class BaseExporter:
 
     def get_storage(self):
         return self.storage_class()
+
+    def setup_storage(self, storage: TranslateToolkitStore) -> None:
+        if self.translation is None or not self.file_format:
+            return
+
+        params = self.translation.component.file_format_params
+        for param_class in get_params_for_file_format(self.file_format):
+            if param_class.is_encoding():
+                encoding = param_class.get_value(params)
+                if encoding != "auto":
+                    storage.encoding = encoding
+            param_class().setup_store(storage, **params)
 
     def add(self, unit: TranslateToolkitUnit, word: str) -> None:
         unit.target = word

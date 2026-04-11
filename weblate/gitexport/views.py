@@ -4,7 +4,8 @@
 from __future__ import annotations
 
 import os.path
-import subprocess
+import re
+import subprocess  # noqa: S404
 from base64 import b64decode
 from contextlib import suppress
 from email import message_from_string
@@ -17,17 +18,20 @@ from typing import TYPE_CHECKING, BinaryIO, cast
 from django.contrib.auth.decorators import login_not_required
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, StreamingHttpResponse
-from django.http.response import HttpResponse, HttpResponseServerError
+from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
 from weblate.auth.models import User
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.trans.models import Component
+from weblate.trans.util import cleanup_repo_url, sanitize_backend_error_message
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
@@ -38,12 +42,234 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
+MISSING_REVISION_PATTERNS = (
+    re.compile(r"\bnot our ref\b", re.IGNORECASE),
+    re.compile(r"\bwant [0-9a-f]{7,64} not valid\b", re.IGNORECASE),
+)
+WANT_REVISION_LINE_RE = re.compile(
+    rb"^want (?P<revision>[0-9a-f]{40,64})(?:[\x00\s]|$)"
+)
+HAVE_REVISION_LINE_RE = re.compile(
+    rb"^have (?P<revision>[0-9a-f]{40,64})(?:[\x00\s]|$)"
+)
+MAX_PRECHECK_REVISIONS = 32
+PRECHECK_MISSING_WANT = "missing_want"
+PRECHECK_NO_COMMON_BASE = "no_common_base"
+
 
 def response_authenticate():
     """Return 401 response with authenticate header."""
     response = HttpResponse(status=401)
     response["WWW-Authenticate"] = 'Basic realm="Weblate Git access"'
     return response
+
+
+def response_text(message: str, *, status: int) -> HttpResponse:
+    """Return plain text response for Git clients."""
+    return HttpResponse(
+        f"{message}\n",
+        status=status,
+        content_type="text/plain; charset=utf-8",
+    )
+
+
+def response_packet_error(message: str, *, service: str) -> HttpResponse:
+    """Return protocol-level Git error packet for smart HTTP clients."""
+    payload = f"ERR {message}".encode()
+    packet = f"{len(payload) + 4:04x}".encode("ascii") + payload + b"0000"
+    return HttpResponse(
+        packet,
+        content_type=f"application/x-{service}-result",
+    )
+
+
+def get_upstream_location(
+    component: Component, *, can_view: bool, use_push: bool = False
+) -> str | None:
+    """Return sanitized upstream location for user-facing errors."""
+    if not can_view:
+        return None
+
+    location = component.push if use_push else component.repo
+    if not location:
+        return None
+
+    return cleanup_repo_url(location)
+
+
+def get_push_error_message(component: Component, *, can_view: bool) -> str:
+    """Return guidance for rejected push attempts."""
+    location = get_upstream_location(component, can_view=can_view, use_push=True)
+    if location is None:
+        return gettext(
+            "Push is not supported over the Weblate Git exporter. "
+            "Push to the upstream repository instead."
+        )
+
+    return gettext(
+        "Push is not supported over the Weblate Git exporter. "
+        "Push to the upstream repository instead: {location}"
+    ).format(location=location)
+
+
+def get_missing_revision_message(component: Component, *, can_view: bool) -> str:
+    """Return guidance for missing revisions in local checkout."""
+    location = get_upstream_location(component, can_view=can_view)
+    if location is None:
+        return gettext(
+            "The requested revision is not available in Weblate's local Git "
+            "checkout. Fetch it from the upstream repository first."
+        )
+
+    return gettext(
+        "The requested revision is not available in Weblate's local Git "
+        "checkout. Fetch it from the upstream repository first: {location}"
+    ).format(location=location)
+
+
+def get_no_common_base_message(component: Component, *, can_view: bool) -> str:
+    """Return guidance for shallow fetches without shared history."""
+    location = get_upstream_location(component, can_view=can_view)
+    if location is None:
+        return gettext(
+            "Weblate's shallow Git checkout does not share enough history with "
+            "this repository to satisfy the fetch. Fetch from the upstream "
+            "repository first, or use a clone that shares history with Weblate."
+        )
+
+    return gettext(
+        "Weblate's shallow Git checkout does not share enough history with "
+        "this repository to satisfy the fetch. Fetch from the upstream "
+        "repository first, or use a clone that shares history with Weblate. "
+        "Upstream repository: {location}"
+    ).format(location=location)
+
+
+def format_backend_error(
+    component: Component, output_err: str, *, can_view: bool
+) -> str:
+    """Format backend failure for user-facing response."""
+    if any(pattern.search(output_err) for pattern in MISSING_REVISION_PATTERNS):
+        return get_missing_revision_message(component, can_view=can_view)
+
+    sanitized = sanitize_backend_error_message(
+        output_err,
+        repo_urls=(component.repo, component.push),
+        extra_paths=(component.full_path,),
+    )
+    if sanitized:
+        return sanitized
+
+    return gettext("Git export failed.")
+
+
+def iter_pkt_lines(body: bytes) -> Iterator[bytes]:
+    """Yield pkt-line payloads from the raw Git request body."""
+    pos = 0
+    body_length = len(body)
+
+    while pos + 4 <= body_length:
+        try:
+            packet_length = int(body[pos : pos + 4], 16)
+        except ValueError:
+            return
+
+        pos += 4
+
+        if packet_length <= 4:
+            continue
+
+        payload_length = packet_length - 4
+        if pos + payload_length > body_length:
+            return
+
+        yield body[pos : pos + payload_length]
+        pos += payload_length
+
+
+def get_negotiation_revisions(body: bytes) -> tuple[list[str], list[str]] | None:
+    """Extract wanted and advertised-have revisions from upload-pack requests."""
+    wanted_revisions: list[str] = []
+    have_revisions: list[str] = []
+    seen: set[str] = set()
+
+    for line in iter_pkt_lines(body):
+        match = WANT_REVISION_LINE_RE.match(line)
+        target = wanted_revisions
+        if match is None:
+            match = HAVE_REVISION_LINE_RE.match(line)
+            target = have_revisions
+        if match is None:
+            continue
+
+        revision = match.group("revision").decode("ascii")
+        if revision in seen:
+            continue
+
+        seen.add(revision)
+        target.append(revision)
+
+        if len(seen) > MAX_PRECHECK_REVISIONS:
+            return None
+
+    return wanted_revisions, have_revisions
+
+
+def is_shallow_checkout(component: Component) -> bool:
+    """Check whether component checkout uses Git shallow clone metadata."""
+    has_git_file = getattr(component.repository, "has_git_file", None)
+    if callable(has_git_file):
+        return bool(has_git_file("shallow"))
+    return os.path.exists(os.path.join(component.full_path, ".git", "shallow"))
+
+
+def get_precheck_failure_reason(component: Component, body: bytes) -> str | None:
+    """Return shallow upload-pack precheck failure reason, if any."""
+    if not is_shallow_checkout(component):
+        return None
+
+    execute = getattr(component.repository, "execute", None)
+    if not callable(execute):
+        return None
+
+    revisions = get_negotiation_revisions(body)
+    if revisions is None:
+        return None
+    wanted_revisions, have_revisions = revisions
+    all_revisions = wanted_revisions + have_revisions
+    if not all_revisions:
+        return None
+
+    try:
+        output = execute(
+            ["cat-file", "--batch-check"],
+            needs_lock=False,
+            stdin="".join(f"{revision}\n" for revision in all_revisions),
+        )
+    except RepositoryError:
+        return None
+
+    missing_revisions = {
+        revision
+        for revision, line in zip(all_revisions, output.splitlines(), strict=False)
+        if line.endswith(" missing")
+    }
+    if any(revision in missing_revisions for revision in wanted_revisions):
+        return PRECHECK_MISSING_WANT
+
+    if (
+        wanted_revisions
+        and have_revisions
+        and all(revision in missing_revisions for revision in have_revisions)
+    ):
+        return PRECHECK_NO_COMMON_BASE
+
+    return None
+
+
+def has_missing_requested_revision(component: Component, body: bytes) -> bool:
+    """Check whether upload-pack negotiation will fail on a shallow checkout."""
+    return get_precheck_failure_reason(component, body) is not None
 
 
 def authenticate(request: HttpRequest, auth: str) -> bool:
@@ -82,10 +308,11 @@ def git_export(
     Wrapper around git-http-backend to provide Git repositories export over HTTP.
     Performs permission checks and hands over execution to the wrapper.
     """
-    # Reject non pull access early
-    if request.GET.get("service", "") not in {"", "git-upload-pack"}:
-        msg = "Only pull is supported"
-        raise PermissionDenied(msg)
+    service = request.GET.get("service", "")
+
+    # Reject unsupported services early
+    if service not in {"", "git-upload-pack", "git-receive-pack"}:
+        return response_text(gettext("Unsupported Git service."), status=403)
 
     # HTTP authentication
     auth = request.headers.get("authorization", "")
@@ -124,6 +351,25 @@ def git_export(
             permanent=True,
         )
 
+    can_view = bool(request.user.has_perm("vcs.view", obj))
+    is_shallow = is_shallow_checkout(obj)
+
+    if service == "git-receive-pack" or git_request == "git-receive-pack":
+        return response_text(get_push_error_message(obj, can_view=can_view), status=403)
+
+    if request.method == "POST" and git_request == "git-upload-pack" and is_shallow:
+        precheck_reason = get_precheck_failure_reason(obj, request.body)
+        if precheck_reason == PRECHECK_MISSING_WANT:
+            return response_packet_error(
+                get_missing_revision_message(obj, can_view=can_view),
+                service="git-upload-pack",
+            )
+        if precheck_reason == PRECHECK_NO_COMMON_BASE:
+            return response_packet_error(
+                get_no_common_base_message(obj, can_view=can_view),
+                service="git-upload-pack",
+            )
+
     # Invoke Git HTTP backend
     wrapper = GitHTTPBackendWrapper(obj, request, git_request)
     return wrapper.get_response()
@@ -160,7 +406,8 @@ class GitHTTPBackendWrapper:
             raise SuspiciousOperation(msg)
 
         # Invoke Git HTTP backend
-        self.process = subprocess.Popen(
+        # pylint: disable-next=consider-using-with
+        self.process = subprocess.Popen(  # noqa: S603
             [git_http_backend],
             env=self.get_env(),
             stdin=subprocess.PIPE,
@@ -240,7 +487,7 @@ class GitHTTPBackendWrapper:
 
         retcode = self.process.poll()
 
-        output_err = b"".join(self._stderr).decode()
+        output_err = b"".join(self._stderr).decode(errors="replace")
 
         # Log error
         if output_err:
@@ -254,7 +501,14 @@ class GitHTTPBackendWrapper:
 
         # Handle failure
         if retcode is not None and retcode != 0:
-            return HttpResponseServerError(output_err)
+            return response_text(
+                format_backend_error(
+                    self.obj,
+                    output_err,
+                    can_view=bool(self.request.user.has_perm("vcs.view", self.obj)),
+                ),
+                status=500,
+            )
 
         message = message_from_string(self._headers.decode())
 

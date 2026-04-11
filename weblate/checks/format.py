@@ -92,6 +92,22 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
+OBJC_PRINTF_MATCH = re.compile(
+    r"""
+    %(                          # initial %
+          (?:(?P<ord>\d+)\$)?   # variable order, like %1$@
+    (?P<fullvar>
+        \#@[^@]+@              # Stringsdict token like %#@name@
+        |[ +#'-]*              # flags
+        (?:\d+)?               # width
+        (?:\.\d+)?             # precision
+        (hh|ll|h|l|z|t|j|q|L)?  # length formatting
+        (?P<type>[a-zA-Z@%])   # type (%s, %d, %@ etc.)
+        |)                     # incomplete format string
+    )""",
+    re.VERBOSE,
+)
+
 # index, width and precision can be '*', in which case their value
 # will be read from the next element in the Args array
 PASCAL_FORMAT_MATCH = re.compile(
@@ -246,6 +262,13 @@ def c_format_is_position_based(string: str):
     return "$" not in string and string != "%"
 
 
+def objc_format_is_position_based(string: str):
+    # Stringsdict tokens like %#@name@ are named references, not positional
+    if string.startswith("#@"):
+        return False
+    return "$" not in string and string != "%"
+
+
 def pascal_format_is_position_based(string: str):
     return ":" not in string and string != "%"
 
@@ -347,6 +370,11 @@ FLAG_RULES: dict[
     "laravel-format": (
         LARAVEL_MATCH,
         name_format_is_position_based,
+        extract_string_simple,
+    ),
+    "objc-format": (
+        OBJC_PRINTF_MATCH,
+        objc_format_is_position_based,
         extract_string_simple,
     ),
 }
@@ -606,6 +634,15 @@ class CFormatCheck(BasePrintfCheck):
     check_id = "c_format"
     name = gettext_lazy("C format")
     description = gettext_lazy("C format string does not match source.")
+
+
+class ObjCFormatCheck(BasePrintfCheck):
+    """Check for Objective-C format string."""
+
+    check_id = "objc_format"
+    name = gettext_lazy("Objective-C format")
+    description = gettext_lazy("Objective-C format string does not match source.")
+    version_added = "5.17"
 
 
 class PerlBraceFormatCheck(BaseFormatCheck):

@@ -69,7 +69,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.0.3-alpine@sha256:84c96f47ebe197e635cd3ddbe3ab74e8bdf783cf3befbfb1c36387275c1cd5d5
+        image: valkey/valkey:9.0.3-alpine@sha256:e1095c6c76ee982cb2d1e07edbb7fb2a53606630a1d810d5a47c9f646b708bf5
         ports:
         - 6379:6379
         options: >-
@@ -95,7 +95,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.11.2
+        version: 0.11.6
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies

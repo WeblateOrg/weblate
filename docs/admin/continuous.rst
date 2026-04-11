@@ -214,13 +214,16 @@ Automatically receiving changes from GitHub
 Weblate comes with native support for GitHub.
 
 If you are using Hosted Weblate, the recommended approach is to install the
-`Weblate app <https://github.com/apps/weblate>`_, that way you will get the
-correct setup without having to set much up. It can also be used for pushing
-changes back.
+`Weblate app <https://github.com/apps/weblate>`_. The app delivers GitHub
+notifications to Hosted Weblate, so you do not need to configure a separate
+:guilabel:`Webhook` in GitHub. It does not by itself grant Hosted Weblate write
+access to the repository, though. To push changes back, you still need to add
+the Hosted Weblate :guilabel:`weblate` GitHub user as a collaborator with write
+access, see :ref:`hosted-push`.
 
-To receive notifications on every push to a GitHub repository,
-add the Weblate Webhook in the repository settings (:guilabel:`Webhooks`)
-as shown on the image below:
+If you are not using the app, add the Weblate Webhook in the repository
+settings (:guilabel:`Webhooks`) to receive notifications on every push to a
+GitHub repository, as shown on the image below:
 
 .. image:: /images/github-settings.png
 
@@ -323,6 +326,22 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
 
    * `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_
    * :http:post:`/hooks/gitea/`
+   * :ref:`hosted-push`
+
+.. _forgejo-setup:
+
+Automatically receiving changes from Forgejo Repos
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` for
+:guilabel:`Push events` event with destination to ``/hooks/forgejo/`` URL on your
+Weblate installation (for example ``https://hosted.weblate.org/hooks/forgejo/``).
+This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
+
+.. seealso::
+
+   * `Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/webhooks/>`_
+   * :http:post:`/hooks/forgejo/`
    * :ref:`hosted-push`
 
 .. _gitee-setup:

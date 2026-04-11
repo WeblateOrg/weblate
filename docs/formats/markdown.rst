@@ -20,6 +20,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.md
     :language: md
 
+.. include:: /snippets/format-features/markdown-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

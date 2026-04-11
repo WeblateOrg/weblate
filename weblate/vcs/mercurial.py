@@ -386,6 +386,7 @@ class HgRepository(Repository):
 
     def push(self, branch) -> None:
         """Push given branch to remote repository."""
+        self.validate_push_url()
         try:
             self.execute(["push", f"--branch={self.branch}"])
         except RepositoryError as error:
@@ -411,6 +412,7 @@ class HgRepository(Repository):
 
     def update_remote(self) -> None:
         """Update remote repository."""
+        self.validate_pull_url()
         self.execute(["pull", f"--branch={self.branch}"])
         self.clean_revision_cache()
 

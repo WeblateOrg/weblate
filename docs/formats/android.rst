@@ -67,6 +67,8 @@ Weblate does following escaping of strings:
    * :doc:`/formats/moko-resources`
    * :doc:`tt:formats/android`
 
+.. include:: /snippets/format-features/aresource-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

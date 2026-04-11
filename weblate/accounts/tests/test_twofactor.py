@@ -203,6 +203,37 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertEqual(response.context["user"], self.user)
 
+    def test_login_totp_rejects_unsafe_next(self) -> None:
+        device = self.add_totp()
+        self.client.logout()
+
+        response = self.client.post(
+            reverse("login"),
+            {
+                "username": "testuser",
+                "password": "testpassword",
+                "next": "https://evil.example/",
+            },
+        )
+
+        second_factor_url = response["Location"]
+        self.assertTrue(
+            second_factor_url.startswith(
+                reverse("2fa-login", kwargs={"backend": "totp"})
+            )
+        )
+        self.assertIn("next=https%3A%2F%2Fevil.example%2F", second_factor_url)
+
+        totp_response = totp(
+            device.bin_key, device.step, device.t0, device.digits, device.drift
+        )
+        response = self.client.post(
+            second_factor_url, {"otp_token": totp_response}, follow=True
+        )
+
+        self.assertRedirects(response, reverse("home"))
+        self.assertEqual(response.context["user"], self.user)
+
     def test_team_enforced_2fa(self) -> None:
         # Turn on enforcement on all user teams
         self.user.groups.update(enforced_2fa=True)

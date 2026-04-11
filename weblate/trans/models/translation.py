@@ -43,7 +43,12 @@ from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
 from weblate.trans.signals import component_post_update, vcs_pre_commit
-from weblate.trans.util import is_plural, join_plural, split_plural
+from weblate.trans.util import (
+    is_plural,
+    join_plural,
+    sanitize_backend_error_message,
+    split_plural,
+)
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -1300,7 +1305,6 @@ class Translation(
 
         if accepted > 0:
             self.store_update_changes()
-            self.component.update_source_checks()
             self.component.run_batched_checks()
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
@@ -1409,7 +1413,11 @@ class Translation(
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
-                    % str(error).replace(self.component.full_path, "")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(self.component.repo, self.component.push),
+                        extra_paths=(self.component.full_path,),
+                    )
                 ) from error
 
             # Create actual file with the uploaded content
@@ -1462,7 +1470,11 @@ class Translation(
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
-                    % str(error).replace(self.component.full_path, "")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(self.component.repo, self.component.push),
+                        extra_paths=(self.component.full_path,),
+                    )
                 ) from error
             # This will throw an exception in case of error
             try:
@@ -1474,7 +1486,11 @@ class Translation(
                         "Could not parse uploaded file as {file_format}: {error}"
                     ).format(
                         file_format=self.component.file_format_cls.name,
-                        error=str(error).replace(self.component.full_path, ""),
+                        error=sanitize_backend_error_message(
+                            str(error),
+                            repo_urls=(self.component.repo, self.component.push),
+                            extra_paths=(self.component.full_path,),
+                        ),
                     )
                 ) from error
 
@@ -1541,7 +1557,6 @@ class Translation(
         if component.needs_variants_update:
             component.update_variants()
         component.schedule_sync_terminology()
-        component.update_source_checks()
         component.run_batched_checks()
         component_post_update.send(sender=self.__class__, component=component)
         return (0, skipped, accepted, len(store.content_units))
@@ -1568,7 +1583,11 @@ class Translation(
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
-                    % str(error).replace(self.component.full_path, "")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(self.component.repo, self.component.push),
+                        extra_paths=(self.component.full_path,),
+                    )
                 ) from error
 
         # Load backend file

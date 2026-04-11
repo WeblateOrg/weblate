@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import subprocess
+import subprocess  # noqa: S404
 
 from celery.schedules import crontab
 
@@ -30,7 +30,7 @@ def cleanup_font_files() -> None:
 def update_fonts_cache() -> None:
     configure_fontconfig()
     subprocess.run(
-        ["fc-cache"],
+        ["fc-cache"],  # noqa: S607
         env=get_clean_env(),
         check=True,
         capture_output=True,

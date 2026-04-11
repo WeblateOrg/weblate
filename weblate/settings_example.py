@@ -371,6 +371,18 @@ REGISTRATION_OPEN = True
 # Allow registration with disposable e-mail domains
 REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 
+# Project website restriction allowlist
+# PROJECT_WEB_RESTRICT_ALLOWLIST = {"trusted-project"}
+
+# Restrict private webhook targets
+# WEBHOOK_RESTRICT_PRIVATE = True
+
+# Restrict private VCS repository targets
+# VCS_RESTRICT_PRIVATE = True
+
+# Private webhook target allowlist
+# WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
 
@@ -596,7 +608,7 @@ if HAVE_SYSLOG:
         "facility": SysLogHandler.LOG_LOCAL2,
     }
 
-# Configure GELF integration if presetn
+# Configure GELF integration if present
 if WEBLATE_LOG_GELF_HOST:
     LOGGING["formatters"]["gelf"] = {
         "()": "logging_gelf.formatters.GELFFormatter",
@@ -641,7 +653,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Apply session coookie settings to language cookie as well with exception
+# Apply session cookie settings to language cookie as well with exception
 # of SameSite as we want language to be honored in CSRF error messages.
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
@@ -730,6 +742,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.checks.format.ObjectPascalFormatCheck",
 #     "weblate.checks.format.SchemeFormatCheck",
 #     "weblate.checks.format.CSharpFormatCheck",
+#     "weblate.checks.format.LaravelFormatCheck",
 #     "weblate.checks.format.JavaFormatCheck",
 #     "weblate.checks.format.JavaMessageFormatCheck",
 #     "weblate.checks.format.PercentPlaceholdersCheck",
@@ -755,6 +768,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.checks.render.MaxSizeCheck",
 #     "weblate.checks.markup.XMLValidityCheck",
 #     "weblate.checks.markup.XMLTagsCheck",
+#     "weblate.checks.markup.XMLCharsAroundTagsCheck",
 #     "weblate.checks.markup.MarkdownRefLinkCheck",
 #     "weblate.checks.markup.MarkdownLinkCheck",
 #     "weblate.checks.markup.MarkdownSyntaxCheck",
@@ -787,6 +801,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.trans.autofixes.chars.RemoveZeroSpace",
 #     "weblate.trans.autofixes.chars.RemoveControlChars",
 #     "weblate.trans.autofixes.chars.DevanagariDanda",
+#     "weblate.trans.autofixes.chars.PunctuationSpacing",
 #     "weblate.trans.autofixes.html.BleachHTML",
 # )
 
@@ -797,6 +812,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.gettext.UpdateConfigureAddon",
 #     "weblate.addons.gettext.MsgmergeAddon",
 #     "weblate.addons.gettext.XgettextAddon",
+#     "weblate.addons.gettext.MesonAddon",
 #     "weblate.addons.gettext.DjangoAddon",
 #     "weblate.addons.gettext.SphinxAddon",
 #     "weblate.addons.gettext.GettextAuthorComments",
@@ -950,3 +966,4 @@ MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 SENTRY_ENVIRONMENT = SITE_DOMAIN
+PASSWORD_RESET_URL = None

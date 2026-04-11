@@ -4,13 +4,14 @@
 
 """Captcha tests."""
 
+import json
 from unittest import TestCase
 
 from django.http import HttpRequest
 from django.test.utils import override_settings
 
 from weblate.accounts.captcha import MathCaptcha, solve_altcha
-from weblate.accounts.forms import CaptchaForm
+from weblate.accounts.forms import CaptchaForm, CaptchaWidget
 
 
 class CaptchaTest(TestCase):
@@ -28,6 +29,20 @@ class CaptchaTest(TestCase):
         for operator in MathCaptcha.operators:
             captcha.operators = (operator,)
             self.assertIn(operator, captcha.generate_question())
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_MAX_NUMBER=100,
+    )
+    def test_widget_challenge_serialization(self) -> None:
+        request = HttpRequest()
+        request.method = "GET"
+        request.session = {}
+        form = CaptchaForm(request=request)
+        serialized = json.loads(CaptchaWidget.serialize_challenge(form.challenge))
+        self.assertEqual(serialized["maxNumber"], 100)
+        self.assertNotIn("maxnumber", serialized)
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,

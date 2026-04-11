@@ -32,7 +32,7 @@ from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_
 from weblate.utils.ratelimit import reset_rate_limit
 
 if TYPE_CHECKING:
-    from altcha import Challenge
+    from altcha import ChallengeV1 as Challenge
 
 REGISTRATION_DATA = {
     "username": "username",

@@ -638,6 +638,49 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "Spanish")
         self.assertContains(response, '<input type="hidden" name="lang" value="es" />')
 
+    @override_settings(BASIC_LANGUAGES=set())
+    def test_view_component_ghost_for_project_translation_language(self) -> None:
+        language = Language.objects.get(code="fr")
+        other = self.create_po_new_base(
+            project=self.project,
+            name="Other component",
+            new_lang="add",
+        )
+        other.add_new_language(language, None, show_messages=False)
+
+        self.user.profile.languages.add(language)
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, "French")
+        self.assertContains(response, '<input type="hidden" name="lang" value="fr" />')
+
+    @override_settings(BASIC_LANGUAGES=set())
+    def test_view_component_ghost_for_project_source_language(self) -> None:
+        language = Language.objects.get(code="fr")
+        self.create_po_new_base(
+            project=self.project,
+            name="French source component",
+            source_language=language,
+            new_lang="add",
+        )
+
+        self.user.profile.languages.add(language)
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, "French")
+        self.assertContains(response, '<input type="hidden" name="lang" value="fr" />')
+
+    @override_settings(BASIC_LANGUAGES=set())
+    def test_view_component_ghost_ignores_unrelated_language(self) -> None:
+        language = Language.objects.auto_get_or_create("zz_ZZ")
+        self.user.profile.languages.add(language)
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertNotContains(
+            response, '<input type="hidden" name="lang" value="zz_ZZ" />'
+        )
+
     def test_view_component_guide(self) -> None:
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")

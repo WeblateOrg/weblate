@@ -22,6 +22,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.ts
     :language: xml
 
+.. include:: /snippets/format-features/ts-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

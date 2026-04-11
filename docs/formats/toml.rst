@@ -27,6 +27,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.goi18n.toml
     :language: toml
 
+.. include:: /snippets/format-features/toml-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

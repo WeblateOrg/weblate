@@ -20,6 +20,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.php
     :language: php
 
+.. include:: /snippets/format-features/php-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

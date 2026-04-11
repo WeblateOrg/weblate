@@ -29,6 +29,7 @@ from weblate.utils.validators import (
     validate_repo_url,
     validate_username,
     validate_webhook_secret_string,
+    validate_webhook_url,
 )
 
 
@@ -223,18 +224,64 @@ class WebhookSecretTestCase(SimpleTestCase):
             validate_webhook_secret_string(value)
 
 
+class WebhookURLTest(SimpleTestCase):
+    def test_private(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            validate_webhook_url("https://private.example/hook")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_private_disabled(self) -> None:
+        with (
+            override_settings(WEBHOOK_RESTRICT_PRIVATE=False),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_webhook_url("https://private.example/hook")
+
+    def test_private_allowlisted(self) -> None:
+        with (
+            override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["private.example"]),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_webhook_url("https://private.example/hook")
+
+
 class WebsiteTest(SimpleTestCase):
     def test_regexp(self) -> None:
         validate_project_web("https://weblate.org")
         with (
             override_settings(PROJECT_WEB_RESTRICT_RE="https://weblate.org"),
-            self.assertRaises(ValidationError),
+            self.assertRaises(ValidationError) as error,
         ):
             validate_project_web("https://weblate.org")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_RE="https://weblate.org",
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"},
+        ):
+            validate_project_web("https://weblate.org", project_slug="trusted-project")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_RE="https://weblate.org",
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"Trusted-Project"},
+        ):
+            validate_project_web("https://weblate.org", project_slug="trusted-project")
+
+        self.assertIn("matches a restricted pattern", str(error.exception))
 
     def test_host(self) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_project_web("https://localhost")
+        self.assertIn("uses a restricted host", str(error.exception))
         with self.assertRaises(ValidationError):
             validate_project_web("https://localHOST")
         with override_settings(
@@ -242,14 +289,23 @@ class WebsiteTest(SimpleTestCase):
         ):
             validate_project_web("https://localhost")
         with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
-            with self.assertRaises(ValidationError):
+            with self.assertRaises(ValidationError) as error:
                 validate_project_web("https://example.com")
+            self.assertIn("uses a restricted host", str(error.exception))
             with self.assertRaises(ValidationError):
                 validate_project_web("https://foo.example.com")
+        with override_settings(
+            PROJECT_WEB_RESTRICT_HOST={"example.com"},
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"},
+        ):
+            validate_project_web(
+                "https://foo.example.com", project_slug="trusted-project"
+            )
 
     def test_numeric(self) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_project_web("https://1.1.1.1")
+        self.assertIn("uses a numeric IP address", str(error.exception))
         with self.assertRaises(ValidationError):
             validate_project_web("https://[2606:4700:4700::1111]")
         with override_settings(
@@ -257,16 +313,19 @@ class WebsiteTest(SimpleTestCase):
         ):
             validate_project_web("https://[2606:4700:4700::1111]")
             validate_project_web("https://1.1.1.1")
+        with override_settings(PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"}):
+            validate_project_web("https://1.1.1.1", project_slug="trusted-project")
 
     def test_private(self) -> None:
         with (
-            self.assertRaises(ValidationError),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
             ),
+            self.assertRaises(ValidationError) as error,
         ):
             validate_project_web("https://private.example")
+        self.assertIn("internal or non-public address", str(error.exception))
         with (
             self.assertRaises(ValidationError),
             patch(
@@ -283,6 +342,16 @@ class WebsiteTest(SimpleTestCase):
             ),
         ):
             validate_project_web("https://private.example")
+        with (
+            override_settings(PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"}),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_project_web(
+                "https://private.example", project_slug="trusted-project"
+            )
 
     def test_repoweb_private(self) -> None:
         with (
@@ -311,30 +380,30 @@ class WebsiteTest(SimpleTestCase):
             validate_repoweb("https://private.example/{{ filename }}")
 
     @patch(
-        "weblate.utils.validators.validate_runtime_url",
+        "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=UnicodeError("label empty or too long"),
     )
     def test_project_web_malformed_idna_is_validation_error(
-        self, mocked_validate_runtime_url
+        self, mocked_getaddrinfo
     ) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_project_web("https://a..b")
 
         self.assertIn("Could not resolve the URL domain", str(error.exception))
-        mocked_validate_runtime_url.assert_called_once()
+        mocked_getaddrinfo.assert_called_once()
 
     @patch(
-        "weblate.utils.render.validate_runtime_url",
+        "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=UnicodeError("label empty or too long"),
     )
     def test_repoweb_malformed_idna_is_validation_error(
-        self, mocked_validate_runtime_url
+        self, mocked_getaddrinfo
     ) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_repoweb("https://a..b/{{ filename }}")
 
         self.assertIn("Could not resolve the URL domain", str(error.exception))
-        mocked_validate_runtime_url.assert_called_once()
+        mocked_getaddrinfo.assert_called_once()
 
     def verify_validator(self, validator) -> None:
         validator("https://1.1.1.1")
@@ -407,8 +476,9 @@ class BackupTest(SimpleTestCase):
 
 class OutboundAddressValidationTest(SimpleTestCase):
     def test_validate_runtime_ip_rejects_shared_address_space(self) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_runtime_ip("100.64.0.1", allow_private_targets=False)
+        self.assertIn("internal or non-public address", str(error.exception))
 
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -417,11 +487,12 @@ class OutboundAddressValidationTest(SimpleTestCase):
     def test_validate_runtime_url_rejects_shared_address_space(
         self, mocked_getaddrinfo
     ) -> None:
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(ValidationError) as error:
             validate_runtime_url(
                 "https://shared-address-space.example",
                 allow_private_targets=False,
             )
+        self.assertIn("internal or non-public address", str(error.exception))
 
         mocked_getaddrinfo.assert_called_once_with(
             "shared-address-space.example", None, type=1
@@ -443,6 +514,46 @@ class RepoURLValidationTestCase(SimpleTestCase):
     def test_file(self):
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
             validate_repo_url("file:///home/weblate")
+
+    def test_file_localhost(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}),
+            self.assertRaisesMessage(ValidationError, "Could not parse URL."),
+        ):
+            validate_repo_url("file://localhost/home/weblate")
+
+    def test_file_nonlocal_host(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}),
+            self.assertRaisesMessage(ValidationError, "Could not parse URL."),
+        ):
+            validate_repo_url("file://example.com/home/weblate")
+
+    def test_file_not_filtered_by_allow_hosts(self) -> None:
+        with override_settings(
+            VCS_ALLOW_SCHEMES={"https", "ssh", "file"},
+            VCS_ALLOW_HOSTS={"example.com"},
+        ):
+            validate_repo_url("file:///home/weblate")
+
+    def test_local_path_rejected_without_file_scheme(self) -> None:
+        with (
+            override_settings(
+                VCS_ALLOW_SCHEMES={"https", "ssh"},
+                VCS_ALLOW_HOSTS={"example.com"},
+            ),
+            self.assertRaisesMessage(
+                ValidationError, "Fetching VCS repository using file is not allowed."
+            ),
+        ):
+            validate_repo_url("/home/weblate")
+
+    def test_local_path_not_filtered_by_allow_hosts(self) -> None:
+        with override_settings(
+            VCS_ALLOW_SCHEMES={"https", "ssh", "file"},
+            VCS_ALLOW_HOSTS={"example.com"},
+        ):
+            validate_repo_url("/home/weblate")
 
     def test_weblate(self):
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
@@ -472,6 +583,20 @@ class RepoURLValidationTestCase(SimpleTestCase):
             validate_repo_url("username@example.com:path")
             validate_repo_url("username@example.com/path")
 
+    def test_ext_rejected(self):
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            self.assertRaises(ValidationError),
+        ):
+            validate_repo_url('ext::sh -c "id" dummy')
+
+    def test_ssh_without_host(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            self.assertRaisesMessage(ValidationError, "Could not parse URL."),
+        ):
+            validate_repo_url("ssh:///path")
+
     def test_ssh_allow(self):
         with override_settings(
             VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
@@ -483,3 +608,53 @@ class RepoURLValidationTestCase(SimpleTestCase):
                 validate_repo_url("git@github.com:weblate.git")
             with self.assertRaises(ValidationError):
                 validate_repo_url("user@gitlab.com/weblate.git")
+
+    def test_private(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            validate_repo_url("https://private.example/repo.git")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_private_disabled(self) -> None:
+        with (
+            override_settings(
+                VCS_ALLOW_SCHEMES={"https", "ssh"},
+                VCS_RESTRICT_PRIVATE=False,
+            ),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_repo_url("https://private.example/repo.git")
+
+    def test_private_allowlisted_host(self) -> None:
+        with (
+            override_settings(
+                VCS_ALLOW_SCHEMES={"https", "ssh"},
+                VCS_ALLOW_HOSTS={"private.example"},
+            ),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+        ):
+            validate_repo_url("https://private.example/repo.git")
+
+    def test_private_ssh(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 22))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            validate_repo_url("git@private.example:repo.git")
+        self.assertIn("internal or non-public address", str(error.exception))

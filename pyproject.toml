@@ -41,7 +41,7 @@ schemas = [
   "weblate-schemas==2025.6"
 ]
 scripts = [
-  "django-debug-toolbar==6.2.0",
+  "django-debug-toolbar==6.3.0",
   "PyICU==2.16.2",
   "reuse==6.2.0",
   "scour==0.38.2",
@@ -54,30 +54,29 @@ test = [
   "pytest-github-actions-annotate-failures==0.4.0",
   "pytest-profiling==1.8.1",
   "pytest-xdist==3.8.0",
-  "pytest==9.0.2",
+  "pytest==9.0.3",
   "responses==0.26.0",
-  "respx==0.22.0",
-  "selenium==4.41.0",
+  "respx==0.23.1",
+  "selenium==4.43.0",
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.42.80",
+  "boto3-stubs==1.42.88",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.2",
-  "django-stubs[compatible-mypy]==6.0.1",
+  "django-stubs[compatible-mypy]==6.0.2",
   "djangorestframework-stubs==3.16.9",
-  "mypy==1.19.1",
+  "mypy==1.20.0",
   "PyGObject-stubs==2.17.0",
-  "types-dateparser==1.4.0.20260328",
-  "types-docutils==0.22.3.20260322",
-  "types-jsonschema==4.26.0.20260325",
+  "types-dateparser==1.4.0.20260408",
+  "types-docutils==0.22.3.20260408",
+  "types-jsonschema==4.26.0.20260408",
   "types-lxml==2026.2.16",
-  "types-openpyxl==3.1.5.20260322",
-  "types-Pillow==10.2.0.20240822",
-  "types-python-dateutil==2.9.0.20260323",
-  "types-regex==2026.3.32.20260329",
-  "types-requests==2.33.0.20260327",
-  "types-setuptools==82.0.0.20260210"
+  "types-openpyxl==3.1.5.20260408",
+  "types-python-dateutil==2.9.0.20260408",
+  "types-regex==2026.4.4.20260408",
+  "types-requests==2.33.0.20260408",
+  "types-setuptools==82.0.0.20260408"
 ]
 
 [project]
@@ -105,7 +104,7 @@ classifiers = [
 dependencies = [
   "aeidon>=1.15,<1.16",
   "ahocorasick-rs>=1.0.1,<1.1.0",
-  "altcha>=0.2.0,<1.1",
+  "altcha>=2.0,<2.1",
   "borgbackup>=1.4.0,<1.5",
   "celery[redis]>=5.5.3,<5.7",
   "certifi>=2026.2.25",
@@ -167,7 +166,7 @@ dependencies = [
   "social-auth-app-django>=5.5.1,<6.0.0",
   "social-auth-core>=4.7.0,<5.0.0",
   "tesserocr>=2.8.0,<2.11.0",
-  "translate-toolkit[toml]>=3.19.3,<3.20",
+  "translate-toolkit[toml]>=3.19.4,<3.20",
   "translation-finder>=2.22,<3.0",
   "unidecode>=1.4.0,<1.5",
   "urllib3[brotli,zstd]>=2.6.3,<3.0",
@@ -233,14 +232,11 @@ saml2idp = [
 sphinx = [
   "Sphinx"
 ]
-wlhosted = [
-  "wlhosted"
-]
 wllegal = [
-  "wllegal>=2026.2"
+  "wllegal>=2026.3"
 ]
 wsgi = [
-  "granian==2.7.2"
+  "granian==2.7.3"
 ]
 zxcvbn = [
   "django-zxcvbn-password-validator>=1.5.3,<1.7"
@@ -435,7 +431,6 @@ disable = [
   "attribute-defined-outside-init",  # TODO
   "broad-exception-caught",  # TODO
   "c-extension-no-member",
-  "consider-using-with",  # TODO
   "cyclic-import",
   "duplicate-code",  # TODO
   "fixme",
@@ -509,6 +504,8 @@ filterwarnings = [
   "ignore:Implicitly cleaning up <TemporaryDirectory.*/xdist-:ResourceWarning",
   # Happens via dateparser
   "ignore:Parsing dates involving a day of month without a year specified:Warning",
+  # Warning in the third-party module (xmlschema on Python 3.14)
+  "ignore:pathlib.PurePath.as_uri:DeprecationWarning:xmlschema.resources",
   # There is no way to address this in a backwards compatible way
   "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
   # Warning in the third-party module (borg)
@@ -578,9 +575,6 @@ ignore = [
   "PT",  # CONFIG: Not using pytest
   "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
-  "S404",  # CONFIG: `subprocess` module is possibly insecure
-  "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
-  "S607",  # CONFIG: executing system installed tools
   "TD002",  # CONFIG: no detailed TODO documentation is required
   "TD003",  # CONFIG: no detailed TODO documentation is required
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class

@@ -228,6 +228,25 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_html_escape(self) -> None:
+        content = format_translation(
+            ['<script>alert("x")</script>'],
+            self.component.source_language,
+        )["items"][0]["content"]
+        self.assertEqual(content, "&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;")
+        self.assertNotIn("<script>", content)
+
+    def test_diff_html_escape(self) -> None:
+        content = format_translation(
+            ['<script>alert("x")</script>'],
+            self.component.source_language,
+            diff="",
+        )["items"][0]["content"]
+        self.assertIn("<ins>", content)
+        self.assertIn("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;", content)
+        self.assertNotIn("<script>", content)
+        self.assertNotIn("</script>", content)
+
     def test_diff_change_newlinse(self) -> None:
         self.assertHTMLEqual(
             """
@@ -533,6 +552,25 @@ ahoj [hello]">Hello</span>
             world
             """,
         )
+
+    def test_glossary_script_escape(self) -> None:
+        content = format_translation(
+            ["Hello world"],
+            self.component.source_language,
+            glossary=[
+                self.build_glossary(
+                    "hello",
+                    '<script>alert(1)</script>"x="y',
+                    [(0, 5)],
+                )
+            ],
+        )["items"][0]["content"]
+        self.assertIn(
+            "&lt;script&gt;alert(1)&lt;/script&gt;&quot;x=&quot;y [hello]",
+            content,
+        )
+        self.assertNotIn("<script>", content)
+        self.assertNotIn('x="y', content)
 
     def test_glossary_multi(self) -> None:
         self.assertHTMLEqual(

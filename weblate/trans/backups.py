@@ -397,9 +397,12 @@ class ProjectBackup:
                     },
                 )
             )
+            image_name = screenshot.image.name
+            if image_name is None:
+                raise ValidationError(gettext("Screenshot image is missing."))
             backupzip.write(
                 os.path.join(settings.MEDIA_ROOT, screenshot.image.path),
-                os.path.join("screenshots", os.path.basename(screenshot.image.name)),
+                os.path.join("screenshots", os.path.basename(image_name)),
             )
 
         validate_schema(data, "weblate-component.schema.json")

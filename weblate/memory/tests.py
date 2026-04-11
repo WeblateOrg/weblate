@@ -12,6 +12,7 @@ from unittest.mock import MagicMock, call, patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.db.models import Q
 from django.test import SimpleTestCase
 from django.urls import reverse
 from jsonschema import validate
@@ -916,6 +917,38 @@ class ThresholdTestCase(SimpleTestCase):
 
 
 class LookupPolicyTest(SimpleTestCase):
+    def test_filter_type_scopes_file_entries_to_global_pool(self) -> None:
+        base = MagicMock()
+        filtered = MagicMock()
+        base.filter.return_value = filtered
+        user = MagicMock()
+        project = MagicMock()
+
+        with (
+            patch.dict(
+                "weblate.memory.models.settings.DATABASES",
+                {"default": {}, "memory_db": {}},
+            ),
+            patch.object(MemoryQuerySet, "using", return_value=base),
+        ):
+            result = Memory.objects.filter_type(
+                user=user,
+                project=project,
+                use_shared=True,
+                from_file=True,
+            )
+
+        self.assertIs(result, filtered)
+        expected = (
+            Q(from_file=True, user__isnull=True, project__isnull=True)
+            | Q(shared=True)
+            | Q(project=project)
+            | Q(user=user)
+        )
+        self.assertEqual(
+            base.filter.call_args.args[0].deconstruct(), expected.deconstruct()
+        )
+
     @patch("weblate.memory.models.adjust_similarity_threshold")
     def test_lookup_short_strings_stop_backing_off_early(
         self, adjust_threshold
@@ -928,6 +961,12 @@ class LookupPolicyTest(SimpleTestCase):
             results = Memory.objects.lookup("en", "cs", "Username", None, None, False)
 
         self.assertEqual(list(results), [])
+        base.filter_type.assert_called_once_with(
+            user=None,
+            project=None,
+            use_shared=False,
+            from_file=True,
+        )
         self.assertEqual(adjust_threshold.call_args_list, [call(0.97), call(0.92)])
 
     @patch("weblate.memory.models.adjust_similarity_threshold")
@@ -944,6 +983,12 @@ class LookupPolicyTest(SimpleTestCase):
             )
 
         self.assertEqual(list(results), [])
+        base.filter_type.assert_called_once_with(
+            user=None,
+            project=None,
+            use_shared=False,
+            from_file=True,
+        )
         adjust_threshold.assert_not_called()
         base.filter.assert_called_once_with(
             source="Username",

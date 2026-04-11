@@ -154,19 +154,23 @@ def add_ghost_translations(
 ):
     """Add ghost translations for user languages to the list."""
     project = obj if isinstance(obj, Project) else obj.project
-    language_ids = {translation.language.id for translation in translations}
-    languages_allowed: set[int] | None = None
-    for language in user.profile.all_languages:
-        # Skip languages already present
-        if language.id in language_ids:
-            continue
+    existing_language_ids = {translation.language.id for translation in translations}
+    user_languages = list(user.profile.all_languages)
+    missing_languages = [
+        language
+        for language in user_languages
+        if language.id not in existing_language_ids
+    ]
+    if not missing_languages:
+        return
 
+    allowed_language_ids = Language.objects.get_allowed_add_language_ids(
+        project, (language.id for language in missing_languages)
+    )
+
+    for language in missing_languages:
         # Skip languages not allowed for adding
-        if languages_allowed is None:
-            languages_allowed = set(
-                Language.objects.filter_for_add(project).values_list("id", flat=True)
-            )
-        if language.id not in languages_allowed:
+        if language.id not in allowed_language_ids:
             continue
 
         # Generate ghost object
@@ -1017,7 +1021,7 @@ def add_languages_to_component(
     component: Component,
     show_messages: bool,
 ) -> tuple[Any, Counter]:
-    added = False
+    added_codes: set[str] = set()
     result = component
     kwargs = {
         "user": user,
@@ -1039,7 +1043,7 @@ def add_languages_to_component(
                     show_messages=show_messages,
                 )
                 if translation:
-                    added = True
+                    added_codes.add(translation.language_code)
                     kwargs["translation"] = translation
                     if len(languages) == 1:
                         result = translation
@@ -1070,8 +1074,10 @@ def add_languages_to_component(
 
         with suppress(FileParseError):
             # force_scan needed, see add_new_language
-            if added and not component.create_translations(
-                request=request, force_scan=True
+            if added_codes and not component.create_translations(
+                request=request,
+                force_scan=True,
+                langs=sorted(added_codes),
             ):
                 if show_messages:
                     messages.success(

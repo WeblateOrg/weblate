@@ -548,6 +548,30 @@ class ComponentTest(RepoTestCase):
         component.push_branch = "branch"
         component.clean()
 
+    def test_invalid_git_branch_validation(self) -> None:
+        component = self.create_po()
+        component.branch = "--orphan"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        self.assertIn("Invalid repository branch", str(cm.exception))
+
+    def test_invalid_git_push_branch_validation(self) -> None:
+        component = self.create_po_push()
+        component.push_branch = "--orphan"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        self.assertIn("Invalid push branch", str(cm.exception))
+
     def _test_maintenance(self, component: Component) -> None:
         self.verify_component(component, 4, "cs", 4)
         with component.repository.lock:
@@ -861,6 +885,32 @@ class ComponentValidationTest(RepoTestCase):
             "Invalid link to a Weblate project, cannot link it to itself!",
         ):
             self.component.full_clean()
+
+    def test_private_repo_rejected(self) -> None:
+        self.component.repo = "https://private.example/repo.git"
+        with (
+            patch("weblate.trans.models.component.Component.sync_git_repo"),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            self.component.full_clean()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_private_push_rejected(self) -> None:
+        self.component.push = "https://private.example/repo.git"
+        with (
+            patch("weblate.trans.models.component.Component.sync_git_repo"),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            self.component.full_clean()
+        self.assertIn("internal or non-public address", str(error.exception))
 
     def test_validation_mono(self) -> None:
         self.component.project.delete()

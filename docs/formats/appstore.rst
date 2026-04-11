@@ -20,6 +20,8 @@ separate strings to translate.
    mark them read-only (see :ref:`custom-checks`). This can be
    automated by the :ref:`addon-weblate.flags.bulk`.
 
+.. include:: /snippets/format-features/appstore-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

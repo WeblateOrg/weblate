@@ -85,6 +85,7 @@ from weblate.trans.util import (
     count_words,
     is_repo_link,
     path_separator,
+    sanitize_backend_error_message,
 )
 from weblate.trans.validators import (
     validate_autoaccept,
@@ -141,7 +142,7 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import RepositoryError, RepositorySymlinkError
-from weblate.vcs.git import GitMergeRequestBase, LocalRepository
+from weblate.vcs.git import GitMergeRequestBase, GitRepository, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
@@ -423,7 +424,7 @@ class OldComponentSettings(TypedDict):
     repo: str
 
 
-class Component(
+class Component(  # noqa: PLR0904
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
     name = models.CharField(
@@ -951,7 +952,7 @@ class Component(
         self.stats = ComponentStats(self)
         self.needs_cleanup = False
         self.alerts_trigger: dict[str, list[dict]] = {}
-        self.updated_sources: dict[int, Unit] = {}
+        self.updated_sources: set[int] = set()
         self.old_component_settings = self.get_old_component_settings()
         self._sources: dict[int, Unit] = {}
         self._sources_prefetched = False
@@ -976,6 +977,10 @@ class Component(
         It updates the back-end repository and regenerates translation data.
         """
         from weblate.trans.tasks import component_after_save
+
+        seed_source_component_id = getattr(self, "seed_source_component_id", None)
+        copy_seed_addons = getattr(self, "copy_seed_addons", False)
+        seed_author = getattr(self, "seed_author", None)
 
         self.drop_file_format_cache()
         self.set_default_branch()
@@ -1095,6 +1100,9 @@ class Component(
                 changed_enforced_checks=changed_enforced_checks,
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
+                seed_source_component_id=seed_source_component_id,
+                copy_seed_addons=copy_seed_addons,
+                seed_author=seed_author,
             )
         else:
             self.queue_background_task(
@@ -1107,6 +1115,9 @@ class Component(
                 changed_enforced_checks=changed_enforced_checks,
                 skip_push=kwargs.get("force_insert", False),
                 create=create,
+                seed_source_component_id=seed_source_component_id,
+                copy_seed_addons=copy_seed_addons,
+                seed_author=seed_author,
             )
 
         if self.old_component_settings["check_flags"] != self.check_flags:
@@ -1126,22 +1137,45 @@ class Component(
             import_memory.delay_on_commit(self.project.id, self.pk)
 
     def get_old_component_settings(self) -> OldComponentSettings:
+        """
+        Capture settings needed for change detection without loading deferred fields.
+
+        Some callers fetch Component objects using only a subset of fields. Reading
+        the attributes directly here would trigger additional queries while the
+        instance is being initialized or refreshed, so this intentionally prefers
+        values already present in __dict__ and falls back to previously captured
+        settings.
+        """
         current = getattr(self, "old_component_settings", {})
         return {
-            "check_flags": self.__dict__.get(
-                "check_flags", current.get("check_flags", "")
-            ),
-            "vcs": self.__dict__.get("vcs", current.get("vcs", "")),
-            "push": self.__dict__.get("push", current.get("push", "")),
-            "push_branch": self.__dict__.get(
-                "push_branch", current.get("push_branch", "")
-            ),
-            "repo": self.__dict__.get("repo", current.get("repo", "")),
+            "check_flags": self.get_old_component_setting("check_flags", current),
+            "vcs": self.get_old_component_setting("vcs", current),
+            "push": self.get_old_component_setting("push", current),
+            "push_branch": self.get_old_component_setting("push_branch", current),
+            "repo": self.get_old_component_setting("repo", current),
         }
+
+    def get_old_component_setting(
+        self, name: str, current: OldComponentSettings | dict[str, str]
+    ) -> str:
+        """Read a tracked setting without forcing deferred field evaluation."""
+        return self.__dict__.get(name, current.get(name, ""))
 
     def refresh_from_db(self, *args, **kwargs) -> None:
         super().refresh_from_db(*args, **kwargs)
         self.old_component_settings = self.get_old_component_settings()
+
+    def prepare_seed_from_component(
+        self,
+        source_component_id: int,
+        *,
+        copy_addons: bool,
+        seed_author: str | None,
+    ) -> None:
+        """Store transient seed settings for processing in after_save."""
+        self.seed_source_component_id = source_component_id
+        self.copy_seed_addons = copy_addons
+        self.seed_author = seed_author
 
     @cached_property
     def cached_links(self) -> models.QuerySet[Project]:
@@ -1248,6 +1282,19 @@ class Component(
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-update.lock",
+            timeout=5,
+            origin=self.full_slug,
+        )
+
+    @cached_property
+    def checks_lock(self):
+        return WeblateLock(
+            lock_path=self.project.full_path,
+            scope="component-checks",
+            key=self.pk,
+            slug=self.slug,
+            cache_template="{scope}-lock-{key}",
+            file_template="{slug}-checks.lock",
             timeout=5,
             origin=self.full_slug,
         )
@@ -1411,7 +1458,7 @@ class Component(
             check_new=False,
             save=save,
         )
-        self.updated_sources[source.id] = source
+        self.updated_sources.add(source.id)
         return change
 
     def bulk_create_sources(
@@ -1771,10 +1818,11 @@ class Component(
 
     def error_text(self, error: RepositoryError) -> str:
         """Return text message for a RepositoryError."""
-        message = error.get_message()
-        if not settings.HIDE_REPO_CREDENTIALS:
-            return message
-        return cleanup_repo_url(self.repo, message)
+        return sanitize_backend_error_message(
+            error.get_message(),
+            repo_urls=(self.repo, self.push),
+            extra_paths=(self.full_path,),
+        )
 
     def add_ssh_host_key(self) -> None:
         """
@@ -1891,7 +1939,7 @@ class Component(
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content(
-                        get_encoding_param(self.file_format_params)
+                        get_encoding_param(self.file_format, self.file_format_params)
                     )
                     is None
                 ):
@@ -1900,7 +1948,9 @@ class Component(
                     self.full_path,
                     {
                         self.template: self.file_format_cls.get_new_file_content(
-                            get_encoding_param(self.file_format_params)
+                            get_encoding_param(
+                                self.file_format, self.file_format_params
+                            )
                         )
                     }
                     if self.template
@@ -2522,8 +2572,12 @@ class Component(
         if not error_message:
             error_message = getattr(error, "message", "")
         if not error_message:
-            error_message = str(error).replace(self.full_path, "")
-        return error_message
+            error_message = str(error)
+        return sanitize_backend_error_message(
+            error_message,
+            repo_urls=(self.repo, self.push),
+            extra_paths=(self.full_path,),
+        )
 
     def handle_parse_error(
         self, error, translation=None, filename=None, reraise: bool = True
@@ -2730,13 +2784,6 @@ class Component(
             matches.discard(self.template)
             return [self.template, *sorted(matches)]
         return sorted(matches)
-
-    def update_source_checks(self) -> None:
-        self.log_info("running source checks for %d strings", len(self.updated_sources))
-        for unit in self.updated_sources.values():
-            unit.is_batch_update = True
-            unit.run_checks()
-        self.updated_sources = {}
 
     @cached_property
     def all_active_alerts(self):
@@ -2945,7 +2992,7 @@ class Component(
         self.drop_template_store_cache()
         self.unload_sources()
         self.needs_cleanup = False
-        self.updated_sources = {}
+        self.updated_sources = set()
         self.alerts_trigger = {}
         self.start_batched_checks()
         was_change = False
@@ -3083,10 +3130,6 @@ class Component(
                     report_error("Failed linked component update", project=self.project)
                 continue
 
-        # Run source checks on updated source strings
-        if self.updated_sources:
-            self.update_source_checks()
-
         # Update flags
         if was_change:
             self.invalidate_cache()
@@ -3122,17 +3165,34 @@ class Component(
         self.batched_checks = set()
 
     def run_batched_checks(self) -> None:
-        # Batch checks
-        if self.batched_checks:
-            from weblate.checks.tasks import batch_update_checks
+        source_unit_ids = list(self.updated_sources)
+        batched_checks = list(self.batched_checks)
+        batch_mode = self.batch_checks
 
-            batched_checks = list(self.batched_checks)
-            if settings.CELERY_TASK_ALWAYS_EAGER:
-                batch_update_checks(self.id, batched_checks, component=self)
-            else:
-                batch_update_checks.delay_on_commit(self.id, batched_checks)
+        self.updated_sources = set()
         self.batch_checks = False
         self.batched_checks = set()
+
+        if not source_unit_ids and not batched_checks:
+            return
+
+        from weblate.checks.tasks import finalize_component_checks
+
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            finalize_component_checks(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+                component=self,
+            )
+        else:
+            finalize_component_checks.delay_on_commit(
+                self.id,
+                source_unit_ids,
+                batched_checks,
+                batch_mode=batch_mode,
+            )
 
     def _invalidate_trigger(self) -> None:
         self._invalidate_scheduled = False
@@ -3508,6 +3568,7 @@ class Component(
         # Validate VCS repo
         try:
             self.set_default_branch()
+            self.clean_branches()
 
             self.sync_git_repo(validate=True, skip_push=True)
         except RepositoryError as error:
@@ -3537,6 +3598,23 @@ class Component(
                 )
                 raise ValidationError({"push_branch": msg})
 
+    def clean_branches(self) -> None:
+        """Validate VCS branch names."""
+        if not issubclass(self.repository_class, GitRepository):
+            return
+
+        for field, message in (
+            ("branch", gettext("Invalid repository branch: %s")),
+            ("push_branch", gettext("Invalid push branch: %s")),
+        ):
+            branch = getattr(self, field)
+            if not branch:
+                continue
+            try:
+                self.repository_class.validate_branch_name(branch)
+            except RepositoryError as error:
+                raise ValidationError({field: message % error.get_message()}) from error
+
     def clean_file_format_params(self) -> None:
         for param in [
             p for p in FILE_FORMATS_PARAMS if p.name in self.file_format_params
@@ -3554,6 +3632,11 @@ class Component(
         - validation fetches repository
         - it tries to find translation files and checks that they are valid
         """
+        self.clean_model_settings()
+        self._clean_repository_settings()
+
+    def clean_model_settings(self) -> None:
+        """Validate component settings that do not require repository access."""
         self.drop_file_format_cache()
         if self.new_lang == "url" and not self.project.instructions:
             msg = gettext(
@@ -3562,6 +3645,54 @@ class Component(
             )
             raise ValidationError({"new_lang": msg})
 
+        # Skip validation if we don't have valid project
+        if self.project_id is None or not self.file_format:
+            return
+
+        if self.id:
+            old = Component.objects.get(pk=self.id)
+            self.check_rename(old, validate=True)
+            if old.source_language != self.source_language:
+                # Might be implemented in future, but needs to handle:
+                # - properly toggle read-only flag for source translation
+                # - remap screenshots to different units
+                # - remap source string comments
+                # - possibly adjust other metadata
+                raise ValidationError(
+                    {
+                        "source_language": gettext(
+                            "Source language can not be changed, "
+                            "please recreate the component instead."
+                        )
+                    }
+                )
+
+        self.clean_unique_together()
+        self.clean_category()
+
+        # File format parameters
+        self.clean_file_format_params()
+
+        # Suggestions
+        if self.suggestion_autoaccept and not self.suggestion_voting:
+            msg = gettext(
+                "Accepting suggestions automatically only works with voting turned on."
+            )
+            raise ValidationError(
+                {"suggestion_autoaccept": msg, "suggestion_voting": msg}
+            )
+
+        if self.key_filter and not self.has_template():
+            raise ValidationError(
+                {
+                    "key_filter": gettext(
+                        "To use the key filter, the file format must be monolingual."
+                    )
+                }
+            )
+
+    def _clean_repository_settings(self) -> None:
+        """Validate component settings that require repository access."""
         # Skip validation if we don't have valid project
         if self.project_id is None or not self.file_format:
             return
@@ -3580,39 +3711,20 @@ class Component(
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
             )
-            if old.source_language != self.source_language:
-                # Might be implemented in future, but needs to handle:
-                # - properly toggle read-only flag for source translation
-                # - remap screenshots to different units
-                # - remap source string comments
-                # - possibly adjust other metadata
-                raise ValidationError(
-                    {
-                        "source_language": gettext(
-                            "Source language can not be changed, "
-                            "please recreate the component instead."
-                        )
-                    }
-                )
-
-        self.clean_unique_together()
 
         # Check repo if config was changes
         if changed_git or was_renamed:
             self.drop_repository_cache()
         if changed_git:
             self.clean_repo()
-
-        self.clean_category()
+        else:
+            self.clean_branches()
 
         # Template validation
         self.clean_template()
 
         # New language options
         self.clean_new_lang()
-
-        # File format parameters
-        self.clean_file_format_params()
 
         # Get file matches
         try:
@@ -3642,24 +3754,6 @@ class Component(
 
         # Try parsing files
         self.clean_files(matches)
-
-        # Suggestions
-        if (
-            hasattr(self, "suggestion_autoaccept")
-            and self.suggestion_autoaccept
-            and not self.suggestion_voting
-        ):
-            msg = gettext(
-                "Accepting suggestions automatically only works with voting turned on."
-            )
-            raise ValidationError(
-                {"suggestion_autoaccept": msg, "suggestion_voting": msg}
-            )
-
-        if self.key_filter and not self.has_template():
-            raise ValidationError(
-                gettext("To use the key filter, the file format must be monolingual.")
-            )
 
     def get_template_filename(self) -> str | None:
         """Create absolute filename for template."""
@@ -3729,11 +3823,20 @@ class Component(
         changed_enforced_checks: bool,
         skip_push: bool,
         create: bool,
+        seed_source_component_id: int | None = None,
+        copy_seed_addons: bool = False,
+        seed_author: str | None = None,
     ) -> None:
+        from weblate.trans.component_copy import (
+            clone_component_addons,
+            seed_component_from_source,
+        )
+
         self.store_background_task()
         self.translations_progress = 0
         self.translations_count = 0
         self.progress_step(0)
+        has_seed_source = create and seed_source_component_id is not None
         # Configure git repo if there were changes
         if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
@@ -3745,7 +3848,9 @@ class Component(
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
         was_change = False
-        if changed_setup:
+        if has_seed_source:
+            was_change = False
+        elif changed_setup:
             was_change = self.create_translations(
                 force=True, changed_template=changed_template
             )
@@ -3755,6 +3860,32 @@ class Component(
         # Update variants (create_translation does this on change)
         if changed_variant and not was_change:
             self.update_variants()
+
+        if has_seed_source:
+            source_component = Component.objects.filter(
+                pk=seed_source_component_id
+            ).first()
+            seeded = False
+            if source_component is None:
+                self.log_warning(
+                    "source component %s is no longer available, falling back to discovery",
+                    seed_source_component_id,
+                )
+            else:
+                seeded = seed_component_from_source(
+                    self,
+                    source_component,
+                    author_name=seed_author or "Weblate <noreply@weblate.org>",
+                    skip_push=skip_push,
+                )
+            if not seeded:
+                was_change = self.create_seed_fallback_translations(
+                    changed_setup=changed_setup,
+                    changed_git=changed_git,
+                    changed_template=changed_template,
+                )
+            if copy_seed_addons and source_component is not None:
+                clone_component_addons(self, source_component)
 
         # Update changed enforced checks
         if changed_enforced_checks:
@@ -3769,6 +3900,7 @@ class Component(
 
         # Update alerts after stats update
         self.update_alerts()
+
         if self.linked_component:
             self.linked_component.update_alerts()
 
@@ -3788,6 +3920,18 @@ class Component(
                     continue
                 self.log_debug("triggering add-on: %s", addon.name)
                 addon.addon.post_configure_run()
+
+    def create_seed_fallback_translations(
+        self, *, changed_setup: bool, changed_git: bool, changed_template: bool
+    ) -> bool:
+        """Run normal translation discovery when seeded creation has no snapshot."""
+        if changed_setup:
+            return self.create_translations(
+                force=True, changed_template=changed_template
+            )
+        if changed_git:
+            return self.create_translations()
+        return False
 
     def update_variants(self, updated_units=None) -> None:
         component_units = Unit.objects.filter(translation__component=self, variant=None)
@@ -4241,7 +4385,11 @@ class Component(
         if create_translations:
             # Forced scanning is needed in case adding file does not trigger commit,
             # for example when adding appstore metadata which only creates directory.
-            self.create_translations(request=request, force_scan=True)
+            self.create_translations(
+                request=request,
+                force_scan=True,
+                langs=[translation.language_code],
+            )
             if show_messages:
                 messages.info(
                     request,

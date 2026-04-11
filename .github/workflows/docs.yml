@@ -47,7 +47,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.0.3-alpine@sha256:84c96f47ebe197e635cd3ddbe3ab74e8bdf783cf3befbfb1c36387275c1cd5d5
+        image: valkey/valkey:9.0.3-alpine@sha256:e1095c6c76ee982cb2d1e07edbb7fb2a53606630a1d810d5a47c9f646b708bf5
         ports:
         - 6379:6379
         options: >-
@@ -76,7 +76,7 @@ jobs:
     - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57   # v8.0.0
       with:
         enable-cache: false
-        version: 0.11.2
+        version: 0.11.6
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -109,12 +109,12 @@ jobs:
     - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
       with:
         enable-cache: false
-        version: 0.11.2
+        version: 0.11.6
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - run: uv run --frozen --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
+    - run: uv run --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
       id: list
 
   translations:
@@ -136,7 +136,7 @@ jobs:
     - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
       with:
         enable-cache: false
-        version: 0.11.2
+        version: 0.11.6
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -153,7 +153,7 @@ jobs:
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: Documentation ${{ matrix.language }}
         path: docs/_build/html

@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-import subprocess
+import subprocess  # noqa: S404
 
 from django.conf import settings
 from django.core.cache import cache
@@ -32,8 +32,8 @@ def get_gpg_errors() -> dict[str, str]:
 
 def generate_gpg_key() -> str | None:
     try:
-        subprocess.run(
-            [
+        subprocess.run(  # noqa: S603
+            [  # noqa: S607
                 "gpg",
                 "--batch",
                 "--pinentry-mode",
@@ -59,8 +59,8 @@ def generate_gpg_key() -> str | None:
 
 def get_gpg_key(silent=False) -> str | None:
     try:
-        result = subprocess.run(
-            [
+        result = subprocess.run(  # noqa: S603
+            [  # noqa: S607
                 "gpg",
                 "--batch",
                 "--with-colons",
@@ -109,8 +109,8 @@ def get_gpg_public_key() -> str | None:
     data = cache.get(cache_key)
     if not data:
         try:
-            result = subprocess.run(
-                ["gpg", "--batch", "-armor", "--export", key],
+            result = subprocess.run(  # noqa: S603
+                ["gpg", "--batch", "-armor", "--export", key],  # noqa: S607
                 env=get_clean_env(),
                 capture_output=True,
                 text=True,

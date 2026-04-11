@@ -38,6 +38,7 @@ from weblate.utils.validators import (
     validate_re,
     validate_re_nonempty,
     validate_webhook_secret_string,
+    validate_webhook_url,
 )
 
 if TYPE_CHECKING:
@@ -125,7 +126,7 @@ class BaseExtractPotForm(BaseAddonForm[BaseAddon]):
         required=False,
         initial=False,
         help_text=gettext_lazy(
-            "Updates selected gettext header fields using component configuration."
+            "Updates gettext headers and replaces placeholder POT comments."
         ),
     )
     update_po_files = forms.BooleanField(
@@ -157,7 +158,87 @@ class BaseExtractPotForm(BaseAddonForm[BaseAddon]):
         return data
 
 
-class XgettextExtractPotForm(BaseExtractPotForm):
+class BaseXgettextExtractPotForm(BaseExtractPotForm):
+    COMMENT_MODE_CHOICES = (
+        ("off", gettext_lazy("Do not extract comments")),
+        ("all", gettext_lazy("Extract all comments")),
+        ("tagged", gettext_lazy("Extract comments with tag")),
+    )
+    CHECK_CHOICES = (
+        ("ellipsis-unicode", "ellipsis-unicode"),
+        ("space-ellipsis", "space-ellipsis"),
+        ("quote-unicode", "quote-unicode"),
+        ("bullet-unicode", "bullet-unicode"),
+    )
+    comment_mode = forms.ChoiceField(
+        label=gettext_lazy("Code comments"),
+        choices=COMMENT_MODE_CHOICES,
+        required=True,
+        initial="off",
+        help_text=gettext_lazy(
+            "Choose whether xgettext should extract no comments, all comments, "
+            "or only comments marked with a specific tag."
+        ),
+    )
+    comment_tag = forms.CharField(
+        label=gettext_lazy("Comment tag"),
+        required=False,
+        help_text=gettext_lazy(
+            "Tag passed to xgettext for comment extraction when using tagged "
+            "comment mode."
+        ),
+    )
+    checks = forms.MultipleChoiceField(
+        label=gettext_lazy("xgettext checks"),
+        choices=CHECK_CHOICES,
+        required=False,
+        widget=forms.SelectMultiple(),
+        help_text=gettext_lazy(
+            "Additional xgettext validation checks to enable for extracted messages."
+        ),
+    )
+    keyword = forms.CharField(
+        label=gettext_lazy("Additional keyword"),
+        required=False,
+        help_text=gettext_lazy(
+            "Optional extra keyword passed to xgettext using --keyword."
+        ),
+    )
+
+    @staticmethod
+    def ensure_default_bound_value(data, key: str, value: str):
+        if data is None or key in data:
+            return data
+        if hasattr(data, "copy"):
+            data = data.copy()
+            if hasattr(data, "setlist"):
+                data.setlist(key, [value])
+            else:
+                data[key] = value
+        return data
+
+    def __init__(self, *args, **kwargs) -> None:
+        data = self.ensure_default_bound_value(
+            kwargs.get("data"), "comment_mode", "off"
+        )
+        if data is not None:
+            kwargs["data"] = data
+        super().__init__(*args, **kwargs)
+
+    def clean_xgettext_options(self, cleaned_data: dict[str, Any]) -> dict[str, Any]:
+        comment_mode = cleaned_data.get("comment_mode", "off")
+        comment_tag = cleaned_data.get("comment_tag", "").strip()
+        if comment_mode == "tagged":
+            if not comment_tag:
+                self.add_error("comment_tag", gettext("This field is required."))
+        else:
+            comment_tag = ""
+        cleaned_data["comment_tag"] = comment_tag
+        cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        return cleaned_data
+
+
+class XgettextExtractPotForm(BaseXgettextExtractPotForm):
     input_mode = forms.ChoiceField(
         label=gettext_lazy("Input source"),
         choices=(
@@ -200,16 +281,21 @@ class XgettextExtractPotForm(BaseExtractPotForm):
     )
 
     def __init__(self, *args, **kwargs) -> None:
-        data = kwargs.get("data")
-        if data is not None and isinstance(data, dict):
-            data = data.copy()
-            data.setdefault("input_mode", "patterns")
+        data = self.ensure_default_bound_value(
+            kwargs.get("data"), "input_mode", "patterns"
+        )
+        if data is not None:
             source_patterns = data.get("source_patterns")
             if isinstance(source_patterns, list):
+                data = data.copy()
                 data["source_patterns"] = "\n".join(source_patterns)
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
-        self.helper.layout = Layout(
+        self.helper.layout = Layout(*self.get_xgettext_layout_fields())
+
+    @classmethod
+    def get_xgettext_layout_fields(cls) -> list[Field]:
+        return [
             Field("interval"),
             Field("normalize_header"),
             Field("update_po_files"),
@@ -217,7 +303,11 @@ class XgettextExtractPotForm(BaseExtractPotForm):
             Field("language"),
             Field("source_patterns"),
             Field("potfiles_path"),
-        )
+            Field("comment_mode"),
+            Field("comment_tag"),
+            Field("checks"),
+            Field("keyword"),
+        ]
 
     @staticmethod
     def parse_patterns(value: str) -> list[str]:
@@ -251,10 +341,10 @@ class XgettextExtractPotForm(BaseExtractPotForm):
                         )
             cleaned_data["source_patterns"] = []
             cleaned_data["potfiles_path"] = potfiles_path
-        return cleaned_data
+        return self.clean_xgettext_options(cleaned_data)
 
 
-class MesonExtractPotForm(BaseExtractPotForm):
+class MesonExtractPotForm(BaseXgettextExtractPotForm):
     preset = forms.ChoiceField(
         label=gettext_lazy("Meson preset"),
         choices=(("glib", gettext_lazy("GLib")),),
@@ -274,13 +364,18 @@ class MesonExtractPotForm(BaseExtractPotForm):
             Field("normalize_header"),
             Field("update_po_files"),
             Field("preset"),
+            Field("comment_mode"),
+            Field("comment_tag"),
+            Field("checks"),
+            Field("keyword"),
         )
 
     def clean(self) -> dict[str, Any]:
         super().clean()
+        cleaned_data = self.clean_xgettext_options(self.cleaned_data)
         component = self._addon.instance.component
         if component is None:
-            return self.cleaned_data
+            return cleaned_data
         addon = cast("MesonAddon", self._addon)
         if not addon.is_meson_layout(component):
             self.add_error(
@@ -290,7 +385,7 @@ class MesonExtractPotForm(BaseExtractPotForm):
                     "meson.build and POTFILES or POTFILES.in."
                 ),
             )
-        return self.cleaned_data
+        return cleaned_data
 
 
 class DjangoExtractPotForm(BaseExtractPotForm):
@@ -904,6 +999,11 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         "webhook_url",
         "events",
     ]
+
+    def clean_webhook_url(self) -> str:
+        value = self.cleaned_data["webhook_url"]
+        validate_webhook_url(value)
+        return value
 
 
 class WebhooksAddonForm(BaseWebhooksAddonForm):

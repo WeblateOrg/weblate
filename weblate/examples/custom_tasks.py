@@ -1,6 +1,6 @@
 """Custom scheduled task."""
 
-import subprocess
+import subprocess  # noqa: S404
 
 from celery.schedules import crontab
 
@@ -10,7 +10,7 @@ from weblate.utils.celery import app
 @app.task
 def custom_task() -> None:
     """Execute custom task code."""
-    subprocess.run(["sleep", "1"], check=True)
+    subprocess.run(["sleep", "1"], check=True)  # noqa: S607
 
 
 @app.on_after_finalize.connect

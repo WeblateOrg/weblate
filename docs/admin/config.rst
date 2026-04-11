@@ -361,10 +361,16 @@ in :setting:`DATA_DIR`.
 Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
 network filesystem.
 
+Weblate also stores generated SSH wrapper scripts here, so :setting:`CACHE_DIR`
+needs to be on an executable filesystem if :setting:`DATA_DIR` is mounted with
+``noexec``.
+
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 The following subdirectories usually exist:
 
+:file:`ssh`
+   Generated SSH wrapper scripts used for VCS access.
 :file:`fonts`
    :program:`font-config` cache for :ref:`fonts`.
 :file:`avatar`
@@ -1447,6 +1453,17 @@ Defaults to 0, which means strength checking is disabled.
    * :ref:`password-authentication`
    * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
+.. setting:: PASSWORD_RESET_URL
+
+PASSWORD_RESET_URL
+------------------
+
+.. versionadded:: 5.17
+
+URL for password reset when authentication is handled by an external identity provider, such as LDAP, SAML, or OAuth.
+
+When set, :guilabel:`Forgot your password?` on the sign-in page links to this URL
+instead of Weblate's built-in password reset page.
 
 .. setting:: PRIVACY_URL
 
@@ -1683,6 +1700,41 @@ Default configuration:
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
+   * :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`
+
+.. setting:: PROJECT_WEB_RESTRICT_ALLOWLIST
+
+PROJECT_WEB_RESTRICT_ALLOWLIST
+------------------------------
+
+.. versionadded:: 5.17
+
+Defines a set of project slugs exempt from
+:setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+:setting:`PROJECT_WEB_RESTRICT_PRIVATE`, and
+:setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website.
+Project slugs are matched case-insensitively.
+
+.. caution::
+
+   This exemption weakens outbound URL protections for matching projects,
+   including the private-target restriction enforced by
+   :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted,
+   administrator-managed projects where bypassing these checks is intentional.
+
+Default configuration:
+
+.. code-block:: python
+
+   PROJECT_WEB_RESTRICT_ALLOWLIST = set()
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 
 .. setting:: PROJECT_WEB_RESTRICT_NUMERIC
@@ -1708,8 +1760,8 @@ PROJECT_WEB_RESTRICT_PRIVATE
 
 .. versionadded:: 5.17
 
-Reject using project website and repository browser URLs pointing to non-global
-IP ranges. On by default.
+Reject using project website and repository browser URLs pointing to internal or
+non-public addresses. On by default.
 
 .. seealso::
 
@@ -1734,6 +1786,43 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_PRIVATE_ALLOWLIST
+
+WEBHOOK_PRIVATE_ALLOWLIST
+-------------------------
+
+.. versionadded:: 5.17
+
+Defines hostnames or domains exempt from :setting:`WEBHOOK_RESTRICT_PRIVATE`
+for outbound webhook delivery. Entries follow Django host matching semantics,
+so values such as ``hooks.internal.example`` or ``.internal.example`` can be
+used.
+
+Default configuration:
+
+.. code-block:: python
+
+   WEBHOOK_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`WEBHOOK_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_RESTRICT_PRIVATE
+
+WEBHOOK_RESTRICT_PRIVATE
+------------------------
+
+.. versionadded:: 5.17
+
+Reject webhook URLs pointing to internal or non-public addresses unless the
+target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
+
+.. seealso::
+
+   * :ref:`addon-weblate.webhook.webhook`
+   * :setting:`WEBHOOK_PRIVATE_ALLOWLIST`
 
 .. setting:: PUBLIC_ENGAGE
 
@@ -2277,7 +2366,11 @@ VCS_ALLOW_HOSTS
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
+which does no filtering at all.
+
+When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
+from the private-target restriction.
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2286,7 +2379,18 @@ VCS_ALLOW_SCHEMES
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
+``ssh`` are allowed by default.
+
+.. setting:: VCS_RESTRICT_PRIVATE
+
+VCS_RESTRICT_PRIVATE
+--------------------
+
+.. versionadded:: 5.17
+
+Reject VCS repository URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
 
 .. setting:: VCS_API_DELAY
 

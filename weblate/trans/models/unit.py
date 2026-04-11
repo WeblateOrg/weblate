@@ -1265,7 +1265,7 @@ class Unit(models.Model, LoggerMixin):
             PendingUnitChange.store_unit_change(unit=self)
         # Track updated sources for source checks
         if translation.is_template:
-            component.updated_sources[self.id] = self
+            component.updated_sources.add(self.id)
         # Indicate source string change
         if not same_source and source_change:
             translation.update_changes.append(
@@ -1968,9 +1968,7 @@ class Unit(models.Model, LoggerMixin):
             if self.is_batch_update:
                 # Reuse component object for improved performance
                 self.source_unit.translation.component = self.translation.component
-                self.translation.component.updated_sources[self.source_unit.id] = (
-                    self.source_unit
-                )
+                self.translation.component.updated_sources.add(self.source_unit.id)
             else:
                 self.source_unit.run_checks()
 

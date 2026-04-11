@@ -555,6 +555,8 @@ class MonolingualTranslation(BaseAlert):
             or not component.source_language.uses_whitespace()
         ):
             return False
+        if component.source_language_id is None:
+            return False
 
         # Pick translation with translated strings except source one
         translation: Translation | None = None
@@ -621,6 +623,8 @@ class BrokenBrowserURL(BaseAlert):
         location_error = None
         location_link = None
         if component.repoweb:
+            if component.source_language_id is None:
+                return False
             # Pick random translation with translated strings except source one
             translation = (
                 component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)

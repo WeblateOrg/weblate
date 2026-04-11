@@ -23,6 +23,8 @@ Example of flat XML files:
 .. literalinclude:: ../../weblate/trans/tests/data/cs-flat-custom.xml
     :language: xml
 
+.. include:: /snippets/format-features/flatxml-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

@@ -808,6 +808,24 @@ list_change_events
 
 Lists all possible change event types.
 
+list_format_features
+--------------------
+
+.. weblate-admin:: list_format_features
+
+Generates RST documentation snippets describing the supported features for every file format.
+
+The command generates one file for every format, that can be found in the specified output directory.
+
+.. weblate-admin-option:: --output PATH
+
+    Directory where the format feature snippets will be written.
+
+.. note::
+
+    The generated documentation files are meant to be included in documentation sources such as :doc:`/formats`. See also :file:`weblate/formats/management/commands/list_format_features.py` for customization and merging logic.
+
+
 loadpo
 ------
 

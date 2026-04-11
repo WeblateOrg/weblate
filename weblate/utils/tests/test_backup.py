@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import nullcontext
 from typing import cast
 from unittest.mock import patch
@@ -20,6 +20,7 @@ from weblate.utils.backup import (
     initialize,
     prune,
     run_borg,
+    tag_cache_dirs,
 )
 from weblate.utils.data import data_path
 from weblate.utils.tasks import database_backup, settings_backup
@@ -63,6 +64,16 @@ class BackupTest(TransactionTestCase):
                 os.path.join(settings.DATA_DIR, "backups", "database.sql.gz")
             )
         )
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_tag_cache_dirs_marks_ssh_wrapper_cache(self) -> None:
+        ssh_cache_dir = data_path("cache") / "ssh"
+        ssh_cache_dir.mkdir(parents=True)
+
+        tag_cache_dirs()
+
+        self.assertTrue((ssh_cache_dir / "CACHEDIR.TAG").exists())
 
 
 class RunBorgTest(SimpleTestCase):

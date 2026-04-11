@@ -7,7 +7,7 @@ from __future__ import annotations
 import gzip
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import time
 from importlib import import_module
 from pathlib import Path
@@ -148,7 +148,7 @@ def database_backup() -> None:
         env["PGPASSWORD"] = cast("str", database["PASSWORD"])
 
         try:
-            subprocess.run(
+            subprocess.run(  # noqa: S603
                 cmd,  # type: ignore[arg-type]
                 env=env,
                 capture_output=True,

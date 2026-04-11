@@ -148,6 +148,7 @@ This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 .. seealso::
 
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`

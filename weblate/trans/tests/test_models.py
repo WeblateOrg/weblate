@@ -11,6 +11,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -151,6 +152,27 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
+
+    def test_web_restriction_allowlist(self) -> None:
+        with override_settings(
+            PROJECT_WEB_RESTRICT_HOST={"example.com"},
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"},
+            PROJECT_WEB_RESTRICT_PRIVATE=False,
+        ):
+            project = Project(
+                name="Trusted",
+                slug="trusted-project",
+                web="https://example.com/",
+            )
+            self.assertIsNone(project.full_clean())
+
+            blocked = Project(
+                name="Blocked",
+                slug="blocked-project",
+                web="https://example.com/",
+            )
+            with self.assertRaises(ValidationError):
+                blocked.full_clean()
 
     def test_actual_project_removal_batches_linked_alert_updates(self) -> None:
         self.component = self.create_po()

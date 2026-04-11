@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import tempfile
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -76,7 +76,14 @@ class PoExporterTest(BaseTestCase):
         self.assertIn(b"msgid_plural", result)
         self.assertIn(b"msgstr[2]", result)
 
-    def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
+    def check_unit(
+        self,
+        nplurals=3,
+        template=None,
+        source_info=None,
+        file_format_params=None,
+        **kwargs,
+    ):
         formula = "n==0 ? 0 : n==1 ? 1 : 2" if nplurals == 3 else "0"
         lang = Language.objects.create(code="zz")
         plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
@@ -85,6 +92,7 @@ class PoExporterTest(BaseTestCase):
             slug="comp",
             project=project,
             file_format="xliff",
+            file_format_params=file_format_params or {},
             template=template,
             source_language=Language.objects.get(code="en"),
         )
@@ -148,6 +156,24 @@ class PoExporterTest(BaseTestCase):
         self.check_unit(
             nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_TRANSLATED
         )
+
+    def test_matching_file_format_params(self) -> None:
+        if self._class is not PoExporter:
+            return
+        self.check_matching_file_format_params()
+
+    def check_matching_file_format_params(self) -> None:
+        long_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " * 3
+
+        result = self.check_unit(
+            nplurals=1,
+            source="source",
+            target=long_text,
+            state=STATE_TRANSLATED,
+            file_format_params={"po_line_wrap": -1},
+        ).decode()
+
+        self.assertIn(f'msgstr "{long_text}"', result)
 
     def test_unit_not_translated(self) -> None:
         self.check_unit(
@@ -273,6 +299,27 @@ class MoExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         self.assertIn(b"www", result)
 
+    def test_matching_file_format_params(self) -> None:
+        exporter = self.get_exporter(
+            translation=Translation(
+                language=Language.objects.create(code="zz-mo"),
+                component=Component(
+                    slug="comp",
+                    project=Project(slug="test"),
+                    file_format="po",
+                    file_format_params={"po_line_wrap": -1},
+                    source_language=Language.objects.get(code="en"),
+                ),
+                plural=Plural.objects.create(
+                    language=Language.objects.get(code="zz-mo"),
+                    number=1,
+                    formula="0",
+                ),
+            )
+        )
+
+        self.assertFalse(hasattr(exporter.storage, "wrapper"))
+
 
 class CSVExporterTest(PoExporterTest):
     _class = CSVExporter
@@ -281,6 +328,27 @@ class CSVExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_non_matching_encoding_params(self) -> None:
+        exporter = self.get_exporter(
+            translation=Translation(
+                language=Language.objects.create(code="zz-csv-other"),
+                component=Component(
+                    slug="comp",
+                    project=Project(slug="test"),
+                    file_format="csv",
+                    file_format_params={"properties_encoding": "utf-16"},
+                    source_language=Language.objects.get(code="en"),
+                ),
+                plural=Plural.objects.create(
+                    language=Language.objects.get(code="zz-csv-other"),
+                    number=1,
+                    formula="0",
+                ),
+            )
+        )
+
+        self.assertNotEqual(exporter.storage.encoding, "utf-16")
 
     def test_escaping(self) -> None:
         output = self.check_unit(
@@ -327,6 +395,27 @@ class StringsExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_matching_encoding_params(self) -> None:
+        exporter = self.get_exporter(
+            translation=Translation(
+                language=Language.objects.create(code="zz-strings"),
+                component=Component(
+                    slug="comp",
+                    project=Project(slug="test"),
+                    file_format="strings",
+                    file_format_params={"strings_encoding": "utf-16"},
+                    source_language=Language.objects.get(code="en"),
+                ),
+                plural=Plural.objects.create(
+                    language=Language.objects.get(code="zz-strings"),
+                    number=1,
+                    formula="0",
+                ),
+            )
+        )
+
+        self.assertEqual(exporter.storage.encoding, "utf-16")
 
 
 class MultiCSVExporterTest(PoExporterTest):
@@ -420,16 +509,18 @@ class MultiCSVExporterTest(PoExporterTest):
         try:
             # Initialize git repository
 
-            subprocess.run(["git", "init"], cwd=git_dir, check=True)
+            subprocess.run(["git", "init"], cwd=git_dir, check=True)  # noqa: S607
             subprocess.run(
-                ["git", "config", "user.name", "Test User"], cwd=git_dir, check=True
-            )
-            subprocess.run(
-                ["git", "config", "user.email", "test@example.com"],
+                ["git", "config", "user.name", "Test User"],  # noqa: S607
                 cwd=git_dir,
                 check=True,
             )
-            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+                cwd=git_dir,
+                check=True,
+            )
+            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)  # noqa: S607
 
             # Create the CSV file with real data
             csv_content = '''"source","target","context","developer_comments"
@@ -442,9 +533,11 @@ class MultiCSVExporterTest(PoExporterTest):
             Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
-            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
+            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)  # noqa: S607
             subprocess.run(
-                ["git", "commit", "-m", "Initial commit"], cwd=git_dir, check=True
+                ["git", "commit", "-m", "Initial commit"],  # noqa: S607
+                cwd=git_dir,
+                check=True,
             )
 
             # Create language

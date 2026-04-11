@@ -6,6 +6,7 @@ from __future__ import annotations
 import os
 import shutil
 import stat
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -17,7 +18,6 @@ from translation_finder.finder import EXCLUDES
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from pathlib import Path
 
     from django.core.files.base import File
 
@@ -78,25 +78,46 @@ def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
 
 def should_skip(location):
     """Check for skipping location in manage commands."""
-    location = os.path.abspath(location)
-    return not location.startswith(WEBLATE_DIR) or location.startswith(
-        (
-            VENV_DIR,
-            settings.DATA_DIR,
-            DEFAULT_DATA_DIR,
-            BUILD_DIR,
-            DEFAULT_TEST_DIR,
-            DOCS_DIR,
-            SCRIPTS_DIR,
-            CLIENT_DIR,
-            EXAMPLES_DIR,
-        )
+    excluded_directories = (
+        VENV_DIR,
+        settings.DATA_DIR,
+        DEFAULT_DATA_DIR,
+        BUILD_DIR,
+        DEFAULT_TEST_DIR,
+        DOCS_DIR,
+        SCRIPTS_DIR,
+        CLIENT_DIR,
+        EXAMPLES_DIR,
+    )
+    return not is_path_within_directory(location, WEBLATE_DIR) or any(
+        is_path_within_directory(location, excluded_directory)
+        for excluded_directory in excluded_directories
     )
 
 
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
     return any(exclude in f"/{path}/" for exclude in PATH_EXCLUDES) or ".." in path
+
+
+def is_path_within_directory(path: str, directory: str) -> bool:
+    """Check whether resolved path is contained within resolved directory."""
+    try:
+        resolved_directory = Path(directory).resolve(strict=False)
+    except OSError:
+        return False
+    return is_path_within_resolved_directory(path, resolved_directory)
+
+
+def is_path_within_resolved_directory(
+    path: str | Path, resolved_directory: Path
+) -> bool:
+    """Check whether resolved path is contained within a resolved directory."""
+    try:
+        resolved_path = Path(path).resolve(strict=False)
+    except OSError:
+        return False
+    return resolved_path.is_relative_to(resolved_directory)
 
 
 def cleanup_error_message(text: str) -> str:

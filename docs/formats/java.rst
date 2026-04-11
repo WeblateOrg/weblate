@@ -31,6 +31,8 @@ all others encode characters directly either in UTF-8 or UTF-16.
    * :ref:`addon-weblate.properties.sort`
    * :ref:`addon-weblate.cleanup.generic`
 
+.. include:: /snippets/format-features/properties-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

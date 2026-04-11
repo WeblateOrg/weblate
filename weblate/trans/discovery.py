@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 from itertools import chain
+from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
@@ -14,11 +15,15 @@ from django.utils.translation import gettext
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
+from weblate.trans.component_copy import (
+    get_inherited_component_fields,
+)
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
 from weblate.utils.errors import report_error
+from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
@@ -27,38 +32,7 @@ if TYPE_CHECKING:
 
     from weblate.formats.base import TranslationFormat
 
-# Attributes to copy from main component
-COPY_ATTRIBUTES = (
-    "project",
-    "vcs",
-    "license",
-    "agreement",
-    "source_language",
-    "report_source_bugs",
-    "hide_glossary_matches",
-    "allow_translation_propagation",
-    "contribute_project_tm",
-    "enable_suggestions",
-    "suggestion_voting",
-    "suggestion_autoaccept",
-    "check_flags",
-    "new_lang",
-    "language_code_style",
-    "commit_message",
-    "add_message",
-    "delete_message",
-    "merge_message",
-    "addon_message",
-    "pull_message",
-    "push_on_commit",
-    "commit_pending_age",
-    "edit_template",
-    "manage_units",
-    "variant_regex",
-    "category_id",
-    "key_filter",
-    "secondary_language",
-)
+COPY_ATTRIBUTES = get_inherited_component_fields("project", "category_id")
 
 
 class DiscoveryErrorMatch(TypedDict):
@@ -186,14 +160,19 @@ class ComponentDiscovery:
     def matches(self):
         """Return matched files together with match groups and mask."""
         result = []
-        base = os.path.realpath(self.path)
+        base = Path(self.path).resolve()
         timeout_detected = False
         for root, dirnames, filenames in os.walk(self.path, followlinks=True):
+            dirnames[:] = [
+                dirname
+                for dirname in dirnames
+                if is_path_within_resolved_directory(os.path.join(root, dirname), base)
+            ]
             for filename in chain(filenames, dirnames):
                 fullname = os.path.join(root, filename)
 
                 # Skip files outside our root
-                if not os.path.realpath(fullname).startswith(base):
+                if not is_path_within_resolved_directory(fullname, base):
                     continue
 
                 # Calculate relative path
@@ -339,9 +318,9 @@ class ComponentDiscovery:
         for key in COPY_ATTRIBUTES:
             if key not in kwargs and main is not None:
                 kwargs[key] = getattr(main, key)
-        # Copy file format parameters if the format is same
-        if main is not None and self.file_format == main.file_format:
-            kwargs["file_format_params"] = main.file_format_params
+        if main is not None and self.file_format != main.file_format:
+            kwargs.pop("enforced_checks", None)
+            kwargs.pop("file_format_params", None)
 
         # Disable template editing if not supported by format
         if not self.file_format_cls.can_edit_base:

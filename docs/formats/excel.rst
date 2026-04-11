@@ -13,6 +13,8 @@ contains the translation). Additionally there should be the column called ``cont
 download for exporting the translations into an Excel workbook, you already get
 a file with the correct file format.
 
+.. include:: /snippets/format-features/xlsx-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

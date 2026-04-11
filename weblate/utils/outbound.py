@@ -65,7 +65,11 @@ def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> No
         return
 
     if not _is_public_ip(value):
-        raise ValidationError(gettext("URL domain is not allowed."))
+        raise ValidationError(
+            gettext(
+                "This URL is prohibited because it points to an internal or non-public address."
+            )
+        )
 
 
 def is_allowlisted_hostname(
@@ -83,21 +87,37 @@ def validate_untrusted_hostname(
 ) -> None:
     normalized = _normalize_hostname(hostname)
     if not normalized:
-        raise ValidationError(gettext("URL domain is not allowed."))
+        raise ValidationError(
+            gettext(
+                "This URL is prohibited because it points to an internal or non-public address."
+            )
+        )
 
     if is_allowlisted_hostname(normalized, allowed_domains):
         return
 
     if ip_address := _parse_hostname_ip(normalized):
         if not ip_address.is_global:
-            raise ValidationError(gettext("URL domain is not allowed."))
+            raise ValidationError(
+                gettext(
+                    "This URL is prohibited because it points to an internal or non-public address."
+                )
+            )
         return
 
     lowered = normalized.lower()
     if lowered == "localhost" or lowered.endswith(LOCAL_HOST_SUFFIXES):
-        raise ValidationError(gettext("URL domain is not allowed."))
+        raise ValidationError(
+            gettext(
+                "This URL is prohibited because it points to an internal or non-public address."
+            )
+        )
     if "." not in normalized:
-        raise ValidationError(gettext("URL domain is not allowed."))
+        raise ValidationError(
+            gettext(
+                "This URL is prohibited because it points to an internal or non-public address."
+            )
+        )
 
 
 def validate_outbound_url(
@@ -144,7 +164,7 @@ def validate_runtime_hostname(
 
     try:
         addresses = socket.getaddrinfo(normalized, None, type=socket.SOCK_STREAM)
-    except OSError as error:
+    except (OSError, UnicodeError) as error:
         raise ValidationError(
             gettext("Could not resolve the URL domain: {}").format(error)
         ) from error

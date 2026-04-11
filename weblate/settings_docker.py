@@ -479,7 +479,9 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     )
     SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
     SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
-    SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email"
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Fedora OpenIDConnect
@@ -701,6 +703,7 @@ VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
 VCS_API_TIMEOUT = get_env_int("WEBLATE_VCS_API_TIMEOUT", 10)
 VCS_ALLOW_HOSTS = set(get_env_list("WEBLATE_VCS_ALLOW_HOSTS", []))
 VCS_ALLOW_SCHEMES = set(get_env_list("WEBLATE_VCS_ALLOW_SCHEMES", ["https", "ssh"]))
+VCS_RESTRICT_PRIVATE = get_env_bool("WEBLATE_VCS_RESTRICT_PRIVATE", True)
 
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
@@ -710,6 +713,11 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = get_env_bool(
 PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
     "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE", True
 )
+PROJECT_WEB_RESTRICT_ALLOWLIST = set(
+    get_env_list("WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST", [])
+)
+WEBHOOK_RESTRICT_PRIVATE = get_env_bool("WEBLATE_WEBHOOK_RESTRICT_PRIVATE", True)
+WEBHOOK_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST", [])
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:
@@ -1142,6 +1150,7 @@ CHECK_LIST = [
     "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
+    "weblate.checks.format.LaravelFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",
     "weblate.checks.format.PercentPlaceholdersCheck",
@@ -1201,6 +1210,7 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
     "weblate.trans.autofixes.chars.DevanagariDanda",
+    "weblate.trans.autofixes.chars.PunctuationSpacing",
     "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
@@ -1212,6 +1222,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.UpdateConfigureAddon",
     "weblate.addons.gettext.MsgmergeAddon",
     "weblate.addons.gettext.XgettextAddon",
+    "weblate.addons.gettext.MesonAddon",
     "weblate.addons.gettext.DjangoAddon",
     "weblate.addons.gettext.SphinxAddon",
     "weblate.addons.gettext.GettextAuthorComments",
@@ -1488,7 +1499,7 @@ GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
 STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
 LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
 PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
-
+PASSWORD_RESET_URL = get_env_str("WEBLATE_PASSWORD_RESET_URL")
 # Third party services integration
 MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
 MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")

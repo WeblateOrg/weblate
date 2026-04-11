@@ -13,6 +13,8 @@ from typing import TYPE_CHECKING
 
 import jsonschema.exceptions
 import requests
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext_lazy, override
@@ -23,7 +25,7 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
-from weblate.utils.requests import fetch_url
+from weblate.utils.requests import fetch_validated_url
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
@@ -73,16 +75,21 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         self, change: Change, headers: dict, payload: PayloadType
     ) -> requests.Response:
         try:
-            return fetch_url(
+            return fetch_validated_url(
                 method="post",
                 url=self.instance.configuration["webhook_url"],
                 json=payload,
                 headers=headers,
                 timeout=15,
                 raise_for_status=False,
+                allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+                allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
             )
+        except ValidationError as error:
+            raise MessageNotDeliveredError("; ".join(error.messages)) from error
         except requests.exceptions.ConnectionError as error:
-            raise MessageNotDeliveredError from error
+            msg = "Unable to deliver webhook: could not connect to the remote server."
+            raise MessageNotDeliveredError(msg) from error
 
     def change_event(
         self, change: Change, activity_log_id: int | None = None

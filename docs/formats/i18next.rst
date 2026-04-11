@@ -53,6 +53,10 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/en.i18next.json
     :language: json
 
+.. include:: /snippets/format-features/i18nextv4-features.rst
+
+.. include:: /snippets/format-features/i18next-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

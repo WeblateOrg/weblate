@@ -173,8 +173,27 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             < unit.translation.component.stats.translated_percent
         )
 
+    @staticmethod
+    def get_component_translated_percent(component: Component):
+        from weblate.trans.models import Unit
+
+        return Unit.objects.filter(translation__component=component).aggregate(
+            total=Count("pk"),
+            not_translated=Count(
+                "pk", filter=Q(state__in=[STATE_EMPTY, *FUZZY_STATES])
+            ),
+        )
+
     def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
+
+        component_stats = self.get_component_translated_percent(component)
+        total = component_stats["total"] or 0
+        if total == 0:
+            return []
+        component_translated_percent = (
+            100 * (total - (component_stats["not_translated"] or 0)) / total
+        )
 
         result = (
             Unit.objects.filter(
@@ -192,7 +211,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             .annotate(
                 translated_percent=100 * (F("total") - F("not_translated")) / F("total")
             )
-        ).filter(translated_percent__lt=component.stats.translated_percent / 2)
+        ).filter(translated_percent__lt=component_translated_percent / 2)
         return (
             Unit.objects.prefetch()
             .prefetch_bulk()
