@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-07 16:51+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -1739,26 +1739,20 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "의견을 추가할 수 없습니다!"
+msgstr "주석을 추출하지 않음"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "모든 구성요소 찾아보기"
+msgstr "모든 주석 추출"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
 msgstr ""
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "사용자 주석"
+msgstr "코드 주석"
 
 #: weblate/addons/forms.py:179
 msgid ""
@@ -1767,10 +1761,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "댓글"
+msgstr "주석 태그"
 
 #: weblate/addons/forms.py:187
 msgid ""
@@ -1778,20 +1770,16 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "시스템 검사"
+msgstr "xgettext 검사"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "추가 브랜치"
+msgstr "추가 키워드"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
@@ -4596,16 +4584,12 @@ msgid "C format string does not match source."
 msgstr "C 형식 문자열이 원문과 일치하지 않습니다."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Object Pascal 형식"
+msgstr "Objective-C 형식"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "C 형식 문자열이 원문과 일치하지 않습니다."
+msgstr "Objective-C 형식 문자열이 원문과 일치하지 않습니다."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -14473,7 +14457,7 @@ msgstr "변경 사항 푸시됨"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:43
 msgid "Repository reset"
-msgstr "저장소 초기화"
+msgstr "리포지터리 초기화"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:45
@@ -14483,7 +14467,7 @@ msgstr "리포지터리 병합됨"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:47
 msgid "Repository rebased"
-msgstr "저장소 리베이스"
+msgstr "리포지터리 리베이스"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:49
@@ -14633,7 +14617,7 @@ msgstr "사용자 초대됨"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:109
 msgid "Repository notification received"
-msgstr "수신된 저장소 알림"
+msgstr "리포지터리 알림 수신됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:111
@@ -14723,7 +14707,7 @@ msgstr "문자열 저장 실패"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:148
 msgid "String added in the repository"
-msgstr "저장소에 문자열 추가됨"
+msgstr "리포지터리에 문자열 추가됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:150
@@ -14738,7 +14722,7 @@ msgstr "업로드로 문자열 추가됨"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:154
 msgid "Translation updated by source upload"
-msgstr "원문 업로드로 업데이트된 번역"
+msgstr "원문 업로드로 번역 업데이트됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:156
@@ -16876,10 +16860,9 @@ msgstr ""
 "가 비어있을 수 없습니다."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "저장소 분기"
+msgstr "잘못된 리포지터리 분기: %s"
 
 #: weblate/trans/models/component.py:3608
 #, fuzzy, python-format
@@ -17524,10 +17507,8 @@ msgid "Very low"
 msgstr "매우 낮음"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "저장소 백업 URL"
+msgstr "리포지터리 URL"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
