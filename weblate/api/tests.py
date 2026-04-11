@@ -2980,6 +2980,28 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["filemask"], "local-project/*.html")
         self.assertEqual(Component.objects.count(), 3)
 
+    @override_settings(FILE_UPLOAD_MAX_MEMORY_SIZE=1)
+    def test_create_component_docfile_temporary_upload(self) -> None:
+        with open(TEST_DOC, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project-temp",
+                    "file_format": "html",
+                    "new_lang": "add",
+                    "edit_template": "0",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["filemask"], "local-project-temp/*.html")
+        self.assertEqual(Component.objects.count(), 3)
+
     def test_create_component_docfile_mask(self) -> None:
         with open(TEST_DOC, "rb") as handle:
             response = self.do_request(

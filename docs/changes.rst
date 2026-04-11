@@ -75,6 +75,7 @@ Weblate 5.17
 * :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
 * Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
 * :doc:`/formats/android` now preserves template-defined escaped markup formatting when saving translations.
+* REST API component creation now handles temporary uploaded files for ``docfile`` and ``zipfile`` uploads.
 
 .. rubric:: Compatibility
 
