@@ -1590,7 +1590,7 @@ class ProjectStats(ParentAggregatingStats):
 
     def _calculate_basic(self) -> None:
         super()._calculate_basic()
-        self.store("languages", self._object.languages.count())
+        self.store("languages", self._object.get_languages_count())
 
 
 class ComponentListStats(ParentAggregatingStats):
