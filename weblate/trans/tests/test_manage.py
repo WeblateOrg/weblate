@@ -8,8 +8,10 @@ from __future__ import annotations
 
 import os.path
 from typing import ClassVar
+from unittest.mock import patch
 
 from django.core import mail
+from django.db import connection
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
@@ -23,6 +25,30 @@ from weblate.utils.stats import ProjectLanguage
 
 
 class RemovalTest(ViewTestCase):
+    def test_translation_remove_is_atomic(self) -> None:
+        translation = self.get_translation()
+        original_delete = Translation.delete
+
+        def wrapped_delete(instance, *args, **kwargs):
+            self.assertTrue(connection.in_atomic_block)
+            return original_delete(instance, *args, **kwargs)
+
+        with (
+            patch.object(
+                Translation,
+                "delete",
+                autospec=True,
+                side_effect=wrapped_delete,
+            ),
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule,
+        ):
+            translation.remove(self.user)
+
+        self.assertFalse(Translation.objects.filter(pk=translation.pk).exists())
+        schedule.assert_called_once_with(self.component)
+
     def test_translation(self) -> None:
         self.make_manager()
         url = reverse("remove", kwargs=self.kw_translation)
@@ -32,6 +58,23 @@ class RemovalTest(ViewTestCase):
         )
         response = self.client.post(url, {"confirm": "test/test/cs"}, follow=True)
         self.assertContains(response, "The translation has been removed.")
+
+    def test_project_language_view_remove_is_atomic(self) -> None:
+        self.make_manager()
+        atomic_states: list[bool] = []
+        url = reverse("remove", kwargs={"path": [self.project.slug, "-", "cs"]})
+
+        def wrapped_remove(instance, user) -> None:
+            atomic_states.append(connection.in_atomic_block)
+
+        with patch.object(
+            Translation, "remove", autospec=True, side_effect=wrapped_remove
+        ):
+            response = self.client.post(url, {"confirm": "test/-/cs"}, follow=True)
+
+        self.assertContains(response, "A language in the project was removed.")
+        self.assertTrue(atomic_states)
+        self.assertEqual(set(atomic_states), {True})
 
     def test_component(self) -> None:
         self.make_manager()

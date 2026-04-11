@@ -1749,6 +1749,7 @@ class Translation(
         """Return URL of exported git repository."""
         return self.component.get_export_url()
 
+    @transaction.atomic
     def remove(self, user: User) -> None:
         """Remove translation from the Database and VCS."""
         from weblate.glossary.tasks import cleanup_stale_glossaries

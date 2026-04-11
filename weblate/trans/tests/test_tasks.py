@@ -256,3 +256,19 @@ class TasksTest(ViewTestCase):
 
     def test_finalize_component_checks_missing_component(self) -> None:
         finalize_component_checks(-1, [], ["same"], batch_mode=True)
+
+    def test_finalize_component_checks_missing_source_translation(self) -> None:
+        source_translation = self.component.get_source_translation()
+        self.assertIsNotNone(source_translation)
+        source_translation.delete()
+        self.component.__dict__.pop("source_translation", None)
+
+        finalize_component_checks(
+            self.component.id, [], ["multiple_failures"], batch_mode=True
+        )
+
+        self.assertFalse(
+            self.component.translation_set.filter(
+                language=self.component.source_language
+            ).exists()
+        )
