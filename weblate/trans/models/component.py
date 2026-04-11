@@ -141,7 +141,13 @@ from weblate.utils.validators import (
     validate_repo_url,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryError, RepositorySymlinkError
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositorySymlinkError,
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+    should_auto_add_ssh_host_key,
+)
 from weblate.vcs.git import GitMergeRequestBase, GitRepository, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
@@ -1824,6 +1830,18 @@ class Component(  # noqa: PLR0904
             extra_paths=(self.full_path,),
         )
 
+    @staticmethod
+    def get_ssh_host_key_error_message() -> str:
+        return gettext(
+            "Could not verify the SSH host key. Please add it on the SSH page in the admin interface."
+        )
+
+    @staticmethod
+    def get_ssh_host_key_mismatch_error_message() -> str:
+        return gettext(
+            "The SSH host key for the repository has changed. Verify the new fingerprint and replace the stored host key on the SSH page in the admin interface."
+        )
+
     def add_ssh_host_key(self) -> None:
         """
         Add SSH key for current repo as trusted.
@@ -1844,19 +1862,16 @@ class Component(  # noqa: PLR0904
             add(self.push)
 
     def handle_update_error(self, error_text: str, retry: bool) -> None:
-        if "Host key verification failed" in error_text:
+        if is_ssh_host_key_mismatch_error(error_text):
+            raise ValidationError(
+                {"repo": self.get_ssh_host_key_mismatch_error_message()}
+            )
+        if is_ssh_host_key_verification_error(error_text):
             if retry:
                 # Add ssh key and retry
                 self.add_ssh_host_key()
                 return
-            raise ValidationError(
-                {
-                    "repo": gettext(
-                        "Could not verify SSH host key, please add "
-                        "them in SSH page in the admin interface."
-                    )
-                }
-            )
+            raise ValidationError({"repo": self.get_ssh_host_key_error_message()})
         if "terminal prompts disabled" in error_text:
             raise ValidationError(
                 {
@@ -2111,7 +2126,7 @@ class Component(  # noqa: PLR0904
                     user=request.user if request else self.acting_user,
                 )
                 if retry:
-                    if "Host key verification failed" in error_text:
+                    if should_auto_add_ssh_host_key(error_text):
                         # Try adding SSH key and retry
                         self.add_ssh_host_key()
                         return self.push_repo(request, retry=False)
@@ -3777,6 +3792,14 @@ class Component(  # noqa: PLR0904
             self.sync_git_repo(validate=True, skip_push=True)
         except RepositoryError as error:
             text = self.error_text(error)
+            if is_ssh_host_key_mismatch_error(text):
+                raise ValidationError(
+                    {"repo": self.get_ssh_host_key_mismatch_error_message()}
+                ) from error
+            if is_ssh_host_key_verification_error(text):
+                raise ValidationError(
+                    {"repo": self.get_ssh_host_key_error_message()}
+                ) from error
             if "terminal prompts disabled" in text:
                 raise ValidationError(
                     {
@@ -4259,7 +4282,7 @@ class Component(  # noqa: PLR0904
             return self.repository.count_outgoing()
         except RepositoryError as error:
             error_text = self.error_text(error)
-            if retry and "Host key verification failed" in error_text:
+            if retry and should_auto_add_ssh_host_key(error_text):
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
             report_error(
@@ -4297,7 +4320,7 @@ class Component(  # noqa: PLR0904
             return self.repository.needs_push(self.push_branch)
         except RepositoryError as error:
             error_text = self.error_text(error)
-            if retry and "Host key verification failed" in error_text:
+            if retry and should_auto_add_ssh_host_key(error_text):
                 self.add_ssh_host_key()
                 return self.repo_needs_push(retry=False)
             report_error(

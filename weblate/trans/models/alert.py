@@ -30,6 +30,10 @@ from weblate.utils.requests import (
 )
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import WeblateURLValidator, validate_project_web
+from weblate.vcs.base import (
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
@@ -380,6 +384,15 @@ class BaseGitFailure(ErrorAlert):
         repo_suggestion = None
         force_push_suggestion = False
         component = self.instance.component
+        host_key_mismatch = is_ssh_host_key_mismatch_error(self.error)
+        host_key = (
+            is_ssh_host_key_verification_error(self.error) and not host_key_mismatch
+        )
+        host_key_message = None
+        if host_key_mismatch:
+            host_key_message = component.get_ssh_host_key_mismatch_error_message()
+        elif host_key:
+            host_key_message = component.get_ssh_host_key_error_message()
 
         # Missing credentials
         if terminal_disabled:
@@ -403,6 +416,7 @@ class BaseGitFailure(ErrorAlert):
             "behind": behind,
             "repo_suggestion": repo_suggestion,
             "force_push_suggestion": force_push_suggestion,
+            "host_key_message": host_key_message,
             "not_found": any(
                 message in self.error for message in self.not_found_messages
             ),
