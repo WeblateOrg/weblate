@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-03-31 22:53+0000\n"
+"PO-Revision-Date: 2026-04-11 05:52+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -615,17 +615,15 @@ msgstr "Pengguna dikeluarkan dari tim {team} oleh {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Akses ke proyek {project} diblokir."
+msgstr "Token proyek untuk {project} telah dibuat."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Proyek terjemahan Anda dihapus"
+msgstr "Token proyek untuk {project} telah dihapus."
 
 #: weblate/accounts/models.py:325
 msgid "Two-factor authentication recovery codes were generated"
@@ -711,10 +709,9 @@ msgid "Account activity"
 msgstr "Aktivitas akun"
 
 #: weblate/accounts/models.py:550
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Diundang ke {project} oleh {username}."
+msgstr "Dipicu oleh {username}."
 
 #: weblate/accounts/models.py:644
 msgid "Interface Language"
@@ -1917,31 +1914,26 @@ msgid "POTFILES path"
 msgstr "Jalur POTFILES"
 
 #: weblate/addons/forms.py:277
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
 "Jalur relatif-repositori ke POTFILES atau POTFILES.in. Entri adalah relatif "
-"terselesaikan ke berkas itu."
+"terselesaikan ke akar repositori. Jika ditampilkan di samping manifes, "
+"POTFILES.skip mengecualikan berkas terdaftar dari ekstraksi."
 
 #: weblate/addons/forms.py:340
 msgid "POTFILES path has to point to a file."
 msgstr "Jalur POTFILES harus mengarah ke berkas."
 
 #: weblate/addons/forms.py:349
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Repositori diatur ulang"
+msgstr "Praatur Meson"
 
 #: weblate/addons/forms.py:350
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:354
 msgid ""
@@ -1949,12 +1941,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Praatur argumen xgettext bawaan yang sesuai dengan integrasi gettext Meson. "
+"Praatur GLib menambahkan opsi kata kunci dan penanda format yang digunakan "
+"pembantu gettext Meson."
 
 #: weblate/addons/forms.py:384
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Pengaya Meson mengharapkan direktori gettext Meson dengan meson.build dan "
+"POTFILES atau POTFILES.in."
 
 #: weblate/addons/forms.py:401
 msgid "The component has to define a POT file for new translations."
@@ -2422,19 +2419,12 @@ msgstr ""
 "dipilih."
 
 #: weblate/addons/gettext.py:1239
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Perbarui berkas POT (Django)"
+msgstr "Perbarui berkas POT (Meson)"
 
 #: weblate/addons/gettext.py:1241
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"Memperbarui templat gettext menggunakan xgettext pada berkas sumber yang "
-"dipilih."
+msgstr "Memperbarui templat gettext menggunakan konvensi gettext Meson."
 
 #: weblate/addons/gettext.py:1373
 msgid "Update POT file (Django)"
@@ -2694,12 +2684,12 @@ msgid "Weblate's REST API"
 msgstr "API REST Weblate"
 
 #: weblate/api/views.py:179 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
-msgstr "Tidak dapat mengunci repositori, operasi lain sedang berlangsung."
+msgstr ""
+"Tidak dapat menghapus string karena operasi latar belakang lain sedang "
+"berlangsung. Silakan coba lagi nanti."
 
 #: weblate/api/views.py:185
 msgid "Could not obtain the lock to perform the operation."
@@ -3318,7 +3308,7 @@ msgstr "VCS"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; dan %(count)d lainnya"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3331,48 +3321,43 @@ msgid "Team"
 msgstr "Tim"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "Alamat surel"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Masukkan satu atau lebih alamat surel yang dipisahkan oleh spasi."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: gandakan alamat dalam pengiriman"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: undangan yang tertunda sudah ada"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Surel undangan pengguna dikirim."
+msgstr[0] "%(count)d surel undangan telah dikirim."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
+msgstr[0] "Melewati %(count)d alamat: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Undangan pengguna dihapus."
+msgstr "Tidak ada undangan yang dibuat."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -11187,7 +11172,7 @@ msgstr "Atur ulang penyesuaian"
 #: weblate/templates/manage/backups.html:10 weblate/templates/project.html:182
 #: weblate/templates/trans/backups.html:10 weblate/wladmin/views.py:95
 msgid "Backups"
-msgstr "Rekam cadang, Pencadangan, Cadangan, Cadang, Sokong"
+msgstr "Cadangan"
 
 #: weblate/templates/manage/backups.html:23
 #, python-format
@@ -11626,10 +11611,8 @@ msgstr "Tambahkan pengguna baru"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Pengguna yang diundang"
+msgstr "Undang pengguna massal"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -13365,16 +13348,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Komponen lain dikonfigurasikan untuk mendorong permintaan penggabungan ke "
+"repositori sama dan cabang dorong."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "Ini dapat menyebabkan cabang yang akan ditimpa."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Gunakan cabang dorong berbeda untuk setiap komponen, atau bagikan repositori "
+"menggunakan URL Weblate berikut:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -15215,6 +15202,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Bentuk jamak di %(component)s tidak cocok dengan terjemahan target. "
+"Terjemahan otomatis melewati string berjamak dan melanjutkan hanya string "
+"bentuk tunggal."
 
 #: weblate/trans/autotranslate.py:457
 #, python-format
@@ -15222,16 +15212,13 @@ msgid "Automatic translation failed: %s"
 msgstr "Terjemahan otomatis gagal: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
-msgstr "Mask berkas tangkapan layar"
+msgstr "Gambar tangkapan layar hilang."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Tidak dapat untuk mengurai berkas %(file)s: %(error)s"
+msgstr "Tidak dapat memulihkan tangkapan layar %(name)s: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16300,10 +16287,8 @@ msgstr "Mask berkas ganda."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Confirm resetting repository"
 msgid "Conflicting repository setup."
-msgstr "Mengkonfirmasi tata ulang repositori"
+msgstr "Pengaturan repositori yang berkonflik."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -18632,10 +18617,8 @@ msgstr[0] ""
 
 #: weblate/utils/files.py:132 weblate/utils/files.py:142
 #: weblate/utils/validators.py:128
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Gambar terlalu besar."
+msgstr "Berkas terunggah terlalu besar."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18660,6 +18643,7 @@ msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
 msgstr ""
+"URL ini dilarang karena itu mengalihkan ke alamat internal atau non-publik."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 #: weblate/utils/validators.py:570 weblate/utils/validators.py:573
@@ -18688,15 +18672,12 @@ msgstr ""
 "gantinya."
 
 #: weblate/utils/requests.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Tidak dapat mengunduh gambar dari URL yang disediakan (kode status HTTP: "
-"%(code)s)."
+"Tidak dapat mengunduh aset dari URL yang diberikan (kode status HTTP: %(code)"
+"s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
@@ -18876,15 +18857,15 @@ msgstr "Galat sintaksis dalam alias bahasa."
 
 #: weblate/utils/validators.py:382
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr ""
+msgstr "URL ini dilarang karena itu mencocokkan pola terbatas."
 
 #: weblate/utils/validators.py:393
 msgid "This URL is prohibited because it uses a restricted host."
-msgstr ""
+msgstr "URL ini dilarang karena itu menggunakan hos terbatas."
 
 #: weblate/utils/validators.py:404
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "URL ini dilarang karena itu menggunakan alamat IP numerik."
 
 #: weblate/utils/validators.py:421
 msgid "Invalid base64 encoded string"
