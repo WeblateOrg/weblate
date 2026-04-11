@@ -55,6 +55,7 @@ PREFETCH_FIELDS = (
     "user",
     "author",
     "translation",
+    "language",
     "component",
     "category",
     "project",
@@ -63,7 +64,6 @@ PREFETCH_FIELDS = (
     "project__secondary_language",
     "unit",
     "unit__source_unit",
-    "translation__language",
     "translation__plural",
 )
 
@@ -203,6 +203,8 @@ class ChangeQuerySet(models.QuerySet["Change"]):
                 item.component.project = item.project
             if item.translation and skip != "translation":
                 item.translation.component = item.component
+                if item.language_id is not None:
+                    item.translation.language = item.language
             if item.unit and skip != "unit":
                 item.unit.translation = item.translation
         return results
@@ -767,7 +769,8 @@ class Change(models.Model, UserDisplayMixin):
             self.screenshot.translation = cast("Translation", self.translation)
         if self.translation:
             self.translation.component = cast("Component", self.component)
-            self.translation.language = cast("Language", self.language)
+            if self.language_id is not None:
+                self.translation.language = cast("Language", self.language)
         if self.component:
             self.component.project = cast("Project", self.project)
             self.component.category = cast("Category", self.category)

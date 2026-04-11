@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from types import SimpleNamespace
 
 from django.conf import settings
 from django.core import mail
@@ -29,11 +30,60 @@ from weblate.accounts.tasks import (
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Announcement, Comment, Suggestion
+from weblate.trans.models import Announcement, Change, Comment, Suggestion
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
 TEMPLATES_RAISE[0]["OPTIONS"]["string_if_invalid"] = "TEMPLATE_BUG[%s]"
+
+
+class LazyTranslation:
+    def __init__(self) -> None:
+        self.component = None
+        self.prefetched_language = None
+
+    @property
+    def language(self):
+        msg = "fill_in_prefetched should inject change.language"
+        raise AssertionError(msg)
+
+    @language.setter
+    def language(self, value) -> None:
+        self.prefetched_language = value
+
+
+class LazyLanguageChange:
+    unit = None
+    screenshot = None
+    language_id = 1
+
+    def __init__(self) -> None:
+        self.translation = LazyTranslation()
+        self.component = SimpleNamespace(project=None, category=None)
+        self.project = object()
+        self.category = object()
+        self.language = SimpleNamespace()
+
+
+class ChangePrefetchTest(SimpleTestCase):
+    def test_fill_in_prefetched_injects_change_language(self) -> None:
+        change = LazyLanguageChange()
+
+        Change.fill_in_prefetched(change)
+
+        self.assertIs(change.translation.prefetched_language, change.language)
+        self.assertIs(change.translation.component, change.component)
+        self.assertIs(change.component.project, change.project)
+        self.assertIs(change.component.category, change.category)
+
+    def test_preload_list_injects_change_language(self) -> None:
+        change = LazyLanguageChange()
+
+        Change.objects.preload_list([change])
+
+        self.assertIs(change.translation.prefetched_language, change.language)
+        self.assertIs(change.translation.component, change.component)
+        self.assertIs(change.component.project, change.project)
 
 
 @override_settings(

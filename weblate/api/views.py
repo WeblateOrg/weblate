@@ -1339,6 +1339,7 @@ class ProjectViewSet(
         queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
+        page = Change.objects.preload_list(page)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
 
@@ -1863,6 +1864,7 @@ class ComponentViewSet(
         queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
+        page = Change.objects.preload_list(page)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
 
