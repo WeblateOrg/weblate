@@ -36,7 +36,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-07 10:28+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1821,6 +1821,7 @@ msgstr "Нормализация заголовка POT"
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Обновляет заголовки gettext и заменяет комментарии-заполнители в файлах POT."
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1848,7 +1849,7 @@ msgstr "Обзор по всем компонентам"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Извлекает комментарии с тегом"
 
 #: weblate/addons/forms.py:174
 #, fuzzy
@@ -1861,6 +1862,8 @@ msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Выберите, следует ли xgettext извлекать никаких комментариев, все "
+"комментарии или только комментарии, помеченные определённым тегом."
 
 #: weblate/addons/forms.py:184
 #, fuzzy
@@ -1872,6 +1875,8 @@ msgstr "Текст комментария"
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Тег, передаваемый в xgettext для извлечения комментариев при использовании "
+"режима тегированных комментариев."
 
 #: weblate/addons/forms.py:192
 #, fuzzy
@@ -1882,6 +1887,8 @@ msgstr "Системные проверки"
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Дополнительные проверки xgettext, которые необходимо включить для "
+"извлеченных сообщений."
 
 #: weblate/addons/forms.py:201
 #, fuzzy
@@ -1892,6 +1899,8 @@ msgstr "Дополнительная ветка"
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Дополнительное ключевое слово, передаваемое в xgettext с помощью параметра --"
+"keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -5723,6 +5732,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Функция отправки не поддерживается в экспортере Weblate для Git. Вместо "
+"этого отправляйте изменения в вышестоящий репозиторий."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5730,12 +5741,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Функция отправки не поддерживается в экспортере Weblate для Git. Вместо "
+"этого отправьте изменения в вышестоящий репозиторий: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Запрашиваемая версия отсутствует в локальной копии репозитория Weblate в "
+"Git. Сначала извлеките её из вышестоящего репозитория."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5743,6 +5758,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Запрашиваемая версия отсутствует в локальной копии репозитория Weblate в "
+"Git. Сначала извлеките её из вышестоящего репозитория: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5750,6 +5767,10 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Неглубокая проверка Weblate в Git не содержит достаточного объёма истории, "
+"необходимого для выполнения запроса. Сначала выполните запрос из "
+"вышестоящего репозитория или используйте клон, история которого совпадает с "
+"историей Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5759,10 +5780,14 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Неглубокая проверка Weblate в Git не содержит достаточного объёма истории, "
+"необходимого для выполнения запроса. Сначала выполните запрос из "
+"вышестоящего репозитория или используйте клон, история которого совпадает с "
+"историей Weblate. Вышестоящий репозиторий: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Ошибка экспорта Git."
 
 #: weblate/gitexport/views.py:315
 #, fuzzy
@@ -14127,6 +14152,12 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Экспортированный репозиторий Weblate по умолчанию может быть неполным, "
+"поэтому данный рабочий процесс лучше всего работает с актуальной версией "
+"исходного кода. Клонирование из экспортированного репозитория Weblate или "
+"использование устаревшей версии исходного кода может завершиться сбоем, даже "
+"если Weblate и исходный код синхронизированы. Подробности см. в разделе «"
+"Часто задаваемые вопросы» ниже."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
