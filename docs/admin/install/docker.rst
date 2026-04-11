@@ -1525,7 +1525,7 @@ Microsoft Entra ID
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
 
-    Enables Microsoft Entra ID authentication, see :ref:`azure-auth`.
+    Enables Microsoft Entra ID authentication, see :ref:`entra-auth`.
 
 Microsoft Entra ID with Tenant support
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1535,7 +1535,7 @@ Microsoft Entra ID with Tenant support
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
 
     Enables Microsoft Entra ID authentication with Tenant support, see
-    :ref:`azure-auth`.
+    :ref:`entra-auth`.
 
 Keycloak
 ~~~~~~~~

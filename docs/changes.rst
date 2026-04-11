@@ -26,6 +26,7 @@ Weblate 5.17
 * Added a component alert for conflicting merge request repository setup, see :ref:`alerts`.
 * Improved plural handling in :ref:`auto-translation`.
 * Improved error messages in some of the :ref:`api` endpoints.
+* Updated Microsoft Entra ID authentication docs and Microsoft sign-in branding while keeping legacy Azure AD backend identifiers and documentation anchors for compatibility.
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 * :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is now available in Docker container to customize the Keycloak unique user identifier claim.
