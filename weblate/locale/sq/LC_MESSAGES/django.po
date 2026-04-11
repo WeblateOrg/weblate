@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-05 01:45+0000\n"
+"PO-Revision-Date: 2026-04-12 00:09+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -1803,26 +1803,20 @@ msgstr ""
 "jetë përditësuar kartela POT."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "S’u arrit të shtohej koment!"
+msgstr "Mos i përfto komentet"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Shfletoni krejt përbërësit"
+msgstr "Përftoji krejt komentet"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
 msgstr ""
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Komente përdoruesi"
+msgstr "Komente kodi"
 
 #: weblate/addons/forms.py:179
 msgid ""
@@ -1831,10 +1825,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Tekst komenti"
+msgstr "Etiketë komenti"
 
 #: weblate/addons/forms.py:187
 msgid ""
@@ -1842,20 +1834,16 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Kontrolle sistemi"
+msgstr "Kontrolle xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Degë shtesë"
+msgstr "Fjalëkyç shtesë"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
@@ -1905,27 +1893,22 @@ msgid "POTFILES path"
 msgstr "Shteg KARTELASHPOT"
 
 #: weblate/addons/forms.py:277
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
 "Shteg kundrejt depos, për te POTFILES apo POTFILES.in. Zërat ftillohen "
-"kundrejt asaj kartele."
+"kundrejt rrënjës së depos. Në qoftë i pranishëm pas manifestit, "
+"POTFILES.skip përjashton nga përftimi kartelat e radhitura në të."
 
 #: weblate/addons/forms.py:340
 msgid "POTFILES path has to point to a file."
 msgstr "Shteg KARTELASHPOT duhet të shpjerë te një kartelë."
 
 #: weblate/addons/forms.py:349
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Për depon u krye “reset”"
+msgstr ""
 
 #: weblate/addons/forms.py:350
 msgid "GLib"
@@ -2413,19 +2396,12 @@ msgstr ""
 "përzgjedhura."
 
 #: weblate/addons/gettext.py:1239
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Përditëso kartelë POT (Django)"
+msgstr "Përditëso kartelë POT (Meson)"
 
 #: weblate/addons/gettext.py:1241
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"Përditëson gjedhen gettext duke përdorur xgettext mbi kartelat burim të "
-"përzgjedhura."
+msgstr "Përditëson gjedhen gettext duke përdorur konvencione Meson gettext-i."
 
 #: weblate/addons/gettext.py:1373
 msgid "Update POT file (Django)"
@@ -2691,12 +2667,12 @@ msgid "Weblate's REST API"
 msgstr "API REST e Weblate-it"
 
 #: weblate/api/views.py:179 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
-msgstr "S’u arrit të kyçej depoja, ka në ecuri e sipër një tjetër veprim."
+msgstr ""
+"S’u hoq dot vargu, ngaqë është duke u kryer në prapaskenë një tjetër veprim. "
+"Ju lutemi, riprovoni më vonë."
 
 #: weblate/api/views.py:185
 msgid "Could not obtain the lock to perform the operation."
@@ -3324,10 +3300,8 @@ msgid "Team"
 msgstr "Ekip"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "IP addresses"
 msgid "E-mail addresses"
-msgstr "Adresa IP"
+msgstr "Adresa email"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
@@ -3349,12 +3323,11 @@ msgid "%(email)s: pending invitation already exists"
 msgstr ""
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Ftesa me email e përdoruesit u dërgua."
-msgstr[1] "Ftesa me email e përdoruesit u dërgua."
+msgstr[0] "U dërgua %(count)d ftesë me email."
+msgstr[1] "U dërguan %(count)d ftesa me email."
 
 #: weblate/auth/forms.py:399
 #, python-format
@@ -3364,10 +3337,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "U hoq ftesë përdoruesi."
+msgstr "S’u krijua ndonjë ftesë."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -4742,16 +4713,12 @@ msgid "C format string does not match source."
 msgstr "Vargu në format C s’përputhet me burimin."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Format Objektesh Pascal"
+msgstr "Format Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Vargu në format C s’përputhet me burimin."
+msgstr "Vargu në format Objective-C s’përputhet me burimin."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5740,10 +5707,8 @@ msgid "Git export failed."
 msgstr ""
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Kartelë e pambuluar!"
+msgstr "Shërbim Git i pambuluar."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -11702,10 +11667,8 @@ msgstr "Shtoni përdorues të ri"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "U ftua përdorues"
+msgstr "Ftoni njëherësh disa përdorues"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -15320,16 +15283,13 @@ msgid "Automatic translation failed: %s"
 msgstr "Përkthimi i automatizuar dështoi: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
-msgstr "Maskë kartele fotoje ekrani"
+msgstr "Mungon figurë fotoje ekrani."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "S’u arrit të përtypej kartela %(file)s: %(error)s"
+msgstr "S’u rikthye dot fotoja e ekranit %(name)s: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16401,10 +16361,8 @@ msgstr "Maskë e përsëdytur kartelash."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Could not get repository status!"
 msgid "Conflicting repository setup."
-msgstr "S’u mor dot gjendje depoje!"
+msgstr "Ujdisje depoje që ka përplasje."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -17344,16 +17302,14 @@ msgstr ""
 "përzierjeje dhe s’kryhet “push” te një degëzim."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Degë depoje"
+msgstr "Degë e pavlefshme depoje: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Varg i pavlefshëm kërkimi!"
+msgstr "Degë push e pavlefshme: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -18023,10 +17979,8 @@ msgid "Very low"
 msgstr "Shumë e ulët"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "URL depo kopjeruajtesh"
+msgstr "URL depoje"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
@@ -18756,10 +18710,8 @@ msgstr[1] ""
 
 #: weblate/utils/files.py:132 weblate/utils/files.py:142
 #: weblate/utils/validators.py:128
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Figura është shumë e madhe."
+msgstr "Kartela e ngarkuar është shumë e madhe."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18812,15 +18764,12 @@ msgstr ""
 "gjedhesh."
 
 #: weblate/utils/requests.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"S’arrihet të shkarkohet figurë nga URL-ja e dhënë (Kod gjendjeje HTTP: "
-"%(code)s)."
+"S’arrihet të shkarkohet objekt nga URL-ja e dhënë (Kod gjendjeje HTTP: %"
+"(code)s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
