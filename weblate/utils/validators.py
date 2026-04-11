@@ -365,10 +365,6 @@ def _validate_runtime_public_url(
     except ValidationError as error:
         if not isinstance(error.__cause__, OSError):
             raise
-    except UnicodeError as error:
-        raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
-        ) from error
 
 
 def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
@@ -533,12 +529,19 @@ class WeblateServiceURLValidator(WeblateURLValidator):
 
 
 def validate_repo_url(url: str) -> None:
-    parsed = urlparse(url)
+    normalized_url = url
+    parsed = urlparse(normalized_url)
     if not parsed.scheme:
+        if os.path.isabs(url) or url.startswith(("./", "../")):
+            if "file" not in settings.VCS_ALLOW_SCHEMES:
+                raise ValidationError(
+                    gettext("Fetching VCS repository using %s is not allowed.") % "file"
+                )
+            return
         # assume all links without schema are ssh links
-        url = f"ssh://{url}"
+        normalized_url = f"ssh://{url}"
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(normalized_url)
         except ValueError as error:
             raise ValidationError(
                 gettext("Could not parse URL: {}").format(error)
@@ -557,13 +560,35 @@ def validate_repo_url(url: str) -> None:
     # URL validation using for http (the URL validator is too strict to handle others)
     if parsed.scheme in {"http", "https"}:
         validator = URLValidator(schemes=list(settings.VCS_ALLOW_SCHEMES))
-        validator(url)
+        validator(normalized_url)
+
+    hostname = parsed.hostname
+
+    if parsed.scheme == "file":
+        if hostname is None:
+            return
+        raise ValidationError(gettext("Could not parse URL."))
+
+    if hostname is None:
+        raise ValidationError(gettext("Could not parse URL."))
 
     # Filter hosts if configured
-    if settings.VCS_ALLOW_HOSTS and parsed.hostname not in settings.VCS_ALLOW_HOSTS:
+    if settings.VCS_ALLOW_HOSTS and hostname not in settings.VCS_ALLOW_HOSTS:
         raise ValidationError(
-            gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
+            gettext("Fetching VCS repository from %s is not allowed.") % hostname
         )
+
+    allowlisted = hostname in settings.VCS_ALLOW_HOSTS
+    allow_private_targets = allowlisted or not settings.VCS_RESTRICT_PRIVATE
+
+    validate_outbound_url(
+        normalized_url,
+        allow_private_targets=allow_private_targets,
+    )
+    _validate_runtime_public_url(
+        normalized_url,
+        allow_private_targets=allow_private_targets,
+    )
 
 
 @deconstructible

@@ -6,22 +6,33 @@
 
 import json
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 from urllib.parse import urlencode
 
+from django.http import QueryDict
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
     HookPayloadError,
+    HookRequestSerializer,
+    extract_payload,
+    extract_request_data,
     normalize_branch_ref,
     require_mapping,
     validate_full_name,
 )
+
+if TYPE_CHECKING:
+    from weblate.trans.views.hooks import (
+        JSONDict,
+    )
 
 GITHUB_PAYLOAD = """
 {
@@ -1590,15 +1601,20 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with github."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "github"}))
-        self.assertContains(response, "Missing payload parameter!", status_code=400)
+        self.assertContains(response, "This field is required.", status_code=400)
         # wrong
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}), {"payload": "XX"}
         )
-        self.assertContains(response, "JSON parse error", status_code=400)
+        self.assertContains(response, "Value must be valid JSON.", status_code=400)
         # missing data
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}), {"payload": "{}"}
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        # wrong JSON type
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}), {"payload": "[]"}
         )
         self.assertContains(response, "Invalid data in json payload!", status_code=400)
         # application/x-www-form-urlencoded
@@ -1614,12 +1630,12 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with gitlab."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "gitlab"}))
-        self.assertContains(response, "Missing payload parameter!", status_code=400)
+        self.assertContains(response, "This field is required.", status_code=400)
         # missing content-type header
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}), {"payload": "anything"}
         )
-        self.assertContains(response, "JSON parse error", status_code=400)
+        self.assertContains(response, "Value must be valid JSON.", status_code=400)
         # wrong
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),
@@ -1627,6 +1643,13 @@ class HooksViewTest(ViewTestCase):
             content_type="application/json",
         )
         self.assertContains(response, "JSON parse error", status_code=400)
+        # wrong JSON type
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitlab"}),
+            "[42]",
+            content_type="application/json",
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
         # missing params
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),
@@ -2066,12 +2089,66 @@ class NormalizeBranchRefTest(SimpleTestCase):
         self.assertIn("Missing ref in payload", str(cm.exception))
 
 
+class HookSerializerTest(SimpleTestCase):
+    """Test serializer-backed webhook payload validation."""
+
+    def test_extract_payload_parses_json_object(self) -> None:
+        payload = QueryDict("payload=%7B%22ref%22%3A+%22main%22%7D")
+        self.assertEqual(
+            extract_payload(payload),
+            {"ref": "main"},
+        )
+
+    def test_extract_payload_rejects_invalid_json(self) -> None:
+        payload = QueryDict("payload=%5B")
+        with self.assertRaises(ParseError) as cm:
+            extract_payload(payload)
+        self.assertIn("Value must be valid JSON.", str(cm.exception))
+
+    def test_extract_request_data_keeps_json_payload(self) -> None:
+        payload = {"ref": "refs/heads/main"}
+        self.assertEqual(
+            extract_request_data("application/json", payload),
+            payload,
+        )
+
+    def test_extract_request_data_keeps_json_payload_with_parameters(self) -> None:
+        payload = {"ref": "refs/heads/main"}
+        self.assertEqual(
+            extract_request_data("application/json; charset=utf-8", payload),
+            payload,
+        )
+
+    def test_extract_request_data_uses_payload_for_form(self) -> None:
+        payload = QueryDict("payload=%7B%22ref%22%3A+%22main%22%7D")
+        self.assertEqual(
+            extract_request_data("application/x-www-form-urlencoded", payload),
+            {"ref": "main"},
+        )
+
+    def test_request_serializer_rejects_non_mapping(self) -> None:
+        serializer = HookRequestSerializer(data=[42])
+        self.assertFalse(serializer.is_valid())
+        self.assertEqual(
+            serializer.errors["non_field_errors"][0],
+            "Invalid data in json payload!",
+        )
+
+    def test_request_serializer_rejects_empty_mapping(self) -> None:
+        serializer = HookRequestSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+        self.assertEqual(
+            serializer.errors["non_field_errors"][0],
+            "Invalid data in json payload!",
+        )
+
+
 class RequireMappingTest(SimpleTestCase):
     """Test payload mapping validation."""
 
     def test_require_mapping(self) -> None:
         """Test valid mapping."""
-        payload = {"html_url": "https://example.invalid/repo"}
+        payload: JSONDict = {"html_url": "https://example.invalid/repo"}
         self.assertEqual(require_mapping(payload, "repository"), payload)
 
     def test_require_mapping_none(self) -> None:

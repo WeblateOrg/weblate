@@ -16,14 +16,20 @@ from typing import TYPE_CHECKING, Any, ClassVar, NoReturn
 from unittest.mock import patch
 
 import responses
-from django.test import TestCase
+from django.core.cache import cache
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.vcs.base import RepositoryError, RepositorySymlinkError
+from weblate.utils.render import render_template
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositorySymlinkError,
+    get_config_check_cache_key,
+)
 from weblate.vcs.git import (
     AzureDevOpsRepository,
     BitbucketCloudRepository,
@@ -32,6 +38,7 @@ from weblate.vcs.git import (
     GitForcePushRepository,
     GithubRepository,
     GitLabRepository,
+    GitMergeRequestBase,
     GitRepository,
     GitWithGerritRepository,
     LocalRepository,
@@ -39,6 +46,7 @@ from weblate.vcs.git import (
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
+from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
     from weblate.vcs.base import Repository
@@ -102,7 +110,24 @@ class GitNoVersionRepository(GitRepository):
     req_version = None
 
 
-class RepositoryTest(TestCase):
+class BrokenGitRepository(GitRepository):
+    _version = None
+
+    @classmethod
+    def _get_version(cls):
+        msg = "missing git"
+        raise FileNotFoundError(msg)
+
+
+class BrokenGitChildRepository(BrokenGitRepository):
+    _version = None
+
+    @classmethod
+    def _get_version(cls):
+        return "1.0"
+
+
+class RepositoryTest(SimpleTestCase):
     def test_not_supported(self) -> None:
         self.assertFalse(NonExistingRepository.is_supported())
         with self.assertRaises(FileNotFoundError):
@@ -123,6 +148,166 @@ class RepositoryTest(TestCase):
     def test_is_supported_cache(self) -> None:
         GitTestRepository.is_supported()
         self.assertTrue(GitTestRepository.is_supported())
+
+    def test_version_error_cache_is_per_class(self) -> None:
+        with self.assertRaises(FileNotFoundError):
+            BrokenGitRepository.get_version()
+
+        self.assertEqual(BrokenGitChildRepository.get_version(), "1.0")
+
+    def test_clone_runtime_private_url_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("https://private.example/repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_clone_runtime_malformed_idna_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                side_effect=UnicodeError("label empty or too long"),
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("git@a..b:repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn("Could not resolve the URL domain", str(error.exception))
+
+    def test_clone_runtime_file_host_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("file://localhost/repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn("Could not parse URL.", str(error.exception))
+
+    def test_clone_runtime_disallowed_scheme_rejected(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            pk=-1,
+        )
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(GitTestRepository, "_clone") as mock_clone,
+            self.assertRaises(RepositoryError) as error,
+        ):
+            repo = GitTestRepository(tempdir, branch="main", component=component)
+            repo.clone_from("git://example.com/repo.git")
+
+        mock_clone.assert_not_called()
+        self.assertIn(
+            "Fetching VCS repository using git is not allowed.", str(error.exception)
+        )
+
+
+class GitBranchValidationTest(SimpleTestCase):
+    def test_empty_branch_in_constructor_uses_default(self) -> None:
+        repo = GitRepository(".", branch="", local=True)
+
+        self.assertEqual(repo.branch, repo.default_branch)
+
+    def test_usage_error_is_normalized(self) -> None:
+        with (
+            patch.object(
+                GitRepository, "_popen", side_effect=RepositoryError(129, "usage: git")
+            ),
+            self.assertRaises(RepositoryError) as cm,
+        ):
+            GitRepository.validate_branch_name("main")
+
+        self.assertEqual(str(cm.exception), "'main' is not a valid branch name")
+
+    def test_literal_ref_validation_is_used(self) -> None:
+        with patch.object(GitRepository, "_popen", return_value="") as mocked:
+            self.assertEqual("main", GitRepository.validate_branch_name("main"))
+
+        mocked.assert_called_once_with(
+            ["check-ref-format", "refs/heads/main"],
+            merge_err=False,
+        )
+
+    def test_shorthand_branch_is_rejected(self) -> None:
+        with self.assertRaises(RepositoryError) as cm:
+            GitRepository.validate_branch_name("@{-1}")
+
+        self.assertEqual(str(cm.exception), "'@{-1}' is not a valid branch name")
+
+    def test_full_ref_branch_is_rejected(self) -> None:
+        with self.assertRaises(RepositoryError) as cm:
+            GitRepository.validate_branch_name("refs/heads/main")
+
+        self.assertEqual(
+            str(cm.exception), "'refs/heads/main' is not a valid branch name"
+        )
+
+    def test_empty_branch_uses_default_remote_branch(self) -> None:
+        repo = GitMergeRequestBase(".", branch="main", local=True)
+
+        self.assertEqual(repo.get_remote_branch_name(""), "origin/main")
+
+    def test_merge_request_templates_use_git_component_repository(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test",
+            project=Project(name="Test", slug="test", pk=-1),
+            source_language_id=1,
+            branch="main",
+            vcs="git",
+            repo="https://example.invalid/repo.git",
+            pk=-1,
+        )
+        component.pull_message = "Title\n\nBody"
+
+        repo = GithubFakeRepository(".", branch="main", component=component, local=True)
+
+        self.assertEqual(repo.get_merge_message(), ("Title", "Body"))
+        self.assertEqual(
+            render_template("{{ component_remote_branch }}", component=component),
+            "origin/main",
+        )
+        self.assertIsInstance(component.repository, GitRepository)
 
 
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
@@ -154,6 +339,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             slug="test",
             name="Test",
             project=Project(name="Test", slug="test", pk=-1),
+            branch=self._remote_branch,
+            vcs=self._vcs,
+            repo=self.get_remote_repo_url(),
             pk=-1,
         )
 
@@ -236,9 +424,63 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.update_remote()
 
+    def test_list_remote_branches_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.repo = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute") as mock_execute,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.list_remote_branches()
+
+        mock_execute.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_update_remote_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.repo = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute") as mock_execute,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.update_remote()
+
+        mock_execute.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
     def test_push(self, branch: str = "") -> None:
         with self.repo.lock:
             self.repo.push(branch)
+
+    def test_push_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.push = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute") as mock_execute,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.push("")
+
+        mock_execute.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
 
     def test_push_commit(self) -> None:
         self.test_commit()
@@ -247,6 +489,33 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_push_branch(self) -> None:
         self.test_commit()
         self.test_push("push-branch")
+
+    def test_validate_branch_name(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git only")
+        self.assertEqual("main", GitRepository.validate_branch_name("main"))
+        with self.assertRaises(RepositoryError):
+            GitRepository.validate_branch_name("--orphan")
+
+    def test_configure_branch_rejects_option_like_name(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git only")
+        with (
+            patch.object(self.repo, "execute") as mocked,
+            self.assertRaises(RepositoryError),
+        ):
+            self.repo.configure_branch("--orphan")
+        mocked.assert_not_called()
+
+    def test_has_rev_uses_end_of_options(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git only")
+        with patch.object(self.repo, "execute", return_value="HEAD") as mocked:
+            self.assertTrue(self.repo.has_rev("--verify"))
+        mocked.assert_called_once_with(
+            ["rev-parse", "--verify", "--end-of-options", "--verify"],
+            needs_lock=False,
+        )
 
     def test_reset(self) -> None:
         with self.repo.lock:
@@ -731,7 +1000,8 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         self._mock_push_to_fork.return_value = ""
 
     def tearDown(self) -> None:
-        self._mock_push_to_fork.stop()
+        if self._mock_push_to_fork is not None:
+            self._mock_push_to_fork.stop()
         super().tearDown()
 
     def mock_responses(self, pr_response, pr_status=200) -> None:
@@ -1918,6 +2188,27 @@ class VCSHgTest(VCSGitTest):
         self.assertEqual(
             self.repo.get_config("ui", "username"), "Foo Bar Žač <foo@example.net>"
         )
+
+    def test_ensure_config_updated_refreshes_ssh_path(self) -> None:
+        old_cache_key = f"sp-config-check-{self.repo.component.pk}"
+        new_cache_key = get_config_check_cache_key(self.repo.component.pk)
+        cache.set(old_cache_key, True, 86400)
+        cache.delete(new_cache_key)
+
+        with self.repo.lock:
+            self.repo.set_config_values(
+                ("ui", "ssh", os.path.join(self.tempdir, "legacy-ssh-wrapper"))
+            )
+
+        repo = self._class(
+            self.tempdir,
+            branch=self._remote_branch,
+            component=self.get_fake_component(),
+        )
+        with repo.lock:
+            repo.ensure_config_updated()
+
+        self.assertEqual(repo.get_config("ui", "ssh"), SSH_WRAPPER.filename.as_posix())
 
     def test_status(self) -> None:
         status = self.repo.status()

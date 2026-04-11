@@ -377,6 +377,9 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 # Restrict private webhook targets
 # WEBHOOK_RESTRICT_PRIVATE = True
 
+# Restrict private VCS repository targets
+# VCS_RESTRICT_PRIVATE = True
+
 # Private webhook target allowlist
 # WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
 
@@ -963,3 +966,4 @@ MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 SENTRY_ENVIRONMENT = SITE_DOMAIN
+PASSWORD_RESET_URL = None

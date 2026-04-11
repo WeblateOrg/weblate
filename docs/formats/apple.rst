@@ -1,4 +1,5 @@
 .. _apple:
+.. _strings:
 
 Apple iOS strings
 -----------------

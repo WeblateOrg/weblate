@@ -703,6 +703,7 @@ VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
 VCS_API_TIMEOUT = get_env_int("WEBLATE_VCS_API_TIMEOUT", 10)
 VCS_ALLOW_HOSTS = set(get_env_list("WEBLATE_VCS_ALLOW_HOSTS", []))
 VCS_ALLOW_SCHEMES = set(get_env_list("WEBLATE_VCS_ALLOW_SCHEMES", ["https", "ssh"]))
+VCS_RESTRICT_PRIVATE = get_env_bool("WEBLATE_VCS_RESTRICT_PRIVATE", True)
 
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
@@ -1498,7 +1499,7 @@ GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
 STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
 LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
 PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
-
+PASSWORD_RESET_URL = get_env_str("WEBLATE_PASSWORD_RESET_URL")
 # Third party services integration
 MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
 MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")

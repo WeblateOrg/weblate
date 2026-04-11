@@ -164,7 +164,7 @@ def validate_runtime_hostname(
 
     try:
         addresses = socket.getaddrinfo(normalized, None, type=socket.SOCK_STREAM)
-    except OSError as error:
+    except (OSError, UnicodeError) as error:
         raise ValidationError(
             gettext("Could not resolve the URL domain: {}").format(error)
         ) from error

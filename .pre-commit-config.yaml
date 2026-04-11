@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.9
+  rev: v0.15.10
   hooks:
   - id: ruff-check
     args:
@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.15.9
+    - ruff==0.15.10
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -65,7 +65,7 @@ repos:
     additional_dependencies:
     - mdformat-gfm==1.0.0
 - repo: https://github.com/scop/pre-commit-shfmt
-  rev: v3.13.0-1
+  rev: v3.13.1-1
   hooks:
   - id: shfmt
     args: [--write]
@@ -79,7 +79,7 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.4.10
+  rev: v2.4.11
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
@@ -184,7 +184,7 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.94.0
+  rev: v1.95.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]

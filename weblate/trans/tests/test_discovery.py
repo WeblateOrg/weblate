@@ -10,6 +10,7 @@ from unittest.mock import patch
 from django.test.utils import override_settings
 
 from weblate.trans.discovery import ComponentDiscovery
+from weblate.trans.tasks import create_component
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.utils.files import remove_tree
 
@@ -220,6 +221,39 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(matched), 2)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
+
+    def test_create_component_tolerates_missing_copy_from_addons_source(self) -> None:
+        source_component = self._create_component(
+            "po",
+            "po/*.po",
+            name="copy-source",
+            slug="copy-source",
+            project=self.component.project,
+        )
+        source_component.addon_set.create(name="weblate.gettext.linguas")
+        copy_from = source_component.pk
+        source_component.delete()
+
+        result = create_component(
+            copy_from=copy_from,
+            copy_addons=True,
+            in_task=True,
+            name="copy-target",
+            slug="copy-target",
+            project=self.component.project.pk,
+            vcs=self.component.vcs,
+            repo=self.component.get_repo_link_url(),
+            file_format=self.component.file_format,
+            filemask=self.component.filemask,
+            new_base=self.component.new_base,
+            new_lang=self.component.new_lang,
+            language_regex=self.component.language_regex,
+            source_language=self.component.source_language.pk,
+        )
+
+        component = self.component.project.component_set.get(pk=result["component"])
+        self.assertEqual(component.slug, "copy-target")
+        self.assertFalse(component.addon_set.exists())
 
     def test_duplicates(self) -> None:
         # Create all components with desired name po

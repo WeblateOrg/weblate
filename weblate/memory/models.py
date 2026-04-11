@@ -80,6 +80,9 @@ def get_node_data(unit, node):
 
 
 class MemoryQuerySet(models.QuerySet):
+    def global_file_query(self) -> Q:
+        return Q(from_file=True, user__isnull=True, project__isnull=True)
+
     def filter_type(
         self,
         *,
@@ -93,7 +96,7 @@ class MemoryQuerySet(models.QuerySet):
             base = base.using("memory_db")
         query = Q()
         if from_file:
-            query |= Q(from_file=from_file)
+            query |= self.global_file_query()
         if use_shared:
             query |= Q(shared=use_shared)
         if project:
@@ -196,7 +199,6 @@ class MemoryQuerySet(models.QuerySet):
         threshold: int = 75,
     ):
         base = self.prefetch_project().filter_type(
-            # Type filtering
             user=user,
             project=project,
             use_shared=use_shared,

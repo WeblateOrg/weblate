@@ -41,6 +41,14 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.vcs")
 
 
+def get_config_check_cache_key(component_pk: int) -> str:
+    """Build cache key for repository configuration refresh."""
+    wrapper_hash = hashlib.sha256(
+        SSH_WRAPPER.filename.as_posix().encode("utf-8")
+    ).hexdigest()
+    return f"sp-config-check-{wrapper_hash}-{component_pk}"
+
+
 class SubprocessArgs(TypedDict, total=False):
     stdin: int
     input: str
@@ -88,6 +96,7 @@ class Repository:
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
     _version: ClassVar[str | None] = None
+    _version_error: ClassVar[Exception | None] = None
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -102,7 +111,7 @@ class Repository:
         local: bool = False,
     ) -> None:
         self.path: str = path
-        if branch is None:
+        if not branch:
             self.branch = self.default_branch
         else:
             self.branch = branch
@@ -129,6 +138,10 @@ class Repository:
         return cls.default_branch
 
     @classmethod
+    def validate_branch_name(cls, branch: str) -> str:
+        return branch
+
+    @classmethod
     def add_breadcrumb(cls, message: str, **data) -> None:
         add_breadcrumb(category="vcs", message=message, **data)
 
@@ -152,7 +165,7 @@ class Repository:
         if self.component is None:
             msg = "Component not set!"
             raise TypeError(msg)
-        cache_key = f"sp-config-check-{self.component.pk}"
+        cache_key = get_config_check_cache_key(self.component.pk)
         if cache.get(cache_key) is None:
             self.check_config()
             cache.set(cache_key, True, 86400)
@@ -368,8 +381,35 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
+    @staticmethod
+    def validate_remote_url(url: str) -> None:
+        """Revalidate a remote URL before using it."""
+        from django.core.exceptions import ValidationError
+
+        from weblate.utils.validators import validate_repo_url
+
+        try:
+            validate_repo_url(url)
+        except ValidationError as error:
+            raise RepositoryError(0, "; ".join(error.messages)) from error
+
+    def validate_pull_url(self, url: str | None = None) -> None:
+        """Validate the pull URL in the current runtime context."""
+        if url is None and self.component is not None:
+            url = self.component.repo
+        if url:
+            self.validate_remote_url(url)
+
+    def validate_push_url(self, url: str | None = None) -> None:
+        """Validate the push URL in the current runtime context."""
+        if url is None and self.component is not None:
+            url = self.component.push or self.component.repo
+        if url:
+            self.validate_remote_url(url)
+
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
+        self.validate_pull_url(source)
         self._clone(source, self.path, self.branch)
 
     @classmethod
@@ -510,14 +550,20 @@ class Repository:
     @classmethod
     def get_version(cls):
         """Get cached backend version."""
-        if cls._version is None:
+        version = cls.__dict__.get("_version")
+        version_error = cls.__dict__.get("_version_error")
+
+        if version is None and version_error is None:
             try:
                 cls._version = cls._get_version()
             except Exception as error:
-                cls._version = error
-        if isinstance(cls._version, Exception):
-            raise cls._version
-        return cls._version
+                cls._version_error = error
+            version = cls.__dict__.get("_version")
+            version_error = cls.__dict__.get("_version_error")
+
+        if version_error is not None:
+            raise version_error
+        return version
 
     @classmethod
     def _get_version(cls):
@@ -676,7 +722,8 @@ class Repository:
         return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
     def get_remote_branch_name(self, branch: str | None = None) -> str:
-        return f"origin/{self.branch if branch is None else branch}"
+        branch_name = branch or self.branch
+        return f"origin/{self.validate_branch_name(branch_name)}"
 
     def list_remote_branches(self) -> list[str]:
         return []

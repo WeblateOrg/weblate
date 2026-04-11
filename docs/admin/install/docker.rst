@@ -845,6 +845,36 @@ Generic settings
         environment:
           WEBLATE_REQUIRE_LOGIN: 1
 
+.. envvar:: WEBLATE_LEGAL_INTEGRATION
+
+    Enables the :ref:`legal` module in Docker deployments.
+    By default, the integration is disabled; leave this variable unset or empty to disable it.
+
+    Supported values are:
+
+    * ``tos-confirm`` to enable the legal module and enforce terms of service
+      confirmation during social authentication and for signed-in users.
+    * ``wllegal`` to enable the same integration and additionally load the
+      hosted legal document templates from ``wllegal``. These templates are
+      used by services operated by Weblate s.r.o. and are not intended for
+      general use.
+
+    To provide your own legal documents in Docker, override the templates in
+    :file:`/app/data/python/customize/templates/legal/documents`, see
+    :ref:`docker-static-override`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_INTEGRATION: tos-confirm
+
+    .. seealso::
+
+       * :ref:`legal`
+       * :ref:`docker-static-override`
+
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 
    Enables :setting:`PUBLIC_ENGAGE`.
@@ -1119,6 +1149,12 @@ Generic settings
    .. versionadded:: 5.15
 
    Configures :setting:`VCS_ALLOW_SCHEMES`.
+
+.. envvar:: WEBLATE_VCS_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`VCS_RESTRICT_PRIVATE`.
 
 .. envvar:: WEBLATE_VCS_CLONE_DEPTH
 
@@ -1913,6 +1949,10 @@ Site integration
 .. envvar:: WEBLATE_PRIVACY_URL
 
    Configures :setting:`PRIVACY_URL`.
+
+.. envvar:: WEBLATE_PASSWORD_RESET_URL
+
+   Configures :setting:`PASSWORD_RESET_URL`.
 
 Collecting error reports and monitoring performance
 +++++++++++++++++++++++++++++++++++++++++++++++++++

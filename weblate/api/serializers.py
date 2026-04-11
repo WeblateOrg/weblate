@@ -4,8 +4,10 @@
 
 from __future__ import annotations
 
-from copy import copy
-from typing import TYPE_CHECKING, TypeVar, cast
+import os
+from copy import copy, deepcopy
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -32,6 +34,7 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.component_copy import get_inherited_component_fields
 from weblate.trans.defines import BRANCH_LENGTH, LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
     AutoComponentList,
@@ -46,7 +49,10 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.translation import NewUnitParams
-from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
+from weblate.trans.util import (
+    check_upload_method_permissions,
+    cleanup_repo_url,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import validate_bitmap
@@ -64,6 +70,64 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 _MT = TypeVar("_MT", bound=Model)  # Model Type
+
+
+@dataclass
+class ComponentReference:
+    value: str
+
+
+def resolve_component_reference(
+    queryset, value: str | int | ComponentReference
+) -> Component:
+    """Resolve component reference by numeric ID or full Weblate path."""
+    if isinstance(value, Component):
+        return value
+    if isinstance(value, ComponentReference):
+        value = value.value
+    if isinstance(value, int):
+        return queryset.get(pk=value)
+
+    text = str(value).strip()
+    if text.isdigit():
+        return queryset.get(pk=int(text))
+    return queryset.get_by_path(text)
+
+
+def resolve_component_reference_with_error(
+    queryset, value, field_name: str
+) -> Component:
+    try:
+        return resolve_component_reference(queryset, value)
+    except Component.DoesNotExist as error:
+        raise serializers.ValidationError(
+            {field_name: "Component not found."}
+        ) from error
+
+
+@extend_schema_field(
+    {
+        "oneOf": [
+            build_basic_type(int),
+            build_basic_type(str),
+        ]
+    }
+)
+class ComponentReferenceField(serializers.CharField):
+    def to_internal_value(self, data):
+        text = super().to_internal_value(str(data))
+        return ComponentReference(text)
+
+
+class ComponentReferenceListField(serializers.ListField):
+    child = ComponentReferenceField()
+
+    def get_value(self, dictionary):
+        if hasattr(dictionary, "getlist"):
+            values = dictionary.getlist(self.field_name)
+            if values:
+                return values
+        return super().get_value(dictionary)
 
 
 def get_reverse_kwargs(
@@ -725,6 +789,41 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
 
 
 class ComponentSerializer(RemovableSerializer[Component]):
+    forbidden_from_component_override_fields: ClassVar[frozenset[str]] = frozenset(
+        {
+            "source_language",
+            "filemask",
+            "template",
+            "edit_template",
+            "intermediate",
+            "new_base",
+            "file_format",
+            "file_format_params",
+            "language_code_style",
+            "language_regex",
+            "key_filter",
+            "variant_regex",
+            "manage_units",
+        }
+    )
+    duplicated_component_fields = get_inherited_component_fields(
+        "repo",
+        "branch",
+        "push",
+        "push_branch",
+        "filemask",
+        "screenshot_filemask",
+        "template",
+        "intermediate",
+        "new_base",
+        "file_format",
+        "repoweb",
+        "merge_style",
+        "auto_lock_error",
+        "language_regex",
+        "is_glossary",
+        "glossary_color",
+    )
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     project = ProjectSerializer(read_only=True)
     repository_url = MultiFieldHyperlinkedIdentityField(
@@ -764,6 +863,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     zipfile = serializers.FileField(required=False)
     docfile = serializers.FileField(required=False)
+    from_component = ComponentReferenceField(required=False, write_only=True)
     disable_autoshare = serializers.BooleanField(required=False)
 
     enforced_checks = serializers.JSONField(required=False)
@@ -854,6 +954,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "variant_regex",
             "zipfile",
             "docfile",
+            "from_component",
             "addons",
             "is_glossary",
             "glossary_color",
@@ -908,6 +1009,15 @@ class ComponentSerializer(RemovableSerializer[Component]):
         # Preprocess to inject params based on content
         data = data.copy()
 
+        source_component = None
+        if "from_component" in data and "docfile" not in data and "zipfile" not in data:
+            source_component = resolve_component_reference_with_error(
+                Component.objects.filter_access(self.context["request"].user),
+                data["from_component"],
+                "from_component",
+            )
+            self.populate_from_component_input_defaults(data, source_component)
+
         # Provide a reasonable default
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
@@ -943,20 +1053,154 @@ class ComponentSerializer(RemovableSerializer[Component]):
         if "category" not in result:
             result["category"] = None
 
+        if source_component is not None:
+            result["from_component"] = source_component
+
         return result
+
+    def populate_from_component_input_defaults(self, data, source_component: Component):
+        defaults = {
+            "filemask": source_component.filemask,
+            "file_format": source_component.file_format,
+        }
+        if "repo" in data:
+            defaults["vcs"] = source_component.vcs
+        else:
+            defaults["repo"] = "local:"
+            defaults["vcs"] = "local"
+        for field, value in defaults.items():
+            if field not in data:
+                data[field] = value
+
+    def apply_from_component_defaults(self, attrs, source_component: Component):
+        project = attrs.get("project") or self.context.get("project")
+
+        for field in self.duplicated_component_fields:
+            if field in attrs:
+                continue
+            if "repo" not in self.initial_data and field in {
+                "vcs",
+                "repo",
+                "branch",
+                "push",
+                "push_branch",
+            }:
+                continue
+            if "repo" in self.initial_data and field in {
+                "branch",
+                "push",
+                "push_branch",
+            }:
+                continue
+            value = getattr(source_component, field)
+            if isinstance(value, list | dict):
+                value = deepcopy(value)
+            attrs[field] = value
+
+        if (
+            attrs.get("category") is None
+            and "category" not in self.initial_data
+            and project is not None
+        ):
+            attrs["category"] = (
+                source_component.category
+                if source_component.project_id == project.pk
+                else None
+            )
+
+        return attrs
+
+    def validate_from_component_overrides(self, attrs, source_component: Component):
+        forbidden_fields = sorted(
+            self.forbidden_from_component_override_fields.intersection(
+                self.initial_data
+            )
+        )
+        if forbidden_fields:
+            raise serializers.ValidationError(
+                dict.fromkeys(
+                    forbidden_fields,
+                    "This field can not be overridden when using from_component.",
+                )
+            )
+
+        incompatible_fields = sorted(
+            {"repo", "vcs", "branch", "push", "push_branch"}.intersection(
+                self.initial_data
+            )
+        )
+        if incompatible_fields:
+            raise serializers.ValidationError(
+                dict.fromkeys(
+                    incompatible_fields,
+                    "This field can not be used when using from_component.",
+                )
+            )
+
+    @staticmethod
+    def validate_local_from_component_instance(
+        instance: Component, source_component: Component
+    ) -> None:
+        instance.clean_model_settings()
+        validation_instance = copy(instance)
+        validation_instance.linked_component = source_component
+        validation_instance.clean_new_lang()
 
     def validate(self, attrs):
         # Handle non-component args
         disable_autoshare = attrs.pop("disable_autoshare", False)
         docfile = attrs.pop("docfile", None)
         zipfile = attrs.pop("zipfile", None)
+        from_component = attrs.pop("from_component", None)
 
         # Restrict create fields on patching
-        if self.instance and (docfile is not None or zipfile is not None):
-            field = "docfile" if docfile is not None else "zipfile"
+        if self.instance and (
+            docfile is not None or zipfile is not None or from_component is not None
+        ):
+            field = (
+                "docfile"
+                if docfile is not None
+                else "zipfile"
+                if zipfile is not None
+                else "from_component"
+            )
             raise serializers.ValidationError(
                 {field: "This field is for creation only, use /file/ instead."}
             )
+
+        source_component = None
+        if from_component is not None:
+            source_component = resolve_component_reference_with_error(
+                Component.objects.filter_access(self.context["request"].user),
+                from_component,
+                "from_component",
+            )
+            if not self.context["request"].user.has_perm(
+                "component.edit", source_component
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "from_component": "You do not have permission to use this component."
+                    }
+                )
+            if docfile is not None or zipfile is not None:
+                raise serializers.ValidationError(
+                    {
+                        "from_component": "This field can not be combined with zipfile or docfile.",
+                    }
+                )
+            self.validate_from_component_overrides(attrs, source_component)
+            attrs = self.apply_from_component_defaults(attrs, source_component)
+            if "repo" not in self.initial_data and not os.path.isdir(
+                source_component.full_path
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "from_component": (
+                            "Source component repository is not available."
+                        )
+                    }
+                )
 
         # Build new or patched Component instance with changed attributes
         if self.instance:
@@ -986,14 +1230,33 @@ class ComponentSerializer(RemovableSerializer[Component]):
                     ) from error
 
         # Call model validation here, DRF does not do that
-        instance.clean()
+        if source_component is not None and "repo" not in self.initial_data:
+            self.validate_local_from_component_instance(instance, source_component)
+        else:
+            instance.clean()
 
-        if not self.instance and not disable_autoshare:
+        if not self.instance and not disable_autoshare and source_component is None:
             repo = instance.suggest_repo_link()
             if repo:
                 attrs["repo"] = instance.repo = repo
                 attrs["branch"] = instance.branch = ""
+        if source_component is not None:
+            attrs["from_component"] = source_component
         return attrs
+
+    def create(self, validated_data):
+        source_component = validated_data.pop("from_component", None)
+        if source_component is None:
+            return super().create(validated_data)
+
+        component = Component(**validated_data)
+        component.prepare_seed_from_component(
+            source_component.pk,
+            copy_addons=True,
+            seed_author=self.context["request"].user.get_author_name(),
+        )
+        component.save(force_insert=True)
+        return component
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
@@ -1138,6 +1401,81 @@ class ProjectLockSerializer(serializers.ModelSerializer[Project]):
 
 class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()
+
+
+class TranslationCreateSerializer(ReadOnlySerializer):
+    language_code = serializers.CharField()
+    from_component = ComponentReferenceListField(required=False)
+
+    def validate(self, attrs):
+        component = self.context["component"]
+        request = self.context["request"]
+        source_components = []
+        source_queryset = Component.objects.filter(
+            models.Q(project_id=component.project_id)
+            | models.Q(project__contribute_shared_tm=True)
+        )
+        for reference in attrs.get("from_component", []):
+            source_component = resolve_component_reference_with_error(
+                source_queryset,
+                reference,
+                "from_component",
+            )
+            if not request.user.has_perm("component.edit", source_component) and (
+                source_component.project_id == component.project_id
+                or not source_component.project.contribute_shared_tm
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "from_component": "You do not have permission to use this component."
+                    }
+                )
+            if source_component.source_language_id != component.source_language_id:
+                raise serializers.ValidationError(
+                    {
+                        "from_component": (
+                            "Source component needs to have same source language as target one."
+                        )
+                    }
+                )
+            if (
+                source_component.project_id != component.project_id
+                and not source_component.project.contribute_shared_tm
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "from_component": (
+                            "Project has disabled contribution to shared translation memory."
+                        )
+                    }
+                )
+            source_components.append(source_component)
+
+        if source_components:
+            eligible_component_ids = set(
+                Translation.objects.filter(
+                    component_id__in=[
+                        source_component.pk for source_component in source_components
+                    ],
+                    language__code=attrs["language_code"],
+                ).values_list("component_id", flat=True)
+            )
+            source_components = [
+                source_component
+                for source_component in source_components
+                if source_component.pk in eligible_component_ids
+            ]
+            if not source_components:
+                raise serializers.ValidationError(
+                    {
+                        "from_component": (
+                            "None of the referenced components contain the requested language."
+                        )
+                    }
+                )
+
+        attrs["from_component"] = source_components
+        return attrs
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
@@ -1463,6 +1801,32 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
             "from_file",
             "shared",
         )
+
+
+class MemoryLookupRequestSerializer(serializers.Serializer):
+    strings = serializers.ListField(
+        child=serializers.CharField(
+            allow_blank=False,
+            trim_whitespace=False,
+            max_length=2000,
+        ),
+        allow_empty=False,
+        max_length=100,
+    )
+
+
+class MemoryLookupMatchSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    source = serializers.CharField()
+    target = serializers.CharField()
+    origin = serializers.CharField()
+    exact = serializers.BooleanField()
+    quality = serializers.IntegerField()
+
+
+class MemoryLookupResultSerializer(serializers.Serializer):
+    query = serializers.CharField()
+    match = MemoryLookupMatchSerializer(allow_null=True)
 
 
 class LabelSerializer(serializers.ModelSerializer[Label]):

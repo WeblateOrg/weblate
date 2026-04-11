@@ -26,12 +26,12 @@ from django.utils.timezone import make_aware
 from django.utils.translation import override
 
 from weblate.accounts.utils import remove_user
-from weblate.addons.models import Addon
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import BatchAutoTranslate
+from weblate.trans.component_copy import copy_component_addons
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
     Category,
@@ -400,6 +400,7 @@ def component_alerts(component_ids=None) -> None:
 @transaction.atomic
 def component_after_save(
     pk: int,
+    *,
     changed_git: bool,
     changed_setup: bool,
     changed_template: bool,
@@ -407,6 +408,9 @@ def component_after_save(
     changed_enforced_checks: bool,
     skip_push: bool,
     create: bool,
+    seed_source_component_id: int | None = None,
+    copy_seed_addons: bool = False,
+    seed_author: str | None = None,
 ) -> dict[Literal["component"], int]:
     component = Component.objects.get(pk=pk)
     component.after_save(
@@ -417,6 +421,9 @@ def component_after_save(
         changed_enforced_checks=changed_enforced_checks,
         skip_push=skip_push,
         create=create,
+        seed_source_component_id=seed_source_component_id,
+        copy_seed_addons=copy_seed_addons,
+        seed_author=seed_author,
     )
     return {"component": pk}
 
@@ -663,7 +670,9 @@ def auto_translate(  # noqa: PLR0913
                 auto_source=auto_source,
                 engines=engines,
                 threshold=threshold,
-                source_component_id=source_component_id,
+                source_component_ids=(
+                    [source_component_id] if source_component_id is not None else None
+                ),
             )
         except PermissionDenied as error:
             result.update({"message": str(error), "warnings": auto.get_warnings()})
@@ -699,7 +708,9 @@ def auto_translate_component(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
-        source_component_id=source_component_id,
+        source_component_ids=(
+            [source_component_id] if source_component_id is not None else None
+        ),
     )
     component_obj.run_batched_checks()
     return {"component": component_obj.id}
@@ -720,23 +731,19 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
     component.save(force_insert=True)
     component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
     if copy_from:
+        source_component = Component.objects.filter(pk=copy_from).first()
         # Copy non-automatic component lists
         for clist in ComponentList.objects.filter(
             components__id=copy_from, autocomponentlist__isnull=True
         ):
             clist.components.add(component)
         # Copy add-ons
-        if copy_addons:
-            addons = Addon.objects.filter(component__pk=copy_from, repo_scope=False)
-            for addon in addons:
-                # Avoid installing duplicate addons
-                if component.addon_set.filter(name=addon.name).exists():
-                    continue
-                if not addon.addon.can_install(component=component):
-                    continue
-                addon.addon.create(
-                    component=component, configuration=addon.configuration
-                )
+        if copy_addons and source_component is not None:
+            copy_component_addons(
+                component,
+                source_component,
+                same_project_only=False,
+            )
     if in_task:
         return {"component": component.id}
     return component

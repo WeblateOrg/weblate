@@ -21,9 +21,13 @@ $(document).ready(() => {
     translationStatus,
   ) {
     if (codeLanguage === "html") {
-      return `<a href="${engageUrl}">
-<img src="${widgetUrl}" alt="${translationStatus}" />
-</a>`;
+      const link = document.createElement("a");
+      link.href = engageUrl;
+      const image = document.createElement("img");
+      image.src = widgetUrl;
+      image.alt = translationStatus;
+      link.append(image);
+      return link.outerHTML;
     }
     if (codeLanguage === "bb-code") {
       return `[url=${engageUrl}][img alt="${translationStatus}"]${widgetUrl}[/img][/url]`;

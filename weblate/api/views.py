@@ -6,13 +6,15 @@
 from __future__ import annotations
 
 import os.path
+from contextlib import suppress
 from datetime import datetime
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
 
 from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
+from django.contrib.postgres.search import TrigramSimilarity
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
@@ -68,6 +70,8 @@ from weblate.api.serializers import (
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
+    MemoryLookupRequestSerializer,
+    MemoryLookupResultSerializer,
     MemorySerializer,
     MetricsSerializer,
     MonolingualUnitSerializer,
@@ -84,6 +88,7 @@ from weblate.api.serializers import (
     SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
+    TranslationCreateSerializer,
     TranslationSerializer,
     UnitSerializer,
     UnitWriteSerializer,
@@ -97,7 +102,7 @@ from weblate.auth.results import PermissionResult
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
-from weblate.memory.models import Memory
+from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
@@ -121,13 +126,16 @@ from weblate.trans.models import (
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.tasks import category_removal, component_removal, project_removal
+from weblate.trans.util import sanitize_backend_error_message
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
 from weblate.utils.celery import get_task_metadata, get_task_progress
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.search import SearchQueryError, parse_query
+from weblate.utils.similarity import Comparer
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -472,7 +480,9 @@ class UserFilterBackend(filters.DjangoFilterBackend):
     """Custom filter backend that selects UserFilter vs UserFilterRestricted."""
 
     def get_filterset_class(self, view, queryset=None):
-        request = view.request
+        request = getattr(view, "request", None)
+        if request is None or getattr(view, "swagger_fake_view", False):
+            return UserFilterRestricted
         user = request.user
         if user.is_authenticated and (
             user.has_perm("user.view") or user.has_perm("user.edit")
@@ -487,6 +497,36 @@ class ComponentSlugFilter(filters.FilterSet):
     class Meta:
         model = Component
         fields = ("filter",)
+
+
+class MemoryFilter(filters.FilterSet):
+    source = filters.CharFilter(field_name="source", lookup_expr="substring")
+    source_language = filters.CharFilter(field_name="source_language__code")
+    target_language = filters.CharFilter(field_name="target_language__code")
+    project = filters.CharFilter(field_name="project__slug")
+
+    class Meta:
+        model = Memory
+        fields = (
+            "source",
+            "source_language",
+            "target_language",
+            "project",
+        )
+
+
+class MemoryLookupMatchData(TypedDict):
+    id: int
+    source: str
+    target: str
+    origin: str
+    exact: bool
+    quality: int
+
+
+class MemoryLookupResultData(TypedDict):
+    query: str
+    match: MemoryLookupMatchData | None
 
 
 @extend_schema_view(
@@ -1690,7 +1730,9 @@ class ComponentViewSet(
         methods=["get"],
     )
     @extend_schema(
-        description="Create a new translation in the given component.", methods=["post"]
+        description="Create a new translation in the given component.",
+        methods=["post"],
+        request=TranslationCreateSerializer,
     )
     @action(detail=True, methods=["get", "post"])
     def translations(self, request: Request, **kwargs):
@@ -1699,15 +1741,19 @@ class ComponentViewSet(
         if request.method == "POST":
             if not request.user.has_perm("translation.add", obj):
                 self.permission_denied(request, "Can not create translation")
+            serializer = TranslationCreateSerializer(
+                data=request.data,
+                context={"request": request, "component": obj},
+            )
+            serializer.is_valid(raise_exception=True)
 
-            if "language_code" not in request.data:
-                msg = "Missing 'language_code' parameter"
-                raise ValidationError({"language_code": msg})
-
-            language_code = request.data["language_code"]
+            language_code = serializer.validated_data["language_code"]
+            source_components = serializer.validated_data["from_component"]
 
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
+            if source_components and not request.user.has_perm("translation.auto", obj):
+                self.permission_denied(request, "Can not auto translate")
 
             base_languages = obj.get_all_available_languages()
             if not request.user.has_perm("translation.add_more", obj):
@@ -1727,6 +1773,26 @@ class ComponentViewSet(
                 else:
                     message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message})
+
+            if source_components:
+                auto = AutoTranslate(
+                    user=request.user,
+                    translation=translation,
+                    q="state:<translated",
+                    mode="translate",
+                )
+                message = auto.perform(
+                    auto_source="others",
+                    source_component_ids=[
+                        component.pk for component in source_components
+                    ],
+                    engines=[],
+                    threshold=0,
+                )
+                if auto.failure_message is not None:
+                    with suppress(Exception):
+                        translation.remove(request.user)
+                    raise ValidationError({"from_component": message})
 
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
@@ -1924,13 +1990,35 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
 
     queryset = Memory.objects.none()
     serializer_class = MemorySerializer
+    filterset_class = MemoryFilter
+    filter_backends = (filters.DjangoFilterBackend,)
+    permission_classes = (IsAuthenticated,)
+    comparer = Comparer()
+
+    def get_read_db_alias(self) -> str:
+        if "memory_db" in settings.DATABASES:
+            return "memory_db"
+        return "default"
+
+    def get_scoped_queryset(self, *, alias: str):
+        user = self.request.user
+        if not user.is_authenticated:
+            return Memory.objects.none()
+
+        if user.is_superuser or user.has_perm("memory.manage"):
+            query = Q()
+        else:
+            query = Q(user=user) | Q(shared=True) | Memory.objects.global_file_query()
+            query |= Q(project__in=user.allowed_projects.using(alias))
+
+        # Reads can use a dedicated memory_db alias when configured, but delete
+        # object resolution stays on default because memory_db is typically
+        # deployed as a read-only replica.
+        return Memory.objects.using(alias).filter(query).order_by("id")
 
     def get_queryset(self):
-        if not self.request.user.has_perm("memory.manage"):
-            self.permission_denied(self.request, "Access not allowed")
-        # Use default database connection and not memory_db one (in case
-        # a custom router is used).
-        return Memory.objects.using("default").order_by("id")
+        alias = "default" if self.action == "destroy" else self.get_read_db_alias()
+        return self.get_scoped_queryset(alias=alias)
 
     def perm_check(self, request: Request, instance) -> None:
         if not request.user.has_perm("memory.delete", instance):
@@ -1941,6 +2029,174 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         instance = self.get_object()
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)
+
+    def get_language_from_query_param(self, param_name: str) -> Language:
+        try:
+            code = self.request.query_params[param_name]
+        except MultiValueDictKeyError as error:
+            raise ValidationError(
+                {param_name: "This query parameter is required."}
+            ) from error
+        try:
+            return Language.objects.get(code=code)
+        except Language.DoesNotExist as error:
+            raise not_found_validation_error(param_name, "Language") from error
+
+    def get_lookup_languages(self) -> tuple[Language, Language]:
+        source_language = self.get_language_from_query_param("source_language")
+        target_language = self.get_language_from_query_param("target_language")
+        return source_language, target_language
+
+    def get_lookup_queryset(self):
+        queryset = self.get_queryset()
+        user = self.request.user
+        can_manage_all = user.is_superuser or user.has_perm("memory.manage")
+
+        project_slug = self.request.query_params.get("project")
+
+        if project_slug:
+            project_queryset = (
+                Project.objects.all() if can_manage_all else user.allowed_projects
+            )
+            project = get_object_or_404(project_queryset, slug=project_slug)
+            return Memory.objects.filter_type(
+                user=user,
+                project=project,
+                use_shared=project.use_shared_tm,
+                from_file=True,
+            )
+
+        return queryset
+
+    def get_exact_matches(self, queryset, strings: list[str]) -> dict[str, Memory]:
+        matches: dict[str, Memory] = {}
+        exact_queryset = (
+            queryset.filter(source__in=strings)
+            .order_by("source", "-status", "id")
+            .distinct("source")
+        )
+        for match in exact_queryset:
+            matches[match.source] = match
+        return matches
+
+    def get_fuzzy_match(
+        self,
+        queryset,
+        source_language: Language,
+        target_language: Language,
+        text: str,
+        threshold: int = 75,
+    ):
+        base = queryset.filter(
+            source_language=source_language,
+            target_language=target_language,
+        )
+        if threshold >= 100:
+            return base.filter(source=text).order_by("-status", "id").first()
+
+        similarity_threshold = Memory.objects.threshold_to_similarity(text, threshold)
+        minimum_similarity = Memory.objects.minimum_similarity(text, threshold)
+        seen_candidates: set[int] = set()
+
+        while similarity_threshold >= minimum_similarity:
+            adjust_similarity_threshold(similarity_threshold, alias=base.db)
+            candidates = (
+                base.filter(source__trgm_search=text)
+                .annotate(match_similarity=TrigramSimilarity("source", text))
+                .order_by("-match_similarity", "-status", "pk")[:MEMORY_LOOKUP_LIMIT]
+            )
+            for candidate in candidates:
+                if candidate.pk in seen_candidates:
+                    continue
+                seen_candidates.add(candidate.pk)
+                if self.comparer.similarity(text, candidate.source) >= threshold:
+                    return candidate
+            similarity_threshold = round(similarity_threshold - 0.05, 3)
+            if similarity_threshold < minimum_similarity < similarity_threshold + 0.05:
+                similarity_threshold = minimum_similarity
+
+        return None
+
+    def serialize_lookup_result(
+        self, query: str, match: Memory | None
+    ) -> MemoryLookupResultData:
+        if match is None:
+            return {"query": query, "match": None}
+
+        exact = match.source == query
+        quality = 100 if exact else self.comparer.similarity(query, match.source)
+        return {
+            "query": query,
+            "match": {
+                "id": match.id,
+                "source": match.source,
+                "target": match.target,
+                "origin": match.origin,
+                "exact": exact,
+                "quality": quality,
+            },
+        }
+
+    @extend_schema(
+        description="Look up translation memory matches for the provided source strings.",
+        request=MemoryLookupRequestSerializer,
+        responses=MemoryLookupResultSerializer(many=True),
+        filters=False,
+        parameters=[
+            OpenApiParameter(
+                name="source_language",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=True,
+                description="Source language code.",
+            ),
+            OpenApiParameter(
+                name="target_language",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                required=True,
+                description="Target language code.",
+            ),
+            OpenApiParameter(
+                name="project",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Project slug filter.",
+            ),
+        ],
+        methods=["post"],
+    )
+    @action(
+        detail=False,
+        methods=["post"],
+        serializer_class=MemoryLookupRequestSerializer,
+        filter_backends=[],
+        filterset_class=None,
+        pagination_class=None,
+    )
+    def lookup(self, request: Request, **kwargs):
+        source_language, target_language = self.get_lookup_languages()
+        serializer = MemoryLookupRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        queryset = self.get_lookup_queryset().filter(
+            source_language=source_language,
+            target_language=target_language,
+        )
+        queries = serializer.validated_data["strings"]
+        exact_matches = self.get_exact_matches(queryset, queries)
+
+        results = []
+        for query in queries:
+            match = exact_matches.get(query)
+            if match is None:
+                match = self.get_fuzzy_match(
+                    queryset, source_language, target_language, query
+                )
+            results.append(self.serialize_lookup_result(query, match))
+
+        response_serializer = MemoryLookupResultSerializer(results, many=True)
+        return Response(response_serializer.data, status=HTTP_200_OK)
 
 
 @extend_schema_view(
@@ -2064,16 +2320,36 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 {"file": "Plural forms do not match the language."}
             ) from error
         except FileParseError as error:
-            raise ValidationError({"file": str(error)}) from error
+            raise ValidationError(
+                {
+                    "file": sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(obj.component.repo, obj.component.push),
+                        extra_paths=(obj.component.full_path,),
+                    )
+                }
+            ) from error
         except FailedCommitError as error:
             report_error("Upload error", project=obj.component.project)
-            raise ValidationError({"file": str(error)}) from error
+            raise ValidationError(
+                {
+                    "file": sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(obj.component.repo, obj.component.push),
+                        extra_paths=(obj.component.full_path,),
+                    )
+                }
+            ) from error
         except Exception as error:
             report_error("Upload error", print_tb=True, project=obj.component.project)
             raise ValidationError(
                 {
                     "file": gettext("File upload has failed: %s")
-                    % str(error).replace(obj.component.full_path, "")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(obj.component.repo, obj.component.push),
+                        extra_paths=(obj.component.full_path,),
+                    )
                 }
             ) from error
 
@@ -2196,9 +2472,14 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             q=autoform.cleaned_data["q"],
             mode=autoform.cleaned_data["mode"],
         )
+        component = autoform.cleaned_data["component"]
         message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
-            source_component_id=autoform.cleaned_data["component"],
+            source_component_ids=(
+                [component.pk] if hasattr(component, "pk") else [component]
+            )
+            if component
+            else None,
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )

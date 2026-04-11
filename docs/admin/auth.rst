@@ -638,6 +638,9 @@ Once you have the package installed, you can hook it into the Django authenticat
         # Email is required for Weblate (used in VCS commits)
         "email": "mail",
     }
+    # Optional: route "Forgot your password?" to your LDAP self-service page
+    PASSWORD_RESET_URL = "https://id.example.net/password-reset/"
+
 
     # Hide the registration form
     REGISTRATION_OPEN = False

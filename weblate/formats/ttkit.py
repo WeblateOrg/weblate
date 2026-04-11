@@ -16,7 +16,7 @@ import subprocess  # noqa: S404
 from copy import copy
 from io import StringIO
 from pathlib import Path
-from typing import IO, TYPE_CHECKING, Any, ClassVar
+from typing import IO, TYPE_CHECKING, Any, ClassVar, cast
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -87,6 +87,7 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
+    from translate.storage.aresource import AndroidResourceUnit
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
     from translate.storage.csvl10n import csvfile
     from translate.storage.ini import inifile, iniunit
@@ -1243,6 +1244,52 @@ class INIUnit(TTKitUnit):
 class AndroidUnit(MonolingualIDUnit):
     """Wrapper unit for Android Resource."""
 
+    def get_markup_reference_unit(self) -> AndroidResourceUnit:
+        """Use the template shape to derive markup behavior whenever possible."""
+        if self.template is not None:
+            return cast("AndroidResourceUnit", self.template)
+        return cast("AndroidResourceUnit", self.mainunit)
+
+    def has_target_markup(self) -> bool:
+        """Check whether Android string should preserve escaped HTML markup."""
+        return self.get_markup_reference_unit().target_markup
+
+    def has_xml_markup(self) -> bool:
+        """Check whether Android string contains real XML child elements."""
+        reference_unit = self.get_markup_reference_unit()
+        if reference_unit.xmlelement.tag == reference_unit.PLURAL_TAG:
+            return any(
+                len(entry) != 0
+                for entry in reference_unit.xmlelement.iterchildren("item")
+            )
+        return len(reference_unit.xmlelement) != 0
+
+    def apply_template_target_markup(self) -> None:
+        """Keep Android target serialization mode aligned with the template."""
+        if self.template is None or not self.has_unit():
+            return
+
+        target_unit = cast("AndroidResourceUnit", self.unit)
+        target_unit.target_markup = self.has_target_markup()
+
+    def clone_template(self) -> None:
+        super().clone_template()
+        self.apply_template_target_markup()
+
+    def set_target(self, target: str | list[str]) -> None:
+        self.apply_template_target_markup()
+        super().set_target(target)
+
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
+        """Infer checks from template markup mode for Android-formatted strings."""
+        if self.has_target_markup():
+            # Escaped markup is consumed as HTML styling via Html.fromHtml().
+            yield "safe-html"
+        elif self.has_xml_markup():
+            # Real XML child nodes should stay valid XML in translations.
+            yield "xml-text"
+        yield from super().get_extra_flags()
+
     def set_state(self, state) -> None:
         """Tag unit as translatable/readonly aside from fuzzy and approved flags."""
         super().set_state(state)
@@ -1568,6 +1615,7 @@ class StringsFormat(PropertiesBaseFormat):
         "utf-16": ("properties", "stringsfile"),
     }
     supports_descriptions = True
+    check_flags = ("objc-format",)
 
     @classmethod
     def get_new_translation(cls, encoding: str | None = None):
@@ -2502,6 +2550,7 @@ class StringsdictFormat(ZeroCLDRPluralMixin, DictStoreFormat):
     loader = ("stringsdict", "StringsDictFile")
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.stringsdict",)
+    check_flags = ("objc-format",)
     empty_file_template = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

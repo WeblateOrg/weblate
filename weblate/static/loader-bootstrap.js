@@ -578,12 +578,11 @@ $(function () {
       $content.load($target.data("href"), (_responseText, status, xhr) => {
         if (status !== "success") {
           const msg = gettext("Error while loading page:");
-          $content.html(
-            `<div class="alert alert-danger" role="alert">
-                ${msg} ${xhr.statusText} (${xhr.status})
-              </div>
-            `,
-          );
+          const $alert = $("<div/>", {
+            class: "alert alert-danger",
+            role: "alert",
+          }).text(`${msg} ${xhr.statusText} (${xhr.status})`);
+          $content.empty().append($alert);
         }
         $target.data("loaded", 1);
         loadTableSorting();

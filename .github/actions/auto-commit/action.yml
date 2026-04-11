@@ -35,7 +35,7 @@ runs:
     shell: bash
 
     # PRs from forks / outside collaborators
-  - name: Commit changes (external PR)
+  - name: Commit changes (external PR, pre-commit-ci-lite)
     if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]' && github.actor != 'dependabot[bot]'
     uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43   # v1.1.0
     with:
@@ -52,7 +52,7 @@ runs:
   - name: Create Pull Request
     id: cpr
     if: ( github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main' || github.ref_name == 'stable')  && github.repository_owner == 'WeblateOrg'
-    uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
+    uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:
       branch: ${{ inputs.pr-branch }}
       title: ${{ inputs.message }}

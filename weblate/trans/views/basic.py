@@ -1021,7 +1021,7 @@ def add_languages_to_component(
     component: Component,
     show_messages: bool,
 ) -> tuple[Any, Counter]:
-    added = False
+    added_codes: set[str] = set()
     result = component
     kwargs = {
         "user": user,
@@ -1043,7 +1043,7 @@ def add_languages_to_component(
                     show_messages=show_messages,
                 )
                 if translation:
-                    added = True
+                    added_codes.add(translation.language_code)
                     kwargs["translation"] = translation
                     if len(languages) == 1:
                         result = translation
@@ -1074,8 +1074,10 @@ def add_languages_to_component(
 
         with suppress(FileParseError):
             # force_scan needed, see add_new_language
-            if added and not component.create_translations(
-                request=request, force_scan=True
+            if added_codes and not component.create_translations(
+                request=request,
+                force_scan=True,
+                langs=sorted(added_codes),
             ):
                 if show_messages:
                     messages.success(

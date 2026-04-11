@@ -1079,6 +1079,7 @@ Projects
     :type project: string
     :form file zipfile: ZIP file to upload into Weblate for translations initialization
     :form file docfile: Document to translate
+    :form string from_component: Optional source component reference used to duplicate the new component. Accepts either a numeric component ID or a full Weblate component path. When provided, the new component inherits the source component configuration and translations into a new local repository. Repository fields such as ``repo``, ``vcs``, ``branch``, ``push``, and ``push_branch`` can not be combined with this option.
     :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
     :<json object: Component parameters, see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
@@ -1163,14 +1164,9 @@ Projects
         Content-Length: 20
 
         {
-            "file_format": "po",
-            "filemask": "po/*.po",
+            "from_component": "hello/weblate",
             "name": "Weblate",
-            "slug": "weblate",
-            "repo": "weblate://weblate/hello",
-            "template": "",
-            "new_base": "po/hello.pot",
-            "vcs": "git"
+            "slug": "weblate"
         }
 
     **JSON response example:**
@@ -1805,6 +1801,7 @@ Components
     :param component: Component URL slug
     :type component: string
     :<json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+    :<json array from_component: optional ordered list of source component references used for automatic translation. Accepts numeric component IDs or full Weblate component paths. For form submissions this field can be provided multiple times.
     :>json object result: new translation object created
 
     **CURL example:**
@@ -1827,7 +1824,10 @@ Components
         Authorization: Token TOKEN
         Content-Length: 20
 
-        {"language_code": "cs"}
+        {
+            "language_code": "cs",
+            "from_component": ["hello/weblate", 123]
+        }
 
     **JSON response example:**
 
@@ -2257,6 +2257,28 @@ Memory
 .. http:get:: /api/memory/
 
     Returns a list of memory results.
+
+    :query source: Case-insensitive substring filter on source text (optional)
+    :type source: string
+    :query source_language: Source language code filter (optional)
+    :type source_language: string
+    :query target_language: Target language code filter (optional)
+    :type target_language: string
+    :query project: Project slug filter (optional)
+    :type project: string
+
+.. http:post:: /api/memory/lookup/
+
+    Looks up translation memory matches for the provided source strings.
+
+    :query source_language: Source language code
+    :type source_language: string
+    :query target_language: Target language code
+    :type target_language: string
+    :query project: Project slug filter (optional)
+    :type project: string
+    :<json array strings: List of source strings to look up
+    :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
 
 .. http:delete:: /api/memory/(int:memory_object_id)/
 
