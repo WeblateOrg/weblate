@@ -306,13 +306,7 @@ class ComponentQuerySet(models.QuerySet):
         else:
             linked_component = "linked_component"
         if alerts:
-            result = result.prefetch_related(
-                models.Prefetch(
-                    "alert_set",
-                    queryset=Alert.objects.filter(dismissed=False),
-                    to_attr="all_active_alerts",
-                ),
-            )
+            result = result.prefetch_related("alert_set")
 
         return result.prefetch_related(
             "project",
@@ -3005,14 +2999,16 @@ class Component(  # noqa: PLR0904
         return sorted(matches)
 
     @cached_property
-    def all_active_alerts(self):
-        result = self.alert_set.filter(dismissed=False)
-        list(result)
-        return result
+    def all_active_alerts(self) -> list[Alert]:
+        return [alert for alert in self.alert_set.all() if not alert.dismissed]
 
     @cached_property
-    def all_alerts(self):
+    def all_alerts(self) -> dict[str, Alert]:
         return {alert.name: alert for alert in self.alert_set.all()}
+
+    def clear_prefetched_alerts(self) -> None:
+        with suppress(AttributeError, KeyError):
+            self._prefetched_objects_cache.pop("alert_set")
 
     @property
     def lock_alerts(self):
@@ -3032,6 +3028,11 @@ class Component(  # noqa: PLR0904
         if alert in self.all_alerts:
             self.all_alerts[alert].delete()
             del self.all_alerts[alert]
+            if "all_active_alerts" in self.__dict__:
+                self.__dict__["all_active_alerts"] = [
+                    item for item in self.all_alerts.values() if not item.dismissed
+                ]
+            self.clear_prefetched_alerts()
             if (
                 self.locked
                 and self.auto_lock_error
@@ -3070,6 +3071,12 @@ class Component(  # noqa: PLR0904
         if not created and not noupdate:
             obj.details = details
             obj.save()
+
+        if "all_active_alerts" in self.__dict__:
+            self.__dict__["all_active_alerts"] = [
+                item for item in self.all_alerts.values() if not item.dismissed
+            ]
+        self.clear_prefetched_alerts()
 
         if ALERTS[alert].link_wide:
             for component in self.linked_children:

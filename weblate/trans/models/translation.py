@@ -147,7 +147,7 @@ class TranslationQuerySet(models.QuerySet):
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Alert, Component  # noqa: PLC0415
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "language",
@@ -155,11 +155,7 @@ class TranslationQuerySet(models.QuerySet):
                 "component__linked_component", queryset=Component.objects.defer_huge()
             ),
             "component__linked_component__project",
-            models.Prefetch(
-                "component__alert_set",
-                queryset=Alert.objects.filter(dismissed=False),
-                to_attr="all_active_alerts",
-            ),
+            "component__alert_set",
         )
 
     def prefetch_plurals(self):

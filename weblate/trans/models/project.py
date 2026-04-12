@@ -567,10 +567,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
-        result = list(self.component_set.with_repo())
+        result = list(self.component_set.with_repo().prefetch_related("alert_set"))
         included = {component.id for component in result}
 
-        linked = self.component_set.filter(repo__startswith="weblate:")
+        linked = self.component_set.filter(
+            repo__startswith="weblate:"
+        ).prefetch_related("alert_set")
         for other in linked:
             if other.linked_component_id in included:
                 continue
