@@ -9393,10 +9393,14 @@ class AnnouncementAPITest(APIBaseTest):
             kwargs=self.project_kwargs,
             method="options",
         )
-        self.assertEqual(
-            set(response.data["actions"]["POST"]),
-            {"message", "severity", "expiry", "notify"},
+        fields = response.data["actions"]["POST"]
+        self.assertLessEqual(
+            {"id", "message", "severity", "expiry", "notify"},
+            set(fields),
         )
+        self.assertTrue(fields["id"]["read_only"])
+        self.assertNotIn("name", fields)
+        self.assertNotIn("slug", fields)
 
     def test_create_project_announcement(self) -> None:
         project = self.component.project
