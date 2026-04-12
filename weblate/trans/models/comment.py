@@ -21,7 +21,8 @@ from weblate.utils.state import STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from weblate.auth.models import AuthenticatedHttpRequest, Unit, User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.trans.models.unit import Unit
 
 
 class CommentManager(models.Manager):
@@ -94,6 +95,9 @@ class CommentManager(models.Manager):
 
 
 class CommentQuerySet(models.QuerySet):
+    def prefetch(self):
+        return self.select_related("user")
+
     def order(self):
         return self.order_by("timestamp")
 
