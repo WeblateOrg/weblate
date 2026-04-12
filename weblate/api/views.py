@@ -1226,7 +1226,10 @@ class AnnouncementsMixin:
         _obj, project, component, language = self.get_context(obj)
 
         return Announcement.objects.filter(
-            project=project, component=component, language=language
+            project=project,
+            category=None,
+            component=component,
+            language=language,
         )
 
     @extend_schema(

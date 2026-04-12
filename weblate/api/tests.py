@@ -9355,8 +9355,16 @@ class AnnouncementAPITest(APIBaseTest):
     def setUp(self) -> None:
         super().setUp()
         # Create announcements for get and delete tests
+        self.category = self.component.project.category_set.create(
+            name="Category", slug="category"
+        )
         self.project_announcement = Announcement.objects.create(
             project=self.component.project, message="Test project announcement"
+        )
+        self.category_announcement = Announcement.objects.create(
+            project=self.component.project,
+            category=self.category,
+            message="Test category announcement",
         )
         self.component_announcement = Announcement.objects.create(
             project=self.component.project,
@@ -9496,6 +9504,21 @@ class AnnouncementAPITest(APIBaseTest):
         self.do_request(
             "api:translation-delete-announcement",
             kwargs={**self.translation_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_category_announcement_wrong_scope(self) -> None:
+        """Test deleting a category announcement via the project scope returns not found."""
+        announcement: Announcement = self.category_announcement
+
+        self.do_request(
+            "api:project-delete-announcement",
+            kwargs={**self.project_kwargs, "announcement_id": announcement.id},
             method="delete",
             superuser=True,
             code=404,
