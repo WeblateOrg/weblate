@@ -103,7 +103,7 @@ class BaseAddon(DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
-        from weblate.addons.models import Addon
+        from weblate.addons.models import Addon  # noqa: PLC0415
 
         result = Addon(
             project=project,
@@ -207,7 +207,7 @@ class BaseAddon(DocVersionsMixin):
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        from weblate.addons.tasks import postconfigure_addon
+        from weblate.addons.tasks import postconfigure_addon  # noqa: PLC0415
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
@@ -232,7 +232,7 @@ class BaseAddon(DocVersionsMixin):
             self.post_configure_run_project(project)
 
     def post_configure_run_project(self, project: Project) -> None:
-        from weblate.addons.models import execute_addon_event
+        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
         for component in project.component_set.iterator():
             if self.can_process(component=component):
@@ -249,7 +249,7 @@ class BaseAddon(DocVersionsMixin):
             )
 
     def post_configure_run_category(self, category: Category) -> None:
-        from weblate.addons.models import execute_addon_event
+        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
         for component in category.all_components.iterator():
             if self.can_process(component=component):
@@ -268,7 +268,7 @@ class BaseAddon(DocVersionsMixin):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
-        from weblate.addons.models import execute_addon_event
+        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -652,7 +652,7 @@ class BaseAddon(DocVersionsMixin):
         obj: Component | Project | Category | None,
         request: AuthenticatedHttpRequest,
     ) -> None:
-        from weblate.trans.tasks import perform_update
+        from weblate.trans.tasks import perform_update  # noqa: PLC0415
 
         if cls.trigger_update and isinstance(obj, Component):
             perform_update.delay("Component", obj.pk, auto=True)
@@ -668,7 +668,7 @@ class BaseAddon(DocVersionsMixin):
     @cached_property
     def user(self) -> User:
         """Weblate user used to track changes by this add-on."""
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not self.user_name or not self.user_verbose:
             msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"

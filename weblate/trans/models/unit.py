@@ -91,7 +91,7 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 class UnitQuerySet(models.QuerySet["Unit"]):
     def prefetch(self):
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "translation",
@@ -111,7 +111,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         )
 
     def prefetch_source(self):
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "source_unit",
@@ -180,7 +180,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
 
     def search(self, query, **context) -> UnitQuerySet:
         """High level wrapper for searching."""
-        from weblate.utils.search import parse_query
+        from weblate.utils.search import parse_query  # noqa: PLC0415
 
         filters, annotations = parse_query(query, **context)
         result = self.annotate(**annotations).filter(filters)
@@ -2286,7 +2286,7 @@ class Unit(models.Model, LoggerMixin):
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
         """
-        from weblate.auth.models import get_anonymous
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
 
         try:
             change = self.recent_content_changes[0]

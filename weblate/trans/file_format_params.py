@@ -412,8 +412,8 @@ class XMLClosingTags(BaseFileFormatParam):
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
-        from weblate.formats.models import FILE_FORMATS
-        from weblate.formats.ttkit import TTKitFormat
+        from weblate.formats.models import FILE_FORMATS  # noqa: PLC0415
+        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
 
         result = []
         for file_format, format_class in FILE_FORMATS.items():

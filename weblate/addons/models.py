@@ -467,7 +467,7 @@ def execute_addon_event(
     args: tuple | None = None,
     kwargs: dict | None = None,
 ) -> None:
-    from weblate.addons.tasks import update_addon_activity_log
+    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
 
     # Trigger repository scoped add-ons only on the main component
     if (
@@ -761,7 +761,7 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
 @disable_for_loaddata
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
     """Handle Change bulk create signal."""
-    from weblate.addons.tasks import addon_change
+    from weblate.addons.tasks import addon_change  # noqa: PLC0415
 
     # Filter out events that have a subscriber
     # It currently also includes all project and site-wide events as there is currently

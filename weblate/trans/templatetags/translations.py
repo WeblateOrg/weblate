@@ -1662,7 +1662,7 @@ def format_last_changes_content(
 
     This is a simplified version of the prepare_last_changes_context function.
     """
-    from weblate.trans.change_display import get_change_history_context
+    from weblate.trans.change_display import get_change_history_context  # noqa: PLC0415
 
     if isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()

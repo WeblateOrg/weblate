@@ -301,7 +301,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         template_store: TranslationFormat | None,
     ) -> S:
         """Load file using defined loader."""
-        from weblate.trans.file_format_params import get_params_for_file_format
+        from weblate.trans.file_format_params import (  # noqa: PLC0415
+            get_params_for_file_format,
+        )
 
         store: S
 

@@ -408,9 +408,9 @@ class Repository:
     @staticmethod
     def validate_remote_url(url: str) -> None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError
+        from django.core.exceptions import ValidationError  # noqa: PLC0415
 
-        from weblate.utils.validators import validate_repo_url
+        from weblate.utils.validators import validate_repo_url  # noqa: PLC0415
 
         try:
             validate_repo_url(url)

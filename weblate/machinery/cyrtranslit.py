@@ -100,7 +100,7 @@ class CyrTranslitTranslation(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
-        import cyrtranslit
+        import cyrtranslit  # noqa: PLC0415
 
         target_language, script = target_language.split("@")
 

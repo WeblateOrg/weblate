@@ -569,7 +569,7 @@ def check_repository_status(
 
 @register_perm("meta:team.edit")
 def check_team_edit(user: User, permission: str, obj: Group) -> bool:
-    from weblate.auth.models import Group
+    from weblate.auth.models import Group  # noqa: PLC0415
 
     return (
         check_global_permission(user, "group.edit")
@@ -654,7 +654,7 @@ def check_unit_flag(
 def check_memory_perms(
     user: User, permission: str, memory: Memory | Project
 ) -> bool | PermissionResult:
-    from weblate.memory.models import Memory
+    from weblate.memory.models import Memory  # noqa: PLC0415
 
     if isinstance(memory, Memory):
         if memory.user_id == user.id:

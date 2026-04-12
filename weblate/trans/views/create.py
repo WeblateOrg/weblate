@@ -128,7 +128,7 @@ class CreateProject(BaseCreateView):
         kwargs["can_create"] = self.can_create()
         kwargs["import_form"] = self.get_form(ProjectImportForm)
         if self.has_billing:
-            from weblate.billing.models import Billing
+            from weblate.billing.models import Billing  # noqa: PLC0415
 
             kwargs["user_billings"] = Billing.objects.for_user(
                 self.request.user
@@ -137,7 +137,7 @@ class CreateProject(BaseCreateView):
 
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if self.has_billing:
-            from weblate.billing.models import Billing
+            from weblate.billing.models import Billing  # noqa: PLC0415
 
             self.billings = Billing.objects.for_user_within_limits(request.user)
         return super().dispatch(request, *args, **kwargs)
@@ -173,7 +173,7 @@ class ImportProject(CreateProject):
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         if "billing" in form.fields and self.has_billing:
-            from weblate.billing.models import Billing
+            from weblate.billing.models import Billing  # noqa: PLC0415
 
             billing = self.request.session.get("import_billing")
             if billing:
@@ -375,7 +375,7 @@ class CreateComponent(BaseCreateView):
         if request.user.is_superuser:
             self.projects = Project.objects.order()
         elif self.has_billing:
-            from weblate.billing.models import Billing
+            from weblate.billing.models import Billing  # noqa: PLC0415
 
             self.projects = request.user.managed_projects.filter(
                 billing__in=Billing.objects.get_valid()

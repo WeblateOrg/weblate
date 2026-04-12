@@ -256,7 +256,9 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         Add processing to bulk creation.
         """
-        from weblate.accounts.notifications import dispatch_changes_notifications
+        from weblate.accounts.notifications import (  # noqa: PLC0415
+            dispatch_changes_notifications,
+        )
 
         changes = super().bulk_create(*args, **kwargs)
 
@@ -721,7 +723,9 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
     def get_details_display(self) -> StrOrPromise:
-        from weblate.trans.change_display import ChangeDetailsRenderFactory
+        from weblate.trans.change_display import (  # noqa: PLC0415
+            ChangeDetailsRenderFactory,
+        )
 
         strategy = ChangeDetailsRenderFactory.get_strategy(self)
         return strategy.render_details(self)
@@ -776,6 +780,8 @@ class Change(models.Model, UserDisplayMixin):
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def change_notify(sender, instance: Change, created: bool = False, **kwargs) -> None:
-    from weblate.accounts.notifications import dispatch_changes_notifications
+    from weblate.accounts.notifications import (  # noqa: PLC0415
+        dispatch_changes_notifications,
+    )
 
     dispatch_changes_notifications([instance])

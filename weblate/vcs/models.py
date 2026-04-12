@@ -89,7 +89,7 @@ class VcsClassLoader(ClassLoader):
 
     @cached_property
     def git_based(self) -> set[str]:
-        from weblate.vcs.git import GitRepository
+        from weblate.vcs.git import GitRepository  # noqa: PLC0415
 
         return {
             vcs.get_identifier()
@@ -99,7 +99,7 @@ class VcsClassLoader(ClassLoader):
 
     @cached_property
     def merge_request_based(self) -> set[str]:
-        from weblate.vcs.git import GitMergeRequestBase
+        from weblate.vcs.git import GitMergeRequestBase  # noqa: PLC0415
 
         return {
             vcs.get_identifier()

@@ -15,6 +15,8 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon
+from weblate.formats.base import BilingualUpdateMixin
+from weblate.formats.ttkit import StringsFormat
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import Component
@@ -409,7 +411,6 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertNotIn("#: main.c:", commit)
 
     def test_msgmerge_args(self) -> None:
-        from weblate.formats.base import BilingualUpdateMixin
 
         # default parameters
         self.assertEqual(
@@ -459,7 +460,6 @@ class StringsParamsTest(BaseFileFormatsTest):
         self.do_create_with_encoding_test("strings_encoding", "utf-16", success=True)
 
     def test_new_file_content(self):
-        from weblate.formats.ttkit import StringsFormat
 
         self.assertNotEqual(
             StringsFormat.get_new_file_content("utf-8"),

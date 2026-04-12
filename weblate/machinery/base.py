@@ -823,7 +823,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     @cached_property
     def user(self):
         """Weblate user used to track changes by this engine."""
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         return User.objects.get_or_create_bot(
             scope="mt",
@@ -969,7 +969,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         *extra_parts,
     ):
         """Retrieve cached translation with glossary checksum."""
-        from weblate.glossary.models import get_glossary_tsv
+        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
 
         return super().get_cached(
             unit,
@@ -988,7 +988,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
-        from weblate.glossary.models import get_glossary_tsv
+        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
 
         if unit is None:
             return None

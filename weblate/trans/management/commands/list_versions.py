@@ -30,10 +30,12 @@ class Command(BaseCommand):
             "Database backends",
             ", ".join(conn["ENGINE"] for conn in db.connections.databases.values()),
         )
-        from django.db.backends.postgresql.psycopg_any import is_psycopg3
+        from django.db.backends.postgresql.psycopg_any import (  # noqa: PLC0415
+            is_psycopg3,
+        )
 
         if is_psycopg3:
-            from psycopg.pq import __impl__
+            from psycopg.pq import __impl__  # noqa: PLC0415
 
             pg_engine = f"psycopg3 ({__impl__})"
         else:

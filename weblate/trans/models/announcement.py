@@ -45,7 +45,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         return base.filter(project=None, component=None, language=None)
 
     def create(self, user=None, **kwargs):
-        from weblate.trans.models.change import Change
+        from weblate.trans.models.change import Change  # noqa: PLC0415
 
         result = super().create(**kwargs)
 

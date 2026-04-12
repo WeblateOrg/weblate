@@ -4,6 +4,7 @@
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
+from lxml import etree
 
 from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags, FlagsValidator
 from weblate.formats.helpers import NamedBytesIO
@@ -251,7 +252,6 @@ class FlagTest(SimpleTestCase):
         flags.validate()
 
     def test_equals(self) -> None:
-        from lxml import etree
 
         flags = Flags("foo:foo, bar:bar")
         self.assertEqual(flags, Flags("bar:bar, foo:foo"))

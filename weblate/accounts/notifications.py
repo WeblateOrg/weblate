@@ -103,7 +103,7 @@ def is_notificable_action(action: int) -> bool:
 
 
 def dispatch_changes_notifications(changes: Iterable[Change]) -> None:
-    from weblate.accounts.tasks import notify_changes
+    from weblate.accounts.tasks import notify_changes  # noqa: PLC0415
 
     notifiable: list[int] = [
         change.pk for change in changes if is_notificable_action(change.action)
@@ -152,7 +152,7 @@ class Notification:
         return cls.__name__
 
     def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
-        from weblate.accounts.models import Subscription
+        from weblate.accounts.models import Subscription  # noqa: PLC0415
 
         result = Subscription.objects.filter(notification=self.get_name())
         scopes: set[NotificationScope] = {NotificationScope.SCOPE_ALL}

@@ -33,7 +33,7 @@ def get_user_agent(request: HttpRequest | None, max_length: int = 200) -> str:
         return ""
 
     # Lazily import as this is expensive
-    import user_agents
+    import user_agents  # noqa: PLC0415
 
     uaobj = user_agents.parse(raw)
     return str(uaobj)[:max_length]

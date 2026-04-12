@@ -79,7 +79,7 @@ class Release(NamedTuple):
 
 
 def download_version_info() -> list[Release]:
-    from weblate.utils.requests import fetch_url
+    from weblate.utils.requests import fetch_url  # noqa: PLC0415
 
     response = fetch_url("get", PYPI)
     result = []

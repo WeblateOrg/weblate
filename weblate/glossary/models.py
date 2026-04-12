@@ -41,7 +41,7 @@ def get_glossary_sources(component):
 
 
 def get_glossary_automaton(project: Project) -> ahocorasick_rs.AhoCorasick:
-    from weblate.trans.models.component import prefetch_glossary_terms
+    from weblate.trans.models.component import prefetch_glossary_terms  # noqa: PLC0415
 
     with sentry_sdk.start_span(op="glossary.automaton", name=project.slug):
         # Chain terms
@@ -82,7 +82,7 @@ def fetch_glossary_terms(  # noqa: C901
     units: list[Unit], *, full: bool = False, include_variants: bool = True
 ) -> None:
     """Fetch glossary terms for list of units."""
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Component, Project  # noqa: PLC0415
 
     if len(units) == 0:
         return
@@ -238,7 +238,7 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
     - source/target entry pairs are separated by a newline
     - source entries and target entries are separated by a tab
     """
-    from weblate.trans.models.component import Component
+    from weblate.trans.models.component import Component  # noqa: PLC0415
 
     def cleanup(text):
         """

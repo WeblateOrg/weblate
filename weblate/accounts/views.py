@@ -605,7 +605,7 @@ def hosting(request: AuthenticatedHttpRequest):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
-    from weblate.billing.models import Billing
+    from weblate.billing.models import Billing  # noqa: PLC0415
 
     billings = (
         Billing.objects.for_user(request.user)
@@ -646,7 +646,7 @@ def trial(request: AuthenticatedHttpRequest):
         return redirect(f"{reverse('contact')}?t=trial")
 
     if request.method == "POST":
-        from weblate.billing.models import Billing, BillingEvent, Plan
+        from weblate.billing.models import Billing, BillingEvent, Plan  # noqa: PLC0415
 
         AuditLog.objects.create(request.user, request, "trial")
         billing = Billing.objects.create(

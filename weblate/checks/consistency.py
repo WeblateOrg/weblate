@@ -110,7 +110,7 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         return False
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         units = Unit.objects.filter(
             translation__component__project=component.project,
@@ -170,7 +170,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return super().should_skip(unit)
 
     def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         translation = unit.translation
         component = translation.component
@@ -182,7 +182,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return Unit.objects.same_target(unit).exists()
 
     def get_description(self, check_obj):
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         other_sources = (
             Unit.objects.same_target(check_obj.unit)
@@ -205,7 +205,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return False
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         units = Unit.objects.filter(
             translation__component__project=component.project,
@@ -336,7 +336,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         return [("plurals", split_plural(target))]
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Change, Unit
+        from weblate.trans.models import Change, Unit  # noqa: PLC0415
 
         units = (
             Unit.objects.filter(

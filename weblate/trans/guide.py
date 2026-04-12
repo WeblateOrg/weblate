@@ -233,7 +233,7 @@ class ScreenshotGuideline(Guideline):
     url = "screenshots"
 
     def is_passing(self):
-        from weblate.screenshots.models import Screenshot
+        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
 
         return Screenshot.objects.filter(translation__component=self.component).exists()
 
