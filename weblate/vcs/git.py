@@ -61,6 +61,7 @@ if TYPE_CHECKING:
 LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
+TEMPORARY_BRANCHES = frozenset({"weblate-merge-tmp", "weblate-squash-tmp"})
 
 
 class GitCredentials(TypedDict):
@@ -79,6 +80,8 @@ class GitCredentials(TypedDict):
 
 class GitRepository(Repository):
     """Repository implementation for Git."""
+
+    metadata_dir_name: ClassVar[str] = ".git"
 
     RESERVED_BRANCH_NAMES: ClassVar[frozenset[str]] = frozenset(
         {
@@ -240,6 +243,32 @@ class GitRepository(Repository):
     def check_config(self) -> None:
         """Check VCS configuration."""
         self.config_update(("push", "default", "current"))
+
+    def recover_lock_session(self) -> None:
+        super().recover_lock_session()
+        if not self.is_valid():
+            return
+        current_branch = self.get_current_branch()
+        if current_branch not in TEMPORARY_BRANCHES:
+            return
+        self.execute(["reset", "--hard"])
+        self.checkout_with_temp_cleanup(self.branch)
+        with suppress(RepositoryError):
+            self.execute(["branch", "-D", current_branch])
+        self.clean_revision_cache()
+
+    def get_current_branch(self) -> str:
+        return self.execute(
+            ["branch", "--show-current"], needs_lock=False, merge_err=False
+        ).strip()
+
+    def checkout_with_temp_cleanup(self, branch: str) -> None:
+        current_branch = self.get_current_branch()
+        self.execute(["checkout", branch])
+        if current_branch in TEMPORARY_BRANCHES and current_branch != branch:
+            with suppress(RepositoryError):
+                self.execute(["branch", "-D", current_branch])
+            self.clean_revision_cache()
 
     @staticmethod
     def get_depth() -> Iterator[str]:
@@ -553,7 +582,7 @@ class GitRepository(Repository):
             self.config_update((f'branch "{branch}"', "remote", "origin"))
 
         # Checkout
-        self.execute(["checkout", branch])
+        self.checkout_with_temp_cleanup(branch)
         self.branch = branch
 
     def describe(self) -> str:

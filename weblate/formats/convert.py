@@ -134,7 +134,9 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         if not isinstance(self.storefile, str):
             msg = "Can save only to a file."
             raise TypeError(msg)
-        self.save_atomic(self.storefile, self.save_content)
+        self.save_atomic(
+            self.storefile, self.save_content, repo_temp_dir=self.repo_temp_dir
+        )
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None

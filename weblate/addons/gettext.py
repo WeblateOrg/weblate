@@ -377,6 +377,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             return
         file_format_cls = cast("PoFormat", component.file_format_cls)
         args = file_format_cls.get_msgmerge_args(component)
+        repo_temp_dir = component.repository.get_repo_temp_dir()
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if (
@@ -386,7 +387,9 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             ):
                 continue
             try:
-                file_format_cls.update_bilingual(filename, template, args=args)
+                file_format_cls.update_bilingual(
+                    filename, template, args=args, repo_temp_dir=repo_temp_dir
+                )
             except UpdateError as error:
                 self.alerts.append(
                     {
@@ -686,6 +689,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         store = file_format_cls(
             filename,
             file_format_params=component.file_format_params,
+            repo_temp_dir=component.repository.get_repo_temp_dir(),
         )
         header = store.store.units[0]
         component_name = self.get_component_full_name(component)
@@ -1650,6 +1654,7 @@ class SphinxAddon(ExtractPotBaseAddon):
         store = file_format_cls(
             template,
             file_format_params=component.file_format_params,
+            repo_temp_dir=component.repository.get_repo_temp_dir(),
         )
         changed = False
         for unit in store.content_units:

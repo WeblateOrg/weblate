@@ -33,6 +33,7 @@ CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
+REPO_TEMP_DIRNAME = "weblate-tmp"
 
 
 class FileUploadMethod(TextChoices):
@@ -125,6 +126,19 @@ def cleanup_error_message(text: str) -> str:
     return text.replace(settings.CACHE_DIR or "NONEXISTING_CACHE", "...").replace(
         settings.DATA_DIR, "..."
     )
+
+
+def get_repo_temp_dir(path: str | Path, temp_dir: str | Path | None = None) -> Path:
+    """Return the provided temporary directory or fall back beside the path."""
+    try:
+        resolved = Path(path).resolve(strict=False)
+    except OSError:
+        resolved = Path(path)
+    result = resolved if resolved.is_dir() else resolved.parent
+    if temp_dir is not None:
+        result = Path(temp_dir)
+    result.mkdir(parents=True, exist_ok=True)
+    return result
 
 
 def _validate_file_size(size: int | None, max_size: int | None) -> None:

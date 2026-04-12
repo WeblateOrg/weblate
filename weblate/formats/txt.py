@@ -255,6 +255,7 @@ class AppStoreFormat(TranslationFormat):
             self.save_atomic(
                 filename,
                 TextSerializer(unit.filename, self.store.units),
+                repo_temp_dir=self.repo_temp_dir,
             )
 
     def get_filenames(self):

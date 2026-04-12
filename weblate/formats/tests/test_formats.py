@@ -10,10 +10,13 @@ from __future__ import annotations
 import csv
 import os.path
 import shutil
+import tempfile
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
+from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 from lxml import etree
@@ -21,7 +24,7 @@ from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
-from weblate.formats.base import UpdateError
+from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.multi import MultiUnit
 from weblate.formats.ttkit import (
@@ -74,13 +77,107 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from lxml.etree import _Element
 
-    from weblate.formats.base import TranslationFormat
     from weblate.trans.file_format_params import FileFormatParams
+
+
+class DummyBilingualUpdate(BilingualUpdateMixin):
+    @classmethod
+    def do_bilingual_update(
+        cls,
+        in_file: str,  # noqa: ARG003
+        out_file: str,  # noqa: ARG003
+        template: str,  # noqa: ARG003
+        **kwargs,  # noqa: ARG003
+    ) -> None:
+        return
+
+
+class AtomicWriteTempDirTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.temp_file = str(Path(tempfile.gettempdir()) / f"{REPO_TEMP_DIRNAME}-file")
+        self.context_manager = Mock()
+        self.context_manager.__enter__ = Mock(
+            return_value=SimpleNamespace(name=self.temp_file, write=Mock())
+        )
+        self.context_manager.__exit__ = Mock(return_value=False)
+
+    def temp_exists(self, path: str) -> bool:
+        if path == self.temp_file:
+            return False
+        try:
+            Path(path).stat()
+        except OSError:
+            return False
+        return True
+
+    @staticmethod
+    def write_empty(handle: IO[bytes]) -> None:
+        handle.write(b"")
+
+    def test_save_atomic_uses_git_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            filename = repo / "locale" / "cs.po"
+            (repo / ".git").mkdir(parents=True)
+            filename.parent.mkdir(parents=True)
+
+            with (
+                patch(
+                    "weblate.formats.base.tempfile.NamedTemporaryFile",
+                    return_value=self.context_manager,
+                ) as named_temp,
+                patch("weblate.formats.base.os.replace"),
+                patch(
+                    "weblate.formats.base.os.path.exists", side_effect=self.temp_exists
+                ),
+            ):
+                TranslationFormat.save_atomic(
+                    str(filename),
+                    self.write_empty,
+                    repo_temp_dir=repo / ".git" / REPO_TEMP_DIRNAME,
+                )
+
+            self.assertEqual(
+                Path(named_temp.call_args.kwargs["dir"]),
+                repo / ".git" / REPO_TEMP_DIRNAME,
+            )
+
+    def test_update_bilingual_uses_git_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            filename = repo / "locale" / "cs.po"
+            template = repo / "messages.pot"
+            (repo / ".git").mkdir(parents=True)
+            filename.parent.mkdir(parents=True)
+
+            with (
+                patch(
+                    "weblate.formats.base.tempfile.NamedTemporaryFile",
+                    return_value=self.context_manager,
+                ) as named_temp,
+                patch("weblate.formats.base.os.replace"),
+                patch(
+                    "weblate.formats.base.os.path.exists", side_effect=self.temp_exists
+                ),
+            ):
+                DummyBilingualUpdate.update_bilingual(
+                    str(filename),
+                    str(template),
+                    repo_temp_dir=repo / ".git" / REPO_TEMP_DIRNAME,
+                )
+
+            self.assertEqual(
+                Path(named_temp.call_args.kwargs["dir"]),
+                repo / ".git" / REPO_TEMP_DIRNAME,
+            )
+
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
