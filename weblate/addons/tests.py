@@ -2986,6 +2986,22 @@ class GettextAddonTest(ViewTestCase):
             unit = translation.unit_set.get(state=STATE_READONLY)
             self.assertEqual(unit.target, unit.source)
 
+    def test_read_only_daily_reuses_prefetched_units(self) -> None:
+        self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
+        addon = FillReadOnlyAddon.create(component=self.component)
+        unit = self.get_unit().source_unit
+        unit.extra_flags = "read-only"
+        unit.save(same_content=True, update_fields=["extra_flags"])
+        source_translation = self.component.source_translation
+
+        with patch.object(
+            addon, "fetch_strings", wraps=addon.fetch_strings
+        ) as fetch_strings:
+            addon.daily(self.component)
+
+        self.assertEqual(fetch_strings.call_count, 1)
+        self.assertEqual(fetch_strings.call_args.args[0].pk, source_translation.pk)
+
 
 class AppStoreAddonTest(ViewTestCase):
     def create_component(self):

@@ -78,6 +78,7 @@ Weblate 5.17
 * Adding new languages now rescans only the newly added languages instead of forcing a full component scan.
 * :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
 * Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
+* Reduced repeated database queries in :ref:`addon-weblate.generate.fill_read_only` during the daily add-on task.
 * Auto-translation task updates no longer break progress messages when the queued target disappears before execution.
 * :doc:`/formats/android` now preserves template-defined escaped markup formatting when saving translations.
 * REST API component creation now handles temporary uploaded files for ``docfile`` and ``zipfile`` uploads.

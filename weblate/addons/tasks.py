@@ -189,7 +189,7 @@ def language_consistency(
 @app.task(trail=False)
 def daily_addons(modulo: bool = True) -> None:
     today = timezone.now()
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).select_related(
         "component", "category", "project"
     )
     if modulo:
