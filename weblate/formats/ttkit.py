@@ -344,7 +344,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         if not isinstance(self.storefile, str):
             msg = "Can save only to a file."
             raise TypeError(msg)
-        self.save_atomic(self.storefile, self.save_content)
+        self.save_atomic(
+            self.storefile, self.save_content, repo_temp_dir=self.repo_temp_dir
+        )
 
     def is_valid(self) -> bool:
         """
@@ -1958,6 +1960,7 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
         is_template: bool = False,
         existing_units: list[Any] | None = None,
         file_format_params: FileFormatParams | None = None,
+        repo_temp_dir: str | Path | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -1967,6 +1970,7 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
             is_template=is_template,
             existing_units=existing_units,
             file_format_params=file_format_params,
+            repo_temp_dir=repo_temp_dir,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -2500,6 +2504,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
         is_template: bool = False,
         existing_units: list[Any] | None = None,
         file_format_params: FileFormatParams | None = None,
+        repo_temp_dir: str | Path | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -2509,6 +2514,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
             source_language=source_language,
             existing_units=existing_units,
             file_format_params=file_format_params,
+            repo_temp_dir=repo_temp_dir,
         )
         # Add language header if not present
         self.store.addheader()

@@ -4386,6 +4386,7 @@ class Component(  # noqa: PLR0904
             language_code=self.source_language.code,
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
+            repo_temp_dir=self.repository.get_repo_temp_dir(),
         )
 
     @cached_property
@@ -4410,6 +4411,7 @@ class Component(  # noqa: PLR0904
                 source_language=self.source_language.code,
                 is_template=True,
                 file_format_params=self.file_format_params,
+                repo_temp_dir=self.repository.get_repo_temp_dir(),
             )
 
     @cached_property

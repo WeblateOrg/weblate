@@ -381,6 +381,7 @@ class Translation(
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
                 file_format_params=self.component.file_format_params,
+                repo_temp_dir=self.component.repository.get_repo_temp_dir(),
             )
 
     @cached_property
@@ -1429,13 +1430,17 @@ class Translation(
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
                 args = self.component.file_format_cls.get_msgmerge_args(component)
+                repo_temp_dir = component.repository.get_repo_temp_dir()
                 # Update translation files
                 for translation in component.translation_set.exclude(
                     language=component.source_language
                 ):
                     filename = translation.get_filename()
                     component.file_format_cls.update_bilingual(
-                        filename, temp.name, args=args
+                        filename,
+                        temp.name,
+                        args=args,
+                        repo_temp_dir=repo_temp_dir,
                     )
                     filenames.append(filename)
             finally:
@@ -1496,7 +1501,9 @@ class Translation(
 
             # Actually replace file content
             self.component.file_format_cls.save_atomic(
-                self.get_filename(), lambda handle: handle.write(filecopy)
+                self.get_filename(),
+                lambda handle: handle.write(filecopy),
+                repo_temp_dir=self.component.repository.get_repo_temp_dir(),
             )
 
             # Commit to VCS
