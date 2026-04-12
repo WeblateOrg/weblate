@@ -1240,9 +1240,10 @@ class AnnouncementsMixin:
     @extend_schema(
         description="Create an announcement.",
         methods=["post"],
-        responses=AnnouncementSerializer,
     )
-    @action(detail=True, methods=["get", "post"])
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=AnnouncementSerializer
+    )
     def announcements(self, request: Request, **kwargs):
         obj = self.get_object()
 

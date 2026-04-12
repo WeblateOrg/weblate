@@ -7126,13 +7126,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Component'
+              $ref: '#/components/schemas/Announcement'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Component'
+              $ref: '#/components/schemas/Announcement'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Component'
+              $ref: '#/components/schemas/Announcement'
         required: true
       security:
       - tokenAuth: []
@@ -22067,13 +22067,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/Announcement'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/Announcement'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/Announcement'
         required: true
       security:
       - tokenAuth: []
@@ -37051,13 +37051,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/Announcement'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/Announcement'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/Announcement'
         required: true
       security:
       - tokenAuth: []
@@ -51274,132 +51274,18 @@ components:
     ApiComponentsAnnouncementsCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateNameErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSlugErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageCodeErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageNameErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralSourceErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralNumberErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralFormulaErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageDirectionErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePopulationErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateVcsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateRepoErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateGitExportErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateBranchErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreatePushBranchErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateFilemaskErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateScreenshotFilemaskErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateTemplateErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateEditTemplateErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateIntermediateErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateNewBaseErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateFileFormatErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateFileFormatParamsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateLicenseErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateAgreementErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateNewLangErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateLanguageCodeStyleErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreatePushErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateCheckFlagsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreatePriorityErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateEnforcedChecksErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateRestrictedErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateRepowebErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateReportSourceBugsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateMergeStyleErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateCommitMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateAddMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateDeleteMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateMergeMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateAddonMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreatePullMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateAllowTranslationPropagationErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateManageUnitsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateEnableSuggestionsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSuggestionVotingErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSuggestionAutoacceptErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreatePushOnCommitErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateCommitPendingAgeErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateAutoLockErrorErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateLanguageRegexErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateKeyFilterErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSecondaryLanguageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateVariantRegexErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateZipfileErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateDocfileErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateFromComponentErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateIsGlossaryErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateGlossaryColorErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateDisableAutoshareErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateCategoryErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateMessageErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateSeverityErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateExpiryErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateNotifyErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiComponentsAnnouncementsCreateNonFieldErrorsErrorComponent'
-          name: '#/components/schemas/ApiComponentsAnnouncementsCreateNameErrorComponent'
-          slug: '#/components/schemas/ApiComponentsAnnouncementsCreateSlugErrorComponent'
-          source_language.non_field_errors: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageNonFieldErrorsErrorComponent'
-          source_language.code: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageCodeErrorComponent'
-          source_language.name: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageNameErrorComponent'
-          source_language.plural.non_field_errors: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralNonFieldErrorsErrorComponent'
-          source_language.plural.source: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralSourceErrorComponent'
-          source_language.plural.number: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralNumberErrorComponent'
-          source_language.plural.formula: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePluralFormulaErrorComponent'
-          source_language.direction: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguageDirectionErrorComponent'
-          source_language.population: '#/components/schemas/ApiComponentsAnnouncementsCreateSourceLanguagePopulationErrorComponent'
-          vcs: '#/components/schemas/ApiComponentsAnnouncementsCreateVcsErrorComponent'
-          repo: '#/components/schemas/ApiComponentsAnnouncementsCreateRepoErrorComponent'
-          git_export: '#/components/schemas/ApiComponentsAnnouncementsCreateGitExportErrorComponent'
-          branch: '#/components/schemas/ApiComponentsAnnouncementsCreateBranchErrorComponent'
-          push_branch: '#/components/schemas/ApiComponentsAnnouncementsCreatePushBranchErrorComponent'
-          filemask: '#/components/schemas/ApiComponentsAnnouncementsCreateFilemaskErrorComponent'
-          screenshot_filemask: '#/components/schemas/ApiComponentsAnnouncementsCreateScreenshotFilemaskErrorComponent'
-          template: '#/components/schemas/ApiComponentsAnnouncementsCreateTemplateErrorComponent'
-          edit_template: '#/components/schemas/ApiComponentsAnnouncementsCreateEditTemplateErrorComponent'
-          intermediate: '#/components/schemas/ApiComponentsAnnouncementsCreateIntermediateErrorComponent'
-          new_base: '#/components/schemas/ApiComponentsAnnouncementsCreateNewBaseErrorComponent'
-          file_format: '#/components/schemas/ApiComponentsAnnouncementsCreateFileFormatErrorComponent'
-          file_format_params: '#/components/schemas/ApiComponentsAnnouncementsCreateFileFormatParamsErrorComponent'
-          license: '#/components/schemas/ApiComponentsAnnouncementsCreateLicenseErrorComponent'
-          agreement: '#/components/schemas/ApiComponentsAnnouncementsCreateAgreementErrorComponent'
-          new_lang: '#/components/schemas/ApiComponentsAnnouncementsCreateNewLangErrorComponent'
-          language_code_style: '#/components/schemas/ApiComponentsAnnouncementsCreateLanguageCodeStyleErrorComponent'
-          push: '#/components/schemas/ApiComponentsAnnouncementsCreatePushErrorComponent'
-          check_flags: '#/components/schemas/ApiComponentsAnnouncementsCreateCheckFlagsErrorComponent'
-          priority: '#/components/schemas/ApiComponentsAnnouncementsCreatePriorityErrorComponent'
-          enforced_checks: '#/components/schemas/ApiComponentsAnnouncementsCreateEnforcedChecksErrorComponent'
-          restricted: '#/components/schemas/ApiComponentsAnnouncementsCreateRestrictedErrorComponent'
-          repoweb: '#/components/schemas/ApiComponentsAnnouncementsCreateRepowebErrorComponent'
-          report_source_bugs: '#/components/schemas/ApiComponentsAnnouncementsCreateReportSourceBugsErrorComponent'
-          merge_style: '#/components/schemas/ApiComponentsAnnouncementsCreateMergeStyleErrorComponent'
-          commit_message: '#/components/schemas/ApiComponentsAnnouncementsCreateCommitMessageErrorComponent'
-          add_message: '#/components/schemas/ApiComponentsAnnouncementsCreateAddMessageErrorComponent'
-          delete_message: '#/components/schemas/ApiComponentsAnnouncementsCreateDeleteMessageErrorComponent'
-          merge_message: '#/components/schemas/ApiComponentsAnnouncementsCreateMergeMessageErrorComponent'
-          addon_message: '#/components/schemas/ApiComponentsAnnouncementsCreateAddonMessageErrorComponent'
-          pull_message: '#/components/schemas/ApiComponentsAnnouncementsCreatePullMessageErrorComponent'
-          allow_translation_propagation: '#/components/schemas/ApiComponentsAnnouncementsCreateAllowTranslationPropagationErrorComponent'
-          manage_units: '#/components/schemas/ApiComponentsAnnouncementsCreateManageUnitsErrorComponent'
-          enable_suggestions: '#/components/schemas/ApiComponentsAnnouncementsCreateEnableSuggestionsErrorComponent'
-          suggestion_voting: '#/components/schemas/ApiComponentsAnnouncementsCreateSuggestionVotingErrorComponent'
-          suggestion_autoaccept: '#/components/schemas/ApiComponentsAnnouncementsCreateSuggestionAutoacceptErrorComponent'
-          push_on_commit: '#/components/schemas/ApiComponentsAnnouncementsCreatePushOnCommitErrorComponent'
-          commit_pending_age: '#/components/schemas/ApiComponentsAnnouncementsCreateCommitPendingAgeErrorComponent'
-          auto_lock_error: '#/components/schemas/ApiComponentsAnnouncementsCreateAutoLockErrorErrorComponent'
-          language_regex: '#/components/schemas/ApiComponentsAnnouncementsCreateLanguageRegexErrorComponent'
-          key_filter: '#/components/schemas/ApiComponentsAnnouncementsCreateKeyFilterErrorComponent'
-          secondary_language: '#/components/schemas/ApiComponentsAnnouncementsCreateSecondaryLanguageErrorComponent'
-          variant_regex: '#/components/schemas/ApiComponentsAnnouncementsCreateVariantRegexErrorComponent'
-          zipfile: '#/components/schemas/ApiComponentsAnnouncementsCreateZipfileErrorComponent'
-          docfile: '#/components/schemas/ApiComponentsAnnouncementsCreateDocfileErrorComponent'
-          from_component: '#/components/schemas/ApiComponentsAnnouncementsCreateFromComponentErrorComponent'
-          is_glossary: '#/components/schemas/ApiComponentsAnnouncementsCreateIsGlossaryErrorComponent'
-          glossary_color: '#/components/schemas/ApiComponentsAnnouncementsCreateGlossaryColorErrorComponent'
-          disable_autoshare: '#/components/schemas/ApiComponentsAnnouncementsCreateDisableAutoshareErrorComponent'
-          category: '#/components/schemas/ApiComponentsAnnouncementsCreateCategoryErrorComponent'
+          message: '#/components/schemas/ApiComponentsAnnouncementsCreateMessageErrorComponent'
+          severity: '#/components/schemas/ApiComponentsAnnouncementsCreateSeverityErrorComponent'
+          expiry: '#/components/schemas/ApiComponentsAnnouncementsCreateExpiryErrorComponent'
+          notify: '#/components/schemas/ApiComponentsAnnouncementsCreateNotifyErrorComponent'
     ApiComponentsAnnouncementsCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiComponentsAnnouncementsCreateValidationError'
@@ -51409,6 +51295,102 @@ components:
         mapping:
           validation_error: '#/components/schemas/ApiComponentsAnnouncementsCreateValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiComponentsAnnouncementsCreateExpiryErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - expiry
+          type: string
+          description: '* `expiry` - expiry'
+        code:
+          enum:
+          - datetime
+          - invalid
+          type: string
+          description: |-
+            * `datetime` - datetime
+            * `invalid` - invalid
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsAnnouncementsCreateMessageErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - message
+          type: string
+          description: '* `message` - message'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsAnnouncementsCreateNotifyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - notify
+          type: string
+          description: '* `notify` - notify'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsAnnouncementsCreateSeverityErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - severity
+          type: string
+          description: '* `severity` - severity'
+        code:
+          enum:
+          - invalid_choice
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiComponentsAnnouncementsCreateFileFormatErrorComponent:
       type: object
       properties:
@@ -61731,36 +61713,18 @@ components:
     ApiProjectsAnnouncementsCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateNameErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateSlugErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateWebErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateCheckFlagsErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateTranslationReviewErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateSourceReviewErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateSetLanguageTeamErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateInstructionsErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateEnableHooksErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateLanguageAliasesErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateSecondaryLanguageErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateEnforced2faErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateMessageErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateSeverityErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateExpiryErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateNotifyErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiProjectsAnnouncementsCreateNonFieldErrorsErrorComponent'
-          name: '#/components/schemas/ApiProjectsAnnouncementsCreateNameErrorComponent'
-          slug: '#/components/schemas/ApiProjectsAnnouncementsCreateSlugErrorComponent'
-          web: '#/components/schemas/ApiProjectsAnnouncementsCreateWebErrorComponent'
-          check_flags: '#/components/schemas/ApiProjectsAnnouncementsCreateCheckFlagsErrorComponent'
-          translation_review: '#/components/schemas/ApiProjectsAnnouncementsCreateTranslationReviewErrorComponent'
-          source_review: '#/components/schemas/ApiProjectsAnnouncementsCreateSourceReviewErrorComponent'
-          commit_policy: '#/components/schemas/ApiProjectsAnnouncementsCreateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsAnnouncementsCreateSetLanguageTeamErrorComponent'
-          instructions: '#/components/schemas/ApiProjectsAnnouncementsCreateInstructionsErrorComponent'
-          enable_hooks: '#/components/schemas/ApiProjectsAnnouncementsCreateEnableHooksErrorComponent'
-          language_aliases: '#/components/schemas/ApiProjectsAnnouncementsCreateLanguageAliasesErrorComponent'
-          secondary_language: '#/components/schemas/ApiProjectsAnnouncementsCreateSecondaryLanguageErrorComponent'
-          enforced_2fa: '#/components/schemas/ApiProjectsAnnouncementsCreateEnforced2faErrorComponent'
+          message: '#/components/schemas/ApiProjectsAnnouncementsCreateMessageErrorComponent'
+          severity: '#/components/schemas/ApiProjectsAnnouncementsCreateSeverityErrorComponent'
+          expiry: '#/components/schemas/ApiProjectsAnnouncementsCreateExpiryErrorComponent'
+          notify: '#/components/schemas/ApiProjectsAnnouncementsCreateNotifyErrorComponent'
     ApiProjectsAnnouncementsCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiProjectsAnnouncementsCreateValidationError'
@@ -61770,6 +61734,102 @@ components:
         mapping:
           validation_error: '#/components/schemas/ApiProjectsAnnouncementsCreateValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiProjectsAnnouncementsCreateExpiryErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - expiry
+          type: string
+          description: '* `expiry` - expiry'
+        code:
+          enum:
+          - datetime
+          - invalid
+          type: string
+          description: |-
+            * `datetime` - datetime
+            * `invalid` - invalid
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiProjectsAnnouncementsCreateMessageErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - message
+          type: string
+          description: '* `message` - message'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiProjectsAnnouncementsCreateNotifyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - notify
+          type: string
+          description: '* `notify` - notify'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiProjectsAnnouncementsCreateSeverityErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - severity
+          type: string
+          description: '* `severity` - severity'
+        code:
+          enum:
+          - invalid_choice
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiProjectsAnnouncementsCreateInstructionsErrorComponent:
       type: object
       properties:
@@ -66767,16 +66827,18 @@ components:
     ApiTranslationsAnnouncementsCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateLanguageCodeErrorComponent'
-      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateFilenameErrorComponent'
-      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateRevisionErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateMessageErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateSeverityErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateExpiryErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateNotifyErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiTranslationsAnnouncementsCreateNonFieldErrorsErrorComponent'
-          language_code: '#/components/schemas/ApiTranslationsAnnouncementsCreateLanguageCodeErrorComponent'
-          filename: '#/components/schemas/ApiTranslationsAnnouncementsCreateFilenameErrorComponent'
-          revision: '#/components/schemas/ApiTranslationsAnnouncementsCreateRevisionErrorComponent'
+          message: '#/components/schemas/ApiTranslationsAnnouncementsCreateMessageErrorComponent'
+          severity: '#/components/schemas/ApiTranslationsAnnouncementsCreateSeverityErrorComponent'
+          expiry: '#/components/schemas/ApiTranslationsAnnouncementsCreateExpiryErrorComponent'
+          notify: '#/components/schemas/ApiTranslationsAnnouncementsCreateNotifyErrorComponent'
     ApiTranslationsAnnouncementsCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiTranslationsAnnouncementsCreateValidationError'
@@ -66786,6 +66848,102 @@ components:
         mapping:
           validation_error: '#/components/schemas/ApiTranslationsAnnouncementsCreateValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiTranslationsAnnouncementsCreateExpiryErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - expiry
+          type: string
+          description: '* `expiry` - expiry'
+        code:
+          enum:
+          - datetime
+          - invalid
+          type: string
+          description: |-
+            * `datetime` - datetime
+            * `invalid` - invalid
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsAnnouncementsCreateMessageErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - message
+          type: string
+          description: '* `message` - message'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsAnnouncementsCreateNotifyErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - notify
+          type: string
+          description: '* `notify` - notify'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsAnnouncementsCreateSeverityErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - severity
+          type: string
+          description: '* `severity` - severity'
+        code:
+          enum:
+          - invalid_choice
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiTranslationsAnnouncementsCreateFilenameErrorComponent:
       type: object
       properties:

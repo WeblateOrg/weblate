@@ -9387,6 +9387,17 @@ class AnnouncementAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["count"], 1)
 
+    def test_project_announcement_options(self) -> None:
+        response = self.do_request(
+            "api:project-announcements",
+            kwargs=self.project_kwargs,
+            method="options",
+        )
+        self.assertEqual(
+            set(response.data["actions"]["POST"]),
+            {"message", "severity", "expiry", "notify"},
+        )
+
     def test_create_project_announcement(self) -> None:
         project = self.component.project
         self.authenticate(False)
