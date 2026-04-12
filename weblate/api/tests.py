@@ -9418,7 +9418,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNone(announcement.language)
 
     def test_delete_project_announcement(self) -> None:
-        """Test deleting a announcement from a project."""
+        """Test deleting an announcement from a project."""
         announcement = self.project_announcement
 
         # Test successful deletion
@@ -9449,7 +9449,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
 
     def test_delete_nonexistent_project_announcement(self) -> None:
-        """Test deleting a announcement that doesn't exist."""
+        """Test deleting an announcement that doesn't exist."""
         self.do_request(
             "api:project-delete-announcement",
             kwargs={**self.project_kwargs, "announcement_id": 9999},
@@ -9459,7 +9459,7 @@ class AnnouncementAPITest(APIBaseTest):
         )
 
     def test_delete_project_announcement_wrong_project(self) -> None:
-        """Test deleting a announcement from wrong project returns error."""
+        """Test deleting an announcement from wrong project returns error."""
         # Announcement from one project
         announcement = self.project_announcement
 
@@ -9552,7 +9552,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNone(announcement.language)
 
     def test_delete_component_announcement(self) -> None:
-        """Test deleting a announcement from a component."""
+        """Test deleting an announcement from a component."""
         announcement = self.component_announcement
 
         # Test successful deletion
@@ -9583,7 +9583,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
 
     def test_delete_nonexistent_component_announcement(self) -> None:
-        """Test deleting a announcement that doesn't exist."""
+        """Test deleting an announcement that doesn't exist."""
         self.do_request(
             "api:component-delete-announcement",
             kwargs={**self.component_kwargs, "announcement_id": 9999},
@@ -9593,7 +9593,7 @@ class AnnouncementAPITest(APIBaseTest):
         )
 
     def test_delete_component_announcement_wrong_component(self) -> None:
-        """Test deleting a announcement from wrong component returns error."""
+        """Test deleting an announcement from wrong component returns error."""
         # Announcement from one component
         announcement = self.component_announcement
 
@@ -9694,7 +9694,7 @@ class AnnouncementAPITest(APIBaseTest):
         )
 
     def test_delete_translation_announcement(self) -> None:
-        """Test deleting a announcement from a translation."""
+        """Test deleting an announcement from a translation."""
         announcement = self.translation_announcement
 
         # Test successful deletion
@@ -9725,7 +9725,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
 
     def test_delete_nonexistent_translation_announcement(self) -> None:
-        """Test deleting a announcement that doesn't exist."""
+        """Test deleting an announcement that doesn't exist."""
         self.do_request(
             "api:translation-delete-announcement",
             kwargs={**self.translation_kwargs, "announcement_id": 9999},
@@ -9735,7 +9735,7 @@ class AnnouncementAPITest(APIBaseTest):
         )
 
     def test_delete_translation_announcement_wrong_translation(self) -> None:
-        """Test deleting a announcement from wrong translation returns error."""
+        """Test deleting an announcement from wrong translation returns error."""
         # Announcement from one translation
         announcement = self.translation_announcement
 
