@@ -514,7 +514,9 @@ class AuditLog(models.Model):
         )
 
     def get_params(self) -> dict[str, Any]:
-        from weblate.accounts.templatetags.authnames import get_auth_name
+        from weblate.accounts.templatetags.authnames import (  # noqa: PLC0415
+            get_auth_name,
+        )
 
         result: dict[str, Any] = {
             "site_title": settings.SITE_TITLE,
@@ -564,7 +566,7 @@ class AuditLog(models.Model):
 
     def check_rate_limit(self, request: AuthenticatedHttpRequest) -> bool:
         """Check whether the activity should be rate limited."""
-        from weblate.accounts.utils import lock_user
+        from weblate.accounts.utils import lock_user  # noqa: PLC0415
 
         if (
             self.activity == "failed-auth"
@@ -1061,7 +1063,7 @@ class Profile(models.Model):
             | GhostCategoryLanguageStats
             | GhostTranslation,
         ) -> str:
-            from weblate.trans.models import Unit
+            from weblate.trans.models import Unit  # noqa: PLC0415
 
             language: Language
             is_source = False
@@ -1202,7 +1204,7 @@ class Profile(models.Model):
 
     @cached_property
     def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:
-        from weblate.accounts.utils import get_key_type
+        from weblate.accounts.utils import get_key_type  # noqa: PLC0415
 
         return {get_key_type(device) for device in self.second_factors}
 
@@ -1214,7 +1216,7 @@ class Profile(models.Model):
         )
 
     def log_2fa(self, request: AuthenticatedHttpRequest, device: Device) -> None:
-        from weblate.accounts.utils import get_key_name, get_key_type
+        from weblate.accounts.utils import get_key_name, get_key_type  # noqa: PLC0415
 
         # Audit log entry
         AuditLog.objects.create(

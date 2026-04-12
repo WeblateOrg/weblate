@@ -153,8 +153,8 @@ class SameCheck(TargetCheck):
 
     def should_ignore(self, source: str, unit: Unit) -> bool:
         """Check whether given unit should be ignored."""
-        from weblate.checks.flags import TYPED_FLAGS
-        from weblate.glossary.models import get_glossary_terms
+        from weblate.checks.flags import TYPED_FLAGS  # noqa: PLC0415
+        from weblate.glossary.models import get_glossary_terms  # noqa: PLC0415
 
         # Ignore some strings based on notes (typically from gettext PO file)
         # - certain docbook tags

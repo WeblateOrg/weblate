@@ -192,8 +192,8 @@ class MultiAlert(BaseAlert):
     def process_occurrences(
         self, occurrences: list[dict[str, str]]
     ) -> list[dict[str, Any]]:
-        from weblate.lang.models import Language
-        from weblate.trans.models import Unit
+        from weblate.lang.models import Language  # noqa: PLC0415
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         processors = (
             ("language_code", "language", Language.objects.all(), "code"),
@@ -264,7 +264,7 @@ class DuplicateFilemask(BaseAlert):
 
     @staticmethod
     def get_translations(component: Component) -> TranslationQuerySet:
-        from weblate.trans.models import Translation
+        from weblate.trans.models import Translation  # noqa: PLC0415
 
         return Translation.objects.filter(
             Q(component=component) | Q(component__linked_component=component)
@@ -327,7 +327,7 @@ class ConflictingRepositorySetup(BaseAlert):
         return {"repo_link": self.instance.component.get_repo_link_url()}
 
     def get_context(self, user: User) -> dict[str, Any]:
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         result = super().get_context(user)
         result["analysis"]["conflicts"] = list(
@@ -705,7 +705,7 @@ class UnusedScreenshot(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        from weblate.screenshots.models import Screenshot
+        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
 
         return (
             Screenshot.objects.filter(translation__component=component)

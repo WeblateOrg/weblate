@@ -1414,7 +1414,7 @@ class ProjectViewSet(
         billing = None
         if not request.user.has_perm("project.add"):
             if "weblate.billing" in settings.INSTALLED_APPS:
-                from weblate.billing.models import Billing
+                from weblate.billing.models import Billing  # noqa: PLC0415
 
                 try:
                     billing = Billing.objects.for_user_within_limits(self.request.user)[

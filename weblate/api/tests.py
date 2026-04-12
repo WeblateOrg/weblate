@@ -3700,7 +3700,11 @@ class ProjectAPITest(APIBaseTest):
     @responses.activate
     def test_install_machinery(self) -> None:
         """Test the machinery settings API endpoint for various scenarios."""
-        from weblate.machinery.tests import AlibabaTranslationTest, DeepLTranslationTest
+        # Deep import to avoid running these as tests
+        from weblate.machinery.tests import (  # noqa: PLC0415
+            AlibabaTranslationTest,
+            DeepLTranslationTest,
+        )
 
         # unauthenticated get
         self.do_request(

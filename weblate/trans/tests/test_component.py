@@ -38,6 +38,7 @@ from weblate.trans.tests.utils import clear_users_cache, create_test_user
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -542,8 +543,6 @@ class ComponentTest(RepoTestCase):
     )
     def test_vcs_validation(self) -> None:
         component = self.create_po_push()
-
-        from weblate.vcs.models import VCS_REGISTRY
 
         # force reload VCS list to include github
         del VCS_REGISTRY.data

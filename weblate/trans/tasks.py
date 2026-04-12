@@ -812,7 +812,7 @@ def daily_update_checks() -> None:
 
 @app.task(trail=False)
 def cleanup_project_backups() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
 
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
@@ -853,7 +853,7 @@ def cleanup_project_backups() -> None:
 
 @app.task(trail=False)
 def create_project_backup(pk) -> None:
-    from weblate.trans.backups import ProjectBackup
+    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
 
     project = Project.objects.get(pk=pk)
     backup = ProjectBackup()
@@ -868,7 +868,7 @@ def remove_project_backup_download(name: str) -> None:
 
 @app.task(trail=False)
 def cleanup_project_backup_download() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
 
     if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
         return

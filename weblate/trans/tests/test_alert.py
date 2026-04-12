@@ -21,6 +21,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component, Unit
 from weblate.trans.models.alert import UpdateFailure, update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -258,7 +259,6 @@ class AlertTest(ViewTestCase):
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
     @staticmethod
     def clear_vcs_registry_cache() -> None:
-        from weblate.vcs.models import VCS_REGISTRY
 
         for key in ("data", "merge_request_based", "git_based"):
             VCS_REGISTRY.__dict__.pop(key, None)

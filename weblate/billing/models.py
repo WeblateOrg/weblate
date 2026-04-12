@@ -740,7 +740,7 @@ def record_project_bill(
 def delete_project_bill(
     sender, instance: Project | Component | Translation, **kwargs
 ) -> None:
-    from weblate.billing.tasks import billing_check
+    from weblate.billing.tasks import billing_check  # noqa: PLC0415
 
     if isinstance(instance, Translation):
         try:

@@ -46,7 +46,7 @@ class AuthenticationMiddleware(OTPMiddleware):
     """
 
     def __call__(self, request: AuthenticatedHttpRequest):
-        from weblate.lang.models import Language
+        from weblate.lang.models import Language  # noqa: PLC0415
 
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this

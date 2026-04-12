@@ -40,7 +40,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
         raise_exception: bool = True,
     ):
         """Create new suggestion for this unit."""
-        from weblate.auth.models import get_anonymous
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
 
         # Apply fixups
         fixups: list[str] = []

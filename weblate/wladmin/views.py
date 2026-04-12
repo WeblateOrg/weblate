@@ -618,7 +618,7 @@ def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
-    from weblate.billing.models import Billing
+    from weblate.billing.models import Billing  # noqa: PLC0415
 
     trial = []
     pending = []

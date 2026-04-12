@@ -125,7 +125,7 @@ class TranslationManager(models.Manager):
 
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self, *, defer_huge: bool = True):
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         component_prefetch: str | models.Prefetch
         if defer_huge:
@@ -147,7 +147,7 @@ class TranslationQuerySet(models.QuerySet):
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Alert, Component
+        from weblate.trans.models import Alert, Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "language",
@@ -728,7 +728,7 @@ class Translation(
         """Return last author of change done in Weblate."""
         if not self.stats.last_author:
             return None
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
@@ -1640,7 +1640,7 @@ class Translation(
         fuzzy: Literal["", "process", "approve"] = "",
     ) -> UploadResult:
         """Top level handler for file uploads."""
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         component = self.component
 
@@ -1752,7 +1752,7 @@ class Translation(
     @transaction.atomic
     def remove(self, user: User) -> None:
         """Remove translation from the Database and VCS."""
-        from weblate.glossary.tasks import cleanup_stale_glossaries
+        from weblate.glossary.tasks import cleanup_stale_glossaries  # noqa: PLC0415
 
         author = user.get_author_name()
         # Log
@@ -2060,7 +2060,7 @@ class Translation(
 
     @transaction.atomic
     def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
-        from weblate.auth.models import get_anonymous
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
 
         component = self.component
         user = request.user if request else get_anonymous()
@@ -2139,7 +2139,7 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self) -> None:
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not self.is_source or not self.component.manage_units:
             return

@@ -17,7 +17,7 @@ os.environ.setdefault(
 def main() -> None:
     django.setup()
 
-    from weblate.addons.extractors.django.command import Command
+    from weblate.addons.extractors.django.command import Command  # noqa: PLC0415
 
     Command().run_from_argv(
         [

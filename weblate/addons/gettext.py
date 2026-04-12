@@ -466,7 +466,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         ]
 
     def ensure_msgmerge_addon(self) -> bool:
-        from weblate.addons.models import Addon
+        from weblate.addons.models import Addon  # noqa: PLC0415
 
         install_msgmerge = self.instance.configuration.get("_install_msgmerge", False)
         if not install_msgmerge:

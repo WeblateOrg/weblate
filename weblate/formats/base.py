@@ -1181,7 +1181,7 @@ class BaseExporter:
 
     def serialize(self) -> bytes:
         """Return storage content."""
-        from weblate.formats.ttkit import TTKitFormat
+        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
 
         return TTKitFormat.serialize(self.storage)
 

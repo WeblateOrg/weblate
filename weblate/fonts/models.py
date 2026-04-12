@@ -62,7 +62,7 @@ class Font(models.Model, UserDisplayMixin):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ) -> None:
-        from weblate.fonts.tasks import update_fonts_cache
+        from weblate.fonts.tasks import update_fonts_cache  # noqa: PLC0415
 
         self.clean()
         super().save(

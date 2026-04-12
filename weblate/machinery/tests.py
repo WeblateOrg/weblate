@@ -32,6 +32,8 @@ from google.cloud.translate import (
     TranslateTextResponse,
     TranslationServiceClient,
 )
+from google.cloud.translate_v3 import Glossary
+from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
 import weblate.machinery.models
@@ -1091,8 +1093,6 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         Patches list_glossaries, create_glossary, delete_glossary, translate_text
         and also the storage client.
         """
-        from google.cloud.translate_v3 import Glossary
-        from google.oauth2 import service_account
 
         def _glossary(name: str, submit_time: datetime) -> Glossary:
             """Return a mock Glossary object with given name and submit time."""

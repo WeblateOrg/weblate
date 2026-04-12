@@ -30,8 +30,8 @@ class BaseOpenAITranslation(BaseLLMTranslation):
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
-        from openai import RateLimitError
-        from openai.types.chat import (
+        from openai import RateLimitError  # noqa: PLC0415
+        from openai.types.chat import (  # noqa: PLC0415
             ChatCompletionAssistantMessageParam,
             ChatCompletionSystemMessageParam,
             ChatCompletionUserMessageParam,
@@ -81,7 +81,7 @@ class OpenAITranslation(BaseOpenAITranslation):
     settings_form = OpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
-        from openai import OpenAI
+        from openai import OpenAI  # noqa: PLC0415
 
         super().__init__(settings)
         self.client = OpenAI(
@@ -127,7 +127,7 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
     settings_form = AzureOpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
-        from openai import AzureOpenAI
+        from openai import AzureOpenAI  # noqa: PLC0415
 
         super().__init__(settings)
         self.client = AzureOpenAI(

@@ -54,7 +54,7 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.templatetags.translations import get_breadcrumbs  # noqa: PLC0415
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
