@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-11 05:52+0000\n"
+"PO-Revision-Date: 2026-04-13 06:10+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -5318,6 +5318,8 @@ msgid ""
 "Defines the maximum allowed ratio between the uncompressed and compressed "
 "size for a large ZIP entry during project backup import."
 msgstr ""
+"プロジェクトのバックアップのインポート時に、大きな ZIP エントリに対して許可さ"
+"れる非圧縮サイズと圧縮サイズの比率の最大値を設定します。"
 
 #: admin/config.rst:1639
 msgid ""
@@ -5327,6 +5329,10 @@ msgid ""
 "compressed entries while still allowing large repository pack files and "
 "other low-compression content. Defaults to 250."
 msgstr ""
+"これは :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE` および "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` と組み合わせて使用され、大き"
+"なリポジトリの pack ファイルやその他の低圧縮コンテンツを許可しつつ、不自然な"
+"高圧縮なエントリを検出するために利用されます。デフォルト値は 250 です。"
 
 #: admin/config.rst:1656
 msgid ""
@@ -5359,6 +5365,10 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
+"プロジェクト Web サイトの検証時に"
+"、:setting:`PROJECT_WEB_RESTRICT_HOST`、:setting:`PROJECT_WEB_RESTRICT_NUMERIC`、:setting:`PROJECT_WEB_RESTRICT_PRIVATE`、:setting:`PROJECT_WEB_RESTRICT_RE` "
+"の適用対象から除外されるプロジェクト スラッグの集合を設定します。"
+"プロジェクト スラッグの照合は大文字・小文字を区別しません。"
 
 #: admin/config.rst:1703
 msgid ""
@@ -5367,6 +5377,10 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
+"この除外設定を有効にすると、該当するプロジェクトでは "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` で制限する「プライベート宛先の禁止」"
+"を含む外向き URL 保護が弱まります。この検査を意図的に除外させたい、信頼できる"
+"管理者管理のプロジェクトにのみ使用してください。"
 
 #: admin/config.rst:1730
 msgid "Reject using numeric IP address in project website. On by default."
@@ -5379,6 +5393,9 @@ msgid ""
 "Reject using project website and repository browser URLs pointing to non-"
 "global IP ranges. On by default."
 msgstr ""
+"プロジェクト Web サイトおよびリポジトリブラウザーの URL が、グローバル IP "
+"レンジ以外（非グローバルアドレス帯）を指している場合は拒否します。デフォルト"
+"で有効です。"
 
 #: admin/config.rst:1764
 msgid ""
@@ -5391,6 +5408,8 @@ msgstr ""
 #: admin/config.rst:1780
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+":setting:`REQUIRE_LOGIN` が有効な場合でも、プロジェクトの紹介ページ（Engage "
+"ページ）へのアクセスを許可します。"
 
 #: admin/config.rst:1793
 msgid "Limits how many notifications for a single user will be sent out."
@@ -5514,6 +5533,9 @@ msgid ""
 "Allow registration with disposable e-mail domains. When enabled, the "
 "disposable domain blocklist is bypassed. Default is ``False``."
 msgstr ""
+"使い捨てメールアドレスを使用したユーザー登録を許可します。これを有効にすると"
+"、使い捨てドメインのブロックリストが使用されません。デフォルト値は ``False`` "
+"です。"
 
 #: admin/config.rst:1940
 msgid ""
@@ -6059,34 +6081,38 @@ msgstr ""
 "します。公開サーバには適しているので初期設定では、デフォルトで有効です。"
 
 #: admin/config.rst:2542
-#, fuzzy
-#| msgid "Defaults to ``True``."
 msgid "Default: ``True``"
-msgstr "デフォルトは ``True`` です。"
+msgstr "デフォルト: ``True``"
 
 #: admin/config.rst:2544
 msgid ""
 "Defines whether Weblate should check project website availability and show "
 "alerts for unreachable project websites."
 msgstr ""
+"Weblate がプロジェクト Web サイトの到達性を検査し、接続できない場合に警告を表"
+"示するかどうかを設定します。"
 
 #: admin/config.rst:2547
 msgid ""
 "When set to ``False``, Weblate will skip website availability checks and "
 "will not generate project website alerts. This is useful when:"
 msgstr ""
+"``False`` に設定すると、Weblate はプロジェクト Web サイトの到達性を検査せず、"
+"プロジェクト Web サイトに関する警告も生成しません。便利なケース："
 
 #: admin/config.rst:2550
 msgid "Your websites are behind firewalls that block Weblate's requests"
 msgstr ""
+"プロジェクトの Web サイトに接続できない場合、Weblate からのリクエストを"
+"ファイアウォールが遮断しています"
 
 #: admin/config.rst:2551
 msgid "You want to avoid 403/503-type errors from bot protection"
-msgstr ""
+msgstr "ボット対策により 403、503 といったエラーが発生するのを避けたい場合"
 
 #: admin/config.rst:2552
 msgid "Project website availability is not a concern for your installation"
-msgstr ""
+msgstr "インストール環境において、プロジェクト Web サイトの到達性が問題にならない場合"
 
 #: admin/config.rst:2561
 msgid "Configuring version control credentials"
@@ -7589,16 +7615,12 @@ msgid "Integrating SAML 2 IDP into Weblate"
 msgstr "SAML 2 IDP を Weblate に統合"
 
 #: admin/install.rst:258
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`Sphinx <https://pypi.org/project/Sphinx>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`Sphinx <https://pypi.org/project/Sphinx>`_"
 
 #: admin/install.rst:259
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid "Needed for :ref:`addon-weblate.gettext.sphinx`"
-msgstr "新しいアドオン :ref:`addon-weblate.generate.prefill`。"
+msgstr ":ref:`addon-weblate.gettext.sphinx` が必要"
 
 #: admin/install.rst:263 admin/install.rst:267
 msgid "Hosted Weblate integration"
@@ -9021,13 +9043,6 @@ msgid "Sample configuration for NGINX and uWSGI"
 msgstr "NGINX および uWSGI の設定例"
 
 #: admin/install.rst:1409
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the WSGI wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`). Don't forget to set the Python "
-#| "search path to your virtualenv as well (for example using ``virtualenv = /"
-#| "home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate "
 "(when using a Python environment it is installed as :file:`~/weblate-env/lib/"
@@ -9035,11 +9050,11 @@ msgid ""
 "search path to your Python environment as well (for example using "
 "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgstr ""
-"運用環境の WEB サーバーを実行するには、Weblate とセットでインストールされた "
-"WSGI ラッパーを使用します（virtual env の場合、:file:`~/weblate-env/lib/"
-"python3.9/site-packages/weblate/wsgi.py` としてインストールされる）。 Python "
-"検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で "
-"``virtualenv = /home/user/weblate-env`` の使用）。"
+"運用環境の WEB サーバーを実行するには、Weblate とともにインストールされた "
+"WSGI ラッパーを使用します（Python 環境を利用している場合は :file:`~/weblate-"
+"env/lib/python3.14/site-packages/weblate/wsgi.py` としてインストールされます"
+"）。 また、Python の検索パスを使用している Python 環境に設定することも忘れな"
+"いでください（例: uWSGI で ``virtualenv = /home/user/weblate-env`` の指定）。"
 
 #: admin/install.rst:1415
 msgid ""
@@ -9538,23 +9553,14 @@ msgid "Migrating database"
 msgstr "データベースの移行"
 
 #: admin/install.rst:1803
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward approach is to use "
-#| "database native tools, as they are usually the most effective "
-#| "(e.g. :command:`mysqldump` or :command:`pg_dump`). Alternatively you can "
-#| "use replication in case your database supports it."
 msgid ""
 "The most straightforward approach is to use database native tools, as they "
 "are usually the most effective (e.g. :command:`pg_dump`). Alternatively you "
 "can use replication if your database supports it."
 msgstr ""
-"データベースのバックエンドによっては、データベースを移行するオプションが複数"
-"あります。最も簡単な方法は、データベースの正規のツールを使用することです。通"
-"常、この方法が最も効果的です（例: :command:`mysqldump` や :command:`pg_dump` "
-"など）。また、データベースがレプリケーションに対応している場合には、レプリ"
-"ケーションを使用できます。"
+"最も簡単な方法は、データベース純正の管理ツールを使用することです。これは通常"
+"もっとも効果的です（例: :command:`pg_dump`）。また、データベースが対応してい"
+"る場合は、レプリケーションを使用できます。"
 
 #: admin/install.rst:1809
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -10361,22 +10367,16 @@ msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr ":std:setting:`REGISTRATION_REBIND` を設定します。"
 
 #: admin/install/docker.rst:688
-#, fuzzy
-#| msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgid "Configures :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
-msgstr ":std:setting:`REGISTRATION_REBIND` を設定します。"
+msgstr ":setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` を設定します。"
 
 #: admin/install/docker.rst:701
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
-msgstr ":setting:`WEBSITE_REQUIRED` を設定します。"
+msgstr ":setting:`PROJECT_WEB_RESTRICT_PRIVATE` を設定します。"
 
 #: admin/install/docker.rst:703
-#, fuzzy
-#| msgid "Defaults to 5."
 msgid "Defaults to enabled."
-msgstr "デフォルトは 5 回です。"
+msgstr "デフォルトでは有効です。"
 
 #: admin/install/docker.rst:707
 msgid ""
@@ -10498,10 +10498,8 @@ msgstr ""
 ":setting:`REQUIRE_LOGIN` を有効にして、Weblate 全体に認証を強制します。"
 
 #: admin/install/docker.rst:825
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
-msgstr ":setting:`BASIC_LANGUAGES` を設定します。"
+msgstr ":setting:`PUBLIC_ENGAGE` を有効にします。"
 
 #: admin/install/docker.rst:829
 msgid ""
@@ -10575,16 +10573,12 @@ msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
 msgstr ":setting:`DEFAULT_AUTOCLEAN_TM` を設定します。"
 
 #: admin/install/docker.rst:890
-#, fuzzy
-#| msgid ""
-#| "Configures the default value for :ref:`component-restricted` for new "
-#| "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid ""
 "Configures the default value for :ref:`component-commit_pending_age` for new "
 "components, see :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
-"新しいコンポーネントの :ref:`component-restricted` のデフォルト値を設定しま"
-"す。参照: :setting:`DEFAULT_RESTRICTED_COMPONENT`。"
+"新しいコンポーネントに対する :ref:`component-commit_pending_age` のデフォルト"
+"値を設定します。参照: :setting:`COMMIT_PENDING_HOURS`。"
 
 #: admin/install/docker.rst:894
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
@@ -10754,10 +10748,8 @@ msgid "Allows CORS requests to API from all origins."
 msgstr "すべてのオリジンからの API への CORS リクエストを許可します。"
 
 #: admin/install/docker.rst:1139
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`WEBSITE_ALERTS_ENABLED`."
-msgstr ":setting:`WEBSITE_REQUIRED` を設定します。"
+msgstr ":setting:`WEBSITE_ALERTS_ENABLED` を設定します。"
 
 #: admin/install/docker.rst:1145
 msgid "Configures maximal body size accepted by the built-in web server."
@@ -12463,10 +12455,8 @@ msgstr ""
 "れています。:ref:`verify` を確認してください。"
 
 #: admin/install/source.rst:21
-#, fuzzy
-#| msgid "Install current Weblate code into the virtualenv:"
 msgid "Install current Weblate code into the Python environment:"
-msgstr "現在の Weblate コードを virtualenv にインストールする:"
+msgstr "現在の Weblate のコードを Python 環境にインストールする方法:"
 
 #: admin/install/source.rst:30
 msgid ""
@@ -12632,16 +12622,13 @@ msgstr ""
 "します。"
 
 #: admin/install/steps/install-after.rst:8
-#, fuzzy
-#| msgid ""
-#| "You can now run Weblate commands using :command:`weblate` command when "
-#| "Weblate virtualenv is active, see :ref:`manage`."
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate Python environment is active, see :ref:`manage`."
 msgstr ""
-"Weblate virtualenv が有効な場合は、:command:`weblate` コマンドを使用して "
-"Weblate コマンドを実行できるように変更されました。参照: :ref:`manage`。"
+"Weblate の Python 環境が有効になっている場合、:command:`weblate` コマンドを使"
+"用して Weblate の各種コマンドが実行できるようになります。参照: "
+":ref:`manage`。"
 
 #: admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
@@ -12712,20 +12699,15 @@ msgid "Configuring Weblate"
 msgstr "Weblate の設定"
 
 #: admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "The following assumes the virtualenv used by Weblate is activated (by "
-#| "executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
-#| "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the Python environment used by Weblate is activated "
 "(by executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
 "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"以下の手順は、Weblate で使用する virtualenv が有効であることを前提としていま"
-"す（``. ~/weblate-env/bin/activate`` を実行した結果 ）。無効の場合"
-"は、:command:`weblate` コマンドへのフルパス（``~/weblate-env/bin/weblate``）"
-"の指定が必要です。"
+"以下の手順は、Weblate で使用する Python 環境 が有効化されていることを前提とし"
+"ています（``. ~/weblate-env/bin/activate`` を実行した結果 ）。無効の場合は"
+"、:command:`weblate` コマンドへのフルパス（``~/weblate-env/bin/weblate``）の"
+"指定が必要です。"
 
 #: admin/install/steps/install-configure.rst:10
 msgid ""
@@ -12796,22 +12778,16 @@ msgid "Python modules"
 msgstr "Python モジュール"
 
 #: admin/install/steps/install-python.rst:6
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "We're installing Weblate in a separate Python environment."
-msgstr "運用環境でのローリング アップデート"
+msgstr "Weblate を別の Python 環境にインストールしています。"
 
 #: admin/install/steps/install-python.rst:9
-#, fuzzy
-#| msgid "Create the virtualenv for Weblate:"
 msgid "Create the Python environment for Weblate:"
-msgstr "Weblate 用の virtualenv を作成する:"
+msgstr "Weblate 用の Python 環境を作成する方法:"
 
 #: admin/install/steps/install-python.rst:15
-#, fuzzy
-#| msgid "Activate the virtualenv for Weblate:"
 msgid "Activate the Python environment for Weblate:"
-msgstr "Weblate 用 の virtualenv を有効にする:"
+msgstr "Weblate 用の Python 環境を有効化する方法:"
 
 #: admin/install/steps/install-python.rst:21
 msgid "Install Weblate including all optional dependencies:"
@@ -12826,7 +12802,7 @@ msgstr ""
 
 #: admin/install/steps/install-python.rst:32
 msgid "`Using Python environments`_"
-msgstr ""
+msgstr "`Using Python environments`_"
 
 #: admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -13442,17 +13418,13 @@ msgstr ""
 "前述のように、起動方法は Weblate のインストール方法によ方法はなります。"
 
 #: admin/management.rst:22
-#, fuzzy
-#| msgid ""
-#| "If using virtualenv for Weblate, you can either specify the full path "
-#| "to :command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgid ""
 "If using a Python environment for Weblate, you can either specify the full "
 "path to :command:`weblate`, or activate the Python environment prior to "
 "invoking it:"
 msgstr ""
-"Weblate に virtualenv を使用する場合は、:command:`weblate` へのフル パスを指"
-"定するか、呼び出す前に virtualenv を有効化します。"
+"Weblate 用に Python 環境を使用している場合は、:command:`weblate` へのフルパス"
+"を指定するか、あるいは実行前に Python 環境を有効化してください:"
 
 #: admin/management.rst:34
 msgid ""
@@ -13464,12 +13436,6 @@ msgstr ""
 "Weblate から管理スクリプト :file:`./manage.py` を実行します。実行例:"
 
 #: admin/management.rst:42
-#, fuzzy
-#| msgid ""
-#| "If you've installed Weblate using the pip installer, or by using "
-#| "the :file:`./setup.py` script, the :command:`weblate` is installed to "
-#| "your path (or virtualenv path), from where you can use it to control "
-#| "Weblate:"
 msgid ""
 "If you've installed Weblate using the pip installer, or by using "
 "the :file:`./setup.py` script, the :command:`weblate` is installed to your "
@@ -13478,7 +13444,7 @@ msgid ""
 msgstr ""
 "pip インストーラを使用して Weblate をインストールした場合、または :file:`./"
 "setup.py` スクリプトを使用してインストールした場合、:command:`weblate` がパス"
-"（または virtualenv パス）にインストールされます。パスから Weblate を管理する"
+"（または Python 環境パス）にインストールされます。パスから Weblate を管理する"
 "方法:"
 
 #: admin/management.rst:50
@@ -13947,13 +13913,15 @@ msgstr "使用可能なすべての変更イベントタイプを一覧表示し
 msgid ""
 "Generates RST documentation snippets describing the supported features for "
 "every file format."
-msgstr ""
+msgstr "対応している各ファイル形式の機能を説明する RST ドキュメント断片を生成します。"
 
 #: admin/management.rst:818
 msgid ""
 "The command generates one file for every format, that can be found in the "
 "specified output directory."
 msgstr ""
+"このコマンドは、指定した出力ディレクトリ内に、各ファイル形式ごとに 1 つの"
+"ファイルを生成します。"
 
 #: admin/management.rst:826
 msgid ""
@@ -13961,6 +13929,10 @@ msgid ""
 "sources such as :doc:`/formats`. See also :file:`weblate/formats/management/"
 "commands/list_format_features.py` for customization and merging logic."
 msgstr ""
+"生成されたドキュメント ファイルは、:doc:`/formats` などのドキュメントソースに"
+"含めて使用することを想定しています。カスタマイズやマージ処理のロジックについ"
+"ては、:file:`weblate/formats/management/commands/list_format_features.py` も"
+"参照してください。"
 
 #: admin/management.rst:834
 msgid ""
@@ -17432,13 +17404,6 @@ msgstr ""
 "します。関連付け設定画面:"
 
 #: admin/translating.rst:145
-#, fuzzy
-#| msgid ""
-#| "You can upload a screenshot from a local file or provide a URL to "
-#| "download an image from an external source. URL-based uploads may be "
-#| "restricted based on the :setting:`ALLOWED_ASSET_DOMAINS` setting, which "
-#| "controls which domains are trusted for downloading external assets, "
-#| "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgid ""
 "You can upload a screenshot from a local file or provide a URL to download "
 "an image from an external source. URL-based uploads may be restricted based "
@@ -17447,10 +17412,12 @@ msgid ""
 "followed while fetching the image, and :setting:`ALLOWED_ASSET_SIZE` which "
 "limits maximal size for the asset."
 msgstr ""
-"ローカルファイルからスクリーンショットをアップロードするか、URLを指定して外部"
-"ソースから画像を読み込むことができます。URLによるアップロードは、信頼できるド"
-"メインを指定する :setting:`ALLOWED_ASSET_DOMAINS` 設定や、最大サイズを制限す"
-"る :setting:`ALLOWED_ASSET_SIZE` 設定によって制限される場合があります。"
+"ローカルファイルからスクリーンショットをアップロードすることも、外部ソースか"
+"ら画像をダウンロードするための URL を指定することもできます。URL による"
+"アップロードは、外部ファイルのダウンロード元として信頼するドメインを制御する "
+":setting:`ALLOWED_ASSET_DOMAINS` （画像取得時にたどられるリダイレクト先も含む"
+"）や、ファイルの最大サイズを制限する :setting:`ALLOWED_ASSET_SIZE` の設定によ"
+"って制限されます。"
 
 #: admin/translating.rst:152
 msgid ""
@@ -17706,24 +17673,20 @@ msgid ""
 "MySQL and MariaDB are no longer supported in Weblate. You must migrate to "
 "PostgreSQL before upgrading."
 msgstr ""
+"Weblate では MySQL および MariaDB への対応は終了しました。アップグレードする"
+"前に PostgreSQL へ移行する必要があります。"
 
 #: admin/upgrade.rst:148
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate with a different database than PostgreSQL, "
-#| "consider migrating to PostgreSQL for better performance by doing the "
-#| "following steps. Remember to stop both, the web and Celery servers "
-#| "beforehand, otherwise you might end up with inconsistent data."
 msgid ""
 "If you are running Weblate with MySQL or MariaDB, consider migrating to "
 "PostgreSQL for better performance by doing the following steps. Remember to "
 "stop both, the web and Celery servers beforehand, otherwise you might end up "
 "with inconsistent data."
 msgstr ""
-"PostgreSQL 以外のデータベースで Weblate を運用している場合は、Weblate が最適"
-"に動作できるように PostgreSQL への移行を検討してください。次の手順で移行でき"
-"ます 。移行前に Web サーバと Celery サーバの両方を必ず停止させてください。停"
-"止せずに移行作業を行うと、データの不整合が発生することがあります。"
+"MySQL または MariaDB で Weblate を運用している場合は、以下の手順に従って "
+"PostgreSQL へ移行してください。移行を実施する前に、Web サーバーと Celery "
+"サーバーの両方を必ず停止してください。停止せずに作業を進めると、データの不整"
+"合が発生することがあります。"
 
 #: admin/upgrade.rst:156
 msgid ""
@@ -18119,10 +18082,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.17"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.17"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -18142,12 +18103,16 @@ msgid ""
 "Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project "
 "slugs from project website restriction settings."
 msgstr ""
+"選択したプロジェクト スラッグをプロジェクト Web サイト制限設定の適用対象から"
+"除外するために、:setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` を追加しました。"
 
 #: changes.rst:9
 msgid ""
 "Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project "
 "website availability checks and alerts."
 msgstr ""
+"プロジェクト Web サイトの到達性検査および警告を無効化できるように"
+"、:setting:`WEBSITE_ALERTS_ENABLED` 設定を追加しました。"
 
 #: changes.rst:10
 msgid ""
@@ -18155,35 +18120,39 @@ msgid ""
 "generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"新しい管理コマンド :wladmin:`list_format_features` を追加しました。この"
+"コマンドは、対応している各ファイル形式の機能を説明する RST ドキュメント断片を"
+"生成します。"
 
 #: changes.rst:11
 msgid "Shared components can now be categorized within the target project."
 msgstr ""
+"共有コンポーネントを、対象プロジェクト内でカテゴリ分けできるようになりました"
+"。"
 
 #: changes.rst:12
 msgid ""
 ":ref:`api` supports specifying a category when sharing a component via "
 "``category_id`` parameter."
 msgstr ""
+":ref:`api` では、コンポーネントを共有する際に ``category_id`` パラメーターを"
+"使用してカテゴリを指定できるようになりました。"
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| ":ref:`processing`, :ref:`addon-weblate.cleanup.generic`, :ref:`addon-"
-#| "weblate.cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-"
-#| "weblate.gettext.msgmerge`"
 msgid ""
 "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
 "weblate.gettext.sphinx` to update POT files with configurable update cadence."
 msgstr ""
-":ref:`processing`、:ref:`addon-weblate.cleanup.generic`、:ref:`addon-"
-"weblate.cleanup.blank`、:ref:`addon-weblate.resx.update`、:ref:`addon-"
-"weblate.gettext.msgmerge`"
+"POT ファイルを更新するための更新頻度（cadence）を設定可能にするため"
+"、:ref:`addon-weblate.gettext.xgettext`、:ref:`addon-"
+"weblate.gettext.meson`、\n"
+":ref:`addon-weblate.gettext.django`、および :ref:`addon-"
+"weblate.gettext.sphinx` を追加しました。"
 
 #: changes.rst:14
 msgid "Added :ref:`bulk user invitations <invite-user>`."
-msgstr ""
+msgstr ":ref:`bulk user invitations <invite-user>` の追加。"
 
 #: changes.rst:17 changes.rst:89 changes.rst:124 changes.rst:171
 #: changes.rst:215 changes.rst:260 changes.rst:301 changes.rst:377
@@ -18201,59 +18170,48 @@ msgid "Improvements"
 msgstr "改良点"
 
 #: changes.rst:18
-#, fuzzy
-#| msgid "Better tracking of source strings."
 msgid "Track origin of newly added source strings."
-msgstr "原文の追跡を改良。"
+msgstr "新しく追加された原文の由来を追跡できるようになりました。"
 
 #: changes.rst:19
-#, fuzzy
-#| msgid "Improved admin interface for groups."
 msgid "Improved LLM interfaces for better reliability."
-msgstr "グループの管理画面の改良。"
+msgstr "LLM インターフェースの信頼性を向上しました。"
 
 #: changes.rst:20
 msgid ""
 "Improved logic for adding monolingual plurals in :doc:`/formats/gettext`."
 msgstr ""
+":doc:`/formats/gettext` におけるモノリンガル言語の複数形を追加するロジックの"
+"改良。"
 
 #: changes.rst:21
-#, fuzzy
-#| msgid "Added component alert for broken repository browser URLs."
 msgid ""
 "Added a component alert for conflicting merge request repository setup, "
 "see :ref:`alerts`."
-msgstr "壊れたリポジトリ ブラウザーの URL に対するコンポーネントの警告を追加。"
+msgstr ""
+"競合するマージリクエストのリポジトリ設定に対するコンポーネント警告を追加しま"
+"した。参照: :ref:`alerts`。"
 
 #: changes.rst:22
-#, fuzzy
-#| msgid "Improved error handling in :ref:`machine-translation-setup`."
 msgid "Improved plural handling in :ref:`auto-translation`."
-msgstr ":ref:`machine-translation-setup` のエラーハンドリングの改良。"
+msgstr ":ref:`auto-translation` における複数形処理の改良。"
 
 #: changes.rst:23
-#, fuzzy
-#| msgid "Improved performance of some :ref:`api` endpoints."
 msgid "Improved error messages in some of the :ref:`api` endpoints."
-msgstr "一部の :ref:`api` エンドポイントのパフォーマンスの改良。"
+msgstr "一部の :ref:`api` エンドポイントにおけるエラーメッセージの改良。"
 
 #: changes.rst:24
-#, fuzzy
-#| msgid "Improved performance of project creation and saving."
 msgid ""
 "Improved performance of project and category search result pages with very "
 "large match sets."
-msgstr "プロジェクトの作成と保存の性能の改良。"
+msgstr ""
+"非常に多くの一致結果がある場合の、プロジェクトおよびカテゴリ検索結果ページの"
+"パフォーマンスの改良。"
 
 #: changes.rst:25
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker "
-#| "container."
 msgid ""
 ":envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container."
-msgstr ""
-":envvar:`WEBLATE_REGISTRATION_CAPTCHA` が Docker コンテナでも利用可能に改良。"
+msgstr ":envvar:`WEBLATE_COMMIT_PENDING_HOURS` が Docker コンテナでも利用可能に改良。"
 
 #: changes.rst:26
 msgid ""
@@ -18261,6 +18219,8 @@ msgid ""
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines."
 msgstr ""
+":ref:`addons`、:ref:`fmt_capabs`、:ref:`checks`、および :ref:`machine-"
+"translation` 向けに自動生成されたスニペットを用いてドキュメントを改良。"
 
 #: changes.rst:27
 msgid ""
@@ -18268,18 +18228,22 @@ msgid ""
 "repository browser URLs targeting non-global IP ranges, and exposed it in "
 "Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`."
 msgstr ""
+"非グローバル IP レンジを対象とするプロジェクト Web サイトおよび"
+"リポジトリブラウザーの URL を拒否するための "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` を追加し、Docker では "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` として利用可能にしました。"
 
 #: changes.rst:28
-#, fuzzy
-#| msgid "Improved performance of file updates."
 msgid "Improved performance of :ref:`mt-weblate` lookups."
-msgstr "ファイル更新の性能の向上。"
+msgstr ":ref:`mt-weblate` の検索処理の性能の改良。"
 
 #: changes.rst:29
 msgid ""
 "Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` "
 "which now defaults to 10 MB."
 msgstr ""
+"スクリーンショットおよびフォントのアップロード フォームが "
+":setting:`ALLOWED_ASSET_SIZE` に対応し、その既定値は 10 MB になりました。"
 
 #: changes.rst:32 changes.rst:94 changes.rst:129 changes.rst:183
 #: changes.rst:222 changes.rst:267 changes.rst:318 changes.rst:357
@@ -18304,16 +18268,18 @@ msgstr "バグ修正"
 msgid ""
 "Project token cleanup now removes stale bots on project deletion and upgrade."
 msgstr ""
+"プロジェクト トークンのクリーンアップにより、プロジェクトの削除や"
+"アップグレード時に古いボットが削除されるようになりました。"
 
 #: changes.rst:34
 msgid "Component file handling now validates repository symlinks."
 msgstr ""
+"コンポーネントのファイル処理で、リポジトリ内のシンボリックリンクを検証するよ"
+"うになりました。"
 
 #: changes.rst:35
-#, fuzzy
-#| msgid "Improved API error messages on permission denied."
 msgid "Improved REST API permission enforcement."
-msgstr "権限が拒否された場合の API エラー メッセージの改良。"
+msgstr "REST API の権限 enforcement を改良。"
 
 #: changes.rst:36
 msgid ""
@@ -18321,43 +18287,45 @@ msgid ""
 "network targets for untrusted endpoints and hiding untrusted remote error "
 "details."
 msgstr ""
+"信頼されていないエンドポイントに対して、プライベート ネットワークを対象とする"
+"プロジェクト レベルの機械翻訳リクエストをブロックし、信頼されていないリモート"
+"のエラー詳細を非表示にすることで、SSRF に対する堅牢性を高めました。"
 
 #: changes.rst:37
 msgid "Prevented removing the last team from a project token."
-msgstr ""
+msgstr "プロジェクト トークンから最後のチームを削除できないようにしました。"
 
 #: changes.rst:38
 msgid ""
 "Batch automatic translation now uses project-level machinery configuration "
 "instead of only site-wide settings."
 msgstr ""
+"バッチ自動翻訳が、サイト全体の設定だけでなく、プロジェクト レベルの機械翻訳の"
+"設定を使用するようになりました。"
 
 #: changes.rst:39
 msgid "Fixed sorting by the **Unreviewed** column in listings."
-msgstr ""
+msgstr "一覧での **未査読** 列による並び替えを修正しました。"
 
 #: changes.rst:40
 msgid ""
 "Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter "
 "Waw (\"و\") adjacent to XML tags."
 msgstr ""
+"XML タグに隣接するアラビア文字 Waw（\"و\"）に対して、:ref:`check-xml-chars-"
+"around-tags` が誤検出する問題を修正しました。"
 
 #: changes.rst:41
-#, fuzzy
-#| msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgid ":ref:`addon-weblate.git.squash` better handle commits applied upstream."
 msgstr ""
-"リンクされたリポジトリで :ref:`addon-weblate.git.squash` が正しく動作するよう"
-"に修正。"
+":ref:`addon-weblate.git.squash` が、上流で適用されたコミットをより適切に処理"
+"するようになりました。"
 
 #: changes.rst:42
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ":ref:`addon-weblate.cdn.cdnjs` validates parsed locations."
 msgstr ""
-":ref:`addon-weblate.cdn.cdnjs` アドオンには、設定オプションがあります。"
+":ref:`addon-weblate.cdn.cdnjs` が、解析された location を検証するようになりま"
+"した。"
 
 #: changes.rst:43
 msgid ""
@@ -18365,56 +18333,67 @@ msgid ""
 "redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-"
 "weblate.cdn.cdnjs`."
 msgstr ""
+"スクリーンショット URL のアップロードや、:ref:`addon-weblate.cdn.cdnjs` にお"
+"けるリモート HTML の取得時に、HTTP リダイレクトをまたいで "
+":setting:`ALLOWED_ASSET_DOMAINS` が適用されるようになりました。"
 
 #: changes.rst:44
 msgid ""
 "Watched translations on the dashboard now use a stable language-aware "
 "ordering."
 msgstr ""
+"ダッシュボードの監視対象の翻訳が、言語に配慮した安定した順序で表示されるよう"
+"になりました。"
 
 #: changes.rst:45
-#, fuzzy
-#| msgid "Extended API to cover translation memory."
 msgid "Removed unintended API endpoints for translation memory."
-msgstr "翻訳メモリに対応するように API を拡張。"
+msgstr "翻訳メモリ向けの意図しない API エンドポイントを削除しました。"
 
 #: changes.rst:46
 msgid "Improved API access control for pending tasks."
-msgstr ""
+msgstr "保留中タスクに対する API アクセス制御の改良。"
 
 #: changes.rst:47
-#, fuzzy
-#| msgid "Faster comment and component removal."
 msgid "Faster category and project removals."
-msgstr "コメントとコンポーネントの削除を高速化。"
+msgstr "カテゴリおよびプロジェクトの削除の高速化。"
 
 #: changes.rst:48
 msgid ""
 "Project backup restore no longer trusts repository-local VCS configuration "
 "and hooks from the uploaded archive."
 msgstr ""
+"プロジェクト バックアップの復元時に、アップロードされたアーカイブ内の"
+"リポジトリローカルな VCS 設定やフックを信頼しないようになりました。"
 
 #: changes.rst:49
 msgid ""
 ":doc:`/admin/machine` now falls back to the default API URL when base URL is "
 "empty."
 msgstr ""
+":doc:`/admin/machine` が、ベース URL が空の場合にデフォルトの API URL を"
+"フォールバックとして使用するようになりました。"
 
 #: changes.rst:50
 msgid ":ref:`mt-deepl` maps plain Portuguese to European Portuguese."
 msgstr ""
+":ref:`mt-deepl` が、一般的なポルトガル語をヨーロッパ ポルトガル語として扱うよ"
+"うになりました。"
 
 #: changes.rst:51
 msgid ""
 "Push branches are no longer updated with upstream-only commits in multi-"
 "branch workflows."
 msgstr ""
+"複数ブランチのワークフローにおいて、プッシュ ブランチが上流側のみのコミットで"
+"更新されることがなくなりました。"
 
 #: changes.rst:52
 msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
+":ref:`backup` のステータス報告が改善され、バックアップが失敗した場合でも"
+"メンテナンス状態が維持されるようになりました。"
 
 #: changes.rst:53
 msgid ""
