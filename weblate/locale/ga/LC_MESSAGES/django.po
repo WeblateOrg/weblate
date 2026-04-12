@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-05 01:45+0000\n"
+"PO-Revision-Date: 2026-04-13 06:09+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.17-dev\n"
 
 #: weblate/accounts/avatar.py:89
@@ -1822,6 +1822,8 @@ msgstr "Ceanntásc POT a normalú"
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Nuashonraíonn sé ceanntásca gettext agus cuireann sé tuairimí POT in ionad "
+"na n-áitchoinneálaí."
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1836,63 +1838,59 @@ msgstr ""
 "é tar éis an comhad POT a nuashonrú."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Níorbh fhéidir trácht a chur leis!"
+msgstr "Ná bain amach tuairimí"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Brabhsáil na comhpháirteanna go léir"
+msgstr "Bain amach na tuairimí go léir"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Bain amach tuairimí leis an gclib"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "Comments"
 msgid "Code comments"
-msgstr "Tuairimí"
+msgstr "Tráchtanna ar chód"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Roghnaigh an gcaithfidh xgettext gan aon tráchtanna, na tráchtanna uile, nó "
+"tráchtanna atá marcáilte le clib shonrach amháin a bhaint amach."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Téacs tráchta"
+msgstr "Clib tráchta"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Cuireadh an chlib chuig xgettext le haghaidh eastóscadh tráchta agus mód "
+"tráchta clibáilte in úsáid."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Seiceálacha córais"
+msgstr "seiceálacha xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Seiceálacha bailíochtaithe xgettext breise chun teachtaireachtaí eastósctha "
+"a chumasú."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Brainse breise"
+msgstr "Eochairfhocal breise"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Eochairfhocal breise roghnach a chuirtear chuig xgettext ag baint úsáide "
+"as --keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4796,16 +4794,12 @@ msgid "C format string does not match source."
 msgstr "Ní hionann an teaghrán formáid C agus an foinse."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Formáid Pascal saor in aisce,"
+msgstr "Formáid Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Ní hionann an teaghrán formáid C agus an foinse."
+msgstr "Ní hionann an teaghrán formáide Objective-C agus an foinse."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5760,6 +5754,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Ní thacaítear le brú thar easpórtálaí Git Weblate. Brúigh chuig an stór suas "
+"an srutha ina ionad."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5767,12 +5763,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Ní thacaítear le brú thar easpórtálaí Git Weblate. Brúigh chuig an stór suas "
+"an srutha ina ionad: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Níl an t-athbhreithniú iarrtha ar fáil i seiceáil amach áitiúil Git Weblate. "
+"Faigh é ón stór suas an srutha ar dtús."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5780,6 +5780,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Níl an t-athbhreithniú iarrtha ar fáil i seiceáil amach áitiúil Git Weblate. "
+"Faigh é ón stór suas an srutha ar dtús: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5787,6 +5789,9 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Ní roinneann seiceáil amach éadomhain Git Weblate dóthain staire leis an "
+"stór seo chun an t-iarratas \"fetch\" a shásamh. Faigh ón stór suas an sruth "
+"ar dtús, nó bain úsáid as clón a roinneann stair le Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5796,16 +5801,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Ní roinneann seiceáil amach éadomhain Git Weblate dóthain staire leis an "
+"stór seo chun an t-iarratas ar ais a shásamh. Faigh ón stór suas an sruth ar "
+"dtús, nó bain úsáid as clón a roinneann stair le Weblate. Stór suas an "
+"sruth: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Theip ar easpórtáil Git."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Comhad gan tacaíocht!"
+msgstr "Seirbhís Git gan tacaíocht."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -14351,6 +14358,12 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Is féidir leis an stórlann Weblate onnmhairithe a bheith éadomhain de réir "
+"réamhshocraithe, mar sin oibríonn an sreabhadh oibre seo is fearr ó "
+"sheiceáil amach suas an tsrutha atá cothrom le dáta. Is féidir le clónáil ón "
+"stórlann Weblate onnmhairithe nó úsáid a bhaint as seiceáil amach suas an "
+"tsrutha atá as dáta teip fiú nuair a bhíonn Weblate agus an t-uas an tsrutha "
+"sioncrónaithe. Féach ar na Ceisteanna Coitianta thíos le haghaidh sonraí."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -17713,16 +17726,14 @@ msgstr ""
 "chumaisc in úsáid agus gan brú chuig forc."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Brainse stór"
+msgstr "Brainse stórais neamhbhailí: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Teaghrán cuardaigh neamhbhailí!"
+msgstr "Brainse brú neamhbhailí: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -18419,10 +18430,8 @@ msgid "Very low"
 msgstr "An-íseal"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "URL stórtha cúltaca"
+msgstr "URL an stórais"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
