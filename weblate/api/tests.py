@@ -9356,15 +9356,18 @@ class AnnouncementAPITest(APIBaseTest):
         super().setUp()
         # Create announcements for get and delete tests
         self.project_announcement = Announcement.objects.create(
-            project=self.component.project
+            project=self.component.project, message="Test project announcement"
         )
         self.component_announcement = Announcement.objects.create(
-            project=self.component.project, component=self.component
+            project=self.component.project,
+            component=self.component,
+            message="Test component announcement",
         )
         self.translation_announcement = Announcement.objects.create(
             project=self.component.project,
             component=self.component,
             language=Language.objects.get(code="cs"),
+            message="Test translation announcement",
         )
 
     def test_get_project_announcement(self) -> None:
