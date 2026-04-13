@@ -11,14 +11,12 @@ def migrate_gettext_header_settings(apps, schema_editor):
     Component = apps.get_model("trans", "Component")
     to_update = []
     for component in (
-        Component.objects.filter(file_format="po")
+        Component.objects.filter(file_format__in=("po", "po-mono"))
         .select_related("project")
         .only("file_format_params", "project")
     ):
         file_format_params = component.file_format_params or {}
-        file_format_params["po_set_language_team_header"] = (
-            component.project.set_language_team
-        )
+        file_format_params["po_set_language_team"] = component.project.set_language_team
         file_format_params["po_set_last_translator"] = True
         file_format_params["po_set_x_generator"] = True
         file_format_params["po_report_msgid_bugs_to"] = True
