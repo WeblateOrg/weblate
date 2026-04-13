@@ -132,9 +132,7 @@ class RepoTestMixin:
 
     @cached_property
     def git_repo_path(self) -> str:
-        path = self.get_repo_path("test-repo.git")
-        shutil.copytree(self.git_base_repo_path, path)
-        return path
+        return self._copy_test_repo("test-repo.git", self.git_base_repo_path)
 
     @property
     def mercurial_base_repo_path(self) -> str:
@@ -145,9 +143,7 @@ class RepoTestMixin:
 
     @cached_property
     def mercurial_repo_path(self) -> str:
-        path = self.get_repo_path("test-repo.hg")
-        shutil.copytree(self.mercurial_base_repo_path, path)
-        return path
+        return self._copy_test_repo("test-repo.hg", self.mercurial_base_repo_path)
 
     @property
     def subversion_base_repo_path(self) -> str:
@@ -158,19 +154,20 @@ class RepoTestMixin:
 
     @cached_property
     def subversion_repo_path(self) -> str:
-        path = self.get_repo_path("test-repo.svn")
-        shutil.copytree(self.subversion_base_repo_path, path)
+        return self._copy_test_repo("test-repo.svn", self.subversion_base_repo_path)
+
+    def _copy_test_repo(self, repo_name: str, base_repo_path: str) -> str:
+        path = self.get_repo_path(repo_name)
+        if os.path.exists(path):
+            remove_tree(path)
+        shutil.copytree(base_repo_path, path)
         return path
 
     def clone_test_repos(self) -> None:
-        dirs = ["test-repo.git", "test-repo.hg", "test-repo.svn"]
-        # Remove possibly existing directories
-        for name in dirs:
-            path = self.get_repo_path(name)
-            if os.path.exists(path):
-                remove_tree(path)
-
-        # Remove cached paths
+        # Repository copies are created lazily on access. Reset cached paths and
+        # project working directories so each test gets a fresh checkout without
+        # eagerly touching Mercurial/Subversion fixtures for the common git-only
+        # path.
         keys = ["git_repo_path", "mercurial_repo_path", "subversion_repo_path"]
         for key in keys:
             if key in self.__dict__:
