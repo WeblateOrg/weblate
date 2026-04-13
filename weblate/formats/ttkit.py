@@ -66,7 +66,11 @@ from weblate.formats.base import (
 )
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
-from weblate.trans.file_format_params import get_encoding_param
+from weblate.trans.file_format_params import (
+    GettextLastTranslator,
+    GettextXGenerator,
+    get_encoding_param,
+)
 from weblate.trans.util import (
     get_string,
     rich_to_xliff_string,
@@ -445,7 +449,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 
         return unit
 
-    def untranslate_store(self, language) -> None:
+    def untranslate_store(
+        self, language: Language, file_format_params: FileFormatParams | None = None
+    ) -> None:
         """Remove translations from Translate Toolkit store."""
         self.store.settargetlanguage(self.get_language_code(language.code))
 
@@ -464,7 +470,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
         file_format_params: FileFormatParams | None = None,
@@ -475,7 +481,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             store = cls(base, file_format_params=file_format_params)
             if callback:
                 callback(store)
-            store.untranslate_store(language)
+            store.untranslate_store(language, file_format_params=file_format_params)
             store.store.savefile(filename)
         elif cls.empty_file_template is not None:
             Path(filename).write_bytes(
@@ -1349,21 +1355,28 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
             formula=formula,
         )
 
-    def untranslate_store(self, language) -> None:
+    def untranslate_store(
+        self, language, file_format_params: FileFormatParams | None = None
+    ) -> None:
         """Remove translations from Translate Toolkit store."""
-        super().untranslate_store(language)
+        super().untranslate_store(language, file_format_params=file_format_params)
         plural = language.plural
+
+        header_kwargs = {}
+        if GettextLastTranslator.get_value(file_format_params):
+            header_kwargs["last_translator"] = "Automatically generated"
 
         self.store.updateheader(
             add=True,
-            last_translator="Automatically generated",
             plural_forms=plural.plural_form,
             language_team="none",
+            **header_kwargs,
         )
 
-    def update_header(self, **kwargs) -> None:
+    def update_header(self, file_format_params: FileFormatParams, **kwargs) -> None:
         """Update store header if available."""
-        kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
+        if GettextXGenerator.get_value(file_format_params):
+            kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()

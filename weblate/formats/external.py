@@ -150,7 +150,7 @@ class XlsxFormat(CSVFormat):
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -160,6 +160,6 @@ class XlsxFormat(CSVFormat):
         store = cls(base)
         if callback:
             callback(store)
-        store.untranslate_store(language)
+        store.untranslate_store(language, file_format_params=file_format_params)
         with open(filename, "wb") as handle:
             XlsxFormat(store.store).save_content(handle)

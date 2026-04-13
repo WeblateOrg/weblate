@@ -29,6 +29,7 @@ if TYPE_CHECKING:
     from lxml import etree
 
     from weblate.checks.flags import Flags
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
 
 
@@ -230,7 +231,7 @@ class AppStoreFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,  # noqa: ARG003
+        language: Language,  # noqa: ARG003
         base: str,  # noqa: ARG003
         callback: Callable | None = None,  # noqa: ARG003
         file_format_params: FileFormatParams | None = None,  # noqa: ARG003
