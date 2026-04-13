@@ -469,7 +469,7 @@ class ProjectBackup:
             self.log_backup_billing(project, billing)
 
     def log_backup_billing(self, project: Project, billing: Billing) -> None:
-        from weblate.billing.models import BillingEvent
+        from weblate.billing.models import BillingEvent  # noqa: PLC0415
 
         billing.billinglog_set.create(
             event=BillingEvent.PROJECT_BACKUP,

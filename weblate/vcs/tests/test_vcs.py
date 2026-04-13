@@ -24,11 +24,15 @@ from responses import matchers
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
+from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
 from weblate.vcs.base import (
     RepositoryError,
     RepositorySymlinkError,
     get_config_check_cache_key,
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+    should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
     AzureDevOpsRepository,
@@ -155,6 +159,109 @@ class RepositoryTest(SimpleTestCase):
 
         self.assertEqual(BrokenGitChildRepository.get_version(), "1.0")
 
+    def test_mercurial_repository_uses_hg_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = Path(tempdir)
+            (repo_path / ".hg").mkdir()
+
+            repo = HgRepository(tempdir, local=True)
+
+            self.assertEqual(
+                repo.get_repo_temp_dir(), repo_path / ".hg" / REPO_TEMP_DIRNAME
+            )
+
+    def test_mercurial_recovery_cleans_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = Path(tempdir)
+            (repo_path / ".hg").mkdir()
+
+            repo = HgRepository(tempdir, local=True)
+            temp_dir = repo.get_repo_temp_dir()
+            if temp_dir is None:
+                self.fail("Expected Mercurial temp dir to exist")
+            temp_file = temp_dir / "leftover.tmp"
+            temp_file.write_text("temp", encoding="utf-8")
+
+            with repo.lock:
+                repo.recover_lock_session()
+
+            self.assertFalse(temp_file.exists())
+
+    def test_cleanup_repo_temp_dir_unlinks_directory_symlinks(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = Path(tempdir)
+            (repo_path / ".hg").mkdir()
+
+            repo = HgRepository(tempdir, local=True)
+            temp_dir = repo.get_repo_temp_dir()
+            if temp_dir is None:
+                self.fail("Expected Mercurial temp dir to exist")
+
+            target_dir = repo_path / "target-dir"
+            target_dir.mkdir()
+            symlink_path = temp_dir / "linked-dir"
+            try:
+                symlink_path.symlink_to(target_dir, target_is_directory=True)
+            except OSError as error:
+                self.skipTest(f"Symlinks are not supported: {error}")
+
+            repo.cleanup_repo_temp_dir()
+
+            self.assertFalse(symlink_path.exists())
+            self.assertTrue(target_dir.exists())
+
+    def test_cleanup_repo_temp_dir_ignores_unlink_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = Path(tempdir)
+            (repo_path / ".hg").mkdir()
+
+            repo = HgRepository(tempdir, local=True)
+            temp_dir = repo.get_repo_temp_dir()
+            if temp_dir is None:
+                self.fail("Expected Mercurial temp dir to exist")
+
+            blocked_file = temp_dir / "blocked.tmp"
+            blocked_file.write_text("blocked", encoding="utf-8")
+            removable_file = temp_dir / "removable.tmp"
+            removable_file.write_text("removable", encoding="utf-8")
+
+            original_unlink = Path.unlink
+
+            def mocked_unlink(path: Path, *args, **kwargs) -> None:
+                if path == blocked_file:
+                    msg = "blocked"
+                    raise PermissionError(msg)
+                original_unlink(path, *args, **kwargs)
+
+            with (
+                self.assertLogs("weblate.vcs", level="WARNING") as captured_logs,
+                patch.object(Path, "unlink", autospec=True, side_effect=mocked_unlink),
+            ):
+                repo.cleanup_repo_temp_dir()
+
+            self.assertTrue(blocked_file.exists())
+            self.assertFalse(removable_file.exists())
+            self.assertIn(
+                "Failed to clean repository temp entry", captured_logs.output[0]
+            )
+
+    def test_lock_session_recovery_runs_once_per_outer_lock(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo_path = Path(tempdir)
+            (repo_path / ".hg").mkdir()
+
+            repo = HgRepository(tempdir, local=True)
+
+            with patch.object(repo, "recover_lock_session") as recover_lock_session:
+                with repo.lock:
+                    self.assertEqual(recover_lock_session.call_count, 1)
+                    repo.ensure_lock_session_recovered()
+                    with repo.lock:
+                        self.assertEqual(recover_lock_session.call_count, 1)
+
+                with repo.lock:
+                    self.assertEqual(recover_lock_session.call_count, 2)
+
     def test_clone_runtime_private_url_rejected(self) -> None:
         component = Component(
             slug="test",
@@ -242,6 +349,62 @@ class RepositoryTest(SimpleTestCase):
         )
 
 
+class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
+    def setUp(self) -> None:
+        super().setUp()
+        if not GitRepository.is_supported():
+            self.skipTest("Not supported")
+        self.clone_test_repos()
+        self.create_temp()
+        self.repo = GitRepository.clone(
+            self.format_local_path(self.git_repo_path),
+            self.tempdir,
+            "main",
+            component=Component(
+                slug="test",
+                name="Test",
+                project=Project(name="Test", slug="test", pk=-1),
+                source_language_id=1,
+                branch="main",
+                vcs="git",
+                repo=self.format_local_path(self.git_repo_path),
+                pk=-1,
+            ),
+        )
+
+    def tearDown(self) -> None:
+        self.remove_temp()
+
+    def test_checkout_with_temp_cleanup_requires_lock(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "without lock held"):
+            self.repo.checkout_with_temp_cleanup("main")
+
+    def test_configure_branch_requires_lock_for_branch_creation(self) -> None:
+        with self.assertRaisesRegex(RuntimeError, "without lock held"):
+            self.repo.configure_branch("translations")
+
+    def test_configure_branch_recovers_temp_branch_on_next_lock(self) -> None:
+        with self.repo.lock:
+            self.repo.execute(["checkout", "-b", "weblate-squash-tmp"])
+            temp_dir = self.repo.get_repo_temp_dir()
+            if temp_dir is None:
+                self.fail("Expected Git temp dir to exist")
+            temp_path = temp_dir / "leftover.tmp"
+            temp_path.write_text("TEMP FILE\n", encoding="utf-8")
+
+        with self.repo.lock:
+            head = (Path(self.tempdir) / ".git" / "HEAD").read_text(encoding="utf-8")
+            self.assertEqual(head.strip(), "ref: refs/heads/main")
+            self.assertFalse(temp_path.exists())
+            self.repo.configure_branch("main")
+
+            self.assertEqual(self.repo.get_current_branch(), "main")
+            self.assertNotIn("weblate-squash-tmp", self.repo.list_branches())
+            self.assertFalse(
+                self.repo.execute(["status", "--short"], needs_lock=False).strip()
+            )
+
+
 class GitBranchValidationTest(SimpleTestCase):
     def test_empty_branch_in_constructor_uses_default(self) -> None:
         repo = GitRepository(".", branch="", local=True)
@@ -308,6 +471,26 @@ class GitBranchValidationTest(SimpleTestCase):
             "origin/main",
         )
         self.assertIsInstance(component.repository, GitRepository)
+
+
+class RepositoryHostKeyErrorTest(SimpleTestCase):
+    def test_changed_host_key_is_not_tofu_retry(self) -> None:
+        errormessage = (
+            "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!\n"
+            "Host key for kallithea-scm.org has changed and you have requested strict checking.\n"
+            "Host key verification failed.\n"
+        )
+
+        self.assertTrue(is_ssh_host_key_verification_error(errormessage))
+        self.assertTrue(is_ssh_host_key_mismatch_error(errormessage))
+        self.assertFalse(should_auto_add_ssh_host_key(errormessage))
+
+    def test_missing_host_key_can_still_use_tofu_retry(self) -> None:
+        errormessage = "No ED25519 host key is known for example.com.\nHost key verification failed.\n"
+
+        self.assertTrue(is_ssh_host_key_verification_error(errormessage))
+        self.assertFalse(is_ssh_host_key_mismatch_error(errormessage))
+        self.assertTrue(should_auto_add_ssh_host_key(errormessage))
 
 
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):

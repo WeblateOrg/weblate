@@ -20,6 +20,7 @@ from weblate_schemas import load_schema
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
 from weblate.auth.models import User
+from weblate.billing.models import Plan
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -133,8 +134,6 @@ class ViewTest(RepoTestCase):
     @override_settings(OFFER_HOSTING=True)
     def test_libre(self) -> None:
         """Test for hosting form with enabled hosting."""
-        from weblate.billing.models import Plan
-
         self.get_user()
         self.client.login(username="testuser", password="testpassword")
 
@@ -159,8 +158,6 @@ class ViewTest(RepoTestCase):
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_trial(self) -> None:
         """Test for trial form with disabled hosting."""
-        from weblate.billing.models import Plan
-
         Plan.objects.create(price=1, slug="640k")
         user = self.get_user()
         self.client.login(username="testuser", password="testpassword")

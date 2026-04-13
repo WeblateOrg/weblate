@@ -11,8 +11,53 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
 
-from weblate.trans.models import Unit
+from weblate.trans.feeds import TranslationChangesFeed
+from weblate.trans.models import Change, Unit
 from weblate.trans.tests.test_views import ViewTestCase
+
+
+class FeedQueriesTest(ViewTestCase):
+    # Reverse managers populate different related objects up front, so the
+    # fixed query budget differs between project/component/translation feeds.
+    PROJECT_FEED_QUERIES = 12
+    COMPONENT_FEED_QUERIES = 11
+    TRANSLATION_FEED_QUERIES = 11
+
+    def setUp(self) -> None:
+        super().setUp()
+        Change.objects.all().delete()
+
+    def add_feed_changes(self, count: int) -> None:
+        for index in range(count):
+            self.change_unit(
+                f"Feed query target {index}\n",
+                translation=self.translation,
+            )
+
+    def assert_feed_queries(self, obj, expected_queries: int) -> None:
+        feed = TranslationChangesFeed()
+        with self.assertNumQueries(expected_queries):
+            items = list(feed.items(obj))
+            for item in items:
+                str(item)
+
+    def test_project_feed_queries_do_not_scale_with_change_count(self) -> None:
+        self.add_feed_changes(6)
+        self.assert_feed_queries(self.project, self.PROJECT_FEED_QUERIES)
+
+    def test_component_feed_queries_do_not_scale_with_change_count(self) -> None:
+        self.add_feed_changes(6)
+        self.assert_feed_queries(
+            self.component,
+            self.COMPONENT_FEED_QUERIES,
+        )
+
+    def test_translation_feed_queries_do_not_scale_with_change_count(self) -> None:
+        self.add_feed_changes(6)
+        self.assert_feed_queries(
+            self.translation,
+            self.TRANSLATION_FEED_QUERIES,
+        )
 
 
 class ChangesTest(ViewTestCase):

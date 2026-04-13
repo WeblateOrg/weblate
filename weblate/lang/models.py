@@ -385,7 +385,7 @@ class LanguageQuerySet(models.QuerySet["Language"]):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        from weblate.trans.models import Translation
+        from weblate.trans.models import Translation  # noqa: PLC0415
 
         return self.filter(Exists(Translation.objects.filter(language=OuterRef("pk"))))
 
@@ -480,7 +480,7 @@ class LanguageQuerySet(models.QuerySet["Language"]):
     def get_allowed_add_language_ids(
         self, project: Project, language_ids: Iterable[int]
     ) -> set[int]:
-        from weblate.trans.models import Component, Translation
+        from weblate.trans.models import Component, Translation  # noqa: PLC0415
 
         candidate_language_ids = set(language_ids)
         if not candidate_language_ids:
@@ -552,8 +552,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         It is based on languages defined in the languages-data repo.
         """
-        from weblate_language_data.languages import LANGUAGES
-        from weblate_language_data.population import POPULATION
+        from weblate_language_data.languages import LANGUAGES  # noqa: PLC0415
+        from weblate_language_data.population import POPULATION  # noqa: PLC0415
 
         if logger is None:
             logger = dummy_logger
@@ -834,7 +834,7 @@ class Language(models.Model, CacheKeyMixin):
         return self.format_full_name(self.get_localized_name())
 
     def __init__(self, *args, **kwargs) -> None:
-        from weblate.utils.stats import LanguageStats
+        from weblate.utils.stats import LanguageStats  # noqa: PLC0415
 
         super().__init__(*args, **kwargs)
         self.stats = LanguageStats(self)

@@ -15,6 +15,7 @@ import tempfile
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, cast
 from unittest.mock import patch
 
@@ -27,7 +28,7 @@ from django.core.management.commands.makemessages import (
     Command as DjangoMakemessagesCommand,
 )
 from django.core.management.utils import find_command
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -2985,6 +2986,22 @@ class GettextAddonTest(ViewTestCase):
             unit = translation.unit_set.get(state=STATE_READONLY)
             self.assertEqual(unit.target, unit.source)
 
+    def test_read_only_daily_reuses_prefetched_units(self) -> None:
+        self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
+        addon = FillReadOnlyAddon.create(component=self.component)
+        unit = self.get_unit().source_unit
+        unit.extra_flags = "read-only"
+        unit.save(same_content=True, update_fields=["extra_flags"])
+        source_translation = self.component.source_translation
+
+        with patch.object(
+            addon, "fetch_strings", wraps=addon.fetch_strings
+        ) as fetch_strings:
+            addon.daily(self.component)
+
+        self.assertEqual(fetch_strings.call_count, 1)
+        self.assertEqual(fetch_strings.call_args.args[0].pk, source_translation.pk)
+
 
 class AppStoreAddonTest(ViewTestCase):
     def create_component(self):
@@ -4305,7 +4322,54 @@ class AutoTranslateAddonTest(ViewTestCase):
                 "mode": "translate",
             },
         )
-        addon.component_update(self.component)
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+        )
+
+    def test_auto_change_event_normalizes_blank_component(self) -> None:
+        addon = AutoTranslateAddon.create(
+            project=self.project,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+
+        with patch(
+            "weblate.addons.autotranslate.auto_translate.delay_on_commit"
+        ) as mocked:
+            addon.trigger_autotranslate(
+                user_id=self.user.id,
+                translation_id=self.translation.id,
+                unit_ids=[1, 2],
+            )
+
+        mocked.assert_called_once_with(
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=self.user.id,
+            unit_ids=[1, 2],
+            translation_id=self.translation.id,
+        )
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_auto_change_event(self) -> None:
@@ -4344,6 +4408,70 @@ class AutoTranslateAddonTest(ViewTestCase):
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+
+
+class AutoTranslateAddonUnitTest(SimpleTestCase):
+    def test_trigger_autotranslate_normalizes_blank_component_for_translation_task(
+        self,
+    ) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            }
+        )
+
+        with patch(
+            "weblate.addons.autotranslate.auto_translate.delay_on_commit"
+        ) as mocked:
+            addon.trigger_autotranslate(user_id=1, translation_id=2, unit_ids=[3, 4])
+
+        mocked.assert_called_once_with(
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=1,
+            unit_ids=[3, 4],
+            translation_id=2,
+        )
+
+    def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
+        self,
+    ) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            }
+        )
+
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.trigger_autotranslate(component=SimpleNamespace(pk=123))
+
+        mocked.assert_called_once_with(
+            123,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+        )
 
 
 class BulkEditAddonTest(ViewTestCase):
@@ -5292,6 +5420,66 @@ class TestCommand(ViewTestCase):
         output = StringIO()
         call_command("list_addons", stdout=output)
         self.assertIn(".. _addon-event-add-on-installation:", output.getvalue())
+        self.assertIn("Common add-on parameters", output.getvalue())
 
         with self.assertRaises(FileNotFoundError):
             call_command("list_addons", "-o", "missing_fileXXX.rst", stdout=StringIO())
+
+    def test_list_addons_split_output(self) -> None:
+        with (
+            tempfile.NamedTemporaryFile(suffix=".rst", delete=False) as events_handle,
+            tempfile.NamedTemporaryFile(suffix=".rst", delete=False) as addons_handle,
+            tempfile.NamedTemporaryFile(
+                suffix=".rst", delete=False
+            ) as parameters_handle,
+        ):
+            events_path = Path(events_handle.name)
+            addons_path = Path(addons_handle.name)
+            parameters_path = Path(parameters_handle.name)
+        self.addCleanup(events_path.unlink)
+        self.addCleanup(addons_path.unlink)
+        self.addCleanup(parameters_path.unlink)
+
+        call_command(
+            "list_addons",
+            "--sections",
+            "events",
+            "-o",
+            events_path,
+            stdout=StringIO(),
+        )
+        call_command(
+            "list_addons",
+            "--sections",
+            "addons",
+            "-o",
+            addons_path,
+            stdout=StringIO(),
+        )
+        call_command(
+            "list_addons",
+            "--sections",
+            "parameters",
+            "-o",
+            parameters_path,
+            stdout=StringIO(),
+        )
+
+        events_content = events_path.read_text(encoding="utf-8")
+        addons_content = addons_path.read_text(encoding="utf-8")
+        parameters_content = parameters_path.read_text(encoding="utf-8")
+
+        self.assertIn("Events that trigger add-ons", events_content)
+        self.assertIn(".. _addon-event-add-on-installation:", events_content)
+        self.assertNotIn("Built-in add-ons", events_content)
+        self.assertNotIn("Common add-on parameters", events_content)
+
+        self.assertIn("Built-in add-ons", addons_content)
+        self.assertNotIn(".. _addon-event-add-on-installation:", addons_content)
+        self.assertNotIn("Common add-on parameters", addons_content)
+        self.assertNotIn("Customize XML output", addons_content)
+
+        self.assertIn("Common add-on parameters", parameters_content)
+        self.assertIn(".. _addon-choice-engines:", parameters_content)
+        self.assertNotIn("Built-in add-ons", parameters_content)
+        self.assertNotIn("Events that trigger add-ons", parameters_content)

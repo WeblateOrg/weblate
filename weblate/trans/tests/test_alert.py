@@ -7,18 +7,21 @@
 import os
 import tempfile
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
-from django.test import override_settings
+from django.template.loader import render_to_string
+from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Unit
-from weblate.trans.models.alert import update_alerts
+from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models.alert import UpdateFailure, update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -245,6 +248,39 @@ class AlertTest(ViewTestCase):
         self.assertEqual(alert.details["files"], ["alert-base.pot"])
 
 
+class AlertQueryPrefetchTest(ViewTestCase):
+    def test_project_repo_components_prefetch_all_alerts(self) -> None:
+        self._create_component(
+            "po",
+            "po-link/*.po",
+            project=self.project,
+            name="LinkedRepo",
+        )
+        self.create_json(project=self.project, name="JSONRepo")
+
+        project = Project.objects.get(pk=self.project.pk)
+        components = project.all_repo_components
+
+        self.assertEqual(len(components), 3)
+        with self.assertNumQueries(0):
+            alert_maps = [component.all_alerts for component in components]
+
+        self.assertEqual(len(alert_maps), 3)
+
+    def test_linked_children_prefetch_all_alerts(self) -> None:
+        self.create_link_existing(name="Linked A", slug="linked-a")
+        self.create_link_existing(name="Linked B", slug="linked-b")
+
+        component = Component.objects.get(pk=self.component.pk)
+        children = list(component.linked_children)
+
+        self.assertEqual(len(children), 2)
+        with self.assertNumQueries(0):
+            alert_maps = [child.all_alerts for child in children]
+
+        self.assertEqual(len(alert_maps), 2)
+
+
 @override_settings(
     GITHUB_CREDENTIALS={
         "api.github.com": {
@@ -256,7 +292,6 @@ class AlertTest(ViewTestCase):
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
     @staticmethod
     def clear_vcs_registry_cache() -> None:
-        from weblate.vcs.models import VCS_REGISTRY
 
         for key in ("data", "merge_request_based", "git_based"):
             VCS_REGISTRY.__dict__.pop(key, None)
@@ -540,4 +575,50 @@ class MonolingualAlertTest(ViewTestCase):
         )
         self.assertTrue(
             component.alert_set.filter(name="MonolingualTranslation").exists()
+        )
+
+
+class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_update_failure_analysis_uses_component_host_key_message(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        alert = UpdateFailure(
+            SimpleNamespace(component=component),
+            "REMOTE HOST IDENTIFICATION HAS CHANGED!\nHost key verification failed.\n",
+        )
+
+        self.assertEqual(alert.get_analysis()["host_key_message"], "host key changed")
+
+    def test_common_repo_renders_host_key_mismatch_message(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "behind": False,
+                    "force_push_suggestion": False,
+                    "gerrit": False,
+                    "host_key_message": (
+                        "The SSH host key for the repository has changed. "
+                        "Verify the new fingerprint and replace the stored host key "
+                        "on the SSH page in the admin interface."
+                    ),
+                    "not_found": False,
+                    "permission": False,
+                    "repo_suggestion": None,
+                    "temporary": False,
+                    "terminal": False,
+                }
+            },
+        )
+
+        self.assertIn(
+            "The SSH host key for the repository has changed.",
+            rendered,
         )

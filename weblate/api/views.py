@@ -55,6 +55,7 @@ from weblate.addons.models import Addon
 from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
+    AnnouncementSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
     BilingualUnitSerializer,
@@ -113,6 +114,7 @@ from weblate.trans.exceptions import (
 )
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
+    Announcement,
     Category,
     Change,
     Component,
@@ -1203,6 +1205,108 @@ class CreditsMixin:
         return Response(data=data)
 
 
+class AnnouncementsMixin:
+    def get_context(self, obj):
+        project = None
+        component = None
+        language = None
+        if isinstance(obj, Project):
+            project = obj
+        if isinstance(obj, Component):
+            project = obj.project
+            component = obj
+        if isinstance(obj, Translation):
+            project = obj.component.project
+            component = obj.component
+            language = obj.language
+
+        return (obj, project, component, language)
+
+    def get_announcements(self, obj):
+        _obj, project, component, language = self.get_context(obj)
+
+        return Announcement.objects.filter(
+            project=project,
+            category=None,
+            component=component,
+            language=language,
+        )
+
+    @extend_schema(
+        description="Return announcements.",
+        methods=["get"],
+        responses=AnnouncementSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create an announcement.",
+        methods=["post"],
+    )
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=AnnouncementSerializer
+    )
+    def announcements(self, request: Request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == "POST":
+            obj, project, component, language = self.get_context(obj)
+            if not request.user.has_perm("announcement.add", obj):
+                self.permission_denied(request, "Can not create announcement")
+            serializer = AnnouncementSerializer(
+                data=request.data,
+                context={
+                    "request": request,
+                    "project": project,
+                    "component": component,
+                    "language": language,
+                },
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save(
+                project=project,
+                component=component,
+                language=language,
+                user=request.user,
+            )
+            return Response(
+                serializer.data,
+                status=HTTP_201_CREATED,
+            )
+
+        # GET request - return specific announcements
+        queryset = self.get_announcements(obj).order_by("id")
+        page = self.paginate_queryset(queryset)
+        serializer = AnnouncementSerializer(
+            page, many=True, context={"request": request}
+        )
+        return self.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        description="Delete an announcement.",
+        methods=["delete"],
+        parameters=[OpenApiParameter("announcement_id", int, OpenApiParameter.PATH)],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="announcements/(?P<announcement_id>[0-9]+)",
+    )
+    def delete_announcement(self, request: Request, announcement_id, **kwargs):
+        obj = self.get_object()
+
+        try:
+            announcement = self.get_announcements(obj).get(id=announcement_id)
+        except Announcement.DoesNotExist as error:
+            msg = f"Announcement with ID {announcement_id} was not found"
+            raise Http404(msg) from error
+
+        if not request.user.has_perm("announcement.delete", obj):
+            self.permission_denied(request, "Can not delete announcement")
+
+        announcement.delete()
+
+        return Response(status=HTTP_204_NO_CONTENT)
+
+
 @extend_schema_view(
     list=extend_schema(description="Return a list of all projects."),
     retrieve=extend_schema(description="Return information about a project."),
@@ -1210,7 +1314,12 @@ class CreditsMixin:
     credits=extend_schema(description="Return contributor credits for a project."),
 )
 class ProjectViewSet(
-    WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin, CreditsMixin
+    WeblateViewSet,
+    UpdateModelMixin,
+    CreateModelMixin,
+    DestroyModelMixin,
+    CreditsMixin,
+    AnnouncementsMixin,
 ):
     """Translation projects API."""
 
@@ -1339,6 +1448,7 @@ class ProjectViewSet(
         queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
+        page = Change.objects.preload_list(page)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
 
@@ -1413,7 +1523,7 @@ class ProjectViewSet(
         billing = None
         if not request.user.has_perm("project.add"):
             if "weblate.billing" in settings.INSTALLED_APPS:
-                from weblate.billing.models import Billing
+                from weblate.billing.models import Billing  # noqa: PLC0415
 
                 try:
                     billing = Billing.objects.for_user_within_limits(self.request.user)[
@@ -1659,7 +1769,11 @@ class ProjectViewSet(
     partial_update=extend_schema(description="Edit a component by a PATCH request."),
 )
 class ComponentViewSet(
-    MultipleFieldViewSet, UpdateModelMixin, DestroyModelMixin, CreditsMixin
+    MultipleFieldViewSet,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    CreditsMixin,
+    AnnouncementsMixin,
 ):
     """Translation components API."""
 
@@ -1863,6 +1977,7 @@ class ComponentViewSet(
         queryset = obj.change_set.prefetch().order()
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
+        page = Change.objects.preload_list(page)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
 
@@ -2203,7 +2318,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     list=extend_schema(description="Return a list of translations."),
     retrieve=extend_schema(description="Return information about a translation."),
 )
-class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
+class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsMixin):
     """Translation components API."""
 
     queryset = Translation.objects.none()

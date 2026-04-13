@@ -7,6 +7,8 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import TYPE_CHECKING
 
+from django.core.management.base import CommandError
+
 from weblate.checks.format import BaseFormatCheck
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
@@ -84,7 +86,7 @@ class Command(DocGeneratorCommand):
             )
         )
         if check.default_disabled:
-            enable_flags: list[str] = {
+            enable_flags: set[str] = {
                 check.enable_string,
                 *check.extra_enable_strings,
             }
@@ -127,6 +129,13 @@ class Command(DocGeneratorCommand):
                 enables[check.enable_string].append(check.doc_id)
 
         output_file = options.get("output")
+
+        if output_file is not None and len(sections) != 1:
+            msg = (
+                "Using --output with list_checks requires exactly one "
+                "--sections value to select which generated snippet to write."
+            )
+            raise CommandError(msg)
 
         if show_all or "checks" in sections:
             self.write_sections(output_file)

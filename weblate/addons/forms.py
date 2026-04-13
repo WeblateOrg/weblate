@@ -1060,7 +1060,7 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
     )
 
     def clean(self) -> None:
-        from .fedora_messaging import FedoraMessagingAddon
+        from .fedora_messaging import FedoraMessagingAddon  # noqa: PLC0415
 
         amqp_ssl = self.cleaned_data.get("amqp_ssl")
         if amqp_ssl is not None:

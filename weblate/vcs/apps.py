@@ -54,7 +54,7 @@ def check_vcs(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.vcs.models import VCS_REGISTRY
+    from weblate.vcs.models import VCS_REGISTRY  # noqa: PLC0415
 
     message = "Failure in loading VCS module for {}: {}"
     return [
@@ -88,7 +88,7 @@ def check_vcs_credentials(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.vcs.models import VCS_REGISTRY
+    from weblate.vcs.models import VCS_REGISTRY  # noqa: PLC0415
 
     return [
         weblate_check("weblate.C040", error)

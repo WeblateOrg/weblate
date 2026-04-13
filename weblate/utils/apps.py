@@ -92,7 +92,7 @@ def check_celery(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
-    from weblate.utils.tasks import ping
+    from weblate.utils.tasks import ping  # noqa: PLC0415
 
     errors: list[CheckMessage] = []
     if settings.CELERY_TASK_ALWAYS_EAGER:

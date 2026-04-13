@@ -4,6 +4,8 @@
 
 """Tests for comment views."""
 
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from weblate.trans.models import Comment
@@ -155,3 +157,47 @@ class CommentViewTest(FixtureTestCase):
         comment.refresh_from_db()
         self.assertTrue(comment.resolved)
         self.assertFalse(comment.unit.has_comment)
+
+    def test_translate_comment_queries_do_not_scale_with_comment_count(self) -> None:
+        unit = self.get_unit()
+        self.make_manager()
+
+        def render_queries() -> int:
+            for _unused in range(2):
+                session = self.client.session
+                session.clear()
+                session.save()
+                response = self.client.get(
+                    unit.translation.get_translate_url(),
+                    {"checksum": unit.checksum},
+                )
+                self.assertEqual(response.status_code, 200)
+
+            session = self.client.session
+            session.clear()
+            session.save()
+            with CaptureQueriesContext(connection) as queries:
+                response = self.client.get(
+                    unit.translation.get_translate_url(),
+                    {"checksum": unit.checksum},
+                )
+            self.assertEqual(response.status_code, 200)
+            return len(queries)
+
+        Comment.objects.filter(unit__in=(unit, unit.source_unit)).delete()
+        Comment.objects.create(
+            unit=unit,
+            comment="Comment 0",
+            user=self.anotheruser,
+        )
+        baseline_queries = render_queries()
+
+        Comment.objects.filter(unit__in=(unit, unit.source_unit)).delete()
+        for index in range(5):
+            Comment.objects.create(
+                unit=unit,
+                comment=f"Comment {index}",
+                user=self.anotheruser,
+            )
+
+        self.assertEqual(render_queries(), baseline_queries)

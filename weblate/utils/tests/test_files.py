@@ -14,6 +14,8 @@ from django.core.files.base import File
 from django.test import SimpleTestCase
 
 from weblate.utils.files import (
+    REPO_TEMP_DIRNAME,
+    get_repo_temp_dir,
     is_path_within_directory,
     read_file_bytes,
     remove_tree,
@@ -99,3 +101,17 @@ class FilesTestCase(SimpleTestCase):
             Path(location).write_text("test", encoding="utf-8")
 
             self.assertTrue(should_skip(location))
+
+    def test_get_repo_temp_dir_prefers_explicit_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            locale = repo / "locale"
+            locale.mkdir(parents=True)
+            (repo / ".git").mkdir()
+            filename = locale / "cs.po"
+            temp_dir = repo / ".git" / REPO_TEMP_DIRNAME
+
+            self.assertEqual(
+                get_repo_temp_dir(filename, temp_dir=temp_dir),
+                temp_dir,
+            )

@@ -74,7 +74,7 @@ class ProjectLanguageFactory(UserDict):
         return [self[language] for language in self._project.languages]
 
     def preload_workflow_settings(self) -> None:
-        from weblate.trans.models.workflow import WorkflowSetting
+        from weblate.trans.models.workflow import WorkflowSetting  # noqa: PLC0415
 
         instances = self.preload()
 
@@ -338,7 +338,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         self.languages_cache: dict[str, Language] = {}
 
     def save(self, *args, **kwargs) -> None:
-        from weblate.trans.tasks import component_alerts
+        from weblate.trans.tasks import component_alerts  # noqa: PLC0415
 
         update_tm = self.contribute_shared_tm
 
@@ -468,19 +468,30 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def languages(self) -> Iterable[Language]:
         """Return list of all languages used in project."""
-        return (
-            Language.objects.filter(
-                Q(translation__component__project=self)
-                | Q(translation__component__links=self)
-            )
-            .distinct()
-            .order()
+        return Language.objects.filter(pk__in=self._get_language_ids_queryset()).order()
+
+    def _get_language_ids_queryset(self) -> QuerySet:
+        from weblate.trans.models import Translation  # noqa: PLC0415
+
+        own = Translation.objects.filter(component__project=self).values_list(
+            "language_id", flat=True
         )
+        shared = Translation.objects.filter(component__links=self).values_list(
+            "language_id", flat=True
+        )
+        # Keep the own/shared branches separate. PostgreSQL can plan this much
+        # better than the equivalent LEFT JOIN + OR predicate used by the
+        # language listing on large projects with shared components.
+        return own.union(shared)
+
+    def get_languages_count(self) -> int:
+        """Return count of all languages used in project."""
+        return self._get_language_ids_queryset().count()
 
     @property
     def count_pending_units(self) -> int:
         """Check whether there are any uncommitted changes."""
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         return Unit.objects.filter(
             translation__component__project=self, pending_changes__isnull=False
@@ -556,10 +567,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
-        result = list(self.component_set.with_repo())
+        result = list(self.component_set.with_repo().prefetch_related("alert_set"))
         included = {component.id for component in result}
 
-        linked = self.component_set.filter(repo__startswith="weblate:")
+        linked = self.component_set.filter(
+            repo__startswith="weblate:"
+        ).prefetch_related("alert_set")
         for other in linked:
             if other.linked_component_id in included:
                 continue
@@ -606,7 +619,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_active_alerts(self) -> QuerySet[Alert]:
-        from weblate.trans.models import Alert
+        from weblate.trans.models import Alert  # noqa: PLC0415
 
         result = Alert.objects.filter(component__project=self, dismissed=False)
         list(result)
@@ -618,7 +631,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_admins(self) -> QuerySet[User]:
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         return (
             User.objects.all_admins(self).exclude(is_bot=True).select_related("profile")
@@ -626,7 +639,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_reviewers(self) -> QuerySet[User]:
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not self.enable_review:
             return User.objects.none()
@@ -752,7 +765,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def glossary_automaton(self) -> AhoCorasick:
-        from weblate.glossary.models import get_glossary_automaton
+        from weblate.glossary.models import get_glossary_automaton  # noqa: PLC0415
 
         return get_glossary_automaton(self)
 
@@ -779,7 +792,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @transaction.atomic
     def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
-        from weblate.trans.models.change import Change
+        from weblate.trans.models.change import Change  # noqa: PLC0415
 
         actionable = self.component_set.exclude(locked=lock)
         changes = [
@@ -794,7 +807,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return True
 
     def collect_label_cleanup(self, label: Label) -> None:
-        from weblate.trans.models.translation import Translation
+        from weblate.trans.models.translation import Translation  # noqa: PLC0415
 
         translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:

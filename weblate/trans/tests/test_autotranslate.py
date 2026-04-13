@@ -181,6 +181,30 @@ class AutoTranslationTest(ViewTestCase):
         self.assertEqual(len(result["warnings"]), 1)
         self.assertIn("do not match the target translation", result["warnings"][0])
 
+    def test_autotranslate_missing_target_returns_result_dict(self) -> None:
+        translation = self.component2.translation_set.get(language_code="cs")
+        translation_id = translation.id
+        translation.delete()
+
+        result = auto_translate(
+            translation_id=translation_id,
+            user_id=self.user.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "message": "Automatic translation skipped because the target no longer exists.",
+                "warnings": [],
+            },
+        )
+
     def test_suggest(self) -> None:
         """Test for automatic suggestion."""
         self.perform_auto(mode="suggest")

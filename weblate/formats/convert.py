@@ -134,7 +134,9 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         if not isinstance(self.storefile, str):
             msg = "Can save only to a file."
             raise TypeError(msg)
-        self.save_atomic(self.storefile, self.save_content)
+        self.save_atomic(
+            self.storefile, self.save_content, repo_temp_dir=self.repo_temp_dir
+        )
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
@@ -373,7 +375,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         self, storefile: IO[bytes], template_store: TranslationFormat | None
     ) -> S:
         # Lazy import as mistletoe is expensive
-        from translate.storage.markdown import MarkdownFile
+        from translate.storage.markdown import MarkdownFile  # noqa: PLC0415
 
         # Hold Markdown lock because this is not thread-safe, see
         # https://github.com/miyuchina/mistletoe/issues/210
@@ -394,7 +396,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
         # Lazy import as mistletoe is expensive
-        from translate.convert.po2md import MarkdownTranslator
+        from translate.convert.po2md import MarkdownTranslator  # noqa: PLC0415
 
         # Hold Markdown lock because this is not thread-safe, see
         # https://github.com/miyuchina/mistletoe/issues/210

@@ -112,7 +112,7 @@ def language_consistency(
     category_id: int | None = None,
     activity_log_id: int | None = None,
 ) -> None:
-    from weblate.trans.models import Category
+    from weblate.trans.models import Category  # noqa: PLC0415
 
     if project_id is not None and category_id is not None:
         msg = "language_consistency cannot receive both project_id and category_id"
@@ -189,7 +189,7 @@ def language_consistency(
 @app.task(trail=False)
 def daily_addons(modulo: bool = True) -> None:
     today = timezone.now()
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).select_related(
         "component", "category", "project"
     )
     if modulo:

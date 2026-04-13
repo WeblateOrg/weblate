@@ -65,7 +65,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
     )
 
     def get_related_checks(self, unit_ids: Iterable[int]):
-        from weblate.checks.models import Check
+        from weblate.checks.models import Check  # noqa: PLC0415
 
         return (
             Check.objects.filter(unit__source_unit_id__in=unit_ids)
@@ -87,11 +87,15 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
         return related.count() >= 2
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
+
+        source_translation = component.get_source_translation()
+        if source_translation is None:
+            return []
 
         unit_id_and_check_count = (
             self.get_related_checks(
-                component.source_translation.unit_set.values_list("pk", flat=True)
+                source_translation.unit_set.values_list("pk", flat=True)
             )
             .values_list("unit__source_unit_id")
             .annotate(translation_count=Count("unit__translation_id", distinct=True))
@@ -175,7 +179,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
 
     @staticmethod
     def get_component_translated_percent(component: Component):
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         return Unit.objects.filter(translation__component=component).aggregate(
             total=Count("pk"),
@@ -185,7 +189,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
         )
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         component_stats = self.get_component_translated_percent(component)
         total = component_stats["total"] or 0

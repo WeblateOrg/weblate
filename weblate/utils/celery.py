@@ -100,7 +100,7 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
 
 @task_failure.connect
 def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
-    from weblate.utils.errors import report_error
+    from weblate.utils.errors import report_error  # noqa: PLC0415
 
     report_error(
         f"Failure while executing task {task_id}",
@@ -113,7 +113,7 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
 @app.on_after_configure.connect
 def configure_error_handling(sender, **kwargs) -> None:
     """Rollbar and Sentry integration."""
-    from weblate.utils.errors import init_error_collection
+    from weblate.utils.errors import init_error_collection  # noqa: PLC0415
 
     init_error_collection(celery=True)
 
@@ -172,7 +172,7 @@ def is_celery_queue_long():
     filtered out, and no warning need be issued for big operations (for example
     site-wide autotranslation).
     """
-    from weblate.trans.models import Translation
+    from weblate.trans.models import Translation  # noqa: PLC0415
 
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})

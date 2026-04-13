@@ -31,7 +31,7 @@ class GlossaryCheck(TargetCheck):
     version_added = "4.5"
 
     def check_single(self, source: str, target: str, unit: Unit):
-        from weblate.glossary.models import get_glossary_terms
+        from weblate.glossary.models import get_glossary_terms  # noqa: PLC0415
 
         forbidden = set()
         mismatched = set()

@@ -6,11 +6,18 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, cast
+
 from django.urls import reverse
 
 from weblate.trans.models import Category, Project
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ViewTestCase
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+
+    from weblate.lang.models import Language
 
 
 class ComponentLinkTestCase(ViewTestCase):
@@ -101,6 +108,40 @@ class ComponentLinkTestCase(ViewTestCase):
         self.maxDiff = None
         self.assertEqual(project.stats.get_data(), other.stats.get_data())
         self.assertNotEqual(start_data, other.stats.get_data())
+
+    def test_stats_languages_count_with_shared_components(self) -> None:
+        """Project stats should count distinct languages across own and shared components."""
+        own_component = self.create_po(project=self.other, name="Other")
+
+        shared_language_ids = set(
+            self.component.translation_set.values_list("language_id", flat=True)
+        )
+        own_language_ids = set(
+            own_component.translation_set.values_list("language_id", flat=True)
+        )
+        self.assertEqual(shared_language_ids, own_language_ids)
+
+        other = Project.objects.get(pk=self.other.pk)
+        self.assertEqual(other.get_languages_count(), len(shared_language_ids))
+        self.assertEqual(other.stats.languages, len(shared_language_ids))
+
+    def test_languages_query_with_shared_components(self) -> None:
+        """Project languages should stay distinct with shared components."""
+        own_component = self.create_po(project=self.other, name="Other")
+
+        shared_language_ids = set(
+            self.component.translation_set.values_list("language_id", flat=True)
+        )
+        own_language_ids = set(
+            own_component.translation_set.values_list("language_id", flat=True)
+        )
+        self.assertEqual(shared_language_ids, own_language_ids)
+
+        other = Project.objects.get(pk=self.other.pk)
+        languages = cast("QuerySet[Language]", other.languages)
+
+        self.assertEqual({language.pk for language in languages}, shared_language_ids)
+        self.assertIn("UNION", str(languages.query))
 
     def test_labels(self) -> None:
         self.other.label_set.create(name="test other", color="navy")

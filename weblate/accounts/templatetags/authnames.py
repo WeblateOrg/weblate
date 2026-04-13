@@ -42,8 +42,9 @@ SOCIALS: dict[str, dict[str, StrOrPromise]] = {
     "github-org": {"name": "GitHub Organization", "image": "github.svg"},
     "bitbucket": {"name": "Bitbucket", "image": "bitbucket.svg"},
     "bitbucket-oauth2": {"name": "Bitbucket", "image": "bitbucket.svg"},
-    "azuread-oauth2": {"name": "Azure", "image": "azure.svg"},
-    "azuread-tenant-oauth2": {"name": "Azure", "image": "azure.svg"},
+    # Follow Microsoft's sign-in branding guidance for end-user Entra login.
+    "azuread-oauth2": {"name": "Microsoft", "image": "microsoft.svg"},
+    "azuread-tenant-oauth2": {"name": "Microsoft", "image": "microsoft.svg"},
     "gitlab": {"name": "GitLab", "image": "gitlab.svg"},
     "amazon": {"name": "Amazon", "image": "amazon.svg"},
     "twitter": {"name": "Twitter", "image": "twitter.svg"},

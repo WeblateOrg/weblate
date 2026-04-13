@@ -45,8 +45,8 @@ class QueryField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value):
-        from weblate.auth.models import get_anonymous
-        from weblate.utils.search import SearchQueryError, parse_query
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        from weblate.utils.search import SearchQueryError, parse_query  # noqa: PLC0415
 
         if not value:
             if self.required:
@@ -122,7 +122,7 @@ class UserField(forms.CharField):
         return attrs
 
     def clean(self, value):
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not value:
             if self.required:

@@ -125,7 +125,7 @@ class TranslationManager(models.Manager):
 
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self, *, defer_huge: bool = True):
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         component_prefetch: str | models.Prefetch
         if defer_huge:
@@ -147,7 +147,7 @@ class TranslationQuerySet(models.QuerySet):
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Alert, Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "language",
@@ -155,11 +155,7 @@ class TranslationQuerySet(models.QuerySet):
                 "component__linked_component", queryset=Component.objects.defer_huge()
             ),
             "component__linked_component__project",
-            models.Prefetch(
-                "component__alert_set",
-                queryset=Alert.objects.filter(dismissed=False),
-                to_attr="all_active_alerts",
-            ),
+            "component__alert_set",
         )
 
     def prefetch_plurals(self):
@@ -381,6 +377,7 @@ class Translation(
                 is_template=self.is_template,
                 existing_units=self.unit_set.all(),
                 file_format_params=self.component.file_format_params,
+                repo_temp_dir=self.component.repository.get_repo_temp_dir(),
             )
 
     @cached_property
@@ -728,7 +725,7 @@ class Translation(
         """Return last author of change done in Weblate."""
         if not self.stats.last_author:
             return None
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
@@ -1429,13 +1426,17 @@ class Translation(
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
                 args = self.component.file_format_cls.get_msgmerge_args(component)
+                repo_temp_dir = component.repository.get_repo_temp_dir()
                 # Update translation files
                 for translation in component.translation_set.exclude(
                     language=component.source_language
                 ):
                     filename = translation.get_filename()
                     component.file_format_cls.update_bilingual(
-                        filename, temp.name, args=args
+                        filename,
+                        temp.name,
+                        args=args,
+                        repo_temp_dir=repo_temp_dir,
                     )
                     filenames.append(filename)
             finally:
@@ -1496,7 +1497,9 @@ class Translation(
 
             # Actually replace file content
             self.component.file_format_cls.save_atomic(
-                self.get_filename(), lambda handle: handle.write(filecopy)
+                self.get_filename(),
+                lambda handle: handle.write(filecopy),
+                repo_temp_dir=self.component.repository.get_repo_temp_dir(),
             )
 
             # Commit to VCS
@@ -1640,7 +1643,7 @@ class Translation(
         fuzzy: Literal["", "process", "approve"] = "",
     ) -> UploadResult:
         """Top level handler for file uploads."""
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         component = self.component
 
@@ -1749,9 +1752,10 @@ class Translation(
         """Return URL of exported git repository."""
         return self.component.get_export_url()
 
+    @transaction.atomic
     def remove(self, user: User) -> None:
         """Remove translation from the Database and VCS."""
-        from weblate.glossary.tasks import cleanup_stale_glossaries
+        from weblate.glossary.tasks import cleanup_stale_glossaries  # noqa: PLC0415
 
         author = user.get_author_name()
         # Log
@@ -2059,7 +2063,7 @@ class Translation(
 
     @transaction.atomic
     def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
-        from weblate.auth.models import get_anonymous
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
 
         component = self.component
         user = request.user if request else get_anonymous()
@@ -2138,7 +2142,7 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self) -> None:
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not self.is_source or not self.component.manage_units:
             return

@@ -256,7 +256,7 @@ def invert_re(regex: str) -> Generator[str] | list[str]:
 
     This is a single purpose generator to optimize database queries in Weblate.
     """
-    from weblate.utils.errors import report_error
+    from weblate.utils.errors import report_error  # noqa: PLC0415
 
     try:
         invre = GroupEmitter(RE_PARSER.parse_string(regex)).make_generator()

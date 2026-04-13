@@ -175,6 +175,93 @@ all separately:
     able to control Weblate remotely. You can also achieve this using any HTTP
     client instead of :ref:`wlc`, for example curl, see :ref:`api`.
 
+.. _repository-maintenance:
+
+Repository maintenance
+++++++++++++++++++++++
+
+The :guilabel:`Repository maintenance` view shows repository status for a
+project, component, or translation and lets privileged users run maintenance
+operations from the user interface.
+
+The same actions can also be triggered using :ref:`api` or, for the supported
+subset, :ref:`wlc`.
+
+Availability of individual actions depends on permissions, the configured
+version control system, whether pushing is configured, and whether the selected
+object can be locked.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Action
+     - What it does
+     - Typical use
+
+   * - :guilabel:`Commit`
+     - Commits pending changes stored in Weblate to the local repository.
+     - Flush pending Weblate changes before doing repository work elsewhere.
+
+   * - :guilabel:`Push`
+     - Pushes committed local repository changes to the configured upstream.
+     - Send committed translations upstream when automatic push is disabled or delayed.
+
+   * - :guilabel:`Update`
+     - Fetches upstream changes and integrates them using the component's configured :ref:`component-merge_style`.
+     - Bring Weblate in sync with upstream using the default integration strategy.
+
+   * - :guilabel:`Update with merge`
+     - Fetches upstream changes and integrates them with an explicit merge.
+     - Override the default merge style for a single update.
+
+   * - :guilabel:`Update with rebase`
+     - Fetches upstream changes and rebases local Weblate commits on top of upstream.
+     - Keep history linear when that matches your workflow.
+
+   * - :guilabel:`Update with merge without fast-forward`
+     - Fetches upstream changes and creates an explicit merge commit even when a fast-forward would be possible.
+     - Preserve merge commits for auditing or branch-management reasons.
+
+   * - :guilabel:`Lock` / :guilabel:`Unlock`
+     - Prevents or allows translators to make further changes in Weblate.
+     - Freeze translation changes while doing repository maintenance outside Weblate.
+
+   * - :guilabel:`Reset and discard`
+     - Resets Weblate's local repository to upstream and discards pending Weblate changes.
+     - Use when upstream should overwrite the local Weblate repository state.
+
+   * - :guilabel:`Reset and reapply`
+     - Resets Weblate's local repository to upstream while preserving pending translations. See :ref:`manage-vcs-reset-reapply`.
+     - Recover from diverged history while keeping pending Weblate translations.
+
+   * - :guilabel:`Cleanup`
+     - Removes untracked files and stale branches from the local repository checkout.
+     - Clean up leftover files or stale repository state in Weblate's checkout.
+
+   * - :guilabel:`Synchronize`
+     - Forces Weblate to write all known translations back to the repository files.
+     - Repair cases where repository files became out of sync with the database state.
+
+   * - :guilabel:`Rescan`
+     - Re-reads translation files from the local repository into Weblate.
+     - Import file changes after manual repository work or file creation.
+
+.. _manage-vcs-reset-reapply:
+
+Reset and reapply recovery behavior
+````````````````````````````````````
+
+The :guilabel:`Reset and reapply` operation keeps pending translations from
+Weblate while resetting the local repository state to match upstream.
+
+The operation can restore pending translations only when the target language
+files still exist after the reset or when Weblate can create them for the
+component, for example using a valid :ref:`component-new_base`.
+
+If neither of these conditions is met, Weblate keeps the pending changes in its
+database and reports a recovery error instead of failing later with a generic
+parse error.
+
 .. _merge-weblate-git:
 
 Avoiding merge conflicts by focusing on Git operations

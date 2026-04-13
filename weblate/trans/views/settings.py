@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
+from django.db import transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -181,6 +182,7 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
+@transaction.atomic
 def remove(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,

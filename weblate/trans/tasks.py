@@ -17,13 +17,13 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Exists, F, OuterRef
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import override
+from django.utils.translation import gettext, override
 
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
@@ -629,34 +629,39 @@ def auto_translate(  # noqa: PLR0913
     category_id: int | None = None,
     project_id: int | None = None,
     language_id: int | None = None,
-):
-    result: dict[str, Any] = {}
+) -> dict[str, Any]:
+    result: dict[str, Any] = {"warnings": []}
     obj: Translation | Component | Category | ProjectLanguage
-    if translation_id is not None:
-        obj = Translation.objects.get(pk=translation_id)
-        result["translation"] = obj.id
-    elif component_id is not None:
-        obj = Component.objects.get(pk=component_id)
-        result["component"] = obj.id
-    elif category_id is not None:
-        obj = Category.objects.get(pk=category_id)
-        result["category"] = obj.id
-    elif project_id is not None:
-        if language_id is None:
-            msg = "language_id must be provided when project_id is given"
-            raise ValueError(msg)
-        obj = ProjectLanguage(
-            project=Project.objects.get(pk=project_id),
-            language=Language.objects.get(pk=language_id),
-        )
-        result["project"] = obj.project.id
-        result["language"] = obj.language.id
-    else:
-        msg = "One of translation_id, component_id, category_id, or project_id must be provided"
-        raise ValueError(msg)
-
     user = User.objects.get(pk=user_id) if user_id else None
     with override(user.profile.language if user else "en"):
+        try:
+            if translation_id is not None:
+                obj = Translation.objects.get(pk=translation_id)
+                result["translation"] = obj.id
+            elif component_id is not None:
+                obj = Component.objects.get(pk=component_id)
+                result["component"] = obj.id
+            elif category_id is not None:
+                obj = Category.objects.get(pk=category_id)
+                result["category"] = obj.id
+            elif project_id is not None:
+                if language_id is None:
+                    msg = "language_id must be provided when project_id is given"
+                    raise ValueError(msg)
+                obj = ProjectLanguage(
+                    project=Project.objects.get(pk=project_id),
+                    language=Language.objects.get(pk=language_id),
+                )
+                result["project"] = obj.project.id
+                result["language"] = obj.language.id
+            else:
+                msg = "One of translation_id, component_id, category_id, or project_id must be provided"
+                raise ValueError(msg)
+        except ObjectDoesNotExist:
+            result["message"] = gettext(
+                "Automatic translation skipped because the target no longer exists."
+            )
+            return result
         auto = BatchAutoTranslate(
             obj,
             user=user,
@@ -807,7 +812,7 @@ def daily_update_checks() -> None:
 
 @app.task(trail=False)
 def cleanup_project_backups() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
 
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
@@ -848,7 +853,7 @@ def cleanup_project_backups() -> None:
 
 @app.task(trail=False)
 def create_project_backup(pk) -> None:
-    from weblate.trans.backups import ProjectBackup
+    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
 
     project = Project.objects.get(pk=pk)
     backup = ProjectBackup()
@@ -863,7 +868,7 @@ def remove_project_backup_download(name: str) -> None:
 
 @app.task(trail=False)
 def cleanup_project_backup_download() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
 
     if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
         return

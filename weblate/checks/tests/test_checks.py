@@ -16,6 +16,7 @@ from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.checks.format import BaseFormatCheck
+from weblate.glossary.models import get_glossary_automaton
 from weblate.lang.models import Language, Plural
 
 if TYPE_CHECKING:
@@ -58,7 +59,6 @@ class MockProject:
 
     @property
     def glossary_automaton(self):
-        from weblate.glossary.models import get_glossary_automaton
 
         return get_glossary_automaton(self)
 

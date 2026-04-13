@@ -32,6 +32,8 @@ VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
 class HgRepository(Repository):
     """Repository implementation for Mercurial."""
 
+    metadata_dir_name: ClassVar[str] = ".hg"
+
     _cmd: ClassVar[str] = "rhg" if which("rhg") is not None else "hg"
     _cmd_last_revision: ClassVar[list[str]] = [
         "log",

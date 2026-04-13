@@ -999,13 +999,14 @@ $(function () {
         $.get($message.data("task"), (data) => {
           $bar.width(`${data.progress}%`);
           if (data.completed) {
+            const result = data.result ?? {};
             progressCompleted();
-            if (data.result.message) {
-              $messageText.text(data.result.message);
+            if (result.message) {
+              $messageText.text(result.message);
             }
-            if (data.result.warnings?.length) {
+            if (result.warnings?.length) {
               $warnings.empty();
-              data.result.warnings.forEach((warning) => {
+              result.warnings.forEach((warning) => {
                 $("<div>")
                   .addClass("text-warning mt-2")
                   .text(warning)

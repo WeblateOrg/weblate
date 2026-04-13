@@ -25,6 +25,7 @@ from weblate.checks.flags import Flags
 from weblate.trans.file_format_params import get_params_for_file_format
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
+from weblate.utils.files import get_repo_temp_dir
 from weblate.utils.hash import calculate_hash
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
@@ -419,6 +420,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
+        repo_temp_dir: str | Path | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -434,6 +436,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         self.template_store = template_store
         self.is_template = is_template
         self.existing_units = [] if existing_units is None else existing_units
+        self.repo_temp_dir = repo_temp_dir
 
         # Load store
         self.file_format_params = file_format_params or {}
@@ -569,13 +572,19 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         return
 
     @staticmethod
-    def save_atomic(filename: str, callback: Callable[[IO[bytes]], None]) -> None:
+    def save_atomic(
+        filename: str,
+        callback: Callable[[IO[bytes]], None],
+        *,
+        repo_temp_dir: str | Path | None = None,
+    ) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
+        temp_dir = get_repo_temp_dir(filename, temp_dir=repo_temp_dir)
         try:
             with tempfile.NamedTemporaryFile(
-                prefix=basename, dir=dirname, delete=False
+                prefix=basename, dir=temp_dir, delete=False
             ) as temp:
                 callback(temp)
             os.replace(temp.name, filename)
@@ -974,9 +983,17 @@ class BilingualUpdateMixin:
         raise NotImplementedError
 
     @classmethod
-    def update_bilingual(cls, filename: str, template: str, **kwargs) -> None:
+    def update_bilingual(
+        cls,
+        filename: str,
+        template: str,
+        *,
+        repo_temp_dir: str | Path | None = None,
+        **kwargs,
+    ) -> None:
+        temp_dir = get_repo_temp_dir(filename, temp_dir=repo_temp_dir)
         with tempfile.NamedTemporaryFile(
-            prefix=filename, dir=os.path.dirname(filename), delete=False
+            prefix=os.path.basename(filename), dir=temp_dir, delete=False
         ) as temp:
             # We want file to be created only here
             pass
@@ -1181,7 +1198,7 @@ class BaseExporter:
 
     def serialize(self) -> bytes:
         """Return storage content."""
-        from weblate.formats.ttkit import TTKitFormat
+        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
 
         return TTKitFormat.serialize(self.storage)
 

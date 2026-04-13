@@ -91,7 +91,7 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 class UnitQuerySet(models.QuerySet["Unit"]):
     def prefetch(self):
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "translation",
@@ -111,7 +111,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         )
 
     def prefetch_source(self):
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return self.prefetch_related(
             "source_unit",
@@ -180,7 +180,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
 
     def search(self, query, **context) -> UnitQuerySet:
         """High level wrapper for searching."""
-        from weblate.utils.search import parse_query
+        from weblate.utils.search import parse_query  # noqa: PLC0415
 
         filters, annotations = parse_query(query, **context)
         result = self.annotate(**annotations).filter(filters)
@@ -1834,12 +1834,20 @@ class Unit(models.Model, LoggerMixin):
     def all_comments(self) -> models.QuerySet[Comment]:
         """Return list of target comments."""
         if self.is_source:
-            # Add all comments on translation on source string comment
-            query = Q(unit__source_unit=self)
-        else:
-            # Add source string comments for translation unit
-            query = Q(unit__in=(self, self.source_unit))
-        return Comment.objects.filter(query).prefetch_related("unit", "user").order()
+            return (
+                Comment.objects.filter(unit__source_unit=self)
+                .prefetch()
+                .prefetch_related(
+                    "unit__translation__language",
+                    "unit__translation__component__project",
+                )
+                .order()
+            )
+        return (
+            (self.comment_set.all() | self.source_unit.comment_set.all())
+            .prefetch()
+            .order()
+        )
 
     @cached_property
     def unresolved_comments(self) -> list[Comment]:
@@ -2286,7 +2294,7 @@ class Unit(models.Model, LoggerMixin):
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
         """
-        from weblate.auth.models import get_anonymous
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
 
         try:
             change = self.recent_content_changes[0]

@@ -30,6 +30,10 @@ from weblate.utils.requests import (
 )
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import WeblateURLValidator, validate_project_web
+from weblate.vcs.base import (
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
@@ -188,8 +192,8 @@ class MultiAlert(BaseAlert):
     def process_occurrences(
         self, occurrences: list[dict[str, str]]
     ) -> list[dict[str, Any]]:
-        from weblate.lang.models import Language
-        from weblate.trans.models import Unit
+        from weblate.lang.models import Language  # noqa: PLC0415
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         processors = (
             ("language_code", "language", Language.objects.all(), "code"),
@@ -260,7 +264,7 @@ class DuplicateFilemask(BaseAlert):
 
     @staticmethod
     def get_translations(component: Component) -> TranslationQuerySet:
-        from weblate.trans.models import Translation
+        from weblate.trans.models import Translation  # noqa: PLC0415
 
         return Translation.objects.filter(
             Q(component=component) | Q(component__linked_component=component)
@@ -323,7 +327,7 @@ class ConflictingRepositorySetup(BaseAlert):
         return {"repo_link": self.instance.component.get_repo_link_url()}
 
     def get_context(self, user: User) -> dict[str, Any]:
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         result = super().get_context(user)
         result["analysis"]["conflicts"] = list(
@@ -380,6 +384,15 @@ class BaseGitFailure(ErrorAlert):
         repo_suggestion = None
         force_push_suggestion = False
         component = self.instance.component
+        host_key_mismatch = is_ssh_host_key_mismatch_error(self.error)
+        host_key = (
+            is_ssh_host_key_verification_error(self.error) and not host_key_mismatch
+        )
+        host_key_message = None
+        if host_key_mismatch:
+            host_key_message = component.get_ssh_host_key_mismatch_error_message()
+        elif host_key:
+            host_key_message = component.get_ssh_host_key_error_message()
 
         # Missing credentials
         if terminal_disabled:
@@ -403,6 +416,7 @@ class BaseGitFailure(ErrorAlert):
             "behind": behind,
             "repo_suggestion": repo_suggestion,
             "force_push_suggestion": force_push_suggestion,
+            "host_key_message": host_key_message,
             "not_found": any(
                 message in self.error for message in self.not_found_messages
             ),
@@ -691,7 +705,7 @@ class UnusedScreenshot(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        from weblate.screenshots.models import Screenshot
+        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
 
         return (
             Screenshot.objects.filter(translation__component=component)

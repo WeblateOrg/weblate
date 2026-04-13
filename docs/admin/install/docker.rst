@@ -770,6 +770,26 @@ Generic settings
        * :ref:`production-site`
        * :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
+.. envvar:: WEBLATE_NGINX_IPV6
+
+   .. versionadded:: 5.17
+
+   Controls whether the bundled NGINX listens on IPv6 addresses.
+
+   Supported values are:
+
+   * ``auto`` to enable IPv6 listeners only when IPv6 is available in the
+     container runtime. This is the default.
+   * ``on`` to always enable IPv6 listeners.
+   * ``off`` to disable IPv6 listeners.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_NGINX_IPV6: auto
+
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
     Lets Weblate fetch the IP address from any given HTTP header. Use this when using
@@ -1499,23 +1519,23 @@ Gitea
 
    Enables Gitea authentication.
 
-Azure Active Directory
-~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID
+~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
 
-    Enables Azure Active Directory authentication, see :ref:`azure-auth`.
+    Enables Microsoft Entra ID authentication, see :ref:`entra-auth`.
 
-Azure Active Directory with Tenant support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID with Tenant support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
 
-    Enables Azure Active Directory authentication with Tenant support, see
-    :ref:`azure-auth`.
+    Enables Microsoft Entra ID authentication with Tenant support, see
+    :ref:`entra-auth`.
 
 Keycloak
 ~~~~~~~~

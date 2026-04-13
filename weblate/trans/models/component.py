@@ -141,7 +141,13 @@ from weblate.utils.validators import (
     validate_repo_url,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryError, RepositorySymlinkError
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositorySymlinkError,
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+    should_auto_add_ssh_host_key,
+)
 from weblate.vcs.git import GitMergeRequestBase, GitRepository, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
@@ -300,13 +306,7 @@ class ComponentQuerySet(models.QuerySet):
         else:
             linked_component = "linked_component"
         if alerts:
-            result = result.prefetch_related(
-                models.Prefetch(
-                    "alert_set",
-                    queryset=Alert.objects.filter(dismissed=False),
-                    to_attr="all_active_alerts",
-                ),
-            )
+            result = result.prefetch_related("alert_set")
 
         return result.prefetch_related(
             "project",
@@ -976,7 +976,7 @@ class Component(  # noqa: PLR0904
 
         It updates the back-end repository and regenerates translation data.
         """
-        from weblate.trans.tasks import component_after_save
+        from weblate.trans.tasks import component_after_save  # noqa: PLC0415
 
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
@@ -1210,7 +1210,7 @@ class Component(  # noqa: PLR0904
 
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
-        from weblate.addons.models import ADDONS
+        from weblate.addons.models import ADDONS  # noqa: PLC0415
 
         for name, configuration in chain(
             self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
@@ -1824,6 +1824,18 @@ class Component(  # noqa: PLR0904
             extra_paths=(self.full_path,),
         )
 
+    @staticmethod
+    def get_ssh_host_key_error_message() -> str:
+        return gettext(
+            "Could not verify the SSH host key. Please add it on the SSH page in the admin interface."
+        )
+
+    @staticmethod
+    def get_ssh_host_key_mismatch_error_message() -> str:
+        return gettext(
+            "The SSH host key for the repository has changed. Verify the new fingerprint and replace the stored host key on the SSH page in the admin interface."
+        )
+
     def add_ssh_host_key(self) -> None:
         """
         Add SSH key for current repo as trusted.
@@ -1844,19 +1856,16 @@ class Component(  # noqa: PLR0904
             add(self.push)
 
     def handle_update_error(self, error_text: str, retry: bool) -> None:
-        if "Host key verification failed" in error_text:
+        if is_ssh_host_key_mismatch_error(error_text):
+            raise ValidationError(
+                {"repo": self.get_ssh_host_key_mismatch_error_message()}
+            )
+        if is_ssh_host_key_verification_error(error_text):
             if retry:
                 # Add ssh key and retry
                 self.add_ssh_host_key()
                 return
-            raise ValidationError(
-                {
-                    "repo": gettext(
-                        "Could not verify SSH host key, please add "
-                        "them in SSH page in the admin interface."
-                    )
-                }
-            )
+            raise ValidationError({"repo": self.get_ssh_host_key_error_message()})
         if "terminal prompts disabled" in error_text:
             raise ValidationError(
                 {
@@ -2084,7 +2093,7 @@ class Component(  # noqa: PLR0904
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.do_push(None, force_commit=False, do_update=do_update)
         else:
-            from weblate.trans.tasks import perform_push
+            from weblate.trans.tasks import perform_push  # noqa: PLC0415
 
             self.log_info("scheduling push")
             self.queue_background_task(
@@ -2111,7 +2120,7 @@ class Component(  # noqa: PLR0904
                     user=request.user if request else self.acting_user,
                 )
                 if retry:
-                    if "Host key verification failed" in error_text:
+                    if should_auto_add_ssh_host_key(error_text):
                         # Try adding SSH key and retry
                         self.add_ssh_host_key()
                         return self.push_repo(request, retry=False)
@@ -2192,7 +2201,7 @@ class Component(  # noqa: PLR0904
         # Prefetch addons for linked children to avoid N+1 queries
         linked_children_list = list(self.linked_children)
         if linked_children_list:
-            from weblate.addons.models import Addon
+            from weblate.addons.models import Addon  # noqa: PLC0415
 
             Addon.objects.prefetch_for_components(linked_children_list)
 
@@ -2225,10 +2234,13 @@ class Component(  # noqa: PLR0904
         keep_changes: bool = False,
     ) -> bool:
         """Reset repo to match remote."""
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
         user = request.user if request else self.acting_user
         with self.repository.lock:
+            repo_unit_filter = Q(translation__component=self) | Q(
+                translation__component__linked_component=self
+            )
             try:
                 previous_head = self.repository.last_revision
             except RepositoryError:
@@ -2242,10 +2254,11 @@ class Component(  # noqa: PLR0904
             else:
                 # Explicitly remove all pending changes
                 PendingUnitChange.objects.filter(
-                    unit__translation__component=self
+                    Q(unit__translation__component=self)
+                    | Q(unit__translation__component__linked_component=self)
                 ).delete()
             # Remove disk state as we are going to change that
-            Unit.objects.filter(translation__component=self).clear_disk_state()
+            Unit.objects.filter(repo_unit_filter).clear_disk_state()
 
             # Do actual reset
             try:
@@ -2275,6 +2288,11 @@ class Component(  # noqa: PLR0904
             self.delete_alert("RepositoryOutdated")
             self.delete_alert("PushFailure")
 
+            if keep_changes and not self.restore_pending_translation_files(
+                request=request, user=user
+            ):
+                return False
+
             if not keep_changes:
                 self.trigger_post_update(
                     previous_head=previous_head,
@@ -2296,6 +2314,194 @@ class Component(  # noqa: PLR0904
                 previous_head=previous_head,
             )
         return True
+
+    def restore_pending_translation_files(
+        self,
+        *,
+        request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
+    ) -> bool:
+        """Recreate missing translation files before reapplying pending changes."""
+        missing_translations: list[Translation] = []
+        failures: list[tuple[Translation, str]] = []
+        checked_components: dict[int, tuple[bool, str | None]] = {}
+
+        translations = Translation.objects.filter(
+            pk__in=PendingUnitChange.objects.for_component(
+                self,
+                apply_filters=False,
+                include_linked=True,
+            )
+            .values_list("unit__translation_id", flat=True)
+            .distinct()
+        ).select_related("component", "language")
+
+        for translation in translations:
+            translation = self.reuse_component_for_translation(translation)
+            if not translation.filename:
+                continue
+
+            try:
+                fullname = translation.get_filename()
+            except ValidationError as error:
+                failures.append((translation, "; ".join(error.messages)))
+                continue
+
+            if fullname is None or os.path.exists(fullname):
+                continue
+
+            component = translation.component
+            if component.pk not in checked_components:
+                component.drop_template_store_cache()
+                try:
+                    checked_components[component.pk] = (
+                        component.can_restore_missing_translation_file(),
+                        component.new_lang_error_message,
+                    )
+                except ValidationError as error:
+                    checked_components[component.pk] = (
+                        False,
+                        "; ".join(error.messages),
+                    )
+
+            can_restore, error_message = checked_components[component.pk]
+            if not can_restore:
+                failures.append((translation, cast("str", error_message)))
+                continue
+
+            missing_translations.append(translation)
+
+        if failures:
+            for translation, reason in failures:
+                translation.component.log_warning(
+                    "reset/reapply can not restore missing translation file %s: %s",
+                    translation.filename,
+                    reason,
+                )
+
+            if request is not None:
+                filenames = ", ".join(
+                    sorted({translation.filename for translation, _reason in failures})
+                )
+                messages.error(
+                    request,
+                    ngettext(
+                        "Reset the repository, but could not reapply pending translations because %(files)s is missing. Pending changes were kept. To recover, add the file upstream and rescan, or configure the component so Weblate can create the translation file.",
+                        "Reset the repository, but could not reapply pending translations because these files are missing: %(files)s. Pending changes were kept. To recover, add the files upstream and rescan, or configure the component so Weblate can create the translation files.",
+                        len(failures),
+                    )
+                    % {"files": filenames},
+                )
+            return False
+
+        if not missing_translations:
+            return True
+
+        current_translation: Translation | None = None
+        restored_components: dict[int, Component] = {}
+        try:
+            with transaction.atomic():
+                for translation in missing_translations:
+                    current_translation = translation
+                    translation.component.restore_missing_translation_file(
+                        translation,
+                        user=user,
+                        skip_push=True,
+                        signals=False,
+                    )
+                    restored_components[translation.component.pk] = (
+                        translation.component
+                    )
+        except Exception as error:
+            return self.handle_restore_pending_translation_failure(
+                request=request,
+                missing_translations=missing_translations,
+                current_translation=current_translation,
+                error=error,
+            )
+
+        for component in restored_components.values():
+            component.send_post_commit_signal(store_hash=False)
+
+        return True
+
+    def handle_restore_pending_translation_failure(
+        self,
+        *,
+        request: AuthenticatedHttpRequest | None,
+        missing_translations: list[Translation],
+        current_translation: Translation | None,
+        error: Exception,
+    ) -> bool:
+        failed_component = (
+            current_translation.component if current_translation is not None else self
+        )
+        error_message = failed_component.get_parse_error_message(error)
+        report_error(
+            "Could not recreate missing translation file during reset",
+            project=failed_component.project,
+        )
+        if current_translation is not None:
+            failed_component.log_error(
+                "reset/reapply failed to recreate %s: %s",
+                current_translation.filename,
+                error_message,
+            )
+        else:
+            failed_component.log_error(
+                "reset/reapply failed before recreating missing translation files: %s",
+                error_message,
+            )
+        try:
+            with self.repository.lock:
+                self.repository.reset()
+                self.repository.cleanup_files()
+        except RepositoryError:
+            report_error(
+                "Could not roll back partial translation file restore during reset",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
+            self.log_error(
+                "reset/reapply failed to roll back partial missing translation restore"
+            )
+        if request is not None:
+            if current_translation is not None:
+                messages.error(
+                    request,
+                    gettext(
+                        "Reset the repository, but could not recreate %(file)s while reapplying pending translations. Pending changes were kept."
+                    )
+                    % {"file": current_translation.filename},
+                )
+            else:
+                filenames = ", ".join(
+                    sorted(
+                        {
+                            translation.filename
+                            for translation in missing_translations
+                            if translation.filename
+                        }
+                    )
+                )
+                if filenames:
+                    messages.error(
+                        request,
+                        ngettext(
+                            "Reset the repository, but could not recreate %(files)s while reapplying pending translations. Pending changes were kept.",
+                            "Reset the repository, but could not recreate these files while reapplying pending translations: %(files)s. Pending changes were kept.",
+                            len(missing_translations),
+                        )
+                        % {"files": filenames},
+                    )
+                else:
+                    messages.error(
+                        request,
+                        gettext(
+                            "Reset the repository, but could not recreate pending translations. Pending changes were kept."
+                        ),
+                    )
+        return False
 
     @perform_on_link
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
@@ -2332,7 +2538,7 @@ class Component(  # noqa: PLR0904
         do_commit: bool = True,
         store_disk_state: bool = True,
     ) -> None:
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
         for unit in Unit.objects.filter(
             Q(translation__component=self)
@@ -2391,21 +2597,26 @@ class Component(  # noqa: PLR0904
             for linked in self.linked_children
         ]
 
+    def reuse_component_for_translation(
+        self, translation: Translation, *, reuse_source: bool = False
+    ) -> Translation:
+        if translation.component_id == self.id:
+            translation.component = self
+        if translation.component.linked_component_id == self.id:
+            translation.component.linked_component = self
+        if (
+            reuse_source
+            and translation.pk == translation.component.source_translation.pk
+        ):
+            translation = translation.component.source_translation
+        return translation
+
     @perform_on_link
     def commit_pending(  # noqa: C901
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
-        from weblate.auth.models import User
-
-        def reuse_self(translation: Translation) -> Translation:
-            if translation.component_id == self.id:
-                translation.component = self
-            if translation.component.linked_component_id == self.id:
-                translation.component.linked_component = self
-            if translation.pk == translation.component.source_translation.pk:
-                translation = translation.component.source_translation
-            return translation
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if user is None:
             user = User.objects.get_or_create_bot(
@@ -2447,7 +2658,9 @@ class Component(  # noqa: PLR0904
         with self.repository.lock:
             for translation in translations:
                 self.repository.lock.reacquire()
-                translation = reuse_self(translation)
+                translation = self.reuse_component_for_translation(
+                    translation, reuse_source=True
+                )
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -2786,14 +2999,16 @@ class Component(  # noqa: PLR0904
         return sorted(matches)
 
     @cached_property
-    def all_active_alerts(self):
-        result = self.alert_set.filter(dismissed=False)
-        list(result)
-        return result
+    def all_active_alerts(self) -> list[Alert]:
+        return [alert for alert in self.alert_set.all() if not alert.dismissed]
 
     @cached_property
-    def all_alerts(self):
+    def all_alerts(self) -> dict[str, Alert]:
         return {alert.name: alert for alert in self.alert_set.all()}
+
+    def clear_prefetched_alerts(self) -> None:
+        with suppress(AttributeError, KeyError):
+            self._prefetched_objects_cache.pop("alert_set")
 
     @property
     def lock_alerts(self):
@@ -2813,6 +3028,11 @@ class Component(  # noqa: PLR0904
         if alert in self.all_alerts:
             self.all_alerts[alert].delete()
             del self.all_alerts[alert]
+            if "all_active_alerts" in self.__dict__:
+                self.__dict__["all_active_alerts"] = [
+                    item for item in self.all_alerts.values() if not item.dismissed
+                ]
+            self.clear_prefetched_alerts()
             if (
                 self.locked
                 and self.auto_lock_error
@@ -2851,6 +3071,12 @@ class Component(  # noqa: PLR0904
         if not created and not noupdate:
             obj.details = details
             obj.save()
+
+        if "all_active_alerts" in self.__dict__:
+            self.__dict__["all_active_alerts"] = [
+                item for item in self.all_alerts.values() if not item.dismissed
+            ]
+        self.clear_prefetched_alerts()
 
         if ALERTS[alert].link_wide:
             for component in self.linked_children:
@@ -2891,7 +3117,7 @@ class Component(  # noqa: PLR0904
                 change=change,
             )
 
-        from weblate.trans.tasks import perform_load
+        from weblate.trans.tasks import perform_load  # noqa: PLC0415
 
         self.log_info("scheduling update in background")
         self.queue_background_task(
@@ -2971,7 +3197,7 @@ class Component(  # noqa: PLR0904
         change: int | None = None,
     ) -> bool:
         """Load translations from VCS."""
-        from weblate.trans.tasks import update_enforced_checks
+        from weblate.trans.tasks import update_enforced_checks  # noqa: PLC0415
 
         self.store_background_task()
 
@@ -3136,7 +3362,7 @@ class Component(  # noqa: PLR0904
 
         # Schedule background cleanup if needed
         if self.needs_cleanup and not self.template:
-            from weblate.trans.tasks import cleanup_component
+            from weblate.trans.tasks import cleanup_component  # noqa: PLC0415
 
             cleanup_component.delay_on_commit(self.id)
 
@@ -3176,7 +3402,7 @@ class Component(  # noqa: PLR0904
         if not source_unit_ids and not batched_checks:
             return
 
-        from weblate.checks.tasks import finalize_component_checks
+        from weblate.checks.tasks import finalize_component_checks  # noqa: PLC0415
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             finalize_component_checks(
@@ -3213,7 +3439,7 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def glossary_sources(self):
-        from weblate.glossary.models import get_glossary_sources
+        from weblate.glossary.models import get_glossary_sources  # noqa: PLC0415
 
         result = cache.get(self.glossary_sources_key)
         if result is None:
@@ -3573,6 +3799,14 @@ class Component(  # noqa: PLR0904
             self.sync_git_repo(validate=True, skip_push=True)
         except RepositoryError as error:
             text = self.error_text(error)
+            if is_ssh_host_key_mismatch_error(text):
+                raise ValidationError(
+                    {"repo": self.get_ssh_host_key_mismatch_error_message()}
+                ) from error
+            if is_ssh_host_key_verification_error(text):
+                raise ValidationError(
+                    {"repo": self.get_ssh_host_key_error_message()}
+                ) from error
             if "terminal prompts disabled" in text:
                 raise ValidationError(
                     {
@@ -3827,7 +4061,7 @@ class Component(  # noqa: PLR0904
         copy_seed_addons: bool = False,
         seed_author: str | None = None,
     ) -> None:
-        from weblate.trans.component_copy import (
+        from weblate.trans.component_copy import (  # noqa: PLC0415
             clone_component_addons,
             seed_component_from_source,
         )
@@ -4055,7 +4289,7 @@ class Component(  # noqa: PLR0904
             return self.repository.count_outgoing()
         except RepositoryError as error:
             error_text = self.error_text(error)
-            if retry and "Host key verification failed" in error_text:
+            if retry and should_auto_add_ssh_host_key(error_text):
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
             report_error(
@@ -4093,7 +4327,7 @@ class Component(  # noqa: PLR0904
             return self.repository.needs_push(self.push_branch)
         except RepositoryError as error:
             error_text = self.error_text(error)
-            if retry and "Host key verification failed" in error_text:
+            if retry and should_auto_add_ssh_host_key(error_text):
                 self.add_ssh_host_key()
                 return self.repo_needs_push(retry=False)
             report_error(
@@ -4159,6 +4393,7 @@ class Component(  # noqa: PLR0904
             language_code=self.source_language.code,
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
+            repo_temp_dir=self.repository.get_repo_temp_dir(),
         )
 
     @cached_property
@@ -4183,6 +4418,7 @@ class Component(  # noqa: PLR0904
                 source_language=self.source_language.code,
                 is_template=True,
                 file_format_params=self.file_format_params,
+                repo_temp_dir=self.repository.get_repo_temp_dir(),
             )
 
     @cached_property
@@ -4256,6 +4492,13 @@ class Component(  # noqa: PLR0904
         if self.new_base and not os.path.exists(self.get_new_base_filename()):
             return False
         return self.is_valid_base_for_new(fast=fast)
+
+    def can_restore_missing_translation_file(self) -> bool:
+        """Check whether reset/reapply can recreate a missing language file."""
+        # Reset/reapply is already authorized by ``vcs.reset``. Missing-file recovery
+        # is part of that maintenance operation, so it must not depend on the
+        # regular add-language policy or user-specific overrides.
+        return self.can_add_new_language(None)
 
     def format_new_language_code(self, language):
         # Language code used for file
@@ -4401,6 +4644,63 @@ class Component(  # noqa: PLR0904
 
         return translation
 
+    def restore_missing_translation_file(
+        self,
+        translation: Translation,
+        *,
+        user: User | None = None,
+        skip_push: bool = False,
+        signals: bool = True,
+        send_post_add_signal: bool = True,
+    ) -> None:
+        """Restore a missing translation file using the new-language template."""
+        fullname = translation.get_filename()
+        if fullname is None:
+            msg = "Attempt to restore translation without a filename."
+            raise ValueError(msg)
+        with self.repository.lock:
+            self._restore_missing_translation_file(
+                translation=translation,
+                fullname=fullname,
+                user=user,
+                skip_push=skip_push,
+                signals=signals,
+                send_post_add_signal=send_post_add_signal,
+            )
+
+    def _restore_missing_translation_file(
+        self,
+        *,
+        translation: Translation,
+        fullname: str,
+        user: User | None,
+        skip_push: bool,
+        signals: bool,
+        send_post_add_signal: bool,
+    ) -> None:
+        if os.path.exists(fullname):
+            return
+
+        self.file_format_cls.add_language(
+            fullname,
+            translation.language,
+            self.get_new_base_filename(),
+            file_format_params=self.file_format_params,
+        )
+        if send_post_add_signal:
+            translation_post_add.send(sender=self.__class__, translation=translation)
+        translation.git_commit(
+            user,
+            user.get_author_name() if user else "Weblate <noreply@weblate.org>",
+            skip_push=skip_push,
+            signals=signals,
+            template=self.add_message,
+            store_hash=False,
+        )
+
+        # Delete no matches alert as we have just recreated the file
+        self.delete_alert("NoMaskMatches")
+
     def do_lock(self, user: User | None, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""
         if self.locked == lock:
@@ -4415,7 +4715,7 @@ class Component(  # noqa: PLR0904
     def get_lock_change(
         self, *, user: User | None, lock: bool = True, auto: bool = False
     ) -> Change:
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
         change = Change(
             component=self,
@@ -4459,13 +4759,13 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def guidelines(self):
-        from weblate.trans.guide import GUIDELINES
+        from weblate.trans.guide import GUIDELINES  # noqa: PLC0415
 
         return [guide(self) for guide in GUIDELINES]
 
     @cached_property
     def addons_cache(self) -> AddonCache:
-        from weblate.addons.models import Addon
+        from weblate.addons.models import Addon  # noqa: PLC0415
 
         # Use prefetch_for_components to populate the cache
         Addon.objects.prefetch_for_components([self])
@@ -4477,7 +4777,10 @@ class Component(  # noqa: PLR0904
 
     def schedule_sync_terminology(self) -> None:
         """Trigger terminology sync in the background."""
-        from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
+        from weblate.glossary.tasks import (  # noqa: PLC0415
+            sync_glossary_languages,
+            sync_terminology,
+        )
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             # Execute directly to avoid locking issues
@@ -4491,7 +4794,10 @@ class Component(  # noqa: PLR0904
             transaction.on_commit(self._schedule_sync_terminology)
 
     def _schedule_sync_terminology(self) -> None:
-        from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
+        from weblate.glossary.tasks import (  # noqa: PLC0415
+            sync_glossary_languages,
+            sync_terminology,
+        )
 
         if self.is_glossary:
             sync_terminology.delay_on_commit(self.pk)
@@ -4637,7 +4943,7 @@ class Component(  # noqa: PLR0904
         return f"component-update-checks-{self.pk}"
 
     def schedule_update_checks(self, update_state: bool = False) -> None:
-        from weblate.trans.tasks import update_checks
+        from weblate.trans.tasks import update_checks  # noqa: PLC0415
 
         update_token = get_random_identifier()
         cache.set(self.update_checks_key, update_token)
@@ -4703,7 +5009,7 @@ class Component(  # noqa: PLR0904
 @receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
 def change_component_link(sender, instance, **kwargs) -> None:
-    from weblate.trans.models import Project
+    from weblate.trans.models import Project  # noqa: PLC0415
 
     with suppress(Project.DoesNotExist):
         project = Project.objects.get(pk=instance.project_id)

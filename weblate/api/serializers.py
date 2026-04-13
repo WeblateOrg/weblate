@@ -37,6 +37,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.component_copy import get_inherited_component_fields
 from weblate.trans.defines import BRANCH_LENGTH, LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
+    Announcement,
     AutoComponentList,
     Category,
     Change,
@@ -705,6 +706,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
         view_name="api:project-machinery-settings", lookup_field="slug"
     )
     locked = serializers.BooleanField(read_only=True)
+    announcements_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-announcements", lookup_field="slug"
+    )
 
     class Meta:
         model = Project
@@ -736,6 +740,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enforced_2fa",
             "machinery_settings",
             "locked",
+            "announcements_url",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
@@ -848,6 +853,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
         view_name="api:component-credits", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
+    announcements_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-announcements", lookup_field=("project__slug", "slug")
+    )
     source_language = LanguageSerializer(required=False)
 
     repo = RepoField(max_length=REPO_LENGTH)
@@ -913,6 +921,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "file_format_params",
             "license",
             "license_url",
+            "announcements_url",
             "agreement",
             "web_url",
             "url",
@@ -1007,7 +1016,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def to_internal_value(self, data):
         # Preprocess to inject params based on content
-        data = data.copy()
+        # QueryDict.copy() deep-copies values, which breaks multipart uploads
+        # backed by TemporaryUploadedFile on Python 3.13.
+        data = copy(data)
 
         source_component = None
         if "from_component" in data and "docfile" not in data and "zipfile" not in data:
@@ -1328,6 +1339,10 @@ class TranslationSerializer(RemovableSerializer[Translation]):
         view_name="api:translation-units",
         lookup_field=("component__project__slug", "component__slug", "language__code"),
     )
+    announcements_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:translation-announcements",
+        lookup_field=("component__project__slug", "component__slug", "language__code"),
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -1366,6 +1381,7 @@ class TranslationSerializer(RemovableSerializer[Translation]):
             "statistics_url",
             "changes_list_url",
             "units_list_url",
+            "announcements_url",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {
@@ -1834,6 +1850,13 @@ class LabelSerializer(serializers.ModelSerializer[Label]):
         model = Label
         fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
+
+
+class AnnouncementSerializer(serializers.ModelSerializer[Announcement]):
+    class Meta:
+        model = Announcement
+        fields = ("id", "message", "severity", "expiry", "notify")
+        read_only_fields = ("id",)
 
 
 class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):

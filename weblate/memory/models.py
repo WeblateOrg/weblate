@@ -327,8 +327,8 @@ class MemoryManager(models.Manager):
         status: int = 0,
     ) -> int:
         # Lazily import as this is expensive
-        from jsonschema import validate
-        from jsonschema.exceptions import ValidationError
+        from jsonschema import validate  # noqa: PLC0415
+        from jsonschema.exceptions import ValidationError  # noqa: PLC0415
 
         content = fileobj.read()
         try:
@@ -471,7 +471,7 @@ class MemoryManager(models.Manager):
         `weblate.formats.auto`.
 
         """
-        from weblate.formats.auto import try_load
+        from weblate.formats.auto import try_load  # noqa: PLC0415
 
         lang_cache: dict[str, Language] = {}
         try:

@@ -12,6 +12,7 @@ from django.test.utils import override_settings
 from requests.cookies import RequestsCookieJar
 
 from weblate.utils.requests import (
+    _validate_response_peer,
     fetch_validated_url,
     get_uri_error,
     open_asset_url,
@@ -576,8 +577,6 @@ class FetchValidatedURLTest(SimpleTestCase):
         response = Mock()
         response.url = "https://public.example.com/source"
 
-        from weblate.utils.requests import _validate_response_peer
-
         _validate_response_peer(
             response,
             allow_private_targets=False,
@@ -597,8 +596,6 @@ class FetchValidatedURLTest(SimpleTestCase):
     ) -> None:
         response = Mock()
         response.url = "https://private.example/source"
-
-        from weblate.utils.requests import _validate_response_peer
 
         _validate_response_peer(
             response,

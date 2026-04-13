@@ -294,7 +294,7 @@ def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
 
 def validate_backup_path(value: str) -> None:
     # Lazily import borg as it pulls quite a lot of memory usage
-    from borg.helpers import Location
+    from borg.helpers import Location  # noqa: PLC0415
 
     try:
         loc = Location(value)
