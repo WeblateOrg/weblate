@@ -1166,6 +1166,33 @@ class PendingUnitChangeTest(RepoTestCase):
             set(components.values_list("pk", flat=True)), {self.component.pk}
         )
 
+    def test_find_committable_components_uses_linked_component_age(self) -> None:
+        self.component.commit_pending_age = 3
+        self.component.save(update_fields=["commit_pending_age"])
+
+        linked_component = self.create_link_existing(
+            name="Component linked age", slug="component-linked-age"
+        )
+        linked_component.commit_pending_age = 1
+        linked_component.save(update_fields=["commit_pending_age"])
+
+        translation = linked_component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        self.assertIsNotNone(unit)
+        if unit is None:
+            self.fail("Expected a unit in linked component test fixture.")
+        unit.translate(self.user, "Linked component age test", STATE_TRANSLATED)
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+        components = PendingUnitChange.objects.find_committable_components()
+        self.assertEqual(set(components.values_list("pk", flat=True)), set())
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=4))
+        components = PendingUnitChange.objects.find_committable_components()
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)), {self.component.pk}
+        )
+
     def test_has_pending_changes_uses_prefetched_relation(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         pending_unit = translation.unit_set.get(source="Hello, world!\n")

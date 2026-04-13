@@ -40,6 +40,7 @@ Weblate 5.17
 * Expanded :doc:`/security/threat-model` to cover webhook trust boundaries and delegated authorization boundaries, and clarified the instance-wide 2FA enforcement path in :doc:`/admin/auth`.
 * :ref:`manage-vcs-reset-reapply` now recreates missing translation files when possible and otherwise reports a clearer recovery error instead of failing later with a generic parse error.
 * Updated :doc:`/contributing/documentation` to describe the current ``make -C docs update-docs`` workflow for generated snippets.
+* Linked repository components now inherit :ref:`component-push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-auto_lock_error` from the linked component that owns the repository.
 
 .. rubric:: Bug fixes
 
