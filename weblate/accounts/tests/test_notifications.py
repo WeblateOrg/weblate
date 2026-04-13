@@ -31,7 +31,11 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Comment, Suggestion
-from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
+from weblate.trans.tests.test_views import (
+    FixtureComponentTestCase,
+    RegistrationTestMixin,
+    ViewTestCase,
+)
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
 TEMPLATES_RAISE[0]["OPTIONS"]["string_if_invalid"] = "TEMPLATE_BUG[%s]"
@@ -581,7 +585,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
 
-class SubscriptionTest(ViewTestCase):
+class SubscriptionTest(FixtureComponentTestCase):
     notification = MergeFailureNotification
 
     def get_users(self, frequency):

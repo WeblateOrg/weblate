@@ -12,10 +12,10 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.actions import ActionEvents
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 
 
-class LabelTest(ViewTestCase):
+class LabelTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.make_manager()
