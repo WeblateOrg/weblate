@@ -1,7 +1,7 @@
 Developing add-ons
 ==================
 
-:ref:`addons` are way to customize localization workflow in Weblate.
+:ref:`addons` are a way to customize localization workflow in Weblate.
 
 .. currentmodule:: weblate.addons.base
 
