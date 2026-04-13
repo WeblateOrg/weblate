@@ -6,7 +6,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from weblate.trans.models import Component, Project, Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.db import adjust_similarity_threshold, re_escape
 
 BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
@@ -60,7 +60,7 @@ class PostgreSQLOperatorTest(TestCase):
         )
 
 
-class SearchSQLOperatorTest(FixtureTestCase):
+class SearchSQLOperatorTest(FixtureComponentTestCase):
     def test_search(self) -> None:
         # Verifies that even complex query with a fallback is built properly
         # This is essentially what bulk edit does with such search

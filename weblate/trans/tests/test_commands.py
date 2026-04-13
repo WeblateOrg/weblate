@@ -6,6 +6,7 @@
 
 import sys
 from io import StringIO
+from typing import cast
 
 import requests
 from django.core.management import call_command
@@ -22,7 +23,11 @@ from weblate.trans.file_format_params import (
 )
 from weblate.trans.models import Component, Translation
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.test_views import FixtureComponentTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    FixtureComponentTestCase,
+    ViewTestCase,
+)
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.vcs.mercurial import HgRepository
 
@@ -336,19 +341,20 @@ class BasicCommandTest(FixtureComponentTestCase):
             call_command("check", "--deploy")
 
 
-class WeblateComponentCommandTestCase(ViewTestCase):
+class WeblateComponentCommandMixin:
     """Base class for handling tests of WeblateComponentCommand based commands."""
 
     command_name = "checkgit"
     expected_string = "On branch main"
 
     def do_test(self, *args, **kwargs) -> None:
+        test_case = cast("TestCase", self)
         output = StringIO()
         call_command(self.command_name, *args, stdout=output, **kwargs)
         if self.expected_string:
-            self.assertIn(self.expected_string, output.getvalue())
+            test_case.assertIn(self.expected_string, output.getvalue())
         else:
-            self.assertEqual("", output.getvalue())
+            test_case.assertEqual("", output.getvalue())
 
     def test_all(self) -> None:
         self.do_test(all=True)
@@ -360,15 +366,21 @@ class WeblateComponentCommandTestCase(ViewTestCase):
         self.do_test("test/test")
 
     def test_nonexisting_project(self) -> None:
-        with self.assertRaises(CommandError):
+        test_case = cast("TestCase", self)
+        with test_case.assertRaises(CommandError):
             self.do_test("notest")
 
     def test_nonexisting_component(self) -> None:
-        with self.assertRaises(CommandError):
+        test_case = cast("TestCase", self)
+        with test_case.assertRaises(CommandError):
             self.do_test("test/notest")
 
 
-class CommitPendingTest(WeblateComponentCommandTestCase):
+class WeblateComponentCommandTestCase(ComponentTestCase, WeblateComponentCommandMixin):
+    pass
+
+
+class CommitPendingCommandMixin(WeblateComponentCommandMixin):
     command_name = "commit_pending"
     expected_string = ""
 
@@ -376,7 +388,11 @@ class CommitPendingTest(WeblateComponentCommandTestCase):
         self.do_test("test", "--age", "1")
 
 
-class CommitPendingChangesTest(CommitPendingTest):
+class CommitPendingTest(ComponentTestCase, CommitPendingCommandMixin):
+    pass
+
+
+class CommitPendingChangesTest(ViewTestCase, CommitPendingCommandMixin):
     def setUp(self) -> None:
         super().setUp()
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")

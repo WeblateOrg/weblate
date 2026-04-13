@@ -18,7 +18,7 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Unit
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -108,7 +108,7 @@ class TranslatedCheckTest(ViewTestCase):
         )
 
 
-class ConsistencyCheckTest(ViewTestCase):
+class ConsistencyCheckTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.other = self.create_link_existing()
