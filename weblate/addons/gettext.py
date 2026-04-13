@@ -119,6 +119,15 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
+    def get_validated_linguas_path(cls, component: Component) -> str | None:
+        try:
+            path = cls.get_linguas_path(component)
+            component.check_file_is_valid(path)
+        except ValidationError:
+            return None
+        return path
+
+    @classmethod
     def can_install(
         cls,
         *,
@@ -132,12 +141,8 @@ class UpdateLinguasAddon(GettextBaseAddon):
             return False
         if component is None:
             return True
-        try:
-            path = cls.get_linguas_path(component)
-            component.check_file_is_valid(path)
-        except ValidationError:
-            return False
-        return bool(path) and os.path.exists(path)
+        path = cls.get_validated_linguas_path(component)
+        return path is not None and os.path.exists(path)
 
     @staticmethod
     def update_linguas(lines: list[str], codes: set[str]) -> tuple[bool, list[str]]:
@@ -178,8 +183,6 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return changed, lines
 
     def sync_linguas(self, component: Component, path: str) -> bool:
-        component.check_file_is_valid(path)
-
         with open(path, encoding="utf-8") as handle:
             lines = handle.readlines()
 
@@ -201,11 +204,10 @@ class UpdateLinguasAddon(GettextBaseAddon):
         self, translation: Translation, activity_log_id: int | None = None
     ) -> None:
         with translation.component.repository.lock:
-            try:
-                path = self.get_linguas_path(translation.component)
-                changed = self.sync_linguas(translation.component, path)
-            except ValidationError:
+            path = self.get_validated_linguas_path(translation.component)
+            if path is None:
                 return
+            changed = self.sync_linguas(translation.component, path)
             if changed:
                 translation.addon_commit_files.append(path)
 
@@ -215,11 +217,10 @@ class UpdateLinguasAddon(GettextBaseAddon):
         activity_log_id: int | None = None,
     ) -> None:
         with component.repository.lock:
-            try:
-                path = self.get_linguas_path(component)
-                changed = self.sync_linguas(component, path)
-            except ValidationError:
+            path = self.get_validated_linguas_path(component)
+            if path is None:
                 return
+            changed = self.sync_linguas(component, path)
             if changed:
                 self.commit_and_push(component, [path])
 
