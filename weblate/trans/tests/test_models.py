@@ -1262,7 +1262,7 @@ class PendingUnitChangeTest(RepoTestCase):
         unit3.translate(self.user, "Orangutan má %d banánů.\n", STATE_TRANSLATED)
         PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
 
-        # component 1 is now finable because the change failed to apply more than a week ago
+        # component 1 is now findable because the change failed to apply more than a week ago
         # component 3 is now findable because the blocking_unit filter is not applied here
         components = PendingUnitChange.objects.find_committable_components(hours=1)
         self.assertEqual(
