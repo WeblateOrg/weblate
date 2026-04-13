@@ -11,8 +11,9 @@ from itertools import chain
 from unittest.mock import patch
 
 from django.core.management import call_command
+from django.db import connection
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.languages import LANGUAGES
@@ -400,8 +401,13 @@ class CommandTest(BaseTestCase):
     def test_setuplang(self) -> None:
         call_command("setuplang")
         self.assertTrue(Language.objects.exists())
-        with self.assertNumQueries(3):
+        with CaptureQueriesContext(connection) as queries:
             call_command("setuplang")
+        self.assertLessEqual(len(queries), 3)
+        for query in queries:
+            self.assertFalse(
+                query["sql"].lstrip().upper().startswith(("INSERT", "UPDATE", "DELETE"))
+            )
 
     def test_setuplang_noupdate(self) -> None:
         call_command("setuplang", update=False)
@@ -952,6 +958,47 @@ class LanguageAliasesChangeTest(ViewTestCase):
         )
         self.component.add_new_language(it_xx, None)
         self.do_alias_language_update_and_check(False, False)
+
+    def test_update_language_alias_uses_live_plural_fixup(self) -> None:
+        """Alias migration should use a live plural-type scan."""
+        fixup_plural_types = "_fixup_plural_types"
+        original_fixup_plural_types = getattr(
+            type(Language.objects), fixup_plural_types
+        )
+
+        def check_pruned_alias_cache(manager, logger, plurals=None):
+            self.assertIsNone(plurals)
+            return original_fixup_plural_types(manager, logger, plurals)
+
+        with patch.object(
+            type(Language.objects),
+            fixup_plural_types,
+            autospec=True,
+            side_effect=check_pruned_alias_cache,
+        ):
+            self.do_alias_language_update_and_check()
+
+    def test_update_language_alias_fixups_created_target_plural(self) -> None:
+        """New target plurals created during alias migration should be upgraded."""
+        legacy_formula = "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2"
+        old_language = Language.objects.get(code=self.old_code)
+        legacy_plural = old_language.plural_set.create(
+            source=Plural.SOURCE_MANUAL,
+            number=3,
+            formula=legacy_formula,
+        )
+        Plural.objects.filter(pk=legacy_plural.pk).update(
+            type=data.PLURAL_ONE_FEW_OTHER
+        )
+
+        self.do_alias_language_update_and_check()
+
+        migrated_plural = Plural.objects.get(
+            language__code=self.new_code,
+            source=Plural.SOURCE_MANUAL,
+            formula=legacy_formula,
+        )
+        self.assertEqual(migrated_plural.type, data.PLURAL_ONE_FEW_MANY)
 
     def test_get_aliases(self) -> None:
         language = Language.objects.get(code="ka")
