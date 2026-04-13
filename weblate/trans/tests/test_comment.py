@@ -41,7 +41,7 @@ class CommentViewTest(FixtureTestCase):
     def test_add_long_comment(self) -> None:
         unit = self.get_unit()
 
-        # Add comment which is 1000 charters long, but is using \r\n as newlines
+        # Add comment which is 1000 characters long, but is using \r\n as newlines
         # which makes it too long. This happens in the browser as it counts newline
         # as a single character, but posts it as \r\n.
         response = self.client.post(
