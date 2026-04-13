@@ -909,7 +909,6 @@ Projects
     :>json string credits_url: URL to list contributor credits; see :http:get:`/api/projects/(string:project)/credits/`
     :>json boolean translation_review: :ref:`project-translation_review`
     :>json boolean source_review: :ref:`project-source_review`
-    :>json boolean set_language_team: :ref:`project-set_language_team`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`

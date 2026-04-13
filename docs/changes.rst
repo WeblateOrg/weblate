@@ -41,6 +41,7 @@ Weblate 5.17
 * Added ``from_component`` support to the REST API for creating components from existing component content and for seeding new translations by automatic translation from existing components.
 * :doc:`/admin/announcements` can now be managed via the :ref:`api` for projects, components and translations.
 * Added a ``soft`` mode to :setting:`VERSION_DISPLAY` to hide the Weblate version from prominent UI while keeping it available on the :guilabel:`About` page and :http:get:`/api/metrics/`.
+* :ref:`file_format_params` now include ``po_set_language_team_header``, ``po_set_last_translator``, ``po_set_x_generator``, and ``po_report_msgid_bugs_to`` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers in Gettext PO and POT files.
 
 .. rubric:: Improvements
 
@@ -122,6 +123,7 @@ Weblate 5.17
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
 * Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
+* The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team_header`` file format parameter at the component level; see :ref:`file_format_params`.
 
 .. rubric:: Upgrading
 
