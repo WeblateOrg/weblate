@@ -18,7 +18,7 @@ from weblate.checks.source import (
 )
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.models import Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase, FixtureTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
@@ -50,7 +50,7 @@ class EllipsisCheckTest(TestCase):
         self.assertTrue(self.check.check_source(["text..."], MockUnit()))
 
 
-class LongUntranslatedCheckTestCase(FixtureTestCase):
+class LongUntranslatedCheckTestCase(FixtureComponentTestCase):
     check = LongUntranslatedCheck()
 
     def test_recent(self) -> None:

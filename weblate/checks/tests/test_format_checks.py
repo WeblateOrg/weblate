@@ -38,7 +38,7 @@ from weblate.checks.ruby import RubyFormatCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.util import join_plural
 
 if TYPE_CHECKING:
@@ -1352,7 +1352,7 @@ class RubyFormatCheckTest(CheckTestCase):
         )
 
 
-class PluralTest(FixtureTestCase):
+class PluralTest(FixtureComponentTestCase):
     check = PythonFormatCheck()
 
     def do_check(

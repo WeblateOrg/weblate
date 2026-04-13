@@ -15,11 +15,11 @@ from weblate.auth.data import (
 )
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Comment, Project
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
 
 
-class PermissionsTest(FixtureTestCase):
+class PermissionsTest(FixtureComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.user = User.objects.create_user("user", "test@example.com")

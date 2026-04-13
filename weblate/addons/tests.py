@@ -50,7 +50,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -210,7 +210,7 @@ class TestAddonMixin:
         del ADDONS.data[DailyResultAddon.name]
 
 
-class AddonBaseTest(TestAddonMixin, ViewTestCase):
+class AddonBaseTest(TestAddonMixin, ComponentTestCase):
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
@@ -3082,7 +3082,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(fetch_strings.call_args.args[0].pk, source_translation.pk)
 
 
-class AppStoreAddonTest(ViewTestCase):
+class AppStoreAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_appstore()
 
@@ -3099,7 +3099,7 @@ class AppStoreAddonTest(ViewTestCase):
         self.assertIn("cs/changelogs/100000.txt", commit)
 
 
-class AndroidAddonTest(ViewTestCase):
+class AndroidAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_android(suffix="-not-synced", new_lang="add")
 
@@ -3117,7 +3117,7 @@ class AndroidAddonTest(ViewTestCase):
         self.assertIn('\n-    <string name="hello">Ahoj svete</string>', commit)
 
 
-class WindowsRCAddonTest(ViewTestCase):
+class WindowsRCAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_winrc()
 
@@ -3135,7 +3135,7 @@ class WindowsRCAddonTest(ViewTestCase):
         self.assertIn("\n-IDS_MSG5", commit)
 
 
-class IntermediateAddonTest(ViewTestCase):
+class IntermediateAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_json_intermediate(new_lang="add")
 
@@ -3154,7 +3154,7 @@ class IntermediateAddonTest(ViewTestCase):
         self.assertIn('-    "orangutan"', commit)
 
 
-class ResxAddonTest(ViewTestCase):
+class ResxAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_resx()
 
@@ -3187,7 +3187,7 @@ class ResxAddonTest(ViewTestCase):
         self.assertIn("resx/cs.resx", commit)
 
 
-class CSVAddonTest(ViewTestCase):
+class CSVAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_csv_mono()
 
@@ -3214,7 +3214,7 @@ class CSVAddonTest(ViewTestCase):
         self.assertIn("csv-mono/cs.csv", commit)
 
 
-class JsonAddonTest(ViewTestCase):
+class JsonAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_json_mono(suffix="mono-sync")
 
@@ -3574,7 +3574,7 @@ class PropertiesAddonTest(ViewTestCase):
         self.assertIn("-state=Stale", commit)
 
 
-class ResetAddonTest(ViewTestCase):
+class ResetAddonTest(ComponentTestCase):
     def create_component(self):
         project = self.create_project(name="Sandbox", slug="sandbox")
         return self.create_po_new_base(project=project)
@@ -3595,7 +3595,7 @@ class ResetAddonTest(ViewTestCase):
         mocked_reset.assert_called_once_with(self.component)
 
 
-class CommandTest(ViewTestCase):
+class CommandTest(ComponentTestCase):
     """Test for management commands."""
 
     def test_list_addons(self) -> None:
@@ -3887,7 +3887,7 @@ class DiscoveryTest(ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class ScriptsTest(TestAddonMixin, ViewTestCase):
+class ScriptsTest(TestAddonMixin, ComponentTestCase):
     def test_example_pre(self) -> None:
         self.assertTrue(ExamplePreAddon.can_install(component=self.component))
         translation = self.get_translation()
@@ -3901,7 +3901,7 @@ class ScriptsTest(TestAddonMixin, ViewTestCase):
         )
 
 
-class LanguageConsistencyTest(ViewTestCase):
+class LanguageConsistencyTest(ComponentTestCase):
     CREATE_GLOSSARIES: bool = True
 
     def test_consistency_cannot_install_on_component(self) -> None:
@@ -4255,7 +4255,7 @@ class GitSquashAddonTest(ViewTestCase):
         self.assertEqual(self.component.repository.count_outgoing(), 1)
 
 
-class TestRemoval(ViewTestCase):
+class TestRemoval(ComponentTestCase):
     def install(
         self,
         sitewide: bool = False,
@@ -4387,7 +4387,7 @@ class TestRemoval(ViewTestCase):
         self.assert_count()
 
 
-class AutoTranslateAddonTest(ViewTestCase):
+class AutoTranslateAddonTest(ComponentTestCase):
     def test_auto(self) -> None:
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
@@ -4918,7 +4918,7 @@ class SiteWideAddonsTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
 
 
-class TargetChangeAddonTest(ViewTestCase):
+class TargetChangeAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_json_mono(suffix="mono-sync")
 
@@ -5603,7 +5603,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class TestCommand(ViewTestCase):
+class TestCommand(ComponentTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)

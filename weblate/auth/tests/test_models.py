@@ -8,10 +8,10 @@ from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, Project
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
-class ModelTest(FixtureTestCase):
+class ModelTest(FixtureComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
