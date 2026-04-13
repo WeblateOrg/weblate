@@ -161,14 +161,6 @@ Translation instructions
 Text describing localization process in the project, and any other information
 useful for translators. Markdown can be used for text formatting or inserting links.
 
-.. _project-set_language_team:
-
-Set "Language-Team" header
-++++++++++++++++++++++++++
-
-Whether Weblate should manage the ``Language-Team`` header (this is a
-:ref:`gettext` only feature right now).
-
 .. _project-use_shared_tm:
 
 Use shared translation memory
