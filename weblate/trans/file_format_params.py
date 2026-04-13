@@ -36,7 +36,7 @@ class FileFormatParams(TypedDict, total=False):
     po_keep_previous: bool
     po_no_location: bool
     po_fuzzy_matching: bool
-    po_set_language_team_header: bool
+    po_set_language_team: bool
     po_set_last_translator: bool
     po_set_x_generator: bool
     po_report_msgid_bugs_to: bool
@@ -65,7 +65,7 @@ class BaseFileFormatParam:
         "po_keep_previous",
         "po_no_location",
         "po_fuzzy_matching",
-        "po_set_language_team_header",
+        "po_set_language_team",
         "po_set_last_translator",
         "po_set_x_generator",
         "po_report_msgid_bugs_to",
@@ -349,7 +349,8 @@ class GettextFuzzyMatching(BooleanFileFormatParam, BaseGettextFormatParam):
 
 @register_file_format_param
 class GettextSetLanguageTeamHeader(BooleanFileFormatParam, BaseGettextFormatParam):
-    name = "po_set_language_team_header"
+    file_formats = ("po", "po-mono")
+    name = "po_set_language_team"
     label = gettext_lazy("Update language team header")
     default = True
     help_text = gettext_lazy('Lets Weblate update the "Language-Team" file header.')
@@ -357,6 +358,7 @@ class GettextSetLanguageTeamHeader(BooleanFileFormatParam, BaseGettextFormatPara
 
 @register_file_format_param
 class GettextLastTranslator(BooleanFileFormatParam, BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
     name = "po_set_last_translator"
     label = gettext_lazy("Update last translator header")
     default = True
@@ -365,6 +367,7 @@ class GettextLastTranslator(BooleanFileFormatParam, BaseGettextFormatParam):
 
 @register_file_format_param
 class GettextXGenerator(BooleanFileFormatParam, BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
     name = "po_set_x_generator"
     label = gettext_lazy("Update X-Generator header")
     default = True
@@ -373,6 +376,7 @@ class GettextXGenerator(BooleanFileFormatParam, BaseGettextFormatParam):
 
 @register_file_format_param
 class GettextReportMsgidBugsTo(BooleanFileFormatParam, BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
     name = "po_report_msgid_bugs_to"
     label = gettext_lazy("Report msgid bugs to")
     default = True

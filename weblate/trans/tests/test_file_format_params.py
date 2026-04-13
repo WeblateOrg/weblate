@@ -466,14 +466,14 @@ class GettextParamsTest(BaseFileFormatsTest):
         )
 
         # header remains unchanged when the parameter is set to False
-        self.update_component_file_params(po_set_language_team_header=False)
+        self.update_component_file_params(po_set_language_team=False)
         rev1, commit1 = self.edit_unit_and_commit_changes("one")
         self.assertNotIn(
             '+"Language-Team: Czech <http://example.com/projects/test/test/cs/>',
             commit1,
         )
 
-        self.update_component_file_params(po_set_language_team_header=True)
+        self.update_component_file_params(po_set_language_team=True)
         rev2, commit2 = self.edit_unit_and_commit_changes("two")
         self.assertNotEqual(rev1, rev2)
         self.assertIn(
