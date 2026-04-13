@@ -71,7 +71,11 @@ from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.trans.models import Project, Unit
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    FixtureComponentTestCase,
+    FixtureTestCase,
+    ViewTestCase,
+)
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
 from weblate.utils.state import STATE_TRANSLATED
@@ -3081,7 +3085,7 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
         self.assertFalse(form.is_valid())
 
 
-class WeblateTranslationTest(FixtureTestCase):
+class WeblateTranslationTest(FixtureComponentTestCase):
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
@@ -3918,7 +3922,7 @@ class MachineryValidationTest(TestCase):
         self.assertIn("Allowlisted provider error.", str(raised.exception))
 
 
-class CommandTest(FixtureTestCase):
+class CommandTest(FixtureComponentTestCase):
     """Test for management commands."""
 
     def test_list_machinery(self) -> None:

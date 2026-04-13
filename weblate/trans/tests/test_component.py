@@ -9,18 +9,16 @@ from __future__ import annotations
 import os
 import pathlib
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, cast
+from typing import cast
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
-from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.exceptions import ValidationError
 from django.db.models import F
 from django.test import SimpleTestCase
-from django.test.client import RequestFactory
 from django.test.utils import override_settings
 
-from weblate.auth.models import Group, setup_project_groups
+from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -33,18 +31,15 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
-from weblate.trans.tests.utils import clear_users_cache, create_test_user
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    FixtureTestCase,
+    ViewTestCase,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
-
-if TYPE_CHECKING:
-    from weblate.auth.models import User
-    from weblate.utils.state import (
-        StringState,
-    )
 
 HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 remote: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
@@ -1125,57 +1120,7 @@ class ComponentErrorTest(RepoTestCase):
             self.component.clean()
 
 
-class RepoViewLiteTestCase(RepoTestCase):
-    @classmethod
-    def setUpTestData(cls) -> None:
-        clear_users_cache()
-        super().setUpTestData()
-
-    def setUp(self) -> None:
-        super().setUp()
-        self.factory = RequestFactory()
-        self.user = create_test_user()
-        self.user.groups.add(Group.objects.get(name="Users"))
-        self.component = self.create_component()
-        self.project = self.component.project
-        setup_project_groups(self, self.project)
-        self.translation = self.get_translation()
-
-    def get_request(self, user: User | None = None):
-        request = self.factory.get("/")
-        request.user = user or self.user
-        request.session = "session"
-        request._messages = FallbackStorage(request)  # noqa: SLF001
-        return request
-
-    def get_translation(self, language: str = "cs") -> Translation:
-        return self.component.translation_set.get(language__code=language)
-
-    def get_unit(
-        self,
-        source: str = "Hello, world!\n",
-        language: str = "cs",
-        translation: Translation | None = None,
-    ) -> Unit:
-        if translation is None:
-            translation = self.get_translation(language)
-        return translation.unit_set.get(source__startswith=source)
-
-    def change_unit(
-        self,
-        target: str,
-        source: str = "Hello, world!\n",
-        language: str = "cs",
-        translation: Translation | None = None,
-        user: User | None = None,
-        state: StringState = STATE_TRANSLATED,
-    ) -> Unit:
-        unit = self.get_unit(source, language, translation=translation)
-        unit.translate(user or self.user, target, state)
-        return unit
-
-
-class ResetReapplyMissingTranslationFileTest(RepoViewLiteTestCase):
+class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -1639,7 +1584,7 @@ class ResetReapplyMissingTranslationFileTest(RepoViewLiteTestCase):
         self.assertIn("Pending changes were kept", messages[0])
 
 
-class LinkedResetDiskStateTest(RepoViewLiteTestCase):
+class LinkedResetDiskStateTest(ComponentTestCase):
     def create_component(self):
         return self.create_link()
 

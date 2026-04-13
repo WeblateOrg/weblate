@@ -5,10 +5,10 @@
 from weblate.metrics.models import Metric
 from weblate.metrics.tasks import cleanup_metrics, collect_metrics
 from weblate.trans.models import Project
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
-class MetricTestCase(FixtureTestCase):
+class MetricTestCase(FixtureComponentTestCase):
     def test_collect(self) -> None:
         collect_metrics()
         self.assertNotEqual(Metric.objects.count(), 0)

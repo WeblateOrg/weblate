@@ -22,7 +22,7 @@ from weblate.trans.file_format_params import (
 )
 from weblate.trans.models import Component, Translation
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.vcs.mercurial import HgRepository
 
@@ -325,7 +325,7 @@ class ImportProjectTest(RepoTestCase):
             )
 
 
-class BasicCommandTest(FixtureTestCase):
+class BasicCommandTest(FixtureComponentTestCase):
     def test_versions(self) -> None:
         output = StringIO()
         call_command("list_versions", stdout=output)

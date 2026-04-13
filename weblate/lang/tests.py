@@ -23,7 +23,11 @@ from weblate.lang import data
 from weblate.lang.models import Language, Plural, PluralMapper, get_plural_type
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    FixtureComponentTestCase,
+    FixtureTestCase,
+    ViewTestCase,
+)
 from weblate.trans.util import join_plural
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -740,7 +744,7 @@ class PluralTest(BaseTestCase):
         self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
 
 
-class PluralMapperTestCase(FixtureTestCase):
+class PluralMapperTestCase(FixtureComponentTestCase):
     def test_english_czech(self) -> None:
         english = Language.objects.get(code="en")
         czech = Language.objects.get(code="cs")
