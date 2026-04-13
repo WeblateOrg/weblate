@@ -746,7 +746,6 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "translation_review",
             "source_review",
             "commit_policy",
-            "set_language_team",
             "instructions",
             "enable_hooks",
             "language_aliases",
