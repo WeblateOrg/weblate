@@ -1388,6 +1388,7 @@ class Component(  # noqa: PLR0904
             result = self.translation_set.get(language_id=self.source_language_id)
         except ObjectDoesNotExist:
             return None
+        result.sync_readonly_check_flag()
         self.__dict__["source_translation"] = result
         return result
 
@@ -1410,21 +1411,35 @@ class Component(  # noqa: PLR0904
         except ObjectDoesNotExist:
             try:
                 with transaction.atomic():
-                    return self.translation_set.create(
+                    translation = self.translation_set.model(
+                        component=self,
                         language=language,
-                        check_flags="read-only",
                         filename=self.template,
                         plural=self.get_source_plural(),
                         language_code=language.code,
                     )
+                    translation.sync_readonly_check_flag(save=False)
+                    return self.translation_set.create(
+                        language=language,
+                        check_flags=translation.check_flags,
+                        filename=self.template,
+                        plural=translation.plural,
+                        language_code=language.code,
+                    )
             except IntegrityError:
                 try:
-                    return self.translation_set.get(language_id=self.source_language_id)
+                    result = self.translation_set.get(
+                        language_id=self.source_language_id
+                    )
                 except self.translation_set.model.DoesNotExist:
                     pass
+                else:
+                    result.sync_readonly_check_flag()
+                    return result
                 raise
         else:
             result.language = language
+            result.sync_readonly_check_flag()
             return result
 
     def preload_sources(self, sources=None) -> None:
