@@ -569,7 +569,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         """Add new unit to underlying store."""
         raise NotImplementedError
 
-    def update_header(self, **kwargs) -> None:
+    def update_header(self, file_format_params: FileFormatParams, **kwargs) -> None:
         """Update store header if available."""
         return
 
@@ -765,7 +765,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     def add_language(
         cls,
         filename: str | Path,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
         file_format_params: FileFormatParams | None = None,
@@ -794,7 +794,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
         file_format_params: FileFormatParams | None = None,
