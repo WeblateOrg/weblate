@@ -173,7 +173,7 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
     except ObjectDoesNotExist:
         pass
     else:
-        if alert.obj.dismissable:
+        if alert.obj.dismissible:
             alert.dismissed = True
             alert.save(update_fields=["dismissed"])
 

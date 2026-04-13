@@ -132,7 +132,7 @@ class BaseAlert:
     on_import = False
     link_wide = False
     project_wide = False
-    dismissable = False
+    dismissible = False
     doc_page = ""
     doc_anchor = ""
 
@@ -477,7 +477,7 @@ class RepositoryChanges(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Repository has changes.")
     link_wide = True
-    dismissable = True
+    dismissible = True
 
 
 @register
@@ -526,7 +526,7 @@ class ExtractPotAddonError(MultiAlert):
 class ExtractPotMissingMsgmerge(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("POT updates do not update PO files.")
-    dismissable = True
+    dismissible = True
     doc_page = "addons"
     doc_anchor = "addon-weblate-gettext-msgmerge"
 
@@ -623,7 +623,7 @@ class UnsupportedConfiguration(BaseAlert):
 class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Broken repository browser URL")
-    dismissable = True
+    dismissible = True
     doc_page = "admin/projects"
     doc_anchor = "component-repoweb"
 
@@ -672,7 +672,7 @@ class BrokenBrowserURL(BaseAlert):
 class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Broken project website URL")
-    dismissable = True
+    dismissible = True
     doc_page = "admin/projects"
     doc_anchor = "project-web"
     project_wide = True
@@ -719,7 +719,7 @@ class UnusedScreenshot(BaseAlert):
 class AmbiguousLanguage(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Ambiguous language code.")
-    dismissable = True
+    dismissible = True
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
 
@@ -841,7 +841,7 @@ class UnusedComponent(BaseAlert):
 class MonolingualGlossary(BaseAlert):
     verbose = gettext_lazy("Glossary using monolingual files.")
     doc_page = "user/glossary"
-    dismissable = True
+    dismissible = True
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
