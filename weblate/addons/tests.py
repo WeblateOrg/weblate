@@ -22,6 +22,7 @@ from unittest.mock import patch
 import jsonschema.exceptions
 import requests
 import responses
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.core.management.commands.makemessages import (
@@ -408,6 +409,20 @@ class GettextAddonTest(ViewTestCase):
         self.assertFalse(UpdateLinguasAddon.can_install(component=self.component))
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
+
+    def test_update_linguas_post_add_propagates_validation_error(self) -> None:
+        translation = self.get_translation()
+        addon = UpdateLinguasAddon.create(component=translation.component)
+
+        with (
+            patch.object(
+                UpdateLinguasAddon,
+                "update_linguas",
+                side_effect=ValidationError("unexpected validation"),
+            ),
+            self.assertRaisesMessage(ValidationError, "unexpected validation"),
+        ):
+            addon.post_add(translation)
 
     def assert_linguas(self, source, expected_add, expected_remove) -> None:
         # Test no-op
