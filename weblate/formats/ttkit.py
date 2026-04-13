@@ -1254,13 +1254,15 @@ class AndroidUnit(MonolingualIDUnit):
             return cast("AndroidResourceUnit", self.template)
         return cast("AndroidResourceUnit", self.mainunit)
 
-    def has_target_markup(self) -> bool:
-        """Check whether Android string should preserve escaped HTML markup."""
-        return self.get_markup_reference_unit().target_markup
+    def get_target_markup_mode(self) -> str:
+        """Return Android target markup mode inferred from the reference unit."""
+        return self.get_markup_reference_unit().target_markup_mode
 
     def has_xml_markup(self) -> bool:
-        """Check whether Android string contains real XML child elements."""
+        """Check whether XML markup mode contains real child elements to preserve."""
         reference_unit = self.get_markup_reference_unit()
+        if self.get_target_markup_mode() != reference_unit.TARGET_MARKUP_XML:
+            return False
         if reference_unit.xmlelement.tag == reference_unit.PLURAL_TAG:
             return any(
                 len(entry) != 0
@@ -1268,13 +1270,23 @@ class AndroidUnit(MonolingualIDUnit):
             )
         return len(reference_unit.xmlelement) != 0
 
+    def needs_safe_html(self) -> bool:
+        """Check whether Android string should always run HTML safety validation."""
+        reference_unit = self.get_markup_reference_unit()
+        return self.get_target_markup_mode() == reference_unit.TARGET_MARKUP_ESCAPED
+
+    def needs_auto_safe_html(self) -> bool:
+        """Check whether Android string should conditionally run HTML safety validation."""
+        reference_unit = self.get_markup_reference_unit()
+        return self.get_target_markup_mode() == reference_unit.TARGET_MARKUP_CDATA
+
     def apply_template_target_markup(self) -> None:
         """Keep Android target serialization mode aligned with the template."""
         if self.template is None or not self.has_unit():
             return
 
         target_unit = cast("AndroidResourceUnit", self.unit)
-        target_unit.target_markup = self.has_target_markup()
+        target_unit.target_markup_mode = self.get_target_markup_mode()
 
     def clone_template(self) -> None:
         super().clone_template()
@@ -1286,12 +1298,15 @@ class AndroidUnit(MonolingualIDUnit):
 
     def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         """Infer checks from template markup mode for Android-formatted strings."""
-        if self.has_target_markup():
-            # Escaped markup is consumed as HTML styling via Html.fromHtml().
-            yield "safe-html"
-        elif self.has_xml_markup():
+        if self.has_xml_markup():
             # Real XML child nodes should stay valid XML in translations.
             yield "xml-text"
+        elif self.needs_safe_html():
+            # Escaped text is always rendered as HTML styling via Html.fromHtml().
+            yield "safe-html"
+        elif self.needs_auto_safe_html():
+            # CDATA can represent either HTML-like text or literal angle brackets.
+            yield "auto-safe-html"
         yield from super().get_extra_flags()
 
     def set_state(self, state) -> None:
