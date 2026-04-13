@@ -490,7 +490,7 @@ class BackupsView(BackupsMixin, TemplateView):
     template_name = "trans/backups.html"
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
-        create_project_backup.delay(self.obj.pk)
+        create_project_backup.delay(self.obj.pk, request.user.pk)
         messages.success(
             request, gettext("Backup scheduled. It will be available soon.")
         )

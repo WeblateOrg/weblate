@@ -7,6 +7,7 @@
 import json
 import os
 import tempfile
+from unittest.mock import patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
@@ -18,14 +19,18 @@ from django.core.management import call_command
 from django.test import override_settings
 from django.urls import reverse
 
+from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import AutoGroup, Group, Role
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, list_backups
+from weblate.trans.change_display import get_change_history_context
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -46,6 +51,113 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def test_backup_creates_history_entry(self) -> None:
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertIsNone(change.user)
+        self.assertEqual(
+            change.details,
+            {"backup_filename": backup.relative_filename},
+        )
+        history_data = get_change_history_context(change)
+        self.assertEqual(history_data["description"], "Project backed up")
+        self.assertEqual(
+            history_data["change_details_fields"][0]["label"],
+            "Backup file",
+        )
+        self.assertIn(
+            backup.relative_filename,
+            history_data["change_details_fields"][0]["content"],
+        )
+
+    def test_backup_creates_history_entry_with_user(self) -> None:
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project, self.user)
+
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+    def test_restore_creates_history_entries(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        project_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(project_change.user, self.user)
+        self.assertEqual(project_change.author, self.user)
+        self.assertEqual(
+            project_change.details,
+            {
+                "backup_timestamp": restore.data["metadata"]["timestamp"],
+                "backup_server": restore.data["metadata"]["server"],
+                "backup_domain": restore.data["metadata"]["domain"],
+            },
+        )
+        history_data = get_change_history_context(project_change)
+        self.assertEqual(history_data["description"], "Project restored")
+        self.assertEqual(
+            [field["label"] for field in history_data["change_details_fields"]],
+            ["Backup created", "Backup server", "Backup domain"],
+        )
+
+        component_changes = Change.objects.filter(
+            project=restored, action=ActionEvents.COMPONENT_RESTORE
+        )
+        self.assertEqual(component_changes.count(), restored.component_set.count())
+        self.assertEqual(
+            {change.details["original_slug"] for change in component_changes},
+            {
+                ProjectBackup.full_slug_without_project(component)
+                for component in self.project.component_set.iterator()
+            },
+        )
+        for change in component_changes:
+            self.assertEqual(change.user, self.user)
+            self.assertEqual(change.author, self.user)
+            self.assertIsNotNone(change.component)
+            component_history_data = get_change_history_context(change)
+            self.assertEqual(
+                component_history_data["description"], "Component restored"
+            )
+            self.assertEqual(
+                component_history_data["change_details_fields"][0]["label"],
+                "Original component",
+            )
+
+    def test_restore_batches_change_addon_dispatch(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        WebhookAddon.create(
+            configuration={
+                "webhook_url": "https://example.com/hook",
+                "events": [ActionEvents.PROJECT_RESTORE],
+            },
+            run=False,
+        )
+
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit") as mocked_delay:
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
+        self.assertEqual(mocked_delay.call_count, 2)
+        self.assertEqual(
+            sorted(len(call.args[0]) for call in mocked_delay.call_args_list),
+            [1, restored.component_set.count() + 1],
+        )
 
     def test_create_backup(self) -> None:
         # Create linked component
@@ -514,6 +626,9 @@ class BackupsTest(ViewTestCase):
         response = self.client.post(url)
         self.assertRedirects(response, url)
         self.assertEqual(start + 1, len(list_backups(self.project)))
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
         response = self.client.get(url)
         self.assertNotContains(response, " no backups")
 

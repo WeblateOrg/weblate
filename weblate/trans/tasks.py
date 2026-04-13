@@ -852,12 +852,13 @@ def cleanup_project_backups() -> None:
 
 
 @app.task(trail=False)
-def create_project_backup(pk) -> None:
+def create_project_backup(pk: int, uid: int | None = None) -> None:
     from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
 
     project = Project.objects.get(pk=pk)
+    user = User.objects.get(pk=uid) if uid else None
     backup = ProjectBackup()
-    backup.backup_project(project)
+    backup.backup_project(project, user)
 
 
 @app.task(trail=False)
