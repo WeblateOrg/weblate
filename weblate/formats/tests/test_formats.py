@@ -1092,6 +1092,10 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
         "To manage the existing work profile, navigate to the <b>Work</b> tab in "
         "the launcher"
     )
+    empty_resources = """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+"""
     template_content = """<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="existing_work_profile_help">To manage the existing work profile, navigate to the &lt;b&gt;Work&lt;/b&gt; tab in the launcher</string>
@@ -1106,11 +1110,22 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
         self.remove_temp()
         super().tearDown()
 
-    def create_storage(self, translated_content: str):
+    def create_storage(
+        self,
+        translated_content: str | None = None,
+        *,
+        template_content: str | None = None,
+    ) -> tuple[AndroidFormat, Path]:
         template_file = Path(self.tempdir) / "template.xml"
         translated_file = Path(self.tempdir) / "translated.xml"
-        template_file.write_text(self.template_content, encoding="utf-8")
-        translated_file.write_text(translated_content, encoding="utf-8")
+        template_file.write_text(
+            self.template_content if template_content is None else template_content,
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            self.empty_resources if translated_content is None else translated_content,
+            encoding="utf-8",
+        )
 
         template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
         target_storage = AndroidFormat(
@@ -1119,12 +1134,7 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
         return target_storage, translated_file
 
     def test_add_uses_template_target_markup(self) -> None:
-        target_storage, translated_file = self.create_storage(
-            """<?xml version="1.0" encoding="utf-8"?>
-<resources>
-</resources>
-"""
-        )
+        target_storage, translated_file = self.create_storage()
         target = (
             "To manage the active work profile, open the <b>Work</b> tab from the "
             "launcher"
@@ -1133,8 +1143,10 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
         unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
 
         self.assertTrue(add)
-        self.assertTrue(unit.template.target_markup)
-        self.assertTrue(unit.unit.target_markup)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_ESCAPED
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
         self.assertIn("safe-html", unit.flags)
 
         target_storage.add_unit(unit)
@@ -1161,13 +1173,15 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
         unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
 
         self.assertFalse(add)
-        self.assertTrue(unit.template.target_markup)
-        self.assertFalse(unit.unit.target_markup)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_ESCAPED
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
         self.assertIn("safe-html", unit.flags)
 
         unit.set_target(target)
 
-        self.assertTrue(unit.unit.target_markup)
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
 
         target_storage.save()
 
@@ -1176,81 +1190,264 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
         self.assertNotIn("<b>Workspace</b>", saved)
 
     def test_units_with_real_xml_use_xml_text_flag(self) -> None:
-        template_file = Path(self.tempdir) / "template.xml"
-        translated_file = Path(self.tempdir) / "translated.xml"
-        template_file.write_text(
-            self.template_content.replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
-            encoding="utf-8",
-        )
-        translated_file.write_text(
-            """<?xml version="1.0" encoding="utf-8"?>
-<resources>
-</resources>
-""",
-            encoding="utf-8",
-        )
-        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
-        target_storage = AndroidFormat(
-            translated_file.as_posix(),
-            template_store=template_storage,
+        target_storage, _ = self.create_storage(
+            template_content=self.template_content.replace(
+                "&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"
+            ),
         )
 
         unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
 
         self.assertTrue(add)
-        self.assertFalse(unit.template.target_markup)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_XML
+        )
         self.assertIn("xml-text", unit.flags)
         self.assertNotIn("safe-html", unit.flags)
 
     def test_discard_safe_html_override_is_honored(self) -> None:
-        template_file = Path(self.tempdir) / "template.xml"
-        translated_file = Path(self.tempdir) / "translated.xml"
-        template_file.write_text(
-            self.template_content.replace(
-                'name="existing_work_profile_help"',
-                'name="existing_work_profile_help" weblate-flags="discard:safe-html"',
-            ),
-            encoding="utf-8",
-        )
-        translated_file.write_text(
-            """<?xml version="1.0" encoding="utf-8"?>
+        target_storage, _ = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="existing_work_profile_help" weblate-flags="discard:safe-html">To manage the existing work profile, navigate to the &lt;b&gt;Work&lt;/b&gt; tab in the launcher</string>
 </resources>
 """,
-            encoding="utf-8",
-        )
-        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
-        target_storage = AndroidFormat(
-            translated_file.as_posix(),
-            template_store=template_storage,
         )
 
         unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
 
         self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_ESCAPED
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
         self.assertNotIn("safe-html", unit.flags)
 
+    def test_entity_escaped_plain_text_does_not_imply_html_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">&lt;not set&gt;</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "pref_summary_http_proxy_missing", "<not set>"
+        )
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_PLAIN
+        )
+        self.assertEqual(unit.source, "<not set>")
+        self.assertNotIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target("<not set>")
+        target_storage.save()
+
+        self.assertIn("&lt;not set&gt;", translated_file.read_text(encoding="utf-8"))
+
+    def test_cdata_markup_uses_auto_safe_html_flag(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cdata_markup"><![CDATA[<b>%1$s</b> marker]]></string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit("cdata_markup", "<b>%1$s</b> marker")
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_CDATA
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_CDATA)
+        self.assertIn("auto-safe-html", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+        self.assertNotIn("xml-text", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target("<b>%1$s</b> changed")
+        target_storage.save()
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_CDATA)
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<![CDATA[<b>%1$s</b> changed]]>", saved)
+
+    def test_cdata_plain_text_uses_auto_safe_html_flag(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cdata_plain_text"><![CDATA[5 < 7]]></string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit("cdata_plain_text", "5 < 7")
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_CDATA
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_CDATA)
+        self.assertIn("auto-safe-html", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target("6 < 8")
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<![CDATA[6 < 8]]>", saved)
+
+    def test_plain_entity_input_is_double_escaped(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">&lt;not set&gt;</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "pref_summary_http_proxy_missing", "<not set>"
+        )
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_PLAIN
+        )
+
+        target_storage.add_unit(unit)
+        unit.set_target("&lt;not set&gt;")
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&amp;lt;not set&amp;gt;", saved)
+
+    def test_edit_xml_markup_reapplies_template_mode(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            translated_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_markup_message">&lt;b&gt;%1$s&lt;/b&gt; marker</string>
+</resources>
+""",
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_markup_message"><b>%1$s</b> marker</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "inline_markup_message", "<b>%1$s</b> marker"
+        )
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_XML
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+        unit.set_target("<b>%1$s</b> marker")
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<b>%1$s</b> marker", saved)
+        self.assertNotIn("&lt;b&gt;%1$s&lt;/b&gt;", saved)
+
+    def test_edit_plain_markup_reapplies_template_mode(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            translated_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">Configured elsewhere</string>
+</resources>
+""",
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">&lt;not set&gt;</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "pref_summary_http_proxy_missing", "<not set>"
+        )
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_PLAIN
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+
+        unit.set_target("<not set>")
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_PLAIN)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;not set&gt;", saved)
+        self.assertNotIn("&amp;lt;not set&amp;gt;", saved)
+
+    def test_plural_edit_reapplies_template_xml_mode(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            translated_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="item_count">
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; item</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; items</item>
+    </plurals>
+</resources>
+""",
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="item_count">
+        <item quantity="one"><b>%1$s</b> item</item>
+        <item quantity="other"><b>%1$s</b> items</item>
+    </plurals>
+</resources>
+""",
+        )
+
+        template_unit = target_storage.all_units[0]
+        unit, add = target_storage.find_unit(
+            template_unit.context, template_unit.source
+        )
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_XML
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+        unit.set_target(["<b>%1$s</b> item", "<b>%1$s</b> items"])
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<b>%1$s</b> item", saved)
+        self.assertIn("<b>%1$s</b> items", saved)
+        self.assertNotIn("&lt;b&gt;%1$s&lt;/b&gt;", saved)
+
     def test_discard_xml_text_override_is_honored(self) -> None:
-        template_file = Path(self.tempdir) / "template.xml"
-        translated_file = Path(self.tempdir) / "translated.xml"
-        template_file.write_text(
-            self.template_content.replace(
+        target_storage, _ = self.create_storage(
+            template_content=self.template_content.replace(
                 'name="existing_work_profile_help"',
                 'name="existing_work_profile_help" weblate-flags="discard:xml-text"',
             ).replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
-            encoding="utf-8",
-        )
-        translated_file.write_text(
-            """<?xml version="1.0" encoding="utf-8"?>
-<resources>
-</resources>
-""",
-            encoding="utf-8",
-        )
-        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
-        target_storage = AndroidFormat(
-            translated_file.as_posix(),
-            template_store=template_storage,
         )
 
         unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
