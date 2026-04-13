@@ -11,10 +11,11 @@ from rest_framework.authtoken.models import Token
 from weblate.auth.models import setup_project_groups
 from weblate.trans.models import Project
 from weblate.trans.tasks import actual_project_removal
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.files import remove_tree
 
 
-class ProjectTokenTest(ViewTestCase):
+class ProjectTokenTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -47,6 +48,17 @@ class ProjectTokenTest(ViewTestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+
+    def create_additional_project(
+        self, name: str = "Other", slug: str = "other"
+    ) -> Project:
+        project = Project.objects.create(
+            name=name,
+            slug=slug,
+            web="https://nonexisting.weblate.org/",
+        )
+        self.addCleanup(remove_tree, project.full_path, True)
+        return project
 
     def test_create_token(self) -> None:
         """Managers should be able to create new tokens."""
@@ -161,7 +173,7 @@ class ProjectTokenTest(ViewTestCase):
         """Project removal should not delete tokens still used by another project."""
         token_key = self.create_token()
         token_user = self.get_token_user(token_key)
-        second_project = self.create_project(name="Other", slug="other")
+        second_project = self.create_additional_project(name="Other", slug="other")
         second_project.access_control = Project.ACCESS_PRIVATE
         second_project.save()
         if not second_project.defined_groups.exists():

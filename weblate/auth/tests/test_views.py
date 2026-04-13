@@ -3,10 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from weblate.auth.models import Group
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class TeamsTest(ViewTestCase):
+class TeamsTest(FixtureTestCase):
     def make_superuser(self, superuser: bool = True) -> None:
         self.user.is_superuser = superuser
         self.user.save()

@@ -13,10 +13,10 @@ from django.utils.http import urlencode
 
 from weblate.trans.feeds import TranslationChangesFeed
 from weblate.trans.models import Change, Unit
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 
 
-class FeedQueriesTest(ViewTestCase):
+class FeedQueriesTest(FixtureTestCase):
     # Reverse managers populate different related objects up front, so the
     # fixed query budget differs between project/component/translation feeds.
     PROJECT_FEED_QUERIES = 12

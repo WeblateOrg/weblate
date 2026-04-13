@@ -6,10 +6,10 @@
 
 from weblate.lang.models import Language
 from weblate.trans.models import Translation, WorkflowSetting
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
-class WorkflowSettingsTestCase(ViewTestCase):
+class WorkflowSettingsTestCase(FixtureComponentTestCase):
     def assert_workflow(self, **kwargs) -> None:
         self.assertFalse(self.translation.enable_review)
         self.assertTrue(self.translation.enable_suggestions)

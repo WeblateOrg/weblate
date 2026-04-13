@@ -18,7 +18,10 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Unit
-from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    FixtureTestCase,
+)
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -69,7 +72,7 @@ class SamePluralsCheckTest(PluralsCheckTest):
         )
 
 
-class TranslatedCheckTest(ViewTestCase):
+class TranslatedCheckTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.check = TranslatedCheck()
