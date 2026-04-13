@@ -699,8 +699,11 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         # Migrate content from aliased language to alias target
         weblate_data_lang_codes = {lang[0] for lang in LANGUAGES}
-        for code, language in languages.items():
+        alias_migrated = False
+        removed_languages: list[str] = []
+        for code, language in tuple(languages.items()):
             if (code in ALIASES) and (code not in weblate_data_lang_codes):
+                alias_migrated = True
                 alias_target = Language.objects.get(code=ALIASES[code])
                 self.move_language(language, alias_target, logger)
 
@@ -708,12 +711,22 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 if language.has_no_children():
                     logger(f"Removing {language}")
                     language.delete()
+                    removed_languages.append(code)
                 else:
                     logger(
                         f"Skipping removal of {language} due to existing child objects"
                     )
 
-        self._fixup_plural_types(logger)
+        for code in removed_languages:
+            languages.pop(code, None)
+            plurals.pop(code, None)
+
+        # Alias migration can create target plurals that were not part of the
+        # initial cache snapshot, so use a live scan in that case.
+        if alias_migrated:
+            self._fixup_plural_types(logger)
+        else:
+            self._fixup_plural_types(logger, plurals)
 
     def move_language(
         self,
@@ -771,23 +784,44 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         source.memory_source_set.update(source_language=target)
         source.memory_target_set.update(target_language=target)
 
-    def _fixup_plural_types(self, logger) -> None:
+    def _fixup_plural_types(
+        self,
+        logger: Callable[[str], None],
+        plurals: dict[str, dict[int, list[Plural]]] | None = None,
+    ) -> None:
         """Fix plural types as they were changed in Weblate codebase."""
-        if not Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
-            for plural in Plural.objects.filter(
+        candidates: Iterable[Plural]
+        if plurals is None:
+            if Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
+                return
+            candidates = Plural.objects.filter(
                 type=data.PLURAL_ONE_FEW_OTHER
-            ).select_related("language"):
-                language = plural.language
-                newtype = get_plural_type(language.base_code, plural.formula)
-                if newtype == data.PLURAL_UNKNOWN:
-                    msg = f"Invalid plural type of {plural.formula}"
-                    raise ValueError(msg)
-                if newtype != plural.type:
-                    plural.type = newtype
-                    plural.save(update_fields=["type"])
-                    logger(
-                        f"Updated type of {plural.formula} for language {language.code}"
-                    )
+            ).select_related("language")
+        else:
+            known_plurals = tuple(
+                plural
+                for language_plurals in plurals.values()
+                for source_plurals in language_plurals.values()
+                for plural in source_plurals
+            )
+            if any(plural.type == data.PLURAL_ONE_FEW_MANY for plural in known_plurals):
+                return
+            candidates = (
+                plural
+                for plural in known_plurals
+                if plural.type == data.PLURAL_ONE_FEW_OTHER
+            )
+
+        for plural in candidates:
+            language = plural.language
+            newtype = get_plural_type(language.base_code, plural.formula)
+            if newtype == data.PLURAL_UNKNOWN:
+                msg = f"Invalid plural type of {plural.formula}"
+                raise ValueError(msg)
+            if newtype != plural.type:
+                plural.type = newtype
+                plural.save(update_fields=["type"])
+                logger(f"Updated type of {plural.formula} for language {language.code}")
 
 
 def setup_lang(sender, **kwargs) -> None:
