@@ -91,6 +91,16 @@ class NewUnitParams(TypedDict):
     skip_existing: NotRequired[bool]
 
 
+def normalize_translation_check_flags(check_flags: str, *, needs_readonly: bool) -> str:
+    """Normalize auto-managed translation flags while preserving user flags."""
+    flags = Flags(check_flags)
+    if needs_readonly:
+        flags.merge("read-only")
+    else:
+        flags.remove("read-only")
+    return flags.format()
+
+
 class TranslationManager(models.Manager):
     def check_sync(
         self,
@@ -112,13 +122,7 @@ class TranslationManager(models.Manager):
             translation.filename = path
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
-        flags = ""
-        if translation.source_editing_disabled:
-            flags = "read-only"
-        if translation.check_flags != flags:
-            force = True
-            translation.check_flags = flags
-            translation.save(update_fields=["check_flags"])
+        force |= translation.sync_readonly_check_flag()
         translation.check_sync(force, request=request, change=change)
         return translation
 
@@ -295,6 +299,23 @@ class Translation(
         result = self.parse_check_flags()
         result.remove("read-only")
         return result
+
+    def sync_readonly_check_flag(self, *, save: bool = True) -> bool:
+        """Synchronize the auto-managed read-only flag."""
+        if not (self.is_source or self.is_template):
+            return False
+        check_flags = normalize_translation_check_flags(
+            self.check_flags,
+            needs_readonly=self.source_editing_disabled,
+        )
+        if self.check_flags == check_flags:
+            return False
+        self.check_flags = check_flags
+        self.__dict__.pop("all_flags", None)
+        self.__dict__.pop("is_readonly", None)
+        if save:
+            self.save(update_fields=["check_flags"])
+        return True
 
     def clean(self) -> None:
         """Validate that filename exists and can be opened using translate-toolkit."""
@@ -751,6 +772,45 @@ class Translation(
         - repository push is handled by the caller
         - pending_changes_pk only has pending changes for units associated with this translation
         """
+        if not self.filename:
+            return self._commit_pending_without_filename(pending_changes_pk)
+        return self._commit_pending_with_filename(reason, user, pending_changes_pk)
+
+    def _commit_pending_without_filename(self, pending_changes_pk: list[int]) -> bool:
+        """Discard uncommittable pending changes for missing file translations."""
+        report_error(
+            "Attempted to commit translation without filename",
+            project=self.component.project,
+            message=True,
+            extra_log=f"translation={self.full_slug}, pending_changes={len(pending_changes_pk)}",
+        )
+        pending_changes = list(
+            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).values_list(
+                "unit_id", flat=True
+            )
+        )
+        if pending_changes:
+            pending_unit_ids = set(pending_changes)
+            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).delete()
+            remaining_pending_unit_ids = set(
+                PendingUnitChange.objects.filter(
+                    unit_id__in=pending_unit_ids
+                ).values_list("unit_id", flat=True)
+            )
+            units_to_clear = pending_unit_ids - remaining_pending_unit_ids
+            if units_to_clear:
+                Unit.objects.filter(id__in=units_to_clear).clear_disk_state()
+            self.log_error(
+                "discarding %d pending changes due to missing filename",
+                len(pending_unit_ids),
+            )
+        self.log_error("skipping commit due to missing filename")
+        return False
+
+    def _commit_pending_with_filename(
+        self, reason: str, user: User | None, pending_changes_pk: list[int]
+    ) -> bool:
+        """Commit pending changes when translation file exists."""
         try:
             store = self.store
         except FileParseError as error:

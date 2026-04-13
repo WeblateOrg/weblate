@@ -428,6 +428,53 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all_words, 19)
 
+    def test_source_translation_heals_managed_readonly_flag(self) -> None:
+        component = self.create_component()
+        source = component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+
+        component = Component.objects.get(pk=component.pk)
+        source = component.source_translation
+
+        self.assertEqual(source.check_flags, "read-only, strict-same")
+
+    def test_source_translation_sync_invalidates_flag_caches(self) -> None:
+        component = self.create_component()
+        source = component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+        source = Translation.objects.get(pk=source.pk)
+
+        self.assertFalse(source.is_readonly)
+        self.assertNotIn("read-only", source.all_flags)
+
+        source.sync_readonly_check_flag(save=False)
+
+        self.assertTrue(source.is_readonly)
+        self.assertIn("read-only", source.all_flags)
+
+    def test_commit_pending_skips_translation_without_filename(self) -> None:
+        component = self.create_component()
+        source = component.source_translation
+        user = create_test_user()
+        unit = source.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one source unit.")
+        PendingUnitChange.store_unit_change(unit=unit, author=user)
+        self.assertEqual(source.count_pending_units, 1)
+
+        with patch("weblate.trans.models.translation.report_error") as report_error:
+            self.assertTrue(component.commit_pending("test", None))
+
+        report_error.assert_called_once_with(
+            "Attempted to commit translation without filename",
+            project=component.project,
+            message=True,
+            extra_log=f"translation={source.full_slug}, pending_changes=1",
+        )
+        self.assertEqual(source.count_pending_units, 0)
+
     def test_validation(self) -> None:
         """Translation validation."""
         component = self.create_component()

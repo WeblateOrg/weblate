@@ -43,6 +43,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* :ref:`Project backup <projectbackup>` now preserves source translation read-only handling, and source-side pending commits without files are discarded to avoid repeated parse failures.
 * Fixed background failures in :ref:`addon-weblate.autotranslate.autotranslate`.
 * Git exporter now provides clearer push and missing-revision errors to authorized users.
 * Generated SSH wrapper scripts are now stored in :setting:`CACHE_DIR` instead of persistent SSH storage, and obsolete or stale wrappers are cleaned up during upgrade.

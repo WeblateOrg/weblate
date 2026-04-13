@@ -812,6 +812,7 @@ class ProjectBackup:
                 plural=plural,
                 revision=item["revision"],
             )
+            translation.sync_readonly_check_flag(save=False)
             translation.original_id = item["id"]
             if language == source_language:
                 source_translation_id = item["id"]

@@ -4,6 +4,7 @@
 
 """Tests for data exports."""
 
+import json
 import os
 import tempfile
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -207,6 +208,40 @@ class BackupsTest(ViewTestCase):
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()
+
+    def test_restore_synthesizes_source_translation_check_flags(self) -> None:
+        source = self.component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_file = next(
+                path
+                for path in zipfile.namelist()
+                if path.startswith("components/")
+                and path.endswith(f"{self.component.slug}.json")
+            )
+            component_data = json.loads(zipfile.read(component_file).decode("utf-8"))
+        self.assertFalse(
+            any(
+                "check_flags" in translation
+                for translation in component_data["translations"]
+            )
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        restored_source = restored_component.source_translation
+
+        self.assertEqual(restored_source.check_flags, "read-only")
 
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
