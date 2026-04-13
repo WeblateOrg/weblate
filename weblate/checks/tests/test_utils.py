@@ -93,3 +93,35 @@ class HighlightTestCase(SimpleTestCase):
             ),
             "simple x-weblate-7 x-weblate-16 string",
         )
+
+    def test_replace_highlighted_rst_without_syntax(self) -> None:
+        """Without highlight_syntax, RST inline literals are not stripped."""
+        unit = MockUnit(source="``release``", flags="rst-text")
+        # highlight_string with default highlight_syntax=False finds no highlights
+        # for RST markup, so the source is returned unchanged.
+        self.assertEqual(
+            replace_highlighted(unit.source, unit),
+            "``release``",
+        )
+
+    def test_replace_highlighted_rst_with_syntax(self) -> None:
+        """
+        With highlight_syntax=True, RST inline literal content is stripped.
+
+        highlight_pygments yields the inner text and surrounding backtick tokens
+        as separate spans, so the translatable word inside is removed.  The
+        surviving characters (the second `` ` `` of the opening marker) are
+        punctuation-only and not meaningful to SameCheck.
+        """
+        unit = MockUnit(source="``release``", flags="rst-text")
+        result = replace_highlighted(unit.source, unit, highlight_syntax=True)
+        # The inner word must be gone - only punctuation may remain.
+        self.assertNotIn("release", result)
+
+    def test_replace_highlighted_rst_role_with_syntax(self) -> None:
+        """With highlight_syntax=True, RST :role:`...` spans are stripped."""
+        unit = MockUnit(source=":ref:`index`", flags="rst-text")
+        self.assertEqual(
+            replace_highlighted(unit.source, unit, highlight_syntax=True),
+            "",
+        )

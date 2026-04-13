@@ -535,9 +535,14 @@ class PunctuationSpacingCheck(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Remove XML/HTML entities first (indices must match the string we iterate over)
         target = strip_entities(target)
-        # Skip punctuation inside placeables (e.g XLIFF equiv-text, RST)
+        # Skip punctuation inside placeables (e.g XLIFF equiv-text, RST).
+        # Enable syntax highlighting so RST inline literals/strong/emph spans
+        # are also excluded (previously handled by RST_MATCH).
         highlighted_ranges = [
-            (start, end) for start, end, _ in highlight_string(target, unit)
+            (start, end)
+            for start, end, _ in highlight_string(
+                target, unit, highlight_syntax="rst-text" in unit.all_flags
+            )
         ]
         highlighted_ranges.sort()
         whitespace = {" ", "\u00a0", "\u202f", "\u2009"}

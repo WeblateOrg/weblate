@@ -94,9 +94,11 @@ def replace_highlighted(
     source: str,
     unit: Unit,
     replacement: str | Callable[[int], str] = "",
+    *,
+    highlight_syntax: bool = False,
 ) -> str:
     """Replace highlighted ranges in source string."""
-    highlights = highlight_string(source, unit)
+    highlights = highlight_string(source, unit, highlight_syntax=highlight_syntax)
     if not highlights:
         return source
 

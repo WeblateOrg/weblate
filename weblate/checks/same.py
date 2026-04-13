@@ -115,7 +115,11 @@ class SameCheck(TargetCheck):
         flags = unit.all_flags
 
         # Strip all highlighted placeables and format spans.
-        stripped = replace_highlighted(stripped, unit)
+        # Enable syntax highlighting so RST inline literals/strong/emph spans
+        # are also stripped (previously handled by RST_MATCH in strip_format).
+        stripped = replace_highlighted(
+            stripped, unit, highlight_syntax="rst-text" in flags
+        )
 
         if "strict-same" in flags:
             return not stripped

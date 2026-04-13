@@ -112,7 +112,9 @@ class PunctuationSpacing(AutoFix):
             and unit.translation.language.code != "fr_CA"
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
-            highlights = highlight_string(target, unit)
+            highlights = highlight_string(
+                target, unit, highlight_syntax="rst-text" in unit.all_flags
+            )
             highlight_ranges = [(start, end) for start, end, _ in highlights]
 
             def is_highlighted(pos: int) -> bool:
