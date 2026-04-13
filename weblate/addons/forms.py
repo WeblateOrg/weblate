@@ -42,6 +42,10 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
+    from weblate.addons.autotranslate import (
+        AutoTranslateAddon,
+        AutoTranslateAddonStoredConfiguration,
+    )
     from weblate.addons.cdn import CDNJSAddon  # noqa: F401
     from weblate.addons.gettext import MesonAddon
     from weblate.addons.models import Addon
@@ -49,7 +53,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Component, Project
 
 
-class BaseAddonForm[AddonT: BaseAddon](forms.Form):
+class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon[Any, Any]](forms.Form):
     def __init__(
         self,
         user: User | None,
@@ -62,11 +66,11 @@ class BaseAddonForm[AddonT: BaseAddon](forms.Form):
         self.user = user
         forms.Form.__init__(self, *args, **kwargs)
 
-    def serialize_form(self):
-        return self.cleaned_data
+    def serialize_form(self) -> StoredConfigurationT:
+        return cast("StoredConfigurationT", self.cleaned_data)
 
     def save(self):
-        self._addon.configure(self.serialize_form())
+        self._addon.configure(cast("Any", self.serialize_form()))
         return self._addon.instance
 
 
@@ -107,7 +111,7 @@ class GenerateMoForm(BaseAddonForm):
         return self.cleaned_data["path"]
 
 
-class BaseExtractPotForm(BaseAddonForm[BaseAddon]):
+class BaseExtractPotForm(BaseAddonForm):
     interval = forms.ChoiceField(
         label=gettext_lazy("Update frequency"),
         choices=(
@@ -760,12 +764,31 @@ class DiscoveryForm(BaseAddonForm):
         return self.template_clean("intermediate_template")
 
 
-class AutoAddonForm(BaseAddonForm, AutoForm):
-    def __init__(self, user: User, addon, instance=None, **kwargs) -> None:
+class AutoAddonForm(
+    BaseAddonForm["AutoTranslateAddonStoredConfiguration", "AutoTranslateAddon"],
+    AutoForm,
+):
+    def __init__(
+        self,
+        user: User | None,
+        addon: AutoTranslateAddon,
+        instance=None,
+        **kwargs,
+    ) -> None:
         BaseAddonForm.__init__(self, user, addon)
         AutoForm.__init__(
             self, obj=addon.instance.component or addon.instance.project, **kwargs
         )
+
+    def serialize_form(self) -> AutoTranslateAddonStoredConfiguration:
+        return {
+            "mode": self.cleaned_data["mode"],
+            "q": self.cleaned_data["q"],
+            "auto_source": self.cleaned_data["auto_source"],
+            "component": self.cleaned_data["component"],
+            "engines": self.cleaned_data["engines"],
+            "threshold": self.cleaned_data["threshold"],
+        }
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
@@ -796,7 +819,7 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
         return result
 
 
-class CDNJSForm(BaseAddonForm["CDNJSAddon"]):
+class CDNJSForm(BaseAddonForm):
     threshold = forms.IntegerField(
         label=gettext_lazy("Translation threshold"),
         initial=0,

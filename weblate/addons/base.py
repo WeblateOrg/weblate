@@ -8,7 +8,7 @@ import os
 import subprocess  # noqa: S404
 from contextlib import suppress
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -31,7 +31,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator, Iterable
+    from collections.abc import Callable, Generator, Iterable, Mapping
 
     from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
@@ -48,11 +48,11 @@ class CompatDict(TypedDict, total=False):
     edit_template: set[bool]
 
 
-class BaseAddon(DocVersionsMixin):
+class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     """Base class for Weblate add-ons."""
 
     events: ClassVar[set[AddonEvent]] = set()
-    settings_form: type[BaseAddonForm] | None = None
+    settings_form: type[BaseAddonForm[StoredConfigurationT, Self]] | None = None
     name = ""
     compat: ClassVar[CompatDict] = {}
     multiple = False
@@ -110,7 +110,7 @@ class BaseAddon(DocVersionsMixin):
             category=category,
             component=component,
             name=cls.name,
-            acting_user=acting_user,
+            acting_user=acting_user,  # type: ignore[misc]
             **kwargs,
         )
 
@@ -149,7 +149,7 @@ class BaseAddon(DocVersionsMixin):
         category: Category | None = None,
         project: Project | None = None,
         **kwargs,
-    ) -> BaseAddonForm | None:
+    ) -> BaseAddonForm[StoredConfigurationT, Self] | None:
         """Return configuration form for adding new add-on."""
         if cls.settings_form is None:
             return None
@@ -159,13 +159,34 @@ class BaseAddon(DocVersionsMixin):
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
 
-    def get_settings_form(self, user: User | None, **kwargs) -> BaseAddonForm | None:
+    def get_settings_form(
+        self, user: User | None, **kwargs
+    ) -> BaseAddonForm[StoredConfigurationT, Self] | None:
         """Return configuration form for this add-on."""
         if self.settings_form is None:
             return None
         if "data" not in kwargs:
-            kwargs["data"] = self.instance.configuration
+            kwargs["data"] = self.get_settings_form_data()
         return self.settings_form(user, self, **kwargs)
+
+    def get_settings_form_data(self) -> Mapping[str, object]:
+        return cast("Mapping[str, object]", self.stored_configuration)
+
+    @property
+    def stored_configuration(self) -> StoredConfigurationT:
+        return cast("StoredConfigurationT", self.instance.configuration)
+
+    def normalize_configuration(
+        self, configuration: StoredConfigurationT
+    ) -> ConfigurationT:
+        return cast("ConfigurationT", configuration)
+
+    def get_configuration(self) -> ConfigurationT:
+        return self.normalize_configuration(self.stored_configuration)
+
+    @property
+    def configuration(self) -> ConfigurationT:
+        return self.get_configuration()
 
     def show_setting_field(self, field: BoundField) -> bool:
         return not field.is_hidden and field.value()
@@ -200,7 +221,7 @@ class BaseAddon(DocVersionsMixin):
             if self.show_setting_field(field)
         ]
 
-    def configure(self, configuration: dict[str, Any]) -> None:
+    def configure(self, configuration: StoredConfigurationT) -> None:
         """Save configuration."""
         self.instance.configuration = configuration
         self.instance.save()
@@ -523,11 +544,22 @@ class BaseAddon(DocVersionsMixin):
         Override this for project-level logic, or override daily_component()
         for per-component logic.
         """
+        results: dict[str, dict] = {}
         for comp in self.resolve_components(
             component=component, category=category, project=project
         ):
             if self.can_process(component=comp):
-                self.daily_component(comp, activity_log_id=activity_log_id)
+                result = cast(
+                    "dict | None",
+                    self.daily_component(comp, activity_log_id=activity_log_id),
+                )
+                if result is not None:
+                    results[comp.full_slug] = result
+        if not results:
+            return None
+        if component is not None and len(results) == 1:
+            return next(iter(results.values()))
+        return {"components": results}
 
     def daily_component(
         self,
@@ -535,12 +567,14 @@ class BaseAddon(DocVersionsMixin):
         activity_log_id: int | None = None,
     ) -> dict | None:
         """Per-component daily processing. Override this for component-level logic."""
+        return None
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> dict | None:
         """Event handler for component update."""
         # To be implemented in a subclass
+        return None
 
     def check_change_action(self, change: Change) -> bool:
         """Early filtering of Change actions before triggering change_event callback."""
@@ -551,6 +585,7 @@ class BaseAddon(DocVersionsMixin):
     ) -> dict | None:
         """Event handler for change event."""
         # To be implemented in a subclass
+        return None
 
     def execute_process(
         self, component: Component, cmd: list[str], env: dict[str, str] | None = None

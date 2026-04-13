@@ -16,7 +16,7 @@ from datetime import timedelta
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from unittest.mock import patch
 
 import jsonschema.exceptions
@@ -62,7 +62,7 @@ from weblate.utils.state import (
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import RepositoryError
 
-from .autotranslate import AutoTranslateAddon
+from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
 from .cdn import CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
@@ -153,6 +153,45 @@ class CrashAddon(UpdateBaseAddon):
         return False
 
 
+class TypedConfigAddonStoredConfiguration(TypedDict, total=False):
+    count: int | str
+
+
+class TypedConfigAddonConfiguration(TypedDict):
+    count: int
+
+
+class TypedConfigAddon(
+    BaseAddon[TypedConfigAddonStoredConfiguration, TypedConfigAddonConfiguration]
+):
+    """Testing add-on with typed configuration normalization."""
+
+    name = "weblate.base.typed"
+    verbose = "Typed test add-on"
+    description = "Typed test add-on"
+
+    def normalize_configuration(
+        self, configuration: TypedConfigAddonStoredConfiguration
+    ) -> TypedConfigAddonConfiguration:
+        raw_count = configuration.get("count", 0)
+        if isinstance(raw_count, str):
+            raw_count = int(raw_count)
+        return {"count": raw_count}
+
+
+class DailyResultAddon(BaseAddon):
+    name = "weblate.base.daily-result"
+    verbose = "Daily result add-on"
+    description = "Daily result add-on"
+
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        return {"component": component.slug}
+
+
 class TestAddonMixin:
     def setUp(self) -> None:
         super().setUp()
@@ -160,6 +199,7 @@ class TestAddonMixin:
         ADDONS.data[ExampleAddon.name] = ExampleAddon
         ADDONS.data[CrashAddon.name] = CrashAddon
         ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
+        ADDONS.data[DailyResultAddon.name] = DailyResultAddon
 
     def tearDown(self) -> None:
         super().tearDown()
@@ -167,6 +207,7 @@ class TestAddonMixin:
         del ADDONS.data[ExampleAddon.name]
         del ADDONS.data[CrashAddon.name]
         del ADDONS.data[ExamplePreAddon.name]
+        del ADDONS.data[DailyResultAddon.name]
 
 
 class AddonBaseTest(TestAddonMixin, ViewTestCase):
@@ -217,6 +258,29 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
+
+    def test_daily_returns_component_result(self) -> None:
+        addon = DailyResultAddon.create(component=self.component, run=False)
+
+        self.assertEqual(addon.daily(component=self.component), {"component": "test"})
+
+    def test_daily_aggregates_multiple_component_results(self) -> None:
+        component2 = self.create_po_new_base(
+            name="Test 2",
+            slug="test-2",
+            project=self.project,
+        )
+        addon = DailyResultAddon.create(project=self.project, run=False)
+
+        self.assertEqual(
+            addon.daily(project=self.project),
+            {
+                "components": {
+                    self.component.full_slug: {"component": "test"},
+                    component2.full_slug: {"component": component2.slug},
+                }
+            },
+        )
 
     def test_add_form(self) -> None:
         form = NoOpAddon.get_add_form(None, component=self.component, data={})
@@ -4426,6 +4490,20 @@ class AutoTranslateAddonTest(ViewTestCase):
 
 
 class AutoTranslateAddonUnitTest(SimpleTestCase):
+    def test_base_addon_configuration_normalizes_stored_values(self) -> None:
+        addon = TypedConfigAddon.__new__(TypedConfigAddon)
+        addon.instance = SimpleNamespace(configuration={"count": "5"})
+
+        self.assertEqual(addon.stored_configuration["count"], "5")
+        self.assertEqual(addon.get_configuration(), {"count": 5})
+        self.assertEqual(addon.configuration, {"count": 5})
+
+    def test_base_addon_configuration_defaults_missing_legacy_values(self) -> None:
+        addon = TypedConfigAddon.__new__(TypedConfigAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(addon.get_configuration(), {"count": 0})
+
     def test_trigger_autotranslate_normalizes_blank_component_for_translation_task(
         self,
     ) -> None:
@@ -4486,6 +4564,101 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+        )
+
+    def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "auto_source": "others",
+                "filter_type": "comments",
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "auto_source": "others",
+                "component": None,
+                "engines": [],
+                "mode": "translate",
+                "q": "has:comment",
+                "threshold": 80,
+            },
+        )
+
+    def test_get_settings_form_data_normalizes_legacy_filter_configuration(
+        self,
+    ) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "auto_source": "others",
+                "filter_type": "comments",
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_settings_form_data(),
+            {
+                "auto_source": "others",
+                "component": None,
+                "engines": [],
+                "mode": "translate",
+                "q": "has:comment",
+                "threshold": 80,
+            },
+        )
+
+    def test_get_configuration_ignores_component_for_mt(self) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": 123,
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": ["weblate"],
+                "threshold": 80,
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "auto_source": "mt",
+                "component": None,
+                "engines": ["weblate"],
+                "mode": "translate",
+                "q": "state:<translated",
+                "threshold": 80,
+            },
+        )
+
+    def test_get_configuration_ignores_threshold_for_others(self) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "threshold": 50,
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "auto_source": "others",
+                "component": None,
+                "engines": [],
+                "mode": "translate",
+                "q": "state:<translated",
+                "threshold": DEFAULT_AUTO_TRANSLATE_THRESHOLD,
+            },
         )
 
 
