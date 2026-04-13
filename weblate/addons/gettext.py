@@ -201,9 +201,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed
 
-    def post_add(
-        self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
+    def _sync_linguas_for_translation(self, translation: Translation) -> None:
         with translation.component.repository.lock:
             path = self.get_validated_linguas_path(translation.component)
             if path is None:
@@ -212,13 +210,15 @@ class UpdateLinguasAddon(GettextBaseAddon):
             if changed:
                 translation.addon_commit_files.append(path)
 
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
+        self._sync_linguas_for_translation(translation)
+
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None
     ) -> None:
-        with translation.component.repository.lock:
-            path = self.get_linguas_path(translation.component)
-            if self.sync_linguas(translation.component, path):
-                translation.addon_commit_files.append(path)
+        self._sync_linguas_for_translation(translation)
 
     def daily_component(
         self,
@@ -308,21 +308,21 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
         return added
 
-    def post_add(
-        self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
+    def _sync_linguas_for_translation(self, translation: Translation) -> None:
         with translation.component.repository.lock:
             paths = list(self.get_configure_paths(translation.component))
             if self.sync_linguas(translation.component, paths):
                 translation.addon_commit_files.extend(paths)
 
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
+        self._sync_linguas_for_translation(translation)
+
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None
     ) -> None:
-        with translation.component.repository.lock:
-            paths = list(self.get_configure_paths(translation.component))
-            if self.sync_linguas(translation.component, paths):
-                translation.addon_commit_files.extend(paths)
+        self._sync_linguas_for_translation(translation)
 
     def daily_component(
         self,

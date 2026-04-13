@@ -1765,18 +1765,18 @@ class Translation(
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
 
+        # Delete the translation from the database before committing
+        # to ensure add-ons operate on the updated translation set
+        self.delete()
+        transaction.on_commit(self.stats.update_parents)
+        transaction.on_commit(self.component.schedule_update_checks)
+
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
             commit_message = self.get_commit_message(
                 author, template=self.component.delete_message
             )
             with self.component.repository.lock:
-                # Delete the translation from the database before committing
-                # to ensure add-ons operate on the updated translation set
-                self.delete()
-                transaction.on_commit(self.stats.update_parents)
-                transaction.on_commit(self.component.schedule_update_checks)
-
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
                 translation_post_remove.send(
                     sender=self.__class__, translation=self
@@ -1787,13 +1787,9 @@ class Translation(
                     self.filenames,
                     commit_message,
                     author,
-                    extra_files=self.addon_commit_files or None,
+                    extra_commit_files=self.addon_commit_files or None,
                 )
                 self.component.push_if_needed()
-        else:
-            self.delete()
-            transaction.on_commit(self.stats.update_parents)
-            transaction.on_commit(self.component.schedule_update_checks)
 
         # Remove blank directory if still present (appstore)
         filename = Path(self.get_filename())
