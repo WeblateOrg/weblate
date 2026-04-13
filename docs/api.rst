@@ -1453,10 +1453,10 @@ Components
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
-    :>json string push_on_commit: :ref:`component-push_on_commit`
+    :>json boolean push_on_commit: :ref:`component-push_on_commit`; linked repositories expose the effective value from the linked component
     :>json bool locked: Whether component is locked, this field is read-only; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
-    :>json string commit_pending_age: :ref:`component-commit_pending_age`
-    :>json string auto_lock_error: :ref:`component-auto_lock_error`
+    :>json integer commit_pending_age: :ref:`component-commit_pending_age`; linked repositories expose the effective value from the linked component
+    :>json boolean auto_lock_error: :ref:`component-auto_lock_error`; linked repositories expose the effective value from the linked component
     :>json string language_regex: :ref:`component-language_regex`
     :>json string variant_regex: :ref:`component-variant_regex`
     :>json bool is_glossary: :ref:`component-is_glossary`

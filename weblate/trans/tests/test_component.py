@@ -817,6 +817,65 @@ class ComponentChangeTest(RepoTestCase):
         # Unlocked event
         self.assertEqual(component.change_set.count() - start, 4)
 
+    def test_linked_autolock_uses_main_setting(self) -> None:
+        component = self.create_po(name="main-autolock")
+        self.component = component
+        self.project = component.project
+        linked_component = self.create_link_existing(
+            name="Linked autolock", slug="linked-autolock"
+        )
+        component.auto_lock_error = False
+        component.save(update_fields=["auto_lock_error"])
+        linked_component.auto_lock_error = True
+        linked_component.save(update_fields=["auto_lock_error"])
+
+        component.add_alert("MergeFailure")
+
+        component.refresh_from_db()
+        linked_component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertFalse(linked_component.locked)
+
+    def test_linked_push_if_needed_uses_main_setting(self) -> None:
+        self.component = self.create_po(name="main-push")
+        self.project = self.component.project
+        linked_component = self.create_link_existing(
+            name="Linked push", slug="linked-push"
+        )
+        self.component.push_on_commit = True
+        self.component.save(update_fields=["push_on_commit"])
+        linked_component.push_on_commit = False
+        linked_component.save(update_fields=["push_on_commit"])
+        linked_component = Component.objects.get(pk=linked_component.pk)
+
+        with (
+            patch.object(Component, "can_push", return_value=True),
+            patch.object(Component, "repo_needs_push", return_value=True),
+            patch.object(Component, "do_push") as mock_do_push,
+        ):
+            linked_component.push_if_needed(do_update=False)
+
+        mock_do_push.assert_called_once_with(None, force_commit=False, do_update=False)
+
+    def test_linked_autolock_locks_child_from_main_setting(self) -> None:
+        component = self.create_po(name="main-autolock-child")
+        self.component = component
+        self.project = component.project
+        linked_component = self.create_link_existing(
+            name="Linked autolock child", slug="linked-autolock-child"
+        )
+        component.auto_lock_error = True
+        component.save(update_fields=["auto_lock_error"])
+        linked_component.auto_lock_error = False
+        linked_component.save(update_fields=["auto_lock_error"])
+
+        component.add_alert("MergeFailure")
+
+        component.refresh_from_db()
+        linked_component.refresh_from_db()
+        self.assertTrue(component.locked)
+        self.assertTrue(linked_component.locked)
+
 
 class ComponentValidationTest(RepoTestCase):
     """Component object validation testing."""

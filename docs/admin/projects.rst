@@ -477,7 +477,7 @@ Repository branch
 
 Which branch to checkout from the VCS, and where to look for translations.
 
-For linked repositories, this is not used and setting from linked component applies.
+.. include:: /snippets/linked-repository-setting.rst
 
 .. _component-push_branch:
 
@@ -486,7 +486,7 @@ Push branch
 
 Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
-For linked repositories, this is not used and setting from linked component applies.
+.. include:: /snippets/linked-repository-setting.rst
 
 .. note::
 
@@ -931,6 +931,8 @@ changes to its underlying repository (see :ref:`lazy-commit`). To actually
 enable pushing :guilabel:`Repository push URL` has to be configured as
 well.
 
+.. include:: /snippets/linked-repository-setting.rst
+
 .. _component-commit_pending_age:
 
 Age of changes to commit
@@ -940,6 +942,8 @@ Sets how old (in hours) changes have to be before they are committed by
 background task or the :wladmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one change
 older than this period.
+
+.. include:: /snippets/linked-repository-setting.rst
 
 The default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
@@ -959,6 +963,8 @@ This avoids adding another conflicts, which would have to be resolved manually.
 
 The component will be automatically unlocked once there are no repository
 errors left.
+
+.. include:: /snippets/linked-repository-setting.rst
 
 .. _component-source_language:
 

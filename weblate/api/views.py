@@ -1383,7 +1383,11 @@ class ProjectViewSet(
                     },
                 )
 
-        queryset = obj.component_set.filter_access(self.request.user).order_by("id")
+        queryset = (
+            obj.component_set.filter_access(self.request.user)
+            .prefetch_related("linked_component")
+            .order_by("id")
+        )
         page = self.paginate_queryset(queryset)
 
         serializer = ComponentSerializer(
