@@ -1778,9 +1778,7 @@ class Translation(
             )
             with self.component.repository.lock:
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
-                translation_post_remove.send(
-                    sender=self.__class__, translation=self
-                )
+                translation_post_remove.send(sender=self.__class__, translation=self)
 
                 # Remove files and commit together with add-on changes
                 self.component.repository.remove(
