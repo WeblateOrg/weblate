@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-08 20:13+0000\n"
+"PO-Revision-Date: 2026-04-14 07:09+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -1762,7 +1762,7 @@ msgstr "Normalizovat hlavičku POT"
 
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "Aktualizuje hlavičky gettext a nahradí zástupné komentáře POT."
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1777,63 +1777,57 @@ msgstr ""
 "aktualizaci souboru POT."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Nepodařilo se vytvořit komentář!"
+msgstr "Neextrahovat komentáře"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Procházet všechny součásti"
+msgstr "Extrahovat všechny komentáře"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Extrahovat komentáře se značkou"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Komentáře od uživatelů"
+msgstr "Komentáře ke kódu"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Zvolte, zda má xgettext extrahovat všechny komentáře, žádné komentáře nebo "
+"pouze komentáře označené určitou značkou."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Text komentáře"
+msgstr "Značka komentáře"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Značka předaná nástroji xgettext pro extrahování komentářů při použití "
+"režimu označených komentářů."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Kontroly systému"
+msgstr "Kontroly xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Dodatečné ověřovací kontroly xgettext k povolení pro extrahované zprávy."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Další větev"
+msgstr "Dodatečné klíčové slovo"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Dodatečné extra klíčové slovo předané nástroji xgettext pomocí --keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4668,16 +4662,12 @@ msgid "C format string does not match source."
 msgstr "Formátovací řetězec C v překladu neodpovídá zdroji."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Formát Object Pascal"
+msgstr "Formát Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Formátovací řetězec C v překladu neodpovídá zdroji."
+msgstr "Formátovací řetězec Objective-C v překladu neodpovídá zdroji."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5617,6 +5607,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Odesílání není v exportovacím nástroji Weblate pro Git podporováno. Odešlete "
+"změny namísto toho do upstreamového repozitáře."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5624,12 +5616,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Odesílání není v exportovacím nástroji Weblate pro Git podporováno. Odešlete "
+"změny namísto toho do upstreamového repozitáře: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Požadovaná revize není dostupná v lokální databázi Weblate pro Git. Nejprve "
+"ji načtěte z upstreamového repozitáře."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5637,6 +5633,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Požadovaná revize není dostupná v lokální databázi Weblate pro Git. Nejprve "
+"ji načtěte z upstreamového repozitáře: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5644,6 +5642,9 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Zjednodušený výpis z repozitáře Git ve Weblate neobsahuje dostatečnou "
+"historii, aby vyhovoval požadavku na načtení. Nejprve proveďte načtení z "
+"nadřazeného repozitáře nebo použijte klon, který sdílí historii s Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5653,16 +5654,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Zjednodušený výpis z repozitáře Git ve Weblate neobsahuje dostatečnou "
+"historii, aby vyhovoval požadavku na načtení. Nejprve proveďte načtení z "
+"nadřazeného repozitáře nebo použijte klon, který sdílí historii s Weblate. "
+"Upstreamový repozitář: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Export z Gitu selhal."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Nepodporovaný soubor!"
+msgstr "Nepodporovaná služba Git."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -13932,6 +13935,11 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Exportovaný repozitář Weblate může být ve výchozím nastavení neúplný, proto "
+"tento postup funguje nejlépe s aktuální verzí z hlavního repozitáře. "
+"Klonování z exportovaného repozitáře Weblate nebo použití zastaralé verze z "
+"hlavního repozitáře může selhat, i když jsou Weblate a hlavní repozitář "
+"synchronizovány. Podrobnosti najdete v sekci Často kladené dotazy níže."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -17185,16 +17193,14 @@ msgstr ""
 "prázdná."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Větev repozitáře"
+msgstr "Neplatná větev repozitáře: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Chybný vyhledávací řetězec!"
+msgstr "Neplatná větev pro odeslání: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -17858,10 +17864,8 @@ msgid "Very low"
 msgstr "Velmi nízká"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "Adresa URL zálohovacího úložiště"
+msgstr "adresa repozitáře"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
