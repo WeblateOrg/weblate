@@ -1166,6 +1166,26 @@ class PendingUnitChangeTest(RepoTestCase):
             set(components.values_list("pk", flat=True)), {self.component.pk}
         )
 
+    def test_has_pending_changes_uses_prefetched_relation(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        pending_unit = translation.unit_set.get(source="Hello, world!\n")
+        pending_unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        clean_unit = translation.unit_set.exclude(pk=pending_unit.pk).first()
+        if clean_unit is None:
+            self.fail("Expected a unit without pending changes in test fixture.")
+
+        prefetched_units = {
+            unit.pk: unit
+            for unit in translation.unit_set.filter(
+                pk__in=(pending_unit.pk, clean_unit.pk)
+            ).prefetch_related("pending_changes")
+        }
+
+        with self.assertNumQueries(0):
+            self.assertTrue(prefetched_units[pending_unit.pk].has_pending_changes)
+            self.assertFalse(prefetched_units[clean_unit.pk].has_pending_changes)
+
     def test_find_committable_components_with_commit_policy(self) -> None:
         """Test find_committable_components respects commit policies."""
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
