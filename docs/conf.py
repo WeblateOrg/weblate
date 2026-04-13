@@ -93,6 +93,7 @@ extensions = [
     "djangodocs",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
+    "autodoc_signature_filter",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",

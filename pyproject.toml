@@ -598,7 +598,7 @@ max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
 "ci/migrate-scripts/*.py" = ["INP001", "S101"]
-"docs/_ext/djangodocs.py" = ["INP001"]
+"docs/_ext/*.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "scripts/*" = ["T201", "T203"]
 "weblate/*/migrations/*.py" = ["RUF012"]
