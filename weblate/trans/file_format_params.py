@@ -39,6 +39,7 @@ class FileFormatParams(TypedDict, total=False):
     po_set_language_team_header: bool
     po_set_last_translator: bool
     po_set_x_generator: bool
+    po_report_msgid_bugs_to: bool
     yaml_indent: int
     yaml_line_wrap: int
     yaml_line_break: str
@@ -65,7 +66,9 @@ class BaseFileFormatParam:
         "po_no_location",
         "po_fuzzy_matching",
         "po_set_language_team_header",
+        "po_set_last_translator",
         "po_set_x_generator",
+        "po_report_msgid_bugs_to",
         "yaml_indent",
         "yaml_line_wrap",
         "yaml_line_break",

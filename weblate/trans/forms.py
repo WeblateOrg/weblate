@@ -2444,7 +2444,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "name",
             "web",
             "instructions",
-            "set_language_team",
             "use_shared_tm",
             "contribute_shared_tm",
             "autoclean_tm",
@@ -2592,7 +2591,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 ),
                 Tab(
                     gettext("Workflow"),
-                    "set_language_team",
                     "use_shared_tm",
                     "contribute_shared_tm",
                     "autoclean_tm",
