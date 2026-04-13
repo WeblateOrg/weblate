@@ -85,6 +85,7 @@ Weblate 5.17
 * REST API component creation now handles temporary uploaded files for ``docfile`` and ``zipfile`` uploads.
 * SSH repository errors now distinguish changed host keys from missing host keys and avoid automatically trusting host key replacements.
 * Improved loading speed for comments on the translate page.
+* Reduced repeated metric queries when rendering activity charts on overview pages with cold caches.
 
 .. rubric:: Compatibility
 
