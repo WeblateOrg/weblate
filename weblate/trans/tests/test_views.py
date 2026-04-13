@@ -93,7 +93,7 @@ class RegistrationTestMixin(TestCase):
         )
 
 
-class ViewTestCase(RepoTestCase):
+class ComponentTestCase(RepoTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         clear_users_cache()
@@ -107,18 +107,14 @@ class ViewTestCase(RepoTestCase):
         self.user = create_test_user()
         group = Group.objects.get(name="Users")
         self.user.groups.add(group)
-        # Create another user
-        self.anotheruser = create_another_user()
-        self.user.groups.add(group)
         # Create project to have some test base
         self.component = self.create_component()
         self.project = self.component.project
+        if not self.project.defined_groups.exists():
+            setup_project_groups(self, self.project)
         self.translation = self.get_translation()
         # Invalidate caches
         cache.clear()
-        # Login
-        self.client.login(username="testuser", password="testpassword")
-        # Prepopulate kwargs
 
     @property
     def kw_project(self):
@@ -163,6 +159,11 @@ class ViewTestCase(RepoTestCase):
         # Project privileges
         self.project.add_user(self.user, "Administration")
 
+    def set_up_authenticated_view(self) -> None:
+        self.anotheruser = create_another_user()
+        self.user.groups.add(Group.objects.get(name="Users"))
+        self.client.login(username="testuser", password="testpassword")
+
     def get_request(self, user=None):
         """Get fake request object."""
         request = self.factory.get("/")
@@ -197,29 +198,6 @@ class ViewTestCase(RepoTestCase):
         unit = self.get_unit(source, language, translation=translation)
         unit.translate(user or self.user, target, state)
         return unit
-
-    def edit_unit(
-        self,
-        source: str,
-        target: str,
-        language: str = "cs",
-        follow: bool = False,
-        translation: Translation | None = None,
-        **kwargs,
-    ):
-        """Do edit single unit using web interface."""
-        unit = self.get_unit(source, language, translation=translation)
-        params = {
-            "checksum": unit.checksum,
-            "contentsum": hash_to_checksum(unit.content_hash),
-            "translationsum": hash_to_checksum(unit.get_target_hash()),
-            "target_0": target,
-            "review": "20",
-        }
-        params.update(kwargs)
-        return self.client.post(
-            unit.translation.get_translate_url(), params, follow=follow
-        )
 
     def assert_redirects_offset(self, response, exp_path, exp_offset) -> None:
         """Assert that offset in response matches expected one."""
@@ -287,7 +265,7 @@ class ViewTestCase(RepoTestCase):
             None,
             file_format_params=translation.component.file_format_params,
         )
-        messages = set()
+        messages: set[int] = set()
         translated = 0
 
         for unit in store.content_units:
@@ -302,11 +280,40 @@ class ViewTestCase(RepoTestCase):
             f"Did not found expected number of translations ({translated} != {expected_translated}).",
         )
 
+    def edit_unit(
+        self,
+        source: str,
+        target: str,
+        language: str = "cs",
+        follow: bool = False,
+        translation: Translation | None = None,
+        **kwargs,
+    ):
+        """Do edit single unit using web interface."""
+        unit = self.get_unit(source, language, translation=translation)
+        params = {
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": target,
+            "review": "20",
+        }
+        params.update(kwargs)
+        return self.client.post(
+            unit.translation.get_translate_url(), params, follow=follow
+        )
+
     def log_as_jane(self) -> None:
         self.client.login(username="jane", password="testpassword")
 
 
-class FixtureTestCase(ViewTestCase):
+class ViewTestCase(ComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.set_up_authenticated_view()
+
+
+class FixtureComponentTestCase(ComponentTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         """Manually load fixture."""
@@ -333,7 +340,7 @@ class FixtureTestCase(ViewTestCase):
         return
 
     # pylint: disable=arguments-differ
-    def create_project(self):
+    def create_project(self, name: str = "Test", slug: str = "test", **kwargs):
         project = Project.objects.all()[0]
         setup_project_groups(self, project)
         return project
@@ -342,6 +349,12 @@ class FixtureTestCase(ViewTestCase):
         component = self.create_project().component_set.all()[0]
         component.create_path()
         return component
+
+
+class FixtureTestCase(FixtureComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.set_up_authenticated_view()
 
 
 class TranslationManipulationTest(ViewTestCase):

@@ -13,7 +13,7 @@ from django.core.files.base import File
 from django.test import SimpleTestCase
 from PIL import Image
 
-from weblate.fonts.tests.utils import FONT, FONT_NAME, FontTestCase
+from weblate.fonts.tests.utils import FONT, FONT_NAME, FontComponentTestCase
 from weblate.fonts.utils import (
     _render_size,
     check_render_size,
@@ -119,7 +119,7 @@ class RenderTest(SimpleTestCase):
         self.assertGreater(image.size[1], 10)
 
 
-class FontNameTest(FontTestCase):
+class FontNameTest(FontComponentTestCase):
     def test_get_font_name_repeated_for_uploaded_file(self) -> None:
         with FONT.open("rb") as handle:
             uploaded = File(handle, name=FONT_NAME)
