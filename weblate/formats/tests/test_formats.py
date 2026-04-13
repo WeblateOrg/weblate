@@ -75,7 +75,7 @@ from weblate.formats.ttkit import (
 from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
 from weblate.trans.file_format_params import get_encoding_param
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
@@ -327,7 +327,17 @@ class AutoLoadTest(SimpleTestCase):
         )
 
 
-class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
+class FormatTestCase(BaseTestCase, TempDirMixin):
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        self.remove_temp()
+        super().tearDown()
+
+
+class BaseFormatTest(FormatTestCase, ABC):
     FILE = TEST_PO
     BASE = TEST_POT
     TEMPLATE: str | None = None
@@ -352,14 +362,6 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     EDIT_TARGET: ClassVar[str | list[str]] = "Nazdar, svete!\n"
     MONOLINGUAL = False
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {}
-
-    def setUp(self) -> None:
-        super().setUp()
-        self.create_temp()
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        self.remove_temp()
 
     @property
     @abstractmethod
