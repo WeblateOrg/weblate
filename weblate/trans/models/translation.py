@@ -23,6 +23,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.translation import gettext, ngettext
+from translate.storage.fluent import FluentContentError
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
@@ -51,7 +52,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
@@ -984,6 +985,44 @@ class Translation(
         """Format commit message based on project configuration."""
         return render_template(template, translation=self, author=author, **kwargs)
 
+    def _is_handled_fluent_content_error(self, error: Exception) -> bool:
+        return self.component.file_format == "fluent" and isinstance(
+            error, FluentContentError
+        )
+
+    def _log_unit_update_failure(self, unit: Unit, error: Exception) -> None:
+        if self._is_handled_fluent_content_error(error):
+            log_handled_exception(
+                "Could not update unit",
+                extra_log=(
+                    f"format=fluent, translation={self.full_slug}, "
+                    f"unit={unit.pk}, context={unit.context!r}"
+                ),
+            )
+            return
+        report_error("Could not update unit", project=self.component.project)
+
+    def _store_failed_unit_update(
+        self, unit: Unit, pending_change: PendingUnitChange, error: Exception
+    ) -> None:
+        unit.state = STATE_FUZZY
+        # Use update instead of hitting expensive save()
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+        unit.change_set.create(
+            action=ActionEvents.SAVE_FAILED,
+            target=self.component.get_parse_error_message(error),
+        )
+
+        pending_change.metadata.update(
+            {
+                "last_failed": timezone.now().isoformat(),
+                "failed_revision": self.revision,
+                "weblate_version": GIT_VERSION,
+                "blocking_unit": False,
+            }
+        )
+        pending_change.save()
+
     @property
     def count_pending_units(self):
         """Return count of units with pending changes."""
@@ -1140,26 +1179,8 @@ class Translation(
                         pending_change.source_unit_explanation
                     )
                 except Exception as error:
-                    report_error(
-                        "Could not update unit", project=self.component.project
-                    )
-                    unit.state = STATE_FUZZY
-                    # Use update instead of hitting expensive save()
-                    Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
-                    unit.change_set.create(
-                        action=ActionEvents.SAVE_FAILED,
-                        target=self.component.get_parse_error_message(error),
-                    )
-
-                    pending_change.metadata.update(
-                        {
-                            "last_failed": timezone.now().isoformat(),
-                            "failed_revision": self.revision,
-                            "weblate_version": GIT_VERSION,
-                            "blocking_unit": False,
-                        }
-                    )
-                    pending_change.save()
+                    self._log_unit_update_failure(unit, error)
+                    self._store_failed_unit_update(unit, pending_change, error)
                     # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
