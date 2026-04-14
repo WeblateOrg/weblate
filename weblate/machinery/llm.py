@@ -402,7 +402,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         add_breadcrumb(self.name, "response", translations_string=translations_string)
         if translations_string is None or not translations_string:
             msg = "Blank assistant reply"
-            self.report_error(msg, extra_log=translations_string, message=True)
+            self.log_handled_error(msg, extra_log=translations_string)
             raise MachineTranslationError(msg)
 
         try:
@@ -413,14 +413,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
             )
             if repaired_translations_string is None:
                 msg = "Could not parse assistant reply as JSON."
-                self.report_error(msg, extra_log=translations_string)
+                self.log_handled_error(msg, extra_log=translations_string)
                 raise MachineTranslationError(msg) from error
 
             try:
                 translations = json.loads(repaired_translations_string)
             except json.JSONDecodeError as repaired_error:
                 msg = "Could not parse assistant reply as JSON."
-                self.report_error(msg, extra_log=translations_string)
+                self.log_handled_error(msg, extra_log=translations_string)
                 raise MachineTranslationError(msg) from repaired_error
 
             add_breadcrumb(self.name, "response-repaired")
@@ -429,7 +429,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
             translations = self._validate_translations(translations, sources)
         except MachineTranslationError as error:
             msg = "Mismatching assistant reply."
-            self.report_error(msg, extra_log=translations_string, message=True)
+            self.log_handled_error(msg, extra_log=translations_string)
             raise MachineTranslationError(msg) from error
 
         for index, translation in enumerate(translations):
