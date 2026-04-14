@@ -93,6 +93,7 @@ Weblate 5.17
 * Improved loading speed for comments on the translate page.
 * Reduced repeated metric queries when rendering activity charts on overview pages with cold caches.
 * :ref:`machine-translation` no longer treats translatable reStructuredText role content as :ref:`placeables-mt`.
+* :ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation such as ``؟!`` and ``!؟``.
 
 .. rubric:: Compatibility
 
