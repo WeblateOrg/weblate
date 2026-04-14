@@ -36,6 +36,13 @@ Event change
 
 Triggered after a Change event is created.
 
+.. _addon-event-manual-trigger:
+
+Manual trigger
+--------------
+
+Triggered when an add-on is run manually from add-on management or the API.
+
 .. _addon-event-repository-post-add:
 
 Repository post-add

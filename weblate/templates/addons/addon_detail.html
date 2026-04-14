@@ -59,6 +59,15 @@
     </form>
   {% else %}
     <p class="help-block">{% translate "This add-on has no settings." %}</p>
+    {% if instance and instance.can_run_manually %}
+      <form method="post" class="inlineform">
+        {% csrf_token %}
+        <button type="submit" name="run" value="1" class="btn btn-primary">{% translate "Run now" %}</button>
+      </form>
+    {% endif %}
+    {% if instance %}
+      <a href="{% url 'addon-logs' instance.id %}" class="btn btn-primary">{% translate "View Logs" %}</a>
+    {% endif %}
   {% endif %}
 
 {% endblock content %}

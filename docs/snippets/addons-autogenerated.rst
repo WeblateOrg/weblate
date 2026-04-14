@@ -973,7 +973,7 @@ Update POT file (Django)
                 | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                   |
                 +----------------------+----------------------+----------------------------------------------------------------------------------+
 
-:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-repository-post-update`
 
 Updates the gettext template using Django's built-in makemessages command.
 
@@ -1058,7 +1058,7 @@ Update POT file (Meson)
                 |                      |                      |      - GLib                                                                                                                                                    |
                 +----------------------+----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-repository-post-update`
 
 Updates the gettext template using Meson gettext conventions.
 
@@ -1171,7 +1171,7 @@ Update POT file (Sphinx)
                 |                      |                      |      - Weblate documentation                                                        |
                 +----------------------+----------------------+-------------------------------------------------------------------------------------+
 
-:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-repository-post-update`
 
 Updates the gettext template using Sphinx's gettext builder without loading
 project configuration.
@@ -1250,7 +1250,7 @@ Update POT file (xgettext)
                 | ``potfiles_path``    | POTFILES path        | Repository-relative path to POTFILES or POTFILES.in. Entries are resolved relative to the repository root. If present next to the manifest, POTFILES.skip excludes listed files from extraction. |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-repository-post-update`
 
 Updates the gettext template using xgettext on selected source files.
 

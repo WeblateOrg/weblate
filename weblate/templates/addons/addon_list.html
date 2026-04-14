@@ -62,6 +62,13 @@
                     <input type="hidden" name="delete" value="{{ addon.name }}" />
                     <button type="submit" class="btn btn-danger">{% translate "Uninstall" %}</button>
                   </form>
+                  {% if addon.can_run_manually %}
+                    <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
+                      {% csrf_token %}
+                      <input type="hidden" name="run" value="1" />
+                      <button type="submit" class="btn btn-primary">{% translate "Run now" %}</button>
+                    </form>
+                  {% endif %}
                   <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
                   {% if addon.is_valid and addon.addon.has_settings %}
                     <a class="btn btn-primary" href="{{ addon.get_absolute_url }}">{% translate "Configure" %}</a>

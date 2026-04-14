@@ -550,6 +550,52 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         Override this for project-level logic, or override daily_component()
         for per-component logic.
         """
+        return self.handle_scoped_component_event(
+            self.daily_component,
+            component=component,
+            category=category,
+            project=project,
+            activity_log_id=activity_log_id,
+        )
+
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """Per-component daily processing. Override this for component-level logic."""
+        return None
+
+    def manual(
+        self,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """
+        Scope-aware manual entry point.
+
+        By default this mirrors the daily handler and lets add-ons opt in
+        explicitly by subscribing to the manual event.
+        """
+        return self.handle_scoped_component_event(
+            self.manual_component,
+            component=component,
+            category=category,
+            project=project,
+            activity_log_id=activity_log_id,
+        )
+
+    def handle_scoped_component_event(
+        self,
+        handler: Callable[[Component, int | None], dict | None],
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
         results: dict[str, dict] = {}
         for comp in self.resolve_components(
             component=component, category=category, project=project
@@ -557,7 +603,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             if self.can_process(component=comp):
                 result = cast(
                     "dict | None",
-                    self.daily_component(comp, activity_log_id=activity_log_id),
+                    handler(comp, activity_log_id),
                 )
                 if result is not None:
                     results[comp.full_slug] = result
@@ -567,13 +613,13 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             return next(iter(results.values()))
         return {"components": results}
 
-    def daily_component(
+    def manual_component(
         self,
         component: Component,
         activity_log_id: int | None = None,
     ) -> dict | None:
-        """Per-component daily processing. Override this for component-level logic."""
-        return None
+        """Per-component manual processing."""
+        return self.daily_component(component, activity_log_id=activity_log_id)
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None

@@ -5,6 +5,8 @@ Weblate 5.17.1
 
 .. rubric:: New features
 
+* Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
+
 .. rubric:: Improvements
 
 * The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.

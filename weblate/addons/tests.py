@@ -109,6 +109,7 @@ from .tasks import (
     cleanup_addon_activity_log,
     daily_addons,
     language_consistency,
+    run_addon_manually,
 )
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
@@ -191,12 +192,13 @@ class TypedConfigAddon(
         return {"count": raw_count}
 
 
-class DailyResultAddon(BaseAddon):
-    name = "weblate.base.daily-result"
-    verbose = "Daily result add-on"
-    description = "Daily result add-on"
+class ManualResultAddon(BaseAddon):
+    events: ClassVar[set[AddonEvent]] = {AddonEvent.EVENT_MANUAL}
+    name = "weblate.base.manual-result"
+    verbose = "Manual result add-on"
+    description = "Manual result add-on"
 
-    def daily_component(
+    def manual_component(
         self,
         component: Component,
         activity_log_id: int | None = None,
@@ -211,7 +213,7 @@ class TestAddonMixin:
         ADDONS.data[ExampleAddon.name] = ExampleAddon
         ADDONS.data[CrashAddon.name] = CrashAddon
         ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
-        ADDONS.data[DailyResultAddon.name] = DailyResultAddon
+        ADDONS.data[ManualResultAddon.name] = ManualResultAddon
 
     def tearDown(self) -> None:
         super().tearDown()
@@ -219,7 +221,7 @@ class TestAddonMixin:
         del ADDONS.data[ExampleAddon.name]
         del ADDONS.data[CrashAddon.name]
         del ADDONS.data[ExamplePreAddon.name]
-        del ADDONS.data[DailyResultAddon.name]
+        del ADDONS.data[ManualResultAddon.name]
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
@@ -271,21 +273,21 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
 
-    def test_daily_returns_component_result(self) -> None:
-        addon = DailyResultAddon.create(component=self.component, run=False)
+    def test_manual_returns_component_result(self) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
 
-        self.assertEqual(addon.daily(component=self.component), {"component": "test"})
+        self.assertEqual(addon.manual(component=self.component), {"component": "test"})
 
-    def test_daily_aggregates_multiple_component_results(self) -> None:
+    def test_manual_aggregates_multiple_component_results(self) -> None:
         component2 = self.create_po_new_base(
             name="Test 2",
             slug="test-2",
             project=self.project,
         )
-        addon = DailyResultAddon.create(project=self.project, run=False)
+        addon = ManualResultAddon.create(project=self.project, run=False)
 
         self.assertEqual(
-            addon.daily(project=self.project),
+            addon.manual(project=self.project),
             {
                 "components": {
                     self.component.full_slug: {"component": "test"},
@@ -293,6 +295,29 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
                 }
             },
         )
+
+    def test_can_run_manually_for_manual_addon(self) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
+
+        self.assertTrue(addon.instance.can_run_manually)
+
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_schedule_manual_run(self, mocked_delay) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
+
+        addon.instance.schedule_manual_run()
+
+        mocked_delay.assert_called_once_with(addon.instance.pk)
+
+    def test_run_addon_manually(self) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
+
+        run_addon_manually(addon.instance.pk)
+
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        self.assertEqual(activity.event, AddonEvent.EVENT_MANUAL)
+        self.assertEqual(activity.details["result"], {"component": "test"})
+        self.assertFalse(activity.pending)
 
     def test_add_form(self) -> None:
         form = NoOpAddon.get_add_form(None, component=self.component, data={})
@@ -1762,6 +1787,55 @@ class GettextAddonTest(ViewTestCase):
             addon.post_configure_run_component(self.component)
 
         mocked.assert_called_once_with(self.component, "")
+
+    def test_extract_pot_manual_bypasses_schedule(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date().isoformat()
+        )
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+        addon.save_state()
+
+        with patch.object(
+            XgettextAddon, "execute_update", return_value=False
+        ) as mocked:
+            addon.manual_component(self.component)
+
+        mocked.assert_called_once_with(self.component, "")
+        self.assertNotIn("_force_run", addon.get_component_state(self.component))
+
+    def test_extract_pot_manual_commits_pending_changes(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": True,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(
+                self.component, "commit_pending", return_value=False
+            ) as mocked_commit,
+            patch.object(XgettextAddon, "execute_update", return_value=False),
+        ):
+            addon.manual_component(self.component)
+
+        mocked_commit.assert_called_once_with("add-on", None)
 
     def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
         addon = XgettextAddon.create(
@@ -3490,6 +3564,48 @@ class ViewTests(ViewTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "addons/addon_logs.html")
         self.assertEqual(response.context["instance"], addon)
+
+    def test_manual_run_button(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "Run now")
+        self.assertContains(response, addon.get_absolute_url())
+
+    def test_non_daily_addon_has_no_manual_run_button(self) -> None:
+        GettextAuthorComments.create(component=self.component, run=False)
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertNotContains(response, "Run now")
+
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_manual_run(self, mocked_delay) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.client.post(addon.get_absolute_url(), {"run": "1"}, follow=True)
+
+        mocked_delay.assert_called_once_with(addon.pk)
+        self.assertContains(response, "Add-on run has been scheduled.")
 
     def test_nonexisting_detail(self) -> None:
         identifier = "weblate.addon.nonexisting"
