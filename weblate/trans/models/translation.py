@@ -1825,6 +1825,11 @@ class Translation(
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
 
+        # Build commit message before deleting (needs stats from DB)
+        commit_message = self.get_commit_message(
+            author, template=self.component.delete_message
+        )
+
         # Delete the translation from the database before committing
         # to ensure add-ons operate on the updated translation set
         self.delete()
@@ -1833,9 +1838,6 @@ class Translation(
 
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
-            commit_message = self.get_commit_message(
-                author, template=self.component.delete_message
-            )
             with self.component.repository.lock:
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
                 translation_post_remove.send(sender=self.__class__, translation=self)

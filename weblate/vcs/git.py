@@ -521,7 +521,7 @@ class GitRepository(Repository):
     ) -> None:
         """Remove files and creates new revision."""
         self.execute(["rm", "--force", "--", *files])
-        self.commit(message, author, files=extra_commit_files)
+        self.commit(message, author, files=files + (extra_commit_files or []))
 
     def get_remote_configure(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
