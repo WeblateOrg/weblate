@@ -610,8 +610,6 @@ class GitRepository(Repository):
                 # Default committer
                 ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
                 ("user", "name", settings.DEFAULT_COMMITER_NAME),
-                # Avoid the default branch warning
-                ("advice", "defaultBranchName", "false"),
             )
         )
         # Merge driver
