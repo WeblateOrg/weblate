@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import Counter
 from contextlib import suppress
-from typing import TYPE_CHECKING, Any, overload
+from typing import TYPE_CHECKING, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -88,6 +88,19 @@ from weblate.utils.views import (
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.component import ComponentQuerySet
+
+
+class LanguageChangeKwargs(TypedDict):
+    user: User
+    component: Component
+    details: dict[str, str]
+    translation: NotRequired[Translation]
+
+
+class _ComponentChangeSet(Protocol):
+    def create(
+        self, *, action: ActionEvents, **kwargs: Unpack[LanguageChangeKwargs]
+    ) -> Change: ...
 
 
 @never_cache
@@ -936,7 +949,9 @@ def new_project_or_category_language(
         if form.is_valid():
             languages = Language.objects.filter(code__in=form.cleaned_data["lang"])
             language_map = {lang.code: lang for lang in languages}
-            lang_counters = {lang_code: Counter() for lang_code in language_map}
+            lang_counters: dict[str, Counter[str]] = {
+                lang_code: Counter() for lang_code in language_map
+            }
 
             for component in eligible_components:
                 _, component_counts = add_languages_to_component(
@@ -1020,15 +1035,16 @@ def add_languages_to_component(
     languages: list[Language],
     component: Component,
     show_messages: bool,
-) -> tuple[Any, Counter]:
+) -> tuple[Component | Translation | str, Counter[str]]:
     added_codes: set[str] = set()
-    result = component
-    kwargs = {
+    result: Component | Translation | str = component
+    change_set: _ComponentChangeSet = component.change_set
+    kwargs: LanguageChangeKwargs = {
         "user": user,
         "component": component,
         "details": {},
     }
-    lang_counts = Counter()
+    lang_counts: Counter[str] = Counter()
     with component.repository.lock:
         component.commit_pending("add language", None)
         for language in languages:
@@ -1047,18 +1063,14 @@ def add_languages_to_component(
                     kwargs["translation"] = translation
                     if len(languages) == 1:
                         result = translation
-                    component.change_set.create(
-                        action=ActionEvents.ADDED_LANGUAGE, **kwargs
-                    )
+                    change_set.create(action=ActionEvents.ADDED_LANGUAGE, **kwargs)
                     lang_counts[f"added_{lang_code}"] += 1
                     continue
 
             elif component.new_lang == "contact":
                 if component.translation_set.filter(language_code=lang_code).exists():
                     continue
-                component.change_set.create(
-                    action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
-                )
+                change_set.create(action=ActionEvents.REQUESTED_LANGUAGE, **kwargs)
                 if show_messages:
                     messages.success(
                         request,
