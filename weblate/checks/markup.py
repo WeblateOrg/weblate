@@ -200,7 +200,7 @@ class BaseXMLCheck(TargetCheck):
 
         flags = unit.all_flags
 
-        if "safe-html" in flags:
+        if flags.has_any({"safe-html", "auto-safe-html"}):
             return True
 
         if "xml-text" in flags:
@@ -475,14 +475,19 @@ class SafeHTMLCheck(TargetCheck):
     name = gettext_lazy("Unsafe HTML")
     description = gettext_lazy("The translation uses unsafe HTML markup.")
     default_disabled = True
+    extra_enable_strings = ("auto-safe-html",)
 
     def check_single(self, source: str, target: str, unit: Unit):
+        flags = unit.all_flags
+        if not flags.is_active("safe-html", source):
+            return False
+
         # Strip MarkDown links
-        if "md-text" in unit.all_flags:
+        if "md-text" in flags:
             target = MD_LINK.sub("", target)
 
         sanitizer = HTMLSanitizer()
-        cleaned_target = sanitizer.clean(target, source, unit.all_flags)
+        cleaned_target = sanitizer.clean(target, source, flags)
 
         return cleaned_target != target
 

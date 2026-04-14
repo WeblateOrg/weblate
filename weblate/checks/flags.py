@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from functools import lru_cache
 from typing import TYPE_CHECKING, Any, ClassVar
 
@@ -26,6 +27,7 @@ from weblate.checks.parser import (
 from weblate.fonts.utils import get_font_weight
 from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
+from weblate.utils.html import is_auto_safe_html_source
 
 if TYPE_CHECKING:
     from collections.abc import Iterator, Sequence
@@ -39,6 +41,52 @@ FlagTuple = tuple[str, *tuple[FlagValue, ...]]
 FlagItem = str | FlagTuple
 FlagItems = Iterable[FlagItem]
 FlagValueParser = Callable[[tuple[Any, ...]], Any]
+
+
+@dataclass(frozen=True)
+class AutoFlagHandler:
+    auto_flag: str
+    name: StrOrPromise
+    detector: Callable[[str, Flags], bool]
+    ignore_flag: str | None = None
+
+
+AUTO_JAVA_MESSAGEFORMAT_MATCH = re.compile(
+    r"""
+    {                                   # initial {
+        \s*
+        \d+                             # variable order
+        \s*
+        (
+        ,\s*[a-z]+                      # format type
+        (,\s*\S+)?                      # format style
+        )?
+        \s*
+    }                                   # ending }
+    """,
+    re.VERBOSE,
+)
+
+
+def is_auto_java_messageformat_source(source: str, flags: Flags) -> bool:
+    del flags
+    return AUTO_JAVA_MESSAGEFORMAT_MATCH.search(source) is not None
+
+
+AUTO_FLAG_HANDLERS = {
+    "safe-html": AutoFlagHandler(
+        auto_flag="auto-safe-html",
+        name=gettext_lazy("Conditional safe HTML"),
+        detector=is_auto_safe_html_source,
+        ignore_flag="ignore-safe-html",
+    ),
+    "java-format": AutoFlagHandler(
+        auto_flag="auto-java-messageformat",
+        name=gettext_lazy("Automatically detect Java MessageFormat"),
+        detector=is_auto_java_messageformat_source,
+        ignore_flag="ignore-java-format",
+    ),
+}
 
 
 def discard_flag_validation(name: str) -> None:
@@ -71,9 +119,6 @@ PLAIN_FLAGS["md-text"] = gettext_lazy("Markdown text")
 PLAIN_FLAGS["xml-text"] = gettext_lazy("XML text")
 PLAIN_FLAGS["dos-eol"] = gettext_lazy("DOS line endings")
 PLAIN_FLAGS["url"] = gettext_lazy("URL")
-PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
-    "Automatically detect Java MessageFormat"
-)
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read-only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
 PLAIN_FLAGS["strict-format"] = gettext_lazy("Strict format string checks")
@@ -81,6 +126,9 @@ PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
 PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
 PLAIN_FLAGS["case-insensitive"] = gettext_lazy("Use case insensitive placeholders")
+PLAIN_FLAGS.update(
+    {handler.auto_flag: handler.name for handler in AUTO_FLAG_HANDLERS.values()}
+)
 
 DISCARD_FLAG = "discard"
 
@@ -117,6 +165,13 @@ IGNORE_CHECK_FLAGS = {check.ignore_string for check in CHECKS.values()} | set(
 )
 
 FLAG_ALIASES = {"markdown-text": "md-text"}
+
+
+def get_auto_flag_names(name: str) -> tuple[str, ...]:
+    handler = AUTO_FLAG_HANDLERS.get(name)
+    if handler is None:
+        return ()
+    return (handler.auto_flag,)
 
 
 def _parse_flags_text(flags: str) -> Iterator[FlagItem]:
@@ -381,6 +436,16 @@ class Flags:
 
     def has_any(self, flags: set[str]) -> bool:
         return bool(flags & set(self._items.keys()))
+
+    def is_active(self, name: str, source: str | None = None) -> bool:
+        handler = AUTO_FLAG_HANDLERS.get(name)
+        if handler and handler.ignore_flag is not None and handler.ignore_flag in self:
+            return False
+        if name in self:
+            return True
+        if handler is None or handler.auto_flag not in self or source is None:
+            return False
+        return handler.detector(source, self)
 
 
 class FlagsValidator(Flags):

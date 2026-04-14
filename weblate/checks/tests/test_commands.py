@@ -36,6 +36,20 @@ class ListTestCase(SimpleTestCase):
         call_command("list_checks", stdout=output)
         self.assertIn(".. _check-same:", output.getvalue())
 
+    def test_list_checks_includes_auto_flag_notes(self) -> None:
+        output = StringIO()
+        call_command("list_checks", "--sections", "checks", stdout=output)
+        value = output.getvalue()
+        self.assertIn(":Automatic flag behavior:", value)
+        self.assertIn(
+            "``auto-java-messageformat``: Treat a text as conditional Java MessageFormat",
+            value,
+        )
+        self.assertIn(
+            "``auto-safe-html``: Treat a text as conditional HTML",
+            value,
+        )
+
     def test_list_checks_requires_sections_with_output(self) -> None:
         with self.assertRaisesRegex(CommandError, "requires exactly one"):
             call_command("list_checks", "-o", "checks.rst")

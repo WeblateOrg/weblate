@@ -442,6 +442,95 @@ class SafeHTMLCheckTest(CheckTestCase):
             ),
         )
 
+    def test_auto_safe_html_plain_text(self) -> None:
+        self.do_test(True, ("Plain text", "<b>Plain text</b>", "auto-safe-html"))
+
+    def test_auto_safe_html_unmatched_tag_text(self) -> None:
+        self.do_test(
+            False,
+            ("Press <b to continue", "<script>alert(1)</script>", "auto-safe-html"),
+        )
+
+    def test_auto_safe_html_html(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a href="https://weblate.org/">link</a>',
+                '<a href="javascript:foo()">link</a>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_custom_element(self) -> None:
+        self.do_test(
+            True,
+            (
+                "<x-demo>link</x-demo>",
+                '<x-demo onclick="alert(1)">link</x-demo>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_html_with_quoted_gt(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a title="1 > 0">link</a>',
+                '<a title="1 > 0" href="javascript:foo()">link</a>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_html_with_quoted_lt(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a title="a<b">link</a>',
+                '<a title="a<b" href="javascript:foo()">link</a>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_normalized_html(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Line<br/>break",
+                "Line<script>alert(1)</script>break",
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_inferred_structure(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<option selected>",
+                "<script>alert(1)</script>",
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_markdown_component(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "auto-safe-html,md-text",
+            ),
+        )
+
+    def test_auto_safe_html_safe_html_wins(self) -> None:
+        self.do_test(
+            True,
+            (
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "<script>alert(1)</script>",
+                "auto-safe-html,md-text,safe-html",
+            ),
+        )
+
 
 class RSTReferencesCheckTest(CheckTestCase):
     check = RSTReferencesCheck()

@@ -545,12 +545,12 @@ class BaseFormatCheck(TargetCheck):
         errors: list[StrOrPromise] = []
 
         # Merge plurals
-        results: MissingExtraDict = defaultdict(list)
+        results = defaultdict(list)
         for result in checks:
             if result:
                 for key, value in result.items():
                     results[key].extend(value)
-        if results:
+        if any(results.values()):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
@@ -792,6 +792,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     name = gettext_lazy("Java MessageFormat")
     description = gettext_lazy("Java MessageFormat string does not match source.")
     regexp = JAVA_MESSAGE_MATCH
+    extra_enable_strings = ("auto-java-messageformat",)
 
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"
@@ -801,10 +802,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if self.is_ignored(all_flags):
             return True
 
-        if "auto-java-messageformat" in unit.all_flags and "{0" in unit.source:
-            return False
-
-        return super().should_skip(unit)
+        return not all_flags.is_active("java-format", unit.source)
 
     def check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit
