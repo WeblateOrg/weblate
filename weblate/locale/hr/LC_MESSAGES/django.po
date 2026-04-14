@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-02 14:11+0000\n"
+"PO-Revision-Date: 2026-04-14 20:11+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -601,17 +601,15 @@ msgstr "{username} je uklonio/la korisnika iz tima {team}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Pristup projektu {project} je blokiran."
+msgstr "Token projekta za {project} je stvoren."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Tvoj prevodilački projekt je uklonjen"
+msgstr "Token projekta za {project} je uklonjen."
 
 #: weblate/accounts/models.py:325
 msgid "Two-factor authentication recovery codes were generated"
@@ -696,10 +694,9 @@ msgid "Account activity"
 msgstr "Aktivnost računa"
 
 #: weblate/accounts/models.py:550
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Poziv za {project} od {username}."
+msgstr "Pokrenuto od {username}."
 
 #: weblate/accounts/models.py:644
 msgid "Interface Language"
@@ -1783,26 +1780,20 @@ msgstr ""
 "datoteka aktualiziranja."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Nije bilo moguće dodati komentar!"
+msgstr "Ne izdvajaj komentare"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Pregledaj sve komponente"
+msgstr "Izdvoji sve komentare"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
 msgstr ""
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "Comments"
 msgid "Code comments"
-msgstr "Komentari"
+msgstr "Komentari o kodu"
 
 #: weblate/addons/forms.py:179
 msgid ""
@@ -1811,10 +1802,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Tekst komentara"
+msgstr "Oznake komentara"
 
 #: weblate/addons/forms.py:187
 msgid ""
@@ -1822,20 +1811,16 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Provjere sustava"
+msgstr "xgettext provjere"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Dodatna grana"
+msgstr "Dodatna ključna riječ"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
@@ -1905,10 +1890,8 @@ msgid "POTFILES path has to point to a file."
 msgstr "POTFILES staza mora upućivati na jednu datoteku."
 
 #: weblate/addons/forms.py:349
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Repozitorij resetiran"
+msgstr "Unaprijed postavljene postavke za Meson"
 
 #: weblate/addons/forms.py:350
 msgid "GLib"
@@ -2388,19 +2371,12 @@ msgstr ""
 "datotekama."
 
 #: weblate/addons/gettext.py:1239
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Aktualiziraj POT datoteku (Django)"
+msgstr "Aktualiziraj POT datoteku (Meson)"
 
 #: weblate/addons/gettext.py:1241
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"Aktualizira gettext predložak koristeći xgettext na odabranim izvornim "
-"datotekama."
+msgstr "Aktualizira gettext predložak koristeći Meson xgettext konvencije."
 
 #: weblate/addons/gettext.py:1373
 msgid "Update POT file (Django)"
@@ -2661,13 +2637,12 @@ msgid "Weblate's REST API"
 msgstr "Weblateov REST API"
 
 #: weblate/api/views.py:179 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Nije bilo moguće zaključati repozitorij, jedna druga operacija je u tijeku."
+"Nije moguće ukloniti izraz jer u pozadini teče jedna druga operacija. "
+"Pokušaj ponovo kasnije."
 
 #: weblate/api/views.py:185
 msgid "Could not obtain the lock to perform the operation."
@@ -3300,10 +3275,8 @@ msgid "Team"
 msgstr "Tim"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "IP addresses"
 msgid "E-mail addresses"
-msgstr "IP adrese"
+msgstr "E-mail adrese"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
@@ -3325,13 +3298,12 @@ msgid "%(email)s: pending invitation already exists"
 msgstr ""
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Poslan je e-mail s pozivnicom za korisnika."
-msgstr[1] "Poslan je e-mail s pozivnicom za korisnika."
-msgstr[2] "Poslan je e-mail s pozivnicom za korisnika."
+msgstr[0] "Poslana je %(count)d e-mail poruka s pozivnicom."
+msgstr[1] "Poslane su %(count)d e-mail poruke s pozivnicom."
+msgstr[2] "Poslano je %(count)d e-mail poruka s pozivnicom."
 
 #: weblate/auth/forms.py:399
 #, python-format
@@ -3342,10 +3314,8 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Pozivnica korisniku je uklonjena."
+msgstr "Nije stvorena nijedna pozivnica."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -4703,16 +4673,12 @@ msgid "C format string does not match source."
 msgstr "Izraz u C formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Objekt u Pascal formatu"
+msgstr "Objective-C format"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Izraz u C formatu se ne poklapa s izvorom."
+msgstr "Izraz u Objective-C formatu se ne poklapa s izvorom."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5699,10 +5665,8 @@ msgid "Git export failed."
 msgstr ""
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Nepodržana datoteka!"
+msgstr "Nepodržana Git usluga."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -11642,10 +11606,8 @@ msgstr "Dodaj novog korisnika"
 
 #: weblate/templates/manage/users.html:40
 #: weblate/templates/trans/project-access.html:225
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Pozvani korisnik"
+msgstr "Skupno pozivanje korisnika"
 
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:210
@@ -15276,16 +15238,13 @@ msgid "Automatic translation failed: %s"
 msgstr "Automatsko prevođenje neuspjelo: %s"
 
 #: weblate/trans/backups.py:402
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot image is missing."
-msgstr "Maska snimke ekrana"
+msgstr "Nedostaje snimka ekrana."
 
 #: weblate/trans/backups.py:916
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "Nije bilo moguće obraditi %(file)s: %(error)s"
+msgstr "Nije moguće obnoviti snimku ekrana %(name)s: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:423
 msgid "The component was automatically locked because of an alert."
@@ -16343,10 +16302,8 @@ msgstr "Dupla maska datoteke."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:307
-#, fuzzy
-#| msgid "Could not get repository status!"
 msgid "Conflicting repository setup."
-msgstr "Nije bilo moguće dobiti stanje repozitorija!"
+msgstr "Konfliktna postavka repozitorija."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:341
@@ -17294,16 +17251,14 @@ msgstr ""
 "sjedinjavanje."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Grana repozitorija"
+msgstr "Nevažeća grana repozitorija: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Neispravan izraz za pretragu!"
+msgstr "Nevažeća grana za slanje: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -17974,10 +17929,8 @@ msgid "Very low"
 msgstr "Vrlo nisko"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "URL repozitorija sigurnosne kopije"
+msgstr "URL repozitorija"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
@@ -18722,10 +18675,8 @@ msgstr[2] ""
 
 #: weblate/utils/files.py:132 weblate/utils/files.py:142
 #: weblate/utils/validators.py:128
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded file is too big."
-msgstr "Slika je prevelika."
+msgstr "Prenesena datoteka je prevelika."
 
 #: weblate/utils/forms.py:53
 msgid "Missing query string."
@@ -18777,14 +18728,11 @@ msgstr ""
 "Nizovi formata više nisu podržani, umjesto toga koristi jezik predloška."
 
 #: weblate/utils/requests.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Unable to download image from the provided URL (HTTP status code: "
-#| "%(code)s)."
+#, python-format
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Nije moguće preuzeti sliku s navedenog URL-a (kod HTTP stanja: %(code)s)."
+"Nije moguće preuzeti resurs s navedenog URL-a (kod HTTP stanja: %(code)s)."
 
 #: weblate/utils/search.py:173
 msgid "Unsupported state: {}"
