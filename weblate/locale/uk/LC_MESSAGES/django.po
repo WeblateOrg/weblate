@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-14 07:10+0000\n"
+"PO-Revision-Date: 2026-04-14 16:32+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -1826,57 +1826,55 @@ msgid "Do not extract comments"
 msgstr "Не видобувати коментарі"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Навігація всіма складниками"
+msgstr "Видобути усі коментарі"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Видобути коментарі із міткою"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "Comments"
 msgid "Code comments"
-msgstr "Коментарі"
+msgstr "Коментарі до коду"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Виберіть варіант видобування коментарів за допомогою xgettext: без "
+"коментарів, усі коментарі або лише коментарі із певною міткою."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Текст коментаря"
+msgstr "Мітка коментарів"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Мітка, яку буде передано xgettext для видобування коментарів при "
+"використанні режиму коментарів із мітками."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Устроєві перевірки"
+msgstr "Перевірки xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Додаткові перевірки чинності xgettext, які слід увімкнути для видобутих "
+"повідомлень."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Додаткове відділення"
+msgstr "Додаткове ключове слово"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Необов'язкове додаткове ключове слово, яке буде передано xgettext за "
+"допомогою --keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4749,16 +4747,12 @@ msgid "C format string does not match source."
 msgstr "Рядок, формату C, не відповідає джерелу."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Форматування Object Pascal"
+msgstr "Форматування Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Рядок, формату C, не відповідає джерелу."
+msgstr "Рядок форматування Objective-C не відповідає джерелу."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5702,6 +5696,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Підтримки записування до сховища засобу експортування з git Weblate не "
+"передбачено. Записуйте натомість до основного сховища."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5709,12 +5705,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Підтримки записування до сховища засобу експортування з git Weblate не "
+"передбачено. Записуйте натомість до основного сховища: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Бажаної модифікації немає у локальному Git-сховищі Weblate. Спочатку "
+"отримайте її з основного сховища."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
