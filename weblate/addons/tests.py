@@ -2571,6 +2571,87 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("#: admin/access.rst:", content)
         self.assertNotIn(self.component.full_path, content)
 
+    def test_sphinx_postprocess_uses_build_temp_dir_on_cross_device_repo_temp(
+        self,
+    ) -> None:
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        (source_dir / "index.rst").write_text(
+            "Index\n=====\n\nHello\n", encoding="utf-8"
+        )
+
+        with tempfile.TemporaryDirectory(
+            prefix="weblate-sphinx-postprocess-"
+        ) as tempdir:
+            build_dir = Path(tempdir) / "build"
+            build_dir.mkdir()
+            template = build_dir / "docs.pot"
+            template.write_text(
+                "\n".join(
+                    (
+                        'msgid ""',
+                        'msgstr ""',
+                        '"Content-Type: text/plain; charset=UTF-8\\n"',
+                        "",
+                        f"#: {source_dir / 'index.rst'}:1",
+                        'msgid "Hello"',
+                        'msgstr ""',
+                        "",
+                    )
+                ),
+                encoding="utf-8",
+            )
+
+            repo_temp_dir = self.component.repository.get_repo_temp_dir()
+            self.assertIsNotNone(repo_temp_dir)
+            if repo_temp_dir is None:
+                self.fail("Repository temp dir should be configured for this test")
+            build_root = build_dir.resolve()
+            repo_temp_root = repo_temp_dir.resolve()
+            temp_dirs: list[Path] = []
+            original_named_temporary_file = tempfile.NamedTemporaryFile
+
+            def fake_get_path_device_id(path: Path) -> int | None:
+                resolved = path.resolve(strict=False)
+                if resolved == build_root:
+                    return 1
+                if resolved == repo_temp_root:
+                    return 2
+                return 1
+
+            def capture_named_temporary_file(*args, **kwargs):
+                temp_dir = kwargs.get("dir")
+                if temp_dir is None and len(args) > 6:
+                    temp_dir = args[6]
+                self.assertIsNotNone(temp_dir)
+                if temp_dir is None:
+                    self.fail("NamedTemporaryFile should be called with a temp dir")
+                temp_dirs.append(Path(temp_dir).resolve(strict=False))
+                return original_named_temporary_file(*args, **kwargs)
+
+            with (
+                patch(
+                    "weblate.utils.files._get_path_device_id",
+                    side_effect=fake_get_path_device_id,
+                ),
+                patch(
+                    "weblate.formats.base.tempfile.NamedTemporaryFile",
+                    side_effect=capture_named_temporary_file,
+                ),
+            ):
+                addon.postprocess_sphinx_template(
+                    self.component, template, source_dir, build_dir
+                )
+                content = template.read_text(encoding="utf-8")
+
+        self.assertEqual(temp_dirs, [build_dir.resolve(strict=False)])
+        self.assertIn("#: index.rst:1", content)
+
     def test_sphinx_weblate_docs_filter(self) -> None:
         if find_command("sphinx-build") is None:
             self.skipTest("sphinx-build is not installed")

@@ -128,15 +128,44 @@ def cleanup_error_message(text: str) -> str:
     )
 
 
+def _get_path_device_id(path: Path) -> int | None:
+    current = path
+    while True:
+        try:
+            return current.stat().st_dev
+        except OSError:
+            parent = current.parent
+            if parent == current:
+                return None
+            current = parent
+
+
 def get_repo_temp_dir(path: str | Path, temp_dir: str | Path | None = None) -> Path:
-    """Return the provided temporary directory or fall back beside the path."""
+    """
+    Return a temp directory suitable for atomic replacement into ``path``.
+
+    The returned directory is the target directory itself, or the parent of
+    ``path`` when ``path`` does not point to a directory. If ``temp_dir`` is
+    provided, it is only used when it appears to be on the same filesystem
+    device as the target directory; otherwise this falls back to the
+    path-adjacent directory so atomic replace operations remain possible.
+    """
     try:
         resolved = Path(path).resolve(strict=False)
     except OSError:
         resolved = Path(path)
     result = resolved if resolved.is_dir() else resolved.parent
     if temp_dir is not None:
-        result = Path(temp_dir)
+        explicit = Path(temp_dir)
+        result_device = _get_path_device_id(result)
+        explicit_device = _get_path_device_id(explicit)
+        if (
+            result_device is not None
+            and explicit_device is not None
+            and result_device == explicit_device
+        ):
+            explicit.mkdir(parents=True, exist_ok=True)
+            return explicit
     result.mkdir(parents=True, exist_ok=True)
     return result
 

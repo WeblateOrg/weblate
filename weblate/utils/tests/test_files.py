@@ -7,6 +7,7 @@ import tempfile
 from io import BytesIO
 from pathlib import Path
 from typing import cast
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -115,3 +116,78 @@ class FilesTestCase(SimpleTestCase):
                 get_repo_temp_dir(filename, temp_dir=temp_dir),
                 temp_dir,
             )
+
+    def test_get_repo_temp_dir_does_not_create_unused_target_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            repo.mkdir()
+            (repo / ".git").mkdir()
+            filename = repo / "locale" / "cs.po"
+            temp_dir = repo / ".git" / REPO_TEMP_DIRNAME
+
+            self.assertEqual(
+                get_repo_temp_dir(filename, temp_dir=temp_dir),
+                temp_dir,
+            )
+            self.assertTrue(temp_dir.is_dir())
+            self.assertFalse(filename.parent.exists())
+
+    def test_get_repo_temp_dir_avoids_cross_device_explicit_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            locale = repo / "locale"
+            locale.mkdir(parents=True)
+            (repo / ".git").mkdir()
+            filename = locale / "docs.pot"
+            temp_dir = repo / ".git" / REPO_TEMP_DIRNAME
+            resolved_locale = locale.resolve(strict=False)
+            resolved_temp_dir = temp_dir.resolve(strict=False)
+
+            def fake_get_path_device_id(path: Path) -> int | None:
+                resolved = path.resolve(strict=False)
+                if resolved == resolved_locale:
+                    return 1
+                if resolved == resolved_temp_dir:
+                    return 2
+                return None
+
+            with patch(
+                "weblate.utils.files._get_path_device_id",
+                side_effect=fake_get_path_device_id,
+            ):
+                self.assertEqual(
+                    get_repo_temp_dir(filename, temp_dir=temp_dir).resolve(
+                        strict=False
+                    ),
+                    resolved_locale,
+                )
+
+    def test_get_repo_temp_dir_avoids_unknown_explicit_device(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            locale = repo / "locale"
+            locale.mkdir(parents=True)
+            (repo / ".git").mkdir()
+            filename = locale / "docs.pot"
+            temp_dir = repo / ".git" / REPO_TEMP_DIRNAME
+            resolved_locale = locale.resolve(strict=False)
+            resolved_temp_dir = temp_dir.resolve(strict=False)
+
+            def fake_get_path_device_id(path: Path) -> int | None:
+                resolved = path.resolve(strict=False)
+                if resolved == resolved_locale:
+                    return 1
+                if resolved == resolved_temp_dir:
+                    return None
+                return 1
+
+            with patch(
+                "weblate.utils.files._get_path_device_id",
+                side_effect=fake_get_path_device_id,
+            ):
+                self.assertEqual(
+                    get_repo_temp_dir(filename, temp_dir=temp_dir).resolve(
+                        strict=False
+                    ),
+                    resolved_locale,
+                )
