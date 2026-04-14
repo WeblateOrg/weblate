@@ -2711,6 +2711,202 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     @respx.mock
+    def test_translate_placeholderizes_existing_translation(self) -> None:
+        machine = self.get_machine()
+        existing_translation = "Bonjour, %s! <<foo>>"
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertIn("@@PH", content)
+            self.assertEqual(
+                payload["strings"][0]["translation"],
+                "Bonjour, @@PH7@@! <<foo>>",
+            )
+            return json.dumps(["Bonjour, @@PH7@@! <<foo>>"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "Hello, %s! <<foo>>",
+                1,
+                machine=machine,
+                unit_args={"flags": "python-format", "target": existing_translation},
+            )
+
+        self.assertEqual(translation[0][0]["text"], existing_translation)
+
+    def test_translate_recovers_plural_placeholder_source_variant(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source=["Single item.", "Items: %d."],
+            target=["Articles: %d.", "Articles: %d."],
+            flags="python-format",
+        )
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertEqual(
+                payload["strings"][0]["translation"],
+                "Articles: @@PH7@@.",
+            )
+            return json.dumps(["Articles: %d."])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [("Items: @@PH7@@.", unit)],
+            )
+
+        self.assertEqual(
+            translation["Items: @@PH7@@."][0]["text"],
+            "Articles: @@PH7@@.",
+        )
+
+    def test_translate_recovers_secondary_source_plural_placeholder_variant(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source=["Single item.", "Items: %d."],
+            target=["Articles: %d.", "Articles: %d."],
+            flags="python-format",
+        )
+        unit.plural_map = ["Single mapped item.", "Mapped: %d."]
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertEqual(
+                payload["strings"][0]["translation"],
+                "Articles: @@PH8@@.",
+            )
+            return json.dumps(["Articles: %d."])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "de",
+                "fr",
+                [("Mapped: @@PH8@@.", unit)],
+            )
+
+        self.assertEqual(
+            translation["Mapped: @@PH8@@."][0]["text"],
+            "Articles: @@PH8@@.",
+        )
+
+    @responses.activate
+    @respx.mock
+    def test_translate_omits_unmappable_existing_translation(self) -> None:
+        machine = self.get_machine()
+        broken_translation = "Bonjour tout le monde! <<foo>>"
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertNotIn("translation", payload["strings"][0])
+            return json.dumps(["Bonjour @@PH7@@! <<foo>>"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "Hello, %s! <<foo>>",
+                1,
+                machine=machine,
+                unit_args={"flags": "python-format", "target": broken_translation},
+            )
+
+        self.assertEqual(translation[0][0]["text"], "Bonjour %s! <<foo>>")
+
+    @responses.activate
+    @respx.mock
+    def test_translate_maps_reordered_distinct_placeholders(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            placeholders = re.findall(r"@@PH\d+@@", content)
+            self.assertEqual(len(placeholders), 2)
+            return json.dumps([f"Items: {placeholders[1]}, value: {placeholders[0]}."])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "Value: %s, items: %d.",
+                1,
+                machine=machine,
+                unit_args={"flags": "python-format"},
+            )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Items: %d, value: %s.",
+        )
+
+    @responses.activate
+    @respx.mock
+    def test_translate_rejects_unmappable_rst_markup(self) -> None:
+        self.mock_response(
+            '["Wahlen Sie :guilabel:`Target-Branch`."]'  # codespell:ignore
+        )
+
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(
+                "de",
+                "Choose :guilabel:`Target branch`.",
+                1,
+                unit_args={"flags": "rst-text"},
+            )
+
+    @responses.activate
+    @respx.mock
+    def test_translate_rejects_unmappable_single_highlight(self) -> None:
+        self.mock_response('["Hello, `friend`!"]')
+
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(
+                "fr",
+                "Hello, %s!",
+                1,
+                unit_args={"flags": "python-format"},
+            )
+
+    @responses.activate
+    @respx.mock
     def test_translate_rejects_placeholder_mismatch(self) -> None:
         self.mock_response('["Synthetic source string without placeholder."]')
 

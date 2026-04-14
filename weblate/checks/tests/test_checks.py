@@ -127,6 +127,7 @@ class MockUnit:
         else:
             self.target = target[0]
             self.targets = target
+        self.plural_map: list[str] = []
         self.note = note
         self.check_cache = {}
         self.machinery = {}
