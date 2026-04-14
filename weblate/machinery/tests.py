@@ -2831,6 +2831,54 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     @respx.mock
+    def test_translate_blank_reply_reports_single_exception_event(self) -> None:
+        machine = self.get_machine()
+        handled_cause = f"machinery[{machine.name}]: Blank assistant reply"
+        report_cause = f"machinery[{machine.name}]: Could not fetch translations"
+
+        with (
+            patch("weblate.machinery.base.log_handled_exception") as mock_log_handled,
+            patch("weblate.machinery.base.report_error") as mock_report_error,
+            patch.object(machine, "fetch_llm_translations", return_value=""),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate("fr", "Hello", 1, machine=machine)
+
+        mock_log_handled.assert_called_once_with(handled_cause, extra_log="")
+        mock_report_error.assert_called_once_with(
+            report_cause, extra_log=None, message=False
+        )
+
+    @responses.activate
+    @respx.mock
+    def test_translate_parse_error_reports_single_exception_event(self) -> None:
+        machine = self.get_machine()
+        handled_cause = (
+            f"machinery[{machine.name}]: Could not parse assistant reply as JSON."
+        )
+        report_cause = f"machinery[{machine.name}]: Could not fetch translations"
+
+        with (
+            patch("weblate.machinery.base.log_handled_exception") as mock_log_handled,
+            patch("weblate.machinery.base.report_error") as mock_report_error,
+            patch.object(
+                machine, "fetch_llm_translations", return_value='["Ahoj "svete"]'
+            ),
+            patch.object(machine, "_repair_json_string_array", return_value=None),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate("fr", "Hello", 1, machine=machine)
+
+        mock_log_handled.assert_called_once_with(
+            handled_cause,
+            extra_log='["Ahoj "svete"]',
+        )
+        mock_report_error.assert_called_once_with(
+            report_cause, extra_log=None, message=False
+        )
+
+    @responses.activate
+    @respx.mock
     def test_translate_still_rejects_unrepairable_json(self) -> None:
         self.mock_response('["Ahoj světe"')
 
