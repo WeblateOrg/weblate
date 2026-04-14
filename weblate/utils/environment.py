@@ -138,6 +138,19 @@ def get_env_json(
         raise ImproperlyConfigured(msg) from error
 
 
+def get_env_tuples(name: str, default: list[tuple] | None = None) -> list[tuple] | None:
+    """
+    Get list of tuples from environment.
+
+    parses 'a:b:c,x:y:z' into [('a','b','c'), ('x','y','z')]
+    """
+    parsed_list = get_env_list_or_none(name)
+    if parsed_list is not None:
+        tuples = [t for t in parsed_list if t]
+        return [tuple(i for i in e.split(":") if i) for e in tuples]
+    return default
+
+
 def get_env_int_or_none(name: str) -> int | None:
     """Get integer value from environment."""
     string_value = get_env_str(name)
