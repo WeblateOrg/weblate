@@ -101,12 +101,13 @@ class GenerateMoAddon(GettextBaseAddon):
 class UpdateLinguasAddon(GettextBaseAddon):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_POST_ADD,
+        AddonEvent.EVENT_POST_REMOVE,
         AddonEvent.EVENT_DAILY,
     }
     name = "weblate.gettext.linguas"
     verbose = gettext_lazy("Update LINGUAS file")
     description = gettext_lazy(
-        "Updates the LINGUAS file when a new translation is added."
+        "Updates the LINGUAS file when a translation is added or removed."
     )
 
     @staticmethod
@@ -200,9 +201,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed
 
-    def post_add(
-        self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
+    def _sync_linguas_for_translation(self, translation: Translation) -> None:
         with translation.component.repository.lock:
             path = self.get_validated_linguas_path(translation.component)
             if path is None:
@@ -210,6 +209,16 @@ class UpdateLinguasAddon(GettextBaseAddon):
             changed = self.sync_linguas(translation.component, path)
             if changed:
                 translation.addon_commit_files.append(path)
+
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
+        self._sync_linguas_for_translation(translation)
+
+    def post_remove(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
+        self._sync_linguas_for_translation(translation)
 
     def daily_component(
         self,
@@ -228,13 +237,14 @@ class UpdateLinguasAddon(GettextBaseAddon):
 class UpdateConfigureAddon(GettextBaseAddon):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_POST_ADD,
+        AddonEvent.EVENT_POST_REMOVE,
         AddonEvent.EVENT_DAILY,
     }
     name = "weblate.gettext.configure"
     verbose = gettext_lazy('Update ALL_LINGUAS variable in the "configure" file')
     description = gettext_lazy(
         'Updates the ALL_LINGUAS variable in "configure", '
-        '"configure.in" or "configure.ac" files, when a new translation is added.'
+        '"configure.in" or "configure.ac" files, when a translation is added or removed.'
     )
 
     @staticmethod
@@ -298,13 +308,21 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
         return added
 
-    def post_add(
-        self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
+    def _sync_linguas_for_translation(self, translation: Translation) -> None:
         with translation.component.repository.lock:
             paths = list(self.get_configure_paths(translation.component))
             if self.sync_linguas(translation.component, paths):
                 translation.addon_commit_files.extend(paths)
+
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
+        self._sync_linguas_for_translation(translation)
+
+    def post_remove(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
+        self._sync_linguas_for_translation(translation)
 
     def daily_component(
         self,

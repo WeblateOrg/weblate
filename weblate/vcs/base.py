@@ -716,7 +716,13 @@ class Repository:
         """Create new revision."""
         raise NotImplementedError
 
-    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
+    def remove(
+        self,
+        files: list[str],
+        message: str,
+        author: str | None = None,
+        extra_commit_files: list[str] | None = None,
+    ) -> None:
         """Remove files and creates new revision."""
         raise NotImplementedError
 

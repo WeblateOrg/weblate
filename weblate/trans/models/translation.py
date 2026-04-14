@@ -43,7 +43,11 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
-from weblate.trans.signals import component_post_update, vcs_pre_commit
+from weblate.trans.signals import (
+    component_post_update,
+    translation_post_remove,
+    vcs_pre_commit,
+)
 from weblate.trans.util import (
     is_plural,
     join_plural,
@@ -1842,15 +1846,29 @@ class Translation(
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
 
+        # Build commit message before deleting (needs stats from DB)
+        commit_message = self.get_commit_message(
+            author, template=self.component.delete_message
+        )
+
+        # Delete the translation from the database before committing
+        # to ensure add-ons operate on the updated translation set
+        self.delete()
+        transaction.on_commit(self.stats.update_parents)
+        transaction.on_commit(self.component.schedule_update_checks)
+
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
             with self.component.repository.lock:
+                # Notify add-ons (they may update LINGUAS, configure, etc.)
+                translation_post_remove.send(sender=self.__class__, translation=self)
+
+                # Remove files and commit together with add-on changes
                 self.component.repository.remove(
                     self.filenames,
-                    self.get_commit_message(
-                        author, template=self.component.delete_message
-                    ),
+                    commit_message,
                     author,
+                    extra_commit_files=self.addon_commit_files or None,
                 )
                 self.component.push_if_needed()
 
@@ -1859,11 +1877,6 @@ class Translation(
         if filename.is_dir():
             with suppress(OSError):
                 filename.rmdir()
-
-        # Delete from the database
-        self.delete()
-        transaction.on_commit(self.stats.update_parents)
-        transaction.on_commit(self.component.schedule_update_checks)
 
         # Record change
         self.component.change_set.create(

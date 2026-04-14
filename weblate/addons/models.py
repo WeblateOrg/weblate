@@ -25,6 +25,7 @@ from weblate.trans.signals import (
     change_bulk_create,
     component_post_update,
     translation_post_add,
+    translation_post_remove,
     unit_post_sync,
     unit_pre_create,
     vcs_post_commit,
@@ -723,6 +724,16 @@ def post_add(sender, translation: Translation, **kwargs) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_ADD,
         "post_add",
+        (translation,),
+        translation=translation,
+    )
+
+
+@receiver(translation_post_remove)
+def post_remove(sender, translation: Translation, **kwargs) -> None:
+    handle_addon_event(
+        AddonEvent.EVENT_POST_REMOVE,
+        "post_remove",
         (translation,),
         translation=translation,
     )

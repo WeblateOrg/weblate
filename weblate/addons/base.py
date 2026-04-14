@@ -509,6 +509,12 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         """Event handler after new translation is added."""
         # To be implemented in a subclass
 
+    def post_remove(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> dict | None:
+        """Event handler after a translation is removed."""
+        # To be implemented in a subclass
+
     def unit_pre_create(
         self, unit: Unit, activity_log_id: int | None = None
     ) -> dict | None:
