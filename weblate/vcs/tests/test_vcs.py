@@ -2040,6 +2040,33 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertEqual(call_count, 1)
 
     @responses.activate
+    def test_get_target_project_id_auth_error(self) -> None:
+        responses.add(
+            responses.GET,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
+            json={
+                "error": "invalid_token",
+                "error_description": "Token is expired.",
+            },
+            status=401,
+        )
+
+        with (
+            patch("weblate.vcs.git.report_error") as mock_report_error,
+            self.assertRaisesMessage(
+                RepositoryError,
+                "Could not get GitLab project (401): invalid_token, Token is expired.",
+            ),
+        ):
+            self.repo.get_target_project_id(self.repo.get_credentials())
+
+        mock_report_error.assert_called_once_with(
+            "Could not get GitLab project",
+            message=True,
+            extra_log="401: invalid_token, Token is expired.",
+        )
+
+    @responses.activate
     def test_pull_request_error(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
