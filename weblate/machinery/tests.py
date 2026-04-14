@@ -861,6 +861,25 @@ class MyMemoryTranslationTest(BaseMachineTranslationTest):
             responses.GET, "https://mymemory.translated.net/api/get", json=MYMEMORY_JSON
         )
 
+    @responses.activate
+    def test_non_json_error_response_falls_back_to_http_error(self) -> None:
+        responses.add(
+            responses.GET,
+            "https://mymemory.translated.net/api/get",
+            body=(
+                "<html><head><title>403 Forbidden</title></head><body>"
+                "<center><h1>403 Forbidden</h1></center></body></html>"
+            ),
+            content_type="text/html",
+            status=403,
+        )
+
+        with self.assertRaises(MachineTranslationError) as raised:
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+        self.assertIsInstance(raised.exception.__cause__, HTTPError)
+        self.assertIn("403 Client Error", str(raised.exception))
+
 
 class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = ApertiumAPYTranslation
