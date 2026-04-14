@@ -329,6 +329,8 @@ class Repository:
         base: dict[str, str] = {
             # Avoid prompts from Git
             "GIT_TERMINAL_PROMPT": "0",
+            # Avoid git advises like merge conflicts resolution
+            "GIT_ADVICE": "0",
             # Avoid Git traversing outside the data dir
             "GIT_CEILING_DIRECTORIES": data_path("vcs").as_posix(),
             # Use ssh wrapper
