@@ -23,7 +23,7 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
 "PO-Revision-Date: 2026-04-14 07:10+0000\n"
-"Last-Translator: Max Kleinehelleforth <m.kleinehelleforth@gmail.com>\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -391,7 +391,6 @@ msgstr ""
 "hat, muss eine neue Einladung erstellt werden."
 
 #: admin/access.rst:181
-#, fuzzy
 msgid ""
 "The same kind of invitations are available site-wide from "
 "the :ref:`management interface <management-interface>` on "
@@ -401,14 +400,14 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
-"Dieselbe Art von Einladungen ist systemweit über die "
-":ref:`Verwaltungsoberfläche` <management-interface> auf der Registerkarte "
+"Die gleiche Art von Einladungen ist plattformweit über die "
+":ref:`Verwaltungsoberfläche <management-interface>` auf der Reiterkarte "
 ":guilabel:`Benutzer` verfügbar. Sowohl Projektadministratoren als auch "
-"Systemadministratoren können auch mehrere Benutzer gleichzeitig einladen, "
+"Website-Administratoren können auch mehrere Benutzer auf einmal einladen, "
 "indem sie durch Leerzeichen getrennte E-Mail-Adressen einfügen. Alle in "
-"einer Sammelaktion erstellten Einladungen verwenden das ausgewählte Team, "
-"und systemweite Sammeleinladungen wenden auch das ausgewählte Superuser-Flag "
-"an."
+"einer Massenaktion erstellten Einladungen verwenden das ausgewählte Team, "
+"und plattformweite Sammeleinladungen wenden auch die ausgewählte Superuser-"
+"Markierung an."
 
 #: admin/access.rst:188
 msgid ""
@@ -1024,9 +1023,9 @@ msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
-"Das Einladen in Gruppen über die Benutzeroberfläche erstellt Einladungen. "
-"Bestehende Benutzer müssen die Einladung erst noch bestätigen, bevor sie "
-"Teammitglieder werden."
+"Durch Sammeleinladungen über die Bedienoberfläche werden Einladungen "
+"erstellt. Bestehende Benutzer müssen die Einladung erst noch bestätigen, "
+"bevor sie Teammitglieder werden."
 
 #: admin/access.rst:481
 msgid "Default teams and roles"
@@ -5657,12 +5656,11 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
-"Diese Ausnahme schwächt den Schutz für ausgehende URLs bei übereinstimmenden "
-"Projekten ab, einschließlich der durch "
-":setting:`PROJECT_WEB_RESTRICT_PRIVATE` erzwungenen Einschränkung für "
-"private Ziele. Verwenden Sie dies nur für vertrauenswürdige, vom "
-"Administrator verwaltete Projekte, bei denen das Umgehen dieser Prüfungen "
-"beabsichtigt ist."
+"Diese Ausnahme schwächt den Schutz ausgehender URLs für entsprechende "
+"Projekte, einschließlich der durch :setting:`PROJECT_WEB_RESTRICT_PRIVATE` "
+"erzwungenen Einschränkung für private Ziele. Verwenden Sie dies nur für "
+"vertrauenswürdige, vom Administrator verwaltete Projekte, bei denen das "
+"Umgehen dieser Prüfungen beabsichtigt ist."
 
 #: admin/config.rst:1730
 msgid "Reject using numeric IP address in project website. On by default."
@@ -14586,8 +14584,8 @@ msgid ""
 "Generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
-"Generiert RST-Dokumentations-Snippets, die die unterstützten Funktionen für "
-"jedes Dateiformat beschreiben."
+"Erzeugt RST-Dokumentationsausschnitte, welche die unterstützten Funktionen "
+"für jedes Dateiformat beschreiben."
 
 #: admin/management.rst:818
 msgid ""
@@ -14598,15 +14596,14 @@ msgstr ""
 "Ausgabeverzeichnis zu finden ist."
 
 #: admin/management.rst:826
-#, fuzzy
 msgid ""
 "The generated documentation files are meant to be included in documentation "
 "sources such as :doc:`/formats`. See also :file:`weblate/formats/management/"
 "commands/list_format_features.py` for customization and merging logic."
 msgstr ""
-"Die generierten Dokumentationsdateien sind dazu gedacht, in "
-"Dokumentationsquellen wie :doc:/formats eingebunden zu werden. Siehe auch "
-":file:weblate/formats/management/commands/list_format_features.py für "
+"Die erzeugten Dokumentationsdateien sind dafür vorgesehen, in "
+"Dokumentationsquellen wie :doc:`/formats` eingebunden zu werden. Siehe auch "
+":file:`weblate/formats/management/commands/list_format_features.py` für "
 "Anpassungen und die Zusammenführungslogik."
 
 #: admin/management.rst:834
@@ -19027,13 +19024,12 @@ msgid "New features"
 msgstr "Neue Funktionen"
 
 #: changes.rst:8
-#, fuzzy
 msgid ""
 "Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project "
 "slugs from project website restriction settings."
 msgstr ""
-":setting:PROJECT_WEB_RESTRICT_ALLOWLIST wurde hinzugefügt, um ausgewählte "
-"Projekt-Slugs von den Einschränkungseinstellungen für Projekt-Websites "
+":setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` hinzugefügt, um ausgewählte "
+"Projekte-Slugs von den Einschränkungseinstellungen für Projekt-Websites "
 "auszunehmen."
 
 #: changes.rst:9
@@ -19046,14 +19042,13 @@ msgstr ""
 "ermöglichen."
 
 #: changes.rst:10
-#, fuzzy
 msgid ""
 "Added new management command :wladmin:`list_format_features`, which "
 "generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
-"Neuer Verwaltungsbefehl :wladmin:list_format_features hinzugefügt, der RST-"
-"Dokumentations-Snippets generiert, die die unterstützten Funktionen für "
+"Neuer Verwaltungsbefehl :wladmin:`list_format_features` hinzugefügt, der RST-"
+"Dokumentationsausschnitte erzeugt, welche die unterstützten Funktionen für "
 "jedes Dateiformat beschreiben."
 
 #: changes.rst:11
@@ -19071,24 +19066,19 @@ msgstr ""
 "Komponente über den Parameter ``category_id``."
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-#| "weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to "
-#| "update POT files with configurable update cadence."
 msgid ""
 "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
 "weblate.gettext.sphinx` to update POT files with configurable update cadence."
 msgstr ""
-":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django` "
-"und :ref:`addon-weblate.gettext.sphinx` hinzugefügt, um POT-Dateien mit "
-"konfigurierbarer Aktualisierungshäufigkeit zu aktualisieren."
+":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, "
+":ref:`addon-weblate.gettext.django` und :ref:`addon-weblate.gettext.sphinx` "
+"hinzugefügt, um POT-Dateien mit konfigurierbarer Aktualisierungshäufigkeit "
+"zu aktualisieren."
 
 #: changes.rst:14
-#, fuzzy
 msgid "Added :ref:`bulk user invitations <invite-user>`."
-msgstr ":ref:Benutzereinladungen in Gruppen <invite-user> hinzugefügt."
+msgstr ":ref:`Sammeleinladungen von Benutzern <invite-user>` hinzugefügt."
 
 #: changes.rst:17 changes.rst:89 changes.rst:124 changes.rst:171
 #: changes.rst:215 changes.rst:260 changes.rst:301 changes.rst:377
@@ -37854,6 +37844,7 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Doppelte Dateimaske für verlinkte Komponenten"
 
 #: devel/alerts.rst:26
+#, fuzzy
 msgid "Conflicting merge request repository setup"
 msgstr "Einrichtung eines Repositories mit widersprüchlichen Merge-Requests"
 
@@ -37901,6 +37892,7 @@ msgstr ""
 "Eine Komponente mit doppelten Zeichenketten und Sprachen sieht wie folgt aus:"
 
 #: devel/alerts.rst:45
+#, fuzzy
 msgid "Conflicting repository setup"
 msgstr "Einrichtung eines widersprüchlichen Repositories"
 
