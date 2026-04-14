@@ -23,6 +23,7 @@ Weblate 5.17
 .. rubric:: Improvements
 
 * Track origin of newly added source strings.
+* Markdown now uses ``auto-safe-html`` by default, applying :ref:`check-safe-html` and :ref:`autofix-html` only to plain text and source strings that contain standard HTML markup or valid custom elements.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 * Added a component alert for conflicting merge request repository setup, see :ref:`alerts`.

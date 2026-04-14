@@ -200,6 +200,12 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
         storage = self.parse_file(MARKDOWN_FILE_TRANSLATED, MARKDOWN_FILE)
         self.assertEqual(storage.all_units[4].target, "*Díky za používání Weblate.*")
 
+    def test_default_check_flags(self) -> None:
+        self.assertEqual(
+            MarkdownFormat.check_flags,
+            ("auto-safe-html", "strict-same", "md-text"),
+        )
+
 
 class OpenDocumentFormatTest(ConvertFormatTest):
     format_class = OpenDocumentFormat

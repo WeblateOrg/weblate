@@ -369,7 +369,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     name = gettext_lazy("Markdown file")
     autoload = ("*.md", "*.markdown")
     format_id = "markdown"
-    check_flags = ("safe-html", "strict-same", "md-text")
+    check_flags = ("auto-safe-html", "strict-same", "md-text")
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None

@@ -38,6 +38,8 @@ EXTRA_ENABLE_FLAG_DESCRIPTION = {
     "rst-text": "Treat a text as an reStructuredText document, affects :ref:`check-same`.",
     "bbcode-text": "Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.",
     "md-text": "Treat a text as a Markdown document, and provide Markdown syntax highlighting on the translation text area.",
+    "auto-java-messageformat": "Treat a text as conditional Java MessageFormat, enabling :ref:`check-java-format` only when the source contains Java MessageFormat placeholders.",
+    "auto-safe-html": "Treat a text as conditional HTML, enabling :ref:`check-safe-html` only for plain text or source strings that contain standard HTML markup or valid custom elements. This is useful for extended Markdown variants such as MDX, where angle-bracket syntax may not be HTML.",
     "url": "The string should consist of only a URL.",
 }
 
@@ -90,6 +92,11 @@ class Command(DocGeneratorCommand):
                 check.enable_string,
                 *check.extra_enable_strings,
             }
+            auto_enable_descriptions = [
+                f"``{flag}``: {EXTRA_ENABLE_FLAG_DESCRIPTION[flag]}"
+                for flag in sorted(enable_flags)
+                if flag.startswith("auto-") and flag in EXTRA_ENABLE_FLAG_DESCRIPTION
+            ]
             flags = ", ".join(f"``{flag}``" for flag in sorted(enable_flags))
             lines.append(":Trigger: This check needs to be enabled using a flag.")
 
@@ -103,6 +110,11 @@ class Command(DocGeneratorCommand):
                     f":File formats automatically enabling this check: {file_formats}"
                 )
             lines.append(f":Flag to enable: {flags}")
+            if auto_enable_descriptions:
+                lines.append(":Automatic flag behavior:")
+                lines.extend(
+                    f"    {description}" for description in auto_enable_descriptions
+                )
         else:
             lines.append(
                 ":Trigger: This check is always enabled but can be ignored using a flag."
@@ -126,7 +138,8 @@ class Command(DocGeneratorCommand):
                 )
             )
             if check.default_disabled:
-                enables[check.enable_string].append(check.doc_id)
+                for flag in (check.enable_string, *check.extra_enable_strings):
+                    enables[flag].append(check.doc_id)
 
         output_file = options.get("output")
 
