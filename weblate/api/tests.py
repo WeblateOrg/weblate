@@ -28,6 +28,8 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.consistency import LanguageConsistencyAddon
+from weblate.addons.gettext import XgettextAddon
 from weblate.addons.models import Addon
 from weblate.api.serializers import (
     CommentSerializer,
@@ -9412,6 +9414,101 @@ class AddonAPITest(APIBaseTest):
             code=204,
         )
 
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_trigger_project_addon(self, mocked_delay) -> None:
+        self.project.add_user(self.user, "Administration")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.do_request(
+            "api:addon-trigger",
+            kwargs={"pk": addon.pk},
+            method="post",
+            superuser=False,
+            code=202,
+        )
+
+        mocked_delay.assert_called_once_with(addon.pk)
+        self.assertEqual(response.data["detail"], "Add-on run has been scheduled.")
+        self.assertTrue(
+            response.data["url"].endswith(
+                reverse("api:addon-detail", kwargs={"pk": addon.pk})
+            )
+        )
+        self.assertTrue(
+            response.data["logs_url"].endswith(
+                reverse("addon-logs", kwargs={"pk": addon.pk})
+            )
+        )
+
+    def test_trigger_requires_manual_event(self) -> None:
+        response = self.create_addon(name="weblate.gettext.authors")
+
+        trigger = self.do_request(
+            "api:addon-trigger",
+            kwargs={"pk": response.data["id"]},
+            method="post",
+            superuser=True,
+            code=400,
+        )
+
+        self.assertEqual(
+            trigger.data["errors"][0]["detail"],
+            "This add-on cannot be triggered manually.",
+        )
+
+    def test_trigger_without_permission(self) -> None:
+        addon = LanguageConsistencyAddon.create(
+            project=self.project, run=False
+        ).instance
+
+        self.do_request(
+            "api:addon-trigger",
+            kwargs={"pk": addon.pk},
+            method="post",
+            superuser=False,
+            code=404,
+        )
+
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_trigger_category_addon(self, mocked_delay) -> None:
+        category = Category.objects.create(
+            name="API category",
+            slug="api-category",
+            project=self.project,
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        self.project.add_user(self.user, "Administration")
+        addon = XgettextAddon.create(
+            category=category,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        self.do_request(
+            "api:addon-trigger",
+            kwargs={"pk": addon.pk},
+            method="post",
+            superuser=False,
+            code=202,
+        )
+
+        mocked_delay.assert_called_once_with(addon.pk)
+
 
 class CategoryAPITest(APIBaseTest):
     def api_create_category(self, code: int = 201, **kwargs):
@@ -10154,6 +10251,26 @@ class OpenAPITest(APIBaseTest):
         schema = yaml.safe_load(response.content)
         required = schema["components"]["schemas"]["Metrics"]["required"]
         self.assertNotIn("version", required)
+
+    def test_addon_trigger_schema_matches_runtime_behavior(self) -> None:
+        response = self.do_request("api-schema")
+        schema = yaml.safe_load(response.content)
+        operation = schema["paths"]["/api/addons/{id}/trigger/"]["post"]
+
+        self.assertNotIn("requestBody", operation)
+        self.assertNotIn("200", operation["responses"])
+        self.assertIn("202", operation["responses"])
+
+        response_schema = operation["responses"]["202"]["content"]["application/json"][
+            "schema"
+        ]
+        self.assertEqual(
+            response_schema, {"$ref": "#/components/schemas/AddonTriggerResponse"}
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["AddonTriggerResponse"]["required"],
+            ["detail", "logs_url", "url"],
+        )
 
     @patch("weblate.utils.version.VERSION", "5.17.1")
     def test_view_uses_latest_docs_links(self) -> None:

@@ -27,9 +27,14 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    extend_schema,
+    extend_schema_view,
+    inline_serializer,
+)
 from drf_standardized_errors.handler import ExceptionHandler
-from rest_framework import parsers, viewsets
+from rest_framework import parsers, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
@@ -40,6 +45,7 @@ from rest_framework.settings import api_settings
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
+    HTTP_202_ACCEPTED,
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
     HTTP_423_LOCKED,
@@ -3384,6 +3390,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
             return Addon.objects.order_by("id")
         return Addon.objects.filter(
             Q(project__in=self.request.user.managed_projects)
+            | Q(category__project__in=self.request.user.managed_projects)
             | Q(component__project__in=self.request.user.managed_projects)
         ).order_by("id")
 
@@ -3391,6 +3398,10 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         if instance.component:
             # Component-level add-ons
             if not request.user.has_perm("component.edit", instance.component):
+                self.permission_denied(request, "Can not manage addons")
+        elif instance.category:
+            # Category-level add-ons
+            if not request.user.has_perm("project.edit", instance.category.project):
                 self.permission_denied(request, "Can not manage addons")
         elif instance.project:
             # Project-level add-ons
@@ -3419,3 +3430,43 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
             instance.project.acting_user = request.user
         self.perm_check(request, instance)
         return super().destroy(request, *args, **kwargs)
+
+    @extend_schema(
+        description="Trigger manual execution of an add-on that supports manual triggering.",
+        methods=["post"],
+        request=None,
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "AddonTriggerResponse",
+                {
+                    "detail": serializers.CharField(),
+                    "url": serializers.URLField(),
+                    "logs_url": serializers.URLField(),
+                },
+            )
+        },
+    )
+    @action(detail=True, methods=["post"])
+    def trigger(self, request: Request, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+
+        if not instance.can_run_manually:
+            raise ValidationError(
+                {"detail": gettext("This add-on cannot be triggered manually.")}
+            )
+
+        instance.schedule_manual_run()
+
+        return Response(
+            {
+                "detail": gettext("Add-on run has been scheduled."),
+                "url": reverse(
+                    "api:addon-detail", kwargs={"pk": instance.pk}, request=request
+                ),
+                "logs_url": reverse(
+                    "addon-logs", kwargs={"pk": instance.pk}, request=request
+                ),
+            },
+            status=HTTP_202_ACCEPTED,
+        )

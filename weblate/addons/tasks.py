@@ -24,6 +24,7 @@ from weblate.addons.models import (
     AddonActivityLog,
     handle_addon_event,
     handle_daily_addon_event,
+    handle_scoped_addon_event,
 )
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
@@ -199,6 +200,21 @@ def daily_addons(modulo: bool = True) -> None:
     if modulo:
         addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)
     handle_daily_addon_event(addons)
+
+
+@app.task(trail=False)
+def run_addon_manually(addon_id: int) -> None:
+    try:
+        addon = Addon.objects.select_related("component", "category", "project").get(
+            pk=addon_id
+        )
+    except Addon.DoesNotExist:
+        return
+
+    if not addon.can_run_manually:
+        return
+
+    handle_scoped_addon_event([addon], AddonEvent.EVENT_MANUAL, "manual")
 
 
 def update_addon_activity_log(
