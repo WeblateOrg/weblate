@@ -506,6 +506,8 @@ filterwarnings = [
   "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
   # Warning in the third-party module (borg)
   "ignore:Version._version:DeprecationWarning:borg",
+  # TODO: Temporary until we migrate to newer translate-toolkit
+  "ignrore:target_markup is deprecated:DeprecationWarning",
   # Triggered when Selenium can not be started
   'default:Selenium error:UserWarning',
   # TODO: these might be worth investigating
