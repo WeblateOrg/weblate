@@ -57,6 +57,13 @@ Repository post-push
 
 Triggered just after the repository is pushed upstream.
 
+.. _addon-event-repository-post-remove:
+
+Repository post-remove
+----------------------
+
+Triggered just after a translation is removed.
+
 .. _addon-event-repository-post-update:
 
 Repository post-update
