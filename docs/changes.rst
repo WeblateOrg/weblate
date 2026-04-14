@@ -77,6 +77,7 @@ Weblate 5.17
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
+* :ref:`mt-mymemory` now falls back to HTTP status handling when the service returns a non-JSON error response.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 * Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs.
 * Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.

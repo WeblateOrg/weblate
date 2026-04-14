@@ -1092,7 +1092,15 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 
 class ResponseStatusMachineTranslation(MachineTranslation):
     def check_failure(self, response: Response) -> None:
-        payload = response.json()
+        try:
+            payload = response.json()
+        except JSONDecodeError:
+            super().check_failure(response)
+            return
+
+        if not isinstance(payload, dict):
+            super().check_failure(response)
+            return
 
         # Check response status
         response_status = payload.get("responseStatus", payload.get("code", None))
