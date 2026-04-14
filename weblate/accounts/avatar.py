@@ -7,7 +7,7 @@ import hashlib
 import os.path
 from pathlib import Path
 from ssl import CertificateError
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, cast
 from urllib.parse import urlencode
 
 from django.conf import settings
@@ -81,7 +81,7 @@ def download_avatar_image(email: str, size: int) -> bytes:
     return response.content
 
 
-def get_user_display(user: User, icon: bool = True, link: bool = False) -> str:
+def get_user_display(user: User | None, icon: bool = True, link: bool = False) -> str:
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:
@@ -106,7 +106,9 @@ def get_user_display(user: User, icon: bool = True, link: bool = False) -> str:
         if email == "noreply@weblate.org":
             avatar = get_fallback_avatar_url(32)
         else:
-            avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
+            avatar = reverse(
+                "user_avatar", kwargs={"user": cast("User", user).username, "size": 32}
+            )
 
         username = format_html(
             '<img src="{}" class="avatar w32" loading="lazy" alt="{}" /> {}',

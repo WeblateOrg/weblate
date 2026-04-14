@@ -71,8 +71,8 @@ def add_optional_context(context) -> None:
         context[f"has_{name}"] = appname in settings.INSTALLED_APPS
 
 
-def get_preconnect_list():
-    result = []
+def get_preconnect_list() -> list[str | None]:
+    result: list[str | None] = []
     if settings.MATOMO_URL:
         result.append(urlparse(settings.MATOMO_URL).hostname)
     if settings.GOOGLE_ANALYTICS_ID:

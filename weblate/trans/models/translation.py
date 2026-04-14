@@ -92,6 +92,11 @@ class NewUnitParams(TypedDict):
     skip_existing: NotRequired[bool]
 
 
+class ActiveChangeGroup(TypedDict):
+    changes: list[PendingUnitChange]
+    units: set[int]
+
+
 def normalize_translation_check_flags(check_flags: str, *, needs_readonly: bool) -> str:
     """Normalize auto-managed translation flags while preserving user flags."""
     flags = Flags(check_flags)
@@ -881,7 +886,7 @@ class Translation(
         # currently processed. Hence, we track the latest timestamp up to which
         # changes to a unit have been applied successfully and delete all pending
         # changes for the unit until that timestamp.
-        success_times = {}
+        success_times: dict[int, datetime] = {}
         for change in pending_changes:
             if all_changes_status.get(change.pk):
                 prev = success_times.get(change.unit_id)
@@ -952,7 +957,7 @@ class Translation(
             if change.author
         }
 
-        active_groups = {}
+        active_groups: dict[int, ActiveChangeGroup] = {}
         finalized_groups = []
 
         for change in pending_changes:
