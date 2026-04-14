@@ -92,6 +92,7 @@ Weblate 5.17
 * SSH repository errors now distinguish changed host keys from missing host keys and avoid automatically trusting host key replacements.
 * Improved loading speed for comments on the translate page.
 * Reduced repeated metric queries when rendering activity charts on overview pages with cold caches.
+* :ref:`machine-translation` no longer treats translatable reStructuredText role content as :ref:`placeables-mt`.
 
 .. rubric:: Compatibility
 

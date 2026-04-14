@@ -62,6 +62,78 @@ class HighlightTestCase(SimpleTestCase):
             highlight_string("Hello *world*", unit, highlight_syntax=True),
             [(6, 7, "*"), (12, 13, "*")],
         )
+        self.assertEqual(
+            highlight_string(":guilabel:`Hello`", unit, highlight_syntax=True),
+            [(0, 11, ":guilabel:`"), (16, 17, "`")],
+        )
+        self.assertEqual(
+            highlight_string(":Code:`printf()`", unit, highlight_syntax=True),
+            [(0, 7, ":Code:`"), (15, 16, "`")],
+        )
+        self.assertEqual(
+            highlight_string("`printf()`:Code:", unit, highlight_syntax=True),
+            [(0, 1, "`"), (9, 16, "`:Code:")],
+        )
+        self.assertEqual(
+            highlight_string(":file:`/tmp/example.txt`", unit, highlight_syntax=True),
+            [(0, 7, ":file:`"), (23, 24, "`")],
+        )
+        self.assertEqual(
+            highlight_string(":code:`printf()`", unit, highlight_syntax=True),
+            [(0, 7, ":code:`"), (15, 16, "`")],
+        )
+        self.assertEqual(
+            highlight_string(":math:`x + y`", unit, highlight_syntax=True),
+            [(0, 7, ":math:`"), (12, 13, "`")],
+        )
+        self.assertEqual(
+            highlight_string(":sub:`2`", unit, highlight_syntax=True),
+            [(0, 6, ":sub:`"), (7, 8, "`")],
+        )
+        self.assertEqual(
+            highlight_string(":sup:`2`", unit, highlight_syntax=True),
+            [(0, 6, ":sup:`"), (7, 8, "`")],
+        )
+        self.assertEqual(
+            highlight_string(
+                ":ref:`review workflow <reviews>`", unit, highlight_syntax=True
+            ),
+            [(0, 6, ":ref:`"), (21, 32, " <reviews>`")],
+        )
+        self.assertEqual(
+            highlight_string(
+                "`review workflow <reviews>`:ref:",
+                unit,
+                highlight_syntax=True,
+            ),
+            [(0, 1, "`"), (16, 32, " <reviews>`:ref:")],
+        )
+
+    def test_rst_duplicate_fragment(self) -> None:
+        unit = MockUnit(
+            source="Use ``:ref:`foo``` syntax, then see :ref:`foo`.",
+            flags="rst-text",
+        )
+        self.assertEqual(
+            highlight_string(
+                "Use ``:ref:`foo``` syntax, then see :ref:`foo`.",
+                unit,
+            ),
+            [(36, 46, ":ref:`foo`")],
+        )
+
+    def test_rst_escaped_role_example(self) -> None:
+        unit = MockUnit(
+            source=r"Use \:ref:`foo` literally, then see :ref:`foo`.",
+            flags="rst-text",
+        )
+        self.assertEqual(
+            highlight_string(
+                r"Use \:ref:`foo` literally, then see :ref:`foo`.",
+                unit,
+            ),
+            [(36, 46, ":ref:`foo`")],
+        )
 
     def test_escaped_markup(self) -> None:
         unit = MockUnit(

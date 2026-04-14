@@ -6,7 +6,11 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 from django.contrib.admindocs.utils import docutils_is_available
+from docutils.nodes import Text, substitution_reference
+from docutils.nodes import target as docutils_target
 
 from weblate.checks.markup import (
     BBCodeCheck,
@@ -20,6 +24,7 @@ from weblate.checks.markup import (
     XMLCharsAroundTagsCheck,
     XMLTagsCheck,
     XMLValidityCheck,
+    extract_rst_references,
 )
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
@@ -547,7 +552,7 @@ class RSTReferencesCheckTest(CheckTestCase):
         self.test_highlight = (
             "rst-text",
             ":ref:`bar` is :doc:`foo <baz>`",
-            [(0, 10, ":ref:`bar`"), (14, 30, ":doc:`foo <baz>`")],
+            [(0, 10, ":ref:`bar`"), (14, 20, ":doc:`"), (23, 30, " <baz>`")],
         )
 
     def test_description(self) -> None:
@@ -609,6 +614,26 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+
+    def test_targets_advance_offset(self) -> None:
+        text = "Before _`|foo|`|foo|"
+
+        with patch(
+            "weblate.checks.markup.Inliner.parse",
+            return_value=(
+                [
+                    Text("Before "),
+                    docutils_target(rawsource="_`|foo|`"),
+                    substitution_reference(rawsource="|foo|"),
+                ],
+                [],
+            ),
+        ):
+            extract_rst_references.cache_clear()
+            self.addCleanup(extract_rst_references.cache_clear)
+            _references, _counter, highlights = extract_rst_references(text)
+
+        self.assertEqual(highlights, ((15, 20, "|foo|"),))
 
     def test_option_space(self) -> None:
         self.do_test(
@@ -703,6 +728,54 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 ":kbd:`Ctrl+Home`",
                 ":kbd:`Ctrl+Inicio `",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":code:`Save`",
+                ":code:`Ulozit`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":Code:`Save`",
+                ":Code:`Ulozit`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Save`:guilabel:",
+                "`Ulozit`:guilabel:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`review workflow <reviews>`:ref:",
+                "`pracovni postup kontroly <reviews>`:ref:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`review workflow <reviews>`:ref:",
+                "`pracovni postup kontroly <other-reviews>`:ref:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                ":code:`Save`",
+                "``Ulozit``",
                 "rst-text",
             ),
         )

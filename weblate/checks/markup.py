@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, NamedTuple, cast
 
 import regex
 from django.core.exceptions import ValidationError
@@ -23,13 +23,16 @@ from docutils import utils
 from docutils.core import Publisher
 from docutils.nodes import (
     Element,
+    Text,
     emphasis,
     footnote_reference,
     literal,
-    problematic,
     reference,
     strong,
     substitution_reference,
+)
+from docutils.nodes import (
+    target as docutils_target,
 )
 from docutils.parsers.rst import Parser, languages
 from docutils.parsers.rst.states import Inliner
@@ -125,6 +128,20 @@ RST_ROLE_RE = [
 ]
 
 RST_LIST_START = ("- ", "* ", "+ ")
+RST_HIGHLIGHT_WHOLE = "whole"
+RST_HIGHLIGHT_ROLE_SYNTAX = "role-syntax"
+RST_HIGHLIGHT_ROLE_TARGET = "role-target"
+
+
+type RSTHighlightKind = str
+type RSTHighlight = tuple[int, int, str]
+
+
+class RSTRoleMatch(NamedTuple):
+    role: str
+    inner: str
+    syntax_prefix: str
+    syntax_suffix: str
 
 
 def strip_entities(text):
@@ -500,8 +517,100 @@ class RSTBaseCheck(TargetCheck):
         self.enable_string = "rst-text"
 
 
+def get_rst_role_name(text: str) -> str | None:
+    if matched := get_rst_role_match(text):
+        return matched.role
+    return None
+
+
+def get_rst_role_match(text: str) -> RSTRoleMatch | None:
+    if text.startswith(":"):
+        separator = text.find(":`", 1)
+        if separator == -1 or not text.endswith("`"):
+            return None
+        role = text[1:separator]
+        if not role:
+            return None
+        return RSTRoleMatch(
+            role.lower(), text[separator + 2 : -1], text[: separator + 2], text[-1:]
+        )
+
+    if text.startswith("`") and text.endswith(":"):
+        separator = text.rfind("`:")
+        if separator <= 0:
+            return None
+        role = text[separator + 2 : -1]
+        if not role:
+            return None
+        return RSTRoleMatch(role.lower(), text[1:separator], text[:1], text[separator:])
+
+    return None
+
+
+def get_rst_role_reference(rawsource: str) -> tuple[str, RSTHighlightKind] | None:
+    if (matched_role := get_rst_role_match(rawsource)) is None:
+        return None
+
+    role = matched_role.role
+    if role in RST_TRANSLATABLE:
+        return f":{role}:", RST_HIGHLIGHT_ROLE_SYNTAX
+
+    if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
+        return f":{role}:`{matched.group(2)}`", RST_HIGHLIGHT_ROLE_TARGET
+
+    return f":{role}:`{matched_role.inner}`", RST_HIGHLIGHT_WHOLE
+
+
+def get_rst_role_highlight(
+    rawsource: str,
+    start: int,
+    end: int,
+) -> list[RSTHighlight]:
+    if (matched_role := get_rst_role_match(rawsource)) is None:
+        return [(start, end, rawsource)]
+
+    prefix_end = start + len(matched_role.syntax_prefix)
+    if matched_role.role in RST_TRANSLATABLE:
+        return [
+            (start, prefix_end, matched_role.syntax_prefix),
+            (end - len(matched_role.syntax_suffix), end, matched_role.syntax_suffix),
+        ]
+
+    if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
+        suffix_start = prefix_end + len(matched.group(1))
+        return [
+            (start, prefix_end, matched_role.syntax_prefix),
+            (
+                suffix_start,
+                end,
+                rawsource[len(matched_role.syntax_prefix) + len(matched.group(1)) :],
+            ),
+        ]
+
+    return [(start, end, rawsource)]
+
+
+def normalize_rst_node_token(token: str) -> str:
+    # Docutils uses a NUL placeholder for escaped markup in text nodes.
+    return token.replace("\x00", "\\")
+
+
+def get_rst_node_position(text: str, token: str, offset: int) -> tuple[int, int]:
+    normalized_token = normalize_rst_node_token(token)
+    start = text.find(normalized_token, offset)
+    if start == -1:
+        msg = (
+            "Could not locate parsed reStructuredText token "
+            f"{normalized_token!r} at offset {offset}"
+        )
+        raise ValueError(msg)
+    return start, start + len(normalized_token)
+
+
 @lru_cache(maxsize=512)
-def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str]]:
+def extract_rst_references(
+    text: str,
+) -> tuple[dict[str, str], Counter, tuple[RSTHighlight, ...]]:
     memo = SimpleNamespace()
     publisher = get_rst_publisher()
     document = utils.new_document("", publisher.settings)
@@ -515,51 +624,60 @@ def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str
     with DOCUTILS_PARSER_LOCK:
         nodes, system_messages = inliner.parse(text, 0, memo, document)
 
-    message_ids = {
-        message["ids"][0]: Element.astext(message)
-        for message in system_messages
-        if message["ids"]
-    }
+    del system_messages
     result: list[tuple[str, str]] = []
-    alltags: list[str] = []
+    highlights: list[RSTHighlight] = []
+    offset = 0
 
     for node in nodes:
-        if isinstance(node, problematic) and "refid" in node.attributes:
-            for rst_role_re in RST_ROLE_RE:
-                if match := rst_role_re.match(message_ids[node["refid"]]):
-                    alltags.append(node.rawsource)
-                    role = match.group(1)
-                    if role in RST_TRANSLATABLE:
-                        name = f":{role}:"
-                    elif matched := RST_EXPLICIT_TITLE_RE.match(
-                        node.rawsource[len(role) + 3 : -1]
-                    ):
-                        # Exclude title for checking translatable roles
-                        name = f":{role}:`{matched.group(2)}`"
-                    else:
-                        name = node.rawsource
+        token = str(node) if isinstance(node, Text) else getattr(node, "rawsource", "")
 
-                    result.append((name, node.rawsource))
-                    break
+        if not token:
+            continue
+
+        if isinstance(node, docutils_target):
+            normalized_token = normalize_rst_node_token(token)
+            if (start := text.find(normalized_token, offset)) != -1:
+                offset = start + len(normalized_token)
+            continue
+
+        start, end = get_rst_node_position(text, token, offset)
+        offset = end
+
+        if not isinstance(node, Text) and (
+            role_reference := get_rst_role_reference(token)
+        ):
+            name, highlight_type = role_reference
+            result.append((name, token))
+            if highlight_type == RST_HIGHLIGHT_WHOLE:
+                highlights.append((start, end, token))
+            else:
+                highlights.extend(get_rst_role_highlight(token, start, end))
         elif isinstance(node, (footnote_reference, substitution_reference)):
-            result.append((node.rawsource, node.rawsource))
-            alltags.append(node.rawsource)
+            result.append((token, token))
+            highlights.append((start, end, token))
         elif isinstance(node, reference):
             # Ignore the content as it might be localized, just differentiate
             # references with a link and without
             refuri = node.get("refuri")
-            name = "`... <...>`_" if refuri else "`...`_"
-            result.append((name, node.rawsource))
-            if refuri:
-                alltags.append(f"<{refuri}>")
+            result.append(("`... <...>`_" if refuri else "`...`_", token))
+            if refuri and (target_start := token.find(f"<{refuri}>")) != -1:
+                target_end = target_start + len(refuri) + 2
+                highlights.append(
+                    (
+                        start + target_start,
+                        start + target_end,
+                        token[target_start:target_end],
+                    )
+                )
         elif isinstance(node, literal):
-            result.append(("``...``", node.rawsource))
+            result.append(("``...``", token))
         elif isinstance(node, emphasis):
-            result.append(("*...*", node.rawsource))
+            result.append(("*...*", token))
         elif isinstance(node, strong):
-            result.append(("**...**", node.rawsource))
+            result.append(("**...**", token))
 
-    return dict(result), Counter(item[0] for item in result), alltags
+    return dict(result), Counter(item[0] for item in result), tuple(highlights)
 
 
 class RSTReferencesCheck(RSTBaseCheck):
@@ -633,12 +751,8 @@ class RSTReferencesCheck(RSTBaseCheck):
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
-        _references, _counter, alltags = extract_rst_references(source)
-        if not alltags:
-            return
-        match_exp = "|".join(re.escape(tag) for tag in alltags)
-        for match in re.finditer(match_exp, source):
-            yield match.start(0), match.end(0), match.group(0)
+        _references, _counter, highlights = extract_rst_references(source)
+        yield from highlights
 
 
 @cache
