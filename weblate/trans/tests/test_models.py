@@ -17,6 +17,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
+from translate.storage.fluent import FluentContentError
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
@@ -769,6 +770,77 @@ class TranslationTest(RepoTestCase):
 
         ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
         self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
+
+    def test_commit_retry_unit_fluent_content_error_uses_handled_logging(self) -> None:
+        """Dedicated Fluent content errors should be logged locally, not reported."""
+        user = create_test_user()
+        component = self.create_ftl()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Ahoj, ${ name }!", STATE_APPROVED)
+
+        fluent_error = FluentContentError(
+            'Error in source of FluentUnit "hello":\nsynthetic fluent content error'
+        )
+        with (
+            patch(
+                "weblate.formats.ttkit.FluentUnit.set_target",
+                side_effect=fluent_error,
+            ),
+            patch("weblate.trans.models.translation.log_handled_exception") as mock_log,
+            patch("weblate.trans.models.translation.report_error") as mock_report,
+        ):
+            component.commit_pending("test", None)
+
+        mock_log.assert_called_once()
+        mock_report.assert_not_called()
+
+        change = PendingUnitChange.objects.get(unit=unit)
+        self.assertIn("last_failed", change.metadata)
+        self.assertEqual(change.metadata["failed_revision"], translation.revision)
+        self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
+        self.assertEqual(change.metadata["blocking_unit"], False)
+        self.assertIn(
+            "synthetic fluent content error",
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED)
+            .latest("timestamp")
+            .target,
+        )
+
+    def test_commit_retry_unit_unexpected_error_reports(self) -> None:
+        """Unexpected unit update errors should continue to go through report_error."""
+        user = create_test_user()
+        component = self.create_ftl()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Ahoj, ${ name }!", STATE_APPROVED)
+
+        with (
+            patch(
+                "weblate.formats.ttkit.FluentUnit.set_target",
+                side_effect=ValueError("unexpected failure"),
+            ),
+            patch("weblate.trans.models.translation.log_handled_exception") as mock_log,
+            patch("weblate.trans.models.translation.report_error") as mock_report,
+        ):
+            component.commit_pending("test", None)
+
+        mock_log.assert_not_called()
+        mock_report.assert_called_once()
+
+        change = PendingUnitChange.objects.get(unit=unit)
+        self.assertIn("last_failed", change.metadata)
+        self.assertEqual(change.metadata["failed_revision"], translation.revision)
+        self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
+        self.assertEqual(change.metadata["blocking_unit"], False)
+        self.assertIn(
+            "unexpected failure",
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED)
+            .latest("timestamp")
+            .target,
+        )
 
     def test_commit_successful_deletes_failed_changes(self) -> None:
         """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
