@@ -61,7 +61,7 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.42.88",
+  "boto3-stubs==1.42.89",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.2",
   "django-stubs[compatible-mypy]==6.0.2",
@@ -102,7 +102,6 @@ classifiers = [
   "Topic :: Software Development :: Localization"
 ]
 dependencies = [
-  "aeidon>=1.15,<1.16",
   "ahocorasick-rs>=1.0.1,<1.1.0",
   "altcha>=2.0,<2.1",
   "borgbackup>=1.4.0,<1.5",
@@ -135,18 +134,15 @@ dependencies = [
   "drf-standardized-errors[openapi]>=0.14.1,<0.16",
   "fedora-messaging>=3.9.0,<4.0",
   "filelock<4,>=3.18.0",
-  "fluent.syntax>=0.19.0,<0.20",
   "GitPython>=3.1.43,<3.2",
   "hiredis>=3.1.0,<3.4",
   "html2text>=2025.4.15,<2025.4.16",
-  "iniparse==0.5",
   "jsonschema>=4.24.0,<5",
   "lxml>=5.4.0,<6.1",
   "mistletoe>=1.4.0,<1.6",
   "nh3>=0.2.20,<0.4",
   "openpyxl>=3.1.5,<3.2",
   "packaging>=25,<27",
-  "phply>=1.2.6,<1.3",
   "Pillow>=11.0.0,<13",
   "pyaskalono>=0.2.0,<0.3.0",
   "pycairo>=1.20.0",
@@ -166,7 +162,7 @@ dependencies = [
   "social-auth-app-django>=5.5.1,<6.0.0",
   "social-auth-core>=4.7.0,<5.0.0",
   "tesserocr>=2.8.0,<2.11.0",
-  "translate-toolkit[toml]>=3.19.4,<3.20",
+  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]>=3.19.4,<3.20",
   "translation-finder>=2.22,<3.0",
   "unidecode>=1.4.0,<1.5",
   "urllib3[brotli,zstd]>=2.6.3,<3.0",
@@ -508,6 +504,8 @@ filterwarnings = [
   "ignore:pathlib.PurePath.as_uri:DeprecationWarning:xmlschema.resources",
   # There is no way to address this in a backwards compatible way
   "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
+  # TODO: Temporary until we migrate to newer translate-toolkit
+  "ignore:target_markup is deprecated:DeprecationWarning",
   # Warning in the third-party module (borg)
   "ignore:Version._version:DeprecationWarning:borg",
   # Triggered when Selenium can not be started

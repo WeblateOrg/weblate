@@ -32,6 +32,7 @@ Weblate 5.17
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 * :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` is now available in Docker container to customize the Keycloak unique user identifier claim.
 * Added :envvar:`WEBLATE_NGINX_IPV6` to control IPv6 listeners in the bundled Docker NGINX.
+* Project history now records project backups and project/component restore events.
 * Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
 * Clarified merge-conflict documentation for exported repositories using shallow clones by default.
 * Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting internal or non-public addresses, :setting:`WEBHOOK_RESTRICT_PRIVATE` to reject webhook URLs targeting internal or non-public addresses, and :setting:`VCS_RESTRICT_PRIVATE` to reject repository and push URLs targeting internal or non-public addresses. These are exposed in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`.
@@ -40,9 +41,11 @@ Weblate 5.17
 * Expanded :doc:`/security/threat-model` to cover webhook trust boundaries and delegated authorization boundaries, and clarified the instance-wide 2FA enforcement path in :doc:`/admin/auth`.
 * :ref:`manage-vcs-reset-reapply` now recreates missing translation files when possible and otherwise reports a clearer recovery error instead of failing later with a generic parse error.
 * Updated :doc:`/contributing/documentation` to describe the current ``make -C docs update-docs`` workflow for generated snippets.
+* Linked repository components now inherit :ref:`component-push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-auto_lock_error` from the linked component that owns the repository.
 
 .. rubric:: Bug fixes
 
+* :ref:`Project backup <projectbackup>` now preserves source translation read-only handling, and source-side pending commits without files are discarded to avoid repeated parse failures.
 * Fixed background failures in :ref:`addon-weblate.autotranslate.autotranslate`.
 * Git exporter now provides clearer push and missing-revision errors to authorized users.
 * Generated SSH wrapper scripts are now stored in :setting:`CACHE_DIR` instead of persistent SSH storage, and obsolete or stale wrappers are cleaned up during upgrade.
@@ -66,6 +69,7 @@ Weblate 5.17
 * Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
+* Reduced error-reporting noise for handled authentication callback failures and clarified password reset confirmation messages.
 * Faster category and project removals.
 * Improved performance of project language counting and API listing on projects with shared components.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.

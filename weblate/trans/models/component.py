@@ -11,7 +11,7 @@ from collections import defaultdict
 from contextlib import suppress
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, Any, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -427,6 +427,15 @@ class OldComponentSettings(TypedDict):
 class Component(  # noqa: PLR0904
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    LINKED_REPOSITORY_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "push_on_commit",
+        "commit_pending_age",
+        "auto_lock_error",
+    )
+    LINKED_REPOSITORY_SETTING_MESSAGE = gettext_lazy(
+        "Option is not available for linked repositories. Setting from linked component will be used."
+    )
+
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -1388,6 +1397,7 @@ class Component(  # noqa: PLR0904
             result = self.translation_set.get(language_id=self.source_language_id)
         except ObjectDoesNotExist:
             return None
+        result.sync_readonly_check_flag()
         self.__dict__["source_translation"] = result
         return result
 
@@ -1410,21 +1420,35 @@ class Component(  # noqa: PLR0904
         except ObjectDoesNotExist:
             try:
                 with transaction.atomic():
-                    return self.translation_set.create(
+                    translation = self.translation_set.model(
+                        component=self,
                         language=language,
-                        check_flags="read-only",
                         filename=self.template,
                         plural=self.get_source_plural(),
                         language_code=language.code,
                     )
+                    translation.sync_readonly_check_flag(save=False)
+                    return self.translation_set.create(
+                        language=language,
+                        check_flags=translation.check_flags,
+                        filename=self.template,
+                        plural=translation.plural,
+                        language_code=language.code,
+                    )
             except IntegrityError:
                 try:
-                    return self.translation_set.get(language_id=self.source_language_id)
+                    result = self.translation_set.get(
+                        language_id=self.source_language_id
+                    )
                 except self.translation_set.model.DoesNotExist:
                     pass
+                else:
+                    result.sync_readonly_check_flag()
+                    return result
                 raise
         else:
             result.language = language
+            result.sync_readonly_check_flag()
             return result
 
     def preload_sources(self, sources=None) -> None:
@@ -1602,6 +1626,27 @@ class Component(  # noqa: PLR0904
     def get_share_url(self):
         """Return absolute shareable URL."""
         return self.project.get_share_url()
+
+    @property
+    def effective_repo_component(self) -> Component:
+        linked = self.linked_component
+        if linked is not None:
+            if linked.project_id == self.project_id:
+                linked.project = self.project
+            return linked
+        return self
+
+    @property
+    def effective_push_on_commit(self) -> bool:
+        return self.effective_repo_component.push_on_commit
+
+    @property
+    def effective_commit_pending_age(self) -> int:
+        return self.effective_repo_component.commit_pending_age
+
+    @property
+    def effective_auto_lock_error(self) -> bool:
+        return self.effective_repo_component.auto_lock_error
 
     @perform_on_link
     def _get_path(self):
@@ -2077,7 +2122,7 @@ class Component(  # noqa: PLR0904
         * Configured push
         * Whether there is something to push
         """
-        if not self.push_on_commit:
+        if not self.effective_push_on_commit:
             self.log_info("skipped push: push on commit disabled")
             return
         if not self.can_push():
@@ -3012,7 +3057,7 @@ class Component(  # noqa: PLR0904
 
     @property
     def lock_alerts(self):
-        if not self.auto_lock_error:
+        if not self.effective_auto_lock_error:
             return []
         return [
             alert for alert in self.all_active_alerts if alert.name in LOCKING_ALERTS
@@ -3035,7 +3080,7 @@ class Component(  # noqa: PLR0904
             self.clear_prefetched_alerts()
             if (
                 self.locked
-                and self.auto_lock_error
+                and self.effective_auto_lock_error
                 and alert in LOCKING_ALERTS
                 and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
                 and getattr(
@@ -3064,7 +3109,7 @@ class Component(  # noqa: PLR0904
             self.all_alerts[alert] = obj
 
         # Automatically lock on error
-        if created and self.auto_lock_error and alert in LOCKING_ALERTS:
+        if created and self.effective_auto_lock_error and alert in LOCKING_ALERTS:
             self.do_lock(user=None, lock=True, auto=True)
 
         # Update details with exception of component removal
@@ -3555,12 +3600,7 @@ class Component(  # noqa: PLR0904
             for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
                     raise ValidationError(
-                        {
-                            setting: gettext(
-                                "Option is not available for linked repositories. "
-                                "Setting from linked component will be used."
-                            )
-                        }
+                        {setting: self.LINKED_REPOSITORY_SETTING_MESSAGE}
                     )
         # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)

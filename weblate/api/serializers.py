@@ -7,7 +7,7 @@ from __future__ import annotations
 import os
 from copy import copy, deepcopy
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar, TypeVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -811,6 +811,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "manage_units",
         }
     )
+    linked_repository_setting_fields: ClassVar[frozenset[str]] = frozenset(
+        Component.LINKED_REPOSITORY_SETTINGS
+    )
+    linked_repository_setting_error = Component.LINKED_REPOSITORY_SETTING_MESSAGE
     duplicated_component_fields = get_inherited_component_fields(
         "repo",
         "branch",
@@ -1004,6 +1008,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
         result = super().to_representation(instance)
+        if instance.linked_component_id is not None:
+            linked_component = instance.linked_component
+            for field in self.linked_repository_setting_fields:
+                result[field] = getattr(linked_component, field)
         user = self.context["request"].user
         if not user.has_perm("vcs.view", instance):
             result["vcs"] = None
@@ -1068,6 +1076,38 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["from_component"] = source_component
 
         return result
+
+    def get_linked_repository_component(self, instance: Component) -> Component | None:
+        try:
+            return Component.objects.get_linked(instance.repo)
+        except Component.DoesNotExist:
+            return None
+
+    def validate_linked_repository_setting_overrides(
+        self, attrs, instance: Component
+    ) -> None:
+        linked_component = self.get_linked_repository_component(instance)
+        if linked_component is None:
+            return
+
+        if self.instance is None or not self.instance.is_repo_link:
+            for field in self.linked_repository_setting_fields:
+                if field in self.initial_data:
+                    attrs.pop(field, None)
+            return
+
+        errors: dict[str, Any] = {}
+        for field in self.linked_repository_setting_fields:
+            if field not in self.initial_data:
+                continue
+            value = attrs.get(field, getattr(instance, field))
+            if value != getattr(linked_component, field):
+                errors[field] = self.linked_repository_setting_error
+            else:
+                attrs.pop(field, None)
+
+        if errors:
+            raise serializers.ValidationError(errors)
 
     def populate_from_component_input_defaults(self, data, source_component: Component):
         defaults = {
@@ -1220,6 +1260,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
                 setattr(instance, key, value)
         else:
             instance = Component(**attrs)
+
+        self.validate_linked_repository_setting_overrides(attrs, instance)
 
         if docfile is not None or zipfile is not None:
             # Validate name/slug uniqueness, this has to be done prior docfile/zipfile

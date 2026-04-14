@@ -15,13 +15,14 @@
 # ssantos <ssantos@web.de>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # VfBFan <vfbfan@users.noreply.hosted.weblate.org>, 2026.
+# Max Kleinehelleforth <m.kleinehelleforth@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-07 09:00+0000\n"
-"PO-Revision-Date: 2026-04-12 00:09+0000\n"
+"PO-Revision-Date: 2026-04-14 07:10+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -399,6 +400,14 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
+"Die gleiche Art von Einladungen ist plattformweit über die "
+":ref:`Verwaltungsoberfläche <management-interface>` auf der Reiterkarte "
+":guilabel:`Benutzer` verfügbar. Sowohl Projektadministratoren als auch "
+"Website-Administratoren können auch mehrere Benutzer auf einmal einladen, "
+"indem sie durch Leerzeichen getrennte E-Mail-Adressen einfügen. Alle in "
+"einer Massenaktion erstellten Einladungen verwenden das ausgewählte Team, "
+"und plattformweite Sammeleinladungen wenden auch die ausgewählte Superuser-"
+"Markierung an."
 
 #: admin/access.rst:188
 msgid ""
@@ -406,6 +415,9 @@ msgid ""
 "with an already pending invitation are skipped while valid invitations are "
 "still created and sent."
 msgstr ""
+"Sammeleinladungen werden einzeln verarbeitet. Ungültige Adressen und "
+"Adressen mit einer bereits ausstehenden Einladung werden übersprungen, "
+"während gültige Einladungen weiterhin erstellt und versendet werden."
 
 #: admin/access.rst:194
 msgid ""
@@ -1011,6 +1023,9 @@ msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
+"Durch Sammeleinladungen über die Bedienoberfläche werden Einladungen "
+"erstellt. Bestehende Benutzer müssen die Einladung erst noch bestätigen, "
+"bevor sie Teammitglieder werden."
 
 #: admin/access.rst:481
 msgid "Default teams and roles"
@@ -5626,6 +5641,13 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
+"Definiert eine Reihe von Projekt-Slugs, die von "
+":setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`, und "
+":setting:`PROJECT_WEB_RESTRICT_RE` ausgenommen sind, wenn die Projekt-"
+"Website validiert wird. Projekt-Slugs werden ohne Berücksichtigung der Groß- "
+"und Kleinschreibung abgeglichen."
 
 #: admin/config.rst:1703
 msgid ""
@@ -5634,6 +5656,11 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
+"Diese Ausnahme schwächt den Schutz ausgehender URLs für entsprechende "
+"Projekte, einschließlich der durch :setting:`PROJECT_WEB_RESTRICT_PRIVATE` "
+"erzwungenen Einschränkung für private Ziele. Verwenden Sie dies nur für "
+"vertrauenswürdige, vom Administrator verwaltete Projekte, bei denen das "
+"Umgehen dieser Prüfungen beabsichtigt ist."
 
 #: admin/config.rst:1730
 msgid "Reject using numeric IP address in project website. On by default."
@@ -14557,12 +14584,16 @@ msgid ""
 "Generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"Erzeugt RST-Dokumentationsausschnitte, welche die unterstützten Funktionen "
+"für jedes Dateiformat beschreiben."
 
 #: admin/management.rst:818
 msgid ""
 "The command generates one file for every format, that can be found in the "
 "specified output directory."
 msgstr ""
+"Der Befehl erzeugt für jedes Format eine Datei, die im angegebenen "
+"Ausgabeverzeichnis zu finden ist."
 
 #: admin/management.rst:826
 msgid ""
@@ -14570,6 +14601,10 @@ msgid ""
 "sources such as :doc:`/formats`. See also :file:`weblate/formats/management/"
 "commands/list_format_features.py` for customization and merging logic."
 msgstr ""
+"Die erzeugten Dokumentationsdateien sind dafür vorgesehen, in "
+"Dokumentationsquellen wie :doc:`/formats` eingebunden zu werden. Siehe auch "
+":file:`weblate/formats/management/commands/list_format_features.py` für "
+"Anpassungen und die Zusammenführungslogik."
 
 #: admin/management.rst:834
 msgid ""
@@ -18993,6 +19028,9 @@ msgid ""
 "Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project "
 "slugs from project website restriction settings."
 msgstr ""
+":setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` hinzugefügt, um ausgewählte "
+"Projekte-Slugs von den Einschränkungseinstellungen für Projekt-Websites "
+"auszunehmen."
 
 #: changes.rst:9
 msgid ""
@@ -19009,6 +19047,9 @@ msgid ""
 "generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"Neuer Verwaltungsbefehl :wladmin:`list_format_features` hinzugefügt, der RST-"
+"Dokumentationsausschnitte erzeugt, welche die unterstützten Funktionen für "
+"jedes Dateiformat beschreiben."
 
 #: changes.rst:11
 msgid "Shared components can now be categorized within the target project."
@@ -19025,23 +19066,19 @@ msgstr ""
 "Komponente über den Parameter ``category_id``."
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-#| "weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to "
-#| "update POT files with configurable update cadence."
 msgid ""
 "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
 "weblate.gettext.sphinx` to update POT files with configurable update cadence."
 msgstr ""
-":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django` "
-"und :ref:`addon-weblate.gettext.sphinx` hinzugefügt, um POT-Dateien mit "
-"konfigurierbarer Aktualisierungshäufigkeit zu aktualisieren."
+":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, "
+":ref:`addon-weblate.gettext.django` und :ref:`addon-weblate.gettext.sphinx` "
+"hinzugefügt, um POT-Dateien mit konfigurierbarer Aktualisierungshäufigkeit "
+"zu aktualisieren."
 
 #: changes.rst:14
 msgid "Added :ref:`bulk user invitations <invite-user>`."
-msgstr ""
+msgstr ":ref:`Sammeleinladungen von Benutzern <invite-user>` hinzugefügt."
 
 #: changes.rst:17 changes.rst:89 changes.rst:124 changes.rst:171
 #: changes.rst:215 changes.rst:260 changes.rst:301 changes.rst:377
@@ -19107,11 +19144,15 @@ msgstr ""
 "verfügbar."
 
 #: changes.rst:26
+#, fuzzy
 msgid ""
 "Improved documentation with auto-generated snippets "
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines."
 msgstr ""
+"Verbesserte Dokumentation mit automatisch generierten Snippets für "
+":ref:addons, :ref:fmt_capabs, :ref:checks und :ref:machine-translation "
+"Maschinen."
 
 #: changes.rst:27
 msgid ""
@@ -19160,6 +19201,8 @@ msgstr "Fehlerbehebungen"
 msgid ""
 "Project token cleanup now removes stale bots on project deletion and upgrade."
 msgstr ""
+"Die Bereinigung von Projekt-Tokens entfernt nun veraltete Bots beim Löschen "
+"von Projekten und bei Upgrades."
 
 #: changes.rst:34
 msgid "Component file handling now validates repository symlinks."
@@ -19603,24 +19646,34 @@ msgstr "Die API-Zugangskontrolle korrigiert."
 #: changes.rst:136
 msgid "Users can manage their own notification subscriptions via the API."
 msgstr ""
+"Benutzer können ihre eigenen Benachrichtigungsabonnements über die API "
+"verwalten."
 
 #: changes.rst:137
 msgid ""
 "Project administrators can manage teams in their projects via the API, "
 "according to access control rules."
 msgstr ""
+"Projektadministratoren können Teams in ihren Projekten über die API gemäß "
+"den Zugriffskontrollregeln verwalten."
 
 #: changes.rst:138
+#, fuzzy
 msgid ""
 "The add-ons listing in the API now correctly honors user permissions "
 "(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 msgstr ""
+"Die Add-on-Auflistung in der API berücksichtigt nun korrekt die "
+"Benutzerberechtigungen (:cve:2026-27457 / :ghsa:wppc-7cq7-cgfv)."
 
 #: changes.rst:140
+#, fuzzy
 msgid ""
 "Fixed source column being cleared when translating monolingual :doc:`/"
 "formats/csv`."
 msgstr ""
+"Fehler behoben, bei dem die Quellspalte beim Übersetzen von monolingualem "
+":doc:/formats/csv gelöscht wurde."
 
 #: changes.rst:150
 msgid ""
@@ -19765,10 +19818,13 @@ msgstr ""
 "basiert nun auf der Konfiguration von :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: changes.rst:184
+#, fuzzy
 msgid ""
 "Argument injection in the management console "
 "(:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)."
 msgstr ""
+"Argument-Injection in der Verwaltungskonsole (:cve:2026-24126 / :ghsa:33fm-"
+"6gp7-4p47)."
 
 #: changes.rst:185
 msgid ""
@@ -34590,10 +34646,8 @@ msgid "ORM object for a translation."
 msgstr "ORM-Objekt für eine Übersetzung."
 
 #: contributing/addons.rst:29
-#, fuzzy
-#| msgid "ORM object for an change."
 msgid "ORM object for a category."
-msgstr "ORM-Objekt für eine Änderung."
+msgstr "ORM-Objekt für eine Kategorie."
 
 #: contributing/addons.rst:33
 msgid "ORM object for a project."
@@ -36304,10 +36358,14 @@ msgstr ""
 "`language-data`_, Sprachdefinitionen für Weblate, siehe :ref:`languages`"
 
 #: contributing/modules.rst:12
+#, fuzzy
 msgid ""
 "`translate-toolkit`_, the library to manipulate the translation files, "
 "originally third-party library but now maintained by Weblate."
 msgstr ""
+"translate-toolkit_, die Bibliothek zur Bearbeitung von Übersetzungsdateien, "
+"ursprünglich eine Drittanbieter-Bibliothek, die nun von Weblate gepflegt "
+"wird."
 
 #: contributing/modules.rst:20
 msgid "Extending built-in language definitions"
@@ -36640,6 +36698,7 @@ msgstr ""
 "dessen Konfiguration in :file:`pyproject.toml` gespeichert ist."
 
 #: contributing/snippets/code-guide.rst:84
+#, fuzzy
 msgid ""
 "The easiest approach to enforce all this is to install :program:`prek`. This "
 "is a third-party reimplementation of the `pre-commit`_ tool used by Weblate. "
@@ -36647,16 +36706,24 @@ msgid ""
 "in :file:`pyproject.toml`, so installing those dependencies "
 "makes :program:`prek` available."
 msgstr ""
+"Der einfachste Weg, dies alles zu erzwingen, ist die Installation von "
+":program:prek. Dies ist eine Drittanbieter-Reimplementierung des von Weblate "
+"verwendeten pre-commit_-Tools. Es ist in den in :file:pyproject.toml "
+"deklarierten Entwicklungsabhängigkeiten enthalten, sodass :program:prek "
+"durch die Installation dieser Abhängigkeiten verfügbar wird."
 
 #: contributing/snippets/code-guide.rst:89
 msgid "To check all files manually, run:"
-msgstr ""
+msgstr "Um alle Dateien manuell zu überprüfen, führen Sie diesen Befehl aus:"
 
 #: contributing/snippets/code-guide.rst:95
+#, fuzzy
 msgid ""
 "If you prefer the original :program:`pre-commit` client, it uses the same "
 "configuration from :file:`.pre-commit-config.yaml`."
 msgstr ""
+"Wenn Sie den ursprünglichen :program:pre-commit-Client bevorzugen, verwendet "
+"dieser dieselbe Konfiguration aus :file:.pre-commit-config.yaml."
 
 #: contributing/snippets/code-guide.rst:101
 msgid "Coding securely"
@@ -36769,9 +36836,9 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a Python environment "
 "with editable Weblate sources."
 msgstr ""
-"Der bequemste Weg, um mit der Weblate-Entwicklung zu beginnen, ist, :doc:`../"
-"admin/install/source` zu folgen. Damit erhalten Sie virtualenv mit "
-"editierbaren Weblate-Quellen."
+"Der bequemste Weg, um mit der Weblate-Entwicklung zu beginnen, ist der "
+"Anleitung unter :doc:../admin/install/source zu folgen. Dadurch erhalten Sie "
+"eine Python-Umgebung mit editierbaren Weblate-Quelltexten."
 
 #: contributing/start.rst:23
 msgid "Clone the Weblate source code:"
@@ -36942,24 +37009,14 @@ msgstr ""
 "Schritt darin, den Interpreter anzugeben, den Sie verwenden möchten:"
 
 #: contributing/start.rst:146
-#, fuzzy
-#| msgid ""
-#| "You can either choose to let PyCharm create the virtualenv for you, or "
-#| "select an already existing one:"
 msgid ""
 "You can either choose to let PyCharm create the Python environment for you, "
 "or select an already existing one:"
 msgstr ""
-"Sie können entweder PyCharm die virtualenv für Sie erstellen lassen oder "
-"eine bereits vorhandene auswählen:"
+"Sie können entweder wählen, ob PyCharm die Python-Umgebung für Sie erstellen "
+"soll, oder eine bereits vorhandene auswählen:"
 
 #: contributing/start.rst:151
-#, fuzzy
-#| msgid ""
-#| "Don't forget to install the dependencies once the interpreter is set: "
-#| "Either through the console (the console from the IDE will directly use "
-#| "your virtualenv by default), or through the interface when you get a "
-#| "warning about missing dependencies."
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set: Either "
 "through the console (the console from the IDE will directly use your Python "
@@ -36967,9 +37024,9 @@ msgid ""
 "about missing dependencies."
 msgstr ""
 "Vergessen Sie nicht, die Abhängigkeiten zu installieren, sobald der "
-"Interpreter eingestellt ist: Entweder über die Konsole (die Konsole der IDE "
-"verwendet standardmäßig direkt Ihre virtualenv), oder über die "
-"Bedienoberfläche, wenn Sie eine Warnung über fehlende Abhängigkeiten "
+"Interpreter festgelegt ist: Entweder über die Konsole (die Konsole der IDE "
+"verwendet standardmäßig direkt Ihre Python-Umgebung) oder über die "
+"Benutzeroberfläche, wenn Sie eine Warnung über fehlende Abhängigkeiten "
 "erhalten."
 
 #: contributing/start.rst:156
@@ -37021,57 +37078,76 @@ msgstr ""
 
 #: contributing/submodules.rst:2
 msgid "Subprojects and embedded code"
-msgstr ""
+msgstr "Unterprojekte und eingebetteter Code"
 
 #: contributing/submodules.rst:4
 msgid ""
 "Weblate would not be possible without other projects it depends on. This "
 "document describes how other code is used in Weblate."
 msgstr ""
+"Weblate wäre ohne andere Projekte, von denen es abhängt, nicht möglich. "
+"Dieses Dokument beschreibt, wie anderer Code in Weblate verwendet wird."
 
 #: contributing/submodules.rst:8
 msgid "Vendored frontend code"
-msgstr ""
+msgstr "Externer Frontend-Code (Vendored)"
 
 #: contributing/submodules.rst:10
+#, fuzzy
 msgid ""
 "Weblate vendors several JavaScript libraries. The process is described "
 "in :doc:`frontend` and licensing of each vendored library is documented via "
 "REUSE as described in :doc:`license`. The up-to-date list of dependencies "
 "can be reviewed in :ref:`sbom`."
 msgstr ""
+"Weblate liefert mehrere JavaScript-Bibliotheken direkt mit (Vendoring). Der "
+"Prozess ist in :doc:frontend beschrieben, und die Lizenzierung jeder "
+"mitgelieferten Bibliothek ist über REUSE dokumentiert, wie in :doc:license "
+"beschrieben. Die aktuelle Liste der Abhängigkeiten kann in :ref:sbom "
+"eingesehen werden."
 
 #: contributing/submodules.rst:16
 msgid "SPDX license data"
-msgstr ""
+msgstr "SPDX-Lizenzdaten"
 
 #: contributing/submodules.rst:18
+#, fuzzy
 msgid ""
 "The SPDX license data is included as a Git submodule in the source code "
 "and :file:`weblate/utils/licensedata.py` is generated using :file:`scripts/"
 "generate-license-data.py`."
 msgstr ""
+"Die SPDX-Lizenzdaten sind als Git-Submodul im Quellcode enthalten, und "
+":file:weblate/utils/licensedata.py wird mithilfe von :file:scripts/generate-"
+"license-data.py generiert."
 
 #: contributing/submodules.rst:23
-#, fuzzy
-#| msgid "Test cases"
 msgid "Test data"
-msgstr "Testfälle"
+msgstr "Testdaten"
 
 #: contributing/submodules.rst:25
+#, fuzzy
 msgid ""
 "The test repositories in :file:`weblate/trans/tests/data/test-base-"
 "repo.*.tar` are generated from https://github.com/WeblateOrg/test, "
 "see :ref:`test-data`."
 msgstr ""
+"Die Test-Repositories in :file:weblate/trans/tests/data/test-base-repo.*.tar "
+"werden aus https://github.com/WeblateOrg/test generiert, siehe :ref:test-"
+"data."
 
 #: contributing/submodules.rst:31
+#, fuzzy
 msgid ""
 "Weblate would not be possible without many third-party dependencies. The "
 "current dependencies are in :file:`pyproject.toml` and can be reviewed "
 "in :ref:`sbom`. The most important dependencies are also described "
 "in :ref:`python-deps`."
 msgstr ""
+"Weblate wäre ohne die vielen Abhängigkeiten von Drittanbietern nicht "
+"möglich. Die aktuellen Abhängigkeiten befinden sich in :file:pyproject.toml "
+"und können in :ref:sbom eingesehen werden. Die wichtigsten Abhängigkeiten "
+"sind außerdem in :ref:python-deps beschrieben."
 
 #: contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -37136,15 +37212,21 @@ msgid "Code security scanning using `CodeQL <https://codeql.github.com/>`_."
 msgstr "Code-Sicherheitsscan mit `CodeQL <https://codeql.github.com/>`_."
 
 #: contributing/tests.rst:26
+#, fuzzy
 msgid "Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_."
 msgstr ""
+"Das Testen von visuellen Änderungen nutzt Argos CI <https://argos-ci.com>_."
 
 #: contributing/tests.rst:27
+#, fuzzy
 msgid ""
 "Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster "
 "third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_ "
 "framework."
 msgstr ""
+"Code-Formatierung mit prek <https://pypi.org/project/prek/>, einer "
+"schnelleren Drittanbieter-Reimplementierung des pre-commit <https://pre-"
+"commit.com/>-Frameworks."
 
 #: contributing/tests.rst:30
 msgid "Migration testing from all supported releases"
@@ -37762,8 +37844,9 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Doppelte Dateimaske für verlinkte Komponenten"
 
 #: devel/alerts.rst:26
+#, fuzzy
 msgid "Conflicting merge request repository setup"
-msgstr ""
+msgstr "Einrichtung eines Repositories mit widersprüchlichen Merge-Requests"
 
 #: devel/alerts.rst:27
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
@@ -37781,11 +37864,16 @@ msgstr ""
 "aktualisiert wird)."
 
 #: devel/alerts.rst:32
+#, fuzzy
 msgid ""
 "Project website availability checks can be disabled "
 "using :setting:`WEBSITE_ALERTS_ENABLED`, in which case Weblate will no "
 "longer generate alerts for unreachable project websites."
 msgstr ""
+"Die Überprüfung der Erreichbarkeit der Projektwebsite kann über die "
+"Einstellung :setting:WEBSITE_ALERTS_ENABLED deaktiviert werden. In diesem "
+"Fall generiert Weblate keine Benachrichtigungen mehr für nicht erreichbare "
+"Projektwebsites."
 
 #: devel/alerts.rst:36
 msgid ""
@@ -37805,9 +37893,8 @@ msgstr ""
 
 #: devel/alerts.rst:45
 #, fuzzy
-#| msgid "Configure repository integration:"
 msgid "Conflicting repository setup"
-msgstr "Die Repository-Integration konfigurieren:"
+msgstr "Einrichtung eines widersprüchlichen Repositories"
 
 #: devel/alerts.rst:47
 msgid ""
@@ -37815,13 +37902,22 @@ msgid ""
 "workflows are configured to push to the same repository and push branch. "
 "Such a setup can overwrite the shared branch."
 msgstr ""
+"Dieser Alert wird angezeigt, wenn mehrere Komponenten, die Pull- oder Merge-"
+"Request-Workflows nutzen, so konfiguriert sind, dass sie in dasselbe "
+"Repository und denselben Push-Branch pushen. Ein solches Setup kann dazu "
+"führen, dass der gemeinsame Branch überschrieben wird."
 
 #: devel/alerts.rst:51
+#, fuzzy
 msgid ""
 "To resolve this, either configure a different :guilabel:`Push branch` for "
 "each component or share the repository between components using a "
 "``weblate://project/component`` repository URL."
 msgstr ""
+"Um dies zu beheben, konfigurieren Sie entweder einen anderen :guilabel:Push-"
+"Branch für jede Komponente oder teilen Sie das Repository zwischen den "
+"Komponenten unter Verwendung einer weblate://project/component Repository-"
+"URL."
 
 #: devel/community.rst:2
 msgid "Building a translators community"
@@ -39866,8 +39962,6 @@ msgid "The translator's join date is also included in the report."
 msgstr "Das Beitrittsdatum des Übersetzers ist ebenfalls im Bericht enthalten."
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
 msgstr "E-Mail"
 

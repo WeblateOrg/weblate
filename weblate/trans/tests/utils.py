@@ -485,16 +485,19 @@ class RepoTestMixin:
         component = self.component
         if "linked_children" in component.__dict__:
             del component.__dict__["linked_children"]
+        params = {
+            "project": self.project,
+            "repo": component.get_repo_link_url(),
+            "file_format": "po",
+            "filemask": "po-duplicates/*.dpo",
+            "new_lang": "contact",
+        }
+        params.update(kwargs)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             return Component.objects.create(
                 name=name,
                 slug=slug,
-                project=self.project,
-                repo=component.get_repo_link_url(),
-                file_format="po",
-                filemask="po-duplicates/*.dpo",
-                new_lang="contact",
-                **kwargs,
+                **params,
             )
 
 

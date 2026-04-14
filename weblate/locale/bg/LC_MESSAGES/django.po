@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-10 09:10+0000\n"
+"PO-Revision-Date: 2026-04-14 07:10+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1793,6 +1793,7 @@ msgstr "Нормализиране на заглавката на файла POT
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Обновява заглавките на gettext и заменя запълващите коментари във файла POT."
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1807,63 +1808,59 @@ msgstr ""
 "обновяване на файла POT."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Грешка при добавянето на коментара!"
+msgstr "Да не се извличат коментари"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Всички компоненти"
+msgstr "Извличане на всички коментари"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Извличане на коментарите с етикет"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Потребителски коментари"
+msgstr "Коментари в кода"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Изберете дали xgettext да не извлича никакви коментари, всички коментари, "
+"или сами коментари с определен етикет."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Текст на коментара"
+msgstr "Етикет на коментара"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Етикет, който да се подава към xgettext за извличане на коментари, когато се "
+"използва този режим за коментарите."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Системни проверки"
+msgstr "Проверки на xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Допълнителни проверки на xgettext, които могат да бъдат включени за "
+"извлечените съобщения."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Допълнителен клон"
+msgstr "Допълнителна ключова дума"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Незадължителна допълнителна ключова дума, която да бъде подадена към "
+"xgettext чрез параметъра --keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4743,16 +4740,12 @@ msgid "C format string does not match source."
 msgstr "Форматиращият низ на C не съвпада с изходния."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Форматиране на Object Pascal"
+msgstr "Форматиране на Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Форматиращият низ на C не съвпада с изходния."
+msgstr "Форматиращият низ на Objective-C не съвпада с изходния."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5701,6 +5694,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Функцията за изпращане чрез изнасянето за Git на Weblate не се поддържа. "
+"Вместо това изпратете към отдалеченото хранилище."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5708,12 +5703,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Функцията за изпращане чрез изнасянето за Git на Weblate не се поддържа. "
+"Вместо това изпратете към отдалеченото хранилище: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Поисканата ревизия не е налична в локалното хранилище за Git на Weblate. "
+"Първо трябва да я извлечете от отдалеченото хранилище."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5721,6 +5720,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Поисканата ревизия не е налична в локалното хранилище за Git на Weblate. "
+"Първо трябва да я извлечете от отдалеченото хранилище: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5728,6 +5729,10 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Плиткото клониране от Git на Weblate не споделя достатъчно история с това "
+"хранилище, за да може да се извърши извличането. Първо трябва да я извлечете "
+"от отдалеченото хранилище, или използвайте клониране, което споделя "
+"историята с Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5737,16 +5742,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Плиткото клониране от Git на Weblate не споделя достатъчно история с това "
+"хранилище, за да може да се извърши извличането. Първо трябва да я извлечете "
+"от отдалеченото хранилище, или използвайте клониране, което споделя "
+"историята с Weblate. Отдалечено хранилище: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Изнасянето от Git беше неуспешно."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Неподдържан файл!"
+msgstr "Неподдържана услуга на Git."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -14077,6 +14084,12 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Изнесеното хранилище на Weblate може да бъде плитко по подразбиране, така че "
+"този начин на работа е най-подходящ при поддържане на актуално копие на "
+"отдалеченото хранилище. Клонирането от изнесеното хранилище на Weblate или "
+"използването на остаряло копие на отдалеченото хранилище може да бъде "
+"неуспешно, дори когато Weblate и отдалеченото хранилище са в синхрон. Вижте "
+"ЧЗВ за повече подробности."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -17377,16 +17390,14 @@ msgstr ""
 "изтегляне/сливане, които не са насочени към копирано хранилище."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Клон на хранилището"
+msgstr "Грешен клон на хранилището: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Грешен низ за търсене!"
+msgstr "Грешен клон за изпращане: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -18058,10 +18069,8 @@ msgid "Very low"
 msgstr "Много нисък"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "Адрес на хранилището за резервния копия"
+msgstr "Адрес на хранилището"
 
 #: weblate/trans/util.py:265
 #, python-brace-format

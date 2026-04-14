@@ -10,6 +10,7 @@ import time
 from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import timedelta
 from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
@@ -145,7 +146,7 @@ from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
-from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_error
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
@@ -186,6 +187,31 @@ CONTACT_SUBJECTS = {
 }
 
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
+HANDLED_AUTH_PARAMETERS = frozenset(
+    {
+        "email",
+        "user",
+        "expires",
+        "state",
+        "code",
+        "RelayState",
+        "RelayState.idp",
+        "disabled",
+    }
+)
+HANDLED_AUTH_FAILED_MARKERS = (
+    "bad_verification_code",
+    "incorrect or expired",
+)
+
+
+@dataclass(frozen=True)
+class AuthErrorPolicy:
+    response: HttpResponse | None
+    reportable: bool
+    cause: str
+    handled: bool = True
+
 
 NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
@@ -1435,6 +1461,14 @@ def registration_fail(request: AuthenticatedHttpRequest, message: str):
 
 
 def auth_redirect_token(request: AuthenticatedHttpRequest):
+    if request.session.get("password_reset"):
+        return auth_fail(
+            request,
+            gettext(
+                "Try resetting your password again to verify your identity, "
+                "the confirmation link probably expired."
+            ),
+        )
     return auth_fail(
         request,
         gettext(
@@ -1453,6 +1487,12 @@ def auth_redirect_state(request: AuthenticatedHttpRequest):
 def handle_missing_parameter(
     request: AuthenticatedHttpRequest, backend: str, error: AuthMissingParameter
 ):
+    if (
+        error.parameter == "user"
+        and request.user.is_authenticated
+        and request.session.get("password_reset")
+    ):
+        return redirect("login")
     if backend != "email" and error.parameter == "email":
         error_messages = [
             gettext("Got no e-mail address from third party authentication service.")
@@ -1472,6 +1512,189 @@ def handle_missing_parameter(
     if error.parameter == "disabled":
         return auth_fail(request, gettext("New registrations are turned off."))
     return None
+
+
+def log_handled_auth_failure(
+    request: AuthenticatedHttpRequest,
+    backend: str,
+    error: Exception,
+) -> None:
+    action = "activation"
+    if request.session.get("password_reset"):
+        action = "reset"
+    elif request.session.get("account_remove"):
+        action = "remove"
+    elif request.session.get("reauthenticate"):
+        action = "connect"
+
+    details = [
+        f"backend={backend}",
+        f"action={action}",
+        f"path={request.path}",
+    ]
+
+    if isinstance(error, AuthMissingParameter):
+        details.append(f"parameter={error.parameter}")
+        if error.parameter == "user":
+            details.extend(
+                [
+                    f"current_user={request.user.pk}",
+                    f"init_user={request.session.get('social_auth_user')}",
+                ]
+            )
+    elif message := get_handled_auth_reason(error):
+        details.append(f"reason={message}")
+
+    log_handled_exception("Handled auth failure", extra_log=", ".join(details))
+
+
+def get_handled_auth_reason(error: Exception) -> str:
+    for arg in error.args:
+        if isinstance(arg, str) and arg:
+            return arg
+    return str(error)
+
+
+def is_handled_auth_failed(error: AuthFailed) -> bool:
+    details = " ".join(str(arg) for arg in error.args if isinstance(arg, str)).lower()
+    return any(marker in details for marker in HANDLED_AUTH_FAILED_MARKERS)
+
+
+def get_auth_error_policy(
+    request: AuthenticatedHttpRequest,
+    backend: str,
+    error: Exception,
+) -> AuthErrorPolicy:
+    match error:
+        case InvalidEmail():
+            return AuthErrorPolicy(
+                response=auth_redirect_token(request),
+                reportable=False,
+                cause="Could not register",
+            )
+        case AuthMissingParameter(parameter=parameter) if (
+            parameter in HANDLED_AUTH_PARAMETERS
+        ):
+            return AuthErrorPolicy(
+                response=handle_missing_parameter(request, backend, error),
+                reportable=False,
+                cause="Could not register",
+            )
+        case AuthMissingParameter():
+            return AuthErrorPolicy(
+                response=None,
+                reportable=True,
+                cause="Could not register",
+                handled=False,
+            )
+        case AuthStateMissing() | AuthStateForbidden():
+            return AuthErrorPolicy(
+                response=auth_redirect_state(request),
+                reportable=False,
+                cause="Could not register",
+            )
+        case AuthFailed() if is_handled_auth_failed(error):
+            return AuthErrorPolicy(
+                response=auth_fail(
+                    request,
+                    gettext(
+                        "Could not authenticate, probably due to an expired token "
+                        "or connection error."
+                    ),
+                ),
+                reportable=False,
+                cause="Could not authenticate",
+            )
+        case AuthFailed():
+            return AuthErrorPolicy(
+                response=auth_fail(
+                    request,
+                    gettext(
+                        "Could not authenticate, probably due to an expired token "
+                        "or connection error."
+                    ),
+                ),
+                reportable=True,
+                cause="Could not authenticate",
+            )
+        case AuthCanceled():
+            return AuthErrorPolicy(
+                response=auth_fail(request, gettext("Authentication cancelled.")),
+                reportable=False,
+                cause="Could not register",
+            )
+        case AuthForbidden():
+            return AuthErrorPolicy(
+                response=auth_fail(
+                    request, gettext("The server does not allow authentication.")
+                ),
+                reportable=True,
+                cause="Could not authenticate",
+            )
+        case EmailAlreadyAssociated():
+            return AuthErrorPolicy(
+                response=registration_fail(
+                    request,
+                    gettext(
+                        "The supplied e-mail address is already in use for another account."
+                    ),
+                ),
+                reportable=False,
+                cause="Could not register",
+            )
+        case UsernameAlreadyAssociated():
+            return AuthErrorPolicy(
+                response=registration_fail(
+                    request,
+                    gettext(
+                        "The supplied username is already in use for another account."
+                    ),
+                ),
+                reportable=False,
+                cause="Could not register",
+            )
+        case AuthTokenError():
+            return AuthErrorPolicy(
+                response=registration_fail(
+                    request,
+                    gettext("Authentication failed: %s") % error,
+                ),
+                reportable=True,
+                cause="Could not authenticate",
+            )
+        case AuthAlreadyAssociated():
+            return AuthErrorPolicy(
+                response=registration_fail(
+                    request,
+                    gettext(
+                        "The supplied user identity is already in use for another account."
+                    ),
+                ),
+                reportable=False,
+                cause="Could not register",
+            )
+        case AuthUnreachableProvider() | AuthConnectionError() | HTTPError():
+            return AuthErrorPolicy(
+                response=registration_fail(
+                    request,
+                    gettext("The authentication provider could not be reached."),
+                ),
+                reportable=True,
+                cause="Could not authenticate",
+            )
+        case ValidationError():
+            return AuthErrorPolicy(
+                response=registration_fail(request, str(error)),
+                reportable=True,
+                cause="Could not register",
+            )
+        case _:
+            return AuthErrorPolicy(
+                response=None,
+                reportable=True,
+                cause="Could not register",
+                handled=False,
+            )
 
 
 @csrf_exempt
@@ -1503,66 +1726,31 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
         )
     try:
         response = complete(request, backend)
-    except InvalidEmail:
-        report_error("Could not register")
-        return auth_redirect_token(request)
-    except AuthMissingParameter as error:
-        report_error("Could not register")
-        result = handle_missing_parameter(request, backend, error)
-        if result:
-            return result
+    except (
+        InvalidEmail,
+        AuthMissingParameter,
+        AuthStateMissing,
+        AuthStateForbidden,
+        AuthFailed,
+        AuthCanceled,
+        AuthForbidden,
+        EmailAlreadyAssociated,
+        UsernameAlreadyAssociated,
+        AuthTokenError,
+        AuthAlreadyAssociated,
+        AuthUnreachableProvider,
+        AuthConnectionError,
+        HTTPError,
+        ValidationError,
+    ) as error:
+        policy = get_auth_error_policy(request, backend, error)
+        if policy.reportable:
+            report_error(policy.cause)
+        else:
+            log_handled_auth_failure(request, backend, error)
+        if policy.handled:
+            return policy.response
         raise
-    except (AuthStateMissing, AuthStateForbidden):
-        report_error("Could not register")
-        return auth_redirect_state(request)
-    except AuthFailed:
-        report_error("Could not register")
-        return auth_fail(
-            request,
-            gettext(
-                "Could not authenticate, probably due to an expired token "
-                "or connection error."
-            ),
-        )
-    except AuthCanceled:
-        report_error("Could not register")
-        return auth_fail(request, gettext("Authentication cancelled."))
-    except AuthForbidden:
-        report_error("Could not register")
-        return auth_fail(request, gettext("The server does not allow authentication."))
-    except EmailAlreadyAssociated:
-        return registration_fail(
-            request,
-            gettext(
-                "The supplied e-mail address is already in use for another account."
-            ),
-        )
-    except UsernameAlreadyAssociated:
-        return registration_fail(
-            request,
-            gettext("The supplied username is already in use for another account."),
-        )
-    except AuthTokenError as error:
-        report_error("Could not authenticate")
-        return registration_fail(
-            request,
-            gettext("Authentication failed: %s") % error,
-        )
-    except AuthAlreadyAssociated:
-        return registration_fail(
-            request,
-            gettext(
-                "The supplied user identity is already in use for another account."
-            ),
-        )
-    except (AuthUnreachableProvider, AuthConnectionError, HTTPError):
-        return registration_fail(
-            request,
-            gettext("The authentication provider could not be reached."),
-        )
-    except ValidationError as error:
-        report_error("Could not register")
-        return registration_fail(request, str(error))
 
     # Finish second factor authentication
     if persistent_id := request.session.pop(DEVICE_ID_SESSION_KEY, None):

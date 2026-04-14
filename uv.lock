@@ -359,15 +359,15 @@ wheels = [
 
 [[package]]
 name = "boto3-stubs"
-version = "1.42.88"
+version = "1.42.89"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "botocore-stubs" },
     { name = "types-s3transfer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c2/c7/d4dfbb4757cd72fd350ba666902ec3ac19e04d6be639e96cdad4543d4726/boto3_stubs-1.42.88.tar.gz", hash = "sha256:85215fb4938a94d1cf83cd8632f46ae7728b5ec88187d83468f393bbe64236d6", size = 102495, upload-time = "2026-04-10T19:55:57.526Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/58/7d/2ea3bb15bba37e6d70f9297dccd1ce769b7b92f6179baa890293995f359b/boto3_stubs-1.42.89.tar.gz", hash = "sha256:dbbc4fd2678cfb21da9bab1b5e30ba951852322d055045ac12042ba34d04597a", size = 102703, upload-time = "2026-04-13T19:51:49.673Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b4/6f/3befd72080aedbb4ad26b353a6e364645668664930ce49668fd0bab8f2b5/boto3_stubs-1.42.88-py3-none-any.whl", hash = "sha256:9e74350715ca8ccd63fc250f8eca9fa3161b3d1704339554344d72e4e21c5ed1", size = 70603, upload-time = "2026-04-10T19:55:49.921Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/5d/397d2393cba13b6764da0da0aee5a16d05b304de081dfec1be69829ef0d4/boto3_stubs-1.42.89-py3-none-any.whl", hash = "sha256:699e510078a057766e2de1d2d91d99dac2ce3ca2d4e6adf8df27b305d04b91d2", size = 70667, upload-time = "2026-04-13T19:51:43.131Z" },
 ]
 
 [[package]]
@@ -4641,8 +4641,32 @@ wheels = [
 ]
 
 [package.optional-dependencies]
+chardet = [
+    { name = "charset-normalizer" },
+]
+fluent = [
+    { name = "fluent-syntax" },
+]
+ini = [
+    { name = "iniparse" },
+]
+markdown = [
+    { name = "mistletoe" },
+]
+php = [
+    { name = "phply" },
+]
+rc = [
+    { name = "pyparsing" },
+]
+subtitles = [
+    { name = "aeidon" },
+]
 toml = [
     { name = "tomlkit" },
+]
+yaml = [
+    { name = "ruamel-yaml" },
 ]
 
 [[package]]
@@ -5077,7 +5101,6 @@ name = "weblate"
 version = "5.17"
 source = { editable = "." }
 dependencies = [
-    { name = "aeidon" },
     { name = "ahocorasick-rs" },
     { name = "altcha" },
     { name = "borgbackup" },
@@ -5110,18 +5133,15 @@ dependencies = [
     { name = "drf-standardized-errors", extra = ["openapi"] },
     { name = "fedora-messaging" },
     { name = "filelock" },
-    { name = "fluent-syntax" },
     { name = "gitpython" },
     { name = "hiredis" },
     { name = "html2text" },
-    { name = "iniparse" },
     { name = "jsonschema" },
     { name = "lxml" },
     { name = "mistletoe" },
     { name = "nh3" },
     { name = "openpyxl" },
     { name = "packaging" },
-    { name = "phply" },
     { name = "pillow" },
     { name = "pyaskalono" },
     { name = "pycairo" },
@@ -5141,7 +5161,7 @@ dependencies = [
     { name = "social-auth-app-django" },
     { name = "social-auth-core" },
     { name = "tesserocr" },
-    { name = "translate-toolkit", extra = ["toml"] },
+    { name = "translate-toolkit", extra = ["chardet", "fluent", "ini", "markdown", "php", "rc", "subtitles", "toml", "yaml"] },
     { name = "translation-finder" },
     { name = "unidecode" },
     { name = "urllib3", extra = ["brotli", "zstd"] },
@@ -5332,7 +5352,6 @@ types = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aeidon", specifier = ">=1.15,<1.16" },
     { name = "ahocorasick-rs", specifier = ">=1.0.1,<1.1.0" },
     { name = "aliyun-python-sdk-alimt", marker = "extra == 'alibaba'", specifier = ">=3.2.0,<4.0.0" },
     { name = "aliyun-python-sdk-core", marker = "extra == 'alibaba'", specifier = ">=2.16.0,<3.0.0" },
@@ -5371,7 +5390,6 @@ requires-dist = [
     { name = "drf-standardized-errors", extras = ["openapi"], specifier = ">=0.14.1,<0.16" },
     { name = "fedora-messaging", specifier = ">=3.9.0,<4.0" },
     { name = "filelock", specifier = ">=3.18.0,<4" },
-    { name = "fluent-syntax", specifier = ">=0.19.0,<0.20" },
     { name = "git-review", marker = "extra == 'gerrit'", specifier = ">=2.4.0,<2.6.0" },
     { name = "gitpython", specifier = ">=3.1.43,<3.2" },
     { name = "google-cloud-storage", marker = "extra == 'google'", specifier = ">=3.4.0,<3.11" },
@@ -5379,7 +5397,6 @@ requires-dist = [
     { name = "granian", marker = "extra == 'wsgi'", specifier = "==2.7.3" },
     { name = "hiredis", specifier = ">=3.1.0,<3.4" },
     { name = "html2text", specifier = ">=2025.4.15,<2025.4.16" },
-    { name = "iniparse", specifier = "==0.5" },
     { name = "jsonschema", specifier = ">=4.24.0,<5" },
     { name = "logging-gelf", marker = "extra == 'gelf'", specifier = ">=0.0.32,<0.1" },
     { name = "lxml", specifier = ">=5.4.0,<6.1" },
@@ -5389,7 +5406,6 @@ requires-dist = [
     { name = "openai", marker = "extra == 'openai'", specifier = ">=2.0,<3.0" },
     { name = "openpyxl", specifier = ">=3.1.5,<3.2" },
     { name = "packaging", specifier = ">=25,<27" },
-    { name = "phply", specifier = ">=1.2.6,<1.3" },
     { name = "pillow", specifier = ">=11.0.0,<13" },
     { name = "psycopg", extras = ["binary"], marker = "extra == 'postgres'", specifier = ">=3.2.11,<3.4" },
     { name = "pyaskalono", specifier = ">=0.2.0,<0.3.0" },
@@ -5412,7 +5428,7 @@ requires-dist = [
     { name = "social-auth-core", specifier = ">=4.7.0,<5.0.0" },
     { name = "sphinx", marker = "extra == 'sphinx'" },
     { name = "tesserocr", specifier = ">=2.8.0,<2.11.0" },
-    { name = "translate-toolkit", extras = ["toml"], specifier = ">=3.19.4,<3.20" },
+    { name = "translate-toolkit", extras = ["chardet", "fluent", "ini", "markdown", "toml", "php", "rc", "subtitles", "yaml"], specifier = ">=3.19.4,<3.20" },
     { name = "translation-finder", specifier = ">=2.22,<3.0" },
     { name = "unidecode", specifier = ">=1.4.0,<1.5" },
     { name = "urllib3", extras = ["brotli", "zstd"], specifier = ">=2.6.3,<3.0" },
@@ -5427,7 +5443,7 @@ provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "boto3-stubs", specifier = "==1.42.88" },
+    { name = "boto3-stubs", specifier = "==1.42.89" },
     { name = "celery-types", specifier = "==0.26.0" },
     { name = "coverage", specifier = "==7.13.5" },
     { name = "django-debug-toolbar", specifier = "==6.3.0" },
@@ -5516,7 +5532,7 @@ test = [
     { name = "standardwebhooks", specifier = "==1.0.1" },
 ]
 types = [
-    { name = "boto3-stubs", specifier = "==1.42.88" },
+    { name = "boto3-stubs", specifier = "==1.42.89" },
     { name = "celery-types", specifier = "==0.26.0" },
     { name = "django-stubs", extras = ["compatible-mypy"], specifier = "==6.0.2" },
     { name = "django-stubs-ext", specifier = "==6.0.2" },
