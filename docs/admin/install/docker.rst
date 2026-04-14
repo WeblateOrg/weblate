@@ -1032,6 +1032,17 @@ Generic settings
 
    Configures :setting:`DEFAULT_AUTO_WATCH`.
 
+.. envvar:: WEBLATE_DEFAULT_NOTIFICATIONS
+
+   Configures :setting:`DEFAULT_NOTIFICATIONS`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_DEFAULT_NOTIFICATIONS: 0:1:MentionCommentNotificaton,10:1:LastAuthorCommentNotificaton
+
 .. envvar:: WEBLATE_RATELIMIT_ATTEMPTS
 .. envvar:: WEBLATE_RATELIMIT_LOCKOUT
 .. envvar:: WEBLATE_RATELIMIT_WINDOW

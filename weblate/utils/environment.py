@@ -119,6 +119,20 @@ def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, s
     return default or {}
 
 
+def get_env_tuples_or_none(name: str) -> list[tuple] | None:
+    """
+    Get list of tuples from environment.
+
+    parses 'a:b:c,x:y:z' into [('a','b','c'), ('x','y','z')]
+    """
+    parsed_list = get_env_list_or_none(name)
+    if parsed_list is not None:
+        if parsed_list == [""]:
+            return []
+        return [tuple(e.split(":")) for e in parsed_list]
+    return None
+
+
 def get_env_int_or_none(name: str) -> int | None:
     """Get integer value from environment."""
     string_value = get_env_str(name)

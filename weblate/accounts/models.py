@@ -36,7 +36,6 @@ from social_django.models import UserSocialAuth
 from unidecode import unidecode
 
 from weblate.accounts.avatar import get_user_display
-from weblate.accounts.data import create_default_notifications
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
@@ -156,6 +155,61 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
         r"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
     )
+
+    DEFAULT_NOTIFICATIONS: ClassVar[
+        list[tuple[NotificationScope, NotificationFrequency, str]]
+    ] = [
+        (
+            NotificationScope.SCOPE_ALL,
+            NotificationFrequency.FREQ_INSTANT,
+            "MentionCommentNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_WATCHED,
+            NotificationFrequency.FREQ_INSTANT,
+            "LastAuthorCommentNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_WATCHED,
+            NotificationFrequency.FREQ_INSTANT,
+            "MentionCommentNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_WATCHED,
+            NotificationFrequency.FREQ_INSTANT,
+            "NewAnnouncementNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_WATCHED,
+            NotificationFrequency.FREQ_WEEKLY,
+            "NewStringNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_ADMIN,
+            NotificationFrequency.FREQ_INSTANT,
+            "MergeFailureNotification",
+        ),
+        (
+            NotificationScope.SCOPE_ADMIN,
+            NotificationFrequency.FREQ_INSTANT,
+            "ParseErrorNotification",
+        ),
+        (
+            NotificationScope.SCOPE_ADMIN,
+            NotificationFrequency.FREQ_INSTANT,
+            "NewTranslationNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_ADMIN,
+            NotificationFrequency.FREQ_INSTANT,
+            "NewAlertNotificaton",
+        ),
+        (
+            NotificationScope.SCOPE_ADMIN,
+            NotificationFrequency.FREQ_INSTANT,
+            "NewAnnouncementNotificaton",
+        ),
+    ]
 
     # Multi-level rate limiting for email notifications
     # Each tuple contains (max_emails, time_window_seconds)
@@ -1329,3 +1383,13 @@ def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
         # Create subscriptions
         if not instance.is_anonymous and not instance.is_bot:
             create_default_notifications(instance)
+
+
+def create_default_notifications(user: User) -> None:
+    if settings.DEFAULT_NOTIFICATIONS:
+        for scope, frequency, notification in settings.DEFAULT_NOTIFICATIONS:
+            user.subscription_set.get_or_create(
+                scope=scope,
+                notification=notification,
+                defaults={"frequency": frequency},
+            )
