@@ -15,10 +15,21 @@ from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
+from requests.exceptions import HTTPError
+from social_core.exceptions import (
+    AuthCanceled,
+    AuthFailed,
+    AuthForbidden,
+    AuthMissingParameter,
+    AuthStateMissing,
+    AuthTokenError,
+    InvalidEmail,
+)
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
+from weblate.accounts.views import log_handled_auth_failure
 from weblate.auth.models import User
 from weblate.billing.models import Plan
 from weblate.lang.models import Language
@@ -54,6 +65,47 @@ class ViewTest(RepoTestCase):
         user.email = "noreply@example.com"
         user.save()
         return user
+
+    @staticmethod
+    def get_backend(name: str = "github") -> mock.Mock:
+        backend = mock.Mock()
+        backend.name = name
+        return backend
+
+    def assert_social_complete_result(
+        self,
+        error: Exception,
+        *,
+        expected_text: str,
+        backend: str = "github",
+        session_updates: dict[str, object] | None = None,
+        reportable: bool,
+    ) -> None:
+        session = self.client.session
+        if session_updates is not None:
+            for key, value in session_updates.items():
+                session[key] = value
+            session.save()
+
+        with (
+            mock.patch("weblate.accounts.views.complete", side_effect=error),
+            mock.patch("weblate.accounts.views.report_error") as mocked_report_error,
+            mock.patch(
+                "weblate.accounts.views.log_handled_auth_failure"
+            ) as mocked_handled_error,
+        ):
+            response = self.client.get(
+                reverse("social:complete", args=(backend,)), follow=True
+            )
+
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(response, expected_text)
+        if reportable:
+            mocked_report_error.assert_called_once()
+            mocked_handled_error.assert_not_called()
+        else:
+            mocked_report_error.assert_not_called()
+            mocked_handled_error.assert_called_once()
 
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS=("Weblate test <noreply@weblate.org>",)
@@ -352,6 +404,111 @@ class ViewTest(RepoTestCase):
     def test_login_uses_internal_password_reset_url(self) -> None:
         response = self.client.get(reverse("login"))
         self.assertContains(response, f'href="{reverse("password_reset")}"')
+
+    def test_social_complete_logs_missing_provider_email(self) -> None:
+        self.assert_social_complete_result(
+            AuthMissingParameter(self.get_backend(), "email"),
+            expected_text=(
+                "Got no e-mail address from third party authentication service."
+            ),
+            reportable=False,
+        )
+
+    def test_social_complete_logs_disabled_registration(self) -> None:
+        self.assert_social_complete_result(
+            AuthMissingParameter(self.get_backend(), "disabled"),
+            expected_text="New registrations are turned off.",
+            reportable=False,
+        )
+
+    def test_social_complete_logs_invalid_email_for_reset(self) -> None:
+        self.assert_social_complete_result(
+            InvalidEmail(self.get_backend("email")),
+            expected_text=(
+                "Try resetting your password again to verify your identity, "
+                "the confirmation link probably expired."
+            ),
+            backend="email",
+            session_updates={"password_reset": True},
+            reportable=False,
+        )
+
+    def test_social_complete_logs_missing_state(self) -> None:
+        self.assert_social_complete_result(
+            AuthStateMissing(self.get_backend()),
+            expected_text="Could not authenticate due to invalid session state.",
+            reportable=False,
+        )
+
+    def test_social_complete_logs_expired_provider_code(self) -> None:
+        self.assert_social_complete_result(
+            AuthFailed(
+                self.get_backend(),
+                "The code passed is incorrect or expired.",
+            ),
+            expected_text=(
+                "Could not authenticate, probably due to an expired token "
+                "or connection error."
+            ),
+            reportable=False,
+        )
+
+    def test_social_complete_reports_token_error(self) -> None:
+        self.assert_social_complete_result(
+            AuthTokenError(self.get_backend(), "Invalid key/secret, perhaps expired"),
+            expected_text=(
+                "Authentication failed: Token error: Invalid key/secret, "
+                "perhaps expired"
+            ),
+            reportable=True,
+        )
+
+    def test_social_complete_reports_auth_forbidden(self) -> None:
+        self.assert_social_complete_result(
+            AuthForbidden(self.get_backend()),
+            expected_text="The server does not allow authentication.",
+            reportable=True,
+        )
+
+    def test_social_complete_reports_provider_http_error(self) -> None:
+        self.assert_social_complete_result(
+            HTTPError(
+                "401 Client Error: Unauthorized for url: https://api.github.com/user"
+            ),
+            expected_text="The authentication provider could not be reached.",
+            reportable=True,
+        )
+
+    def test_social_complete_logs_auth_canceled(self) -> None:
+        self.assert_social_complete_result(
+            AuthCanceled(self.get_backend(), "access_denied"),
+            expected_text="Authentication cancelled.",
+            reportable=False,
+        )
+
+    def test_log_handled_auth_failure_uses_string_reason(self) -> None:
+        request = self.client.get(reverse("login")).wsgi_request
+        request.session["password_reset"] = True
+
+        with mock.patch(
+            "weblate.accounts.views.log_handled_exception"
+        ) as mocked_log_handled_exception:
+            log_handled_auth_failure(
+                request,
+                "github",
+                AuthFailed(
+                    self.get_backend(),
+                    "The code passed is incorrect or expired.",
+                ),
+            )
+
+        mocked_log_handled_exception.assert_called_once_with(
+            "Handled auth failure",
+            extra_log=(
+                "backend=github, action=reset, path=/accounts/login/, "
+                "reason=The code passed is incorrect or expired."
+            ),
+        )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False) -> None:

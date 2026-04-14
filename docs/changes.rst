@@ -68,6 +68,7 @@ Weblate 5.17
 * Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
+* Reduced error-reporting noise for handled authentication callback failures and clarified password reset confirmation messages.
 * Faster category and project removals.
 * Improved performance of project language counting and API listing on projects with shared components.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
