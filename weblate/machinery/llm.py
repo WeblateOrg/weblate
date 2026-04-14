@@ -11,8 +11,10 @@ import re
 import string
 from collections import Counter, defaultdict
 from itertools import chain
+from operator import itemgetter
 from typing import TYPE_CHECKING, Literal
 
+from weblate.checks.utils import highlight_string
 from weblate.glossary.models import (
     fetch_glossary_terms,
     get_glossary_terms,
@@ -165,9 +167,13 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 and all(unit.get_target_plurals())
             ):
                 # TODO: probably should use plural mapper here
-                inputs.append(
-                    {"source": text, "translation": unit.get_target_plurals()[0]}
+                translation = self._placeholderize_existing_translation(
+                    unit.get_target_plurals()[0], text, unit
                 )
+                payload = {"source": text}
+                if translation is not None:
+                    payload["translation"] = translation
+                inputs.append(payload)
             else:
                 inputs.append({"source": text})
 
@@ -309,6 +315,13 @@ class BaseLLMTranslation(BatchMachineTranslation):
         ]
 
     @classmethod
+    def _iter_placeholder_matches(cls, text: str) -> list[tuple[int, int, str]]:
+        return [
+            (match.start(), match.end(), f"@@PH{match.group('id')}@@")
+            for match in RECOVERABLE_LLM_PLACEHOLDER_RE.finditer(text)
+        ]
+
+    @classmethod
     def _extract_placeholders(cls, text: str) -> Counter[str]:
         return Counter(token for token, _end in cls._iter_placeholders(text))
 
@@ -324,6 +337,145 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return suffixes
 
     @classmethod
+    def _cleanup_source_variant(
+        cls, source_variant: str, unit: Unit
+    ) -> tuple[str, list[tuple[str, str]]]:
+        parts: list[str] = []
+        specs: list[tuple[str, str]] = []
+        start = 0
+        for highlight_start, highlight_end, highlight_text in highlight_string(
+            source_variant,
+            unit,
+            highlight_syntax=cls.highlight_syntax,
+        ):
+            token = f"{cls.replacement_start}{highlight_start}{cls.replacement_end}"
+            parts.extend((source_variant[start:highlight_start], token))
+            specs.append((token, highlight_text))
+            start = highlight_end
+        parts.append(source_variant[start:])
+        return "".join(parts), specs
+
+    @classmethod
+    def _iter_source_placeholder_specs(
+        cls, source_text: str, unit: Unit | None
+    ) -> list[tuple[str, str]] | None:
+        source_placeholders = [
+            token for token, _end in cls._iter_placeholders(source_text)
+        ]
+        if unit is None:
+            return [] if not source_placeholders else None
+
+        source_variants = dict.fromkeys(
+            chain(unit.get_source_plurals(), getattr(unit, "plural_map", ()))
+        )
+        for source_variant in source_variants:
+            cleaned_source, specs = cls._cleanup_source_variant(source_variant, unit)
+            if cleaned_source == source_text:
+                return specs
+
+        return None
+
+    @classmethod
+    def _iter_translation_highlights(
+        cls,
+        translation: str,
+        unit: Unit,
+        placeholder_matches: list[tuple[int, int, str]],
+    ) -> list[tuple[int, int, str]]:
+        highlights: list[tuple[int, int, str]] = []
+        for start, end, highlight_text in highlight_string(
+            translation, unit, highlight_syntax=cls.highlight_syntax
+        ):
+            if any(
+                start < placeholder_end and end > placeholder_start
+                for placeholder_start, placeholder_end, _token in placeholder_matches
+            ):
+                continue
+            highlights.append((start, end, highlight_text))
+        return highlights
+
+    @classmethod
+    def _placeholderize_translation(
+        cls, translation: str, source_text: str, unit: Unit | None
+    ) -> str | None:
+        source_placeholders = [
+            token for token, _end in cls._iter_placeholders(source_text)
+        ]
+        if not source_placeholders:
+            return translation
+
+        placeholder_matches = cls._iter_placeholder_matches(translation)
+        placeholder_tokens = {token for _start, _end, token in placeholder_matches}
+        if not placeholder_tokens.issubset(source_placeholders):
+            return None
+
+        translation_highlights = (
+            []
+            if unit is None
+            else cls._iter_translation_highlights(
+                translation, unit, placeholder_matches
+            )
+        )
+        if len(placeholder_matches) + len(translation_highlights) != len(
+            source_placeholders
+        ):
+            return None
+        if not translation_highlights:
+            return translation
+
+        source_specs = cls._iter_source_placeholder_specs(source_text, unit)
+        if source_specs is None:
+            return None
+
+        remaining_source_specs = [
+            (token, highlight_text)
+            for token, highlight_text in source_specs
+            if token not in placeholder_tokens
+        ]
+        tokens_by_highlight_text: defaultdict[str, list[str]] = defaultdict(list)
+        for token, highlight_text in remaining_source_specs:
+            tokens_by_highlight_text[highlight_text].append(token)
+
+        highlight_replacements: list[tuple[int, int, str]] = []
+        for start, end, highlight_text in translation_highlights:
+            tokens = tokens_by_highlight_text.get(highlight_text)
+            if not tokens:
+                return None
+            highlight_replacements.append((start, end, tokens.pop(0)))
+
+        replacements = [
+            *placeholder_matches,
+            *highlight_replacements,
+        ]
+        replacements.sort(key=itemgetter(0))
+
+        result: list[str] = []
+        current = 0
+        for start, end, token in replacements:
+            result.extend((translation[current:start], token))
+            current = end
+        result.append(translation[current:])
+        return "".join(result)
+
+    @classmethod
+    def _placeholderize_existing_translation(
+        cls, translation: str, source_text: str, unit: Unit | None
+    ) -> str | None:
+        return cls._placeholderize_translation(translation, source_text, unit)
+
+    @classmethod
+    def _placeholderize_assistant_reply(
+        cls, translation: str, source_text: str, unit: Unit | None
+    ) -> str:
+        placeholderized = cls._placeholderize_translation(
+            translation, source_text, unit
+        )
+        if placeholderized is None:
+            msg = "Mismatching assistant reply."
+            raise MachineTranslationError(msg)
+        return placeholderized
+
+    @classmethod
     def _validate_translations(
         cls,
         translations: object,
@@ -337,20 +489,27 @@ class BaseLLMTranslation(BatchMachineTranslation):
             msg = "Mismatching assistant reply."
             raise MachineTranslationError(msg)
 
+        normalized_translations: list[str] = []
         for index, translation in enumerate(translations):
             source_text = sources[index][0]
-            if cls._extract_placeholders(translation) != cls._extract_placeholders(
-                source_text
-            ):
+            normalized_translation = cls._placeholderize_assistant_reply(
+                translation,
+                source_text,
+                sources[index][1],
+            )
+            if cls._extract_placeholders(
+                normalized_translation
+            ) != cls._extract_placeholders(source_text):
                 msg = "Mismatching assistant reply."
                 raise MachineTranslationError(msg)
             if cls._extract_literal_at_suffixes(
-                translation
+                normalized_translation
             ) != cls._extract_literal_at_suffixes(source_text):
                 msg = "Mismatching assistant reply."
                 raise MachineTranslationError(msg)
+            normalized_translations.append(normalized_translation)
 
-        return translations
+        return normalized_translations
 
     def download_multiple_translations(
         self,
