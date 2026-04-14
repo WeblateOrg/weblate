@@ -18,6 +18,7 @@ Weblate 5.17
 * Added translation memory API filtering, scoped access, and bulk lookup support.
 * Added ``from_component`` support to the REST API for creating components from existing component content and for creating translations seeded by automatic translation from existing components.
 * :doc:`/admin/announcements` can now be managed via the :ref:`api` for projects, components and translations.
+* Added a ``soft`` mode to :setting:`VERSION_DISPLAY` to hide the Weblate version from prominent UI while keeping it available on the :guilabel:`About` page and :http:get:`/api/metrics/`.
 
 .. rubric:: Improvements
 

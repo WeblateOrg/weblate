@@ -14,6 +14,10 @@ from django.utils.translation import gettext
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.site import get_site_domain, get_site_url
+from weblate.utils.version_display import (
+    hide_detailed_version,
+    hide_prominent_version,
+)
 from weblate.wladmin.models import ConfigurationError, get_support_status
 
 if TYPE_CHECKING:
@@ -43,6 +47,7 @@ CONTEXT_SETTINGS = [
     "PASSWORD_RESET_URL",
     "FONTS_CDN_URL",
     "AVATAR_URL_PREFIX",
+    "VERSION_DISPLAY",
     "HIDE_VERSION",
     "EXTRA_HTML_HEAD",
     "PRIVATE_COMMIT_EMAIL_OPT_IN",
@@ -114,10 +119,10 @@ def weblate_context(request: AuthenticatedHttpRequest):
     # Load user translations if user is authenticated
     watched_projects = None
     theme = "auto"
-    if hasattr(request, "user"):
-        if request.user.is_authenticated:
-            watched_projects = request.user.watched_projects
-        theme = request.user.profile.theme
+    user = getattr(request, "user", None)
+    if user is not None and user.is_authenticated:
+        watched_projects = user.watched_projects
+        theme = user.profile.theme
 
     if settings.OFFER_HOSTING:
         description = gettext(
@@ -129,6 +134,15 @@ def weblate_context(request: AuthenticatedHttpRequest):
         )
 
     support_status = get_support_status(request)
+    version_display = settings.VERSION_DISPLAY
+    show_version_details = bool(
+        getattr(user, "is_superuser", False)
+    ) or not hide_detailed_version(version_display)
+    weblate_label = (
+        "Weblate"
+        if hide_prominent_version(version_display)
+        else f"Weblate {weblate.utils.version.VERSION}"
+    )
 
     context = {
         "support_status": support_status,
@@ -141,10 +155,11 @@ def weblate_context(request: AuthenticatedHttpRequest):
         "weblate_link": format_html('<a href="{}">weblate.org</a>', WEBLATE_URL),
         "weblate_name_link": format_html('<a href="{}">Weblate</a>', WEBLATE_URL),
         "weblate_version_link": format_html(
-            '<a href="{}">Weblate {}</a>',
+            '<a href="{}">{}</a>',
             WEBLATE_URL,
-            "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
+            weblate_label,
         ),
+        "show_version_details": show_version_details,
         "donate_url": DONATE_URL,
         "support_url": SUPPORT_URL,
         "site_url": get_site_url(),

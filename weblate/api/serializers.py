@@ -57,6 +57,8 @@ from weblate.trans.util import (
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import validate_bitmap
+from weblate.utils.version import GIT_VERSION
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 from weblate.utils.views import (
     create_component_from_doc,
     create_component_from_zip,
@@ -2413,6 +2415,15 @@ class MetricsSerializer(ReadOnlySerializer):
         child=serializers.IntegerField(), source="get_celery_queues"
     )
     name = serializers.CharField(source="get_name")
+    version = serializers.CharField(required=False)
+
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
+        if settings.VERSION_DISPLAY == VERSION_DISPLAY_HIDE:
+            result.pop("version", None)
+        else:
+            result["version"] = GIT_VERSION
+        return result
 
 
 @extend_schema_serializer(

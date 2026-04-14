@@ -14,6 +14,7 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, call, patch
 
 import responses
+import yaml
 from django.conf import settings
 from django.core.cache import cache
 from django.core.files import File
@@ -74,6 +75,8 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.version import GIT_VERSION
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError
 
 TEST_PO = get_test_file("cs.po")
@@ -8940,16 +8943,29 @@ class MetricsAPITest(APIBaseTest):
         self.authenticate()
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["projects"], 1)
+        self.assertEqual(response.data["version"], GIT_VERSION)
 
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
     def test_metrics_openmetrics(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertContains(response, f'weblate_info{{version="{GIT_VERSION}"}} 1')
         self.assertContains(response, "# EOF")
 
     def test_metrics_csv(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "csv"})
         self.assertContains(response, "units_translated")
+        self.assertContains(response, GIT_VERSION)
+
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_HIDE, HIDE_VERSION=True)
+    def test_metrics_hide_mode_omits_version(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"))
+        self.assertNotIn("version", response.data)
+
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertNotContains(response, "weblate_info{")
 
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
@@ -10132,6 +10148,20 @@ class OpenAPITest(APIBaseTest):
         )
         # Ensure schema includes the language-specific project download parameter
         self.assertIn("language_code", response.content.decode())
+
+    def test_metrics_version_is_optional(self) -> None:
+        response = self.do_request("api-schema")
+        schema = yaml.safe_load(response.content)
+        required = schema["components"]["schemas"]["Metrics"]["required"]
+        self.assertNotIn("version", required)
+
+    @patch("weblate.utils.version.VERSION", "5.17.1")
+    def test_view_uses_latest_docs_links(self) -> None:
+        response = self.do_request("api-schema")
+        content = response.content.decode()
+        self.assertIn("/latest/contributing/license.html", content)
+        self.assertIn("/latest/index.html", content)
+        self.assertNotIn("/weblate-5.17.1/index.html", content)
 
     def test_redoc(self) -> None:
         self.do_request("redoc")

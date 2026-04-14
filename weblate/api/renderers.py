@@ -2,8 +2,22 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from dataclasses import dataclass
+
 from rest_framework.renderers import BaseRenderer, JSONRenderer
 from rest_framework_csv.renderers import CSVRenderer
+
+
+@dataclass(frozen=True)
+class OpenMetricsSample:
+    value: int | float
+    labels: dict[str, str]
+
+
+def format_openmetrics_label(value: str) -> str:
+    return value.replace("\\", "\\\\").replace("\n", "\\n").replace('"', '\\"')
 
 
 class OpenMetricsRenderer(BaseRenderer):
@@ -20,6 +34,16 @@ class OpenMetricsRenderer(BaseRenderer):
                 continue
             if isinstance(value, (int, float)):
                 result.append(f"{key} {value}")
+            elif isinstance(value, OpenMetricsSample):
+                labels = ",".join(
+                    f'{label}="{format_openmetrics_label(label_value)}"'
+                    for label, label_value in value.labels.items()
+                )
+                result.append(
+                    f"{key}{{{labels}}} {value.value}"
+                    if labels
+                    else f"{key} {value.value}"
+                )
             elif isinstance(value, dict):
                 # Celery queues
                 for queue, stat in value.items():

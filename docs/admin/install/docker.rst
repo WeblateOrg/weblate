@@ -1016,6 +1016,10 @@ Generic settings
 
    Configures :setting:`WEBSITE_REQUIRED`.
 
+.. envvar:: WEBLATE_VERSION_DISPLAY
+
+    Configures :setting:`VERSION_DISPLAY`.
+
 .. envvar:: WEBLATE_HIDE_VERSION
 
     Configures :setting:`HIDE_VERSION`.

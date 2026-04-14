@@ -2963,6 +2963,10 @@ Metrics
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
+    :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
+
+    In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
+    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``.
 
 Search
 +++++++

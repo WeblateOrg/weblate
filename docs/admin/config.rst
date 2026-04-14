@@ -1115,23 +1115,48 @@ error messages too in a similar manner.
 
     On by default.
 
+.. setting:: VERSION_DISPLAY
+
+VERSION_DISPLAY
+---------------
+
+.. versionadded:: 5.17
+
+Controls how prominently Weblate exposes its own version.
+
+Supported values are:
+
+``show``
+    Show the version in shared UI such as the footer and expose it in
+    :http:get:`/api/metrics/`.
+
+``soft``
+    Hide the version from prominent shared UI, while keeping it discoverable on
+    the :guilabel:`About` page and in :http:get:`/api/metrics/`.
+
+``hide``
+    Hide the version from shared UI and :http:get:`/api/metrics/`. This also
+    makes anonymous documentation links point to the latest documentation
+    instead of the version matching the installed release.
+
+Hiding the version is a recommended security practice in some corporations,
+but it does not prevent an attacker from inferring the version by probing
+behavior.
+
+.. note::
+
+    The default is ``show``.
+
 .. setting:: HIDE_VERSION
 
 HIDE_VERSION
 ------------
 
 .. versionadded:: 4.3.1
+.. deprecated:: 5.17
 
-Hides version info from unauthenticated users. This also makes all
-documentation links point to the latest version instead of the documentation
-matching the currently installed version.
-
-Hiding the version is a recommended security practice in some corporations,
-does not prevent an attacker from figuring out version by probing behavior.
-
-.. note::
-
-    This is turned off by default.
+Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to
+get the same behavior as ``VERSION_DISPLAY = "hide"``.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
