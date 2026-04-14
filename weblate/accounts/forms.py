@@ -38,8 +38,9 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
+from weblate.accounts.data import NotificationScope
 from weblate.accounts.models import AuditLog, Profile
-from weblate.accounts.notifications import NOTIFICATIONS, NotificationScope
+from weblate.accounts.notifications import NOTIFICATIONS
 from weblate.accounts.utils import (
     adjust_session_expiry,
     cycle_session_keys,

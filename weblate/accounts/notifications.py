@@ -14,18 +14,18 @@ from uuid import uuid4
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, IntegerChoices, Q
+from django.db.models import Count, Q
 from django.db.models.functions import Coalesce
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import (
     get_language,
     get_language_bidi,
-    gettext_lazy,
     override,
     pgettext_lazy,
 )
 
+from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.accounts.tasks import EMAIL_BATCH_SIZE, queue_mails
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -60,22 +60,6 @@ if TYPE_CHECKING:
         Project,
         Unit,
     )
-
-
-class NotificationFrequency(IntegerChoices):
-    FREQ_NONE = 0, gettext_lazy("No notification")
-    FREQ_INSTANT = 1, gettext_lazy("Instant notification")
-    FREQ_DAILY = 2, gettext_lazy("Daily digest")
-    FREQ_WEEKLY = 3, gettext_lazy("Weekly digest")
-    FREQ_MONTHLY = 4, gettext_lazy("Monthly digest")
-
-
-class NotificationScope(IntegerChoices):
-    SCOPE_ALL = 0, "All"
-    SCOPE_WATCHED = 10, "Watched"
-    SCOPE_ADMIN = 20, "Administered"
-    SCOPE_PROJECT = 30, "Project"
-    SCOPE_COMPONENT = 40, "Component"
 
 
 NOTIFICATIONS: list[type[Notification]] = []
