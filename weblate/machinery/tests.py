@@ -480,30 +480,6 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
-    def test_placeholders_rst(self) -> None:
-        machine_translation = self.get_machine()
-        unit = MockUnit(
-            code="cs", source=r"Hello, :file:`C:\Windows\System.exe`!", flags="rst-text"
-        )
-        self.assertEqual(
-            machine_translation.cleanup_text(unit.source, unit),
-            ("Hello, [X7X]!", {"[X7X]": r":file:`C:\Windows\System.exe`"}),
-        )
-        self.assertEqual(
-            machine_translation.translate(unit),
-            [
-                [
-                    {
-                        "quality": 100,
-                        "service": "Dummy",
-                        "source": r"Hello, :file:`C:\Windows\System.exe`!",
-                        "original_source": r"Hello, :file:`C:\Windows\System.exe`!",
-                        "text": r"Nazdar :file:`C:\Windows\System.exe`!",
-                    }
-                ]
-            ],
-        )
-
     def test_batch(self, machine=None) -> None:
         if machine is None:
             machine = self.get_machine()
@@ -520,6 +496,182 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(
             machine_translation.get_cache_key("test"),
             "mt:dummy:test:11364700946005001116",
+        )
+
+
+class MachineTranslationCleanupTest(SimpleTestCase):
+    def test_rst_reference_remains_placeholder(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs", source=r"Hello, :ref:`docker-volume`!", flags="rst-text"
+        )
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            ("Hello, [X7X]!", {"[X7X]": r":ref:`docker-volume`"}),
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": r"Hello, :ref:`docker-volume`!",
+                        "original_source": r"Hello, :ref:`docker-volume`!",
+                        "text": r"Nazdar :ref:`docker-volume`!",
+                    }
+                ]
+            ],
+        )
+
+    def test_rst_suffix_reference_remains_placeholder(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs", source=r"Hello, `docker-volume`:ref:!", flags="rst-text"
+        )
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            ("Hello, [X7X]!", {"[X7X]": r"`docker-volume`:ref:"}),
+        )
+
+    def test_rst_file_role_roundtrip(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs",
+            source=r"Hello, :file:`C:\Windows\System.exe`!",
+            flags="rst-text",
+        )
+        replaced, replacements = machine_translation.cleanup_text(unit.source, unit)
+        self.assertEqual(
+            (replaced, replacements),
+            (
+                r"Hello, [X7X]C:\Windows\System.exe[X35X]!",
+                {
+                    "[X7X]": ":file:`",
+                    "[X35X]": "`",
+                },
+            ),
+        )
+        self.assertEqual(
+            machine_translation.uncleanup_text(
+                replacements,
+                r"Ahoj, [X7X]C:\Windows\System.exe[X35X]!",
+            ),
+            r"Ahoj, :file:`C:\Windows\System.exe`!",
+        )
+
+    def test_rst_builtin_translatable_role_roundtrip(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs",
+            source="Hello, :Code:`Save`!",
+            flags="rst-text",
+        )
+        replaced, replacements = machine_translation.cleanup_text(unit.source, unit)
+        self.assertEqual(
+            (replaced, replacements),
+            (
+                "Hello, [X7X]Save[X18X]!",
+                {
+                    "[X7X]": ":Code:`",
+                    "[X18X]": "`",
+                },
+            ),
+        )
+        self.assertEqual(
+            machine_translation.uncleanup_text(
+                replacements,
+                "Ahoj, [X7X]Ulozit[X18X]!",
+            ),
+            "Ahoj, :Code:`Ulozit`!",
+        )
+
+    def test_rst_suffix_translatable_role_roundtrip(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs",
+            source="Hello, `Save`:guilabel:!",
+            flags="rst-text",
+        )
+        replaced, replacements = machine_translation.cleanup_text(unit.source, unit)
+        self.assertEqual(
+            (replaced, replacements),
+            (
+                "Hello, [X7X]Save[X12X]!",
+                {
+                    "[X7X]": "`",
+                    "[X12X]": "`:guilabel:",
+                },
+            ),
+        )
+        self.assertEqual(
+            machine_translation.uncleanup_text(
+                replacements,
+                "Ahoj, [X7X]Ulozit[X12X]!",
+            ),
+            "Ahoj, `Ulozit`:guilabel:!",
+        )
+
+    def test_rst_translatable_role_roundtrip(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs",
+            source=(
+                "Hello, :guilabel:`Sign out` and :ref:`review workflow <reviews>`!"
+            ),
+            flags="rst-text",
+        )
+        replaced, replacements = machine_translation.cleanup_text(unit.source, unit)
+        self.assertEqual(
+            (replaced, replacements),
+            (
+                "Hello, [X7X]Sign out[X26X] and [X32X]review workflow[X53X]!",
+                {
+                    "[X7X]": ":guilabel:`",
+                    "[X26X]": "`",
+                    "[X32X]": ":ref:`",
+                    "[X53X]": " <reviews>`",
+                },
+            ),
+        )
+        self.assertEqual(
+            machine_translation.uncleanup_text(
+                replacements,
+                "Ahoj, [X7X]Odhlásit se[X26X] a [X32X]pracovní postup kontroly[X53X]!",
+            ),
+            "Ahoj, :guilabel:`Odhlásit se` a :ref:`pracovní postup kontroly <reviews>`!",
+        )
+
+    def test_rst_role_duplicate_fragment_roundtrip(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs",
+            source="Use ``:ref:`foo``` syntax, then see :ref:`foo`.",
+            flags="rst-text",
+        )
+        replaced, replacements = machine_translation.cleanup_text(unit.source, unit)
+        self.assertEqual(
+            (replaced, replacements),
+            (
+                "Use ``:ref:`foo``` syntax, then see [X36X].",
+                {"[X36X]": ":ref:`foo`"},
+            ),
+        )
+
+    def test_rst_escaped_role_example_roundtrip(self) -> None:
+        machine_translation = DummyTranslation({})
+        unit = MockUnit(
+            code="cs",
+            source=r"Use \:ref:`foo` literally, then see :ref:`foo`.",
+            flags="rst-text",
+        )
+        replaced, replacements = machine_translation.cleanup_text(unit.source, unit)
+        self.assertEqual(
+            (replaced, replacements),
+            (
+                r"Use \:ref:`foo` literally, then see [X36X].",
+                {"[X36X]": ":ref:`foo`"},
+            ),
         )
 
 
