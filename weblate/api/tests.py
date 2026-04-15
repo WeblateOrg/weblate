@@ -33,6 +33,7 @@ from weblate.addons.gettext import XgettextAddon
 from weblate.addons.models import Addon
 from weblate.api.serializers import (
     CommentSerializer,
+    ComponentSerializer,
     MemoryLookupRequestSerializer,
     RepoOperations,
 )
@@ -60,6 +61,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     clear_users_cache,
@@ -4322,6 +4324,77 @@ class ComponentAPITest(APIBaseTest):
             request={"name": "New Name"},
         )
         self.assertEqual(response.data["name"], "New Name")
+
+    def test_patch_locks_component_before_serializer_validation(self) -> None:
+        events: list[tuple[str, int]] = []
+        original_get_for_update = ComponentQuerySet.get_for_update
+        original_is_valid = ComponentSerializer.is_valid
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        def record_is_valid(*args, **kwargs):
+            events.append(("is_valid", args[0].instance.pk))
+            return original_is_valid(*args, **kwargs)
+
+        with (
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+            patch.object(
+                ComponentSerializer,
+                "is_valid",
+                autospec=True,
+                side_effect=record_is_valid,
+            ),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={"name": "Locked API Name"},
+            )
+
+        self.assertEqual(response.data["name"], "Locked API Name")
+        lock_index = events.index(("lock", self.component.pk))
+        is_valid_index = events.index(("is_valid", self.component.pk))
+        self.assertLess(
+            lock_index,
+            is_valid_index,
+            "Component row should be locked before serializer validation runs",
+        )
+
+    def test_patch_sets_acting_user_before_serializer_validation(self) -> None:
+        original_clean = Component.clean
+
+        def record_clean(instance):
+            self.assertEqual(instance.acting_user, self.user)
+            return original_clean(instance)
+
+        with patch.object(
+            Component,
+            "clean",
+            autospec=True,
+            side_effect=record_clean,
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={"name": "Validation User Name"},
+            )
+
+        self.assertEqual(response.data["name"], "Validation User Name")
 
     def test_patch_rejects_linked_repository_setting_override(self) -> None:
         linked_setting_error = (
