@@ -20,7 +20,7 @@ from weblate.trans.tasks import (
     daily_update_checks,
     update_remotes,
 )
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ComponentTestCase
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.tasks import (
     update_language_stats_parents,
@@ -30,7 +30,7 @@ from weblate.utils.tasks import (
 from weblate.utils.version import GIT_VERSION
 
 
-class CleanupTest(ViewTestCase):
+class CleanupTest(ComponentTestCase):
     def test_cleanup_suggestions_case_sensitive(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
@@ -100,7 +100,7 @@ class CleanupTest(ViewTestCase):
         self.test_cleanup_old_comments(1)
 
 
-class TasksTest(ViewTestCase):
+class TasksTest(ComponentTestCase):
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
 

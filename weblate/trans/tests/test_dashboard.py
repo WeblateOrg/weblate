@@ -8,10 +8,10 @@ from django.urls import reverse
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, ComponentList, Project
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class DashboardTest(ViewTestCase):
+class DashboardTest(FixtureTestCase):
     """Test for home/index view."""
 
     def setUp(self) -> None:

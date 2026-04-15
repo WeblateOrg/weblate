@@ -21,7 +21,7 @@ from weblate.trans.templatetags.translations import (
     translation_progress_render,
 )
 from weblate.trans.templatetags.upload_methods import get_upload_method_help
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
 
 
@@ -183,7 +183,7 @@ class LocationLinksTest(TestCase):
         )
 
 
-class TranslationFormatTestCase(FixtureTestCase):
+class TranslationFormatTestCase(FixtureComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.translation = self.get_translation()

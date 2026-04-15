@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-11 05:52+0000\n"
+"PO-Revision-Date: 2026-04-15 06:54+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -1794,7 +1794,7 @@ msgstr "Normalisasikan kepala POT"
 
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "Memperbarui kepala gettext dan mengganti komentar POT pengganti."
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1809,63 +1809,59 @@ msgstr ""
 "diperbarui."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Tidak dapat menambahkan komentar!"
+msgstr "Jangan ekstrak komentar"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Telusuri semua komponen"
+msgstr "Ekstrak semua komentar"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Ekstrak komentar dengan tag"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Komentar pengguna"
+msgstr "Komentar kode"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Pilih apakah xgettext harus mengekstrak tanpa komentar, semua komentar, atau "
+"hanya komentar yang ditandai dengan tag tertentu."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Teks komentar"
+msgstr "Tag komentar"
 
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Tag yang diteruskan ke xgettext untuk ekstraksi komentar saat menggunakan "
+"mode komentar bertag."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Pemeriksaan sistem"
+msgstr "Pemeriksaan xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Pemeriksaan validasi xgettext tambahan yang diaktifkan untuk pesan yang "
+"diekstrak."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Cabang tambahan"
+msgstr "Kata kunci tambahan"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Kata kunci tambahan opsional yang diteruskan ke xgettext menggunakan --"
+"keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -4720,16 +4716,12 @@ msgid "C format string does not match source."
 msgstr "String format C tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Format Object Pascal"
+msgstr "Format Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "String format C tidak cocok dengan sumber."
+msgstr "String format Objective-C tidak cocok dengan sumber."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -5676,6 +5668,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Push tidak didukung melalui eksportir Git Weblate. Lakukan push ke "
+"repositori upstream."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5683,12 +5677,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Push tidak didukung melalui eksportir Git Weblate. Lakukan push ke "
+"repositori upstream: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Revisi yang diminta tidak tersedia di checkout Git lokal Weblate. Ambil "
+"terlebih dahulu dari repositori upstream."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5696,6 +5694,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Revisi yang diminta tidak tersedia di checkout Git lokal Weblate. Ambil "
+"terlebih dahulu dari repositori upstream: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5703,6 +5703,10 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Checkout Git dangkal Weblate tidak memiliki cukup riwayat yang dibagikan "
+"dengan repositori ini untuk memenuhi pengambilan. Ambil dari repositori "
+"upstream terlebih dahulu, atau gunakan klon yang berbagi riwayat dengan "
+"Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5712,16 +5716,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Checkout Git dangkal Weblate tidak memiliki cukup riwayat yang dibagikan "
+"dengan repositori ini untuk memenuhi pengambilan. Ambil dari repositori "
+"upstream terlebih dahulu, atau gunakan klon yang berbagi riwayat dengan "
+"Weblate. Repositori upstream: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Ekspor Git gagal."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Berkas tidak didukung!"
+msgstr "Layanan Git tidak didukung."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -13963,6 +13969,11 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Repositori Weblate yang diekspor secara bawaan dapat bersifat dangkal, "
+"sehingga alur kerja ini paling baik digunakan dari checkout upstream yang "
+"mutakhir. Mengkloning dari repositori Weblate yang diekspor atau menggunakan "
+"checkout upstream yang kedaluwarsa dapat gagal meskipun Weblate dan upstream "
+"sudah tersinkronisasi. Lihat FAQ di bawah untuk detailnya."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -17236,16 +17247,14 @@ msgstr ""
 "dan tidak mendorong ke fork."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Cabang repositori"
+msgstr "Cabang repositori tidak valid: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Pencarian string tidak valid!"
+msgstr "Cabang push tidak valid: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -17904,10 +17913,8 @@ msgid "Very low"
 msgstr "Sangat rendah"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "URL repositori cadangan"
+msgstr "URL repositori"
 
 #: weblate/trans/util.py:265
 #, python-brace-format

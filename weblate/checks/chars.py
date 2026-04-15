@@ -38,7 +38,7 @@ FRENCH_PUNCTUATION_MISSING_RE_NNBSP = (
     f"([^\u202f])([{''.join(FRENCH_PUNCTUATION_NNBSP)}])"
 )
 MY_QUESTION_MARK = "\u1038\u104b"
-INTERROBANGS = ("?!", "!?", "？！", "！？", "⁈", "⁉")
+INTERROBANGS = ("?!", "!?", "؟!", "!؟", "？！", "！？", "⁈", "⁉")
 
 
 class BeginNewlineCheck(TargetCheck):

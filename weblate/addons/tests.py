@@ -16,12 +16,13 @@ from datetime import timedelta
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from unittest.mock import patch
 
 import jsonschema.exceptions
 import requests
 import responses
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.core.management.commands.makemessages import (
@@ -49,7 +50,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -61,7 +62,7 @@ from weblate.utils.state import (
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import RepositoryError
 
-from .autotranslate import AutoTranslateAddon
+from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
 from .cdn import CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
@@ -96,6 +97,7 @@ from .gettext import (
     UpdateConfigureAddon,
     UpdateLinguasAddon,
     XgettextAddon,
+    is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
 from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
@@ -114,6 +116,17 @@ if TYPE_CHECKING:
     from weblate.trans.models import (
         Project,
     )
+
+
+class GettextUtilityTest(SimpleTestCase):
+    def test_xgettext_placeholder_comment(self) -> None:
+        self.assertTrue(is_xgettext_placeholder_comment("# SOME DESCRIPTIVE TITLE.\n"))
+        self.assertTrue(is_xgettext_placeholder_comment("# Copyright (C)\n"))
+        self.assertTrue(is_xgettext_placeholder_comment("# Copyright (C) \n"))
+        self.assertTrue(is_xgettext_placeholder_comment("# Copyright (C) 2026\n"))
+        self.assertFalse(
+            is_xgettext_placeholder_comment("# Copyright (C) 2026 Example Corp.\n")
+        )
 
 
 class NoOpAddon(BaseAddon):
@@ -152,6 +165,45 @@ class CrashAddon(UpdateBaseAddon):
         return False
 
 
+class TypedConfigAddonStoredConfiguration(TypedDict, total=False):
+    count: int | str
+
+
+class TypedConfigAddonConfiguration(TypedDict):
+    count: int
+
+
+class TypedConfigAddon(
+    BaseAddon[TypedConfigAddonStoredConfiguration, TypedConfigAddonConfiguration]
+):
+    """Testing add-on with typed configuration normalization."""
+
+    name = "weblate.base.typed"
+    verbose = "Typed test add-on"
+    description = "Typed test add-on"
+
+    def normalize_configuration(
+        self, configuration: TypedConfigAddonStoredConfiguration
+    ) -> TypedConfigAddonConfiguration:
+        raw_count = configuration.get("count", 0)
+        if isinstance(raw_count, str):
+            raw_count = int(raw_count)
+        return {"count": raw_count}
+
+
+class DailyResultAddon(BaseAddon):
+    name = "weblate.base.daily-result"
+    verbose = "Daily result add-on"
+    description = "Daily result add-on"
+
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        return {"component": component.slug}
+
+
 class TestAddonMixin:
     def setUp(self) -> None:
         super().setUp()
@@ -159,6 +211,7 @@ class TestAddonMixin:
         ADDONS.data[ExampleAddon.name] = ExampleAddon
         ADDONS.data[CrashAddon.name] = CrashAddon
         ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
+        ADDONS.data[DailyResultAddon.name] = DailyResultAddon
 
     def tearDown(self) -> None:
         super().tearDown()
@@ -166,9 +219,10 @@ class TestAddonMixin:
         del ADDONS.data[ExampleAddon.name]
         del ADDONS.data[CrashAddon.name]
         del ADDONS.data[ExamplePreAddon.name]
+        del ADDONS.data[DailyResultAddon.name]
 
 
-class AddonBaseTest(TestAddonMixin, ViewTestCase):
+class AddonBaseTest(TestAddonMixin, ComponentTestCase):
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
@@ -216,6 +270,29 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
+
+    def test_daily_returns_component_result(self) -> None:
+        addon = DailyResultAddon.create(component=self.component, run=False)
+
+        self.assertEqual(addon.daily(component=self.component), {"component": "test"})
+
+    def test_daily_aggregates_multiple_component_results(self) -> None:
+        component2 = self.create_po_new_base(
+            name="Test 2",
+            slug="test-2",
+            project=self.project,
+        )
+        addon = DailyResultAddon.create(project=self.project, run=False)
+
+        self.assertEqual(
+            addon.daily(project=self.project),
+            {
+                "components": {
+                    self.component.full_slug: {"component": "test"},
+                    component2.full_slug: {"component": component2.slug},
+                }
+            },
+        )
 
     def test_add_form(self) -> None:
         form = NoOpAddon.get_add_form(None, component=self.component, data={})
@@ -293,6 +370,18 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         NoOpAddon.create(component=self.component)
         rev = self.component.repository.last_revision
         self.component.add_new_language(Language.objects.get(code="sk"), None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("po/LINGUAS", commit)
+        self.assertIn("configure", commit)
+
+    def test_remove(self) -> None:
+        UpdateLinguasAddon.create(component=self.component)
+        UpdateConfigureAddon.create(component=self.component)
+        NoOpAddon.create(component=self.component)
+        translation = self.component.translation_set.get(language_code="cs")
+        rev = self.component.repository.last_revision
+        translation.remove(self.user)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/LINGUAS", commit)
@@ -408,6 +497,20 @@ class GettextAddonTest(ViewTestCase):
         self.assertFalse(UpdateLinguasAddon.can_install(component=self.component))
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
+
+    def test_update_linguas_post_add_propagates_validation_error(self) -> None:
+        translation = self.get_translation()
+        addon = UpdateLinguasAddon.create(component=translation.component)
+
+        with (
+            patch.object(
+                UpdateLinguasAddon,
+                "update_linguas",
+                side_effect=ValidationError("unexpected validation"),
+            ),
+            self.assertRaisesMessage(ValidationError, "unexpected validation"),
+        ):
+            addon.post_add(translation)
 
     def assert_linguas(self, source, expected_add, expected_remove) -> None:
         # Test no-op
@@ -2041,6 +2144,35 @@ class GettextAddonTest(ViewTestCase):
         self.assertNotIn("YEAR THE PACKAGE'S COPYRIGHT HOLDER", content)
         self.assertNotIn("This file is distributed under the same license", content)
 
+    def test_extract_pot_normalize_header_removes_blank_copyright(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"
+""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+        generated_comment = f"# Generated translation template for {self.component.project.name} / {self.component.name}."
+
+        self.assertEqual(content.count(generated_comment), 1)
+        self.assertEqual(content.count("# Generated by Weblate."), 1)
+        self.assertNotIn("# SOME DESCRIPTIVE TITLE.\n", content)
+        self.assertNotIn("# Copyright (C)\n", content)
+        self.assertNotIn("# Copyright (C) \n", content)
+
     def test_django_command(self) -> None:
         self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
@@ -2491,6 +2623,87 @@ class GettextAddonTest(ViewTestCase):
         content = generated.read_text(encoding="utf-8")
         self.assertIn("#: admin/access.rst:", content)
         self.assertNotIn(self.component.full_path, content)
+
+    def test_sphinx_postprocess_uses_build_temp_dir_on_cross_device_repo_temp(
+        self,
+    ) -> None:
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        (source_dir / "index.rst").write_text(
+            "Index\n=====\n\nHello\n", encoding="utf-8"
+        )
+
+        with tempfile.TemporaryDirectory(
+            prefix="weblate-sphinx-postprocess-"
+        ) as tempdir:
+            build_dir = Path(tempdir) / "build"
+            build_dir.mkdir()
+            template = build_dir / "docs.pot"
+            template.write_text(
+                "\n".join(
+                    (
+                        'msgid ""',
+                        'msgstr ""',
+                        '"Content-Type: text/plain; charset=UTF-8\\n"',
+                        "",
+                        f"#: {source_dir / 'index.rst'}:1",
+                        'msgid "Hello"',
+                        'msgstr ""',
+                        "",
+                    )
+                ),
+                encoding="utf-8",
+            )
+
+            repo_temp_dir = self.component.repository.get_repo_temp_dir()
+            self.assertIsNotNone(repo_temp_dir)
+            if repo_temp_dir is None:
+                self.fail("Repository temp dir should be configured for this test")
+            build_root = build_dir.resolve()
+            repo_temp_root = repo_temp_dir.resolve()
+            temp_dirs: list[Path] = []
+            original_named_temporary_file = tempfile.NamedTemporaryFile
+
+            def fake_get_path_device_id(path: Path) -> int | None:
+                resolved = path.resolve(strict=False)
+                if resolved == build_root:
+                    return 1
+                if resolved == repo_temp_root:
+                    return 2
+                return 1
+
+            def capture_named_temporary_file(*args, **kwargs):
+                temp_dir = kwargs.get("dir")
+                if temp_dir is None and len(args) > 6:
+                    temp_dir = args[6]
+                self.assertIsNotNone(temp_dir)
+                if temp_dir is None:
+                    self.fail("NamedTemporaryFile should be called with a temp dir")
+                temp_dirs.append(Path(temp_dir).resolve(strict=False))
+                return original_named_temporary_file(*args, **kwargs)
+
+            with (
+                patch(
+                    "weblate.utils.files._get_path_device_id",
+                    side_effect=fake_get_path_device_id,
+                ),
+                patch(
+                    "weblate.formats.base.tempfile.NamedTemporaryFile",
+                    side_effect=capture_named_temporary_file,
+                ),
+            ):
+                addon.postprocess_sphinx_template(
+                    self.component, template, source_dir, build_dir
+                )
+                content = template.read_text(encoding="utf-8")
+
+        self.assertEqual(temp_dirs, [build_dir.resolve(strict=False)])
+        self.assertIn("#: index.rst:1", content)
 
     def test_sphinx_weblate_docs_filter(self) -> None:
         if find_command("sphinx-build") is None:
@@ -3003,7 +3216,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(fetch_strings.call_args.args[0].pk, source_translation.pk)
 
 
-class AppStoreAddonTest(ViewTestCase):
+class AppStoreAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_appstore()
 
@@ -3020,7 +3233,7 @@ class AppStoreAddonTest(ViewTestCase):
         self.assertIn("cs/changelogs/100000.txt", commit)
 
 
-class AndroidAddonTest(ViewTestCase):
+class AndroidAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_android(suffix="-not-synced", new_lang="add")
 
@@ -3038,7 +3251,7 @@ class AndroidAddonTest(ViewTestCase):
         self.assertIn('\n-    <string name="hello">Ahoj svete</string>', commit)
 
 
-class WindowsRCAddonTest(ViewTestCase):
+class WindowsRCAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_winrc()
 
@@ -3056,7 +3269,7 @@ class WindowsRCAddonTest(ViewTestCase):
         self.assertIn("\n-IDS_MSG5", commit)
 
 
-class IntermediateAddonTest(ViewTestCase):
+class IntermediateAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_json_intermediate(new_lang="add")
 
@@ -3075,7 +3288,7 @@ class IntermediateAddonTest(ViewTestCase):
         self.assertIn('-    "orangutan"', commit)
 
 
-class ResxAddonTest(ViewTestCase):
+class ResxAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_resx()
 
@@ -3108,7 +3321,7 @@ class ResxAddonTest(ViewTestCase):
         self.assertIn("resx/cs.resx", commit)
 
 
-class CSVAddonTest(ViewTestCase):
+class CSVAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_csv_mono()
 
@@ -3135,7 +3348,7 @@ class CSVAddonTest(ViewTestCase):
         self.assertIn("csv-mono/cs.csv", commit)
 
 
-class JsonAddonTest(ViewTestCase):
+class JsonAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_json_mono(suffix="mono-sync")
 
@@ -3495,7 +3708,7 @@ class PropertiesAddonTest(ViewTestCase):
         self.assertIn("-state=Stale", commit)
 
 
-class ResetAddonTest(ViewTestCase):
+class ResetAddonTest(ComponentTestCase):
     def create_component(self):
         project = self.create_project(name="Sandbox", slug="sandbox")
         return self.create_po_new_base(project=project)
@@ -3516,7 +3729,7 @@ class ResetAddonTest(ViewTestCase):
         mocked_reset.assert_called_once_with(self.component)
 
 
-class CommandTest(ViewTestCase):
+class CommandTest(ComponentTestCase):
     """Test for management commands."""
 
     def test_list_addons(self) -> None:
@@ -3808,7 +4021,7 @@ class DiscoveryTest(ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class ScriptsTest(TestAddonMixin, ViewTestCase):
+class ScriptsTest(TestAddonMixin, ComponentTestCase):
     def test_example_pre(self) -> None:
         self.assertTrue(ExamplePreAddon.can_install(component=self.component))
         translation = self.get_translation()
@@ -3822,7 +4035,7 @@ class ScriptsTest(TestAddonMixin, ViewTestCase):
         )
 
 
-class LanguageConsistencyTest(ViewTestCase):
+class LanguageConsistencyTest(ComponentTestCase):
     CREATE_GLOSSARIES: bool = True
 
     def test_consistency_cannot_install_on_component(self) -> None:
@@ -4176,7 +4389,7 @@ class GitSquashAddonTest(ViewTestCase):
         self.assertEqual(self.component.repository.count_outgoing(), 1)
 
 
-class TestRemoval(ViewTestCase):
+class TestRemoval(ComponentTestCase):
     def install(
         self,
         sitewide: bool = False,
@@ -4308,7 +4521,7 @@ class TestRemoval(ViewTestCase):
         self.assert_count()
 
 
-class AutoTranslateAddonTest(ViewTestCase):
+class AutoTranslateAddonTest(ComponentTestCase):
     def test_auto(self) -> None:
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
@@ -4411,6 +4624,20 @@ class AutoTranslateAddonTest(ViewTestCase):
 
 
 class AutoTranslateAddonUnitTest(SimpleTestCase):
+    def test_base_addon_configuration_normalizes_stored_values(self) -> None:
+        addon = TypedConfigAddon.__new__(TypedConfigAddon)
+        addon.instance = SimpleNamespace(configuration={"count": "5"})
+
+        self.assertEqual(addon.stored_configuration["count"], "5")
+        self.assertEqual(addon.get_configuration(), {"count": 5})
+        self.assertEqual(addon.configuration, {"count": 5})
+
+    def test_base_addon_configuration_defaults_missing_legacy_values(self) -> None:
+        addon = TypedConfigAddon.__new__(TypedConfigAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(addon.get_configuration(), {"count": 0})
+
     def test_trigger_autotranslate_normalizes_blank_component_for_translation_task(
         self,
     ) -> None:
@@ -4471,6 +4698,101 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+        )
+
+    def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "auto_source": "others",
+                "filter_type": "comments",
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "auto_source": "others",
+                "component": None,
+                "engines": [],
+                "mode": "translate",
+                "q": "has:comment",
+                "threshold": 80,
+            },
+        )
+
+    def test_get_settings_form_data_normalizes_legacy_filter_configuration(
+        self,
+    ) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "auto_source": "others",
+                "filter_type": "comments",
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_settings_form_data(),
+            {
+                "auto_source": "others",
+                "component": None,
+                "engines": [],
+                "mode": "translate",
+                "q": "has:comment",
+                "threshold": 80,
+            },
+        )
+
+    def test_get_configuration_ignores_component_for_mt(self) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": 123,
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": ["weblate"],
+                "threshold": 80,
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "auto_source": "mt",
+                "component": None,
+                "engines": ["weblate"],
+                "mode": "translate",
+                "q": "state:<translated",
+                "threshold": 80,
+            },
+        )
+
+    def test_get_configuration_ignores_threshold_for_others(self) -> None:
+        addon = AutoTranslateAddon.__new__(AutoTranslateAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "threshold": 50,
+                "mode": "translate",
+            }
+        )
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "auto_source": "others",
+                "component": None,
+                "engines": [],
+                "mode": "translate",
+                "q": "state:<translated",
+                "threshold": DEFAULT_AUTO_TRANSLATE_THRESHOLD,
+            },
         )
 
 
@@ -4730,7 +5052,7 @@ class SiteWideAddonsTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
 
 
-class TargetChangeAddonTest(ViewTestCase):
+class TargetChangeAddonTest(ComponentTestCase):
     def create_component(self):
         return self.create_json_mono(suffix="mono-sync")
 
@@ -5415,7 +5737,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class TestCommand(ViewTestCase):
+class TestCommand(ComponentTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)

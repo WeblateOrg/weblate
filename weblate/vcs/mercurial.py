@@ -332,10 +332,16 @@ class HgRepository(Repository):
 
         return True
 
-    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
+    def remove(
+        self,
+        files: list[str],
+        message: str,
+        author: str | None = None,
+        extra_commit_files: list[str] | None = None,
+    ) -> None:
         """Remove files and creates new revision."""
         self.execute(["remove", "--force", "--", *files])
-        self.commit(message, author)
+        self.commit(message, author, files=files + (extra_commit_files or []))
 
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True

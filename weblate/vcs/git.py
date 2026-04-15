@@ -512,10 +512,16 @@ class GitRepository(Repository):
 
         return True
 
-    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
+    def remove(
+        self,
+        files: list[str],
+        message: str,
+        author: str | None = None,
+        extra_commit_files: list[str] | None = None,
+    ) -> None:
         """Remove files and creates new revision."""
         self.execute(["rm", "--force", "--", *files])
-        self.commit(message, author)
+        self.commit(message, author, files=files + (extra_commit_files or []))
 
     def get_remote_configure(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
@@ -610,8 +616,6 @@ class GitRepository(Repository):
                 # Default committer
                 ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
                 ("user", "name", settings.DEFAULT_COMMITER_NAME),
-                # Avoid the default branch warning
-                ("advice", "defaultBranchName", "false"),
             )
         )
         # Merge driver
@@ -2122,12 +2126,21 @@ class GitLabRepository(GitMergeRequestBase):
         return headers
 
     def get_target_project_id(self, credentials: GitCredentials):
-        response_data, _response, error = self.request(
+        response_data, response, error = self.request(
             "get", credentials, credentials["url"]
         )
         if "id" not in response_data:
-            report_error("Could not get project", message=True)
-            raise RepositoryError(0, f"Could not get project: {error}")
+            detail = error or response.reason or gettext("Unknown error")
+            report_error(
+                "Could not get GitLab project",
+                message=True,
+                extra_log=f"{response.status_code}: {detail}",
+            )
+            raise RepositoryError(
+                0,
+                gettext("Could not get GitLab project (%(status)s): %(error)s")
+                % {"status": response.status_code, "error": detail},
+            )
         return response_data["id"]
 
     def configure_fork_features(

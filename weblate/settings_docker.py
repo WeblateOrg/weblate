@@ -33,6 +33,10 @@ from weblate.utils.environment import (
     get_saml_idp,
     modify_env_list,
 )
+from weblate.utils.version_display import (
+    VERSION_DISPLAY_HIDE,
+    normalize_version_display,
+)
 
 # Title of site to use
 SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", "Weblate")
@@ -156,6 +160,7 @@ LANGUAGES = (
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
+    ("vi", "Tiếng việt"),
     ("zh-hans", "简体中文"),
     ("zh-hant", "正體中文"),
 )
@@ -1078,8 +1083,11 @@ EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 # Enable remote hooks
 ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
 
-# Version hiding
+# Version visibility
+VERSION_DISPLAY = get_env_str("WEBLATE_VERSION_DISPLAY")
 HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
+VERSION_DISPLAY = normalize_version_display(VERSION_DISPLAY, HIDE_VERSION)
+HIDE_VERSION = VERSION_DISPLAY == VERSION_DISPLAY_HIDE
 
 # Licensing filter
 license_filter_list = get_env_list_or_none("WEBLATE_LICENSE_FILTER")

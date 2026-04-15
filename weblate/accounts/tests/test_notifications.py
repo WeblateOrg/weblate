@@ -19,6 +19,7 @@ from weblate.accounts.notifications import (
     MergeFailureNotification,
     NotificationFrequency,
     NotificationScope,
+    get_email_headers,
 )
 from weblate.accounts.tasks import (
     notify_changes,
@@ -31,7 +32,13 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Comment, Suggestion
-from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
+from weblate.trans.tests.test_views import (
+    FixtureComponentTestCase,
+    RegistrationTestMixin,
+    ViewTestCase,
+)
+from weblate.utils.version import USER_AGENT
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
 TEMPLATES_RAISE[0]["OPTIONS"]["string_if_invalid"] = "TEMPLATE_BUG[%s]"
@@ -84,6 +91,16 @@ class ChangePrefetchTest(SimpleTestCase):
         self.assertIs(change.translation.prefetched_language, change.language)
         self.assertIs(change.translation.component, change.component)
         self.assertIs(change.component.project, change.project)
+
+
+class NotificationHeadersTest(SimpleTestCase):
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
+    def test_soft_mode_keeps_x_mailer_version(self) -> None:
+        self.assertEqual(get_email_headers("test")["X-Mailer"], USER_AGENT)
+
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_HIDE, HIDE_VERSION=True)
+    def test_hide_mode_hides_x_mailer_version(self) -> None:
+        self.assertEqual(get_email_headers("test")["X-Mailer"], "Weblate")
 
 
 @override_settings(
@@ -581,7 +598,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
 
-class SubscriptionTest(ViewTestCase):
+class SubscriptionTest(FixtureComponentTestCase):
     notification = MergeFailureNotification
 
     def get_users(self, frequency):

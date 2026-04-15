@@ -11,28 +11,38 @@ from django.utils.translation import get_language
 from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
 
 import weblate.utils.version
+from weblate.utils.version_display import hide_detailed_version
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
 
 
-def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
-    """Return URL to documentation."""
-    version = weblate.utils.version.VERSION
-    # Should we use tagged release or latest version
-    if version.endswith(("-dev", "-rc")) or (
-        settings.HIDE_VERSION and (user is None or not user.is_authenticated)
-    ):
-        doc_version = "latest"
-    else:
-        doc_version = f"weblate-{version}"
-    # Language variant
+def build_doc_url(page: str, doc_version: str, anchor: str = "") -> str:
+    """Build a documentation URL for the given docs version."""
     code = DOCUMENTATION_LANGUAGES.get(get_language(), "en")
-    # Optionally append anchor
     if anchor:
         anchor = f"#{anchor}"
-    # Generate URL
     return f"https://docs.weblate.org/{code}/{doc_version}/{page}.html{anchor}"
+
+
+def get_doc_url(
+    page: str,
+    anchor: str = "",
+    user: User | None = None,
+    *,
+    doc_version: str | None = None,
+) -> str:
+    """Return URL to documentation."""
+    if doc_version is None:
+        version = weblate.utils.version.VERSION
+        if version.endswith(("-dev", "-rc")) or (
+            hide_detailed_version(settings.VERSION_DISPLAY)
+            and (user is None or not user.is_authenticated)
+        ):
+            doc_version = "latest"
+        else:
+            doc_version = f"weblate-{version}"
+    return build_doc_url(page, doc_version, anchor)
 
 
 class DocVersionsMixin:

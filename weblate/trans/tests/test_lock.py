@@ -7,10 +7,10 @@
 from django.urls import reverse
 
 from weblate.trans.models.component import Component
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class LockTest(ViewTestCase):
+class LockTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
 

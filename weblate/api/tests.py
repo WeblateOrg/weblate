@@ -14,6 +14,7 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, call, patch
 
 import responses
+import yaml
 from django.conf import settings
 from django.core.cache import cache
 from django.core.files import File
@@ -74,6 +75,8 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.version import GIT_VERSION
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError
 
 TEST_PO = get_test_file("cs.po")
@@ -107,6 +110,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         Language.objects.flush_object_cache()
         self.clone_test_repos()
         self.component = self.create_component()
+        self.project = self.component.project
         self.translation_kwargs = {
             "language__code": "cs",
             "component__slug": "test",
@@ -4001,6 +4005,45 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["slug"], "test")
         self.assertEqual(response.data["project"]["slug"], "test")
 
+    def test_get_component_uses_effective_linked_repository_settings(self) -> None:
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="API linked settings", slug="api-linked-settings"
+        )
+        linked_component.push_on_commit = False
+        linked_component.commit_pending_age = 1
+        linked_component.auto_lock_error = True
+        linked_component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+
+        response = self.client.get(
+            reverse(
+                "api:component-detail",
+                kwargs={
+                    "project__slug": linked_component.project.slug,
+                    "slug": linked_component.slug,
+                },
+            )
+        )
+
+        self.assertEqual(response.data["push_on_commit"], True)
+        self.assertEqual(response.data["commit_pending_age"], 12)
+        self.assertEqual(response.data["auto_lock_error"], False)
+
     def test_get_lock(self) -> None:
         response = self.client.get(
             reverse("api:component-lock", kwargs=self.component_kwargs)
@@ -4221,6 +4264,61 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
 
+    def test_patch_rejects_linked_repository_setting_override(self) -> None:
+        linked_setting_error = (
+            "Option is not available for linked repositories. "
+            "Setting from linked component will be used."
+        )
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="API linked patch", slug="api-linked-patch"
+        )
+        linked_kwargs = {
+            "project__slug": linked_component.project.slug,
+            "slug": linked_component.slug,
+        }
+
+        response = self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "push_on_commit": False,
+                "commit_pending_age": 1,
+                "auto_lock_error": True,
+            },
+        )
+
+        self.assertEqual(
+            {(error["attr"], error["detail"]) for error in response.data["errors"]},
+            {
+                (
+                    "push_on_commit",
+                    linked_setting_error,
+                ),
+                (
+                    "commit_pending_age",
+                    linked_setting_error,
+                ),
+                (
+                    "auto_lock_error",
+                    linked_setting_error,
+                ),
+            },
+        )
+
     def test_put(self) -> None:
         self.do_request(
             "api:component-detail", self.component_kwargs, method="put", code=403
@@ -4257,6 +4355,210 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
         self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
+
+    def test_patch_linked_component_keeps_local_repository_setting_drift(self) -> None:
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="API linked put", slug="api-linked-put", filemask="po/*.po"
+        )
+        linked_component.push_on_commit = False
+        linked_component.commit_pending_age = 1
+        linked_component.auto_lock_error = True
+        linked_component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_kwargs = {
+            "project__slug": linked_component.project.slug,
+            "slug": linked_component.slug,
+        }
+        response = self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "name": "API linked put renamed",
+                "push_on_commit": True,
+                "commit_pending_age": 12,
+                "auto_lock_error": False,
+            },
+        )
+
+        linked_component.refresh_from_db()
+        self.assertEqual(linked_component.name, "API linked put renamed")
+        self.assertFalse(linked_component.push_on_commit)
+        self.assertEqual(linked_component.commit_pending_age, 1)
+        self.assertTrue(linked_component.auto_lock_error)
+        self.assertEqual(response.data["push_on_commit"], True)
+        self.assertEqual(response.data["commit_pending_age"], 12)
+        self.assertEqual(response.data["auto_lock_error"], False)
+
+    def test_patch_linked_component_can_unlink_with_repository_settings(self) -> None:
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="API linked unlink", slug="api-linked-unlink", filemask="po/*.po"
+        )
+        linked_kwargs = {
+            "project__slug": linked_component.project.slug,
+            "slug": linked_component.slug,
+        }
+
+        response = self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "repo": self.component.repo,
+                "branch": self.component.branch,
+                "push": self.component.push,
+                "push_on_commit": False,
+                "commit_pending_age": 3,
+                "auto_lock_error": True,
+            },
+        )
+
+        linked_component.refresh_from_db()
+        self.assertIsNone(linked_component.linked_component_id)
+        self.assertEqual(linked_component.repo, self.component.repo)
+        self.assertEqual(linked_component.branch, self.component.branch)
+        self.assertEqual(linked_component.push, self.component.push)
+        self.assertFalse(linked_component.push_on_commit)
+        self.assertEqual(linked_component.commit_pending_age, 3)
+        self.assertTrue(linked_component.auto_lock_error)
+        self.assertEqual(response.data["push_on_commit"], False)
+        self.assertEqual(response.data["commit_pending_age"], 3)
+        self.assertEqual(response.data["auto_lock_error"], True)
+
+    def test_patch_can_switch_to_link_with_drifting_settings(self) -> None:
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        parent = self.create_po(name="API link target", project=self.project)
+        parent.push_on_commit = False
+        parent.commit_pending_age = 3
+        parent.auto_lock_error = True
+        parent.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "repo": parent.get_repo_link_url(),
+                "branch": "",
+                "push": "",
+                "push_branch": "",
+                "push_on_commit": True,
+                "commit_pending_age": 12,
+                "auto_lock_error": False,
+            },
+        )
+
+        self.component.refresh_from_db()
+        self.assertTrue(self.component.is_repo_link)
+        self.assertEqual(self.component.linked_component, parent)
+        self.assertEqual(self.component.push_on_commit, True)
+        self.assertEqual(self.component.commit_pending_age, 12)
+        self.assertEqual(self.component.auto_lock_error, False)
+        self.assertEqual(response.data["push_on_commit"], False)
+        self.assertEqual(response.data["commit_pending_age"], 3)
+        self.assertEqual(response.data["auto_lock_error"], True)
+
+    def test_patch_linked_component_can_switch_parent_with_matching_settings(
+        self,
+    ) -> None:
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        new_parent = self.create_po(name="api-linked-target", project=self.project)
+        new_parent.push_on_commit = False
+        new_parent.commit_pending_age = 3
+        new_parent.auto_lock_error = True
+        new_parent.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="API linked switch", slug="api-linked-switch", filemask="po/*.po"
+        )
+        linked_kwargs = {
+            "project__slug": linked_component.project.slug,
+            "slug": linked_component.slug,
+        }
+
+        response = self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "repo": new_parent.get_repo_link_url(),
+                "push_on_commit": False,
+                "commit_pending_age": 3,
+                "auto_lock_error": True,
+            },
+        )
+
+        linked_component.refresh_from_db()
+        self.assertEqual(linked_component.linked_component_id, new_parent.pk)
+        self.assertEqual(response.data["push_on_commit"], False)
+        self.assertEqual(response.data["commit_pending_age"], 3)
+        self.assertEqual(response.data["auto_lock_error"], True)
 
     def test_delete(self) -> None:
         self.assertEqual(Component.objects.count(), 2)
@@ -8641,16 +8943,29 @@ class MetricsAPITest(APIBaseTest):
         self.authenticate()
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["projects"], 1)
+        self.assertEqual(response.data["version"], GIT_VERSION)
 
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
     def test_metrics_openmetrics(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertContains(response, f'weblate_info{{version="{GIT_VERSION}"}} 1')
         self.assertContains(response, "# EOF")
 
     def test_metrics_csv(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "csv"})
         self.assertContains(response, "units_translated")
+        self.assertContains(response, GIT_VERSION)
+
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_HIDE, HIDE_VERSION=True)
+    def test_metrics_hide_mode_omits_version(self) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"))
+        self.assertNotIn("version", response.data)
+
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertNotContains(response, "weblate_info{")
 
     def test_forbidden(self) -> None:
         response = self.client.get(reverse("api:metrics"))
@@ -9833,6 +10148,20 @@ class OpenAPITest(APIBaseTest):
         )
         # Ensure schema includes the language-specific project download parameter
         self.assertIn("language_code", response.content.decode())
+
+    def test_metrics_version_is_optional(self) -> None:
+        response = self.do_request("api-schema")
+        schema = yaml.safe_load(response.content)
+        required = schema["components"]["schemas"]["Metrics"]["required"]
+        self.assertNotIn("version", required)
+
+    @patch("weblate.utils.version.VERSION", "5.17.1")
+    def test_view_uses_latest_docs_links(self) -> None:
+        response = self.do_request("api-schema")
+        content = response.content.decode()
+        self.assertIn("/latest/contributing/license.html", content)
+        self.assertIn("/latest/index.html", content)
+        self.assertNotIn("/weblate-5.17.1/index.html", content)
 
     def test_redoc(self) -> None:
         self.do_request("redoc")

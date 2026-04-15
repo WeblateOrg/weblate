@@ -173,7 +173,7 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
     except ObjectDoesNotExist:
         pass
     else:
-        if alert.obj.dismissable:
+        if alert.obj.dismissible:
             alert.dismissed = True
             alert.save(update_fields=["dismissed"])
 
@@ -368,9 +368,7 @@ def announcement(request: AuthenticatedHttpRequest, path):
         request, path, (ProjectLanguage, Translation, Component, Project, Category)
     )
 
-    if not request.user.has_perm("component.edit", obj) and not request.user.has_perm(
-        "announcement.add", obj
-    ):
+    if not request.user.has_perm("announcement.add", obj):
         raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
@@ -492,7 +490,7 @@ class BackupsView(BackupsMixin, TemplateView):
     template_name = "trans/backups.html"
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
-        create_project_backup.delay(self.obj.pk)
+        create_project_backup.delay(self.obj.pk, request.user.pk)
         messages.success(
             request, gettext("Backup scheduled. It will be available soon.")
         )

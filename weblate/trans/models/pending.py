@@ -45,7 +45,7 @@ if TYPE_CHECKING:
 class PendingChangeQuerySet(models.QuerySet):
     def find_committable_components(
         self, pks: list[int] | None = None, hours: int | None = None
-    ) -> models.QuerySet[PendingUnitChange]:
+    ) -> models.QuerySet[Component]:
         """
         Find components with committable pending changes.
 
@@ -67,14 +67,32 @@ class PendingChangeQuerySet(models.QuerySet):
                 unit__translation__component__pk__in=pks
             )
 
+        repo_owner_id = Case(
+            When(
+                unit__translation__component__linked_component__isnull=False,
+                then=F("unit__translation__component__linked_component_id"),
+            ),
+            default=F("unit__translation__component_id"),
+            output_field=models.IntegerField(),
+        )
+
+        age_cutoff: Any
         if hours is not None:
             age_cutoff = timezone.now() - timedelta(hours=hours)
         # Use per-component commit_pending_age setting to calculate age cutoff.
         else:
+            commit_pending_age = Case(
+                When(
+                    unit__translation__component__linked_component__isnull=False,
+                    then=F(
+                        "unit__translation__component__linked_component__commit_pending_age"
+                    ),
+                ),
+                default=F("unit__translation__component__commit_pending_age"),
+                output_field=models.IntegerField(),
+            )
             age_cutoff = ExpressionWrapper(
-                Now()
-                - F("unit__translation__component__commit_pending_age")
-                * timedelta(hours=1),
+                Now() - commit_pending_age * timedelta(hours=1),
                 output_field=DateTimeField(),
             )
 
@@ -109,9 +127,9 @@ class PendingChangeQuerySet(models.QuerySet):
         pending_changes = pending_changes.filter(policy_filter)
 
         component_pks = list(
-            pending_changes.values_list(
-                "unit__translation__component_id", flat=True
-            ).distinct()
+            pending_changes.annotate(repo_owner_id=repo_owner_id)
+            .values_list("repo_owner_id", flat=True)
+            .distinct()
         )
         return Component.objects.filter(pk__in=component_pks)
 

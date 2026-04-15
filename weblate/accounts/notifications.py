@@ -42,6 +42,7 @@ from weblate.utils.ratelimit import rate_limit_notify
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -82,7 +83,9 @@ NOTIFICATIONS_ACTIONS: dict[int, list[type[Notification]]] = {}
 
 def get_email_headers(notification: str) -> dict[str, str]:
     return {
-        "X-Mailer": "Weblate" if settings.HIDE_VERSION else USER_AGENT,
+        "X-Mailer": "Weblate"
+        if settings.VERSION_DISPLAY == VERSION_DISPLAY_HIDE
+        else USER_AGENT,
         "X-Weblate-Notification": notification,
         "Message-ID": f"{uuid4()}@{get_site_domain()}",
     }

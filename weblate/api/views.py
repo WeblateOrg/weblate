@@ -147,9 +147,11 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GlobalStats, prefetch_stats
+from weblate.utils.version import GIT_VERSION
+from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
 
-from .renderers import FlatJsonRenderer, OpenMetricsRenderer
+from .renderers import FlatJsonRenderer, OpenMetricsRenderer, OpenMetricsSample
 
 if TYPE_CHECKING:
     from django.db.models import Model
@@ -1383,7 +1385,11 @@ class ProjectViewSet(
                     },
                 )
 
-        queryset = obj.component_set.filter_access(self.request.user).order_by("id")
+        queryset = (
+            obj.component_set.filter_access(self.request.user)
+            .prefetch_related("linked_component")
+            .order_by("id")
+        )
         page = self.paginate_queryset(queryset)
 
         serializer = ComponentSerializer(
@@ -3240,7 +3246,15 @@ class Metrics(APIView):
         """Return server metrics."""
         stats = GlobalStats()
         serializer = self.serializer_class(stats)
-        return Response(serializer.data)
+        data = dict(serializer.data)
+        if request.accepted_renderer.format == "openmetrics" and show_metrics_version(
+            settings.VERSION_DISPLAY
+        ):
+            data["weblate_info"] = OpenMetricsSample(
+                value=1,
+                labels={"version": GIT_VERSION},
+            )
+        return Response(data)
 
 
 class Search(APIView):

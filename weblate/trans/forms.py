@@ -1846,6 +1846,50 @@ class ComponentSettingsForm(
         self.fields["vcs"].choices = [
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
+        self.patch_unlinking_linked_repository_settings()
+        self.patch_linked_repository_settings()
+
+    def get_linked_repository_component(self) -> Component | None:
+        repo = self.data.get("repo") if self.is_bound else self.instance.repo
+        if not repo:
+            return None
+        try:
+            return Component.objects.get_linked(repo)
+        except (Component.DoesNotExist, ValueError):
+            return None
+
+    def patch_unlinking_linked_repository_settings(self) -> None:
+        if not self.is_bound or not self.instance.is_repo_link:
+            return
+
+        repo = self.data.get("repo") or ""
+        if is_repo_link(repo):
+            return
+
+        data = copy.copy(self.data)
+        for field_name in Component.LINKED_REPOSITORY_SETTINGS:
+            if field_name not in data:
+                data[field_name] = self.fields[field_name].prepare_value(
+                    getattr(self.instance, field_name)
+                )
+        self.data = data
+
+    def patch_linked_repository_settings(self) -> None:
+        linked_component = self.get_linked_repository_component()
+        if linked_component is None:
+            return
+
+        inherited_note = Component.LINKED_REPOSITORY_SETTING_MESSAGE
+        for field_name in Component.LINKED_REPOSITORY_SETTINGS:
+            field = self.fields[field_name]
+            effective_value = getattr(linked_component, field_name)
+            self.initial[field_name] = effective_value
+            field.initial = effective_value
+            field.disabled = True
+            if field.help_text:
+                field.help_text = format_html("{} {}", field.help_text, inherited_note)
+            else:
+                field.help_text = inherited_note
 
     @property
     def hide_restricted(self) -> bool:
@@ -1863,6 +1907,11 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+
+        repo = data.get("repo") or ""
+        if is_repo_link(repo):
+            for field_name in Component.LINKED_REPOSITORY_SETTINGS:
+                data[field_name] = getattr(self.instance, field_name)
 
         if "file_format_params" in data:
             data["file_format_params"] = strip_unused_file_format_params(

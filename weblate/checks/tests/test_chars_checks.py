@@ -218,6 +218,8 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_interrobang(self) -> None:
         self.do_test(False, ("string!?", "string?", ""))
         self.do_test(False, ("string?", "string?!", ""))
+        self.do_test(False, ("string؟!", "string?", ""))
+        self.do_test(False, ("string?", "string!؟", ""))
         self.do_test(False, ("string⁈", "string?", ""))
         self.do_test(False, ("string?", "string⁉", ""))
         self.do_test(False, ("string？！", "string?", ""))
@@ -244,6 +246,8 @@ class EndExclamationCheckTest(CheckTestCase):
     def test_interrobang(self) -> None:
         self.do_test(False, ("string!?", "string!", ""))
         self.do_test(False, ("string!", "string?!", ""))
+        self.do_test(False, ("string!؟", "string!", ""))
+        self.do_test(False, ("string!", "string؟!", ""))
         self.do_test(False, ("string⁈", "string!", ""))
         self.do_test(False, ("string!", "string⁉", ""))
         self.do_test(False, ("string？！", "string!", ""))
@@ -262,6 +266,8 @@ class EndInterrobangCheckTest(CheckTestCase):
 
     def test_translate(self) -> None:
         self.do_test(False, ("string!?", "string!?", ""))
+        self.do_test(False, ("string?!", "string؟!", ""))
+        self.do_test(False, ("string!?", "string!؟", ""))
         self.do_test(False, ("string⁉", "string⁈", ""))
         self.do_test(False, ("string⁉", "string⁉", ""))
         self.do_test(False, ("string！？", "string！？", ""))
@@ -269,6 +275,7 @@ class EndInterrobangCheckTest(CheckTestCase):
         self.do_test(False, ("string?!", "string？！", ""))
         self.do_test(False, ("string！？", "string!?", ""))
         self.do_test(True, ("string?", "string?!", ""))
+        self.do_test(True, ("string?", "string؟!", ""))
         self.do_test(False, ("string⁉", "string!?", ""))
         self.do_test(False, ("string?!", "string⁈", ""))
         self.do_test(False, ("string？！", "string⁈", ""))

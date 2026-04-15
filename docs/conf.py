@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.17"
+release = "5.17.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -93,6 +93,7 @@ extensions = [
     "djangodocs",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
+    "autodoc_signature_filter",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",

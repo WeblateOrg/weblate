@@ -1,56 +1,17 @@
 Developing add-ons
 ==================
 
-:ref:`addons` are way to customize localization workflow in Weblate.
+:ref:`addons` are a way to customize localization workflow in Weblate.
 
 .. currentmodule:: weblate.addons.base
 
 .. autoclass:: BaseAddon
     :members:
 
-.. currentmodule:: weblate.addons.models
-
-.. class:: Addon
-
-   ORM object for an add-on.
-
-.. currentmodule:: weblate.trans.models
-
-.. class:: Component
-
-   ORM object for a component.
-
-.. class:: Translation
-
-   ORM object for a translation.
-
-.. class:: Category
-
-   ORM object for a category.
-
-.. class:: Project
-
-   ORM object for a project.
-
-.. class:: Unit
-
-   ORM object for an unit.
-
-.. class:: Change
-
-   ORM object for an change.
-
-.. class:: User
-
-   ORM object for an user.
-
-.. class:: TranslationFormat
-
-   Translation file wrapper.
-
-.. class:: BaseAddonForm
-
-   Base form for configuring add-ons.
+Add-on hooks receive ORM objects from the ``weblate.*.models`` modules,
+including ``Addon``, ``Component``, ``Translation``, ``Category``, ``Project``,
+``Unit``, ``Change``, and ``User``. Add-on configuration forms should subclass
+``weblate.addons.forms.BaseAddonForm``.
 
 Here is an example add-on:
 

@@ -9,18 +9,16 @@ from __future__ import annotations
 import os
 import pathlib
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, cast
+from typing import cast
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
-from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.exceptions import ValidationError
 from django.db.models import F
 from django.test import SimpleTestCase
-from django.test.client import RequestFactory
 from django.test.utils import override_settings
 
-from weblate.auth.models import Group, setup_project_groups
+from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -33,18 +31,15 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
-from weblate.trans.tests.utils import clear_users_cache, create_test_user
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    FixtureTestCase,
+    ViewTestCase,
+)
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
-
-if TYPE_CHECKING:
-    from weblate.auth.models import User
-    from weblate.utils.state import (
-        StringState,
-    )
 
 HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 remote: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
@@ -822,6 +817,65 @@ class ComponentChangeTest(RepoTestCase):
         # Unlocked event
         self.assertEqual(component.change_set.count() - start, 4)
 
+    def test_linked_autolock_uses_main_setting(self) -> None:
+        component = self.create_po(name="main-autolock")
+        self.component = component
+        self.project = component.project
+        linked_component = self.create_link_existing(
+            name="Linked autolock", slug="linked-autolock"
+        )
+        component.auto_lock_error = False
+        component.save(update_fields=["auto_lock_error"])
+        linked_component.auto_lock_error = True
+        linked_component.save(update_fields=["auto_lock_error"])
+
+        component.add_alert("MergeFailure")
+
+        component.refresh_from_db()
+        linked_component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertFalse(linked_component.locked)
+
+    def test_linked_push_if_needed_uses_main_setting(self) -> None:
+        self.component = self.create_po(name="main-push")
+        self.project = self.component.project
+        linked_component = self.create_link_existing(
+            name="Linked push", slug="linked-push"
+        )
+        self.component.push_on_commit = True
+        self.component.save(update_fields=["push_on_commit"])
+        linked_component.push_on_commit = False
+        linked_component.save(update_fields=["push_on_commit"])
+        linked_component = Component.objects.get(pk=linked_component.pk)
+
+        with (
+            patch.object(Component, "can_push", return_value=True),
+            patch.object(Component, "repo_needs_push", return_value=True),
+            patch.object(Component, "do_push") as mock_do_push,
+        ):
+            linked_component.push_if_needed(do_update=False)
+
+        mock_do_push.assert_called_once_with(None, force_commit=False, do_update=False)
+
+    def test_linked_autolock_locks_child_from_main_setting(self) -> None:
+        component = self.create_po(name="main-autolock-child")
+        self.component = component
+        self.project = component.project
+        linked_component = self.create_link_existing(
+            name="Linked autolock child", slug="linked-autolock-child"
+        )
+        component.auto_lock_error = True
+        component.save(update_fields=["auto_lock_error"])
+        linked_component.auto_lock_error = False
+        linked_component.save(update_fields=["auto_lock_error"])
+
+        component.add_alert("MergeFailure")
+
+        component.refresh_from_db()
+        linked_component.refresh_from_db()
+        self.assertTrue(component.locked)
+        self.assertTrue(linked_component.locked)
+
 
 class ComponentValidationTest(RepoTestCase):
     """Component object validation testing."""
@@ -1125,57 +1179,7 @@ class ComponentErrorTest(RepoTestCase):
             self.component.clean()
 
 
-class RepoViewLiteTestCase(RepoTestCase):
-    @classmethod
-    def setUpTestData(cls) -> None:
-        clear_users_cache()
-        super().setUpTestData()
-
-    def setUp(self) -> None:
-        super().setUp()
-        self.factory = RequestFactory()
-        self.user = create_test_user()
-        self.user.groups.add(Group.objects.get(name="Users"))
-        self.component = self.create_component()
-        self.project = self.component.project
-        setup_project_groups(self, self.project)
-        self.translation = self.get_translation()
-
-    def get_request(self, user: User | None = None):
-        request = self.factory.get("/")
-        request.user = user or self.user
-        request.session = "session"
-        request._messages = FallbackStorage(request)  # noqa: SLF001
-        return request
-
-    def get_translation(self, language: str = "cs") -> Translation:
-        return self.component.translation_set.get(language__code=language)
-
-    def get_unit(
-        self,
-        source: str = "Hello, world!\n",
-        language: str = "cs",
-        translation: Translation | None = None,
-    ) -> Unit:
-        if translation is None:
-            translation = self.get_translation(language)
-        return translation.unit_set.get(source__startswith=source)
-
-    def change_unit(
-        self,
-        target: str,
-        source: str = "Hello, world!\n",
-        language: str = "cs",
-        translation: Translation | None = None,
-        user: User | None = None,
-        state: StringState = STATE_TRANSLATED,
-    ) -> Unit:
-        unit = self.get_unit(source, language, translation=translation)
-        unit.translate(user or self.user, target, state)
-        return unit
-
-
-class ResetReapplyMissingTranslationFileTest(RepoViewLiteTestCase):
+class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
@@ -1639,7 +1643,7 @@ class ResetReapplyMissingTranslationFileTest(RepoViewLiteTestCase):
         self.assertIn("Pending changes were kept", messages[0])
 
 
-class LinkedResetDiskStateTest(RepoViewLiteTestCase):
+class LinkedResetDiskStateTest(ComponentTestCase):
     def create_component(self):
         return self.create_link()
 

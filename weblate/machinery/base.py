@@ -28,7 +28,7 @@ from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.docs import DocVersionsMixin
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.outbound import is_allowlisted_hostname
@@ -365,6 +365,10 @@ class BatchMachineTranslation(DocVersionsMixin):
         report_error(
             f"machinery[{self.name}]: {cause}", extra_log=extra_log, message=message
         )
+
+    def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
+        """Log a handled error without reporting it to external services."""
+        log_handled_exception(f"machinery[{self.name}]: {cause}", extra_log=extra_log)
 
     @cached_property
     def supported_languages(self):
@@ -1088,7 +1092,15 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 
 class ResponseStatusMachineTranslation(MachineTranslation):
     def check_failure(self, response: Response) -> None:
-        payload = response.json()
+        try:
+            payload = response.json()
+        except JSONDecodeError:
+            super().check_failure(response)
+            return
+
+        if not isinstance(payload, dict):
+            super().check_failure(response)
+            return
 
         # Check response status
         response_status = payload.get("responseStatus", payload.get("code", None))

@@ -23,6 +23,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.translation import gettext, ngettext
+from translate.storage.fluent import FluentContentError
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
@@ -42,7 +43,11 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
-from weblate.trans.signals import component_post_update, vcs_pre_commit
+from weblate.trans.signals import (
+    component_post_update,
+    translation_post_remove,
+    vcs_pre_commit,
+)
 from weblate.trans.util import (
     is_plural,
     join_plural,
@@ -51,7 +56,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
@@ -91,6 +96,21 @@ class NewUnitParams(TypedDict):
     skip_existing: NotRequired[bool]
 
 
+class ActiveChangeGroup(TypedDict):
+    changes: list[PendingUnitChange]
+    units: set[int]
+
+
+def normalize_translation_check_flags(check_flags: str, *, needs_readonly: bool) -> str:
+    """Normalize auto-managed translation flags while preserving user flags."""
+    flags = Flags(check_flags)
+    if needs_readonly:
+        flags.merge("read-only")
+    else:
+        flags.remove("read-only")
+    return flags.format()
+
+
 class TranslationManager(models.Manager):
     def check_sync(
         self,
@@ -112,13 +132,7 @@ class TranslationManager(models.Manager):
             translation.filename = path
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
-        flags = ""
-        if translation.source_editing_disabled:
-            flags = "read-only"
-        if translation.check_flags != flags:
-            force = True
-            translation.check_flags = flags
-            translation.save(update_fields=["check_flags"])
+        force |= translation.sync_readonly_check_flag()
         translation.check_sync(force, request=request, change=change)
         return translation
 
@@ -295,6 +309,23 @@ class Translation(
         result = self.parse_check_flags()
         result.remove("read-only")
         return result
+
+    def sync_readonly_check_flag(self, *, save: bool = True) -> bool:
+        """Synchronize the auto-managed read-only flag."""
+        if not (self.is_source or self.is_template):
+            return False
+        check_flags = normalize_translation_check_flags(
+            self.check_flags,
+            needs_readonly=self.source_editing_disabled,
+        )
+        if self.check_flags == check_flags:
+            return False
+        self.check_flags = check_flags
+        self.__dict__.pop("all_flags", None)
+        self.__dict__.pop("is_readonly", None)
+        if save:
+            self.save(update_fields=["check_flags"])
+        return True
 
     def clean(self) -> None:
         """Validate that filename exists and can be opened using translate-toolkit."""
@@ -751,6 +782,45 @@ class Translation(
         - repository push is handled by the caller
         - pending_changes_pk only has pending changes for units associated with this translation
         """
+        if not self.filename:
+            return self._commit_pending_without_filename(pending_changes_pk)
+        return self._commit_pending_with_filename(reason, user, pending_changes_pk)
+
+    def _commit_pending_without_filename(self, pending_changes_pk: list[int]) -> bool:
+        """Discard uncommittable pending changes for missing file translations."""
+        report_error(
+            "Attempted to commit translation without filename",
+            project=self.component.project,
+            message=True,
+            extra_log=f"translation={self.full_slug}, pending_changes={len(pending_changes_pk)}",
+        )
+        pending_changes = list(
+            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).values_list(
+                "unit_id", flat=True
+            )
+        )
+        if pending_changes:
+            pending_unit_ids = set(pending_changes)
+            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).delete()
+            remaining_pending_unit_ids = set(
+                PendingUnitChange.objects.filter(
+                    unit_id__in=pending_unit_ids
+                ).values_list("unit_id", flat=True)
+            )
+            units_to_clear = pending_unit_ids - remaining_pending_unit_ids
+            if units_to_clear:
+                Unit.objects.filter(id__in=units_to_clear).clear_disk_state()
+            self.log_error(
+                "discarding %d pending changes due to missing filename",
+                len(pending_unit_ids),
+            )
+        self.log_error("skipping commit due to missing filename")
+        return False
+
+    def _commit_pending_with_filename(
+        self, reason: str, user: User | None, pending_changes_pk: list[int]
+    ) -> bool:
+        """Commit pending changes when translation file exists."""
         try:
             store = self.store
         except FileParseError as error:
@@ -820,7 +890,7 @@ class Translation(
         # currently processed. Hence, we track the latest timestamp up to which
         # changes to a unit have been applied successfully and delete all pending
         # changes for the unit until that timestamp.
-        success_times = {}
+        success_times: dict[int, datetime] = {}
         for change in pending_changes:
             if all_changes_status.get(change.pk):
                 prev = success_times.get(change.unit_id)
@@ -891,7 +961,7 @@ class Translation(
             if change.author
         }
 
-        active_groups = {}
+        active_groups: dict[int, ActiveChangeGroup] = {}
         finalized_groups = []
 
         for change in pending_changes:
@@ -923,6 +993,44 @@ class Translation(
     def get_commit_message(self, author: str, template: str, **kwargs):
         """Format commit message based on project configuration."""
         return render_template(template, translation=self, author=author, **kwargs)
+
+    def _is_handled_fluent_content_error(self, error: Exception) -> bool:
+        return self.component.file_format == "fluent" and isinstance(
+            error, FluentContentError
+        )
+
+    def _log_unit_update_failure(self, unit: Unit, error: Exception) -> None:
+        if self._is_handled_fluent_content_error(error):
+            log_handled_exception(
+                "Could not update unit",
+                extra_log=(
+                    f"format=fluent, translation={self.full_slug}, "
+                    f"unit={unit.pk}, context={unit.context!r}"
+                ),
+            )
+            return
+        report_error("Could not update unit", project=self.component.project)
+
+    def _store_failed_unit_update(
+        self, unit: Unit, pending_change: PendingUnitChange, error: Exception
+    ) -> None:
+        unit.state = STATE_FUZZY
+        # Use update instead of hitting expensive save()
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+        unit.change_set.create(
+            action=ActionEvents.SAVE_FAILED,
+            target=self.component.get_parse_error_message(error),
+        )
+
+        pending_change.metadata.update(
+            {
+                "last_failed": timezone.now().isoformat(),
+                "failed_revision": self.revision,
+                "weblate_version": GIT_VERSION,
+                "blocking_unit": False,
+            }
+        )
+        pending_change.save()
 
     @property
     def count_pending_units(self):
@@ -1080,26 +1188,8 @@ class Translation(
                         pending_change.source_unit_explanation
                     )
                 except Exception as error:
-                    report_error(
-                        "Could not update unit", project=self.component.project
-                    )
-                    unit.state = STATE_FUZZY
-                    # Use update instead of hitting expensive save()
-                    Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
-                    unit.change_set.create(
-                        action=ActionEvents.SAVE_FAILED,
-                        target=self.component.get_parse_error_message(error),
-                    )
-
-                    pending_change.metadata.update(
-                        {
-                            "last_failed": timezone.now().isoformat(),
-                            "failed_revision": self.revision,
-                            "weblate_version": GIT_VERSION,
-                            "blocking_unit": False,
-                        }
-                    )
-                    pending_change.save()
+                    self._log_unit_update_failure(unit, error)
+                    self._store_failed_unit_update(unit, pending_change, error)
                     # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
@@ -1761,15 +1851,29 @@ class Translation(
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
 
+        # Build commit message before deleting (needs stats from DB)
+        commit_message = self.get_commit_message(
+            author, template=self.component.delete_message
+        )
+
+        # Delete the translation from the database before committing
+        # to ensure add-ons operate on the updated translation set
+        self.delete()
+        transaction.on_commit(self.stats.update_parents)
+        transaction.on_commit(self.component.schedule_update_checks)
+
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
             with self.component.repository.lock:
+                # Notify add-ons (they may update LINGUAS, configure, etc.)
+                translation_post_remove.send(sender=self.__class__, translation=self)
+
+                # Remove files and commit together with add-on changes
                 self.component.repository.remove(
                     self.filenames,
-                    self.get_commit_message(
-                        author, template=self.component.delete_message
-                    ),
+                    commit_message,
                     author,
+                    extra_commit_files=self.addon_commit_files or None,
                 )
                 self.component.push_if_needed()
 
@@ -1778,11 +1882,6 @@ class Translation(
         if filename.is_dir():
             with suppress(OSError):
                 filename.rmdir()
-
-        # Delete from the database
-        self.delete()
-        transaction.on_commit(self.stats.update_parents)
-        transaction.on_commit(self.component.schedule_update_checks)
 
         # Record change
         self.component.change_set.create(
