@@ -1043,12 +1043,14 @@ class BaseExporter:
         fieldnames=None,
     ) -> None:
         self.translation = translation
+        self.file_format_params = {}
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
             self.source_language = translation.component.source_language
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
+            self.file_format_params = self.translation.component.file_format_params
         else:
             self.project = project
             self.language = language
@@ -1088,13 +1090,12 @@ class BaseExporter:
         if self.translation is None or not self.file_format:
             return
 
-        params = self.translation.component.file_format_params
         for param_class in get_params_for_file_format(self.file_format):
             if param_class.is_encoding():
-                encoding = param_class.get_value(params)
+                encoding = param_class.get_value(self.file_format_params)
                 if encoding != "auto":
                     storage.encoding = encoding
-            param_class().setup_store(storage, **params)
+            param_class().setup_store(storage, **self.file_format_params)
 
     def add(self, unit: TranslateToolkitUnit, word: str) -> None:
         unit.target = word
