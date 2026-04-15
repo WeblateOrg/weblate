@@ -3051,7 +3051,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
     @responses.activate
     @respx.mock
     def test_translate_rejects_unmappable_rst_markup(self) -> None:
-        self.mock_response('["Voir :ref:`branche-cible`."]').  # codespell:ignore
+        self.mock_response('["Voir :ref:`branche-cible`."]')  # codespell:ignore
 
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(
