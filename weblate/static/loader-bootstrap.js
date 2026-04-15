@@ -1531,7 +1531,7 @@ $(function () {
     position: "auto right",
     locale: {
       rangeSeparator: " - ",
-      weekdays:{
+      weekdays: {
         shorthand: [
           pgettext("Short name of day", "Su"),
           pgettext("Short name of day", "Mo"),
