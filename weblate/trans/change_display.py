@@ -230,6 +230,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
         ActionEvents.ADD_USER,
         ActionEvents.INVITE_USER,
         ActionEvents.REMOVE_USER,
+        ActionEvents.USER_REVERT,
     }
     details_required = True
 

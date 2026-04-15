@@ -6,14 +6,14 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, cast, overload
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast, overload
 from uuid import uuid5
 
 import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, F, OuterRef, Q, Subquery
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -33,6 +33,7 @@ from weblate.trans.actions import (
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
+from weblate.trans.util import split_plural
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
@@ -75,6 +76,13 @@ COMPONENT_ORIGINS = {
     "zip": gettext_lazy("Component created via ZIP upload"),
     "document": gettext_lazy("Component created via document upload"),
 }
+
+
+class RevertUserEditsResult(TypedDict):
+    reverted: int
+    skipped: int
+    skipped_newer: int
+    skipped_failed: int
 
 
 def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
@@ -404,6 +412,75 @@ class ChangeManager(models.Manager["Change"]):
             result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
         return result.prefetch_for_render().order()
 
+    def latest_revertable_changes(
+        self,
+        user: User,
+        *,
+        project: Project | None = None,
+    ) -> ChangeQuerySet:
+        latest_revertable_change = (
+            self.filter(unit=OuterRef("unit"), action__in=ACTIONS_REVERTABLE)
+            .order_by("-timestamp", "-pk")
+            .values("pk")[:1]
+        )
+        result = self.filter(
+            user=user,
+            unit__isnull=False,
+            action__in=ACTIONS_REVERTABLE,
+        )
+        if project is not None:
+            result = result.filter(project=project)
+        return cast(
+            "ChangeQuerySet",
+            result.annotate(
+                latest_revertable_change_id=Subquery(latest_revertable_change)
+            )
+            .filter(pk=F("latest_revertable_change_id"))
+            .select_related("unit"),
+        )
+
+    def revert_user_edits(
+        self,
+        target_user: User,
+        acting_user: User,
+        *,
+        project: Project | None = None,
+        request=None,
+    ) -> RevertUserEditsResult:
+        base = self.filter(
+            user=target_user,
+            unit__isnull=False,
+            action__in=ACTIONS_REVERTABLE,
+        )
+        if project is not None:
+            base = base.filter(project=project)
+
+        reverted = 0
+        attempted = 0
+        skipped_failed = 0
+        total = base.values("unit_id").distinct().count()
+        for change in self.latest_revertable_changes(
+            target_user, project=project
+        ).iterator(chunk_size=100):
+            attempted += 1
+            if change.revert_user_edits(
+                acting_user,
+                change_action=ActionEvents.USER_REVERT,
+                request=request,
+                change_details={"username": target_user.username},
+            ):
+                reverted += 1
+            else:
+                skipped_failed += 1
+
+        skipped_newer = total - attempted
+        return {
+            "reverted": reverted,
+            "skipped": skipped_newer + skipped_failed,
+            "skipped_newer": skipped_newer,
+            "skipped_failed": skipped_failed,
+        }
+
 
 class Change(models.Model, UserDisplayMixin):
     ACTIONS_DICT: ClassVar[dict[int, StrOrPromise]] = dict(ActionEvents.choices)
@@ -696,8 +773,96 @@ class Change(models.Model, UserDisplayMixin):
     def can_revert(self) -> bool:
         return (
             self.unit is not None
-            and bool(self.old)
             and self.action in ACTIONS_REVERTABLE
+            and "old_state" in self.details
+        )
+
+    def get_revert_state(self) -> StringState:
+        return StringState(self.details["old_state"])
+
+    def get_latest_user_revert_target(self) -> tuple[str, StringState] | None:
+        if self.unit_id is None or self.user_id is None:
+            return None
+
+        boundary_old: str | None = None
+        boundary_state: StringState | None = None
+        history = (
+            Change.objects.filter(unit_id=self.unit_id, action__in=ACTIONS_REVERTABLE)
+            .order_by("-timestamp", "-pk")
+            .values_list("pk", "user_id", "old", "details")
+        )
+        for pk, user_id, old, details in history.iterator(chunk_size=100):
+            if boundary_old is None and (pk != self.pk or user_id != self.user_id):
+                return None
+            if user_id != self.user_id:
+                break
+            if "old_state" not in details:
+                return None
+            boundary_old = old
+            boundary_state = StringState(details["old_state"])
+
+        if boundary_old is None or boundary_state is None:
+            return None
+        return boundary_old, boundary_state
+
+    @transaction.atomic
+    def revert_user_edits(
+        self,
+        user: User,
+        *,
+        change_action: ActionEvents = ActionEvents.USER_REVERT,
+        author: User | None = None,
+        request=None,
+        change_details: dict[str, str] | None = None,
+    ) -> bool:
+        if self.unit is None or self.action not in ACTIONS_REVERTABLE:
+            return False
+
+        unit = cast("Unit", self.unit)
+        locked_unit = unit.__class__.objects.select_for_update().get(pk=unit.pk)
+        revert_target = self.get_latest_user_revert_target()
+        if revert_target is None:
+            return False
+
+        target, state = revert_target
+        return locked_unit.translate(
+            user,
+            split_plural(target),
+            state,
+            change_action=change_action,
+            author=author,
+            request=request,
+            select_for_update=False,
+            change_details=change_details,
+        )
+
+    @transaction.atomic
+    def revert(
+        self,
+        user: User,
+        *,
+        change_action: ActionEvents = ActionEvents.REVERT,
+        author: User | None = None,
+        request=None,
+        change_details: dict[str, str] | None = None,
+    ) -> bool:
+        if self.unit is None or self.action not in ACTIONS_REVERTABLE:
+            return False
+
+        unit = cast("Unit", self.unit)
+        locked_unit = unit.__class__.objects.select_for_update().get(pk=unit.pk)
+        if "old_state" not in self.details:
+            return False
+
+        return locked_unit.translate(
+            user,
+            split_plural(self.old),
+            self.get_revert_state(),
+            change_action=change_action,
+            author=author,
+            request=request,
+            select_for_update=False,
+            change_details=change_details,
         )
 
     def show_source(self) -> bool:

@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from time import sleep
+from types import SimpleNamespace
 from unittest import mock
 
 from django.conf import settings
@@ -40,6 +41,7 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.utils.ratelimit import reset_rate_limit
+from weblate.utils.state import STATE_TRANSLATED
 
 CONTACT_DATA = {
     "name": "Test",
@@ -907,3 +909,39 @@ class EditUserTest(FixtureTestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+
+class AdminUserRevertTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.user.is_superuser = True
+        self.user.save()
+        self.target_user = User.objects.create_user(
+            username="sitewide-target", password="testpassword"
+        )
+
+    def test_revert_user_edits(self) -> None:
+        unit = self.get_unit()
+        self.change_unit("Nazdar svete!\n", user=self.target_user)
+
+        with mock.patch(
+            "weblate.accounts.views.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-1"),
+        ) as mocked_delay:
+            response = self.client.post(
+                self.target_user.get_absolute_url(),
+                {"revert_user_edits": "1"},
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.target_user.id,
+            acting_user_id=self.user.id,
+            sitewide=True,
+        )
+        self.assertContains(
+            response, "Reverting edits by sitewide-target site-wide was scheduled."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
