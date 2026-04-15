@@ -1356,7 +1356,7 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
         )
 
     def untranslate_store(
-        self, language, file_format_params: FileFormatParams | None = None
+        self, language: Language, file_format_params: FileFormatParams | None = None
     ) -> None:
         """Remove translations from Translate Toolkit store."""
         super().untranslate_store(language, file_format_params=file_format_params)

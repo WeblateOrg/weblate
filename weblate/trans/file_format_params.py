@@ -354,7 +354,7 @@ class GettextSetLanguageTeamHeader(BaseGettextFormatParam):
     name = "po_set_language_team"
     label = gettext_lazy("Update language team header")
     field_class = forms.BooleanField
-    default = False
+    default = True
     help_text = gettext_lazy('Lets Weblate update the "Language-Team" file header.')
 
 
