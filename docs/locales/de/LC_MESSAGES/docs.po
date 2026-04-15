@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-14 17:31+0200\n"
-"PO-Revision-Date: 2026-04-15 06:54+0000\n"
+"PO-Revision-Date: 2026-04-16 07:10+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:217
@@ -2169,6 +2169,10 @@ msgid ""
 "compatibility with the underlying Python Social Auth backends and existing "
 "deployments."
 msgstr ""
+"Azure Active Directory (Azure AD) ist jetzt Microsoft Entra ID. Weblate "
+"behält die Backend-Namen ``azuread-oauth2`` und ``azuread-tenant-oauth2`` "
+"aus Kompatibilitätsgründen mit den zugrunde liegenden Python-Social-Auth-"
+"Backends und bestehenden Bereitstellungen bei."
 
 #: admin/auth.rst:337
 msgid ""
@@ -2193,16 +2197,13 @@ msgid "You will need following:"
 msgstr "Sie benötigen Folgendes:"
 
 #: admin/auth.rst:345
-#, fuzzy
-#| msgid ""
-#| "*Application (client) ID* can be obtained from application page. *Object "
-#| "ID* is not used in Weblate."
 msgid ""
 "*Application (client) ID* is available on the app registration overview in "
 "the Microsoft Entra admin center. *Object ID* is not used in Weblate."
 msgstr ""
-"Die *Anwendungs-(Client-)ID* kann von der Anwendungsseite abgerufen werden. "
-"Die *Objekt-ID* wird in Weblate nicht verwendet."
+"Die *Anwendungs-(Client-)ID* ist in der Übersicht der App-Registrierung im "
+"Microsoft-Entra-Admin-Center verfügbar. Die *Objekt-ID* wird in Weblate "
+"nicht verwendet."
 
 #: admin/auth.rst:347
 msgid ""
@@ -2213,16 +2214,13 @@ msgstr ""
 "Authentifizierung benötigt, was in der Regel erwünscht ist."
 
 #: admin/auth.rst:348
-#, fuzzy
-#| msgid ""
-#| "*Secret value* is displayed once you generate a secret for an "
-#| "application. *Secret ID* is not used in Weblate."
 msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
-"Der *Geheimniswert* wird angezeigt, sobald Sie ein Geheimnis für eine "
-"Anwendung erzeugen. Die *Geheimnis-ID* wird in Weblate nicht verwendet."
+"Der *Geheimniswert* wird angezeigt, sobald Sie ein Client-Geheimnis für die "
+"App-Registrierung erstellt haben. Die *Geheimnis-ID* wird in Weblate nicht "
+"verwendet."
 
 #: admin/auth.rst:393 admin/install/docker.rst:1590
 msgid "Slack"
@@ -6353,17 +6351,12 @@ msgstr ""
 "Sie müssen :file:`urls.py` so anpassen, dass es dieses Präfix enthält."
 
 #: admin/config.rst:2394
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Defaults to an empty "
-#| "set what does no filtering at all."
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set, "
 "which does no filtering at all."
 msgstr ""
-"Ein Satz von Hosts, die bei der Konfiguration der VCS-URL zugelassen werden "
-"sollen. Der Standardwert ist ein leerer Satz, der überhaupt keine Filterung "
-"vornimmt."
+"Ein Satz von Hosts, die bei der Konfiguration der VCS-URL zugelassen werden. "
+"Der Standardwert ist ein leerer Satz, der überhaupt keine Filterung vornimmt."
 
 #: admin/config.rst:2397
 msgid ""
@@ -6372,16 +6365,12 @@ msgid ""
 msgstr ""
 
 #: admin/config.rst:2407
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Only ``https`` and "
-#| "``ssh`` are allowed by default."
 msgid ""
 "A set of URL schemes to allow when configuring VCS URL. Only ``https`` and "
 "``ssh`` are allowed by default."
 msgstr ""
-"Ein Satz von Hosts, die bei der Konfiguration der VCS-URL zugelassen werden "
-"sollen. Standardmäßig sind nur ``https`` und ``ssh`` zugelassen."
+"Ein Satz von URL-Schemata, die bei der Konfiguration der VCS-URL zugelassen "
+"werden. Standardmäßig sind nur ``https`` und ``ssh`` zugelassen."
 
 #: admin/config.rst:2417
 msgid ""
@@ -6953,10 +6942,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:213
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with merge`"
-msgstr ":guilabel:`Aktualisieren des internen Repositorys`"
+msgstr ":guilabel:`Aktualisieren mit Zusammenführen (Merge)`"
 
 #: admin/continuous.rst:214
 msgid "Fetches upstream changes and integrates them with an explicit merge."
@@ -6967,10 +6954,8 @@ msgid "Override the default merge style for a single update."
 msgstr ""
 
 #: admin/continuous.rst:217
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with rebase`"
-msgstr ":guilabel:`Aktualisieren des internen Repositorys`"
+msgstr ":guilabel:`Aktualisieren mit Umbasieren (Rebase)`"
 
 #: admin/continuous.rst:218
 msgid ""
@@ -6983,10 +6968,8 @@ msgid "Keep history linear when that matches your workflow."
 msgstr ""
 
 #: admin/continuous.rst:221
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr "Zusammenführen (Merge) ohne Fast-Forward"
+msgstr ":guilabel:`Aktualisieren mit Zusammenführen (Merge) ohne Fast-Forward`"
 
 #: admin/continuous.rst:222
 msgid ""
@@ -7029,10 +7012,8 @@ msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr ""
 
 #: admin/continuous.rst:233
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and reapply`"
-msgstr ":guilabel:`Eine Zeichenkette entfernen`"
+msgstr ":guilabel:`Zurücksetzen und erneut anwenden`"
 
 #: admin/continuous.rst:234
 msgid ""
@@ -7076,10 +7057,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:245
-#, fuzzy
-#| msgid ":guilabel:`Resolve comment`"
 msgid ":guilabel:`Rescan`"
-msgstr ":guilabel:`Kommentar klären`"
+msgstr ":guilabel:`Erneut scannen`"
 
 #: admin/continuous.rst:246
 #, fuzzy
@@ -7372,7 +7351,7 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"Weblate unterstützt für Gitea-Webhooks. Fügen Sie einen :guilabel:`Gitea "
+"Weblate unterstützt Gitea-Webhooks. Fügen Sie einen :guilabel:`Gitea "
 "Webhook` für das :guilabel:`Push events`-Ereignis mit der Ziel-URL ``/hooks/"
 "gitea/`` auf Ihrer Weblate-Installation hinzu (zum Beispiel ``https://"
 "hosted.weblate.org/hooks/gitea/``). Dies kann in :guilabel:`Webhooks` unter "
@@ -7391,13 +7370,6 @@ msgid "Automatically receiving changes from Forgejo Repos"
 msgstr "Automatischer Empfang von Änderungen aus Forgejo-Repos"
 
 #: admin/continuous.rst:423
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` "
-#| "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/gitea/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/forgejo/`` "
@@ -7405,11 +7377,11 @@ msgid ""
 "hooks/forgejo/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"Weblate unterstützt für Gitea-Webhooks. Fügen Sie einen :guilabel:`Gitea "
+"Weblate unterstützt Forgejo-Webhooks. Fügen Sie einen :guilabel:`Forgejo "
 "Webhook` für das :guilabel:`Push events`-Ereignis mit der Ziel-URL ``/hooks/"
 "gitea/`` auf Ihrer Weblate-Installation hinzu (zum Beispiel ``https://"
-"hosted.weblate.org/hooks/gitea/``). Dies kann in :guilabel:`Webhooks` unter "
-"Repository :guilabel:`Settings` erfolgen."
+"hosted.weblate.org/hooks/forgejo/``). Dies kann in :guilabel:`Webhooks` "
+"unter Repository :guilabel:`Settings` erfolgen."
 
 #: admin/continuous.rst:430
 msgid ""
@@ -11612,14 +11584,11 @@ msgstr ""
 "siehe :setting:`URL_PREFIX`."
 
 #: admin/install/docker.rst:981
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
 msgid ""
 "Configures URL prefix for static files served from :setting:`CACHE_DIR`."
 msgstr ""
-"Konfiguriert das URL-Präfix für den Server für statische Dateien "
-"von :setting:`CACHE_DIR`."
+"Konfiguriert das URL-Präfix für statische Dateien, die von "
+":setting:`CACHE_DIR` bereitgestellt werden."
 
 #: admin/install/docker.rst:985
 msgid ""
@@ -15840,19 +15809,14 @@ msgstr ""
 "aktualisierten Dokumenten zuzustimmen."
 
 #: admin/optionals.rst:146
-#, fuzzy
-#| msgid ""
-#| "Legal documents for the Hosted Weblate service are available in this Git "
-#| "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
-#| "templates/legal/documents>."
 msgid ""
 "Legal documents for the Hosted Weblate service operated by Weblate s.r.o. "
 "are available in this Git repository: <https://github.com/WeblateOrg/wllegal/"
 "tree/main/wllegal/templates/legal/documents>."
 msgstr ""
-"Rechtliche Dokumente für den Hosted-Weblate-Dienst sind in diesem Git-"
-"Repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
-"templates/legal/documents> verfügbar."
+"Rechtliche Dokumente für den Hosted-Weblate-Dienst, der von Weblate s.r.o. "
+"betrieben wird, sind in diesem Git-Repository: <https://github.com/"
+"WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents> verfügbar."
 
 #: admin/optionals.rst:150
 #, fuzzy
@@ -19860,12 +19824,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:51
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Fixed background failures in :ref:`addon-"
 "weblate.autotranslate.autotranslate`."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate`-Erweiterung"
+msgstr ""
+"Hintergrundfehler in :ref:`addon-weblate.autotranslate.autotranslate` "
+"behoben."
 
 #: changes.rst:52
 msgid ""
@@ -36339,10 +36303,8 @@ msgstr ""
 "projects/weblate/documentation/>`_."
 
 #: contributing/documentation.rst:53
-#, fuzzy
-#| msgid "Translating the documentation"
 msgid "Updating generated documentation snippets"
-msgstr "Die Dokumentation übersetzen"
+msgstr "Generierte Dokumentationsausschnitte aktualisieren"
 
 #: contributing/documentation.rst:55
 #, fuzzy
@@ -36379,10 +36341,8 @@ msgid "permissions and built-in roles"
 msgstr "Berechtigungen und integrierte Rollen"
 
 #: contributing/documentation.rst:69
-#, fuzzy
-#| msgid "Checks and fixups"
 msgid "checks and check flags"
-msgstr "Überprüfungen und Korrekturen"
+msgstr "Überprüfungen und Überprüfungsmarkierungen"
 
 #: contributing/documentation.rst:71
 msgid ""
@@ -39803,12 +39763,6 @@ msgid "Managing the local VCS repository"
 msgstr "Das lokale VCS-Repository verwalten"
 
 #: devel/integration.rst:166
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translations in its underlying version control "
-#| "repository. It is suggested to be connected to a remote one, but internal-"
-#| "only setup is also possible. The :guilabel:`Repository maintenance` "
-#| "allows controlling this repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
@@ -39820,7 +39774,8 @@ msgstr ""
 "Versionsverwaltung. Es wird vorgeschlagen, eine Verbindung zu einem Remote-"
 "Repository herzustellen, aber auch eine rein interne Einrichtung ist "
 "möglich. Die :guilabel:`Repository-Wartung` ermöglicht die Kontrolle dieses "
-"Repositorys."
+"Repositorys. Eine detaillierte Beschreibung der verfügbaren Aktionen finden "
+"Sie unter :ref:`repository-maintenance`."
 
 #: devel/integration.rst:174
 msgid ""
@@ -41870,14 +41825,9 @@ msgstr ""
 "(wenn :ref:`component-manage_units` eingeschaltet ist):"
 
 #: devel/translations.rst:153
-#, fuzzy
-#| msgid ""
-#| "The password has to be at least 10 characters long, and at most 72 "
-#| "characters long."
 msgid "The variant source string has to be at most 768 characters long."
 msgstr ""
-"Das Passwort muss mindestens 10 Zeichen und darf höchstens 72 Zeichen lang "
-"sein."
+"Die Ausgangszeichenkette der Variante darf höchstens 768 Zeichen lang sein."
 
 #: devel/translations.rst:161
 msgid "Variants while translating"
@@ -43520,12 +43470,6 @@ msgid "Handling duplicate strings"
 msgstr "Behandlung doppelter Zeichenketten"
 
 #: formats/asciidoc.rst:44
-#, fuzzy
-#| msgid ""
-#| "By default, Weblate treats each occurrence of a string as a separate "
-#| "translation unit to provide line-based context. This can be problematic "
-#| "in Markdown tables, where reordering rows changes the context and can "
-#| "lead to translation loss."
 msgid ""
 "By default, Weblate treats each occurrence of a string as a separate "
 "translation unit to provide line-based context. This can be problematic in "
@@ -43534,7 +43478,7 @@ msgid ""
 msgstr ""
 "Standardmäßig behandelt Weblate jedes Vorkommen einer Zeichenkette als "
 "separate Übersetzungseinheit, um einen zeilenbasierten Kontext "
-"bereitzustellen. Dies kann in Markdown-Tabellen problematisch sein, da das "
+"bereitzustellen. Dies kann in AsciiDoc-Tabellen problematisch sein, da das "
 "Neuanordnen der Zeilen den Kontext verändert und Übersetzungsverluste "
 "entstehen können."
 
@@ -44980,16 +44924,12 @@ msgid "WixLocalization file"
 msgstr "WixLocalization-Datei"
 
 #: formats/wxl.rst:8
-#, fuzzy
-#| msgid ""
-#| "RC files are language files used to localize translatable text, dialogs, "
-#| "menus, for Windows applications."
 msgid ""
 "WixLocalization (WXL) files are language files used to localize translatable "
 "text, dialogs, menus, for WiX Toolset."
 msgstr ""
-"RC-Dateien sind Sprachdateien, die zur Lokalisierung von übersetzbarem Text, "
-"Dialogen und Menüs für Windows-Anwendungen verwendet werden."
+"WixLocalization-Dateien (WXL) sind Sprachdateien, die zur Lokalisierung von "
+"übersetzbarem Text, Dialogen und Menüs für WiX Toolset verwendet werden."
 
 #: formats/wxl.rst:18
 msgid "Example WXL file:"
@@ -45994,16 +45934,13 @@ msgid "Incident response plan for Weblate"
 msgstr "Vorfallsreaktionsplan für Weblate"
 
 #: security/incident-response-plan.rst:7
-#, fuzzy
-#| msgid ""
-#| "This IRP covers incidents impacting the confidentiality, integrity, or "
-#| "availability of a Weblate deployment."
 msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of Weblate-operated deployments."
 msgstr ""
 "Dieser Vorfallsreaktionsplan deckt Vorfälle ab, welche die Vertraulichkeit, "
-"Integrität oder Verfügbarkeit einer Weblate-Bereitstellung beeinträchtigen."
+"Integrität oder Verfügbarkeit von mit Weblate betriebenen Bereitstellungen "
+"beeinträchtigen."
 
 #: security/incident-response-plan.rst:12
 #, fuzzy
@@ -46181,12 +46118,12 @@ msgid "Critical"
 msgstr "Kritisch"
 
 #: security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid "Total outage; Admin compromise; Active data breach."
 msgid ""
 "Total outage; Admin compromise; Active data breach; requires immediate "
 "containment."
-msgstr "Totalausfall; Kompromittierung der Administratoren; Aktive Datenpanne."
+msgstr ""
+"Totalausfall; Kompromittierung der Administratoren; Aktive Datenpanne; "
+"sofortige Eindämmung erforderlich."
 
 #: security/incident-response-plan.rst:66
 msgid "< 30 Minutes"
@@ -46331,17 +46268,13 @@ msgid ""
 msgstr ""
 
 #: security/incident-response-plan.rst:102
-#, fuzzy
-#| msgid ""
-#| "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
-#| "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgid ""
 "For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot** "
 "before taking disruptive action when it is safe to do so."
 msgstr ""
-"**Forensische Aufbewahrung:** Bei Vorfällen der Kategorie 1 oder 2 sollten "
-"Sie einen manuellen **Hetzner Cloud Snapshot** erstellen, bevor Sie störende "
-"Maßnahmen ergreifen."
+"Bei Vorfällen der Kategorie 1 oder 2 sollten Sie einen manuellen **Hetzner "
+"Cloud Snapshot** erstellen, bevor Sie störende Maßnahmen ergreifen, wenn es "
+"sicher ist, dies zu tun."
 
 #: security/incident-response-plan.rst:105
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
@@ -47624,11 +47557,6 @@ msgstr ""
 "Datenspeicher, Celery) und die Integration mit externem VCS."
 
 #: security/threat-model.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Assumptions:** Standard Weblate deployment with typical components "
-#| "(nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and "
-#| "user roles (Unauthenticated, Translator, Project Manager, Administrator)."
 msgid ""
 "**Assumptions:** Standard Weblate deployment with typical components (nginx/"
 "Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user "
@@ -47637,8 +47565,8 @@ msgid ""
 msgstr ""
 "**Annahmen:** Standard-Weblate-Bereitstellung mit typischen Komponenten "
 "(nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, Datenspeicher, Celery) "
-"und Benutzerrollen (nicht authentifiziert, Übersetzer, Projektmanager, "
-"Administrator)."
+"und Benutzerrollen (nicht authentifizierter Benutzer, authentifizierter "
+"Benutzer, Prüfer, Projektmanager, Administrator, projektbezogenes API-Token)."
 
 #: security/threat-model.rst:8
 msgid ""
@@ -47755,15 +47683,11 @@ msgstr ""
 "Webserver und der Anwendungslogik."
 
 #: security/threat-model.rst:66
-#, fuzzy
-#| msgid ""
-#| "**Weblate application ↔ Database** Application logic accessing persistent "
-#| "and cached data."
 msgid ""
 "**Weblate application ↔ Database:** Application logic accessing persistent "
 "and cached data."
 msgstr ""
-"**Weblate-Anwendung ↔ Datenbank** Anwendungslogik, die auf persistente und "
+"**Weblate-Anwendung ↔ Datenbank:** Anwendungslogik, die auf persistente und "
 "zwischengespeicherte Daten zugreift."
 
 #: security/threat-model.rst:67
@@ -47802,16 +47726,12 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:72
-#, fuzzy
-#| msgid ""
-#| "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
-#| "within the web application."
 msgid ""
 "**Unauthenticated caller ↔ Authenticated user/token:** Different privilege "
 "levels for browser, API, and webhook access."
 msgstr ""
-"**Authentifizierter Benutzer ↔ Nicht authentifizierter Benutzer:** "
-"Unterschiedliche Berechtigungsstufen innerhalb der Webanwendung."
+"**Nicht authentifizierter Benutzer ↔ Authentifizierter Benutzer/Token:** "
+"Unterschiedliche Berechtigungsstufen für Browser-, API- und Webhook-Zugriff."
 
 #: security/threat-model.rst:73
 msgid ""
@@ -47948,10 +47868,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:108
-#, fuzzy
-#| msgid "Weblate unavailability."
 msgid "Weblate slowdown or unavailability."
-msgstr "Weblate ist nicht verfügbar."
+msgstr "Weblate wird langsamer oder ist nicht verfügbar."
 
 #: security/threat-model.rst:111
 msgid ""
@@ -48210,10 +48128,8 @@ msgid "Accountability issues."
 msgstr "Probleme mit der Rechenschaftspflicht."
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Optional category configuration"
 msgid "**Outbound integrations / VCS configuration**"
-msgstr "Optionale Konfiguration der Kategorie"
+msgstr "**Ausgehende Integrationen / VCS-Konfiguration**"
 
 #: security/threat-model.rst:183
 msgid ""
@@ -48330,10 +48246,8 @@ msgstr ""
 "siehe :doc:`/admin/auth`."
 
 #: security/threat-model.rst:211
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "**Webhook security:**"
-msgstr "Webhook-Geheimnis"
+msgstr "**Webhook-Sicherheit:**"
 
 #: security/threat-model.rst:212
 msgid ""
@@ -48790,16 +48704,12 @@ msgid "Triggered just after the repository is pushed upstream."
 msgstr "Wird ausgelöst, gleich nachdem das Repository Upstream gepusht wurde."
 
 #: snippets/addon-events-autogenerated.rst:63
-#, fuzzy
-#| msgid "Repository post-add"
 msgid "Repository post-remove"
-msgstr "Repository post-add"
+msgstr "Repository post-remove"
 
 #: snippets/addon-events-autogenerated.rst:65
-#, fuzzy
-#| msgid "Triggered just after the string is saved."
 msgid "Triggered just after a translation is removed."
-msgstr "Wird ausgelöst, gleich nachdem die Zeichenkette gespeichert wurde."
+msgstr "Wird ausgelöst, gleich nachdem eine Übersetzung entfernt wurde."
 
 #: snippets/addon-events-autogenerated.rst:70
 msgid "Repository post-update"
@@ -49615,22 +49525,16 @@ msgid "Source string added in the repository"
 msgstr "Ausgangszeichenkette im Repository hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:391
-#, fuzzy
-#| msgid "Project level backups"
 msgid "Project backed up"
-msgstr "Sicherungen auf Projektebene"
+msgstr "Projekt gesichert"
 
 #: snippets/addon-parameters-autogenerated.rst:393
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Projekt entfernt"
+msgstr "Projekt wiederhergestellt"
 
 #: snippets/addon-parameters-autogenerated.rst:395
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Komponente entfernt"
+msgstr "Komponente wiederhergestellt"
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -50772,45 +50676,31 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "ALL_LINGUAS-Variable in der Datei „configure“aktualisieren"
 
 #: snippets/addons-autogenerated.rst:932 snippets/addons-autogenerated.rst:991
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-"
 "post-remove`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, "
+":ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-post-"
+"remove`"
 
 #: snippets/addons-autogenerated.rst:934
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Aktualisiert die Variable ALL_LINGUAS in „configure“, „configure.in“ oder "
-"„configure.ac“-Dateien, wenn eine neue Übersetzung hinzugefügt wird."
+"Aktualisiert die Variable ALL_LINGUAS in „configure“, „configure.in“ oder „"
+"configure.ac“-Dateien, wenn eine Übersetzung hinzugefügt oder entfernt wird."
 
 #: snippets/addons-autogenerated.rst:939
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable "
-#| "in :file:`configure`, :file:`configure.in` or any :file:`configure.ac` "
-#| "files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a translation is added or removed."
 msgstr ""
-"Aktualisiert die ALL_LINGUAS-Variable "
-"in :file:`configure`, :file:`configure.in` oder einer :file:`configure.ac`-"
-"Datei, wenn eine neue Übersetzung hinzugefügt wird."
+"Aktualisiert die ALL_LINGUAS-Variable in :file:`configure`, "
+":file:`configure.in` oder einer :file:`configure.ac`-Datei, wenn eine "
+"Übersetzung hinzugefügt oder entfernt wird."
 
 #: snippets/addons-autogenerated.rst:945
 msgid "Customize gettext output"
@@ -50873,11 +50763,10 @@ msgid "Update LINGUAS file"
 msgstr "LINGUAS-Datei aktualisieren"
 
 #: snippets/addons-autogenerated.rst:993
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
 msgstr ""
-"Aktualisiert die LINGUAS-Datei, wenn eine neue Übersetzung hinzugefügt wird."
+"Aktualisiert die LINGUAS-Datei, wenn eine Übersetzung hinzugefügt oder "
+"entfernt wird."
 
 #: snippets/addons-autogenerated.rst:1002
 msgid "Update POT file (Meson)"
@@ -51934,10 +51823,8 @@ msgid "Enables the :ref:`check-object-pascal-format` quality check."
 msgstr "Aktiviert die Qualitätsprüfung :ref:`check-object-pascal-format`."
 
 #: snippets/check-flags-autogenerated.rst:97
-#, fuzzy
-#| msgid "Enables the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-objc-format` quality check."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-c-format`."
+msgstr "Aktiviert die Qualitätsprüfung :ref:`check-objc-format`."
 
 #: snippets/check-flags-autogenerated.rst:99
 msgid "Enables the :ref:`check-percent-placeholders` quality check."
@@ -52144,10 +52031,8 @@ msgid "Skip the :ref:`check-object-pascal-format` quality check."
 msgstr "Überspringt die Qualitätsprüfung :ref:`check-object-pascal-format`."
 
 #: snippets/check-flags-autogenerated.rst:200
-#, fuzzy
-#| msgid "Skip the :ref:`check-c-format` quality check."
 msgid "Skip the :ref:`check-objc-format` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-c-format`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-objc-format`."
 
 #: snippets/check-flags-autogenerated.rst:202
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
@@ -53347,22 +53232,16 @@ msgid "Java MessageFormat string does not match source."
 msgstr "Java-MessageFormat-Zeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: snippets/checks-autogenerated.rst:693
-#, fuzzy
-#| msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
 msgid ":ref:`properties`, :ref:`gwt`"
-msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
+msgstr ":ref:`properties`, :ref:`gwt`"
 
 #: snippets/checks-autogenerated.rst:694
-#, fuzzy
-#| msgid "``c-sharp-format``, ``csharp-format``"
 msgid "``auto-java-messageformat``, ``java-format``"
-msgstr "``c-sharp-format``, ``csharp-format``"
+msgstr "``auto-java-messageformat``, ``java-format``"
 
 #: snippets/checks-autogenerated.rst:0
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic flag behavior"
-msgstr "Automatische Übersetzung"
+msgstr "Automatisches Verhalten bei Markierungen"
 
 #: snippets/checks-autogenerated.rst:696
 msgid ""
@@ -53495,10 +53374,8 @@ msgid "Objective-C format string does not match source."
 msgstr "Objective-C-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: snippets/checks-autogenerated.rst:841
-#, fuzzy
-#| msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
 msgid ":ref:`strings`, :ref:`stringsdict`"
-msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
+msgstr ":ref:`strings`, :ref:`stringsdict`"
 
 #: snippets/checks-autogenerated.rst:854
 msgid "Percent placeholders"
@@ -54657,7 +54534,7 @@ msgstr ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
 
 #: snippets/checks-autogenerated.rst:2085
 msgid "``auto-safe-html``, ``safe-html``"
-msgstr ""
+msgstr "``auto-safe-html``, ``safe-html``"
 
 #: snippets/checks-autogenerated.rst:2087
 msgid ""
@@ -57293,16 +57170,12 @@ msgid "``gpt-5-mini`` -- GPT-5-mini"
 msgstr "``gpt-5-mini`` -- GPT-5-mini"
 
 #: snippets/machines-autogenerated.rst:854
-#, fuzzy
-#| msgid "``gpt-5`` -- GPT-5"
 msgid "``gpt-5.2`` -- GPT-5.2"
-msgstr "``gpt-5`` -- GPT-5"
+msgstr "``gpt-5.2`` -- GPT-5.2"
 
 #: snippets/machines-autogenerated.rst:856
-#, fuzzy
-#| msgid "``gpt-4.1`` -- GPT-4.1"
 msgid "``gpt-5.1`` -- GPT-5.1"
-msgstr "``gpt-4.1`` -- GPT-4.1"
+msgstr "``gpt-5.1`` -- GPT-5.1"
 
 #: snippets/machines-autogenerated.rst:858
 msgid "``gpt-5`` -- GPT-5"
@@ -62790,10 +62663,8 @@ msgstr ""
 "verwenden, damit :program:`wlc` weiß, mit welchem Server es sprechen soll."
 
 #: wlc.rst:354
-#, fuzzy
-#| msgid "Docker environment variables"
 msgid "Environment variables"
-msgstr "Docker-Umgebungsvariablen"
+msgstr "Umgebungsvariablen"
 
 #: wlc.rst:358
 msgid ""
