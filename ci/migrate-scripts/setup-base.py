@@ -53,4 +53,4 @@ Memory.objects.create(
 
 # Load translation memory
 with open("./weblate/trans/tests/data/memory.json", "rb") as handle:
-    Memory.objects.import_file(None, handle)
+    Memory.objects.import_file(request=None, fileobj=handle)
