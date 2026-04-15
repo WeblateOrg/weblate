@@ -3394,7 +3394,11 @@ class Component(  # noqa: PLR0904
             try:
                 # Do not run these linked repos update as other background tasks.
                 was_change |= component.create_translations_immediate(
-                    force=force, langs=langs, request=request, from_link=True
+                    force=force,
+                    force_scan=force_scan,
+                    langs=langs,
+                    request=request,
+                    from_link=True,
                 )
             except FileParseError as error:
                 if not isinstance(error.__cause__, FileNotFoundError):
