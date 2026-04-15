@@ -24,8 +24,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-13 06:09+0000\n"
-"Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-04-16 07:10+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1691,7 +1691,7 @@ msgstr "標準化 POT 標頭"
 
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "更新 gettext 標頭並取代 POT 註解佔位字元。"
 
 #: weblate/addons/forms.py:133
 msgid "Update PO files using msgmerge"
@@ -1704,20 +1704,16 @@ msgid ""
 msgstr "確認已經安裝 msgmerge 附加元件，並在 POT 檔案更新後觸發該元件。"
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "無法加入評註！"
+msgstr "不要擷取註解"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "瀏覽所有組件"
+msgstr "擷取所有註解"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "擷取包含標籤的註解"
 
 #: weblate/addons/forms.py:174
 msgid "Code comments"
@@ -1727,7 +1723,7 @@ msgstr "程式碼評註"
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
-msgstr ""
+msgstr "選擇 xgettext 是不要擷取註解、擷取所有註解，還是只擷取包含特定標籤的註解。"
 
 #: weblate/addons/forms.py:184
 msgid "Comment tag"
@@ -1736,7 +1732,7 @@ msgstr "評註標記"
 #: weblate/addons/forms.py:187
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
-msgstr ""
+msgstr "在使用標籤註解模式時，傳遞給 xgettext 用於擷取註解的標籤。"
 
 #: weblate/addons/forms.py:192
 msgid "xgettext checks"
@@ -1744,7 +1740,7 @@ msgstr "xgettext 檢查"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr ""
+msgstr "針對擷取的訊息，要啟用的其他 xgettext 驗證檢查。"
 
 #: weblate/addons/forms.py:201
 msgid "Additional keyword"
@@ -1752,7 +1748,7 @@ msgstr "額外關鍵字"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
-msgstr ""
+msgstr "可選擇傳遞給 xgettext 的其他關鍵字，使用 --keyword 引數。"
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -5433,20 +5429,22 @@ msgstr "App store 中介資料檔案"
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
-msgstr ""
+msgstr "Weblate Git 匯出工具不支援推送功能。請改為推送到上游儲存庫。"
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
-msgstr ""
+msgstr "Weblate Git 匯出工具不支援推送功能。請改為推送到上游儲存庫：{location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"要求的修訂版本在 Weblate 的本機 Git checkout 中不存在。請先從上游儲存庫擷取 "
+"(fetch)。"
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5454,6 +5452,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"要求的修訂版本在 Weblate 的本機 Git checkout 中不存在。請先從上游儲存庫擷取 "
+"(fetch)：{location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5461,6 +5461,8 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Weblate 的淺層 Git checkout 與這個儲存庫共同的歷史紀錄不足，無法完成擷取 "
+"(fetch)。請先從上游儲存庫擷取，或使用與 Weblate 共用歷史紀錄的 clone。"
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5470,10 +5472,13 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Weblate 的淺層 Git checkout 與此儲存庫共同的歷史紀錄不足，無法完成擷取 "
+"(fetch)。請先從上游儲存庫擷取，或使用與 Weblate 共用歷史紀錄的 clone。上游儲"
+"存庫：{location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Git 輸出失敗。"
 
 #: weblate/gitexport/views.py:315
 msgid "Unsupported Git service."
@@ -6206,7 +6211,6 @@ msgid "Translator style"
 msgstr "翻譯者風格"
 
 #: weblate/machinery/forms.py:406
-#, fuzzy
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr "描述翻譯風格，如：「翻譯得口語化。」"
@@ -13329,6 +13333,9 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"預設情況下，匯出的 Weblate 儲存庫可能是淺層的，因此這個工作流程最適合在最新的"
+"上游 checkout 下執行。即使 Weblate 和上游已經同步，從匯出的 Weblate 儲存庫 "
+"clone 或使用過時的上游 checkout 可能會失敗。請參閱下方的 FAQ 以取得詳細資訊。"
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -18096,7 +18103,7 @@ msgstr "這會將變更提交至 Subversion 儲存庫。"
 
 #: weblate/vcs/git.py:943
 msgid "Git with force push"
-msgstr ""
+msgstr "Git 強制推送"
 
 #: weblate/vcs/git.py:947
 msgid "This will force push changes to the upstream repository."
