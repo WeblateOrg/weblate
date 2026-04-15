@@ -271,6 +271,18 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
 
+    def test_project_post_configure_commits_shared_repo_once(self) -> None:
+        self.create_link_existing()
+        addon = CleanupAddon.create(project=self.project, run=False)
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch("weblate.addons.models.execute_addon_event"),
+        ):
+            addon.post_configure_run_project(self.project)
+
+        commit_pending.assert_called_once_with(self.component, "add-on", None)
+
     def test_daily_returns_component_result(self) -> None:
         addon = DailyResultAddon.create(component=self.component, run=False)
 

@@ -594,14 +594,21 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
             self.instance.save(update_fields=["configuration"])
 
     def post_configure_run_component(
-        self, component: Component, skip_daily: bool = False
+        self,
+        component: Component,
+        skip_daily: bool = False,
+        committed_repo_components: set[int] | None = None,
     ) -> None:
         self.update_component_state(
             component,
             lambda state: state.__setitem__("_force_run", True),
         )
         try:
-            super().post_configure_run_component(component, skip_daily=skip_daily)
+            super().post_configure_run_component(
+                component,
+                skip_daily=skip_daily,
+                committed_repo_components=committed_repo_components,
+            )
         finally:
             self.update_component_state(
                 component,

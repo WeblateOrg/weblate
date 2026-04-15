@@ -255,9 +255,14 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run_project(self, project: Project) -> None:
         from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
+        committed_repo_components: set[int] = set()
         for component in project.component_set.iterator():
             if self.can_process(component=component):
-                self.post_configure_run_component(component, skip_daily=True)
+                self.post_configure_run_component(
+                    component,
+                    skip_daily=True,
+                    committed_repo_components=committed_repo_components,
+                )
 
         if AddonEvent.EVENT_DAILY in self.events:
             execute_addon_event(
@@ -272,9 +277,14 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run_category(self, category: Category) -> None:
         from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
+        committed_repo_components: set[int] = set()
         for component in category.all_components.iterator():
             if self.can_process(component=component):
-                self.post_configure_run_component(component, skip_daily=True)
+                self.post_configure_run_component(
+                    component,
+                    skip_daily=True,
+                    committed_repo_components=committed_repo_components,
+                )
 
         if AddonEvent.EVENT_DAILY in self.events:
             execute_addon_event(
@@ -287,7 +297,10 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             )
 
     def post_configure_run_component(
-        self, component: Component, skip_daily: bool = False
+        self,
+        component: Component,
+        skip_daily: bool = False,
+        committed_repo_components: set[int] | None = None,
     ) -> None:
         from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
@@ -325,7 +338,14 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             # The post_update typically operates on files, so make sure these are updated
-            component.commit_pending("add-on", None)
+            repo_component = component.effective_repo_component
+            if (
+                committed_repo_components is None
+                or repo_component.pk not in committed_repo_components
+            ):
+                repo_component.commit_pending("add-on", None)
+                if committed_repo_components is not None:
+                    committed_repo_components.add(repo_component.pk)
             execute_addon_event(
                 *(base_event_args),
                 AddonEvent.EVENT_POST_UPDATE,
