@@ -99,7 +99,7 @@ Weblate 5.17
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :wladmin:`list_checks` now requires exactly one ``--sections`` value when writing generated documentation to a file using ``--output``.
 * Watched translations on the dashboard now use a stable language-aware ordering.
-* Removed unintended API endpoints for translation memory.
+* Reduced error-reporting noise for handled authentication callback failures and clarified password reset confirmation messages.
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * :ref:`mt-mymemory` now falls back to HTTP status handling when the service returns a non-JSON error response.
