@@ -145,11 +145,6 @@ class BaseFileFormatParam:
         return cls.name.endswith("_encoding")
 
 
-class BooleanFileFormatParam:
-    field_class = forms.BooleanField
-    default = False
-
-
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
 
 
@@ -227,9 +222,11 @@ class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
 
 
 @register_file_format_param
-class JSONOutputSortKeys(JSONOutputCustomizationBaseParam, BooleanFileFormatParam):
+class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     name = "json_sort_keys"
     label = gettext_lazy("Sort JSON keys")
+    field_class = forms.BooleanField
+    default = False
 
     def setup_store(
         self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
@@ -328,57 +325,65 @@ class BaseGettextFormatParam(BaseFileFormatParam):
 
 
 @register_file_format_param
-class GettextKeepPreviousMsgids(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextKeepPreviousMsgids(BaseGettextFormatParam):
     name = "po_keep_previous"
     label = gettext_lazy("Keep previous msgids of translated strings")
+    field_class = forms.BooleanField
     default = True
 
 
 @register_file_format_param
-class GettextNoLocation(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextNoLocation(BaseGettextFormatParam):
     name = "po_no_location"
     label = gettext_lazy("Do not include location information in the file")
+    field_class = forms.BooleanField
+    default = False
 
 
 @register_file_format_param
-class GettextFuzzyMatching(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextFuzzyMatching(BaseGettextFormatParam):
     name = "po_fuzzy_matching"
     label = gettext_lazy("Use fuzzy matching")
+    field_class = forms.BooleanField
     default = True
 
 
 @register_file_format_param
-class GettextSetLanguageTeamHeader(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextSetLanguageTeamHeader(BaseGettextFormatParam):
     file_formats = ("po", "po-mono")
     name = "po_set_language_team"
     label = gettext_lazy("Update language team header")
-    default = True
+    field_class = forms.BooleanField
+    default = False
     help_text = gettext_lazy('Lets Weblate update the "Language-Team" file header.')
 
 
 @register_file_format_param
-class GettextLastTranslator(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextLastTranslator(BaseGettextFormatParam):
     file_formats = ("po", "po-mono")
     name = "po_set_last_translator"
     label = gettext_lazy("Update last translator header")
+    field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy('Lets Weblate update the "Last-Translator" file header.')
 
 
 @register_file_format_param
-class GettextXGenerator(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextXGenerator(BaseGettextFormatParam):
     file_formats = ("po", "po-mono")
     name = "po_set_x_generator"
     label = gettext_lazy("Update X-Generator header")
+    field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy('Lets Weblate update the "X-Generator" file header.')
 
 
 @register_file_format_param
-class GettextReportMsgidBugsTo(BooleanFileFormatParam, BaseGettextFormatParam):
+class GettextReportMsgidBugsTo(BaseGettextFormatParam):
     file_formats = ("po", "po-mono")
     name = "po_report_msgid_bugs_to"
     label = gettext_lazy("Report msgid bugs to")
+    field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy(
         'Lets Weblate update the "Report-Msgid-Bugs-To" file header if Source string bug reporting address is set.'
@@ -451,9 +456,11 @@ class YAMLLineBreak(BaseYAMLFormatParam):
 
 
 @register_file_format_param
-class XMLClosingTags(BaseFileFormatParam, BooleanFileFormatParam):
+class XMLClosingTags(BaseFileFormatParam):
     name = "xml_closing_tags"
     label = gettext_lazy("Include closing tag for blank XML tags")
+    field_class = forms.BooleanField
+    default = False
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
@@ -508,10 +515,12 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
 
 
 @register_file_format_param
-class MergeDuplicates(BaseFileFormatParam, BooleanFileFormatParam):
+class MergeDuplicates(BaseFileFormatParam):
     file_formats = ("markdown", "html", "txt", "dokuwiki", "mediawiki", "asciidoc")
     name = "merge_duplicates"
     label = gettext_lazy("Deduplicate identical strings")
+    field_class = forms.BooleanField
+    default = False
     help_text = gettext_lazy(
         "Consolidates identical source strings into a single translation unit. "
         "Prevents translation loss during file restructuring or table reordering "
