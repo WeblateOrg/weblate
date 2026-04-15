@@ -220,7 +220,13 @@ def run_addon_manually(addon_id: int) -> None:
 def update_addon_activity_log(
     pk: int, result: str = "", error_occurred: bool = False, pending: bool | None = None
 ) -> None:
-    addon_activity_log = AddonActivityLog.objects.select_for_update().get(id=pk)
+    try:
+        addon_activity_log = AddonActivityLog.objects.select_for_update().get(id=pk)
+    except AddonActivityLog.DoesNotExist:
+        # The log entry can disappear while an async add-on task is queued or
+        # retrying, for example when the triggering component or add-on is
+        # deleted and cascades the activity row away.
+        return
     addon_activity_log.details["error"] = error_occurred
     if result:
         addon_activity_log.update_result(result)
