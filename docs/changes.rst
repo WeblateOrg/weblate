@@ -1,7 +1,7 @@
 Weblate 5.17
 ------------
 
-*Not yet released.*
+*Released on April 15th 2026.*
 
 .. rubric:: New features
 
