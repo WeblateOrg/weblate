@@ -4998,6 +4998,48 @@ class LanguageConsistencyTest(ComponentTestCase):
         addon.post_update(self.component, "", False)
         self.assertEqual(Translation.objects.count(), 15)
 
+    def test_language_consistency_missing_activity_log_after_component_delete(
+        self,
+    ) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        ts_component = self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.component.project,
+        )
+
+        addon = LanguageConsistencyAddon.create(project=self.project)
+        activity_log = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_POST_ADD,
+            pending=True,
+        )
+
+        self.component.delete()
+
+        language_consistency(
+            addon.instance.id,
+            [
+                Language.objects.get(code="de").id,
+                Language.objects.get(code="it").id,
+            ],
+            project_id=self.project.id,
+            activity_log_id=activity_log.id,
+        )
+
+        self.assertSetEqual(
+            set(
+                Translation.objects.filter(component=ts_component).values_list(
+                    "language__code", flat=True
+                )
+            ),
+            {"cs", "de", "en", "it"},
+        )
+
 
 class GitSquashAddonTest(ViewTestCase):
     def create(self, mode: str, sitewide: bool = False):
