@@ -9,7 +9,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0071_migrate_gettext_header_settings"),
+        ("trans", "0073_migrate_gettext_header_settings"),
     ]
 
     operations = [
