@@ -582,7 +582,9 @@ class PunctuationSpacingCheck(TargetCheck):
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         # If there are placeables in target, skip Fix button and rely on save-time
         # autofix which has position-aware checks.
-        if highlight_string(unit.target, unit):
+        if highlight_string(
+            unit.target, unit, highlight_syntax="rst-text" in unit.all_flags
+        ):
             return None
         return [
             # First fix possibly wrong whitespace

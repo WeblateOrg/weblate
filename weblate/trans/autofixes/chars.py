@@ -115,19 +115,25 @@ class PunctuationSpacing(AutoFix):
             highlights = highlight_string(
                 target, unit, highlight_syntax="rst-text" in unit.all_flags
             )
-            highlight_ranges = [(start, end) for start, end, _ in highlights]
-
-            def is_highlighted(pos: int) -> bool:
-                for start, end in highlight_ranges:
-                    if start > pos:
-                        break
-                    if start <= pos < end:
-                        return True
-                return False
+            highlight_ranges = sorted((start, end) for start, end, _ in highlights)
 
             def make_replacer(replacement_char: str):
+                highlight_index = 0
+
                 def replacer(matchobj: re.Match) -> str:
-                    if is_highlighted(matchobj.start(2)):
+                    nonlocal highlight_index
+                    pos = matchobj.start(2)
+                    while (
+                        highlight_index < len(highlight_ranges)
+                        and highlight_ranges[highlight_index][1] <= pos
+                    ):
+                        highlight_index += 1
+                    if (
+                        highlight_index < len(highlight_ranges)
+                        and highlight_ranges[highlight_index][0]
+                        <= pos
+                        < highlight_ranges[highlight_index][1]
+                    ):
                         return matchobj.group(0)
                     return f"{replacement_char}{matchobj.group(2)}"
 
