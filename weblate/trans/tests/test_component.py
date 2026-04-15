@@ -817,6 +817,23 @@ class ComponentChangeTest(RepoTestCase):
         # Unlocked event
         self.assertEqual(component.change_set.count() - start, 4)
 
+    def test_do_lock_rolls_back_when_change_save_fails(self) -> None:
+        component = self.create_component()
+
+        with (
+            self.assertRaisesMessage(RuntimeError, "change save failed"),
+            patch(
+                "weblate.trans.models.component.Change.save",
+                autospec=True,
+                side_effect=RuntimeError("change save failed"),
+            ),
+        ):
+            component.do_lock(user=None)
+
+        component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertFalse(component.change_set.filter(action=ActionEvents.LOCK).exists())
+
     def test_linked_autolock_uses_main_setting(self) -> None:
         component = self.create_po(name="main-autolock")
         self.component = component

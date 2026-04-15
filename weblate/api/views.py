@@ -1804,6 +1804,31 @@ class ComponentViewSet(
             .order_by("id")
         )
 
+    def get_object(self):
+        locked_instance = getattr(self, "_locked_component_instance", None)
+        if locked_instance is not None:
+            return locked_instance
+
+        return super().get_object()
+
+    @transaction.atomic
+    def update(self, request: Request, *args, **kwargs):
+        """Edit a component by a PUT or PATCH request."""
+        instance = self.get_object()
+        if not request.user.has_perm("component.edit", instance):
+            self.permission_denied(request, "Can not edit component")
+        self._locked_component_instance = self.get_queryset().get_for_update(
+            pk=instance.pk
+        )
+        self._locked_component_instance.acting_user = request.user
+        try:
+            return super().update(request, *args, **kwargs)
+        finally:
+            self.__dict__.pop("_locked_component_instance", None)
+
+    def perform_update(self, serializer) -> None:
+        serializer.save()
+
     @extend_schema(description="Return component lock status.", methods=["get"])
     @extend_schema(description="Sets component lock status.", methods=["post"])
     @action(
@@ -2008,14 +2033,6 @@ class ComponentViewSet(
         serializer = ScreenshotSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
-
-    def update(self, request: Request, *args, **kwargs):
-        """Edit a component by a PUT request."""
-        instance = self.get_object()
-        if not request.user.has_perm("component.edit", instance):
-            self.permission_denied(request, "Can not edit component")
-        instance.acting_user = request.user
-        return super().update(request, *args, **kwargs)
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a component."""

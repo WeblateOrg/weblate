@@ -129,17 +129,20 @@ def change_component(request: AuthenticatedHttpRequest, obj):
         raise Http404
 
     if request.method == "POST":
-        form = ComponentSettingsForm(request, request.POST, instance=obj)
-        if form.is_valid():
-            form.save()
-            messages.success(request, gettext("Settings saved"))
-            return redirect("settings", path=obj.get_url_path())
-        messages.error(
-            request, gettext("Invalid settings. Please check the form for errors.")
-        )
-        # Get a fresh copy of object, otherwise it will use unsaved changes
-        # from the failed form
-        obj = Component.objects.get(pk=obj.pk)
+        with transaction.atomic():
+            obj = Component.objects.get_for_update(pk=obj.pk)
+            obj.acting_user = request.user
+            form = ComponentSettingsForm(request, request.POST, instance=obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, gettext("Settings saved"))
+                return redirect("settings", path=obj.get_url_path())
+            messages.error(
+                request, gettext("Invalid settings. Please check the form for errors.")
+            )
+            # Get a fresh copy of object, otherwise it will use unsaved changes
+            # from the failed form
+            obj.refresh_from_db()
     else:
         form = ComponentSettingsForm(request, instance=obj)
 
@@ -233,9 +236,19 @@ def remove(request: AuthenticatedHttpRequest, path):
     return redirect(parent)
 
 
-def perform_rename(form_cls, request: AuthenticatedHttpRequest, obj, perm: str):
+@transaction.atomic
+def perform_rename(
+    form_cls,
+    request: AuthenticatedHttpRequest,
+    obj,
+    perm: str,
+):
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied
+
+    if isinstance(obj, Component):
+        obj = Component.objects.get_for_update(pk=obj.pk)
+        obj.acting_user = request.user
 
     # Make sure any non-rename related issues are resolved first
     try:

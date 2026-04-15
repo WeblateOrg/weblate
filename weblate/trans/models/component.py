@@ -317,6 +317,9 @@ def prefetch_glossary_terms(components) -> None:
 
 
 class ComponentQuerySet(models.QuerySet):
+    def get_for_update(self, *args, **kwargs) -> Component:
+        return self.select_for_update().get(*args, **kwargs)
+
     def prefetch(self, alerts: bool = True, defer: bool = True):
         result = self
         linked_component: str | models.Prefetch
@@ -2005,10 +2008,12 @@ class Component(  # noqa: PLR0904
         if self.id:
             self.delete_alert("UpdateFailure")
             if remote_revision and previous_revision != remote_revision:
-                self.remote_revision = remote_revision
-                Component.objects.filter(pk=self.pk).update(
-                    remote_revision=remote_revision
-                )
+                with transaction.atomic():
+                    Component.objects.get_for_update(pk=self.pk)
+                    self.remote_revision = remote_revision
+                    Component.objects.filter(pk=self.pk).update(
+                        remote_revision=remote_revision
+                    )
         return True
 
     def configure_repo(self, validate=False, pull=True) -> None:
@@ -2887,9 +2892,20 @@ class Component(  # noqa: PLR0904
         self.local_revision = self.repository.last_revision
         # Avoid using using save as that does complex things and we
         # just want to update the database
-        Component.objects.filter(Q(pk=self.pk) | Q(linked_component=self)).update(
-            local_revision=self.local_revision
-        )
+        with transaction.atomic():
+            queryset = Component.objects.filter(
+                Q(pk=self.pk) | Q(linked_component=self)
+            )
+            # Lock rows in a stable order and exhaust the queryset without
+            # materializing all PKs in memory.
+            for _ in (
+                queryset.order_by("pk")
+                .select_for_update()
+                .values_list("pk", flat=True)
+                .iterator()
+            ):
+                pass
+            queryset.update(local_revision=self.local_revision)
 
     def try_get_local_head_revision(self) -> str | None:
         try:
@@ -3479,9 +3495,13 @@ class Component(  # noqa: PLR0904
         self.run_batched_checks()
 
         # Update last processed revision
-        self.processed_revision = current_revision
-        # Avoid using save() here
-        Component.objects.filter(pk=self.pk).update(processed_revision=current_revision)
+        with transaction.atomic():
+            Component.objects.get_for_update(pk=self.pk)
+            self.processed_revision = current_revision
+            # Avoid using save() here
+            Component.objects.filter(pk=self.pk).update(
+                processed_revision=current_revision
+            )
 
         if self.enforced_checks:
             update_enforced_checks.delay_on_commit(component=self.pk)
@@ -4799,9 +4819,12 @@ class Component(  # noqa: PLR0904
         # Delete no matches alert as we have just recreated the file
         self.delete_alert("NoMaskMatches")
 
+    @transaction.atomic
     def do_lock(self, user: User | None, lock: bool = True, auto: bool = False) -> None:
         """Lock or unlock component."""
-        if self.locked == lock:
+        locked_component = Component.objects.get_for_update(pk=self.pk)
+        if locked_component.locked == lock:
+            self.locked = lock
             return
 
         self.locked = lock
