@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-14 07:09+0000\n"
+"PO-Revision-Date: 2026-04-15 06:54+0000\n"
 "Last-Translator: Átila França <atilahunesco@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -624,17 +624,15 @@ msgstr "O usuário foi removido da equipe {team} por {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "O acesso ao projeto {project} foi bloqueado."
+msgstr "O token do projeto {project} foi criado."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Seu projeto de tradução foi removido"
+msgstr "O token do projeto {project} foi removido."
 
 #: weblate/accounts/models.py:325
 msgid "Two-factor authentication recovery codes were generated"
@@ -722,10 +720,9 @@ msgid "Account activity"
 msgstr "Atividade da conta"
 
 #: weblate/accounts/models.py:550
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Convidado(a) para {project} por {username}."
+msgstr "Ativado por {username}."
 
 #: weblate/accounts/models.py:644
 msgid "Interface Language"
@@ -1424,10 +1421,10 @@ msgid "Register e-mail"
 msgstr "Registrar e-mail"
 
 #: weblate/accounts/views.py:1077
-#, fuzzy
-#| msgid "Please complete your sign-in using second factor credential."
 msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "Por favor, complete seu login usando a credencial do segundo fator."
+msgstr ""
+"Por favor, comfirme a sua identidade usando um segundo fator antes de "
+"prosseguir."
 
 #: weblate/accounts/views.py:1093 weblate/accounts/views.py:1169
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1783,20 +1780,16 @@ msgstr ""
 "serem usados como traduções."
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Frequency"
 msgid "Update frequency"
-msgstr "Frequência"
+msgstr "Atualizar frequência"
 
 #: weblate/addons/forms.py:114
 msgid "Daily"
 msgstr "Diário"
 
 #: weblate/addons/forms.py:115
-#, fuzzy
-#| msgid "Weekly digest"
 msgid "Weekly"
-msgstr "Resumo semanal"
+msgstr "Semanalmente"
 
 #: weblate/addons/forms.py:116
 msgid "Monthly"
@@ -1807,6 +1800,8 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
+"Com que frequência o complemento deve atualizar o arquivo POT quando o "
+"componente for restaurado."
 
 #: weblate/addons/forms.py:125
 msgid "Normalize POT header"
@@ -1835,32 +1830,28 @@ msgid "Do not extract comments"
 msgstr "Não foi possível adicionar o comentário!"
 
 #: weblate/addons/forms.py:164
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Visualizar todos os componentes"
+msgstr "Extrair todos os comentários"
 
 #: weblate/addons/forms.py:165
 msgid "Extract comments with tag"
-msgstr ""
+msgstr "Extrair comentários com tag"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Comentários do usuário"
+msgstr "Comentários do código"
 
 #: weblate/addons/forms.py:179
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Selecione se o xgettext deve extrair nenhum, todos ou apenas os comentários "
+"marcados com uma tag específica."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Texto do comentário"
+msgstr "Tag do comentário"
 
 #: weblate/addons/forms.py:187
 msgid ""
@@ -1889,10 +1880,8 @@ msgstr ""
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This field is required."
-msgstr "Este nome está proibido"
+msgstr "Este campo é obrigatório."
 
 #: weblate/addons/forms.py:243
 #, fuzzy
