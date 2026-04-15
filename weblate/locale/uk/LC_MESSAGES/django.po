@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-14 16:32+0000\n"
+"PO-Revision-Date: 2026-04-16 07:10+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
 "=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -5722,6 +5722,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Потрібної вам модифікації немає у локальній копії Git Weblate. Спочатку "
+"отримайте її з основного сховища: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5729,6 +5731,10 @@ msgid ""
 "repository to satisfy the fetch. Fetch from the upstream repository first, "
 "or use a clone that shares history with Weblate."
 msgstr ""
+"Поверхнева копія Git у Weblate не надає достатньо спільної історії з цим "
+"сховищем для виконання запиту щодо отримання даних. Спочатку отримайте дані "
+"з основного сховища або скористайтеся клоном, який має спільну історію з "
+"клоном Weblate."
 
 #: weblate/gitexport/views.py:141
 #, python-brace-format
@@ -5738,16 +5744,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"Поверхнева копія Git у Weblate не надає достатньо спільної історії з цим "
+"сховищем для виконання запиту щодо отримання даних. Спочатку отримайте дані "
+"з основного сховища або скористайтеся клоном, який має спільну історію з "
+"клоном Weblate. Основне сховище: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Не вдалося експортувати дані до Git."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Непідтримуваний файл!"
+msgstr "Непідтримувана служба Git."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -14144,6 +14152,12 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Експортований репозиторій Weblate типово може бути поверхневим, тому цей "
+"робочий процес найкраще працює з актуальної копії основного репозиторію. "
+"Клонування з експортованого репозиторію Weblate або використання застарілої "
+"копії основного репозиторія може завершитися невдачею, навіть якщо Weblate і "
+"основна версія синхронізовані. Див. розділ поширених запитань нижче, щоб "
+"дізнатися більше."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -17445,16 +17459,14 @@ msgstr ""
 "відсутності push до форку."
 
 #: weblate/trans/models/component.py:3607
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Гілка сховища"
+msgstr "Некоректна гілка сховища: %s"
 
 #: weblate/trans/models/component.py:3608
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Хибний пошуковий рядок!"
+msgstr "Некоректна гілка для записування: %s"
 
 #: weblate/trans/models/component.py:3624
 #, python-format
@@ -18133,10 +18145,8 @@ msgid "Very low"
 msgstr "Дуже низький"
 
 #: weblate/trans/util.py:195
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "Адреса резервного репозиторію"
+msgstr "Адреса сховища"
 
 #: weblate/trans/util.py:265
 #, python-brace-format
