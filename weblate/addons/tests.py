@@ -3404,6 +3404,54 @@ class ViewTests(ViewTestCase):
         super().setUp()
         self.make_manager()
 
+    def setup_language_consistency_preview(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.component.project,
+        )
+
+    def assert_language_consistency_confirmation(
+        self, url: str, data: dict[str, object], scope_text: str
+    ) -> None:
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Configure add-on")
+        self.assertContains(response, "Review before installing")
+        self.assertContains(response, scope_text)
+        self.assertContains(response, "German")
+        self.assertContains(response, "Italian")
+        self.assertContains(response, "ts/de.ts")
+        self.assertContains(response, "ts/it.ts")
+        self.assertFalse(Addon.objects.filter(name=data["name"]).exists())
+
+        response = self.client.post(
+            url,
+            {
+                **data,
+                "form": "1",
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response, "Please review and confirm the missing language changes."
+        )
+        self.assertFalse(Addon.objects.filter(name=data["name"]).exists())
+
+        response = self.client.post(
+            url,
+            {
+                **data,
+                "form": "1",
+                "confirm": True,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
     def test_list(self) -> None:
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
         self.assertContains(response, "Generate MO files")
@@ -3526,25 +3574,29 @@ class ViewTests(ViewTestCase):
         )
 
     def test_add_simple_project_addon(self) -> None:
-        response = self.client.post(
+        self.setup_language_consistency_preview()
+        self.assert_language_consistency_confirmation(
             reverse("addons", kwargs=self.kw_project_path),
             {"name": "weblate.consistency.languages"},
-            follow=True,
+            "whole project",
         )
-        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_simple_category_addon(self) -> None:
+        self.setup_language_consistency_preview()
         category = self.create_category(self.project)
         self.component.category = category
         self.component.save()
-        response = self.client.post(
+        addon_component = self.project.component_set.exclude(pk=self.component.pk).get()
+        addon_component.category = category
+        addon_component.save()
+        self.assert_language_consistency_confirmation(
             reverse("addons", kwargs={"path": category.get_url_path()}),
             {"name": "weblate.consistency.languages"},
-            follow=True,
+            "whole category",
         )
-        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_simple_site_wide_addon(self) -> None:
+        self.setup_language_consistency_preview()
         response = self.client.post(
             reverse("manage-addons"),
             {"name": "weblate.consistency.languages"},
@@ -3553,12 +3605,11 @@ class ViewTests(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(
+        self.assert_language_consistency_confirmation(
             reverse("manage-addons"),
             {"name": "weblate.consistency.languages"},
-            follow=True,
+            "all projects",
         )
-        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_invalid(self) -> None:
         response = self.client.post(
@@ -4038,6 +4089,11 @@ class ScriptsTest(TestAddonMixin, ComponentTestCase):
 class LanguageConsistencyTest(ComponentTestCase):
     CREATE_GLOSSARIES: bool = True
 
+    def get_preview_addon(self, **kwargs) -> LanguageConsistencyAddon:
+        return LanguageConsistencyAddon(
+            LanguageConsistencyAddon.create_object(**kwargs)
+        )
+
     def test_consistency_cannot_install_on_component(self) -> None:
         self.assertFalse(LanguageConsistencyAddon.can_install(component=self.component))
 
@@ -4046,6 +4102,141 @@ class LanguageConsistencyTest(ComponentTestCase):
 
     def test_consistency_can_install_sitewide(self) -> None:
         self.assertTrue(LanguageConsistencyAddon.can_install())
+
+    def test_consistency_preview_empty(self) -> None:
+        preview = self.get_preview_addon(
+            project=self.project
+        ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 0)
+        self.assertEqual(preview.action_count, 0)
+        self.assertEqual(preview.failure_count, 0)
+
+    def test_consistency_preview_lists_actions(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+
+        preview = self.get_preview_addon(
+            project=self.project
+        ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 1)
+        self.assertEqual(preview.action_count, 2)
+        self.assertEqual(preview.failure_count, 0)
+        self.assertEqual(preview.components[0].component.name, "TS")
+        self.assertEqual(
+            [
+                (item.language.code, item.filename)
+                for item in preview.components[0].actions
+            ],
+            [("de", "ts/de.ts"), ("it", "ts/it.ts")],
+        )
+
+    def test_consistency_preview_lists_failures(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        component = self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+        component.language_regex = "^it$"
+        component.save(update_fields=["language_regex"])
+
+        preview = self.get_preview_addon(
+            project=self.project
+        ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 1)
+        self.assertEqual(preview.action_count, 1)
+        self.assertEqual(preview.failure_count, 1)
+        self.assertEqual(
+            [
+                (item.language.code, item.filename)
+                for item in preview.components[0].actions
+            ],
+            [("it", "ts/it.ts")],
+        )
+        self.assertEqual(preview.components[0].failures[0].language.code, "de")
+        self.assertEqual(
+            preview.components[0].failures[0].reason,
+            "The given language is filtered by the language filter.",
+        )
+
+    def test_consistency_preview_is_truncated(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.create_ts(
+            name="TS",
+            slug="ts",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+        self.create_ts(
+            name="TS 2",
+            slug="ts-2",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+
+        with (
+            patch.object(LanguageConsistencyAddon, "preview_component_limit", 20),
+            patch.object(LanguageConsistencyAddon, "preview_entry_limit", 2),
+        ):
+            preview = self.get_preview_addon(
+                project=self.project
+            ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 1)
+        self.assertEqual(preview.entry_count, 2)
+        self.assertTrue(preview.is_truncated)
+
+    def test_consistency_sitewide_preview_stops_after_project_limit(self) -> None:
+        for index in range(3):
+            self.create_ts(
+                name=f"TS {index}",
+                slug=f"ts-{index}",
+                project=self.create_project(
+                    slug=f"project-{index}", name=f"Project {index}"
+                ),
+            )
+
+        with patch.object(LanguageConsistencyAddon, "preview_project_limit", 2):
+            preview = self.get_preview_addon().get_installation_preview()
+
+        self.assertEqual(preview.component_count, 0)
+        self.assertEqual(preview.entry_count, 0)
+        self.assertTrue(preview.is_truncated)
+
+    def test_consistency_sitewide_preview_builds_language_cache_once(self) -> None:
+        for index in range(2):
+            self.create_ts(
+                name=f"TS {index}",
+                slug=f"ts-cache-{index}",
+                project=self.create_project(
+                    slug=f"project-cache-{index}", name=f"Project cache {index}"
+                ),
+            )
+
+        with patch(
+            "weblate.addons.consistency.Language.objects.build_fuzzy_get_cache",
+            wraps=Language.objects.build_fuzzy_get_cache,
+        ) as build_cache:
+            self.get_preview_addon().get_installation_preview()
+
+        self.assertEqual(build_cache.call_count, 1)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_consistency_post_add_not_skipped(self) -> None:

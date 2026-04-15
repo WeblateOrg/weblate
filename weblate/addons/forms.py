@@ -572,6 +572,39 @@ class RemoveSuggestionForm(RemoveForm):
     )
 
 
+class LanguageConsistencyPreviewForm(BaseAddonForm):
+    confirm = forms.BooleanField(
+        label=gettext_lazy("I confirm the above actions look correct"),
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            ContextDiv(
+                template="addons/language_consistency_preview.html",
+                context={
+                    "preview": self._addon.get_installation_preview(),
+                    "warning": self._addon.get_preview_warning(),
+                    "user": self.user,
+                },
+            ),
+            Field("confirm"),
+        )
+
+    def clean(self) -> dict[str, Any]:
+        cleaned_data = super().clean() or {}
+        if not cleaned_data.get("confirm"):
+            raise forms.ValidationError(
+                gettext("Please review and confirm the missing language changes.")
+            )
+        return cleaned_data
+
+    def serialize_form(self):
+        return {}
+
+
 class DiscoveryForm(BaseAddonForm):
     match = forms.CharField(
         label=gettext_lazy("Regular expression to match translation files against"),

@@ -398,6 +398,17 @@ class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
             "zh-tw", "zh-tw", "ltr", "0", "Traditional Chinese (zh-tw)", False
         )
 
+    def test_fuzzy_get_strict_cache(self) -> None:
+        cache = Language.objects.build_fuzzy_get_cache()
+
+        with self.assertNumQueries(0):
+            first = Language.objects.fuzzy_get_strict("cs", cache=cache)
+        with self.assertNumQueries(0):
+            second = Language.objects.fuzzy_get_strict("cs", cache=cache)
+
+        self.assertIsNotNone(first)
+        self.assertEqual(first, second)
+
 
 class CommandTest(BaseTestCase):
     """Test for management commands."""

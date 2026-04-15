@@ -7,6 +7,8 @@ Weblate 5.17.1
 
 .. rubric:: Improvements
 
+* The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
