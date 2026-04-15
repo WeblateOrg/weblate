@@ -49,7 +49,7 @@ jobs:
         python-version: '3.14'
     - run: ./scripts/generate-license-data.py
 
-    - name: Commit or create pull request
+    - name: Commit or create pull request (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
         message: 'utils: Update SPDX license data'

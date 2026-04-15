@@ -86,7 +86,7 @@ jobs:
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
-    - name: Commit or create pull request
+    - name: Commit or create pull request (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
         message: 'chore(deps): update lockfile'
