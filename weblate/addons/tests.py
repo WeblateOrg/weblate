@@ -79,7 +79,7 @@ from .flags import (
     TargetEditAddon,
     TargetRepoUpdateAddon,
 )
-from .forms import BaseAddonForm
+from .forms import BaseAddonForm, DiscoveryForm
 from .generate import (
     FillReadOnlyAddon,
     GenerateFileAddon,
@@ -3788,6 +3788,7 @@ class CommandTest(ComponentTestCase):
         call_command("list_addons", stdout=output)
         generated = output.getvalue()
         self.assertIn("msgmerge", generated)
+        self.assertNotIn("Guided preset", generated)
         self.assertIn(
             "Enter slug of a component to use as source, keep blank to use all "
             "components in the current project.",
@@ -3983,7 +3984,7 @@ class DiscoveryTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "Please include component markup")
+        self.assertContains(response, "This template must include component markup.")
         # Missing variable
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -4070,6 +4071,162 @@ class DiscoveryTest(ViewTestCase):
                 follow=True,
             )
         self.assertContains(response, "Installed 1 add-on")
+
+    def test_form_requires_component_template_markup(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ language }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["name_template"],
+            ["This template must include {{ component }}."],
+        )
+
+    def test_form_requires_component_markup_for_monolingual_paths(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po-mono",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "{{ language }}.pot",
+                "new_base_template": "{{ language }}.pot",
+                "intermediate_template": "{{ language }}.po",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "This template must include {{ component }}.",
+            form.errors["base_file_template"],
+        )
+        self.assertEqual(
+            form.errors["new_base_template"],
+            ["This template must include {{ component }}."],
+        )
+        self.assertEqual(
+            form.errors["intermediate_template"],
+            ["This template must include {{ component }}."],
+        )
+
+    def test_form_accepts_component_templates_with_colliding_probe_values(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|last }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_form_rejects_empty_render_without_component_markup(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": '{{ language|slice:":0" }}',
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["name_template"],
+            ["This template must include {{ component }}."],
+        )
+
+    def test_ui_presets_are_not_part_of_form_configuration(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertNotIn("preset", form.fields)
+
+        instance = form.save()
+        self.assertEqual(
+            instance.configuration["match"],
+            r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
+        )
+        self.assertNotIn("preset", instance.configuration)
+
+    def test_discovery_page_renders_ui_presets(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": "weblate.discovery.discovery"},
+            follow=True,
+        )
+        self.assertContains(response, 'id="addon-ui-preset"')
+        self.assertContains(response, "Filename-based language variants")
+        self.assertContains(response, "Matching multiple paths")
+        self.assertContains(response, "addon-ui-presets")
+
+    def test_discovery_ui_presets_include_multiple_paths_template(self) -> None:
+        presets = DiscoveryForm.get_ui_presets()
+        multiple_paths = next(
+            preset for preset in presets if preset["id"] == "multiple-paths"
+        )
+        self.assertEqual(
+            multiple_paths["values"]["name_template"],
+            "{{ originalHierarchy }}: {{ component }}",
+        )
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):

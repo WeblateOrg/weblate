@@ -155,6 +155,74 @@ class ComponentDiscoveryTest(RepoTestCase):
             },
         )
 
+    def test_matched_components_for_filename_language_variants(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        for name in (
+            "news_en.md",
+            "news_cs.md",
+            "guide_en.md",
+            "news_pt_BR.md",
+            "news_flash_pt_BR.md",
+        ):
+            (docs / name).write_text(f"# {name}\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
+            name_template="{{ component }}",
+            language_regex="^[^.]+$",
+            path=os.fspath(docs),
+        )
+
+        self.assertEqual(
+            discovery.matched_components,
+            {
+                "guide_*.md": {
+                    "files": {"guide_en.md"},
+                    "files_langs": (("guide_en.md", "en"),),
+                    "languages": {"en"},
+                    "mask": "guide_*.md",
+                    "name": "guide",
+                    "slug": "guide",
+                    "base_file": "",
+                    "new_base": "",
+                    "intermediate": "",
+                },
+                "news_*.md": {
+                    "files": {
+                        "news_cs.md",
+                        "news_en.md",
+                        "news_pt_BR.md",
+                    },
+                    "files_langs": (
+                        ("news_cs.md", "cs"),
+                        ("news_en.md", "en"),
+                        ("news_pt_BR.md", "pt_BR"),
+                    ),
+                    "languages": {"cs", "en", "pt_BR"},
+                    "mask": "news_*.md",
+                    "name": "news",
+                    "slug": "news",
+                    "base_file": "",
+                    "new_base": "",
+                    "intermediate": "",
+                },
+                "news_flash_*.md": {
+                    "files": {"news_flash_pt_BR.md"},
+                    "files_langs": (("news_flash_pt_BR.md", "pt_BR"),),
+                    "languages": {"pt_BR"},
+                    "mask": "news_flash_*.md",
+                    "name": "news_flash",
+                    "slug": "news_flash",
+                    "base_file": "",
+                    "new_base": "",
+                    "intermediate": "",
+                },
+            },
+        )
+
     def test_perform(self) -> None:
         # Preview should not create anything
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
