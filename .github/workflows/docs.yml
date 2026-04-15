@@ -87,7 +87,7 @@ jobs:
       run: uv run --frozen ./manage.py migrate --noinput --traceback
     - run: make -C docs update-docs
 
-    - name: Commit or create pull request
+    - name: Commit or create pull request (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
         message: 'docs: Documentation snippets update'
