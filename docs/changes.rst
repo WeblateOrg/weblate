@@ -9,6 +9,8 @@ Weblate 5.17.1
 
 .. rubric:: Bug fixes
 
+  * :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
@@ -102,7 +104,6 @@ Weblate 5.17
 * Faster category and project removals.
 * Improved performance of project language counting and API listing on projects with shared components.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
-* :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
 * Reduced error-reporting noise for handled authentication callback failures and clarified password reset confirmation messages.
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
