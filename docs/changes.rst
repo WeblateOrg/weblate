@@ -100,11 +100,6 @@ Weblate 5.17
 * :wladmin:`list_checks` now requires exactly one ``--sections`` value when writing generated documentation to a file using ``--output``.
 * Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
-* Improved API access control for pending tasks.
-* Faster category and project removals.
-* Improved performance of project language counting and API listing on projects with shared components.
-* Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
-* Reduced error-reporting noise for handled authentication callback failures and clarified password reset confirmation messages.
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * :ref:`mt-mymemory` now falls back to HTTP status handling when the service returns a non-JSON error response.
