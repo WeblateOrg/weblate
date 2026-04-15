@@ -139,6 +139,7 @@ module.exports = {
     altcha: "./src/altcha.js",
     bootstrap5: "./src/bootstrap5.js",
     bootstrap5_rtl: "./src/bootstrap5_rtl.css",
+    flatpickr: "./src/flatpicker.css",
   },
   mode: "production",
   optimization: {

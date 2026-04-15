@@ -11,7 +11,7 @@
  */
 
 // Imports
-import datarangepicker from "daterangepicker";
+import flatpickr from "flatpickr";
 import jQuery from "jquery";
 import moment from "moment";
 import slugify from "slugify";
@@ -20,5 +20,5 @@ import slugify from "slugify";
 window.$ = jQuery;
 window.jQuery = jQuery;
 window.moment = moment;
-window.daterangepicker = datarangepicker;
+window.flatpickr = flatpickr;
 window.slugify = slugify;

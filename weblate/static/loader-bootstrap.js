@@ -1523,76 +1523,65 @@ $(function () {
     });
   });
 
-  $("input[name='period']").daterangepicker({
-    autoApply: false,
-    autoUpdateInput: false,
-    startDate: $("input[name='period']#id_period").attr("data-start-date"),
-    endDate: $("input[name='period']#id_period").attr("data-end-date"),
-    alwaysShowCalendars: true,
-    cancelButtonClasses: "btn-warning",
-    opens: "left",
+  var dateInput = document.querySelectorAll("input[name='period']");
+  fp = flatpickr(dateInput, {
+    showMonths: 2,
+    dateFormat: "m/d/Y",
+    mode: "range",
+    position: "auto right",
     locale: {
-      customRangeLabel: gettext("Custom range"),
-      cancelLabel: gettext("Clear"),
-      daysOfWeek: [
-        pgettext("Short name of day", "Su"),
-        pgettext("Short name of day", "Mo"),
-        pgettext("Short name of day", "Tu"),
-        pgettext("Short name of day", "We"),
-        pgettext("Short name of day", "Th"),
-        pgettext("Short name of day", "Fr"),
-        pgettext("Short name of day", "Sa"),
-      ],
-      monthNames: [
-        pgettext("Short name of month", "Jan"),
-        pgettext("Short name of month", "Feb"),
-        pgettext("Short name of month", "Mar"),
-        pgettext("Short name of month", "Apr"),
-        pgettext("Short name of month", "May"),
-        pgettext("Short name of month", "Jun"),
-        pgettext("Short name of month", "Jul"),
-        pgettext("Short name of month", "Aug"),
-        pgettext("Short name of month", "Sep"),
-        pgettext("Short name of month", "Oct"),
-        pgettext("Short name of month", "Nov"),
-        pgettext("Short name of month", "Dec"),
-      ],
+      rangeSeparator: " - ",
+      weekdays:{
+        shorthand: [
+          pgettext("Short name of day", "Su"),
+          pgettext("Short name of day", "Mo"),
+          pgettext("Short name of day", "Tu"),
+          pgettext("Short name of day", "We"),
+          pgettext("Short name of day", "Th"),
+          pgettext("Short name of day", "Fr"),
+          pgettext("Short name of day", "Sa"),
+        ],
+        longhand: [
+          pgettext("Long name of day", "Sunday"),
+          pgettext("Long name of day", "Monday"),
+          pgettext("Long name of day", "Tuesday"),
+          pgettext("Long name of day", "Wednesday"),
+          pgettext("Long name of day", "Thursday"),
+          pgettext("Long name of day", "Friday"),
+          pgettext("Long name of day", "Saturday"),
+        ],
+      },
+      months: {
+        shorthand: [
+          pgettext("Short name of month", "Jan"),
+          pgettext("Short name of month", "Feb"),
+          pgettext("Short name of month", "Mar"),
+          pgettext("Short name of month", "Apr"),
+          pgettext("Short name of month", "May"),
+          pgettext("Short name of month", "Jun"),
+          pgettext("Short name of month", "Jul"),
+          pgettext("Short name of month", "Aug"),
+          pgettext("Short name of month", "Sep"),
+          pgettext("Short name of month", "Oct"),
+          pgettext("Short name of month", "Nov"),
+          pgettext("Short name of month", "Dec"),
+        ],
+        longhand: [
+          pgettext("Long name of month", "January"),
+          pgettext("Long name of month", "February"),
+          pgettext("Long name of month", "March"),
+          pgettext("Long name of month", "April"),
+          pgettext("Long name of month", "May"),
+          pgettext("Long name of month", "June"),
+          pgettext("Long name of month", "July"),
+          pgettext("Long name of month", "August"),
+          pgettext("Long name of month", "September"),
+          pgettext("Long name of month", "October"),
+          pgettext("Long name of month", "November"),
+          pgettext("Long name of month", "December"),
+        ],
+      },
     },
-    ranges: {
-      [gettext("Today")]: [moment(), moment()],
-      [gettext("Yesterday")]: [
-        moment().subtract(1, "days"),
-        moment().subtract(1, "days"),
-      ],
-      [gettext("Last 7 days")]: [moment().subtract(6, "days"), moment()],
-      [gettext("Last 30 days")]: [moment().subtract(29, "days"), moment()],
-      [gettext("This month")]: [
-        moment().startOf("month"),
-        moment().endOf("month"),
-      ],
-      [gettext("Last month")]: [
-        moment().subtract(1, "month").startOf("month"),
-        moment().subtract(1, "month").endOf("month"),
-      ],
-      [gettext("This year")]: [
-        moment().startOf("year"),
-        moment().endOf("year"),
-      ],
-      [gettext("Last year")]: [
-        moment().subtract(1, "year").startOf("year"),
-        moment().subtract(1, "year").endOf("year"),
-      ],
-    },
-  });
-
-  $("input[name='period']").on("apply.daterangepicker", function (_ev, picker) {
-    $(this).val(
-      `${picker.startDate.format("MM/DD/YYYY")} - ${picker.endDate.format("MM/DD/YYYY")}`,
-    );
-  });
-
-  $("input[name='period']").on("cancel.daterangepicker", (_ev, picker) => {
-    picker.element.val("");
   });
 
   /* Singular or plural new unit switcher */
