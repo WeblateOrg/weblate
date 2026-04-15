@@ -33,8 +33,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-14 17:31+0200\n"
-"PO-Revision-Date: 2026-04-14 16:33+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-16 07:10+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -42,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:217
@@ -1147,10 +1148,8 @@ msgstr ""
 "或 :wladmin:`install_addon` 来配置附加组件。"
 
 #: admin/addons.rst:25
-#, fuzzy
-#| msgid "Delete add-on."
 msgid "Obsolete add-ons"
-msgstr "删除附加组件。"
+msgstr "淘汰的附加组件"
 
 #: admin/addons.rst:30
 msgid "Customize XML output"
@@ -1942,10 +1941,8 @@ msgstr ""
 "Translate <https://translate.codeberg.org>`_。"
 
 #: admin/auth.rst:330 admin/install/docker.rst:1527
-#, fuzzy
-#| msgid "Microsoft Translator"
 msgid "Microsoft Entra ID"
-msgstr "微软翻译"
+msgstr "Microsoft Entra ID"
 
 #: admin/auth.rst:332
 msgid ""
@@ -4603,10 +4600,8 @@ msgstr ""
 
 #: admin/config.rst:1127 admin/install/docker.rst:779
 #: admin/install/docker.rst:873
-#, fuzzy
-#| msgid "Supported features"
 msgid "Supported values are:"
-msgstr "支持的功能"
+msgstr "支持的值为："
 
 #: admin/config.rst:1130
 msgid ""
@@ -4621,18 +4616,13 @@ msgid ""
 msgstr ""
 
 #: admin/config.rst:1138
-#, fuzzy
-#| msgid ""
-#| "Hides version info from unauthenticated users. This also makes all "
-#| "documentation links point to the latest version instead of the "
-#| "documentation matching the currently installed version."
 msgid ""
 "Hide the version from shared UI and :http:get:`/api/metrics/`. This also "
 "makes anonymous documentation links point to the latest documentation "
 "instead of the version matching the installed release."
 msgstr ""
-"对未经身份认证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是"
-"与当前安装版本相匹配的文档。"
+"在共享的用户界面和 :http:get:`/api/metrics/` 中隐藏版本。这还会使匿名文档链接"
+"指向最新文档而不是匹配已安装 Weblate 版本的文档。"
 
 #: admin/config.rst:1142
 #, fuzzy
@@ -4648,10 +4638,8 @@ msgstr ""
 "隐藏版本是某些企业推荐的安全实践，但不能防止攻击者通过试探行为来找出版本。"
 
 #: admin/config.rst:1148
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default is ``show``."
-msgstr "默认值为 10。"
+msgstr "默认值是 ``显示`` 。"
 
 #: admin/config.rst:1158
 msgid ""
@@ -6157,10 +6145,8 @@ msgid "Keep history linear when that matches your workflow."
 msgstr ""
 
 #: admin/continuous.rst:221
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr "不快进合并"
+msgstr ":guilabel:`用不含快进的合并进行更新`"
 
 #: admin/continuous.rst:222
 msgid ""
@@ -6183,12 +6169,10 @@ msgid "Prevents or allows translators to make further changes in Weblate."
 msgstr ""
 
 #: admin/continuous.rst:227
-#, fuzzy
-#| msgid "Test pulling changes from your repository into Weblate"
 msgid ""
 "Freeze translation changes while doing repository maintenance outside "
 "Weblate."
-msgstr "测试将更改从仓库拉取到 Weblate 中"
+msgstr "在 Weblate 以外维护仓库时冻结翻译更改。"
 
 #: admin/continuous.rst:229
 #, fuzzy
@@ -6264,10 +6248,8 @@ msgid ":guilabel:`Rescan`"
 msgstr ":guilabel:`解决评论`"
 
 #: admin/continuous.rst:246
-#, fuzzy
-#| msgid "Test pulling changes from your repository into Weblate"
 msgid "Re-reads translation files from the local repository into Weblate."
-msgstr "测试将更改从仓库拉取到 Weblate 中"
+msgstr "将来自本地仓库的翻译文件重新读取到 Weblate 中。"
 
 #: admin/continuous.rst:247
 msgid "Import file changes after manual repository work or file creation."
@@ -6583,10 +6565,8 @@ msgid ""
 msgstr "`Gitea 手册中的 Webhooks <https://docs.gitea.io/en-us/webhooks/>`_"
 
 #: admin/continuous.rst:431
-#, fuzzy
-#| msgid ":http:post:`/hooks/azure/`"
 msgid ":http:post:`/hooks/forgejo/`"
-msgstr ":http:post:`/hooks/azure/`"
+msgstr ":http:post:`/hooks/forgejo/`"
 
 #: admin/continuous.rst:437
 msgid "Automatically receiving changes from Gitee Repos"
@@ -10106,16 +10086,12 @@ msgid "Defaults to enabled."
 msgstr "默认为启用。"
 
 #: admin/install/docker.rst:720
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`WEBHOOK_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:728
-#, fuzzy
-#| msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
 msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
-msgstr "配置 :setting:`VCS_ALLOW_HOSTS`."
+msgstr "配置 :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:732
 msgid ""
@@ -10389,10 +10365,8 @@ msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgstr "配置 :setting:`WEBSITE_REQUIRED`。"
 
 #: admin/install/docker.rst:1021
-#, fuzzy
-#| msgid "Configures :setting:`VCS_API_DELAY`."
 msgid "Configures :setting:`VERSION_DISPLAY`."
-msgstr "配置 :setting:`VCS_API_DELAY`."
+msgstr "配置 :setting:`VERSION_DISPLAY`."
 
 #: admin/install/docker.rst:1025
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -10496,10 +10470,8 @@ msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
 msgstr "配置 :setting:`VCS_ALLOW_SCHEMES`."
 
 #: admin/install/docker.rst:1181
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`VCS_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:1187
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
@@ -10739,10 +10711,8 @@ msgid "Enables Gitea authentication."
 msgstr "启用 Gitea 身份认证。"
 
 #: admin/install/docker.rst:1532
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Microsoft Entra ID authentication, see :ref:`entra-auth`."
-msgstr "允许 Slack 身份认证，请参见 :ref:`slack-auth`。"
+msgstr "启用 Microsoft Entra ID 身份认证，见 :ref:`entra-auth`。"
 
 #: admin/install/docker.rst:1535
 #, fuzzy
@@ -10751,15 +10721,10 @@ msgid "Microsoft Entra ID with Tenant support"
 msgstr "支持 Azure Active Directory 租户"
 
 #: admin/install/docker.rst:1541
-#, fuzzy
-#| msgid ""
-#| "Enables Azure Active Directory authentication with Tenant support, "
-#| "see :ref:`azure-auth`."
 msgid ""
 "Enables Microsoft Entra ID authentication with Tenant support, "
 "see :ref:`entra-auth`."
-msgstr ""
-"启用支持 Azure Active Directory 租户的身份认证，请参见 :ref:`azure-auth`。"
+msgstr "启用支持租户的 Microsoft Entra ID 身份认证，见 :ref:`entra-auth`。"
 
 #: admin/install/docker.rst:1545
 msgid "Keycloak"
@@ -11104,10 +11069,8 @@ msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "配置 :setting:`PRIVACY_URL`."
 
 #: admin/install/docker.rst:1979
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`PASSWORD_RESET_URL`."
-msgstr "配置 :setting:`STATUS_URL`."
+msgstr "配置 :setting:`PASSWORD_RESET_URL`."
 
 #: admin/install/docker.rst:1984
 msgid ""
@@ -17449,10 +17412,8 @@ msgid "Added :ref:`bulk user invitations <invite-user>`."
 msgstr "新增 :ref:`bulk user invitations <invite-user>`。"
 
 #: changes.rst:16
-#, fuzzy
-#| msgid ":ref:`check-formats`,"
 msgid "Added :ref:`check-objc-format`."
-msgstr ":ref:`check-formats`，"
+msgstr "新增了 :ref:`check-objc-format`."
 
 #: changes.rst:17
 msgid "Added Forgejo notification webhook, see :ref:`forgejo-setup`."
@@ -17472,12 +17433,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:20
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 ":doc:`/admin/announcements` can now be managed via the :ref:`api` for "
 "projects, components and translations."
-msgstr "可在项目/语言层级发布 :doc:`/admin/announcements`。"
+msgstr "现在可通过项目、部件和翻译的 :ref:`api` 管理 :doc:`/admin/announcements` 了。"
 
 #: changes.rst:21
 msgid ""
@@ -17663,12 +17622,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:51
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Fixed background failures in :ref:`addon-"
 "weblate.autotranslate.autotranslate`."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加组件"
+msgstr "修复了 :ref:`addon-weblate.autotranslate.autotranslate` 中的后台失败。"
 
 #: changes.rst:52
 msgid ""
@@ -17773,10 +17730,8 @@ msgstr ""
 "在 :ref:`addon-weblate.cdn.cdnjs` 中进行截图 URL 上传和远程 HTML 获取。"
 
 #: changes.rst:70
-#, fuzzy
-#| msgid ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
 msgid "Improved security of :ref:`addon-weblate.webhook.webhook`."
-msgstr ":ref:`fedora-messaging`, :ref:`addon-weblate.webhook.webhook`"
+msgstr "改进了 :ref:`addon-weblate.webhook.webhook` 的安全性。"
 
 #: changes.rst:71
 msgid ""
@@ -17896,12 +17851,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:91
-#, fuzzy
-#| msgid "Component creation can now handle ZIP file or document upload."
 msgid ""
 "REST API component creation now handles temporary uploaded files for "
 "``docfile`` and ``zipfile`` uploads."
-msgstr "部件的新建现在能够处理上传的 ZIP 文件或文档。"
+msgstr "REST API 部件创建现在处理 ``docfile`` 和 ``zipfile`` 上传的临时上传文件。"
 
 #: changes.rst:92
 msgid ""
@@ -18043,13 +17996,6 @@ msgid ""
 msgstr ""
 
 #: changes.rst:111
-#, fuzzy
-#| msgid ""
-#| "Project website and repository browser URLs pointing to private or other "
-#| "non-global IP ranges are now rejected by default. If your setup "
-#| "intentionally links to internal addresses, "
-#| "set :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to ``False`` "
-#| "or :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` to ``0``."
 msgid ""
 "Outbound project links, webhook URLs, and repository or push URLs pointing "
 "to internal or non-public addresses are now rejected by default. If your "
@@ -18059,9 +18005,11 @@ msgid ""
 "or :setting:`VCS_RESTRICT_PRIVATE`, and the related allowlists such "
 "as :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
-"现在默认拒绝指向私有或其他非全球 IP 地址段的项目网站和仓库浏览器 URL。如您的"
-"设置是有意链接到内部地址，请设置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE` 为 "
-"``False`` 或 设置 :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE` 为 ``0`` 。"
+"现在默认拒绝外联项目链接、 webhook URL 和指向内部或非公开地址的仓库或推送 URL"
+"。如果你的设置有意使用内部地址，请调整相应的限制设置，比如 "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`、:setting:`WEBHOOK_RESTRICT_PRIVATE` "
+"或 :setting:`VCS_RESTRICT_PRIVATE`，以及相关的白名单如 "
+":setting:`VCS_ALLOW_HOSTS`。"
 
 #: changes.rst:114 changes.rst:148 changes.rst:187 changes.rst:244
 #: changes.rst:285 changes.rst:319 changes.rst:386 changes.rst:406
@@ -32408,12 +32356,6 @@ msgid "Building the documentation locally"
 msgstr "本地构建文档"
 
 #: contributing/documentation.rst:28
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in the ``docs`` dependency group "
-#| "in :file:`pyproject.toml`. The build can be performed using :program:`ci/"
-#| "run-docs`."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`. If you "
@@ -32422,7 +32364,8 @@ msgid ""
 "sufficient."
 msgstr ""
 "也可以在本地编辑并构建文档，Python 要求位于 :file:`pyproject.toml` 中的 "
-"``docs`` 依赖群。可以使用 :program:`ci/run-docs` 执行构建。"
+"``docs`` 依赖群。如果已经在使用完整的开发环境，那么 ``uv sync --all-extras --"
+"dev`` 就够了。如果只为了文档工作，那么 ``uv sync --group docs`` 就够了。"
 
 #: contributing/documentation.rst:33
 #, fuzzy
@@ -35525,12 +35468,6 @@ msgid "Managing the local VCS repository"
 msgstr "管理本地 VCS 仓库"
 
 #: devel/integration.rst:166
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translations in its underlying version control "
-#| "repository. It is suggested to be connected to a remote one, but internal-"
-#| "only setup is also possible. The :guilabel:`Repository maintenance` "
-#| "allows controlling this repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
@@ -35539,7 +35476,8 @@ msgid ""
 "actions, see :ref:`repository-maintenance`."
 msgstr ""
 "Weblate 在其底层版本控制仓库中存储所有翻译。建议连接到远程仓库，但也可以设置"
-"纯本地仓库。:guilabel:`仓库维护` 允许控制此仓库。"
+"纯本地仓库。:guilabel:`仓库维护` 允许控制此仓库。可用操作的详细描述，见 "
+":ref:`repository-maintenance`。"
 
 #: devel/integration.rst:174
 msgid ""
@@ -41354,16 +41292,12 @@ msgid ""
 msgstr ""
 
 #: security/incident-response-plan.rst:102
-#, fuzzy
-#| msgid ""
-#| "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
-#| "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgid ""
 "For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot** "
 "before taking disruptive action when it is safe to do so."
 msgstr ""
-"**取证留存：** 对于 1 或 2 类事件，进行破坏性操作前手动创建 **Hetzner Cloud "
-"Snapshot**。"
+"** 对于 1 或 2 类事件，在安全情况下，进行破坏性操作前手动创建 **Hetzner "
+"Cloud Snapshot**。"
 
 #: security/incident-response-plan.rst:105
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
@@ -43006,10 +42940,8 @@ msgid "Accountability issues."
 msgstr "追责问题。"
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Optional category configuration"
 msgid "**Outbound integrations / VCS configuration**"
-msgstr "可选的分类配置"
+msgstr "**外部集成 / VCS 配置**"
 
 #: security/threat-model.rst:183
 msgid ""
@@ -43120,10 +43052,8 @@ msgid ""
 msgstr "和外部身份提供商集成（SAML、OAuth、LDAP），见 :doc:`/admin/auth`。"
 
 #: security/threat-model.rst:211
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "**Webhook security:**"
-msgstr "Webhook secret"
+msgstr "**Webhook 安全：**"
 
 #: security/threat-model.rst:212
 msgid ""
@@ -43213,10 +43143,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:226
-#, fuzzy
-#| msgid "**VCS integration security:**"
 msgid "**Backup import security:**"
-msgstr "**VCS 集成安全性：**"
+msgstr "**备份导入安全：**"
 
 #: security/threat-model.rst:227
 msgid ""
@@ -45403,19 +45331,14 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "更新“配置文件”中的 ALL_LINGUAS 变量"
 
 #: snippets/addons-autogenerated.rst:932 snippets/addons-autogenerated.rst:991
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-"
 "post-remove`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, "
+":ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-post-"
+"remove`"
 
 #: snippets/addons-autogenerated.rst:934
 #, fuzzy
@@ -46444,10 +46367,8 @@ msgid "Enables the :ref:`check-object-pascal-format` quality check."
 msgstr "启用 :ref:`check-object-pascal-format` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:97
-#, fuzzy
-#| msgid "Enables the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-objc-format` quality check."
-msgstr "启用 :ref:`check-c-format` 质量检查。"
+msgstr "启用 :ref:`check-objc-format` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:99
 msgid "Enables the :ref:`check-percent-placeholders` quality check."
@@ -46648,10 +46569,8 @@ msgid "Skip the :ref:`check-object-pascal-format` quality check."
 msgstr "跳过 :ref:`check-object-pascal-format` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:200
-#, fuzzy
-#| msgid "Skip the :ref:`check-c-format` quality check."
 msgid "Skip the :ref:`check-objc-format` quality check."
-msgstr "跳过 :ref:`check-c-format` 质量检查。"
+msgstr "跳过 :ref:`check-objc-format` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:202
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
@@ -47752,16 +47671,12 @@ msgid "Java MessageFormat string does not match source."
 msgstr "Java MessageFormat 字符串与原文不匹配。"
 
 #: snippets/checks-autogenerated.rst:693
-#, fuzzy
-#| msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
 msgid ":ref:`properties`, :ref:`gwt`"
-msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
+msgstr ":ref:`properties`, :ref:`gwt`"
 
 #: snippets/checks-autogenerated.rst:694
-#, fuzzy
-#| msgid "``ignore-java-messageformat``"
 msgid "``auto-java-messageformat``, ``java-format``"
-msgstr "``ignore-java-messageformat``"
+msgstr "``auto-java-messageformat``, ``java-format``"
 
 #: snippets/checks-autogenerated.rst:0
 #, fuzzy
@@ -47894,10 +47809,8 @@ msgid "Objective-C format string does not match source."
 msgstr "Objective-C 格式的字符串与原文不匹配。"
 
 #: snippets/checks-autogenerated.rst:841
-#, fuzzy
-#| msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
 msgid ":ref:`strings`, :ref:`stringsdict`"
-msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
+msgstr ":ref:`strings`, :ref:`stringsdict`"
 
 #: snippets/checks-autogenerated.rst:854
 msgid "Percent placeholders"
@@ -48924,10 +48837,8 @@ msgid ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
 msgstr ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
 
 #: snippets/checks-autogenerated.rst:2085
-#, fuzzy
-#| msgid "``ignore-safe-html``"
 msgid "``auto-safe-html``, ``safe-html``"
-msgstr "``ignore-safe-html``"
+msgstr "``auto-safe-html``, ``safe-html``"
 
 #: snippets/checks-autogenerated.rst:2087
 msgid ""
