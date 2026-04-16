@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-14 17:31+0200\n"
-"PO-Revision-Date: 2026-04-16 07:10+0000\n"
+"PO-Revision-Date: 2026-04-16 15:06+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1973,15 +1973,12 @@ msgid "You will need following:"
 msgstr "你需要下列东西："
 
 #: admin/auth.rst:345
-#, fuzzy
-#| msgid ""
-#| "*Application (client) ID* can be obtained from application page. *Object "
-#| "ID* is not used in Weblate."
 msgid ""
 "*Application (client) ID* is available on the app registration overview in "
 "the Microsoft Entra admin center. *Object ID* is not used in Weblate."
 msgstr ""
-"*Application (client) ID* 可从应用程序页面获得。Weblate 不使用 *Object ID*."
+"*Application (client) ID* 可在 Microsoft Entra 管理中心的程序注册概览中获取。"
+"Weblate 不使用 *Object ID* 。"
 
 #: admin/auth.rst:347
 msgid ""
@@ -1991,16 +1988,12 @@ msgstr ""
 "租户范围的身份认证（通常情况下的理想选择）需要用到 *Directory (tenant) ID*."
 
 #: admin/auth.rst:348
-#, fuzzy
-#| msgid ""
-#| "*Secret value* is displayed once you generate a secret for an "
-#| "application. *Secret ID* is not used in Weblate."
 msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
-"一旦你为一个应用程序生成了 secret 就会显示 *Secret value*. Weblate 不使用 "
-"*Secret ID*."
+"为程序注册创建了客户端 secret 后便会展示 *Secret value* 。Weblate 不使用 "
+"*Secret ID* 。"
 
 #: admin/auth.rst:393 admin/install/docker.rst:1590
 msgid "Slack"
@@ -4625,17 +4618,11 @@ msgstr ""
 "指向最新文档而不是匹配已安装 Weblate 版本的文档。"
 
 #: admin/config.rst:1142
-#, fuzzy
-#| msgid ""
-#| "Hiding the version is a recommended security practice in some "
-#| "corporations, does not prevent an attacker from figuring out version by "
-#| "probing behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "but it does not prevent an attacker from inferring the version by probing "
 "behavior."
-msgstr ""
-"隐藏版本是某些企业推荐的安全实践，但不能防止攻击者通过试探行为来找出版本。"
+msgstr "隐藏版本是某些企业推荐的安全实践，但不能防止攻击者通过试探行为来推测版本。"
 
 #: admin/config.rst:1148
 msgid "The default is ``show``."
@@ -5093,14 +5080,10 @@ msgid "Reject using numeric IP address in project website. On by default."
 msgstr "拒绝在项目网站中使用数字 IP 地址。默认启用。"
 
 #: admin/config.rst:1788
-#, fuzzy
-#| msgid ""
-#| "Reject using project website and repository browser URLs pointing to non-"
-#| "global IP ranges. On by default."
 msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
-msgstr "拒绝使用指向非全局 IP 范围的项目网站和仓库浏览器 URL。默认开启。"
+msgstr "拒绝使用指向内部或非公开地址的项目网站和仓库浏览器 URL。默认开启。"
 
 #: admin/config.rst:1806
 msgid ""
@@ -5591,14 +5574,10 @@ msgstr ""
 "缀。"
 
 #: admin/config.rst:2394
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Defaults to an empty "
-#| "set what does no filtering at all."
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set, "
 "which does no filtering at all."
-msgstr "配置 VCS URL 时要允许的一组主机。完全不筛选时默认为空。"
+msgstr "配置 VCS URL 时要允许的一组主机。默认是空组，表示完全不筛选。"
 
 #: admin/config.rst:2397
 msgid ""
@@ -5607,14 +5586,10 @@ msgid ""
 msgstr ""
 
 #: admin/config.rst:2407
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Only ``https`` and "
-#| "``ssh`` are allowed by default."
 msgid ""
 "A set of URL schemes to allow when configuring VCS URL. Only ``https`` and "
 "``ssh`` are allowed by default."
-msgstr "配置 VCS URL 时要允许的一组主机。默认只允许 ``https`` and ``ssh``."
+msgstr "配置 VCS URL 时要允许的一组 URL 方案。默认只允许 ``https`` and ``ssh``."
 
 #: admin/config.rst:2417
 msgid ""
@@ -6063,33 +6038,24 @@ msgid "Typical use"
 msgstr ""
 
 #: admin/continuous.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Commit`"
-msgstr ":guilabel:`自定义`"
+msgstr ":guilabel:`提交`"
 
 #: admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Commit any pending changes and merge them into the upstream repository."
 msgid "Commits pending changes stored in Weblate to the local repository."
-msgstr "提交任何待处理的更改，并将它们合并到上游仓库中。"
+msgstr "将存储在 Weblate 中的待定更改提交到本地仓库。"
 
 #: admin/continuous.rst:203
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
 
 #: admin/continuous.rst:205
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Push`"
-msgstr ":guilabel:`公开的`"
+msgstr ":guilabel:`推送`"
 
 #: admin/continuous.rst:206
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid "Pushes committed local repository changes to the configured upstream."
-msgstr "将提交的更改推送到上游的版本控制系统仓库。"
+msgstr "将提交的本地仓库更改推送到配置的上游。"
 
 #: admin/continuous.rst:207
 msgid ""
@@ -6098,10 +6064,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:209
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Update`"
-msgstr ":guilabel:`私有的`"
+msgstr ":guilabel:`更新`"
 
 #: admin/continuous.rst:210
 msgid ""
@@ -6115,10 +6079,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:213
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with merge`"
-msgstr ":guilabel:`更新内部仓库`"
+msgstr ":guilabel:`以合并方式更新`"
 
 #: admin/continuous.rst:214
 msgid "Fetches upstream changes and integrates them with an explicit merge."
@@ -6129,10 +6091,8 @@ msgid "Override the default merge style for a single update."
 msgstr ""
 
 #: admin/continuous.rst:217
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with rebase`"
-msgstr ":guilabel:`更新内部仓库`"
+msgstr ":guilabel:`以变基方式更新`"
 
 #: admin/continuous.rst:218
 msgid ""
@@ -6159,10 +6119,8 @@ msgid "Preserve merge commits for auditing or branch-management reasons."
 msgstr ""
 
 #: admin/continuous.rst:225
-#, fuzzy
-#| msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
 msgid ":guilabel:`Lock` / :guilabel:`Unlock`"
-msgstr ":guilabel:`重置` 来自 :guilabel:`维护`"
+msgstr ":guilabel:`锁定` / :guilabel:`解锁`"
 
 #: admin/continuous.rst:226
 msgid "Prevents or allows translators to make further changes in Weblate."
@@ -6175,10 +6133,8 @@ msgid ""
 msgstr "在 Weblate 以外维护仓库时冻结翻译更改。"
 
 #: admin/continuous.rst:229
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and discard`"
-msgstr ":guilabel:`移除字符串`"
+msgstr ":guilabel:`重置并丢弃`"
 
 #: admin/continuous.rst:230
 msgid ""
@@ -6191,10 +6147,8 @@ msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr ""
 
 #: admin/continuous.rst:233
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and reapply`"
-msgstr ":guilabel:`移除字符串`"
+msgstr ":guilabel:`重置并重新应用`"
 
 #: admin/continuous.rst:234
 msgid ""
@@ -6208,10 +6162,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:237
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Cleanup`"
-msgstr ":guilabel:`自定义`"
+msgstr ":guilabel:`清理`"
 
 #: admin/continuous.rst:238
 msgid ""
@@ -6225,10 +6177,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:241
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Synchronize`"
-msgstr ":guilabel:`私有的`"
+msgstr ":guilabel:`同步`"
 
 #: admin/continuous.rst:242
 msgid ""
@@ -6242,10 +6192,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:245
-#, fuzzy
-#| msgid ":guilabel:`Resolve comment`"
 msgid ":guilabel:`Rescan`"
-msgstr ":guilabel:`解决评论`"
+msgstr ":guilabel:`重新扫描`"
 
 #: admin/continuous.rst:246
 msgid "Re-reads translation files from the local repository into Weblate."
@@ -6372,18 +6320,14 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:311
-#, fuzzy
-#| msgid ""
-#| "To receive notifications on every push to a GitHub repository, add the "
-#| "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as "
-#| "shown on the image below:"
 msgid ""
 "If you are not using the app, add the Weblate Webhook in the repository "
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
-"GitHub 仓库时接收通知，将 Weblate Webhook 添加到仓库设置"
-"（:guilabel:`Webhooks`）中，如下图所示："
+"如果没在使用该应用，请在仓库设置中添加 Weblate Webhook "
+"(:guilabel:`Webhooks`) 接收到 Github 仓库的每个推送的通知，如下方图片显示的那"
+"样："
 
 #: admin/continuous.rst:317
 msgid ""
@@ -6531,10 +6475,8 @@ msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/continuous.rst:421
-#, fuzzy
-#| msgid "Automatically receiving changes from Azure Repos"
 msgid "Automatically receiving changes from Forgejo Repos"
-msgstr "从 Azure Repos 自动接收更改"
+msgstr "自动从 Forgejo 仓库接收更改"
 
 #: admin/continuous.rst:423
 #, fuzzy
