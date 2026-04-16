@@ -163,3 +163,23 @@ class DuplicateCheckTest(CheckTestCase):
             ),
             {},
         )
+
+    def test_xliff_placeholders(self) -> None:
+        xliff_flag = r'placeholders:r"<x\s[^>]*/>"'
+        unit = MockUnit(code="fr", flags=xliff_flag)
+        # no warning triggered if duplicated words are inside placeholders
+        self.assertFalse(
+            self.check.check_single(
+                "",
+                'Limite <x id="INTERPOLATION" equiv-text="{{ quota quota }}"/> par jour',  # codespell:ignore
+                unit,
+            )
+        )
+        # warning triggered if duplicated words are outside placeholders
+        self.assertTrue(
+            self.check.check_single(
+                "",
+                'limite limite <x id="INTERPOLATION" equiv-text="{{ quota }}"/> par jour',  # codespell:ignore
+                unit,
+            )
+        )

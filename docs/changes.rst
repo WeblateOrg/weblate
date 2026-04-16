@@ -15,6 +15,8 @@ Weblate 5.17.1
 
 .. rubric:: Bug fixes
 
+* :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
