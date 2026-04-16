@@ -60027,7 +60027,6 @@ components:
       - $ref: '#/components/schemas/ApiProjectsAddonsCreateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsAddonsCreateSourceReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsAddonsCreateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsAddonsCreateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsAddonsCreateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsAddonsCreateEnableHooksErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsAddonsCreateLanguageAliasesErrorComponent'
@@ -60044,7 +60043,6 @@ components:
           translation_review: '#/components/schemas/ApiProjectsAddonsCreateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ApiProjectsAddonsCreateSourceReviewErrorComponent'
           commit_policy: '#/components/schemas/ApiProjectsAddonsCreateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsAddonsCreateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ApiProjectsAddonsCreateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ApiProjectsAddonsCreateEnableHooksErrorComponent'
           language_aliases: '#/components/schemas/ApiProjectsAddonsCreateLanguageAliasesErrorComponent'
@@ -60183,28 +60181,6 @@ components:
           description: |-
             * `does_not_exist` - does_not_exist
             * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsAddonsCreateSetLanguageTeamErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - set_language_team
-          type: string
-          description: '* `set_language_team` - set_language_team'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -62382,7 +62358,6 @@ components:
       - $ref: '#/components/schemas/ApiProjectsCreateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsCreateSourceReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsCreateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsCreateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsCreateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsCreateEnableHooksErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsCreateLanguageAliasesErrorComponent'
@@ -62399,7 +62374,6 @@ components:
           translation_review: '#/components/schemas/ApiProjectsCreateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ApiProjectsCreateSourceReviewErrorComponent'
           commit_policy: '#/components/schemas/ApiProjectsCreateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsCreateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ApiProjectsCreateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ApiProjectsCreateEnableHooksErrorComponent'
           language_aliases: '#/components/schemas/ApiProjectsCreateLanguageAliasesErrorComponent'
@@ -62538,28 +62512,6 @@ components:
           description: |-
             * `does_not_exist` - does_not_exist
             * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsCreateSetLanguageTeamErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - set_language_team
-          type: string
-          description: '* `set_language_team` - set_language_team'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -62815,7 +62767,6 @@ components:
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateSourceReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateEnableHooksErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateLanguageAliasesErrorComponent'
@@ -62832,7 +62783,6 @@ components:
           translation_review: '#/components/schemas/ApiProjectsLabelsCreateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ApiProjectsLabelsCreateSourceReviewErrorComponent'
           commit_policy: '#/components/schemas/ApiProjectsLabelsCreateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsLabelsCreateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ApiProjectsLabelsCreateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ApiProjectsLabelsCreateEnableHooksErrorComponent'
           language_aliases: '#/components/schemas/ApiProjectsLabelsCreateLanguageAliasesErrorComponent'
@@ -62971,28 +62921,6 @@ components:
           description: |-
             * `does_not_exist` - does_not_exist
             * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateSetLanguageTeamErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - set_language_team
-          type: string
-          description: '* `set_language_team` - set_language_team'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -63352,7 +63280,6 @@ components:
       - $ref: '#/components/schemas/ApiProjectsPartialUpdateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsPartialUpdateSourceReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsPartialUpdateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsPartialUpdateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsPartialUpdateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsPartialUpdateEnableHooksErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsPartialUpdateLanguageAliasesErrorComponent'
@@ -63369,7 +63296,6 @@ components:
           translation_review: '#/components/schemas/ApiProjectsPartialUpdateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ApiProjectsPartialUpdateSourceReviewErrorComponent'
           commit_policy: '#/components/schemas/ApiProjectsPartialUpdateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsPartialUpdateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ApiProjectsPartialUpdateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ApiProjectsPartialUpdateEnableHooksErrorComponent'
           language_aliases: '#/components/schemas/ApiProjectsPartialUpdateLanguageAliasesErrorComponent'
@@ -63508,28 +63434,6 @@ components:
           description: |-
             * `does_not_exist` - does_not_exist
             * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsPartialUpdateSetLanguageTeamErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - set_language_team
-          type: string
-          description: '* `set_language_team` - set_language_team'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -63861,7 +63765,6 @@ components:
       - $ref: '#/components/schemas/ApiProjectsUpdateTranslationReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsUpdateSourceReviewErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsUpdateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsUpdateSetLanguageTeamErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsUpdateInstructionsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsUpdateEnableHooksErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsUpdateLanguageAliasesErrorComponent'
@@ -63878,7 +63781,6 @@ components:
           translation_review: '#/components/schemas/ApiProjectsUpdateTranslationReviewErrorComponent'
           source_review: '#/components/schemas/ApiProjectsUpdateSourceReviewErrorComponent'
           commit_policy: '#/components/schemas/ApiProjectsUpdateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsUpdateSetLanguageTeamErrorComponent'
           instructions: '#/components/schemas/ApiProjectsUpdateInstructionsErrorComponent'
           enable_hooks: '#/components/schemas/ApiProjectsUpdateEnableHooksErrorComponent'
           language_aliases: '#/components/schemas/ApiProjectsUpdateLanguageAliasesErrorComponent'
@@ -64017,28 +63919,6 @@ components:
           description: |-
             * `does_not_exist` - does_not_exist
             * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsUpdateSetLanguageTeamErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - set_language_team
-          type: string
-          description: '* `set_language_team` - set_language_team'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -72850,11 +72730,6 @@ components:
             * `30` - Only include approved translations
           minimum: -2147483648
           maximum: 2147483647
-        set_language_team:
-          type: boolean
-          title: Set "Language-Team" header
-          description: Lets Weblate update the "Language-Team" file header of your
-            project.
         instructions:
           type: string
           title: Translation instructions
@@ -73098,11 +72973,6 @@ components:
             * `30` - Only include approved translations
           minimum: -2147483648
           maximum: 2147483647
-        set_language_team:
-          type: boolean
-          title: Set "Language-Team" header
-          description: Lets Weblate update the "Language-Team" file header of your
-            project.
         instructions:
           type: string
           title: Translation instructions
