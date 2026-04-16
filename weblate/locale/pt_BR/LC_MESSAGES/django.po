@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-16 15:15+0000\n"
+"PO-Revision-Date: 2026-04-16 15:16+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -5743,16 +5743,18 @@ msgid ""
 "or use a clone that shares history with Weblate. Upstream repository: "
 "{location}"
 msgstr ""
+"O checkout Git raso do Weblate não compartilha histórico suficiente com este "
+"repositório para satisfazer a solicitação de atualização (fetch). Primeiro, "
+"faça a atualização a partir do repositório original ou use um clone que "
+"compartilhe histórico com o Weblate. Repositório upstream: {location}"
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Exportação Git falhou."
 
 #: weblate/gitexport/views.py:315
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Arquivo não suportado!"
+msgstr "Serviço Git não suportado."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -6675,10 +6677,8 @@ msgid "Target language of the document when not specified in file"
 msgstr "Idioma de destino do documento quando não especificado no arquivo"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "You can upload a file of following formats: %s."
 msgid "You can upload a file of following formats:"
-msgstr "Você pode enviar um arquivo nos seguintes formatos: %s."
+msgstr "Você pode enviar um arquivo nos seguintes formatos:"
 
 #: weblate/memory/forms.py:61
 msgid ""
@@ -8531,12 +8531,10 @@ msgstr[0] "Gerenciar complementos para todo o projeto (%(count)s instalado)"
 msgstr[1] "Gerenciar complementos para todo o projeto (%(count)s instalados)"
 
 #: weblate/templates/addons/addon_list.html:85
-#, fuzzy
-#| msgid "This add-on is used for all components sharing this repository."
 msgid "Add-ons installed here apply to all components within this category."
 msgstr ""
-"Esse complemento é usado para todos os componentes que estão compartilhando "
-"esse repositório."
+"Complementos instalados aqui se aplicam a todos os componentes desta "
+"categoria."
 
 #: weblate/templates/addons/addon_list.html:92
 #, python-format
