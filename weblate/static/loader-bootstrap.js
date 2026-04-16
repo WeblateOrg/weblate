@@ -32,25 +32,67 @@ function decreaseLoading(sel) {
 }
 
 function addAlert(message, kind = "danger", delay = 3000) {
-  const alerts = $("#popup-alerts");
-  const e = $(
-    '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
-  );
-  e.addClass(`alert-${kind}`);
-  e.append(new Text(message));
-  e.hide();
-  alerts.show().append(e);
-  e.slideDown(200);
-  e.on("closed.bs.alert", () => {
-    if (alerts.find(".alert").length === 0) {
-      alerts.hide();
-    }
-  });
-  if (delay) {
-    e.delay(delay).slideUp(200, function () {
-      $(this).alert("close");
-    });
+  const toasts = document.getElementById("popup-toasts");
+  if (toasts === null) {
+    return;
   }
+  const supportedKinds = new Set([
+    "danger",
+    "warning",
+    "info",
+    "success",
+    "primary",
+    "secondary",
+    "light",
+    "dark",
+  ]);
+  let toastKind = kind === "error" ? "danger" : kind;
+  if (!supportedKinds.has(toastKind)) {
+    toastKind = "danger";
+  }
+  const assertiveKinds = new Set(["danger", "warning"]);
+  const isAssertive = assertiveKinds.has(toastKind);
+  const toast = document.createElement("div");
+  toast.classList.add(
+    "toast",
+    "align-items-center",
+    `text-${toastKind}-emphasis`,
+    `bg-${toastKind}-subtle`,
+    `border-${toastKind}-subtle`,
+  );
+  toast.setAttribute("role", isAssertive ? "alert" : "status");
+  toast.setAttribute("aria-live", isAssertive ? "assertive" : "polite");
+  toast.setAttribute("aria-atomic", "true");
+
+  const content = document.createElement("div");
+  content.classList.add("d-flex");
+
+  const body = document.createElement("div");
+  body.classList.add("toast-body");
+  body.append(document.createTextNode(String(message)));
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.classList.add("btn-close", "me-2", "m-auto");
+  closeButton.setAttribute("data-bs-dismiss", "toast");
+  closeButton.setAttribute("aria-label", gettext("Close"));
+
+  content.append(body, closeButton);
+  toast.append(content);
+  toast.addEventListener(
+    "hidden.bs.toast",
+    () => {
+      bootstrap.Toast.getInstance(toast)?.dispose();
+      toast.remove();
+    },
+    { once: true },
+  );
+  toasts.append(toast);
+
+  bootstrap.Toast.getOrCreateInstance(toast, {
+    autohide: Boolean(delay),
+    delay,
+  }).show();
 }
 
 jQuery.fn.extend({
