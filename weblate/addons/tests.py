@@ -8,6 +8,7 @@ import base64
 import contextlib
 import json
 import os
+import re
 import shutil
 import subprocess  # noqa: S404
 import sys
@@ -4324,18 +4325,249 @@ class DiscoveryTest(ViewTestCase):
     def test_discovery_page_renders_ui_presets(self) -> None:
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(
-            reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.discovery.discovery"},
-            follow=True,
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=[],
+        ) as mocked:
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {"name": "weblate.discovery.discovery"},
+                follow=True,
+            )
+        self.assertNotContains(response, 'id="addon-ui-preset"')
+        self.assertContains(response, "Guided presets")
+        self.assertContains(response, "Generic presets")
+        self.assertContains(response, 'id="addon-discovery-presets"')
+        self.assertContains(response, "row row-cols-1 row-cols-lg-2 g-3")
+        self.assertContains(response, 'class="card h-100"')
+        self.assertContains(
+            response,
+            'data-bs-target="#addon-discovery-section-generic"',
         )
-        self.assertContains(response, 'id="addon-ui-preset"')
+        self.assertContains(response, 'data-addon-discovery-preset="filename-language"')
         self.assertContains(response, "Filename-based language variants")
-        self.assertContains(response, "Matching multiple paths")
+        self.assertContains(response, "format not preset")
+        self.assertContains(response, "Java Properties")
+        self.assertContains(response, "no monolingual base")
         self.assertContains(response, "addon-ui-presets")
+        self.assertNotContains(response, 'id="addon-discovery-feedback"')
+        content = response.content.decode()
+        self.assertRegex(
+            content,
+            re.compile(
+                r'id="addon-discovery-section-generic"\s+'
+                r'class="accordion-collapse collapse show"',
+            ),
+        )
+        self.assertNotContains(response, 'id="addon-discovery-section-detected"')
+        mocked.assert_called_once_with(self.component)
+
+    def test_discovery_page_renders_detected_ui_presets(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        detected = [
+            {
+                "examples": (
+                    "weblate/locale/*/LC_MESSAGES/django.po",
+                    "weblate/locale/*/LC_MESSAGES/djangojs.po",
+                ),
+                "values": {
+                    "match": r"weblate/locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\.po",
+                    "file_format": "po",
+                    "name_template": "{{ component }}",
+                    "language_regex": "^[^.]+$",
+                    "base_file_template": "",
+                    "new_base_template": "",
+                    "intermediate_template": "",
+                },
+            }
+        ]
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=detected,
+        ) as mocked:
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {"name": "weblate.discovery.discovery"},
+                follow=True,
+            )
+
+        self.assertContains(response, "Detected from repository")
+        self.assertContains(
+            response,
+            'data-addon-discovery-preset="detected-1"',
+        )
+        self.assertContains(response, 'id="addon-discovery-presets"')
+        self.assertContains(
+            response,
+            'data-bs-target="#addon-discovery-section-detected"',
+        )
+        self.assertContains(
+            response,
+            'data-bs-target="#addon-discovery-section-generic"',
+        )
+        self.assertContains(
+            response,
+            "weblate/locale/*/LC_MESSAGES/*.po",
+        )
+        self.assertContains(response, "gettext PO file")
+        self.assertContains(response, "no monolingual base")
+        self.assertContains(
+            response,
+            "One folder per language",
+        )
+        content = response.content.decode()
+        self.assertLess(
+            content.index("Detected from repository"),
+            content.index("Generic presets"),
+        )
+        self.assertRegex(
+            content,
+            re.compile(
+                r'id="addon-discovery-section-detected"\s+'
+                r'class="accordion-collapse collapse show"',
+            ),
+        )
+        self.assertRegex(
+            content,
+            re.compile(
+                r'id="addon-discovery-section-generic"\s+'
+                r'class="accordion-collapse collapse"',
+            ),
+        )
+        self.assertNotContains(response, "Prefills component discovery")
+        mocked.assert_called_once_with(self.component)
+
+    def test_render_detected_ui_preset_uses_component_wildcard_in_filename(
+        self,
+    ) -> None:
+        form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        form = cast("DiscoveryForm", form)
+
+        rendered = form.render_detected_ui_preset(
+            {
+                "examples": (
+                    "docs/news_*.md",
+                    "docs/guide_*.md",
+                ),
+                "values": {
+                    "match": r"docs/(?P<component>[^/]*)_(?P<language>[^/.]*)\.md",
+                    "file_format": "markdown",
+                    "name_template": "{{ component }}",
+                    "language_regex": "^[^.]+$",
+                    "base_file_template": "docs/{{ component }}.md",
+                    "new_base_template": "",
+                    "intermediate_template": "",
+                },
+            },
+            1,
+        )
+
+        self.assertEqual(
+            rendered["label"],
+            "Detected: docs/*_*.md [Markdown file; monolingual base: docs/*.md]",
+        )
+        self.assertEqual(rendered["file_format_label"], "Markdown file")
+        self.assertEqual(rendered["base_file_label"], "monolingual base: docs/*.md")
+        self.assertEqual(rendered["description"], "")
+        self.assertEqual(rendered["examples"], ())
+
+    def test_get_ui_presets_lists_detected_before_generic_presets(self) -> None:
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=[
+                {
+                    "examples": ("docs/news_*.md", "docs/guide_*.md"),
+                    "values": {
+                        "match": r"docs/(?P<component>[^/]*)_(?P<language>[^/.]*)\.md",
+                        "file_format": "markdown",
+                        "name_template": "{{ component }}",
+                        "language_regex": "^[^.]+$",
+                        "base_file_template": "",
+                        "new_base_template": "",
+                        "intermediate_template": "",
+                    },
+                }
+            ],
+        ):
+            form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+            self.assertIsNotNone(form)
+            if form is None:
+                self.fail("Expected discovery form to be created")
+            form = cast("DiscoveryForm", form)
+            presets = form.get_ui_presets()
+
+        self.assertEqual(
+            presets[0]["label"],
+            "Detected: docs/*_*.md [Markdown file; no monolingual base]",
+        )
+        self.assertEqual(
+            presets[1]["label"],
+            "Generic preset: One folder per language [gettext PO file; no monolingual base]",
+        )
+
+    def test_detected_ui_presets_are_not_shown_when_editing_existing_addon(
+        self,
+    ) -> None:
+        addon = DiscoveryAddon.create(
+            component=self.component,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|title }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+            },
+            run=False,
+        )
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets"
+        ) as mocked:
+            form = addon.get_settings_form(self.user)
+
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        form = cast("DiscoveryForm", form)
+        self.assertEqual(form.detected_ui_presets, [])
+        mocked.assert_not_called()
+
+    def test_detected_ui_presets_skip_builtin_equivalent_matches(self) -> None:
+        detected = [
+            {
+                "examples": ("*/application.po", "*/other.po"),
+                "values": {
+                    "match": r"(?P<language>[^/.]*)/(?P<component>[^/]*)\.po",
+                    "file_format": "po",
+                    "name_template": "{{ component }}",
+                    "language_regex": "^[^.]+$",
+                    "base_file_template": "",
+                    "new_base_template": "",
+                    "intermediate_template": "",
+                },
+            }
+        ]
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=detected,
+        ):
+            form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+            self.assertIsNotNone(form)
+            if form is None:
+                self.fail("Expected discovery form to be created")
+            form = cast("DiscoveryForm", form)
+            presets = form.detected_ui_presets
+
+        self.assertEqual(presets, [])
 
     def test_discovery_ui_presets_include_multiple_paths_template(self) -> None:
-        presets = DiscoveryForm.get_ui_presets()
+        presets = DiscoveryForm.get_builtin_ui_presets()
         multiple_paths = next(
             preset for preset in presets if preset["id"] == "multiple-paths"
         )
@@ -4343,6 +4575,25 @@ class DiscoveryTest(ViewTestCase):
             multiple_paths["values"]["name_template"],
             "{{ originalHierarchy }}: {{ component }}",
         )
+
+    def test_discovery_ui_presets_include_filename_language_file_format_clear(
+        self,
+    ) -> None:
+        presets = DiscoveryForm.get_builtin_ui_presets()
+        folder = next(
+            preset for preset in presets if preset["id"] == "folder-per-language"
+        )
+        split_android = next(
+            preset for preset in presets if preset["id"] == "split-android-strings"
+        )
+        filename_language = next(
+            preset for preset in presets if preset["id"] == "filename-language"
+        )
+
+        self.assertEqual(folder["values"]["file_format"], "po")
+        self.assertEqual(split_android["values"]["file_format"], "aresource")
+        self.assertIn("file_format", filename_language["values"])
+        self.assertEqual(filename_language["values"]["file_format"], "")
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):

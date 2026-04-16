@@ -1951,6 +1951,44 @@ button.list-group-item-danger.active:focus {
   background-color: #282b2c;
   border-color: #484d50;
 }
+
+.accordion {
+  --bs-accordion-btn-bg: #282b2c;
+  --bs-accordion-active-bg: #282b2c;
+  --bs-accordion-color: #dcd7cf;
+  --bs-accordion-active-color: #dcd7cf;
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(22, 94, 150, 0.6);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23dcd7cf' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3e%3cpath d='m3 6 5 5 5-5'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+}
+
+.accordion .accordion-item {
+  background-color: #1a1d1e;
+  border-color: #484d50;
+}
+
+.accordion .accordion-button,
+.accordion .accordion-button:not(.collapsed) {
+  color: #dcd7cf;
+}
+
+.accordion .accordion-button:not(.collapsed) {
+  border-bottom: 1px solid #484d50;
+}
+
+.accordion .accordion-button:focus {
+  box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+  z-index: 3;
+}
+
+.accordion .accordion-button:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+.accordion .accordion-body {
+  background-color: #1a1d1e;
+}
+
 .card > .card-header .badge {
   color: #f1eee8;
   background-color: #2a2e2f;
