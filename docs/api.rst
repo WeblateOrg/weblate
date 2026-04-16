@@ -2771,6 +2771,15 @@ Add-ons
     :param id: Add-on ID
     :type id: int
 
+.. http:post:: /api/addons/(int:id)/trigger/
+
+    Trigger a manual run of an add-on that supports manual triggering.
+
+    .. versionadded:: 5.17.1
+
+    :param id: Add-on ID
+    :type id: int
+
 
 
 

@@ -17,6 +17,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.translation import gettext
 
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
@@ -279,6 +280,29 @@ class Addon(models.Model):
         if not self.is_valid:
             return self.name
         return self.addon.name
+
+    def has_event(self, event: AddonEvent) -> bool:
+        prefetched_events = getattr(self, "_prefetched_objects_cache", {}).get(
+            "event_set"
+        )
+        if prefetched_events is not None:
+            return any(item.event == event for item in prefetched_events)
+        return self.event_set.filter(event=event).exists()
+
+    @property
+    def can_run_manually(self) -> bool:
+        return self.is_valid and self.has_event(AddonEvent.EVENT_MANUAL)
+
+    def schedule_manual_run(self) -> None:
+        if not self.can_run_manually:
+            raise ValueError(gettext("This add-on cannot be triggered manually."))
+        if self.pk is None:
+            msg = "Cannot schedule a manual run for an unsaved add-on."
+            raise ValueError(msg)
+
+        from weblate.addons.tasks import run_addon_manually  # noqa: PLC0415
+
+        run_addon_manually.delay_on_commit(self.pk)
 
     def _drop_addons_cache(self):
         if self.component:
@@ -589,9 +613,15 @@ def handle_addon_event(
 
 
 @transaction.atomic
-def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]):
-    event = AddonEvent.EVENT_DAILY
-    method = "daily"
+def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]) -> None:
+    handle_scoped_addon_event(addon_queryset, AddonEvent.EVENT_DAILY, "daily")
+
+
+@transaction.atomic
+def handle_scoped_addon_event(
+    addon_queryset: AddonQuerySet | list[Addon], event: AddonEvent, method: str
+) -> None:
+    project_kwargs = {"component": None, "category": None, "project": None}
 
     for addon in addon_queryset:
         if addon.component:
@@ -637,7 +667,7 @@ def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]):
                     event,
                     method,
                     None,
-                    kwargs={"component": None, "category": None, "project": proj},
+                    kwargs=project_kwargs | {"project": proj},
                 )
 
 

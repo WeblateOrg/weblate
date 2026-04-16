@@ -12,6 +12,7 @@ import subprocess  # noqa: S404
 import sys
 import tempfile
 from datetime import date, timedelta
+from functools import partial
 from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, ClassVar, cast
 
@@ -56,7 +57,7 @@ POT_PLACEHOLDER_COMMENTS = (
 )
 POT_BLANK_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\)(?: [0-9– -]*)?$")
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator
 
     from weblate.addons.base import CompatDict
     from weblate.formats.ttkit import PoFormat
@@ -454,6 +455,9 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     alert = "ExtractPotAddonError"
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
+    events: ClassVar[set[AddonEvent]] = UpdateBaseAddon.events | {
+        AddonEvent.EVENT_MANUAL
+    }
     INTERVALS: ClassVar[dict[str, int]] = {"daily": 1, "weekly": 7, "monthly": 30}
     PROCESS_TIMEOUT: ClassVar[int] = 300
 
@@ -596,12 +600,38 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
+        self.run_forced_update(
+            component,
+            partial(self.run_post_configure_update, component, skip_daily=skip_daily),
+        )
+
+    def manual_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        result: dict | None = None
+
+        def trigger() -> None:
+            nonlocal result
+            component.commit_pending("add-on", None)
+            result = cast(
+                "dict | None",
+                self.post_update(component, "", False, activity_log_id=activity_log_id),
+            )
+
+        self.run_forced_update(component, trigger)
+        return result
+
+    def run_forced_update(
+        self, component: Component, callback: Callable[[], None]
+    ) -> None:
         self.update_component_state(
             component,
             lambda state: state.__setitem__("_force_run", True),
         )
         try:
-            super().post_configure_run_component(component, skip_daily=skip_daily)
+            callback()
         finally:
             self.update_component_state(
                 component,
@@ -609,6 +639,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
             )
             if self.alerts or self.warnings:
                 self.trigger_alerts(component)
+
+    def run_post_configure_update(
+        self, component: Component, *, skip_daily: bool = False
+    ) -> None:
+        super().post_configure_run_component(component, skip_daily=skip_daily)
 
     def is_schedule_due(self, component: Component) -> bool:
         state = self.get_component_state(component)

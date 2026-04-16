@@ -257,6 +257,17 @@ class AddonDetail(BaseAddonView, UpdateView):
             return reverse("manage-addons")
         return reverse("addons", kwargs={"path": target.get_url_path()})
 
+    def trigger_manual_run(self, request: AuthenticatedHttpRequest):
+        if not self.object.can_run_manually:
+            messages.error(
+                request, gettext("This add-on cannot be triggered manually.")
+            )
+            return redirect(self.get_success_url())
+
+        self.object.schedule_manual_run()
+        messages.success(request, gettext("Add-on run has been scheduled."))
+        return redirect(self.get_success_url())
+
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
         self.object = obj
@@ -272,6 +283,8 @@ class AddonDetail(BaseAddonView, UpdateView):
                 request, gettext("Invalid add-on name: ”%s”") % obj.addon_name
             )
             return redirect(self.get_success_url())
+        if "run" in request.POST:
+            return self.trigger_manual_run(request)
         return super().post(request, *args, **kwargs)
 
 
