@@ -20,8 +20,10 @@ from django.urls import reverse
 from weblate.auth.models import Permission, Role
 from weblate.gitexport.models import get_export_url
 from weblate.gitexport.views import (
+    MAX_PRECHECK_PKT_LINES,
     authenticate,
     format_backend_error,
+    get_wanted_revisions,
     has_missing_requested_revision,
 )
 from weblate.trans.models import Project
@@ -314,7 +316,7 @@ class GitExportTest(ViewTestCase):
 
         self.assertFalse(has_missing_requested_revision(self.component, body))
 
-    def test_detect_missing_requested_have_without_common_base(self) -> None:
+    def test_ignore_missing_requested_have_with_present_want(self) -> None:
         self.mark_component_shallow()
         present_revision = self.component.repository.execute(
             ["rev-parse", "HEAD"],
@@ -326,7 +328,35 @@ class GitExportTest(ViewTestCase):
             + b"0000"
         )
 
-        self.assertTrue(has_missing_requested_revision(self.component, body))
+        self.assertFalse(has_missing_requested_revision(self.component, body))
+
+    def test_stop_parsing_after_initial_want_block(self) -> None:
+        present_revision = self.component.repository.execute(
+            ["rev-parse", "HEAD"],
+            needs_lock=False,
+        ).strip()
+        body = (
+            pkt_line(f"want {present_revision}\n".encode("ascii"))
+            + pkt_line(b"deepen 1\n")
+            + b"".join(
+                pkt_line(b"have deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n")
+                for _ in range(MAX_PRECHECK_PKT_LINES + 1)
+            )
+            + b"0000"
+        )
+
+        self.assertEqual(get_wanted_revisions(body), [present_revision])
+
+    def test_limit_precheck_pkt_lines(self) -> None:
+        body = (
+            b"".join(
+                pkt_line(b"have deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n")
+                for _ in range(MAX_PRECHECK_PKT_LINES + 1)
+            )
+            + b"0000"
+        )
+
+        self.assertIsNone(get_wanted_revisions(body))
 
     def test_skip_missing_revision_precheck_for_non_shallow_checkout(self) -> None:
         body = (
@@ -376,10 +406,8 @@ class GitExportTest(ViewTestCase):
         self.assertTrue(response.content.endswith(b"0000"))
         self.assertNotIn(b"user:secret@", response.content)
 
-    def test_no_common_base_precheck_response(self) -> None:
+    def test_missing_have_does_not_short_circuit_upload_pack(self) -> None:
         self.mark_component_shallow()
-        self.component.repo = "https://user:secret@example.com/upstream.git"
-        self.component.save(update_fields=["repo"])
         present_revision = self.component.repository.execute(
             ["rev-parse", "HEAD"],
             needs_lock=False,
@@ -390,28 +418,18 @@ class GitExportTest(ViewTestCase):
             + b"0000"
         )
 
-        response = self.client.generic(
-            "POST",
-            self.get_git_url(path="git-upload-pack"),
-            body,
-            CONTENT_TYPE="application/x-git-upload-pack-request",
-        )
+        with patch("weblate.gitexport.views.GitHTTPBackendWrapper") as wrapper_cls:
+            wrapper = wrapper_cls.return_value
+            wrapper.get_response.return_value = HttpResponse(status=204)
+            response = self.client.generic(
+                "POST",
+                self.get_git_url(path="git-upload-pack"),
+                body,
+                CONTENT_TYPE="application/x-git-upload-pack-request",
+            )
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            response["Content-Type"],
-            "application/x-git-upload-pack-result",
-        )
-        self.assertIn(
-            b"ERR Weblate's shallow Git checkout does not share enough history "
-            b"with this repository to satisfy the fetch.",
-            response.content,
-        )
-        self.assertIn(
-            b"Upstream repository: https://example.com/upstream.git", response.content
-        )
-        self.assertTrue(response.content.endswith(b"0000"))
-        self.assertNotIn(b"user:secret@", response.content)
+        self.assertEqual(response.status_code, 204)
+        wrapper_cls.assert_called_once()
 
     def test_skip_missing_revision_precheck_in_view_for_non_shallow_checkout(
         self,
@@ -438,6 +456,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     """Integration tests using git to clone the repo."""
 
     acl = True
+    clone_depth = 0
 
     def create_export_component(self) -> Component:
         return self.create_component()
@@ -445,33 +464,46 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     def setUp(self) -> None:
         super().setUp()
         self.clone_test_repos()
+        depth_override = override_settings(VCS_CLONE_DEPTH=self.clone_depth)
+        depth_override.enable()
+        self.addCleanup(depth_override.disable)
         self.component = self.create_export_component()
         self.component.project.access_control = Project.ACCESS_PRIVATE
         self.component.project.save()
         self.user = create_test_user()
 
+    def get_export_url(self) -> str:
+        return (
+            get_export_url(self.component)
+            .replace("http://example.com", self.live_server_url)
+            .replace(
+                "http://",
+                f"http://{self.user.username}:{self.user.auth_token.key}@",
+            )
+        )
+
+    def clone_export(self, testdir: str) -> tuple[int, str]:
+        with subprocess.Popen(  # noqa: S603
+            ["git", "clone", self.get_export_url()],  # noqa: S607
+            cwd=testdir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.PIPE,
+            text=True,
+        ) as process:
+            output = process.communicate()[0]
+            retcode = process.poll()
+
+        if retcode is None:
+            msg = "git clone did not report an exit status"
+            raise AssertionError(msg)
+        return retcode, output
+
     def test_clone(self) -> None:
         with tempfile.TemporaryDirectory() as testdir:
             if self.acl:
                 self.component.project.add_user(self.user, "VCS")
-            url = (
-                get_export_url(self.component)
-                .replace("http://example.com", self.live_server_url)
-                .replace(
-                    "http://",
-                    f"http://{self.user.username}:{self.user.auth_token.key}@",
-                )
-            )
-            with subprocess.Popen(  # noqa: S603
-                ["git", "clone", url],  # noqa: S607
-                cwd=testdir,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                stdin=subprocess.PIPE,
-                text=True,
-            ) as process:
-                output = process.communicate()[0]
-                retcode = process.poll()
+            retcode, output = self.clone_export(testdir)
 
         check = self.assertEqual if self.acl else self.assertNotEqual
         check(retcode, 0, f"Failed: {output}")
@@ -482,9 +514,7 @@ class GitCloneFailTest(GitCloneTest):
 
 
 class GitCloneShallowTest(GitCloneTest):
-    def create_export_component(self) -> Component:
-        with override_settings(VCS_CLONE_DEPTH=1):
-            return self.create_component()
+    clone_depth = 1
 
     def test_clone(self) -> None:
         self.assertTrue(
@@ -492,52 +522,79 @@ class GitCloneShallowTest(GitCloneTest):
         )
         super().test_clone()
 
-    def test_fetch_from_unrelated_clone(self) -> None:
-        self.component.repo = "https://user:secret@example.com/upstream.git"
-        self.component.save(update_fields=["repo"])
-        self.component.project.add_user(self.user, "VCS")
-
-        url = (
-            get_export_url(self.component)
-            .replace("http://example.com", self.live_server_url)
-            .replace(
-                "http://",
-                f"http://{self.user.username}:{self.user.auth_token.key}@",
-            )
+    def create_export_commit(self) -> str:
+        filename = "export-test.txt"
+        pathlib.Path(os.path.join(self.component.full_path, filename)).write_text(
+            "export\n",
+            encoding="utf-8",
         )
+        with self.component.repository.lock:
+            self.component.repository.set_committer("Test", "test@example.com")
+            self.component.repository.commit("Test export change", files=[filename])
+        return self.component.repository.execute(
+            ["rev-parse", "HEAD"],
+            needs_lock=False,
+        ).strip()
 
+    def advance_upstream_history(self, commit_count: int = 40) -> None:
         with tempfile.TemporaryDirectory() as testdir:
-            subprocess.check_call(
-                ["git", "init", "existing"],  # noqa: S607
+            subprocess.check_call(  # noqa: S603
+                ["git", "clone", self.component.repo, "upstream"],  # noqa: S607
                 cwd=testdir,
             )
+            upstream_dir = os.path.join(testdir, "upstream")
             subprocess.check_call(
-                cwd=os.path.join(testdir, "existing"),
-                args=["git", "config", "user.name", "Test"],
+                ["git", "config", "user.name", "Test"],  # noqa: S607
+                cwd=upstream_dir,
             )
             subprocess.check_call(
-                cwd=os.path.join(testdir, "existing"),
-                args=["git", "config", "user.email", "test@example.com"],
+                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+                cwd=upstream_dir,
             )
-            for name in ("a", "b", "c"):
-                pathlib.Path(os.path.join(testdir, "existing", "other.txt")).write_text(
-                    f"{name}\n", encoding="utf-8"
+
+            history_path = pathlib.Path(upstream_dir, "upstream-history.txt")
+            for number in range(commit_count):
+                previous = (
+                    history_path.read_text(encoding="utf-8")
+                    if history_path.exists()
+                    else ""
                 )
-                subprocess.check_call(
-                    ["git", "add", "other.txt"],  # noqa: S607
-                    cwd=os.path.join(testdir, "existing"),
+                history_path.write_text(
+                    f"{previous}{number}\n",
+                    encoding="utf-8",
                 )
                 subprocess.check_call(  # noqa: S603
-                    ["git", "commit", "-m", name],  # noqa: S607
-                    cwd=os.path.join(testdir, "existing"),
+                    ["git", "add", history_path.name],  # noqa: S607
+                    cwd=upstream_dir,
                 )
+                subprocess.check_call(  # noqa: S603
+                    ["git", "commit", "-m", f"upstream {number}"],  # noqa: S607
+                    cwd=upstream_dir,
+                )
+
             subprocess.check_call(  # noqa: S603
-                ["git", "remote", "add", "weblate", url],  # noqa: S607
-                cwd=os.path.join(testdir, "existing"),
+                ["git", "push", "origin", self.component.branch],  # noqa: S607
+                cwd=upstream_dir,
+            )
+
+    def test_fetch_from_upstream_clone_with_newer_local_history(self) -> None:
+        self.component.project.add_user(self.user, "VCS")
+        export_revision = self.create_export_commit()
+        self.advance_upstream_history()
+
+        with tempfile.TemporaryDirectory() as testdir:
+            subprocess.check_call(  # noqa: S603
+                ["git", "clone", self.component.repo, "existing"],  # noqa: S607
+                cwd=testdir,
+            )
+            existing_dir = os.path.join(testdir, "existing")
+            subprocess.check_call(  # noqa: S603
+                ["git", "remote", "add", "weblate", self.get_export_url()],  # noqa: S607
+                cwd=existing_dir,
             )
             with subprocess.Popen(
                 ["git", "fetch", "weblate"],  # noqa: S607
-                cwd=os.path.join(testdir, "existing"),
+                cwd=existing_dir,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 stdin=subprocess.PIPE,
@@ -545,11 +602,11 @@ class GitCloneShallowTest(GitCloneTest):
             ) as process:
                 output = process.communicate()[0]
                 retcode = process.poll()
+            fetched_revision = subprocess.check_output(
+                ["git", "rev-parse", "FETCH_HEAD"],  # noqa: S607
+                cwd=existing_dir,
+                text=True,
+            ).strip()
 
-        self.assertNotEqual(retcode, 0, output)
-        self.assertIn(
-            "does not share enough history with this repository to satisfy the fetch",
-            output,
-        )
-        self.assertIn("https://example.com/upstream.git", output)
-        self.assertNotIn("user:secret@", output)
+        self.assertEqual(retcode, 0, output)
+        self.assertEqual(fetched_revision, export_revision)
