@@ -190,6 +190,8 @@ class ActionEvents(IntegerChoices):
     PROJECT_RESTORE = 92, gettext_lazy("Project restored")
     # Translators: Name of event in the history
     COMPONENT_RESTORE = 93, gettext_lazy("Component restored")
+    # Translators: Name of event in the history
+    USER_REVERT = 94, gettext_lazy("User edit reverted")
 
 
 # Actions which are logged
@@ -230,6 +232,7 @@ ACTIONS_REVERTABLE = {
     ActionEvents.PROPAGATED_EDIT,
     ActionEvents.STRING_REPO_UPDATE,
     ActionEvents.STRING_UPLOAD_UPDATE,
+    ActionEvents.USER_REVERT,
 }
 
 # Content changes considered when looking for last author
@@ -250,6 +253,7 @@ ACTIONS_CONTENT = {
     ActionEvents.EXTRA_FLAGS,
     ActionEvents.NEW_UNIT,
     ActionEvents.ENFORCED_CHECK,
+    ActionEvents.USER_REVERT,
 }
 
 # Actions shown on the repository management page

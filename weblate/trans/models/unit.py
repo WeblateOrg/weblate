@@ -1487,6 +1487,7 @@ class Unit(models.Model, LoggerMixin):
         author: User | None = None,
         run_checks: bool = True,
         request=None,
+        change_details: dict[str, Any] | None = None,
     ) -> bool:
         """
         Store unit to backend.
@@ -1562,6 +1563,7 @@ class Unit(models.Model, LoggerMixin):
             author,
             change_action,
             save=not self.is_batch_update,
+            change_details=change_details,
         )
         if self.is_batch_update:
             self.translation.update_changes.append(change)
@@ -1580,10 +1582,16 @@ class Unit(models.Model, LoggerMixin):
         *,
         save: bool = True,
         check_new: bool = True,
+        change_details: dict[str, Any] | None = None,
     ) -> Change:
         # Generate Change object for this change
         change = self.generate_change(
-            user or author, author, change_action, save=save, check_new=check_new
+            user or author,
+            author,
+            change_action,
+            save=save,
+            check_new=check_new,
+            change_details=change_details,
         )
 
         if change.action not in {
@@ -1750,6 +1758,7 @@ class Unit(models.Model, LoggerMixin):
         save: bool = True,
         old: str | None = None,
         target: str | None = None,
+        change_details: dict[str, Any] | None = None,
     ) -> Change:
         """Create Change entry for saving unit."""
         # Notify about new contributor
@@ -1783,6 +1792,15 @@ class Unit(models.Model, LoggerMixin):
             action = ActionEvents.NEW
 
         # Create change object
+        details = {
+            "state": self.state,
+            "old_state": self.old_unit["state"],
+            "source": self.source,
+            "context": self.context,
+        }
+        if change_details:
+            details.update(change_details)
+
         change = Change(
             unit=self,
             action=action,
@@ -1790,12 +1808,7 @@ class Unit(models.Model, LoggerMixin):
             author=author,
             target=self.target if target is None else target,
             old=self.old_unit["target"] if old is None else old,
-            details={
-                "state": self.state,
-                "old_state": self.old_unit["state"],
-                "source": self.source,
-                "context": self.context,
-            },
+            details=details,
         )
         if save:
             change.save(force_insert=True)
@@ -2049,6 +2062,7 @@ class Unit(models.Model, LoggerMixin):
         request: AuthenticatedHttpRequest | None = None,
         add_alternative: bool = False,
         select_for_update: bool = True,
+        change_details: dict[str, Any] | None = None,
     ) -> bool:
         """
         Store new translation of a unit.
@@ -2113,6 +2127,7 @@ class Unit(models.Model, LoggerMixin):
             propagate=propagate,
             author=author,
             request=request,
+            change_details=change_details,
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)

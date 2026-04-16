@@ -58,6 +58,8 @@ from weblate.vcs.base import RepositoryError
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from weblate.trans.models.change import RevertUserEditsResult
+
 
 @app.task(
     trail=False,
@@ -185,6 +187,28 @@ def commit_pending(
             logger(f"Committing {component}")
 
         perform_commit.delay(component.pk, "commit_pending")
+
+
+@app.task(trail=False)
+def revert_user_edits(
+    target_user_id: int,
+    acting_user_id: int,
+    *,
+    project_id: int | None = None,
+    sitewide: bool = False,
+) -> RevertUserEditsResult:
+    if project_id is None and not sitewide:
+        msg = "Either project_id or sitewide must be provided"
+        raise ValueError(msg)
+
+    target_user = User.objects.get(pk=target_user_id)
+    acting_user = User.objects.get(pk=acting_user_id)
+    project = Project.objects.get(pk=project_id) if project_id is not None else None
+    return Change.objects.revert_user_edits(
+        target_user,
+        acting_user,
+        project=project,
+    )
 
 
 @app.task(trail=False)

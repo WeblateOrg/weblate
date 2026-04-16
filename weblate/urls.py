@@ -318,6 +318,11 @@ real_patterns = [
         name="unblock-user",
     ),
     path(
+        "access/<name:project>/revert-blocked/",
+        weblate.trans.views.acl.revert_blocked_user_edits,
+        name="revert-blocked-user-edits",
+    ),
+    path(
         "access/<name:project>/invite/",
         weblate.trans.views.acl.invite_user,
         name="invite-user",

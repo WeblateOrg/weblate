@@ -1428,6 +1428,13 @@ class UserBlockForm(forms.Form):
             "Internal notes regarding blocking the user that are not visible to the user."
         ),
     )
+    revert_edits = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Revert user edits"),
+        help_text=gettext_lazy(
+            "Revert the latest translation edits from this user in the current project."
+        ),
+    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "auto_id" not in kwargs:

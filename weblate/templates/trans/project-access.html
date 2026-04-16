@@ -96,6 +96,11 @@
                   {% if userblock.note %}
                     <span title="{{ userblock.note }}">{% icon 'info.svg' %}</span>
                   {% endif %}
+                  <a href="#"
+                     data-bs-toggle="modal"
+                     data-bs-target="#revert_blocked_user_{{ userblock.user.id }}"
+                     class="btn btn-link btn-xs"
+                     title="{% translate "Revert user edits" %}">{% icon 'undo.svg' %}</a>
                   <form action="{% url "unblock-user" project=object.slug %}"
                         method="post"
                         class="inlineform">
@@ -104,6 +109,34 @@
                     <button type="submit"
                             class="btn btn-link btn-xs"
                             title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</button>
+                  </form>
+                  <form action="{% url "revert-blocked-user-edits" project=object.slug %}"
+                        method="post"
+                        class="inlineform">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ userblock.user.username }}" />
+                    <div class="modal fade"
+                         tabindex="-1"
+                         role="dialog"
+                         id="revert_blocked_user_{{ userblock.user.id }}">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="{% translate "Close" %}"></button>
+                          </div>
+                          <div class="modal-body">
+                            {% blocktranslate with user=userblock.user.username %}This will revert the latest editable translations by <b>{{ user }}</b> in this project.{% endblocktranslate %}
+                          </div>
+                          <div class="modal-footer">
+                            <input type="submit" class="btn btn-danger" value="{% translate "Revert" %}" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </form>
                 </td>
               </tr>

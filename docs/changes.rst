@@ -11,6 +11,7 @@ Weblate 5.17.1
 
 * The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
 * Improved :ref:`addon-weblate.discovery.discovery` guidance with guided client-side presets, clearer ``{{ component }}`` validation, and a worked discovery-template example in the docs.
+* Admins can now revert edits from blocked users in a project or from any user site-wide.
 * Clarified :ref:`generic-upgrade-instructions` to state that Celery queues should be empty before upgrading.
 * Admin user management search can now find users by audit log IP address.
 
