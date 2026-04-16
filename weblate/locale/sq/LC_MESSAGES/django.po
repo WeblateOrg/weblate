@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-16 07:10+0000\n"
+"PO-Revision-Date: 2026-04-16 08:37+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -1926,12 +1926,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Paracaktim i brendshëm argumentesh xgettext-i që përkojnë me integrimin "
+"Meson të gettext-it. Paracaktimi GLib shton fjalëkyçin dhe mundësi “format-"
+"flag” të përdorura në ndihmësi gettext i Meson-it."
 
 #: weblate/addons/forms.py:384
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Shtesa Meson pret një drejtori gettext Meson me meson.build dhe POTFILES ose "
+"POTFILES.in."
 
 #: weblate/addons/forms.py:401
 msgid "The component has to define a POT file for new translations."
@@ -3293,7 +3298,7 @@ msgstr "VCS"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; dhe %(count)d të tjera"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3311,22 +3316,22 @@ msgstr "Adresa email"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Jepni një ose më tepër adresa email të ndara nga hapësirë."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: adresë e përsëdytur, te parashtrimi"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: ka tashmë një ftesë pezull"
 
 #: weblate/auth/forms.py:388
 #, python-format
@@ -3339,8 +3344,8 @@ msgstr[1] "U dërguan %(count)d ftesa me email."
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "U anashkalua %(count)d adresë: %(details)s"
+msgstr[1] "U anashkaluan %(count)d adresa: %(details)s"
 
 #: weblate/auth/forms.py:410
 msgid "No invitations were created."
@@ -5495,7 +5500,7 @@ msgstr "Burim Mobile Kotlin"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1754
 msgid "Compose Multiplatform Resource"
-msgstr ""
+msgstr "Compose Multiplatform Resource"
 
 #: weblate/formats/ttkit.py:1770
 #, python-format
@@ -5671,6 +5676,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Nuk mbulohet veprim “push” përmes eksportues Git të Weblate-it. Në vend të "
+"kësaj, kryeni “push” te drejtoria e projektit."
 
 #: weblate/gitexport/views.py:110
 #, python-brace-format
@@ -5678,12 +5685,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Nuk mbulohet veprim “push” përmes eksportues Git të Weblate-it. Në vend të "
+"kësaj, kryeni “push” te drejtoria e projektit: {location}"
 
 #: weblate/gitexport/views.py:120
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Rishikimi i kërkuar s’gjendet te depoja vendore git e klonuar e Weblate-it. "
+"Së pari merreni nga drejtoria e projektit."
 
 #: weblate/gitexport/views.py:125
 #, python-brace-format
@@ -5691,6 +5702,8 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Rishikimi i kërkuar s’gjendet te depoja vendore git e klonuar e Weblate-it. "
+"Së pari merreni nga drejtoria e projektit: {location}"
 
 #: weblate/gitexport/views.py:135
 msgid ""
@@ -5710,7 +5723,7 @@ msgstr ""
 
 #: weblate/gitexport/views.py:163
 msgid "Git export failed."
-msgstr ""
+msgstr "Eksportimi git dështoi."
 
 #: weblate/gitexport/views.py:315
 msgid "Unsupported Git service."
@@ -6589,7 +6602,7 @@ msgstr "Emër modeli vetjak"
 #: weblate/machinery/forms.py:567
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Maksimum token-ësh"
 
 #: weblate/machinery/forms.py:569
 msgid "Maximum number of tokens to generate in the response."
@@ -13418,16 +13431,20 @@ msgid ""
 "Another component is configured to push merge requests to the same "
 "repository and push branch."
 msgstr ""
+"Është formësuar një tjetër përbërës të kryejë “push” për kërkesa përzierjeje "
+"te e njëjta depo te degë për “push”."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
-msgstr ""
+msgstr "Kjo mund të sjellë mbishkrimin e degës."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:9
 msgid ""
 "Use a different push branch for each component, or share the repository "
 "using the following Weblate URL:"
 msgstr ""
+"Përdorni një degë të ndryshme “push” për secilin përbërës, ose jepeni depon "
+"duke përdorur URL-në vijuese Weblate:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid ""
@@ -15282,6 +15299,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Format e shumësit në %(component)s nuk përkojnë me përkthimin e synuar. "
+"Përkthimi i automatizuar anashkaloi vargje me shumë dhe përpunoi vetëm "
+"vargje me një formë."
 
 #: weblate/trans/autotranslate.py:457
 #, python-format
@@ -15380,7 +15400,7 @@ msgstr ""
 
 #: weblate/trans/discovery.py:115
 msgid "Discovery configuration"
-msgstr ""
+msgstr "Formësim Zbulimi"
 
 #: weblate/trans/discovery.py:191
 msgid ""
@@ -18742,6 +18762,8 @@ msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
 msgstr ""
+"Kjo URL është e ndaluar, ngaqë shpie te një adresë e brendshme, ose "
+"jopublike."
 
 #: weblate/utils/outbound.py:134 weblate/utils/outbound.py:184
 #: weblate/utils/validators.py:570 weblate/utils/validators.py:573
@@ -18959,15 +18981,15 @@ msgstr "Gabim sintakse në aliase gjuhe."
 
 #: weblate/utils/validators.py:382
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr ""
+msgstr "Kjo URL është e ndaluar, ngaqë ka përkim me një rregullsi të kufizuar."
 
 #: weblate/utils/validators.py:393
 msgid "This URL is prohibited because it uses a restricted host."
-msgstr ""
+msgstr "Kjo URL është e ndaluar, ngaqë përdor një strehë të kufizuar."
 
 #: weblate/utils/validators.py:404
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "Kjo URL është e ndaluar, ngaqë përdor një adresë IP numerike."
 
 #: weblate/utils/validators.py:421
 msgid "Invalid base64 encoded string"
