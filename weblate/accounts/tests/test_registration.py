@@ -17,6 +17,7 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from rest_framework.authtoken.models import Token
 
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.models import VerifiedEmail
@@ -105,7 +106,11 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
             # Set password
             response = self.client.post(
                 reverse("password_reset"),
-                {"new_password1": "2pa$$word!", "new_password2": "2pa$$word!"},
+                {
+                    "new_password1": "2pa$$word!",
+                    "new_password2": "2pa$$word!",
+                    "regenerate_api_key": "on",
+                },
                 follow=True,
             )
             self.assertContains(response, "Your password has been changed")
@@ -135,7 +140,11 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         # Set password
         response = self.client.post(
             reverse("password"),
-            {"new_password1": "1pa$$word!", "new_password2": "1pa$$word!"},
+            {
+                "new_password1": "1pa$$word!",
+                "new_password2": "1pa$$word!",
+                "regenerate_api_key": "on",
+            },
         )
         self.assertRedirects(response, reverse("profile"))
         # Password change notification
@@ -424,7 +433,11 @@ class RegistrationTest(BaseRegistrationTest):
         # Set first password
         response = self.client.post(
             reverse("password_reset"),
-            {"new_password1": "2pa$$word!", "new_password2": "2pa$$word!"},
+            {
+                "new_password1": "2pa$$word!",
+                "new_password2": "2pa$$word!",
+                "regenerate_api_key": "on",
+            },
             follow=True,
         )
         self.assertContains(response, "Your password has been changed")
@@ -432,7 +445,11 @@ class RegistrationTest(BaseRegistrationTest):
         # Set second password
         response = client2.post(
             reverse("password_reset"),
-            {"new_password1": "3pa$$word!", "new_password2": "3pa$$word!"},
+            {
+                "new_password1": "3pa$$word!",
+                "new_password2": "3pa$$word!",
+                "regenerate_api_key": "on",
+            },
             follow=True,
         )
         self.assertContains(response, "Password reset has been already completed.")
@@ -797,7 +814,8 @@ class CookieRegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset(self) -> None:
         """Test for password reset."""
-        User.objects.create_user("testuser", "test@example.com", "x")
+        user = User.objects.create_user("testuser", "test@example.com", "x")
+        old_token = user.auth_token.key
 
         response = self.client.get(reverse("password_reset"))
         self.assertContains(response, "Reset my password")
@@ -807,6 +825,34 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "Password reset almost complete")
 
         self.assert_registration(reset=True)
+        self.assertNotEqual(Token.objects.get(user=user).key, old_token)
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_keeps_api_key(self) -> None:
+        """Test for password reset without API key regeneration."""
+        user = User.objects.create_user("testuser", "test@example.com", "x")
+        old_token = user.auth_token.key
+
+        response = self.client.post(
+            reverse("password_reset"), {"email": "test@example.com"}, follow=True
+        )
+        self.assertContains(response, "Password reset almost complete")
+
+        response = self.client.get(
+            self.assert_registration_mailbox("[Weblate] Password reset on Weblate"),
+            follow=True,
+        )
+        self.assertRedirects(response, reverse("password_reset"))
+        self.assertContains(response, "You can now set new one")
+        self.assertContains(response, "Regenerate API key")
+
+        response = self.client.post(
+            reverse("password_reset"),
+            {"new_password1": "2pa$$word!", "new_password2": "2pa$$word!"},
+            follow=True,
+        )
+        self.assertContains(response, "Your password has been changed")
+        self.assertEqual(Token.objects.get(user=user).key, old_token)
 
 
 class NoCookieRegistrationTest(CookieRegistrationTest):

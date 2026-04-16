@@ -31,7 +31,6 @@ from django.utils.translation import get_language, gettext, gettext_lazy
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
-from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
 from unidecode import unidecode
 
@@ -60,7 +59,6 @@ from weblate.utils.stats import (
     GhostProjectLanguageStats,
     ProjectLanguageStats,
 )
-from weblate.utils.token import get_token
 from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
 from weblate.wladmin.models import get_support_status
 
@@ -1320,10 +1318,10 @@ def post_login_handler(
 def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
     """Automatically create token and profile for user."""
     if created:
+        from weblate.accounts.utils import create_api_token  # noqa: PLC0415
+
         # Create API token
-        instance.auth_token = Token.objects.create(
-            user=instance, key=get_token("wlp" if instance.is_bot else "wlu")
-        )
+        instance.auth_token = create_api_token(instance)
         # Create profile
         instance.profile = Profile.objects.create(user=instance)
         # Create subscriptions
