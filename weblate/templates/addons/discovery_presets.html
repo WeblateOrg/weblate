@@ -1,0 +1,64 @@
+{% load i18n %}
+
+<div class="mb-4">
+  <div class="mb-3">
+    <div class="fw-semibold">{% translate "Guided presets" %}</div>
+    <div class="form-text">
+      {% translate "Fill the form from a detected or generic repository layout, then edit the populated values as needed." %}
+    </div>
+  </div>
+  <div id="addon-discovery-presets" class="accordion">
+    {% for section in guided_preset_sections %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="addon-discovery-heading-{{ section.id }}">
+          <button type="button"
+                  class="accordion-button{% if not section.expanded %} collapsed{% endif %}"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#addon-discovery-section-{{ section.id }}"
+                  aria-expanded="{% if section.expanded %}true{% else %}false{% endif %}"
+                  aria-controls="addon-discovery-section-{{ section.id }}">{{ section.title }}</button>
+        </h2>
+        <div id="addon-discovery-section-{{ section.id }}"
+             class="accordion-collapse collapse{% if section.expanded %} show{% endif %}"
+             aria-labelledby="addon-discovery-heading-{{ section.id }}"
+             data-bs-parent="#addon-discovery-presets">
+          <div class="accordion-body">
+            <div class="row row-cols-1 row-cols-lg-2 g-3">
+              {% for preset in section.presets %}
+                <div class="col d-flex">
+                  <button type="button"
+                          class="btn p-0 border-0 text-start w-100 h-100"
+                          data-addon-discovery-preset="{{ preset.id }}">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                          <div class="flex-grow-1">
+                            <div class="fw-semibold text-break">{{ preset.title }}</div>
+                            <div class="small text-body-secondary mt-2">{{ preset.file_format_label }}</div>
+                            <div class="small text-body-secondary">{{ preset.base_file_label }}</div>
+                            {% if preset.description %}<div class="small mt-2">{{ preset.description }}</div>{% endif %}
+                            {% if preset.examples %}
+                              <div class="small text-body-secondary mt-2">
+                                {% translate "Examples:" %} {{ preset.examples|slice:":3"|join:", " }}
+                              </div>
+                            {% endif %}
+                          </div>
+                          {% if preset.kind == "detected" %}
+                            <span class="badge text-bg-success">{% translate "Detected" %}</span>
+                          {% else %}
+                            <span class="badge text-bg-secondary">{% translate "Generic" %}</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{{ guided_presets|json_script:"addon-ui-presets" }}

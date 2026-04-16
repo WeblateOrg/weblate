@@ -50,22 +50,6 @@
           <input type="hidden"
                  name="name"
                  value="{% if instance %}{{ instance.name }}{% else %}{{ addon.name }}{% endif %}" />
-          {% if addon_ui_presets %}
-            <div class="mb-3">
-              <label for="addon-ui-preset" class="form-label">{% translate "Guided preset" %}</label>
-              <select id="addon-ui-preset"
-                      class="form-select"
-                      aria-describedby="addon-ui-preset-help addon-ui-preset-description">
-                <option value="">{% translate "Manual configuration" %}</option>
-                {% for preset in addon_ui_presets %}<option value="{{ preset.id }}">{{ preset.label }}</option>{% endfor %}
-              </select>
-              <div id="addon-ui-preset-help" class="form-text">
-                {% translate "Populate one of the documented discovery layouts with ready-to-edit values. You can still edit the populated values." %}
-              </div>
-              <div id="addon-ui-preset-description" class="form-text d-none"></div>
-            </div>
-            {{ addon_ui_presets|json_script:"addon-ui-presets" }}
-          {% endif %}
           {% crispy form %}
         </div>
         <div class="card-footer">
@@ -90,7 +74,7 @@
 
 {% block extra_script %}
   {{ block.super }}
-  {% if addon_ui_presets %}
+  {% if form.guided_presets %}
     <script defer
             data-cfasync="false"
             src="{% static 'js/addon-discovery.js' %}{{ cache_param }}"></script>

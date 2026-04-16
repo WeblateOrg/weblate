@@ -181,15 +181,11 @@ class AddonList(PathViewMixin, ListView):
             return self.redirect_list()
 
         addon.pre_install(obj, request)
-        ui_presets = None
-        if form is not None and hasattr(form, "get_ui_presets"):
-            ui_presets = form.get_ui_presets()
         return self.response_class(
             request=self.request,
             template=["addons/addon_detail.html"],
             context={
                 "addon": addon(Addon()),
-                "addon_ui_presets": ui_presets,
                 "form": form,
                 "object": self.path_object,
             },
@@ -247,8 +243,6 @@ class AddonDetail(BaseAddonView, UpdateView):
         result["instance"] = self.object
         result["addon"] = self.object.addon if self.object.is_valid else None
         result["addon_name"] = self.object.addon_name
-        if (form := result.get("form")) and hasattr(form, "get_ui_presets"):
-            result["addon_ui_presets"] = form.get_ui_presets()
         return result
 
     def get_success_url(self):

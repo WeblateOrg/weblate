@@ -2212,7 +2212,7 @@ a.language:hover {
   display: inline-block;
 }
 
-#unit_all_flags.flags-updated {
+.flags-updated {
   animation: flags-updated ease-out 3000ms;
 }
 
@@ -2461,6 +2461,60 @@ tbody.warning {
 .card-footer {
   border-top: var(--border);
   background-color: inherit;
+}
+
+.accordion {
+  --bs-accordion-border-color: transparent;
+  --bs-accordion-border-radius: var(--border-radius);
+  --bs-accordion-inner-border-radius: calc(var(--border-radius) - 1px);
+  --bs-accordion-btn-bg: var(--bs-card-cap-bg);
+  --bs-accordion-active-bg: var(--bs-card-cap-bg);
+  --bs-accordion-color: var(--bs-body-color);
+  --bs-accordion-active-color: var(--bs-body-color);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(22, 94, 150, 0.25);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%232a3744' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3e%3cpath d='m3 6 5 5 5-5'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+}
+
+.accordion .accordion-item {
+  margin-bottom: 12px;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.accordion .accordion-item:last-child {
+  margin-bottom: 0;
+}
+
+.accordion .accordion-button {
+  font-weight: 700;
+  gap: 0.75rem;
+}
+
+.accordion .accordion-button:hover,
+.accordion .accordion-button:not(.collapsed) {
+  box-shadow: none;
+  background-color: var(--bs-accordion-btn-bg);
+}
+
+.accordion .accordion-button:not(.collapsed) {
+  border-bottom: var(--border);
+}
+
+.accordion .accordion-button:focus {
+  box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+  z-index: 3;
+}
+
+.accordion .accordion-button:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+.accordion .accordion-body {
+  padding: 1rem;
+  background-color: var(--background-color);
 }
 
 .card {
