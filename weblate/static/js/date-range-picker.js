@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-
 // Usage:
 //   new DateRangePicker(inputElement);
 
@@ -173,6 +172,36 @@
     return node;
   }
 
+  const instances = new Set();
+
+  function initDocumentListeners() {
+    if (initDocumentListeners.done) return;
+    initDocumentListeners.done = true;
+
+    document.addEventListener("mousedown", (e) => {
+      for (const picker of instances) {
+        if (
+          picker.isOpen() &&
+          !picker.container.contains(e.target) &&
+          e.target !== picker.input
+        ) {
+          picker.close();
+        }
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        for (const picker of instances) {
+          if (picker.isOpen()) {
+            picker.close();
+            picker.input.focus();
+          }
+        }
+      }
+    });
+  }
+
   class DateRangePicker {
     /**
      * @param {HTMLInputElement} input
@@ -224,22 +253,8 @@
       this.input.setAttribute("readonly", "");
       this.input.setAttribute("autocomplete", "off");
 
-      document.addEventListener("mousedown", (e) => {
-        if (
-          this.isOpen() &&
-          !this.container.contains(e.target) &&
-          e.target !== this.input
-        ) {
-          this.close();
-        }
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && this.isOpen()) {
-          this.close();
-          this.input.focus();
-        }
-      });
+      instances.add(this);
+      initDocumentListeners();
 
       this.render();
     }
@@ -250,8 +265,8 @@
 
     open() {
       this.container.style.display = "";
-      this._positionDropdown();
       this.render();
+      this._positionDropdown();
     }
 
     close() {
@@ -270,7 +285,7 @@
     _positionDropdown() {
       const rect = this.input.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      const dropdownHeight = 360;
+      const dropdownHeight = this.container.offsetHeight;
 
       if (spaceBelow < dropdownHeight && rect.top > dropdownHeight) {
         this.container.classList.add("datepicker-above");
@@ -394,7 +409,7 @@
             "aria-label": gettext("Previous month"),
             onClick: () => this.prevMonth(),
           },
-          "\u2039", /* ‹ */
+          "\u2039" /* ‹ */,
         ),
         el(
           "span",
@@ -409,7 +424,7 @@
             "aria-label": gettext("Next month"),
             onClick: () => this.nextMonth(),
           },
-          "\u203A", /* › */
+          "\u203A" /* › */,
         ),
       ]);
 
@@ -417,7 +432,9 @@
       const weekRow = el(
         "div",
         { className: "datepicker-weekdays" },
-        daysOfWeek.map((d) => el("span", { className: "datepicker-wdlabel" }, d)),
+        daysOfWeek.map((d) =>
+          el("span", { className: "datepicker-wdlabel" }, d),
+        ),
       );
 
       /* Day grid */
@@ -438,7 +455,9 @@
 
       /* Leading blanks */
       for (let i = 0; i < startWd; i++) {
-        cells.push(el("span", { className: "datepicker-day datepicker-day--empty" }));
+        cells.push(
+          el("span", { className: "datepicker-day datepicker-day--empty" }),
+        );
       }
 
       for (let d = 1; d <= totalDays; d++) {
