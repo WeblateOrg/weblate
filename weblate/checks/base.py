@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from contextlib import nullcontext
 from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 import sentry_sdk
@@ -235,7 +236,10 @@ class BatchCheckMixin(BaseCheck):
         raise NotImplementedError
 
     def perform_batch(self, component: Component) -> None:
-        with sentry_sdk.start_span(op="check.perform_batch", name=self.check_id):
+        lock = nullcontext()
+        if self.batch_project_wide and component.allow_translation_propagation:
+            lock = component.project.checks_lock
+        with lock, sentry_sdk.start_span(op="check.perform_batch", name=self.check_id):
             self._perform_batch(component)
 
     def _perform_batch(self, component: Component) -> None:
@@ -258,6 +262,7 @@ class BatchCheckMixin(BaseCheck):
             create.append(Check(unit=unit, dismissed=False, name=self.check_id))
             components[unit.translation.component.id] = unit.translation.component
 
+        create.sort(key=lambda check: (check.unit_id, check.name))
         Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
         # Delete stale checks

@@ -175,6 +175,9 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         translation = unit.translation
         component = translation.component
 
+        if not component.allow_translation_propagation:
+            return False
+
         # Use last result if checks are batched
         if component.batch_checks:
             return self.handle_batch(unit, component)
