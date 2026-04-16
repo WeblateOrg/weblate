@@ -28,7 +28,7 @@ from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
-from weblate.utils.backup import BackupError
+from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
@@ -49,6 +49,9 @@ class BackupFailureService:
 
     def backup(self) -> None:
         BackupService.backup(cast("BackupService", self))
+
+    def create_backup_log(self, event: str, result: BorgResult) -> None:
+        BackupService.create_backup_log(cast("BackupService", self), event, result)
 
 
 class BackupTaskTest(TestCase):
@@ -131,13 +134,52 @@ class BackupServiceStatusTest(TestCase):
         old_error = SimpleNamespace(event="error", log="old failure")
         service = BackupService(repository="/backup")
         service.__dict__["last_logs"] = [
-            SimpleNamespace(event="prune", log="prune complete"),
-            SimpleNamespace(event="backup", log="backup complete"),
+            SimpleNamespace(event="prune", log="prune complete", warning=False),
+            SimpleNamespace(event="backup", log="backup complete", warning=False),
             old_error,
         ]
 
         self.assertFalse(service.has_errors)
         self.assertIsNone(service.current_error)
+
+    def test_current_error_clears_after_backup_warning(self) -> None:
+        old_error = SimpleNamespace(event="error", log="old failure", warning=False)
+        warning = SimpleNamespace(
+            event="backup", log="backup complete with warnings", warning=True
+        )
+        service = BackupService(repository="/backup")
+        service.__dict__["last_logs"] = [warning, old_error]
+
+        self.assertFalse(service.has_errors)
+        self.assertIsNone(service.current_error)
+        self.assertTrue(service.has_warnings)
+        self.assertIs(service.current_warning, warning)
+
+    def test_current_warning_clears_after_clean_backup(self) -> None:
+        old_warning = SimpleNamespace(
+            event="backup", log="backup complete with warnings", warning=True
+        )
+        service = BackupService(repository="/backup")
+        service.__dict__["last_logs"] = [
+            SimpleNamespace(event="backup", log="backup complete", warning=False),
+            old_warning,
+        ]
+
+        self.assertFalse(service.has_warnings)
+        self.assertIsNone(service.current_warning)
+
+    def test_backup_logs_warning_without_error(self) -> None:
+        service = BackupFailureService()
+
+        with patch(
+            "weblate.wladmin.models.backup",
+            return_value=BorgResult("borg completed with warnings", returncode=1),
+        ):
+            service.backup()
+
+        service.backuplog_set.create.assert_called_once_with(
+            event="backup", log="borg completed with warnings", warning=True
+        )
 
 
 class AdminTest(ViewTestCase):

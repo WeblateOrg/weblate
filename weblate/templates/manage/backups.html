@@ -23,6 +23,8 @@
             {% blocktranslate with url=service.repository %}Backup service: {{ url }}{% endblocktranslate %}
             {% if service.has_errors %}
               <span class="badge text-bg-danger">{% translate "Failed with an error" %}</span>
+            {% elif service.has_warnings %}
+              <span class="badge text-bg-warning">{% translate "Completed with warnings" %}</span>
             {% endif %}
             {% if not service.enabled %}
               <span class="badge text-bg-warning">{% translate "Turned off" %}</span>
@@ -72,22 +74,24 @@
                 <h5 class="accordion-header"
                     id="backup-service-{{ service.pk }}-log-heading-{{ log.pk }}">
                   <button type="button"
-                          class="accordion-button{% if not service.current_error or log.pk != service.current_error.pk %} collapsed{% endif %}"
+                          class="accordion-button{% if service.current_error %}{% if log.pk != service.current_error.pk %} collapsed{% endif %}{% elif service.current_warning %}{% if log.pk != service.current_warning.pk %} collapsed{% endif %}{% else %} collapsed{% endif %}"
                           data-bs-toggle="collapse"
                           data-bs-target="#backup-service-{{ service.pk }}-log-{{ log.pk }}"
-                          aria-expanded="{% if service.current_error and log.pk == service.current_error.pk %}true{% else %}false{% endif %}"
+                          aria-expanded="{% if service.current_error and log.pk == service.current_error.pk or not service.current_error and service.current_warning and log.pk == service.current_warning.pk %}true{% else %}false{% endif %}"
                           aria-controls="backup-service-{{ service.pk }}-log-{{ log.pk }}">
                     <span class="d-flex flex-wrap align-items-center gap-2 w-100 me-3">
                       <span class="fw-semibold">{{ log.get_event_display }}</span>
                       {% if log.event == "error" %}
                         <span class="badge text-bg-danger">{% translate "Failed" %}</span>
+                      {% elif log.warning %}
+                        <span class="badge text-bg-warning">{% translate "Warnings" %}</span>
                       {% endif %}
                       <span class="small text-body-secondary ms-lg-auto">{{ log.timestamp|date:"SHORT_DATETIME_FORMAT" }}</span>
                     </span>
                   </button>
                 </h5>
                 <div id="backup-service-{{ service.pk }}-log-{{ log.pk }}"
-                     class="accordion-collapse collapse{% if service.current_error and log.pk == service.current_error.pk %} show{% endif %}"
+                     class="accordion-collapse collapse{% if service.current_error and log.pk == service.current_error.pk or not service.current_error and service.current_warning and log.pk == service.current_warning.pk %} show{% endif %}"
                      aria-labelledby="backup-service-{{ service.pk }}-log-heading-{{ log.pk }}">
                   <div class="accordion-body">
                     <pre class="mb-0">{{ log.log }}</pre>

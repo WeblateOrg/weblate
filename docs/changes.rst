@@ -20,6 +20,7 @@ Weblate 5.17.1
 
 * :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
 * Client-side popup notifications triggered by JavaScript now use Bootstrap toasts.
+* Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
 
 .. rubric:: Compatibility
 
