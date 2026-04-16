@@ -21,6 +21,7 @@ from social_django.models import Code
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
+from weblate.utils.token import get_token
 
 if TYPE_CHECKING:
     from django_otp.models import Device
@@ -35,6 +36,24 @@ SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
+
+
+def create_api_token(user: User) -> Token:
+    """Create an API token for a user."""
+    return Token.objects.create(
+        user=user, key=get_token("wlp" if user.is_bot else "wlu")
+    )
+
+
+def delete_api_tokens(user: User) -> None:
+    """Delete all API tokens for a user."""
+    Token.objects.filter(user=user).delete()
+
+
+def reset_api_token(user: User) -> Token:
+    """Reset API token for a user."""
+    delete_api_tokens(user)
+    return create_api_token(user)
 
 
 def remove_user(
@@ -103,7 +122,7 @@ def remove_user(
         profile.save()
 
     # Delete API tokens
-    Token.objects.filter(user=user).delete()
+    delete_api_tokens(user)
 
 
 def lock_user(

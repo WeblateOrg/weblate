@@ -69,7 +69,6 @@ from django_otp_webauthn.views import (
     CompleteCredentialAuthenticationView,
 )
 from requests.exceptions import HTTPError
-from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
 from social_core.exceptions import (
@@ -136,6 +135,7 @@ from weblate.accounts.utils import (
     get_key_name,
     lock_user,
     remove_user,
+    reset_api_token,
 )
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_anonymous
@@ -151,7 +151,6 @@ from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_e
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.token import get_token
 from weblate.utils.version import USER_AGENT
 from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
@@ -1265,10 +1264,8 @@ def reset_password(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("reset_api")
 def reset_api_key(request: AuthenticatedHttpRequest):
     """Reset user API key."""
-    # Need to delete old token as key is primary key
     with transaction.atomic():
-        Token.objects.filter(user=request.user).delete()
-        Token.objects.create(user=request.user, key=get_token("wlu"))
+        reset_api_token(request.user)
 
     return redirect_profile("#api")
 
