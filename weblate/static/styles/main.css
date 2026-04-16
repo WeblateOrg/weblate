@@ -1500,13 +1500,16 @@ svg {
   max-height: 18px;
 }
 
-#popup-alerts {
+#popup-toasts {
   position: fixed;
-  z-index: 1000;
-  top: 70px;
-  width: 100%;
-  padding: 32px 16px 0 16px;
-  display: none;
+  z-index: 1090;
+  inset-block-start: 70px;
+  inset-inline-end: 0;
+  padding: 0.75rem;
+}
+
+#popup-toasts .toast {
+  width: min(var(--bs-toast-max-width), calc(100vw - 1.5rem));
 }
 
 .source-info,
