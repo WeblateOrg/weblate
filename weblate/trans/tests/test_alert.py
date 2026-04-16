@@ -579,6 +579,58 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_broken_project_url_renders_validation_error_as_main_message(
+        self,
+    ) -> None:
+        rendered = render_to_string(
+            "trans/alert/brokenprojecturl.html",
+            {
+                "component": SimpleNamespace(
+                    project=SimpleNamespace(web="https://weblate.contact.de")
+                ),
+                "error": (
+                    "This URL is prohibited because it points to an internal or "
+                    "non-public address."
+                ),
+            },
+        )
+
+        self.assertIn(
+            "Weblate could not validate the project website URL:",
+            rendered,
+        )
+        self.assertIn(
+            "This URL is prohibited because it points to an internal or non-public "
+            "address.",
+            rendered,
+        )
+        self.assertNotIn("non-existing location", rendered)
+
+    def test_broken_browser_url_renders_validation_error_as_main_message(
+        self,
+    ) -> None:
+        rendered = render_to_string(
+            "trans/alert/brokenbrowserurl.html",
+            {
+                "link": "https://weblate.contact.de/source/file.po",
+                "error": (
+                    "This URL is prohibited because it points to an internal or "
+                    "non-public address."
+                ),
+            },
+        )
+
+        self.assertIn(
+            "Weblate could not validate the repository browser URL:",
+            rendered,
+        )
+        self.assertIn(
+            "This URL is prohibited because it points to an internal or non-public "
+            "address.",
+            rendered,
+        )
+        self.assertNotIn("non-existing location", rendered)
+
     def test_update_failure_analysis_uses_component_host_key_message(self) -> None:
         component = SimpleNamespace(
             get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
