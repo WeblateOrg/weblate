@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
-"PO-Revision-Date: 2026-04-16 08:58+0000\n"
+"PO-Revision-Date: 2026-04-16 15:06+0000\n"
 "Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -548,9 +548,7 @@ msgstr "확인 메일 발송됨: {email}."
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
-msgstr ""
-"다른 사용자가 업로드한 번역의 작성자 정보를 추적하기 위해 시스템 사용자를 생"
-"성했습니다."
+msgstr "타 사용자 업로드 번역의 작성자 추적을 위해 시스템 사용자 생성됨."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:304
@@ -581,56 +579,56 @@ msgstr "반기별 지원 상태 검토 표시됨."
 #: weblate/accounts/models.py:316
 #, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "사용자가 {username} 님에 의해 {team} 팀에 추가되었습니다."
+msgstr "{username} 님이 {team} 팀에 사용자 추가함."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:318
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
-msgstr "{username} 님이 {team} 팀에서 사용자를 제거했습니다."
+msgstr "{username} 님이 {team} 팀에서 사용자 제거함."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 #, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "{project}의 프로젝트 토큰이 생성되었습니다."
+msgstr "{project} 프로젝트 토큰 생성됨."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 #, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "{project}의 프로젝트 토큰이 삭제되었습니다."
+msgstr "{project} 프로젝트 토큰 삭제됨."
 
 #: weblate/accounts/models.py:325
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "2단계 인증 복구 코드가 생성됨"
+msgstr "2단계 인증 복구 코드 생성됨"
 
 #: weblate/accounts/models.py:329
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr "2단계 인증 복구 코드가 확인됨"
+msgstr "2단계 인증 복구 코드 조회됨"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:332
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
-msgstr "2단계 인증이 추가됨: {device}"
+msgstr "2단계 인증 추가됨: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:334
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
-msgstr "2단계 인증이 제거됨: {device}"
+msgstr "2단계 인증 제거됨: {device}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:336
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
-msgstr "{device}를 사용하여 2단계 인증 로그인"
+msgstr "2단계 인증으로 로그인함: {device}"
 
 #: weblate/accounts/models.py:339
 #, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "{device_type}을 사용하여 2단계 인증에 실패했습니다"
+msgstr "2단계 인증 실패: {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:347
@@ -640,12 +638,12 @@ msgstr "로그인을 위한 비밀번호를 구성했습니다."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:349
 msgid "Signed in using password."
-msgstr "비밀번호 사용하여 로그인함."
+msgstr "비밀번호로 로그인함."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
 msgid "Signed in using password from a new device."
-msgstr "새 장치에서 비밀번호 사용하여 로그인함."
+msgstr "새 장치에서 비밀번호로 로그인함."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:353
@@ -656,12 +654,12 @@ msgstr "비밀번호 사용 로그인 실패함."
 #: weblate/accounts/models.py:357
 #, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "{username} 님이 {project}에 초대했습니다."
+msgstr "{username} 님이 {project}에 초대함."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:361
 msgid "Password configured."
-msgstr "비밀번호가 구성되었습니다."
+msgstr "비밀번호 설정됨."
 
 #: weblate/accounts/models.py:368
 msgid "To restore access to your account, please reset your password."
@@ -669,12 +667,12 @@ msgstr "계정 접속 권한을 복구하려면 비밀번호를 다시 설정해
 
 #: weblate/accounts/models.py:372
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr "이것이 부적절하다고 생각되면 프로젝트 관리자에게 문의하세요."
+msgstr "본 조치가 부당하다고 생각하면 프로젝트 관리자에게 문의하세요."
 
 #: weblate/accounts/models.py:376 weblate/accounts/models.py:380
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
-msgstr "본인이 맞다면 비밀번호 재설정을 통해 계정에 다시 접근해 보세요."
+msgstr "본인의 활동이라면, 비밀번호 재설정을 통해 계정 접속 권한을 복구하세요."
 
 #: weblate/accounts/models.py:536 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:305
