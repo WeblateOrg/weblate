@@ -635,6 +635,41 @@ class RSTReferencesCheckTest(CheckTestCase):
 
         self.assertEqual(highlights, ((15, 20, "|foo|"),))
 
+    def test_repeated_explicit_link_targets_keep_offset(self) -> None:
+        text = (
+            "Installing Ubuntu Touch is easy, and a lot of work has gone in to "
+            "making the installation process less intimidating to the average "
+            "user. The UBports Installer is a nice graphical tool that you can "
+            "use to install Ubuntu Touch on a `supported device "
+            "<https://devices.ubuntu-touch.io/>`_ from your `Linux "
+            "<https://snapcraft.io/ubports-installer>`_, `Mac "
+            "<https://devices.ubuntu-touch.io/installer/?package=dmg>`_ or "
+            "`Windows "
+            "<https://devices.ubuntu-touch.io/installer/?package=exe>`_ "
+            "computer. For more experienced users, we also have manual "
+            "installation instructions for every device `on the devices page "
+            "<https://devices.ubuntu-touch.io/>`_."
+        )
+
+        _references, counter, highlights = extract_rst_references(text)
+
+        expected_targets = (
+            "<https://devices.ubuntu-touch.io/>",
+            "<https://snapcraft.io/ubports-installer>",
+            "<https://devices.ubuntu-touch.io/installer/?package=dmg>",
+            "<https://devices.ubuntu-touch.io/installer/?package=exe>",
+            "<https://devices.ubuntu-touch.io/>",
+        )
+        expected_highlights = []
+        offset = 0
+        for target in expected_targets:
+            start = text.index(target, offset)
+            expected_highlights.append((start, start + len(target), target))
+            offset = start + len(target)
+
+        self.assertEqual(counter["`... <...>`_"], len(expected_targets))
+        self.assertEqual(highlights, tuple(expected_highlights))
+
     def test_option_space(self) -> None:
         self.do_test(
             True,
