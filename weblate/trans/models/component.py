@@ -1313,7 +1313,7 @@ class Component(  # noqa: PLR0904
             key=self.pk,
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
-            file_template="{slug}-update.lock",
+            file_template="{slug}-{scope}-{key}.lock",
             timeout=5,
             origin=self.full_slug,
         )
@@ -1326,7 +1326,7 @@ class Component(  # noqa: PLR0904
             key=self.pk,
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
-            file_template="{slug}-checks.lock",
+            file_template="{slug}-{scope}-{key}.lock",
             timeout=5,
             origin=self.full_slug,
         )
