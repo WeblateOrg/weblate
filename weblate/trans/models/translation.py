@@ -1864,7 +1864,7 @@ class Translation(
 
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
-            with self.component.repository.lock:
+            with self.component.track_local_head_change():
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
                 translation_post_remove.send(sender=self.__class__, translation=self)
 

@@ -1643,6 +1643,123 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.assertIn("Pending changes were kept", messages[0])
 
 
+class ResetDiscardRevisionTest(ComponentTestCase):
+    def test_reset_updates_stored_local_revision(self) -> None:
+        start_rev = self.component.repository.last_revision
+
+        self.change_unit("Ahoj svete!\n")
+        self.component.commit_pending("test", self.user)
+
+        self.component.refresh_from_db()
+        stale_rev = self.component.local_revision
+        self.assertNotEqual(start_rev, stale_rev)
+        self.assertEqual(stale_rev, self.component.repository.last_revision)
+
+        self.assertTrue(self.component.do_reset(self.get_request()))
+
+        self.component.refresh_from_db()
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(start_rev, self.component.local_revision)
+
+
+class TranslationRemoveRevisionTest(ComponentTestCase):
+    def test_remove_updates_stored_local_revision(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        self.component.store_local_revision()
+        self.component.refresh_from_db()
+        start_rev = self.component.local_revision
+
+        translation.remove(self.user)
+
+        self.component.refresh_from_db()
+        self.assertNotEqual(start_rev, self.component.local_revision)
+        self.assertEqual(
+            self.component.local_revision, self.component.repository.last_revision
+        )
+
+
+class LastCommitLookupTest(ComponentTestCase):
+    def test_get_last_commit_keeps_stale_local_revision_unchanged(self) -> None:
+        self.component.local_revision = "not-a-valid-revision"
+        self.component.save(update_fields=["local_revision"])
+
+        self.assertIsNone(self.component.get_last_commit())
+
+        self.component.refresh_from_db()
+        self.assertEqual("not-a-valid-revision", self.component.local_revision)
+
+
+class UpdateBranchRevisionTest(ComponentTestCase):
+    def test_update_branch_treats_stale_local_revision_as_update(self) -> None:
+        current_head = self.component.repository.last_revision
+        self.component.local_revision = ""
+        self.component.processed_revision = current_head
+        self.component.save(update_fields=["local_revision", "processed_revision"])
+
+        with patch.object(
+            Component, "trigger_post_update", autospec=True
+        ) as mock_trigger:
+            self.assertTrue(self.component.update_branch())
+
+        self.component.refresh_from_db()
+        self.assertEqual(current_head, self.component.local_revision)
+        mock_trigger.assert_called_once()
+
+
+class CleanupRevisionTest(ComponentTestCase):
+    def test_cleanup_updates_stored_local_revision_when_head_changes(self) -> None:
+        with (
+            patch.object(
+                Component,
+                "try_get_local_head_revision",
+                autospec=True,
+                return_value="old",
+            ),
+            patch.object(
+                Component,
+                "get_local_head_revision",
+                autospec=True,
+                return_value="new",
+            ),
+            patch.object(
+                Component, "store_local_revision", autospec=True
+            ) as mock_store,
+            patch.object(self.component.repository, "cleanup") as mock_cleanup,
+        ):
+            self.assertTrue(self.component.do_cleanup(self.get_request()))
+
+        mock_cleanup.assert_called_once_with()
+        mock_store.assert_called_once_with(self.component)
+
+    def test_cleanup_reports_post_cleanup_head_read_failure(self) -> None:
+        request = self.get_request()
+        with (
+            patch.object(
+                Component,
+                "try_get_local_head_revision",
+                autospec=True,
+                return_value="old",
+            ),
+            patch.object(
+                Component,
+                "get_local_head_revision",
+                autospec=True,
+                side_effect=RepositoryError(128, "broken HEAD"),
+            ),
+            patch.object(self.component.repository, "cleanup") as mock_cleanup,
+            patch.object(
+                Component, "store_local_revision", autospec=True
+            ) as mock_store,
+        ):
+            self.assertFalse(self.component.do_cleanup(request))
+
+        mock_cleanup.assert_called_once_with()
+        mock_store.assert_not_called()
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Could not clean the repository", messages[0])
+
+
 class LinkedResetDiskStateTest(ComponentTestCase):
     def create_component(self):
         return self.create_link()

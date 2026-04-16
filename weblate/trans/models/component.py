@@ -8,7 +8,8 @@ import os
 import re
 import time
 from collections import defaultdict
-from contextlib import suppress
+from contextlib import contextmanager, suppress
+from dataclasses import dataclass
 from glob import glob
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
@@ -153,7 +154,7 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
     from datetime import datetime
 
     from django_stubs_ext import StrOrPromise
@@ -260,6 +261,27 @@ def perform_on_link(func):
         return func(self, *args, **kwargs)
 
     return on_link_wrapper
+
+
+@dataclass
+class LocalHeadChange:
+    component: Component
+    previous_head: str | None = None
+    new_head: str | None = None
+
+    @property
+    def changed(self) -> bool:
+        return self.new_head is not None and self.new_head != self.previous_head
+
+    @property
+    def needs_local_revision_sync(self) -> bool:
+        return self.changed or (
+            self.new_head is not None and self.component.local_revision != self.new_head
+        )
+
+    def refresh_new_head(self) -> str:
+        self.new_head = self.component.get_local_head_revision()
+        return self.new_head
 
 
 def prefetch_tasks(components):
@@ -994,8 +1016,9 @@ class Component(  # noqa: PLR0904
         self.drop_file_format_cache()
         self.set_default_branch()
 
-        # Linked component cache
-        self.linked_component = Component.objects.get_linked(self.repo)
+        # Repository links change both the effective repository object and
+        # the delegated filesystem path.
+        self.refresh_linked_component()
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
@@ -1648,6 +1671,19 @@ class Component(  # noqa: PLR0904
     def effective_auto_lock_error(self) -> bool:
         return self.effective_repo_component.auto_lock_error
 
+    def refresh_linked_component(self) -> None:
+        """Refresh linked repository target and dependent caches."""
+        cached_path = self.__dict__.get("full_path")
+        cached_repository = self.__dict__.get("repository")
+
+        self.linked_component = Component.objects.get_linked(self.repo)
+        current_path = self._get_path()
+
+        if cached_path is not None and cached_path != current_path:
+            self.invalidate_path_cache()
+        if cached_repository is not None and cached_repository.path != current_path:
+            self.drop_repository_cache()
+
     @perform_on_link
     def _get_path(self):
         """Return full path to component VCS repository."""
@@ -1704,11 +1740,7 @@ class Component(  # noqa: PLR0904
         try:
             return self.repository.get_revision_info(self.local_revision)
         except RepositoryError:
-            try:
-                self.store_local_revision()
-            except RepositoryError:
-                return None
-            return self.repository.get_revision_info(self.local_revision)
+            return None
 
     @perform_on_link
     def get_repo_url(self):
@@ -2282,71 +2314,69 @@ class Component(  # noqa: PLR0904
         from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
         user = request.user if request else self.acting_user
-        with self.repository.lock:
-            repo_unit_filter = Q(translation__component=self) | Q(
-                translation__component__linked_component=self
-            )
-            try:
-                previous_head = self.repository.last_revision
-            except RepositoryError:
-                previous_head = "N/A"
-            # First check we're up to date
-            self.update_remote_branch()
+        try:
+            with self.track_local_head_change() as head_change:
+                repo_unit_filter = Q(translation__component=self) | Q(
+                    translation__component__linked_component=self
+                )
+                previous_head = head_change.previous_head or "N/A"
+                # First check we're up to date
+                self.update_remote_branch()
 
-            if keep_changes:
-                # Mark all strings as pending when keeping changes
-                self.do_file_sync(request, do_commit=False, store_disk_state=False)
-            else:
-                # Explicitly remove all pending changes
-                PendingUnitChange.objects.filter(
-                    Q(unit__translation__component=self)
-                    | Q(unit__translation__component__linked_component=self)
-                ).delete()
-            # Remove disk state as we are going to change that
-            Unit.objects.filter(repo_unit_filter).clear_disk_state()
+                if keep_changes:
+                    # Mark all strings as pending when keeping changes
+                    self.do_file_sync(request, do_commit=False, store_disk_state=False)
+                else:
+                    # Explicitly remove all pending changes
+                    PendingUnitChange.objects.filter(
+                        Q(unit__translation__component=self)
+                        | Q(unit__translation__component__linked_component=self)
+                    ).delete()
+                # Remove disk state as we are going to change that
+                Unit.objects.filter(repo_unit_filter).clear_disk_state()
 
-            # Do actual reset
-            try:
+                # Do actual reset
                 self.log_info("resetting to remote repo")
                 self.repository.reset()
-            except RepositoryError:
-                report_error(
-                    "Could not reset the repository",
-                    project=self.project,
-                    skip_sentry=not settings.DEBUG,
-                )
-                messages.error(
-                    request,
-                    gettext("Could not reset to remote branch on %s.") % self,
-                )
-                return False
+                new_head = head_change.refresh_new_head()
 
-            self.change_set.create(
-                action=ActionEvents.RESET,
-                user=user,
-                details={
-                    "new_head": self.repository.last_revision,
-                    "previous_head": previous_head,
-                },
-            )
-            self.delete_alert("MergeFailure")
-            self.delete_alert("RepositoryOutdated")
-            self.delete_alert("PushFailure")
-
-            if keep_changes and not self.restore_pending_translation_files(
-                request=request, user=user
-            ):
-                return False
-
-            if not keep_changes:
-                self.trigger_post_update(
-                    previous_head=previous_head,
-                    skip_push=False,
+                self.change_set.create(
+                    action=ActionEvents.RESET,
                     user=user,
+                    details={
+                        "new_head": new_head,
+                        "previous_head": previous_head,
+                    },
                 )
+                self.delete_alert("MergeFailure")
+                self.delete_alert("RepositoryOutdated")
+                self.delete_alert("PushFailure")
 
-                # create translation objects for all files
-                self.create_translations(request=request, force=True)
+                if keep_changes and not self.restore_pending_translation_files(
+                    request=request, user=user
+                ):
+                    return False
+
+                if not keep_changes:
+                    self.trigger_post_update(
+                        previous_head=previous_head,
+                        skip_push=False,
+                        user=user,
+                    )
+
+                    # create translation objects for all files
+                    self.create_translations(request=request, force=True)
+        except RepositoryError:
+            report_error(
+                "Could not reset the repository",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
+            messages.error(
+                request,
+                gettext("Could not reset to remote branch on %s.") % self,
+            )
+            return False
 
         if keep_changes:
             # Trigger commit and scan in the background
@@ -2552,20 +2582,20 @@ class Component(  # noqa: PLR0904
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Clean up the repository."""
         self.log_info("cleaning up the repo")
-        with self.repository.lock:
-            try:
+        try:
+            with self.track_local_head_change():
                 self.repository.cleanup()
-            except RepositoryError:
-                report_error(
-                    "Could not clean the repository",
-                    project=self.project,
-                    skip_sentry=not settings.DEBUG,
-                )
-                messages.error(
-                    request,
-                    gettext("Could not clean the repository on %s.") % self,
-                )
-                return False
+        except RepositoryError:
+            report_error(
+                "Could not clean the repository",
+                project=self.project,
+                skip_sentry=not settings.DEBUG,
+            )
+            messages.error(
+                request,
+                gettext("Could not clean the repository on %s.") % self,
+            )
+            return False
 
         self.change_set.create(
             action=ActionEvents.REPO_CLEANUP,
@@ -2700,7 +2730,7 @@ class Component(  # noqa: PLR0904
             return True
 
         # Commit pending changes
-        with self.repository.lock:
+        with self.track_local_head_change():
             for translation in translations:
                 self.repository.lock.reacquire()
                 translation = self.reuse_component_for_translation(
@@ -2748,8 +2778,6 @@ class Component(  # noqa: PLR0904
                     translation.store_hash()
 
         if was_changed:
-            self.store_local_revision()
-
             # Fire postponed post commit signals
             for component in components.values():
                 component.send_post_commit_signal()
@@ -2791,7 +2819,7 @@ class Component(  # noqa: PLR0904
                 store_hash=store_hash,
             )
 
-        with self.start_sentry_span("commit_files"), self.repository.lock:
+        with self.start_sentry_span("commit_files"), self.track_local_head_change():
             if message is None:
                 if template is None:
                     msg = "Missing template when message is not specified"
@@ -2811,8 +2839,6 @@ class Component(  # noqa: PLR0904
             # Send post commit signal
             if signals:
                 self.send_post_commit_signal(store_hash=store_hash)
-
-            self.store_local_revision()
 
             # Push if we should
             if not skip_push:
@@ -2855,6 +2881,7 @@ class Component(  # noqa: PLR0904
         if reraise:
             raise FileParseError(error_message) from error
 
+    @perform_on_link
     def store_local_revision(self) -> None:
         """Store current revision in the database."""
         self.local_revision = self.repository.last_revision
@@ -2863,6 +2890,28 @@ class Component(  # noqa: PLR0904
         Component.objects.filter(Q(pk=self.pk) | Q(linked_component=self)).update(
             local_revision=self.local_revision
         )
+
+    def try_get_local_head_revision(self) -> str | None:
+        try:
+            return self.repository.last_revision
+        except RepositoryError:
+            return None
+
+    def get_local_head_revision(self) -> str:
+        return self.repository.last_revision
+
+    @perform_on_link
+    @contextmanager
+    def track_local_head_change(self) -> Generator[LocalHeadChange]:
+        """Track local HEAD changes and persist them on successful exit."""
+        head_change = LocalHeadChange(component=self)
+        with self.repository.lock:
+            head_change.previous_head = self.try_get_local_head_revision()
+            yield head_change
+            if head_change.new_head is None:
+                head_change.refresh_new_head()
+            if self.id and head_change.needs_local_revision_sync:
+                self.store_local_revision()
 
     @perform_on_link
     def update_branch(
@@ -2896,14 +2945,17 @@ class Component(  # noqa: PLR0904
             if method == "merge_noff":
                 kwargs["no_ff"] = True
 
-        with self.repository.lock:
+        with self.track_local_head_change() as head_change:
+            previous_head = head_change.previous_head or "N/A"
             try:
-                previous_head = self.repository.last_revision
                 # Try to merge it
                 method_func(**kwargs)
-                new_head = self.repository.last_revision
+                new_head = head_change.refresh_new_head()
                 self.log_info(
-                    "%s remote into repo %s..%s", method, previous_head, new_head
+                    "%s remote into repo %s..%s",
+                    method,
+                    previous_head,
+                    new_head or "N/A",
                 )
             except RepositoryError as error:
                 # Report error
@@ -2942,18 +2994,20 @@ class Component(  # noqa: PLR0904
                 if not self.repo_needs_push():
                     self.delete_alert("PushFailure")
 
-            # New upstream matches previous local revision
+            # Some backends can update the working tree without moving HEAD, so
+            # the stored local revision remains the authoritative no-op check.
             if self.local_revision == new_head:
                 return False
 
             if self.id:
-                self.store_local_revision()
-
                 # Record change
                 self.change_set.create(
                     action=action,
                     user=user,
-                    details={"new_head": new_head, "previous_head": previous_head},
+                    details={
+                        "new_head": new_head,
+                        "previous_head": previous_head,
+                    },
                 )
 
                 # The files have been updated and the signal receivers (addons)
@@ -3606,8 +3660,8 @@ class Component(  # noqa: PLR0904
                     raise ValidationError(
                         {setting: self.LINKED_REPOSITORY_SETTING_MESSAGE}
                     )
-        # Make sure we are not using stale link even if link is not present
-        self.linked_component = Component.objects.get_linked(self.repo)
+        # Make sure we are not using stale link even if link is not present.
+        self.refresh_linked_component()
 
     def clean_lang_codes(self, matches: list[str]) -> None:
         """Validate that there are no double language codes."""
