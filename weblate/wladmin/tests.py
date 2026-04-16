@@ -22,6 +22,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
+from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
@@ -430,6 +431,15 @@ class AdminTest(ViewTestCase):
             reverse("manage-users-check"), {"email": "nonexisting"}, follow=True
         )
         self.assertRedirects(response, f"{reverse('manage-users')}?q=nonexisting")
+
+    def test_manage_users_search_by_audit_ip(self) -> None:
+        request = self.factory.get("/", REMOTE_ADDR="192.0.2.24")
+        request.user = self.user
+        AuditLog.objects.create(self.user, request, "login")
+
+        response = self.client.get(reverse("manage-users"), {"q": "192.0.2.24"})
+
+        self.assertContains(response, self.user.get_absolute_url())
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",
