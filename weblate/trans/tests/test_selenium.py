@@ -1220,8 +1220,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 element.submit()
             with self.wait_for_page_load():
-                self.click(self.driver.find_element(By.CLASS_NAME, "runbackup"))
-            self.click(self.driver.find_element(By.CLASS_NAME, "createdbackup"))
+                self.click(self.driver.find_element(By.NAME, "trigger"))
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+                )
+            )
             time.sleep(0.2)
             self.screenshot("backups.png")
             SupportStatus.objects.create(secret="123", name="community")
