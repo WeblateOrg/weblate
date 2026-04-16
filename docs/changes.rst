@@ -6,8 +6,12 @@ Weblate 5.17.1
 .. rubric:: New features
 
 * :ref:`file_format_params` now include ``po_set_language_team``, ``po_set_last_translator``, ``po_set_x_generator``, and ``po_report_msgid_bugs_to`` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers in Gettext PO and POT files.
+* Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
 
 .. rubric:: Improvements
+
+* The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
+* Improved :ref:`addon-weblate.discovery.discovery` guidance with guided client-side presets, clearer ``{{ component }}`` validation, and a worked discovery-template example in the docs.
 
 .. rubric:: Bug fixes
 

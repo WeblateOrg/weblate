@@ -23,6 +23,7 @@ class AddonEvent(IntegerChoices):
     EVENT_UNIT_POST_SYNC = 14, "Unit post-sync"
     EVENT_INSTALL = 15, "Add-on installation"
     EVENT_POST_REMOVE = 16, "Repository post-remove"
+    EVENT_MANUAL = 17, "Manual trigger"
 
     @classmethod
     def descriptions(cls) -> dict[AddonEvent, str]:
@@ -46,6 +47,7 @@ class AddonEvent(IntegerChoices):
             cls.EVENT_UNIT_POST_SYNC: "Triggered after the string is synchronized with the VCS.",
             cls.EVENT_INSTALL: "Triggered when add-on is being installed.",
             cls.EVENT_POST_REMOVE: "Triggered just after a translation is removed.",
+            cls.EVENT_MANUAL: "Triggered when an add-on is run manually from add-on management or the API.",
         }
 
 

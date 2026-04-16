@@ -79,7 +79,7 @@ from .flags import (
     TargetEditAddon,
     TargetRepoUpdateAddon,
 )
-from .forms import BaseAddonForm
+from .forms import BaseAddonForm, DiscoveryForm
 from .generate import (
     FillReadOnlyAddon,
     GenerateFileAddon,
@@ -109,6 +109,7 @@ from .tasks import (
     cleanup_addon_activity_log,
     daily_addons,
     language_consistency,
+    run_addon_manually,
 )
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
@@ -191,12 +192,13 @@ class TypedConfigAddon(
         return {"count": raw_count}
 
 
-class DailyResultAddon(BaseAddon):
-    name = "weblate.base.daily-result"
-    verbose = "Daily result add-on"
-    description = "Daily result add-on"
+class ManualResultAddon(BaseAddon):
+    events: ClassVar[set[AddonEvent]] = {AddonEvent.EVENT_MANUAL}
+    name = "weblate.base.manual-result"
+    verbose = "Manual result add-on"
+    description = "Manual result add-on"
 
-    def daily_component(
+    def manual_component(
         self,
         component: Component,
         activity_log_id: int | None = None,
@@ -211,7 +213,7 @@ class TestAddonMixin:
         ADDONS.data[ExampleAddon.name] = ExampleAddon
         ADDONS.data[CrashAddon.name] = CrashAddon
         ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
-        ADDONS.data[DailyResultAddon.name] = DailyResultAddon
+        ADDONS.data[ManualResultAddon.name] = ManualResultAddon
 
     def tearDown(self) -> None:
         super().tearDown()
@@ -219,7 +221,7 @@ class TestAddonMixin:
         del ADDONS.data[ExampleAddon.name]
         del ADDONS.data[CrashAddon.name]
         del ADDONS.data[ExamplePreAddon.name]
-        del ADDONS.data[DailyResultAddon.name]
+        del ADDONS.data[ManualResultAddon.name]
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
@@ -271,21 +273,21 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
 
-    def test_daily_returns_component_result(self) -> None:
-        addon = DailyResultAddon.create(component=self.component, run=False)
+    def test_manual_returns_component_result(self) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
 
-        self.assertEqual(addon.daily(component=self.component), {"component": "test"})
+        self.assertEqual(addon.manual(component=self.component), {"component": "test"})
 
-    def test_daily_aggregates_multiple_component_results(self) -> None:
+    def test_manual_aggregates_multiple_component_results(self) -> None:
         component2 = self.create_po_new_base(
             name="Test 2",
             slug="test-2",
             project=self.project,
         )
-        addon = DailyResultAddon.create(project=self.project, run=False)
+        addon = ManualResultAddon.create(project=self.project, run=False)
 
         self.assertEqual(
-            addon.daily(project=self.project),
+            addon.manual(project=self.project),
             {
                 "components": {
                     self.component.full_slug: {"component": "test"},
@@ -293,6 +295,29 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
                 }
             },
         )
+
+    def test_can_run_manually_for_manual_addon(self) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
+
+        self.assertTrue(addon.instance.can_run_manually)
+
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_schedule_manual_run(self, mocked_delay) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
+
+        addon.instance.schedule_manual_run()
+
+        mocked_delay.assert_called_once_with(addon.instance.pk)
+
+    def test_run_addon_manually(self) -> None:
+        addon = ManualResultAddon.create(component=self.component, run=False)
+
+        run_addon_manually(addon.instance.pk)
+
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        self.assertEqual(activity.event, AddonEvent.EVENT_MANUAL)
+        self.assertEqual(activity.details["result"], {"component": "test"})
+        self.assertFalse(activity.pending)
 
     def test_add_form(self) -> None:
         form = NoOpAddon.get_add_form(None, component=self.component, data={})
@@ -1762,6 +1787,55 @@ class GettextAddonTest(ViewTestCase):
             addon.post_configure_run_component(self.component)
 
         mocked.assert_called_once_with(self.component, "")
+
+    def test_extract_pot_manual_bypasses_schedule(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.get_component_state(self.component)["last_run"] = (
+            timezone.now().date().isoformat()
+        )
+        addon.get_component_state(self.component)["configuration_signature"] = (
+            addon.get_configuration_signature()
+        )
+        addon.save_state()
+
+        with patch.object(
+            XgettextAddon, "execute_update", return_value=False
+        ) as mocked:
+            addon.manual_component(self.component)
+
+        mocked.assert_called_once_with(self.component, "")
+        self.assertNotIn("_force_run", addon.get_component_state(self.component))
+
+    def test_extract_pot_manual_commits_pending_changes(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": True,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(
+                self.component, "commit_pending", return_value=False
+            ) as mocked_commit,
+            patch.object(XgettextAddon, "execute_update", return_value=False),
+        ):
+            addon.manual_component(self.component)
+
+        mocked_commit.assert_called_once_with("add-on", None)
 
     def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
         addon = XgettextAddon.create(
@@ -3415,6 +3489,54 @@ class ViewTests(ViewTestCase):
         super().setUp()
         self.make_manager()
 
+    def setup_language_consistency_preview(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.component.project,
+        )
+
+    def assert_language_consistency_confirmation(
+        self, url: str, data: dict[str, object], scope_text: str
+    ) -> None:
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Configure add-on")
+        self.assertContains(response, "Review before installing")
+        self.assertContains(response, scope_text)
+        self.assertContains(response, "German")
+        self.assertContains(response, "Italian")
+        self.assertContains(response, "ts/de.ts")
+        self.assertContains(response, "ts/it.ts")
+        self.assertFalse(Addon.objects.filter(name=data["name"]).exists())
+
+        response = self.client.post(
+            url,
+            {
+                **data,
+                "form": "1",
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response, "Please review and confirm the missing language changes."
+        )
+        self.assertFalse(Addon.objects.filter(name=data["name"]).exists())
+
+        response = self.client.post(
+            url,
+            {
+                **data,
+                "form": "1",
+                "confirm": True,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
     def test_list(self) -> None:
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
         self.assertContains(response, "Generate MO files")
@@ -3453,6 +3575,48 @@ class ViewTests(ViewTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "addons/addon_logs.html")
         self.assertEqual(response.context["instance"], addon)
+
+    def test_manual_run_button(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "Run now")
+        self.assertContains(response, addon.get_absolute_url())
+
+    def test_non_daily_addon_has_no_manual_run_button(self) -> None:
+        GettextAuthorComments.create(component=self.component, run=False)
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertNotContains(response, "Run now")
+
+    @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
+    def test_manual_run(self, mocked_delay) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.client.post(addon.get_absolute_url(), {"run": "1"}, follow=True)
+
+        mocked_delay.assert_called_once_with(addon.pk)
+        self.assertContains(response, "Add-on run has been scheduled.")
 
     def test_nonexisting_detail(self) -> None:
         identifier = "weblate.addon.nonexisting"
@@ -3537,25 +3701,29 @@ class ViewTests(ViewTestCase):
         )
 
     def test_add_simple_project_addon(self) -> None:
-        response = self.client.post(
+        self.setup_language_consistency_preview()
+        self.assert_language_consistency_confirmation(
             reverse("addons", kwargs=self.kw_project_path),
             {"name": "weblate.consistency.languages"},
-            follow=True,
+            "whole project",
         )
-        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_simple_category_addon(self) -> None:
+        self.setup_language_consistency_preview()
         category = self.create_category(self.project)
         self.component.category = category
         self.component.save()
-        response = self.client.post(
+        addon_component = self.project.component_set.exclude(pk=self.component.pk).get()
+        addon_component.category = category
+        addon_component.save()
+        self.assert_language_consistency_confirmation(
             reverse("addons", kwargs={"path": category.get_url_path()}),
             {"name": "weblate.consistency.languages"},
-            follow=True,
+            "whole category",
         )
-        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_simple_site_wide_addon(self) -> None:
+        self.setup_language_consistency_preview()
         response = self.client.post(
             reverse("manage-addons"),
             {"name": "weblate.consistency.languages"},
@@ -3564,12 +3732,11 @@ class ViewTests(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(
+        self.assert_language_consistency_confirmation(
             reverse("manage-addons"),
             {"name": "weblate.consistency.languages"},
-            follow=True,
+            "all projects",
         )
-        self.assertContains(response, "Installed 1 add-on")
 
     def test_add_invalid(self) -> None:
         response = self.client.post(
@@ -3748,6 +3915,7 @@ class CommandTest(ComponentTestCase):
         call_command("list_addons", stdout=output)
         generated = output.getvalue()
         self.assertIn("msgmerge", generated)
+        self.assertNotIn("Guided preset", generated)
         self.assertIn(
             "Enter slug of a component to use as source, keep blank to use all "
             "components in the current project.",
@@ -3943,7 +4111,7 @@ class DiscoveryTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "Please include component markup")
+        self.assertContains(response, "This template must include component markup.")
         # Missing variable
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -4031,6 +4199,162 @@ class DiscoveryTest(ViewTestCase):
             )
         self.assertContains(response, "Installed 1 add-on")
 
+    def test_form_requires_component_template_markup(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ language }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["name_template"],
+            ["This template must include {{ component }}."],
+        )
+
+    def test_form_requires_component_markup_for_monolingual_paths(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po-mono",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "{{ language }}.pot",
+                "new_base_template": "{{ language }}.pot",
+                "intermediate_template": "{{ language }}.po",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "This template must include {{ component }}.",
+            form.errors["base_file_template"],
+        )
+        self.assertEqual(
+            form.errors["new_base_template"],
+            ["This template must include {{ component }}."],
+        )
+        self.assertEqual(
+            form.errors["intermediate_template"],
+            ["This template must include {{ component }}."],
+        )
+
+    def test_form_accepts_component_templates_with_colliding_probe_values(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|last }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_form_rejects_empty_render_without_component_markup(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": '{{ language|slice:":0" }}',
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["name_template"],
+            ["This template must include {{ component }}."],
+        )
+
+    def test_ui_presets_are_not_part_of_form_configuration(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertNotIn("preset", form.fields)
+
+        instance = form.save()
+        self.assertEqual(
+            instance.configuration["match"],
+            r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
+        )
+        self.assertNotIn("preset", instance.configuration)
+
+    def test_discovery_page_renders_ui_presets(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": "weblate.discovery.discovery"},
+            follow=True,
+        )
+        self.assertContains(response, 'id="addon-ui-preset"')
+        self.assertContains(response, "Filename-based language variants")
+        self.assertContains(response, "Matching multiple paths")
+        self.assertContains(response, "addon-ui-presets")
+
+    def test_discovery_ui_presets_include_multiple_paths_template(self) -> None:
+        presets = DiscoveryForm.get_ui_presets()
+        multiple_paths = next(
+            preset for preset in presets if preset["id"] == "multiple-paths"
+        )
+        self.assertEqual(
+            multiple_paths["values"]["name_template"],
+            "{{ originalHierarchy }}: {{ component }}",
+        )
+
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
     def test_example_pre(self) -> None:
@@ -4049,6 +4373,11 @@ class ScriptsTest(TestAddonMixin, ComponentTestCase):
 class LanguageConsistencyTest(ComponentTestCase):
     CREATE_GLOSSARIES: bool = True
 
+    def get_preview_addon(self, **kwargs) -> LanguageConsistencyAddon:
+        return LanguageConsistencyAddon(
+            LanguageConsistencyAddon.create_object(**kwargs)
+        )
+
     def test_consistency_cannot_install_on_component(self) -> None:
         self.assertFalse(LanguageConsistencyAddon.can_install(component=self.component))
 
@@ -4057,6 +4386,141 @@ class LanguageConsistencyTest(ComponentTestCase):
 
     def test_consistency_can_install_sitewide(self) -> None:
         self.assertTrue(LanguageConsistencyAddon.can_install())
+
+    def test_consistency_preview_empty(self) -> None:
+        preview = self.get_preview_addon(
+            project=self.project
+        ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 0)
+        self.assertEqual(preview.action_count, 0)
+        self.assertEqual(preview.failure_count, 0)
+
+    def test_consistency_preview_lists_actions(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+
+        preview = self.get_preview_addon(
+            project=self.project
+        ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 1)
+        self.assertEqual(preview.action_count, 2)
+        self.assertEqual(preview.failure_count, 0)
+        self.assertEqual(preview.components[0].component.name, "TS")
+        self.assertEqual(
+            [
+                (item.language.code, item.filename)
+                for item in preview.components[0].actions
+            ],
+            [("de", "ts/de.ts"), ("it", "ts/it.ts")],
+        )
+
+    def test_consistency_preview_lists_failures(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        component = self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+        component.language_regex = "^it$"
+        component.save(update_fields=["language_regex"])
+
+        preview = self.get_preview_addon(
+            project=self.project
+        ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 1)
+        self.assertEqual(preview.action_count, 1)
+        self.assertEqual(preview.failure_count, 1)
+        self.assertEqual(
+            [
+                (item.language.code, item.filename)
+                for item in preview.components[0].actions
+            ],
+            [("it", "ts/it.ts")],
+        )
+        self.assertEqual(preview.components[0].failures[0].language.code, "de")
+        self.assertEqual(
+            preview.components[0].failures[0].reason,
+            "The given language is filtered by the language filter.",
+        )
+
+    def test_consistency_preview_is_truncated(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        self.create_ts(
+            name="TS",
+            slug="ts",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+        self.create_ts(
+            name="TS 2",
+            slug="ts-2",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+
+        with (
+            patch.object(LanguageConsistencyAddon, "preview_component_limit", 20),
+            patch.object(LanguageConsistencyAddon, "preview_entry_limit", 2),
+        ):
+            preview = self.get_preview_addon(
+                project=self.project
+            ).get_installation_preview()
+
+        self.assertEqual(preview.component_count, 1)
+        self.assertEqual(preview.entry_count, 2)
+        self.assertTrue(preview.is_truncated)
+
+    def test_consistency_sitewide_preview_stops_after_project_limit(self) -> None:
+        for index in range(3):
+            self.create_ts(
+                name=f"TS {index}",
+                slug=f"ts-{index}",
+                project=self.create_project(
+                    slug=f"project-{index}", name=f"Project {index}"
+                ),
+            )
+
+        with patch.object(LanguageConsistencyAddon, "preview_project_limit", 2):
+            preview = self.get_preview_addon().get_installation_preview()
+
+        self.assertEqual(preview.component_count, 0)
+        self.assertEqual(preview.entry_count, 0)
+        self.assertTrue(preview.is_truncated)
+
+    def test_consistency_sitewide_preview_builds_language_cache_once(self) -> None:
+        for index in range(2):
+            self.create_ts(
+                name=f"TS {index}",
+                slug=f"ts-cache-{index}",
+                project=self.create_project(
+                    slug=f"project-cache-{index}", name=f"Project cache {index}"
+                ),
+            )
+
+        with patch(
+            "weblate.addons.consistency.Language.objects.build_fuzzy_get_cache",
+            wraps=Language.objects.build_fuzzy_get_cache,
+        ) as build_cache:
+            self.get_preview_addon().get_installation_preview()
+
+        self.assertEqual(build_cache.call_count, 1)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_consistency_post_add_not_skipped(self) -> None:

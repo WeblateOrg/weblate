@@ -24,6 +24,8 @@ inputs:
 runs:
   using: composite
   steps:
+    # pre-commit-ci/lite-action identifies workflows by the caller step name.
+    # Keep the magic text in top-level workflow steps using this action.
 
   - name: pre-commit format the code
     run: uv run --frozen --only-group pre-commit prek run --all-files

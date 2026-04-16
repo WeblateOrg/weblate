@@ -1,0 +1,94 @@
+{% load i18n %}
+
+<div class="alert alert-warning" role="alert">
+  <strong>{% translate "Review before installing" %}</strong>
+  {{ warning }}
+</div>
+
+<p>
+  {% blocktranslate count action_count=preview.action_count %}
+    The preview below shows {{ action_count }} translation file.
+  {% plural %}
+    The preview below shows {{ action_count }} translation files.
+  {% endblocktranslate %}
+  {% blocktranslate count component_count=preview.component_count %}
+    It affects {{ component_count }} component.
+  {% plural %}
+    It affects {{ component_count }} components.
+  {% endblocktranslate %}
+  {% if preview.failure_count %}
+    {% blocktranslate count failure_count=preview.failure_count %}
+      {{ failure_count }} shown addition cannot be created with the current component settings.
+    {% plural %}
+      {{ failure_count }} shown additions cannot be created with the current component settings.
+    {% endblocktranslate %}
+  {% endif %}
+</p>
+
+{% if preview.is_truncated %}
+  <div class="alert alert-info" role="alert">
+    {% blocktranslate count entries=preview.entry_count %}
+      Showing {{ entries }} preview entry.
+    {% plural %}
+      Showing {{ entries }} preview entries.
+    {% endblocktranslate %}
+    {% blocktranslate count component_count=preview.component_count %}
+      So far this includes {{ component_count }} component.
+    {% plural %}
+      So far this includes {{ component_count }} components.
+    {% endblocktranslate %}
+    {% translate "There might be more affected components, languages, and translation files." %}
+  </div>
+{% endif %}
+
+{% if preview.components %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% translate "Component" %}</th>
+        <th>{% translate "Languages to add" %}</th>
+        <th>{% translate "Files to create" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in preview.components %}
+        {% if item.actions %}
+          <tr>
+            <th>
+              <a href="{{ item.component.get_absolute_url }}">{{ item.component.full_slug }}</a>
+            </th>
+            <td>
+              {% for action in item.actions %}
+                {{ action.language }}
+                <br />
+              {% endfor %}
+            </td>
+            <td>
+              {% for action in item.actions %}
+                <code>{{ action.filename }}</code>
+                <br />
+              {% endfor %}
+            </td>
+          </tr>
+        {% endif %}
+        {% if item.failures %}
+          <tr>
+            <th>
+              <a href="{{ item.component.get_absolute_url }}">{{ item.component.full_slug }}</a>
+            </th>
+            <td colspan="2" class="danger">
+              <strong>{% translate "Skipped additions" %}</strong>
+              <br />
+              {% for failure in item.failures %}
+                {{ failure.language }}: {{ failure.reason }}
+                <br />
+              {% endfor %}
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="alert alert-info" role="alert">{% translate "No missing language files would be created." %}</div>
+{% endif %}

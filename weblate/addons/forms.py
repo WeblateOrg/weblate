@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 import regex
 from crispy_forms.helper import FormHelper
@@ -572,10 +572,118 @@ class RemoveSuggestionForm(RemoveForm):
     )
 
 
+class LanguageConsistencyPreviewForm(BaseAddonForm):
+    confirm = forms.BooleanField(
+        label=gettext_lazy("I confirm the above actions look correct"),
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            ContextDiv(
+                template="addons/language_consistency_preview.html",
+                context={
+                    "preview": self._addon.get_installation_preview(),
+                    "warning": self._addon.get_preview_warning(),
+                    "user": self.user,
+                },
+            ),
+            Field("confirm"),
+        )
+
+    def clean(self) -> dict[str, Any]:
+        cleaned_data = super().clean() or {}
+        if not cleaned_data.get("confirm"):
+            raise forms.ValidationError(
+                gettext("Please review and confirm the missing language changes.")
+            )
+        return cleaned_data
+
+    def serialize_form(self):
+        return {}
+
+
 class DiscoveryForm(BaseAddonForm):
+    COMPONENT_TEMPLATE_SENTINELS: ClassVar[tuple[str, ...]] = (
+        "alpha",
+        "bravo12",
+        "charlie_xyz",
+        "Q",
+    )
+    PRESET_FILENAME_LANGUAGE = "filename-language"
+    PRESET_FOLDER_PER_LANGUAGE = "folder-per-language"
+    PRESET_GETTEXT_LOCALES = "gettext-locales"
+    PRESET_COMPLEX_FILENAMES = "complex-filenames"
+    PRESET_REPEATED_LANGUAGE = "repeated-language"
+    PRESET_SPLIT_ANDROID = "split-android-strings"
+    PRESET_MULTIPLE_PATHS = "multiple-paths"
+    PRESETS: ClassVar[dict[str, dict[str, str]]] = {
+        PRESET_FOLDER_PER_LANGUAGE: {
+            "match": r"(?P<language>[^/.]*)/(?P<component>[^/]*)\.po",
+            "name_template": "{{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+        PRESET_GETTEXT_LOCALES: {
+            "match": r"locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\.po",
+            "name_template": "{{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+        PRESET_COMPLEX_FILENAMES: {
+            "match": r"src/locale/(?P<component>[^/]*)\.(?P<language>[^/.]*)\.po",
+            "name_template": "{{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+        PRESET_FILENAME_LANGUAGE: {
+            "match": r"(?:(?P<path>.*/))?(?P<component>.+?)_(?P<language>[A-Za-z]{2,3}(?:[_-][A-Za-z0-9]+)*)\.(?P<extension>[^/.]+)",
+            "name_template": "{{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+        PRESET_REPEATED_LANGUAGE: {
+            "match": r"locale/(?P<language>[^/.]*)/(?P<component>[^/]*)/(?P=language)\.po",
+            "name_template": "{{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+        PRESET_SPLIT_ANDROID: {
+            "match": r"res/values-(?P<language>[^/.]*)/strings-(?P<component>[^/]*)\.xml",
+            "name_template": "{{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+        PRESET_MULTIPLE_PATHS: {
+            "match": r"(?P<originalHierarchy>.+/)(?P<component>[^/]*)/src/main/resources/ApplicationResources_(?P<language>[^/.]*)\.properties",
+            "name_template": "{{ originalHierarchy }}: {{ component }}",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "language_regex": "^[^.]+$",
+        },
+    }
+
     match = forms.CharField(
         label=gettext_lazy("Regular expression to match translation files against"),
         required=True,
+        help_text=gettext_lazy(
+            "The regular expression must define named groups for component and language."
+        ),
     )
     file_format = forms.ChoiceField(
         label=gettext_lazy("File format"),
@@ -587,12 +695,17 @@ class DiscoveryForm(BaseAddonForm):
         label=gettext_lazy("Customize the component name"),
         initial="{{ component }}",
         required=True,
+        help_text=gettext_lazy(
+            "Use Django template syntax. This template must include {{ component }}."
+        ),
     )
     base_file_template = forms.CharField(
         label=gettext_lazy("Define the monolingual base filename"),
         initial="",
         required=False,
-        help_text=gettext_lazy("Leave empty for bilingual translation files."),
+        help_text=gettext_lazy(
+            "Leave empty for bilingual translation files. When set, this template must include {{ component }}."
+        ),
     )
     new_base_template = forms.CharField(
         label=gettext_lazy("Define the base file for new translations"),
@@ -600,7 +713,7 @@ class DiscoveryForm(BaseAddonForm):
         required=False,
         help_text=gettext_lazy(
             "Filename of file used for creating new translations. "
-            "For gettext choose .pot file."
+            "For gettext choose .pot file. This template must include {{ component }}."
         ),
     )
     intermediate_template = forms.CharField(
@@ -610,7 +723,7 @@ class DiscoveryForm(BaseAddonForm):
         help_text=gettext_lazy(
             "Filename of intermediate translation file. In most cases "
             "this is a translation file provided by developers and is "
-            "used when creating actual source strings."
+            "used when creating actual source strings. This template must include {{ component }}."
         ),
     )
 
@@ -679,6 +792,69 @@ class DiscoveryForm(BaseAddonForm):
                     ),
                 )
 
+    def serialize_form(self):
+        result = dict(self.cleaned_data)
+        result.pop("confirm", None)
+        result.pop("preview", None)
+        return result
+
+    @classmethod
+    def get_ui_presets(cls) -> list[dict[str, object]]:
+        return [
+            {
+                "id": cls.PRESET_FOLDER_PER_LANGUAGE,
+                "label": gettext("One folder per language"),
+                "description": gettext("Matches files like cs/application.po."),
+                "values": cls.PRESETS[cls.PRESET_FOLDER_PER_LANGUAGE],
+            },
+            {
+                "id": cls.PRESET_GETTEXT_LOCALES,
+                "label": gettext("Gettext locales layout"),
+                "description": gettext(
+                    "Matches files like locale/cs/LC_MESSAGES/application.po."
+                ),
+                "values": cls.PRESETS[cls.PRESET_GETTEXT_LOCALES],
+            },
+            {
+                "id": cls.PRESET_COMPLEX_FILENAMES,
+                "label": gettext("Complex filenames"),
+                "description": gettext(
+                    "Matches files like src/locale/application.cs.po."
+                ),
+                "values": cls.PRESETS[cls.PRESET_COMPLEX_FILENAMES],
+            },
+            {
+                "id": cls.PRESET_FILENAME_LANGUAGE,
+                "label": gettext("Filename-based language variants"),
+                "description": gettext("Matches files like news_en.md."),
+                "values": cls.PRESETS[cls.PRESET_FILENAME_LANGUAGE],
+            },
+            {
+                "id": cls.PRESET_REPEATED_LANGUAGE,
+                "label": gettext("Repeated language code"),
+                "description": gettext(
+                    "Matches files like locale/cs/application/cs.po."
+                ),
+                "values": cls.PRESETS[cls.PRESET_REPEATED_LANGUAGE],
+            },
+            {
+                "id": cls.PRESET_SPLIT_ANDROID,
+                "label": gettext("Split Android strings"),
+                "description": gettext(
+                    "Matches files like res/values-cs/strings-about.xml."
+                ),
+                "values": cls.PRESETS[cls.PRESET_SPLIT_ANDROID],
+            },
+            {
+                "id": cls.PRESET_MULTIPLE_PATHS,
+                "label": gettext("Matching multiple paths"),
+                "description": gettext(
+                    "Matches nested Java properties layouts and also fills the component name template."
+                ),
+                "values": cls.PRESETS[cls.PRESET_MULTIPLE_PATHS],
+            },
+        ]
+
     @cached_property
     def discovery(self):
         component = self._addon.instance.component
@@ -744,12 +920,35 @@ class DiscoveryForm(BaseAddonForm):
         return validate_render(value, **matches)
 
     def template_clean(self, name):
-        result = self.test_render(self.cleaned_data[name])
-        if result and result == self.cleaned_data[name]:
-            raise forms.ValidationError(
-                gettext("Please include component markup in the template.")
-            )
-        return self.cleaned_data[name]
+        value = self.cleaned_data[name]
+        if not value:
+            return value
+
+        self.test_render(value)
+        if not self.template_depends_on_component(value):
+            raise forms.ValidationError(self.get_component_template_error())
+        return value
+
+    def template_depends_on_component(self, value: str) -> bool:
+        if self.cleaned_match_re is None:
+            matches = {"component": "", "language": "test"}
+        else:
+            matches = dict.fromkeys(self.cleaned_match_re.groupindex, "test")
+        rendered = set()
+        for component in self.COMPONENT_TEMPLATE_SENTINELS:
+            matches["component"] = component
+            rendered.add(validate_render(value, **matches))
+            if len(rendered) > 1:
+                return True
+        return False
+
+    def get_component_template_error(self) -> str:
+        if (
+            self.cleaned_match_re is not None
+            and "component" in self.cleaned_match_re.groupindex
+        ):
+            return gettext("This template must include {{ component }}.")
+        return gettext("This template must include component markup.")
 
     def clean_name_template(self):
         return self.template_clean("name_template")
