@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-14 17:31+0200\n"
-"PO-Revision-Date: 2026-04-16 07:10+0000\n"
+"PO-Revision-Date: 2026-04-16 08:58+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -560,7 +560,7 @@ msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Benutzer` (dies geschieht standardmäßig durch :ref:`Automatische "
+"`Benutzer` (dies geschieht standardmäßig durch :ref:`automatische "
 "Teamzuweisungen <autoteam>`)."
 
 #: admin/access.rst:271
@@ -1121,7 +1121,7 @@ msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Standardmäßig werden alle neuen Konten durch :ref:`Automatische "
+"Standardmäßig werden alle neuen Konten durch :ref:`automatische "
 "Teamzuweisungen <autoteam>` zu Mitgliedern dieses Teams, wenn sie beitreten."
 
 #: admin/access.rst:528
@@ -2731,6 +2731,12 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"Dies kann für Benutzer auf Projekt- (siehe :ref:`project-enforced_2fa`) oder "
+"Teamebene erzwungen werden. Bei plattformweiten Bereitstellungen kann dies "
+"auch verwendet werden, um die Zwei-Faktor-Authentifizierung für alle "
+"Benutzer zu erzwingen, indem sie für das standardmäßige :guilabel:`Benutzer`-"
+"Team aktiviert wird, das neuen Benutzern durch :ref:`automatische "
+"Teamzuweisungen <autoteam>` automatisch zugewiesen wird."
 
 #: admin/auth.rst:850
 msgid ""
@@ -3459,6 +3465,8 @@ msgid ""
 "Generated SSH wrapper scripts are stored in :setting:`CACHE_DIR` and do not "
 "need to be backed up."
 msgstr ""
+"Generierte SSH-Wrapper-Skripte werden in :setting:`CACHE_DIR` gespeichert "
+"und müssen nicht gesichert werden."
 
 #: admin/backup.rst:353
 msgid "User uploaded files"
@@ -4505,6 +4513,9 @@ msgid ""
 "so :setting:`CACHE_DIR` needs to be on an executable filesystem "
 "if :setting:`DATA_DIR` is mounted with ``noexec``."
 msgstr ""
+"Weblate speichert hier auch generierte SSH-Wrapper-Skripte, so dass "
+":setting:`CACHE_DIR` auf einem ausführbaren Dateisystem liegen muss, wenn "
+":setting:`DATA_DIR` mit ``noexec`` eingebunden wird."
 
 #: admin/config.rst:368 admin/config.rst:530
 msgid ""
@@ -4520,7 +4531,7 @@ msgstr "Üblicherweise existieren folgende Unterverzeichnisse:"
 
 #: admin/config.rst:373
 msgid "Generated SSH wrapper scripts used for VCS access."
-msgstr ""
+msgstr "Generierte SSH-Wrapper-Skripte für den VCS-Zugang."
 
 #: admin/config.rst:375
 msgid ":program:`font-config` cache for :ref:`fonts`."
