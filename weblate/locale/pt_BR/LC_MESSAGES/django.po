@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Rafael Fontenelle <rafaelff@gnome.org>, 2023, 2024, 2025.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2023, 2024, 2025, 2026.
 # Claudio Filho F Filho <filhocf@gmail.com>, 2023, 2024.
 # Eduardo Addad de Oliveira <duduaddad@gmail.com>, 2024.
 # NamelessGO <66227691+NameLessGO@users.noreply.github.com>, 2024.
@@ -32,7 +32,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-04-10 21:29-0500\n"
 "PO-Revision-Date: 2026-04-16 15:06+0000\n"
-"Last-Translator: Átila França <atilahunesco@gmail.com>\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -1810,24 +1810,24 @@ msgstr "Normalizar cabeçalho POT"
 #: weblate/addons/forms.py:129
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Atualiza os cabeçalhos gettext e substitui os espaço reservado em "
+"comentários do POT."
 
 #: weblate/addons/forms.py:133
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update PO files using msgmerge"
-msgstr "Atualizar arquivos PO para corresponder ao POT (msgmerge)"
+msgstr "Atualizar arquivos PO usando msgmerge"
 
 #: weblate/addons/forms.py:138
 msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
 msgstr ""
+"Garante que o complemento de msgmerge esteja instalado e aciona-o após o "
+"arquivo POT ser atualizado."
 
 #: weblate/addons/forms.py:163
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Não foi possível adicionar o comentário!"
+msgstr "Não extrair comentários"
 
 #: weblate/addons/forms.py:164
 msgid "Extract all comments"
@@ -1857,26 +1857,24 @@ msgstr "Tag do comentário"
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Tag passada para o xgettext para extração de comentários ao usar o modo de "
+"comentário taggeado."
 
 #: weblate/addons/forms.py:192
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Verificações do sistema"
+msgstr "Verificações do xgettext"
 
 #: weblate/addons/forms.py:197
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr ""
+msgstr "Validação adicional do xgettext a habilitar para mensagens extraídas."
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Ramo adicional"
+msgstr "Palavra-chave adicional"
 
 #: weblate/addons/forms.py:204
 msgid "Optional extra keyword passed to xgettext using --keyword."
-msgstr ""
+msgstr "Palavra-chave extra e opcional passada para xgettext usando --keyword."
 
 #: weblate/addons/forms.py:233 weblate/addons/forms.py:324
 #: weblate/addons/forms.py:331
@@ -1884,48 +1882,45 @@ msgid "This field is required."
 msgstr "Este campo é obrigatório."
 
 #: weblate/addons/forms.py:243
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Input source"
-msgstr "Editar fonte"
+msgstr "Fonte de entrada"
 
 #: weblate/addons/forms.py:245 weblate/addons/forms.py:264
-#, fuzzy
-#| msgctxt "Number of source characters"
-#| msgid "Source characters"
 msgid "Source file patterns"
-msgstr "Caracteres fonte"
+msgstr "Padrões de arquivo-fonte"
 
 #: weblate/addons/forms.py:246
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "Manifesto POTFILES"
 
 #: weblate/addons/forms.py:251
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Escolha se o xgettext deve ler os arquivos-fonte a partir de padrões glob ou "
+"de um manifesto POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:256
-#, fuzzy
-#| msgid "Target language"
 msgid "xgettext language"
-msgstr "Idioma de destino"
+msgstr "Linguagem de xgettext"
 
 #: weblate/addons/forms.py:260
 msgid "Programming language passed to xgettext, for example Python or C."
 msgstr ""
+"Linguagem de programação passado para o xgettext, por exemplo Python ou C."
 
 #: weblate/addons/forms.py:268
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Padrões glob relativos ao repositório, separados por nova linha, para "
+"arquivos a serem extraídos com xgettext."
 
 #: weblate/addons/forms.py:273
 msgid "POTFILES path"
-msgstr ""
+msgstr "Caminho de POTFILES"
 
 #: weblate/addons/forms.py:277
 msgid ""
@@ -1933,20 +1928,21 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+"Caminho relativo ao repositório para POTFILES ou POTFILES.in. As entradas "
+"são resolvidas em relação à raiz do repositório. Se presente junto ao "
+"manifesto, POTFILES.skip exclui os arquivos listados da extração."
 
 #: weblate/addons/forms.py:340
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "O caminho de POTFILES deve apontar para um arquivo."
 
 #: weblate/addons/forms.py:349
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Redefinição do repositório"
+msgstr "Predefinição do Meson"
 
 #: weblate/addons/forms.py:350
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:354
 msgid ""
@@ -1954,30 +1950,33 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Predefinição de argumento xgettext nativo que corresponde à integração com o "
+"gettext do Meson. A predefinição GLib adiciona as opções de palavra-chave e "
+"sinalizador de formato usadas pelo auxiliar gettext do Meson."
 
 #: weblate/addons/forms.py:384
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"O complemento Meson espera um diretório gettext do Meson contendo o arquivo "
+"meson.build e os arquivos POTFILES ou POTFILES.in."
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Unrecognized base file for new translations."
 msgid "The component has to define a POT file for new translations."
-msgstr "Arquivo base para novas traduções não reconhecido."
+msgstr "O componente tem que definir um arquivo POT para novas traduções."
 
 #: weblate/addons/forms.py:408
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\" or \"djangojs.pot\"."
 msgstr ""
+"O complemento Django espera que o modelo para novas traduções seja chamado "
+"\"django.pot\" ou \"djangojs.pot\"."
 
 #: weblate/addons/forms.py:417
-#, fuzzy
-#| msgid "Filters"
 msgid "Filtering"
-msgstr "Filtros"
+msgstr "Filtragem"
 
 #: weblate/addons/forms.py:419
 msgctxt "None filtering"
@@ -1993,28 +1992,28 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"Opcionalmente, remove textos que não são úteis para traduzir após a extração "
+"de Sphinx."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Sphinx add-on expects the template for new translations to be a .pot "
 "file."
-msgstr "O modelo para novas traduções é inválido."
+msgstr ""
+"O complemento Sphinx espera que o modelo para novas traduções seja um "
+"arquivo .pot."
 
 #: weblate/addons/forms.py:459
-#, fuzzy
-#| msgid "The template for new translations is invalid."
 msgid ""
 "The Sphinx add-on expects the template for new translations to live in a "
 "\"locales\" directory."
-msgstr "O modelo para novas traduções é inválido."
+msgstr ""
+"O complemento Sphinx espera que o modelo para novas traduções esteja em um "
+"diretório chamado \"locales\"."
 
 #: weblate/addons/forms.py:471
-#, fuzzy
-#| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
-msgstr "Não foi possível criar o diretório do projeto: %s"
+msgstr "Não foi possível determinar o diretório de fontes Sphinx."
 
 #: weblate/addons/forms.py:478
 msgid "Name of generated file"
@@ -2419,45 +2418,43 @@ msgstr ""
 "traduções\") usando msgmerge."
 
 #: weblate/addons/gettext.py:839
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "Atualizar arquivos PO para corresponder ao POT (msgmerge)"
+msgstr "Atualizar arquivo POT (xgettext)"
 
 #: weblate/addons/gettext.py:841
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
+"Atualiza o modelo gettext usando xgettext nos arquivos-fonte selecionados."
 
 #: weblate/addons/gettext.py:1239
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (Meson)"
-msgstr "Atualizar arquivos PO para corresponder ao POT (msgmerge)"
+msgstr "Atualizar arquivo POT (Meson)"
 
 #: weblate/addons/gettext.py:1241
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr "Selecione uma configuração de componente existente para copiar."
+msgstr "Atualiza o modelo gettext usando as convenções xgettext do Meson."
 
 #: weblate/addons/gettext.py:1373
 msgid "Update POT file (Django)"
-msgstr ""
+msgstr "Atualizar arquivo POT (Django)"
 
 #: weblate/addons/gettext.py:1375
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
+"Atualiza o modelo gettext usando o comando makemessages integrado do Django."
 
 #: weblate/addons/gettext.py:1504
 msgid "Update POT file (Sphinx)"
-msgstr ""
+msgstr "Atualizar arquivo POT (Sphinx)"
 
 #: weblate/addons/gettext.py:1506
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"Atualiza o modelo gettext usando o construtor gettext do Sphinx sem carregar "
+"a configuração do projeto."
 
 #: weblate/addons/gettext.py:1719
 msgid "Contributors in comment"
@@ -2640,10 +2637,8 @@ msgid "Cannot change this on a built-in team."
 msgstr "Não é possível alterar isso em uma equipe integrada."
 
 #: weblate/api/serializers.py:657
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change this on an existing team."
-msgstr "Não é possível alterar isso em uma equipe integrada."
+msgstr "Não foi possível alterar isso em uma equipe existente."
 
 #: weblate/api/serializers.py:1534 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -2697,13 +2692,12 @@ msgid "Weblate's REST API"
 msgstr "API REST do Weblate"
 
 #: weblate/api/views.py:179 weblate/trans/views/edit.py:89
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Não foi possível bloquear o repositório, outra operação está em andamento."
+"Não foi possível remover a string porque outra operação em segundo plano "
+"está em andamento. Tente novamente mais tarde."
 
 #: weblate/api/views.py:185
 msgid "Could not obtain the lock to perform the operation."
@@ -2738,7 +2732,7 @@ msgstr ""
 
 #: weblate/api/views.py:654 weblate/trans/forms.py:3328
 msgid "At least one team is required for a project token."
-msgstr ""
+msgstr "É necessário pelo menos uma equipe para obter um token de projeto."
 
 #: weblate/api/views.py:2347 weblate/trans/views/files.py:280
 #, python-format
@@ -3323,7 +3317,7 @@ msgstr "VCS"
 #: weblate/auth/forms.py:52
 #, python-format
 msgid "%(details)s; and %(count)d more"
-msgstr ""
+msgstr "%(details)s; e mais %(count)d"
 
 #: weblate/auth/forms.py:215 weblate/auth/views.py:207
 msgid "User invitation e-mail was sent."
@@ -3336,50 +3330,45 @@ msgid "Team"
 msgstr "Equipe"
 
 #: weblate/auth/forms.py:290
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "Endereços de e-mail"
 
 #: weblate/auth/forms.py:293
 msgid "Enter one or more e-mail addresses separated by whitespace."
-msgstr ""
+msgstr "Insira um ou mais endereços de e-mail separados por espaço em branco."
 
 #: weblate/auth/forms.py:330
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: endereço duplicado no envio"
 
 #: weblate/auth/forms.py:340
 #, python-format
 msgid "%(email)s: %(error)s"
-msgstr ""
+msgstr "%(email)s: %(error)s"
 
 #: weblate/auth/forms.py:364
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: já existe um convite pendente"
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "O e-mail com um convite de usuário foi enviado."
-msgstr[1] "O e-mail com um convite de usuário foi enviado."
+msgstr[0] "%(count)d e-mail com convite foi enviado."
+msgstr[1] "%(count)d e-mails com convite foram enviados."
 
 #: weblate/auth/forms.py:399
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ignorado %(count)d endereço: %(details)s"
+msgstr[1] "Ignorados %(count)d endereços: %(details)s"
 
 #: weblate/auth/forms.py:410
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "O convite do usuário foi removido."
+msgstr "Nenhum convite foi criado."
 
 #: weblate/auth/forms.py:417 weblate/auth/models.py:473
 #: weblate/auth/models.py:1243
@@ -4187,13 +4176,10 @@ msgid "Different strings are translated the same."
 msgstr "Textos diferentes estão traduzidos da mesma forma."
 
 #: weblate/checks/consistency.py:196
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "Outro texto fonte: %s"
-msgstr[1] "Outros textos fonte: %s"
+msgstr[0] "Outro texto fonte:"
+msgstr[1] "Outros textos fonte:"
 
 #: weblate/checks/consistency.py:199
 #, python-format
@@ -4725,10 +4711,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "Erro de sintaxe Fluent na tradução."
 
 #: weblate/checks/format.py:529
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "Os seguintes textos de formato estão na ordem errada: %s"
+msgstr "Os seguintes textos de formato estão na ordem errada:"
 
 #: weblate/checks/format.py:618
 msgid "Python format"
@@ -4755,16 +4739,12 @@ msgid "C format string does not match source."
 msgstr "O texto de formato C não corresponde à fonte."
 
 #: weblate/checks/format.py:643
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Formato de Object Pascal"
+msgstr "Formato de Objective-C"
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "O texto de formato C não corresponde à fonte."
+msgstr "O texto de formato Objective-C não corresponde à fonte."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
@@ -4961,22 +4941,16 @@ msgstr ""
 "MessageFormat do ICU."
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "Erro de sintaxe: %s"
+msgstr "Erro de sintaxe:"
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "Um ou mais espaços reservados desconhecidos na tradução :%s"
+msgstr "Um ou mais espaços reservados desconhecidos na tradução:"
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "Um ou mais espaços reservados ausentes na tradução: %s"
+msgstr "Um ou mais espaços reservados ausentes na tradução:"
 
 #: weblate/checks/icu.py:492
 #, fuzzy
