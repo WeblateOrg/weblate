@@ -11,14 +11,10 @@
  */
 
 // Imports
-import datarangepicker from "daterangepicker";
 import jQuery from "jquery";
-import moment from "moment";
 import slugify from "slugify";
 
 // Definitions in global scope
 window.$ = jQuery;
 window.jQuery = jQuery;
-window.moment = moment;
-window.daterangepicker = datarangepicker;
 window.slugify = slugify;

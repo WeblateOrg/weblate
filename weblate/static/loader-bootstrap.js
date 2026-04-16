@@ -1523,76 +1523,9 @@ $(function () {
     });
   });
 
-  $("input[name='period']").daterangepicker({
-    autoApply: false,
-    autoUpdateInput: false,
-    startDate: $("input[name='period']#id_period").attr("data-start-date"),
-    endDate: $("input[name='period']#id_period").attr("data-end-date"),
-    alwaysShowCalendars: true,
-    cancelButtonClasses: "btn-warning",
-    opens: "left",
-    locale: {
-      customRangeLabel: gettext("Custom range"),
-      cancelLabel: gettext("Clear"),
-      daysOfWeek: [
-        pgettext("Short name of day", "Su"),
-        pgettext("Short name of day", "Mo"),
-        pgettext("Short name of day", "Tu"),
-        pgettext("Short name of day", "We"),
-        pgettext("Short name of day", "Th"),
-        pgettext("Short name of day", "Fr"),
-        pgettext("Short name of day", "Sa"),
-      ],
-      monthNames: [
-        pgettext("Short name of month", "Jan"),
-        pgettext("Short name of month", "Feb"),
-        pgettext("Short name of month", "Mar"),
-        pgettext("Short name of month", "Apr"),
-        pgettext("Short name of month", "May"),
-        pgettext("Short name of month", "Jun"),
-        pgettext("Short name of month", "Jul"),
-        pgettext("Short name of month", "Aug"),
-        pgettext("Short name of month", "Sep"),
-        pgettext("Short name of month", "Oct"),
-        pgettext("Short name of month", "Nov"),
-        pgettext("Short name of month", "Dec"),
-      ],
-    },
-    ranges: {
-      [gettext("Today")]: [moment(), moment()],
-      [gettext("Yesterday")]: [
-        moment().subtract(1, "days"),
-        moment().subtract(1, "days"),
-      ],
-      [gettext("Last 7 days")]: [moment().subtract(6, "days"), moment()],
-      [gettext("Last 30 days")]: [moment().subtract(29, "days"), moment()],
-      [gettext("This month")]: [
-        moment().startOf("month"),
-        moment().endOf("month"),
-      ],
-      [gettext("Last month")]: [
-        moment().subtract(1, "month").startOf("month"),
-        moment().subtract(1, "month").endOf("month"),
-      ],
-      [gettext("This year")]: [
-        moment().startOf("year"),
-        moment().endOf("year"),
-      ],
-      [gettext("Last year")]: [
-        moment().subtract(1, "year").startOf("year"),
-        moment().subtract(1, "year").endOf("year"),
-      ],
-    },
-  });
-
-  $("input[name='period']").on("apply.daterangepicker", function (_ev, picker) {
-    $(this).val(
-      `${picker.startDate.format("MM/DD/YYYY")} - ${picker.endDate.format("MM/DD/YYYY")}`,
-    );
-  });
-
-  $("input[name='period']").on("cancel.daterangepicker", (_ev, picker) => {
-    picker.element.val("");
+  /* Date range picker for period inputs */
+  document.querySelectorAll("input[name='period']").forEach((input) => {
+    new DateRangePicker(input);
   });
 
   /* Singular or plural new unit switcher */

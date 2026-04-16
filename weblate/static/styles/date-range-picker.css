@@ -1,0 +1,234 @@
+/*
+ * Copyright © Michal Čihař <michal@weblate.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.datepicker-wrapper {
+  position: relative;
+}
+
+.datepicker {
+  position: absolute;
+  z-index: 3001;
+  background-color: var(--background-color);
+  color: var(--bs-body-color);
+  border: var(--border);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--bs-box-shadow);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  min-width: 340px;
+}
+
+.datepicker-below {
+  top: 4px;
+}
+
+.datepicker-above {
+  bottom: 4px;
+}
+
+[dir="ltr"] .datepicker {
+  right: 0;
+}
+
+[dir="rtl"] .datepicker {
+  left: 0;
+}
+
+.datepicker-body {
+  display: flex;
+}
+
+.datepicker-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.datepicker-presets {
+  display: flex;
+  flex-direction: column;
+  border-inline-end: var(--border);
+  padding: 8px 0;
+  min-width: 130px;
+}
+
+.datepicker-preset {
+  background: none;
+  border: none;
+  padding: 5px 14px;
+  text-align: start;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--bs-body-color);
+}
+
+.datepicker-preset:hover {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+.datepicker-preset.active {
+  background-color: var(--bs-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.datepicker-calendar {
+  padding: 10px 12px;
+  min-width: 210px;
+}
+
+.datepicker-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.datepicker-cal-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.datepicker-nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 2px 8px;
+  border-radius: var(--border-radius-sm);
+  color: var(--bs-body-color);
+}
+
+.datepicker-nav:hover {
+  background-color: var(--bs-border-color);
+}
+
+.datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bs-body-color);
+  opacity: 0.6;
+  margin-bottom: 2px;
+}
+
+.datepicker-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.datepicker-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  font-size: 0.8125rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--border-radius-sm);
+  color: var(--bs-body-color);
+  padding: 0;
+}
+
+.datepicker-day--empty {
+  cursor: default;
+}
+
+.datepicker-day:not(.datepicker-day--empty):hover {
+  background-color: var(--bs-border-color);
+}
+
+.datepicker-day--today {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Range highlighting */
+
+.datepicker-day--in-range {
+  background-color: var(--bs-info-bg-subtle);
+  color: #000;
+  border-radius: 0;
+}
+
+.datepicker-day--start,
+.datepicker-day--end {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+.datepicker-day--start {
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+}
+
+.datepicker-day--end {
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+.datepicker-day--start.datepicker-day--end {
+  border-radius: var(--border-radius-sm);
+}
+
+
+.datepicker-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-top: var(--border);
+  gap: 8px;
+}
+
+.datepicker-footer-range {
+  font-size: 0.8125rem;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.datepicker-footer-btns {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .datepicker {
+    min-width: 0;
+    width: calc(100vw - 24px);
+    right: 0;
+    left: 0;
+  }
+
+  .datepicker-body {
+    flex-direction: column-reverse;
+  }
+
+  .datepicker-presets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-inline-end: none;
+    border-top: var(--border);
+    padding: 6px;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .datepicker-preset {
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    border: var(--border);
+    border-radius: var(--border-radius-sm);
+  }
+}

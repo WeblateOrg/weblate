@@ -313,7 +313,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Check that the main JS bundle is active and globals are available."""
         self.assertTrue(
             self.driver.execute_script(
-                "return typeof window.jQuery !== 'undefined' && typeof window.moment !== 'undefined' && typeof window.slugify !== 'undefined';"
+                "return typeof window.jQuery !== 'undefined' && typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
             )
         )
 
