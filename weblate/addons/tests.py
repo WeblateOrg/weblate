@@ -36,6 +36,11 @@ from django.urls import reverse
 from django.utils import timezone
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
+from weblate.addons.forms import (
+    MesonExtractPotForm,
+    SphinxExtractPotForm,
+    XgettextExtractPotForm,
+)
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -61,7 +66,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.unittest import tempdir_setting
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
@@ -369,6 +374,168 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         NoOpAddon.create(category=parent, acting_user=self.user)
         self.component.drop_addons_cache()
         self.assertIn("weblate.base.test", self.component.addons_cache.names)
+
+
+class XgettextExtractPotFormTest(SimpleTestCase):
+    def test_rejects_potfiles_symlink_outside_repository(self) -> None:
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "po")
+
+        repository = SimpleNamespace(path=repository_dir)
+        repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
+            repository, path
+        )
+        component = SimpleNamespace(
+            full_path=repository_dir,
+            check_file_is_valid=lambda filename: Component.check_file_is_valid(
+                SimpleNamespace(repository=repository), filename
+            ),
+        )
+        addon = SimpleNamespace(
+            instance=SimpleNamespace(component=component, pk=None),
+            documentation_build=False,
+        )
+        form = XgettextExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "po/POTFILES.in",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["potfiles_path"],
+            ["Invalid symbolic link in a repository."],
+        )
+
+
+class GettextRepositoryPathValidationTest(SimpleTestCase):
+    @staticmethod
+    def build_fake_component(repository_dir: str, *, new_base: str) -> SimpleNamespace:
+        repository = SimpleNamespace(path=repository_dir)
+        repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
+            repository, path
+        )
+        owner = SimpleNamespace(repository=repository)
+        return SimpleNamespace(
+            file_format="po",
+            full_path=repository_dir,
+            new_base=new_base,
+            check_file_is_valid=lambda filename: Component.check_file_is_valid(
+                owner, filename
+            ),
+        )
+
+    @staticmethod
+    def build_fake_addon(addon_class, component: SimpleNamespace):
+        addon = addon_class.__new__(addon_class)
+        addon.instance = SimpleNamespace(component=component, pk=None)
+        addon.documentation_build = False
+        addon.alerts = []
+        return addon
+
+    def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        (Path(repository_dir) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (Path(outside_dir) / "meson.build").write_text("", encoding="utf-8")
+        (Path(outside_dir) / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
+        os.symlink(outside_dir, Path(repository_dir) / "po")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="po/messages.pot"
+        )
+        addon = self.build_fake_addon(MesonAddon, component)
+        form = MesonExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "preset": "glib",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.non_field_errors(),
+            [
+                "The Meson add-on expects a Meson gettext directory with meson.build and POTFILES or POTFILES.in."
+            ],
+        )
+
+    def test_django_execute_update_rejects_source_symlink_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "src")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="src/locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+
+        result = addon.execute_update(component, "")
+
+        self.assertFalse(result)
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_sphinx_form_rejects_source_symlink_outside_repository(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "docs")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="docs/locales/docs.pot"
+        )
+        addon = self.build_fake_addon(SphinxAddon, component)
+        form = SphinxExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "filter_mode": "none",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.non_field_errors(),
+            ["Could not determine Sphinx source directory."],
+        )
 
 
 class IntegrationTest(TestAddonMixin, ViewTestCase):
