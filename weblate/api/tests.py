@@ -464,6 +464,24 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(User.objects.count(), 5)
 
+    def test_create_logs_superuser_grant(self) -> None:
+        self.do_request(
+            "api:user-list",
+            method="post",
+            superuser=True,
+            code=201,
+            request={
+                "full_name": "Name",
+                "username": "super-name",
+                "email": "super-name@example.com",
+                "is_active": True,
+                "is_superuser": True,
+            },
+        )
+        user = User.objects.get(username="super-name")
+        audit = user.auditlog_set.get(activity="superuser-granted")
+        self.assertEqual(audit.params["username"], self.user.username)
+
     def test_delete(self) -> None:
         self.do_request(
             "api:user-list",
@@ -489,16 +507,17 @@ class UserAPITest(APIBaseTest):
 
     def test_add_group(self) -> None:
         group = Group.objects.get(name="Viewers")
+        target = User.objects.create_user("target-add", "target-add@example.org", "x")
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": target.username},
             method="post",
             code=403,
             request={"group_id": group.id},
         )
         response = self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": target.username},
             method="post",
             superuser=True,
             code=400,
@@ -510,26 +529,36 @@ class UserAPITest(APIBaseTest):
         )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": target.username},
             method="post",
             superuser=True,
             code=200,
             request={"group_id": group.id},
         )
+        target.refresh_from_db()
+        audit = target.auditlog_set.get(
+            activity="sitewide-team-add",
+            params__team=group.name,
+            params__username=self.user.username,
+        )
+        self.assertEqual(audit.params["team"], group.name)
+        self.assertEqual(audit.params["username"], self.user.username)
 
     def test_remove_group(self) -> None:
         group = Group.objects.get(name="Viewers")
-        username = User.objects.filter(is_active=True)[0].username
+        target = User.objects.create_user(
+            "target-remove", "target-remove@example.org", "x"
+        )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": username},
+            kwargs={"username": target.username},
             method="post",
             code=403,
             request={"group_id": group.id},
         )
         self.do_request(
             "api:user-groups",
-            kwargs={"username": username},
+            kwargs={"username": target.username},
             method="post",
             superuser=True,
             code=400,
@@ -537,7 +566,7 @@ class UserAPITest(APIBaseTest):
         )
         response = self.do_request(
             "api:user-groups",
-            kwargs={"username": username},
+            kwargs={"username": target.username},
             method="post",
             superuser=True,
             code=200,
@@ -548,7 +577,7 @@ class UserAPITest(APIBaseTest):
         )
         response = self.do_request(
             "api:user-groups",
-            kwargs={"username": username},
+            kwargs={"username": target.username},
             method="delete",
             superuser=True,
             code=200,
@@ -557,6 +586,14 @@ class UserAPITest(APIBaseTest):
         self.assertNotIn(
             "http://example.com/api/groups/{group.id}/", response.data["groups"]
         )
+        target.refresh_from_db()
+        audit = target.auditlog_set.get(
+            activity="sitewide-team-remove",
+            params__team=group.name,
+            params__username=self.user.username,
+        )
+        self.assertEqual(audit.params["team"], group.name)
+        self.assertEqual(audit.params["username"], self.user.username)
 
     def test_remove_last_group_bot(self) -> None:
         bot = User.objects.create(
@@ -890,6 +927,24 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(
             User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name, "Other"
         )
+
+    def test_patch_logs_superuser_grant(self) -> None:
+        target = User.objects.create_user("target", "target@example.org", "x")
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": target.username},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"is_superuser": True},
+        )
+
+        target.refresh_from_db()
+        self.assertTrue(target.is_superuser)
+        audit = target.auditlog_set.get(activity="superuser-granted")
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertIsNone(audit.address)
 
     def test_patch_self_with_user_view_permission(self) -> None:
         self.grant_perm_to_user("user.view")

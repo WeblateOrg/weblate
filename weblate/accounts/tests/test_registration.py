@@ -156,7 +156,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 0)
 
         # Ensure the audit log matches expectations
-        expected_audit = {"sent-email", "password", "team-add"}
+        expected_audit = {"sent-email", "password", "sitewide-team-add"}
         if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
             expected_audit.add("tos")
         self.assertEqual(
@@ -968,3 +968,5 @@ class RegistrationLegalTestCase(RegistrationLoginRequiredTestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.groups.filter(pk=invited_group.pk).exists())
         self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+        audit = user.auditlog_set.get(activity="superuser-granted")
+        self.assertEqual(audit.params["username"], author.username)

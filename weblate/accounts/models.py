@@ -311,6 +311,18 @@ ACCOUNT_ACTIVITY = {
         "User was disabled because the access has expired."
     ),
     # Translators: Audit log entry
+    "sitewide-team-add": gettext_lazy(
+        "User was added to the site-wide {team} team by {username}."
+    ),
+    # Translators: Audit log entry
+    "sitewide-team-remove": gettext_lazy(
+        "User was removed from the site-wide {team} team by {username}."
+    ),
+    # Translators: Audit log entry
+    "superuser-granted": gettext_lazy("Superuser privileges granted."),
+    # Translators: Audit log entry
+    "superuser-revoked": gettext_lazy("Superuser privileges revoked."),
+    # Translators: Audit log entry
     "donate": gettext_lazy("Semiannual support status review was displayed."),
     # Translators: Audit log entry
     "team-add": gettext_lazy("User was added to the {team} team by {username}."),
@@ -339,7 +351,15 @@ ACCOUNT_ACTIVITY = {
         "Two-factor authentication failed using {device_type}"
     ),
 }
-AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked", "twofactor-failed"}
+AUDIT_WARNING = {
+    "admin-locked",
+    "failed-auth",
+    "locked",
+    "removed",
+    "superuser-granted",
+    "superuser-revoked",
+    "twofactor-failed",
+}
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
@@ -397,6 +417,8 @@ NOTIFY_ACTIVITY = {
     "blocked",
     "recovery-generate",
     "recovery-show",
+    "superuser-granted",
+    "superuser-revoked",
     "twofactor-add",
     "twofactor-remove",
     "twofactor-failed",
@@ -546,9 +568,12 @@ class AuditLog(models.Model):
         return format_html(str(message), **self.get_params())
 
     def get_extra_message(self) -> str | None:
-        if self.activity in {"token-created", "token-removed"} and self.params.get(
-            "username"
-        ):
+        if self.activity in {
+            "superuser-granted",
+            "superuser-revoked",
+            "token-created",
+            "token-removed",
+        } and self.params.get("username"):
             return gettext("Triggered by {username}.").format(**self.params)
         if self.activity in EXTRA_MESSAGES:
             return EXTRA_MESSAGES[self.activity].format(**self.params)

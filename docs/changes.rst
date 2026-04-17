@@ -15,6 +15,7 @@ Weblate 5.17.1
 * Admins can now revert edits from blocked users in a project or from any user site-wide.
 * Clarified :ref:`generic-upgrade-instructions` to state that Celery queues should be empty before upgrading.
 * Admin user management search can now find users by audit log IP address.
+* Track superuser and site-wide team changes in :ref:`audit-log`.
 * Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
 * Project website and repository browser URL alerts now show validation errors more clearly.
 
