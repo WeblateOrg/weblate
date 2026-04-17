@@ -185,6 +185,12 @@ users at once by pasting whitespace-separated e-mail addresses. All
 invitations created in one bulk action use the selected team, and site-wide
 bulk invites also apply the selected superuser flag.
 
+Site-wide user management is controlled by the global ``user.edit``
+permission. Unlike project access management, this is a trusted administrative
+permission which allows editing user accounts across the whole instance,
+including assigning site-wide teams and granting superuser status to the
+managed account, including the caller's own account.
+
 Bulk invitations are processed individually. Invalid addresses and addresses
 with an already pending invitation are skipped while valid invitations are
 still created and sent.
@@ -221,6 +227,12 @@ One of the main benefits of managing permissions through the Weblate
 user interface is that you can delegate it to other users without giving them
 the superuser privilege. In order to do so, add them to the `Administration`
 team of the project.
+
+This project-scoped delegation is separate from the site-wide ``user.edit``
+permission. Membership in a project `Administration` team allows managing
+access only for that project, while ``user.edit`` grants site-wide user
+management in the Weblate UI and API and should be assigned only to fully
+trusted site administrators.
 
 .. _project-api:
 
