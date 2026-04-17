@@ -1171,6 +1171,25 @@ class Component(  # noqa: PLR0904
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
 
+    @contextmanager
+    def locked_for_update(
+        self, *, queryset: ComponentQuerySet | None = None
+    ) -> Generator[Component]:
+        """
+        Lock repository and database row in a consistent order for component writes.
+
+        Some write paths validate or save through repository-backed operations,
+        while background revision updates already lock in repository -> row order.
+        Reuse the same ordering here to avoid deadlocks.
+        """
+        if queryset is None:
+            queryset = Component.objects.all()
+        with self.repository.lock, transaction.atomic():
+            locked_component = queryset.get_for_update(pk=self.pk)
+            if self.acting_user is not None:
+                locked_component.acting_user = self.acting_user
+            yield locked_component
+
     def get_old_component_settings(self) -> OldComponentSettings:
         """
         Capture settings needed for change detection without loading deferred fields.

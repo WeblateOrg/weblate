@@ -17,6 +17,7 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.views import get_form_data
+from weblate.vcs.base import RepositoryLock
 
 
 class SettingsTest(ViewTestCase):
@@ -234,6 +235,50 @@ class SettingsTest(ViewTestCase):
             lock_index,
             form_init_index,
             "Component row should be locked before the bound settings form is created",
+        )
+
+    def test_component_post_acquires_repository_lock_before_row_lock(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+
+        events: list[tuple[str, int]] = []
+        original_lock_enter = RepositoryLock.__enter__
+        original_get_for_update = ComponentQuerySet.get_for_update
+
+        def record_lock_enter(lock):
+            component = lock.repository.component
+            if component is not None:
+                events.append(("repo_lock", component.pk))
+            return original_lock_enter(lock)
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("row_lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        with (
+            patch.object(
+                RepositoryLock,
+                "__enter__",
+                autospec=True,
+                side_effect=record_lock_enter,
+            ),
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+        ):
+            response = self.client.post(url, data)
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.assertLess(
+            events.index(("repo_lock", self.component.pk)),
+            events.index(("row_lock", self.component.pk)),
+            "Component repository lock should be acquired before the row lock",
         )
 
     def test_linked_component_repository_settings_show_effective_values(self) -> None:
