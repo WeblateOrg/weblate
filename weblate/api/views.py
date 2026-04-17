@@ -630,12 +630,26 @@ class UserViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().create(request, *args, **kwargs)
 
+    def perform_create(self, serializer) -> None:
+        super().perform_create(serializer)
+        serializer.instance.audit_superuser_change(
+            cast("AuthenticatedHttpRequest", self.request),
+            previous_is_superuser=False,
+        )
+
     def destroy(self, request: Request, *args, **kwargs):
         """Delete all user information and mark the user inactive."""
         instance = self.get_object()
         self.perm_check(request, instance)
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
+
+    def perform_update(self, serializer) -> None:
+        serializer.instance.store_audit_state()
+        super().perform_update(serializer)
+        serializer.instance.log_audit_state(
+            cast("AuthenticatedHttpRequest", self.request)
+        )
 
     @extend_schema(description="Associate groups with a user.", methods=["post"])
     @extend_schema(description="Remove a user from a group.", methods=["delete"])

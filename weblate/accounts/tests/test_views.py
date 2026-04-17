@@ -898,6 +898,8 @@ class EditUserTest(FixtureTestCase):
         self.assertRedirects(response, user.get_absolute_url())
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_superuser)
+        audit = user.auditlog_set.get(activity="superuser-revoked")
+        self.assertEqual(audit.params["username"], self.user.username)
         # No permissions now
         response = self.client.post(
             self.user.get_absolute_url(),

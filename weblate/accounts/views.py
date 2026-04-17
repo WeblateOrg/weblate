@@ -749,10 +749,19 @@ class UserPage(UpdateView):
             lock_user(user, "admin-locked")
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
-        return super().post(request, *args, **kwargs)
+        user.store_audit_state()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
 
     def get_queryset(self):
         return super().get_queryset().select_related("profile")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.log_audit_state(self.request)
+        return response
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""

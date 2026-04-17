@@ -171,6 +171,36 @@ class ModelTest(FixtureComponentTestCase):
         self.user.groups.set(DjangoGroup.objects.filter(name="Second"))
         self.assertEqual(self.user.groups.count(), 1)
 
+    def test_store_and_log_audit_state(self) -> None:
+        actor = User.objects.create_user("auditor", "auditor@example.com", "x")
+        audit_group = Group.objects.create(
+            name="Audit group",
+            defining_project=self.project,
+            language_selection=SELECTION_ALL,
+        )
+
+        self.user.store_audit_state()
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.groups.add(audit_group)
+        self.user.log_audit_state(None, actor=actor)
+
+        self.user.auditlog_set.get(
+            activity="superuser-granted", params__username=actor.username
+        )
+        self.user.auditlog_set.get(
+            activity="team-add",
+            params__team=audit_group.name,
+            params__username=actor.username,
+        )
+        self.user.store_audit_state()
+
+    def test_store_audit_state_requires_consumption(self) -> None:
+        self.user.store_audit_state()
+
+        with self.assertRaisesMessage(ValueError, "Audit state is already stored!"):
+            self.user.store_audit_state()
+
     def test_user(self) -> None:
         # Create user with Django User fields
         user = User.objects.create(

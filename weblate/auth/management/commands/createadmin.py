@@ -91,13 +91,16 @@ class Command(BaseCommand):
 
         if user and options["update"]:
             self.stdout.write(f"Updating user {user.username}")
+            user.store_audit_state()
             user.email = email
             if password is not None and not user.check_password(password):
                 user.set_password(password)
         else:
             self.stdout.write(f"Creating user {username}")
             user = User.objects.create_user(username, email, password)
+            user.store_audit_state()
         user.full_name = options["name"]
         user.is_superuser = True
         user.is_active = True
         user.save()
+        user.log_audit_state(None)
