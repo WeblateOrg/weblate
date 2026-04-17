@@ -189,7 +189,7 @@ Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
 permission which allows editing user accounts across the whole instance,
 including assigning site-wide teams and granting superuser status to the
-managed account, including the caller's own account.
+managed account, even the caller's own account.
 
 Bulk invitations are processed individually. Invalid addresses and addresses
 with an already pending invitation are skipped while valid invitations are
