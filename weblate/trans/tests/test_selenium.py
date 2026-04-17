@@ -353,7 +353,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "inner",
         )
 
-
     def test_login(self) -> None:
         # Do proper login with new user
         self.do_login()
@@ -1441,4 +1440,3 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.find_element(By.TAG_NAME, "label").click()
 
         self.assertEqual(picker.value_of_css_property("display"), "none")
-
