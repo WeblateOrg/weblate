@@ -313,7 +313,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Check that the main JS bundle is active and globals are available."""
         self.assertTrue(
             self.driver.execute_script(
-                "return typeof window.jQuery !== 'undefined' && typeof window.moment !== 'undefined' && typeof window.slugify !== 'undefined';"
+                "return typeof window.jQuery !== 'undefined' && typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
             )
         )
 
@@ -1378,3 +1378,69 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.click(htmlid="unit_tools_dropdown")
         self.screenshot("glossary-tools.png")
+
+    def test_date_range_picker(self) -> None:
+        """Test date range picker."""
+        self.do_login()
+        self.driver.get(f"{self.live_server_url}{reverse('changes')}")
+
+        period_input = self.driver.find_element(By.NAME, "period")
+        picker = self.driver.find_element(By.CSS_SELECTOR, ".datepicker")
+
+        self.assertEqual(picker.value_of_css_property("display"), "none")
+
+        self.click(period_input)
+        self.assertNotEqual(picker.value_of_css_property("display"), "none")
+        self.screenshot("date-range-picker-open.png")
+
+        period_input.send_keys(Keys.ESCAPE)
+        self.assertEqual(picker.value_of_css_property("display"), "none")
+
+        self.click(period_input)
+
+        presets = self.driver.find_elements(By.CSS_SELECTOR, ".datepicker-preset")
+        last_7_days = presets[2]
+        self.click(last_7_days)
+
+        value = period_input.get_attribute("value")
+        self.assertRegex(value, r"\d{2}/\d{2}/\d{4} - \d{2}/\d{2}/\d{4}")
+
+        self.assertEqual(picker.value_of_css_property("display"), "none")
+
+        self.click(period_input)
+        clear_btn = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-btn-clear")
+        self.click(clear_btn)
+
+        self.assertEqual(period_input.get_attribute("value"), "")
+        self.assertEqual(picker.value_of_css_property("display"), "none")
+
+        self.click(period_input)
+
+        title = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-cal-title")
+        initial_title = title.text
+
+        prev_btn = self.driver.find_element(
+            By.CSS_SELECTOR, ".datepicker-nav[aria-label='Previous month']"
+        )
+        self.click(prev_btn)
+
+        title = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-cal-title")
+        self.assertNotEqual(title.text, initial_title)
+
+        next_btn = self.driver.find_element(
+            By.CSS_SELECTOR, ".datepicker-nav[aria-label='Next month']"
+        )
+        self.click(next_btn)
+        # Need to find the button again otherwise selenium will complain about the element being stale
+        next_btn = self.driver.find_element(
+            By.CSS_SELECTOR, ".datepicker-nav[aria-label='Next month']"
+        )
+        self.click(next_btn)
+
+        title = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-cal-title")
+        self.assertNotEqual(title.text, initial_title)
+
+        # Click on the page body outside the picker
+        self.driver.find_element(By.TAG_NAME, "label").click()
+
+        self.assertEqual(picker.value_of_css_property("display"), "none")
