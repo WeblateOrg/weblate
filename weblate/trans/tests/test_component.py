@@ -1833,6 +1833,32 @@ class LinkedResetDiskStateTest(ComponentTestCase):
 
 
 class ComponentHostKeyHandlingTest(SimpleTestCase):
+    def test_error_text_preserves_newlines(self) -> None:
+        component = SimpleNamespace(
+            repo="ssh://git@example.com/private/repo.git",
+            push="",
+            full_path="/srv/weblate/data/vcs/test",
+        )
+
+        error_text = Component.error_text(
+            component,  # type: ignore[arg-type]
+            RepositoryError(
+                255,
+                (
+                    "Problem running 'git remote update gerrit'\n"
+                    "Fetching gerrit\n"
+                    "Host key verification failed.\n"
+                    "/srv/weblate/data/vcs/test/.git/index.lock"
+                ),
+            ),
+        )
+
+        self.assertIn(
+            "Problem running 'git remote update gerrit'\nFetching gerrit", error_text
+        )
+        self.assertIn("\nHost key verification failed.\n", error_text)
+        self.assertIn(".../.git/index.lock", error_text)
+
     def test_handle_update_error_host_key_mismatch(self) -> None:
         component = SimpleNamespace(
             add_ssh_host_key=Mock(),

@@ -145,6 +145,26 @@ class BackendErrorSanitizationTest(SimpleTestCase):
 
         self.assertEqual(sanitized, "fatal: couldn't find remote ref refs/heads/main")
 
+    def test_preserve_newlines(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            (
+                "fatal: unable to access "
+                "'ssh://git@internal.example.net/private/repo.git':\n"
+                "Could not resolve host: internal.example.net\n"
+                "Could not resolve host: internal.example.net\n"
+                "/srv/weblate/data/vcs/test/.git/index.lock"
+            ),
+            repo_urls=("ssh://git@internal.example.net/private/repo.git",),
+            extra_paths=("/srv/weblate/data/vcs/test",),
+        )
+
+        self.assertEqual(
+            sanitized,
+            "fatal: unable to access 'repository URL':\n"
+            "Could not resolve host: ...\n"
+            ".../.git/index.lock",
+        )
+
 
 class TextConversionTest(SimpleTestCase):
     def test_multistring(self) -> None:
