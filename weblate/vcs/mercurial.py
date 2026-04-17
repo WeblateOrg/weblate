@@ -25,6 +25,8 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
+    from weblate.vcs.base import RemoteOperation
+
 
 VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
 
@@ -62,6 +64,7 @@ class HgRepository(Repository):
     default_branch: ClassVar[str] = "default"
     ref_to_remote: ClassVar[str] = "head() and branch(.) and not closed() - ."
     ref_from_remote: ClassVar[str] = "outgoing()"
+    remote_revset_markers: ClassVar[tuple[str, ...]] = ("remote(", "outgoing(")
 
     @staticmethod
     def sanitize_error_message(errormessage: str) -> str:
@@ -132,9 +135,9 @@ class HgRepository(Repository):
     def reset(self) -> None:
         """Reset working copy to match remote branch."""
         self.set_config_values(("extensions", "strip", ""))
-        self.execute(["update", "--clean", "remote(.)"])
+        self.execute(["update", "--clean", "remote(.)"], remote_op="pull")
         if self.needs_push():
-            self.execute(["strip", "roots(outgoing())"])
+            self.execute(["strip", "roots(outgoing())"], remote_op="pull")
         self.clean_revision_cache()
 
     def configure_merge(self) -> None:
@@ -169,21 +172,24 @@ class HgRepository(Repository):
         """Rebase working copy on top of remote branch."""
         self.set_config_values(("extensions", "rebase", ""))
         if abort:
-            self.execute(["rebase", "--abort"])
+            self.execute(["rebase", "--abort"], remote_op="none")
         elif self.needs_merge():
             if self.needs_ff():
-                self.execute(["update", "--clean", "remote(.)"])
+                self.execute(["update", "--clean", "remote(.)"], remote_op="pull")
             else:
                 self.configure_merge()
                 try:
-                    self.execute(["rebase", "-d", "remote(.)"])
+                    self.execute(["rebase", "-d", "remote(.)"], remote_op="pull")
                 except RepositoryError as error:
                     # Mercurial 3.8 changed error code and output
                     if (
                         error.retcode in {1, 255}
                         and "nothing to rebase" in error.args[0]
                     ):
-                        self.execute(["update", "--clean", "remote(.)"])
+                        self.execute(
+                            ["update", "--clean", "remote(.)"],
+                            remote_op="pull",
+                        )
                         self.clean_revision_cache()
                         return
                     raise
@@ -194,22 +200,22 @@ class HgRepository(Repository):
     ) -> None:
         """Merge remote branch or reverts the merge."""
         if abort:
-            self.execute(["update", "--clean", "."])
+            self.execute(["update", "--clean", "."], remote_op="none")
         elif self.needs_merge():
             if self.needs_ff() and not no_ff:
-                self.execute(["update", "--clean", "remote(.)"])
+                self.execute(["update", "--clean", "remote(.)"], remote_op="pull")
             else:
                 self.configure_merge()
                 # Fallback to merge
                 try:
-                    self.execute(["merge", "-r", "remote(.)"])
+                    self.execute(["merge", "-r", "remote(.)"], remote_op="pull")
                 except RepositoryError as error:
                     if error.retcode == 255:
                         # Nothing to merge
                         self.clean_revision_cache()
                         return
                     raise
-                self.execute(["commit", "--message", "Merge"])
+                self.execute(["commit", "--message", "Merge"], remote_op="none")
         self.clean_revision_cache()
 
     def needs_commit(self, filenames: list[str] | None = None):
@@ -217,7 +223,7 @@ class HgRepository(Repository):
         cmd = ["status", "--"]
         if filenames:
             cmd.extend(filenames)
-        status = self.execute(cmd, needs_lock=False)
+        status = self.execute(cmd, remote_op="none", needs_lock=False)
         return bool(status)
 
     def _get_revision_info(self, revision):
@@ -237,6 +243,7 @@ class HgRepository(Repository):
         """
         text = self.execute(
             ["log", "--limit", "1", "--template", template, "--rev", revision],
+            remote_op="none",
             needs_lock=False,
             merge_err=False,
         )
@@ -270,9 +277,17 @@ class HgRepository(Repository):
         """Return revisin log for given refspec."""
         return self.execute(
             ["log", "--template", "{node}\n", "--rev", refspec],
+            remote_op=self.get_revset_remote_op(refspec),
             needs_lock=False,
             merge_err=False,
         ).splitlines()
+
+    @classmethod
+    def get_revset_remote_op(cls, refspec: str) -> RemoteOperation:
+        """Determine whether a revset can contact the configured remote."""
+        if any(marker in refspec for marker in cls.remote_revset_markers):
+            return "pull"
+        return "none"
 
     def needs_ff(self):
         """
@@ -312,10 +327,10 @@ class HgRepository(Repository):
         if files is not None:
             for name in files:
                 try:
-                    self.execute(["add", "--", name])
+                    self.execute(["add", "--", name], remote_op="none")
                 except RepositoryError:
                     try:
-                        self.execute(["remove", "--", name])
+                        self.execute(["remove", "--", name], remote_op="none")
                     except RepositoryError:
                         continue
                 cmd.append(name)
@@ -326,7 +341,7 @@ class HgRepository(Repository):
             return False
 
         # Execute it
-        self.execute(cmd)
+        self.execute(cmd, remote_op="none")
         # Clean cache
         self.clean_revision_cache()
 
@@ -340,7 +355,7 @@ class HgRepository(Repository):
         extra_commit_files: list[str] | None = None,
     ) -> None:
         """Remove files and creates new revision."""
-        self.execute(["remove", "--force", "--", *files])
+        self.execute(["remove", "--force", "--", *files], remote_op="none")
         self.commit(message, author, files=files + (extra_commit_files or []))
 
     def configure_remote(
@@ -370,12 +385,15 @@ class HgRepository(Repository):
         self.branch = branch
 
     def on_branch(self, branch):
-        return branch == self.execute(["branch"], merge_err=False).strip()
+        return (
+            branch
+            == self.execute(["branch"], remote_op="none", merge_err=False).strip()
+        )
 
     def configure_branch(self, branch) -> None:
         """Configure repository branch."""
         if not self.on_branch(branch):
-            self.execute(["update", "--", branch])
+            self.execute(["update", "--", branch], remote_op="none")
         self.branch = branch
 
     def describe(self):
@@ -388,15 +406,15 @@ class HgRepository(Repository):
                 "--template",
                 "{latesttag}-{latesttagdistance}-{node|short}",
             ],
+            remote_op="none",
             needs_lock=False,
             merge_err=False,
         ).strip()
 
     def push(self, branch) -> None:
         """Push given branch to remote repository."""
-        self.validate_push_url()
         try:
-            self.execute(["push", f"--branch={self.branch}"])
+            self.execute(["push", f"--branch={self.branch}"], remote_op="push")
         except RepositoryError as error:
             if error.retcode == 1:
                 # No changes found
@@ -406,7 +424,10 @@ class HgRepository(Repository):
     def get_file(self, path, revision):
         """Return content of file at given revision."""
         return self.execute(
-            ["cat", "--rev", revision, path], needs_lock=False, merge_err=False
+            ["cat", "--rev", revision, path],
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
         )
 
     def remove_stale_branches(self) -> None:
@@ -416,12 +437,11 @@ class HgRepository(Repository):
     def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
         self.set_config_values(("extensions", "purge", ""))
-        self.execute(["purge"])
+        self.execute(["purge"], remote_op="none")
 
     def update_remote(self) -> None:
         """Update remote repository."""
-        self.validate_pull_url()
-        self.execute(["pull", f"--branch={self.branch}"])
+        self.execute(["pull", f"--branch={self.branch}"], remote_op="pull")
         self.clean_revision_cache()
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
@@ -450,5 +470,8 @@ class HgRepository(Repository):
 
     def show(self, revision: str) -> str:
         return self.execute(
-            ["diff", "--change", revision], needs_lock=False, merge_err=False
+            ["diff", "--change", revision],
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
         )

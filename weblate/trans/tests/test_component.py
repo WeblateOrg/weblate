@@ -1232,7 +1232,8 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     self.local_missing_translation_contents[translation.pk]
                 )
                 translation.component.repository.execute(
-                    ["add", "--force", "--", translation.filename]
+                    ["add", "--force", "--", translation.filename],
+                    remote_op="none",
                 )
 
     def test_reset_keep_recreates_missing_translation_file(self) -> None:

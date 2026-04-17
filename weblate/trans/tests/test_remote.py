@@ -595,9 +595,10 @@ class MultiRepoTest(ViewTestCase):
             "# Test Project\n\nThis is a test README.\n", encoding="utf-8"
         )
         with self.component.repository.lock:
-            self.component.repository.execute(["add", "README.md"])
+            self.component.repository.execute(["add", "README.md"], remote_op="none")
             self.component.repository.execute(
-                ["commit", "-m", "Add README.md (non-translation file)"]
+                ["commit", "-m", "Add README.md (non-translation file)"],
+                remote_op="none",
             )
             self.component.repository.push(self.component.push_branch)
 

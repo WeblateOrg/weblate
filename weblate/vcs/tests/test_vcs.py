@@ -27,8 +27,10 @@ from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
 from weblate.vcs.base import (
+    RepositoryCommandError,
     RepositoryError,
     RepositorySymlinkError,
+    RepositoryValidationError,
     get_config_check_cache_key,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
@@ -385,7 +387,10 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
 
     def test_configure_branch_recovers_temp_branch_on_next_lock(self) -> None:
         with self.repo.lock:
-            self.repo.execute(["checkout", "-b", "weblate-squash-tmp"])
+            self.repo.execute(
+                ["checkout", "-b", "weblate-squash-tmp"],
+                remote_op="none",
+            )
             temp_dir = self.repo.get_repo_temp_dir()
             if temp_dir is None:
                 self.fail("Expected Git temp dir to exist")
@@ -401,7 +406,11 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
             self.assertEqual(self.repo.get_current_branch(), "main")
             self.assertNotIn("weblate-squash-tmp", self.repo.list_branches())
             self.assertFalse(
-                self.repo.execute(["status", "--short"], needs_lock=False).strip()
+                self.repo.execute(
+                    ["status", "--short"],
+                    remote_op="none",
+                    needs_lock=False,
+                ).strip()
             )
 
 
@@ -528,6 +537,24 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             pk=-1,
         )
 
+    def assert_no_popen_sequence(
+        self,
+        mocked_popen,
+        *sequence: str,
+    ) -> None:
+        width = len(sequence)
+
+        self.assertFalse(
+            any(
+                any(
+                    tuple(call.args[0][index : index + width]) == sequence
+                    for index in range(len(call.args[0]) - width + 1)
+                )
+                for call in mocked_popen.call_args_list
+            ),
+            mocked_popen.call_args_list,
+        )
+
     def clone_repo(self, path):
         return self._class.clone(
             self.get_remote_repo_url(),
@@ -613,7 +640,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.repo.component.repo = "https://private.example/repo.git"
         with (
             self.repo.lock,
-            patch.object(self.repo, "execute") as mock_execute,
+            patch.object(self._class, "_popen") as mock_popen,
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
@@ -622,8 +649,43 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         ):
             self.repo.list_remote_branches()
 
-        mock_execute.assert_not_called()
+        mock_popen.assert_not_called()
         self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_remove_stale_branches_runtime_private_url_rejected(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+        self.repo.component.repo = "https://private.example/repo.git"
+        with (
+            self.repo.lock,
+            patch.object(self._class, "_popen") as mock_popen,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryValidationError) as error,
+        ):
+            self.repo.remove_stale_branches()
+
+        self.assert_no_popen_sequence(mock_popen, "remote", "prune", "origin")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_remove_stale_branches_ignores_command_errors(self) -> None:
+        if self._class in {SubversionRepository, HgRepository, LocalRepository}:
+            self.skipTest("Covered by backend-specific behavior")
+
+        original_execute = self.repo.execute
+
+        def mocked_execute(args: list[str], **kwargs):
+            if tuple(args[-3:]) == ("remote", "prune", "origin"):
+                raise RepositoryCommandError(128, "remote unavailable")
+            return original_execute(args, **kwargs)
+
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "execute", side_effect=mocked_execute),
+        ):
+            self.repo.remove_stale_branches()
 
     def test_update_remote_runtime_private_url_rejected(self) -> None:
         if self._class in {SubversionRepository, HgRepository, LocalRepository}:
@@ -631,7 +693,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.repo.component.repo = "https://private.example/repo.git"
         with (
             self.repo.lock,
-            patch.object(self.repo, "execute") as mock_execute,
+            patch.object(self._class, "_popen") as mock_popen,
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
@@ -640,7 +702,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         ):
             self.repo.update_remote()
 
-        mock_execute.assert_not_called()
+        self.assert_no_popen_sequence(mock_popen, "fetch")
         self.assertIn("internal or non-public address", str(error.exception))
 
     def test_push(self, branch: str = "") -> None:
@@ -653,7 +715,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.repo.component.push = "https://private.example/repo.git"
         with (
             self.repo.lock,
-            patch.object(self.repo, "execute") as mock_execute,
+            patch.object(self._class, "_popen") as mock_popen,
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
@@ -662,7 +724,24 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         ):
             self.repo.push("")
 
-        mock_execute.assert_not_called()
+        self.assert_no_popen_sequence(mock_popen, "push")
+        self.assert_no_popen_sequence(mock_popen, "review")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_get_remote_branch_runtime_private_url_rejected(self) -> None:
+        if not issubclass(self._class, GitRepository) or self._class is LocalRepository:
+            self.skipTest("Covered by backend-specific behavior")
+        with (
+            patch.object(self._class, "_popen") as mock_popen,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self._class.get_remote_branch("https://private.example/repo.git")
+
+        mock_popen.assert_not_called()
         self.assertIn("internal or non-public address", str(error.exception))
 
     def test_push_commit(self) -> None:
@@ -697,6 +776,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.assertTrue(self.repo.has_rev("--verify"))
         mocked.assert_called_once_with(
             ["rev-parse", "--verify", "--end-of-options", "--verify"],
+            remote_op="none",
             needs_lock=False,
         )
 
@@ -928,7 +1008,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                     self.repo.get_config("remote.origin.pushURL"), "pushurl"
                 )
             # Test that we handle not set fetching
-            self.repo.execute(["config", "--unset", "remote.origin.fetch"])
+            self.repo.execute(
+                ["config", "--unset", "remote.origin.fetch"],
+                remote_op="none",
+            )
             self.repo.configure_remote("pullurl", "pushurl", "branch")
             self.assertEqual(
                 self.repo.get_config("remote.origin.fetch"),
@@ -1434,7 +1517,8 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
                     "add",
                     "test",
                     "git@ssh.this.does.not.exist:v3/org/proj/repo",
-                ]
+                ],
+                remote_op="none",
             )
 
         responses.post(
@@ -2114,7 +2198,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         credentials = self.repo.get_credentials()
         fork_branch_name = self.repo.get_fork_branch_name()
         fork_ref = f"refs/remotes/{credentials['username']}/{fork_branch_name}"
-        self.repo.execute(["update-ref", fork_ref, "HEAD"], needs_lock=False)
+        self.repo.execute(
+            ["update-ref", fork_ref, "HEAD"],
+            remote_op="none",
+            needs_lock=False,
+        )
 
         # count_outgoing should now be 0 since fork has our commits
         # (even though origin doesn't yet - MR is pending)
@@ -2124,7 +2212,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         # In a real scenario, after a merge request is merged and git fetch is done,
         # origin/{branch} would contain the local commits
         origin_ref = f"refs/remotes/origin/{self.repo.branch}"
-        self.repo.execute(["update-ref", origin_ref, "HEAD"], needs_lock=False)
+        self.repo.execute(
+            ["update-ref", origin_ref, "HEAD"],
+            remote_op="none",
+            needs_lock=False,
+        )
 
         # count_outgoing should still return 0 since origin has our commits
         self.assertEqual(self.repo.count_outgoing(), 0)
@@ -2144,7 +2236,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
 
         # Update origin ref for the different branch
         origin_ref = f"refs/remotes/origin/{different_branch}"
-        self.repo.execute(["update-ref", origin_ref, "HEAD"], needs_lock=False)
+        self.repo.execute(
+            ["update-ref", origin_ref, "HEAD"],
+            remote_op="none",
+            needs_lock=False,
+        )
 
         # count_outgoing with different branch should return 0
         # (commits are in origin for that branch, fork not checked)
@@ -2157,7 +2253,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         credentials = self.repo.get_credentials()
         fork_branch_name = self.repo.get_fork_branch_name()
         fork_ref = f"refs/remotes/{credentials['username']}/{fork_branch_name}"
-        self.repo.execute(["update-ref", fork_ref, "HEAD"], needs_lock=False)
+        self.repo.execute(
+            ["update-ref", fork_ref, "HEAD"],
+            remote_op="none",
+            needs_lock=False,
+        )
 
         different_branch = "develop" if self.repo.branch != "develop" else "feature"
         self.assertTrue(self.repo.needs_push(different_branch))
@@ -2356,6 +2456,23 @@ class VCSSubversionTest(VCSGitTest):
             self.format_local_path(self.subversion_repo_path),
         )
 
+    def test_push_runtime_private_repo_rejected_even_with_safe_push_url(self) -> None:
+        self.repo.component.repo = "https://private.example/repo"
+        self.repo.component.push = "https://example.com/repo"
+        with (
+            self.repo.lock,
+            patch.object(self._class, "_popen") as mock_popen,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.push("")
+
+        self.assert_no_popen_sequence(mock_popen, "svn", "dcommit")
+        self.assertIn("internal or non-public address", str(error.exception))
+
 
 class VCSSubversionBranchTest(VCSSubversionTest):
     """Cloning subversion branch directly."""
@@ -2423,6 +2540,38 @@ class VCSHgTest(VCSGitTest):
     def test_status(self) -> None:
         status = self.repo.status()
         self.assertEqual(status, "")
+
+    def test_count_outgoing_runtime_private_url_rejected(self) -> None:
+        self.repo.component.repo = "https://private.example/repo"
+        with (
+            patch.object(self._class, "_popen") as mock_popen,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.count_outgoing()
+
+        mock_popen.assert_not_called()
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_reset_runtime_private_url_rejected(self) -> None:
+        self.repo.component.repo = "https://private.example/repo"
+        with (
+            self.repo.lock,
+            patch.object(self._class, "_popen") as mock_popen,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+            ),
+            self.assertRaises(RepositoryError) as error,
+        ):
+            self.repo.reset()
+
+        self.assert_no_popen_sequence(mock_popen, "update", "--clean", "remote(.)")
+        self.assert_no_popen_sequence(mock_popen, "strip", "roots(outgoing())")
+        self.assertIn("internal or non-public address", str(error.exception))
 
 
 class VCSLocalTest(VCSGitTest):

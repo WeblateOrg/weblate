@@ -3373,7 +3373,10 @@ class ResxAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         # Unshallow the local repo
         with self.component.repository.lock:
-            self.component.repository.execute(["fetch", "--unshallow", "origin"])
+            self.component.repository.execute(
+                ["fetch", "--unshallow", "origin"],
+                remote_op="pull",
+            )
         addon.post_update(
             self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
         )
@@ -3387,7 +3390,10 @@ class ResxAddonTest(ComponentTestCase):
         rev = self.component.repository.last_revision
         # Unshallow the local repo
         with self.component.repository.lock:
-            self.component.repository.execute(["fetch", "--unshallow", "origin"])
+            self.component.repository.execute(
+                ["fetch", "--unshallow", "origin"],
+                remote_op="pull",
+            )
         addon.post_update(
             self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
         )
