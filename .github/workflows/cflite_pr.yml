@@ -97,7 +97,7 @@ jobs:
         path: cflite-sarif/${{ matrix.sanitizer }}
     - name: Upload SARIF (${{ matrix.sanitizer }})
       if: steps.download_sarif.outcome == 'success'
-      uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89 # v4.31.10
+      uses: github/codeql-action/upload-sarif@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
       with:
         sarif_file: cflite-sarif/${{ matrix.sanitizer }}/results.sarif
         category: clusterfuzzlite-pr-${{ matrix.sanitizer }}
