@@ -347,11 +347,16 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
                 component = self._addon.instance.component
                 if component is not None:
                     manifest = Path(component.full_path) / potfiles_path
-                    if manifest.exists() and manifest.is_dir():
-                        self.add_error(
-                            "potfiles_path",
-                            gettext("POTFILES path has to point to a file."),
-                        )
+                    try:
+                        component.check_file_is_valid(str(manifest))
+                    except forms.ValidationError as error:
+                        self.add_error("potfiles_path", error)
+                    else:
+                        if manifest.exists() and manifest.is_dir():
+                            self.add_error(
+                                "potfiles_path",
+                                gettext("POTFILES path has to point to a file."),
+                            )
             cleaned_data["source_patterns"] = []
             cleaned_data["potfiles_path"] = potfiles_path
         return self.clean_xgettext_options(cleaned_data)
@@ -478,11 +483,20 @@ class SphinxExtractPotForm(BaseExtractPotForm):
         source_parts = parts[:locales_index]
         if source_parts:
             component_root = Path(component.full_path)
-            if not component_root.joinpath(*source_parts).is_dir():
+            source_dir = component_root.joinpath(*source_parts)
+            try:
+                component.check_file_is_valid(str(source_dir))
+            except forms.ValidationError:
                 self.add_error(
                     None,
                     gettext("Could not determine Sphinx source directory."),
                 )
+            else:
+                if not source_dir.is_dir():
+                    self.add_error(
+                        None,
+                        gettext("Could not determine Sphinx source directory."),
+                    )
         return cleaned_data
 
 

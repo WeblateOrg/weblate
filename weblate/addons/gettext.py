@@ -833,6 +833,25 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         self.extra_files.append(template)
         return True
 
+    @staticmethod
+    def get_validated_repository_path(component: Component, path: Path) -> Path:
+        component.check_file_is_valid(os.fspath(path))
+        return path
+
+    @classmethod
+    def get_validated_repository_dir(
+        cls, component: Component, path: Path
+    ) -> Path | None:
+        cls.get_validated_repository_path(component, path)
+        if not path.is_dir():
+            return None
+        return path
+
+    @classmethod
+    def is_validated_repository_file(cls, component: Component, path: Path) -> bool:
+        cls.get_validated_repository_path(component, path)
+        return path.is_file()
+
     def validate_repository_tree(
         self, component: Component, root: Path | None = None
     ) -> bool:
@@ -1401,9 +1420,10 @@ class MesonAddon(XgettextAddon):
     def get_meson_gettext_dir(self, component: Component) -> Path | None:
         template_dir = Path(component.new_base).parent
         gettext_dir = Path(component.full_path) / template_dir
-        if not gettext_dir.is_dir():
+        try:
+            return self.get_validated_repository_dir(component, gettext_dir)
+        except ValidationError:
             return None
-        return gettext_dir
 
     def get_meson_potfiles_path(self, component: Component) -> str | None:
         gettext_dir = self.get_meson_gettext_dir(component)
@@ -1411,15 +1431,25 @@ class MesonAddon(XgettextAddon):
             return None
         for name in ("POTFILES", "POTFILES.in"):
             candidate = gettext_dir / name
-            if candidate.is_file():
-                return os.path.relpath(candidate, component.full_path).replace(
-                    os.sep, "/"
-                )
+            try:
+                if self.is_validated_repository_file(component, candidate):
+                    return os.path.relpath(candidate, component.full_path).replace(
+                        os.sep, "/"
+                    )
+            except ValidationError:
+                return None
         return None
 
     def is_meson_layout(self, component: Component) -> bool:
         gettext_dir = self.get_meson_gettext_dir(component)
-        if gettext_dir is None or not (gettext_dir / "meson.build").is_file():
+        if gettext_dir is None:
+            return False
+        try:
+            if not self.is_validated_repository_file(
+                component, gettext_dir / "meson.build"
+            ):
+                return False
+        except ValidationError:
             return False
         if self.get_meson_potfiles_path(component) is None:
             return False
@@ -1428,8 +1458,13 @@ class MesonAddon(XgettextAddon):
             return True
         current = gettext_dir.parent
         while True:
-            if (current / "meson.build").is_file():
-                return True
+            try:
+                if self.is_validated_repository_file(
+                    component, current / "meson.build"
+                ):
+                    return True
+            except ValidationError:
+                return False
             if current == root:
                 return False
             if current.parent == current:
@@ -1466,10 +1501,24 @@ class DjangoAddon(ExtractPotBaseAddon):
             return True
         if Path(component.new_base).stem not in {"django", "djangojs"}:
             return False
-        return cls.get_source_dir(component) is not None
+        try:
+            return cls.get_source_dir(component) is not None
+        except ValidationError:
+            return False
 
     def execute_update(self, component: Component, previous_head: str) -> bool:
-        source_dir = self.get_source_dir(component)
+        try:
+            source_dir = self.get_source_dir(component)
+        except ValidationError:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
         if source_dir is None:
             self.alerts.append(
                 {
@@ -1546,21 +1595,25 @@ class DjangoAddon(ExtractPotBaseAddon):
             shutil.copyfile(generated, template)
         return self.finalize_template(component)
 
-    @staticmethod
-    def get_source_dir(component: Component) -> Path | None:
+    @classmethod
+    def get_source_dir(cls, component: Component) -> Path | None:
         template = Path(component.new_base)
         parts = template.parts
         if "locale" not in parts:
-            return Path(component.full_path)
+            return cls.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         locale_index = parts.index("locale")
         if locale_index == 0:
-            return Path(component.full_path)
+            return cls.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         if locale_index == 1 and parts[0] == "conf":
-            return Path(component.full_path)
+            return cls.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         source_dir = Path(component.full_path).joinpath(*parts[:locale_index])
-        if not source_dir.is_dir():
-            return None
-        return source_dir
+        return cls.get_validated_repository_dir(component, source_dir)
 
     @staticmethod
     def get_source_prefix(component: Component, source_dir: Path) -> str:
@@ -1622,8 +1675,13 @@ class SphinxAddon(ExtractPotBaseAddon):
         if component is None:
             return True
         addon = cls(cls.create_object(component=component))
-        source_dir = addon.get_sphinx_source_dir(component)
-        return source_dir is not None and (source_dir / "conf.py").is_file()
+        try:
+            source_dir = addon.get_sphinx_source_dir(component)
+            return source_dir is not None and addon.is_validated_repository_file(
+                component, source_dir / "conf.py"
+            )
+        except ValidationError:
+            return False
 
     def get_sphinx_source_dir(self, component: Component) -> Path | None:
         template = Path(component.new_base)
@@ -1632,17 +1690,28 @@ class SphinxAddon(ExtractPotBaseAddon):
             return None
         locales_index = parts.index("locales")
         if locales_index == 0:
-            return Path(component.full_path)
+            return self.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         source_dir = Path(component.full_path).joinpath(*parts[:locales_index])
-        if not source_dir.is_dir():
-            return None
-        return source_dir
+        return self.get_validated_repository_dir(component, source_dir)
 
     def get_filter_mode(self) -> str:
         return str(self.instance.configuration.get("filter_mode", "none"))
 
     def execute_update(self, component: Component, previous_head: str) -> bool:
-        source_dir = self.get_sphinx_source_dir(component)
+        try:
+            source_dir = self.get_sphinx_source_dir(component)
+        except ValidationError:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "sphinx-build",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
         if source_dir is None:
             self.alerts.append(
                 {
