@@ -222,12 +222,12 @@ def sanitize_backend_error_message(
     lines: list[str] = []
     seen_lines: set[str] = set()
     for line in result.splitlines():
-        stripped = line.strip()
+        stripped = re.sub(r"\s+", " ", line).strip()
         if stripped and stripped not in seen_lines:
             seen_lines.add(stripped)
             lines.append(stripped)
 
-    return re.sub(r"\s+", " ", " ".join(lines)).strip()
+    return "\n".join(lines).strip()
 
 
 def redirect_param(location, params, *args, **kwargs):
