@@ -10,7 +10,7 @@ ENV UV_MANAGED_PYTHON=1
 ENV UV_PYTHON=3.12.13
 ENV DEBIAN_FRONTEND=noninteractive
 # renovate: datasource=github-releases depName=astral-sh/uv versioning=pep440
-ENV UV_VERSION=0.11.6
+ENV UV_VERSION=0.11.7
 
 RUN curl -fsSL -o /tmp/uv.tar.gz \
     "https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-x86_64-unknown-linux-gnu.tar.gz" \
