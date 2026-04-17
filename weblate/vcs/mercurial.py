@@ -274,7 +274,7 @@ class HgRepository(Repository):
         return result
 
     def log_revisions(self, refspec):
-        """Return revisin log for given refspec."""
+        """Return revision log for given refspec."""
         return self.execute(
             ["log", "--template", "{node}\n", "--rev", refspec],
             remote_op=self.get_revset_remote_op(refspec),
