@@ -1953,7 +1953,9 @@ class ComponentCopyTest(APITestCase):
             def has_branch(self, _branch: str) -> bool:
                 return False
 
-            def execute(self, args: list[str]) -> None:
+            def execute(self, args: list[str], *, remote_op: str) -> None:
+                if remote_op != "none":
+                    raise AssertionError(remote_op)
                 calls.append(args)
 
             def clean_revision_cache(self) -> None:

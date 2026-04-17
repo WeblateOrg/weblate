@@ -229,6 +229,7 @@ def get_precheck_failure_reason(component: Component, body: bytes) -> str | None
     try:
         output = execute(
             ["cat-file", "--batch-check"],
+            remote_op="none",
             needs_lock=False,
             stdin="".join(f"{revision}\n" for revision in wanted_revisions),
         )

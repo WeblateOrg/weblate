@@ -13,7 +13,7 @@ import os.path
 import subprocess  # noqa: S404
 from contextlib import suppress
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Literal, Self, TypedDict
 
 from dateutil import parser
 from django.core.cache import cache
@@ -59,6 +59,9 @@ def get_config_check_cache_key(component_pk: int) -> str:
 class SubprocessArgs(TypedDict, total=False):
     stdin: int
     input: str
+
+
+type RemoteOperation = Literal["none", "pull", "push"]
 
 
 class RepositoryLock:
@@ -127,6 +130,14 @@ class RepositoryError(Exception):
 
     def __str__(self) -> str:
         return self.get_message()
+
+
+class RepositoryCommandError(RepositoryError):
+    """Error raised by the underlying VCS command."""
+
+
+class RepositoryValidationError(RepositoryError):
+    """Error raised when repository configuration violates runtime policy."""
 
 
 class RepositorySymlinkError(ValueError):
@@ -395,7 +406,7 @@ class Repository:
                 if isinstance(error.stderr, bytes)
                 else error.stderr
             )
-            raise RepositoryError(
+            raise RepositoryCommandError(
                 0,
                 f"Subprocess didn't complete before {error.timeout} seconds\n{stdout}{stderr or ''}",
             ) from error
@@ -423,7 +434,7 @@ class Repository:
                     retry=False,
                 )
 
-            raise RepositoryError(process.returncode, errormessage)
+            raise RepositoryCommandError(process.returncode, errormessage)
         return process.stdout
 
     @staticmethod
@@ -451,6 +462,7 @@ class Repository:
         self,
         args: list[str],
         *,
+        remote_op: RemoteOperation,
         needs_lock: bool = True,
         fullcmd: bool = False,
         merge_err: bool = True,
@@ -465,6 +477,10 @@ class Repository:
                 raise RuntimeError(msg)
             if self.component:
                 self.ensure_config_updated()
+        if remote_op == "pull":
+            self.validate_pull_url()
+        elif remote_op == "push":
+            self.validate_push_url()
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
@@ -476,14 +492,14 @@ class Repository:
                 stdin=stdin,
                 environment=environment,
             )
-        except RepositoryError as error:
+        except RepositoryCommandError as error:
             if not is_status and not self.local:
                 self.log_status(error)
             raise
         return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
-        with suppress(RepositoryError):
+        with suppress(RepositoryCommandError):
             self.log(f"failure {error}")
             self.log(self.status())
 
@@ -499,13 +515,21 @@ class Repository:
         return self.get_last_revision()
 
     def get_last_revision(self):
-        return self.execute(self._cmd_last_revision, needs_lock=False, merge_err=False)
+        return self.execute(
+            self._cmd_last_revision,
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
+        )
 
     @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
         return self.execute(
-            self._cmd_last_remote_revision, needs_lock=False, merge_err=False
+            self._cmd_last_remote_revision,
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
         )
 
     @classmethod
@@ -523,7 +547,7 @@ class Repository:
         try:
             validate_repo_url(url)
         except ValidationError as error:
-            raise RepositoryError(0, "; ".join(error.messages)) from error
+            raise RepositoryValidationError(0, "; ".join(error.messages)) from error
 
     def validate_pull_url(self, url: str | None = None) -> None:
         """Validate the pull URL in the current runtime context."""
@@ -560,7 +584,7 @@ class Repository:
 
     def status(self) -> str:
         """Return status of the repository."""
-        return self.execute(self._cmd_status, needs_lock=False)
+        return self.execute(self._cmd_status, remote_op="none", needs_lock=False)
 
     def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
@@ -820,9 +844,9 @@ class Repository:
     def cleanup(self) -> None:
         """Cleanup repository status."""
         # Recover from failed merge/rebase
-        with suppress(RepositoryError):
+        with suppress(RepositoryCommandError):
             self.merge(abort=True)
-        with suppress(RepositoryError):
+        with suppress(RepositoryCommandError):
             self.rebase(abort=True)
         # Remove stale branches
         self.remove_stale_branches()
@@ -844,7 +868,10 @@ class Repository:
         This is not universal as refspec is different per vcs.
         """
         lines = self.execute(
-            [*self._cmd_list_changed_files, refspec], needs_lock=False, merge_err=False
+            [*self._cmd_list_changed_files, refspec],
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
         ).splitlines()
         return list(self.parse_changed_files(lines))
 

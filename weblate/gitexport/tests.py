@@ -306,6 +306,7 @@ class GitExportTest(ViewTestCase):
         self.mark_component_shallow()
         present_revision = self.component.repository.execute(
             ["rev-parse", "HEAD"],
+            remote_op="none",
             needs_lock=False,
         ).strip()
         body = (
@@ -320,6 +321,7 @@ class GitExportTest(ViewTestCase):
         self.mark_component_shallow()
         present_revision = self.component.repository.execute(
             ["rev-parse", "HEAD"],
+            remote_op="none",
             needs_lock=False,
         ).strip()
         body = (
@@ -333,6 +335,7 @@ class GitExportTest(ViewTestCase):
     def test_stop_parsing_after_initial_want_block(self) -> None:
         present_revision = self.component.repository.execute(
             ["rev-parse", "HEAD"],
+            remote_op="none",
             needs_lock=False,
         ).strip()
         body = (
@@ -410,6 +413,7 @@ class GitExportTest(ViewTestCase):
         self.mark_component_shallow()
         present_revision = self.component.repository.execute(
             ["rev-parse", "HEAD"],
+            remote_op="none",
             needs_lock=False,
         ).strip()
         body = (
@@ -533,6 +537,7 @@ class GitCloneShallowTest(GitCloneTest):
             self.component.repository.commit("Test export change", files=[filename])
         return self.component.repository.execute(
             ["rev-parse", "HEAD"],
+            remote_op="none",
             needs_lock=False,
         ).strip()
 

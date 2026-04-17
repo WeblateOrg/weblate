@@ -44,7 +44,7 @@ class GitSquashAddon(BaseAddon):
         author: str | None = None,
     ) -> None:
         message = self.get_squash_commit_message(repository, "%B", remote)
-        repository.execute(["reset", "--mixed", remote])
+        repository.execute(["reset", "--mixed", remote], remote_op="none")
         # Can happen for added and removed translation
         component.commit_files(
             author=author, message=message, signals=False, skip_push=True
@@ -78,7 +78,7 @@ class GitSquashAddon(BaseAddon):
         if filenames:
             command += ["--", *filenames]
 
-        return repository.execute(command)
+        return repository.execute(command, remote_op="none")
 
     def get_squash_commit_message(
         self,
@@ -100,7 +100,7 @@ class GitSquashAddon(BaseAddon):
 
             trailer_lines = set()
             change_id_line = None
-            for trailer in repository.execute(command).split("\n"):
+            for trailer in repository.execute(command, remote_op="none").split("\n"):
                 # Skip blank lines
                 if not trailer.strip():
                     continue
@@ -158,7 +158,7 @@ class GitSquashAddon(BaseAddon):
                 repository, "%B", remote, filenames
             )
 
-        repository.execute(["reset", "--mixed", remote])
+        repository.execute(["reset", "--mixed", remote], remote_op="none")
 
         for code, message in messages.items():
             if not message:
@@ -178,7 +178,7 @@ class GitSquashAddon(BaseAddon):
                     repository, "%B", remote, [filename]
                 )
 
-        repository.execute(["reset", "--mixed", remote])
+        repository.execute(["reset", "--mixed", remote], remote_op="none")
 
         for filename, message in messages.items():
             if not message:
@@ -194,7 +194,8 @@ class GitSquashAddon(BaseAddon):
             x.split(None, 1)
             for x in reversed(
                 repository.execute(
-                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"]
+                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"],
+                    remote_op="none",
                 ).splitlines()
             )
         ]
@@ -204,9 +205,9 @@ class GitSquashAddon(BaseAddon):
         repository.delete_branch(tmp)
         try:
             # Create local branch for upstream
-            repository.execute(["branch", tmp, remote])
+            repository.execute(["branch", tmp, remote], remote_op="none")
             # Checkout upstream branch
-            repository.execute(["checkout", tmp])
+            repository.execute(["checkout", tmp], remote_op="none")
             while commits:
                 commit, author = commits.pop(0)
                 # Remember current revision for final squash
@@ -216,11 +217,12 @@ class GitSquashAddon(BaseAddon):
                 try:
                     repository.execute(
                         ["cherry-pick", "--empty=drop", commit, *gpg_sign],
+                        remote_op="none",
                         environment={"WEBLATE_MERGE_SKIP": "1"},
                     )
                 except RepositoryError:
                     if repository.has_git_file("CHERRY_PICK_HEAD"):
-                        repository.execute(["cherry-pick", "--abort"])
+                        repository.execute(["cherry-pick", "--abort"], remote_op="none")
                     raise
                 handled = []
                 # Pick other commits by same author
@@ -230,6 +232,7 @@ class GitSquashAddon(BaseAddon):
                     try:
                         repository.execute(
                             ["cherry-pick", "--empty=drop", other[0], *gpg_sign],
+                            remote_op="none",
                             environment={"WEBLATE_MERGE_SKIP": "1"},
                         )
                         handled.append(i)
@@ -237,7 +240,9 @@ class GitSquashAddon(BaseAddon):
                         # If fails, continue to another author, we will
                         # pick this commit later (it depends on some other)
                         if repository.has_git_file("CHERRY_PICK_HEAD"):
-                            repository.execute(["cherry-pick", "--abort"])
+                            repository.execute(
+                                ["cherry-pick", "--abort"], remote_op="none"
+                            )
                         break
                 # Remove processed commits from list
                 for i in reversed(handled):
@@ -246,15 +251,15 @@ class GitSquashAddon(BaseAddon):
                 self.squash_repo(component, repository, base, author)
 
             # Update working copy with squashed commits
-            repository.execute(["checkout", repository.branch])
-            repository.execute(["reset", "--hard", tmp])
+            repository.execute(["checkout", repository.branch], remote_op="none")
+            repository.execute(["reset", "--hard", tmp], remote_op="none")
             repository.delete_branch(tmp)
 
         except Exception:
             report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
-            repository.execute(["reset", "--hard"])
-            repository.execute(["checkout", repository.branch])
+            repository.execute(["reset", "--hard"], remote_op="none")
+            repository.execute(["checkout", repository.branch], remote_op="none")
             repository.delete_branch(tmp)
 
     def post_commit(
