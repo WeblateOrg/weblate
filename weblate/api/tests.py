@@ -81,7 +81,7 @@ from weblate.utils.state import (
 )
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositoryLock
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
@@ -4369,6 +4369,52 @@ class ComponentAPITest(APIBaseTest):
             lock_index,
             is_valid_index,
             "Component row should be locked before serializer validation runs",
+        )
+
+    def test_patch_acquires_repository_lock_before_row_lock(self) -> None:
+        events: list[tuple[str, int]] = []
+        original_lock_enter = RepositoryLock.__enter__
+        original_get_for_update = ComponentQuerySet.get_for_update
+
+        def record_lock_enter(lock):
+            component = lock.repository.component
+            if component is not None:
+                events.append(("repo_lock", component.pk))
+            return original_lock_enter(lock)
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("row_lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        with (
+            patch.object(
+                RepositoryLock,
+                "__enter__",
+                autospec=True,
+                side_effect=record_lock_enter,
+            ),
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={"name": "Repo Locked API Name"},
+            )
+
+        self.assertEqual(response.data["name"], "Repo Locked API Name")
+        self.assertLess(
+            events.index(("repo_lock", self.component.pk)),
+            events.index(("row_lock", self.component.pk)),
+            "Component repository lock should be acquired before the row lock",
         )
 
     def test_patch_sets_acting_user_before_serializer_validation(self) -> None:

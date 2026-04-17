@@ -1825,20 +1825,20 @@ class ComponentViewSet(
 
         return super().get_object()
 
-    @transaction.atomic
     def update(self, request: Request, *args, **kwargs):
         """Edit a component by a PUT or PATCH request."""
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
-        self._locked_component_instance = self.get_queryset().get_for_update(
-            pk=instance.pk
-        )
-        self._locked_component_instance.acting_user = request.user
-        try:
-            return super().update(request, *args, **kwargs)
-        finally:
-            self.__dict__.pop("_locked_component_instance", None)
+        instance.acting_user = request.user
+        with instance.locked_for_update(
+            queryset=self.get_queryset()
+        ) as locked_instance:
+            self._locked_component_instance = locked_instance
+            try:
+                return super().update(request, *args, **kwargs)
+            finally:
+                self.__dict__.pop("_locked_component_instance", None)
 
     def perform_update(self, serializer) -> None:
         serializer.save()
