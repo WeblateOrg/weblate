@@ -168,7 +168,7 @@ class HgRepository(Repository):
             )
         self.set_config_values(*updates)
 
-    def rebase(self, abort=False) -> None:
+    def rebase(self, abort: bool = False) -> None:
         """Rebase working copy on top of remote branch."""
         self.set_config_values(("extensions", "rebase", ""))
         if abort:
