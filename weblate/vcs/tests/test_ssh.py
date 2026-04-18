@@ -20,7 +20,9 @@ from weblate.vcs.ssh import (
     cleanup_legacy_wrapper_dirs,
     cleanup_stale_wrapper_dirs,
     extract_url_host_port,
+    get_host_key_entries,
     get_host_keys,
+    remove_host_key,
     ssh_file,
     ssh_wrapper_path,
 )
@@ -37,6 +39,25 @@ class SSHTest(TestCase):
         shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, "ssh"))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
+
+    @tempdir_setting("DATA_DIR")
+    def test_remove_host_key(self) -> None:
+        known_hosts = ssh_file("known_hosts")
+        known_hosts.parent.mkdir(parents=True, exist_ok=True)
+        known_hosts.write_text(
+            "\n".join(Path(TEST_HOSTS).read_text(encoding="utf-8").splitlines()[:2])
+            + "\n",
+            encoding="utf-8",
+        )
+
+        host_keys = get_host_key_entries()
+        self.assertEqual(len(host_keys), 2)
+
+        self.assertTrue(remove_host_key(None, host_keys[0]["id"]))
+
+        remaining = get_host_key_entries()
+        self.assertEqual(len(remaining), 1)
+        self.assertNotEqual(remaining[0]["id"], host_keys[0]["id"])
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")

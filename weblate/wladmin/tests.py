@@ -289,6 +289,16 @@ class AdminTest(ViewTestCase):
             self.assertContains(response, "Added host key for example.com")
             self.assertTrue(hostsfile.exists())
 
+            # Remove the stored key so it can be replaced from the same page
+            response = self.client.get(reverse("manage-ssh"))
+            host_key_id = response.context["host_keys"][0]["id"]
+            response = self.client.post(
+                reverse("manage-ssh"),
+                {"action": "remove-host", "host_key": host_key_id},
+            )
+            self.assertContains(response, "Removed host key for example.com")
+            self.assertEqual(hostsfile.read_text(), "")
+
             # Add all the keys
             response = self.client.post(
                 reverse("manage-ssh"), {"action": "add-host", "host": "example.com"}
