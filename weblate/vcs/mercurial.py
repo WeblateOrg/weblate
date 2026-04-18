@@ -226,7 +226,7 @@ class HgRepository(Repository):
         status = self.execute(cmd, remote_op="none", needs_lock=False)
         return bool(status)
 
-    def _get_revision_info(self, revision):
+    def _get_revision_info(self, revision: str) -> dict[str, str]:
         """Return dictionary with detailed revision information."""
         template = """
         author_name: {person(author)}
