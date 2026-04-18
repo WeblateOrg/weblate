@@ -87,7 +87,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         try:
             WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
         except WebDriverException:
-            # Retry the same condition to workaround issue in Chomedriver/Selenium, see
+            # Retry the same condition to workaround issue in Chromedriver/Selenium, see
             # https://github.com/SeleniumHQ/selenium/issues/15401
             time.sleep(0.1)
             WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
@@ -414,7 +414,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                warnings.warn(f"Ignoring: {error}", stacklevel=4)
+                warnings.warn(f"Ignoring: {error}", stacklevel=1)
 
         # Confirm account
         self.driver.get(url)
