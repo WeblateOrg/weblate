@@ -1932,7 +1932,7 @@ class Component(  # noqa: PLR0904
     @staticmethod
     def get_ssh_host_key_mismatch_error_message() -> str:
         return gettext(
-            "The SSH host key for the repository has changed. Verify the new fingerprint and replace the stored host key on the SSH page in the admin interface."
+            "The SSH host key for the repository has changed. Verify the new fingerprint, remove the stored host key, and add the new one on the SSH page in the admin interface."
         )
 
     def add_ssh_host_key(self) -> None:

@@ -59,6 +59,13 @@ class KeyDetails(TypedDict):
     name: StrOrPromise
 
 
+class HostKeyEntry(TypedDict):
+    host: str
+    key_type: str
+    fingerprint: str
+    id: str
+
+
 KEYS: dict[KeyType, KeyInfo] = {
     "rsa": {
         "private": "id_rsa",
@@ -121,20 +128,36 @@ def parse_hosts_line(line: str) -> tuple[str, str, str]:
     return host, keytype, fingerprint
 
 
-def get_host_keys() -> list[tuple[str, str, str]]:
-    """Return list of host keys."""
+def get_host_key_entries() -> list[HostKeyEntry]:
+    """Return stored host keys with identifiers for management actions."""
     try:
-        result = []
+        result: list[HostKeyEntry] = []
         hosts_file = ssh_file(KNOWN_HOSTS)
         with hosts_file.open() as handle:
             for line in handle:
                 line = line.strip()
                 if is_key_line(line):
-                    result.append(parse_hosts_line(line))
+                    host, key_type, fingerprint = parse_hosts_line(line)
+                    result.append(
+                        {
+                            "host": host,
+                            "key_type": key_type,
+                            "fingerprint": fingerprint,
+                            "id": calculate_checksum(line),
+                        }
+                    )
     except OSError:
         return []
 
     return result
+
+
+def get_host_keys() -> list[tuple[str, str, str]]:
+    """Return list of host keys."""
+    return [
+        (entry["host"], entry["key_type"], entry["fingerprint"])
+        for entry in get_host_key_entries()
+    ]
 
 
 def get_key_data_raw(
@@ -354,6 +377,52 @@ def add_host_key(
             add_host_key_error(request, exc.stderr or exc.stdout)
         except OSError as exc:
             add_host_key_error(request, str(exc))
+
+
+def remove_host_key(request: AuthenticatedHttpRequest | None, host_key_id: str) -> bool:
+    """Remove stored host key by its stable identifier."""
+    known_hosts_file = ssh_file(KNOWN_HOSTS)
+    try:
+        with known_hosts_file.open() as handle:
+            lines = handle.readlines()
+    except OSError:
+        messages.error(request, gettext("Could not read stored host keys."))
+        return False
+
+    removed_keys: list[tuple[str, str, str]] = []
+    remaining_lines = []
+    for line in lines:
+        stripped = line.strip()
+        if is_key_line(stripped) and calculate_checksum(stripped) == host_key_id:
+            removed_keys.append(parse_hosts_line(stripped))
+            continue
+        remaining_lines.append(line)
+
+    if not removed_keys:
+        messages.error(request, gettext("Could not find the selected host key."))
+        return False
+
+    try:
+        with known_hosts_file.open(mode="w") as handle:
+            handle.writelines(remaining_lines)
+    except OSError:
+        messages.error(request, gettext("Could not update stored host keys."))
+        return False
+
+    for host, key_type, fingerprint in removed_keys:
+        messages.success(
+            request,
+            gettext(
+                "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
+            )
+            % {
+                "host": host,
+                "fingerprint": fingerprint,
+                "keytype": key_type,
+            },
+        )
+
+    return True
 
 
 GITHUB_RSA_KEY = (

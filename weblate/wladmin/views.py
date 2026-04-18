@@ -63,8 +63,9 @@ from weblate.vcs.ssh import (
     can_generate_key,
     generate_ssh_key,
     get_all_key_data,
-    get_host_keys,
+    get_host_key_entries,
     get_key_data_raw,
+    remove_host_key,
 )
 from weblate.wladmin.forms import (
     ActivateForm,
@@ -459,6 +460,8 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
                 form.cleaned_data["port"],
                 accept_fingerprint=form.cleaned_data["fingerprint"],
             )
+    elif action == "remove-host":
+        remove_host_key(request, request.POST.get("host_key", ""))
 
     context = {
         "public_ssh_keys": keys,
@@ -466,7 +469,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
         "missing_ssh_keys": [
             keydata for keydata in keys.values() if keydata["key"] is None
         ],
-        "host_keys": get_host_keys(),
+        "host_keys": get_host_key_entries(),
         "menu_items": MENU,
         "menu_page": "ssh",
         "add_form": form,

@@ -658,8 +658,8 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
                     "gerrit": False,
                     "host_key_message": (
                         "The SSH host key for the repository has changed. "
-                        "Verify the new fingerprint and replace the stored host key "
-                        "on the SSH page in the admin interface."
+                        "Verify the new fingerprint, remove the stored host key, "
+                        "and add the new one on the SSH page in the admin interface."
                     ),
                     "not_found": False,
                     "permission": False,

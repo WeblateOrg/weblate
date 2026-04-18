@@ -1853,7 +1853,7 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
         self.assertEqual(
             cm.exception.message_dict["repo"],
             [
-                "The SSH host key for the repository has changed. Verify the new fingerprint and replace the stored host key on the SSH page in the admin interface."
+                "The SSH host key for the repository has changed. Verify the new fingerprint, remove the stored host key, and add the new one on the SSH page in the admin interface."
             ],
         )
 
