@@ -422,15 +422,17 @@ def count_words(string: str, language: Language | None = None) -> int:
     """Count number of words in a string."""
     if language is not None and language.is_cjk():
         count = 0
-        for s in split_plural(string):
-            if is_unused_string(s):
+        for part in split_plural(string):
+            if is_unused_string(part):
                 continue
             even = True
-            for sec in CJK_PATTERN.split(string):
+            for sec in CJK_PATTERN.split(part):
                 if even:
                     count += len(sec.split())
                 else:
                     count += len(sec)
                 even = not even
         return count
-    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+    return sum(
+        len(part.split()) for part in split_plural(string) if not is_unused_string(part)
+    )
