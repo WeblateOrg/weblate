@@ -218,7 +218,7 @@ class HgRepository(Repository):
                 self.execute(["commit", "--message", "Merge"], remote_op="none")
         self.clean_revision_cache()
 
-    def needs_commit(self, filenames: list[str] | None = None):
+    def needs_commit(self, filenames: list[str] | None = None) -> bool:
         """Check whether repository needs commit."""
         cmd = ["status", "--"]
         if filenames:
