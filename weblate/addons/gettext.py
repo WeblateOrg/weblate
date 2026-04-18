@@ -51,8 +51,9 @@ POT_PLACEHOLDER_COMMENT_PREFIXES = (
     "# FIRST AUTHOR",
     "# This file is distributed under the same license as the",
 )
+POT_DESCRIPTIVE_TITLE = "SOME DESCRIPTIVE TITLE."
 POT_PLACEHOLDER_COMMENTS = (
-    "# SOME DESCRIPTIVE TITLE.",
+    f"# {POT_DESCRIPTIVE_TITLE}",
     "# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER",
 )
 POT_BLANK_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\)(?: [0-9– -]*)?$")
@@ -64,10 +65,15 @@ if TYPE_CHECKING:
     from weblate.trans.models import Category, Component, Project, Translation
 
 
+def is_pot_descriptive_title(text: str) -> bool:
+    return text.removeprefix("# ").rstrip("\r\n") == POT_DESCRIPTIVE_TITLE
+
+
 def is_xgettext_placeholder_comment(comment: str) -> bool:
-    comment_text = comment.rstrip("\n")
+    comment_text = comment.rstrip("\r\n")
     return (
-        comment_text in POT_PLACEHOLDER_COMMENTS
+        is_pot_descriptive_title(comment_text)
+        or comment_text in POT_PLACEHOLDER_COMMENTS
         or comment_text.startswith(POT_PLACEHOLDER_COMMENT_PREFIXES)
         or POT_BLANK_COPYRIGHT_RE.fullmatch(comment_text) is not None
     )
@@ -765,15 +771,15 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         )
         header = store.store.units[0]
         component_name = self.get_component_full_name(component)
-        had_descriptive_title = "SOME DESCRIPTIVE TITLE.\n" in header.target.splitlines(
-            keepends=True
+        had_descriptive_title = any(
+            is_pot_descriptive_title(line)
+            for line in header.target.splitlines(keepends=True)
         )
         original_comments = header.othercomments
         header.othercomments = [
             comment
             for comment in original_comments
             if not is_xgettext_placeholder_comment(comment)
-            and not re.match(r"^# Copyright \(C\) [0-9– -]* Michal Čihař", comment)
         ]
         removed_placeholder_comments = len(header.othercomments) != len(
             original_comments
