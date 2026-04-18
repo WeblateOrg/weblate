@@ -128,7 +128,7 @@ class HgRepository(Repository):
             with open(filename, "w", encoding="utf-8") as handle:
                 config.write(handle)
 
-    def set_committer(self, name, mail) -> None:
+    def set_committer(self, name: str, mail: str) -> None:
         """Configure committer name."""
         self.set_config_values(("ui", "username", format_address(name, mail)))
 
