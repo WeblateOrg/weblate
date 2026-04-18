@@ -128,7 +128,7 @@ class HgRepository(Repository):
             with open(filename, "w", encoding="utf-8") as handle:
                 config.write(handle)
 
-    def set_committer(self, name, mail) -> None:
+    def set_committer(self, name: str, mail: str) -> None:
         """Configure committer name."""
         self.set_config_values(("ui", "username", format_address(name, mail)))
 
@@ -168,7 +168,7 @@ class HgRepository(Repository):
             )
         self.set_config_values(*updates)
 
-    def rebase(self, abort=False) -> None:
+    def rebase(self, abort: bool = False) -> None:
         """Rebase working copy on top of remote branch."""
         self.set_config_values(("extensions", "rebase", ""))
         if abort:
@@ -218,7 +218,7 @@ class HgRepository(Repository):
                 self.execute(["commit", "--message", "Merge"], remote_op="none")
         self.clean_revision_cache()
 
-    def needs_commit(self, filenames: list[str] | None = None):
+    def needs_commit(self, filenames: list[str] | None = None) -> bool:
         """Check whether repository needs commit."""
         cmd = ["status", "--"]
         if filenames:
@@ -226,7 +226,7 @@ class HgRepository(Repository):
         status = self.execute(cmd, remote_op="none", needs_lock=False)
         return bool(status)
 
-    def _get_revision_info(self, revision):
+    def _get_revision_info(self, revision: str) -> dict[str, str]:
         """Return dictionary with detailed revision information."""
         template = """
         author_name: {person(author)}
@@ -273,7 +273,7 @@ class HgRepository(Repository):
 
         return result
 
-    def log_revisions(self, refspec):
+    def log_revisions(self, refspec: str) -> list[str]:
         """Return revision log for given refspec."""
         return self.execute(
             ["log", "--template", "{node}\n", "--rev", refspec],
