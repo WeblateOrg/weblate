@@ -396,7 +396,7 @@ class HgRepository(Repository):
             self.execute(["update", "--", branch], remote_op="none")
         self.branch = branch
 
-    def describe(self):
+    def describe(self) -> str:
         """Verbosely describes current revision."""
         return self.execute(
             [
