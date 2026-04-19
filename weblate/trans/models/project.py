@@ -50,6 +50,12 @@ if TYPE_CHECKING:
     from weblate.trans.models.translation import TranslationQuerySet
 
 
+# Project-wide batched checks serialize across all propagating components and can
+# legitimately wait behind another component finalization run for longer than
+# the component-local lock timeout.
+PROJECT_CHECKS_LOCK_TIMEOUT = 30
+
+
 class CommitPolicyChoices(models.IntegerChoices):
     ALL = 0, gettext_lazy("Commit all translations regardless of quality")
     WITHOUT_NEEDS_EDITING = (
@@ -400,7 +406,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             slug=self.slug,
             cache_template="{scope}-lock-{key}",
             file_template="{slug}-{scope}.lock",
-            timeout=5,
+            timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
             origin=self.full_slug,
         )
 
