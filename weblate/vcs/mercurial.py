@@ -289,7 +289,7 @@ class HgRepository(Repository):
             return "pull"
         return "none"
 
-    def needs_ff(self):
+    def needs_ff(self) -> bool:
         """
         Check whether repository needs a fast-forward to upstream.
 
