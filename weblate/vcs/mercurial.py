@@ -384,7 +384,7 @@ class HgRepository(Repository):
 
         self.branch = branch
 
-    def on_branch(self, branch):
+    def on_branch(self, branch) -> bool:
         return (
             branch
             == self.execute(["branch"], remote_op="none", merge_err=False).strip()
