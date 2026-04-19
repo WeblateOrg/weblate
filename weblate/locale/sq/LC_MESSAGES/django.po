@@ -10,8 +10,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:55+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
 "Language: sq\n"
@@ -217,6 +217,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Lëreni të aktivizuar, që të shfuqizohet kyçi i tanishëm API dhe të prodhohet "
+"një i ri. Kjo është e rekomanduar, nëse dyshoni se qe komprometuar "
+"fjalëkalimi juaj. Që të mbani kyçin tuaj të tanishëm API, pas ndryshimit të "
+"fjalëkalimit tuaj, çaktivizojeni."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -600,26 +604,24 @@ msgid "User was disabled because the access has expired."
 msgstr "Përdoruesi qe çaktivizuar, sepse hyrja ka skaduar."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "Përdoruesi qe shtuar te ekipi {team} nga {username}."
+msgstr "Përdoruesi qe shtuar te ekipi {team} për tërë sajtin, nga {username}."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "Përdoruesi i hoq nga ekipi {team} prej {username}."
+msgstr "Përdoruesi u hoq nga ekipi {team} për tërë sajtin, prej {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "U akorduan privilegje superpërdoruesi."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "U shfuqizuan privilegje superpërdoruesi."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1417,7 +1419,7 @@ msgstr "Provë falas"
 #: weblate/accounts/views.py:730
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "Qe planifikuar prapakthim përpunimesh nga %(user)s në tërë sajtin."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1488,16 +1490,12 @@ msgstr ""
 "tuaja."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Që të verifikoni identitetin tuaj, riprovoni të regjistroheni, lidhja e "
-"ripohimit ka gjasa të ketë skaduar."
+"Që të verifikoni identitetin tuaj, provoni të ricaktoni fjalëkalimin tuaj, "
+"lidhja e ripohimit ka gjasa të ketë skaduar."
 
 #: weblate/accounts/views.py:1496
 msgid ""
@@ -1685,18 +1683,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Kjo shtesë prek krejt projektin dhe mund të krijojë kartela përkthimi nëpër "
+"mjaft përbërës, ose depo."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Kjo shtesë prek krejt kategorinë dhe mund të krijojë kartela përkthimi nëpër "
+"mjaft përbërës, ose depo."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Kjo shtesë prek krejt projektet dhe mund të krijojë kartela përkthimi nëpër "
+"mjaft përbërës, ose depo."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
