@@ -1061,6 +1061,58 @@ class ComponentValidationTest(RepoTestCase):
         # With correct format it should validate
         self.component.full_clean()
 
+    def prepare_i18next_base_component(self, source_language_code: str) -> Component:
+        project_slug = f"i18next-{source_language_code}"
+        component = self._create_component(
+            "i18next",
+            "i18next/*.json",
+            "i18next/en.json",
+            project=self.create_project(
+                name=f"I18next {source_language_code}",
+                slug=project_slug,
+            ),
+            source_language=Language.objects.get(code=source_language_code),
+        )
+        i18next_dir = pathlib.Path(component.full_path) / "i18next"
+        (i18next_dir / "base.json").write_text(
+            (i18next_dir / "en.json").read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+        component.template = "i18next/base.json"
+        component.drop_template_store_cache()
+        return component
+
+    def test_validation_i18next_base_uses_configured_source_language(self) -> None:
+        component = self.prepare_i18next_base_component("en_devel")
+
+        component.full_clean()
+
+    def test_validation_i18next_base_still_rejects_plain_english_collision(
+        self,
+    ) -> None:
+        component = self.prepare_i18next_base_component("en")
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "There is more than one file for English language:",
+        ):
+            component.full_clean()
+
+    def test_validation_intermediate_uses_configured_source_language(self) -> None:
+        component = self._create_component(
+            "json",
+            "intermediate/*.json",
+            "intermediate/en.json",
+            project=self.create_project(
+                name="Intermediate en_devel",
+                slug="intermediate-en-devel",
+            ),
+            source_language=Language.objects.get(code="en_devel"),
+            intermediate="intermediate/dev.json",
+        )
+
+        component.full_clean()
+
     def test_lang_code(self) -> None:
         project = Project(language_aliases="xx:cs")
         component = Component(project=project)

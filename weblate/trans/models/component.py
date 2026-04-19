@@ -3730,8 +3730,13 @@ class Component(  # noqa: PLR0904
         existing_langs: set[str] = set()
 
         for match in matches:
-            code = self.get_lang_code(match, validate=True)
-            lang = validate_language_code(self.get_language_alias(code), match, True)
+            if match == self.template:
+                lang = self.source_language
+            else:
+                code = self.get_lang_code(match, validate=True)
+                lang = validate_language_code(
+                    self.get_language_alias(code), match, True
+                )
             if lang.code in langs:
                 message = gettext(
                     "There is more than one file for %(language)s language: "
