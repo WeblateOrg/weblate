@@ -144,7 +144,7 @@ def is_repo_link(val: str) -> bool:
 
 
 def translation_percent(
-    translated: int, total: int, zero_complete: bool = True
+    translated: int, total: int | None, zero_complete: bool = True
 ) -> float:
     """Return translation percentage."""
     if total == 0:
@@ -253,7 +253,7 @@ def cleanup_path(path: str) -> str:
 
 def get_project_description(project: Project) -> str:
     """Return verbose description for project translation."""
-    # Cache the count as it might be expensive to calculate (it pull
+    # Cache the count as it might be expensive to calculate (it pulls
     # all project stats) and there is no need to always have up to date
     # count here
     cache_key = f"project-lang-count-{project.id}"
