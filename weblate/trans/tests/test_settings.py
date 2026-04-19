@@ -4,6 +4,7 @@
 
 """Test for settings management."""
 
+from typing import cast
 from unittest.mock import patch
 
 from django.test.utils import modify_settings, override_settings
@@ -175,7 +176,9 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         self.assertContains(response, "Settings")
-        data = get_form_data(response.context["form"].initial)
+        data = cast(
+            "dict[str, object]", get_form_data(response.context["form"].initial)
+        )
         data["license"] = "MIT"
         data["enforced_checks"] = ["same", "duplicate"]
         response = self.client.post(url, data, follow=True)

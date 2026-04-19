@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 from collections import defaultdict
 from datetime import timedelta
+from functools import partial
 from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
@@ -29,7 +30,11 @@ from weblate.utils.requests import (
     validate_request_url,
 )
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.validators import WeblateURLValidator, validate_project_web
+from weblate.utils.validators import (
+    WeblateURLValidator,
+    is_project_web_allowlisted,
+    validate_project_web,
+)
 from weblate.vcs.base import (
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
@@ -51,17 +56,20 @@ ALERTS_IMPORT: set[str] = set()
 
 
 def _get_validated_uri_error(
-    uri: str, validators: tuple[Callable[[str], None], ...]
+    uri: str,
+    validators: tuple[Callable[[str], None], ...],
+    *,
+    allow_private_targets: bool | None = None,
 ) -> str | None:
     for validator in validators:
         try:
             validator(uri)
         except ValidationError as error:
             return format_validation_error(error)
+    if allow_private_targets is None:
+        allow_private_targets = not settings.PROJECT_WEB_RESTRICT_PRIVATE
     try:
-        validate_request_url(
-            uri, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
-        )
+        validate_request_url(uri, allow_private_targets=allow_private_targets)
     except ValidationError as error:
         return format_validation_error(error)
     return get_uri_error(uri)
@@ -687,9 +695,18 @@ class BrokenProjectURL(BaseAlert):
             return False
 
         if component.project.web:
+            project_slug = component.project.slug or None
+            allow_private_targets = (
+                not settings.PROJECT_WEB_RESTRICT_PRIVATE
+                or is_project_web_allowlisted(project_slug)
+            )
             location_error = _get_validated_uri_error(
                 component.project.web,
-                validators=(WeblateURLValidator(), validate_project_web),
+                validators=(
+                    WeblateURLValidator(),
+                    partial(validate_project_web, project_slug=project_slug),
+                ),
+                allow_private_targets=allow_private_targets,
             )
             if location_error is not None:
                 return {"error": location_error}
