@@ -269,7 +269,7 @@ class HgRepository(Repository):
             result[name] = value
 
         result["message"] = "\n".join(message)
-        result["summary"] = message[0]
+        result["summary"] = message[0] if message else ""
 
         return result
 
@@ -289,7 +289,7 @@ class HgRepository(Repository):
             return "pull"
         return "none"
 
-    def needs_ff(self):
+    def needs_ff(self) -> bool:
         """
         Check whether repository needs a fast-forward to upstream.
 
@@ -384,7 +384,7 @@ class HgRepository(Repository):
 
         self.branch = branch
 
-    def on_branch(self, branch):
+    def on_branch(self, branch) -> bool:
         return (
             branch
             == self.execute(["branch"], remote_op="none", merge_err=False).strip()
@@ -396,7 +396,7 @@ class HgRepository(Repository):
             self.execute(["update", "--", branch], remote_op="none")
         self.branch = branch
 
-    def describe(self):
+    def describe(self) -> str:
         """Verbosely describes current revision."""
         return self.execute(
             [
@@ -449,7 +449,7 @@ class HgRepository(Repository):
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 
-    def list_changed_files(self, refspec: str) -> list:
+    def list_changed_files(self, refspec: str) -> list[str]:
         try:
             return super().list_changed_files(refspec)
         except RepositoryError as error:
