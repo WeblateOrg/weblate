@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:54+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -2241,10 +2241,9 @@ msgid "format not preset"
 msgstr "Informace o projektu"
 
 #: weblate/addons/forms.py:894
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Základní soubor pro jednojazyčné překlady"
+msgstr "jednojazyčný základ: %(base)s"
 
 #: weblate/addons/forms.py:897
 #, fuzzy
@@ -8545,12 +8544,13 @@ msgid "Close"
 msgstr "Zavřít"
 
 #: weblate/templates/accounts/user.html:465
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> across "
 "all projects."
-msgstr "Tímto odstraníte tým <b>%(name)s</b> z tohoto projektu."
+msgstr ""
+"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> "
+"napříč všemi projekty."
 
 #: weblate/templates/accounts/user.html:480
 msgid "Account removal deletes all user private data."
@@ -13633,10 +13633,8 @@ msgstr ""
 "doporučujeme vám změnit předplatné na vyšší balíček."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "Nepodařilo se aktualizovat repozitář."
+msgstr "Weblate nedokázal ověřit adresu prohlížeče repozitáře:"
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -13656,10 +13654,8 @@ msgstr ""
 "nadřazenou složku nebo je absolutní."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate se nepodařilo odeslat změny do repozitáře."
+msgstr "Weblate nedokázal ověřit adresu webu projektu:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -14433,12 +14429,13 @@ msgid "Revert user edits"
 msgstr "Uživatel odebrán"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
-msgstr "Tímto odstraníte tým <b>%(name)s</b> z tohoto projektu."
+msgstr ""
+"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> v "
+"tomto projektu."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -18216,10 +18213,8 @@ msgid "User configured character: {}"
 msgstr "Uživatelem zadaný znak: {}"
 
 #: weblate/trans/tasks.py:686
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Probíhá automatický překlad"
+msgstr "Automatický překlad byl přeskočen, protože cíl již neexistuje."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19584,10 +19579,9 @@ msgid "Unknown error"
 msgstr "Neznámá chyba"
 
 #: weblate/vcs/git.py:2204
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "Nepodařilo se obnovit snímek obrazovky %(name)s: %(error)s"
+msgstr "Nepodařilo se získat GitLab projekt (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2323
 msgid "Pagure merge request"
