@@ -26,14 +26,15 @@
 # Luis Carlos González Morales <luiscarlosgonzalezmorales655@gmail.com>, 2026.
 # Agustina Giselle <agustinagiselle.translations@gmail.com>, 2026.
 # Deleted User <noreply+48943@weblate.org>, 2026.
+# Adrian Reyes <reyeshernandez.car@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:52+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"Last-Translator: Adrian Reyes <reyeshernandez.car@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -241,6 +242,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Deje esta opción activada para revocar la API actual y generar una nueva "
+"clave. Se recomienda esto si sospecha que su contraseña se encuentra "
+"comprometida. Desactívela para conservar su clave API actual después de "
+"modificar su contraseña."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -626,26 +631,24 @@ msgid "User was disabled because the access has expired."
 msgstr "El usuario fue deshabilitado porque el acceso ha vencido."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "El usuario fue agregado al equipo {team} por {username}."
+msgstr "{username} añadió al usuario al equipo general del sitio {team}."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "El usuario fue eliminado del equipo {team} por {username}."
+msgstr "{username} eliminó al usuario del equipo general del sitio {team}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Privilegios de superusuario otorgados."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Privilegios de superusuario anulados."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1444,6 +1447,8 @@ msgstr "Prueba gratuita"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"Se programó la reversión de las modificaciones realizadas por %(user)s en "
+"todo el sitio."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1515,16 +1520,12 @@ msgstr ""
 "nueva."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Pruebe a registrarse de nuevo para verificar su identidad; probablemente ha "
-"vencido la ficha de confirmación."
+"Intente restablecer su contraseña para verificar su identidad; probablemente "
+"el enlace de confirmación ha caducado."
 
 #: weblate/accounts/views.py:1496
 msgid ""
