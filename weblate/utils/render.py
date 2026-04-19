@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections import UserString
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -28,7 +28,7 @@ class InvalidString(UserString):
 
 
 class RestrictedEngine(Engine):
-    default_builtins: list[str] = [  # noqa: RUF012
+    default_builtins: ClassVar[list[str]] = [
         "django.template.defaultfilters",
         "weblate.utils.templatetags.safe_render",
     ]
