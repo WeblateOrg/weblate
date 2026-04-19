@@ -27,6 +27,7 @@ Weblate 5.17.1
 * Client-side popup notifications triggered by JavaScript now use Bootstrap toasts.
 * Dark theme Bootstrap subtle and emphasis colors now use higher-contrast values, improving popup toasts and other semantic UI elements.
 * Repository alerts, history entries, and task messages now preserve multiline Git and SSH backend error output.
+* Interrupted Git rebases now recover more reliably after worker restarts, and signal-terminated backend commands are reported more clearly.
 * Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
 * Git exporter no longer rejects shared-history fetches just because the first negotiated ``have`` revisions are newer than Weblate's local history.
 * Project backup import now revalidates component repository URLs before restore.

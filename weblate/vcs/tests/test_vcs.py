@@ -9,10 +9,11 @@ import os.path
 import re
 import shutil
 import tempfile
+from contextlib import ExitStack
 from os import utime
 from pathlib import Path
 from time import time
-from typing import TYPE_CHECKING, Any, ClassVar, NoReturn
+from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import patch
 
 import responses
@@ -55,6 +56,9 @@ from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
+    from contextlib import AbstractContextManager
+    from unittest.mock import MagicMock
+
     from weblate.vcs.base import Repository
 
 
@@ -71,6 +75,18 @@ class GithubFakeRepository(GithubRepository):
 class GitLabFakeRepository(GitLabRepository):
     _is_supported = None
     _version = None
+
+
+class ExecuteSideEffect(Protocol):
+    def __call__(self, args: list[str], **kwargs: object) -> str: ...
+
+
+class GitLockRecoveryMocks(NamedTuple):
+    has_rev: MagicMock
+    merge: MagicMock
+    rebase: MagicMock
+    checkout_with_temp_cleanup: MagicMock
+    execute: MagicMock
 
 
 class GiteaFakeRepository(GiteaRepository):
@@ -134,6 +150,63 @@ class BrokenGitChildRepository(BrokenGitRepository):
 
 
 class RepositoryTest(SimpleTestCase):
+    def create_git_repository(
+        self,
+        tempdir: str,
+        *,
+        branch: str = "main",
+        git_dirs: tuple[str, ...] = (),
+    ) -> tuple[GitRepository, Path]:
+        git_dir = Path(tempdir) / ".git"
+        git_dir.mkdir()
+        (git_dir / "config").touch()
+        for git_dir_name in git_dirs:
+            (git_dir / git_dir_name).mkdir()
+        return GitRepository(tempdir, branch=branch, local=True), git_dir
+
+    def make_stale_lock(self, lockfile: Path) -> None:
+        lockfile.parent.mkdir(parents=True, exist_ok=True)
+        lockfile.touch()
+        past_timestamp = time() - 7200
+        utime(lockfile, (past_timestamp, past_timestamp))
+
+    def enter_patch_contexts(
+        self, *contexts: AbstractContextManager[MagicMock]
+    ) -> tuple[MagicMock, ...]:
+        stack = ExitStack()
+        self.addCleanup(stack.close)
+        return tuple(stack.enter_context(context) for context in contexts)
+
+    def mock_git_lock_recovery(
+        self, repo: GitRepository, *, current_branch: str
+    ) -> GitLockRecoveryMocks:
+        _, has_rev, _, merge, rebase, checkout, execute = self.enter_patch_contexts(
+            patch.object(repo, "get_current_branch", return_value=current_branch),
+            patch.object(repo, "has_rev", return_value=False),
+            patch.object(repo, "has_git_file", return_value=False),
+            patch.object(repo, "merge"),
+            patch.object(repo, "rebase"),
+            patch.object(repo, "checkout_with_temp_cleanup"),
+            patch.object(repo, "execute"),
+        )
+        return GitLockRecoveryMocks(
+            has_rev=has_rev,
+            merge=merge,
+            rebase=rebase,
+            checkout_with_temp_cleanup=checkout,
+            execute=execute,
+        )
+
+    def mock_interrupted_git_rebase_recovery(
+        self, repo: GitRepository, *, execute_side_effect: ExecuteSideEffect
+    ) -> None:
+        self.enter_patch_contexts(
+            patch.object(repo, "has_rev", return_value=False),
+            patch.object(repo, "needs_commit", return_value=False),
+            patch.object(repo, "get_current_branch", return_value="main"),
+            patch.object(repo, "execute", side_effect=execute_side_effect),
+        )
+
     def test_not_supported(self) -> None:
         self.assertFalse(NonExistingRepository.is_supported())
         with self.assertRaises(FileNotFoundError):
@@ -160,6 +233,20 @@ class RepositoryTest(SimpleTestCase):
             BrokenGitRepository.get_version()
 
         self.assertEqual(BrokenGitChildRepository.get_version(), "1.0")
+
+    def test_repository_command_error_negative_retcode_shows_signal_hint(self) -> None:
+        error = RepositoryCommandError(-15, "Rebasing (59/194)")
+
+        self.assertEqual(
+            str(error),
+            "Rebasing (59/194)\n\n"
+            "The underlying command was terminated by signal SIGTERM, usually because the worker or host was restarted or stopped during the operation. (-15)",
+        )
+
+    def test_repository_error_negative_retcode_keeps_original_message(self) -> None:
+        error = RepositoryError(-1, "Can not switch subversion URL")
+
+        self.assertEqual(str(error), "Can not switch subversion URL (-1)")
 
     def test_mercurial_repository_uses_hg_temp_dir(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
@@ -263,6 +350,154 @@ class RepositoryTest(SimpleTestCase):
 
                 with repo.lock:
                     self.assertEqual(recover_lock_session.call_count, 2)
+
+    def test_git_lock_session_recovery_aborts_interrupted_rebase(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, git_dir = self.create_git_repository(
+                tempdir, git_dirs=("rebase-merge",)
+            )
+            lockfile = git_dir / "CHERRY_PICK_HEAD.lock"
+            self.make_stale_lock(lockfile)
+
+            abort_attempts = 0
+
+            def mocked_execute(args: list[str], **kwargs) -> str:
+                nonlocal abort_attempts
+                if args == ["rebase", "--abort"]:
+                    abort_attempts += 1
+                    if abort_attempts == 1:
+                        raise RepositoryCommandError(
+                            128,
+                            f"fatal: cannot lock ref 'CHERRY_PICK_HEAD': Unable to create '{lockfile}': File exists.",
+                        )
+                    return ""
+                msg = f"Unexpected command: {args!r}"
+                raise AssertionError(msg)
+
+            self.mock_interrupted_git_rebase_recovery(
+                repo, execute_side_effect=mocked_execute
+            )
+            with repo.lock:
+                pass
+
+            self.assertEqual(abort_attempts, 2)
+            self.assertFalse(lockfile.exists())
+
+    def test_git_lock_session_recovery_cleans_successful_rebase_abort_lock(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, git_dir = self.create_git_repository(
+                tempdir, git_dirs=("rebase-merge",)
+            )
+            lockfile = git_dir / "AUTO_MERGE.lock"
+            self.make_stale_lock(lockfile)
+
+            abort_attempts = 0
+
+            def mocked_execute(args: list[str], **kwargs) -> str:
+                nonlocal abort_attempts
+                if args == ["rebase", "--abort"]:
+                    abort_attempts += 1
+                    return (
+                        "warning: cleanup failed\n"
+                        f"Unable to create '{lockfile}': File exists."
+                    )
+                msg = f"Unexpected command: {args!r}"
+                raise AssertionError(msg)
+
+            self.mock_interrupted_git_rebase_recovery(
+                repo, execute_side_effect=mocked_execute
+            )
+            with repo.lock:
+                pass
+
+            self.assertEqual(abort_attempts, 1)
+            self.assertFalse(lockfile.exists())
+
+    def test_git_lock_session_recovery_aborts_interrupted_rebase_with_branch_ref_lock(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, git_dir = self.create_git_repository(
+                tempdir, git_dirs=("rebase-merge",)
+            )
+            lockfile = git_dir / "refs" / "heads" / "main.lock"
+            self.make_stale_lock(lockfile)
+
+            abort_attempts = 0
+
+            def mocked_execute(args: list[str], **kwargs) -> str:
+                nonlocal abort_attempts
+                if args == ["rebase", "--abort"]:
+                    abort_attempts += 1
+                    if abort_attempts == 1:
+                        raise RepositoryCommandError(
+                            128,
+                            f"fatal: cannot lock ref 'refs/heads/main': Unable to create '{lockfile}': File exists.",
+                        )
+                    return ""
+                msg = f"Unexpected command: {args!r}"
+                raise AssertionError(msg)
+
+            self.mock_interrupted_git_rebase_recovery(
+                repo, execute_side_effect=mocked_execute
+            )
+            with repo.lock:
+                pass
+
+            self.assertEqual(abort_attempts, 2)
+            self.assertFalse(lockfile.exists())
+
+    def test_execute_abort_preserves_fresh_lock(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, git_dir = self.create_git_repository(tempdir)
+            lockfile = git_dir / "CHERRY_PICK_HEAD.lock"
+            lockfile.touch()
+
+            error = RepositoryCommandError(
+                128,
+                f"fatal: cannot lock ref 'CHERRY_PICK_HEAD': Unable to create '{lockfile}': File exists.",
+            )
+
+            _, execute = self.enter_patch_contexts(
+                patch.object(repo, "ensure_lock_session_recovered"),
+                patch.object(repo, "execute", side_effect=error),
+            )
+            with self.assertRaises(RepositoryCommandError), repo.lock:
+                repo.execute_abort(["rebase", "--abort"])
+
+            execute.assert_called_once_with(["rebase", "--abort"], remote_op="none")
+            self.assertTrue(lockfile.exists())
+
+    def test_git_lock_session_recovery_preserves_temp_branch_cleanup(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, _ = self.create_git_repository(tempdir)
+            mocks = self.mock_git_lock_recovery(
+                repo, current_branch="weblate-squash-tmp"
+            )
+            with repo.lock:
+                pass
+
+            mocks.merge.assert_not_called()
+            mocks.rebase.assert_not_called()
+            mocks.checkout_with_temp_cleanup.assert_called_once_with("main")
+            mocks.execute.assert_any_call(["reset", "--hard"], remote_op="none")
+            mocks.execute.assert_any_call(
+                ["branch", "-D", "weblate-squash-tmp"], remote_op="none"
+            )
+
+    def test_git_lock_session_recovery_skips_abort_without_git_state(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo, _ = self.create_git_repository(tempdir)
+            mocks = self.mock_git_lock_recovery(repo, current_branch="main")
+            with repo.lock:
+                pass
+
+            mocks.merge.assert_not_called()
+            mocks.rebase.assert_not_called()
+            mocks.has_rev.assert_not_called()
+            mocks.execute.assert_not_called()
 
     def test_clone_runtime_private_url_rejected(self) -> None:
         component = Component(
