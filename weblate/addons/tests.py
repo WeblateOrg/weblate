@@ -425,22 +425,28 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
             repository, path
         )
-        owner = SimpleNamespace(repository=repository)
-        return SimpleNamespace(
+        component = SimpleNamespace(
             file_format="po",
             full_path=repository_dir,
             new_base=new_base,
-            check_file_is_valid=lambda filename: Component.check_file_is_valid(
-                owner, filename
-            ),
+            repository=repository,
+            log_error=lambda *_args, **_kwargs: None,
         )
+        component.check_file_is_valid = lambda filename: Component.check_file_is_valid(
+            component, filename
+        )
+        component.get_new_base_filename = lambda: component.check_file_is_valid(
+            os.path.join(repository_dir, new_base)
+        )
+        return component
 
     @staticmethod
     def build_fake_addon(addon_class, component: SimpleNamespace):
         addon = addon_class.__new__(addon_class)
-        addon.instance = SimpleNamespace(component=component, pk=None)
+        addon.instance = SimpleNamespace(component=component, pk=None, configuration={})
         addon.documentation_build = False
         addon.alerts = []
+        addon.extra_files = []
         return addon
 
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
@@ -504,6 +510,121 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         self.assertEqual(
             addon.alerts[-1]["error"],
             "Repository contains symlink outside repository",
+        )
+
+    def test_django_execute_update_skips_repository_locale_tree_validation(
+        self,
+    ) -> None:
+        repository_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        repository_locale_dir = Path(repository_dir) / "locale" / "cs" / "LC_MESSAGES"
+        repository_locale_dir.mkdir(parents=True, exist_ok=True)
+        (repository_locale_dir / "django.po").write_text("", encoding="utf-8")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+        original_resolve_symlinks = component.repository.resolve_symlinks
+
+        def resolve_symlinks(path: str) -> str:
+            if os.fspath(path).startswith(
+                os.fspath(Path(repository_dir) / "locale" / "cs")
+            ):
+                self.fail("Django validation should skip repository locale trees")
+            return original_resolve_symlinks(path)
+
+        component.repository.resolve_symlinks = resolve_symlinks
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            result = addon.execute_update(component, "")
+
+        self.assertTrue(result, addon.alerts)
+        self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
+        self.assertEqual(
+            (Path(repository_dir) / "locale" / "django.pot").read_text(
+                encoding="utf-8"
+            ),
+            'msgid ""\nmsgstr ""\n',
+        )
+
+    def test_django_execute_update_rejects_symlinked_locale_output_directory(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "locale")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+
+        with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
+            result = addon.execute_update(component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_django_execute_update_skips_nested_ignored_directories(self) -> None:
+        repository_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        source_dir = Path(repository_dir) / "src"
+        (source_dir / "locale").mkdir(parents=True, exist_ok=True)
+        (source_dir / "node_modules").mkdir(parents=True, exist_ok=True)
+
+        component = self.build_fake_component(
+            repository_dir, new_base="src/locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+        original_resolve_symlinks = component.repository.resolve_symlinks
+
+        def resolve_symlinks(path: str) -> str:
+            if os.fspath(path).startswith(os.fspath(source_dir / "node_modules")):
+                self.fail("Django validation should skip ignored source directories")
+            return original_resolve_symlinks(path)
+
+        component.repository.resolve_symlinks = resolve_symlinks
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            result = addon.execute_update(component, "")
+
+        self.assertTrue(result, addon.alerts)
+        self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
+        self.assertEqual(
+            (source_dir / "locale" / "django.pot").read_text(encoding="utf-8"),
+            'msgid ""\nmsgstr ""\n',
         )
 
     def test_sphinx_form_rejects_source_symlink_outside_repository(self) -> None:
@@ -2432,7 +2553,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2468,7 +2591,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2497,7 +2622,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2528,7 +2655,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2674,7 +2803,9 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        with patch.object(DjangoAddon, "validate_repository_tree", return_value=True):
+        with patch.object(
+            DjangoAddon, "validate_django_repository_tree", return_value=True
+        ):
             result = addon.execute_update(self.component, "")
 
         self.assertTrue(result)
@@ -2991,11 +3122,11 @@ msgstr ""
         self.assertNotIn('\nmsgid "Django"\n', content)
         self.assertNotIn('\nmsgid "foo_bar"\n', content)
 
-    def test_django_refuses_out_of_tree_symlink(self) -> None:
+    def test_django_refuses_out_of_tree_symlinked_source_file(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
 
-        self.component.new_base = "locale/website.pot"
+        self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
             component=self.component,
             run=False,
@@ -3007,8 +3138,8 @@ msgstr ""
             (outside_dir / "messages.py").write_text(
                 'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
             )
-            (Path(self.component.full_path) / "src").symlink_to(
-                outside_dir, target_is_directory=True
+            (Path(self.component.full_path) / "src.py").symlink_to(
+                outside_dir / "messages.py"
             )
 
             with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
