@@ -6,7 +6,7 @@ from __future__ import annotations
 import difflib
 import os
 from contextlib import contextmanager
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import sentry_sdk
 from django.contrib.auth.decorators import login_required
@@ -477,21 +477,32 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with (
-        Image.open(obj.image.path, formats=PIL_FORMATS) as image,
-        get_tesseract(translation.language) as api,
-    ):
-        results = {
-            sources[match]
-            for resolution in (72, 300)
-            for match in ocr_extract(
-                api,
-                image=image,
-                filename=obj.image.path,
-                strings=strings,
-                resolution=resolution,
-            )
-        }
+    try:
+        with Image.open(obj.image.path, formats=PIL_FORMATS) as image:
+            image.load()
+    except OSError as error:
+        LOGGER.warning(
+            "Skipping OCR for unreadable screenshot %s: %s", obj.image.path, error
+        )
+        return search_results(request, 200, obj)
+
+    ocr_image = cast("Image.Image", image)
+
+    try:
+        with get_tesseract(translation.language) as api:
+            results = {
+                sources[match]
+                for resolution in (72, 300)
+                for match in ocr_extract(
+                    api,
+                    image=ocr_image,
+                    filename=obj.image.path,
+                    strings=strings,
+                    resolution=resolution,
+                )
+            }
+    finally:
+        ocr_image.close()
 
     return search_results(
         request, 200, obj, translation.unit_set.filter(pk__in=results)

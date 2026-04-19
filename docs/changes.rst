@@ -32,6 +32,7 @@ Weblate 5.17.1
 * Project backup import now revalidates component repository URLs before restore.
 * The :guilabel:`SSH keys` management page can now remove stored host keys so changed host keys can be replaced there.
 * :ref:`addon-weblate.gettext.xgettext` and related POT update add-ons now replace the standard descriptive-title placeholder in normalized POT headers again.
+* Screenshot OCR now skips corrupted or truncated image files instead of failing the request.
 
 .. rubric:: Compatibility
 
