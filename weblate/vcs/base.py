@@ -56,6 +56,13 @@ def get_config_check_cache_key(component_pk: int) -> str:
     return f"sp-config-check-{wrapper_hash}-{component_pk}"
 
 
+def get_repository_lock_key(base_path: str, component: Component | None) -> int | str:
+    """Build lock key for repository operations."""
+    if component is not None and component.pk is not None:
+        return component.pk
+    return hashlib.sha256(base_path.encode("utf-8")).hexdigest()
+
+
 class SubprocessArgs(TypedDict, total=False):
     stdin: int
     input: str
@@ -70,6 +77,21 @@ class RepositoryLock:
         self._lock = lock
         self._recovery_pending = False
         self._recovering = False
+
+    @property
+    def lock_object(self) -> WeblateLock:
+        return self._lock
+
+    def replace_lock(self, lock: Self) -> None:
+        self._lock = lock._lock
+        self._recovery_pending = lock._recovery_pending
+        self._recovering = lock._recovering
+
+    def replace_lock_if_matching(self, lock: Self) -> bool:
+        if self._lock.name != lock._lock.name:
+            return False
+        self.replace_lock(lock)
+        return True
 
     def __enter__(self) -> None:
         outermost_enter = not self._lock.is_locked
@@ -212,11 +234,9 @@ class Repository:
         self.last_output = ""
         base_path = self.path.rstrip("/").rstrip("\\")
         lock = WeblateLock(
-            lock_path=os.path.dirname(base_path),
-            scope="repo",
-            key=component.pk if component else os.path.basename(base_path),
+            scope="repository",
+            key=get_repository_lock_key(base_path, component),
             slug=os.path.basename(base_path),
-            file_template="{slug}.lock",
             timeout=120,
             origin=component.full_slug if component else base_path,
         )

@@ -73,31 +73,31 @@ class CheckModelTestCase(FixtureTestCase):
 
 class BatchCheckMixinTest(SimpleTestCase):
     def test_project_checks_lock_uses_unique_file_name(self) -> None:
-        project = Project(name="Shared", slug="shared")
+        project = Project(pk=1, name="Shared", slug="shared")
 
-        with TemporaryDirectory() as lock_path:
-            project.__dict__["full_path"] = lock_path
-            with patch("weblate.utils.lock.is_redis_cache", return_value=False):
-                project_lock = project.checks_lock
-                component_lock = WeblateLock(
-                    lock_path=lock_path,
-                    scope="component-checks",
-                    key=1,
-                    slug=project.slug,
-                    cache_template="{scope}-lock-{key}",
-                    file_template="{slug}-{scope}-{key}.lock",
-                    timeout=5,
-                    origin=project.full_slug,
-                )
+        with (
+            TemporaryDirectory() as temp_dir,
+            self.settings(DATA_DIR=temp_dir),
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+        ):
+            project_lock = project.checks_lock
+            component_lock = WeblateLock(
+                scope="component:checks",
+                key=1,
+                slug=project.slug,
+                timeout=5,
+                origin=project.full_slug,
+            )
 
         self.assertNotEqual(project_lock._name, component_lock._name)  # noqa: SLF001
+        self.assertEqual(Path(project_lock._name).parent, Path(temp_dir, "locks"))  # noqa: SLF001
         self.assertEqual(
             Path(project_lock._name).name,  # noqa: SLF001
-            "shared-project-checks.lock",
+            "project%3Achecks-1.lock",
         )
         self.assertEqual(
             Path(component_lock._name).name,  # noqa: SLF001
-            "shared-component-checks-1.lock",
+            "component%3Achecks-1.lock",
         )
 
     def test_project_checks_lock_uses_longer_timeout(self) -> None:
@@ -114,26 +114,21 @@ class BatchCheckMixinTest(SimpleTestCase):
 
     def test_component_checks_lock_uses_key_in_file_name(self) -> None:
         with (
-            TemporaryDirectory() as lock_path,
+            TemporaryDirectory() as temp_dir,
+            self.settings(DATA_DIR=temp_dir),
             patch("weblate.utils.lock.is_redis_cache", return_value=False),
         ):
             first_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="component-checks",
+                scope="component:checks",
                 key=1,
                 slug="shared",
-                cache_template="{scope}-lock-{key}",
-                file_template="{slug}-{scope}-{key}.lock",
                 timeout=5,
                 origin="project/shared",
             )
             second_lock = WeblateLock(
-                lock_path=lock_path,
-                scope="component-checks",
+                scope="component:checks",
                 key=2,
                 slug="shared",
-                cache_template="{scope}-lock-{key}",
-                file_template="{slug}-{scope}-{key}.lock",
                 timeout=5,
                 origin="project/shared",
             )
@@ -141,11 +136,11 @@ class BatchCheckMixinTest(SimpleTestCase):
         self.assertNotEqual(first_lock._name, second_lock._name)  # noqa: SLF001
         self.assertEqual(
             Path(first_lock._name).name,  # noqa: SLF001
-            "shared-component-checks-1.lock",
+            "component%3Achecks-1.lock",
         )
         self.assertEqual(
             Path(second_lock._name).name,  # noqa: SLF001
-            "shared-component-checks-2.lock",
+            "component%3Achecks-2.lock",
         )
 
     def test_project_wide_batch_uses_project_lock(self) -> None:

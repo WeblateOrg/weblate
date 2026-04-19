@@ -205,7 +205,7 @@ class NotSourceUnit(APIException):
 class WeblateExceptionHandler(ExceptionHandler):
     def convert_known_exceptions(self, exc: Exception) -> Exception:
         if isinstance(exc, WeblateLockTimeoutError):
-            if exc.lock.scope == "repo":
+            if exc.lock.scope == "repository":
                 return LockedError(
                     code="repository-locked",
                     detail=gettext(
@@ -213,7 +213,7 @@ class WeblateExceptionHandler(ExceptionHandler):
                     )
                     % exc.lock.origin,
                 )
-            if exc.lock.scope == "component-update":
+            if exc.lock.scope == "component:update":
                 return LockedError(
                     code="component-locked",
                     detail=gettext(
@@ -2841,7 +2841,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         try:
             obj.translation.delete_unit(request, obj)
         except WeblateLockTimeoutError as error:
-            if error.lock.scope == "repo":
+            if error.lock.scope == "repository":
                 raise LockedError(
                     code="repository-locked",
                     detail=DELETE_UNIT_LOCKED_DETAIL,

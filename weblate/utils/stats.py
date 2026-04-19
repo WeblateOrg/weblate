@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import os
 import time
 from datetime import datetime, timedelta
 from itertools import chain
@@ -28,7 +27,6 @@ from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.mixins import BaseURLMixin
 from weblate.trans.util import translation_percent
-from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
@@ -288,15 +286,10 @@ class BaseStats:
 
     @cached_property
     def lock(self) -> WeblateLock:
-        lock_path = data_dir("cache", "stats-locks")
-        os.makedirs(lock_path, exist_ok=True)
         return WeblateLock(
-            lock_path=lock_path,
-            scope="stats-update",
+            scope="stats:update",
             key=self.cache_key,
             slug=self.cache_key,
-            cache_template="lock:{scope}:{key}",
-            file_template="{slug}.lock",
             timeout=5,
             expiry_timeout=300,
             origin=self.cache_key,
