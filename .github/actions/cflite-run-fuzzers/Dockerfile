@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM gcr.io/oss-fuzz-base/clusterfuzzlite-run-fuzzers:v1@sha256:7eb4374c741ef46d9c9eb739b3b17a2568fff7c542707c3d8485c55870d2ae4c
+FROM gcr.io/oss-fuzz-base/clusterfuzzlite-run-fuzzers:v1@sha256:2b49f2fb12e796d0b34239efeb3dda2959808c3f943baf4c3104020418766716
 
 # Upstream ClusterFuzzLite retries GitHub artifact listing requests but does not
 # set an HTTP timeout, and it scans every artifact page in the repository when
