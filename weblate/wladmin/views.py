@@ -7,7 +7,7 @@ from __future__ import annotations
 from shutil import disk_usage
 
 # pylint: disable-next=unused-import
-from typing import TYPE_CHECKING, Any, Literal, cast
+from typing import TYPE_CHECKING, Any, Literal, cast, get_args
 from urllib.parse import quote
 
 from django.conf import settings
@@ -59,6 +59,7 @@ from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 from weblate.vcs.ssh import (
+    KeyType,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
@@ -83,13 +84,7 @@ if TYPE_CHECKING:
     from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
 
-    from weblate.auth.models import (
-        AuthenticatedHttpRequest,
-        GroupQuerySet,
-    )
-    from weblate.vcs.ssh import (
-        KeyType,
-    )
+    from weblate.auth.models import AuthenticatedHttpRequest, GroupQuerySet
 
 MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -418,9 +413,16 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/performance.html", context)
 
 
+def get_key_type(data: QueryDict) -> KeyType:
+    value = data.get("type", "rsa")
+    if value not in get_args(KeyType):
+        raise Http404
+    return cast("KeyType", value)
+
+
 @management_access
 def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
-    key_type = cast("KeyType", request.GET.get("type", "rsa"))
+    key_type = get_key_type(request.GET)
     filename, data = get_key_data_raw(key_type=key_type, kind="private")
     if data is None:
         raise Http404
@@ -442,7 +444,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        key_type = cast("KeyType", request.POST.get("type", "rsa"))
+        key_type = get_key_type(request.POST)
         generate_ssh_key(request, key_type=key_type)
         return redirect("manage-ssh")
 
@@ -564,7 +566,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     if form.is_valid():
         query = form.cleaned_data.get("q", "")
         parser = cast(
-            "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "unit")
+            "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "user")
         )
         user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
