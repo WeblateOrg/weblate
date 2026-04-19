@@ -269,7 +269,7 @@ class HgRepository(Repository):
             result[name] = value
 
         result["message"] = "\n".join(message)
-        result["summary"] = message[0]
+        result["summary"] = message[0] if message else ""
 
         return result
 
