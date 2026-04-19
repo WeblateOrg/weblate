@@ -449,7 +449,7 @@ class HgRepository(Repository):
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 
-    def list_changed_files(self, refspec: str) -> list:
+    def list_changed_files(self, refspec: str) -> list[str]:
         try:
             return super().list_changed_files(refspec)
         except RepositoryError as error:
