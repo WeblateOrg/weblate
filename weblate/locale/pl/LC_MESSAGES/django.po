@@ -21,7 +21,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
 "PO-Revision-Date: 2026-04-20 03:50+0000\n"
-"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
+"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -226,10 +226,9 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
-"Pozostaw tę opcję włączoną, aby unieważnić bieżący klucz API i wygenerować "
-"nowy. Jest to zalecane, jeśli podejrzewasz, że Twoje hasło zostało "
-"ujawnione. Wyłącz tę opcję, aby bieżący klucz API pozostał aktywny po "
-"zmianie hasła."
+"Pozostaw włączone, aby unieważnić bieżący klucz API i wygenerować nowy. Jest "
+"to zalecane, jeśli podejrzewasz, że Twoje hasło zostało ujawnione. Wyłącz, "
+"aby Twój bieżący klucz API pozostał aktywny po zmianie hasła."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -614,14 +613,14 @@ msgstr "Użytkownik został wyłączony, ponieważ dostęp wygasł."
 #, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
 msgstr ""
-"Użytkownik został dodany do zespołu {team} obejmującego całą stronę przez "
+"Użytkownik został dodany do obejmującego całą stronę zespołu {team} przez "
 "{username}."
 
 #: weblate/accounts/models.py:317
 #, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
 msgstr ""
-"Użytkownik został usunięty z zespołu {team} obejmującego całą stronę przez "
+"Użytkownik został usunięty z obejmującego całą stronę zespołu {team} przez "
 "{username}."
 
 #. Translators: Audit log entry
@@ -2172,7 +2171,7 @@ msgstr "Potwierdzam, że powyższe działania wyglądają prawidłowo"
 
 #: weblate/addons/forms.py:625
 msgid "Please review and confirm the missing language changes."
-msgstr "Proszę przejrzeć i potwierdzić brakujące zmiany językowe."
+msgstr "Przejrzyj i potwierdź brakujące zmiany językowe."
 
 #: weblate/addons/forms.py:724
 msgid "Regular expression to match translation files against"
@@ -2267,20 +2266,20 @@ msgstr "Potwierdzam, że powyższe dopasowania wyglądają prawidłowo"
 #: weblate/addons/forms.py:873
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr "Ogólne ustawienie wbudowane: %(name)s [%(details)s]"
+msgstr "Ogólne predefiniowane ustawienie: %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:886
 msgid "format not preset"
-msgstr "format nie jest ustawieniem wbudowanym"
+msgstr "Bez predefiniowanego ustawienia formatu"
 
 #: weblate/addons/forms.py:894
 #, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Jednojęzyczna baza: %(base)s"
+msgstr "Baza jednojęzyczna: %(base)s"
 
 #: weblate/addons/forms.py:897
 msgid "no monolingual base"
-msgstr "brak jednojęzycznej bazy"
+msgstr "Bez bazy jednojęzycznej"
 
 #: weblate/addons/forms.py:905
 #, python-format
@@ -2293,7 +2292,7 @@ msgstr "Jeden folder na język"
 
 #: weblate/addons/forms.py:916
 msgid "Matches files like cs/application.po."
-msgstr "Pasuje do plików takich jak cs/application.po."
+msgstr "Dopasowuje do plików takich jak cs/application.po."
 
 #: weblate/addons/forms.py:920
 msgid "Gettext locales layout"
@@ -2301,7 +2300,7 @@ msgstr "Lokalny układ Gettext"
 
 #: weblate/addons/forms.py:921
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
-msgstr "Pasuje do plików takich jak locale/cs/LC_MESSAGES/application.po."
+msgstr "Dopasowuje do plików takich jak locale/cs/LC_MESSAGES/application.po."
 
 #: weblate/addons/forms.py:925
 msgid "Complex filenames"
@@ -2309,7 +2308,7 @@ msgstr "Złożone nazwy plików"
 
 #: weblate/addons/forms.py:926
 msgid "Matches files like src/locale/application.cs.po."
-msgstr "Pasuje do plików takich jak src/locale/application.cs.po."
+msgstr "Dopasowuje do plików takich jak src/locale/application.cs.po."
 
 #: weblate/addons/forms.py:930
 msgid "Filename-based language variants"
@@ -2317,7 +2316,7 @@ msgstr "Warianty językowe oparte na nazwach plików"
 
 #: weblate/addons/forms.py:931
 msgid "Matches files like news_en.md."
-msgstr "Pasuje do plików takich jak news_en.md."
+msgstr "Dopasowuje do plików takich jak news_en.md."
 
 #: weblate/addons/forms.py:935
 msgid "Repeated language code"
@@ -2325,7 +2324,7 @@ msgstr "Powtarzający się kod języka"
 
 #: weblate/addons/forms.py:936
 msgid "Matches files like locale/cs/application/cs.po."
-msgstr "Pasuje do plików takich jak locale/cs/application/cs.po."
+msgstr "Dopasowuje do plików takich jak locale/cs/application/cs.po."
 
 #: weblate/addons/forms.py:940
 msgid "Split Android strings"
@@ -2333,7 +2332,7 @@ msgstr "Rozdziel ciągi Android"
 
 #: weblate/addons/forms.py:941
 msgid "Matches files like res/values-cs/strings-about.xml."
-msgstr "Pasuje do plików takich jak res/values-cs/strings-about.xml."
+msgstr "Dopasowuje do plików takich jak res/values-cs/strings-about.xml."
 
 #: weblate/addons/forms.py:945
 msgid "Matching multiple paths"
@@ -2344,8 +2343,8 @@ msgid ""
 "Matches nested Java properties layouts and also fills the component name "
 "template."
 msgstr ""
-"Pasuje do zagnieżdżonych układów właściwości Java i wypełnia szablon nazwy "
-"komponentu."
+"Dopasowuje do zagnieżdżonych układów właściwości Javy i także wypełnia "
+"szablon nazwy komponentu."
 
 #: weblate/addons/forms.py:975
 #, python-format
@@ -2358,7 +2357,7 @@ msgstr "Wykryto z repozytorium"
 
 #: weblate/addons/forms.py:1055
 msgid "Generic presets"
-msgstr "Ogólne ustawienia wbudowane"
+msgstr "Ogólne predefiniowane ustawienia"
 
 #: weblate/addons/forms.py:1084 weblate/trans/models/component.py:3910
 msgid "You can not use a monolingual translation without a base file."
@@ -8573,8 +8572,7 @@ msgstr "Przywróć edycje"
 msgid ""
 "Revert the latest editable translations by %(user)s across all projects."
 msgstr ""
-"Przywróć ostatnie edytowalne tłumaczenia użytkownika %(user)s we wszystkich "
-"projektach."
+"Przywróć ostatnie edytowalne tłumaczenia %(user)s we wszystkich projektach."
 
 #: weblate/templates/accounts/user.html:445
 #: weblate/templates/accounts/user.html:470
@@ -8629,8 +8627,8 @@ msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> across "
 "all projects."
 msgstr ""
-"Spowoduje to przywrócenie ostatnich edytowalnych tłumaczeń użytkownika <b>%"
-"(user)s</b> we wszystkich projektach."
+"Spowoduje to przywrócenie ostatnich edytowalnych tłumaczeń <b>%(user)s</b> "
+"we wszystkich projektach."
 
 #: weblate/templates/accounts/user.html:480
 msgid "Account removal deletes all user private data."
@@ -8870,7 +8868,7 @@ msgstr "Lokalizowane elementy muszą pasować do skonfigurowanego selektora CSS.
 
 #: weblate/templates/addons/discovery_presets.html:5
 msgid "Guided presets"
-msgstr "Ustawienia wbudowane z przewodnikiem"
+msgstr "Predefiniowane ustawienia z przewodnikiem"
 
 #: weblate/templates/addons/discovery_presets.html:7
 msgid ""
@@ -8878,7 +8876,7 @@ msgid ""
 "populated values as needed."
 msgstr ""
 "Wypełnij formularz na podstawie wykrytego lub ogólnego układu repozytorium, "
-"a następnie edytuj wypełnione wartości według potrzeb."
+"a następnie zedytuj wypełnione wartości w razie potrzeby."
 
 #: weblate/templates/addons/discovery_presets.html:42
 msgid "Examples:"
@@ -8886,7 +8884,7 @@ msgstr "Przykłady:"
 
 #: weblate/templates/addons/discovery_presets.html:47
 msgid "Detected"
-msgstr "Wykryto"
+msgstr "Wykryte"
 
 #: weblate/templates/addons/discovery_presets.html:49
 msgid "Generic"
@@ -14600,8 +14598,8 @@ msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
 msgstr ""
-"Spowoduje to przywrócenie ostatnich edytowalnych tłumaczeń użytkownika <b>%"
-"(user)s</b> w tym projekcie."
+"Spowoduje to przywrócenie ostatnich edytowalnych tłumaczeń <b>%(user)s</b> w "
+"tym projekcie."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -19286,7 +19284,7 @@ msgstr[2] "języków"
 
 #: weblate/utils/backup.py:123
 msgid "Borg completed with warnings without any output."
-msgstr "Borg został ukończony z ostrzeżeniami, ale bez żadnego wyniku."
+msgstr "Borg został ukończony z ostrzeżeniami i bez żadnego wyniku."
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
