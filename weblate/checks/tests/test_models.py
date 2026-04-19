@@ -100,6 +100,18 @@ class BatchCheckMixinTest(SimpleTestCase):
             "shared-component-checks-1.lock",
         )
 
+    def test_project_checks_lock_uses_longer_timeout(self) -> None:
+        project = Project(name="Shared", slug="shared")
+
+        with (
+            TemporaryDirectory() as lock_path,
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+        ):
+            project.__dict__["full_path"] = lock_path
+            project_lock = project.checks_lock
+
+        self.assertEqual(project_lock._timeout, 30)  # noqa: SLF001
+
     def test_component_checks_lock_uses_key_in_file_name(self) -> None:
         with (
             TemporaryDirectory() as lock_path,
