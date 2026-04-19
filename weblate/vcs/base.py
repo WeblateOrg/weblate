@@ -10,6 +10,7 @@ import hashlib
 import logging
 import os
 import os.path
+import signal
 import subprocess  # noqa: S404
 from contextlib import suppress
 from pathlib import Path
@@ -156,6 +157,28 @@ class RepositoryError(Exception):
 
 class RepositoryCommandError(RepositoryError):
     """Error raised by the underlying VCS command."""
+
+    def get_message(self):
+        if self.retcode < 0:
+            signum = -self.retcode
+            with suppress(ValueError):
+                signal_name = signal.Signals(signum).name
+                if signum == signal.SIGTERM:
+                    hint = (
+                        "The underlying command was terminated by signal "
+                        f"{signal_name}, usually because the worker or host was "
+                        "restarted or stopped during the operation."
+                    )
+                else:
+                    hint = (
+                        "The underlying command was terminated by signal "
+                        f"{signal_name}."
+                    )
+                message = self.args[0].rstrip()
+                if message:
+                    return f"{message}\n\n{hint} ({self.retcode})"
+                return f"{hint} ({self.retcode})"
+        return super().get_message()
 
 
 class RepositoryValidationError(RepositoryError):

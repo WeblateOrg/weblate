@@ -62,6 +62,16 @@ LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exis
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 TEMPORARY_BRANCHES = frozenset({"weblate-merge-tmp", "weblate-squash-tmp"})
+RECOVERABLE_ABORT_LOCKS = frozenset(
+    {
+        "AUTO_MERGE.lock",
+        "CHERRY_PICK_HEAD.lock",
+        "HEAD.lock",
+        "MERGE_HEAD.lock",
+        "ORIG_HEAD.lock",
+        "REBASE_HEAD.lock",
+    }
+)
 
 
 class GitCredentials(TypedDict):
@@ -142,16 +152,20 @@ class GitRepository(Repository):
         )
 
     @staticmethod
+    def cleanup_stale_lock(lock: Path) -> bool:
+        try:
+            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                lock.unlink(missing_ok=True)
+                return True
+        except OSError:
+            pass
+        return False
+
+    @staticmethod
     def should_retry_popen(errormessage: str) -> bool:
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
-            lock = Path(locks[0])
-            try:
-                if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
-                    lock.unlink(missing_ok=True)
-                    return True
-            except OSError:
-                pass
+            return GitRepository.cleanup_stale_lock(Path(locks[0]))
         return False
 
     @classmethod
@@ -250,6 +264,16 @@ class GitRepository(Repository):
         if not self.is_valid():
             return
         current_branch = self.get_current_branch()
+        merge_in_progress = self.has_git_file("MERGE_HEAD")
+        rebase_in_progress = self.has_git_file("rebase-apply") or self.has_git_file(
+            "rebase-merge"
+        )
+        if merge_in_progress:
+            with suppress(RepositoryCommandError):
+                self.merge(abort=True)
+        if rebase_in_progress:
+            with suppress(RepositoryCommandError):
+                self.rebase(abort=True)
         if current_branch not in TEMPORARY_BRANCHES:
             return
         self.execute(["reset", "--hard"], remote_op="none")
@@ -332,11 +356,55 @@ class GitRepository(Repository):
         )
         self.clean_revision_cache()
 
+    def get_git_file_path(self, name: str) -> Path:
+        return Path(self.path) / ".git" / name
+
+    def is_recoverable_abort_lock(self, lock: Path) -> bool:
+        git_dir = self.get_git_file_path("")
+        try:
+            relative_lock = lock.relative_to(git_dir)
+        except ValueError:
+            return False
+        if len(relative_lock.parts) == 1:
+            return relative_lock.name in RECOVERABLE_ABORT_LOCKS
+        return (
+            len(relative_lock.parts) >= 3
+            and relative_lock.parts[:2] == ("refs", "heads")
+            and relative_lock.suffix == ".lock"
+        )
+
+    def cleanup_interrupted_abort_lock(self, message: str) -> bool:
+        if not self.lock.is_locked or not message:
+            return False
+        lock_paths = LOCK_ERROR.findall(message)
+        if len(lock_paths) != 1:
+            return False
+        lock = Path(lock_paths[0])
+        if not self.is_recoverable_abort_lock(lock):
+            return False
+        if not self.cleanup_stale_lock(lock):
+            return False
+        self.add_breadcrumb(
+            "cleanup interrupted git abort lock",
+            lock=lock.as_posix(),
+        )
+        return True
+
+    def execute_abort(self, args: list[str]) -> None:
+        try:
+            output = self.execute(args, remote_op="none")
+        except RepositoryCommandError as error:
+            if not self.cleanup_interrupted_abort_lock(error.args[0]):
+                raise
+            self.execute(args, remote_op="none")
+        else:
+            self.cleanup_interrupted_abort_lock(output)
+
     def rebase(self, abort=False) -> None:
         """Rebase working copy on top of remote branch."""
         if abort:
             if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
-                self.execute(["rebase", "--abort"], remote_op="none")
+                self.execute_abort(["rebase", "--abort"])
             if self.needs_commit():
                 self.execute(["reset", "--hard"], remote_op="none")
         else:
@@ -347,7 +415,7 @@ class GitRepository(Repository):
         self.clean_revision_cache()
 
     def has_git_file(self, name):
-        return os.path.exists(os.path.join(self.path, ".git", name))
+        return self.get_git_file_path(name).exists()
 
     def has_rev(self, rev) -> bool:
         try:
@@ -369,7 +437,7 @@ class GitRepository(Repository):
         if abort:
             # Abort merge if there is one to abort
             if self.has_rev("MERGE_HEAD"):
-                self.execute(["merge", "--abort"], remote_op="none")
+                self.execute_abort(["merge", "--abort"])
             if self.needs_commit():
                 self.execute(["reset", "--hard"], remote_op="none")
             # Checkout original branch (we might be on tmp)
