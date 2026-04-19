@@ -31,8 +31,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -240,6 +240,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Laissez cette option activée pour révoquer la clé API actuelle et en générer "
+"une nouvelle. Cette procédure est recommandée si vous pensez que votre mot "
+"de passe a été compromis. Désactivez-la pour que votre clé API actuelle "
+"reste active après avoir modifié votre mot de passe."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -634,26 +638,28 @@ msgid "User was disabled because the access has expired."
 msgstr "L'utilisateur a été désactivé car l'accès a expiré."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "L’utilisateur a été ajouté dans l’équipe {team} par {username}."
+msgstr ""
+"L'utilisateur a été ajouté à l'équipe {team} (à l'échelle du site) par "
+"{username}."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "L’utilisateur a été retiré de l’équipe {team} par {username}."
+msgstr ""
+"L'utilisateur a été retiré de l'équipe {team} à l'échelle du site par "
+"{username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Privilèges de superutilisateur accordés."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Privilèges de superutilisateur révoqués."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1462,6 +1468,8 @@ msgstr "Essai gratuit"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"Une annulation des modifications apportées par %(user)s sur l'ensemble du "
+"site a été programmée."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1534,16 +1542,12 @@ msgstr ""
 "Vous pouvez aussi demander un nouveau mot de passe si vous l’avez perdu."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Essayez de vous inscrire à nouveau pour vérifier votre identité, le lien de "
-"confirmation a probablement expiré."
+"Essayez de réinitialiser votre mot de passe à nouveau pour vérifier votre "
+"identité ; le lien de confirmation a probablement expiré."
 
 #: weblate/accounts/views.py:1496
 msgid ""
@@ -1732,18 +1736,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Cet extension s'applique à l'ensemble du projet et peut générer des fichiers "
+"de traduction dans plusieurs composants ou dépôts."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Cet extension concerne l'ensemble de la catégorie et peut générer des "
+"fichiers de traduction dans plusieurs composants ou dépôts."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Cet add-on s'applique à tous les projets et peut générer des fichiers de "
+"traduction dans de nombreux composants ou dépôts."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
@@ -1758,10 +1768,8 @@ msgid "The given language is used as a source language."
 msgstr "La langue indiquée est utilisée comme langue source."
 
 #: weblate/addons/consistency.py:253 weblate/trans/models/component.py:4701
-#, fuzzy
-#| msgid "The given language already exists."
 msgid "The language filter timed out."
-msgstr "La langue indiquée existe déjà."
+msgstr "Le délai d'attente du filtre linguistique a expiré."
 
 #: weblate/addons/consistency.py:256 weblate/trans/models/component.py:4705
 msgid "The given language is filtered by the language filter."
