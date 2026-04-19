@@ -714,7 +714,7 @@ class EditPoMonoTest(EditTest):
             "weblate.trans.models.translation.Translation.delete_unit",
             side_effect=WeblateLockTimeoutError(
                 "repository locked",
-                lock=SimpleNamespace(scope="repo", origin="test/component"),
+                lock=SimpleNamespace(scope="repository", origin="test/component"),
             ),
         ):
             response = self.client.post(

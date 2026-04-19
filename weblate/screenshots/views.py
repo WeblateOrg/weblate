@@ -161,10 +161,9 @@ def ensure_tesseract_language(lang: str) -> None:
     # Operate with a lock held to avoid concurrent downloads
     with (
         WeblateLock(
-            lock_path=data_dir("home"),
-            scope="screenshots:tesseract-download",
+            scope="screenshots:tesseract:download",
             key=0,
-            slug="screenshots:tesseract-download",
+            slug="screenshots:tesseract:download",
             timeout=600,
         ),
         sentry_sdk.start_span(op="ocr.models"),

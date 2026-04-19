@@ -167,7 +167,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.trans.removal import RemovalBatch
-    from weblate.vcs.base import Repository
+    from weblate.vcs.base import Repository, RepositoryLock
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -1180,14 +1180,19 @@ class Component(  # noqa: PLR0904
 
         Some write paths validate or save through repository-backed operations,
         while background revision updates already lock in repository -> row order.
-        Reuse the same ordering here to avoid deadlocks.
+        Reuse the same ordering here to avoid deadlocks while still validating on a
+        freshly loaded component instance.
         """
         if queryset is None:
             queryset = Component.objects.all()
-        with self.repository.lock, transaction.atomic():
+        repository = self.repository
+        with repository.lock, transaction.atomic():
             locked_component = queryset.get_for_update(pk=self.pk)
             if self.acting_user is not None:
                 locked_component.acting_user = self.acting_user
+            locked_component.__dict__["repository"] = locked_component.build_repository(
+                lock_override=repository.lock
+            )
             yield locked_component
 
     def get_old_component_settings(self) -> OldComponentSettings:
@@ -1217,6 +1222,14 @@ class Component(  # noqa: PLR0904
 
     def refresh_from_db(self, *args, **kwargs) -> None:
         super().refresh_from_db(*args, **kwargs)
+        self.__dict__.pop("full_slug", None)
+        self.invalidate_path_cache()
+        self.drop_repository_cache()
+        self.drop_template_store_cache()
+        self.drop_key_filter_cache()
+        self.drop_file_format_cache()
+        self.__dict__.pop("file_format_flags", None)
+        self._template_check_done = False
         self.old_component_settings = self.get_old_component_settings()
 
     def prepare_seed_from_component(
@@ -1330,12 +1343,9 @@ class Component(  # noqa: PLR0904
     @cached_property
     def lock(self):
         return WeblateLock(
-            lock_path=self.project.full_path,
-            scope="component-update",
+            scope="component:update",
             key=self.pk,
             slug=self.slug,
-            cache_template="{scope}-lock-{key}",
-            file_template="{slug}-{scope}-{key}.lock",
             timeout=5,
             origin=self.full_slug,
         )
@@ -1343,12 +1353,9 @@ class Component(  # noqa: PLR0904
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            lock_path=self.project.full_path,
-            scope="component-checks",
+            scope="component:checks",
             key=self.pk,
             slug=self.slug,
-            cache_template="{scope}-lock-{key}",
-            file_template="{slug}-{scope}-{key}.lock",
             timeout=5,
             origin=self.full_slug,
         )
@@ -1738,12 +1745,23 @@ class Component(  # noqa: PLR0904
             msg = f"Component using VCS {self.vcs}, but it is not configured"
             raise ImproperlyConfigured(msg) from error
 
+    def build_repository(
+        self, *, lock_override: RepositoryLock | None = None
+    ) -> Repository:
+        if self.linked_component is not None:
+            repository = self.linked_component.repository
+        else:
+            repository = self.repository_class(
+                self.full_path, branch=self.branch, component=self
+            )
+        if lock_override is not None:
+            repository.lock.replace_lock_if_matching(lock_override)
+        return repository
+
     @cached_property
     def repository(self) -> Repository:
         """Get VCS repository object."""
-        if self.linked_component is not None:
-            return self.linked_component.repository
-        return self.repository_class(self.full_path, branch=self.branch, component=self)
+        return self.build_repository()
 
     @perform_on_link
     def get_last_remote_commit(self):
@@ -4508,8 +4526,11 @@ class Component(  # noqa: PLR0904
             del self.__dict__["intermediate_store"]
 
     def drop_repository_cache(self) -> None:
-        if "repository" in self.__dict__:
-            del self.__dict__["repository"]
+        repository = self.__dict__.pop("repository", None)
+        if repository is not None and repository.lock.is_locked:
+            self.__dict__["repository"] = self.build_repository(
+                lock_override=repository.lock
+            )
 
     def drop_addons_cache(self) -> None:
         if "addons_cache" in self.__dict__:

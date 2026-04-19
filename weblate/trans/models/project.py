@@ -400,12 +400,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def checks_lock(self):
         return WeblateLock(
-            lock_path=self.full_path,
-            scope="project-checks",
+            scope="project:checks",
             key=self.pk,
             slug=self.slug,
-            cache_template="{scope}-lock-{key}",
-            file_template="{slug}-{scope}.lock",
             timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
             origin=self.full_slug,
         )

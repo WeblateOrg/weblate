@@ -8397,7 +8397,7 @@ class UnitAPITest(APIBaseTest):
             "weblate.trans.models.translation.Translation.delete_unit",
             side_effect=WeblateLockTimeoutError(
                 "repository locked",
-                lock=SimpleNamespace(scope="repo", origin="test/component"),
+                lock=SimpleNamespace(scope="repository", origin="test/component"),
             ),
         ):
             self.do_request(
@@ -8437,7 +8437,7 @@ class UnitAPITest(APIBaseTest):
             "weblate.trans.models.translation.Translation.delete_unit",
             side_effect=WeblateLockTimeoutError(
                 "component locked",
-                lock=SimpleNamespace(scope="component-update", origin="test/component"),
+                lock=SimpleNamespace(scope="component:update", origin="test/component"),
             ),
         ):
             self.do_request(

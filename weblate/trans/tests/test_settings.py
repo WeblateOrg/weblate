@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from filelock import FileLock
 
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
@@ -282,6 +283,43 @@ class SettingsTest(ViewTestCase):
             events.index(("repo_lock", self.component.pk)),
             events.index(("row_lock", self.component.pk)),
             "Component repository lock should be acquired before the row lock",
+        )
+
+    def test_component_post_reuses_repository_lock_during_validation(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+
+        original_clean = Component.clean
+
+        def clean_with_fresh_repository_lock(instance):
+            instance.drop_repository_cache()
+            with instance.repository.lock:
+                return original_clean(instance)
+
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(
+                Component,
+                "clean",
+                autospec=True,
+                side_effect=clean_with_fresh_repository_lock,
+            ),
+            patch.object(FileLock, "acquire", autospec=True) as acquire,
+            patch.object(FileLock, "release", autospec=True) as release,
+        ):
+            response = self.client.post(url, data)
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        acquire.assert_called_once()
+        self.assertEqual(
+            sum(
+                call.kwargs.get("force", False) is False
+                for call in release.call_args_list
+            ),
+            1,
         )
 
     def test_linked_component_repository_settings_show_effective_values(self) -> None:

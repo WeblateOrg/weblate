@@ -39,14 +39,11 @@ def ensure_backup_dir():
 
 
 def backup_lock():
-    backup_dir = ensure_backup_dir()
+    ensure_backup_dir()
     return WeblateLock(
-        lock_path=backup_dir,
-        scope="backuplock",
+        scope="backup:run",
         key=0,
         slug="",
-        cache_template="lock:{scope}",
-        file_template=".{scope}",
         timeout=120,
         expiry_timeout=4 * 3600,
     )

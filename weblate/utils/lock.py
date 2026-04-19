@@ -7,12 +7,14 @@ from __future__ import annotations
 import os
 import threading
 from typing import TYPE_CHECKING, cast
+from urllib.parse import quote
 
 import sentry_sdk
 from django.core.cache import cache
 from filelock import FileLock, Timeout
 
 from weblate.utils.cache import is_redis_cache
+from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb
 
 if TYPE_CHECKING:
@@ -39,6 +41,7 @@ class WeblateLockNotLockedError(WeblateLockError):
 class WeblateLock:
     """Wrapper around Redis or file based lock."""
 
+    _cache_template = "lock:{scope}:{key}"
     _redis_lock: RedisLock
     _file_lock: FileLock
 
@@ -47,18 +50,17 @@ class WeblateLock:
     def __init__(
         self,
         *,
-        lock_path: str,
+        lock_path: str | None = None,
         scope: str,
         key: int | str,
         slug: str,
-        cache_template: str = "lock:{scope}:{key}",
-        file_template: str = "{slug}-{scope}.lock",
+        file_template: str = "{scope}-{key}.lock",
         timeout: int = 1,
         expiry_timeout: int = 3600,
         origin: str | None = None,
     ) -> None:
         self._timeout = timeout
-        self._lock_path = lock_path
+        self._lock_path = lock_path or data_dir("locks")
         self._scope = scope
         self._key = key
         self._slug = slug
@@ -69,7 +71,7 @@ class WeblateLock:
         self._redis_expiry_timeout = expiry_timeout
         if self._using_redis:
             # Prefer Redis locking as it works distributed
-            self._name = self._format_template(cache_template)
+            self._name = self._format_template(self._cache_template)
             self._redis_lock = cast("RedisCache", cache).lock(
                 key=self._name,
                 blocking=True,
@@ -79,7 +81,10 @@ class WeblateLock:
             )
         else:
             # Fall back to file based locking
-            self._name = os.path.join(lock_path, self._format_template(file_template))
+            os.makedirs(self._lock_path, exist_ok=True)
+            self._name = os.path.join(
+                self._lock_path, self._format_template(file_template, escape=True)
+            )
             self._file_lock = FileLock(
                 self._name,
                 timeout=self._timeout,
@@ -93,12 +98,28 @@ class WeblateLock:
     def origin(self) -> str | None:
         return self._origin
 
-    def _format_template(self, template: str) -> str:
-        return template.format(
-            scope=self._scope,
-            key=self._key,
-            slug=self._slug,
-        )
+    @property
+    def name(self) -> str:
+        return self._name
+
+    def _format_template(self, template: str, *, escape: bool = False) -> str:
+        if escape:
+            values = {
+                "scope": self._escape_file_component(self._scope),
+                "key": self._escape_file_component(self._key),
+                "slug": self._escape_file_component(self._slug),
+            }
+        else:
+            values = {
+                "scope": str(self._scope),
+                "key": str(self._key),
+                "slug": str(self._slug),
+            }
+        return template.format(**values)
+
+    @staticmethod
+    def _escape_file_component(value: int | str) -> str:
+        return quote(str(value), safe="._-")
 
     def get_error_message(self) -> str:
         if self.origin:
