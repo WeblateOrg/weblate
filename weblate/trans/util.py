@@ -144,7 +144,7 @@ def is_repo_link(val: str) -> bool:
 
 
 def translation_percent(
-    translated: int, total: int, zero_complete: bool = True
+    translated: int, total: int | None, zero_complete: bool = True
 ) -> float:
     """Return translation percentage."""
     if total == 0:
