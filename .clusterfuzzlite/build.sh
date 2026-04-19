@@ -35,16 +35,17 @@ install -d "$OUT/python" "$OUT/site-packages" "$OUT/src"
 cp -a "$python_home"/. "$OUT/python/"
 cp -a "$site_packages"/. "$OUT/site-packages/"
 cp -a weblate fuzzing "$OUT/src/"
-# ClusterFuzzLite can execute the packaged runner directly during crash
-# reproduction. Rewrite its shebang to the bundled interpreter so it does not
-# fall back to the container's system Python.
+# Keep the shared runner in the packaged sources for the shell wrappers, but do
+# not leave it executable. ClusterFuzzLite recursively treats every executable
+# under $OUT as a fuzz target and will otherwise invoke runner.py directly
+# without a target name.
 runner_path="$OUT/src/fuzzing/runner.py"
 runner_tmp=$(mktemp /tmp/weblate-fuzz-runner-XXXXXX)
 {
     printf '#!%s/python/bin/python3.12\n' "$OUT"
     tail -n +2 "$runner_path"
 } > "$runner_tmp"
-install -m 0755 "$runner_tmp" "$runner_path"
+install -m 0644 "$runner_tmp" "$runner_path"
 rm -f "$runner_tmp"
 
 # ClusterFuzzLite recursively treats executables under $OUT as fuzz targets.
