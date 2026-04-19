@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:54+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -229,6 +229,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Lassen Sie diese Option aktiviert, um den aktuellen API-Schlüssel zu "
+"widerrufen und einen neuen zu erstellen. Dies wird empfohlen, wenn Sie "
+"vermuten, dass Ihr Passwort kompromittiert wurde. Deaktivieren Sie es, damit "
+"Ihr aktueller API-Schlüssel nach der Passwortänderung weiterhin aktiv bleibt."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -617,26 +621,26 @@ msgid "User was disabled because the access has expired."
 msgstr "Benutzer wurde deaktiviert, weil sein Zugang abgelaufen ist."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "Benutzer wurde von {username} zum Team {team} hinzugefügt."
+msgstr ""
+"Benutzer wurde von {username} zum plattformweiten Team {team} hinzugefügt."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "Benutzer wurde von {username} aus dem Team {team} entfernt."
+msgstr ""
+"Benutzer wurde von {username} aus dem plattformweiten Team {team} entfernt."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Superuser-Rechte gewährt."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Superuser-Rechte widerrufen."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1450,6 +1454,7 @@ msgstr "Kostenlos testen"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"Bearbeitungen durch %(user)s plattformweit rückgängig machen wurde geplant."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1523,16 +1528,12 @@ msgstr ""
 "vergessen haben."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Versuchen Sie, sich erneut anzumelden, um Ihre Identität zu überprüfen. Der "
-"Bestätigungslink ist wahrscheinlich abgelaufen."
+"Versuchen Sie, Ihr Passwort erneut zurückzusetzen, um Ihre Identität zu "
+"überprüfen. Der Bestätigungslink ist wahrscheinlich abgelaufen."
 
 #: weblate/accounts/views.py:1496
 msgid ""
@@ -1726,18 +1727,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Diese Erweiterung wirkt sich auf das gesamte Projekt aus und kann "
+"Übersetzungsdateien für viele Komponenten oder Repositorys erstellen."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Diese Erweiterung wirkt sich auf die gesamte Kategorie aus und kann "
+"Übersetzungsdateien für viele Komponenten oder Repositorys erstellen."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Diese Erweiterung wirkt sich auf alle Projekte aus und kann "
+"Übersetzungsdateien für viele Komponenten oder Repositorys erstellen."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
@@ -2203,16 +2210,12 @@ msgstr ""
 "die Abstimmung deaktiviert ist."
 
 #: weblate/addons/forms.py:602
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "Ich bestätige, dass die obigen Übereinstimmungen korrekt aussehen"
+msgstr "Ich bestätige, dass die obigen Aktionen korrekt aussehen"
 
 #: weblate/addons/forms.py:625
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "Bitte überprüfen und bestätigen Sie die passenden Komponenten."
+msgstr "Bitte überprüfen und bestätigen Sie die fehlenden Sprachänderungen."
 
 #: weblate/addons/forms.py:724
 msgid "Regular expression to match translation files against"
@@ -11857,10 +11860,8 @@ msgid "Failed with an error"
 msgstr "Mit einem Fehler fehlgeschlagen"
 
 #: weblate/templates/manage/backups.html:27
-#, fuzzy
-#| msgid "Completed translation"
 msgid "Completed with warnings"
-msgstr "Abgeschlossene Übersetzung"
+msgstr "Mit Warnungen abgeschlossen"
 
 #: weblate/templates/manage/backups.html:30
 msgid "Turned off"
@@ -11888,16 +11889,12 @@ msgid "Backup service credentials"
 msgstr "Zugangsdaten für den Sicherungsdienst"
 
 #: weblate/templates/manage/backups.html:85
-#, fuzzy
-#| msgid "Failures"
 msgid "Failed"
-msgstr "Fehler"
+msgstr "Fehlgeschlagen"
 
 #: weblate/templates/manage/backups.html:87
-#, fuzzy
-#| msgid "Strings"
 msgid "Warnings"
-msgstr "Zeichenketten"
+msgstr "Warnungen"
 
 #: weblate/templates/manage/backups.html:109
 msgid "Turn off"
@@ -14774,10 +14771,8 @@ msgid "Edit team membership for %(username)s"
 msgstr "Teamzugehörigkeit für %(username)s bearbeiten"
 
 #: weblate/templates/trans/project-access.html:103 weblate/trans/forms.py:1433
-#, fuzzy
-#| msgid "Removed user"
 msgid "Revert user edits"
-msgstr "Benutzer gelöscht"
+msgstr "Benutzerbearbeitungen rückgängig machen"
 
 #: weblate/templates/trans/project-access.html:132
 #, fuzzy, python-format
@@ -15945,10 +15940,8 @@ msgstr "Komponente wiederhergestellt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:194
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "Benutzer entfernt"
+msgstr "Benutzerbearbeitung rückgängig gemacht"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16098,34 +16091,24 @@ msgid "Context"
 msgstr "Kontext"
 
 #: weblate/trans/change_display.py:469
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup file"
-msgstr "Sicherung fehlgeschlagen"
+msgstr "Sicherungsdatei"
 
 #: weblate/trans/change_display.py:477
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup created"
-msgstr "Sicherung fehlgeschlagen"
+msgstr "Sicherung erstellt"
 
 #: weblate/trans/change_display.py:481
-#, fuzzy
-#| msgid "Backup service: %(url)s"
 msgid "Backup server"
-msgstr "Sicherungsdienst: %(url)s"
+msgstr "Sicherungsserver"
 
 #: weblate/trans/change_display.py:485
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup domain"
-msgstr "Sicherung fehlgeschlagen"
+msgstr "Sicherungsdomain"
 
 #: weblate/trans/change_display.py:492
-#, fuzzy
-#| msgid "Organize component"
 msgid "Original component"
-msgstr "Komponente organisieren"
+msgstr "Ursprüngliche Komponente"
 
 #: weblate/trans/change_display.py:544
 msgid "Current translation"
@@ -19001,12 +18984,12 @@ msgstr "Benutzer ist bereits für dieses Projekt gesperrt."
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
 msgstr ""
+"Bearbeitungen durch %(user)s in diesem Projekt rückgängig machen wurde "
+"geplant."
 
 #: weblate/trans/views/acl.py:208
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "User is not blocked on this project."
-msgstr "Benutzer wurde für dieses Projekt gesperrt."
+msgstr "Benutzer ist in diesem Projekt nicht gesperrt."
 
 #: weblate/trans/views/acl.py:281
 msgid "Token has been removed from this project."
@@ -19229,10 +19212,8 @@ msgstr ""
 "dieses Verhalten in den Einstellungen anpassen."
 
 #: weblate/trans/views/edit.py:520
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not revert the selected change."
-msgstr "Die rückgängig gemachte Änderung konnte nicht gefunden werden."
+msgstr "Die ausgewählte Änderung konnte nicht rückgängig gemacht werden."
 
 #: weblate/trans/views/edit.py:536
 msgid "You do not have privilege to accept suggestions!"
@@ -19763,10 +19744,8 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "Nicht unterstützte Suche nach {field}: {value}"
 
 #: weblate/utils/search.py:852
-#, fuzzy
-#| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
-msgstr "Die Markierung {} konnte nicht analysiert werden: {}"
+msgstr "Die IP-Adresse {} konnte nicht analysiert werden: {}"
 
 #: weblate/utils/search.py:907
 msgid "Mixed operators!"
@@ -20077,11 +20056,9 @@ msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
 #: weblate/vcs/git.py:2204
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr ""
-"Das Bildschirmfoto %(name)s konnte nicht wiederhergestellt werden: %(error)s"
+msgstr "Konnte GitLab-Projekt nicht abrufen %(status)s: %(error)s"
 
 #: weblate/vcs/git.py:2323
 msgid "Pagure merge request"
