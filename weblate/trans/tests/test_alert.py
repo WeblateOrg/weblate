@@ -8,6 +8,7 @@ import os
 import tempfile
 from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
@@ -22,6 +23,9 @@ from weblate.trans.models import Component, Project, Unit
 from weblate.trans.models.alert import UpdateFailure, update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.trans.models.alert import Alert
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -94,6 +98,27 @@ class WebsiteAlertSettingTest(ViewTestCase):
             "https://public.example/project", allow_private_targets=False
         )
         mocked_get_uri_error.assert_not_called()
+
+    @override_settings(
+        WEBSITE_ALERTS_ENABLED=True,
+        PROJECT_WEB_RESTRICT_ALLOWLIST={"test"},
+    )
+    @patch("weblate.trans.models.alert.get_uri_error", return_value=None)
+    @patch("weblate.trans.models.alert.validate_request_url")
+    def test_website_alert_respects_project_allowlist(
+        self, mocked_validate_request_url, mocked_get_uri_error
+    ) -> None:
+        self.project.web = "https://localhost/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        mocked_validate_request_url.assert_called_once_with(
+            "https://localhost/project", allow_private_targets=True
+        )
+        mocked_get_uri_error.assert_called_once_with("https://localhost/project")
 
 
 class AlertTest(ViewTestCase):
@@ -642,7 +667,7 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
             push_branch="",
         )
         alert = UpdateFailure(
-            SimpleNamespace(component=component),
+            cast("Alert", SimpleNamespace(component=component)),
             "REMOTE HOST IDENTIFICATION HAS CHANGED!\nHost key verification failed.\n",
         )
 
