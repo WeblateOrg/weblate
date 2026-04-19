@@ -17,12 +17,14 @@ from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.core.exceptions import ValidationError
+from django.core.management.utils import is_ignored_path
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
+from weblate.addons.extractors.django.constants import DJANGO_IGNORE_PATTERNS
 from weblate.addons.forms import (
     DjangoExtractPotForm,
     GenerateMoForm,
@@ -822,8 +824,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
 
         store.save()
 
-    def finalize_template(self, component: Component) -> bool:
-        template = self.get_template_filename(component)
+    def finalize_template(
+        self, component: Component, template: str | None = None
+    ) -> bool:
+        if template is None:
+            template = self.get_template_filename(component)
         if template is None:
             self.alerts.append(
                 {
@@ -859,7 +864,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         return path.is_file()
 
     def validate_repository_tree(
-        self, component: Component, root: Path | None = None
+        self,
+        component: Component,
+        root: Path | None = None,
+        *,
+        ignore_patterns: tuple[str, ...] = (),
     ) -> bool:
         pending = [root or Path(component.full_path)]
         seen: set[str] = set()
@@ -882,6 +891,12 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
                 continue
 
             for entry in current.iterdir():
+                if ignore_patterns:
+                    entry_path = os.path.relpath(entry, component.full_path).replace(
+                        os.sep, "/"
+                    )
+                    if is_ignored_path(entry_path, ignore_patterns):
+                        continue
                 try:
                     component.repository.resolve_symlinks(os.fspath(entry))
                 except ValueError:
@@ -1535,7 +1550,9 @@ class DjangoAddon(ExtractPotBaseAddon):
                 }
             )
             return False
-        if not self.validate_repository_tree(component, source_dir):
+        try:
+            template = self.get_template_filename(component)
+        except ValidationError:
             self.alerts.append(
                 {
                     "addon": self.name,
@@ -1545,7 +1562,6 @@ class DjangoAddon(ExtractPotBaseAddon):
                 }
             )
             return False
-        template = self.get_template_filename(component)
         if template is None:
             self.alerts.append(
                 {
@@ -1557,6 +1573,16 @@ class DjangoAddon(ExtractPotBaseAddon):
             )
             return False
         domain = self.get_domain(component)
+        if not self.validate_django_repository_tree(component, source_dir):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
         if domain not in {"django", "djangojs"}:
             self.alerts.append(
                 {
@@ -1599,7 +1625,16 @@ class DjangoAddon(ExtractPotBaseAddon):
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(generated, template)
-        return self.finalize_template(component)
+        return self.finalize_template(component, template)
+
+    def validate_django_repository_tree(
+        self, component: Component, source_dir: Path
+    ) -> bool:
+        return self.validate_repository_tree(
+            component,
+            source_dir,
+            ignore_patterns=DJANGO_IGNORE_PATTERNS,
+        )
 
     @classmethod
     def get_source_dir(cls, component: Component) -> Path | None:
