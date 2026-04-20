@@ -90,7 +90,6 @@ function bootstrapLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
 
-
 function hotkeysLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("hotkeys-js"));
 }
