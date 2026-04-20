@@ -10,6 +10,7 @@ Weblate 5.17.1
 .. rubric:: Improvements
 
 * Clarified the site-wide scope of the global ``user.edit`` permission.
+* Clarified :ref:`autoclean-tm`.
 * Password updates now regenerate your personal API key by default.
 * The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
 * Improved :ref:`addon-weblate.discovery.discovery` guidance with guided client-side presets, clearer ``{{ component }}`` validation, and a worked discovery-template example in the docs.
