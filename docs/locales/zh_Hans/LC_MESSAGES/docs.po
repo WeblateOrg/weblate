@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"PO-Revision-Date: 2026-04-21 03:40+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1976,6 +1976,9 @@ msgid ""
 "compatibility with the underlying Python Social Auth backends and existing "
 "deployments."
 msgstr ""
+"Azure 活动目录 （Azure AD）现在叫 Microsoft Entra ID。Weblate 出于和底层 "
+"Python Social Auth 后端和现有部署的兼容性而保留 ``azuread-oauth2`` 和 "
+"``azuread-tenant-oauth2`` 后端名称。"
 
 #: admin/auth.rst:337
 msgid ""
@@ -2461,6 +2464,7 @@ msgstr ""
 "证方法，第二因素也是必需的。"
 
 #: admin/auth.rst:844
+#, fuzzy
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level. In site-wide deployments, this can also be "
@@ -2468,6 +2472,10 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"可以在项目（见 :ref:`project-enforced_2fa`）或团队层级进行强制。在全站范围部"
+"署中，通过在默认 :guilabel:`用户`团队中启用它可用来对所有用户强制进行双因素身"
+"份认证，该团队通过 :ref:`automatic team assignment <autoteam>` 自动分配给新用"
+"户。"
 
 #: admin/auth.rst:850
 msgid ""
@@ -3092,7 +3100,7 @@ msgstr ""
 msgid ""
 "Generated SSH wrapper scripts are stored in :setting:`CACHE_DIR` and do not "
 "need to be backed up."
-msgstr ""
+msgstr "生成的 SSH 包装器脚本存储在 :setting:`CACHE_DIR`，无需备份。"
 
 #: admin/backup.rst:353
 msgid "User uploaded files"
@@ -4000,6 +4008,8 @@ msgid ""
 "so :setting:`CACHE_DIR` needs to be on an executable filesystem "
 "if :setting:`DATA_DIR` is mounted with ``noexec``."
 msgstr ""
+"Weblate 也在此存储生成的 SSH 包装器脚本，因此如果 :setting:`DATA_DIR` 挂载参"
+"数包含 ``noexec`` 则 :setting:`CACHE_DIR` 需要是可执行的文件系统。"
 
 #: admin/config.rst:368 admin/config.rst:530
 msgid ""
@@ -4013,7 +4023,7 @@ msgstr "后面的子目录通常存在："
 
 #: admin/config.rst:373
 msgid "Generated SSH wrapper scripts used for VCS access."
-msgstr ""
+msgstr "用于 VCS 访问的生成的 SSH 包装器脚本。"
 
 #: admin/config.rst:375
 msgid ":program:`font-config` cache for :ref:`fonts`."
@@ -4614,7 +4624,7 @@ msgstr "默认开启。"
 
 #: admin/config.rst:1125
 msgid "Controls how prominently Weblate exposes its own version."
-msgstr ""
+msgstr "控制 Weblate 暴露自身版本的显著程度。"
 
 #: admin/config.rst:1127 admin/install/docker.rst:779
 #: admin/install/docker.rst:873
@@ -4625,13 +4635,16 @@ msgstr "支持的值为："
 msgid ""
 "Show the version in shared UI such as the footer and expose it "
 "in :http:get:`/api/metrics/`."
-msgstr ""
+msgstr "在页脚等共享用户界面中显示版本并在 :http:get:`/api/metrics/` 中暴露它。"
 
 #: admin/config.rst:1134
+#, fuzzy
 msgid ""
 "Hide the version from prominent shared UI, while keeping it discoverable on "
 "the :guilabel:`About` page and in :http:get:`/api/metrics/`."
 msgstr ""
+"在显眼的共享用户界面中隐藏版本，但在 :guilabel:`关于`页面和 :http:get:`/api/"
+"metrics/` 中让版本可发现。"
 
 #: admin/config.rst:1138
 msgid ""
@@ -4659,6 +4672,8 @@ msgid ""
 "Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to "
 "get the same behavior as ``VERSION_DISPLAY = \"hide\"``."
 msgstr ""
+":setting:`VERSION_DISPLAY` 的兼容性别称。将这个设为 ``True`` 以获取和 "
+"``VERSION_DISPLAY = \"hide\"`` 相同的行为。"
 
 #: admin/config.rst:1166
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -4890,13 +4905,15 @@ msgstr "默认为 0，表示停用强度检查。"
 msgid ""
 "URL for password reset when authentication is handled by an external "
 "identity provider, such as LDAP, SAML, or OAuth."
-msgstr ""
+msgstr "当身份认证由 LDAP、SAML 或 OAuth 等外部身份提供方处理时的密码重置 URL。"
 
 #: admin/config.rst:1490
 msgid ""
 "When set, :guilabel:`Forgot your password?` on the sign-in page links to "
 "this URL instead of Weblate's built-in password reset page."
 msgstr ""
+"设置后，登录页上的 :guilabel:`忘记密码了吗？` 链接到此 URL 而不是 Weblate 内"
+"置的密码重置页面。"
 
 #: admin/config.rst:1500
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -5126,6 +5143,9 @@ msgid ""
 "semantics, so values such as ``hooks.internal.example`` or "
 "``.internal.example`` can be used."
 msgstr ""
+"定于免于对外 webhook 传送限制 :setting:`WEBHOOK_RESTRICT_PRIVATE` 设置的主机"
+"名或域名。条目遵守 Django 主机匹配语义，因此可以使用 "
+"``hooks.internal.example`` 或 ``.internal.example`` 等值。"
 
 #: admin/config.rst:1844
 msgid ""
@@ -32622,10 +32642,8 @@ msgstr ""
 "dev`` 就够了。如果只为了文档工作，那么 ``uv sync --group docs`` 就够了。"
 
 #: contributing/documentation.rst:33
-#, fuzzy
-#| msgid "The recommended Weblate configuration verifies:"
 msgid "The recommended local workflow is:"
-msgstr "推荐的 Weblate 配置验证："
+msgstr "推荐的本地工作流是："
 
 #: contributing/documentation.rst:40
 msgid ""
@@ -32651,20 +32669,14 @@ msgstr ""
 ">`_。"
 
 #: contributing/documentation.rst:53
-#, fuzzy
-#| msgid "Translating the documentation"
 msgid "Updating generated documentation snippets"
-msgstr "翻译文档"
+msgstr "更新所生成的文档片段"
 
 #: contributing/documentation.rst:55
-#, fuzzy
-#| msgid ""
-#| "Several documentation sections use templates generated from the code. The "
-#| "following management commands are available:"
 msgid ""
 "Several documentation sections use templates generated from the code. The "
 "preferred way to refresh them is:"
-msgstr "几个文档部分使用从代码生成的模板。下列管理命令可用："
+msgstr "几个文档部分使用从代码生成的模板。刷新它们的首选方式是："
 
 #: contributing/documentation.rst:62
 msgid ""
@@ -32677,26 +32689,20 @@ msgid "add-on events, built-in add-ons, and common add-on parameters"
 msgstr ""
 
 #: contributing/documentation.rst:66
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "machine translation services"
-msgstr "机器翻译引擎"
+msgstr "机器翻译服务"
 
 #: contributing/documentation.rst:67
 msgid "file format parameters and file format feature tables"
 msgstr ""
 
 #: contributing/documentation.rst:68
-#, fuzzy
-#| msgid "List of built-in roles"
 msgid "permissions and built-in roles"
-msgstr "内置角色列表"
+msgstr "权限和内置角色"
 
 #: contributing/documentation.rst:69
-#, fuzzy
-#| msgid "Checks and fixups"
 msgid "checks and check flags"
-msgstr "检查和修正"
+msgstr "检查和检查标记"
 
 #: contributing/documentation.rst:71
 msgid ""
@@ -41254,27 +41260,19 @@ msgid "Incident response plan for Weblate"
 msgstr "Weblate 事件响应计划"
 
 #: security/incident-response-plan.rst:7
-#, fuzzy
-#| msgid ""
-#| "This IRP covers incidents impacting the confidentiality, integrity, or "
-#| "availability of a Weblate deployment."
 msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of Weblate-operated deployments."
-msgstr "事件响应计划涵盖影响 Weblate 部署机密性、完整性、或可用性的事件。"
+msgstr "事件响应计划涵盖影响 Weblate 运作的部署的机密性、完整性、或可用性的事件。"
 
 #: security/incident-response-plan.rst:12
-#, fuzzy
-#| msgid ""
-#| "The plan is specifically designed for deployments of Weblate by Weblate "
-#| "s.r.o., but it can be applied to other deployments similarly."
 msgid ""
 "This plan is specifically designed for deployments operated by Weblate "
 "s.r.o. Other deployments need to adapt provider-specific and organizational "
 "steps to their own environment."
 msgstr ""
-"本计划是特别为部署 Weblate s.r.o 的 Weblate 设计的，但可以相似地应用到其他部"
-"署上。"
+"此计划特为由 Weblate s.r.o 运作的部署而设计。其他部署需调整针对特定提供方的步"
+"骤和组织步骤以适合自身的环境。"
 
 #: security/incident-response-plan.rst:17
 msgid "Roles and responsibilities"
@@ -41353,10 +41351,8 @@ msgid "Incident categories and severity"
 msgstr "事件类别和严重程度"
 
 #: security/incident-response-plan.rst:41
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident activation"
-msgstr "事件类别"
+msgstr "事件激活"
 
 #: security/incident-response-plan.rst:43
 msgid ""
@@ -41427,22 +41423,18 @@ msgid "Critical"
 msgstr "严重"
 
 #: security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid "Total outage; Admin compromise; Active data breach."
 msgid ""
 "Total outage; Admin compromise; Active data breach; requires immediate "
 "containment."
-msgstr "完全中断；管理权限沦陷；活跃的数据泄露。"
+msgstr "完全中断；管理权限沦陷；活跃的数据泄露；需立即限制。"
 
 #: security/incident-response-plan.rst:66
 msgid "< 30 Minutes"
 msgstr "< 30 分钟"
 
 #: security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid "< 2 Hours"
 msgid "< 4 Hours"
-msgstr "< 2 小时"
+msgstr "< 4 小时"
 
 #: security/incident-response-plan.rst:69
 msgid "High"
@@ -41585,14 +41577,10 @@ msgid ""
 msgstr "这些快照和标准轮换备份隔开，必须留存用于事件分析。"
 
 #: security/incident-response-plan.rst:109
-#, fuzzy
-#| msgid ""
-#| "Temporarily restrict access (e.g., via firewall rules or service "
-#| "isolation)."
 msgid ""
 "Isolate the affected host or service as needed (for example by firewall "
 "rules or service isolation)."
-msgstr "临时限制访问（如通过防火墙规则或服务隔离）。"
+msgstr "按需要隔离受影响的主机或服务（如通过防火墙规则或服务隔离）。"
 
 #: security/incident-response-plan.rst:111
 msgid ""
@@ -42672,11 +42660,6 @@ msgstr ""
 "器、WSGI、数据库、数据存储、Redis、Celery）及和外部 VCS 的集成。"
 
 #: security/threat-model.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Assumptions:** Standard Weblate deployment with typical components "
-#| "(nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and "
-#| "user roles (Unauthenticated, Translator, Project Manager, Administrator)."
 msgid ""
 "**Assumptions:** Standard Weblate deployment with typical components (nginx/"
 "Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user "
@@ -42684,8 +42667,8 @@ msgid ""
 "administrator, project-scoped API token)."
 msgstr ""
 "**假设：**\\ 标准 Weblate 部署，有典型部件（nginx/Apache、granian/Gunicorn/"
-"uWSGI、PostgreSQL、数据存储、Celery）和用户角色（未经身份认证、翻译者、项目经"
-"理、管理员）。"
+"uWSGI、PostgreSQL、数据存储、Celery）和用户角色（未经身份认证用户、已认证身份"
+"的用户、审核者、项目经理、管理员、项目范围的 API 令牌）。"
 
 #: security/threat-model.rst:8
 msgid ""
@@ -42791,14 +42774,10 @@ msgstr ""
 "**Web 服务器 ↔ Weblate 程序：**\\ 反向代理/web 服务器和程序逻辑之间的通信。"
 
 #: security/threat-model.rst:66
-#, fuzzy
-#| msgid ""
-#| "**Weblate application ↔ Database** Application logic accessing persistent "
-#| "and cached data."
 msgid ""
 "**Weblate application ↔ Database:** Application logic accessing persistent "
 "and cached data."
-msgstr "**Weblate 程序 ↔ 数据库** 访问持久和缓存数据的程序逻辑。"
+msgstr "**Weblate 程序 ↔ 数据库：** 访问持久和缓存数据的程序逻辑。"
 
 #: security/threat-model.rst:67
 msgid "**Weblate application ↔ Logging:** Application logic creating logs."
@@ -42832,14 +42811,12 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:72
-#, fuzzy
-#| msgid ""
-#| "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
-#| "within the web application."
 msgid ""
 "**Unauthenticated caller ↔ Authenticated user/token:** Different privilege "
 "levels for browser, API, and webhook access."
-msgstr "**已验证身份的用户 ↔ 未验证身份的用户：**\\ web 程序内不同的权限等级。"
+msgstr ""
+"**未经身份认证的调用方 ↔ 已进行身份认证的用户/令牌：** 浏览器、API 和 "
+"webhook 访问的不同特权等级。"
 
 #: security/threat-model.rst:73
 msgid ""
@@ -42926,10 +42903,8 @@ msgid ""
 msgstr "如后端未正确处理可能导致 SQL 注入、XSS、或其他注入。"
 
 #: security/threat-model.rst:97
-#, fuzzy
-#| msgid "**Error handling:**"
 msgid "**Webhook handling**"
-msgstr "**错误处理：**"
+msgstr "**Webhook 处理**"
 
 #: security/threat-model.rst:98 security/threat-model.rst:118
 #: security/threat-model.rst:186
@@ -42969,10 +42944,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:108
-#, fuzzy
-#| msgid "Weblate unavailability."
 msgid "Weblate slowdown or unavailability."
-msgstr "Weblate 不可用性。"
+msgstr "Weblate 速度变慢或不可用。"
 
 #: security/threat-model.rst:111
 msgid ""
@@ -43307,18 +43280,13 @@ msgid "Robust session management."
 msgstr "强健的会话管理。"
 
 #: security/threat-model.rst:209
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (e.g., "
-#| "translators can only edit translations, not change project configs), "
-#| "see :doc:`/admin/access`."
 msgid ""
 "Role-based access control (RBAC) to enforce the least privilege (for example "
 "separating translation, review, VCS, translation memory, screenshot, and "
 "project access management permissions), see :doc:`/admin/access`."
 msgstr ""
-"基于角色的访问控制（RBAC）来强制最小权限（如翻译者只能编辑翻译，不能更改项目"
-"配置），见 :doc:`/admin/access`。"
+"基于角色的访问控制（RBAC）来强制最小权限（如分开翻译、审核、VCS、翻译记忆库、"
+"屏幕截图和项目访问管理权限），见 :doc:`/admin/access`。"
 
 #: security/threat-model.rst:210
 msgid ""
@@ -43747,16 +43715,12 @@ msgid "Triggered just after the repository is pushed upstream."
 msgstr "仓库被推送到上游后即刻触发。"
 
 #: snippets/addon-events-autogenerated.rst:70
-#, fuzzy
-#| msgid "Repository post-add"
 msgid "Repository post-remove"
-msgstr "添加并提交新翻译"
+msgstr "仓库删除后"
 
 #: snippets/addon-events-autogenerated.rst:72
-#, fuzzy
-#| msgid "Triggered just after the string is saved."
 msgid "Triggered just after a translation is removed."
-msgstr "字符串被保存后即刻触发。"
+msgstr "删除翻译后立即触发。"
 
 #: snippets/addon-events-autogenerated.rst:77
 msgid "Repository post-update"
@@ -45708,17 +45672,12 @@ msgstr ""
 "ALL_LINGUAS 变量。"
 
 #: snippets/addons-autogenerated.rst:968
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable "
-#| "in :file:`configure`, :file:`configure.in` or any :file:`configure.ac` "
-#| "files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a translation is added or removed."
 msgstr ""
-"当新的翻译添加时，更新 :file:`configure`、:file:`configure.in` 或任"
-"何 :file:`configure.ac` 文件中的 ALL_LINGUAS 变量。"
+"添加或删除翻译时，更新 :file:`configure`、:file:`configure.in` 或任何 "
+":file:`configure.ac` 文件中的 ALL_LINGUAS 变量。"
 
 #: snippets/addons-autogenerated.rst:974
 msgid "Customize gettext output"
@@ -45857,10 +45816,8 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:1073
 #: snippets/addons-autogenerated.rst:1257
-#, fuzzy
-#| msgid "Mismatched ellipsis"
 msgid "space-ellipsis"
-msgstr "不匹配的省略号"
+msgstr "space-ellipsis"
 
 #: snippets/addons-autogenerated.rst:1075
 #: snippets/addons-autogenerated.rst:1259
@@ -48050,10 +48007,8 @@ msgid "``auto-java-messageformat``, ``java-format``"
 msgstr "``auto-java-messageformat``, ``java-format``"
 
 #: snippets/checks-autogenerated.rst:0
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic flag behavior"
-msgstr "自动翻译"
+msgstr "自动标记行为"
 
 #: snippets/checks-autogenerated.rst:696
 msgid ""
