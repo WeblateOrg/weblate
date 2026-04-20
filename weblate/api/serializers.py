@@ -1038,7 +1038,6 @@ class ComponentSerializer(RemovableSerializer[Component]):
                 "from_component",
             )
             self.populate_from_component_input_defaults(data, source_component)
-
         # Provide a reasonable default
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
@@ -1439,6 +1438,13 @@ class TranslationSerializer(RemovableSerializer[Translation]):
         }
 
 
+class ComponentTranslationSerializer(TranslationSerializer):
+    class Meta(TranslationSerializer.Meta):
+        fields = tuple(
+            field for field in TranslationSerializer.Meta.fields if field != "component"
+        )
+
+
 class ReadOnlySerializer(serializers.Serializer):
     def update(self, instance, validated_data) -> None:
         return None
@@ -1461,6 +1467,22 @@ class ProjectLockSerializer(serializers.ModelSerializer[Project]):
 
 class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()
+
+
+class BooleanResultSerializer(ReadOnlySerializer):
+    result = serializers.BooleanField()
+
+
+class RepositoryOperationSerializer(BooleanResultSerializer):
+    detail = serializers.CharField(required=False)
+
+
+class UploadResultSerializer(BooleanResultSerializer):
+    not_found = serializers.IntegerField()
+    skipped = serializers.IntegerField()
+    accepted = serializers.IntegerField()
+    total = serializers.IntegerField()
+    count = serializers.IntegerField()
 
 
 class TranslationCreateSerializer(ReadOnlySerializer):
@@ -1775,6 +1797,44 @@ class RepositorySerializer(ReadOnlySerializer):
 
 
 class StatisticsSerializer(ReadOnlySerializer):
+    total = serializers.IntegerField()
+    total_words = serializers.IntegerField()
+    total_chars = serializers.IntegerField()
+    last_change = serializers.DateTimeField(allow_null=True)
+    recent_changes = serializers.IntegerField()
+    translated = serializers.IntegerField()
+    translated_words = serializers.IntegerField()
+    translated_percent = serializers.FloatField()
+    translated_words_percent = serializers.FloatField()
+    translated_chars = serializers.IntegerField()
+    translated_chars_percent = serializers.FloatField()
+    fuzzy = serializers.IntegerField()
+    fuzzy_percent = serializers.FloatField()
+    fuzzy_words = serializers.IntegerField()
+    fuzzy_words_percent = serializers.FloatField()
+    fuzzy_chars = serializers.IntegerField()
+    fuzzy_chars_percent = serializers.FloatField()
+    failing = serializers.IntegerField()
+    failing_percent = serializers.FloatField()
+    approved = serializers.IntegerField()
+    approved_percent = serializers.FloatField()
+    approved_words = serializers.IntegerField()
+    approved_words_percent = serializers.FloatField()
+    approved_chars = serializers.IntegerField()
+    approved_chars_percent = serializers.FloatField()
+    readonly = serializers.IntegerField()
+    readonly_percent = serializers.FloatField()
+    readonly_words = serializers.IntegerField()
+    readonly_words_percent = serializers.FloatField()
+    readonly_chars = serializers.IntegerField()
+    readonly_chars_percent = serializers.FloatField()
+    suggestions = serializers.IntegerField()
+    comments = serializers.IntegerField()
+    code = serializers.CharField(required=False)
+    name = serializers.CharField(required=False)
+    url = serializers.URLField(required=False)
+    translate_url = serializers.URLField(required=False)
+
     def to_representation(self, instance):
         stats = instance.stats
         result = {
@@ -1825,6 +1885,12 @@ class StatisticsSerializer(ReadOnlySerializer):
 
 
 class UserStatisticsSerializer(ReadOnlySerializer):
+    translated = serializers.IntegerField()
+    suggested = serializers.IntegerField()
+    uploaded = serializers.IntegerField()
+    commented = serializers.IntegerField()
+    languages = serializers.IntegerField()
+
     def to_representation(self, instance):
         profile = instance.profile
         return {
@@ -2117,7 +2183,10 @@ class CategorySerializer(RemovableSerializer[Category]):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        user = self.context["request"].user
+        request = self.context.get("request")
+        if request is None:
+            return
+        user = request.user
         self.fields["project"].queryset = user.managed_projects
         self.fields["category"].queryset = Category.objects.filter(
             project__in=user.managed_projects
@@ -2292,6 +2361,13 @@ class ComponentListSerializer(serializers.ModelSerializer[ComponentList]):
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
         }
+
+
+class ProjectComponentSerializer(ComponentSerializer):
+    class Meta(ComponentSerializer.Meta):
+        fields = tuple(
+            field for field in ComponentSerializer.Meta.fields if field != "project"
+        )
 
 
 class AddonSerializer(serializers.ModelSerializer[Addon]):

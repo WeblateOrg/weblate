@@ -714,7 +714,7 @@ class Translation(
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_cleanup(request)
 
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None):
+    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         return self.component.do_file_sync(request)
 
     def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):

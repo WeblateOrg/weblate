@@ -2654,7 +2654,7 @@ class Component(  # noqa: PLR0904
         *,
         do_commit: bool = True,
         store_disk_state: bool = True,
-    ) -> None:
+    ) -> bool:
         from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
         for unit in Unit.objects.filter(
@@ -2678,6 +2678,8 @@ class Component(  # noqa: PLR0904
                 "file-sync",
                 user_id=request.user.id if request else None,
             )
+
+        return True
 
     @perform_on_link
     @transaction.atomic
