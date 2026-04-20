@@ -166,7 +166,10 @@ function submitForm(evt, _combo, selector) {
   }
   return false;
 }
-Mousetrap.bindGlobal("mod+enter", submitForm);
+hotkeys("ctrl+enter,command+enter", (e) => {
+  e.preventDefault();
+  submitForm(e);
+});
 
 function screenshotStart() {
   $("#search-results tbody.unit-listing-body").empty();

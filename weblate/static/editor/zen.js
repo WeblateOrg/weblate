@@ -67,15 +67,16 @@
       }
     });
 
-    Mousetrap.bindGlobal("mod+end", (_e) => {
+    hotkeys("ctrl+end,command+end", (e) => {
+      e.preventDefault();
       $(".zen-unit:last").find(".translation-editor:first").focus();
-      return false;
     });
-    Mousetrap.bindGlobal("mod+home", (_e) => {
+    hotkeys("ctrl+home,command+home", (e) => {
+      e.preventDefault();
       $(".zen-unit:first").find(".translation-editor:first").focus();
-      return false;
     });
-    Mousetrap.bindGlobal("mod+pagedown", (_e) => {
+    hotkeys("ctrl+pagedown,command+pagedown", (e) => {
+      e.preventDefault();
       const focus = $(":focus");
 
       if (focus.length === 0) {
@@ -87,9 +88,9 @@
           .find(".translation-editor:first")
           .focus();
       }
-      return false;
     });
-    Mousetrap.bindGlobal("mod+pageup", (_e) => {
+    hotkeys("ctrl+pageup,command+pageup", (e) => {
+      e.preventDefault();
       const focus = $(":focus");
 
       if (focus.length === 0) {
@@ -101,7 +102,6 @@
           .find(".translation-editor:first")
           .focus();
       }
-      return false;
     });
 
     $window.on("beforeunload", () => {

@@ -9,6 +9,28 @@
 
   const $window = $(window);
 
+  // Shared two-step keyboard sequence state.
+  // Only one sequence can be pending at a time — starting a new one cancels
+  // the previous.
+  const _seqState = { name: null, timer: null };
+
+  function _seqStart(name) {
+    clearTimeout(_seqState.timer);
+    _seqState.name = name;
+    _seqState.timer = setTimeout(() => {
+      _seqState.name = null;
+    }, 2000);
+  }
+
+  function _seqMatch(name) {
+    if (_seqState.name === name) {
+      clearTimeout(_seqState.timer);
+      _seqState.name = null;
+      return true;
+    }
+    return false;
+  }
+
   function FullEditor() {
     EditorBase.call(this);
 
@@ -93,58 +115,69 @@
       });
     });
 
-    Mousetrap.bindGlobal("alt+end", (_e) => {
-      window.location = $("#button-end").attr("href");
-      return false;
+    hotkeys("alt+end", (e) => {
+      e.preventDefault();
+      window.location = document.getElementById("button-end").href;
     });
-    Mousetrap.bindGlobal(["alt+pagedown", "mod+down", "alt+down"], (_e) => {
-      window.location = $("#button-next").attr("href");
-      return false;
+    hotkeys("alt+pagedown,ctrl+down,command+down,alt+down", (e) => {
+      e.preventDefault();
+      window.location = document.getElementById("button-next").href;
     });
-    Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], (_e) => {
-      window.location = $("#button-prev").attr("href");
-      return false;
+    hotkeys("alt+pageup,ctrl+up,command+up,alt+up", (e) => {
+      e.preventDefault();
+      window.location = document.getElementById("button-prev").href;
     });
-    Mousetrap.bindGlobal("alt+home", (_e) => {
-      window.location = $("#button-first").attr("href");
-      return false;
+    hotkeys("alt+home", (e) => {
+      e.preventDefault();
+      window.location = document.getElementById("button-first").href;
     });
-    Mousetrap.bindGlobal("mod+o", (_e) => {
-      $(".source-language-group [data-clone-value]").click();
-      return false;
+    hotkeys("ctrl+o,command+o", (e) => {
+      e.preventDefault();
+      document
+        .querySelector(".source-language-group [data-clone-value]")
+        ?.click();
     });
-    Mousetrap.bindGlobal("mod+y", (_e) => {
-      $('input[name="fuzzy"]').click();
-      return false;
+    hotkeys("ctrl+y,command+y", (e) => {
+      e.preventDefault();
+      document.querySelector('input[name="fuzzy"]')?.click();
     });
-    Mousetrap.bindGlobal("mod+shift+enter", (e, combo) => {
-      $('input[name="fuzzy"]').prop("checked", false);
-      return submitForm(e, combo);
+    hotkeys("ctrl+shift+enter,command+shift+enter", (e) => {
+      e.preventDefault();
+      const fuzzy = document.querySelector('input[name="fuzzy"]');
+      if (fuzzy) fuzzy.checked = false;
+      submitForm(e);
     });
-    Mousetrap.bindGlobal("alt+enter", (e, combo) =>
-      submitForm(e, combo, 'button[name="suggest"]'),
-    );
-    Mousetrap.bindGlobal("mod+e", () => {
+    hotkeys("alt+enter", (e) => {
+      e.preventDefault();
+      submitForm(e, null, 'button[name="suggest"]');
+    });
+    hotkeys("ctrl+e,command+e", (e) => {
+      e.preventDefault();
       this.$translationArea.get(0).focus();
-      return false;
     });
-    Mousetrap.bindGlobal("mod+s", (_e) => {
-      $("#search-dropdown").click();
-      $('textarea[name="q"]').focus();
-      return false;
+    hotkeys("ctrl+s,command+s", (e) => {
+      e.preventDefault();
+      document.getElementById("search-dropdown")?.click();
+      document.querySelector('textarea[name="q"]')?.focus();
     });
-    Mousetrap.bindGlobal("mod+u", (_e) => {
-      $('.nav [data-bs-target="#comments"]').click();
-      $('textarea[name="comment"]').focus();
-      return false;
+    hotkeys("ctrl+u,command+u", (e) => {
+      e.preventDefault();
+      document
+        .querySelector('.nav [data-bs-target="#comments"]')
+        ?.click();
+      document.querySelector('textarea[name="comment"]')?.focus();
     });
-    Mousetrap.bindGlobal("mod+j", (_e) => {
-      $('.nav [data-bs-target="#nearby"]').click();
-      return false;
+    hotkeys("ctrl+j,command+j", (e) => {
+      e.preventDefault();
+      document
+        .querySelector('.nav [data-bs-target="#nearby"]')
+        ?.click();
     });
-    Mousetrap.bindGlobal("mod+m", (_e) => {
-      $('.nav [data-bs-target="#machinery"]').click();
-      return false;
+    hotkeys("ctrl+m,command+m", (e) => {
+      e.preventDefault();
+      document
+        .querySelector('.nav [data-bs-target="#machinery"]')
+        ?.click();
     });
   }
   FullEditor.prototype = Object.create(EditorBase.prototype);
@@ -334,16 +367,11 @@
     });
     this.machinery.render(data.translations);
 
-    // Cancel out browser's `meta+m` and let Mousetrap handle the rest
-    document.addEventListener("keydown", (e) => {
-      const isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
-      if (isMod && e.key.toLowerCase() === "m") {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
-
     const $translationRows = $("#machinery-translations").children("tr");
+
+    // Two-step sequence: Ctrl/Cmd+M then a digit key copies machinery result
+    const machineryActions = {};
+
     $translationRows.each(function (idx) {
       if (idx < 10) {
         const key = WLT.Utils.getNumericKey(idx);
@@ -357,12 +385,23 @@
         $(this)
           .find(".machinery-number")
           .html($("<kbd/>").attr("title", title).text(key));
-        Mousetrap.bindGlobal([`mod+m ${key}`, `mod+m mod+${key}`], () => {
+        machineryActions[key] = () => {
           $translationRows.eq(idx).find(".js-copy-machinery").click();
-          return false;
-        });
+        };
       } else {
         $(this).find(".machinery-number").html("");
+      }
+    });
+
+    hotkeys("ctrl+m,command+m", (e) => {
+      e.preventDefault();
+      _seqStart("machinery");
+    });
+
+    hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
+      if (_seqMatch("machinery") && machineryActions[e.key]) {
+        e.preventDefault();
+        machineryActions[e.key]();
       }
     });
   };
@@ -467,21 +506,14 @@
     });
 
     /* Keyboard shortcuts */
-    // Cancel out browser's `meta+i` and let Mousetrap handle the rest
-    document.addEventListener("keydown", (e) => {
-      const isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
-      if (isMod && e.key.toLowerCase() === "i") {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
+    // Two-step sequence: Ctrl/Cmd+I then a digit key dismisses a check
+    const checkActions = {};
 
     $checks.each(function (idx) {
-      const $this = $(this);
-      const $number = $(this).find(".check-number");
+      const numberEl = this.querySelector(".check-number");
 
       if (idx < 10) {
-        if ($number.length === 0) {
+        if (!numberEl) {
           return;
         }
         const key = WLT.Utils.getNumericKey(idx);
@@ -497,14 +529,28 @@
             [key],
           );
         }
-        $number.html($("<kbd/>").attr("title", title).text(key));
+        const kbd = document.createElement("kbd");
+        kbd.title = title;
+        kbd.textContent = key;
+        numberEl.replaceChildren(kbd);
 
-        Mousetrap.bindGlobal([`mod+i ${key}`, `mod+i mod+${key}`], (_e) => {
-          $this.find(".check-dismiss-single").click();
-          return false;
-        });
+        checkActions[key] = () => {
+          this.querySelector(".check-dismiss-single")?.click();
+        };
       } else {
-        $number.html("");
+        if (numberEl) numberEl.textContent = "";
+      }
+    });
+
+    hotkeys("ctrl+i,command+i", (e) => {
+      e.preventDefault();
+      _seqStart("checks");
+    });
+
+    hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
+      if (_seqMatch("checks") && checkActions[e.key]) {
+        e.preventDefault();
+        checkActions[e.key]();
       }
     });
   };
