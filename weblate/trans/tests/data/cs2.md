@@ -1,4 +1,4 @@
-# Ahoj světe!
+# Ahoj světe
 
 Orangutan má pět banánů.
 
