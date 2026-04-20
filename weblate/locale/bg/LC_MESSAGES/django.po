@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:51+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-04-21 03:42+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -218,6 +218,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Оставете това включено, за да премахнете текущия ключ за ППИ и да създадете "
+"нов. Това е препоръчително, ако имате съмнения, че някой може да знае "
+"паролата Ви. Изключете го, за да запазите текущия си ключ за ППИ след "
+"промяната на паролата си."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -600,26 +604,27 @@ msgid "User was disabled because the access has expired."
 msgstr "Потребителят е изключен, тъй като достъпът му е изтекъл."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "Потребител е добавен в екип {team} от {username}."
+msgstr ""
+"Потребител е добавен в екип {team}, който е за целия уеб сайт, от {username}."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "Потребител е премахнат от екип {team} от {username}."
+msgstr ""
+"Потребител е премахнат от екип {team}, който е за целия уеб сайт, от "
+"{username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Дадени са права на супер потребител."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Отнети са права на супер потребител."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1414,7 +1419,7 @@ msgstr "Безплатен пробен период"
 #: weblate/accounts/views.py:730
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "Беше насрочена отмяна на редакциите направени от %(user)s."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1484,15 +1489,11 @@ msgstr ""
 "Можете също така да поискате нова парола, ако сте загубили сегашната си."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Опитайте да се регистрирате отново, за да потвърдите самоличността си. "
+"Опитайте да нулирате паролата си отново, за да потвърдите самоличността си. "
 "Възможно е връзката за потвърждение да е изтекла."
 
 #: weblate/accounts/views.py:1496
@@ -1682,18 +1683,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Тази добавка работи върху целия проект и може да създаде файлове за превод в "
+"много компоненти и хранилища."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Тази добавка работи върху цялата категория и може да създаде файлове за "
+"превод в много компоненти и хранилища."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Тази добавка работи върху всички проекти и може да създаде файлове за превод "
+"в много компоненти и хранилища."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
@@ -2158,28 +2165,22 @@ msgstr ""
 "Граница за премахване. Това поле няма значение, ако гласуването е изключено."
 
 #: weblate/addons/forms.py:602
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "Потвърждавам, че горните съвпадения изглеждат правилни"
+msgstr "Потвърждавам, че горните действия изглеждат правилни"
 
 #: weblate/addons/forms.py:625
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "Моля, прегледайте и потвърдете съвпадащите компоненти."
+msgstr "Моля, прегледайте и потвърдете липсващите езикови промени."
 
 #: weblate/addons/forms.py:724
 msgid "Regular expression to match translation files against"
 msgstr "Регулярен израз, с който да се проверяват файловете за превод"
 
 #: weblate/addons/forms.py:727
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The regular expression must define named groups for component and language."
 msgstr ""
-"Регулярният израз е твърде сложен и отне твърде много време да се изпълни."
+"Регулярният израз трябва да дефинира именувани групи за компонент и език."
 
 #: weblate/addons/forms.py:731
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2195,34 +2196,33 @@ msgstr "Настройка на името на компонента"
 #: weblate/addons/forms.py:741
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Използвайте синтаксиса за шаблони на Django. Този шаблон трябва да включва {"
+"{ component }}."
 
 #: weblate/addons/forms.py:745
 msgid "Define the monolingual base filename"
 msgstr "Определяне на едноезичния базов езиков файл"
 
 #: weblate/addons/forms.py:749
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Да бъде празно за двуезичните файлове за превод."
+msgstr ""
+"Оставете празно за двуезични файлове за превод. Когато това е зададено, този "
+"шаблон трябва да включва {{ component }}.."
 
 #: weblate/addons/forms.py:753
 msgid "Define the base file for new translations"
 msgstr "Определяне на базовия файл за новите преводи"
 
 #: weblate/addons/forms.py:757
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Име на файл, който да се използва при създаването на нови преводи. За "
-"„gettext“ изберете файл с разширение „.pot“."
+"Име на файл, който да се използва при създаването на нови преводи. За „"
+"gettext“ изберете файл с разширение „.pot“. Този шаблон трябва да включва {{ "
+"component }}."
 
 #: weblate/addons/forms.py:762
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2231,11 +2231,6 @@ msgid "Intermediate language file"
 msgstr "Преходен езиков файл"
 
 #: weblate/addons/forms.py:766
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -2243,7 +2238,7 @@ msgid ""
 msgstr ""
 "Име на файла с междинния превод. В повечето случаи това е файл за превод, "
 "предоставен от разработчиците и се използва при създаването на самите "
-"изходни низове."
+"изходни низове. Този шаблон трябва да включва {{ component }}."
 
 #: weblate/addons/forms.py:773 weblate/trans/models/component.py:858
 msgid "Language filter"
