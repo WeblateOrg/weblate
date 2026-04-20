@@ -162,22 +162,16 @@
     });
     hotkeys("ctrl+u,command+u", (e) => {
       e.preventDefault();
-      document
-        .querySelector('.nav [data-bs-target="#comments"]')
-        ?.click();
+      document.querySelector('.nav [data-bs-target="#comments"]')?.click();
       document.querySelector('textarea[name="comment"]')?.focus();
     });
     hotkeys("ctrl+j,command+j", (e) => {
       e.preventDefault();
-      document
-        .querySelector('.nav [data-bs-target="#nearby"]')
-        ?.click();
+      document.querySelector('.nav [data-bs-target="#nearby"]')?.click();
     });
     hotkeys("ctrl+m,command+m", (e) => {
       e.preventDefault();
-      document
-        .querySelector('.nav [data-bs-target="#machinery"]')
-        ?.click();
+      document.querySelector('.nav [data-bs-target="#machinery"]')?.click();
     });
   }
   FullEditor.prototype = Object.create(EditorBase.prototype);
