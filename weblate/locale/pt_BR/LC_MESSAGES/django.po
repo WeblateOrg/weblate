@@ -31,8 +31,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-21 03:41+0000\n"
+"Last-Translator: Átila França <atilahunesco@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -237,6 +237,9 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Deixe ativado para suprimir a chave de API atual e gerar uma nova. Isso é "
+"recomendado no caso de você suspeitar que sua senha foi comprometida. "
+"Desabilite para manter sua chave de API atual ativa após alterar sua senha."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -617,26 +620,24 @@ msgid "User was disabled because the access has expired."
 msgstr "Usuário foi desabilitado pois o acesso expirou."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "O usuário foi adicionado à equipe {team} por {username}."
+msgstr "O usuário foi adicionado à equipe geral do site {team} por {username}."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "O usuário foi removido da equipe {team} por {username}."
+msgstr "O usuário foi removido da equipe geral do site {team} por {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Privilégios de superusuário concedidos."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Privilégios de superusuário revogados."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1436,7 +1437,7 @@ msgstr "Avaliação gratuita"
 #: weblate/accounts/views.py:730
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "A reversão das edições feitas por %(user)s em todo o site foi agendada."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1508,16 +1509,12 @@ msgstr ""
 "senha."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Tente registrar de novo para verificar sua identidade, o link de confirmação "
-"provavelmente expirou."
+"Tente redefinir sua senha novamente para verificar sua identidade, o link de "
+"confirmação provavelmente expirou."
 
 #: weblate/accounts/views.py:1496
 msgid ""
@@ -1704,12 +1701,16 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Esse complemento afeta projeto inteiro e pode criar arquivos de tradução em "
+"vários componentes ou repositórios."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Este complemento afeta a categoria inteira e pode criar arquivos de tradução "
+"em vários componentes ou repositórios."
 
 #: weblate/addons/consistency.py:138
 msgid ""
