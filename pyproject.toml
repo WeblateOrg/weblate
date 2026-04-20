@@ -627,6 +627,22 @@ max-public-methods = 180
 max-returns = 21
 max-statements = 100
 
+[tool.rumdl]
+disable = [
+  # We do not enforce heading
+  "first-line-heading",
+  # Avoid length limit checks
+  "line-length"
+]
+
+[tool.rumdl.per-file-ignores]
+"fuzzing/corpus/markup/seed.md" = ["MD033"]
+"README.md" = [
+  # Allow HTML
+  "MD033"
+]
+"weblate/trans/tests/data/*.md" = ["MD026"]
+
 [tool.setuptools]
 include-package-data = true
 zip-safe = false
