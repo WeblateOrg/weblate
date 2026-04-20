@@ -30,6 +30,7 @@ from weblate.utils.environment import (
     get_env_ratelimit,
     get_env_redis_url,
     get_env_str,
+    get_env_tuples_or_none,
     get_saml_idp,
     modify_env_list,
 )
@@ -1464,6 +1465,11 @@ DEFAULT_COMMITER_NAME = get_env_str(
 )
 
 DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
+
+default_notifications = get_env_tuples_or_none("WEBLATE_DEFAULT_NOTIFICATIONS")
+if default_notifications is not None:
+    DEFAULT_NOTIFICATIONS = default_notifications
+del default_notifications
 
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
