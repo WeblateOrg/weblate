@@ -16,13 +16,14 @@
 # Michael Neuendorf <neuendorf@gonicus.de>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # VfBFan <vfbfan@users.noreply.hosted.weblate.org>, 2026.
+# Max Kleinehelleforth <m.kleinehelleforth@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"PO-Revision-Date: 2026-04-20 11:49+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -2222,12 +2223,11 @@ msgid "Regular expression to match translation files against"
 msgstr "Regulärer Ausdruck zum Abgleich von Übersetzungsdateien"
 
 #: weblate/addons/forms.py:727
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The regular expression must define named groups for component and language."
 msgstr ""
-"Der reguläre Ausdruck ist zu komplex und die Auswertung dauert zu lange."
+"Der reguläre Ausdruck muss benannte Gruppen für Komponente und Sprache "
+"definieren."
 
 #: weblate/addons/forms.py:731
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2243,34 +2243,32 @@ msgstr "Anpassen des Komponentennamens"
 #: weblate/addons/forms.py:741
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Verwenden Sie die Syntax der Django-Vorlage. Diese Vorlage muss {{ "
+"component }} enthalten."
 
 #: weblate/addons/forms.py:745
 msgid "Define the monolingual base filename"
 msgstr "Definition des einsprachigen Basisdateinamens"
 
 #: weblate/addons/forms.py:749
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Für zweisprachige Übersetzungsdateien leer lassen."
+msgstr ""
+"Für zweisprachige Übersetzungsdateien leer lassen. Wenn gesetzt, muss diese "
+"Vorlage {{ component }} enthalten."
 
 #: weblate/addons/forms.py:753
 msgid "Define the base file for new translations"
 msgstr "Definition der Basisdatei für neue Übersetzungen"
 
 #: weblate/addons/forms.py:757
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Dateiname, der zum Erstellen neuer Übersetzungen verwendet wird. Für "
-"gettext, .pot-Datei auswählen."
+"Dateiname der Datei, mit der neue Übersetzungen erstellt werden. Für gettext "
+".pot-Datei auswählen. Diese Vorlage muss {{ component }} enthalten."
 
 #: weblate/addons/forms.py:762
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2279,19 +2277,15 @@ msgid "Intermediate language file"
 msgstr "Zwischensprachedatei"
 
 #: weblate/addons/forms.py:766
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
 "Dateiname der Zwischenübersetzungsdatei. In den meisten Fällen handelt es "
-"sich um eine von Entwicklern bereitgestellte Übersetzungsdatei, die beim "
-"Erstellen der eigentlichen Ausgangszeichenketten verwendet wird."
+"sich dabei um eine von den Entwicklern bereitgestellte Übersetzungsdatei, "
+"die beim Erstellen der eigentlichen Ausgangszeichenketten verwendet wird. "
+"Diese Vorlage muss {{ component }} enthalten."
 
 #: weblate/addons/forms.py:773 weblate/trans/models/component.py:858
 msgid "Language filter"
@@ -2320,30 +2314,25 @@ msgstr "Ich bestätige, dass die obigen Übereinstimmungen korrekt aussehen"
 #: weblate/addons/forms.py:873
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "Allgemeine Voreinstellung: %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:886
-#, fuzzy
-#| msgid "Information about project"
 msgid "format not preset"
-msgstr "Informationen zum Projekt"
+msgstr "Format nicht voreingestellt"
 
 #: weblate/addons/forms.py:894
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Einsprachige Basissprachdatei"
+msgstr "Einsprachige Basis: %(base)s"
 
 #: weblate/addons/forms.py:897
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "Definition des einsprachigen Basisdateinamens"
+msgstr "Keine einsprachige Basis"
 
 #: weblate/addons/forms.py:905
 #, python-format
 msgid "%(format)s; %(base)s"
-msgstr ""
+msgstr "%(format)s; %(base)s"
 
 #: weblate/addons/forms.py:915
 msgid "One folder per language"
@@ -2351,7 +2340,7 @@ msgstr "Ein Ordner pro Sprache"
 
 #: weblate/addons/forms.py:916
 msgid "Matches files like cs/application.po."
-msgstr ""
+msgstr "Entspricht Dateien wie cs/application.po."
 
 #: weblate/addons/forms.py:920
 msgid "Gettext locales layout"
@@ -2359,7 +2348,7 @@ msgstr "Gettext-Gebietsschema-Layout"
 
 #: weblate/addons/forms.py:921
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
-msgstr ""
+msgstr "Entspricht Dateien wie locale/cs/LC_MESSAGES/application.po."
 
 #: weblate/addons/forms.py:925
 msgid "Complex filenames"
@@ -2367,15 +2356,15 @@ msgstr "Komplexe Dateinamen"
 
 #: weblate/addons/forms.py:926
 msgid "Matches files like src/locale/application.cs.po."
-msgstr ""
+msgstr "Entspricht Dateien wie src/locale/application.cs.po."
 
 #: weblate/addons/forms.py:930
 msgid "Filename-based language variants"
-msgstr ""
+msgstr "Dateinamenbasierte Sprachvarianten"
 
 #: weblate/addons/forms.py:931
 msgid "Matches files like news_en.md."
-msgstr ""
+msgstr "Entspricht Dateien wie news_en.md."
 
 #: weblate/addons/forms.py:935
 msgid "Repeated language code"
@@ -2383,7 +2372,7 @@ msgstr "Mehrmaliger Sprachcode"
 
 #: weblate/addons/forms.py:936
 msgid "Matches files like locale/cs/application/cs.po."
-msgstr ""
+msgstr "Entspricht Dateien wie locale/cs/application/cs.po."
 
 #: weblate/addons/forms.py:940
 msgid "Split Android strings"
@@ -2391,7 +2380,7 @@ msgstr "Android-Zeichenketten aufteilen"
 
 #: weblate/addons/forms.py:941
 msgid "Matches files like res/values-cs/strings-about.xml."
-msgstr ""
+msgstr "Entspricht Dateien wie res/values-cs/strings-about.xml."
 
 #: weblate/addons/forms.py:945
 msgid "Matching multiple paths"
@@ -2402,23 +2391,21 @@ msgid ""
 "Matches nested Java properties layouts and also fills the component name "
 "template."
 msgstr ""
+"Entspricht verschachtelten Java-Properties-Layouts und füllt zudem die "
+"Vorlage für den Komponentennamen aus."
 
 #: weblate/addons/forms.py:975
 #, python-format
 msgid "Detected: %(pattern)s [%(details)s]"
-msgstr ""
+msgstr "Erkannt: %(pattern)s [%(details)s]"
 
 #: weblate/addons/forms.py:1045
-#, fuzzy
-#| msgid "Merged repository"
 msgid "Detected from repository"
-msgstr "Repository zusammengeführt"
+msgstr "Vom Repository erkannt"
 
 #: weblate/addons/forms.py:1055
-#, fuzzy
-#| msgid "Meson preset"
 msgid "Generic presets"
-msgstr "Meson-Voreinstellung"
+msgstr "Allgemeine Voreinstellungen"
 
 #: weblate/addons/forms.py:1084 weblate/trans/models/component.py:3910
 msgid "You can not use a monolingual translation without a base file."
@@ -2436,13 +2423,11 @@ msgstr "Bitte überprüfen und bestätigen Sie die passenden Komponenten."
 
 #: weblate/addons/forms.py:1158
 msgid "This template must include {{ component }}."
-msgstr ""
+msgstr "Diese Vorlage muss {{ component }} enthalten."
 
 #: weblate/addons/forms.py:1159
-#, fuzzy
-#| msgid "Please include component markup in the template."
 msgid "This template must include component markup."
-msgstr "Bitte fügen Sie die Komponentenauszeichnung in die Vorlage ein."
+msgstr "Diese Vorlage muss eine Auszeichnung für Komponenten enthalten."
 
 #: weblate/addons/forms.py:1231
 msgid "Translation threshold"
@@ -2756,10 +2741,8 @@ msgstr "Git-Commits vor dem Pushen der Änderungen zusammenfassen."
 
 #: weblate/addons/models.py:298 weblate/addons/views.py:257
 #: weblate/api/views.py:3487
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
-msgstr "Diese Erweiterung hat keine Einstellungen."
+msgstr "Diese Erweiterung kann nicht manuell ausgelöst werden."
 
 #: weblate/addons/properties.py:146
 msgid "Format the Java properties file"
@@ -2815,10 +2798,8 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Erweiterung installiert, bitte lesen Sie die Integrationsanweisungen."
 
 #: weblate/addons/views.py:262 weblate/api/views.py:3494
-#, fuzzy
-#| msgid "Comment has been deleted."
 msgid "Add-on run has been scheduled."
-msgstr "Kommentar wurde gelöscht."
+msgstr "Erweiterungsausführung wurde geplant."
 
 #: weblate/addons/webhooks.py:120
 msgid "Webhook"

@@ -26,4 +26,4 @@ jobs:
       run: gh pr merge --rebase --auto "$PR_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
-        PR_NUMNBER: ${{ github.event.pull_request.number }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
