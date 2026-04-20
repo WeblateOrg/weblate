@@ -3571,10 +3571,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/Statistics'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/Statistics'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -9359,7 +9359,7 @@ paths:
           description: No response body
   /api/components/{project__slug}/{slug}/changes/:
     get:
-      operationId: api_components_changes_retrieve
+      operationId: api_components_changes_list
       description: Return a list of component changes.
       parameters:
       - in: query
@@ -9369,6 +9369,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: project__slug
         schema:
@@ -9393,10 +9405,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiComponentsChangesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsChangesListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiComponentsChangesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsChangesListErrorResponse400'
           description: ''
         '401':
           content:
@@ -9625,10 +9637,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedChangeList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedChangeList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -9920,7 +9932,7 @@ paths:
   /api/components/{project__slug}/{slug}/file/:
     get:
       operationId: api_components_file_retrieve
-      description: Translation components API.
+      description: Download all translation files in the component.
       parameters:
       - in: query
         name: format
@@ -10183,13 +10195,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/Component'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Component'
-          description: ''
+                type: string
+                format: binary
+          description: Component translation download.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -10199,7 +10209,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/links/:
     get:
-      operationId: api_components_links_retrieve
+      operationId: api_components_links_list
       description: Return projects linked with a component.
       parameters:
       - in: query
@@ -10209,6 +10219,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: project__slug
         schema:
@@ -10233,10 +10255,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiComponentsLinksRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsLinksListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiComponentsLinksRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsLinksListErrorResponse400'
           description: ''
         '401':
           content:
@@ -10465,10 +10487,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedProjectList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedProjectList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -10506,13 +10528,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Component'
+              $ref: '#/components/schemas/ComponentLinkRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Component'
+              $ref: '#/components/schemas/ComponentLinkRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Component'
+              $ref: '#/components/schemas/ComponentLinkRequest'
         required: true
       security:
       - tokenAuth: []
@@ -10751,22 +10773,15 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/ComponentLinkResponse'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/ComponentLinkResponse'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/links/{project_slug}/:
     delete:
       operationId: api_components_links_destroy
@@ -11305,10 +11320,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/Lock'
             text/csv:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/Lock'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -11595,10 +11610,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/Lock'
             text/csv:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/Lock'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -11873,13 +11888,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/Component'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Component'
-          description: ''
+                type: string
+                format: binary
+          description: Monolingual base file download.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -12153,13 +12166,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/Component'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Component'
-          description: ''
+                type: string
+                format: binary
+          description: Template download for new translations.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -12725,10 +12736,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/RepositoryOperation'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/RepositoryOperation'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -12739,7 +12750,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/screenshots/:
     get:
-      operationId: api_components_screenshots_retrieve
+      operationId: api_components_screenshots_list
       description: Return a list of component screenshots.
       parameters:
       - in: query
@@ -12749,6 +12760,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: project__slug
         schema:
@@ -12773,10 +12796,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiComponentsScreenshotsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsScreenshotsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiComponentsScreenshotsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsScreenshotsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -13005,10 +13028,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedScreenshotList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedScreenshotList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -13019,7 +13042,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/statistics/:
     get:
-      operationId: api_components_statistics_retrieve
+      operationId: api_components_statistics_list
       description: Return paginated statistics for all translations within component.
       parameters:
       - in: query
@@ -13030,6 +13053,18 @@ paths:
           - csv
           - json
           - json-flat
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: project__slug
         schema:
@@ -13055,10 +13090,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiComponentsStatisticsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsStatisticsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiComponentsStatisticsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsStatisticsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -13287,10 +13322,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedStatisticsList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedStatisticsList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -13301,7 +13336,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/translations/:
     get:
-      operationId: api_components_translations_retrieve
+      operationId: api_components_translations_list
       description: Return a list of translation objects in the given component.
       parameters:
       - in: query
@@ -13311,6 +13346,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: project__slug
         schema:
@@ -13335,10 +13382,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiComponentsTranslationsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsTranslationsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiComponentsTranslationsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiComponentsTranslationsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -13567,10 +13614,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedComponentTranslationList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedComponentTranslationList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -13853,22 +13900,15 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/ComponentTranslationResponse'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/ComponentTranslationResponse'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/groups/:
     get:
       operationId: api_groups_list
@@ -20731,10 +20771,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Language'
+                $ref: '#/components/schemas/Statistics'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Language'
+                $ref: '#/components/schemas/Statistics'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -24815,7 +24855,7 @@ paths:
           description: No response body
   /api/projects/{slug}/categories/:
     get:
-      operationId: api_projects_categories_retrieve
+      operationId: api_projects_categories_list
       description: Return categories for a project.
       parameters:
       - in: query
@@ -24825,6 +24865,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: slug
         schema:
@@ -24843,10 +24895,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiProjectsCategoriesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsCategoriesListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiProjectsCategoriesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsCategoriesListErrorResponse400'
           description: ''
         '401':
           content:
@@ -25075,10 +25127,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedCategoryList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedCategoryList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -25089,7 +25141,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/changes/:
     get:
-      operationId: api_projects_changes_retrieve
+      operationId: api_projects_changes_list
       description: Return a list of project changes.
       parameters:
       - in: query
@@ -25099,6 +25151,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: slug
         schema:
@@ -25117,10 +25181,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiProjectsChangesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsChangesListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiProjectsChangesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsChangesListErrorResponse400'
           description: ''
         '401':
           content:
@@ -25349,10 +25413,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedChangeList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedChangeList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -25363,7 +25427,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/components/:
     get:
-      operationId: api_projects_components_retrieve
+      operationId: api_projects_components_list
       description: Return a list of translation components in the given project.
       parameters:
       - in: query
@@ -25373,6 +25437,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: slug
         schema:
@@ -25391,10 +25467,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiProjectsComponentsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsComponentsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiProjectsComponentsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsComponentsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -25598,10 +25674,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedProjectComponentList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Component'
+                $ref: '#/components/schemas/PaginatedProjectComponentList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -26149,7 +26225,7 @@ paths:
   /api/projects/{slug}/file/:
     get:
       operationId: api_projects_file_retrieve
-      description: Translation projects API.
+      description: Download all translation files in the project.
       parameters:
       - in: query
         name: format
@@ -26406,13 +26482,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/Project'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Project'
-          description: ''
+                type: string
+                format: binary
+          description: Project translation download.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -26422,7 +26496,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/labels/:
     get:
-      operationId: api_projects_labels_retrieve
+      operationId: api_projects_labels_list
       description: Return labels for a project.
       parameters:
       - in: query
@@ -26432,6 +26506,18 @@ paths:
           enum:
           - csv
           - json
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: slug
         schema:
@@ -26450,10 +26536,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiProjectsLabelsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsLabelsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiProjectsLabelsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsLabelsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -26682,10 +26768,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedLabelList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedLabelList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -26717,13 +26803,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/Label'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/Label'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Project'
+              $ref: '#/components/schemas/Label'
         required: true
       security:
       - tokenAuth: []
@@ -26962,22 +27048,15 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/Label'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/Label'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/labels/{label_id}/:
     delete:
       operationId: api_projects_labels_destroy
@@ -27244,8 +27323,8 @@ paths:
           description: No response body
   /api/projects/{slug}/languages/:
     get:
-      operationId: api_projects_languages_retrieve
-      description: Return paginated statistics for all languages within a project.
+      operationId: api_projects_languages_list
+      description: Return statistics for all languages within a project.
       parameters:
       - in: query
         name: format
@@ -27274,10 +27353,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiProjectsLanguagesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsLanguagesListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiProjectsLanguagesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiProjectsLanguagesListErrorResponse400'
           description: ''
         '401':
           content:
@@ -27506,10 +27585,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Statistics'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Project'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Statistics'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -27785,13 +27868,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/Project'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Project'
-          description: ''
+                type: string
+                format: binary
+          description: Project translation download for a specific language.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -28061,10 +28142,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/ProjectLock'
             text/csv:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/ProjectLock'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -28345,10 +28426,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/ProjectLock'
             text/csv:
               schema:
-                $ref: '#/components/schemas/LockRequest'
+                $ref: '#/components/schemas/ProjectLock'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -30047,10 +30128,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/RepositoryOperation'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/RepositoryOperation'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -30323,10 +30404,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/Statistics'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/Statistics'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -34315,13 +34396,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/ScreenshotFile'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/ScreenshotFile'
-          description: ''
+                type: string
+                format: binary
+          description: Screenshot image download.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -34576,10 +34655,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenshotFile'
+                $ref: '#/components/schemas/BooleanResult'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ScreenshotFile'
+                $ref: '#/components/schemas/BooleanResult'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -34590,7 +34669,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_screenshots_file_update
-      description: Screenshots API.
+      description: Replace screenshot image.
       parameters:
       - in: query
         name: format
@@ -34835,10 +34914,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenshotFile'
+                $ref: '#/components/schemas/BooleanResult'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ScreenshotFile'
+                $ref: '#/components/schemas/BooleanResult'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -38162,7 +38241,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/changes/:
     get:
-      operationId: api_translations_changes_retrieve
+      operationId: api_translations_changes_list
       description: Return a list of translation changes.
       parameters:
       - in: path
@@ -38190,6 +38269,18 @@ paths:
           type: string
           pattern: ^[^/]+$
         required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
       - translations
       security:
@@ -38202,10 +38293,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiTranslationsChangesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiTranslationsChangesListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiTranslationsChangesRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiTranslationsChangesListErrorResponse400'
           description: ''
         '401':
           content:
@@ -38434,10 +38525,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/PaginatedChangeList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/PaginatedChangeList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -38449,7 +38540,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/file/:
     get:
       operationId: api_translations_file_retrieve
-      description: Translation components API.
+      description: Download translation file.
       parameters:
       - in: path
         name: component__project__slug
@@ -38693,13 +38784,11 @@ paths:
           description: ''
         '200':
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/UploadRequest'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/UploadRequest'
-          description: ''
+                type: string
+                format: binary
+          description: Translation file download.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -38966,10 +39055,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UploadRequest'
+                $ref: '#/components/schemas/UploadResult'
             text/csv:
               schema:
-                $ref: '#/components/schemas/UploadRequest'
+                $ref: '#/components/schemas/UploadResult'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -38980,7 +39069,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_translations_file_update
-      description: Translation components API.
+      description: Upload new file with translations.
       parameters:
       - in: path
         name: component__project__slug
@@ -39237,10 +39326,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UploadRequest'
+                $ref: '#/components/schemas/UploadResult'
             text/csv:
               schema:
-                $ref: '#/components/schemas/UploadRequest'
+                $ref: '#/components/schemas/UploadResult'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -39819,10 +39908,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/RepositoryOperation'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/RepositoryOperation'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -40107,10 +40196,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/Statistics'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/Statistics'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -40121,7 +40210,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/units/:
     get:
-      operationId: api_translations_units_retrieve
+      operationId: api_translations_units_list
       description: Return a list of translation units.
       parameters:
       - in: path
@@ -40149,6 +40238,18 @@ paths:
           type: string
           pattern: ^[^/]+$
         required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
       - translations
       security:
@@ -40161,10 +40262,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiTranslationsUnitsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiTranslationsUnitsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiTranslationsUnitsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiTranslationsUnitsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -40393,10 +40494,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/PaginatedUnitList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/PaginatedUnitList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -40689,10 +40790,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/Unit'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/Unit'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -44591,7 +44692,7 @@ paths:
           description: No response body
   /api/users/{username}/contributions/:
     get:
-      operationId: api_users_contributions_retrieve
+      operationId: api_users_contributions_list
       description: List translation contributions of a user.
       parameters:
       - in: query
@@ -44602,12 +44703,36 @@ paths:
           - csv
           - json
           - json-flat
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - in: query
+        name: is_active
+        schema:
+          type: boolean
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: username
         schema:
           type: string
           pattern: ^[^/]+$
         required: true
+      - in: query
+        name: username
+        schema:
+          type: string
       tags:
       - users
       - contributions
@@ -44621,10 +44746,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiUsersContributionsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiUsersContributionsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiUsersContributionsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiUsersContributionsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -44853,10 +44978,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FullUser'
+                $ref: '#/components/schemas/PaginatedTranslationList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/FullUser'
+                $ref: '#/components/schemas/PaginatedTranslationList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -47397,10 +47522,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FullUser'
+                $ref: '#/components/schemas/UserStatistics'
             text/csv:
               schema:
-                $ref: '#/components/schemas/FullUser'
+                $ref: '#/components/schemas/UserStatistics'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -51340,7 +51465,7 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiComponentsChangesRetrieveErrorResponse400:
+    ApiComponentsChangesListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -51368,404 +51493,22 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiComponentsLinksCreateAddMessageErrorComponent:
+    ApiComponentsLinksCreateCategoryIdErrorComponent:
       type: object
       properties:
         attr:
           enum:
-          - add_message
+          - category_id
           type: string
-          description: '* `add_message` - add_message'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateAddonMessageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - addon_message
-          type: string
-          description: '* `addon_message` - addon_message'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateAgreementErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - agreement
-          type: string
-          description: '* `agreement` - agreement'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateAllowTranslationPropagationErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - allow_translation_propagation
-          type: string
-          description: '* `allow_translation_propagation` - allow_translation_propagation'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateAutoLockErrorErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - auto_lock_error
-          type: string
-          description: '* `auto_lock_error` - auto_lock_error'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateBranchErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - branch
-          type: string
-          description: '* `branch` - branch'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateCategoryErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - category
-          type: string
-          description: '* `category` - category'
-        code:
-          enum:
-          - does_not_exist
-          - incorrect_match
-          - incorrect_type
-          - no_match
-          type: string
-          description: |-
-            * `does_not_exist` - does_not_exist
-            * `incorrect_match` - incorrect_match
-            * `incorrect_type` - incorrect_type
-            * `no_match` - no_match
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateCheckFlagsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - check_flags
-          type: string
-          description: '* `check_flags` - check_flags'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateCommitMessageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - commit_message
-          type: string
-          description: '* `commit_message` - commit_message'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateCommitPendingAgeErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - commit_pending_age
-          type: string
-          description: '* `commit_pending_age` - commit_pending_age'
+          description: '* `category_id` - category_id'
         code:
           enum:
           - invalid
           - max_string_length
-          - max_value
-          - min_value
-          - 'null'
           type: string
           description: |-
             * `invalid` - invalid
             * `max_string_length` - max_string_length
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateDeleteMessageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - delete_message
-          type: string
-          description: '* `delete_message` - delete_message'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateDisableAutoshareErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - disable_autoshare
-          type: string
-          description: '* `disable_autoshare` - disable_autoshare'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateDocfileErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - docfile
-          type: string
-          description: '* `docfile` - docfile'
-        code:
-          enum:
-          - empty
-          - invalid
-          - no_name
-          - 'null'
-          type: string
-          description: |-
-            * `empty` - empty
-            * `invalid` - invalid
-            * `no_name` - no_name
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateEditTemplateErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - edit_template
-          type: string
-          description: '* `edit_template` - edit_template'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateEnableSuggestionsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - enable_suggestions
-          type: string
-          description: '* `enable_suggestions` - enable_suggestions'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateEnforcedChecksErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - enforced_checks
-          type: string
-          description: '* `enforced_checks` - enforced_checks'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -51775,132 +51518,14 @@ components:
     ApiComponentsLinksCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiComponentsLinksCreateNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateNameErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSlugErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageCodeErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageNameErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralSourceErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralNumberErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralFormulaErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageDirectionErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePopulationErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateVcsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateRepoErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateGitExportErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateBranchErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreatePushBranchErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateFilemaskErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateScreenshotFilemaskErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateTemplateErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateEditTemplateErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateIntermediateErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateNewBaseErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateFileFormatErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateFileFormatParamsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateLicenseErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateAgreementErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateNewLangErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateLanguageCodeStyleErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreatePushErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateCheckFlagsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreatePriorityErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateEnforcedChecksErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateRestrictedErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateRepowebErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateReportSourceBugsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateMergeStyleErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateCommitMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateAddMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateDeleteMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateMergeMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateAddonMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreatePullMessageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateAllowTranslationPropagationErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateManageUnitsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateEnableSuggestionsErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSuggestionVotingErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSuggestionAutoacceptErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreatePushOnCommitErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateCommitPendingAgeErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateAutoLockErrorErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateLanguageRegexErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateKeyFilterErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateSecondaryLanguageErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateVariantRegexErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateZipfileErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateDocfileErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateFromComponentErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateIsGlossaryErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateGlossaryColorErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateDisableAutoshareErrorComponent'
-      - $ref: '#/components/schemas/ApiComponentsLinksCreateCategoryErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsLinksCreateProjectSlugErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsLinksCreateCategoryIdErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiComponentsLinksCreateNonFieldErrorsErrorComponent'
-          name: '#/components/schemas/ApiComponentsLinksCreateNameErrorComponent'
-          slug: '#/components/schemas/ApiComponentsLinksCreateSlugErrorComponent'
-          source_language.non_field_errors: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageNonFieldErrorsErrorComponent'
-          source_language.code: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageCodeErrorComponent'
-          source_language.name: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageNameErrorComponent'
-          source_language.plural.non_field_errors: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralNonFieldErrorsErrorComponent'
-          source_language.plural.source: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralSourceErrorComponent'
-          source_language.plural.number: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralNumberErrorComponent'
-          source_language.plural.formula: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePluralFormulaErrorComponent'
-          source_language.direction: '#/components/schemas/ApiComponentsLinksCreateSourceLanguageDirectionErrorComponent'
-          source_language.population: '#/components/schemas/ApiComponentsLinksCreateSourceLanguagePopulationErrorComponent'
-          vcs: '#/components/schemas/ApiComponentsLinksCreateVcsErrorComponent'
-          repo: '#/components/schemas/ApiComponentsLinksCreateRepoErrorComponent'
-          git_export: '#/components/schemas/ApiComponentsLinksCreateGitExportErrorComponent'
-          branch: '#/components/schemas/ApiComponentsLinksCreateBranchErrorComponent'
-          push_branch: '#/components/schemas/ApiComponentsLinksCreatePushBranchErrorComponent'
-          filemask: '#/components/schemas/ApiComponentsLinksCreateFilemaskErrorComponent'
-          screenshot_filemask: '#/components/schemas/ApiComponentsLinksCreateScreenshotFilemaskErrorComponent'
-          template: '#/components/schemas/ApiComponentsLinksCreateTemplateErrorComponent'
-          edit_template: '#/components/schemas/ApiComponentsLinksCreateEditTemplateErrorComponent'
-          intermediate: '#/components/schemas/ApiComponentsLinksCreateIntermediateErrorComponent'
-          new_base: '#/components/schemas/ApiComponentsLinksCreateNewBaseErrorComponent'
-          file_format: '#/components/schemas/ApiComponentsLinksCreateFileFormatErrorComponent'
-          file_format_params: '#/components/schemas/ApiComponentsLinksCreateFileFormatParamsErrorComponent'
-          license: '#/components/schemas/ApiComponentsLinksCreateLicenseErrorComponent'
-          agreement: '#/components/schemas/ApiComponentsLinksCreateAgreementErrorComponent'
-          new_lang: '#/components/schemas/ApiComponentsLinksCreateNewLangErrorComponent'
-          language_code_style: '#/components/schemas/ApiComponentsLinksCreateLanguageCodeStyleErrorComponent'
-          push: '#/components/schemas/ApiComponentsLinksCreatePushErrorComponent'
-          check_flags: '#/components/schemas/ApiComponentsLinksCreateCheckFlagsErrorComponent'
-          priority: '#/components/schemas/ApiComponentsLinksCreatePriorityErrorComponent'
-          enforced_checks: '#/components/schemas/ApiComponentsLinksCreateEnforcedChecksErrorComponent'
-          restricted: '#/components/schemas/ApiComponentsLinksCreateRestrictedErrorComponent'
-          repoweb: '#/components/schemas/ApiComponentsLinksCreateRepowebErrorComponent'
-          report_source_bugs: '#/components/schemas/ApiComponentsLinksCreateReportSourceBugsErrorComponent'
-          merge_style: '#/components/schemas/ApiComponentsLinksCreateMergeStyleErrorComponent'
-          commit_message: '#/components/schemas/ApiComponentsLinksCreateCommitMessageErrorComponent'
-          add_message: '#/components/schemas/ApiComponentsLinksCreateAddMessageErrorComponent'
-          delete_message: '#/components/schemas/ApiComponentsLinksCreateDeleteMessageErrorComponent'
-          merge_message: '#/components/schemas/ApiComponentsLinksCreateMergeMessageErrorComponent'
-          addon_message: '#/components/schemas/ApiComponentsLinksCreateAddonMessageErrorComponent'
-          pull_message: '#/components/schemas/ApiComponentsLinksCreatePullMessageErrorComponent'
-          allow_translation_propagation: '#/components/schemas/ApiComponentsLinksCreateAllowTranslationPropagationErrorComponent'
-          manage_units: '#/components/schemas/ApiComponentsLinksCreateManageUnitsErrorComponent'
-          enable_suggestions: '#/components/schemas/ApiComponentsLinksCreateEnableSuggestionsErrorComponent'
-          suggestion_voting: '#/components/schemas/ApiComponentsLinksCreateSuggestionVotingErrorComponent'
-          suggestion_autoaccept: '#/components/schemas/ApiComponentsLinksCreateSuggestionAutoacceptErrorComponent'
-          push_on_commit: '#/components/schemas/ApiComponentsLinksCreatePushOnCommitErrorComponent'
-          commit_pending_age: '#/components/schemas/ApiComponentsLinksCreateCommitPendingAgeErrorComponent'
-          auto_lock_error: '#/components/schemas/ApiComponentsLinksCreateAutoLockErrorErrorComponent'
-          language_regex: '#/components/schemas/ApiComponentsLinksCreateLanguageRegexErrorComponent'
-          key_filter: '#/components/schemas/ApiComponentsLinksCreateKeyFilterErrorComponent'
-          secondary_language: '#/components/schemas/ApiComponentsLinksCreateSecondaryLanguageErrorComponent'
-          variant_regex: '#/components/schemas/ApiComponentsLinksCreateVariantRegexErrorComponent'
-          zipfile: '#/components/schemas/ApiComponentsLinksCreateZipfileErrorComponent'
-          docfile: '#/components/schemas/ApiComponentsLinksCreateDocfileErrorComponent'
-          from_component: '#/components/schemas/ApiComponentsLinksCreateFromComponentErrorComponent'
-          is_glossary: '#/components/schemas/ApiComponentsLinksCreateIsGlossaryErrorComponent'
-          glossary_color: '#/components/schemas/ApiComponentsLinksCreateGlossaryColorErrorComponent'
-          disable_autoshare: '#/components/schemas/ApiComponentsLinksCreateDisableAutoshareErrorComponent'
-          category: '#/components/schemas/ApiComponentsLinksCreateCategoryErrorComponent'
+          project_slug: '#/components/schemas/ApiComponentsLinksCreateProjectSlugErrorComponent'
+          category_id: '#/components/schemas/ApiComponentsLinksCreateCategoryIdErrorComponent'
     ApiComponentsLinksCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiComponentsLinksCreateValidationError'
@@ -51910,468 +51535,6 @@ components:
         mapping:
           validation_error: '#/components/schemas/ApiComponentsLinksCreateValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiComponentsLinksCreateFileFormatErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - file_format
-          type: string
-          description: '* `file_format` - file_format'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          - required
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-            * `required` - required
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateFileFormatParamsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - file_format_params
-          type: string
-          description: '* `file_format_params` - file_format_params'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateFilemaskErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - filemask
-          type: string
-          description: '* `filemask` - filemask'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateFromComponentErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - from_component
-          type: string
-          description: '* `from_component` - from_component'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateGitExportErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - git_export
-          type: string
-          description: '* `git_export` - git_export'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateGlossaryColorErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - glossary_color
-          type: string
-          description: '* `glossary_color` - glossary_color'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateIntermediateErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - intermediate
-          type: string
-          description: '* `intermediate` - intermediate'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateIsGlossaryErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - is_glossary
-          type: string
-          description: '* `is_glossary` - is_glossary'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateKeyFilterErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - key_filter
-          type: string
-          description: '* `key_filter` - key_filter'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateLanguageCodeStyleErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - language_code_style
-          type: string
-          description: '* `language_code_style` - language_code_style'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateLanguageRegexErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - language_regex
-          type: string
-          description: '* `language_regex` - language_regex'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateLicenseErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - license
-          type: string
-          description: '* `license` - license'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateManageUnitsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - manage_units
-          type: string
-          description: '* `manage_units` - manage_units'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateMergeMessageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - merge_message
-          type: string
-          description: '* `merge_message` - merge_message'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateMergeStyleErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - merge_style
-          type: string
-          description: '* `merge_style` - merge_style'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateNameErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - name
-          type: string
-          description: '* `name` - name'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateNewBaseErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - new_base
-          type: string
-          description: '* `new_base` - new_base'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateNewLangErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - new_lang
-          type: string
-          description: '* `new_lang` - new_lang'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiComponentsLinksCreateNonFieldErrorsErrorComponent:
       type: object
       properties:
@@ -52394,151 +51557,18 @@ components:
       - attr
       - code
       - detail
-    ApiComponentsLinksCreatePriorityErrorComponent:
+    ApiComponentsLinksCreateProjectSlugErrorComponent:
       type: object
       properties:
         attr:
           enum:
-          - priority
+          - project_slug
           type: string
-          description: '* `priority` - priority'
-        code:
-          enum:
-          - invalid_choice
-          - max_value
-          - min_value
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreatePullMessageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - pull_message
-          type: string
-          description: '* `pull_message` - pull_message'
+          description: '* `project_slug` - project_slug'
         code:
           enum:
           - blank
           - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreatePushBranchErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - push_branch
-          type: string
-          description: '* `push_branch` - push_branch'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreatePushErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - push
-          type: string
-          description: '* `push` - push'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreatePushOnCommitErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - push_on_commit
-          type: string
-          description: '* `push_on_commit` - push_on_commit'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateRepoErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - repo
-          type: string
-          description: '* `repo` - repo'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
           - 'null'
           - null_characters_not_allowed
           - required
@@ -52547,486 +51577,9 @@ components:
           description: |-
             * `blank` - blank
             * `invalid` - invalid
-            * `max_length` - max_length
             * `null` - null
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateReportSourceBugsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - report_source_bugs
-          type: string
-          description: '* `report_source_bugs` - report_source_bugs'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateRepowebErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - repoweb
-          type: string
-          description: '* `repoweb` - repoweb'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateRestrictedErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - restricted
-          type: string
-          description: '* `restricted` - restricted'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateScreenshotFilemaskErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - screenshot_filemask
-          type: string
-          description: '* `screenshot_filemask` - screenshot_filemask'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSecondaryLanguageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - secondary_language
-          type: string
-          description: '* `secondary_language` - secondary_language'
-        code:
-          enum:
-          - does_not_exist
-          - incorrect_type
-          type: string
-          description: |-
-            * `does_not_exist` - does_not_exist
-            * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSlugErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - slug
-          type: string
-          description: '* `slug` - slug'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguageCodeErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.code
-          type: string
-          description: '* `source_language.code` - source_language.code'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguageDirectionErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.direction
-          type: string
-          description: '* `source_language.direction` - source_language.direction'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguageNameErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.name
-          type: string
-          description: '* `source_language.name` - source_language.name'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguageNonFieldErrorsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.non_field_errors
-          type: string
-          description: '* `source_language.non_field_errors` - source_language.non_field_errors'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguagePluralFormulaErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.plural.formula
-          type: string
-          description: '* `source_language.plural.formula` - source_language.plural.formula'
-        code:
-          enum:
-          - blank
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguagePluralNonFieldErrorsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.plural.non_field_errors
-          type: string
-          description: '* `source_language.plural.non_field_errors` - source_language.plural.non_field_errors'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguagePluralNumberErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.plural.number
-          type: string
-          description: '* `source_language.plural.number` - source_language.plural.number'
-        code:
-          enum:
-          - invalid
-          - max_string_length
-          - max_value
-          - min_value
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_string_length` - max_string_length
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguagePluralSourceErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.plural.source
-          type: string
-          description: '* `source_language.plural.source` - source_language.plural.source'
-        code:
-          enum:
-          - invalid_choice
-          - max_value
-          - min_value
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSourceLanguagePopulationErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_language.population
-          type: string
-          description: '* `source_language.population` - source_language.population'
-        code:
-          enum:
-          - invalid
-          - max_string_length
-          - max_value
-          - min_value
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_string_length` - max_string_length
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSuggestionAutoacceptErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - suggestion_autoaccept
-          type: string
-          description: '* `suggestion_autoaccept` - suggestion_autoaccept'
-        code:
-          enum:
-          - invalid
-          - max_string_length
-          - max_value
-          - min_value
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_string_length` - max_string_length
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateSuggestionVotingErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - suggestion_voting
-          type: string
-          description: '* `suggestion_voting` - suggestion_voting'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateTemplateErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - template
-          type: string
-          description: '* `template` - template'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
         detail:
           type: string
@@ -53046,82 +51599,6 @@ components:
       required:
       - errors
       - type
-    ApiComponentsLinksCreateVariantRegexErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - variant_regex
-          type: string
-          description: '* `variant_regex` - variant_regex'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateVcsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - vcs
-          type: string
-          description: '* `vcs` - vcs'
-        code:
-          enum:
-          - invalid_choice
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiComponentsLinksCreateZipfileErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - zipfile
-          type: string
-          description: '* `zipfile` - zipfile'
-        code:
-          enum:
-          - empty
-          - invalid
-          - no_name
-          - 'null'
-          type: string
-          description: |-
-            * `empty` - empty
-            * `invalid` - invalid
-            * `no_name` - no_name
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiComponentsLinksDestroyErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
@@ -53129,7 +51606,7 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiComponentsLinksRetrieveErrorResponse400:
+    ApiComponentsLinksListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -55084,14 +53561,14 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiComponentsScreenshotsRetrieveErrorResponse400:
+    ApiComponentsScreenshotsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiComponentsStatisticsRetrieveErrorResponse400:
+    ApiComponentsStatisticsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -55236,7 +53713,7 @@ components:
       required:
       - errors
       - type
-    ApiComponentsTranslationsRetrieveErrorResponse400:
+    ApiComponentsTranslationsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -60505,14 +58982,14 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiProjectsCategoriesRetrieveErrorResponse400:
+    ApiProjectsCategoriesListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiProjectsChangesRetrieveErrorResponse400:
+    ApiProjectsChangesListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -62273,7 +60750,7 @@ components:
       - attr
       - code
       - detail
-    ApiProjectsComponentsRetrieveErrorResponse400:
+    ApiProjectsComponentsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -62713,96 +61190,50 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiProjectsLabelsCreateCheckFlagsErrorComponent:
+    ApiProjectsLabelsCreateColorErrorComponent:
       type: object
       properties:
         attr:
           enum:
-          - check_flags
+          - color
           type: string
-          description: '* `check_flags` - check_flags'
+          description: '* `color` - color'
+        code:
+          enum:
+          - invalid_choice
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiProjectsLabelsCreateDescriptionErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - description
+          type: string
+          description: '* `description` - description'
         code:
           enum:
           - invalid
+          - max_length
           - 'null'
           - null_characters_not_allowed
           - surrogate_characters_not_allowed
           type: string
           description: |-
             * `invalid` - invalid
+            * `max_length` - max_length
             * `null` - null
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateCommitPolicyErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - commit_policy
-          type: string
-          description: '* `commit_policy` - commit_policy'
-        code:
-          enum:
-          - invalid_choice
-          - max_value
-          - min_value
-          - 'null'
-          type: string
-          description: |-
-            * `invalid_choice` - invalid_choice
-            * `max_value` - max_value
-            * `min_value` - min_value
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateEnableHooksErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - enable_hooks
-          type: string
-          description: '* `enable_hooks` - enable_hooks'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateEnforced2faErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - enforced_2fa
-          type: string
-          description: '* `enforced_2fa` - enforced_2fa'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
         detail:
           type: string
       required:
@@ -62813,35 +61244,15 @@ components:
       oneOf:
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateNonFieldErrorsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateNameErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateSlugErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateWebErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateCheckFlagsErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateTranslationReviewErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateSourceReviewErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateCommitPolicyErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateSetLanguageTeamErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateInstructionsErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateEnableHooksErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateLanguageAliasesErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateSecondaryLanguageErrorComponent'
-      - $ref: '#/components/schemas/ApiProjectsLabelsCreateEnforced2faErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsLabelsCreateDescriptionErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsLabelsCreateColorErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiProjectsLabelsCreateNonFieldErrorsErrorComponent'
           name: '#/components/schemas/ApiProjectsLabelsCreateNameErrorComponent'
-          slug: '#/components/schemas/ApiProjectsLabelsCreateSlugErrorComponent'
-          web: '#/components/schemas/ApiProjectsLabelsCreateWebErrorComponent'
-          check_flags: '#/components/schemas/ApiProjectsLabelsCreateCheckFlagsErrorComponent'
-          translation_review: '#/components/schemas/ApiProjectsLabelsCreateTranslationReviewErrorComponent'
-          source_review: '#/components/schemas/ApiProjectsLabelsCreateSourceReviewErrorComponent'
-          commit_policy: '#/components/schemas/ApiProjectsLabelsCreateCommitPolicyErrorComponent'
-          set_language_team: '#/components/schemas/ApiProjectsLabelsCreateSetLanguageTeamErrorComponent'
-          instructions: '#/components/schemas/ApiProjectsLabelsCreateInstructionsErrorComponent'
-          enable_hooks: '#/components/schemas/ApiProjectsLabelsCreateEnableHooksErrorComponent'
-          language_aliases: '#/components/schemas/ApiProjectsLabelsCreateLanguageAliasesErrorComponent'
-          secondary_language: '#/components/schemas/ApiProjectsLabelsCreateSecondaryLanguageErrorComponent'
-          enforced_2fa: '#/components/schemas/ApiProjectsLabelsCreateEnforced2faErrorComponent'
+          description: '#/components/schemas/ApiProjectsLabelsCreateDescriptionErrorComponent'
+          color: '#/components/schemas/ApiProjectsLabelsCreateColorErrorComponent'
     ApiProjectsLabelsCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiProjectsLabelsCreateValidationError'
@@ -62851,58 +61262,6 @@ components:
         mapping:
           validation_error: '#/components/schemas/ApiProjectsLabelsCreateValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiProjectsLabelsCreateInstructionsErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - instructions
-          type: string
-          description: '* `instructions` - instructions'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateLanguageAliasesErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - language_aliases
-          type: string
-          description: '* `language_aliases` - language_aliases'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiProjectsLabelsCreateNameErrorComponent:
       type: object
       properties:
@@ -62920,7 +61279,6 @@ components:
           - null_characters_not_allowed
           - required
           - surrogate_characters_not_allowed
-          - unique
           type: string
           description: |-
             * `blank` - blank
@@ -62930,7 +61288,6 @@ components:
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-            * `unique` - unique
         detail:
           type: string
       required:
@@ -62959,128 +61316,6 @@ components:
       - attr
       - code
       - detail
-    ApiProjectsLabelsCreateSecondaryLanguageErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - secondary_language
-          type: string
-          description: '* `secondary_language` - secondary_language'
-        code:
-          enum:
-          - does_not_exist
-          - incorrect_type
-          type: string
-          description: |-
-            * `does_not_exist` - does_not_exist
-            * `incorrect_type` - incorrect_type
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateSetLanguageTeamErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - set_language_team
-          type: string
-          description: '* `set_language_team` - set_language_team'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateSlugErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - slug
-          type: string
-          description: '* `slug` - slug'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          - unique
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-            * `unique` - unique
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateSourceReviewErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - source_review
-          type: string
-          description: '* `source_review` - source_review'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiProjectsLabelsCreateTranslationReviewErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - translation_review
-          type: string
-          description: '* `translation_review` - translation_review'
-        code:
-          enum:
-          - invalid
-          - 'null'
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `null` - null
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiProjectsLabelsCreateValidationError:
       type: object
       properties:
@@ -63093,38 +61328,6 @@ components:
       required:
       - errors
       - type
-    ApiProjectsLabelsCreateWebErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - web
-          type: string
-          description: '* `web` - web'
-        code:
-          enum:
-          - blank
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - required
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `blank` - blank
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
-            * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiProjectsLabelsDestroyErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
@@ -63132,7 +61335,7 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiProjectsLabelsRetrieveErrorResponse400:
+    ApiProjectsLabelsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -63146,7 +61349,7 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiProjectsLanguagesRetrieveErrorResponse400:
+    ApiProjectsLanguagesListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -65523,7 +63726,7 @@ components:
       required:
       - errors
       - type
-    ApiTranslationsChangesRetrieveErrorResponse400:
+    ApiTranslationsChangesListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -66220,7 +64423,7 @@ components:
       required:
       - errors
       - type
-    ApiTranslationsUnitsRetrieveErrorResponse400:
+    ApiTranslationsUnitsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -66872,13 +65075,77 @@ components:
       required:
       - errors
       - type
-    ApiUsersContributionsRetrieveErrorResponse400:
+    ApiUsersContributionsListError:
       oneOf:
+      - $ref: '#/components/schemas/ApiUsersContributionsListUsernameErrorComponent'
+      - $ref: '#/components/schemas/ApiUsersContributionsListIdErrorComponent'
+      discriminator:
+        propertyName: attr
+        mapping:
+          username: '#/components/schemas/ApiUsersContributionsListUsernameErrorComponent'
+          id: '#/components/schemas/ApiUsersContributionsListIdErrorComponent'
+    ApiUsersContributionsListErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ApiUsersContributionsListValidationError'
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
         propertyName: type
         mapping:
+          validation_error: '#/components/schemas/ApiUsersContributionsListValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiUsersContributionsListIdErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - id
+          type: string
+          description: '* `id` - id'
+        code:
+          enum:
+          - invalid
+          - max_value
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `max_value` - max_value
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersContributionsListUsernameErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - username
+          type: string
+          description: '* `username` - username'
+        code:
+          enum:
+          - null_characters_not_allowed
+          type: string
+          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiUsersContributionsListValidationError:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ValidationErrorEnum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiUsersContributionsListError'
+      required:
+      - errors
+      - type
     ApiUsersCreateDateExpiresErrorComponent:
       type: object
       properties:
@@ -68503,6 +66770,13 @@ components:
     BlankEnum:
       enum:
       - ''
+    BooleanResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+      required:
+      - result
     Category:
       type: object
       properties:
@@ -69149,6 +67423,25 @@ components:
       - translations_url
       - url
       - web_url
+    ComponentLinkRequest:
+      type: object
+      properties:
+        project_slug:
+          type: string
+          pattern: ^[-a-zA-Z0-9_]+$
+        category_id:
+          type:
+          - integer
+          - 'null'
+      required:
+      - project_slug
+    ComponentLinkResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Component'
+      required:
+      - data
     ComponentList:
       type: object
       properties:
@@ -69193,6 +67486,155 @@ components:
       - name
       - slug
       - url
+    ComponentTranslation:
+      type: object
+      properties:
+        language:
+          allOf:
+          - $ref: '#/components/schemas/Language'
+          readOnly: true
+        language_code:
+          type: string
+          maxLength: 50
+        id:
+          type: integer
+          readOnly: true
+        filename:
+          type: string
+          maxLength: 400
+        revision:
+          type: string
+          maxLength: 200
+        web_url:
+          type: string
+          readOnly: true
+        share_url:
+          type: string
+          readOnly: true
+        translate_url:
+          type: string
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        is_template:
+          type: boolean
+          readOnly: true
+        is_source:
+          type: boolean
+          readOnly: true
+        total:
+          type: integer
+          readOnly: true
+        total_words:
+          type: integer
+          readOnly: true
+        translated:
+          type: integer
+          readOnly: true
+        translated_words:
+          type: integer
+          readOnly: true
+        translated_percent:
+          type: number
+          format: double
+          readOnly: true
+        fuzzy:
+          type: integer
+          readOnly: true
+        fuzzy_words:
+          type: integer
+          readOnly: true
+        fuzzy_percent:
+          type: number
+          format: double
+          readOnly: true
+        failing_checks:
+          type: integer
+          readOnly: true
+        failing_checks_words:
+          type: integer
+          readOnly: true
+        failing_checks_percent:
+          type: number
+          format: double
+          readOnly: true
+        have_suggestion:
+          type: integer
+          readOnly: true
+        have_comment:
+          type: integer
+          readOnly: true
+        last_change:
+          type: string
+          format: date-time
+          readOnly: true
+        last_author:
+          type: string
+          readOnly: true
+        repository_url:
+          type: string
+          format: uri
+          readOnly: true
+        file_url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        changes_list_url:
+          type: string
+          format: uri
+          readOnly: true
+        units_list_url:
+          type: string
+          format: uri
+          readOnly: true
+        announcements_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - announcements_url
+      - changes_list_url
+      - failing_checks
+      - failing_checks_percent
+      - failing_checks_words
+      - file_url
+      - filename
+      - fuzzy
+      - fuzzy_percent
+      - fuzzy_words
+      - have_comment
+      - have_suggestion
+      - id
+      - is_source
+      - is_template
+      - language
+      - last_author
+      - last_change
+      - repository_url
+      - share_url
+      - statistics_url
+      - total
+      - total_words
+      - translate_url
+      - translated
+      - translated_percent
+      - translated_words
+      - units_list_url
+      - url
+      - web_url
+    ComponentTranslationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ComponentTranslation'
+      required:
+      - data
     ConflictsEnum:
       enum:
       - ignore
@@ -69912,6 +68354,25 @@ components:
       required:
       - errors
       - type
+    Label:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Label name
+          maxLength: 190
+        description:
+          type: string
+          title: Label description
+          maxLength: 250
+        color:
+          $ref: '#/components/schemas/ColorEnum'
+      required:
+      - id
+      - name
     Language:
       type: object
       properties:
@@ -71424,6 +69885,12 @@ components:
         * `ZPL-1.1` - Zope Public License 1.1
         * `ZPL-2.0` - Zope Public License 2.0
         * `ZPL-2.1` - Zope Public License 2.1
+    Lock:
+      type: object
+      properties:
+        locked:
+          type: boolean
+          description: Locked component will not get any translation updates.
     LockRequest:
       type: object
       properties:
@@ -71862,6 +70329,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ComponentList'
+    PaginatedComponentTranslationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentTranslation'
     PaginatedFullUserList:
       type: object
       required:
@@ -71904,6 +70392,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Group'
+    PaginatedLabelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
     PaginatedLanguageList:
       type: object
       required:
@@ -71967,6 +70476,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Notification'
+    PaginatedProjectComponentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectComponent'
     PaginatedProjectList:
       type: object
       required:
@@ -72030,6 +70560,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Screenshot'
+    PaginatedStatisticsList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Statistics'
     PaginatedTranslationList:
       type: object
       required:
@@ -73159,6 +71710,390 @@ components:
       - url
       - web
       - web_url
+    ProjectComponent:
+      type: object
+      properties:
+        name:
+          type: string
+          title: Component name
+          description: Display name
+          maxLength: 100
+        slug:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        id:
+          type: integer
+          readOnly: true
+        source_language:
+          $ref: '#/components/schemas/Language'
+        vcs:
+          allOf:
+          - $ref: '#/components/schemas/VcsEnum'
+          title: Version control system
+          description: |-
+            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
+
+            * `gerrit` - Gerrit
+            * `git` - Git
+            * `git-force-push` - Git with force push
+            * `local` - No remote repository
+            * `mercurial` - Mercurial
+            * `subversion` - Subversion
+        repo:
+          type: string
+          maxLength: 300
+        git_export:
+          type: string
+          title: Exported repository URL
+          description: URL of repository where users can fetch changes from Weblate
+          maxLength: 220
+        branch:
+          type: string
+          maxLength: 200
+        push_branch:
+          type: string
+          maxLength: 200
+        filemask:
+          type: string
+          title: File mask
+          description: 'Path of files to translate relative to repository root, use
+            * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
+          maxLength: 400
+        screenshot_filemask:
+          type: string
+          title: Screenshot file mask
+          description: 'Path of screenshots relative to repository root, for example:
+            docs/screenshots/*.png.'
+          maxLength: 400
+        template:
+          type: string
+          title: Monolingual base language file
+          description: Filename of translation base file, containing all strings and
+            their source for monolingual translations.
+          maxLength: 400
+        edit_template:
+          type: boolean
+          title: Edit base file
+          description: Whether users will be able to edit the base file for monolingual
+            translations.
+        intermediate:
+          type: string
+          title: Intermediate language file
+          description: Filename of intermediate translation file. In most cases this
+            is a translation file provided by developers and is used when creating
+            actual source strings.
+          maxLength: 400
+        new_base:
+          type: string
+          title: Template for new translations
+          description: Filename of file used for creating new translations. For gettext
+            choose .pot file.
+          maxLength: 400
+        file_format:
+          $ref: '#/components/schemas/FileFormatEnum'
+        file_format_params:
+          title: File format parameters
+        license:
+          title: Translation license
+          oneOf:
+          - $ref: '#/components/schemas/LicenseEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        license_url:
+          type: string
+          readOnly: true
+        announcements_url:
+          type: string
+          format: uri
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate this component.
+        web_url:
+          type: string
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        repository_url:
+          type: string
+          format: uri
+          readOnly: true
+        translations_url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        lock_url:
+          type: string
+          format: uri
+          readOnly: true
+        links_url:
+          type: string
+          format: uri
+          readOnly: true
+        changes_list_url:
+          type: string
+          format: uri
+          readOnly: true
+        task_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        credits_url:
+          type: string
+          format: uri
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: |-
+            How to handle requests for creating new translations.
+
+            * `contact` - Contact maintainers
+            * `url` - Point to translation instructions URL
+            * `add` - Create new language file
+            * `none` - Disable adding new translations
+        language_code_style:
+          description: |-
+            Customize language code used to generate the filename for translations created by Weblate.
+
+            * `` - Default based on the file format
+            * `posix` - POSIX style using underscore as a separator
+            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
+            * `bcp` - BCP style using hyphen as a separator
+            * `posix_long` - POSIX style using underscore as a separator, including country code
+            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
+            * `bcp_long` - BCP style using hyphen as a separator, including country code
+            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
+            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
+            * `android` - Android style
+            * `appstore` - Apple App Store metadata style
+            * `googleplay` - Google Play metadata style
+            * `linux` - Linux style
+            * `linux_lowercase` - Linux style, lower cased
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        push:
+          type: string
+          maxLength: 300
+        check_flags:
+          type: string
+          title: Translation flags
+          description: Additional comma-separated flags to influence Weblate behavior.
+        priority:
+          allOf:
+          - $ref: '#/components/schemas/PriorityEnum'
+          description: |-
+            Components with higher priority are offered first to translators.
+
+            * `60` - Very high
+            * `80` - High
+            * `100` - Medium
+            * `120` - Low
+            * `140` - Very low
+          minimum: -2147483648
+          maximum: 2147483647
+        enforced_checks: {}
+        restricted:
+          type: boolean
+          title: Restricted component
+          description: Restrict access to the component to only those explicitly given
+            permission.
+        repoweb:
+          type: string
+          title: Repository browser
+          description: Link to repository browser, use {{branch}} for branch, {{filename}}
+            and {{line}} as filename and line placeholders. You might want to strip
+            leading directory by using {{filename|parentdir}}.
+          maxLength: 200
+        report_source_bugs:
+          type: string
+          title: Source string bug reporting address
+          description: E-mail address for reports on errors in source strings. Leave
+            empty for no e-mails.
+          format: email
+          maxLength: 190
+        merge_style:
+          allOf:
+          - $ref: '#/components/schemas/MergeStyleEnum'
+          description: |-
+            Define whether Weblate should merge the upstream repository or rebase changes onto it.
+
+            * `merge` - Merge
+            * `rebase` - Rebase
+            * `merge_noff` - Merge without fast-forward
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        allow_translation_propagation:
+          type: boolean
+          description: Whether translation updates in other components will cause
+            automatic translation in this one
+        manage_units:
+          type: boolean
+          title: Manage strings
+          description: Enables adding and removing strings straight from Weblate.
+            If your strings are extracted from the source code or managed externally
+            you probably want to keep it disabled.
+        enable_suggestions:
+          type: boolean
+          title: Turn on suggestions
+          description: Whether to allow translation suggestions at all.
+        suggestion_voting:
+          type: boolean
+          description: Users can only vote for suggestions and can’t make direct translations.
+        suggestion_autoaccept:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          title: Automatically accept suggestions
+          description: Automatically accept suggestions with this number of votes,
+            use 0 to turn it off.
+        push_on_commit:
+          type: boolean
+          description: Whether the repository should be pushed upstream on every commit.
+        commit_pending_age:
+          type: integer
+          maximum: 2160
+          minimum: -32768
+          title: Age of changes to commit
+          description: Time in hours after which any pending changes will be committed
+            to the VCS.
+        auto_lock_error:
+          type: boolean
+          title: Lock on error
+          description: Whether the component should be locked on repository errors.
+        language_regex:
+          type: string
+          title: Language filter
+          description: Regular expression used to filter translation files when scanning
+            for file mask.
+          maxLength: 500
+        key_filter:
+          type: string
+          description: Regular expression used to filter keys. This is only available
+            for monolingual formats.
+          maxLength: 500
+        secondary_language:
+          type:
+          - integer
+          - 'null'
+          description: Additional language to show together with the source language
+            while translating. This setting is inherited from the project if left
+            empty.
+        variant_regex:
+          type: string
+          title: Variants regular expression
+          description: Regular expression used to determine variants of a string.
+          maxLength: 190
+        zipfile:
+          type: string
+          format: uri
+        docfile:
+          type: string
+          format: uri
+        from_component:
+          oneOf:
+          - type: integer
+          - type: string
+          writeOnly: true
+        addons:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        is_glossary:
+          type: boolean
+          title: Use as a glossary
+          description: Glossaries are different from regular translations but help
+            keep track of and share consistent terminology.
+        glossary_color:
+          $ref: '#/components/schemas/ColorEnum'
+        disable_autoshare:
+          type: boolean
+        category:
+          type:
+          - string
+          - 'null'
+          format: uri
+        linked_component:
+          type: string
+          format: uri
+          readOnly: true
+        locked:
+          type: boolean
+          readOnly: true
+      required:
+      - addons
+      - announcements_url
+      - changes_list_url
+      - credits_url
+      - file_format
+      - filemask
+      - id
+      - license_url
+      - linked_component
+      - links_url
+      - lock_url
+      - locked
+      - name
+      - repo
+      - repository_url
+      - slug
+      - statistics_url
+      - task_url
+      - translations_url
+      - url
+      - web_url
+    ProjectLock:
+      type: object
+      properties:
+        locked:
+          type: boolean
+          readOnly: true
+      required:
+      - locked
     ProjectMachinerySettings:
       type: object
       properties:
@@ -73247,6 +72182,15 @@ components:
       - needs_merge
       - needs_push
       - url
+    RepositoryOperation:
+      type: object
+      properties:
+        result:
+          type: boolean
+        detail:
+          type: string
+      required:
+      - result
     Role:
       type: object
       properties:
@@ -73381,6 +72325,135 @@ components:
         * `20` - Translated
         * `30` - Approved
         * `100` - Read-only
+    Statistics:
+      type: object
+      properties:
+        total:
+          type: integer
+        total_words:
+          type: integer
+        total_chars:
+          type: integer
+        last_change:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        recent_changes:
+          type: integer
+        translated:
+          type: integer
+        translated_words:
+          type: integer
+        translated_percent:
+          type: number
+          format: double
+        translated_words_percent:
+          type: number
+          format: double
+        translated_chars:
+          type: integer
+        translated_chars_percent:
+          type: number
+          format: double
+        fuzzy:
+          type: integer
+        fuzzy_percent:
+          type: number
+          format: double
+        fuzzy_words:
+          type: integer
+        fuzzy_words_percent:
+          type: number
+          format: double
+        fuzzy_chars:
+          type: integer
+        fuzzy_chars_percent:
+          type: number
+          format: double
+        failing:
+          type: integer
+        failing_percent:
+          type: number
+          format: double
+        approved:
+          type: integer
+        approved_percent:
+          type: number
+          format: double
+        approved_words:
+          type: integer
+        approved_words_percent:
+          type: number
+          format: double
+        approved_chars:
+          type: integer
+        approved_chars_percent:
+          type: number
+          format: double
+        readonly:
+          type: integer
+        readonly_percent:
+          type: number
+          format: double
+        readonly_words:
+          type: integer
+        readonly_words_percent:
+          type: number
+          format: double
+        readonly_chars:
+          type: integer
+        readonly_chars_percent:
+          type: number
+          format: double
+        suggestions:
+          type: integer
+        comments:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        translate_url:
+          type: string
+          format: uri
+      required:
+      - approved
+      - approved_chars
+      - approved_chars_percent
+      - approved_percent
+      - approved_words
+      - approved_words_percent
+      - comments
+      - failing
+      - failing_percent
+      - fuzzy
+      - fuzzy_chars
+      - fuzzy_chars_percent
+      - fuzzy_percent
+      - fuzzy_words
+      - fuzzy_words_percent
+      - last_change
+      - readonly
+      - readonly_chars
+      - readonly_chars_percent
+      - readonly_percent
+      - readonly_words
+      - readonly_words_percent
+      - recent_changes
+      - suggestions
+      - total
+      - total_chars
+      - total_words
+      - translated
+      - translated_chars
+      - translated_chars_percent
+      - translated_percent
+      - translated_words
+      - translated_words_percent
     StatusEnum:
       enum:
       - success
@@ -73774,6 +72847,47 @@ components:
           - $ref: '#/components/schemas/BlankEnum'
       required:
       - file
+    UploadResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+        not_found:
+          type: integer
+        skipped:
+          type: integer
+        accepted:
+          type: integer
+        total:
+          type: integer
+        count:
+          type: integer
+      required:
+      - accepted
+      - count
+      - not_found
+      - result
+      - skipped
+      - total
+    UserStatistics:
+      type: object
+      properties:
+        translated:
+          type: integer
+        suggested:
+          type: integer
+        uploaded:
+          type: integer
+        commented:
+          type: integer
+        languages:
+          type: integer
+      required:
+      - commented
+      - languages
+      - suggested
+      - translated
+      - uploaded
     ValidationErrorEnum:
       enum:
       - validation_error

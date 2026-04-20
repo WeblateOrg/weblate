@@ -2220,6 +2220,18 @@ class ProjectAPITest(APIBaseTest):
                 request={"operation": operation},
             )
 
+    def test_repo_file_sync_returns_true(self) -> None:
+        with patch.object(Component, "queue_background_task", return_value=None):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "file-sync"},
+            )
+
+        self.assertIs(response.data["result"], True)
+
     def test_project_lock_endpoint(self) -> None:
         """Test the dedicated project lock API endpoint."""
         # Test without authentication
@@ -4222,6 +4234,18 @@ class ComponentAPITest(APIBaseTest):
 
         self.assertGreaterEqual(pending["total"], 2)
         self.assertGreater(pending["eligible_for_commit"], 0)
+
+    def test_repo_file_sync_returns_true(self) -> None:
+        with patch.object(Component, "queue_background_task", return_value=None):
+            response = self.do_request(
+                "api:component-repository",
+                self.component_kwargs,
+                superuser=True,
+                method="post",
+                request={"operation": "file-sync"},
+            )
+
+        self.assertIs(response.data["result"], True)
 
     def test_repo_operation_error_is_sanitized(self) -> None:
         repository_error = RepositoryError(
@@ -7368,6 +7392,18 @@ class TranslationAPITest(APIBaseTest):
             self.assertIn("message", commit)
             self.assertIn("summary", commit)
 
+    def test_repo_file_sync_returns_true(self) -> None:
+        with patch.object(Component, "queue_background_task", return_value=None):
+            response = self.do_request(
+                "api:translation-repository",
+                self.translation_kwargs,
+                superuser=True,
+                method="post",
+                request={"operation": "file-sync"},
+            )
+
+        self.assertIs(response.data["result"], True)
+
     def test_statistics(self) -> None:
         self.do_request(
             "api:translation-statistics",
@@ -10415,6 +10451,10 @@ class AnnouncementAPITest(APIBaseTest):
 
 
 class OpenAPITest(APIBaseTest):
+    def get_schema(self) -> dict:
+        response = self.do_request("api-schema")
+        return yaml.safe_load(response.content)
+
     def test_view(self) -> None:
         response = self.do_request(
             "api-schema",
@@ -10423,14 +10463,12 @@ class OpenAPITest(APIBaseTest):
         self.assertIn("language_code", response.content.decode())
 
     def test_metrics_version_is_optional(self) -> None:
-        response = self.do_request("api-schema")
-        schema = yaml.safe_load(response.content)
+        schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
         self.assertNotIn("version", required)
 
     def test_addon_trigger_schema_matches_runtime_behavior(self) -> None:
-        response = self.do_request("api-schema")
-        schema = yaml.safe_load(response.content)
+        schema = self.get_schema()
         operation = schema["paths"]["/api/addons/{id}/trigger/"]["post"]
 
         self.assertNotIn("requestBody", operation)
@@ -10455,6 +10493,158 @@ class OpenAPITest(APIBaseTest):
         self.assertIn("/latest/contributing/license.html", content)
         self.assertIn("/latest/index.html", content)
         self.assertNotIn("/weblate-5.17.1/index.html", content)
+
+    def test_action_statistics_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        self.assertEqual(
+            schema["paths"]["/api/projects/{slug}/statistics/"]["get"]["responses"][
+                "200"
+            ]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/Statistics"},
+        )
+        self.assertEqual(
+            schema["paths"]["/api/projects/{slug}/languages/"]["get"]["responses"][
+                "200"
+            ]["content"]["application/json"]["schema"],
+            {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/Statistics"},
+            },
+        )
+        self.assertEqual(
+            schema["paths"]["/api/components/{project__slug}/{slug}/statistics/"][
+                "get"
+            ]["responses"]["200"]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/PaginatedStatisticsList"},
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["PaginatedStatisticsList"]["properties"][
+                "results"
+            ],
+            {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/Statistics"},
+            },
+        )
+        self.assertEqual(
+            schema["paths"]["/api/users/{username}/statistics/"]["get"]["responses"][
+                "200"
+            ]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/UserStatistics"},
+        )
+        statistics_properties = schema["components"]["schemas"]["Statistics"][
+            "properties"
+        ]
+        self.assertIn("total", statistics_properties)
+        self.assertIn("translated", statistics_properties)
+        self.assertIn("comments", statistics_properties)
+        self.assertIn("readonly_chars_percent", statistics_properties)
+
+    def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        self.assertEqual(
+            schema["paths"]["/api/projects/{slug}/components/"]["get"]["responses"][
+                "200"
+            ]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/PaginatedProjectComponentList"},
+        )
+        self.assertNotIn(
+            "project",
+            schema["components"]["schemas"]["ProjectComponent"]["properties"],
+        )
+        self.assertEqual(
+            schema["paths"]["/api/components/{project__slug}/{slug}/translations/"][
+                "get"
+            ]["responses"]["200"]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/PaginatedComponentTranslationList"},
+        )
+        self.assertNotIn(
+            "component",
+            schema["components"]["schemas"]["ComponentTranslation"]["properties"],
+        )
+
+    def test_action_repository_and_lock_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        project_repository = schema["paths"]["/api/projects/{slug}/repository/"]
+        self.assertEqual(
+            project_repository["get"]["responses"]["200"]["content"][
+                "application/json"
+            ]["schema"],
+            {"$ref": "#/components/schemas/Repository"},
+        )
+        self.assertEqual(
+            project_repository["post"]["requestBody"]["content"]["application/json"][
+                "schema"
+            ],
+            {"$ref": "#/components/schemas/RepoRequest"},
+        )
+        self.assertEqual(
+            project_repository["post"]["responses"]["200"]["content"][
+                "application/json"
+            ]["schema"],
+            {"$ref": "#/components/schemas/RepositoryOperation"},
+        )
+        component_lock = schema["paths"]["/api/components/{project__slug}/{slug}/lock/"]
+        self.assertEqual(
+            component_lock["get"]["responses"]["200"]["content"]["application/json"][
+                "schema"
+            ],
+            {"$ref": "#/components/schemas/Lock"},
+        )
+        self.assertEqual(
+            component_lock["post"]["responses"]["200"]["content"]["application/json"][
+                "schema"
+            ],
+            {"$ref": "#/components/schemas/Lock"},
+        )
+        self.assertEqual(
+            schema["paths"]["/api/projects/{slug}/lock/"]["post"]["responses"]["200"][
+                "content"
+            ]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/ProjectLock"},
+        )
+
+    def test_file_action_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        translation_file = schema["paths"][
+            "/api/translations/{component__project__slug}/{component__slug}/{language__code}/file/"
+        ]
+        self.assertEqual(
+            translation_file["get"]["responses"]["200"]["content"][
+                "application/octet-stream"
+            ]["schema"],
+            {"type": "string", "format": "binary"},
+        )
+        self.assertEqual(
+            translation_file["post"]["responses"]["200"]["content"]["application/json"][
+                "schema"
+            ],
+            {"$ref": "#/components/schemas/UploadResult"},
+        )
+        self.assertEqual(
+            translation_file["post"]["requestBody"]["content"]["multipart/form-data"][
+                "schema"
+            ],
+            {"$ref": "#/components/schemas/UploadRequest"},
+        )
+
+        screenshot_file = schema["paths"]["/api/screenshots/{id}/file/"]
+        self.assertEqual(
+            screenshot_file["get"]["responses"]["200"]["content"][
+                "application/octet-stream"
+            ]["schema"],
+            {"type": "string", "format": "binary"},
+        )
+        self.assertEqual(
+            screenshot_file["post"]["responses"]["200"]["content"]["application/json"][
+                "schema"
+            ],
+            {"$ref": "#/components/schemas/BooleanResult"},
+        )
 
     def test_redoc(self) -> None:
         self.do_request("redoc")

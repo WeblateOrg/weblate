@@ -29,6 +29,7 @@ from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiParameter,
+    OpenApiResponse,
     extend_schema,
     extend_schema_view,
     inline_serializer,
@@ -65,12 +66,14 @@ from weblate.api.serializers import (
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
     BilingualUnitSerializer,
+    BooleanResultSerializer,
     CategorySerializer,
     ChangeSerializer,
     CommentSerializer,
     ComponentLinkRequestSerializer,
     ComponentListSerializer,
     ComponentSerializer,
+    ComponentTranslationSerializer,
     FullUserSerializer,
     GroupSerializer,
     LabelSerializer,
@@ -83,10 +86,12 @@ from weblate.api.serializers import (
     MetricsSerializer,
     MonolingualUnitSerializer,
     NotificationSerializer,
+    ProjectComponentSerializer,
     ProjectLockSerializer,
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
+    RepositoryOperationSerializer,
     RepositorySerializer,
     RoleSerializer,
     ScreenshotCreateSerializer,
@@ -100,6 +105,7 @@ from weblate.api.serializers import (
     UnitSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
+    UploadResultSerializer,
     UserStatisticsSerializer,
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
@@ -166,6 +172,15 @@ if TYPE_CHECKING:
 
     from weblate.api.serializers import NewUnitSerializer
     from weblate.auth.models import AuthenticatedHttpRequest
+
+COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
+    "ComponentLinkResponseSerializer",
+    fields={"data": ComponentSerializer()},
+)
+COMPONENT_TRANSLATION_RESPONSE_SERIALIZER = inline_serializer(
+    "ComponentTranslationResponseSerializer",
+    fields={"data": ComponentTranslationSerializer()},
+)
 
 REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
     "push": ("vcs.push", "do_push", (), {}, True),
@@ -271,6 +286,15 @@ def get_view_description(view, html=False):
     return description
 
 
+def binary_download_response_schema(description: str):
+    return {
+        (
+            HTTP_200_OK,
+            "application/octet-stream",
+        ): OpenApiResponse(response=OpenApiTypes.BINARY, description=description)
+    }
+
+
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: tuple[str, ...] = ()
     raw_formats: tuple[str, ...] = tuple(EXPORTERS)
@@ -337,7 +361,9 @@ class WeblateViewSet(DownloadViewSet):
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.", methods=["post"]
+        description="Perform given operation on the VCS repository.",
+        methods=["post"],
+        responses=RepositoryOperationSerializer,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -773,6 +799,7 @@ class UserViewSet(viewsets.ModelViewSet):
         description="List statistics of a user.",
         methods=["get"],
         tags=["users", "statistics"],
+        responses=UserStatisticsSerializer,
     )
     @action(
         detail=True,
@@ -790,6 +817,7 @@ class UserViewSet(viewsets.ModelViewSet):
         description="List translation contributions of a user.",
         methods=["get"],
         tags=["users", "contributions"],
+        responses=TranslationSerializer(many=True),
     )
     @action(
         detail=True,
@@ -1367,8 +1395,25 @@ class ProjectViewSet(
         return prefetch_project_flags(cast("list[Project]", page))
 
     @extend_schema(
+        description="Return information about VCS repository status.",
+        methods=["get"],
+        responses=RepositorySerializer,
+    )
+    @extend_schema(
+        description="Perform given operation on the VCS repository.",
+        methods=["post"],
+        responses=RepositoryOperationSerializer,
+    )
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
+    )
+    def repository(self, request: Request, **kwargs):
+        return super().repository(request, **kwargs)
+
+    @extend_schema(
         description="Return a list of translation components in the given project.",
         methods=["get"],
+        responses=ProjectComponentSerializer(many=True),
     )
     @extend_schema(
         description="Create translation components in the given project.",
@@ -1418,7 +1463,11 @@ class ProjectViewSet(
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Return categories for a project.", methods=["get"])
+    @extend_schema(
+        description="Return categories for a project.",
+        methods=["get"],
+        responses=CategorySerializer(many=True),
+    )
     @action(detail=True, methods=["get"])
     def categories(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1434,6 +1483,7 @@ class ProjectViewSet(
         description="Return statistics for a project.",
         methods=["get"],
         tags=["projects", "statistics"],
+        responses=StatisticsSerializer,
     )
     @action(
         detail=True,
@@ -1448,14 +1498,16 @@ class ProjectViewSet(
         return Response(serializer.data)
 
     @extend_schema(
-        description="Return paginated statistics for all languages within a project.",
+        description="Return statistics for all languages within a project.",
         methods=["get"],
         tags=["projects", "statistics"],
+        responses=StatisticsSerializer(many=True),
     )
     @action(
         detail=True,
         methods=["get"],
         renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+        pagination_class=None,
     )
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1466,7 +1518,11 @@ class ProjectViewSet(
 
         return Response(serializer.data)
 
-    @extend_schema(description="Return a list of project changes.", methods=["get"])
+    @extend_schema(
+        description="Return a list of project changes.",
+        methods=["get"],
+        responses=ChangeSerializer(many=True),
+    )
     @action(detail=True, methods=["get"])
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1480,8 +1536,17 @@ class ProjectViewSet(
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Return labels for a project.", methods=["get"])
-    @extend_schema(description="Create a label for a project.", methods=["post"])
+    @extend_schema(
+        description="Return labels for a project.",
+        methods=["get"],
+        responses=LabelSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a label for a project.",
+        methods=["post"],
+        request=LabelSerializer,
+        responses={HTTP_201_CREATED: LabelSerializer},
+    )
     @action(detail=True, methods=["get", "post"])
     def labels(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -1588,6 +1653,11 @@ class ProjectViewSet(
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        description="Download all translation files in the project.",
+        methods=["get"],
+        responses=binary_download_response_schema("Project translation download."),
+    )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
         instance = self.get_object()
@@ -1620,6 +1690,9 @@ class ProjectViewSet(
             "language."
         ),
         methods=["get"],
+        responses=binary_download_response_schema(
+            "Project translation download for a specific language."
+        ),
         parameters=[
             OpenApiParameter(
                 name="language_code",
@@ -1767,8 +1840,16 @@ class ProjectViewSet(
             status=HTTP_200_OK,
         )
 
-    @extend_schema(description="Return project lock status.", methods=["get"])
-    @extend_schema(description="Sets project lock status.", methods=["post"])
+    @extend_schema(
+        description="Return project lock status.",
+        methods=["get"],
+        responses=ProjectLockSerializer,
+    )
+    @extend_schema(
+        description="Sets project lock status.",
+        methods=["post"],
+        responses=ProjectLockSerializer,
+    )
     @action(
         detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
     )
@@ -1843,8 +1924,32 @@ class ComponentViewSet(
     def perform_update(self, serializer) -> None:
         serializer.save()
 
-    @extend_schema(description="Return component lock status.", methods=["get"])
-    @extend_schema(description="Sets component lock status.", methods=["post"])
+    @extend_schema(
+        description="Return information about VCS repository status.",
+        methods=["get"],
+        responses=RepositorySerializer,
+    )
+    @extend_schema(
+        description="Perform given operation on the VCS repository.",
+        methods=["post"],
+        responses=RepositoryOperationSerializer,
+    )
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
+    )
+    def repository(self, request: Request, **kwargs):
+        return super().repository(request, **kwargs)
+
+    @extend_schema(
+        description="Return component lock status.",
+        methods=["get"],
+        responses=LockSerializer,
+    )
+    @extend_schema(
+        description="Sets component lock status.",
+        methods=["post"],
+        responses=LockSerializer,
+    )
     @action(
         detail=True, methods=["get", "post"], serializer_class=LockRequestSerializer
     )
@@ -1863,7 +1968,9 @@ class ComponentViewSet(
         return Response(data=LockSerializer(obj).data)
 
     @extend_schema(
-        description="Download base file for monolingual translations.", methods=["get"]
+        description="Download base file for monolingual translations.",
+        methods=["get"],
+        responses=binary_download_response_schema("Monolingual base file download."),
     )
     @action(detail=True, methods=["get"])
     def monolingual_base(self, request: Request, **kwargs):
@@ -1878,7 +1985,11 @@ class ComponentViewSet(
         )
 
     @extend_schema(
-        description="Download template file for new translations.", methods=["get"]
+        description="Download template file for new translations.",
+        methods=["get"],
+        responses=binary_download_response_schema(
+            "Template download for new translations."
+        ),
     )
     @action(detail=True, methods=["get"])
     def new_template(self, request: Request, **kwargs):
@@ -1893,11 +2004,15 @@ class ComponentViewSet(
     @extend_schema(
         description="Return a list of translation objects in the given component.",
         methods=["get"],
+        responses=ComponentTranslationSerializer(many=True),
     )
     @extend_schema(
         description="Create a new translation in the given component.",
         methods=["post"],
         request=TranslationCreateSerializer,
+        responses={
+            HTTP_201_CREATED: COMPONENT_TRANSLATION_RESPONSE_SERIALIZER,
+        },
     )
     @action(detail=True, methods=["get", "post"])
     def translations(self, request: Request, **kwargs):
@@ -2000,27 +2115,31 @@ class ComponentViewSet(
         description="Return paginated statistics for all translations within component.",
         methods=["get"],
         tags=["components", "statistics"],
+        responses=StatisticsSerializer(many=True),
     )
     @action(
         detail=True,
         methods=["get"],
         renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, FlatJsonRenderer),
+        pagination_class=LargePagination,
     )
     def statistics(self, request: Request, **kwargs):
         obj = self.get_object()
 
         queryset = obj.translation_set.all().prefetch_meta().order_by("id")
-
-        paginator = LargePagination()
-        page = paginator.paginate_queryset(queryset, request, view=self)
+        page = self.paginate_queryset(queryset)
 
         serializer = StatisticsSerializer(
             prefetch_stats(page), many=True, context={"request": request}
         )
 
-        return paginator.get_paginated_response(serializer.data)
+        return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Return a list of component changes.", methods=["get"])
+    @extend_schema(
+        description="Return a list of component changes.",
+        methods=["get"],
+        responses=ChangeSerializer(many=True),
+    )
     @action(detail=True, methods=["get"])
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -2035,7 +2154,9 @@ class ComponentViewSet(
         return self.get_paginated_response(serializer.data)
 
     @extend_schema(
-        description="Return a list of component screenshots.", methods=["get"]
+        description="Return a list of component screenshots.",
+        methods=["get"],
+        responses=ScreenshotSerializer(many=True),
     )
     @action(detail=True, methods=["get"])
     def screenshots(self, request: Request, **kwargs):
@@ -2085,9 +2206,16 @@ class ComponentViewSet(
         )
 
     @extend_schema(
-        description="Return projects linked with a component.", methods=["get"]
+        description="Return projects linked with a component.",
+        methods=["get"],
+        responses=ProjectSerializer(many=True),
     )
-    @extend_schema(description="Associate project with a component.", methods=["post"])
+    @extend_schema(
+        description="Associate project with a component.",
+        methods=["post"],
+        request=ComponentLinkRequestSerializer,
+        responses={HTTP_201_CREATED: COMPONENT_LINK_RESPONSE_SERIALIZER},
+    )
     @action(detail=True, methods=["get", "post"])
     def links(self, request: Request, **kwargs):
         instance = self.get_object()
@@ -2120,6 +2248,11 @@ class ComponentViewSet(
             raise Http404(msg)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        description="Download all translation files in the component.",
+        methods=["get"],
+        responses=binary_download_response_schema("Component translation download."),
+    )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
         # Implementation is analogous to files#download_component, but we can't reuse
@@ -2393,6 +2526,22 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 processed.add(project.id)
         return result
 
+    @extend_schema(
+        description="Return information about VCS repository status.",
+        methods=["get"],
+        responses=RepositorySerializer,
+    )
+    @extend_schema(
+        description="Perform given operation on the VCS repository.",
+        methods=["post"],
+        responses=RepositoryOperationSerializer,
+    )
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
+    )
+    def repository(self, request: Request, **kwargs):
+        return super().repository(request, **kwargs)
+
     def get_translation_file_response(
         self, request: Request, obj: Translation, user: User
     ) -> HttpResponse:
@@ -2419,7 +2568,16 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 raise ValidationError({"format": str(error)}) from error
             raise
 
-    @extend_schema(description="Upload new file with translations.", methods=["post"])
+    @extend_schema(
+        description="Download translation file.",
+        methods=["get"],
+        responses=binary_download_response_schema("Translation file download."),
+    )
+    @extend_schema(
+        description="Upload new file with translations.",
+        methods=["post", "put"],
+        responses=UploadResultSerializer,
+    )
     @action(
         detail=True,
         methods=["get", "put", "post"],
@@ -2527,6 +2685,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         description="Return detailed translation statistics.",
         methods=["get"],
         tags=["translations", "statistics"],
+        responses=StatisticsSerializer,
     )
     @action(
         detail=True,
@@ -2540,7 +2699,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return Response(serializer.data)
 
-    @extend_schema(description="Return a list of translation changes.", methods=["get"])
+    @extend_schema(
+        description="Return a list of translation changes.",
+        methods=["get"],
+        responses=ChangeSerializer(many=True),
+    )
     @action(detail=True, methods=["get"])
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -2553,8 +2716,16 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Return a list of translation units.", methods=["get"])
-    @extend_schema(description="Add a new unit.", methods=["post"])
+    @extend_schema(
+        description="Return a list of translation units.",
+        methods=["get"],
+        responses=UnitSerializer(many=True),
+    )
+    @extend_schema(
+        description="Add a new unit.",
+        methods=["post"],
+        responses={HTTP_200_OK: UnitSerializer},
+    )
     @action(detail=True, methods=["get", "post"])
     def units(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -2698,6 +2869,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
         description="Return statistics for a language.",
         methods=["get"],
         tags=["languages", "statistics"],
+        responses=StatisticsSerializer,
     )
     @action(
         detail=True,
@@ -2931,8 +3103,16 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def get_queryset(self):
         return Screenshot.objects.filter_access(self.request.user).order_by("id")
 
-    @extend_schema(description="Download the screenshot image.", methods=["get"])
-    @extend_schema(description="Replace screenshot image.", methods=["post"])
+    @extend_schema(
+        description="Download the screenshot image.",
+        methods=["get"],
+        responses=binary_download_response_schema("Screenshot image download."),
+    )
+    @extend_schema(
+        description="Replace screenshot image.",
+        methods=["post", "put"],
+        responses=BooleanResultSerializer,
+    )
     @action(
         detail=True,
         methods=["get", "put", "post"],
@@ -3257,6 +3437,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         description="""Return statistics for a category.""",
         methods=["get"],
         tags=["categories", "statistics"],
+        responses=StatisticsSerializer,
     )
     @action(
         detail=True,
