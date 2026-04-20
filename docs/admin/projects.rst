@@ -200,11 +200,12 @@ Autoclean translation memory
 
 .. versionadded:: 5.13
 
-Whether to automatically remove outdated and obsolete entries from translation memory.
+Whether to replace older automatically created translation memory entries when a
+translation becomes active.
 
-.. note::
-
-   This does not affect manually uploaded memory entries.
+Matching is based on the same source string, component, context, and
+source/target language pair. Uploaded translation memory files are not
+affected.
 
 .. seealso::
 
