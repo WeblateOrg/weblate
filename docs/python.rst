@@ -33,7 +33,7 @@ The Python API is shipped separately, you need to install the
 :class:`Weblate`
 ----------------
 
-.. class:: Weblate(key='', url=None, config=None)
+.. class:: Weblate(key='', url=None, config=None, retries=0, status_forcelist=None, allowed_methods=None, backoff_factor=0, timeout=300)
 
     :param key: User key
     :type key: str
@@ -41,6 +41,16 @@ The Python API is shipped separately, you need to install the
     :type url: str
     :param config: Configuration object, overrides any other parameters.
     :type config: wlc.config.WeblateConfig
+    :param retries: Total number of HTTP retries.
+    :type retries: int
+    :param status_forcelist: HTTP status codes that should trigger retries.
+    :type status_forcelist: list
+    :param allowed_methods: HTTP methods that may be retried.
+    :type allowed_methods: list
+    :param backoff_factor: Retry backoff factor passed to urllib3.
+    :type backoff_factor: float
+    :param timeout: HTTP request timeout in seconds.
+    :type timeout: int
 
     Access class to the API, define API key and optionally API URL.
 
@@ -83,9 +93,11 @@ The Python API is shipped separately, you need to install the
         :param path: Path from which to load configuration.
         :type path: str
 
-        Loads configuration from a file, if none is specified, it loads from
-        the `wlc` configuration file (:file:`~/.config/wlc`) placed in your
-        XDG configuration path (:file:`/etc/xdg/wlc`).
+        Loads configuration from ``path`` when it is specified. Otherwise it
+        loads the discovered global configuration file and then the nearest
+        project configuration file (:file:`.weblate`,
+        :file:`.weblate.ini`, or :file:`weblate.ini`) from the current
+        directory or its parents.
 
 
 :mod:`wlc.main`
