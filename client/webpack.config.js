@@ -90,22 +90,12 @@ function bootstrapLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
 
-// REUSE-IgnoreStart
+
 function hotkeysLicenseTransform(packages) {
-  const pkg = packages.find((pkg) => pkg.name.startsWith("hotkeys-js"));
-  if (pkg) {
-    const author =
-      typeof pkg.author === "string"
-        ? pkg.author
-        : pkg.author?.email
-          ? `${pkg.author.name} <${pkg.author.email}>`
-          : pkg.author?.name
-            ? pkg.author.name
-            : "";
-    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
-  }
-  return "";
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("hotkeys-js"));
 }
+
+// REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
   const pkg = packages.find((pkgsItem) =>
     pkgsItem.name.startsWith("@tarekraafat/autocomplete.js"),
