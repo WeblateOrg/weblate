@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:cd392c7c-4f33-58fc-b193-501c66d2083f",
+  "serialNumber": "urn:uuid:8be38c8a-d86d-5d43-adbe-991e50a75e0d",
   "version": 1,
   "metadata": {
     "lifecycles": [
@@ -642,6 +642,53 @@
       ]
     },
     {
+      "bom-ref": "hotkeys-js@4.0.3",
+      "type": "library",
+      "name": "hotkeys-js",
+      "version": "4.0.3",
+      "scope": "required",
+      "author": "kenny wong",
+      "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
+      "purl": "pkg:npm/hotkeys-js@4.0.3",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/hotkeys-js"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/hotkeys-js/-/hotkeys-js-4.0.3.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jaywcjlove/hotkeys-js.git"
+        },
+        {
+          "type": "website",
+          "url": "https://jaywcjlove.github.io/hotkeys-js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jaywcjlove/hotkeys-js/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "69d2b71342865e2226f2b711867d891c4bc2573820e7852d1edb9fc4755633423de616a4cb19fcd1a5fa7b3d27c5511d6f3ce0adbf60da53092138454b24d215"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "jquery@3.7.1",
       "type": "library",
       "name": "jquery",
@@ -684,100 +731,6 @@
         {
           "license": {
             "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "mousetrap@1.6.5",
-      "type": "library",
-      "name": "mousetrap",
-      "version": "1.6.5",
-      "scope": "required",
-      "author": "Craig Campbell",
-      "description": "Simple library for handling keyboard shortcuts",
-      "purl": "pkg:npm/mousetrap@1.6.5",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mousetrap"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.6.5.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git://github.com/ccampbell/mousetrap.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/ccampbell/mousetrap#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/ccampbell/mousetrap/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "40da389047a9688070893f020e13fdf2e9937ada7e24d7d06015af0b5a5cebf38089bb97b51731679f10cfcb24bc41d8bd44677bfed1f13e55a0e23bac3b0450"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "mousetrap-global-bind@1.1.0",
-      "type": "library",
-      "name": "mousetrap-global-bind",
-      "version": "1.1.0",
-      "scope": "required",
-      "author": "Elvynia",
-      "description": "Mousetrap plugin for global bindings (works in input elements) with an additionnal unbindGlobal method.",
-      "purl": "pkg:npm/mousetrap-global-bind@1.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mousetrap-global-bind"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/mousetrap-global-bind/-/mousetrap-global-bind-1.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/Elvynia/mousetrap-global-bind.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/Elvynia/mousetrap-global-bind#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/Elvynia/mousetrap-global-bind/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "01fc4a07439873fc14eba1369f61d771998a1eb7793bfea611db52ad902ddedb0ca9ca5ca58028950763eb4d8bd1282b3f7f27726ffa88ea71afd4881a0c4ea5"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0"
           }
         }
       ]
@@ -981,9 +934,8 @@
         "altcha@2.3.0",
         "autosize@6.0.1",
         "bootstrap@5.3.8",
+        "hotkeys-js@4.0.3",
         "jquery@3.7.1",
-        "mousetrap@1.6.5",
-        "mousetrap-global-bind@1.1.0",
         "multi.js@0.5.3",
         "prismjs@1.30.0",
         "slugify@1.6.9",
@@ -1064,18 +1016,12 @@
       ]
     },
     {
+      "ref": "hotkeys-js@4.0.3",
+      "dependsOn": []
+    },
+    {
       "ref": "jquery@3.7.1",
       "dependsOn": []
-    },
-    {
-      "ref": "mousetrap@1.6.5",
-      "dependsOn": []
-    },
-    {
-      "ref": "mousetrap-global-bind@1.1.0",
-      "dependsOn": [
-        "mousetrap@1.6.5"
-      ]
     },
     {
       "ref": "multi.js@0.5.3",
