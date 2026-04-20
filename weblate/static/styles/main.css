@@ -646,6 +646,9 @@ form + .login-label {
 
 .history-data {
   padding-bottom: 4px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .history-event ol,
@@ -667,6 +670,10 @@ form + .login-label {
   overflow-wrap: anywhere;
   white-space: normal;
 }
+.comment-content pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 .comment-content blockquote {
   border-left: 5px solid #ddd;
 }
@@ -687,6 +694,9 @@ form + .login-label {
 #changes-table {
   margin-top: 40px;
   width: 100%;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 #changes-list {
