@@ -23,6 +23,7 @@ jobs:
       with:
         persist-credentials: false
     - name: Enable Pull Request Automerge
-      run: gh pr merge --rebase --auto "${{ github.event.pull_request.number }}"
+      run: gh pr merge --rebase --auto "$PR_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        PR_NUMNBER: ${{ github.event.pull_request.number }}
