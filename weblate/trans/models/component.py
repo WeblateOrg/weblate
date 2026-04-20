@@ -2657,6 +2657,7 @@ class Component(  # noqa: PLR0904
     ) -> bool:
         from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
+        pending: list[PendingUnitChange] = []
         for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
@@ -2664,7 +2665,18 @@ class Component(  # noqa: PLR0904
             Q(translation__language_id=F("translation__component__source_language_id"))
             | Q(translation__filename="")
         ):
-            PendingUnitChange.store_unit_change(unit, store_disk_state=store_disk_state)
+            pending.append(
+                PendingUnitChange.store_unit_change(
+                    unit, store_disk_state=store_disk_state, save=False
+                )
+            )
+            if len(pending) > 1000:
+                PendingUnitChange.objects.bulk_create(pending)
+                pending.clear()
+
+        if pending:
+            PendingUnitChange.objects.bulk_create(pending)
+            pending.clear()
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,
