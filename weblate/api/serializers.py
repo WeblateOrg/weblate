@@ -22,7 +22,11 @@ from drf_spectacular.utils import (
     extend_schema_serializer,
     inline_serializer,
 )
-from drf_standardized_errors.openapi_serializers import ServerErrorEnum
+from drf_standardized_errors.openapi_serializers import (
+    ClientErrorEnum,
+    ServerErrorEnum,
+    ValidationErrorEnum,
+)
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 
@@ -2563,12 +2567,66 @@ def edit_service_settings_response_serializer(
                 "message": serializers.CharField(),
             },
         ),
-        400: inline_serializer(
-            f"{method}_400_Error_message_serializer",
-            fields={"errors": serializers.CharField()},
-        ),
+        400: ErrorResponse400Serializer,
     }
     return {code: serializers_[code] for code in codes}
+
+
+class ErrorResponse400TypeEnum(models.TextChoices):
+    VALIDATION_ERROR = ValidationErrorEnum.VALIDATION_ERROR.value
+    CLIENT_ERROR = ClientErrorEnum.CLIENT_ERROR.value
+
+
+ERROR_CODE_400_EXAMPLES = (
+    "blank",
+    "date",
+    "datetime",
+    "does_not_exist",
+    "empty",
+    "incorrect_match",
+    "incorrect_type",
+    "invalid",
+    "invalid_choice",
+    "invalid_image",
+    "invalid_list",
+    "make_aware",
+    "max_length",
+    "max_string_length",
+    "max_value",
+    "min_value",
+    "no_match",
+    "no_name",
+    "not_a_list",
+    "null",
+    "null_characters_not_allowed",
+    "overflow",
+    "parse_error",
+    "required",
+    "surrogate_characters_not_allowed",
+    "unique",
+)
+
+
+@extend_schema_field(
+    {
+        "type": "string",
+        "description": "Error code. The examples list common validation and parse error codes.",
+        "examples": list(ERROR_CODE_400_EXAMPLES),
+    }
+)
+class ErrorCode400Field(serializers.CharField):
+    pass
+
+
+class Error400Serializer(serializers.Serializer):
+    code = ErrorCode400Field()
+    detail = serializers.CharField()
+    attr = serializers.CharField(allow_null=True)
+
+
+class ErrorResponse400Serializer(serializers.Serializer):
+    type = serializers.ChoiceField(choices=ErrorResponse400TypeEnum.choices)
+    errors = Error400Serializer(many=True)
 
 
 class ErrorCode423Enum(models.TextChoices):
