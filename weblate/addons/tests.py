@@ -30,8 +30,9 @@ from django.core.management.commands.makemessages import (
     Command as DjangoMakemessagesCommand,
 )
 from django.core.management.utils import find_command
+from django.db import connection
 from django.test import SimpleTestCase, TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
@@ -112,7 +113,7 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
+from .models import ADDONS, Addon, AddonActivityLog, Event, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -237,6 +238,22 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def create_change_addon(self, **kwargs) -> Addon:
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+            addon = Addon.objects.create(name=NoOpAddon.name, **kwargs)
+        Event.objects.create(addon=addon, event=AddonEvent.EVENT_CHANGE)
+        return addon
+
+    def create_addon_change(self, component: Component | None = None) -> Change:
+        component = component or self.component
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+            return Change.objects.create(
+                action=ActionEvents.CHANGE,
+                category=component.category,
+                component=component,
+                project=component.project,
+            )
+
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
@@ -284,6 +301,50 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
+
+    def test_addon_change_does_not_prefetch_all_addon_components(self) -> None:
+        other_component = self.create_po_new_base(
+            name="Other component",
+            slug="other-component",
+            project=self.project,
+        )
+        skipped_addon = self.create_change_addon(component=other_component)
+        project_addon = self.create_change_addon(project=self.project)
+        change = self.create_addon_change()
+        AddonActivityLog.objects.all().delete()
+
+        with CaptureQueriesContext(connection) as queries:
+            addon_change.run([change.pk])
+
+        self.assertEqual(12, len(queries), [query["sql"] for query in queries])
+        component_queries = [
+            query["sql"]
+            for query in queries
+            if 'FROM "trans_component"' in query["sql"]
+        ]
+        self.assertEqual(1, len(component_queries), component_queries)
+        self.assertFalse(AddonActivityLog.objects.filter(addon=skipped_addon).exists())
+        self.assertTrue(AddonActivityLog.objects.filter(addon=project_addon).exists())
+
+    def test_addon_change_matches_ancestor_category_addon(self) -> None:
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            category=parent,
+            name="Child category",
+            project=self.project,
+            slug="child-category",
+        )
+        self.component.category = child
+        self.component.save()
+        addon = self.create_change_addon(category=parent)
+        change = self.create_addon_change()
+        AddonActivityLog.objects.all().delete()
+
+        with CaptureQueriesContext(connection) as queries:
+            addon_change.run([change.pk])
+
+        self.assertEqual(15, len(queries), [query["sql"] for query in queries])
+        self.assertTrue(AddonActivityLog.objects.filter(addon=addon).exists())
 
     def test_manual_returns_component_result(self) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)

@@ -273,9 +273,18 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
     This task retrieves add-ons that are subscribed to change events and
     applies the change event to each relevant add-on.
     """
-    addons = Addon.objects.filter(
-        event__event=AddonEvent.EVENT_CHANGE
-    ).prefetch_related("component", "category", "project")
+    addons = list(Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE))
+    category_ids_cache: dict[int | None, set[int]] = {None: set()}
+
+    def get_category_ids(change: Change) -> set[int]:
+        if change.category_id not in category_ids_cache:
+            category = change.category
+            category_ids: set[int] = set()
+            while category is not None:
+                category_ids.add(category.pk)
+                category = category.category
+            category_ids_cache[change.category_id] = category_ids
+        return category_ids_cache[change.category_id]
 
     for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
         change.fill_in_prefetched()
@@ -283,15 +292,15 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
         change_addons = [
             addon
             for addon in addons
-            if (not addon.component or addon.component == change.component)
-            and (not addon.project or addon.project == change.project)
+            if (addon.component_id is None or addon.component_id == change.component_id)
+            and (addon.project_id is None or addon.project_id == change.project_id)
             and (
-                not addon.category
+                addon.category_id is None
                 or (
-                    change.component is not None
                     # to ensure that addons configured on ancestor categories
                     # are also considered
-                    and change.component.pk in addon.category.all_component_ids
+                    change.component_id is not None
+                    and addon.category_id in get_category_ids(change)
                 )
             )
             and addon.addon.check_change_action(change)
