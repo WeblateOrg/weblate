@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, cast
 
 from django.conf import settings
 from django.utils import timezone
@@ -20,9 +20,12 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate, auto_translate_component
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
 
+    from weblate.addons.base import AddonConfigurationValue
     from weblate.trans.models import Change
 
 SKIP_ACTIONS = {ActionEvents.AUTO, ActionEvents.ENFORCED_CHECK}
@@ -78,8 +81,8 @@ class AutoTranslateAddon(
 
     def get_settings_form_data(
         self,
-    ) -> AutoTranslateAddonStoredConfiguration | AutoTranslateAddonConfiguration:
-        return self.get_configuration()
+    ) -> Mapping[str, AddonConfigurationValue]:
+        return cast("Mapping[str, AddonConfigurationValue]", self.get_configuration())
 
     def normalize_configuration(
         self, configuration: AutoTranslateAddonStoredConfiguration
