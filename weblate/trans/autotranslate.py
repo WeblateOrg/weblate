@@ -143,7 +143,12 @@ class AutoTranslate(BaseAutoTranslate):
         max_length = unit.get_max_length()
         if self.mode == "suggest" or any(len(item) > max_length for item in target):
             suggestion = Suggestion.objects.add(
-                unit, target, request=None, vote=False, user=user, raise_exception=False
+                unit,
+                target,
+                request=None,
+                vote=False,
+                user=user or self.user,
+                raise_exception=False,
             )
             if suggestion:
                 self.updated += 1

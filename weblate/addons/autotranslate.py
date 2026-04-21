@@ -73,6 +73,8 @@ class AutoTranslateAddon(
     settings_form = AutoAddonForm
     multiple = True
     icon = "language.svg"
+    user_name = "autotranslate"
+    user_verbose = "Automatic translation add-on"
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
@@ -129,6 +131,7 @@ class AutoTranslateAddon(
     ) -> None:
         conf = self.get_configuration()
         source_component_id = conf["component"]
+        task_user_id = self.get_task_user_id(conf["auto_source"], user_id)
         if component is None:
             auto_translate.delay_on_commit(
                 mode=conf["mode"],
@@ -137,7 +140,7 @@ class AutoTranslateAddon(
                 engines=conf["engines"],
                 threshold=conf["threshold"],
                 source_component_id=source_component_id,
-                user_id=user_id,
+                user_id=task_user_id,
                 unit_ids=unit_ids,
                 translation_id=translation_id,
             )
@@ -150,7 +153,15 @@ class AutoTranslateAddon(
                 engines=conf["engines"],
                 threshold=conf["threshold"],
                 source_component_id=source_component_id,
+                user_id=task_user_id,
             )
+
+    def get_task_user_id(
+        self, auto_source: Literal["mt", "others"], user_id: int | None
+    ) -> int | None:
+        if user_id is not None or auto_source == "mt":
+            return user_id
+        return self.user.id
 
     def daily_component(
         self,

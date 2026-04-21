@@ -724,11 +724,13 @@ def auto_translate_component(
     engines: list[str],
     threshold: int,
     source_component_id: int | None = None,
+    user_id: int | None = None,
 ):
     component_obj = Component.objects.get(pk=component_id)
+    user = User.objects.get(pk=user_id) if user_id else None
     auto = BatchAutoTranslate(
         component_obj,
-        user=None,
+        user=user,
         q=q,
         mode=mode,
         component_wide=True,
