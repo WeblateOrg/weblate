@@ -41,6 +41,7 @@ Weblate 5.17.1
 * Monolingual component validation now honors :ref:`component-source_language` when checking duplicate files alongside a separate :ref:`component-template`.
 * The OpenAPI schema now describes action endpoints with their actual list, statistics, status, upload, and download response payloads.
 * Project listings now show review progress columns when any listed project has reviews enabled.
+* The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
 
 .. rubric:: Compatibility
 

@@ -273,6 +273,28 @@ class AlertTest(ViewTestCase):
         self.assertEqual(alert.details["files"], ["alert-base.pot"])
 
 
+class NoMaskMatchesAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_rescan_adds_alert_when_mask_and_new_base_missing(self) -> None:
+        self.assertFalse(self.component.alert_set.filter(name="NoMaskMatches").exists())
+
+        for filename in Path(self.component.full_path, "po").glob("*.po"):
+            filename.unlink(missing_ok=True)
+        Path(cast("str", self.component.get_new_base_filename())).unlink(
+            missing_ok=True
+        )
+
+        self.component.create_translations_immediate(force=True)
+
+        translations = list(
+            self.component.translation_set.values_list("language_code", "filename")
+        )
+        self.assertEqual(translations, [("en", "po/hello.pot")])
+        self.assertTrue(self.component.alert_set.filter(name="NoMaskMatches").exists())
+
+
 class AlertQueryPrefetchTest(ViewTestCase):
     def test_project_repo_components_prefetch_all_alerts(self) -> None:
         self._create_component(

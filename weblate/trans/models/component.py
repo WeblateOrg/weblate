@@ -3487,9 +3487,7 @@ class Component(  # noqa: PLR0904
 
         # Update import alerts
         self.update_import_alerts()
-        # Clean no matches alert if there are translations:
-        if translations:
-            self.delete_alert("NoMaskMatches")
+        update_alerts(self, {"NoMaskMatches"})
 
         # Process linked repos
         for pos, component in enumerate(self.linked_children):
