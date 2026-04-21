@@ -3,7 +3,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 (() => {
-  hotkeys("shift+/", (event) => {
+  // Match the "?" character directly rather than binding via hotkeys-js
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "?") {
+      return;
+    }
     const target = event.target || event.srcElement;
     const tagName = target.tagName.toLowerCase();
     if (
