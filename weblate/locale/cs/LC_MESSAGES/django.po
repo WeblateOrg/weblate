@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-21 08:19+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2026-04-22 10:10+0000\n"
+"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -222,6 +222,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Ponechte povolené pro odvolání aktuálního klíče API a vygenerování nového. "
+"Toto doporučujeme provést, pokud máte podezření, že vaše heslo bylo "
+"kompromitováno. Zakažte pro ponechání aktivního aktuálního klíče po změně "
+"vašeho hesla."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -596,10 +600,9 @@ msgid "User was disabled because the access has expired."
 msgstr "Uživatel byl zakázán, protože přístup vypršel."
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "Uživatel byl přidán do týmu {team} uživatelem {username}."
+msgstr "Uživatel byl přidán do globálního týmu {team} uživatelem {username}."
 
 #: weblate/accounts/models.py:317
 #, fuzzy, python-brace-format
