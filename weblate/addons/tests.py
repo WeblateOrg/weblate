@@ -123,6 +123,7 @@ from .tasks import (
     daily_addons,
     language_consistency,
     run_addon_manually,
+    update_addon_activity_log,
 )
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
@@ -5654,6 +5655,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
             component=self.component,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5677,11 +5679,43 @@ class AutoTranslateAddonTest(ComponentTestCase):
             threshold=80,
             source_component_id=None,
             user_id=None,
+            activity_log_id=None,
+        )
+
+    def test_auto_passes_activity_log_id(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component, activity_log_id=123)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=None,
+            activity_log_id=123,
         )
 
     def test_auto_others_component_uses_addon_user(self) -> None:
         addon = AutoTranslateAddon.create(
             component=self.component,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5705,11 +5739,13 @@ class AutoTranslateAddonTest(ComponentTestCase):
             threshold=80,
             source_component_id=None,
             user_id=addon.user.id,
+            activity_log_id=None,
         )
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
         addon = AutoTranslateAddon.create(
             project=self.project,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5739,7 +5775,92 @@ class AutoTranslateAddonTest(ComponentTestCase):
             user_id=self.user.id,
             unit_ids=[1, 2],
             translation_id=self.translation.id,
+            activity_log_id=None,
         )
+
+    def test_render_activity_log_formats_task_result(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        activity = AddonActivityLog(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            details={
+                "result": {
+                    "message": "Automatic translation completed.",
+                    "warnings": ["<unsafe warning>"],
+                }
+            },
+        )
+
+        rendered = str(addon.render_activity_log(activity))
+
+        self.assertIn("Automatic translation completed.", rendered)
+        self.assertIn('class="text-warning mt-2"', rendered)
+        self.assertIn("&lt;unsafe warning&gt;", rendered)
+
+    def test_activity_log_keeps_repeated_task_results_structured(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        activity = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            pending=True,
+        )
+
+        update_addon_activity_log(
+            activity.id,
+            {"message": "First automatic translation completed.", "warnings": []},
+        )
+        update_addon_activity_log(
+            activity.id,
+            {
+                "message": "Second automatic translation completed.",
+                "warnings": ["<unsafe warning>"],
+            },
+            pending=False,
+        )
+
+        activity.refresh_from_db()
+        result = activity.details["result"]
+        self.assertIsInstance(result, dict)
+        self.assertEqual(len(result["results"]), 2)
+        self.assertEqual(
+            result["results"][0]["message"],
+            "First automatic translation completed.",
+        )
+        self.assertEqual(
+            result["results"][1]["message"],
+            "Second automatic translation completed.",
+        )
+        self.assertFalse(activity.pending)
+
+        rendered = str(addon.render_activity_log(activity))
+
+        self.assertIn("First automatic translation completed.", rendered)
+        self.assertIn("Second automatic translation completed.", rendered)
+        self.assertIn("&lt;unsafe warning&gt;", rendered)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_auto_change_event(self) -> None:
@@ -5839,6 +5960,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             user_id=1,
             unit_ids=[3, 4],
             translation_id=2,
+            activity_log_id=None,
         )
 
     def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
@@ -5870,6 +5992,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             threshold=80,
             source_component_id=None,
             user_id=None,
+            activity_log_id=None,
         )
 
     def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:

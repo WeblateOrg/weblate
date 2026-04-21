@@ -23,6 +23,7 @@ Weblate 5.17.1
 * Project website and repository browser URL alerts now show validation errors more clearly.
 * Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
 * Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
+* :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
 
 .. rubric:: Bug fixes
 
