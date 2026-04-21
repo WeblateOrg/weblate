@@ -115,75 +115,73 @@
       });
     });
 
-    hotkeys("alt+end", (e) => {
-      e.preventDefault();
+    hotkeys("alt+end", () => {
       const button = document.getElementById("button-end");
       if (button?.href) {
         window.location = button.href;
       }
+      return false;
     });
-    hotkeys("alt+pagedown,ctrl+down,command+down,alt+down", (e) => {
-      e.preventDefault();
+    hotkeys("alt+pagedown,ctrl+down,command+down,alt+down", () => {
       const button = document.getElementById("button-next");
       if (button?.href) {
         window.location = button.href;
       }
+      return false;
     });
-    hotkeys("alt+pageup,ctrl+up,command+up,alt+up", (e) => {
-      e.preventDefault();
+    hotkeys("alt+pageup,ctrl+up,command+up,alt+up", () => {
       const button = document.getElementById("button-prev");
       if (button?.href) {
         window.location = button.href;
       }
+      return false;
     });
-    hotkeys("alt+home", (e) => {
-      e.preventDefault();
+    hotkeys("alt+home", () => {
       const button = document.getElementById("button-first");
       if (button?.href) {
         window.location = button.href;
       }
+      return false;
     });
-    hotkeys("ctrl+o,command+o", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+o,command+o", () => {
       document
         .querySelector(".source-language-group [data-clone-value]")
         ?.click();
+      return false;
     });
-    hotkeys("ctrl+y,command+y", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+y,command+y", () => {
       document.querySelector('input[name="fuzzy"]')?.click();
+      return false;
     });
     hotkeys("ctrl+shift+enter,command+shift+enter", (e) => {
-      e.preventDefault();
       const fuzzy = document.querySelector('input[name="fuzzy"]');
       if (fuzzy) fuzzy.checked = false;
-      submitForm(e);
+      return submitForm(e);
     });
     hotkeys("alt+enter", (e) => {
-      e.preventDefault();
-      submitForm(e, null, 'button[name="suggest"]');
+      return submitForm(e, null, 'button[name="suggest"]');
     });
-    hotkeys("ctrl+e,command+e", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+e,command+e", () => {
       this.$translationArea.get(0).focus();
+      return false;
     });
-    hotkeys("ctrl+s,command+s", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+s,command+s", () => {
       document.getElementById("search-dropdown")?.click();
       document.querySelector('textarea[name="q"]')?.focus();
+      return false;
     });
-    hotkeys("ctrl+u,command+u", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+u,command+u", () => {
       document.querySelector('.nav [data-bs-target="#comments"]')?.click();
       document.querySelector('textarea[name="comment"]')?.focus();
+      return false;
     });
-    hotkeys("ctrl+j,command+j", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+j,command+j", () => {
       document.querySelector('.nav [data-bs-target="#nearby"]')?.click();
+      return false;
     });
-    hotkeys("ctrl+m,command+m", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+m,command+m", () => {
       document.querySelector('.nav [data-bs-target="#machinery"]')?.click();
+      return false;
     });
   }
   FullEditor.prototype = Object.create(EditorBase.prototype);
@@ -399,15 +397,15 @@
       }
     });
 
-    hotkeys("ctrl+m,command+m", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+m,command+m", () => {
       _seqStart("machinery");
+      return false;
     });
 
     hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
       if (_seqMatch("machinery") && machineryActions[e.key]) {
-        e.preventDefault();
         machineryActions[e.key]();
+        return false;
       }
     });
   };
@@ -548,15 +546,15 @@
       }
     });
 
-    hotkeys("ctrl+i,command+i", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+i,command+i", () => {
       _seqStart("checks");
+      return false;
     });
 
     hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
       if (_seqMatch("checks") && checkActions[e.key]) {
-        e.preventDefault();
         checkActions[e.key]();
+        return false;
       }
     });
   };

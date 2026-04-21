@@ -67,16 +67,15 @@
       }
     });
 
-    hotkeys("ctrl+end,command+end", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+end,command+end", () => {
       $(".zen-unit:last").find(".translation-editor:first").focus();
+      return false;
     });
-    hotkeys("ctrl+home,command+home", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+home,command+home", () => {
       $(".zen-unit:first").find(".translation-editor:first").focus();
+      return false;
     });
-    hotkeys("ctrl+pagedown,command+pagedown", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+pagedown,command+pagedown", () => {
       const focus = $(":focus");
 
       if (focus.length === 0) {
@@ -88,9 +87,9 @@
           .find(".translation-editor:first")
           .focus();
       }
+      return false;
     });
-    hotkeys("ctrl+pageup,command+pageup", (e) => {
-      e.preventDefault();
+    hotkeys("ctrl+pageup,command+pageup", () => {
       const focus = $(":focus");
 
       if (focus.length === 0) {
@@ -102,6 +101,7 @@
           .find(".translation-editor:first")
           .focus();
       }
+      return false;
     });
 
     $window.on("beforeunload", () => {

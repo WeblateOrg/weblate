@@ -167,8 +167,7 @@ function submitForm(evt, _combo, selector) {
   return false;
 }
 hotkeys("ctrl+enter,command+enter", (e) => {
-  e.preventDefault();
-  submitForm(e);
+  return submitForm(e);
 });
 
 function screenshotStart() {

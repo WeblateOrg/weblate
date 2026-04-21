@@ -240,9 +240,7 @@ WLT.Editor = (() => {
 
     /* and shortcuts */
     for (let i = 1; i < 10; i++) {
-      hotkeys(`ctrl+${i},command+${i}`, (e) => {
-        e.preventDefault();
-      });
+      hotkeys(`ctrl+${i},command+${i}`, () => false);
     }
 
     const $hlCheck = $(hlSelector);
@@ -262,9 +260,9 @@ WLT.Editor = (() => {
           $this.attr("title", title);
           $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
-          hotkeys(`ctrl+${key},command+${key}`, (e) => {
-            e.preventDefault();
+          hotkeys(`ctrl+${key},command+${key}`, () => {
             $this.click();
+            return false;
           });
         } else {
           $this.find(hlNumberSelector).html("");
