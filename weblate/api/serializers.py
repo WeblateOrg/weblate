@@ -2511,6 +2511,37 @@ class MetricsSerializer(ReadOnlySerializer):
         return result
 
 
+class SearchResultSerializer(ReadOnlySerializer):
+    url = serializers.CharField()
+    name = serializers.CharField()
+    category = serializers.CharField()
+
+
+TASK_RESULT_SCHEMA = {
+    "oneOf": [
+        {"type": "object", "additionalProperties": True},
+        {"type": "array", "items": {}},
+        {"type": "string"},
+        {"type": "number"},
+        {"type": "integer"},
+        {"type": "boolean"},
+        {"type": "null"},
+    ]
+}
+
+
+@extend_schema_field(TASK_RESULT_SCHEMA)
+class TaskResultField(serializers.JSONField):
+    pass
+
+
+class TaskSerializer(ReadOnlySerializer):
+    completed = serializers.BooleanField()
+    progress = serializers.IntegerField(min_value=0, max_value=100)
+    result = TaskResultField()
+    log = serializers.CharField(allow_blank=True)
+
+
 @extend_schema_serializer(
     examples=[
         OpenApiExample(

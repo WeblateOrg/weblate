@@ -20243,6 +20243,12 @@ paths:
     get:
       operationId: api_search_retrieve
       description: Return site-wide search results as a list.
+      parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Search query.
       tags:
       - search
       security:
@@ -20355,7 +20361,13 @@ paths:
                       attr: null
           description: ''
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+          description: ''
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -20500,7 +20512,11 @@ paths:
                       attr: null
           description: ''
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -31699,6 +31715,19 @@ components:
           format: uri
       required:
       - image
+    SearchResult:
+      type: object
+      properties:
+        url:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+      required:
+      - category
+      - name
+      - url
     ServerErrorEnum:
       enum:
       - server_error
@@ -31900,6 +31929,33 @@ components:
         * `20` - Translated
         * `30` - Approved
         * `100` - Read-only
+    Task:
+      type: object
+      properties:
+        completed:
+          type: boolean
+        progress:
+          type: integer
+          maximum: 100
+          minimum: 0
+        result:
+          oneOf:
+          - type: object
+            additionalProperties: true
+          - type: array
+            items: {}
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+          - type: 'null'
+        log:
+          type: string
+      required:
+      - completed
+      - log
+      - progress
+      - result
     Translation:
       type: object
       properties:
