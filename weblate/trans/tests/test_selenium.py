@@ -353,6 +353,54 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "inner",
         )
 
+    def test_hotkeys_global_is_attached(self) -> None:
+        """The hotkeys-js wrapper must expose the library on window."""
+        self.assertTrue(
+            self.driver.execute_script(
+                "return typeof window.hotkeys === 'function'"
+                " && typeof window.hotkeys.filter === 'function';"
+            )
+        )
+
+        # Why this test exists: the wrapper overrides hotkeys.filter to always
+        # return true so bindings still fire inside inputs and textareas
+        # (mousetrap-global-bind used to cover this). Dropping that override
+        # would silently break every in-editor shortcut.
+        self.driver.execute_script(
+            """
+            window.__hotkeyFired = 0;
+            window.hotkeys('ctrl+alt+b', (event) => {
+                window.__hotkeyFired += 1;
+                event.preventDefault();
+                return false;
+            });
+            const ta = document.createElement('textarea');
+            ta.id = '__hotkey_test_ta';
+            document.body.appendChild(ta);
+            ta.focus();
+            """
+        )
+        textarea = self.driver.find_element(By.ID, "__hotkey_test_ta")
+        (
+            self.actions.key_down(Keys.CONTROL)
+            .key_down(Keys.ALT)
+            .send_keys_to_element(textarea, "b")
+            .key_up(Keys.ALT)
+            .key_up(Keys.CONTROL)
+            .perform()
+        )
+        self.assertEqual(
+            self.driver.execute_script("return window.__hotkeyFired;"), 1
+        )
+
+        #Shift+/ on a non-input element opens the shortcuts help modal.
+        body = self.driver.find_element(By.TAG_NAME, "body")
+        self.actions.send_keys_to_element(body, "?").perform()
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: "show"
+            in driver.find_element(By.ID, "shortcuts-modal").get_attribute("class")
+        )
+
     def test_login(self) -> None:
         # Do proper login with new user
         self.do_login()
