@@ -123,6 +123,10 @@ def list_projects(request: AuthenticatedHttpRequest):
     else:
         show_form_errors(request, form)
 
+    show_review_columns = projects.filter(
+        Q(source_review=True) | Q(translation_review=True)
+    ).exists()
+
     return render(
         request,
         "projects.html",
@@ -138,6 +142,7 @@ def list_projects(request: AuthenticatedHttpRequest):
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
+            "show_review_columns": show_review_columns,
         },
     )
 

@@ -13,7 +13,7 @@ src/main/java/org/freeplane/ant/FormatTranslation.java
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, TypedDict
 
 from django.utils.translation import gettext_lazy
 
@@ -23,6 +23,7 @@ from weblate.addons.forms import PropertiesSortAddonForm
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
+    from weblate.trans.models import Translation
 
 SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
@@ -138,7 +139,20 @@ def format_file(filename: str, case_sensitive: bool) -> bool:
     return False
 
 
-class PropertiesSortAddon(BaseAddon):
+class PropertiesSortAddonStoredConfiguration(TypedDict, total=False):
+    case_sensitive: bool
+
+
+class PropertiesSortAddonConfiguration(TypedDict):
+    case_sensitive: bool
+
+
+class PropertiesSortAddon(
+    BaseAddon[
+        PropertiesSortAddonStoredConfiguration,
+        PropertiesSortAddonConfiguration,
+    ]
+):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
     }
@@ -153,12 +167,20 @@ class PropertiesSortAddon(BaseAddon):
 
     def pre_commit(
         self,
-        translation,
+        translation: Translation,
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
     ) -> None:
-        case_sensitive = self.instance.configuration.get("case_sensitive", False)
-        changed = format_file(translation.get_filename(), case_sensitive)
+        case_sensitive = self.configuration["case_sensitive"]
+        filename = translation.get_filename()
+        if filename is None:
+            return
+        changed = format_file(filename, case_sensitive)
         if changed and store_hash:
             translation.store_hash()
+
+    def normalize_configuration(
+        self, configuration: PropertiesSortAddonStoredConfiguration
+    ) -> PropertiesSortAddonConfiguration:
+        return {"case_sensitive": configuration.get("case_sensitive", False)}

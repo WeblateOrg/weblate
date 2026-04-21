@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django.db.models import F, Prefetch, Q
 from django.utils.translation import gettext_lazy
@@ -32,7 +32,14 @@ if TYPE_CHECKING:
     from weblate.utils.state import StringState
 
 
-class GenerateFileAddon(BaseAddon):
+class GenerateFileAddonConfiguration(TypedDict):
+    filename: str
+    template: str
+
+
+class GenerateFileAddon(
+    BaseAddon[GenerateFileAddonConfiguration, GenerateFileAddonConfiguration]
+):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
         AddonEvent.EVENT_INSTALL,
@@ -67,14 +74,11 @@ class GenerateFileAddon(BaseAddon):
         store_hash: bool,
         activity_log_id: int | None = None,
     ) -> None:
-        filename = self.render_repo_filename(
-            self.instance.configuration["filename"], translation
-        )
+        configuration = self.configuration
+        filename = self.render_repo_filename(configuration["filename"], translation)
         if not filename:
             return
-        content = render_template(
-            self.instance.configuration["template"], translation=translation
-        )
+        content = render_template(configuration["template"], translation=translation)
         Path(filename).write_text(content, encoding="utf-8")
         # For pre_commit hook
         translation.addon_commit_files.append(filename)

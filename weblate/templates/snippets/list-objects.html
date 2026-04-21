@@ -51,7 +51,7 @@
               <span class="sort-icon {% if objects.paginator.sort_by == "name" %}sort-down{% elif objects.paginator.sort_by == "-name" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          {% if project and project.enable_review %}
+          {% if show_review_columns or project and project.enable_review %}
             <th title="{% translate "Sort this column" %}"
                 class="number zero-width-540 sort-cell">
               {% if objects.paginator.num_pages > 1 %}
@@ -70,7 +70,7 @@
               {% translate "Translated" %}
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
-          {% if project and project.enable_review %}
+          {% if show_review_columns or project and project.enable_review %}
             <th title="{% translate "Sort this column" %}"
                 class="number zero-width-640 sort-cell">
               {% if objects.paginator.num_pages > 1 %}
@@ -165,13 +165,21 @@
           <th class="object-link">
             <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
           </th>
-          {% if project and project.enable_review %}
-            {% review_percent category.stats %}
+          {% if show_review_columns or project and project.enable_review %}
+            {% if category.stats.has_review %}
+              {% review_percent category.stats %}
+            {% else %}
+              {% list_objects_number value=0 css="zero-width-540" %}
+            {% endif %}
           {% endif %}
           {% list_objects_percent percent=category.stats.translated_percent value=category.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=category.stats.all checks=category.stats.allchecks %}
           {% if not hide_details %}
-            {% if project and project.enable_review %}
-              {% list_objects_number value=category.stats.waiting_review search_url=search_url translate_url=translate_url query="q=state:translated " css="zero-width-640" %}
+            {% if show_review_columns or project and project.enable_review %}
+              {% if category.stats.has_review %}
+                {% list_objects_number value=category.stats.waiting_review search_url=search_url translate_url=translate_url query="q=state:translated " css="zero-width-640" %}
+              {% else %}
+                {% list_objects_number value=0 css="zero-width-640" %}
+              {% endif %}
             {% endif %}
             {% list_objects_number value=category.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated " css="zero-width-640" %}
             {% list_objects_number value=category.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %}
@@ -278,8 +286,12 @@
               <span class="badge  text-bg-secondary">{% translate "Customized workflow" %}</span>
             {% endif %}
           </th>
-          {% if project and project.enable_review %}
-            {% review_percent object.stats %}
+          {% if show_review_columns or project and project.enable_review %}
+            {% if object.stats.has_review %}
+              {% review_percent object.stats %}
+            {% else %}
+              {% list_objects_number value=0 css="zero-width-540" %}
+            {% endif %}
           {% endif %}
 
           {% if is_glossary %}
@@ -288,8 +300,12 @@
             {% list_objects_percent percent=object.stats.translated_percent value=object.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=object.stats.all checks=object.stats.allchecks %}
           {% endif %}
           {% if not hide_details %}
-            {% if project and project.enable_review %}
-              {% list_objects_number value=object.stats.waiting_review search_url=search_url translate_url=translate_url query="q=state:translated " css="zero-width-640" %}
+            {% if show_review_columns or project and project.enable_review %}
+              {% if object.stats.has_review %}
+                {% list_objects_number value=object.stats.waiting_review search_url=search_url translate_url=translate_url query="q=state:translated " css="zero-width-640" %}
+              {% else %}
+                {% list_objects_number value=0 css="zero-width-640" %}
+              {% endif %}
             {% endif %}
             {% list_objects_number value=object.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-640" %}
             {% list_objects_number value=object.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %}
