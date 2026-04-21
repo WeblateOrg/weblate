@@ -10,10 +10,6 @@ Project level backups
 
 .. versionadded:: 4.14
 
-.. warning::
-
-   Restoring backups is only supported when using PostgreSQL as a database.
-
 The project backups all translation content from Weblate (project, components,
 translations, string comments, suggestions or checks). It is suitable for
 transferring a project to another Weblate instance.
@@ -224,6 +220,85 @@ The Borg session might look like this:
 
    * :doc:`borg:usage/list`
    * :doc:`borg:usage/extract`
+
+
+.. _restore-docker:
+
+Restoring Docker based setup
+----------------------------
+
+The following steps assume the official Docker Compose setup using the bundled
+PostgreSQL and Valkey services, see :doc:`install/docker`. If your deployment
+uses an external database or a customized Compose file, adapt the database and
+volume steps to that environment.
+
+Start with a Docker Compose checkout matching the restored deployment. Restore
+your original Compose overrides, secrets, and environment variables. The
+:file:`environment.yml` file from :ref:`backup-dumps` can help with this, but
+it is not imported automatically.
+
+1. Restore the backup archive using :ref:`restore-borg` or unpack your manual
+   backup so that the Weblate data directory and
+   :file:`backups/database.sql` are available.
+
+2. Stop the services which can write to the database or data volume:
+
+   .. code-block:: shell
+
+      docker compose stop weblate cache
+
+3. Recreate the PostgreSQL volume.
+
+   .. code-block:: shell
+
+      docker compose stop database
+      docker compose rm -v database
+      docker volume remove weblate-docker_postgres-data
+
+   The volume name depends on the Compose project name and can differ from
+   :file:`weblate-docker_postgres-data`. Check your setup before removing any
+   volume.
+
+4. Start the database service:
+
+   .. code-block:: shell
+
+      docker compose up -d database
+
+5. Restore the database dump:
+
+   .. code-block:: shell
+
+      cat backups/database.sql | docker compose exec -T database psql --username weblate --dbname weblate
+
+   Check that the database name matches :envvar:`POSTGRES_DB` and the user
+   matches :envvar:`POSTGRES_USER` in your Compose configuration.
+
+6. Restore the Weblate data directory to the Docker data volume mounted as
+   :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to be
+   owned by UID 1000, see :ref:`file-permissions`.
+
+7. Start the remaining services and follow the logs:
+
+   .. code-block:: shell
+
+      docker compose up -d
+      docker compose logs -f
+
+   The Weblate container performs database migrations on startup. If you are
+   also upgrading Weblate, follow :ref:`upgrading-docker`.
+
+8. Refresh the repositories after the restore:
+
+   .. code-block:: shell
+
+      docker compose exec --user weblate weblate weblate updategit --all
+
+.. seealso::
+
+   * :ref:`backup-dumps`
+   * :ref:`docker-postgres-upgrade`
+   * :ref:`docker-volume`
 
 
 .. _BorgBackup: https://www.borgbackup.org/
