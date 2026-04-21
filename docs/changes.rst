@@ -22,6 +22,7 @@ Weblate 5.17.1
 * Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
 * Project website and repository browser URL alerts now show validation errors more clearly.
 * Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
+* Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
 
 .. rubric:: Bug fixes
 
