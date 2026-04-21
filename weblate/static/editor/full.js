@@ -117,19 +117,31 @@
 
     hotkeys("alt+end", (e) => {
       e.preventDefault();
-      window.location = document.getElementById("button-end").href;
+      const button = document.getElementById("button-end");
+      if (button?.href) {
+        window.location = button.href;
+      }
     });
     hotkeys("alt+pagedown,ctrl+down,command+down,alt+down", (e) => {
       e.preventDefault();
-      window.location = document.getElementById("button-next").href;
+      const button = document.getElementById("button-next");
+      if (button?.href) {
+        window.location = button.href;
+      }
     });
     hotkeys("alt+pageup,ctrl+up,command+up,alt+up", (e) => {
       e.preventDefault();
-      window.location = document.getElementById("button-prev").href;
+      const button = document.getElementById("button-prev");
+      if (button?.href) {
+        window.location = button.href;
+      }
     });
     hotkeys("alt+home", (e) => {
       e.preventDefault();
-      window.location = document.getElementById("button-first").href;
+      const button = document.getElementById("button-first");
+      if (button?.href) {
+        window.location = button.href;
+      }
     });
     hotkeys("ctrl+o,command+o", (e) => {
       e.preventDefault();
