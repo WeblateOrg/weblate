@@ -10664,6 +10664,13 @@ class OpenAPITest(APIBaseTest):
                         f"{method.upper()} {path} should not expose format query",
                     )
 
+                if "requestBody" not in operation:
+                    self.assertNotIn(
+                        "415",
+                        operation.get("responses", {}),
+                        f"{method.upper()} {path} should not expose 415",
+                    )
+
                 for status_code, response in operation.get("responses", {}).items():
                     content = response.get("content", {})
                     if (
