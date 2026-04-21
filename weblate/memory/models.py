@@ -402,8 +402,11 @@ class MemoryManager(models.Manager):
                 gettext("Could not parse TMX file: %s") % error
             ) from error
         header = next(
-            storage.document.getroot().iterchildren(storage.namespaced("header"))
+            storage.document.getroot().iterchildren(storage.namespaced("header")),
+            None,
         )
+        if header is None:
+            raise MemoryImportError(gettext("Header missing in the TMX file!"))
         lang_cache: dict[str, Language] = {}
         srclang = header.get("srclang")
         if not srclang:

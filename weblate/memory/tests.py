@@ -25,6 +25,7 @@ from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import (
     Memory,
+    MemoryImportError,
     MemoryQuerySet,
     load_memory_json_data,
     load_memory_tmx_store,
@@ -72,6 +73,27 @@ class MemoryParserTest(SimpleTestCase):
         )
 
         self.assertEqual(len(list(store.units)), 1)
+
+    def test_import_tmx_missing_header(self) -> None:
+        with self.assertRaisesMessage(
+            MemoryImportError, "Header missing in the TMX file!"
+        ):
+            Memory.objects.import_tmx(
+                request=None,
+                fileobj=BytesIO(
+                    b"""<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="1.4">
+  <body>
+    <tu>
+      <tuv xml:lang="en"><seg>Hello</seg></tuv>
+      <tuv xml:lang="cs"><seg>Ahoj</seg></tuv>
+    </tu>
+  </body>
+</tmx>
+"""
+                ),
+                origin="missing-header.tmx",
+            )
 
 
 class MemoryModelTest(FixtureTestCase):
