@@ -3081,8 +3081,8 @@ Categories
 
     Returns statistics for a category.
 
-    :param project: Category ID
-    :type project: int
+    :param id: Category ID
+    :type id: int
 
     .. seealso::
 
