@@ -19,7 +19,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
 "PO-Revision-Date: 2026-04-22 10:10+0000\n"
-"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -605,20 +605,20 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "Uživatel byl přidán do globálního týmu {team} uživatelem {username}."
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "Uživatel byl odstraněn z týmu {team} uživatelem {username}."
+msgstr ""
+"Uživatel byl odstraněn z celo-webového týmu {team} uživatelem {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Byla udělena oprávnění superuživatele."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Oprávnění superuživatele byla odebrána."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1403,6 +1403,8 @@ msgstr "Vyzkoušet zdarma"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"Bylo naplánováno vrácení úprav provedených uživatelem %(user)s v rámci "
+"celého webu."
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1469,16 +1471,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "Můžete si také nastavit nové heslo pokud jste ho ztratili."
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Zkuste se, prosím, zaregistrovat znovu. Pravděpodobně skončila platnost "
-"ověřovacího odkazu."
+"Zkuste si heslo znovu nastavit, abyste potvrdili svou totožnost; potvrzovací "
+"odkaz pravděpodobně vypršel."
 
 #: weblate/accounts/views.py:1496
 msgid ""
@@ -1664,18 +1662,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Tento doplněk má vliv na celý projekt a může vytvořit překladové soubory v "
+"mnoha komponentách nebo repozitářích."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Tento doplněk se týká celé kategorie a může vytvořit překladové soubory v "
+"mnoha komponentách nebo repozitářích."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Tento doplněk se týká všech projektů a může vytvářet překladové soubory v "
+"mnoha komponentách nebo repozitářích."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
@@ -2122,28 +2126,22 @@ msgstr ""
 "vypnuté."
 
 #: weblate/addons/forms.py:602
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "Potvrzuji, že výše uvedené shody se zdají být správné"
+msgstr "Potvrzuji, že výše uvedené kroky vypadají správně"
 
 #: weblate/addons/forms.py:625
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "Zkontrolujte a potvrďte shodující se součásti."
+msgstr "Prosím, zkontrolujte a potvrďte chybějící jazykové úpravy."
 
 #: weblate/addons/forms.py:724
 msgid "Regular expression to match translation files against"
 msgstr "Regulární výraz pro hledání shody s překladovými soubory"
 
 #: weblate/addons/forms.py:727
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The regular expression must define named groups for component and language."
 msgstr ""
-"Regulární výraz je příliš složitý a jeho vyhodnocení trvalo příliš dlouho."
+"Regulární výraz musí definovat pojmenované skupiny pro komponentu a jazyk."
 
 #: weblate/addons/forms.py:731
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2159,34 +2157,31 @@ msgstr "Přizpůsobit název součásti"
 #: weblate/addons/forms.py:741
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Použijte syntaxi šablon Django. Tato šablona musí obsahovat {{ component }}."
 
 #: weblate/addons/forms.py:745
 msgid "Define the monolingual base filename"
 msgstr "Určit základní soubor pro jednojazyčné překlady"
 
 #: weblate/addons/forms.py:749
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "U dvojjazyčných překladových souborů nevyplňujte."
+msgstr ""
+"V případě dvojjazyčných překladových souborů ponechte prázdné. Je-li tato "
+"možnost nastavena, musí šablona obsahovat {{ component }}."
 
 #: weblate/addons/forms.py:753
 msgid "Define the base file for new translations"
 msgstr "Určit základní soubor pro nové překlady"
 
 #: weblate/addons/forms.py:757
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Název souboru použitého pro vytváření nových překladů. Pokud používáte "
-"gettext, zvolte soubor .pot."
+"Název souboru, který se používá k vytváření nových překladů. Pro gettext "
+"vyberte soubor .pot. Tato šablona musí obsahovat {{ component }}."
 
 #: weblate/addons/forms.py:762
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2195,19 +2190,14 @@ msgid "Intermediate language file"
 msgstr "Soubor zprostředkujícího jazyka"
 
 #: weblate/addons/forms.py:766
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"Název souboru zprostředkujícího překladu. Ve většině případů se jedná o "
-"překladový soubor poskytovaný vývojáři a používá se při vytváření skutečných "
-"zdrojových řetězců."
+"Název souboru s prozatímním překladem. Ve většině případů se jedná o "
+"překladový soubor poskytnutý vývojáři, který se používá při vytváření "
+"samotných zdrojových řetězců. Tato šablona musí obsahovat {{ component }}."
 
 #: weblate/addons/forms.py:773 weblate/trans/models/component.py:858
 msgid "Language filter"
@@ -2235,13 +2225,11 @@ msgstr "Potvrzuji, že výše uvedené shody se zdají být správné"
 #: weblate/addons/forms.py:873
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "Obecná předvolba: %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:886
-#, fuzzy
-#| msgid "Information about project"
 msgid "format not preset"
-msgstr "Informace o projektu"
+msgstr "formát není přednastaven"
 
 #: weblate/addons/forms.py:894
 #, python-format
@@ -2249,100 +2237,86 @@ msgid "monolingual base: %(base)s"
 msgstr "jednojazyčný základ: %(base)s"
 
 #: weblate/addons/forms.py:897
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "Určit základní soubor pro jednojazyčné překlady"
+msgstr "chybí jednojazyčná základna"
 
 #: weblate/addons/forms.py:905
 #, python-format
 msgid "%(format)s; %(base)s"
-msgstr ""
+msgstr "%(format)s; %(base)s"
 
 #: weblate/addons/forms.py:915
-#, fuzzy
-#| msgid "Secondary language"
 msgid "One folder per language"
-msgstr "Alternativní jazyk"
+msgstr "Jedna složka pro každý jazyk"
 
 #: weblate/addons/forms.py:916
 msgid "Matches files like cs/application.po."
-msgstr ""
+msgstr "Vyhledá soubory jako cs/application.po."
 
 #: weblate/addons/forms.py:920
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Rozložení lokalizací Gettext"
 
 #: weblate/addons/forms.py:921
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
-msgstr ""
+msgstr "Odpovídá souborům typu locale/cs/LC_MESSAGES/application.po."
 
 #: weblate/addons/forms.py:925
-#, fuzzy
-#| msgid "Component filename match"
 msgid "Complex filenames"
-msgstr "Shoda se souborem součásti"
+msgstr "Složité názvy souborů"
 
 #: weblate/addons/forms.py:926
 msgid "Matches files like src/locale/application.cs.po."
-msgstr ""
+msgstr "Odpovídá souborům typu src/locale/application.cs.po."
 
 #: weblate/addons/forms.py:930
 msgid "Filename-based language variants"
-msgstr ""
+msgstr "Jazykové varianty podle názvu souboru"
 
 #: weblate/addons/forms.py:931
 msgid "Matches files like news_en.md."
-msgstr ""
+msgstr "Vyhledá soubory jako news_en.md."
 
 #: weblate/addons/forms.py:935
-#, fuzzy
-#| msgid "Aliased language codes"
 msgid "Repeated language code"
-msgstr "Další kódy jazyka"
+msgstr "Opakovaný jazykový kód"
 
 #: weblate/addons/forms.py:936
 msgid "Matches files like locale/cs/application/cs.po."
-msgstr ""
+msgstr "Vyhledá soubory typu locale/cs/application/cs.po."
 
 #: weblate/addons/forms.py:940
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Split Android strings"
-msgstr "Schválené řetězce"
+msgstr "Rozdělit řetězce v systému Android"
 
 #: weblate/addons/forms.py:941
 msgid "Matches files like res/values-cs/strings-about.xml."
-msgstr ""
+msgstr "Odpovídá souborům typu res/values-cs/strings-about.xml."
 
 #: weblate/addons/forms.py:945
-#, fuzzy
-#| msgid "Mismatching line breaks"
 msgid "Matching multiple paths"
-msgstr "Neshodují se zalomení řádků"
+msgstr "Porovnání více cest"
 
 #: weblate/addons/forms.py:947
 msgid ""
 "Matches nested Java properties layouts and also fills the component name "
 "template."
 msgstr ""
+"Porovnává rozložení vnořených vlastností jazyka Java a vyplňuje také šablonu "
+"názvu komponenty."
 
 #: weblate/addons/forms.py:975
 #, python-format
 msgid "Detected: %(pattern)s [%(details)s]"
-msgstr ""
+msgstr "Zjištěno: %(pattern)s [%(details)s]"
 
 #: weblate/addons/forms.py:1045
-#, fuzzy
-#| msgid "Merged repository"
 msgid "Detected from repository"
-msgstr "Sloučen repozitář"
+msgstr "Zjištěno z repozitáře"
 
 #: weblate/addons/forms.py:1055
-#, fuzzy
-#| msgid "Meson preset"
 msgid "Generic presets"
-msgstr "Předvolba Meson"
+msgstr "Obecné předvolby"
 
 #: weblate/addons/forms.py:1084 weblate/trans/models/component.py:3910
 msgid "You can not use a monolingual translation without a base file."
@@ -2358,13 +2332,11 @@ msgstr "Zkontrolujte a potvrďte shodující se součásti."
 
 #: weblate/addons/forms.py:1158
 msgid "This template must include {{ component }}."
-msgstr ""
+msgstr "Tato šablona musí obsahovat {{ component }}."
 
 #: weblate/addons/forms.py:1159
-#, fuzzy
-#| msgid "Please include component markup in the template."
 msgid "This template must include component markup."
-msgstr "Nezapomeňte na označení součásti."
+msgstr "Tato šablona musí obsahovat značky komponent."
 
 #: weblate/addons/forms.py:1231
 msgid "Translation threshold"
@@ -2577,26 +2549,20 @@ msgid "Update LINGUAS file"
 msgstr "Aktualizovat LINGUAS soubor"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
-msgstr "Při přidání nového překladu aktualizuje soubor LINGUAS."
+msgstr "Aktualizuje soubor LINGUAS při přidání nebo odstranění překladu."
 
 #: weblate/addons/gettext.py:263
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Aktualizovat proměnnou ALL_LINGUAS v souboru „configure“"
 
 #: weblate/addons/gettext.py:265
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Při přidání nového překladu aktualizuje proměnnou ALL_LINGUAS v souborech "
-"„configure“, „configure.in“ nebo „configure.ac“."
+"Aktualizuje proměnnou ALL_LINGUAS v souborech „configure“, „configure.in“ "
+"nebo „configure.ac“, když je přidán nebo odstraněn překlad."
 
 #: weblate/addons/gettext.py:359
 msgid "Update PO files to match POT (msgmerge)"
@@ -2673,10 +2639,8 @@ msgstr "Sloučit zápisy Gitu před jejich odesláním."
 
 #: weblate/addons/models.py:298 weblate/addons/views.py:257
 #: weblate/api/views.py:3487
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
-msgstr "Tento doplněk nemá žádná nastavení."
+msgstr "Tento doplněk nelze spustit ručně."
 
 #: weblate/addons/properties.py:146
 msgid "Format the Java properties file"
