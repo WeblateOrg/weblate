@@ -631,6 +631,18 @@ def project_removal(pk: int, uid: int | None) -> None:
     actual_project_removal.delay(pk, uid)
 
 
+def store_auto_translate_activity_log(
+    activity_log_id: int | None, result: dict[str, Any]
+) -> dict[str, Any]:
+    if activity_log_id is None:
+        return result
+
+    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
+
+    update_addon_activity_log(activity_log_id, result, pending=False)
+    return result
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -653,6 +665,7 @@ def auto_translate(  # noqa: PLR0913
     category_id: int | None = None,
     project_id: int | None = None,
     language_id: int | None = None,
+    activity_log_id: int | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
     obj: Translation | Component | Category | ProjectLanguage
@@ -685,7 +698,7 @@ def auto_translate(  # noqa: PLR0913
             result["message"] = gettext(
                 "Automatic translation skipped because the target no longer exists."
             )
-            return result
+            return store_auto_translate_activity_log(activity_log_id, result)
         auto = BatchAutoTranslate(
             obj,
             user=user,
@@ -707,7 +720,7 @@ def auto_translate(  # noqa: PLR0913
             result.update({"message": str(error), "warnings": auto.get_warnings()})
         else:
             result.update({"message": message, "warnings": auto.get_warnings()})
-        return result
+        return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(
@@ -718,6 +731,7 @@ def auto_translate(  # noqa: PLR0913
 )
 def auto_translate_component(
     component_id: int,
+    *,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
@@ -725,7 +739,8 @@ def auto_translate_component(
     threshold: int,
     source_component_id: int | None = None,
     user_id: int | None = None,
-):
+    activity_log_id: int | None = None,
+) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
     user = User.objects.get(pk=user_id) if user_id else None
     auto = BatchAutoTranslate(
@@ -735,7 +750,7 @@ def auto_translate_component(
         mode=mode,
         component_wide=True,
     )
-    auto.perform(
+    message = auto.perform(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
@@ -744,7 +759,12 @@ def auto_translate_component(
         ),
     )
     component_obj.run_batched_checks()
-    return {"component": component_obj.id}
+    result = {
+        "component": component_obj.id,
+        "message": message,
+        "warnings": auto.get_warnings(),
+    }
+    return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(trail=False)
