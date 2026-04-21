@@ -30,6 +30,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
+    PolymorphicProxySerializer,
     extend_schema,
     extend_schema_view,
     inline_serializer,
@@ -180,6 +181,15 @@ COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
 COMPONENT_TRANSLATION_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentTranslationResponseSerializer",
     fields={"data": ComponentTranslationSerializer()},
+)
+NEW_UNIT_REQUEST_SERIALIZER = PolymorphicProxySerializer(
+    component_name="NewUnitRequest",
+    serializers=[
+        MonolingualUnitSerializer,
+        BilingualUnitSerializer,
+        BilingualSourceUnitSerializer,
+    ],
+    resource_type_field_name=None,
 )
 
 REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
@@ -2724,6 +2734,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @extend_schema(
         description="Add a new unit.",
         methods=["post"],
+        request=NEW_UNIT_REQUEST_SERIALIZER,
         responses={HTTP_200_OK: UnitSerializer},
     )
     @action(detail=True, methods=["get", "post"])
@@ -3392,6 +3403,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
     request: Request  # type: ignore[assignment]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return Category.objects.none()
         return Category.objects.filter(
             project__in=self.request.user.allowed_projects
         ).order_by("id")

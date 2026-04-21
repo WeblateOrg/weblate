@@ -40541,14 +40541,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/NewUnitRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/NewUnitRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Translation'
-        required: true
+              $ref: '#/components/schemas/NewUnitRequest'
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -64279,19 +64278,59 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
+    ApiTranslationsUnitsCreateContextErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - context
+          type: string
+          description: '* `context` - context'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiTranslationsUnitsCreateError:
       oneOf:
       - $ref: '#/components/schemas/ApiTranslationsUnitsCreateNonFieldErrorsErrorComponent'
-      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateLanguageCodeErrorComponent'
-      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateFilenameErrorComponent'
-      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateRevisionErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateStateErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateKeyErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateValueErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateValueINDEXErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateContextErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateSourceErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateSourceINDEXErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateTargetErrorComponent'
+      - $ref: '#/components/schemas/ApiTranslationsUnitsCreateTargetINDEXErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           non_field_errors: '#/components/schemas/ApiTranslationsUnitsCreateNonFieldErrorsErrorComponent'
-          language_code: '#/components/schemas/ApiTranslationsUnitsCreateLanguageCodeErrorComponent'
-          filename: '#/components/schemas/ApiTranslationsUnitsCreateFilenameErrorComponent'
-          revision: '#/components/schemas/ApiTranslationsUnitsCreateRevisionErrorComponent'
+          state: '#/components/schemas/ApiTranslationsUnitsCreateStateErrorComponent'
+          key: '#/components/schemas/ApiTranslationsUnitsCreateKeyErrorComponent'
+          value: '#/components/schemas/ApiTranslationsUnitsCreateValueErrorComponent'
+          value.INDEX: '#/components/schemas/ApiTranslationsUnitsCreateValueINDEXErrorComponent'
+          context: '#/components/schemas/ApiTranslationsUnitsCreateContextErrorComponent'
+          source: '#/components/schemas/ApiTranslationsUnitsCreateSourceErrorComponent'
+          source.INDEX: '#/components/schemas/ApiTranslationsUnitsCreateSourceINDEXErrorComponent'
+          target: '#/components/schemas/ApiTranslationsUnitsCreateTargetErrorComponent'
+          target.INDEX: '#/components/schemas/ApiTranslationsUnitsCreateTargetINDEXErrorComponent'
     ApiTranslationsUnitsCreateErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiTranslationsUnitsCreateValidationError'
@@ -64301,19 +64340,18 @@ components:
         mapping:
           validation_error: '#/components/schemas/ApiTranslationsUnitsCreateValidationError'
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiTranslationsUnitsCreateFilenameErrorComponent:
+    ApiTranslationsUnitsCreateKeyErrorComponent:
       type: object
       properties:
         attr:
           enum:
-          - filename
+          - key
           type: string
-          description: '* `filename` - filename'
+          description: '* `key` - key'
         code:
           enum:
           - blank
           - invalid
-          - max_length
           - 'null'
           - null_characters_not_allowed
           - required
@@ -64322,38 +64360,9 @@ components:
           description: |-
             * `blank` - blank
             * `invalid` - invalid
-            * `max_length` - max_length
             * `null` - null
             * `null_characters_not_allowed` - null_characters_not_allowed
             * `required` - required
-            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
-    ApiTranslationsUnitsCreateLanguageCodeErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - language_code
-          type: string
-          description: '* `language_code` - language_code'
-        code:
-          enum:
-          - invalid
-          - max_length
-          - 'null'
-          - null_characters_not_allowed
-          - surrogate_characters_not_allowed
-          type: string
-          description: |-
-            * `invalid` - invalid
-            * `max_length` - max_length
-            * `null` - null
-            * `null_characters_not_allowed` - null_characters_not_allowed
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
         detail:
           type: string
@@ -64383,27 +64392,129 @@ components:
       - attr
       - code
       - detail
-    ApiTranslationsUnitsCreateRevisionErrorComponent:
+    ApiTranslationsUnitsCreateSourceErrorComponent:
       type: object
       properties:
         attr:
           enum:
-          - revision
+          - source
           type: string
-          description: '* `revision` - revision'
+          description: '* `source` - source'
         code:
           enum:
+          - not_a_list
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `not_a_list` - not_a_list
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsUnitsCreateSourceINDEXErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - source.INDEX
+          type: string
+          description: '* `source.INDEX` - source.INDEX'
+        code:
+          enum:
+          - blank
           - invalid
-          - max_length
           - 'null'
           - null_characters_not_allowed
+          - required
           - surrogate_characters_not_allowed
           type: string
           description: |-
+            * `blank` - blank
             * `invalid` - invalid
-            * `max_length` - max_length
             * `null` - null
             * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsUnitsCreateStateErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - state
+          type: string
+          description: '* `state` - state'
+        code:
+          enum:
+          - invalid_choice
+          - 'null'
+          type: string
+          description: |-
+            * `invalid_choice` - invalid_choice
+            * `null` - null
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsUnitsCreateTargetErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - target
+          type: string
+          description: '* `target` - target'
+        code:
+          enum:
+          - not_a_list
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `not_a_list` - not_a_list
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsUnitsCreateTargetINDEXErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - target.INDEX
+          type: string
+          description: '* `target.INDEX` - target.INDEX'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
             * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
         detail:
           type: string
@@ -64423,6 +64534,60 @@ components:
       required:
       - errors
       - type
+    ApiTranslationsUnitsCreateValueErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - value
+          type: string
+          description: '* `value` - value'
+        code:
+          enum:
+          - not_a_list
+          - 'null'
+          - required
+          type: string
+          description: |-
+            * `not_a_list` - not_a_list
+            * `null` - null
+            * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiTranslationsUnitsCreateValueINDEXErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - value.INDEX
+          type: string
+          description: '* `value.INDEX` - value.INDEX'
+        code:
+          enum:
+          - blank
+          - invalid
+          - 'null'
+          - null_characters_not_allowed
+          - required
+          - surrogate_characters_not_allowed
+          type: string
+          description: |-
+            * `blank` - blank
+            * `invalid` - invalid
+            * `null` - null
+            * `null_characters_not_allowed` - null_characters_not_allowed
+            * `required` - required
+            * `surrogate_characters_not_allowed` - surrogate_characters_not_allowed
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
     ApiTranslationsUnitsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
@@ -66767,6 +66932,41 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    BilingualSourceUnit:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/NewUnitStateEnum'
+        context:
+          type: string
+        source:
+          type: array
+          items:
+            type: string
+        target:
+          type: array
+          items:
+            type: string
+      required:
+      - source
+    BilingualUnit:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/NewUnitStateEnum'
+        context:
+          type: string
+        source:
+          type: array
+          items:
+            type: string
+        target:
+          type: array
+          items:
+            type: string
+      required:
+      - source
+      - target
     BlankEnum:
       enum:
       - ''
@@ -70049,6 +70249,20 @@ components:
       - units
       - units_translated
       - users
+    MonolingualUnit:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/NewUnitStateEnum'
+        key:
+          type: string
+        value:
+          type: array
+          items:
+            type: string
+      required:
+      - key
+      - value
     NewLangEnum:
       enum:
       - contact
@@ -70061,6 +70275,27 @@ components:
         * `url` - Point to translation instructions URL
         * `add` - Create new language file
         * `none` - Disable adding new translations
+    NewUnitRequest:
+      oneOf:
+      - $ref: '#/components/schemas/MonolingualUnit'
+      - $ref: '#/components/schemas/BilingualUnit'
+      - $ref: '#/components/schemas/BilingualSourceUnit'
+    NewUnitStateEnum:
+      enum:
+      - 0
+      - 10
+      - 11
+      - 12
+      - 20
+      - 30
+      type: integer
+      description: |-
+        * `0` - Empty
+        * `10` - Needs editing
+        * `11` - Needs editing (Needs rewriting)
+        * `12` - Needs editing (Needs checking)
+        * `20` - Translated
+        * `30` - Approved
     Notification:
       type: object
       properties:
@@ -71511,7 +71746,7 @@ components:
             type: string
         state:
           allOf:
-          - $ref: '#/components/schemas/StateEnum'
+          - $ref: '#/components/schemas/StringStateEnum'
           minimum: -2147483648
           maximum: 2147483647
         explanation:
@@ -72307,24 +72542,6 @@ components:
         * `5` - Android plural
         * `6` - Qt Linguist plural
         * `2` - Manually entered formula
-    StateEnum:
-      enum:
-      - 0
-      - 10
-      - 11
-      - 12
-      - 20
-      - 30
-      - 100
-      type: integer
-      description: |-
-        * `0` - Empty
-        * `10` - Needs editing
-        * `11` - Needs editing (Needs rewriting)
-        * `12` - Needs editing (Needs checking)
-        * `20` - Translated
-        * `30` - Approved
-        * `100` - Read-only
     Statistics:
       type: object
       properties:
@@ -72462,6 +72679,24 @@ components:
       description: |-
         * `success` - success
         * `failure` - failure
+    StringStateEnum:
+      enum:
+      - 0
+      - 10
+      - 11
+      - 12
+      - 20
+      - 30
+      - 100
+      type: integer
+      description: |-
+        * `0` - Empty
+        * `10` - Needs editing
+        * `11` - Needs editing (Needs rewriting)
+        * `12` - Needs editing (Needs checking)
+        * `20` - Translated
+        * `30` - Approved
+        * `100` - Read-only
     Translation:
       type: object
       properties:
@@ -72664,7 +72899,7 @@ components:
             $ref: '#/components/schemas/UnitLabels'
         state:
           allOf:
-          - $ref: '#/components/schemas/StateEnum'
+          - $ref: '#/components/schemas/StringStateEnum'
           minimum: -2147483648
           maximum: 2147483647
         fuzzy:
@@ -72802,7 +73037,7 @@ components:
             type: string
         state:
           allOf:
-          - $ref: '#/components/schemas/StateEnum'
+          - $ref: '#/components/schemas/StringStateEnum'
           minimum: -2147483648
           maximum: 2147483647
         explanation:

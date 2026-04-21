@@ -10541,6 +10541,54 @@ class OpenAPITest(APIBaseTest):
         self.assertIn("comments", statistics_properties)
         self.assertIn("readonly_chars_percent", statistics_properties)
 
+    def test_translation_units_create_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+        operation = schema["paths"][
+            "/api/translations/{component__project__slug}/{component__slug}/{language__code}/units/"
+        ]["post"]
+
+        request_schema = {"$ref": "#/components/schemas/NewUnitRequest"}
+        for content_type in (
+            "application/json",
+            "application/x-www-form-urlencoded",
+            "multipart/form-data",
+        ):
+            self.assertEqual(
+                operation["requestBody"]["content"][content_type]["schema"],
+                request_schema,
+            )
+
+        new_unit_request = schema["components"]["schemas"]["NewUnitRequest"]
+        self.assertEqual(
+            new_unit_request["oneOf"],
+            [
+                {"$ref": "#/components/schemas/MonolingualUnit"},
+                {"$ref": "#/components/schemas/BilingualUnit"},
+                {"$ref": "#/components/schemas/BilingualSourceUnit"},
+            ],
+        )
+        self.assertNotEqual(
+            request_schema, {"$ref": "#/components/schemas/Translation"}
+        )
+
+    def test_string_state_enum_schema_names_are_stable(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+
+        self.assertIn("StringStateEnum", schemas)
+        self.assertIn("NewUnitStateEnum", schemas)
+        self.assertNotIn("StateFd1Enum", schemas)
+        self.assertNotIn("State180Enum", schemas)
+
+        self.assertEqual(
+            schemas["MonolingualUnit"]["properties"]["state"],
+            {"$ref": "#/components/schemas/NewUnitStateEnum"},
+        )
+        self.assertEqual(
+            schemas["UnitWrite"]["properties"]["state"]["allOf"],
+            [{"$ref": "#/components/schemas/StringStateEnum"}],
+        )
+
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()
 

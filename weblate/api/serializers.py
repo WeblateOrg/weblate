@@ -66,6 +66,10 @@ from weblate.utils.views import (
     guess_filemask_from_doc,
 )
 
+NEW_UNIT_STATE_CHOICES = tuple(
+    choice for choice in StringState.choices if choice[0] != STATE_READONLY
+)
+
 if TYPE_CHECKING:
     from drf_spectacular.openapi import AutoSchema
     from rest_framework.request import Request
@@ -2095,9 +2099,7 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
 
 class NewUnitSerializer(serializers.Serializer):
     state = serializers.ChoiceField(
-        choices=[
-            choice for choice in StringState.choices if choice[0] != STATE_READONLY
-        ],
+        choices=NEW_UNIT_STATE_CHOICES,
         required=False,
     )
 
@@ -2184,7 +2186,9 @@ class CategorySerializer(RemovableSerializer[Category]):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         request = self.context.get("request")
-        if request is None:
+        if request is None or getattr(
+            self.context.get("view"), "swagger_fake_view", False
+        ):
             return
         user = request.user
         self.fields["project"].queryset = user.managed_projects

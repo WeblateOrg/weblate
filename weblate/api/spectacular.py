@@ -82,6 +82,8 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
+            "StringStateEnum": "weblate.utils.state.StringState.choices",
+            "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
             "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
             "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
             "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
