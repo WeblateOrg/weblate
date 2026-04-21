@@ -353,8 +353,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "inner",
         )
 
-    def test_hotkeys_global_is_attached(self) -> None:
-        """The hotkeys-js wrapper must expose the library on window."""
+    def test_hotkeys(self) -> None:
+        """Test hotkeys functionality."""
+
+        # Check that the hotkeys library is loaded and the filter is overridden by our wrapper.
         self.assertTrue(
             self.driver.execute_script(
                 "return typeof window.hotkeys === 'function'"
@@ -369,9 +371,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.execute_script(
             """
             window.__hotkeyFired = 0;
-            window.hotkeys('ctrl+alt+b', (event) => {
+            window.hotkeys('ctrl+alt+b', () => {
                 window.__hotkeyFired += 1;
-                event.preventDefault();
                 return false;
             });
             const ta = document.createElement('textarea');
