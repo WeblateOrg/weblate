@@ -35,6 +35,7 @@ WILDCARD_MEDIA_TYPE = "*/*"
 CSV_MEDIA_TYPE = "text/csv"
 OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
 METRICS_PATH = "/api/metrics/"
+UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE = "415"
 FILE_UPLOAD_REQUEST_MEDIA_TYPES = {
     ("post", "/api/projects/{slug}/components/"): {
         JSON_MEDIA_TYPE,
@@ -161,6 +162,11 @@ def _simplify_format_parameter(path: str, method: str, operation: dict) -> None:
         operation.pop("parameters")
 
 
+def _simplify_error_responses(operation: dict) -> None:
+    if "requestBody" not in operation:
+        operation.get("responses", {}).pop(UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE, None)
+
+
 def simplify_media_types(result, generator, request, public):
     """Remove renderer and parser noise from generated media types."""
     for path, path_item in result.get("paths", {}).items():
@@ -171,6 +177,7 @@ def simplify_media_types(result, generator, request, public):
             _simplify_request_media_types(path, method, operation)
             _simplify_response_media_types(path, method, operation)
             _simplify_format_parameter(path, method, operation)
+            _simplify_error_responses(operation)
 
     return result
 
