@@ -98,9 +98,11 @@ from weblate.api.serializers import (
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
+    SearchResultSerializer,
     SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
+    TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
     UnitSerializer,
@@ -3491,8 +3493,20 @@ class Metrics(APIView):
 class Search(APIView):
     """Site-wide search endpoint."""
 
-    serializer_class = None
+    serializer_class = SearchResultSerializer
 
+    @extend_schema(
+        operation_id="api_search_retrieve",
+        parameters=[
+            OpenApiParameter(
+                name="q",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Search query.",
+            )
+        ],
+        responses=SearchResultSerializer(many=True),
+    )
     # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # noqa: A002
         """Return site-wide search results as a list."""
@@ -3545,13 +3559,14 @@ class Search(APIView):
                 for language in Language.objects.search(query).order()[:5]
             )
 
-        return Response(results)
+        serializer = self.serializer_class(results, many=True)
+        return Response(serializer.data)
 
 
 class TasksViewSet(ViewSet):
     # Task-related data is handled and queried to Celery.
     # There is no Django model associated with tasks.
-    serializer_class = None
+    serializer_class = TaskSerializer
 
     def get_task(
         self, request, pk, permission: str | None = None
@@ -3578,11 +3593,15 @@ class TasksViewSet(ViewSet):
 
         return task, component
 
-    @extend_schema(description="Return information about a task", methods=["get"])
+    @extend_schema(
+        description="Return information about a task",
+        methods=["get"],
+        responses=TaskSerializer,
+    )
     def retrieve(self, request: Request, pk=None):
         task, _component = self.get_task(request, pk)
         result = task.result
-        return Response(
+        serializer = self.serializer_class(
             {
                 "completed": task.ready(),
                 "progress": get_task_progress(task),
@@ -3590,6 +3609,7 @@ class TasksViewSet(ViewSet):
                 "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
             }
         )
+        return Response(serializer.data)
 
     def destroy(self, request: Request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")

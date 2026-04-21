@@ -6088,7 +6088,10 @@ class TasksAPITest(APIBaseTest):
                 code=200,
             )
 
-        self.assertFalse(response.data["completed"])
+        self.assertEqual(
+            response.data,
+            {"completed": False, "progress": 0, "result": None, "log": ""},
+        )
 
     def test_retrieve_denies_inaccessible_cached_component(self) -> None:
         other_component = self.create_acl()
@@ -10695,6 +10698,54 @@ class OpenAPITest(APIBaseTest):
                 "content"
             ].keys(),
             {"application/json", "multipart/form-data"},
+        )
+
+    def test_search_and_task_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        search = schema["paths"]["/api/search/"]["get"]
+        self.assertEqual(search["operationId"], "api_search_retrieve")
+        self.assertIn(
+            {
+                "in": "query",
+                "name": "q",
+                "schema": {"type": "string"},
+                "description": "Search query.",
+            },
+            search["parameters"],
+        )
+        self.assertEqual(
+            search["responses"]["200"]["content"]["application/json"]["schema"],
+            {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/SearchResult"},
+            },
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["SearchResult"]["required"],
+            ["category", "name", "url"],
+        )
+
+        task = schema["paths"]["/api/tasks/{id}/"]["get"]
+        self.assertEqual(
+            task["responses"]["200"]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/Task"},
+        )
+        task_schema = schema["components"]["schemas"]["Task"]
+        self.assertEqual(
+            task_schema["required"], ["completed", "log", "progress", "result"]
+        )
+        self.assertEqual(
+            task_schema["properties"]["completed"],
+            {"type": "boolean"},
+        )
+        self.assertEqual(
+            task_schema["properties"]["progress"],
+            {"type": "integer", "maximum": 100, "minimum": 0},
+        )
+        self.assertEqual(task_schema["properties"]["log"], {"type": "string"})
+        self.assertEqual(
+            task_schema["properties"]["result"]["oneOf"].count({"type": "null"}), 1
         )
 
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
