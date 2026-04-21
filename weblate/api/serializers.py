@@ -20,7 +20,6 @@ from drf_spectacular.utils import (
     OpenApiExample,
     extend_schema_field,
     extend_schema_serializer,
-    inline_serializer,
 )
 from drf_standardized_errors.openapi_serializers import (
     ClientErrorEnum,
@@ -1977,6 +1976,7 @@ class AnnouncementSerializer(serializers.ModelSerializer[Announcement]):
         read_only_fields = ("id",)
 
 
+@extend_schema_field(LabelSerializer)
 class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
     def get_queryset(self):
         """
@@ -2008,6 +2008,7 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
         return label
 
 
+@extend_schema_field({"type": "integer"})
 class UnitFlatLabelsSerializer(UnitLabelsSerializer):
     def to_representation(self, instance):
         return instance.id
@@ -2551,22 +2552,16 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
         return build_object_type(properties={"service_name": build_basic_type(dict)})
 
 
+class MessageResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+
+
 def edit_service_settings_response_serializer(
-    method: str, *codes
+    _method: str, *codes
 ) -> dict[int, serializers.Serializer]:
     serializers_ = {
-        200: inline_serializer(
-            f"{method}_200_Message_response_serializer",
-            fields={
-                "message": serializers.CharField(),
-            },
-        ),
-        201: inline_serializer(
-            f"{method}_201_Message_response_serializer",
-            fields={
-                "message": serializers.CharField(),
-            },
-        ),
+        200: MessageResponseSerializer,
+        201: MessageResponseSerializer,
         400: ErrorResponse400Serializer,
     }
     return {code: serializers_[code] for code in codes}
