@@ -5615,6 +5615,35 @@ class AutoTranslateAddonTest(ComponentTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+            user_id=None,
+        )
+
+    def test_auto_others_component_uses_addon_user(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=addon.user.id,
         )
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
@@ -5659,7 +5688,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         component_2 = self.create_po_new_base(name="Component 2", project=self.project)
         component_2.allow_translation_propagation = False
         component_2.save()
-        AutoTranslateAddon.create(
+        addon = AutoTranslateAddon.create(
             project=self.project,
             configuration={
                 "component": None,
@@ -5683,11 +5712,25 @@ class AutoTranslateAddonTest(ComponentTestCase):
         unit_2 = translation_2.unit_set.get(source="one")
         Comment.objects.create(unit=unit_2, comment="Foo")
         change = unit_2.change_set.latest("timestamp")
+        change.user = None
+        change.author = None
+        change.save(update_fields=["user", "author"])
 
         addon_change.run([change.pk])
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+        self.assertEqual(
+            unit_2.change_set.get(action=ActionEvents.AUTO).author,
+            addon.user,
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=unit_2,
+                author=addon.user,
+                automatically_translated=True,
+            ).exists()
+        )
 
 
 class AddonConfigurationUnitTest(SimpleTestCase):
@@ -5765,6 +5808,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+            user_id=None,
         )
 
     def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:

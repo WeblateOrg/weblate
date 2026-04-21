@@ -12,7 +12,7 @@ from django.urls import reverse
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, PendingUnitChange, Project
-from weblate.trans.tasks import auto_translate
+from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
@@ -391,6 +391,34 @@ class AutoTranslationTest(ViewTestCase):
             PendingUnitChange.objects.filter(unit=auto_translated_unit).exists()
         )
 
+    def test_autotranslate_component_uses_supplied_user(self) -> None:
+        self.make_different()
+        translation = self.component2.translation_set.get(language_code="cs")
+
+        auto_translate_component(
+            self.component2.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=100,
+            source_component_id=self.component.id,
+            user_id=self.user.id,
+        )
+
+        auto_translated_unit = translation.unit_set.get(automatically_translated=True)
+        self.assertEqual(
+            auto_translated_unit.change_set.get(action=ActionEvents.AUTO).author,
+            self.user,
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=auto_translated_unit,
+                author=self.user,
+                automatically_translated=True,
+            ).exists()
+        )
+
     def test_command(self) -> None:
         call_command("auto_translate", "test", "test", "cs")
 
@@ -511,6 +539,17 @@ class AutoTranslationMtTest(ViewTestCase):
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto(engines=["weblate"], threshold=80)
+
+    def test_mt_origin_uses_mt_user(self) -> None:
+        self.perform_auto(engines=["weblate"], threshold=80)
+
+        translation = self.component3.translation_set.get(language_code="cs")
+        auto_translated_unit = translation.unit_set.get(automatically_translated=True)
+        author = auto_translated_unit.change_set.get(action=ActionEvents.AUTO).author
+
+        self.assertIsNotNone(author)
+        self.assertEqual(getattr(author, "username", None), "mt:weblate")
+        self.assertTrue(getattr(author, "is_bot", False))
 
     def test_multi(self) -> None:
         """Test for automatic translation with more providers."""
