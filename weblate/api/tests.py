@@ -10548,15 +10548,10 @@ class OpenAPITest(APIBaseTest):
         ]["post"]
 
         request_schema = {"$ref": "#/components/schemas/NewUnitRequest"}
-        for content_type in (
-            "application/json",
-            "application/x-www-form-urlencoded",
-            "multipart/form-data",
-        ):
-            self.assertEqual(
-                operation["requestBody"]["content"][content_type]["schema"],
-                request_schema,
-            )
+        self.assertEqual(
+            operation["requestBody"]["content"],
+            {"application/json": {"schema": request_schema}},
+        )
 
         new_unit_request = schema["components"]["schemas"]["NewUnitRequest"]
         self.assertEqual(
@@ -10608,7 +10603,7 @@ class OpenAPITest(APIBaseTest):
         self.assertEqual(
             response_content["application/json"]["schema"], expected_schema
         )
-        self.assertEqual(response_content["text/csv"]["schema"], expected_schema)
+        self.assertNotIn("text/csv", response_content)
 
         code_schema = schemas["Error400"]["properties"]["code"]
         self.assertEqual(code_schema["type"], "string")
@@ -10631,6 +10626,49 @@ class OpenAPITest(APIBaseTest):
             self.assertIn("MIT", license_schema["examples"])
             self.assertIn("GPL-3.0-or-later", license_schema["examples"])
             self.assertIn("proprietary", license_schema["examples"])
+
+    def test_schema_media_types_are_trimmed(self) -> None:
+        schema = self.get_schema()
+
+        for path, path_item in schema["paths"].items():
+            for method, operation in path_item.items():
+                if method not in {"delete", "get", "patch", "post", "put"}:
+                    continue
+
+                if path != "/api/metrics/":
+                    self.assertFalse(
+                        any(
+                            parameter["name"] == "format" and parameter["in"] == "query"
+                            for parameter in operation.get("parameters", ())
+                        ),
+                        f"{method.upper()} {path} should not expose format query",
+                    )
+
+                for status_code, response in operation.get("responses", {}).items():
+                    content = response.get("content", {})
+                    if (
+                        path == "/api/metrics/"
+                        and method == "get"
+                        and status_code == "200"
+                    ):
+                        self.assertEqual(
+                            content["text/csv"]["schema"], {"type": "string"}
+                        )
+                        self.assertEqual(
+                            content["application/openmetrics-text"]["schema"],
+                            {"type": "string"},
+                        )
+                        continue
+
+                    self.assertNotIn("text/csv", content)
+                    self.assertNotIn("application/openmetrics-text", content)
+
+        self.assertEqual(
+            schema["paths"]["/api/projects/{slug}/components/"]["post"]["requestBody"][
+                "content"
+            ].keys(),
+            {"application/json", "multipart/form-data"},
+        )
 
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()
@@ -10722,6 +10760,10 @@ class OpenAPITest(APIBaseTest):
             ],
             {"$ref": "#/components/schemas/UploadRequest"},
         )
+        self.assertEqual(
+            set(translation_file["post"]["requestBody"]["content"]),
+            {"multipart/form-data"},
+        )
 
         screenshot_file = schema["paths"]["/api/screenshots/{id}/file/"]
         self.assertEqual(
@@ -10735,6 +10777,14 @@ class OpenAPITest(APIBaseTest):
                 "schema"
             ],
             {"$ref": "#/components/schemas/BooleanResult"},
+        )
+        self.assertEqual(
+            screenshot_file["post"]["requestBody"]["content"],
+            {
+                "multipart/form-data": {
+                    "schema": {"$ref": "#/components/schemas/ScreenshotFile"}
+                }
+            },
         )
 
     def test_redoc(self) -> None:
