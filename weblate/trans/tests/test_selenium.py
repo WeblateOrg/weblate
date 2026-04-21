@@ -389,16 +389,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             .key_up(Keys.CONTROL)
             .perform()
         )
-        self.assertEqual(
-            self.driver.execute_script("return window.__hotkeyFired;"), 1
-        )
+        self.assertEqual(self.driver.execute_script("return window.__hotkeyFired;"), 1)
 
-        #Shift+/ on a non-input element opens the shortcuts help modal.
+        # Shift+/ on a non-input element opens the shortcuts help modal.
         body = self.driver.find_element(By.TAG_NAME, "body")
         self.actions.send_keys_to_element(body, "?").perform()
         WebDriverWait(self.driver, 5).until(
-            lambda driver: "show"
-            in driver.find_element(By.ID, "shortcuts-modal").get_attribute("class")
+            lambda driver: (
+                "show"
+                in driver.find_element(By.ID, "shortcuts-modal").get_attribute("class")
+            )
         )
 
     def test_login(self) -> None:
