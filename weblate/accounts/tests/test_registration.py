@@ -240,6 +240,28 @@ class RegistrationTest(BaseRegistrationTest):
         )
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_register_redirects_authenticated_get(self) -> None:
+        user = User.objects.create_user("testuser", "test@example.com", "x")
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("register"))
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_register_redirects_authenticated_post(self) -> None:
+        user = User.objects.create_user("testuser", "test@example.com", "x")
+        self.client.force_login(user)
+
+        response = self.do_register()
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertFalse(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_register_logout(self, logout=True) -> None:
         """Test double registration from single browser with logout."""
         # First registration
