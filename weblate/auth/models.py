@@ -1374,6 +1374,7 @@ class Invitation(models.Model):
             "invite",
             info=f"{self}",
             context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
+            user=self.user,
         )
 
     def accept(self, request: AuthenticatedHttpRequest, user: User) -> None:

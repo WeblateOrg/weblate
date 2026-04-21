@@ -79,6 +79,7 @@ class NotificationScope(IntegerChoices):
 
 NOTIFICATIONS: list[type[Notification]] = []
 NOTIFICATIONS_ACTIONS: dict[int, list[type[Notification]]] = {}
+RECIPIENT_USERNAME_HEADER = "X-Weblate-Recipient-Username"
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
@@ -89,6 +90,11 @@ def get_email_headers(notification: str) -> dict[str, str]:
         "X-Weblate-Notification": notification,
         "Message-ID": f"{uuid4()}@{get_site_domain()}",
     }
+
+
+def add_recipient_headers(headers: dict[str, str], user: User | None) -> None:
+    if user is not None:
+        headers[RECIPIENT_USERNAME_HEADER] = user.username
 
 
 def register_notification(handler: type[Notification]) -> type[Notification]:
@@ -365,6 +371,7 @@ class Notification:
 
     def get_headers(self, context: dict[str, Any]) -> dict[str, str]:
         headers = get_email_headers(self.get_name())
+        add_recipient_headers(headers, context.get("subscription_user"))
 
         # Set From header to contain user full name
         if user := context.get("user"):
@@ -1037,12 +1044,15 @@ def get_notification_emails(
     notification: str,
     context: dict[str, Any] | None = None,
     info: str | None = None,
+    *,
+    user: User | None = None,
 ) -> list[OutgoingEmail]:
     """Render notification email."""
     context = context or {}
 
     # Define headers
     headers = get_email_headers(notification)
+    add_recipient_headers(headers, user)
 
     LOGGER.info(
         "sending notification %s on %s to %s", notification, info, ", ".join(recipients)
@@ -1078,8 +1088,12 @@ def send_notification_email(
     notification: str,
     context: dict[str, Any] | None = None,
     info: str | None = None,
+    *,
+    user: User | None = None,
 ) -> None:
     """Render and sends notification email."""
     queue_mails(
-        get_notification_emails(language, recipients, notification, context, info)
+        get_notification_emails(
+            language, recipients, notification, context, info, user=user
+        )
     )
