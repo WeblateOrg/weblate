@@ -10627,6 +10627,26 @@ class OpenAPITest(APIBaseTest):
             self.assertIn("GPL-3.0-or-later", license_schema["examples"])
             self.assertIn("proprietary", license_schema["examples"])
 
+    def test_duplicate_small_schemas_are_reused(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+
+        self.assertNotIn("UnitLabels", schemas)
+        self.assertNotIn("UnitFlatLabels", schemas)
+        self.assertEqual(
+            schemas["Unit"]["properties"]["labels"]["items"],
+            {"$ref": "#/components/schemas/Label"},
+        )
+        self.assertEqual(
+            schemas["UnitWrite"]["properties"]["labels"]["items"],
+            {"type": "integer"},
+        )
+
+        self.assertIn("MessageResponse", schemas)
+        self.assertNotIn("patch_200_Message_response_serializer", schemas)
+        self.assertNotIn("post_201_Message_response_serializer", schemas)
+        self.assertNotIn("put_200_Message_response_serializer", schemas)
+
     def test_schema_media_types_are_trimmed(self) -> None:
         schema = self.get_schema()
 

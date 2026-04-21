@@ -17310,7 +17310,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/post_201_Message_response_serializer'
+                $ref: '#/components/schemas/MessageResponse'
           description: ''
         '400':
           content:
@@ -17469,7 +17469,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/put_200_Message_response_serializer'
+                $ref: '#/components/schemas/MessageResponse'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -17644,7 +17644,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/patch_200_Message_response_serializer'
+                $ref: '#/components/schemas/MessageResponse'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -30849,6 +30849,13 @@ components:
         * `merge` - Merge
         * `rebase` - Rebase
         * `merge_noff` - Merge without fast-forward
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
     MethodEnum:
       enum:
       - translate
@@ -32397,7 +32404,7 @@ components:
         labels:
           type: array
           items:
-            $ref: '#/components/schemas/UnitFlatLabels'
+            type: integer
     PendingUnits:
       type: object
       description: Detailed breakdown of pending translation units.
@@ -33539,7 +33546,7 @@ components:
         labels:
           type: array
           items:
-            $ref: '#/components/schemas/UnitLabels'
+            $ref: '#/components/schemas/Label'
         state:
           allOf:
           - $ref: '#/components/schemas/StringStateEnum'
@@ -33632,44 +33639,6 @@ components:
       - translation
       - url
       - web_url
-    UnitFlatLabels:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          title: Label name
-          maxLength: 190
-        description:
-          type: string
-          title: Label description
-          maxLength: 250
-        color:
-          $ref: '#/components/schemas/ColorEnum'
-      required:
-      - id
-      - name
-    UnitLabels:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          title: Label name
-          maxLength: 190
-        description:
-          type: string
-          title: Label description
-          maxLength: 250
-        color:
-          $ref: '#/components/schemas/ColorEnum'
-      required:
-      - id
-      - name
     UnitWrite:
       type: object
       description: Serializer for updating source unit.
@@ -33693,7 +33662,7 @@ components:
         labels:
           type: array
           items:
-            $ref: '#/components/schemas/UnitFlatLabels'
+            type: integer
       required:
       - labels
       - target
@@ -33782,27 +33751,6 @@ components:
         * `local` - No remote repository
         * `mercurial` - Mercurial
         * `subversion` - Subversion
-    patch_200_Message_response_serializer:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    post_201_Message_response_serializer:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    put_200_Message_response_serializer:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
   securitySchemes:
     bearerAuth:
       type: apiKey
