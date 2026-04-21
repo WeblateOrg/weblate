@@ -256,9 +256,13 @@ def generate_ssh_key(
 
 def extract_url_host_port(repo: str) -> tuple[str | None, int | None]:
     """Extract hostname and port from repository URL."""
-    parsed = urlparse(repo)
-    if not parsed.hostname:
-        parsed = urlparse(f"ssh://{repo}")
+    try:
+        parsed = urlparse(repo)
+        if not parsed.hostname:
+            parsed = urlparse(f"ssh://{repo}")
+    except ValueError:
+        # Could not parse URL
+        return None, None
     if not parsed.hostname:
         # Could not parse URL
         return None, None
