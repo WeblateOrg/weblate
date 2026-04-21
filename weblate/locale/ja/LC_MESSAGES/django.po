@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-18 07:52+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-22 10:10+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -225,6 +225,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"現在の API キーを無効化して新しいキーを生成するには、この設定を有効のままにし"
+"てください。パスワードが漏えいした可能性がある場合は、この方法を推奨します。"
+"パスワード変更後も現在の API キーを引き続き使用する場合は、無効に設定してくだ"
+"さい。"
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -601,26 +605,24 @@ msgid "User was disabled because the access has expired."
 msgstr "アクセスの有効期限が切れたため、ユーザーは無効化されました。"
 
 #: weblate/accounts/models.py:313
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "ユーザーは {username} さんによって {team} チームに追加されました。"
+msgstr "{username} により、ユーザーはサイト全体の {team} チームに追加されました。"
 
 #: weblate/accounts/models.py:317
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "ユーザーは {username} さんによって {team} チームから削除されました。"
+msgstr "ユーザーは、{username} によってサイト全体の {team} チームから削除されました。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "スーパーユーザー権限が付与されました。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "スーパーユーザー権限が取り消されました。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1397,6 +1399,8 @@ msgstr "無料体験"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"%(user)s によるサイト全体の編集を元に戻す処理が、タスク スケジュールに追加さ"
+"れました。"
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1462,16 +1466,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "認証情報を紛失した場合でも、新しいパスワードを申請できます。"
 
 #: weblate/accounts/views.py:1489
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"身元を確認するために、もう一度登録してください。おそらく確認リンクの有効期限"
-"が切れています。"
+"本人確認のため、もう一度パスワードを初期化してください。おそらく確認リンクの"
+"有効期限が切れています。"
 
 #: weblate/accounts/views.py:1496
 msgid ""
@@ -1649,18 +1649,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"このアドオンはプロジェクト全体に影響し、多数のコンポーネントやリポジトリに翻"
+"訳ファイルを生成することがあります。"
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"このアドオンはカテゴリ全体に影響し、多くのコンポーネントやリポジトリに翻訳"
+"ファイルを生成することがあります。"
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"このアドオンはすべてのプロジェクトに影響し、多くのコンポーネントやリポジトリ"
+"に翻訳ファイルを生成することがあります。"
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
@@ -2106,27 +2112,23 @@ msgstr ""
 "です。"
 
 #: weblate/addons/forms.py:602
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "上記の一致が正しいかを確認する"
+msgstr "上記の操作が正しいことを確認します"
 
 #: weblate/addons/forms.py:625
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "一致したコンポーネントを確認してください。"
+msgstr "不足している言語の変更について、確認と査読をお願いします。"
 
 #: weblate/addons/forms.py:724
 msgid "Regular expression to match translation files against"
 msgstr "翻訳ファイルを照合する正規表現"
 
 #: weblate/addons/forms.py:727
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The regular expression must define named groups for component and language."
-msgstr "正規表現が複雑すぎるため、評価に時間がかかりすぎました。"
+msgstr ""
+"正規表現では、コンポーネントと言語の名前付きグループを設定する必要があります"
+"。"
 
 #: weblate/addons/forms.py:731
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2142,34 +2144,33 @@ msgstr "コンポーネント名のカスタマイズ"
 #: weblate/addons/forms.py:741
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Django テンプレート構文を使用してください。このテンプレートには {{ "
+"component }} を必ず含める必要があります。"
 
 #: weblate/addons/forms.py:745
 msgid "Define the monolingual base filename"
 msgstr "モノリンガル用の、基礎となる翻訳ファイル名の設定"
 
 #: weblate/addons/forms.py:749
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "バイリンガル翻訳の場合は、何も設定しないでください。"
+msgstr ""
+"バイリンガル翻訳ファイルの場合は空のままにしてください。設定する場合、この"
+"テンプレートには {{ component }} を必ず含める必要があります。"
 
 #: weblate/addons/forms.py:753
 msgid "Define the base file for new translations"
 msgstr "新しい翻訳用の、基礎となる翻訳ファイルの設定"
 
 #: weblate/addons/forms.py:757
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"新しい翻訳の作成に使用するファイルのファイル名。gettext では .pot ファイルを"
-"選択します。"
+"新しい翻訳を作成するために使用するファイル名です。gettext を使用する場合は "
+".pot ファイルを指定してください。このテンプレートには {{ component }} を必ず"
+"含める必要があります。"
 
 #: weblate/addons/forms.py:762
 #: weblate/templates/trans/alert/inexistantfiles.html:14
