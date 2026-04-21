@@ -93,6 +93,7 @@ def notify_expired() -> None:
                     "unsubscribe_note": note,
                 },
                 info=bill,
+                user=user,
             )
 
 
@@ -127,6 +128,7 @@ def remove_single_billing(billing_id: int) -> None:
             "billing_expired",
             context={"billing": bill, "final_removal": True},
             info=bill,
+            user=user,
         )
     for prj in bill.projects.iterator():
         bill.billinglog_set.create(

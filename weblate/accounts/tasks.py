@@ -168,6 +168,7 @@ def notify_auditlog(log_id: int, email: str) -> None:
             "user_agent": audit.user_agent,
         },
         info=f"{audit.activity} from {audit.address}",
+        user=audit.user,
     )
 
 
