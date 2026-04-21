@@ -10589,6 +10589,33 @@ class OpenAPITest(APIBaseTest):
             [{"$ref": "#/components/schemas/StringStateEnum"}],
         )
 
+    def test_error_response_schemas_are_shared(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+
+        self.assertIn("ErrorResponse400", schemas)
+        self.assertFalse(
+            any(
+                name.startswith("Api") and ("Error" in name or "Validation" in name)
+                for name in schemas
+            )
+        )
+
+        response_content = schema["paths"]["/api/projects/"]["post"]["responses"][
+            "400"
+        ]["content"]
+        expected_schema = {"$ref": "#/components/schemas/ErrorResponse400"}
+        self.assertEqual(
+            response_content["application/json"]["schema"], expected_schema
+        )
+        self.assertEqual(response_content["text/csv"]["schema"], expected_schema)
+
+        code_schema = schemas["Error400"]["properties"]["code"]
+        self.assertEqual(code_schema["type"], "string")
+        self.assertNotIn("enum", code_schema)
+        self.assertIn("required", code_schema["examples"])
+        self.assertIn("parse_error", code_schema["examples"])
+
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()
 

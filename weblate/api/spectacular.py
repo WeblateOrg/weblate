@@ -84,6 +84,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
             "StringStateEnum": "weblate.utils.state.StringState.choices",
             "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
+            "ErrorResponse400TypeEnum": "weblate.api.serializers.ErrorResponse400TypeEnum.choices",
             "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
             "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
             "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
@@ -218,6 +219,7 @@ def get_drf_standardized_errors_settings() -> dict[str, Any]:
             "500",
         ],
         "ERROR_SCHEMAS": {
+            "400": "weblate.api.serializers.ErrorResponse400Serializer",
             "423": "weblate.api.serializers.ErrorResponse423Serializer",
         },
         "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",
