@@ -7,13 +7,28 @@
 from __future__ import annotations
 
 from django.contrib.messages import get_messages
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
+from weblate.middleware import RedirectMiddleware
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class MiddlewareTestCase(FixtureTestCase):
     """Test case insensitive lookups and aliases in middleware."""
+
+    def test_existing_translations_check_avoids_language_listing(self) -> None:
+        middleware = RedirectMiddleware()
+        language = self.translation.language
+
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(
+                middleware.check_existing_translations(language, self.project)
+            )
+
+        sql = " ".join(query["sql"] for query in queries)
+        self.assertNotIn("lang_language", sql)
 
     def test_not_found(self) -> None:
         # Non existing fails with 404

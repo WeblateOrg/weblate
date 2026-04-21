@@ -488,6 +488,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Return list of all languages used in project."""
         return Language.objects.filter(pk__in=self._get_language_ids_queryset()).order()
 
+    def has_language(self, language: Language) -> bool:
+        """Return whether project has a translation in given language."""
+        from weblate.trans.models import Translation  # noqa: PLC0415
+
+        if Translation.objects.filter(
+            component__project=self, language_id=language.pk
+        ).exists():
+            return True
+        return Translation.objects.filter(
+            component__links=self, language_id=language.pk
+        ).exists()
+
     def _get_language_ids_queryset(self) -> QuerySet:
         from weblate.trans.models import Translation  # noqa: PLC0415
 
