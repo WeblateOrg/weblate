@@ -33,8 +33,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-21 03:40+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-22 10:11+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2471,10 +2472,10 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
-"可以在项目（见 :ref:`project-enforced_2fa`）或团队层级进行强制。在全站范围部"
-"署中，通过在默认 :guilabel:`用户`团队中启用它可用来对所有用户强制进行双因素身"
-"份认证，该团队通过 :ref:`automatic team assignment <autoteam>` 自动分配给新用"
-"户。"
+"可以在项目（见 :ref:`project-enforced_2fa`）或团队层级对用户进行强制。在全站"
+"范围部署中，通过在默认 :guilabel:`用户`团队中启用它可用来对所有用户强制进行双"
+"因素身份认证，该团队通过 :ref:`automatic team assignment <autoteam>` 自动分配"
+"给新用户。"
 
 #: admin/auth.rst:850
 msgid ""
@@ -13699,22 +13700,15 @@ msgid "Translation memory status"
 msgstr "翻译记忆库状态"
 
 #: admin/memory.rst:79
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, stale and "
-#| "obsolete entries with pending status are automatically removed when a "
-#| "translation is approved."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
 "penalty applied. If :ref:`autoclean-tm` is enabled, matching pending entries "
 "are removed when a translation becomes active."
 msgstr ""
-"翻译记忆库条目可以有两种不同状态：**活跃** 和 **待定**。待定条目包含在建议"
-"中，但适用质量惩罚。如启用了 :ref:`autoclean-tm`，批准译文时，过时和废弃的待"
-"定状态条目将被自动删除。"
+"翻译记忆库条目可以有两种不同状态：**活跃** 和 **待定**。待定条目包含在建议中"
+"，但适用质量惩罚。如启用了 :ref:`autoclean-tm`，当译文状态变为活跃时匹配的待"
+"定条目被删除。"
 
 #: admin/memory.rst:87 admin/projects.rst:199
 msgid "Autoclean translation memory"
@@ -14636,14 +14630,10 @@ msgstr ""
 "闭 :ref:`project-use_shared_tm`。"
 
 #: admin/projects.rst:203
-#, fuzzy
-#| msgid ""
-#| "Whether to automatically remove outdated and obsolete entries from "
-#| "translation memory."
 msgid ""
 "Whether to replace older automatically created translation memory entries "
 "when a translation becomes active."
-msgstr "是否从翻译记忆库自动删除过时和废弃的条目。"
+msgstr "当译文状态变为活跃时是否替换旧的自动创建的翻译记忆库条目。"
 
 #: admin/projects.rst:206
 msgid ""
@@ -16810,17 +16800,13 @@ msgstr ""
 "见 :doc:`backup`。"
 
 #: admin/upgrade.rst:36
-#, fuzzy
-#| msgid ""
-#| "Stop the WSGI and Celery processes to avoid old processes running while "
-#| "upgrading. Otherwise incompatible changes in the database might occur."
 msgid ""
 "Wait for the Celery queues to become empty, then stop the WSGI and Celery "
 "processes to avoid old processes running while upgrading. Otherwise "
 "incompatible changes in the database might occur."
 msgstr ""
-"停止 WSGI 和 Celery 进程避免升级时旧进程运行。否则可能发生不兼容的数据库更"
-"改。"
+"请等待 Celery 队列变空，然后停止 WSGI 和 Celery 进程避免升级时旧进程运行。否"
+"则可能发生不兼容的数据库更改。"
 
 #: admin/upgrade.rst:40
 msgid ""
@@ -17354,10 +17340,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.17.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.17.1"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -17398,16 +17382,12 @@ msgid "Clarified the site-wide scope of the global ``user.edit`` permission."
 msgstr ""
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ":ref:`project-autoclean_tm`"
 msgid "Clarified :ref:`autoclean-tm`."
-msgstr ":ref:`project-autoclean_tm`"
+msgstr "澄清了 :ref:`autoclean-tm`。"
 
 #: changes.rst:14
-#, fuzzy
-#| msgid "Password hashing now uses Argon2 by default."
 msgid "Password updates now regenerate your personal API key by default."
-msgstr "密码散列现在默认使用Argon2。"
+msgstr "密码更新现在默认重新生成个人 API 密钥。"
 
 #: changes.rst:15
 msgid ""
@@ -17430,14 +17410,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "Please follow :ref:`generic-upgrade-instructions` in order to perform "
-#| "update."
 msgid ""
 "Clarified :ref:`generic-upgrade-instructions` to state that Celery queues "
 "should be empty before upgrading."
-msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
+msgstr "澄清 :ref:`generic-upgrade-instructions` 声明升级前 Celery 队列应该为空。"
 
 #: changes.rst:19
 msgid ""
@@ -17445,10 +17421,8 @@ msgid ""
 msgstr ""
 
 #: changes.rst:20
-#, fuzzy
-#| msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgid "Track superuser and site-wide team changes in :ref:`audit-log`."
-msgstr ":ref:`audit-log` 现追踪团队成员资格变化。"
+msgstr "在 :ref:`audit-log` 中追踪超级用户和全站团队更改。"
 
 #: changes.rst:21
 msgid ""
@@ -17483,12 +17457,10 @@ msgid "Bug fixes"
 msgstr "缺陷修复"
 
 #: changes.rst:26
-#, fuzzy
-#| msgid ":ref:`check-rst-references` allows translatable reference names."
 msgid ""
 ":ref:`check-rst-references` no longer crashes on repeated explicit-link "
 "targets."
-msgstr ":ref:`check-rst-references` 允许可翻译的参考名称。"
+msgstr ":ref:`check-rst-references` 遇到重复的显示链接目标时不再崩溃。"
 
 #: changes.rst:27
 msgid ""
@@ -17497,12 +17469,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:28
-#, fuzzy
-#| msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgid ""
 ":ref:`check-punctuation-spacing` check no longer triggers false positives "
 "for placeholders."
-msgstr ":ref:`check-punctuation-spacing` 检查不再应用于布列塔尼语。"
+msgstr ":ref:`check-punctuation-spacing` 检查不再触发占位符误报。"
 
 #: changes.rst:29
 msgid ""
@@ -17657,26 +17627,20 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "64?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/164?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/64?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/164?closed=1>"
+"`__。"
 
 #: changes.rst:56
 msgid "Weblate 5.17"
 msgstr "Weblate 5.17"
 
 #: changes.rst:58
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 15th 2026.*"
-msgstr "*发布于 2025 年 4 月 15 日。*"
+msgstr "*发布于 2026 年 4 月 15 日。*"
 
 #: changes.rst:62
 msgid ""
@@ -17704,12 +17668,12 @@ msgstr ""
 "的受支持功能的 RST 文档片段。"
 
 #: changes.rst:65
-#, fuzzy
-#| msgid "Shared components can now be categorized within the target project."
 msgid ""
 "Shared components can now be categorized within the target project, "
 "including through the :ref:`api` using the ``category_id`` parameter."
-msgstr "现在可以在目标项目中对共享部件进行分类。"
+msgstr ""
+"现在可以在目标项目中对共享部件进行分类，包括用 ``category_id`` 参数通过 "
+":ref:`api` 进行分类。"
 
 #: changes.rst:66
 msgid ""
@@ -17798,10 +17762,8 @@ msgid "Improved plural handling in :ref:`auto-translation`."
 msgstr "改进了 :ref:`auto-translation` 中的复数处理。"
 
 #: changes.rst:84
-#, fuzzy
-#| msgid "Improved error messages in some of the :ref:`api` endpoints."
 msgid "Improved error messages in some :ref:`api` endpoints."
-msgstr "改进了部分 :ref:`api` 端点中的错误消息。"
+msgstr "改进了一些 :ref:`api` 端点中的错误消息。"
 
 #: changes.rst:85
 msgid ""
@@ -17832,19 +17794,15 @@ msgid ""
 msgstr ""
 
 #: changes.rst:89
-#, fuzzy
-#| msgid ""
-#| "Improved documentation with auto-generated snippets "
-#| "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
-#| "translation` machines."
 msgid ""
 "Improved documentation with auto-generated snippets "
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines, and clarified merge-conflict behavior for exported "
 "repositories using shallow clones by default."
 msgstr ""
-"用 :ref:`addons`、:ref:`fmt_capabs`、:ref:`checks` 的自动生成文本片段"
-"和 :ref:`machine-translation` 改进文档。"
+"用 :ref:`addons`、:ref:`fmt_capabs`、:ref:`checks` 的自动生成文本片段和 "
+":ref:`machine-translation` 改进文档，并澄清了对于默认使用浅克隆的导出仓库的合"
+"并冲突行为。"
 
 #: changes.rst:90
 msgid ""
@@ -17903,14 +17861,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:98
-#, fuzzy
-#| msgid ""
-#| "Improved performance of project language counting and API listing on "
-#| "projects with shared components."
 msgid ""
 "Faster category and project removals, and improved performance of project "
 "language counting and API listing on projects with shared components."
-msgstr "改进了项目预言计数和含共享部件项目的 API 列举的性能。"
+msgstr "加速分类和项目删除，改进了项目预言计数和含共享部件项目的 API 列举的性能。"
 
 #: changes.rst:99
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
@@ -17930,10 +17884,8 @@ msgid ""
 msgstr ""
 
 #: changes.rst:104
-#, fuzzy
-#| msgid "Security policies"
 msgid "Security fixes"
-msgstr "安全政策"
+msgstr "安全修复"
 
 #: changes.rst:105
 msgid ""
@@ -17942,15 +17894,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:106
-#, fuzzy
-#| msgid ""
-#| "Server-Side Request Forgery while cloning repository "
-#| "(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 msgid ""
 "Hardened component file handling for repository symlinks "
 "(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 msgstr ""
-"克隆仓库时的服务器端请求伪造（:cve:`2025-66407`/:ghsa:`hfpv-mc5v-p9mm`）。"
+"强化了仓库符号链接的部件文件处理 (:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)"
+"。"
 
 #: changes.rst:107
 msgid ""
@@ -17995,16 +17944,13 @@ msgid ""
 msgstr ""
 
 #: changes.rst:114
-#, fuzzy
-#| msgid ""
-#| "Project backup restore no longer trusts repository-local VCS "
-#| "configuration and hooks from the uploaded archive."
 msgid ""
 "Hardened :ref:`projectbackup` restore against repository-local VCS "
 "configuration and hooks from uploaded archives "
 "(:cve:`2026-33435` / :ghsa:`558g-h753-6m33`)."
 msgstr ""
-"项目备份恢复不再信任上传归档文件中的仓库本地版本控制系统（VCS）配置和钩子。"
+"强化了对于仓库本地 VCS 配置的 :ref:`projectbackup` 的还原及来自已上传压缩文"
+"件 hook (:cve:`2026-33435` / :ghsa:`558g-h753-6m33`)。"
 
 #: changes.rst:118
 msgid ""
@@ -40815,10 +40761,8 @@ msgid "Configuration object, overrides any other parameters."
 msgstr "配置对象，覆盖任何其他参数。"
 
 #: python.rst:44
-#, fuzzy
-#| msgid "total number of strings"
 msgid "Total number of HTTP retries."
-msgstr "字符串的总数"
+msgstr "HTTP 重试的总数。"
 
 #: python.rst:46
 msgid "HTTP status codes that should trigger retries."
@@ -43679,10 +43623,8 @@ msgid "Triggered after a Change event is created."
 msgstr "更改事件创建后触发。"
 
 #: snippets/addon-events-autogenerated.rst:42
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Manual trigger"
-msgstr "触发了警报"
+msgstr "手动触发"
 
 #: snippets/addon-events-autogenerated.rst:44
 msgid ""
@@ -44869,11 +44811,6 @@ msgid ""
 msgstr "根据版本控制系统中文件更改的情况来自动添加或删除项目部件。"
 
 #: snippets/addons-autogenerated.rst:232
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language. All named groups in the "
-#| "regular expression can be used as variables in the template fields."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. The regular "
@@ -44881,14 +44818,13 @@ msgid ""
 "match component and language. All named groups in the regular expression can "
 "be used as variables in the template fields."
 msgstr ""
-"匹配翻译文件的正则表达式必须包含两个命名组以匹配部件和语言，所有正则表达式的"
-"命名组均可用作模板字段中的变量。"
+"此匹配使用允许复杂配置的正则表达式完成，但需要知晓一些正则表达式的知识。匹配"
+"翻译文件的正则表达式必须包含两个命名组以匹配部件和语言，所有正则表达式的命名"
+"组均可用作模板字段中的变量。"
 
 #: snippets/addons-autogenerated.rst:239
-#, fuzzy
-#| msgid "System requirements"
 msgid "Discovery requirements"
-msgstr "系统要求"
+msgstr "“发现”要求"
 
 #: snippets/addons-autogenerated.rst:241
 msgid ""
@@ -44941,10 +44877,8 @@ msgid "Component name:"
 msgstr "部件名称："
 
 #: snippets/addons-autogenerated.rst:266
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Discovered file masks:"
-msgstr "截图文件掩码"
+msgstr "发现的文件掩码："
 
 #: snippets/addons-autogenerated.rst:270
 msgid ""
@@ -44958,10 +44892,8 @@ msgid "You can use Django template markup in all filename fields, for example:"
 msgstr "您可以在所有文件名字段中使用 Django 模板标记，例如："
 
 #: snippets/addons-autogenerated.rst:277
-#, fuzzy
-#| msgid "Verbose component name, used to display the component name."
 msgid "Component name parsed from the ``component`` match group"
-msgstr "冗长部件名称，用于显示部件的名称。"
+msgstr "解析自 ``component`` 匹配组的部件名"
 
 #: snippets/addons-autogenerated.rst:279
 msgid "Component filename with upper case first letter"
@@ -45718,16 +45650,12 @@ msgstr "更新 gettext 标头并替换占位符 POT 注释。"
 #: snippets/addons-autogenerated.rst:1090
 #: snippets/addons-autogenerated.rst:1203
 #: snippets/addons-autogenerated.rst:1282
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-add`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-"
 "trigger`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-add`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, "
+":ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:1007
 msgid ""
@@ -56180,37 +56108,28 @@ msgid "The command to launch the container uses the following syntax:"
 msgstr "启动容器的命令使用以下语法："
 
 #: wlc.rst:63
-#, fuzzy
-#| msgid ""
-#| "You might want to pass your :ref:`wlc-config` to the Docker container, "
-#| "the easiest approach is to add your current directory as :file:`/home/"
-#| "weblate` volume:"
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container. When "
 "your repository contains a project configuration such as :file:`.weblate`, "
 "the easiest approach is to add your current directory as the :file:`/home/"
 "weblate` volume:"
 msgstr ""
-"您可能希望将 :ref:`wlc-config` 传递给 Docker 容器，最简单的方法是将当前目录添"
-"加为 :file:`/home/weblate` 卷："
+"您可能希望将 :ref:`wlc-config` 传递给 Docker 容器。仓库包含项目配置，如 "
+":file:`.weblate` 时，最简单的方法是将当前目录添加为 :file:`/home/weblate` 卷"
+"："
 
 #: wlc.rst:74
 msgid "Getting started"
 msgstr "入门"
 
 #: wlc.rst:76
-#, fuzzy
-#| msgid ""
-#| "The :program:`wlc` configuration is stored in :file:`~/.config/weblate` "
-#| "(see :ref:`wlc-config` for other locations), please create it to match "
-#| "your environment:"
 msgid ""
 "The easiest way to get started is to create a personal :program:`wlc` "
 "configuration in :file:`~/.config/weblate` (see :ref:`wlc-config` for the "
 "full discovery rules and other locations):"
 msgstr ""
-":program:`wlc` 配置存储在 :file:`~/.config/weblate` 中（其他位置请参"
-"见 :ref:`wlc-config`），请创建它来匹配你的环境："
+"最简单的入门方式是在 :file:`~/.config/weblate` 中创建个人 :program:`wlc` 配"
+"置 (见 :ref:`wlc-config` 了解完整恢复规则和其他位置)："
 
 #: wlc.rst:89
 msgid "You can then invoke commands on the default server:"
@@ -56466,36 +56385,28 @@ msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: wlc.rst:307
-#, fuzzy
-#| msgid "User configuration file on Windows in the roamed profile."
 msgid "Global configuration file on Windows in the roamed profile."
-msgstr "Windows 漫游用户配置文件。"
+msgstr "Windows 漫游用户全局配置文件。"
 
 #: wlc.rst:308
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: wlc.rst:309
-#, fuzzy
-#| msgid "User configuration file on Windows in the local profile."
 msgid "Global configuration file on Windows in the local profile."
-msgstr "Windows 本地用户配置文件。"
+msgstr "Windows 本地用户全局配置文件。"
 
 #: wlc.rst:310
 msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: wlc.rst:311
-#, fuzzy
-#| msgid "Changed configuration of filesystem paths."
 msgid "Global configuration file on Unix-like systems."
-msgstr "更改了文件系统路径的配置。"
+msgstr "类 Unix 系统全局配置文件。"
 
 #: wlc.rst:313
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
-msgstr "系统范围的配置文件。"
+msgstr "系统范围的备份配置文件。"
 
 #: wlc.rst:315
 msgid ""
@@ -56524,10 +56435,8 @@ msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: wlc.rst:326
-#, fuzzy
-#| msgid "Configuration file placed in the project directory."
 msgid "Project configuration file placed in the repository."
-msgstr "放在项目目录中的配置文件。"
+msgstr "放在仓库中的项目配置文件。"
 
 #: wlc.rst:328
 msgid ""
@@ -56575,11 +56484,6 @@ msgid "The API keys are stored in the ``[keys]`` section:"
 msgstr "API 密钥存储在 ``[keys]`` 部分："
 
 #: wlc.rst:375
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using "
-#| "the :file:`.weblate` configuration in the VCS repository so "
-#| "that :program:`wlc` knows which server it should talk to."
 msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
@@ -56588,22 +56492,21 @@ msgid ""
 "using :envvar:`WLC_KEY`."
 msgstr ""
 "这样，您就可以在版本控制系统仓库中使用 :file:`.weblate` 配置时，将密钥存储在"
-"个人设置中，以便 :program:`wlc` 知道它应该与哪个服务器通信。"
+"个人设置中，以便 :program:`wlc` 知道它应该与哪个服务器通信。命令行下，在版本"
+"控制中只保留仓库配置并用 :envvar:`WLC_KEY` 注入 API 密钥。"
 
 #: wlc.rst:382
 msgid "Environment variables"
 msgstr "环境变量"
 
 #: wlc.rst:386
-#, fuzzy
-#| msgid ""
-#| "The API URL and key can also be configured using environment variables. "
-#| "This is especially useful for CI workflows:"
 msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows where the repository provides the "
 "project configuration and :envvar:`WLC_KEY` is injected as a secret:"
-msgstr "也可用环境变量配置 API URL 和密钥。这对 CI 工作流尤其有用:"
+msgstr ""
+"也可用环境变量配置 API URL 和密钥。这对特定 CI 工作流尤其有用，在此类工作流中"
+"仓库提供项目配置，:envvar:`WLC_KEY` 作为 secret 被注入:"
 
 #: wlc.rst:398
 msgid "The configuration precedence (highest to lowest) is:"
