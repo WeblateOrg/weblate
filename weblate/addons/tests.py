@@ -85,7 +85,13 @@ from .flags import (
     TargetEditAddon,
     TargetRepoUpdateAddon,
 )
-from .forms import BaseAddonForm, DiscoveryForm
+from .forms import (
+    BaseAddonForm,
+    DiscoveryForm,
+    GenerateForm,
+    GitSquashForm,
+    PropertiesSortAddonForm,
+)
 from .generate import (
     FillReadOnlyAddon,
     GenerateFileAddon,
@@ -5684,7 +5690,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertEqual(unit_2.target, "jeden")
 
 
-class AutoTranslateAddonUnitTest(SimpleTestCase):
+class AddonConfigurationUnitTest(SimpleTestCase):
     def test_base_addon_configuration_normalizes_stored_values(self) -> None:
         addon = TypedConfigAddon.__new__(TypedConfigAddon)
         addon.instance = SimpleNamespace(configuration={"count": "5"})
@@ -5853,6 +5859,98 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
                 "mode": "translate",
                 "q": "state:<translated",
                 "threshold": DEFAULT_AUTO_TRANSLATE_THRESHOLD,
+            },
+        )
+
+    def test_generate_file_form_serializes_configuration(self) -> None:
+        addon = GenerateFileAddon.__new__(GenerateFileAddon)
+        addon.instance = SimpleNamespace(component=None, project=None)
+        form = GenerateForm(
+            None,
+            addon,
+            data={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form(),
+            {
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+    def test_generate_file_runtime_configuration_is_normalized(self) -> None:
+        addon = GenerateFileAddon.__new__(GenerateFileAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            }
+        )
+
+        self.assertEqual(
+            addon.configuration,
+            {
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+    def test_properties_sort_form_serializes_configuration(self) -> None:
+        addon = PropertiesSortAddon.__new__(PropertiesSortAddon)
+        addon.instance = SimpleNamespace()
+        form = PropertiesSortAddonForm(
+            None,
+            addon,
+            data={"case_sensitive": "on"},
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form(), {"case_sensitive": True})
+
+    def test_properties_sort_configuration_defaults_missing_values(self) -> None:
+        addon = PropertiesSortAddon.__new__(PropertiesSortAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(addon.get_configuration(), {"case_sensitive": False})
+
+    def test_git_squash_form_serializes_configuration(self) -> None:
+        addon = GitSquashAddon.__new__(GitSquashAddon)
+        addon.instance = SimpleNamespace()
+        form = GitSquashForm(
+            None,
+            addon,
+            data={
+                "squash": "language",
+                "append_trailers": "",
+                "commit_message": "Squashed translations",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form(),
+            {
+                "squash": "language",
+                "append_trailers": False,
+                "commit_message": "Squashed translations",
+            },
+        )
+
+    def test_git_squash_configuration_defaults_missing_values(self) -> None:
+        addon = GitSquashAddon.__new__(GitSquashAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "squash": "all",
+                "append_trailers": True,
+                "commit_message": "",
             },
         )
 
