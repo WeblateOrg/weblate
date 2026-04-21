@@ -2173,7 +2173,8 @@ class CategorySerializer(RemovableSerializer[Category]):
         lookup_field="pk",
     )
     announcements_url = serializers.HyperlinkedIdentityField(
-        view_name="api:category-announcements", lookup_field="pk",
+        view_name="api:category-announcements",
+        lookup_field="pk",
     )
 
     class Meta:
