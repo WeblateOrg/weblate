@@ -265,6 +265,11 @@ class AutoTranslate(BaseAutoTranslate):
             translation__language=self.translation.language,
             state__gte=STATE_TRANSLATED,
         )
+        # Read-only units can have STATE_READONLY even when their target is
+        # empty, so state__gte=STATE_TRANSLATED is not enough to find usable
+        # translations. The lower-MD5 lookup matches the trans_unit_target_md5
+        # index and keeps this exclusion cheap on large components.
+        sources = sources.exclude(target__lower__md5=MD5(Value("")))
         source_language = self.translation.component.source_language
         component_ids = list(dict.fromkeys(source_component_ids or []))
         if component_ids:

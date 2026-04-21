@@ -11,10 +11,10 @@ from django.urls import reverse
 
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, PendingUnitChange, Project
+from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 
 
@@ -122,6 +122,40 @@ class AutoTranslationTest(ViewTestCase):
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto()
+
+    def test_readonly_empty_target_source_candidate(self) -> None:
+        """Skip source candidates with empty targets even when read-only."""
+        source_unit = self.get_unit("Hello, world!\n")
+        Unit.objects.filter(pk=source_unit.pk).update(
+            state=STATE_READONLY,
+            target="",
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        target_unit = self.get_unit("Hello, world!\n", translation=translation)
+        initial_pending = PendingUnitChange.objects.filter(unit=target_unit).count()
+
+        result = auto_translate(
+            translation_id=translation.id,
+            user_id=self.user.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+        self.assertFalse(target_unit.automatically_translated)
+        self.assertEqual(
+            PendingUnitChange.objects.filter(unit=target_unit).count(),
+            initial_pending,
+        )
 
     def test_plural_mismatch_warning(self) -> None:
         self.set_mismatched_plural()

@@ -45,6 +45,7 @@ Weblate 5.17.1
 * :ref:`Translation memory upload <memory-user>` and :wladmin:`import_memory` now report a validation error for TMX files missing the required header instead of failing the request.
 * Project listings now show review progress columns when any listed project has reviews enabled.
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
+* Automatic translation from other components now ignores read-only source candidates with empty translations.
 
 .. rubric:: Compatibility
 
