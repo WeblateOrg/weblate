@@ -1019,6 +1019,9 @@ def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
 @login_not_required
 def register(request: AuthenticatedHttpRequest):
     """Registration form."""
+    if request.user.is_authenticated:
+        return redirect_profile("#account")
+
     # Fetch invitation
     invitation: Invitation | None = None
     initial = {}
