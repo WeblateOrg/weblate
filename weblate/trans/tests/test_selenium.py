@@ -355,7 +355,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
-
         # Check that the hotkeys library is loaded and the filter is overridden by our wrapper.
         self.assertTrue(
             self.driver.execute_script(
