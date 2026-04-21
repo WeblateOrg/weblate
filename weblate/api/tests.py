@@ -10616,6 +10616,22 @@ class OpenAPITest(APIBaseTest):
         self.assertIn("required", code_schema["examples"])
         self.assertIn("parse_error", code_schema["examples"])
 
+    def test_license_schema_is_plain_string(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+
+        self.assertNotIn("LicenseEnum", schemas)
+
+        for schema_name in ("Component", "ProjectComponent", "PatchedComponent"):
+            license_schema = schemas[schema_name]["properties"]["license"]
+            self.assertEqual(license_schema["type"], "string")
+            self.assertEqual(license_schema["maxLength"], 150)
+            self.assertNotIn("enum", license_schema)
+            self.assertNotIn("oneOf", license_schema)
+            self.assertIn("MIT", license_schema["examples"])
+            self.assertIn("GPL-3.0-or-later", license_schema["examples"])
+            self.assertIn("proprietary", license_schema["examples"])
+
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()
 

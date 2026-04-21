@@ -19,6 +19,58 @@ from .middleware import (
     RATELIMIT_RESET_HEADER,
 )
 
+LICENSE_ENUM_REF = "#/components/schemas/LicenseEnum"
+LICENSE_SCHEMA_EXAMPLES = (
+    "MIT",
+    "GPL-3.0-or-later",
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "proprietary",
+)
+
+
+def _license_string_schema() -> dict[str, object]:
+    return {
+        "type": "string",
+        "maxLength": 150,
+        "examples": list(LICENSE_SCHEMA_EXAMPLES),
+    }
+
+
+def _is_license_enum_ref(schema: object) -> bool:
+    return isinstance(schema, dict) and schema.get("$ref") == LICENSE_ENUM_REF
+
+
+def _replace_license_schema(schema: object) -> None:
+    if isinstance(schema, dict):
+        if _is_license_enum_ref(schema):
+            schema.clear()
+            schema.update(_license_string_schema())
+            return
+
+        for combinator in ("oneOf", "anyOf", "allOf"):
+            options = schema.get(combinator)
+            if isinstance(options, list) and any(
+                _is_license_enum_ref(item) for item in options
+            ):
+                schema.pop(combinator)
+                schema.update(_license_string_schema())
+                break
+
+        for value in schema.values():
+            _replace_license_schema(value)
+
+    elif isinstance(schema, list):
+        for item in schema:
+            _replace_license_schema(item)
+
+
+def simplify_license_schema(result, generator, request, public):
+    """Document component licenses as strings instead of a huge enum."""
+    result.get("components", {}).get("schemas", {}).pop("LicenseEnum", None)
+    _replace_license_schema(result)
+    return result
+
 
 def build_response_header_parameter(
     name: str,
