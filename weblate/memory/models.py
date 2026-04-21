@@ -47,6 +47,7 @@ SUPPORTED_FORMATS = (
 )
 
 MIN_SIMILARITY_THRESHOLD = 0.3
+MAX_MACHINERY_SIMILARITY_BACKOFF = 0.2
 MEMORY_LOOKUP_LIMIT = 50
 
 
@@ -196,11 +197,22 @@ class MemoryQuerySet(models.QuerySet):
         if threshold >= 100:
             return 1.0
         if threshold >= 75:
+            # High-quality machinery lookups should not back off to the broad
+            # interactive-search floor; those scans are expensive on large TMs.
+            minimum = max(
+                MIN_SIMILARITY_THRESHOLD,
+                round(
+                    self.threshold_to_similarity(text, threshold)
+                    - MAX_MACHINERY_SIMILARITY_BACKOFF,
+                    3,
+                ),
+            )
             length = self.get_lookup_length(text)
             if length <= 8:
-                return 0.92
+                return max(minimum, 0.92)
             if length <= 16:
-                return 0.90
+                return max(minimum, 0.90)
+            return minimum
         return MIN_SIMILARITY_THRESHOLD
 
     def lookup(

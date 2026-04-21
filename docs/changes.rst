@@ -33,6 +33,7 @@ Weblate 5.17.1
 * Interrupted Git rebases now recover more reliably after worker restarts, and signal-terminated backend commands are reported more clearly.
 * Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
 * Git exporter no longer rejects shared-history fetches just because the first negotiated ``have`` revisions are newer than Weblate's local history.
+* :ref:`mt-weblate-translation-memory` automatic translation avoids broad PostgreSQL searches.
 * Project backup import now revalidates component repository URLs before restore.
 * The :guilabel:`SSH keys` management page can now remove stored host keys so changed host keys can be replaced there.
 * Malformed IPv6 repository URLs no longer crash SSH host key detection.
