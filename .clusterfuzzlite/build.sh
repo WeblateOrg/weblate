@@ -90,8 +90,21 @@ if [ -f "\$root_dir/sanitizer_with_fuzzer.so" ]; then
   export LD_PRELOAD="\$root_dir/sanitizer_with_fuzzer.so\${LD_PRELOAD:+:\$LD_PRELOAD}"
 fi
 
-if [ -f "\$root_dir/llvm-symbolizer" ]; then
-  export ASAN_OPTIONS="\${ASAN_OPTIONS:+\$ASAN_OPTIONS:}symbolize=1:external_symbolizer_path=\$root_dir/llvm-symbolizer:detect_leaks=0"
+symbolizer_path=
+if command -v llvm-symbolizer >/dev/null 2>&1; then
+  symbolizer_path=\$(command -v llvm-symbolizer)
+fi
+if [ -n "\$symbolizer_path" ] && ! "\$symbolizer_path" --version >/dev/null 2>&1; then
+  symbolizer_path=
+fi
+if [ -z "\$symbolizer_path" ] && [ -x "\$root_dir/llvm-symbolizer" ] && "\$root_dir/llvm-symbolizer" --version >/dev/null 2>&1; then
+  symbolizer_path="\$root_dir/llvm-symbolizer"
+fi
+
+if [ -n "\$symbolizer_path" ]; then
+  export ASAN_OPTIONS="\${ASAN_OPTIONS:+\$ASAN_OPTIONS:}symbolize=1:external_symbolizer_path=\$symbolizer_path:detect_leaks=0"
+else
+  export ASAN_OPTIONS="\${ASAN_OPTIONS:+\$ASAN_OPTIONS:}detect_leaks=0"
 fi
 
 exec "\$root_dir/python/bin/python3.12" -P "\$this_dir/runner.py" $target "\$@"
