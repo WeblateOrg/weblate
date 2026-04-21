@@ -962,7 +962,9 @@ class ThresholdTestCase(SimpleTestCase):
     def test_minimum_similarity_short_strings(self) -> None:
         self.assertEqual(Memory.objects.minimum_similarity("Username", 75), 0.92)
         self.assertEqual(Memory.objects.minimum_similarity("Display name", 75), 0.9)
-        self.assertEqual(Memory.objects.minimum_similarity("x" * 50, 75), 0.3)
+        self.assertAlmostEqual(
+            Memory.objects.minimum_similarity("x" * 50, 75), 0.76, delta=0.01
+        )
         self.assertEqual(Memory.objects.minimum_similarity("x", 100), 1.0)
 
 
@@ -1018,6 +1020,32 @@ class LookupPolicyTest(SimpleTestCase):
             from_file=True,
         )
         self.assertEqual(adjust_threshold.call_args_list, [call(0.97), call(0.92)])
+
+    @patch("weblate.memory.models.adjust_similarity_threshold")
+    def test_lookup_long_strings_stop_backing_off_for_machinery(
+        self, adjust_threshold
+    ) -> None:
+        base = MagicMock()
+        base.filter_type.return_value = base
+        base.filter.return_value = []
+        text = "x" * 50
+        initial = Memory.objects.threshold_to_similarity(text, 80)
+        minimum = Memory.objects.minimum_similarity(text, 80)
+
+        with patch.object(MemoryQuerySet, "prefetch_project", return_value=base):
+            results = Memory.objects.lookup("en", "cs", text, None, None, False, 80)
+
+        self.assertEqual(list(results), [])
+        self.assertEqual(
+            adjust_threshold.call_args_list,
+            [
+                call(initial),
+                call(round(initial - 0.05, 3)),
+                call(round(initial - 0.1, 3)),
+                call(round(initial - 0.15, 3)),
+                call(minimum),
+            ],
+        )
 
     @patch("weblate.memory.models.adjust_similarity_threshold")
     def test_lookup_exact_threshold_uses_single_exact_probe(
