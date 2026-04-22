@@ -211,7 +211,13 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
 
 class RegistrationTest(BaseRegistrationTest):
-    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
     def test_register_captcha_fail(self) -> None:
         response = self.do_register()
         self.assertContains(response, "That was not correct, please try again.")
@@ -226,7 +232,13 @@ class RegistrationTest(BaseRegistrationTest):
         form = response.context["form"]
         data["captcha"] = form.mathcaptcha.result
 
-    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
     def test_register_partial_altcha(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
@@ -235,7 +247,13 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register(data)
         self.assertContains(response, "That was not correct, please try again.")
 
-    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
     def test_register_partial_match(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
@@ -253,7 +271,13 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.do_register(data)
         self.assertContains(response, REGISTRATION_SUCCESS)
 
-    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
     def test_register_captcha(self) -> None:
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
@@ -568,7 +592,13 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "Enter a valid e-mail address.")
         self.assertEqual(len(mail.outbox), 0)
 
-    @override_settings(REGISTRATION_CAPTCHA=True, ENABLE_HTTPS=True)
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
     def test_reset_captcha(self) -> None:
         """Test for password reset of invalid captcha."""
         response = self.client.get(reverse("password_reset"))
