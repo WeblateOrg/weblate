@@ -18,7 +18,7 @@ from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
-# from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
+from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
