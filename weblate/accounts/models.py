@@ -106,7 +106,9 @@ class WeblateAccountsConf(AppConf):
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
-    ALTCHA_MAX_NUMBER = 1_000_000
+    ALTCHA_COST = 3
+    ALTCHA_MEMORY_COST = 65536
+    ALTCHA_PARALLELISM = 1
 
     REGISTRATION_HINTS: ClassVar[dict[str, str]] = {}
 
