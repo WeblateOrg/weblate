@@ -2625,7 +2625,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/
 
-    Returns a list of screenshot string information.
+    Returns a list of screenshots.
 
     .. seealso::
 
@@ -2638,7 +2638,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2696,8 +2697,10 @@ Screenshots
     :form string project_slug: Project slug
     :form string component_slug: Component slug
     :form string language_code: Language code
+    :form string repository_filename: Optional repository path used to associate later repository updates
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2708,7 +2711,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2719,7 +2723,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 

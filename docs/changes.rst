@@ -11,6 +11,7 @@ Weblate 5.17.1
 
 * Clarified the site-wide scope of the global ``user.edit`` permission.
 * Clarified :ref:`autoclean-tm`.
+* Improved :ref:`screenshots` documentation and linked it from the screenshots UI.
 * The OpenAPI schema is cleaner and provides tighter API description.
 * Password updates now regenerate your personal API key by default.
 * The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.

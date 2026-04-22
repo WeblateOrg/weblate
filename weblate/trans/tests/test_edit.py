@@ -20,6 +20,7 @@ from weblate.trans.models import Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import format_newly_failing_checks_message
+from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -99,6 +100,13 @@ class EditTest(ViewTestCase):
         self.assertEqual(plurals[0], "Opice má %d banán.\n")
         self.assertEqual(plurals[1], "Opice má %d banány.\n")
         self.assertEqual(plurals[2], "Opice má %d banánů.\n")
+
+    def test_screenshot_context_has_documentation_link(self) -> None:
+        self.make_manager()
+        response = self.client.get(self.translate_url)
+        self.assertContains(
+            response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
 
     def test_fuzzy(self) -> None:
         """Test for fuzzy flag handling."""
