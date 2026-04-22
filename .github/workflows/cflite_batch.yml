@@ -46,6 +46,41 @@ jobs:
         sanitizer: ${{ matrix.sanitizer }}
         parallel-fuzzing: true
         output-sarif: true
+    - name: Show fuzz crash summaries (${{ matrix.sanitizer }})
+      if: always() && steps.build.outcome == 'success'
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import json
+
+        summary_files = sorted(Path("out/artifacts").glob("*/*/*.summary"))
+        if not summary_files:
+            print("No crash summary files found.")
+        else:
+            print(f"Found {len(summary_files)} crash summary file(s).")
+            for summary_file in summary_files:
+                print(f"\n===== {summary_file} =====")
+                print(summary_file.read_text(errors="replace").strip())
+
+        sarif_path = Path("cifuzz-sarif/results.sarif")
+        if not sarif_path.exists():
+            print("\nNo SARIF file generated.")
+            raise SystemExit(0)
+
+        with sarif_path.open(encoding="utf-8") as sarif_file:
+            sarif_data = json.load(sarif_file)
+
+        runs = sarif_data.get("runs", [])
+        results = runs[0].get("results", []) if runs else []
+        print(f"\nSARIF results count: {len(results)}")
+        PY
+    - name: Upload crash summaries artifact (${{ matrix.sanitizer }})
+      if: always() && steps.build.outcome == 'success'
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: cflite-batch-crash-summaries-${{ matrix.sanitizer }}
+        path: out/artifacts/**/*.summary
+        if-no-files-found: ignore
     - name: Check SARIF Output (${{ matrix.sanitizer }})
       if: always()
       id: sarif_file
@@ -77,6 +112,9 @@ jobs:
         sanitizer:
         - address
     steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
     - name: Download SARIF Artifact (${{ matrix.sanitizer }})
       id: download_sarif
       continue-on-error: true
