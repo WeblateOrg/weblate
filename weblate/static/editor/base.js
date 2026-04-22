@@ -240,7 +240,7 @@ WLT.Editor = (() => {
 
     /* and shortcuts */
     for (let i = 1; i < 10; i++) {
-      Mousetrap.bindGlobal(`mod+${i}`, (_e) => false);
+      hotkeys(`ctrl+${i},command+${i}`, () => false);
     }
 
     const $hlCheck = $(hlSelector);
@@ -260,7 +260,7 @@ WLT.Editor = (() => {
           $this.attr("title", title);
           $this.find(hlNumberSelector).html($("<kbd/>").text(key));
 
-          Mousetrap.bindGlobal(`mod+${key}`, (_e) => {
+          hotkeys(`ctrl+${key},command+${key}`, () => {
             $this.click();
             return false;
           });
@@ -271,20 +271,16 @@ WLT.Editor = (() => {
       $(hlNumberSelector).hide();
     }
 
-    Mousetrap.bindGlobal(
-      "mod",
-      (_e) => {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Control" || e.key === "Meta") {
         $(hlNumberSelector).show();
-      },
-      "keydown",
-    );
-    Mousetrap.bindGlobal(
-      "mod",
-      (_e) => {
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Control" || e.key === "Meta") {
         $(hlNumberSelector).hide();
-      },
-      "keyup",
-    );
+      }
+    });
   };
 
   function insertEditor(text, element) {

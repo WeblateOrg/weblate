@@ -46,7 +46,7 @@ function mainLicenseTransform(packages) {
     "@tarekraafat/autocomplete.js",
     "autosize",
     "multi.js",
-    "mousetrap",
+    "hotkeys-js",
     "prismjs",
     "@altcha",
     "altcha",
@@ -90,22 +90,11 @@ function bootstrapLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
 
-// REUSE-IgnoreStart
-function mousetrapLicenseTransform(packages) {
-  const pkg = packages.find((pkg) => pkg.name.startsWith("mousetrap"));
-  if (pkg) {
-    const author =
-      typeof pkg.author === "string"
-        ? pkg.author
-        : pkg.author?.email
-          ? `${pkg.author.name} <${pkg.author.email}>`
-          : pkg.author?.name
-            ? pkg.author.name
-            : "";
-    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
-  }
-  return "";
+function hotkeysLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("hotkeys-js"));
 }
+
+// REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
   const pkg = packages.find((pkgsItem) =>
     pkgsItem.name.startsWith("@tarekraafat/autocomplete.js"),
@@ -134,7 +123,7 @@ module.exports = {
     autoComplete: "./src/autoComplete.js",
     autosize: "./src/autosize.js",
     multi: "./src/multi.js",
-    mousetrap: "./src/mousetrap.js",
+    hotkeys: "./src/hotkeys.js",
     prismjs: "./src/prismjs.js",
     altcha: "./src/altcha.js",
     bootstrap5: "./src/bootstrap5.js",
@@ -172,7 +161,7 @@ module.exports = {
         "autosize.js.license": autosizeLicenseTransform,
         "multi.js.license": multiJsLicenseTransform,
         "../../styles/vendor/multi.css.license": multiJsLicenseTransform,
-        "mousetrap.js.license": mousetrapLicenseTransform,
+        "hotkeys.js.license": hotkeysLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,
