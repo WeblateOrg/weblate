@@ -9,6 +9,7 @@ Weblate 5.17.1
 
 .. rubric:: Improvements
 
+* Fixed revert links in the translate-view history tab after moving a component to another project.
 * Clarified the site-wide scope of the global ``user.edit`` permission.
 * Clarified :ref:`autoclean-tm`.
 * Improved :ref:`screenshots` documentation and linked it from the screenshots UI.

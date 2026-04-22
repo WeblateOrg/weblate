@@ -14,9 +14,10 @@ from unittest.mock import patch
 from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
+from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Translation, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import format_newly_failing_checks_message
@@ -30,6 +31,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck
@@ -1175,6 +1177,37 @@ class EditComplexTest(ViewTestCase):
         )
         self.assertContains(response, "Could not find the reverted change.")
         self.assert_backend(1)
+
+    def test_revert_history_after_component_move_uses_current_translate_url(
+        self,
+    ) -> None:
+        second_project = Project.objects.create(
+            name="Second project",
+            slug="second-project",
+            web="https://weblate.org/",
+        )
+        setup_project_groups(Project, second_project, created=False)
+        second_project.add_user(self.user, "Administration")
+
+        self.component.project = second_project
+        self.component.save()
+        self.component.refresh_from_db()
+        self.translation.refresh_from_db()
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        unit = self.get_unit(translation=self.translation)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+        translate_url = ProjectLanguage(
+            second_project,
+            self.translation.language,
+        ).get_translate_url()
+
+        response = self.client.get(translate_url, {"checksum": unit.checksum})
+
+        self.assertContains(
+            response,
+            f'href="{translate_url}?checksum={unit.checksum}&amp;revert={change.id}"',
+        )
 
     def test_revert_plural(self) -> None:
         source = "Orangutan has %d banana.\n"
