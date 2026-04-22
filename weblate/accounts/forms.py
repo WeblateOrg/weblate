@@ -586,7 +586,7 @@ class CaptchaForm(forms.Form):
         payload = self.data.get("altcha", "")
 
         # Validate payload
-        result = verify_solution(payload, settings.SECRET_KEY)
+        result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
         if not result.verified:
             LOGGER.error(
                 "Invalid altcha solution: expired=%s invalid_signature=%s invalid_solution=%s error=%s",
