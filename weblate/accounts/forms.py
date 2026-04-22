@@ -6,11 +6,11 @@ from __future__ import annotations
 
 import json
 from binascii import unhexlify
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from altcha import create_challenge, verify_solution, Payload
+from altcha import Payload, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -542,7 +542,7 @@ class CaptchaForm(forms.Form):
             memory_cost=settings.ALTCHA_MEMORY_COST,
             parallelism=settings.ALTCHA_PARALLELISM,
             hmac_secret=settings.SECRET_KEY,
-            expires_at=datetime.now(tz=timezone.utc) + timedelta(hours=1),
+            expires_at=datetime.now(tz=UTC) + timedelta(hours=1),
         )
         return self.challenge
 
