@@ -8,6 +8,7 @@ from difflib import get_close_matches
 from itertools import chain
 from pathlib import Path
 from shutil import copyfile
+from unittest.mock import MagicMock, patch
 
 import requests
 import responses
@@ -288,6 +289,66 @@ class ViewTest(FixtureTestCase):
             data["results"],
             "OCR recognition not working, no recognized strings found",
         )
+
+    def test_ocr_truncated_image(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        image = MagicMock()
+        image.__enter__.return_value = image
+
+        def close_and_propagate(*_args) -> bool:
+            image.close()
+            return False
+
+        image.__exit__.side_effect = close_and_propagate
+        image.load.side_effect = OSError(
+            "image file is truncated (5 bytes not processed)"
+        )
+
+        with (
+            patch("weblate.screenshots.views.Image.open", return_value=image),
+            patch("weblate.screenshots.views.get_tesseract") as mocked_tesseract,
+            self.assertLogs("weblate", level="WARNING") as logs,
+        ):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertNotIn('<a class="add-string', data["results"])
+        self.assertIn(
+            "Skipping OCR for unreadable screenshot",
+            "\n".join(logs.output),
+        )
+        self.assertGreaterEqual(image.close.call_count, 1)
+        mocked_tesseract.assert_not_called()
+
+    def test_ocr_tesseract_error_propagates(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        image = MagicMock()
+        image.__enter__.return_value = image
+
+        def close_and_propagate(*_args) -> bool:
+            image.close()
+            return False
+
+        image.__exit__.side_effect = close_and_propagate
+
+        with (
+            patch("weblate.screenshots.views.Image.open", return_value=image),
+            patch(
+                "weblate.screenshots.views.get_tesseract",
+                side_effect=OSError("No space left on device"),
+            ),
+            self.assertRaises(OSError),
+        ):
+            self.client.post(reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk}))
+
+        self.assertGreaterEqual(image.close.call_count, 1)
 
     def test_translation_manipulations(self) -> None:
         self.make_manager()

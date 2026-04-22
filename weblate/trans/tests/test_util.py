@@ -145,6 +145,26 @@ class BackendErrorSanitizationTest(SimpleTestCase):
 
         self.assertEqual(sanitized, "fatal: couldn't find remote ref refs/heads/main")
 
+    def test_preserve_newlines(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            (
+                "fatal: unable to access "
+                "'ssh://git@internal.example.net/private/repo.git':\n"
+                "Could not resolve host: internal.example.net\n"
+                "Could not resolve host: internal.example.net\n"
+                "/srv/weblate/data/vcs/test/.git/index.lock"
+            ),
+            repo_urls=("ssh://git@internal.example.net/private/repo.git",),
+            extra_paths=("/srv/weblate/data/vcs/test",),
+        )
+
+        self.assertEqual(
+            sanitized,
+            "fatal: unable to access 'repository URL':\n"
+            "Could not resolve host: ...\n"
+            ".../.git/index.lock",
+        )
+
 
 class TextConversionTest(SimpleTestCase):
     def test_multistring(self) -> None:
@@ -206,4 +226,16 @@ class WordCountTestCase(SimpleTestCase):
                 Language(code="zh_Hant"),
             ),
             118,
+        )
+        self.assertEqual(
+            count_words(
+                join_plural(
+                    [
+                        "小娜在2014年4月2日举行的微软Build开发者大会上正式展示并发布。2014年中旬，微软发布了“小娜”这一名字，作为Cortana在中国大陆使用的中文名。与这一中文名一起发布的是小娜在中国大陆的另一个形象。“小娜”一名源自微软旗下知名FPS游戏《光环》中的同名女角色。",
+                        "小娜在2014年4月2日举行的微软Build开发者大会上正式展示并发布。2014年中旬，微软发布了“小娜”这一名字，作为Cortana在中国大陆使用的中文名。与这一中文名一起发布的是小娜在中国大陆的另一个形象。“小娜”一名源自微软旗下知名FPS游戏《光环》中的同名女角色。",
+                    ]
+                ),
+                Language(code="zh_Hant"),
+            ),
+            236,
         )

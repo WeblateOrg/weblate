@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+from contextlib import nullcontext
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -129,17 +130,20 @@ def change_component(request: AuthenticatedHttpRequest, obj):
         raise Http404
 
     if request.method == "POST":
-        form = ComponentSettingsForm(request, request.POST, instance=obj)
-        if form.is_valid():
-            form.save()
-            messages.success(request, gettext("Settings saved"))
-            return redirect("settings", path=obj.get_url_path())
-        messages.error(
-            request, gettext("Invalid settings. Please check the form for errors.")
-        )
-        # Get a fresh copy of object, otherwise it will use unsaved changes
-        # from the failed form
-        obj = Component.objects.get(pk=obj.pk)
+        obj.acting_user = request.user
+        with obj.locked_for_update() as locked_obj:
+            form = ComponentSettingsForm(request, request.POST, instance=locked_obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, gettext("Settings saved"))
+                return redirect("settings", path=locked_obj.get_url_path())
+            messages.error(
+                request, gettext("Invalid settings. Please check the form for errors.")
+            )
+            # Get a fresh copy of object, otherwise it will use unsaved changes
+            # from the failed form
+            locked_obj.refresh_from_db()
+            obj = locked_obj
     else:
         form = ComponentSettingsForm(request, instance=obj)
 
@@ -233,39 +237,51 @@ def remove(request: AuthenticatedHttpRequest, path):
     return redirect(parent)
 
 
-def perform_rename(form_cls, request: AuthenticatedHttpRequest, obj, perm: str):
+@transaction.atomic
+def perform_rename(
+    form_cls,
+    request: AuthenticatedHttpRequest,
+    obj,
+    perm: str,
+):
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied
 
-    # Make sure any non-rename related issues are resolved first
-    try:
-        obj.full_clean()
-    except ValidationError as err:
-        messages.error(
-            request,
-            gettext(
-                "Could not change %(obj)s due to an outstanding issue in its settings: %(error)s"
+    if isinstance(obj, Component):
+        obj.acting_user = request.user
+    lock_context = (
+        obj.locked_for_update() if isinstance(obj, Component) else nullcontext(obj)
+    )
+    with lock_context as locked_obj:
+        # Make sure any non-rename related issues are resolved first
+        try:
+            locked_obj.full_clean()
+        except ValidationError as err:
+            messages.error(
+                request,
+                gettext(
+                    "Could not change %(obj)s due to an outstanding issue in its settings: %(error)s"
+                )
+                % {"obj": locked_obj, "error": err},
             )
-            % {"obj": obj, "error": err},
-        )
-        return redirect_param(obj, "#organize")
+            return redirect_param(locked_obj, "#organize")
 
-    form = form_cls(request, request.POST, instance=obj)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        # Reload the object from DB to revert possible rejected change
-        obj.refresh_from_db()
-        return redirect_param(obj, "#organize")
+        form = form_cls(request, request.POST, instance=locked_obj)
+        if not form.is_valid():
+            show_form_errors(request, form)
+            # Reload the object from DB to revert possible rejected change
+            locked_obj.refresh_from_db()
+            return redirect_param(locked_obj, "#organize")
 
-    # Invalidate old stats
-    old_stats = list(obj.stats.get_update_objects())
+        # Invalidate old stats
+        old_stats = list(locked_obj.stats.get_update_objects())
 
-    obj = form.save()
+        obj = form.save()
 
-    # Invalidate new stats
-    obj.stats.update_parents(extra_objects=old_stats)
+        # Invalidate new stats
+        obj.stats.update_parents(extra_objects=old_stats)
 
-    return redirect(obj)
+        return redirect(obj)
 
 
 @login_required

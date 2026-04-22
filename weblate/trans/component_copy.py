@@ -122,9 +122,9 @@ def normalize_local_copy_branch(component: Component) -> None:
 
     with repository.lock:
         if repository.has_branch(component.branch):
-            repository.execute(["checkout", component.branch])
+            repository.execute(["checkout", component.branch], remote_op="none")
         else:
-            repository.execute(["checkout", "-B", component.branch])
+            repository.execute(["checkout", "-B", component.branch], remote_op="none")
         repository.branch = component.branch
         repository.clean_revision_cache()
 

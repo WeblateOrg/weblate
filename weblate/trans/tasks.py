@@ -58,6 +58,8 @@ from weblate.vcs.base import RepositoryError
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from weblate.trans.models.change import RevertUserEditsResult
+
 
 @app.task(
     trail=False,
@@ -185,6 +187,28 @@ def commit_pending(
             logger(f"Committing {component}")
 
         perform_commit.delay(component.pk, "commit_pending")
+
+
+@app.task(trail=False)
+def revert_user_edits(
+    target_user_id: int,
+    acting_user_id: int,
+    *,
+    project_id: int | None = None,
+    sitewide: bool = False,
+) -> RevertUserEditsResult:
+    if project_id is None and not sitewide:
+        msg = "Either project_id or sitewide must be provided"
+        raise ValueError(msg)
+
+    target_user = User.objects.get(pk=target_user_id)
+    acting_user = User.objects.get(pk=acting_user_id)
+    project = Project.objects.get(pk=project_id) if project_id is not None else None
+    return Change.objects.revert_user_edits(
+        target_user,
+        acting_user,
+        project=project,
+    )
 
 
 @app.task(trail=False)
@@ -607,6 +631,18 @@ def project_removal(pk: int, uid: int | None) -> None:
     actual_project_removal.delay(pk, uid)
 
 
+def store_auto_translate_activity_log(
+    activity_log_id: int | None, result: dict[str, Any]
+) -> dict[str, Any]:
+    if activity_log_id is None:
+        return result
+
+    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
+
+    update_addon_activity_log(activity_log_id, result, pending=False)
+    return result
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -629,6 +665,7 @@ def auto_translate(  # noqa: PLR0913
     category_id: int | None = None,
     project_id: int | None = None,
     language_id: int | None = None,
+    activity_log_id: int | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
     obj: Translation | Component | Category | ProjectLanguage
@@ -661,7 +698,7 @@ def auto_translate(  # noqa: PLR0913
             result["message"] = gettext(
                 "Automatic translation skipped because the target no longer exists."
             )
-            return result
+            return store_auto_translate_activity_log(activity_log_id, result)
         auto = BatchAutoTranslate(
             obj,
             user=user,
@@ -683,7 +720,7 @@ def auto_translate(  # noqa: PLR0913
             result.update({"message": str(error), "warnings": auto.get_warnings()})
         else:
             result.update({"message": message, "warnings": auto.get_warnings()})
-        return result
+        return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(
@@ -694,22 +731,26 @@ def auto_translate(  # noqa: PLR0913
 )
 def auto_translate_component(
     component_id: int,
+    *,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
     source_component_id: int | None = None,
-):
+    user_id: int | None = None,
+    activity_log_id: int | None = None,
+) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
+    user = User.objects.get(pk=user_id) if user_id else None
     auto = BatchAutoTranslate(
         component_obj,
-        user=None,
+        user=user,
         q=q,
         mode=mode,
         component_wide=True,
     )
-    auto.perform(
+    message = auto.perform(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
@@ -718,7 +759,12 @@ def auto_translate_component(
         ),
     )
     component_obj.run_batched_checks()
-    return {"component": component_obj.id}
+    result = {
+        "component": component_obj.id,
+        "message": message,
+        "warnings": auto.get_warnings(),
+    }
+    return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(trail=False)

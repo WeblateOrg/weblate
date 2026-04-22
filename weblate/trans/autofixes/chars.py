@@ -16,7 +16,7 @@ from weblate.checks.chars import (
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
-from weblate.checks.same import RST_MATCH
+from weblate.checks.utils import highlight_string
 from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
@@ -107,26 +107,46 @@ class PunctuationSpacing(AutoFix):
     def fix_single_target(
         self, target: str, source: str, unit: Unit
     ) -> tuple[str, bool]:
-        def spacing_replace(matchobj: re.Match) -> str:
-            if "rst-text" in unit.all_flags:
-                offset = matchobj.start(2)
-                rst_position = RST_MATCH.search(target, offset)
-                if rst_position is not None and rst_position.start(0) == offset:
-                    # Skip escaping inside rst tag
-                    return matchobj.group(0)
-            return f"\u00a0{matchobj.group(2)}"
-
         if (
             unit.translation.language.is_base({"fr"})
             and unit.translation.language.code != "fr_CA"
             and "ignore-punctuation-spacing" not in unit.all_flags
         ):
+            highlights = highlight_string(
+                target, unit, highlight_syntax="rst-text" in unit.all_flags
+            )
+            highlight_ranges = sorted((start, end) for start, end, _ in highlights)
+
+            def make_replacer(replacement_char: str):
+                highlight_index = 0
+
+                def replacer(matchobj: re.Match) -> str:
+                    nonlocal highlight_index
+                    pos = matchobj.start(2)
+                    while (
+                        highlight_index < len(highlight_ranges)
+                        and highlight_ranges[highlight_index][1] <= pos
+                    ):
+                        highlight_index += 1
+                    if (
+                        highlight_index < len(highlight_ranges)
+                        and highlight_ranges[highlight_index][0]
+                        <= pos
+                        < highlight_ranges[highlight_index][1]
+                    ):
+                        return matchobj.group(0)
+                    return f"{replacement_char}{matchobj.group(2)}"
+
+                return replacer
+
             # Fix existing
             new_target = re.sub(
-                FRENCH_PUNCTUATION_FIXUP_RE_NBSP, spacing_replace, target
+                FRENCH_PUNCTUATION_FIXUP_RE_NBSP, make_replacer("\u00a0"), target
             )
             new_target = re.sub(
-                FRENCH_PUNCTUATION_FIXUP_RE_NNBSP, "\u202f\\2", new_target
+                FRENCH_PUNCTUATION_FIXUP_RE_NNBSP,
+                make_replacer("\u202f"),
+                new_target,
             )
             # Do not add missing as that is likely to trigger issues with other content
             # such as URLs or Markdown syntax.

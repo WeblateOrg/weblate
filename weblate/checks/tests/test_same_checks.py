@@ -244,6 +244,14 @@ class SameCheckTest(CheckTestCase):
                 r'placeholders:r"%\w+%",strict-same',
             ),
         )
+        self.do_test(
+            False,
+            (
+                '<x id="INTERPOLATION" equiv-text="{{ count }}"/>',
+                '<x id="INTERPOLATION" equiv-text="{{ count }}"/>',
+                r'placeholders:r"<x\s[^>]*/>"',
+            ),
+        )
 
     def test_same_project(self) -> None:
         self.do_test(False, ("MockProject", "MockProject", ""))

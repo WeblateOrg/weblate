@@ -49,12 +49,9 @@ MISSING_REVISION_PATTERNS = (
 WANT_REVISION_LINE_RE = re.compile(
     rb"^want (?P<revision>[0-9a-f]{40,64})(?:[\x00\s]|$)"
 )
-HAVE_REVISION_LINE_RE = re.compile(
-    rb"^have (?P<revision>[0-9a-f]{40,64})(?:[\x00\s]|$)"
-)
+MAX_PRECHECK_PKT_LINES = 32
 MAX_PRECHECK_REVISIONS = 32
 PRECHECK_MISSING_WANT = "missing_want"
-PRECHECK_NO_COMMON_BASE = "no_common_base"
 
 
 def response_authenticate():
@@ -127,24 +124,6 @@ def get_missing_revision_message(component: Component, *, can_view: bool) -> str
     ).format(location=location)
 
 
-def get_no_common_base_message(component: Component, *, can_view: bool) -> str:
-    """Return guidance for shallow fetches without shared history."""
-    location = get_upstream_location(component, can_view=can_view)
-    if location is None:
-        return gettext(
-            "Weblate's shallow Git checkout does not share enough history with "
-            "this repository to satisfy the fetch. Fetch from the upstream "
-            "repository first, or use a clone that shares history with Weblate."
-        )
-
-    return gettext(
-        "Weblate's shallow Git checkout does not share enough history with "
-        "this repository to satisfy the fetch. Fetch from the upstream "
-        "repository first, or use a clone that shares history with Weblate. "
-        "Upstream repository: {location}"
-    ).format(location=location)
-
-
 def format_backend_error(
     component: Component, output_err: str, *, can_view: bool
 ) -> str:
@@ -187,32 +166,38 @@ def iter_pkt_lines(body: bytes) -> Iterator[bytes]:
         pos += payload_length
 
 
-def get_negotiation_revisions(body: bytes) -> tuple[list[str], list[str]] | None:
-    """Extract wanted and advertised-have revisions from upload-pack requests."""
+def get_wanted_revisions(body: bytes) -> list[str] | None:
+    """Extract wanted revisions from upload-pack requests."""
     wanted_revisions: list[str] = []
-    have_revisions: list[str] = []
     seen: set[str] = set()
+    saw_want = False
+    processed_lines = 0
 
     for line in iter_pkt_lines(body):
+        processed_lines += 1
+        if processed_lines > MAX_PRECHECK_PKT_LINES:
+            return None
+
         match = WANT_REVISION_LINE_RE.match(line)
-        target = wanted_revisions
         if match is None:
-            match = HAVE_REVISION_LINE_RE.match(line)
-            target = have_revisions
-        if match is None:
+            # Only inspect the initial want block and leave the rest of the
+            # negotiation to git-upload-pack.
+            if saw_want:
+                break
             continue
 
+        saw_want = True
         revision = match.group("revision").decode("ascii")
         if revision in seen:
             continue
 
         seen.add(revision)
-        target.append(revision)
+        wanted_revisions.append(revision)
 
         if len(seen) > MAX_PRECHECK_REVISIONS:
             return None
 
-    return wanted_revisions, have_revisions
+    return wanted_revisions
 
 
 def is_shallow_checkout(component: Component) -> bool:
@@ -232,37 +217,32 @@ def get_precheck_failure_reason(component: Component, body: bytes) -> str | None
     if not callable(execute):
         return None
 
-    revisions = get_negotiation_revisions(body)
-    if revisions is None:
+    # Missing wanted revisions are deterministic. In contrast, the absence of
+    # "have" lines does not prove the client cannot clone from a shallow export
+    # because Git may still handle that negotiation successfully.
+    wanted_revisions = get_wanted_revisions(body)
+    if wanted_revisions is None:
         return None
-    wanted_revisions, have_revisions = revisions
-    all_revisions = wanted_revisions + have_revisions
-    if not all_revisions:
+    if not wanted_revisions:
         return None
 
     try:
         output = execute(
             ["cat-file", "--batch-check"],
+            remote_op="none",
             needs_lock=False,
-            stdin="".join(f"{revision}\n" for revision in all_revisions),
+            stdin="".join(f"{revision}\n" for revision in wanted_revisions),
         )
     except RepositoryError:
         return None
 
     missing_revisions = {
         revision
-        for revision, line in zip(all_revisions, output.splitlines(), strict=False)
+        for revision, line in zip(wanted_revisions, output.splitlines(), strict=False)
         if line.endswith(" missing")
     }
     if any(revision in missing_revisions for revision in wanted_revisions):
         return PRECHECK_MISSING_WANT
-
-    if (
-        wanted_revisions
-        and have_revisions
-        and all(revision in missing_revisions for revision in have_revisions)
-    ):
-        return PRECHECK_NO_COMMON_BASE
 
     return None
 
@@ -362,11 +342,6 @@ def git_export(
         if precheck_reason == PRECHECK_MISSING_WANT:
             return response_packet_error(
                 get_missing_revision_message(obj, can_view=can_view),
-                service="git-upload-pack",
-            )
-        if precheck_reason == PRECHECK_NO_COMMON_BASE:
-            return response_packet_error(
-                get_no_common_base_message(obj, can_view=can_view),
                 service="git-upload-pack",
             )
 

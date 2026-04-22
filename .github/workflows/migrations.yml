@@ -33,7 +33,7 @@ jobs:
       UV_FROZEN: '1'
     services:
       database:
-        image: postgres:18.3-alpine@sha256:4da1a4828be12604092fa55311276f08f9224a74a62dcb4708bd7439e2a03911
+        image: postgres:18.3-alpine@sha256:54451ecb8ab38c24c3ec123f2fd501303a3a1856a5c66e98cecf2460d5e1e9d7
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -51,13 +51,13 @@ jobs:
         persist-credentials: false
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8.0.0
+    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.11.6
+        version: 0.11.7
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:

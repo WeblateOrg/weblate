@@ -33,8 +33,14 @@ releases should work, but is not as well tested as single version upgrades!
     Always back up the full database before upgrading, so that you
     can roll back the database if the upgrade fails, see :doc:`backup`.
 
-#. Stop the WSGI and Celery processes to avoid old processes running while upgrading.
-   Otherwise incompatible changes in the database might occur.
+#. Wait for the Celery queues to become empty, then stop the WSGI and Celery
+   processes to avoid old processes running while upgrading. Otherwise
+   incompatible changes in the database might occur.
+
+   The Celery task queue is not a stable interface across releases, so queued
+   tasks from the old version are not guaranteed to work after the upgrade. You
+   can monitor queue length in the :ref:`management-interface` or by using
+   :wladmin:`celery_queues`.
 
 #. Upgrade Weblate
 

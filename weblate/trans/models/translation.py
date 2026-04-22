@@ -719,7 +719,7 @@ class Translation(
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_cleanup(request)
 
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None):
+    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         return self.component.do_file_sync(request)
 
     def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
@@ -1871,7 +1871,7 @@ class Translation(
 
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
-            with self.component.repository.lock:
+            with self.component.track_local_head_change():
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
                 translation_post_remove.send(sender=self.__class__, translation=self)
 

@@ -270,3 +270,46 @@ class AutoFixTest(TestCase):
         self.assertEqual(
             fix.fix_target(["This :"], fr_rst_unit), (["This\u00a0:"], True)
         )
+
+    def test_punctuation_spacing_xliff(self) -> None:
+        fix = PunctuationSpacing()
+        xliff_flag = r'placeholders:r"<x\s[^>]*/>"'
+        # target with ' :' inside equiv-text, should not be modified
+        fr_xliff_unit = MockUnit(
+            source='Quota <x id="INTERPOLATION" equiv-text="{{ quota | bytes : 0 }}"/> par jour',
+            code="fr",
+            flags=xliff_flag,
+        )
+        self.assertEqual(
+            fix.fix_target(
+                [
+                    'Quota <x id="INTERPOLATION" equiv-text="{{ quota | bytes : 0 }}"/> par jour'
+                ],
+                fr_xliff_unit,
+            ),
+            (
+                [
+                    'Quota <x id="INTERPOLATION" equiv-text="{{ quota | bytes : 0 }}"/> par jour'
+                ],
+                False,
+            ),
+        )
+
+        # ' :' outside a placeholder must still be fixed.
+        fr_xliff_unit2 = MockUnit(
+            source='Quota: <x id="INTERPOLATION" equiv-text="{{ count }}"/> items',
+            code="fr",
+            flags=xliff_flag,
+        )
+        self.assertEqual(
+            fix.fix_target(
+                ['Quota : <x id="INTERPOLATION" equiv-text="{{ count }}"/> éléments'],
+                fr_xliff_unit2,
+            ),
+            (
+                [
+                    'Quota\u00a0: <x id="INTERPOLATION" equiv-text="{{ count }}"/> éléments'
+                ],
+                True,
+            ),
+        )

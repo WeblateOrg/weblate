@@ -646,6 +646,9 @@ form + .login-label {
 
 .history-data {
   padding-bottom: 4px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .history-event ol,
@@ -667,6 +670,10 @@ form + .login-label {
   overflow-wrap: anywhere;
   white-space: normal;
 }
+.comment-content pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 .comment-content blockquote {
   border-left: 5px solid #ddd;
 }
@@ -687,6 +694,9 @@ form + .login-label {
 #changes-table {
   margin-top: 40px;
   width: 100%;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 #changes-list {
@@ -1500,13 +1510,16 @@ svg {
   max-height: 18px;
 }
 
-#popup-alerts {
+#popup-toasts {
   position: fixed;
-  z-index: 1000;
-  top: 70px;
-  width: 100%;
-  padding: 32px 16px 0 16px;
-  display: none;
+  z-index: 1090;
+  inset-block-start: 70px;
+  inset-inline-end: 0;
+  padding: 0.75rem;
+}
+
+#popup-toasts .toast {
+  width: min(var(--bs-toast-max-width), calc(100vw - 1.5rem));
 }
 
 .source-info,
@@ -2209,7 +2222,7 @@ a.language:hover {
   display: inline-block;
 }
 
-#unit_all_flags.flags-updated {
+.flags-updated {
   animation: flags-updated ease-out 3000ms;
 }
 
@@ -2347,10 +2360,6 @@ tbody.warning {
   border-top-right-radius: 0;
 }
 
-.daterangepicker {
-  border: var(--border) !important;
-}
-
 #appearance-settings input[type="color"] {
   width: 50%;
 }
@@ -2458,6 +2467,60 @@ tbody.warning {
 .card-footer {
   border-top: var(--border);
   background-color: inherit;
+}
+
+.accordion {
+  --bs-accordion-border-color: transparent;
+  --bs-accordion-border-radius: var(--border-radius);
+  --bs-accordion-inner-border-radius: calc(var(--border-radius) - 1px);
+  --bs-accordion-btn-bg: var(--bs-card-cap-bg);
+  --bs-accordion-active-bg: var(--bs-card-cap-bg);
+  --bs-accordion-color: var(--bs-body-color);
+  --bs-accordion-active-color: var(--bs-body-color);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(22, 94, 150, 0.25);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%232a3744' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3e%3cpath d='m3 6 5 5 5-5'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+}
+
+.accordion .accordion-item {
+  margin-bottom: 12px;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.accordion .accordion-item:last-child {
+  margin-bottom: 0;
+}
+
+.accordion .accordion-button {
+  font-weight: 700;
+  gap: 0.75rem;
+}
+
+.accordion .accordion-button:hover,
+.accordion .accordion-button:not(.collapsed) {
+  box-shadow: none;
+  background-color: var(--bs-accordion-btn-bg);
+}
+
+.accordion .accordion-button:not(.collapsed) {
+  border-bottom: var(--border);
+}
+
+.accordion .accordion-button:focus {
+  box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+  z-index: 3;
+}
+
+.accordion .accordion-button:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+.accordion .accordion-body {
+  padding: 1rem;
+  background-color: var(--background-color);
 }
 
 .card {

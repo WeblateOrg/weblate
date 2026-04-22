@@ -12,6 +12,7 @@ from django.core.management.commands.makemessages import check_programs
 from django.core.management.utils import handle_extensions
 from django.utils.text import get_text_list
 
+from weblate.addons.extractors.django.constants import DJANGO_IGNORE_PATTERNS
 from weblate.utils.management.commands.makemessages import Command as BaseCommand
 
 
@@ -33,20 +34,7 @@ class Command(BaseCommand):
     for Django's ``makemessages`` command.
     """
 
-    EXTRA_IGNORE_PATTERNS = (
-        "CVS",
-        ".*",
-        "*~",
-        "*.pyc",
-        ".git/*",
-        ".venv/*",
-        "venv/*",
-        "node_modules/*",
-        "build/*",
-        "dist/*",
-        "locale",
-        "conf/locale",
-    )
+    EXTRA_IGNORE_PATTERNS = DJANGO_IGNORE_PATTERNS
 
     def add_arguments(self, parser):
         """

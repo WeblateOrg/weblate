@@ -62,7 +62,7 @@ from weblate.trans.templatetags.translations import (
     unit_state_class,
     unit_state_title,
 )
-from weblate.trans.util import redirect_next, render, split_plural
+from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -72,7 +72,6 @@ from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import (
     STATE_APPROVED,
-    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
@@ -515,18 +514,11 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
         )
         return None
 
-    if not change.can_revert():
-        messages.error(request, gettext("Can not revert to empty translation!"))
+    if not change.revert(
+        request.user, change_action=ActionEvents.REVERT, request=request
+    ):
+        messages.error(request, gettext("Could not revert the selected change."))
         return None
-    # Store unit
-    unit.translate(
-        request.user,
-        split_plural(change.old),
-        STATE_NEEDS_REWRITING
-        if change.action == ActionEvents.MARKED_EDIT
-        else unit.state,
-        change_action=ActionEvents.REVERT,
-    )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 

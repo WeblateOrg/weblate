@@ -367,10 +367,18 @@ def _validate_runtime_public_url(
             raise
 
 
-def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
-    allowlisted = project_slug is not None and project_slug.lower() in {
+def is_project_web_allowlisted(project_slug: str | None) -> bool:
+    if project_slug is None:
+        return False
+
+    normalized_slug = project_slug.lower()
+    return normalized_slug in {
         slug.lower() for slug in settings.PROJECT_WEB_RESTRICT_ALLOWLIST
     }
+
+
+def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
+    allowlisted = is_project_web_allowlisted(project_slug)
 
     # Regular expression filtering
     if (

@@ -78,7 +78,8 @@ Translation memory status
 
 Translation memory entries can have two different statuses: **active** and **pending**.
 Pending entries are included in suggestions, but with a quality penalty applied.
-If :ref:`autoclean-tm` is enabled, stale and obsolete entries with pending status are automatically removed when a translation is approved.
+If :ref:`autoclean-tm` is enabled, matching pending entries are removed when a
+translation becomes active.
 
 .. _autoclean-tm:
 
@@ -87,7 +88,22 @@ Autoclean translation memory
 
 .. versionadded:: 5.13
 
-The translation memory is automatically cleaned up by removing obsolete and outdated entries.
+When enabled for a project, Weblate replaces older automatically created
+translation memory entries when a translation becomes active:
+
+* With :ref:`project-translation_review` enabled, cleanup happens when the
+  translation is approved.
+* Without review, cleanup happens as soon as the translation reaches the
+  translated state.
+
+For the same source string, component, context, and source/target language
+pair, Weblate removes matching non-file entries from translation memory,
+including entries with a different target text. This applies across personal,
+project, and shared translation memory scopes. The current translation is then
+stored again as an active entry in the scopes that are enabled for that change.
+
+Entries imported from external translation memory files are not cleaned up
+automatically. Entries with a different context are kept.
 
 In the Docker container this can be configured using :envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM`.
 

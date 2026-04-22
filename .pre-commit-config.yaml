@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.10
+  rev: v0.15.11
   hooks:
   - id: ruff-check
     args:
@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.15.10
+    - ruff==0.15.11
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -58,12 +58,6 @@ repos:
   rev: v0.24.4
   hooks:
   - id: toml-sort-fix
-- repo: https://github.com/executablebooks/mdformat
-  rev: 1.0.0
-  hooks:
-  - id: mdformat
-    additional_dependencies:
-    - mdformat-gfm==1.0.0
 - repo: https://github.com/scop/pre-commit-shfmt
   rev: v3.13.1-1
   hooks:
@@ -84,7 +78,7 @@ repos:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.4.11'
+    - '@biomejs/biome@2.4.12'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
@@ -184,10 +178,15 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.95.0
+  rev: v1.96.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
+- repo: https://github.com/rvben/rumdl-pre-commit
+  rev: v0.1.78
+  hooks:
+  - id: rumdl
+  - id: rumdl-fmt
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|weblate/static/styles/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$
 ci:
   autoupdate_schedule: quarterly

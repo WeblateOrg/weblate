@@ -17,12 +17,14 @@ from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.core.exceptions import ValidationError
+from django.core.management.utils import is_ignored_path
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
+from weblate.addons.extractors.django.constants import DJANGO_IGNORE_PATTERNS
 from weblate.addons.forms import (
     DjangoExtractPotForm,
     GenerateMoForm,
@@ -52,8 +54,9 @@ POT_PLACEHOLDER_COMMENT_PREFIXES = (
     "# FIRST AUTHOR",
     "# This file is distributed under the same license as the",
 )
+POT_DESCRIPTIVE_TITLE = "SOME DESCRIPTIVE TITLE."
 POT_PLACEHOLDER_COMMENTS = (
-    "# SOME DESCRIPTIVE TITLE.",
+    f"# {POT_DESCRIPTIVE_TITLE}",
     "# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER",
 )
 POT_BLANK_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\)(?: [0-9– -]*)?$")
@@ -65,10 +68,15 @@ if TYPE_CHECKING:
     from weblate.trans.models import Category, Component, Project, Translation
 
 
+def is_pot_descriptive_title(text: str) -> bool:
+    return text.removeprefix("# ").rstrip("\r\n") == POT_DESCRIPTIVE_TITLE
+
+
 def is_xgettext_placeholder_comment(comment: str) -> bool:
-    comment_text = comment.rstrip("\n")
+    comment_text = comment.rstrip("\r\n")
     return (
-        comment_text in POT_PLACEHOLDER_COMMENTS
+        is_pot_descriptive_title(comment_text)
+        or comment_text in POT_PLACEHOLDER_COMMENTS
         or comment_text.startswith(POT_PLACEHOLDER_COMMENT_PREFIXES)
         or POT_BLANK_COPYRIGHT_RE.fullmatch(comment_text) is not None
     )
@@ -766,15 +774,15 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         )
         header = store.store.units[0]
         component_name = self.get_component_full_name(component)
-        had_descriptive_title = "SOME DESCRIPTIVE TITLE.\n" in header.target.splitlines(
-            keepends=True
+        had_descriptive_title = any(
+            is_pot_descriptive_title(line)
+            for line in header.target.splitlines(keepends=True)
         )
         original_comments = header.othercomments
         header.othercomments = [
             comment
             for comment in original_comments
             if not is_xgettext_placeholder_comment(comment)
-            and not re.match(r"^# Copyright \(C\) [0-9– -]* Michal Čihař", comment)
         ]
         removed_placeholder_comments = len(header.othercomments) != len(
             original_comments
@@ -819,8 +827,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
 
         store.save()
 
-    def finalize_template(self, component: Component) -> bool:
-        template = self.get_template_filename(component)
+    def finalize_template(
+        self, component: Component, template: str | None = None
+    ) -> bool:
+        if template is None:
+            template = self.get_template_filename(component)
         if template is None:
             self.alerts.append(
                 {
@@ -836,8 +847,31 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         self.extra_files.append(template)
         return True
 
+    @staticmethod
+    def get_validated_repository_path(component: Component, path: Path) -> Path:
+        component.check_file_is_valid(os.fspath(path))
+        return path
+
+    @classmethod
+    def get_validated_repository_dir(
+        cls, component: Component, path: Path
+    ) -> Path | None:
+        cls.get_validated_repository_path(component, path)
+        if not path.is_dir():
+            return None
+        return path
+
+    @classmethod
+    def is_validated_repository_file(cls, component: Component, path: Path) -> bool:
+        cls.get_validated_repository_path(component, path)
+        return path.is_file()
+
     def validate_repository_tree(
-        self, component: Component, root: Path | None = None
+        self,
+        component: Component,
+        root: Path | None = None,
+        *,
+        ignore_patterns: tuple[str, ...] = (),
     ) -> bool:
         pending = [root or Path(component.full_path)]
         seen: set[str] = set()
@@ -860,6 +894,12 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
                 continue
 
             for entry in current.iterdir():
+                if ignore_patterns:
+                    entry_path = os.path.relpath(entry, component.full_path).replace(
+                        os.sep, "/"
+                    )
+                    if is_ignored_path(entry_path, ignore_patterns):
+                        continue
                 try:
                     component.repository.resolve_symlinks(os.fspath(entry))
                 except ValueError:
@@ -1404,9 +1444,10 @@ class MesonAddon(XgettextAddon):
     def get_meson_gettext_dir(self, component: Component) -> Path | None:
         template_dir = Path(component.new_base).parent
         gettext_dir = Path(component.full_path) / template_dir
-        if not gettext_dir.is_dir():
+        try:
+            return self.get_validated_repository_dir(component, gettext_dir)
+        except ValidationError:
             return None
-        return gettext_dir
 
     def get_meson_potfiles_path(self, component: Component) -> str | None:
         gettext_dir = self.get_meson_gettext_dir(component)
@@ -1414,15 +1455,25 @@ class MesonAddon(XgettextAddon):
             return None
         for name in ("POTFILES", "POTFILES.in"):
             candidate = gettext_dir / name
-            if candidate.is_file():
-                return os.path.relpath(candidate, component.full_path).replace(
-                    os.sep, "/"
-                )
+            try:
+                if self.is_validated_repository_file(component, candidate):
+                    return os.path.relpath(candidate, component.full_path).replace(
+                        os.sep, "/"
+                    )
+            except ValidationError:
+                return None
         return None
 
     def is_meson_layout(self, component: Component) -> bool:
         gettext_dir = self.get_meson_gettext_dir(component)
-        if gettext_dir is None or not (gettext_dir / "meson.build").is_file():
+        if gettext_dir is None:
+            return False
+        try:
+            if not self.is_validated_repository_file(
+                component, gettext_dir / "meson.build"
+            ):
+                return False
+        except ValidationError:
             return False
         if self.get_meson_potfiles_path(component) is None:
             return False
@@ -1431,8 +1482,13 @@ class MesonAddon(XgettextAddon):
             return True
         current = gettext_dir.parent
         while True:
-            if (current / "meson.build").is_file():
-                return True
+            try:
+                if self.is_validated_repository_file(
+                    component, current / "meson.build"
+                ):
+                    return True
+            except ValidationError:
+                return False
             if current == root:
                 return False
             if current.parent == current:
@@ -1469,10 +1525,24 @@ class DjangoAddon(ExtractPotBaseAddon):
             return True
         if Path(component.new_base).stem not in {"django", "djangojs"}:
             return False
-        return cls.get_source_dir(component) is not None
+        try:
+            return cls.get_source_dir(component) is not None
+        except ValidationError:
+            return False
 
     def execute_update(self, component: Component, previous_head: str) -> bool:
-        source_dir = self.get_source_dir(component)
+        try:
+            source_dir = self.get_source_dir(component)
+        except ValidationError:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
         if source_dir is None:
             self.alerts.append(
                 {
@@ -1483,7 +1553,9 @@ class DjangoAddon(ExtractPotBaseAddon):
                 }
             )
             return False
-        if not self.validate_repository_tree(component, source_dir):
+        try:
+            template = self.get_template_filename(component)
+        except ValidationError:
             self.alerts.append(
                 {
                     "addon": self.name,
@@ -1493,7 +1565,6 @@ class DjangoAddon(ExtractPotBaseAddon):
                 }
             )
             return False
-        template = self.get_template_filename(component)
         if template is None:
             self.alerts.append(
                 {
@@ -1505,6 +1576,16 @@ class DjangoAddon(ExtractPotBaseAddon):
             )
             return False
         domain = self.get_domain(component)
+        if not self.validate_django_repository_tree(component, source_dir):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
         if domain not in {"django", "djangojs"}:
             self.alerts.append(
                 {
@@ -1547,23 +1628,36 @@ class DjangoAddon(ExtractPotBaseAddon):
                 return False
             Path(template).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(generated, template)
-        return self.finalize_template(component)
+        return self.finalize_template(component, template)
 
-    @staticmethod
-    def get_source_dir(component: Component) -> Path | None:
+    def validate_django_repository_tree(
+        self, component: Component, source_dir: Path
+    ) -> bool:
+        return self.validate_repository_tree(
+            component,
+            source_dir,
+            ignore_patterns=DJANGO_IGNORE_PATTERNS,
+        )
+
+    @classmethod
+    def get_source_dir(cls, component: Component) -> Path | None:
         template = Path(component.new_base)
         parts = template.parts
         if "locale" not in parts:
-            return Path(component.full_path)
+            return cls.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         locale_index = parts.index("locale")
         if locale_index == 0:
-            return Path(component.full_path)
+            return cls.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         if locale_index == 1 and parts[0] == "conf":
-            return Path(component.full_path)
+            return cls.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         source_dir = Path(component.full_path).joinpath(*parts[:locale_index])
-        if not source_dir.is_dir():
-            return None
-        return source_dir
+        return cls.get_validated_repository_dir(component, source_dir)
 
     @staticmethod
     def get_source_prefix(component: Component, source_dir: Path) -> str:
@@ -1625,8 +1719,13 @@ class SphinxAddon(ExtractPotBaseAddon):
         if component is None:
             return True
         addon = cls(cls.create_object(component=component))
-        source_dir = addon.get_sphinx_source_dir(component)
-        return source_dir is not None and (source_dir / "conf.py").is_file()
+        try:
+            source_dir = addon.get_sphinx_source_dir(component)
+            return source_dir is not None and addon.is_validated_repository_file(
+                component, source_dir / "conf.py"
+            )
+        except ValidationError:
+            return False
 
     def get_sphinx_source_dir(self, component: Component) -> Path | None:
         template = Path(component.new_base)
@@ -1635,17 +1734,28 @@ class SphinxAddon(ExtractPotBaseAddon):
             return None
         locales_index = parts.index("locales")
         if locales_index == 0:
-            return Path(component.full_path)
+            return self.get_validated_repository_dir(
+                component, Path(component.full_path)
+            )
         source_dir = Path(component.full_path).joinpath(*parts[:locales_index])
-        if not source_dir.is_dir():
-            return None
-        return source_dir
+        return self.get_validated_repository_dir(component, source_dir)
 
     def get_filter_mode(self) -> str:
         return str(self.instance.configuration.get("filter_mode", "none"))
 
     def execute_update(self, component: Component, previous_head: str) -> bool:
-        source_dir = self.get_sphinx_source_dir(component)
+        try:
+            source_dir = self.get_sphinx_source_dir(component)
+        except ValidationError:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "sphinx-build",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
         if source_dir is None:
             self.alerts.append(
                 {

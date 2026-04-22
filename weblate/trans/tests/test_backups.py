@@ -52,6 +52,34 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
 
+    def write_tampered_component_backup(
+        self, *, repo: str | None = None, push: str | None = None
+    ) -> str:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with (
+            ZipFile(backup.filename, "r") as source_zip,
+            ZipFile(temp_name, "w") as target_zip,
+        ):
+            for item in source_zip.infolist():
+                data = source_zip.read(item.filename)
+                if item.filename.endswith(
+                    f"{self.component.slug}.json"
+                ) and item.filename.startswith("components/"):
+                    component_data = json.loads(data.decode("utf-8"))
+                    if repo is not None:
+                        component_data["component"]["repo"] = repo
+                    if push is not None:
+                        component_data["component"]["push"] = push
+                    data = json.dumps(component_data).encode("utf-8")
+                target_zip.writestr(item, data)
+
+        return temp_name
+
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()
 
@@ -354,6 +382,60 @@ class BackupsTest(ViewTestCase):
         restored_source = restored_component.source_translation
 
         self.assertEqual(restored_source.check_flags, "read-only")
+
+    def test_restore_rejects_invalid_repo_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            repo="https://private.example/repo.git"
+        )
+
+        try:
+            restore = ProjectBackup(temp_name)
+            with (
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                ),
+                self.assertRaises(ValidationError) as error,
+            ):
+                restore.validate()
+
+            self.assertEqual(
+                error.exception.message_dict,
+                {
+                    "repo": [
+                        "This URL is prohibited because it points to an internal or non-public address."
+                    ]
+                },
+            )
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_invalid_push_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            push="https://private.example/push.git"
+        )
+
+        try:
+            restore = ProjectBackup(temp_name)
+            with (
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                ),
+                self.assertRaises(ValidationError) as error,
+            ):
+                restore.validate()
+
+            self.assertEqual(
+                error.exception.message_dict,
+                {
+                    "push": [
+                        "This URL is prohibited because it points to an internal or non-public address."
+                    ]
+                },
+            )
+        finally:
+            os.unlink(temp_name)
 
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:

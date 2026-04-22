@@ -144,7 +144,7 @@ def is_repo_link(val: str) -> bool:
 
 
 def translation_percent(
-    translated: int, total: int, zero_complete: bool = True
+    translated: int, total: int | None, zero_complete: bool = True
 ) -> float:
     """Return translation percentage."""
     if total == 0:
@@ -222,12 +222,12 @@ def sanitize_backend_error_message(
     lines: list[str] = []
     seen_lines: set[str] = set()
     for line in result.splitlines():
-        stripped = line.strip()
+        stripped = re.sub(r"\s+", " ", line).strip()
         if stripped and stripped not in seen_lines:
             seen_lines.add(stripped)
             lines.append(stripped)
 
-    return re.sub(r"\s+", " ", " ".join(lines)).strip()
+    return "\n".join(lines).strip()
 
 
 def redirect_param(location, params, *args, **kwargs):
@@ -253,7 +253,7 @@ def cleanup_path(path: str) -> str:
 
 def get_project_description(project: Project) -> str:
     """Return verbose description for project translation."""
-    # Cache the count as it might be expensive to calculate (it pull
+    # Cache the count as it might be expensive to calculate (it pulls
     # all project stats) and there is no need to always have up to date
     # count here
     cache_key = f"project-lang-count-{project.id}"
@@ -422,15 +422,17 @@ def count_words(string: str, language: Language | None = None) -> int:
     """Count number of words in a string."""
     if language is not None and language.is_cjk():
         count = 0
-        for s in split_plural(string):
-            if is_unused_string(s):
+        for part in split_plural(string):
+            if is_unused_string(part):
                 continue
             even = True
-            for sec in CJK_PATTERN.split(string):
+            for sec in CJK_PATTERN.split(part):
                 if even:
                     count += len(sec.split())
                 else:
                     count += len(sec)
                 even = not even
         return count
-    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+    return sum(
+        len(part.split()) for part in split_plural(string) if not is_unused_string(part)
+    )

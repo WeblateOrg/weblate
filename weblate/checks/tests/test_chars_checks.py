@@ -528,6 +528,30 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             "fr",
         )
 
+    def test_angular_fr_placeholders(self) -> None:
+        # XLIFF placeholder regex so highlight_string skips equiv-text content
+        xliff_placeholder = r'placeholders:r"<x\s[^>]*/>"'
+        # Check should not fire when punctuation is inside placeholder equiv-text
+        self.do_test(
+            False,
+            (
+                'Orangutan has <x id="INTERPOLATION" equiv-text="{{ count | other: 0 }}"/> banana.\n',
+                'Orangutan a <x id="INTERPOLATION" equiv-text="{{ count | other: 0 }}"/> banane.\n',
+                xliff_placeholder,
+            ),
+            "fr",
+        )
+        # Check should fire when punctuation is outside placeholder
+        self.do_test(
+            True,
+            (
+                'Orangutan has: <x id="INTERPOLATION" equiv-text="{{ count }}"/> banana.\n',
+                'Orangutan a: <x id="INTERPOLATION" equiv-text="{{ count }}"/> banane.\n',
+                xliff_placeholder,
+            ),
+            "fr",
+        )
+
     def test_cdata(self) -> None:
         self.do_test(
             False,

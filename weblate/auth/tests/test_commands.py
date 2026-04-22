@@ -22,6 +22,7 @@ class CommandTest(TestCase, TempDirMixin):
         user = User.objects.get(username="admin")
         self.assertEqual(user.full_name, "Weblate Admin")
         self.assertFalse(user.check_password("admin"))
+        self.assertTrue(user.auditlog_set.filter(activity="superuser-granted").exists())
 
     def test_createadmin_password(self) -> None:
         call_command("createadmin", password="admin")

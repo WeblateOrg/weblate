@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from itertools import chain
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django.utils.translation import gettext_lazy
 
@@ -22,7 +22,21 @@ if TYPE_CHECKING:
     from weblate.vcs.git import GitRepository
 
 
-class GitSquashAddon(BaseAddon):
+class GitSquashAddonStoredConfiguration(TypedDict, total=False):
+    squash: str
+    append_trailers: bool
+    commit_message: str
+
+
+class GitSquashAddonConfiguration(TypedDict):
+    squash: str
+    append_trailers: bool
+    commit_message: str
+
+
+class GitSquashAddon(
+    BaseAddon[GitSquashAddonStoredConfiguration, GitSquashAddonConfiguration]
+):
     name = "weblate.git.squash"
     verbose = gettext_lazy("Squash Git commits")
     description = gettext_lazy("Squash Git commits prior to pushing changes.")
@@ -44,7 +58,7 @@ class GitSquashAddon(BaseAddon):
         author: str | None = None,
     ) -> None:
         message = self.get_squash_commit_message(repository, "%B", remote)
-        repository.execute(["reset", "--mixed", remote])
+        repository.execute(["reset", "--mixed", remote], remote_op="none")
         # Can happen for added and removed translation
         component.commit_files(
             author=author, message=message, signals=False, skip_push=True
@@ -78,7 +92,7 @@ class GitSquashAddon(BaseAddon):
         if filenames:
             command += ["--", *filenames]
 
-        return repository.execute(command)
+        return repository.execute(command, remote_op="none")
 
     def get_squash_commit_message(
         self,
@@ -87,9 +101,10 @@ class GitSquashAddon(BaseAddon):
         remote: str,
         filenames: list[str] | None = None,
     ) -> str:
-        commit_message = self.instance.configuration.get("commit_message")
+        configuration = self.configuration
+        commit_message = configuration["commit_message"]
 
-        if self.instance.configuration.get("append_trailers", True):
+        if configuration["append_trailers"]:
             command = [
                 "log",
                 "--format=%(trailers)%nCo-authored-by: %an <%ae>",
@@ -100,7 +115,7 @@ class GitSquashAddon(BaseAddon):
 
             trailer_lines = set()
             change_id_line = None
-            for trailer in repository.execute(command).split("\n"):
+            for trailer in repository.execute(command, remote_op="none").split("\n"):
                 # Skip blank lines
                 if not trailer.strip():
                     continue
@@ -158,7 +173,7 @@ class GitSquashAddon(BaseAddon):
                 repository, "%B", remote, filenames
             )
 
-        repository.execute(["reset", "--mixed", remote])
+        repository.execute(["reset", "--mixed", remote], remote_op="none")
 
         for code, message in messages.items():
             if not message:
@@ -178,7 +193,7 @@ class GitSquashAddon(BaseAddon):
                     repository, "%B", remote, [filename]
                 )
 
-        repository.execute(["reset", "--mixed", remote])
+        repository.execute(["reset", "--mixed", remote], remote_op="none")
 
         for filename, message in messages.items():
             if not message:
@@ -194,7 +209,8 @@ class GitSquashAddon(BaseAddon):
             x.split(None, 1)
             for x in reversed(
                 repository.execute(
-                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"]
+                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"],
+                    remote_op="none",
                 ).splitlines()
             )
         ]
@@ -204,9 +220,9 @@ class GitSquashAddon(BaseAddon):
         repository.delete_branch(tmp)
         try:
             # Create local branch for upstream
-            repository.execute(["branch", tmp, remote])
+            repository.execute(["branch", tmp, remote], remote_op="none")
             # Checkout upstream branch
-            repository.execute(["checkout", tmp])
+            repository.execute(["checkout", tmp], remote_op="none")
             while commits:
                 commit, author = commits.pop(0)
                 # Remember current revision for final squash
@@ -216,11 +232,12 @@ class GitSquashAddon(BaseAddon):
                 try:
                     repository.execute(
                         ["cherry-pick", "--empty=drop", commit, *gpg_sign],
+                        remote_op="none",
                         environment={"WEBLATE_MERGE_SKIP": "1"},
                     )
                 except RepositoryError:
                     if repository.has_git_file("CHERRY_PICK_HEAD"):
-                        repository.execute(["cherry-pick", "--abort"])
+                        repository.execute(["cherry-pick", "--abort"], remote_op="none")
                     raise
                 handled = []
                 # Pick other commits by same author
@@ -230,6 +247,7 @@ class GitSquashAddon(BaseAddon):
                     try:
                         repository.execute(
                             ["cherry-pick", "--empty=drop", other[0], *gpg_sign],
+                            remote_op="none",
                             environment={"WEBLATE_MERGE_SKIP": "1"},
                         )
                         handled.append(i)
@@ -237,7 +255,9 @@ class GitSquashAddon(BaseAddon):
                         # If fails, continue to another author, we will
                         # pick this commit later (it depends on some other)
                         if repository.has_git_file("CHERRY_PICK_HEAD"):
-                            repository.execute(["cherry-pick", "--abort"])
+                            repository.execute(
+                                ["cherry-pick", "--abort"], remote_op="none"
+                            )
                         break
                 # Remove processed commits from list
                 for i in reversed(handled):
@@ -246,15 +266,15 @@ class GitSquashAddon(BaseAddon):
                 self.squash_repo(component, repository, base, author)
 
             # Update working copy with squashed commits
-            repository.execute(["checkout", repository.branch])
-            repository.execute(["reset", "--hard", tmp])
+            repository.execute(["checkout", repository.branch], remote_op="none")
+            repository.execute(["reset", "--hard", tmp], remote_op="none")
             repository.delete_branch(tmp)
 
         except Exception:
             report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
-            repository.execute(["reset", "--hard"])
-            repository.execute(["checkout", repository.branch])
+            repository.execute(["reset", "--hard"], remote_op="none")
+            repository.execute(["checkout", repository.branch], remote_op="none")
             repository.delete_branch(tmp)
 
     def post_commit(
@@ -278,7 +298,8 @@ class GitSquashAddon(BaseAddon):
                     return
             if not repository.needs_push():
                 return
-            match self.instance.configuration["squash"]:
+            squash = self.configuration["squash"]
+            match squash:
                 case "all":
                     self.squash_all(component, repository)
                 case "language":
@@ -288,7 +309,7 @@ class GitSquashAddon(BaseAddon):
                 case "author":
                     self.squash_author(component, repository)
                 case _:
-                    msg = f"Unsupported squash style: {self.instance.configuration['squash']}"
+                    msg = f"Unsupported squash style: {squash}"
                     raise ValueError(msg)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
@@ -301,3 +322,12 @@ class GitSquashAddon(BaseAddon):
             # Parse translation files to process any updates fetched by update_branch
             if branch_updated:
                 component.create_translations()
+
+    def normalize_configuration(
+        self, configuration: GitSquashAddonStoredConfiguration
+    ) -> GitSquashAddonConfiguration:
+        return {
+            "squash": configuration.get("squash", "all"),
+            "append_trailers": configuration.get("append_trailers", True),
+            "commit_message": configuration.get("commit_message", ""),
+        }

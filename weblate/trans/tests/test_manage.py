@@ -17,11 +17,15 @@ from django.urls import reverse
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
+from weblate.trans.forms import ComponentRenameForm
 from weblate.trans.models import Announcement, Category, Component, Project, Translation
+from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.stats import ProjectLanguage
+from weblate.vcs.base import RepositoryLock
 
 
 class RemovalTest(ViewTestCase):
@@ -190,6 +194,10 @@ class RenameTest(ViewTestCase):
         self.assertRedirects(response, "/projects/test/xxxx/")
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.slug, "xxxx")
+        self.assertEqual(
+            component.change_set.get(action=ActionEvents.RENAME_COMPONENT).user,
+            self.user,
+        )
         self.assertIsNotNone(component.repository.last_remote_revision)
         response = self.client.get(component.get_absolute_url())
         self.assertContains(response, "/projects/test/xxxx/")
@@ -197,6 +205,98 @@ class RenameTest(ViewTestCase):
         # Test rename redirect for the old name in middleware
         response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
+
+    def test_rename_component_locks_component_before_binding_form(self) -> None:
+        self.make_manager()
+        events: list[tuple[str, int]] = []
+        original_get_for_update = ComponentQuerySet.get_for_update
+        original_form_init = ComponentRenameForm.__init__
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        def record_form_init(*args, **kwargs):
+            events.append(("form_init", kwargs["instance"].pk))
+            return original_form_init(*args, **kwargs)
+
+        with (
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+            patch.object(
+                ComponentRenameForm,
+                "__init__",
+                autospec=True,
+                side_effect=record_form_init,
+            ),
+        ):
+            response = self.client.post(
+                reverse("rename", kwargs=self.kw_component),
+                {
+                    "project": self.project.pk,
+                    "slug": "locked-rename",
+                    "name": self.component.name,
+                },
+            )
+
+        self.assertRedirects(response, "/projects/test/locked-rename/")
+        lock_index = events.index(("lock", self.component.pk))
+        form_init_index = events.index(("form_init", self.component.pk))
+        self.assertLess(
+            lock_index,
+            form_init_index,
+            "Component row should be locked before the bound rename form is created",
+        )
+
+    def test_rename_component_acquires_repository_lock_before_row_lock(self) -> None:
+        self.make_manager()
+        events: list[tuple[str, int]] = []
+        original_lock_enter = RepositoryLock.__enter__
+        original_get_for_update = ComponentQuerySet.get_for_update
+
+        def record_lock_enter(lock):
+            component = lock.repository.component
+            if component is not None:
+                events.append(("repo_lock", component.pk))
+            return original_lock_enter(lock)
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("row_lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        with (
+            patch.object(
+                RepositoryLock,
+                "__enter__",
+                autospec=True,
+                side_effect=record_lock_enter,
+            ),
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+        ):
+            response = self.client.post(
+                reverse("rename", kwargs=self.kw_component),
+                {
+                    "project": self.project.pk,
+                    "slug": "repo-locked-rename",
+                    "name": self.component.name,
+                },
+            )
+
+        self.assertRedirects(response, "/projects/test/repo-locked-rename/")
+        self.assertLess(
+            events.index(("repo_lock", self.component.pk)),
+            events.index(("row_lock", self.component.pk)),
+            "Component repository lock should be acquired before the row lock",
+        )
 
     def test_rename_project(self) -> None:
         # Remove stale dir from previous tests

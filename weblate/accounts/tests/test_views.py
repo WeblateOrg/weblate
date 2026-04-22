@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from time import sleep
+from types import SimpleNamespace
 from unittest import mock
 
 from django.conf import settings
@@ -16,6 +17,7 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
 from requests.exceptions import HTTPError
+from rest_framework.authtoken.models import Token
 from social_core.exceptions import (
     AuthCanceled,
     AuthFailed,
@@ -40,6 +42,7 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.utils.ratelimit import reset_rate_limit
+from weblate.utils.state import STATE_TRANSLATED
 
 CONTACT_DATA = {
     "name": "Test",
@@ -536,7 +539,8 @@ class ViewTest(RepoTestCase):
 
     def test_password(self) -> None:
         # Create user
-        self.get_user()
+        user = self.get_user()
+        old_token = user.auth_token.key
         # Login
         self.client.login(username="testuser", password="testpassword")
         # Change without data
@@ -561,13 +565,34 @@ class ViewTest(RepoTestCase):
                 "password": "testpassword",
                 "new_password1": "1pa$$word!",
                 "new_password2": "1pa$$word!",
+                "regenerate_api_key": "on",
             },
         )
 
         self.assertRedirects(response, f"{reverse('profile')}#account")
-        self.assertTrue(
-            User.objects.get(username="testuser").check_password("1pa$$word!")
+        updated_user = User.objects.get(username="testuser")
+        self.assertTrue(updated_user.check_password("1pa$$word!"))
+        self.assertNotEqual(updated_user.auth_token.key, old_token)
+        self.assertFalse(Token.objects.filter(key=old_token).exists())
+
+    def test_password_keeps_api_key(self) -> None:
+        user = self.get_user()
+        old_token = user.auth_token.key
+
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.post(
+            reverse("password"),
+            {
+                "password": "testpassword",
+                "new_password1": "1pa$$word!",
+                "new_password2": "1pa$$word!",
+            },
         )
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        updated_user = User.objects.get(username="testuser")
+        self.assertTrue(updated_user.check_password("1pa$$word!"))
+        self.assertEqual(updated_user.auth_token.key, old_token)
 
     def test_api_key(self) -> None:
         # Create user
@@ -896,6 +921,8 @@ class EditUserTest(FixtureTestCase):
         self.assertRedirects(response, user.get_absolute_url())
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_superuser)
+        audit = user.auditlog_set.get(activity="superuser-revoked")
+        self.assertEqual(audit.params["username"], self.user.username)
         # No permissions now
         response = self.client.post(
             self.user.get_absolute_url(),
@@ -907,3 +934,39 @@ class EditUserTest(FixtureTestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+
+class AdminUserRevertTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.user.is_superuser = True
+        self.user.save()
+        self.target_user = User.objects.create_user(
+            username="sitewide-target", password="testpassword"
+        )
+
+    def test_revert_user_edits(self) -> None:
+        unit = self.get_unit()
+        self.change_unit("Nazdar svete!\n", user=self.target_user)
+
+        with mock.patch(
+            "weblate.accounts.views.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-1"),
+        ) as mocked_delay:
+            response = self.client.post(
+                self.target_user.get_absolute_url(),
+                {"revert_user_edits": "1"},
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.target_user.id,
+            acting_user_id=self.user.id,
+            sitewide=True,
+        )
+        self.assertContains(
+            response, "Reverting edits by sitewide-target site-wide was scheduled."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)

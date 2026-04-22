@@ -27,12 +27,15 @@ docs = [
   "sphinxext-opengraph==0.13.0",
   "weblate-fonts==2026.1"
 ]
+fuzzing = [
+  "atheris==3.0.0"
+]
 lint = [
   {include-group = "pre-commit"},
   {include-group = "pylint"}
 ]
 pre-commit = [
-  "prek==0.3.9"
+  "prek==0.3.10"
 ]
 pylint = [
   "pylint==4.0.5"
@@ -61,12 +64,12 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.42.89",
+  "boto3-stubs==1.42.93",
   "celery-types==0.26.0",
-  "django-stubs-ext==6.0.2",
-  "django-stubs[compatible-mypy]==6.0.2",
+  "django-stubs-ext==6.0.3",
+  "django-stubs[compatible-mypy]==6.0.3",
   "djangorestframework-stubs==3.16.9",
-  "mypy==1.20.1",
+  "mypy==1.20.2",
   "PyGObject-stubs==2.17.0",
   "types-dateparser==1.4.0.20260408",
   "types-docutils==0.22.3.20260408",
@@ -138,7 +141,7 @@ dependencies = [
   "hiredis>=3.1.0,<3.4",
   "html2text>=2025.4.15,<2025.4.16",
   "jsonschema>=4.24.0,<5",
-  "lxml>=5.4.0,<6.1",
+  "lxml>=5.4.0,<6.2",
   "mistletoe>=1.4.0,<1.6",
   "nh3>=0.2.20,<0.4",
   "openpyxl>=3.1.5,<3.2",
@@ -262,6 +265,7 @@ ignore = [
   "*.toml",
   "*.yaml",
   "*.yml",
+  ".clusterfuzzlite/*",
   ".dclintrc",
   ".editorconfig",
   ".gitmodules",
@@ -282,6 +286,9 @@ ignore = [
   "docs/*/*",
   "docs/*/*/*",
   "docs/*/*/*/*",
+  "fuzzing/*",
+  "fuzzing/*/*",
+  "fuzzing/*/*/*",
   "LICENSES/*",
   "rundev.sh",
   "scripts/*",
@@ -596,6 +603,7 @@ max-complexity = 16  # TODO: should be lower
 "ci/migrate-scripts/*.py" = ["INP001", "S101"]
 "docs/_ext/*.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
+"fuzzing/targets.py" = ["PLC0415"]
 "scripts/*" = ["T201", "T203"]
 "weblate/*/migrations/*.py" = ["RUF012"]
 "weblate/*/tests**.py" = ["ANN001", "S105", "S106"]
@@ -618,6 +626,22 @@ max-positional-args = 8
 max-public-methods = 180
 max-returns = 21
 max-statements = 100
+
+[tool.rumdl]
+disable = [
+  # We do not enforce heading
+  "first-line-heading",
+  # Avoid length limit checks
+  "line-length"
+]
+
+[tool.rumdl.per-file-ignores]
+"fuzzing/corpus/markup/seed.md" = ["MD033"]
+"README.md" = [
+  # Allow HTML
+  "MD033"
+]
+"weblate/trans/tests/data/*.md" = ["MD026"]
 
 [tool.setuptools]
 include-package-data = true

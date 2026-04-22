@@ -52,7 +52,11 @@ from weblate.trans.models import (
 )
 from weblate.utils.data import data_path
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.validators import validate_bitmap, validate_filename
+from weblate.utils.validators import (
+    validate_bitmap,
+    validate_filename,
+    validate_repo_url,
+)
 from weblate.utils.version import VERSION
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -624,6 +628,7 @@ class ProjectBackup:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.validate_component_urls(data["component"])
             if skip_linked and data["component"]["repo"].startswith("weblate:"):
                 return False
             if data["component"]["vcs"] not in VCS_REGISTRY:
@@ -649,6 +654,17 @@ class ProjectBackup:
                     raise TypeError(msg)
                 self.restore_component(zipfile, data, actor, changes)
             return True
+
+    @staticmethod
+    def validate_component_urls(component: dict[str, Any]) -> None:
+        for field in ("repo", "push"):
+            value = component.get(field)
+            if not value:
+                continue
+            try:
+                validate_repo_url(value)
+            except ValidationError as error:
+                raise ValidationError({field: error.messages}) from error
 
     @overload
     def load_components(

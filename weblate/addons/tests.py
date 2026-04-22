@@ -8,6 +8,7 @@ import base64
 import contextlib
 import json
 import os
+import re
 import shutil
 import subprocess  # noqa: S404
 import sys
@@ -29,12 +30,18 @@ from django.core.management.commands.makemessages import (
     Command as DjangoMakemessagesCommand,
 )
 from django.core.management.utils import find_command
+from django.db import connection
 from django.test import SimpleTestCase, TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
+from weblate.addons.forms import (
+    MesonExtractPotForm,
+    SphinxExtractPotForm,
+    XgettextExtractPotForm,
+)
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -60,7 +67,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.unittest import tempdir_setting
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
@@ -79,7 +86,13 @@ from .flags import (
     TargetEditAddon,
     TargetRepoUpdateAddon,
 )
-from .forms import BaseAddonForm, DiscoveryForm
+from .forms import (
+    BaseAddonForm,
+    DiscoveryForm,
+    GenerateForm,
+    GitSquashForm,
+    PropertiesSortAddonForm,
+)
 from .generate import (
     FillReadOnlyAddon,
     GenerateFileAddon,
@@ -100,7 +113,7 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
+from .models import ADDONS, Addon, AddonActivityLog, Event, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -110,6 +123,7 @@ from .tasks import (
     daily_addons,
     language_consistency,
     run_addon_manually,
+    update_addon_activity_log,
 )
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
@@ -225,6 +239,22 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def create_change_addon(self, **kwargs) -> Addon:
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+            addon = Addon.objects.create(name=NoOpAddon.name, **kwargs)
+        Event.objects.create(addon=addon, event=AddonEvent.EVENT_CHANGE)
+        return addon
+
+    def create_addon_change(self, component: Component | None = None) -> Change:
+        component = component or self.component
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+            return Change.objects.create(
+                action=ActionEvents.CHANGE,
+                category=component.category,
+                component=component,
+                project=component.project,
+            )
+
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
@@ -272,6 +302,50 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
+
+    def test_addon_change_does_not_prefetch_all_addon_components(self) -> None:
+        other_component = self.create_po_new_base(
+            name="Other component",
+            slug="other-component",
+            project=self.project,
+        )
+        skipped_addon = self.create_change_addon(component=other_component)
+        project_addon = self.create_change_addon(project=self.project)
+        change = self.create_addon_change()
+        AddonActivityLog.objects.all().delete()
+
+        with CaptureQueriesContext(connection) as queries:
+            addon_change.run([change.pk])
+
+        self.assertEqual(12, len(queries), [query["sql"] for query in queries])
+        component_queries = [
+            query["sql"]
+            for query in queries
+            if 'FROM "trans_component"' in query["sql"]
+        ]
+        self.assertEqual(1, len(component_queries), component_queries)
+        self.assertFalse(AddonActivityLog.objects.filter(addon=skipped_addon).exists())
+        self.assertTrue(AddonActivityLog.objects.filter(addon=project_addon).exists())
+
+    def test_addon_change_matches_ancestor_category_addon(self) -> None:
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            category=parent,
+            name="Child category",
+            project=self.project,
+            slug="child-category",
+        )
+        self.component.category = child
+        self.component.save()
+        addon = self.create_change_addon(category=parent)
+        change = self.create_addon_change()
+        AddonActivityLog.objects.all().delete()
+
+        with CaptureQueriesContext(connection) as queries:
+            addon_change.run([change.pk])
+
+        self.assertEqual(15, len(queries), [query["sql"] for query in queries])
+        self.assertTrue(AddonActivityLog.objects.filter(addon=addon).exists())
 
     def test_manual_returns_component_result(self) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
@@ -368,6 +442,289 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         NoOpAddon.create(category=parent, acting_user=self.user)
         self.component.drop_addons_cache()
         self.assertIn("weblate.base.test", self.component.addons_cache.names)
+
+
+class XgettextExtractPotFormTest(SimpleTestCase):
+    def test_rejects_potfiles_symlink_outside_repository(self) -> None:
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "po")
+
+        repository = SimpleNamespace(path=repository_dir)
+        repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
+            repository, path
+        )
+        component = SimpleNamespace(
+            full_path=repository_dir,
+            check_file_is_valid=lambda filename: Component.check_file_is_valid(
+                SimpleNamespace(repository=repository), filename
+            ),
+        )
+        addon = SimpleNamespace(
+            instance=SimpleNamespace(component=component, pk=None),
+            documentation_build=False,
+        )
+        form = XgettextExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "po/POTFILES.in",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["potfiles_path"],
+            ["Invalid symbolic link in a repository."],
+        )
+
+
+class GettextRepositoryPathValidationTest(SimpleTestCase):
+    @staticmethod
+    def build_fake_component(repository_dir: str, *, new_base: str) -> SimpleNamespace:
+        repository = SimpleNamespace(path=repository_dir)
+        repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
+            repository, path
+        )
+        component = SimpleNamespace(
+            file_format="po",
+            full_path=repository_dir,
+            new_base=new_base,
+            repository=repository,
+            log_error=lambda *_args, **_kwargs: None,
+        )
+        component.check_file_is_valid = lambda filename: Component.check_file_is_valid(
+            component, filename
+        )
+        component.get_new_base_filename = lambda: component.check_file_is_valid(
+            os.path.join(repository_dir, new_base)
+        )
+        return component
+
+    @staticmethod
+    def build_fake_addon(addon_class, component: SimpleNamespace):
+        addon = addon_class.__new__(addon_class)
+        addon.instance = SimpleNamespace(component=component, pk=None, configuration={})
+        addon.documentation_build = False
+        addon.alerts = []
+        addon.extra_files = []
+        return addon
+
+    def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        (Path(repository_dir) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (Path(outside_dir) / "meson.build").write_text("", encoding="utf-8")
+        (Path(outside_dir) / "POTFILES").write_text("src/main.c\n", encoding="utf-8")
+        os.symlink(outside_dir, Path(repository_dir) / "po")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="po/messages.pot"
+        )
+        addon = self.build_fake_addon(MesonAddon, component)
+        form = MesonExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "preset": "glib",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.non_field_errors(),
+            [
+                "The Meson add-on expects a Meson gettext directory with meson.build and POTFILES or POTFILES.in."
+            ],
+        )
+
+    def test_django_execute_update_rejects_source_symlink_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "src")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="src/locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+
+        result = addon.execute_update(component, "")
+
+        self.assertFalse(result)
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_django_execute_update_skips_repository_locale_tree_validation(
+        self,
+    ) -> None:
+        repository_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        repository_locale_dir = Path(repository_dir) / "locale" / "cs" / "LC_MESSAGES"
+        repository_locale_dir.mkdir(parents=True, exist_ok=True)
+        (repository_locale_dir / "django.po").write_text("", encoding="utf-8")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+        original_resolve_symlinks = component.repository.resolve_symlinks
+
+        def resolve_symlinks(path: str) -> str:
+            if os.fspath(path).startswith(
+                os.fspath(Path(repository_dir) / "locale" / "cs")
+            ):
+                self.fail("Django validation should skip repository locale trees")
+            return original_resolve_symlinks(path)
+
+        component.repository.resolve_symlinks = resolve_symlinks
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            result = addon.execute_update(component, "")
+
+        self.assertTrue(result, addon.alerts)
+        self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
+        self.assertEqual(
+            (Path(repository_dir) / "locale" / "django.pot").read_text(
+                encoding="utf-8"
+            ),
+            'msgid ""\nmsgstr ""\n',
+        )
+
+    def test_django_execute_update_rejects_symlinked_locale_output_directory(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "locale")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+
+        with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
+            result = addon.execute_update(component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_django_execute_update_skips_nested_ignored_directories(self) -> None:
+        repository_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        source_dir = Path(repository_dir) / "src"
+        (source_dir / "locale").mkdir(parents=True, exist_ok=True)
+        (source_dir / "node_modules").mkdir(parents=True, exist_ok=True)
+
+        component = self.build_fake_component(
+            repository_dir, new_base="src/locale/django.pot"
+        )
+        addon = self.build_fake_addon(DjangoAddon, component)
+        original_resolve_symlinks = component.repository.resolve_symlinks
+
+        def resolve_symlinks(path: str) -> str:
+            if os.fspath(path).startswith(os.fspath(source_dir / "node_modules")):
+                self.fail("Django validation should skip ignored source directories")
+            return original_resolve_symlinks(path)
+
+        component.repository.resolve_symlinks = resolve_symlinks
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            result = addon.execute_update(component, "")
+
+        self.assertTrue(result, addon.alerts)
+        self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
+        self.assertEqual(
+            (source_dir / "locale" / "django.pot").read_text(encoding="utf-8"),
+            'msgid ""\nmsgstr ""\n',
+        )
+
+    def test_sphinx_form_rejects_source_symlink_outside_repository(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "docs")
+
+        component = self.build_fake_component(
+            repository_dir, new_base="docs/locales/docs.pot"
+        )
+        addon = self.build_fake_addon(SphinxAddon, component)
+        form = SphinxExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+                "filter_mode": "none",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.non_field_errors(),
+            ["Could not determine Sphinx source directory."],
+        )
 
 
 class IntegrationTest(TestAddonMixin, ViewTestCase):
@@ -2275,7 +2632,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2311,7 +2670,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2340,7 +2701,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2371,7 +2734,9 @@ msgstr ""
             return ""
 
         with (
-            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
             addon.execute_update(self.component, "")
@@ -2517,7 +2882,9 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        with patch.object(DjangoAddon, "validate_repository_tree", return_value=True):
+        with patch.object(
+            DjangoAddon, "validate_django_repository_tree", return_value=True
+        ):
             result = addon.execute_update(self.component, "")
 
         self.assertTrue(result)
@@ -2834,11 +3201,11 @@ msgstr ""
         self.assertNotIn('\nmsgid "Django"\n', content)
         self.assertNotIn('\nmsgid "foo_bar"\n', content)
 
-    def test_django_refuses_out_of_tree_symlink(self) -> None:
+    def test_django_refuses_out_of_tree_symlinked_source_file(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
 
-        self.component.new_base = "locale/website.pot"
+        self.component.new_base = "locale/django.pot"
         addon = DjangoAddon.create(
             component=self.component,
             run=False,
@@ -2850,8 +3217,8 @@ msgstr ""
             (outside_dir / "messages.py").write_text(
                 'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
             )
-            (Path(self.component.full_path) / "src").symlink_to(
-                outside_dir, target_is_directory=True
+            (Path(self.component.full_path) / "src.py").symlink_to(
+                outside_dir / "messages.py"
             )
 
             with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
@@ -3383,7 +3750,10 @@ class ResxAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         # Unshallow the local repo
         with self.component.repository.lock:
-            self.component.repository.execute(["fetch", "--unshallow", "origin"])
+            self.component.repository.execute(
+                ["fetch", "--unshallow", "origin"],
+                remote_op="pull",
+            )
         addon.post_update(
             self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
         )
@@ -3397,7 +3767,10 @@ class ResxAddonTest(ComponentTestCase):
         rev = self.component.repository.last_revision
         # Unshallow the local repo
         with self.component.repository.lock:
-            self.component.repository.execute(["fetch", "--unshallow", "origin"])
+            self.component.repository.execute(
+                ["fetch", "--unshallow", "origin"],
+                remote_op="pull",
+            )
         addon.post_update(
             self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
         )
@@ -4335,18 +4708,249 @@ class DiscoveryTest(ViewTestCase):
     def test_discovery_page_renders_ui_presets(self) -> None:
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(
-            reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.discovery.discovery"},
-            follow=True,
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=[],
+        ) as mocked:
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {"name": "weblate.discovery.discovery"},
+                follow=True,
+            )
+        self.assertNotContains(response, 'id="addon-ui-preset"')
+        self.assertContains(response, "Guided presets")
+        self.assertContains(response, "Generic presets")
+        self.assertContains(response, 'id="addon-discovery-presets"')
+        self.assertContains(response, "row row-cols-1 row-cols-lg-2 g-3")
+        self.assertContains(response, 'class="card h-100"')
+        self.assertContains(
+            response,
+            'data-bs-target="#addon-discovery-section-generic"',
         )
-        self.assertContains(response, 'id="addon-ui-preset"')
+        self.assertContains(response, 'data-addon-discovery-preset="filename-language"')
         self.assertContains(response, "Filename-based language variants")
-        self.assertContains(response, "Matching multiple paths")
+        self.assertContains(response, "format not preset")
+        self.assertContains(response, "Java Properties")
+        self.assertContains(response, "no monolingual base")
         self.assertContains(response, "addon-ui-presets")
+        self.assertNotContains(response, 'id="addon-discovery-feedback"')
+        content = response.content.decode()
+        self.assertRegex(
+            content,
+            re.compile(
+                r'id="addon-discovery-section-generic"\s+'
+                r'class="accordion-collapse collapse show"',
+            ),
+        )
+        self.assertNotContains(response, 'id="addon-discovery-section-detected"')
+        mocked.assert_called_once_with(self.component)
+
+    def test_discovery_page_renders_detected_ui_presets(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        detected = [
+            {
+                "examples": (
+                    "weblate/locale/*/LC_MESSAGES/django.po",
+                    "weblate/locale/*/LC_MESSAGES/djangojs.po",
+                ),
+                "values": {
+                    "match": r"weblate/locale/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\.po",
+                    "file_format": "po",
+                    "name_template": "{{ component }}",
+                    "language_regex": "^[^.]+$",
+                    "base_file_template": "",
+                    "new_base_template": "",
+                    "intermediate_template": "",
+                },
+            }
+        ]
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=detected,
+        ) as mocked:
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {"name": "weblate.discovery.discovery"},
+                follow=True,
+            )
+
+        self.assertContains(response, "Detected from repository")
+        self.assertContains(
+            response,
+            'data-addon-discovery-preset="detected-1"',
+        )
+        self.assertContains(response, 'id="addon-discovery-presets"')
+        self.assertContains(
+            response,
+            'data-bs-target="#addon-discovery-section-detected"',
+        )
+        self.assertContains(
+            response,
+            'data-bs-target="#addon-discovery-section-generic"',
+        )
+        self.assertContains(
+            response,
+            "weblate/locale/*/LC_MESSAGES/*.po",
+        )
+        self.assertContains(response, "gettext PO file")
+        self.assertContains(response, "no monolingual base")
+        self.assertContains(
+            response,
+            "One folder per language",
+        )
+        content = response.content.decode()
+        self.assertLess(
+            content.index("Detected from repository"),
+            content.index("Generic presets"),
+        )
+        self.assertRegex(
+            content,
+            re.compile(
+                r'id="addon-discovery-section-detected"\s+'
+                r'class="accordion-collapse collapse show"',
+            ),
+        )
+        self.assertRegex(
+            content,
+            re.compile(
+                r'id="addon-discovery-section-generic"\s+'
+                r'class="accordion-collapse collapse"',
+            ),
+        )
+        self.assertNotContains(response, "Prefills component discovery")
+        mocked.assert_called_once_with(self.component)
+
+    def test_render_detected_ui_preset_uses_component_wildcard_in_filename(
+        self,
+    ) -> None:
+        form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        form = cast("DiscoveryForm", form)
+
+        rendered = form.render_detected_ui_preset(
+            {
+                "examples": (
+                    "docs/news_*.md",
+                    "docs/guide_*.md",
+                ),
+                "values": {
+                    "match": r"docs/(?P<component>[^/]*)_(?P<language>[^/.]*)\.md",
+                    "file_format": "markdown",
+                    "name_template": "{{ component }}",
+                    "language_regex": "^[^.]+$",
+                    "base_file_template": "docs/{{ component }}.md",
+                    "new_base_template": "",
+                    "intermediate_template": "",
+                },
+            },
+            1,
+        )
+
+        self.assertEqual(
+            rendered["label"],
+            "Detected: docs/*_*.md [Markdown file; monolingual base: docs/*.md]",
+        )
+        self.assertEqual(rendered["file_format_label"], "Markdown file")
+        self.assertEqual(rendered["base_file_label"], "monolingual base: docs/*.md")
+        self.assertEqual(rendered["description"], "")
+        self.assertEqual(rendered["examples"], ())
+
+    def test_get_ui_presets_lists_detected_before_generic_presets(self) -> None:
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=[
+                {
+                    "examples": ("docs/news_*.md", "docs/guide_*.md"),
+                    "values": {
+                        "match": r"docs/(?P<component>[^/]*)_(?P<language>[^/.]*)\.md",
+                        "file_format": "markdown",
+                        "name_template": "{{ component }}",
+                        "language_regex": "^[^.]+$",
+                        "base_file_template": "",
+                        "new_base_template": "",
+                        "intermediate_template": "",
+                    },
+                }
+            ],
+        ):
+            form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+            self.assertIsNotNone(form)
+            if form is None:
+                self.fail("Expected discovery form to be created")
+            form = cast("DiscoveryForm", form)
+            presets = form.get_ui_presets()
+
+        self.assertEqual(
+            presets[0]["label"],
+            "Detected: docs/*_*.md [Markdown file; no monolingual base]",
+        )
+        self.assertEqual(
+            presets[1]["label"],
+            "Generic preset: One folder per language [gettext PO file; no monolingual base]",
+        )
+
+    def test_detected_ui_presets_are_not_shown_when_editing_existing_addon(
+        self,
+    ) -> None:
+        addon = DiscoveryAddon.create(
+            component=self.component,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|title }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "remove": True,
+            },
+            run=False,
+        )
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets"
+        ) as mocked:
+            form = addon.get_settings_form(self.user)
+
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        form = cast("DiscoveryForm", form)
+        self.assertEqual(form.detected_ui_presets, [])
+        mocked.assert_not_called()
+
+    def test_detected_ui_presets_skip_builtin_equivalent_matches(self) -> None:
+        detected = [
+            {
+                "examples": ("*/application.po", "*/other.po"),
+                "values": {
+                    "match": r"(?P<language>[^/.]*)/(?P<component>[^/]*)\.po",
+                    "file_format": "po",
+                    "name_template": "{{ component }}",
+                    "language_regex": "^[^.]+$",
+                    "base_file_template": "",
+                    "new_base_template": "",
+                    "intermediate_template": "",
+                },
+            }
+        ]
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets",
+            return_value=detected,
+        ):
+            form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+            self.assertIsNotNone(form)
+            if form is None:
+                self.fail("Expected discovery form to be created")
+            form = cast("DiscoveryForm", form)
+            presets = form.detected_ui_presets
+
+        self.assertEqual(presets, [])
 
     def test_discovery_ui_presets_include_multiple_paths_template(self) -> None:
-        presets = DiscoveryForm.get_ui_presets()
+        presets = DiscoveryForm.get_builtin_ui_presets()
         multiple_paths = next(
             preset for preset in presets if preset["id"] == "multiple-paths"
         )
@@ -4354,6 +4958,25 @@ class DiscoveryTest(ViewTestCase):
             multiple_paths["values"]["name_template"],
             "{{ originalHierarchy }}: {{ component }}",
         )
+
+    def test_discovery_ui_presets_include_filename_language_file_format_clear(
+        self,
+    ) -> None:
+        presets = DiscoveryForm.get_builtin_ui_presets()
+        folder = next(
+            preset for preset in presets if preset["id"] == "folder-per-language"
+        )
+        split_android = next(
+            preset for preset in presets if preset["id"] == "split-android-strings"
+        )
+        filename_language = next(
+            preset for preset in presets if preset["id"] == "filename-language"
+        )
+
+        self.assertEqual(folder["values"]["file_format"], "po")
+        self.assertEqual(split_android["values"]["file_format"], "aresource")
+        self.assertIn("file_format", filename_language["values"])
+        self.assertEqual(filename_language["values"]["file_format"], "")
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
@@ -4758,6 +5381,48 @@ class LanguageConsistencyTest(ComponentTestCase):
         addon.post_update(self.component, "", False)
         self.assertEqual(Translation.objects.count(), 15)
 
+    def test_language_consistency_missing_activity_log_after_component_delete(
+        self,
+    ) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        ts_component = self.create_ts(
+            name="TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.component.project,
+        )
+
+        addon = LanguageConsistencyAddon.create(project=self.project)
+        activity_log = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_POST_ADD,
+            pending=True,
+        )
+
+        self.component.delete()
+
+        language_consistency(
+            addon.instance.id,
+            [
+                Language.objects.get(code="de").id,
+                Language.objects.get(code="it").id,
+            ],
+            project_id=self.project.id,
+            activity_log_id=activity_log.id,
+        )
+
+        self.assertSetEqual(
+            set(
+                Translation.objects.filter(component=ts_component).values_list(
+                    "language__code", flat=True
+                )
+            ),
+            {"cs", "de", "en", "it"},
+        )
+
 
 class GitSquashAddonTest(ViewTestCase):
     def create(self, mode: str, sitewide: bool = False):
@@ -5001,6 +5666,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
             component=self.component,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5023,11 +5689,74 @@ class AutoTranslateAddonTest(ComponentTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+            user_id=None,
+            activity_log_id=None,
+        )
+
+    def test_auto_passes_activity_log_id(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component, activity_log_id=123)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=None,
+            activity_log_id=123,
+        )
+
+    def test_auto_others_component_uses_addon_user(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=addon.user.id,
+            activity_log_id=None,
         )
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
         addon = AutoTranslateAddon.create(
             project=self.project,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5057,7 +5786,92 @@ class AutoTranslateAddonTest(ComponentTestCase):
             user_id=self.user.id,
             unit_ids=[1, 2],
             translation_id=self.translation.id,
+            activity_log_id=None,
         )
+
+    def test_render_activity_log_formats_task_result(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        activity = AddonActivityLog(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            details={
+                "result": {
+                    "message": "Automatic translation completed.",
+                    "warnings": ["<unsafe warning>"],
+                }
+            },
+        )
+
+        rendered = str(addon.render_activity_log(activity))
+
+        self.assertIn("Automatic translation completed.", rendered)
+        self.assertIn('class="text-warning mt-2"', rendered)
+        self.assertIn("&lt;unsafe warning&gt;", rendered)
+
+    def test_activity_log_keeps_repeated_task_results_structured(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        activity = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            pending=True,
+        )
+
+        update_addon_activity_log(
+            activity.id,
+            {"message": "First automatic translation completed.", "warnings": []},
+        )
+        update_addon_activity_log(
+            activity.id,
+            {
+                "message": "Second automatic translation completed.",
+                "warnings": ["<unsafe warning>"],
+            },
+            pending=False,
+        )
+
+        activity.refresh_from_db()
+        result = activity.details["result"]
+        self.assertIsInstance(result, dict)
+        self.assertEqual(len(result["results"]), 2)
+        self.assertEqual(
+            result["results"][0]["message"],
+            "First automatic translation completed.",
+        )
+        self.assertEqual(
+            result["results"][1]["message"],
+            "Second automatic translation completed.",
+        )
+        self.assertFalse(activity.pending)
+
+        rendered = str(addon.render_activity_log(activity))
+
+        self.assertIn("First automatic translation completed.", rendered)
+        self.assertIn("Second automatic translation completed.", rendered)
+        self.assertIn("&lt;unsafe warning&gt;", rendered)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_auto_change_event(self) -> None:
@@ -5067,7 +5881,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         component_2 = self.create_po_new_base(name="Component 2", project=self.project)
         component_2.allow_translation_propagation = False
         component_2.save()
-        AutoTranslateAddon.create(
+        addon = AutoTranslateAddon.create(
             project=self.project,
             configuration={
                 "component": None,
@@ -5091,14 +5905,28 @@ class AutoTranslateAddonTest(ComponentTestCase):
         unit_2 = translation_2.unit_set.get(source="one")
         Comment.objects.create(unit=unit_2, comment="Foo")
         change = unit_2.change_set.latest("timestamp")
+        change.user = None
+        change.author = None
+        change.save(update_fields=["user", "author"])
 
         addon_change.run([change.pk])
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+        self.assertEqual(
+            unit_2.change_set.get(action=ActionEvents.AUTO).author,
+            addon.user,
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=unit_2,
+                author=addon.user,
+                automatically_translated=True,
+            ).exists()
+        )
 
 
-class AutoTranslateAddonUnitTest(SimpleTestCase):
+class AddonConfigurationUnitTest(SimpleTestCase):
     def test_base_addon_configuration_normalizes_stored_values(self) -> None:
         addon = TypedConfigAddon.__new__(TypedConfigAddon)
         addon.instance = SimpleNamespace(configuration={"count": "5"})
@@ -5143,6 +5971,7 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
             user_id=1,
             unit_ids=[3, 4],
             translation_id=2,
+            activity_log_id=None,
         )
 
     def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
@@ -5173,6 +6002,8 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+            user_id=None,
+            activity_log_id=None,
         )
 
     def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:
@@ -5267,6 +6098,98 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
                 "mode": "translate",
                 "q": "state:<translated",
                 "threshold": DEFAULT_AUTO_TRANSLATE_THRESHOLD,
+            },
+        )
+
+    def test_generate_file_form_serializes_configuration(self) -> None:
+        addon = GenerateFileAddon.__new__(GenerateFileAddon)
+        addon.instance = SimpleNamespace(component=None, project=None)
+        form = GenerateForm(
+            None,
+            addon,
+            data={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form(),
+            {
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+    def test_generate_file_runtime_configuration_is_normalized(self) -> None:
+        addon = GenerateFileAddon.__new__(GenerateFileAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            }
+        )
+
+        self.assertEqual(
+            addon.configuration,
+            {
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+    def test_properties_sort_form_serializes_configuration(self) -> None:
+        addon = PropertiesSortAddon.__new__(PropertiesSortAddon)
+        addon.instance = SimpleNamespace()
+        form = PropertiesSortAddonForm(
+            None,
+            addon,
+            data={"case_sensitive": "on"},
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form(), {"case_sensitive": True})
+
+    def test_properties_sort_configuration_defaults_missing_values(self) -> None:
+        addon = PropertiesSortAddon.__new__(PropertiesSortAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(addon.get_configuration(), {"case_sensitive": False})
+
+    def test_git_squash_form_serializes_configuration(self) -> None:
+        addon = GitSquashAddon.__new__(GitSquashAddon)
+        addon.instance = SimpleNamespace()
+        form = GitSquashForm(
+            None,
+            addon,
+            data={
+                "squash": "language",
+                "append_trailers": "",
+                "commit_message": "Squashed translations",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form(),
+            {
+                "squash": "language",
+                "append_trailers": False,
+                "commit_message": "Squashed translations",
+            },
+        )
+
+    def test_git_squash_configuration_defaults_missing_values(self) -> None:
+        addon = GitSquashAddon.__new__(GitSquashAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "squash": "all",
+                "append_trailers": True,
+                "commit_message": "",
             },
         )
 

@@ -23,6 +23,7 @@ from weblate.trans.views.edit import format_newly_failing_checks_message
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
+    STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
@@ -713,7 +714,7 @@ class EditPoMonoTest(EditTest):
             "weblate.trans.models.translation.Translation.delete_unit",
             side_effect=WeblateLockTimeoutError(
                 "repository locked",
-                lock=SimpleNamespace(scope="repo", origin="test/component"),
+                lock=SimpleNamespace(scope="repository", origin="test/component"),
             ),
         ):
             response = self.client.post(
@@ -1155,7 +1156,8 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"checksum": unit.checksum, "revert": changes[1].id}
         )
         unit = self.get_unit()
-        self.assertEqual(unit.target, target_2)
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
         # check that we cannot revert to string from another translation
         self.edit_unit("Thank you for using Weblate.", "Kiitoksia Weblaten kaytosta.")
         unit2 = self.get_unit(source="Thank you for using Weblate.")
@@ -1164,7 +1166,7 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
         self.assertContains(response, "Could not find the reverted change.")
-        self.assert_backend(2)
+        self.assert_backend(1)
 
     def test_revert_plural(self) -> None:
         source = "Orangutan has %d banana.\n"
@@ -1193,6 +1195,38 @@ class EditComplexTest(ViewTestCase):
         )
         unit = self.get_unit(source)
         self.assertEqual(unit.get_target_plurals(), target)
+
+    def test_revert_empty(self) -> None:
+        source = "Hello, world!\n"
+        target = "Nazdar svete!\n"
+        self.edit_unit(source, target)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+
+        self.client.get(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
+        )
+
+        unit = self.get_unit(source)
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
+
+    def test_revert_restores_old_state(self) -> None:
+        source = "Hello, world!\n"
+        original = "Nazdar svete!\n"
+        updated = "Hei maailma!\n"
+        self.change_unit(original, source=source, state=STATE_NEEDS_REWRITING)
+        self.edit_unit(source, updated)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+
+        self.client.get(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
+        )
+
+        unit = self.get_unit(source)
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
     def test_edit_fixup(self) -> None:
         # Save with failing check

@@ -607,6 +607,28 @@ def get_rst_node_position(text: str, token: str, offset: int) -> tuple[int, int]
     return start, start + len(normalized_token)
 
 
+def update_rst_target_offset(
+    text: str,
+    token: str,
+    offset: int,
+    previous_start: int,
+    previous_end: int,
+    *,
+    previous_is_text: bool,
+) -> int:
+    normalized_token = normalize_rst_node_token(token)
+
+    if not previous_is_text and previous_start < previous_end:
+        nested_start = text.rfind(normalized_token, previous_start, previous_end)
+        if nested_start != -1 and nested_start + len(normalized_token) <= previous_end:
+            return offset
+
+    if (start := text.find(normalized_token, offset)) != -1:
+        return start + len(normalized_token)
+
+    return offset
+
+
 @lru_cache(maxsize=512)
 def extract_rst_references(
     text: str,
@@ -628,6 +650,9 @@ def extract_rst_references(
     result: list[tuple[str, str]] = []
     highlights: list[RSTHighlight] = []
     offset = 0
+    previous_start = 0
+    previous_end = 0
+    previous_is_text = True
 
     for node in nodes:
         token = str(node) if isinstance(node, Text) else getattr(node, "rawsource", "")
@@ -636,13 +661,21 @@ def extract_rst_references(
             continue
 
         if isinstance(node, docutils_target):
-            normalized_token = normalize_rst_node_token(token)
-            if (start := text.find(normalized_token, offset)) != -1:
-                offset = start + len(normalized_token)
+            offset = update_rst_target_offset(
+                text,
+                token,
+                offset,
+                previous_start,
+                previous_end,
+                previous_is_text=previous_is_text,
+            )
             continue
 
         start, end = get_rst_node_position(text, token, offset)
         offset = end
+        previous_start = start
+        previous_end = end
+        previous_is_text = isinstance(node, Text)
 
         if not isinstance(node, Text) and (
             role_reference := get_rst_role_reference(token)

@@ -22,12 +22,13 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
+from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
-from weblate.utils.backup import BackupError
+from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
@@ -48,6 +49,9 @@ class BackupFailureService:
 
     def backup(self) -> None:
         BackupService.backup(cast("BackupService", self))
+
+    def create_backup_log(self, event: str, result: BorgResult) -> None:
+        BackupService.create_backup_log(cast("BackupService", self), event, result)
 
 
 class BackupTaskTest(TestCase):
@@ -130,13 +134,52 @@ class BackupServiceStatusTest(TestCase):
         old_error = SimpleNamespace(event="error", log="old failure")
         service = BackupService(repository="/backup")
         service.__dict__["last_logs"] = [
-            SimpleNamespace(event="prune", log="prune complete"),
-            SimpleNamespace(event="backup", log="backup complete"),
+            SimpleNamespace(event="prune", log="prune complete", warning=False),
+            SimpleNamespace(event="backup", log="backup complete", warning=False),
             old_error,
         ]
 
         self.assertFalse(service.has_errors)
         self.assertIsNone(service.current_error)
+
+    def test_current_error_clears_after_backup_warning(self) -> None:
+        old_error = SimpleNamespace(event="error", log="old failure", warning=False)
+        warning = SimpleNamespace(
+            event="backup", log="backup complete with warnings", warning=True
+        )
+        service = BackupService(repository="/backup")
+        service.__dict__["last_logs"] = [warning, old_error]
+
+        self.assertFalse(service.has_errors)
+        self.assertIsNone(service.current_error)
+        self.assertTrue(service.has_warnings)
+        self.assertIs(service.current_warning, warning)
+
+    def test_current_warning_clears_after_clean_backup(self) -> None:
+        old_warning = SimpleNamespace(
+            event="backup", log="backup complete with warnings", warning=True
+        )
+        service = BackupService(repository="/backup")
+        service.__dict__["last_logs"] = [
+            SimpleNamespace(event="backup", log="backup complete", warning=False),
+            old_warning,
+        ]
+
+        self.assertFalse(service.has_warnings)
+        self.assertIsNone(service.current_warning)
+
+    def test_backup_logs_warning_without_error(self) -> None:
+        service = BackupFailureService()
+
+        with patch(
+            "weblate.wladmin.models.backup",
+            return_value=BorgResult("borg completed with warnings", returncode=1),
+        ):
+            service.backup()
+
+        service.backuplog_set.create.assert_called_once_with(
+            event="backup", log="borg completed with warnings", warning=True
+        )
 
 
 class AdminTest(ViewTestCase):
@@ -245,6 +288,16 @@ class AdminTest(ViewTestCase):
             )
             self.assertContains(response, "Added host key for example.com")
             self.assertTrue(hostsfile.exists())
+
+            # Remove the stored key so it can be replaced from the same page
+            response = self.client.get(reverse("manage-ssh"))
+            host_key_id = response.context["host_keys"][0]["id"]
+            response = self.client.post(
+                reverse("manage-ssh"),
+                {"action": "remove-host", "host_key": host_key_id},
+            )
+            self.assertContains(response, "Removed host key for example.com")
+            self.assertEqual(hostsfile.read_text(), "")
 
             # Add all the keys
             response = self.client.post(
@@ -430,6 +483,15 @@ class AdminTest(ViewTestCase):
             reverse("manage-users-check"), {"email": "nonexisting"}, follow=True
         )
         self.assertRedirects(response, f"{reverse('manage-users')}?q=nonexisting")
+
+    def test_manage_users_search_by_audit_ip(self) -> None:
+        request = self.factory.get("/", REMOTE_ADDR="192.0.2.24")
+        request.user = self.user
+        AuditLog.objects.create(self.user, request, "login")
+
+        response = self.client.get(reverse("manage-users"), {"q": "192.0.2.24"})
+
+        self.assertContains(response, self.user.get_absolute_url())
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",

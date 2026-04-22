@@ -16,10 +16,12 @@ from django.test.utils import override_settings
 
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import (
+    RECIPIENT_USERNAME_HEADER,
     MergeFailureNotification,
     NotificationFrequency,
     NotificationScope,
     get_email_headers,
+    get_notification_emails,
 )
 from weblate.accounts.tasks import (
     notify_changes,
@@ -102,6 +104,16 @@ class NotificationHeadersTest(SimpleTestCase):
     def test_hide_mode_hides_x_mailer_version(self) -> None:
         self.assertEqual(get_email_headers("test")["X-Mailer"], "Weblate")
 
+    def test_raw_notification_has_no_recipient_username(self) -> None:
+        messages = get_notification_emails(
+            None,
+            ["noreply@example.com"],
+            "activation",
+            context={"url": "/accounts/", "validity": 1},
+        )
+
+        self.assertNotIn(RECIPIENT_USERNAME_HEADER, messages[0]["headers"])
+
 
 @override_settings(
     TEMPLATES=TEMPLATES_RAISE,
@@ -172,6 +184,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=ActionEvents.LOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
         mail.outbox.clear()
         self.component.change_set.create(
             action=ActionEvents.UNLOCK,
@@ -505,6 +521,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         AuditLog.objects.create(request.user, request, "password")
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
         # Verify site root expansion in email
         content = mail.outbox[0].alternatives[0][0]
         self.assertNotIn('href="/', content)
@@ -556,6 +576,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_digest_monthly(self) -> None:
         self.test_digest(NotificationFrequency.FREQ_MONTHLY, notify_monthly)
+
+    def test_digest_recipient_header(self) -> None:
+        self.test_digest()
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
 
     def test_digest_new_lang(self) -> None:
         self.test_digest(

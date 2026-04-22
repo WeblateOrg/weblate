@@ -20,9 +20,12 @@ from drf_spectacular.utils import (
     OpenApiExample,
     extend_schema_field,
     extend_schema_serializer,
-    inline_serializer,
 )
-from drf_standardized_errors.openapi_serializers import ServerErrorEnum
+from drf_standardized_errors.openapi_serializers import (
+    ClientErrorEnum,
+    ServerErrorEnum,
+    ValidationErrorEnum,
+)
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 
@@ -64,6 +67,10 @@ from weblate.utils.views import (
     create_component_from_zip,
     get_form_errors,
     guess_filemask_from_doc,
+)
+
+NEW_UNIT_STATE_CHOICES = tuple(
+    choice for choice in StringState.choices if choice[0] != STATE_READONLY
 )
 
 if TYPE_CHECKING:
@@ -1037,7 +1044,6 @@ class ComponentSerializer(RemovableSerializer[Component]):
                 "from_component",
             )
             self.populate_from_component_input_defaults(data, source_component)
-
         # Provide a reasonable default
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
@@ -1438,6 +1444,13 @@ class TranslationSerializer(RemovableSerializer[Translation]):
         }
 
 
+class ComponentTranslationSerializer(TranslationSerializer):
+    class Meta(TranslationSerializer.Meta):
+        fields = tuple(
+            field for field in TranslationSerializer.Meta.fields if field != "component"
+        )
+
+
 class ReadOnlySerializer(serializers.Serializer):
     def update(self, instance, validated_data) -> None:
         return None
@@ -1460,6 +1473,22 @@ class ProjectLockSerializer(serializers.ModelSerializer[Project]):
 
 class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()
+
+
+class BooleanResultSerializer(ReadOnlySerializer):
+    result = serializers.BooleanField()
+
+
+class RepositoryOperationSerializer(BooleanResultSerializer):
+    detail = serializers.CharField(required=False)
+
+
+class UploadResultSerializer(BooleanResultSerializer):
+    not_found = serializers.IntegerField()
+    skipped = serializers.IntegerField()
+    accepted = serializers.IntegerField()
+    total = serializers.IntegerField()
+    count = serializers.IntegerField()
 
 
 class TranslationCreateSerializer(ReadOnlySerializer):
@@ -1774,6 +1803,44 @@ class RepositorySerializer(ReadOnlySerializer):
 
 
 class StatisticsSerializer(ReadOnlySerializer):
+    total = serializers.IntegerField()
+    total_words = serializers.IntegerField()
+    total_chars = serializers.IntegerField()
+    last_change = serializers.DateTimeField(allow_null=True)
+    recent_changes = serializers.IntegerField()
+    translated = serializers.IntegerField()
+    translated_words = serializers.IntegerField()
+    translated_percent = serializers.FloatField()
+    translated_words_percent = serializers.FloatField()
+    translated_chars = serializers.IntegerField()
+    translated_chars_percent = serializers.FloatField()
+    fuzzy = serializers.IntegerField()
+    fuzzy_percent = serializers.FloatField()
+    fuzzy_words = serializers.IntegerField()
+    fuzzy_words_percent = serializers.FloatField()
+    fuzzy_chars = serializers.IntegerField()
+    fuzzy_chars_percent = serializers.FloatField()
+    failing = serializers.IntegerField()
+    failing_percent = serializers.FloatField()
+    approved = serializers.IntegerField()
+    approved_percent = serializers.FloatField()
+    approved_words = serializers.IntegerField()
+    approved_words_percent = serializers.FloatField()
+    approved_chars = serializers.IntegerField()
+    approved_chars_percent = serializers.FloatField()
+    readonly = serializers.IntegerField()
+    readonly_percent = serializers.FloatField()
+    readonly_words = serializers.IntegerField()
+    readonly_words_percent = serializers.FloatField()
+    readonly_chars = serializers.IntegerField()
+    readonly_chars_percent = serializers.FloatField()
+    suggestions = serializers.IntegerField()
+    comments = serializers.IntegerField()
+    code = serializers.CharField(required=False)
+    name = serializers.CharField(required=False)
+    url = serializers.URLField(required=False)
+    translate_url = serializers.URLField(required=False)
+
     def to_representation(self, instance):
         stats = instance.stats
         result = {
@@ -1824,6 +1891,12 @@ class StatisticsSerializer(ReadOnlySerializer):
 
 
 class UserStatisticsSerializer(ReadOnlySerializer):
+    translated = serializers.IntegerField()
+    suggested = serializers.IntegerField()
+    uploaded = serializers.IntegerField()
+    commented = serializers.IntegerField()
+    languages = serializers.IntegerField()
+
     def to_representation(self, instance):
         profile = instance.profile
         return {
@@ -1902,6 +1975,7 @@ class AnnouncementSerializer(serializers.ModelSerializer[Announcement]):
         read_only_fields = ("id",)
 
 
+@extend_schema_field(LabelSerializer)
 class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
     def get_queryset(self):
         """
@@ -1933,6 +2007,7 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
         return label
 
 
+@extend_schema_field({"type": "integer"})
 class UnitFlatLabelsSerializer(UnitLabelsSerializer):
     def to_representation(self, instance):
         return instance.id
@@ -2028,9 +2103,7 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
 
 class NewUnitSerializer(serializers.Serializer):
     state = serializers.ChoiceField(
-        choices=[
-            choice for choice in StringState.choices if choice[0] != STATE_READONLY
-        ],
+        choices=NEW_UNIT_STATE_CHOICES,
         required=False,
     )
 
@@ -2116,7 +2189,12 @@ class CategorySerializer(RemovableSerializer[Category]):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        user = self.context["request"].user
+        request = self.context.get("request")
+        if request is None or getattr(
+            self.context.get("view"), "swagger_fake_view", False
+        ):
+            return
+        user = request.user
         self.fields["project"].queryset = user.managed_projects
         self.fields["category"].queryset = Category.objects.filter(
             project__in=user.managed_projects
@@ -2293,6 +2371,13 @@ class ComponentListSerializer(serializers.ModelSerializer[ComponentList]):
         }
 
 
+class ProjectComponentSerializer(ComponentSerializer):
+    class Meta(ComponentSerializer.Meta):
+        fields = tuple(
+            field for field in ComponentSerializer.Meta.fields if field != "project"
+        )
+
+
 class AddonSerializer(serializers.ModelSerializer[Addon]):
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
@@ -2425,6 +2510,37 @@ class MetricsSerializer(ReadOnlySerializer):
         return result
 
 
+class SearchResultSerializer(ReadOnlySerializer):
+    url = serializers.CharField()
+    name = serializers.CharField()
+    category = serializers.CharField()
+
+
+TASK_RESULT_SCHEMA = {
+    "oneOf": [
+        {"type": "object", "additionalProperties": True},
+        {"type": "array", "items": {}},
+        {"type": "string"},
+        {"type": "number"},
+        {"type": "integer"},
+        {"type": "boolean"},
+        {"type": "null"},
+    ]
+}
+
+
+@extend_schema_field(TASK_RESULT_SCHEMA)
+class TaskResultField(serializers.JSONField):
+    pass
+
+
+class TaskSerializer(ReadOnlySerializer):
+    completed = serializers.BooleanField()
+    progress = serializers.IntegerField(min_value=0, max_value=100)
+    result = TaskResultField()
+    log = serializers.CharField(allow_blank=True)
+
+
 @extend_schema_serializer(
     examples=[
         OpenApiExample(
@@ -2466,28 +2582,76 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
         return build_object_type(properties={"service_name": build_basic_type(dict)})
 
 
+class MessageResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+
+
 def edit_service_settings_response_serializer(
-    method: str, *codes
+    _method: str, *codes
 ) -> dict[int, serializers.Serializer]:
     serializers_ = {
-        200: inline_serializer(
-            f"{method}_200_Message_response_serializer",
-            fields={
-                "message": serializers.CharField(),
-            },
-        ),
-        201: inline_serializer(
-            f"{method}_201_Message_response_serializer",
-            fields={
-                "message": serializers.CharField(),
-            },
-        ),
-        400: inline_serializer(
-            f"{method}_400_Error_message_serializer",
-            fields={"errors": serializers.CharField()},
-        ),
+        200: MessageResponseSerializer,
+        201: MessageResponseSerializer,
+        400: ErrorResponse400Serializer,
     }
     return {code: serializers_[code] for code in codes}
+
+
+class ErrorResponse400TypeEnum(models.TextChoices):
+    VALIDATION_ERROR = ValidationErrorEnum.VALIDATION_ERROR.value
+    CLIENT_ERROR = ClientErrorEnum.CLIENT_ERROR.value
+
+
+ERROR_CODE_400_EXAMPLES = (
+    "blank",
+    "date",
+    "datetime",
+    "does_not_exist",
+    "empty",
+    "incorrect_match",
+    "incorrect_type",
+    "invalid",
+    "invalid_choice",
+    "invalid_image",
+    "invalid_list",
+    "make_aware",
+    "max_length",
+    "max_string_length",
+    "max_value",
+    "min_value",
+    "no_match",
+    "no_name",
+    "not_a_list",
+    "null",
+    "null_characters_not_allowed",
+    "overflow",
+    "parse_error",
+    "required",
+    "surrogate_characters_not_allowed",
+    "unique",
+)
+
+
+@extend_schema_field(
+    {
+        "type": "string",
+        "description": "Error code. The examples list common validation and parse error codes.",
+        "examples": list(ERROR_CODE_400_EXAMPLES),
+    }
+)
+class ErrorCode400Field(serializers.CharField):
+    pass
+
+
+class Error400Serializer(serializers.Serializer):
+    code = ErrorCode400Field()
+    detail = serializers.CharField()
+    attr = serializers.CharField(allow_null=True)
+
+
+class ErrorResponse400Serializer(serializers.Serializer):
+    type = serializers.ChoiceField(choices=ErrorResponse400TypeEnum.choices)
+    errors = Error400Serializer(many=True)
 
 
 class ErrorCode423Enum(models.TextChoices):

@@ -39,6 +39,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     get_all_user_mails,
     invalidate_reset_codes,
+    reset_api_token,
 )
 from weblate.auth.models import Group, User
 from weblate.lang.models import Language
@@ -723,6 +724,16 @@ class SetPasswordForm(DjangoSetPasswordForm):
         label=gettext_lazy("New password confirmation"),
         new_password=True,
     )
+    regenerate_api_key = forms.BooleanField(
+        label=gettext_lazy("Regenerate API key"),
+        help_text=gettext_lazy(
+            "Leave enabled to revoke the current API key and generate a new one. "
+            "This is recommended if you suspect your password was compromised. "
+            "Disable it to keep your current API key active after changing your password."
+        ),
+        required=False,
+        initial=True,
+    )
 
     @transaction.atomic
     # pylint: disable-next=arguments-renamed
@@ -745,6 +756,9 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
         # Invalidate password reset codes
         invalidate_reset_codes(self.user)
+
+        if self.cleaned_data.get("regenerate_api_key"):
+            reset_api_token(self.user)
 
         if delete_session:
             request.session.flush()

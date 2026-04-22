@@ -817,6 +817,23 @@ class ComponentChangeTest(RepoTestCase):
         # Unlocked event
         self.assertEqual(component.change_set.count() - start, 4)
 
+    def test_do_lock_rolls_back_when_change_save_fails(self) -> None:
+        component = self.create_component()
+
+        with (
+            self.assertRaisesMessage(RuntimeError, "change save failed"),
+            patch(
+                "weblate.trans.models.component.Change.save",
+                autospec=True,
+                side_effect=RuntimeError("change save failed"),
+            ),
+        ):
+            component.do_lock(user=None)
+
+        component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertFalse(component.change_set.filter(action=ActionEvents.LOCK).exists())
+
     def test_linked_autolock_uses_main_setting(self) -> None:
         component = self.create_po(name="main-autolock")
         self.component = component
@@ -1044,6 +1061,58 @@ class ComponentValidationTest(RepoTestCase):
         # With correct format it should validate
         self.component.full_clean()
 
+    def prepare_i18next_base_component(self, source_language_code: str) -> Component:
+        project_slug = f"i18next-{source_language_code}"
+        component = self._create_component(
+            "i18next",
+            "i18next/*.json",
+            "i18next/en.json",
+            project=self.create_project(
+                name=f"I18next {source_language_code}",
+                slug=project_slug,
+            ),
+            source_language=Language.objects.get(code=source_language_code),
+        )
+        i18next_dir = pathlib.Path(component.full_path) / "i18next"
+        (i18next_dir / "base.json").write_text(
+            (i18next_dir / "en.json").read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+        component.template = "i18next/base.json"
+        component.drop_template_store_cache()
+        return component
+
+    def test_validation_i18next_base_uses_configured_source_language(self) -> None:
+        component = self.prepare_i18next_base_component("en_devel")
+
+        component.full_clean()
+
+    def test_validation_i18next_base_still_rejects_plain_english_collision(
+        self,
+    ) -> None:
+        component = self.prepare_i18next_base_component("en")
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "There is more than one file for English language:",
+        ):
+            component.full_clean()
+
+    def test_validation_intermediate_uses_configured_source_language(self) -> None:
+        component = self._create_component(
+            "json",
+            "intermediate/*.json",
+            "intermediate/en.json",
+            project=self.create_project(
+                name="Intermediate en_devel",
+                slug="intermediate-en-devel",
+            ),
+            source_language=Language.objects.get(code="en_devel"),
+            intermediate="intermediate/dev.json",
+        )
+
+        component.full_clean()
+
     def test_lang_code(self) -> None:
         project = Project(language_aliases="xx:cs")
         component = Component(project=project)
@@ -1232,7 +1301,8 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     self.local_missing_translation_contents[translation.pk]
                 )
                 translation.component.repository.execute(
-                    ["add", "--force", "--", translation.filename]
+                    ["add", "--force", "--", translation.filename],
+                    remote_op="none",
                 )
 
     def test_reset_keep_recreates_missing_translation_file(self) -> None:
@@ -1643,6 +1713,123 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.assertIn("Pending changes were kept", messages[0])
 
 
+class ResetDiscardRevisionTest(ComponentTestCase):
+    def test_reset_updates_stored_local_revision(self) -> None:
+        start_rev = self.component.repository.last_revision
+
+        self.change_unit("Ahoj svete!\n")
+        self.component.commit_pending("test", self.user)
+
+        self.component.refresh_from_db()
+        stale_rev = self.component.local_revision
+        self.assertNotEqual(start_rev, stale_rev)
+        self.assertEqual(stale_rev, self.component.repository.last_revision)
+
+        self.assertTrue(self.component.do_reset(self.get_request()))
+
+        self.component.refresh_from_db()
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(start_rev, self.component.local_revision)
+
+
+class TranslationRemoveRevisionTest(ComponentTestCase):
+    def test_remove_updates_stored_local_revision(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        self.component.store_local_revision()
+        self.component.refresh_from_db()
+        start_rev = self.component.local_revision
+
+        translation.remove(self.user)
+
+        self.component.refresh_from_db()
+        self.assertNotEqual(start_rev, self.component.local_revision)
+        self.assertEqual(
+            self.component.local_revision, self.component.repository.last_revision
+        )
+
+
+class LastCommitLookupTest(ComponentTestCase):
+    def test_get_last_commit_keeps_stale_local_revision_unchanged(self) -> None:
+        self.component.local_revision = "not-a-valid-revision"
+        self.component.save(update_fields=["local_revision"])
+
+        self.assertIsNone(self.component.get_last_commit())
+
+        self.component.refresh_from_db()
+        self.assertEqual("not-a-valid-revision", self.component.local_revision)
+
+
+class UpdateBranchRevisionTest(ComponentTestCase):
+    def test_update_branch_treats_stale_local_revision_as_update(self) -> None:
+        current_head = self.component.repository.last_revision
+        self.component.local_revision = ""
+        self.component.processed_revision = current_head
+        self.component.save(update_fields=["local_revision", "processed_revision"])
+
+        with patch.object(
+            Component, "trigger_post_update", autospec=True
+        ) as mock_trigger:
+            self.assertTrue(self.component.update_branch())
+
+        self.component.refresh_from_db()
+        self.assertEqual(current_head, self.component.local_revision)
+        mock_trigger.assert_called_once()
+
+
+class CleanupRevisionTest(ComponentTestCase):
+    def test_cleanup_updates_stored_local_revision_when_head_changes(self) -> None:
+        with (
+            patch.object(
+                Component,
+                "try_get_local_head_revision",
+                autospec=True,
+                return_value="old",
+            ),
+            patch.object(
+                Component,
+                "get_local_head_revision",
+                autospec=True,
+                return_value="new",
+            ),
+            patch.object(
+                Component, "store_local_revision", autospec=True
+            ) as mock_store,
+            patch.object(self.component.repository, "cleanup") as mock_cleanup,
+        ):
+            self.assertTrue(self.component.do_cleanup(self.get_request()))
+
+        mock_cleanup.assert_called_once_with()
+        mock_store.assert_called_once_with(self.component)
+
+    def test_cleanup_reports_post_cleanup_head_read_failure(self) -> None:
+        request = self.get_request()
+        with (
+            patch.object(
+                Component,
+                "try_get_local_head_revision",
+                autospec=True,
+                return_value="old",
+            ),
+            patch.object(
+                Component,
+                "get_local_head_revision",
+                autospec=True,
+                side_effect=RepositoryError(128, "broken HEAD"),
+            ),
+            patch.object(self.component.repository, "cleanup") as mock_cleanup,
+            patch.object(
+                Component, "store_local_revision", autospec=True
+            ) as mock_store,
+        ):
+            self.assertFalse(self.component.do_cleanup(request))
+
+        mock_cleanup.assert_called_once_with()
+        mock_store.assert_not_called()
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Could not clean the repository", messages[0])
+
+
 class LinkedResetDiskStateTest(ComponentTestCase):
     def create_component(self):
         return self.create_link()
@@ -1698,6 +1885,32 @@ class LinkedResetDiskStateTest(ComponentTestCase):
 
 
 class ComponentHostKeyHandlingTest(SimpleTestCase):
+    def test_error_text_preserves_newlines(self) -> None:
+        component = SimpleNamespace(
+            repo="ssh://git@example.com/private/repo.git",
+            push="",
+            full_path="/srv/weblate/data/vcs/test",
+        )
+
+        error_text = Component.error_text(
+            component,  # type: ignore[arg-type]
+            RepositoryError(
+                255,
+                (
+                    "Problem running 'git remote update gerrit'\n"
+                    "Fetching gerrit\n"
+                    "Host key verification failed.\n"
+                    "/srv/weblate/data/vcs/test/.git/index.lock"
+                ),
+            ),
+        )
+
+        self.assertIn(
+            "Problem running 'git remote update gerrit'\nFetching gerrit", error_text
+        )
+        self.assertIn("\nHost key verification failed.\n", error_text)
+        self.assertIn(".../.git/index.lock", error_text)
+
     def test_handle_update_error_host_key_mismatch(self) -> None:
         component = SimpleNamespace(
             add_ssh_host_key=Mock(),
@@ -1718,7 +1931,7 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
         self.assertEqual(
             cm.exception.message_dict["repo"],
             [
-                "The SSH host key for the repository has changed. Verify the new fingerprint and replace the stored host key on the SSH page in the admin interface."
+                "The SSH host key for the repository has changed. Verify the new fingerprint, remove the stored host key, and add the new one on the SSH page in the admin interface."
             ],
         )
 

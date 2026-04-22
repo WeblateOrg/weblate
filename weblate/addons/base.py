@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import subprocess  # noqa: S404
+from collections.abc import Mapping, Sequence
 from contextlib import suppress
 from itertools import chain
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast
@@ -31,7 +32,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator, Iterable, Mapping
+    from collections.abc import Callable, Generator, Iterable
 
     from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
@@ -40,6 +41,15 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon, AddonActivityLog
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Category, Change, Project, Translation, Unit
+
+
+type AddonConfigurationScalar = str | int | float | bool | None
+type AddonConfigurationValue = (
+    AddonConfigurationScalar
+    | Sequence[AddonConfigurationValue]
+    | Mapping[str, AddonConfigurationValue]
+)
+type AddonConfiguration = dict[str, AddonConfigurationValue]
 
 
 class CompatDict(TypedDict, total=False):
@@ -169,8 +179,8 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             kwargs["data"] = self.get_settings_form_data()
         return self.settings_form(user, self, **kwargs)
 
-    def get_settings_form_data(self) -> Mapping[str, object]:
-        return cast("Mapping[str, object]", self.stored_configuration)
+    def get_settings_form_data(self) -> Mapping[str, AddonConfigurationValue]:
+        return cast("Mapping[str, AddonConfigurationValue]", self.stored_configuration)
 
     @property
     def stored_configuration(self) -> StoredConfigurationT:

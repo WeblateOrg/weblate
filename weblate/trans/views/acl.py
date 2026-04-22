@@ -35,6 +35,7 @@ from weblate.trans.forms import (
     UserManageForm,
 )
 from weblate.trans.models import Project
+from weblate.trans.tasks import revert_user_edits as revert_user_edits_task
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
@@ -155,8 +156,23 @@ def block_user(request: AuthenticatedHttpRequest, project):
                 expiry=expiry.isoformat() if expiry else None,
             )
             messages.success(request, gettext("User has been blocked on this project."))
-        else:
+        elif not form.cleaned_data["revert_edits"]:
             messages.error(request, gettext("User is already blocked on this project."))
+
+        if form.cleaned_data["revert_edits"]:
+            revert_user_edits_task.delay(
+                target_user_id=user.id,
+                acting_user_id=request.user.id,
+                project_id=obj.id,
+                sitewide=False,
+            )
+            messages.success(
+                request,
+                gettext("Reverting edits by %(user)s in this project was scheduled.")
+                % {
+                    "user": user.username,
+                },
+            )
 
     return redirect("manage-access", project=obj.slug)
 
@@ -177,8 +193,39 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
     return redirect("manage-access", project=obj.slug)
 
 
+@require_POST
+@login_required
+def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
+    """Revert edits for an already blocked user in a project."""
+    obj, form = check_user_form(
+        request,
+        project,
+    )
+
+    if form is not None:
+        user = form.cleaned_data["user"]
+        if not user.userblock_set.filter(project=obj).exists():
+            messages.error(request, gettext("User is not blocked on this project."))
+        else:
+            revert_user_edits_task.delay(
+                target_user_id=user.id,
+                acting_user_id=request.user.id,
+                project_id=obj.id,
+                sitewide=False,
+            )
+            messages.success(
+                request,
+                gettext("Reverting edits by %(user)s in this project was scheduled.")
+                % {
+                    "user": user.username,
+                },
+            )
+
+    return redirect("manage-access", project=obj.slug)
+
+
 def can_invite_users(request: AuthenticatedHttpRequest) -> bool:
-    return settings.REGISTRATION_OPEN or request.user.has_perm("user.edit")
+    return settings.REGISTRATION_OPEN or bool(request.user.has_perm("user.edit"))
 
 
 @require_POST

@@ -10,10 +10,46 @@ Weblate 5.17.1
 
 .. rubric:: Improvements
 
+* Clarified the site-wide scope of the global ``user.edit`` permission.
+* Clarified :ref:`autoclean-tm`.
+* The OpenAPI schema is cleaner and provides tighter API description.
+* Password updates now regenerate your personal API key by default.
 * The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
 * Improved :ref:`addon-weblate.discovery.discovery` guidance with guided client-side presets, clearer ``{{ component }}`` validation, and a worked discovery-template example in the docs.
+* Admins can now revert edits from blocked users in a project or from any user site-wide.
+* Clarified :ref:`generic-upgrade-instructions` to state that Celery queues should be empty before upgrading.
+* Admin user management search can now find users by audit log IP address.
+* Track superuser and site-wide team changes in :ref:`audit-log`.
+* Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
+* Project website and repository browser URL alerts now show validation errors more clearly.
+* Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
+* Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
+* :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
 
 .. rubric:: Bug fixes
+
+* :ref:`check-rst-references` no longer crashes on repeated explicit-link targets.
+* Component updates no longer time out waiting on their own repository lock during validation.
+* :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
+* Client-side popup notifications triggered by JavaScript now use Bootstrap toasts.
+* Dark theme Bootstrap subtle and emphasis colors now use higher-contrast values, improving popup toasts and other semantic UI elements.
+* Repository alerts, history entries, and task messages now preserve multiline Git and SSH backend error output.
+* Interrupted Git rebases now recover more reliably after worker restarts, and signal-terminated backend commands are reported more clearly.
+* Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
+* Git exporter no longer rejects shared-history fetches just because the first negotiated ``have`` revisions are newer than Weblate's local history.
+* :ref:`mt-weblate-translation-memory` automatic translation avoids broad PostgreSQL searches.
+* Project backup import now revalidates component repository URLs before restore.
+* The :guilabel:`SSH keys` management page can now remove stored host keys so changed host keys can be replaced there.
+* Malformed IPv6 repository URLs no longer crash SSH host key detection.
+* :ref:`addon-weblate.gettext.xgettext` and related POT update add-ons now replace the standard descriptive-title placeholder in normalized POT headers again.
+* :ref:`addon-weblate.gettext.django` now skips repository ``locale`` trees during preflight validation, fixing components that store ``django.pot`` in a top-level ``locale`` directory.
+* Screenshot OCR now skips corrupted or truncated image files instead of failing the request.
+* Monolingual component validation now honors :ref:`component-source_language` when checking duplicate files alongside a separate :ref:`component-template`.
+* The OpenAPI schema now describes action endpoints with their actual list, statistics, status, upload, and download response payloads.
+* :ref:`Translation memory upload <memory-user>` and :wladmin:`import_memory` now report a validation error for TMX files missing the required header instead of failing the request.
+* Project listings now show review progress columns when any listed project has reviews enabled.
+* The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
+* Automatic translation from other components now ignores read-only source candidates with empty translations.
 
 .. rubric:: Compatibility
 

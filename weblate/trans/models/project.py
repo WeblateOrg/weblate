@@ -25,6 +25,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.validators import validate_check_flags
+from weblate.utils.lock import WeblateLock
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
@@ -47,6 +48,12 @@ if TYPE_CHECKING:
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
+
+
+# Project-wide batched checks serialize across all propagating components and can
+# legitimately wait behind another component finalization run for longer than
+# the component-local lock timeout.
+PROJECT_CHECKS_LOCK_TIMEOUT = 30
 
 
 class CommitPolicyChoices(models.IntegerChoices):
@@ -231,6 +238,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             "How to restrict access to this project is detailed in the documentation."
         ),
     )
+
     enforced_2fa = models.BooleanField(
         verbose_name=gettext_lazy("Enforced two-factor authentication"),
         default=False,
@@ -382,6 +390,16 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             except ValidationError as error:
                 raise ValidationError({"web": error.messages}) from error
 
+    @cached_property
+    def checks_lock(self):
+        return WeblateLock(
+            scope="project:checks",
+            key=self.pk,
+            slug=self.slug,
+            timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
+            origin=self.full_slug,
+        )
+
     def generate_changes(self, old: Project) -> None:
         tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
@@ -462,6 +480,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def languages(self) -> Iterable[Language]:
         """Return list of all languages used in project."""
         return Language.objects.filter(pk__in=self._get_language_ids_queryset()).order()
+
+    def has_language(self, language: Language) -> bool:
+        """Return whether project has a translation in given language."""
+        from weblate.trans.models import Translation  # noqa: PLC0415
+
+        if Translation.objects.filter(
+            component__project=self, language_id=language.pk
+        ).exists():
+            return True
+        return Translation.objects.filter(
+            component__links=self, language_id=language.pk
+        ).exists()
 
     def _get_language_ids_queryset(self) -> QuerySet:
         from weblate.trans.models import Translation  # noqa: PLC0415

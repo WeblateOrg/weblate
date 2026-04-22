@@ -300,6 +300,9 @@ Users
 
     Creates a new user.
 
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
+
     :param username: Username
     :type username: string
     :param full_name: User full name
@@ -358,6 +361,10 @@ Users
 
     Changes the user parameters.
 
+    Requires the global ``user.edit`` permission unless a user is updating
+    their own basic profile fields. See :ref:`access-control` for the user
+    management permission model.
+
     :param username: User's username
     :type username: string
     :>json string username: username of a user
@@ -371,6 +378,10 @@ Users
 .. http:patch:: /api/users/(str:username)/
 
     Changes the user parameters.
+
+    Requires the global ``user.edit`` permission unless a user is updating
+    their own basic profile fields. See :ref:`access-control` for the user
+    management permission model.
 
     :param username: User's username
     :type username: string
@@ -386,12 +397,18 @@ Users
 
     Deletes all user information and marks the user inactive.
 
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
+
     :param username: User's username
     :type username: string
 
 .. http:post:: /api/users/(str:username)/groups/
 
     Associate groups with a user.
+
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
 
     :param username: User's username
     :type username: string
@@ -402,6 +419,9 @@ Users
     .. versionadded:: 4.13.1
 
     Remove user from a group.
+
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
 
     :param username: User's username
     :type username: string
@@ -3060,8 +3080,8 @@ Categories
 
     Returns statistics for a category.
 
-    :param project: Category ID
-    :type project: int
+    :param id: Category ID
+    :type id: int
 
     .. seealso::
 
