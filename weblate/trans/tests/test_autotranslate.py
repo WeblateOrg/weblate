@@ -9,6 +9,9 @@ from django.core.management.base import CommandError
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.addons.autotranslate import AutoTranslateAddon
+from weblate.addons.events import AddonEvent
+from weblate.addons.models import AddonActivityLog
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
@@ -45,6 +48,30 @@ class AutoTranslationTest(ViewTestCase):
                 new_base="",
                 allow_translation_propagation=False,
             )
+
+    def create_autotranslate_activity_log(
+        self, component: Component | None = None
+    ) -> AddonActivityLog:
+        if component is None:
+            component = self.component2
+        addon = AutoTranslateAddon.create(
+            component=component,
+            run=False,
+            configuration={
+                "component": self.component.id,
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 100,
+                "mode": "translate",
+            },
+        )
+        return AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            pending=True,
+        )
 
     def test_none(self) -> None:
         """Test for automatic translation with no content."""
@@ -196,6 +223,7 @@ class AutoTranslationTest(ViewTestCase):
         self.set_mismatched_plural()
         self.edit_unit("Thank you for using Weblate.", "Diky za pouzivani Weblate.")
         self.translate_plural_source()
+        activity_log = self.create_autotranslate_activity_log()
 
         result = auto_translate(
             translation_id=self.component2.translation_set.get(language_code="cs").id,
@@ -206,6 +234,7 @@ class AutoTranslationTest(ViewTestCase):
             source_component_id=self.component.id,
             engines=[],
             threshold=100,
+            activity_log_id=activity_log.id,
         )
 
         self.assertEqual(
@@ -214,6 +243,17 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.assertEqual(len(result["warnings"]), 1)
         self.assertIn("do not match the target translation", result["warnings"][0])
+        activity_log.refresh_from_db()
+        self.assertFalse(activity_log.pending)
+        self.assertEqual(
+            activity_log.details["result"]["message"],
+            "Automatic translation completed, 1 string was updated.",
+        )
+        self.assertEqual(len(activity_log.details["result"]["warnings"]), 1)
+        self.assertIn(
+            "do not match the target translation",
+            activity_log.details["result"]["warnings"][0],
+        )
 
     def test_autotranslate_missing_target_returns_result_dict(self) -> None:
         translation = self.component2.translation_set.get(language_code="cs")
@@ -452,6 +492,31 @@ class AutoTranslationTest(ViewTestCase):
                 automatically_translated=True,
             ).exists()
         )
+
+    def test_autotranslate_component_stores_activity_log_result(self) -> None:
+        self.make_different()
+        activity_log = self.create_autotranslate_activity_log()
+
+        result = auto_translate_component(
+            self.component2.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=100,
+            source_component_id=self.component.id,
+            user_id=self.user.id,
+            activity_log_id=activity_log.id,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, 1 string was updated.",
+        )
+        self.assertEqual(result["warnings"], [])
+        activity_log.refresh_from_db()
+        self.assertFalse(activity_log.pending)
+        self.assertEqual(activity_log.details["result"], result)
 
     def test_command(self) -> None:
         call_command("auto_translate", "test", "test", "cs")
