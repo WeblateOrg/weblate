@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"PO-Revision-Date: 2026-04-22 13:06+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -228,6 +228,8 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"启用撤销当前 API 密钥并生成新密钥。如果怀疑密码失陷建议这样做。禁用它以在更改"
+"密码后保持当前 API 密钥活跃。"
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -598,12 +600,12 @@ msgstr "{username} 将用户从全站 {team} 团队中删除。"
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:320
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "授予了超级用户特权。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:322
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "撤销了超级用户特权。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:324
@@ -1359,7 +1361,7 @@ msgstr "免费试用"
 #: weblate/accounts/views.py:730
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "已计划好在全站范围内撤销 %(user)s 编辑的时间。"
 
 #: weblate/accounts/views.py:963 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1597,19 +1599,19 @@ msgstr "确保对一个项目内所有部件使用一致的一组语言。"
 msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
-msgstr ""
+msgstr "此附加组件影响整个项目，可能在许多部件或仓库中创建翻译文件。"
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
-msgstr ""
+msgstr "此附加组件影响整个类别，可能在许多部件或仓库中创建翻译文件。"
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
-msgstr ""
+msgstr "此附加组件影响所有项目，可能在许多部件或仓库中创建翻译文件。"
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4683
 msgid ""
@@ -2054,7 +2056,7 @@ msgstr "自定义部件名称"
 
 #: weblate/addons/forms.py:741
 msgid "Use Django template syntax. This template must include {{ component }}."
-msgstr ""
+msgstr "使用 Django 模板语法。此模板必须包含 {{ component }}。"
 
 #: weblate/addons/forms.py:745
 msgid "Define the monolingual base filename"
@@ -2118,7 +2120,7 @@ msgstr "我确认上述匹配是正确的"
 #: weblate/addons/forms.py:873
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "通用预设：%(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:886
 msgid "format not preset"
@@ -2136,7 +2138,7 @@ msgstr "无单语基文件"
 #: weblate/addons/forms.py:905
 #, python-format
 msgid "%(format)s; %(base)s"
-msgstr ""
+msgstr "%(format)s; %(base)s"
 
 #: weblate/addons/forms.py:915
 msgid "One folder per language"
@@ -2144,7 +2146,7 @@ msgstr "每种语言一个文件夹"
 
 #: weblate/addons/forms.py:916
 msgid "Matches files like cs/application.po."
-msgstr ""
+msgstr "匹配 cs/application.po 等文件。"
 
 #: weblate/addons/forms.py:920
 msgid "Gettext locales layout"
@@ -2152,7 +2154,7 @@ msgstr "Gettext 语言环境布局"
 
 #: weblate/addons/forms.py:921
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
-msgstr ""
+msgstr "匹配 locale/cs/LC_MESSAGES/application.po 等文件。"
 
 #: weblate/addons/forms.py:925
 msgid "Complex filenames"
@@ -2160,15 +2162,15 @@ msgstr "复杂文件名"
 
 #: weblate/addons/forms.py:926
 msgid "Matches files like src/locale/application.cs.po."
-msgstr ""
+msgstr "匹配 src/locale/application.cs.po 等文件。"
 
 #: weblate/addons/forms.py:930
 msgid "Filename-based language variants"
-msgstr ""
+msgstr "基于文件名的语言变种"
 
 #: weblate/addons/forms.py:931
 msgid "Matches files like news_en.md."
-msgstr ""
+msgstr "匹配 news_en.md 等文件。"
 
 #: weblate/addons/forms.py:935
 msgid "Repeated language code"
