@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-21 03:42+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-22 10:11+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -417,6 +417,13 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"Die plattformweite Benutzerverwaltung wird durch die globale Berechtigung "
+"``user.edit`` gesteuert. Anders als bei der Projektzugriffsverwaltung "
+"handelt es sich hierbei um eine vertrauenswürdige administrative "
+"Berechtigung, welche das Bearbeiten von Benutzerkonten in der gesamten "
+"Instanz ermöglicht, einschließlich der Zuweisung von plattformweiten Teams "
+"und der Gewährung des Superuser-Status für das verwaltete Konto, sogar für "
+"das eigene Konto des Aufrufenden."
 
 #: admin/access.rst:194
 msgid ""
@@ -501,6 +508,12 @@ msgid ""
 "management in the Weblate UI and API and should be assigned only to fully "
 "trusted site administrators."
 msgstr ""
+"Diese projektbezogene Berechtigung ist von der plattformweiten Berechtigung "
+"``user.edit`` getrennt. Die Mitgliedschaft im `Administration`-Team eines "
+"Projekts ermöglicht die Zugriffsverwaltung nur für dieses Projekt, während "
+"``user.edit`` die plattformweite Benutzerverwaltung in der Weblate-"
+"Bedienoberfläche und -API gewährt und nur absolut vertrauenswürdigen Website-"
+"Administratoren zugewiesen werden sollte."
 
 #: admin/access.rst:240
 msgid "Per-project access tokens"
@@ -1292,6 +1305,10 @@ msgid ""
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"Erweiterungen, bei denen die manuelle Auslösung aktiviert ist, können über "
+"die Erweiterungsverwaltung oder mithilfe der :ref:`API <addons-api>` "
+"ausgeführt werden. Die Ergebnisse werden im Aktivitätsprotokoll der "
+"Erweiterung aufgezeichnet."
 
 #: admin/addons.rst:28
 msgid "Obsolete add-ons"
@@ -3914,7 +3931,7 @@ msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
-"Definiet die maximale Breite in Pixeln und optional die maximale Anzahl von "
+"Definiert die maximale Breite in Pixeln und optional die maximale Anzahl von "
 "Zeilen (Wortumbruch wird angewendet)."
 
 #: admin/checks.rst:176
@@ -5241,7 +5258,7 @@ msgid ""
 "Show the version in shared UI such as the footer and expose it "
 "in :http:get:`/api/metrics/`."
 msgstr ""
-"Die Version in der gemeinsamen Benutzeroberfläche (z. B. in der Fußzeile) "
+"Die Version in der gemeinsamen Bedienoberfläche (z. B. in der Fußzeile) "
 "anzeigen und in :http:get:`/api/metrics/` bereitstellen."
 
 #: admin/config.rst:1134
@@ -5249,37 +5266,30 @@ msgid ""
 "Hide the version from prominent shared UI, while keeping it discoverable on "
 "the :guilabel:`About` page and in :http:get:`/api/metrics/`."
 msgstr ""
+"Die Version in der prominenten gemeinsamen Bedienoberfläche ausblenden, "
+"während sie auf der Seite :guilabel:`Über` und in :http:get:`/api/metrics/` "
+"auffindbar bleibt."
 
 #: admin/config.rst:1138
-#, fuzzy
-#| msgid ""
-#| "Hides version info from unauthenticated users. This also makes all "
-#| "documentation links point to the latest version instead of the "
-#| "documentation matching the currently installed version."
 msgid ""
 "Hide the version from shared UI and :http:get:`/api/metrics/`. This also "
 "makes anonymous documentation links point to the latest documentation "
 "instead of the version matching the installed release."
 msgstr ""
-"Versteckt Versionsinformationen vor nicht authentifizierten Benutzern. Dies "
-"führt auch dazu, dass alle Links zur Dokumentation auf die neueste Version "
-"verweisen, anstatt auf die Dokumentation, die der aktuell installierten "
-"Version entspricht."
+"Die Version in der gemeinsamen Bedienoberfläche und :http:get:`/api/metrics/"
+"` ausblenden. Dies führt auch dazu, dass anonyme Links zur Dokumentation auf "
+"die neueste Dokumentation verweisen und nicht auf die Version, die der "
+"installierten Version entspricht."
 
 #: admin/config.rst:1142
-#, fuzzy
-#| msgid ""
-#| "Hiding the version is a recommended security practice in some "
-#| "corporations, does not prevent an attacker from figuring out version by "
-#| "probing behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "but it does not prevent an attacker from inferring the version by probing "
 "behavior."
 msgstr ""
-"Das Verstecken der Version ist in einigen Unternehmen eine empfohlene "
-"Sicherheitspraxis, es verhindert aber nicht, dass ein Angreifer die Version "
-"durch Ausprobieren des Verhaltens herausfinden kann."
+"Das Verbergen der Version ist eine empfohlene Sicherheitspraxis in einigen "
+"Unternehmen, aber es verhindert nicht, dass ein Angreifer die Version durch "
+"Sondierungsverhalten herausfinden kann."
 
 #: admin/config.rst:1148
 msgid "The default is ``show``."
@@ -5290,6 +5300,8 @@ msgid ""
 "Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to "
 "get the same behavior as ``VERSION_DISPLAY = \"hide\"``."
 msgstr ""
+"Kompatibilitäts-Alias für :setting:`VERSION_DISPLAY`. Auf ``True`` setzen, "
+"um das gleiche Verhalten wie ``VERSION_DISPLAY = \"hide\"`` zu erhalten."
 
 #: admin/config.rst:1166
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -5551,12 +5563,17 @@ msgid ""
 "URL for password reset when authentication is handled by an external "
 "identity provider, such as LDAP, SAML, or OAuth."
 msgstr ""
+"URL für das Zurücksetzen des Passworts, wenn die Authentifizierung über "
+"einen externen Identitätsanbieter erfolgt, wie LDAP, SAML oder OAuth."
 
 #: admin/config.rst:1490
 msgid ""
 "When set, :guilabel:`Forgot your password?` on the sign-in page links to "
 "this URL instead of Weblate's built-in password reset page."
 msgstr ""
+"Wenn eingestellt, verlinkt :guilabel:`Passwort vergessen?` auf der "
+"Anmeldeseite auf diese URL anstatt auf die in Weblate integrierte Seite zum "
+"Zurücksetzen des Passworts."
 
 #: admin/config.rst:1500
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -5779,11 +5796,13 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
-"Definiert eine Reihe von Projekt-Slugs, die "
-"von :setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
-"und :setting:`PROJECT_WEB_RESTRICT_RE` ausgenommen sind, wenn die Projekt-"
-"Website validiert wird. Projekt-Slugs werden ohne Berücksichtigung der Groß- "
-"und Kleinschreibung abgeglichen."
+"Definiert eine Reihe von Projekt-Slugs, die von "
+":setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`, und "
+":setting:`PROJECT_WEB_RESTRICT_RE` ausgenommen sind, wenn die Projektwebsite "
+"validiert wird. Projekt-Slugs werden ohne Berücksichtigung der Groß- und "
+"Kleinschreibung abgeglichen."
 
 #: admin/config.rst:1745
 msgid ""
@@ -5805,16 +5824,13 @@ msgstr ""
 "Standardmäßig eingeschaltet."
 
 #: admin/config.rst:1788
-#, fuzzy
-#| msgid ""
-#| "Reject using project website and repository browser URLs pointing to non-"
-#| "global IP ranges. On by default."
 msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
 msgstr ""
-"Verwirft URLs der Projektwebsite und des Repository-Browsers, die auf nicht-"
-"globale IP-Bereiche verweisen. Standardmäßig eingeschaltet."
+"Lehnt URLs der Projektwebsite und des Repository-Browsers ab, die auf "
+"interne oder nicht-öffentliche Adressen verweisen. Standardmäßig "
+"eingeschaltet."
 
 #: admin/config.rst:1806
 msgid ""
@@ -5831,6 +5847,11 @@ msgid ""
 "semantics, so values such as ``hooks.internal.example`` or "
 "``.internal.example`` can be used."
 msgstr ""
+"Definiert Hostnamen oder Domains, die von "
+":setting:`WEBHOOK_RESTRICT_PRIVATE` für ausgehende Webhook-Zustellung "
+"ausgenommen sind. Die Einträge folgen der Semantik von Django für die Host-"
+"Übereinstimmung, sodass Werte wie ``hooks.internal.example`` oder "
+"``.internal.example`` verwendet werden können."
 
 #: admin/config.rst:1844
 msgid ""
@@ -5838,6 +5859,9 @@ msgid ""
 "target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Lehnt Webhook-URLs die auf interne oder nicht öffentliche Adressen verweisen "
+"ab, sofern der Ziel-Host nicht in :setting:`WEBHOOK_PRIVATE_ALLOWLIST` "
+"enthalten ist. Standardmäßig aktiviert."
 
 #: admin/config.rst:1859
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -6401,6 +6425,8 @@ msgid ""
 "When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also "
 "exempt from the private-target restriction."
 msgstr ""
+"Wenn :setting:`VCS_RESTRICT_PRIVATE` aktiviert ist, sind übereinstimmende "
+"Hosts ebenfalls von der Beschränkung auf private Ziele ausgenommen."
 
 #: admin/config.rst:2407
 msgid ""
@@ -6416,6 +6442,9 @@ msgid ""
 "unless the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by "
 "default."
 msgstr ""
+"Lehnt VCS-Repository-URLs die auf interne oder nicht öffentliche Adressen "
+"verweisen ab, sofern der Ziel-Host nicht in :setting:`VCS_ALLOW_HOSTS` "
+"enthalten ist. Standardmäßig aktiviert."
 
 #: admin/config.rst:2427
 msgid ""
@@ -6905,12 +6934,18 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+"Die Ansicht :guilabel:`Repository-Wartung` zeigt den Repository-Status für "
+"ein Projekt, eine Komponente oder eine Übersetzung an und ermöglicht "
+"berechtigten Benutzern die Durchführung von Wartungsarbeiten über die "
+"Bedienoberfläche."
 
 #: admin/continuous.rst:187
 msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
+"Die gleichen Aktionen können auch über :ref:`api` oder, für die unterstützte "
+"Teilmenge, über den :ref:`wlc` ausgelöst werden."
 
 #: admin/continuous.rst:190
 msgid ""
@@ -6918,6 +6953,9 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"Die Verfügbarkeit der einzelnen Aktionen hängt von den Berechtigungen, der "
+"konfigurierten Versionsverwaltung, der Konfiguration des Push-Vorgangs und "
+"davon ab, ob das ausgewählte Objekt gesperrt werden kann."
 
 #: admin/continuous.rst:197
 msgid "Action"
@@ -6936,33 +6974,34 @@ msgid ":guilabel:`Commit`"
 msgstr ":guilabel:`Commit`"
 
 #: admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Commit any pending changes and merge them into the upstream repository."
 msgid "Commits pending changes stored in Weblate to the local repository."
 msgstr ""
-"Alle ausstehenden Änderungen committen und diese im Upstream-Repository "
-"zusammenführen."
+"Übernimmt die in Weblate gespeicherten ausstehenden Änderungen in das lokale "
+"Repository."
 
 #: admin/continuous.rst:203
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
+"Ausstehende Weblate-Änderungen durchführen, vor dem Arbeiten an anderer "
+"Stelle im Repository."
 
 #: admin/continuous.rst:205
 msgid ":guilabel:`Push`"
 msgstr ":guilabel:`Push`"
 
 #: admin/continuous.rst:206
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid "Pushes committed local repository changes to the configured upstream."
-msgstr "Pusht committete Änderungen in das Upstream-VCS-Repository."
+msgstr ""
+"Überträgt die im lokalen Repository vorgenommenen Änderungen zum "
+"konfigurierten Upstream."
 
 #: admin/continuous.rst:207
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
+"Vorgenommene Übersetzungen an Upstream senden, wenn das automatische Pushen "
+"deaktiviert ist oder sich verzögert."
 
 #: admin/continuous.rst:209
 msgid ":guilabel:`Update`"
@@ -6973,11 +7012,15 @@ msgid ""
 "Fetches upstream changes and integrates them using the component's "
 "configured :ref:`component-merge_style`."
 msgstr ""
+"Ruft Upstream-Änderungen ab und integriert sie mithilfe der für die "
+"Komponente konfigurierten :ref:`component-merge_style`."
 
 #: admin/continuous.rst:211
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
 msgstr ""
+"Weblate mithilfe der Standard-Integrationsstrategie mit Upstream "
+"synchronisieren."
 
 #: admin/continuous.rst:213
 msgid ":guilabel:`Update with merge`"
@@ -11419,8 +11462,8 @@ msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
-"Ermöglicht es Weblate, die IP-Adresse aus einem beliebigen HTTP-Header zu "
-"holen. Verwenden Sie dies, wenn Sie einen Reverse-Proxy vor dem Weblate-"
+"Ermöglicht es Weblate, die IP-Adresse aus einem beliebigen HTTP-Header "
+"abzurufen. Verwenden Sie dies, wenn Sie einen Reverse-Proxy vor dem Weblate-"
 "Container einsetzen."
 
 #: admin/install/docker.rst:798
@@ -16723,7 +16766,7 @@ msgid ""
 msgstr ""
 "Eine Komponente ist eine Gruppierung von etwas, das übersetzt werden soll. "
 "Sie geben den Ort des VCS-Repositorys und die Dateimaske für die zu "
-"übersetzenden Dateien an, und Weblate holt sie automatisch aus diesem VCS "
+"übersetzenden Dateien an, und Weblate ruft sie automatisch aus diesem VCS ab "
 "und findet alle passenden übersetzbaren Dateien."
 
 #: admin/projects.rst:360
@@ -17108,9 +17151,9 @@ msgid ""
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
-"Wenn diese Option gesetzt ist, basieren die Ausgangszeichenketten auf dieser "
-"Datei, aber alle anderen Sprachen basieren auf :ref:`component-template`. "
-"Falls die Zeichenkette nicht in die Ausgangssprache übersetzt wird, ist die "
+"Wenn eingestellt, basieren die Ausgangszeichenketten auf dieser Datei, aber "
+"alle anderen Sprachen basieren auf :ref:`component-template`. Falls die "
+"Zeichenkette nicht in die Ausgangssprache übersetzt wird, ist die "
 "Übersetzung in andere Sprachen verboten. Dies bietet :ref:`source-quality-"
 "gateway`."
 
@@ -19606,10 +19649,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.17.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.17.1"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19913,26 +19954,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "64?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/164?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"64?closed=1>`__."
+"164?closed=1>`__."
 
 #: changes.rst:56
 msgid "Weblate 5.17"
 msgstr "Weblate 5.17"
 
 #: changes.rst:58
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 15th 2026.*"
-msgstr "*Veröffentlicht am 15. April 2025.*"
+msgstr "*Veröffentlicht am 15. April 2026.*"
 
 #: changes.rst:62
 msgid ""
@@ -19940,7 +19975,7 @@ msgid ""
 "slugs from project website restriction settings."
 msgstr ""
 ":setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` hinzugefügt, um ausgewählte "
-"Projekte-Slugs von den Einschränkungseinstellungen für Projekt-Websites "
+"Projekte-Slugs von den Einschränkungseinstellungen für Projektwebsites "
 "auszunehmen."
 
 #: changes.rst:63
@@ -19989,6 +20024,9 @@ msgid ""
 "reset link, useful for external identity providers (Docker "
 "env: :envvar:`WEBLATE_PASSWORD_RESET_URL`)."
 msgstr ""
+":setting:`PASSWORD_RESET_URL` hinzugefügt, um den Link zum Zurücksetzen des "
+"Passworts auf der Anmeldeseite anzupassen, nützlich für externe "
+"Identitätsanbieter (Docker-Umgebung: :envvar:`WEBLATE_PASSWORD_RESET_URL`)."
 
 #: changes.rst:68
 msgid "Added :ref:`bulk user invitations <invite-user>`."
@@ -20068,10 +20106,8 @@ msgid "Improved plural handling in :ref:`auto-translation`."
 msgstr "Verbesserte Behandlung von Pluralformen in :ref:`auto-translation`."
 
 #: changes.rst:84
-#, fuzzy
-#| msgid "Improved error messages in some of the :ref:`api` endpoints."
 msgid "Improved error messages in some :ref:`api` endpoints."
-msgstr "Verbesserte Fehlermeldungen in einigen der :ref:`api`-Endpunkte."
+msgstr "Verbesserte Fehlermeldungen in einigen :ref:`api`-Endpunkten."
 
 #: changes.rst:85
 msgid ""
@@ -20104,20 +20140,16 @@ msgid ""
 msgstr ""
 
 #: changes.rst:89
-#, fuzzy
-#| msgid ""
-#| "Improved documentation with auto-generated snippets "
-#| "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
-#| "translation` machines."
 msgid ""
 "Improved documentation with auto-generated snippets "
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines, and clarified merge-conflict behavior for exported "
 "repositories using shallow clones by default."
 msgstr ""
-"Verbesserte Dokumentation mit automatisch erzeugten Ausschnitten "
-"für :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks` und :ref:`machine-"
-"translation`."
+"Verbesserte Dokumentation mit automatisch erzeugten Ausschnitten für "
+":ref:`addons`, :ref:`fmt_capabs`, :ref:`checks` und :ref:`machine-"
+"translation`, sowie Klärung des Verhaltens bei Merge-Konflikten für "
+"exportierte Repositorys, die standardmäßig flache Klone verwenden."
 
 #: changes.rst:90
 msgid ""
@@ -20209,10 +20241,8 @@ msgid ""
 msgstr ""
 
 #: changes.rst:104
-#, fuzzy
-#| msgid "Security policies"
 msgid "Security fixes"
-msgstr "Sicherheitsrichtlinien"
+msgstr "Sicherheitskorrekturen"
 
 #: changes.rst:105
 msgid ""
@@ -26585,6 +26615,9 @@ msgid ""
 "Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
 "Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
+"Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
+"Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.rst:10
 msgid ""
@@ -26606,12 +26639,31 @@ msgid ""
 "jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
 "Gayoso, anas agha, Ettore Atalan"
 msgstr ""
+"PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
+"Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
+"Zahid Rizky Fakhri, symegac, Francesco Marinucci, Michal Čihař, Hyeonjeong "
+"Lee, ovl-1, Tarás Lavrentiev, Edson Wolf, Yuri Chornoivan, Omer I.S., "
+"Arantxa, Tuomas Hietala, Milo Ivir, justcontributor, Kristoffer Grundström, "
+"Andi Chandler, Andrei Stepanov, ButterflyOfFire, Átila França, Мария "
+"Рангелова, EESF-2, CzaroGame, Agnieszka C, Manuela Silva, پرویز قادر, "
+"JiZPaper, Fjuro, Alexis Launay, tfr tint, Candied-Ecard, Kyotaro Iijima, "
+"Priit Jõerüüt, Matthaiks, Besnik Bleta, delvani, Mickaël Binos, VfBFan, UDP, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, mohammadA, 大王叫我来巡山, "
+"Sketch6580, Dick Groskamp, Heimen Stoffels, Yaron Shahrabani, Любомир "
+"Василев, Максим Горпиніч, Emin Tufan Çetin, Horus68, Sjur N Moshagen, Peter "
+"Vančo, Romhányi-Kakucska Viktor, ZayedRashid, Julien Lepiller, Massimo "
+"Pissarello, Jeff Huang, ojppe, தமிழ்நேரம், ibragimov, Sylvestre Ledru, Ldm "
+"Public, pan93412, Jernej Pangerc, Luciana Waldbaur, username-generic, "
+"jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
+"Gayoso, anas agha, Ettore Atalan"
 
 #: changes/contributors/5.17.rst:15
 msgid ""
 "Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
+"smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -38154,8 +38206,8 @@ msgid ""
 msgstr ""
 "Vergessen Sie nicht, die Abhängigkeiten zu installieren, sobald der "
 "Interpreter festgelegt ist: Entweder über die Konsole (die Konsole der IDE "
-"verwendet standardmäßig direkt Ihre Python-Umgebung) oder über die "
-"Benutzeroberfläche, wenn Sie eine Warnung über fehlende Abhängigkeiten "
+"verwendet standardmäßig direkt Ihre Python-Einsatzumgebung) oder über die "
+"Bedienoberfläche, wenn Sie eine Warnung über fehlende Abhängigkeiten "
 "erhalten."
 
 #: contributing/start.rst:156
@@ -45797,10 +45849,8 @@ msgid "Configuration object, overrides any other parameters."
 msgstr "Konfigurationsobjekt, überschreibt alle anderen Parametern."
 
 #: python.rst:44
-#, fuzzy
-#| msgid "total number of strings"
 msgid "Total number of HTTP retries."
-msgstr "Gesamtzahl der Zeichenketten"
+msgstr "Gesamtzahl der HTTP-Wiederholungsversuche."
 
 #: python.rst:46
 msgid "HTTP status codes that should trigger retries."
@@ -50355,13 +50405,11 @@ msgstr "Regulärer Ausdruck:"
 
 #: snippets/addons-autogenerated.rst:264 snippets/addons-autogenerated.rst:367
 msgid "Component name:"
-msgstr "Name der Komponente:"
+msgstr "Komponentenname:"
 
 #: snippets/addons-autogenerated.rst:266
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Discovered file masks:"
-msgstr "Bildschirmfoto-Dateimaske"
+msgstr "Erkannte Dateimasken:"
 
 #: snippets/addons-autogenerated.rst:270
 msgid ""
@@ -51205,16 +51253,12 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1090
 #: snippets/addons-autogenerated.rst:1203
 #: snippets/addons-autogenerated.rst:1282
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-add`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-"
 "trigger`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-add`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, "
+":ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:1007
 msgid ""
@@ -51294,24 +51338,22 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1071
 #: snippets/addons-autogenerated.rst:1255
 msgid "ellipsis-unicode"
-msgstr ""
+msgstr "ellipsis-unicode"
 
 #: snippets/addons-autogenerated.rst:1073
 #: snippets/addons-autogenerated.rst:1257
-#, fuzzy
-#| msgid "Mismatched ellipsis"
 msgid "space-ellipsis"
-msgstr "Nicht übereinstimmende Auslassungspunkte"
+msgstr "space-ellipsis"
 
 #: snippets/addons-autogenerated.rst:1075
 #: snippets/addons-autogenerated.rst:1259
 msgid "quote-unicode"
-msgstr ""
+msgstr "quote-unicode"
 
 #: snippets/addons-autogenerated.rst:1077
 #: snippets/addons-autogenerated.rst:1261
 msgid "bullet-unicode"
-msgstr ""
+msgstr "bullet-unicode"
 
 #: snippets/addons-autogenerated.rst:1079
 #: snippets/addons-autogenerated.rst:1263
@@ -60077,12 +60119,12 @@ msgid "``needs-editing`` or ``fuzzy``"
 msgstr "``needs-editing`` oder ``fuzzy``"
 
 #: user/search.rst:65
-#, fuzzy
-#| msgid "Needing editing strings, same as ``state:needs-editing``."
 msgid ""
 "Needing editing/checking/rewriting strings, same as ``state:needs-editing OR "
 "state:needs-rewriting OR state:needs-checking``."
-msgstr "Bearbeitungsbedürftige Zeichenketten, wie ``state:needs-editing``."
+msgstr ""
+"Zeichenketten müssen bearbeitet/überprüft/umgeschrieben werden, wie "
+"``state:needs-editing OR state:needs-rewriting OR state:needs-checking``."
 
 #: user/search.rst:67
 msgid "Translated strings, same as ``state:>translated``."
@@ -61739,7 +61781,7 @@ msgid ""
 "fails to connect to the host should it be changed later (see :ref:`verify-"
 "ssh`)."
 msgstr ""
-"Weblate speichert auch den Fingerabdruck des Host-Schlüssels bei der ersten "
+"Weblate speichert auch den Fingerabdruck des Hostschlüssels bei der ersten "
 "Verbindung und stellt keine Verbindung zum Host her, wenn er später geändert "
 "wird (siehe :ref:`verify-ssh`)."
 
@@ -63063,36 +63105,28 @@ msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: wlc.rst:307
-#, fuzzy
-#| msgid "User configuration file on Windows in the roamed profile."
 msgid "Global configuration file on Windows in the roamed profile."
-msgstr "Benutzer-Konfigurationsdatei unter Windows im Roaming-Profil."
+msgstr "Globale Konfigurationsdatei unter Windows im Roaming-Profil."
 
 #: wlc.rst:308
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: wlc.rst:309
-#, fuzzy
-#| msgid "User configuration file on Windows in the local profile."
 msgid "Global configuration file on Windows in the local profile."
-msgstr "Benutzer-Konfigurationsdatei unter Windows im lokalen Profil."
+msgstr "Globale Konfigurationsdatei unter Windows im lokalen Profil."
 
 #: wlc.rst:310
 msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: wlc.rst:311
-#, fuzzy
-#| msgid "Changed configuration of filesystem paths."
 msgid "Global configuration file on Unix-like systems."
-msgstr "Die Konfiguration der Dateisystempfade geändert."
+msgstr "Globale Konfigurationsdatei auf Unix-ähnlichen Systemen."
 
 #: wlc.rst:313
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
-msgstr "Systemweite Konfigurationsdatei."
+msgstr "Systemweite Fallback-Konfigurationsdatei."
 
 #: wlc.rst:315
 msgid ""
@@ -63123,10 +63157,8 @@ msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: wlc.rst:326
-#, fuzzy
-#| msgid "Configuration file placed in the project directory."
 msgid "Project configuration file placed in the repository."
-msgstr "Konfigurationsdatei im Projektverzeichnis."
+msgstr "Projekt-Konfigurationsdatei, die im Repository abgelegt wird."
 
 #: wlc.rst:328
 msgid ""
