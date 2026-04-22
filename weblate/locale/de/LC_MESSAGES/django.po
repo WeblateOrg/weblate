@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-21 03:38+0000\n"
+"PO-Revision-Date: 2026-04-22 10:10+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -6051,7 +6051,7 @@ msgid ""
 "Fetch it from the upstream repository first."
 msgstr ""
 "Die angeforderte Revision ist im lokalen Git-Checkout von Weblate nicht "
-"verfügbar. Holen Sie sie zuerst aus dem Upstream-Repository."
+"verfügbar. Rufen Sie sie zuerst aus dem Upstream-Repository ab."
 
 #: weblate/gitexport/views.py:122
 #, python-brace-format
@@ -6060,7 +6060,7 @@ msgid ""
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
 "Die angeforderte Revision ist im lokalen Git-Checkout von Weblate nicht "
-"verfügbar. Holen Sie sie zuerst aus dem Upstream-Repository: {location}"
+"verfügbar. Rufen Sie sie zuerst aus dem Upstream-Repository ab: {location}"
 
 #: weblate/gitexport/views.py:142
 msgid "Git export failed."
@@ -13963,10 +13963,8 @@ msgstr ""
 "Verweise auf ein übergeordnetes Verzeichnis enthält oder absolut ist."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate konnte keine Änderungen ins Upstream-Repository pushen."
+msgstr "Weblate konnte die Projektwebsite-URL nicht validieren:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -14773,12 +14771,13 @@ msgid "Revert user edits"
 msgstr "Benutzerbearbeitungen rückgängig machen"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
-msgstr "Dadurch wird das Team <b>%(name)s</b> aus diesem Projekt gelöscht."
+msgstr ""
+"Damit werden die letzten bearbeiteten Übersetzungen von <b>%(user)s</b> in "
+"diesem Projekt rückgängig gemacht."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -16695,11 +16694,11 @@ msgid "Block the user for one month"
 msgstr "Den Benutzer für einen Monat sperren"
 
 #: weblate/trans/forms.py:1435
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Zur letzten Übersetzung in der aktuellen Suche navigieren."
+msgstr ""
+"Macht die letzten bearbeiteten Übersetzungen dieses Benutzers im aktuellen "
+"Projekt rückgängig."
 
 #: weblate/trans/forms.py:1447
 msgid "Report format"
@@ -17115,16 +17114,13 @@ msgstr ""
 "anzuzeigen."
 
 #: weblate/trans/guide.py:267
-#, fuzzy
-#| msgid ""
-#| "Add safe-html flag to avoid dangerous HTML from translators for strings "
-#| "which are rendered as HTML."
 msgid ""
 "Add safe-html or auto-safe-html flag to avoid dangerous HTML from "
 "translators for strings which are rendered as HTML."
 msgstr ""
-"Fügen Sie die Markierung safe-html hinzu, um gefährliches HTML von "
-"Übersetzern für Zeichenketten zu vermeiden, die als HTML gerendert werden."
+"Fügen Sie die Markierung safe-html oder auto-safe-html hinzu, um "
+"gefährliches HTML von Übersetzern für Zeichenketten zu vermeiden, die als "
+"HTML gerendert werden."
 
 #: weblate/trans/guide.py:302
 msgid "Workflow customization"
@@ -17934,22 +17930,21 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "Diese Einstellung wird vom Projekt vererbt, wenn sie leer bleibt."
 
 #: weblate/trans/models/component.py:1929
-#, fuzzy
-#| msgid ""
-#| "Could not verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
-"Der SSH-Hostschlüssel konnte nicht überprüft werden, bitte fügen Sie ihn auf "
-"der SSH-Seite in der Adminoberfläche hinzu."
+"Der SSH-Hostschlüssel konnte nicht verifiziert werden. Bitte fügen Sie ihn "
+"auf der SSH-Seite in der Adminoberfläche hinzu."
 
 #: weblate/trans/models/component.py:1935
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint "
 "and replace the stored host key on the SSH page in the admin interface."
 msgstr ""
+"Der SSH-Hostschlüssel für das Repository hat sich geändert. Überprüfen Sie "
+"den neuen Fingerabdruck und ersetzen Sie den gespeicherten Hostschlüssel auf "
+"der SSH-Seite in der Adminoberfläche."
 
 #: weblate/trans/models/component.py:1972
 msgid ""
@@ -17998,7 +17993,18 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"Das Repository wurde zurückgesetzt, aber die ausstehenden Übersetzungen "
+"konnten nicht erneut angewendet werden, da %(files)s fehlt. Ausstehende "
+"Änderungen wurden beibehalten. Zum Wiederherstellen fügen Sie die Datei "
+"Upstream hinzu und führen Sie einen erneuten Scan durch, oder konfigurieren "
+"Sie die Komponente so, dass Weblate die Übersetzungsdatei erstellen kann."
 msgstr[1] ""
+"Das Repository wurde zurückgesetzt, aber die ausstehenden Übersetzungen "
+"konnten nicht erneut angewendet werden, da diese Dateien fehlen: %(files)s. "
+"Ausstehende Änderungen wurden beibehalten. Zum Wiederherstellen fügen Sie "
+"die Dateien Upstream hinzu und führen Sie einen erneuten Scan durch, oder "
+"konfigurieren Sie die Komponente so, dass Weblate die Übersetzungsdateien "
+"erstellen kann."
 
 #: weblate/trans/models/component.py:2572
 #, python-format
@@ -18006,6 +18012,9 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"Das Repository wurde zurückgesetzt, aber %(file)s konnte nicht neu erstellt "
+"werden, beim erneuten Anwenden der ausstehenden Übersetzungen. Ausstehende "
+"Änderungen wurden beibehalten."
 
 #: weblate/trans/models/component.py:2590
 #, python-format
@@ -18016,19 +18025,21 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"Das Repository wurde zurückgesetzt, aber %(files)s konnte nicht neu erstellt "
+"werden, beim erneuten Anwenden der ausstehenden Übersetzungen. Ausstehende "
+"Änderungen wurden beibehalten."
 msgstr[1] ""
+"Das Repository wurde zurückgesetzt, aber diese Dateien konnten nicht neu "
+"erstellt werden, beim erneuten Anwenden der ausstehenden Übersetzungen: %"
+"(files)s. Ausstehende Änderungen wurden beibehalten."
 
 #: weblate/trans/models/component.py:2600
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Setzt das Repository von Weblate zurück, um es an den Upstream anzupassen, "
-"und verwirft alle ausstehenden Änderungen in Weblate."
+"Das Repository wurde zurückgesetzt, aber ausstehende Übersetzungen konnten "
+"nicht neu erstellt werden. Ausstehende Änderungen wurden beibehalten."
 
 #: weblate/trans/models/component.py:2620
 #, python-format
@@ -18662,10 +18673,9 @@ msgid "User configured character: {}"
 msgstr "Benutzerdefinierter Charakter: {}"
 
 #: weblate/trans/tasks.py:686
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Automatische Übersetzung wird durchgeführt"
+msgstr ""
+"Automatische Übersetzung übersprungen, da das Ziel nicht mehr existiert."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19525,7 +19535,7 @@ msgstr[1] "Sprachen"
 
 #: weblate/utils/backup.py:123
 msgid "Borg completed with warnings without any output."
-msgstr ""
+msgstr "Borg wurde mit Warnungen ohne jegliche Ausgabe abgeschlossen."
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
