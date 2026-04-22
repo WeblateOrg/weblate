@@ -19,7 +19,7 @@ services:
     command: [redis-server, --save, '60', '1']
     restart: always
   database:
-    image: postgres:18.3-alpine@sha256:52098013b4b64a746626437d38afc03cabff6cdeb4d3d92e2342aa95f0ce56ea
+    image: postgres:18.3-alpine@sha256:d164db0c6b4fc00e438f160b4480f207f3f837cf60f781c61670af4ef71a8062
     volumes:
     - postgres-data:/var/lib/postgresql
     - ./postgres-init:/docker-entrypoint-initdb.d
