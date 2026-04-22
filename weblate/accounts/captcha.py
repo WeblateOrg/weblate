@@ -19,8 +19,7 @@ from django.utils.html import format_html
 from weblate.utils.templatetags.icons import icon
 
 if TYPE_CHECKING:
-    from altcha import Challenge
-    from altcha import Solution
+    from altcha import Challenge, Solution
 
 TIMEDELTA = 600
 
