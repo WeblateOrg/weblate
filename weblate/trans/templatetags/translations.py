@@ -1656,6 +1656,7 @@ def format_last_changes_content(
     debug: bool = False,
     search_url: str | None = None,
     offset: int | None = None,
+    translate_url: str | None = None,
 ):
     """
     Format last changes content for display.
@@ -1696,6 +1697,7 @@ def format_last_changes_content(
         "debug": debug,
         "search_url": search_url,
         "offset": offset,
+        "translate_url": translate_url,
     }
 
 
