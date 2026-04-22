@@ -118,14 +118,34 @@ Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
 
    * :setting:`ALLOWED_ASSET_DOMAINS`
 
-.. setting:: ALTCHA_MAX_NUMBER
+.. setting:: ALTCHA_COST
 
-ALTCHA_MAX_NUMBER
------------------
+ALTCHA_COST
+-----------
 
-.. versionadded:: 5.9
+.. versionadded:: 5.18
 
-Configures a maximal number for ALTCHA proof-of-work mechanism.
+Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``.
+
+Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget v2.
+
+.. setting:: ALTCHA_MEMORY_COST
+
+ALTCHA_MEMORY_COST
+------------------
+
+.. versionadded:: 5.18
+
+Argon2id memory cost in KiB. Defaults to ``65536``.
+
+.. setting:: ALTCHA_PARALLELISM
+
+ALTCHA_PARALLELISM
+------------------
+
+.. versionadded:: 5.18
+
+Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
@@ -1979,7 +1999,7 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 The protection currently consists of following steps:
 
 * Mathematical captcha to be solved by the user.
-* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_MAX_NUMBER`.
+* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 

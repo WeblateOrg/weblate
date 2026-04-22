@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.7",
-  "serialNumber": "urn:uuid:6ec8c02c-cb5b-569d-a643-554e84895926",
+  "serialNumber": "urn:uuid:7920ad02-eafb-56ad-bc38-0e70d8a25b93",
   "version": 1,
   "metadata": {
     "tools": [
@@ -41,41 +41,6 @@
     }
   },
   "components": [
-    {
-      "type": "library",
-      "bom-ref": "@altcha/crypto@0.0.1",
-      "author": "Daniel Regeci",
-      "name": "@altcha/crypto",
-      "version": "0.0.1",
-      "description": "A lightweight library simplifying asymmetric data encryption using Web Crypto",
-      "scope": "required",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "a9931d9e80f7940caf7d250c36d0b669d462ebae8fc5d730f73a9f314e6a04e6895aaa4df4af9ea90196a9e88a0cca8bd1217e132b4d1b8911fcfafff7d189ea"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40altcha/crypto@0.0.1",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/@altcha/crypto/-/crypto-0.0.1.tgz",
-          "type": "distribution"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@altcha/crypto"
-        }
-      ]
-    },
     {
       "type": "library",
       "bom-ref": "@popperjs/core@2.11.8",
@@ -120,53 +85,6 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@popperjs/core"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
-      "author": "Lukas Taegert-Atkinson",
-      "name": "@rollup/rollup-linux-x64-gnu",
-      "version": "4.18.0",
-      "description": "Native bindings for Rollup",
-      "scope": "optional",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "c6e825476ac154703952c23c87c51b5f8549e3bd0fb4609fe55a6cc21ee9dae91aa811854e7b1fcf15017ada16056ca61ccc5b206d029b1ed8f6a0d9cebeb8f3"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.18.0",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.18.0.tgz",
-          "type": "distribution"
-        },
-        {
-          "url": "git+https://github.com/rollup/rollup.git",
-          "type": "vcs"
-        },
-        {
-          "url": "https://rollupjs.org/",
-          "type": "website"
-        },
-        {
-          "url": "https://github.com/rollup/rollup/issues",
-          "type": "issue-tracker"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@rollup/rollup-linux-x64-gnu"
         }
       ]
     },
@@ -501,16 +419,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "altcha@2.3.0",
+      "bom-ref": "altcha@3.0.4",
       "author": "Daniel Regeci",
       "name": "altcha",
-      "version": "2.3.0",
+      "version": "3.0.4",
       "description": "Privacy-first CAPTCHA widget, compliant with global regulations (GDPR/HIPAA/CCPA/LGDP/DPDPA/PIPL) and WCAG accessible. No tracking, self-verifying.",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "be5f08d1d42f49007bfccc74f57b96675f8b7523fbbc475ae8e2db83d91443664ed8b4fb333814c8b2bb222a6cf86015e9cd27b55712d5758eaa110fa706c385"
+          "content": "4c0d4dd2f9ca47b688feeb03376cb774f0dc83d0ddb0340abd1b82c00a4cb70de42478f11fb351b6dfa1495f0d674d6d91f1ea5c424eb4261116bf2cc70f056e"
         }
       ],
       "licenses": [
@@ -520,10 +438,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/altcha@2.3.0",
+      "purl": "pkg:npm/altcha@3.0.4",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/altcha/-/altcha-2.3.0.tgz",
+          "url": "https://registry.npmjs.org/altcha/-/altcha-3.0.4.tgz",
           "type": "distribution"
         },
         {
@@ -637,6 +555,53 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/bootstrap"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "hash-wasm@4.12.0",
+      "author": "Dani Biró",
+      "name": "hash-wasm",
+      "version": "4.12.0",
+      "description": "Lightning fast hash functions for browsers and Node.js using hand-tuned WebAssembly binaries (MD4, MD5, SHA-1, SHA-2, SHA-3, Keccak, BLAKE2, BLAKE3, PBKDF2, Argon2, bcrypt, scrypt, Adler-32, CRC32, CRC32C, RIPEMD-160, HMAC, xxHash, SM3, Whirlpool)",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fbfd81dab60b6f8f08fdebdd38884ff8afc30f671ad9f8018e9e8ef860449c20e4d9ee2ba5e5c82bc1af23244f8d37b38265a7f6098ac244238f1e81b6a0c755"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/hash-wasm@4.12.0",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/hash-wasm/-/hash-wasm-4.12.0.tgz",
+          "type": "distribution"
+        },
+        {
+          "url": "git+https://github.com/Daninet/hash-wasm.git",
+          "type": "vcs"
+        },
+        {
+          "url": "https://github.com/Daninet/hash-wasm#readme",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/Daninet/hash-wasm/issues",
+          "type": "issue-tracker"
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/hash-wasm"
         }
       ]
     },
@@ -2574,7 +2539,7 @@
         "@popperjs/core@2.11.8",
         "@sentry/browser@10.49.0",
         "@tarekraafat/autocomplete.js@10.2.10",
-        "altcha@2.3.0",
+        "altcha@3.0.4",
         "autosize@6.0.1",
         "bootstrap@5.3.8",
         "jquery@3.7.1",
@@ -2587,15 +2552,7 @@
       ]
     },
     {
-      "ref": "@altcha/crypto@0.0.1",
-      "dependsOn": []
-    },
-    {
       "ref": "@popperjs/core@2.11.8",
-      "dependsOn": []
-    },
-    {
-      "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "dependsOn": []
     },
     {
@@ -2643,10 +2600,9 @@
       "dependsOn": []
     },
     {
-      "ref": "altcha@2.3.0",
+      "ref": "altcha@3.0.4",
       "dependsOn": [
-        "@altcha/crypto@0.0.1",
-        "@rollup/rollup-linux-x64-gnu@4.18.0"
+        "hash-wasm@4.12.0"
       ]
     },
     {
@@ -2658,6 +2614,10 @@
       "dependsOn": [
         "@popperjs/core@2.11.8"
       ]
+    },
+    {
+      "ref": "hash-wasm@4.12.0",
+      "dependsOn": []
     },
     {
       "ref": "jquery@3.7.1",

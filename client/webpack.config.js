@@ -79,13 +79,6 @@ function prismJsLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("prismjs"));
 }
 
-function altchaLicenseTransform(packages) {
-  return genericTransform(
-    packages,
-    (pkg) => pkg.name.startsWith("altcha") || pkg.name.startsWith("@altcha"),
-  );
-}
-
 function bootstrapLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
@@ -122,6 +115,20 @@ function autoCompleteLicenseTransform(packages) {
     return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
   }
   return "";
+}
+function altchaLicenseTransform() {
+  const pkg = require(
+    path.join(__dirname, "node_modules", "altcha", "package.json"),
+  );
+  const author =
+    typeof pkg.author === "string"
+      ? pkg.author
+      : pkg.author?.email
+        ? `${pkg.author.name} <${pkg.author.email}>`
+        : pkg.author?.name
+          ? pkg.author.name
+          : "";
+  return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
 }
 // REUSE-IgnoreEnd
 
