@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:cd392c7c-4f33-58fc-b193-501c66d2083f",
+  "serialNumber": "urn:uuid:30f13963-d532-506d-bf3b-3567384c0f5c",
   "version": 1,
   "metadata": {
     "lifecycles": [
@@ -43,41 +43,6 @@
   },
   "components": [
     {
-      "bom-ref": "@altcha/crypto@0.0.1",
-      "type": "library",
-      "name": "@altcha/crypto",
-      "version": "0.0.1",
-      "scope": "required",
-      "author": "Daniel Regeci",
-      "description": "A lightweight library simplifying asymmetric data encryption using Web Crypto",
-      "purl": "pkg:npm/%40altcha/crypto@0.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@altcha/crypto"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/@altcha/crypto/-/crypto-0.0.1.tgz"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "a9931d9e80f7940caf7d250c36d0b669d462ebae8fc5d730f73a9f314e6a04e6895aaa4df4af9ea90196a9e88a0cca8bd1217e132b4d1b8911fcfafff7d189ea"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
       "bom-ref": "@popperjs/core@2.11.8",
       "type": "library",
       "name": "@popperjs/core",
@@ -114,53 +79,6 @@
         {
           "alg": "SHA-512",
           "content": "3f5b2dd1a92c0ab9fdb06661a7c18c63006742c6ef016b19017e38a1734dbcb1c6a8039ca15c668d98a886cb7043b4aa2a76d1e3b6a474d8beba57960fcfa0e8"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
-      "type": "library",
-      "name": "@rollup/rollup-linux-x64-gnu",
-      "version": "4.18.0",
-      "scope": "optional",
-      "author": "Lukas Taegert-Atkinson",
-      "description": "Native bindings for Rollup",
-      "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.18.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@rollup/rollup-linux-x64-gnu"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.18.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/rollup/rollup.git"
-        },
-        {
-          "type": "website",
-          "url": "https://rollupjs.org/"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/rollup/rollup/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "c6e825476ac154703952c23c87c51b5f8549e3bd0fb4609fe55a6cc21ee9dae91aa811854e7b1fcf15017ada16056ca61ccc5b206d029b1ed8f6a0d9cebeb8f3"
         }
       ],
       "licenses": [
@@ -501,14 +419,14 @@
       ]
     },
     {
-      "bom-ref": "altcha@2.3.0",
+      "bom-ref": "altcha@3.0.4",
       "type": "library",
       "name": "altcha",
-      "version": "2.3.0",
+      "version": "3.0.4",
       "scope": "required",
       "author": "Daniel Regeci",
       "description": "Privacy-first CAPTCHA widget, compliant with global regulations (GDPR/HIPAA/CCPA/LGDP/DPDPA/PIPL) and WCAG accessible. No tracking, self-verifying.",
-      "purl": "pkg:npm/altcha@2.3.0",
+      "purl": "pkg:npm/altcha@3.0.4",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -518,7 +436,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/altcha/-/altcha-2.3.0.tgz"
+          "url": "https://registry.npmjs.org/altcha/-/altcha-3.0.4.tgz"
         },
         {
           "type": "vcs",
@@ -536,7 +454,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "be5f08d1d42f49007bfccc74f57b96675f8b7523fbbc475ae8e2db83d91443664ed8b4fb333814c8b2bb222a6cf86015e9cd27b55712d5758eaa110fa706c385"
+          "content": "4c0d4dd2f9ca47b688feeb03376cb774f0dc83d0ddb0340abd1b82c00a4cb70de42478f11fb351b6dfa1495f0d674d6d91f1ea5c424eb4261116bf2cc70f056e"
         }
       ],
       "licenses": [
@@ -631,6 +549,53 @@
         {
           "alg": "SHA-512",
           "content": "1cfd52643a9a2c33f0b0d8aa46a8b935c3f44925dc897dacf44f91caa24822a1a8faf25e37900954cf7c097996fd6bb1d274392fb8de59476994211fd047beb6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "hash-wasm@4.12.0",
+      "type": "library",
+      "name": "hash-wasm",
+      "version": "4.12.0",
+      "scope": "required",
+      "author": "Dani Biró",
+      "description": "Lightning fast hash functions for browsers and Node.js using hand-tuned WebAssembly binaries (MD4, MD5, SHA-1, SHA-2, SHA-3, Keccak, BLAKE2, BLAKE3, PBKDF2, Argon2, bcrypt, scrypt, Adler-32, CRC32, CRC32C, RIPEMD-160, HMAC, xxHash, SM3, Whirlpool)",
+      "purl": "pkg:npm/hash-wasm@4.12.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/hash-wasm"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/hash-wasm/-/hash-wasm-4.12.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/Daninet/hash-wasm.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/Daninet/hash-wasm#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/Daninet/hash-wasm/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fbfd81dab60b6f8f08fdebdd38884ff8afc30f671ad9f8018e9e8ef860449c20e4d9ee2ba5e5c82bc1af23244f8d37b38265a7f6098ac244238f1e81b6a0c755"
         }
       ],
       "licenses": [
@@ -978,7 +943,7 @@
         "@popperjs/core@2.11.8",
         "@sentry/browser@10.49.0",
         "@tarekraafat/autocomplete.js@10.2.10",
-        "altcha@2.3.0",
+        "altcha@3.0.4",
         "autosize@6.0.1",
         "bootstrap@5.3.8",
         "jquery@3.7.1",
@@ -991,15 +956,7 @@
       ]
     },
     {
-      "ref": "@altcha/crypto@0.0.1",
-      "dependsOn": []
-    },
-    {
       "ref": "@popperjs/core@2.11.8",
-      "dependsOn": []
-    },
-    {
-      "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "dependsOn": []
     },
     {
@@ -1047,10 +1004,9 @@
       "dependsOn": []
     },
     {
-      "ref": "altcha@2.3.0",
+      "ref": "altcha@3.0.4",
       "dependsOn": [
-        "@altcha/crypto@0.0.1",
-        "@rollup/rollup-linux-x64-gnu@4.18.0"
+        "hash-wasm@4.12.0"
       ]
     },
     {
@@ -1062,6 +1018,10 @@
       "dependsOn": [
         "@popperjs/core@2.11.8"
       ]
+    },
+    {
+      "ref": "hash-wasm@4.12.0",
+      "dependsOn": []
     },
     {
       "ref": "jquery@3.7.1",
