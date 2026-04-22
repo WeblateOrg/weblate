@@ -27,7 +27,7 @@ def migrate_gettext_header_settings(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0072_alter_change_action"),
+        ("trans", "0073_alter_change_action"),
     ]
 
     operations = [
