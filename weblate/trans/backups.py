@@ -129,7 +129,7 @@ class ProjectBackup:
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
         # Project.set_language_team field was migrated to file format parameters after 5.17
-        self.set_language_team: bool = False
+        self.set_language_team_project: bool = False
 
     @staticmethod
     def full_slug_without_project(obj: Component | Category) -> str:
@@ -924,9 +924,13 @@ class ProjectBackup:
             update_fields=None,
         )
 
-        if component.file_format in {"po", "po-mono"}:
+        if component.file_format in {"po", "po-mono"} and (
+            "file_format_params" not in kwargs
+            or kwargs["file_format_params"].get("po_set_language_team") is None
+        ):
+            # fallback to project setting if not set in backup
             component.file_format_params["po_set_language_team"] = (
-                self.set_language_team
+                self.set_language_team_project
             )
         # Use bulk create to avoid triggering save() and any post_save signals
         component = Component.objects.bulk_create([component])[0]
@@ -1154,7 +1158,8 @@ class ProjectBackup:
             kwargs = self.data["project"].copy()
             kwargs["name"] = project_name
             kwargs["slug"] = project_slug
-            self.set_language_team = kwargs.pop("set_language_team", False)
+            # the attribute `set_language_team` is present in legacy backups prior to 5.17.1
+            self.set_language_team_project = kwargs.pop("set_language_team", False)
             self.project = project = Project.objects.create(**kwargs)
 
             # Handle billing and ACL (creating user needs access)

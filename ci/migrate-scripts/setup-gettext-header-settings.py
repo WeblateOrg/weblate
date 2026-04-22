@@ -23,14 +23,16 @@ project1, project2 = Project.objects.bulk_create(
 Component.objects.bulk_create(
     [
         Component(
-            name="gettext-header-settings-component-1",
+            name="Gettext headers settings component 1",
             slug="gettext-header-settings-component-1",
             project=project1,
+            file_format="po",
         ),
         Component(
-            name="gettext-header-settings-component-2",
+            name="Gettext headers settings component 2",
             slug="gettext-header-settings-component-2",
             project=project2,
+            file_format="po",
         ),
     ]
 )
