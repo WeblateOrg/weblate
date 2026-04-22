@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-22 10:10+0000\n"
-"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
+"PO-Revision-Date: 2026-04-22 13:06+0000\n"
+"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -1198,12 +1198,12 @@ msgstr "Oznámení byla zveřejněna"
 #: weblate/accounts/notifications.py:871
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Nové varování v součásti"
+msgstr "Nové upozornění v součásti"
 
 #: weblate/accounts/notifications.py:873
 msgctxt "Notification name"
 msgid "New alerts emerged in a component"
-msgstr "Nová varování v součásti"
+msgstr "Nová upozornění v součásti"
 
 #: weblate/accounts/notifications.py:928
 msgctxt "Notification name"
@@ -2696,10 +2696,8 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Doplněk nainstalován, přečtěte si prosím pokyny k integraci."
 
 #: weblate/addons/views.py:262 weblate/api/views.py:3494
-#, fuzzy
-#| msgid "Comment has been deleted."
 msgid "Add-on run has been scheduled."
-msgstr "Komentář byl odstraněn."
+msgstr "Byl naplánován běh doplňku."
 
 #: weblate/addons/webhooks.py:120
 msgid "Webhook"
@@ -4372,10 +4370,8 @@ msgstr[1] "Následující slova jsou zdvojena:"
 msgstr[2] "Následující slova jsou zdvojena:"
 
 #: weblate/checks/flags.py:79
-#, fuzzy
-#| msgid "Unsafe HTML"
 msgid "Conditional safe HTML"
-msgstr "Nebezpečné HTML"
+msgstr "Podmíněně bezpečné HTML"
 
 #: weblate/checks/flags.py:85
 msgid "Automatically detect Java MessageFormat"
@@ -8452,16 +8448,16 @@ msgid "Disable password"
 msgstr "Zakázat heslo"
 
 #: weblate/templates/accounts/user.html:437
-#, fuzzy
-#| msgid "Revert"
 msgid "Revert edits"
-msgstr "Vrátit"
+msgstr "Vrátit úpravy"
 
 #: weblate/templates/accounts/user.html:440
 #, python-format
 msgid ""
 "Revert the latest editable translations by %(user)s across all projects."
 msgstr ""
+"Vrátit poslední upravitelné překlady od uživatele %(user)s napříč všemi "
+"projekty."
 
 #: weblate/templates/accounts/user.html:445
 #: weblate/templates/accounts/user.html:470
@@ -8581,7 +8577,7 @@ msgstr "Tento doplněk nemá žádná nastavení."
 #: weblate/templates/addons/addon_detail.html:65
 #: weblate/templates/addons/addon_list.html:69
 msgid "Run now"
-msgstr ""
+msgstr "Spustit nyní"
 
 #: weblate/templates/addons/addon_detail.html:69
 #: weblate/templates/addons/addon_list.html:72
@@ -8752,32 +8748,28 @@ msgid "The localizable elements have to match configured CSS selector."
 msgstr "Překladatelné prvky musí odpovídat zvolenému CSS selektoru."
 
 #: weblate/templates/addons/discovery_presets.html:5
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Guided presets"
-msgstr "Vyfakturované projekty"
+msgstr "Prováděné předvolby"
 
 #: weblate/templates/addons/discovery_presets.html:7
 msgid ""
 "Fill the form from a detected or generic repository layout, then edit the "
 "populated values as needed."
 msgstr ""
+"Vyplnit formulář pomocí detekovaného nebo obecného rozložení repozitáře, "
+"poté v případě potřeby upravte dané hodnoty."
 
 #: weblate/templates/addons/discovery_presets.html:42
 msgid "Examples:"
 msgstr "Příklady:"
 
 #: weblate/templates/addons/discovery_presets.html:47
-#, fuzzy
-#| msgid "Protected"
 msgid "Detected"
-msgstr "Omezený"
+msgstr "Detekované"
 
 #: weblate/templates/addons/discovery_presets.html:49
-#, fuzzy
-#| msgid "Generate"
 msgid "Generic"
-msgstr "Vytvořit"
+msgstr "Obecné"
 
 #: weblate/templates/addons/discovery_preview.html:8
 msgid "Matched files"
@@ -8866,10 +8858,8 @@ msgid "Project URL slug"
 msgstr "Zkratka URL projektu"
 
 #: weblate/templates/addons/language_consistency_preview.html:4
-#, fuzzy
-#| msgid "Review strings"
 msgid "Review before installing"
-msgstr "Zkontrolovat řetězce"
+msgstr "Kontrola před instalací"
 
 #: weblate/templates/addons/language_consistency_preview.html:9
 #, python-format
@@ -8882,8 +8872,17 @@ msgid_plural ""
 "    The preview below shows %(action_count)s translation files.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    Náhled níže zobrazuje %(action_count)s soubor překladu.\n"
+"  "
 msgstr[1] ""
+"\n"
+"    Náhled níže zobrazuje %(action_count)s soubory překladu.\n"
+"  "
 msgstr[2] ""
+"\n"
+"    Náhled níže zobrazuje %(action_count)s souborů překladu.\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:14
 #, python-format
@@ -8896,8 +8895,17 @@ msgid_plural ""
 "    It affects %(component_count)s components.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    Ovlivňuje %(component_count)s součást.\n"
+"  "
 msgstr[1] ""
+"\n"
+"    Ovlivňuje %(component_count)s součásti.\n"
+"  "
 msgstr[2] ""
+"\n"
+"    Ovlivňuje %(component_count)s součástí.\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:20
 #, python-format
@@ -8912,8 +8920,20 @@ msgid_plural ""
 "component settings.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      %(failure_count)s zobrazené přidání nelze vytvořit s aktuálním "
+"nastavením součástí.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      %(failure_count)s zobrazená přidání nelze vytvořit s aktuálním "
+"nastavením součástí.\n"
+"    "
 msgstr[2] ""
+"\n"
+"      %(failure_count)s zobrazených přidání nelze vytvořit s aktuálním "
+"nastavením součástí.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:30
 #, python-format
@@ -8926,8 +8946,17 @@ msgid_plural ""
 "      Showing %(entries)s preview entries.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      Zobrazování %(entries)s náhledu.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      Zobrazování %(entries)s náhledů.\n"
+"    "
 msgstr[2] ""
+"\n"
+"      Zobrazování %(entries)s náhledů.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:35
 #, python-format
@@ -8940,35 +8969,38 @@ msgid_plural ""
 "      So far this includes %(component_count)s components.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      Zatím to zahrnuje %(component_count)s součást.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      Zatím to zahrnuje %(component_count)s součásti.\n"
+"    "
 msgstr[2] ""
+"\n"
+"      Zatím to zahrnuje %(component_count)s součástí.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:40
 msgid ""
 "There might be more affected components, languages, and translation files."
-msgstr ""
+msgstr "Může existovat více ovlivněných součástí, jazyků a souborů překladu."
 
 #: weblate/templates/addons/language_consistency_preview.html:49
-#, fuzzy
-#| msgid "Language added"
 msgid "Languages to add"
-msgstr "Jazyk přidán"
+msgstr "Jazyky k přidání"
 
 #: weblate/templates/addons/language_consistency_preview.html:50
-#, fuzzy
-#| msgid "File format"
 msgid "Files to create"
-msgstr "Formát souborů"
+msgstr "Soubory k vytvoření"
 
 #: weblate/templates/addons/language_consistency_preview.html:80
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Skipped additions"
-msgstr "Poslední přírůstky"
+msgstr "Přeskočená přidání"
 
 #: weblate/templates/addons/language_consistency_preview.html:93
 msgid "No missing language files would be created."
-msgstr ""
+msgstr "Nebyly by vytvořeny žádné chybějící jazykové soubory."
 
 #: weblate/templates/addons/pseudolocale.html:4
 msgid "Generated strings"
@@ -9893,7 +9925,7 @@ msgstr "Pokračovat po dokončení"
 
 #: weblate/templates/component.html:24 weblate/wladmin/views.py:99
 msgid "Alerts"
-msgstr "Varování"
+msgstr "Upozornění"
 
 #: weblate/templates/component.html:41 weblate/templates/project.html:46
 msgid "Download language statistics (CSV)"
@@ -9956,7 +9988,7 @@ msgstr "Zahodit"
 
 #: weblate/templates/component.html:235
 msgid "Please sign in to see the alerts."
-msgstr "Pro zobrazení varování se prosím přihlaste."
+msgstr "Pro zobrazení upozornění se prosím přihlaste."
 
 #: weblate/templates/component.html:299
 msgid "Browse all component changes"
@@ -10557,16 +10589,12 @@ msgid "Reset and reapply"
 msgstr "Resetovat a znovu použít"
 
 #: weblate/templates/js/git-status.html:180
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
-"Resetuje repozitář Weblate tak, aby odpovídal upstreamu, a nahradí "
-"upstreamové překlady aktuálním stavem z Weblate."
+"Resetuje repozitář Weblate tak, aby odpovídal upstreamu, a znovu použije "
+"čekající překlady na resetovaný stav repozitáře."
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -10577,6 +10605,8 @@ msgid ""
 "Missing language files must already exist upstream or Weblate must be able "
 "to create them for the component."
 msgstr ""
+"Chybějící jazykové soubory již musí existovat v upstreamu nebo je Weblate "
+"musí být schopný vytvořit pro součást."
 
 #: weblate/templates/js/git-status.html:188
 msgid "Cleanup"
@@ -11200,13 +11230,13 @@ msgstr "Uživatel %(invitation_author)s vás pozval k připojení se"
 
 #: weblate/templates/mail/new_alert.html:14
 msgid "View all alerts"
-msgstr "Zobrazit všechna varování"
+msgstr "Zobrazit všechna upozornění"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/new_alert_subject.txt:5
 #, python-format
 msgid "New alert on %(component)s"
-msgstr "Nové varování v %(component)s"
+msgstr "Nové upozornění v součásti %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
 msgid "Announcement"
@@ -11506,7 +11536,7 @@ msgstr "Překlad součásti %(translation)s byl dokončen"
 
 #: weblate/templates/manage/alerts.html:10
 msgid "Component alerts"
-msgstr "Varování součástí"
+msgstr "Upozornění součástí"
 
 #: weblate/templates/manage/alerts.html:40
 msgid "Projects without components"
@@ -11544,10 +11574,8 @@ msgid "Failed with an error"
 msgstr "Selhalo s chybou"
 
 #: weblate/templates/manage/backups.html:27
-#, fuzzy
-#| msgid "Completed translation"
 msgid "Completed with warnings"
-msgstr "Dokončený překlad"
+msgstr "Dokončeno s varováními"
 
 #: weblate/templates/manage/backups.html:30
 msgid "Turned off"
@@ -11574,16 +11602,12 @@ msgid "Backup service credentials"
 msgstr "Přístupové údaje zálohovací služby"
 
 #: weblate/templates/manage/backups.html:85
-#, fuzzy
-#| msgid "Failures"
 msgid "Failed"
-msgstr "Chyby"
+msgstr "Selhalo"
 
 #: weblate/templates/manage/backups.html:87
-#, fuzzy
-#| msgid "Strings"
 msgid "Warnings"
-msgstr "Řetězců"
+msgstr "Varování"
 
 #: weblate/templates/manage/backups.html:109
 msgid "Turn off"
@@ -12504,11 +12528,11 @@ msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] ""
-"Tento překlad byl automaticky uzamčen z důvodu následujícího varování:"
+"Tento překlad byl automaticky uzamčen z důvodu následujícího upozornění:"
 msgstr[1] ""
-"Tento překlad byl automaticky uzamčen z důvodu následujících varování:"
+"Tento překlad byl automaticky uzamčen z důvodu následujících upozornění:"
 msgstr[2] ""
-"Tento překlad byl automaticky uzamčen z důvodu následujících varování:"
+"Tento překlad byl automaticky uzamčen z důvodu následujících upozornění:"
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -13610,7 +13634,7 @@ msgid ""
 "authentication, and it is safe to dismiss this alert."
 msgstr ""
 "Pokud vám fungují odkazy výše, mohou jen vyžadovat přihlášení a můžete "
-"bezpečně zahodit toto varování."
+"bezpečně zahodit toto upozornění."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:18
 msgid ""
@@ -13701,8 +13725,8 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
-"Jakmile bude operace znovu potřeba, Weblate ji zopakuje, takže varování může "
-"v případě dočasných problémů zmizet."
+"Jakmile bude operace znovu potřeba, Weblate ji zopakuje, takže upozornění "
+"může v případě dočasných problémů zmizet."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
 msgid ""
@@ -14390,10 +14414,8 @@ msgid "Edit team membership for %(username)s"
 msgstr "Upravit členství v týmu pro %(username)s"
 
 #: weblate/templates/trans/project-access.html:103 weblate/trans/forms.py:1433
-#, fuzzy
-#| msgid "Removed user"
 msgid "Revert user edits"
-msgstr "Uživatel odebrán"
+msgstr "Vrátit změny uživatele"
 
 #: weblate/templates/trans/project-access.html:132
 #, python-format
@@ -15319,7 +15341,7 @@ msgstr "Oznámení zveřejněno"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:97
 msgid "Alert triggered"
-msgstr "Varování zjištěno"
+msgstr "Zjištěno upozornění"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:99
@@ -15538,24 +15560,18 @@ msgstr "Zdrojový řetězec byl přidán do repozitáře"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:188
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "Název projektu"
+msgstr "Projekt zálohován"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:190
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Projekt odstraněn"
+msgstr "Projekt obnoven"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:192
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Součást odstraněna"
+msgstr "Součást obnovena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:194
@@ -15645,11 +15661,11 @@ msgstr "Nepodařilo se obnovit snímek obrazovky %(name)s: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:504
 msgid "The component was automatically locked because of an alert."
-msgstr "Součást byla automaticky uzamčena kvůli varování."
+msgstr "Součást byla automaticky uzamčena kvůli upozornění."
 
 #: weblate/trans/change_display.py:40 weblate/trans/models/change.py:508
 msgid "Fixing an alert automatically unlocked the component."
-msgstr "Oprava varování automaticky odemkla komponentu."
+msgstr "Oprava upozornění automaticky odemkla součást."
 
 #: weblate/trans/change_display.py:110
 msgid "File upload mode:"
@@ -15704,34 +15720,24 @@ msgid "Context"
 msgstr "Kontext"
 
 #: weblate/trans/change_display.py:469
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup file"
-msgstr "Záloha selhala"
+msgstr "Soubor zálohy"
 
 #: weblate/trans/change_display.py:477
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup created"
-msgstr "Záloha selhala"
+msgstr "Záloha vytvořena"
 
 #: weblate/trans/change_display.py:481
-#, fuzzy
-#| msgid "Backup service: %(url)s"
 msgid "Backup server"
-msgstr "Zálohovací služba: %(url)s"
+msgstr "Zálohovací server"
 
 #: weblate/trans/change_display.py:485
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup domain"
-msgstr "Záloha selhala"
+msgstr "Zálohovací doména"
 
 #: weblate/trans/change_display.py:492
-#, fuzzy
-#| msgid "Organize component"
 msgid "Original component"
-msgstr "Uspořádat součást"
+msgstr "Původní součást"
 
 #: weblate/trans/change_display.py:544
 msgid "Current translation"
@@ -16305,11 +16311,10 @@ msgid "Block the user for one month"
 msgstr "Blokovat uživatele na jeden měsíc"
 
 #: weblate/trans/forms.py:1435
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Navigovat na poslední překlad v aktuálním vyhledávání."
+msgstr ""
+"Vrátit poslední úpravy překladů od tohoto uživatele v aktuálním projektu."
 
 #: weblate/trans/forms.py:1447
 msgid "Report format"
@@ -16678,7 +16683,7 @@ msgstr "Zpřístupněte své překlady pod svobodnou licencí."
 
 #: weblate/trans/guide.py:211 weblate/trans/templatetags/translations.py:1113
 msgid "Fix this component to clear its alerts."
-msgstr "Opravte tuto součást, abyste vyčistili její varování."
+msgstr "Opravte tuto součást, abyste vymazali její upozornění."
 
 #: weblate/trans/guide.py:224
 msgid "Provide context to the translators"
@@ -16693,16 +16698,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Pomocí příznaků označte ve svém překladu speciální řetězce."
 
 #: weblate/trans/guide.py:267
-#, fuzzy
-#| msgid ""
-#| "Add safe-html flag to avoid dangerous HTML from translators for strings "
-#| "which are rendered as HTML."
 msgid ""
 "Add safe-html or auto-safe-html flag to avoid dangerous HTML from "
 "translators for strings which are rendered as HTML."
 msgstr ""
-"Přidejte příznak „safe-html“ pro zamezení nebezpečného HTML od překladatelů "
-"u řetězců, které jsou vykresleny jako HTML."
+"Přidejte příznak „safe-html“ nebo „auto-safe-html“ pro zamezení nebezpečného "
+"HTML od překladatelů u řetězců, které jsou vykresleny jako HTML."
 
 #: weblate/trans/guide.py:302
 msgid "Workflow customization"
@@ -17480,22 +17481,20 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "Toto nastavení se dědí z projektu, pokud je prázdné."
 
 #: weblate/trans/models/component.py:1929
-#, fuzzy
-#| msgid ""
-#| "Could not verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
-"Nepodařilo se ověřit SSH klíč hostitele, prosím přidejte ho na SSH stránce "
-"správcovského rozhraní."
+"Nepodařilo se ověřit SSH klíč hostitele. Přidejte jej prosím na stránce SSH "
+"v administrátorském rozhraní."
 
 #: weblate/trans/models/component.py:1935
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint "
 "and replace the stored host key on the SSH page in the admin interface."
 msgstr ""
+"Hostitelský klíč SSH repozitáře byl změněn. Ověřte nový otisk a nahraďte "
+"uložený hostitelský klíč na stránce SSH v administrátorském rozhraní."
 
 #: weblate/trans/models/component.py:1972
 msgid ""
@@ -17544,8 +17543,20 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"Repozitář byl resetován, ale nebylo možné znovu použít čekající překlady, "
+"protože chybí soubor %(files)s. Čekající změny byly zachovány. Chcete-li je "
+"obnovit, přidejte soubor do upstreamu a proveďte nový sken, nebo "
+"nakonfigurujte součást tak, aby Weblate mohl vytvořit překladový soubor."
 msgstr[1] ""
+"Repozitář byl resetován, ale nebylo možné znovu použít čekající překlady, "
+"protože chybí následující soubory: %(files)s. Čekající změny byly zachovány. "
+"Chcete-li je obnovit, přidejte soubor do upstreamu a proveďte nový sken, "
+"nebo nakonfigurujte součást tak, aby Weblate mohl vytvořit překladový soubor."
 msgstr[2] ""
+"Repozitář byl resetován, ale nebylo možné znovu použít čekající překlady, "
+"protože chybí následující soubory: %(files)s. Čekající změny byly zachovány. "
+"Chcete-li je obnovit, přidejte soubor do upstreamu a proveďte nový sken, "
+"nebo nakonfigurujte součást tak, aby Weblate mohl vytvořit překladový soubor."
 
 #: weblate/trans/models/component.py:2572
 #, python-format
@@ -17553,6 +17564,8 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"Repozitář byl resetován, ale nepodařilo se znovu vytvořit soubor %(file)s "
+"během opětovného použití čekajících překladů. Čekající změny byly zachovány."
 
 #: weblate/trans/models/component.py:2590
 #, python-format
@@ -17563,20 +17576,22 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"Repozitář byl resetován, ale během opětovného použití překladů se nepodařilo "
+"znovu vytvořit soubor %(files)s. Čekající změny byly zachovány."
 msgstr[1] ""
+"Repozitář byl resetován, ale během opětovného použití překladů se nepodařilo "
+"znovu vytvořit následující soubory: %(files)s. Čekající změny byly zachovány."
 msgstr[2] ""
+"Repozitář byl resetován, ale během opětovného použití překladů se nepodařilo "
+"znovu vytvořit následující soubory: %(files)s. Čekající změny byly zachovány."
 
 #: weblate/trans/models/component.py:2600
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Resetuje repozitář Weblate tak, aby odpovídal upstreamové verzi a zruší "
-"všechny čekající změny ve Weblate."
+"Repozitář byl resetován, ale nepodařilo se znovu vytvořit čekající překlady. "
+"Čekající změny byly zachovány."
 
 #: weblate/trans/models/component.py:2620
 #, python-format
@@ -18269,7 +18284,7 @@ msgstr "Aktualizace součásti překladu…"
 
 #: weblate/trans/templatetags/translations.py:1132
 msgid "Some of the components within this project have alerts."
-msgstr "Některé součásti v tomto projektu mají varování."
+msgstr "Některé součásti v tomto projektu mají upozornění."
 
 #: weblate/trans/templatetags/translations.py:1161
 msgid "You administrate this project."
@@ -18489,13 +18504,11 @@ msgstr "Uživatel již byl zablokován v tomto projektu."
 #: weblate/trans/views/acl.py:171 weblate/trans/views/acl.py:218
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
-msgstr ""
+msgstr "Bylo naplánováno vrácení změn od uživatele %(user)s v tomto projektu."
 
 #: weblate/trans/views/acl.py:208
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "User is not blocked on this project."
-msgstr "Uživatel byl zablokován v tomto projektu."
+msgstr "Uživatel není v tomto projektu zablokován."
 
 #: weblate/trans/views/acl.py:281
 msgid "Token has been removed from this project."
@@ -18721,10 +18734,8 @@ msgstr ""
 "můžete upravit v nastavení."
 
 #: weblate/trans/views/edit.py:520
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not revert the selected change."
-msgstr "Vrácenou změnu se nedaří najít."
+msgstr "Nepodařilo se vrátit zvolenou změnu."
 
 #: weblate/trans/views/edit.py:536
 msgid "You do not have privilege to accept suggestions!"
@@ -19027,7 +19038,7 @@ msgstr[2] "jazyků"
 
 #: weblate/utils/backup.py:123
 msgid "Borg completed with warnings without any output."
-msgstr ""
+msgstr "Borg dokončen s varováními bez jakéhokoli výstupu."
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -19245,10 +19256,8 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "Nepodporované vyhledávání pro {field}: {value}"
 
 #: weblate/utils/search.py:852
-#, fuzzy
-#| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
-msgstr "Nepodařilo se zpracovat {} příznak: {}"
+msgstr "Nepodařilo se zpracovat IP adresu: {}"
 
 #: weblate/utils/search.py:907
 msgid "Mixed operators!"
