@@ -454,6 +454,19 @@ might want to strip leading directory by ``parentdir`` filter (see
 :ref:`markup`):
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
 
+.. _component-repoweb-translations:
+
+Repository browser for translations
++++++++++++++++++++++++++++++++++++++
+
+URL of repository browser used to display translation files. When empty, the
+:ref:`component-repoweb` URL will be used as a fallback. This is useful when
+the source files and translation files are hosted in different repositories.
+You can use :ref:`markup`.
+
+For example on GitHub, use something like:
+``https://github.com/WeblateOrg/translations/blob/{{branch}}/{{filename}}#L{{line}}``
+
 .. _component-git_export:
 
 Exported repository URL

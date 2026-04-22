@@ -58,7 +58,6 @@ from weblate.trans.models import (
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
-    try_linkify_filename,
     unit_state_class,
     unit_state_title,
 )
@@ -786,14 +785,16 @@ def translate(request: AuthenticatedHttpRequest, path):
                 unit.translation, user, initial={"variant": unit.pk}
             ),
             "screenshot_form": screenshot_form,
-            "translation_file_link": lambda:unit.translation.component.get_repoweb_link(
-                unit.translation.filename,
-                # '1' as a placeholder, because `get_repoweb_link` can't currently
-                # generate links without line specified. Although it's ok to use
-                # '' or '0' on GitHub or GitLab, let's play it safe for now.
-                "1",
-                is_translation=True,
-                user=user,
+            "translation_file_link": lambda: (
+                unit.translation.component.get_repoweb_link(
+                    unit.translation.filename,
+                    # '1' as a placeholder, because `get_repoweb_link` can't currently
+                    # generate links without line specified. Although it's ok to use
+                    # '' or '0' on GitHub or GitLab, let's play it safe for now.
+                    "1",
+                    is_translation=True,
+                    user=user,
+                )
             ),
         },
     )

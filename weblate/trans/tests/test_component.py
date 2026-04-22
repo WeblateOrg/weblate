@@ -1265,7 +1265,7 @@ class ComponentRepoWebTestCase(FixtureTestCase):
             "https://dev.azure.com/f/c/_git/ATEST/blob/main/test.py#L42",
             self.get_url(),
         )
-    
+
     def test_translation_repoweb(self):
         """Test that repoweb_translations is used for translation file links."""
         self.component.repoweb = (
@@ -1280,7 +1280,9 @@ class ComponentRepoWebTestCase(FixtureTestCase):
         )
         self.assertEqual(
             "https://example.com/translations/main/f/test.po#_1",
-            self.component.get_repoweb_link("test.po", "1", user=self.user, is_translation=True),
+            self.component.get_repoweb_link(
+                "test.po", "1", user=self.user, is_translation=True
+            ),
         )
 
     def test_translation_repoweb_fallback(self):
@@ -1291,5 +1293,7 @@ class ComponentRepoWebTestCase(FixtureTestCase):
         self.component.repoweb_translations = ""
         self.assertEqual(
             "https://example.com/source/main/f/test.po#_1",
-            self.component.get_repoweb_link("test.po", "1", user=self.user, is_translation=True),
+            self.component.get_repoweb_link(
+                "test.po", "1", user=self.user, is_translation=True
+            ),
         )
