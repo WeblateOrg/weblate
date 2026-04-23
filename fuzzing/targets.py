@@ -5,12 +5,14 @@ from __future__ import annotations
 
 import contextlib
 import json
+import warnings
 from base64 import b64encode
 from binascii import Error as BinasciiError
 from html import escape
 from io import BytesIO
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
+from django.core.exceptions import ValidationError
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
 from lxml.etree import XMLSyntaxError
 from pyparsing import ParseException
@@ -275,35 +277,49 @@ def _build_backup_archive(data: bytes) -> bytes:
     compression = ZIP_DEFLATED if fdp.consume_bool() else ZIP_STORED
     member_names: list[str] = []
 
-    with ZipFile(buffer, "w", compression=compression) as archive:
-        if fdp.consume_bool():
-            archive.writestr(
-                "weblate-backup.json",
-                VALID_BACKUP_JSON if fdp.consume_bool() else _consume_bytes(fdp, 2048),
-            )
-            member_names.append("weblate-backup.json")
-        if fdp.consume_bool():
-            archive.writestr(
-                "weblate-memory.json",
-                VALID_MEMORY_JSON if fdp.consume_bool() else _consume_bytes(fdp, 2048),
-            )
-            member_names.append("weblate-memory.json")
-
-        for _unused in range(fdp.consume_int_in_range(0, 4)):
-            if member_names and fdp.consume_bool():
-                filename = fdp.pick_value_in_list(member_names)
-            else:
-                filename = fdp.pick_value_in_list(
-                    [
-                        "components/test.json",
-                        "components/../test.json",
-                        "vcs/test/.git/config",
-                        "vcs/test/.git/hooks/post-checkout",
-                        f"{_consume_name(fdp, 'entry')}.txt",
-                    ]
+    # The backup module promotes zipfile warnings to errors, but for fuzzing we
+    # intentionally want to synthesize duplicate members and let validation code
+    # reject them later.
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=r"Duplicate name: .*",
+            category=UserWarning,
+            module="zipfile",
+        )
+        with ZipFile(buffer, "w", compression=compression) as archive:
+            if fdp.consume_bool():
+                archive.writestr(
+                    "weblate-backup.json",
+                    VALID_BACKUP_JSON
+                    if fdp.consume_bool()
+                    else _consume_bytes(fdp, 2048),
                 )
-                member_names.append(filename)
-            archive.writestr(filename, _consume_bytes(fdp, 4096))
+                member_names.append("weblate-backup.json")
+            if fdp.consume_bool():
+                archive.writestr(
+                    "weblate-memory.json",
+                    VALID_MEMORY_JSON
+                    if fdp.consume_bool()
+                    else _consume_bytes(fdp, 2048),
+                )
+                member_names.append("weblate-memory.json")
+
+            for _unused in range(fdp.consume_int_in_range(0, 4)):
+                if member_names and fdp.consume_bool():
+                    filename = fdp.pick_value_in_list(member_names)
+                else:
+                    filename = fdp.pick_value_in_list(
+                        [
+                            "components/test.json",
+                            "components/../test.json",
+                            "vcs/test/.git/config",
+                            "vcs/test/.git/hooks/post-checkout",
+                            f"{_consume_name(fdp, 'entry')}.txt",
+                        ]
+                    )
+                    member_names.append(filename)
+                archive.writestr(filename, _consume_bytes(fdp, 4096))
 
     return buffer.getvalue()
 
@@ -327,6 +343,10 @@ def _build_tmx_payload(fdp: FuzzedDataProvider) -> bytes:
         "</body>"
         "</tmx>"
     ).encode()
+
+
+def _is_invalid_iso_timestamp(error: ValueError) -> bool:
+    return any(isinstance(arg, str) and "isoformat" in arg for arg in error.args)
 
 
 def fuzz_translation_formats(data: bytes) -> None:
@@ -398,18 +418,23 @@ def fuzz_backups(data: bytes) -> None:
     backup = ProjectBackup(fileio=BytesIO(archive_bytes))
 
     with ZipFile(BytesIO(archive_bytes), "r") as archive:
-        with contextlib.suppress(ValueError):
+        with contextlib.suppress(ValueError, ValidationError):
             backup.validate_zip_members(archive)
 
-        with contextlib.suppress(
-            json.JSONDecodeError,
-            JSONSchemaValidationError,
-            KeyError,
-            TypeError,
-            UnicodeDecodeError,
-            ValueError,
-        ):
-            backup.load_data(archive)
+        try:
+            with contextlib.suppress(
+                json.JSONDecodeError,
+                JSONSchemaValidationError,
+                KeyError,
+                TypeError,
+                UnicodeDecodeError,
+            ):
+                backup.load_data(archive)
+        # Invalid timestamps in fuzzed backup metadata are expected malformed input.
+        # Keep other ValueError cases visible so the harness still catches real bugs.
+        except ValueError as error:
+            if not _is_invalid_iso_timestamp(error):
+                raise
 
         with contextlib.suppress(
             json.JSONDecodeError,
@@ -417,7 +442,6 @@ def fuzz_backups(data: bytes) -> None:
             KeyError,
             TypeError,
             UnicodeDecodeError,
-            ValueError,
         ):
             backup.load_memory(archive)
 
