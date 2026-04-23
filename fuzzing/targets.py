@@ -15,6 +15,7 @@ from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
 from lxml.etree import XMLSyntaxError
 from pyparsing import ParseException
 from rest_framework.exceptions import ParseError
+from translate.storage.base import ParseError as TranslateToolkitParseError
 
 from fuzzing.atheris_compat import FuzzedDataProvider
 from fuzzing.bootstrap import bootstrap_django
@@ -353,6 +354,7 @@ def fuzz_translation_formats(data: bytes) -> None:
         ParseException,
         SyntaxError,
         TypeError,
+        TranslateToolkitParseError,
         UnicodeDecodeError,
         ValueError,
         XMLSyntaxError,
