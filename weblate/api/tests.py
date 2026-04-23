@@ -4027,6 +4027,7 @@ class ProjectAPITest(APIBaseTest):
 
         self.assertEqual(new_config, response.data)
 
+    @override_settings(OFFER_HOSTING=False)
     def test_install_machinery_blocks_private_project_target(self) -> None:
         self.component.project.add_user(self.user, "Administration")
 
@@ -4044,6 +4045,8 @@ class ProjectAPITest(APIBaseTest):
         )
 
         self.assertIn("internal or non-public address", str(response.data))
+        self.assertIn("site administrator", str(response.data))
+        self.assertIn("site-wide or allowlisted", str(response.data))
 
 
 class ComponentAPITest(APIBaseTest):
