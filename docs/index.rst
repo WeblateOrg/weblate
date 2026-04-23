@@ -104,6 +104,7 @@ Learn more about :ref:`contributing`.
     admin/projects
     admin/languages
     admin/continuous
+    admin/code-hosting
     admin/licensing
     admin/translating
     admin/checks

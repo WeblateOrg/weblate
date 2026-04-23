@@ -16,6 +16,8 @@ Weblate 2026.5
 * Audited project and component setting changes are now recorded in history.
 * :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
+* :ref:`code-hosting-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
+* Added :doc:`/admin/code-hosting` with provider-oriented setup guidance for code hosting integrations.
 
 .. rubric:: Bug fixes
 
@@ -26,6 +28,8 @@ Weblate 2026.5
 * :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
 * URL health checks now validate redirect targets using the configured private-target restrictions.
+* :ref:`code-hosting-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
+* :ref:`code-hosting-gerrit` branch validation now suggests short branch names when full refs are supplied.
 
 .. rubric:: Compatibility
 
@@ -141,7 +145,7 @@ Weblate 5.17
 * Added :setting:`PASSWORD_RESET_URL` to customize the sign-in page password reset link, useful for external identity providers (Docker env: :envvar:`WEBLATE_PASSWORD_RESET_URL`).
 * Added :ref:`bulk user invitations <invite-user>`.
 * Added :ref:`check-objc-format`.
-* Added Forgejo notification webhook, see :ref:`forgejo-setup`.
+* Added Forgejo notification webhook, see :ref:`Forgejo notifications <code-hosting-forgejo-notifications>`.
 * Added translation memory API filtering, scoped access, and bulk lookup support.
 * Added ``from_component`` support to the REST API for creating components from existing component content and for seeding new translations by automatic translation from existing components.
 * :doc:`/admin/announcements` can now be managed via the :ref:`api` for projects, components and translations.
@@ -1006,7 +1010,7 @@ Weblate 5.11.1
 
 .. rubric:: Bug fixes
 
-* :ref:`vcs-gitlab` integration now detects merge‑request conflicts more robustly.
+* :ref:`code-hosting-gitlab-merge-requests` integration now detects merge‑request conflicts more robustly.
 * :ref:`addon-weblate.webhook.webhook` is now enabled in Docker.
 * Removing pending glossary terms.
 
@@ -1258,7 +1262,7 @@ Weblate 5.9.2
 
 .. rubric:: Improvements
 
-* Renamed :ref:`vcs-bitbucket-data-center` to match new product name.
+* Renamed :ref:`code-hosting-bitbucket-data-center-pull-requests` to match new product name.
 * :http:get:`/api/users/` supports searching by user ID.
 
 .. rubric:: Bug fixes
@@ -1364,7 +1368,7 @@ Weblate 5.8.4
 
 * Fixed occasional crash in :ref:`rss`.
 * :ref:`check-icu-message-format` gracefully handles plural strings.
-* :ref:`vcs-bitbucket-cloud` correctly generates pull request description.
+* :ref:`code-hosting-bitbucket-cloud-pull-requests` correctly generates pull request description.
 
 .. rubric:: Upgrading
 
@@ -1449,7 +1453,7 @@ Weblate 5.8
 * :doc:`/user/search` now supports filtering by object path and :ref:`date-search`.
 * Merge requests credentials can now be passed in the repository URL, see :ref:`settings-credentials`.
 * :ref:`mt-azure-openai` automatic suggestion service.
-* :ref:`vcs-bitbucket-cloud`.
+* :ref:`code-hosting-bitbucket-cloud-pull-requests`.
 
 .. rubric:: Improvements
 
@@ -1826,7 +1830,7 @@ Weblate 5.5
 * Fixed per-language statistics on nested categories.
 * Fixed categories listing on per-language pages.
 * Fixed :guilabel:`Needs editing` state calculation.
-* Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`.
+* Fixed changing :ref:`component-push` with :ref:`code-hosting-gerrit`.
 * Fixed using categorized components in :ref:`manage`, :ref:`memory` or :ref:`auto-translation`.
 
 .. rubric:: Compatibility
@@ -1855,7 +1859,7 @@ Weblate 5.4.3
 * Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not block :ref:`manage-appearance`.
 * Avoid crash on pushing changes to diverged repository.
 * Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
-* :ref:`azure-setup` gracefully handles repositories with spaces in URL.
+* :ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>` gracefully handles repositories with spaces in URL.
 * :ref:`mt-deepl` gracefully handles glossaries for language variants.
 * :doc:`/formats/excel` better handles blank cells.
 * Fixed possible data loss when merging gettext PO file changes in Git.
@@ -2029,7 +2033,7 @@ Weblate 5.2
 
 .. rubric:: New features
 
-* :ref:`vcs-azure-devops`.
+* :ref:`code-hosting-azure-devops-pull-requests`.
 
 .. rubric:: Improvements
 

@@ -1246,8 +1246,8 @@ Code hosting sites credentials
 
 In the Docker container, the code hosting credentials can be configured either
 in separate variables or using a Python dictionary to set them at once. The
-following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
-with appropriately changed variable names.
+following examples are for :ref:`code-hosting-github-pull-requests`, but apply
+to all :ref:`vcs` with appropriately changed variable names.
 
 .. important::
 
@@ -1292,7 +1292,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITHUB_HOST
 .. envvar:: WEBLATE_GITHUB_CREDENTIALS
 
-    Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`.
+    Configures :ref:`code-hosting-github-pull-requests` by changing
+    :setting:`GITHUB_CREDENTIALS`.
 
     .. seealso::
 
@@ -1303,7 +1304,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITLAB_HOST
 .. envvar:: WEBLATE_GITLAB_CREDENTIALS
 
-    Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`.
+    Configures :ref:`code-hosting-gitlab-merge-requests` by changing
+    :setting:`GITLAB_CREDENTIALS`.
 
     .. seealso::
 
@@ -1314,7 +1316,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITEA_HOST
 .. envvar:: WEBLATE_GITEA_CREDENTIALS
 
-    Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`.
+    Configures :ref:`code-hosting-gitea-pull-requests` by changing
+    :setting:`GITEA_CREDENTIALS`.
 
     .. seealso::
 
@@ -1325,7 +1328,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_PAGURE_HOST
 .. envvar:: WEBLATE_PAGURE_CREDENTIALS
 
-    Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`.
+    Configures :ref:`code-hosting-pagure-merge-requests` by changing
+    :setting:`PAGURE_CREDENTIALS`.
 
     .. seealso::
 
@@ -1336,7 +1340,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETSERVER_HOST
 .. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-data-center` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+    Configures :ref:`code-hosting-bitbucket-data-center-pull-requests` by
+    changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
 
 .. envvar:: WEBLATE_BITBUCKETCLOUD_USERNAME
 .. envvar:: WEBLATE_BITBUCKETCLOUD_WORKSPACE
@@ -1344,7 +1349,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETCLOUD_HOST
 .. envvar:: WEBLATE_BITBUCKETCLOUD_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-cloud` by changing :setting:`BITBUCKETCLOUD_CREDENTIALS`.
+    Configures :ref:`code-hosting-bitbucket-cloud-pull-requests` by changing
+    :setting:`BITBUCKETCLOUD_CREDENTIALS`.
 
     .. seealso::
 
@@ -1356,7 +1362,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_AZURE_DEVOPS_HOST
 .. envvar:: WEBLATE_AZURE_DEVOPS_CREDENTIALS
 
-    Configures :ref:`vcs-azure-devops` by changing :setting:`AZURE_DEVOPS_CREDENTIALS`.
+    Configures :ref:`code-hosting-azure-devops-pull-requests` by changing
+    :setting:`AZURE_DEVOPS_CREDENTIALS`.
 
     .. seealso::
 
