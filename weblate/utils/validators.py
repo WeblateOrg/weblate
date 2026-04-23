@@ -554,6 +554,18 @@ def _has_blocked_profile_url_extension(value: str) -> bool:
     return path.endswith(PROFILE_URL_BLOCKED_EXTENSIONS)
 
 
+def _validate_profile_like_url(
+    value: str | None,
+    *,
+    credentials_message: str,
+    blocked_extension_message: str,
+) -> None:
+    """Validate common profile/contact URL safety checks."""
+    _validate_public_profile_url(value, credentials_message=credentials_message)
+    if value and _has_blocked_profile_url_extension(value):
+        raise ValidationError(gettext(blocked_extension_message))
+
+
 def _get_profile_path_segments(value: str) -> list[str]:
     parsed = urlparse(value)
     if parsed.query or parsed.fragment:
@@ -565,34 +577,34 @@ def _get_profile_path_segments(value: str) -> list[str]:
 
 def validate_profile_url(value: str | None) -> None:
     """Reject unsafe public profile URLs."""
-    _validate_public_profile_url(
+    _validate_profile_like_url(
         value,
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
         ),
+        blocked_extension_message=(
+            "Profile URL should link to a profile page, "
+            "not directly to a file download."
+        ),
     )
-    if value and _has_blocked_profile_url_extension(value):
-        raise ValidationError(
-            gettext(
-                "Profile URL should link to a profile page, "
-                "not directly to a file download."
-            )
-        )
 
 
 def validate_code_site_url(value: str | None) -> None:
     """Reject URLs not matching common code hosting profile shapes."""
-    _validate_public_profile_url(
+    _validate_profile_like_url(
         value,
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
+        ),
+        blocked_extension_message=(
+            "Profile URL should link to a profile page, "
+            "not directly to a file download."
         ),
     )
     if not value:
         return
 
     segments = _get_profile_path_segments(value)
-    has_blocked_extension = _has_blocked_profile_url_extension(value)
     is_profile_like = (
         len(segments) == 1
         and segments[0] not in CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS
@@ -604,13 +616,6 @@ def validate_code_site_url(value: str | None) -> None:
         and all(segment != "-" for segment in segments)
         and all(CODE_SITE_PROFILE_SEGMENT.match(segment) for segment in segments)
     )
-    if has_blocked_extension:
-        raise ValidationError(
-            gettext(
-                "Profile URL should link to a profile page, "
-                "not directly to a file download."
-            )
-        )
     if is_profile_like:
         return
     if is_repository_like:
@@ -628,19 +633,16 @@ def validate_code_site_url(value: str | None) -> None:
 
 def validate_contact_url(value: str | None) -> None:
     """Reject unsafe public contact URLs."""
-    _validate_public_profile_url(
+    _validate_profile_like_url(
         value,
         credentials_message=gettext(
             "Contact URL cannot include username or password credentials."
         ),
+        blocked_extension_message=(
+            "Contact URL should link to a contact or profile page, "
+            "not directly to a file download."
+        ),
     )
-    if value and _has_blocked_profile_url_extension(value):
-        raise ValidationError(
-            gettext(
-                "Contact URL should link to a contact or profile page, "
-                "not directly to a file download."
-            )
-        )
 
 
 def validate_fediverse_url(value: str | None) -> None:
