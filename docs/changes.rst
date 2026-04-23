@@ -31,7 +31,7 @@ Weblate 5.17.1
 * Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
 * :doc:`/admin/announcements` can now also be managed via the :ref:`api` for categories.
 * :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
-* :ref:`profile` Contact URL links now show an external-link warning, and obvious direct file download URLs are rejected.
+* :ref:`profile` links now show an external-link warning where possible; obvious direct file download URLs and invalid code site or Fediverse profile links are rejected.
 
 .. rubric:: Bug fixes
 
