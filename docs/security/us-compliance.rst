@@ -18,11 +18,41 @@ US encryption controls
 ----------------------
 
 Weblate does not contain any cryptographic code, but might be subject
-export controls as it uses third party components utilizing cryptography
+to export controls as it uses third party components utilizing cryptography
 for authentication, data-integrity and -confidentiality.
 
-Weblate and all it's dependencies have publicly available source code meaning
+Weblate and all its dependencies have publicly available source code meaning
 it can usually be exported and reexported without restriction.
+
+Export control classification number
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate has not received a Commodity Classification Automated Tracking System
+(CCATS) determination from the Bureau of Industry and Security (BIS). Based on
+the cryptographic functionality used through its dependencies, Weblate should
+generally be treated as encryption software under ECCN ``5D002.c.1``. A
+mass-market distribution can instead be classified as ECCN ``5D992.c`` after
+the applicable BIS classification or self-classification process.
+
+Weblate source code and release artifacts are publicly available. Under BIS
+guidance and 15 CFR 742.15(b), publicly available encryption source code
+classified under ECCN ``5D002`` is not subject to the EAR when the applicable
+conditions are met, and corresponding object code can also be outside the EAR.
+Custom builds, hosted services, bundled distributions, and downstream
+deployments should be evaluated as a whole by the exporting party.
+
+.. seealso::
+
+   * `BIS encryption controls <https://www.bis.gov/learn-support/encryption-controls>`_
+   * `Encryption items not subject to the EAR
+     <https://www.bis.gov/learn-support/encryption-controls/encryption-items-not-subject-to-ear>`_
+   * `BIS mass market guidance
+     <https://www.bis.gov/learn-support/encryption-controls/mass-market>`_
+   * `15 CFR 742.15
+     <https://www.ecfr.gov/current/title-15/part-742/section-742.15>`_
+
+Cryptographic functionality
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Software components used by Weblate (listing only components related to
 cryptographic function):
@@ -49,7 +79,3 @@ cryptographic features include:
 
 - Accessing remote servers using secure protocols (HTTPS)
 - Generating signatures for code commits (PGP)
-
-.. seealso::
-
-   `Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/blog/ear/>`_
