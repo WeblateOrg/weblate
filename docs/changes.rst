@@ -1,3 +1,18 @@
+Weblate 5.18
+------------
+
+*Not yet released.*
+
+.. rubric:: Improvements
+
+* The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
+
 Weblate 5.17.1
 --------------
 
