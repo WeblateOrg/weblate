@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-21 03:41+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-04-23 13:09+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -406,6 +406,12 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"Rialaítear bainistíocht úsáideoirí ar fud an tsuímh leis an gcead domhanda "
+"``user.edit``. Murab ionann agus bainistíocht rochtana tionscadail, is cead "
+"riaracháin iontaofa é seo a cheadaíonn cuntais úsáideoirí a chur in eagar ar "
+"fud an tsuímh ar fad, lena n-áirítear foirne ar fud an tsuímh a shannadh "
+"agus stádas sárúsáideora a dheonú don chuntas bainistithe, fiú cuntas an "
+"ghlaoiteora féin."
 
 #: admin/access.rst:194
 msgid ""
@@ -491,6 +497,12 @@ msgid ""
 "management in the Weblate UI and API and should be assigned only to fully "
 "trusted site administrators."
 msgstr ""
+"Tá an toscaireacht tionscadail seo ar leithligh ón gcead ``user.edit`` atá "
+"ar fud an tsuímh. Ní cheadaíonn ballraíocht i bhfoireann `Riaracháin` "
+"tionscadail ach rochtain a bhainistiú don tionscadal sin, ach tugann "
+"``user.edit`` bainistíocht úsáideoirí ar fud an tsuímh i gcomhéadan "
+"úsáideora agus in API Weblate agus níor cheart í a shannadh ach do "
+"riarthóirí suímh atá lán-iontaofa."
 
 #: admin/access.rst:240
 msgid "Per-project access tokens"
@@ -1278,6 +1290,9 @@ msgid ""
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"Is féidir breiseáin a roghnaíonn spreagadh de láimh a rith ó bhainistíocht "
+"breiseán nó trí úsáid a bhaint as :ref:`API <addons-api>`. Déantar na "
+"torthaí a thaifeadadh i log gníomhaíochta na mbreiseán."
 
 #: admin/addons.rst:28
 msgid "Obsolete add-ons"
@@ -15437,13 +15452,6 @@ msgid "Translation memory status"
 msgstr "Stádas cuimhne aistriúcháin"
 
 #: admin/memory.rst:79
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, stale and "
-#| "obsolete entries with pending status are automatically removed when a "
-#| "translation is approved."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
@@ -15452,10 +15460,9 @@ msgid ""
 msgstr ""
 "Is féidir dhá stádas éagsúla a bheith ag iontrálacha cuimhne aistriúcháin: "
 "**gníomhach** agus **ar feitheamh**. Cuirtear iontrálacha atá ar feitheamh "
-"san áireamh sna moltaí, ach cuirtear pionós cáilíochta i bhfeidhm. Má "
-"tá :ref:`autoclean-tm` cumasaithe, baintear iontrálacha seanchaite agus as "
-"dáta a bhfuil stádas ar feitheamh acu go huathoibríoch nuair a cheadaítear "
-"aistriúchán."
+"san áireamh sna moltaí, ach cuirtear pionós cáilíochta i bhfeidhm. Má tá "
+":ref:`autoclean-tm` cumasaithe, baintear iontrálacha meaitseála atá ar "
+"feitheamh nuair a bhíonn aistriúchán gníomhach."
 
 #: admin/memory.rst:87 admin/projects.rst:199
 msgid "Autoclean translation memory"
@@ -15466,18 +15473,25 @@ msgid ""
 "When enabled for a project, Weblate replaces older automatically created "
 "translation memory entries when a translation becomes active:"
 msgstr ""
+"Nuair a bhíonn sé cumasaithe do thionscadal, cuireann Weblate iontrálacha "
+"cuimhne aistriúcháin a cruthaíodh go huathoibríoch in ionad sean-iontrálacha "
+"cuimhne aistriúcháin nuair a bhíonn aistriúchán gníomhach:"
 
 #: admin/memory.rst:94
 msgid ""
 "With :ref:`project-translation_review` enabled, cleanup happens when the "
 "translation is approved."
 msgstr ""
+"Agus :ref:`project-translation_review` cumasaithe, déantar glanadh nuair a "
+"cheadaítear an t-aistriúchán."
 
 #: admin/memory.rst:96
 msgid ""
 "Without review, cleanup happens as soon as the translation reaches the "
 "translated state."
 msgstr ""
+"Gan athbhreithniú, déantar glanadh a luaithe a shroicheann an t-aistriúchán "
+"an staid aistrithe."
 
 #: admin/memory.rst:99
 msgid ""
@@ -15488,12 +15502,22 @@ msgid ""
 "translation is then stored again as an active entry in the scopes that are "
 "enabled for that change."
 msgstr ""
+"I gcás an teaghrán foinse, an chomhpháirte, an chomhthéacs, agus an péire "
+"teanga foinse/sprioc chéanna, baintear iontrálacha neamhchomhaid "
+"chomhoiriúnacha ó chuimhne aistriúcháin, lena n-áirítear iontrálacha a "
+"bhfuil téacs sprice difriúil acu. Baineann sé seo le raonta cuimhne "
+"aistriúcháin phearsanta, tionscadail, agus chomhroinnte. Stóráiltear an t-"
+"aistriúchán reatha arís mar iontráil ghníomhach sna raonta atá cumasaithe "
+"don athrú sin."
 
 #: admin/memory.rst:105
 msgid ""
 "Entries imported from external translation memory files are not cleaned up "
 "automatically. Entries with a different context are kept."
 msgstr ""
+"Ní ghlantar iontrálacha a allmhairítear ó chomhaid chuimhne aistriúcháin "
+"sheachtracha go huathoibríoch. Coinnítear iontrálacha a bhfuil comhthéacs "
+"difriúil acu."
 
 #: admin/memory.rst:108
 msgid ""
@@ -16498,22 +16522,21 @@ msgstr ""
 "le :ref:`project-use_shared_tm`."
 
 #: admin/projects.rst:203
-#, fuzzy
-#| msgid ""
-#| "Whether to automatically remove outdated and obsolete entries from "
-#| "translation memory."
 msgid ""
 "Whether to replace older automatically created translation memory entries "
 "when a translation becomes active."
 msgstr ""
-"Cibé acu ba cheart iontrálacha atá as dáta agus atá imithe i léig a bhaint "
-"go huathoibríoch as cuimhne aistriúcháin."
+"Cibé acu ba cheart iontrálacha cuimhne aistriúcháin a cruthaíodh go "
+"huathoibríoch níos sine a athsholáthar nuair a bhíonn aistriúchán gníomhach."
 
 #: admin/projects.rst:206
 msgid ""
 "Matching is based on the same source string, component, context, and source/"
 "target language pair. Uploaded translation memory files are not affected."
 msgstr ""
+"Tá an meaitseáil bunaithe ar an teaghrán foinse, an chomhpháirt, an "
+"comhthéacs, agus an péire teanga foinse/sprioc céanna. Níl aon tionchar ar "
+"chomhaid chuimhne aistriúcháin uaslódáilte."
 
 #: admin/projects.rst:220
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -18973,18 +18996,15 @@ msgstr ""
 "uasghrádú, féach :doc:`backup`."
 
 #: admin/upgrade.rst:36
-#, fuzzy
-#| msgid ""
-#| "Stop the WSGI and Celery processes to avoid old processes running while "
-#| "upgrading. Otherwise incompatible changes in the database might occur."
 msgid ""
 "Wait for the Celery queues to become empty, then stop the WSGI and Celery "
 "processes to avoid old processes running while upgrading. Otherwise "
 "incompatible changes in the database might occur."
 msgstr ""
-"Cuir stop leis na próisis WSGI agus Soilire chun seanphróisis a sheachaint "
-"agus iad á n-uasghrádú. Seachas sin d'fhéadfadh athruithe neamh-"
-"chomhoiriúnacha tarlú sa bhunachar sonraí."
+"Fan go mbeidh na scuainí Celery folamh, ansin stop na próisis WSGI agus "
+"Celery chun cosc a chur ar sheanphróisis a bheith ag rith agus uasghrádú á "
+"dhéanamh. Seachas sin, d’fhéadfadh athruithe neamh-chomhoiriúnacha tarlú sa "
+"bhunachar sonraí."
 
 #: admin/upgrade.rst:40
 msgid ""
@@ -18993,6 +19013,10 @@ msgid ""
 "can monitor queue length in the :ref:`management-interface` or by "
 "using :wladmin:`celery_queues`."
 msgstr ""
+"Ní comhéadan cobhsaí é scuaine tascanna Celery trasna eisiúintí, mar sin níl "
+"aon ráthaíocht ann go n-oibreoidh tascanna scuaine ón seanleagan tar éis an "
+"uasghrádaithe. Is féidir leat fad na scuaine a mhonatóiriú sa "
+":ref:`management-interface` nó trí :wladmin:`celery_queues` a úsáid."
 
 #: admin/upgrade.rst:45
 msgid "Upgrade Weblate"
@@ -19568,10 +19592,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.17.1"
-msgstr "Gréasán 5.1.1"
+msgstr "Weblate 5.17.1"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19591,6 +19613,8 @@ msgid ""
 "Add-ons that opt in to manual triggering can now be run from add-on "
 "management and the :ref:`addons-api`."
 msgstr ""
+"Is féidir breiseáin a roghnaíonn spreagadh de láimh a rith anois ó "
+"bhainistíocht breiseán agus an :ref:`addons-api`."
 
 #: changes.rst:11 changes.rst:77 changes.rst:181 changes.rst:216
 #: changes.rst:263 changes.rst:307 changes.rst:352 changes.rst:393
@@ -19610,16 +19634,17 @@ msgstr "Feabhsuithe"
 #: changes.rst:12
 msgid "Clarified the site-wide scope of the global ``user.edit`` permission."
 msgstr ""
+"Soiléiríodh raon feidhme an cheada dhomhanda ``user.edit`` ar fud an tsuímh."
 
 #: changes.rst:13
 msgid "Clarified :ref:`autoclean-tm`."
-msgstr ""
+msgstr "Soiléirithe :ref:`autoclean-tm`."
 
 #: changes.rst:14
-#, fuzzy
-#| msgid "Password hashing now uses Argon2 by default."
 msgid "Password updates now regenerate your personal API key by default."
-msgstr "Úsáideann hashing pasfhocail anois Argon2 de réir réamhshocraithe."
+msgstr ""
+"Athghinfidh nuashonruithe pasfhocail d’eochair API phearsanta de réir "
+"réamhshocraithe anois."
 
 #: changes.rst:15
 msgid ""
@@ -19627,6 +19652,10 @@ msgid ""
 "shows a preview and requires confirmation before creating missing language "
 "files across projects, categories, or site-wide scopes."
 msgstr ""
+"Taispeánann an sreabhadh suiteála gréasáin le haghaidh :ref:`addon-"
+"weblate.consistency.languages` réamhamharc anois agus teastaíonn deimhniú "
+"sula gcruthaítear comhaid teanga atá ar iarraidh i dtionscadail, i "
+"gcatagóirí, nó i raon feidhme an tsuímh."
 
 #: changes.rst:16
 msgid ""
@@ -19634,35 +19663,38 @@ msgid ""
 "client-side presets, clearer ``{{ component }}`` validation, and a worked "
 "discovery-template example in the docs."
 msgstr ""
+"Treoir fheabhsaithe :ref:`addon-weblate.discovery.discovery` le "
+"réamhshocruithe treoraithe taobh an chliaint, bailíochtú níos soiléire ar ``{"
+"{ component }}``, agus sampla teimpléid fionnachtana oibrithe sna doiciméid."
 
 #: changes.rst:17
 msgid ""
 "Admins can now revert edits from blocked users in a project or from any user "
 "site-wide."
 msgstr ""
+"Is féidir le riarthóirí anois eagarthóireachtaí ó úsáideoirí blocáilte i "
+"dtionscadal nó ó aon úsáideoir ar fud an tsuímh a aisiompú."
 
 #: changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "Please follow :ref:`generic-upgrade-instructions` in order to perform "
-#| "update."
 msgid ""
 "Clarified :ref:`generic-upgrade-instructions` to state that Celery queues "
 "should be empty before upgrading."
 msgstr ""
-"Lean le do thoil :ref:`generic-upgrade-instructions` d'fhonn nuashonrú a "
-"dhéanamh."
+"Soiléiríodh :ref:`generic-upgrade-instructions` chun a rá gur cheart go "
+"mbeadh scuainí Celery folamh roimh uasghrádú."
 
 #: changes.rst:19
 msgid ""
 "Admin user management search can now find users by audit log IP address."
 msgstr ""
+"Is féidir le cuardach bainistíochta úsáideoirí riarthóra úsáideoirí a aimsiú "
+"anois de réir seoladh IP loga iniúchóireachta."
 
 #: changes.rst:20
-#, fuzzy
-#| msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgid "Track superuser and site-wide team changes in :ref:`audit-log`."
-msgstr "Rianaítear athruithe ballraíochta foirne in :ref:`audit-log` anois."
+msgstr ""
+"Rianaigh athruithe ar an sárúsáideoir agus ar an bhfoireann ar fud an tsuímh "
+"i :ref:`audit-log`."
 
 #: changes.rst:21
 msgid ""
@@ -19670,12 +19702,17 @@ msgid ""
 "suggests additional guided presets detected from the component repository "
 "layout."
 msgstr ""
+"Agus :ref:`addon-weblate.discovery.discovery` á shuiteáil ar chomhpháirt, "
+"moltar réamhshocruithe treoraithe breise a braitheadh ó leagan amach stórtha "
+"na gcomhpháirteanna anois."
 
 #: changes.rst:22
 msgid ""
 "Project website and repository browser URL alerts now show validation errors "
 "more clearly."
 msgstr ""
+"Taispeánann foláirimh URL brabhsálaí láithreáin ghréasáin an tionscadail "
+"agus an stórtha earráidí bailíochtaithe níos soiléire anois."
 
 #: changes.rst:25 changes.rst:117 changes.rst:186 changes.rst:221
 #: changes.rst:275 changes.rst:314 changes.rst:359 changes.rst:410
@@ -19697,52 +19734,62 @@ msgid "Bug fixes"
 msgstr "Ceartúcháin fabhtanna"
 
 #: changes.rst:26
-#, fuzzy
-#| msgid ":ref:`check-rst-references` allows translatable reference names."
 msgid ""
 ":ref:`check-rst-references` no longer crashes on repeated explicit-link "
 "targets."
-msgstr "Ceadaíonn :ref:`check-rst-references` ainmneacha tagartha inaistrithe."
+msgstr ""
+"Ní thuairteálann :ref:`check-rst-references` a thuilleadh ar spriocanna nasc "
+"sainráite arís agus arís eile."
 
 #: changes.rst:27
 msgid ""
 "Component updates no longer time out waiting on their own repository lock "
 "during validation."
 msgstr ""
+"Ní théann an t-am amach a thuilleadh do nuashonruithe comhpháirteanna ag "
+"fanacht ar a nglas stórais féin le linn bailíochtaithe."
 
 #: changes.rst:28
-#, fuzzy
-#| msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgid ""
 ":ref:`check-punctuation-spacing` check no longer triggers false positives "
 "for placeholders."
 msgstr ""
-":ref:`check-punctuation-spacing` ní bhaineann sé leis an mBriotáinis a "
-"thuilleadh."
+"Ní spreagann seiceáil :ref:`check-punctuation-spacing` torthaí dearfacha "
+"bréagacha a thuilleadh do shealbhóirí áite."
 
 #: changes.rst:29
 msgid ""
 "Client-side popup notifications triggered by JavaScript now use Bootstrap "
 "toasts."
 msgstr ""
+"Úsáideann fógraí aníos taobh an chliaint a spreagtar ag JavaScript toasts "
+"Bootstrap anois."
 
 #: changes.rst:30
 msgid ""
 "Dark theme Bootstrap subtle and emphasis colors now use higher-contrast "
 "values, improving popup toasts and other semantic UI elements."
 msgstr ""
+"Úsáideann dathanna caolchúiseacha agus béime Bootstrap téama dorcha "
+"luachanna codarsnachta níos airde anois, rud a fheabhsaíonn tóstaí aníos "
+"agus eilimintí séimeantacha eile den Chomhéadan Úsáideora."
 
 #: changes.rst:31
 msgid ""
 "Repository alerts, history entries, and task messages now preserve multiline "
 "Git and SSH backend error output."
 msgstr ""
+"Caomhnaíonn foláirimh stórtha, iontrálacha staire, agus teachtaireachtaí "
+"tascanna aschur il-líne earráide cúil Git agus SSH anois."
 
 #: changes.rst:32
 msgid ""
 "Interrupted Git rebases now recover more reliably after worker restarts, and "
 "signal-terminated backend commands are reported more clearly."
 msgstr ""
+"Déantar aisghabháil níos iontaofa ar athbhunuithe Git a cuireadh isteach "
+"anois tar éis atosú an oibrí, agus tuairiscítear orduithe cúil a "
+"chríochnaítear le comhartha níos soiléire."
 
 #: changes.rst:33
 msgid ""
@@ -19750,24 +19797,35 @@ msgid ""
 "management UI, and backup logs now show ``C`` entries for files that changed "
 "during the backup."
 msgstr ""
+"Ní thaispeántar cúltacaí Borg a chríochnaíonn le rabhaidh mar theipthe sa "
+"chomhéadan úsáideora bainistíochta a thuilleadh, agus taispeánann logaí "
+"cúltaca iontrálacha ``C`` anois do chomhaid a d'athraigh le linn an chúltaca."
 
 #: changes.rst:34
 msgid ""
 "Git exporter no longer rejects shared-history fetches just because the first "
 "negotiated ``have`` revisions are newer than Weblate's local history."
 msgstr ""
+"Ní dhiúltaíonn onnmhaireoir Git d’aisghabhálacha staire comhroinnte a "
+"thuilleadh díreach toisc go bhfuil na chéad athbhreithnithe ``have`` a "
+"caibidlíodh níos nuaí ná stair áitiúil Weblate."
 
 #: changes.rst:35
 msgid ""
 "Project backup import now revalidates component repository URLs before "
 "restore."
 msgstr ""
+"Athbhailíochtú anois déantar URLanna stórtha comhpháirteanna a úsáid le "
+"haghaidh allmhairiú cúltaca tionscadail roimh athchóiriú."
 
 #: changes.rst:36
 msgid ""
 "The :guilabel:`SSH keys` management page can now remove stored host keys so "
 "changed host keys can be replaced there."
 msgstr ""
+"Is féidir leis an leathanach bainistíochta :guilabel:`SSH keys` eochracha "
+"óstacha stóráilte a bhaint anois ionas gur féidir eochracha óstacha "
+"athraithe a athsholáthar ansin."
 
 #: changes.rst:37
 msgid ""
@@ -19775,6 +19833,9 @@ msgid ""
 "replace the standard descriptive-title placeholder in normalized POT headers "
 "again."
 msgstr ""
+"Tá :ref:`addon-weblate.gettext.xgettext` agus breiseáin nuashonraithe POT "
+"gaolmhara ag teacht in ionad an áitchoinneálaí caighdeánaigh teidil "
+"thuairisciúil i gceanntásca POT normalaithe arís."
 
 #: changes.rst:38
 msgid ""
@@ -19782,24 +19843,35 @@ msgid ""
 "during preflight validation, fixing components that store ``django.pot`` in "
 "a top-level ``locale`` directory."
 msgstr ""
+"Scipeann :ref:`addon-weblate.gettext.django` crainn ``locale`` an stórais "
+"anois le linn bailíochtú réamheitilte, ag socrú comhpháirteanna a stórálann "
+"``django.pot`` in eolaire ``locale`` barrleibhéil."
 
 #: changes.rst:39
 msgid ""
 "Screenshot OCR now skips corrupted or truncated image files instead of "
 "failing the request."
 msgstr ""
+"Scipeálann OCR scáileáin comhaid íomhá truaillithe nó giorraithe anois in "
+"ionad an t-iarratas a theip."
 
 #: changes.rst:40
 msgid ""
 "Monolingual component validation now honors :ref:`component-source_language` "
 "when checking duplicate files alongside a separate :ref:`component-template`."
 msgstr ""
+"Tugann bailíochtú comhpháirteanna aonteangacha onóir anois do "
+":ref:`component-source_language` agus comhaid dhúblacha á seiceáil taobh le "
+":ref:`component-template` ar leithligh."
 
 #: changes.rst:41
 msgid ""
 "The OpenAPI schema now describes action endpoints with their actual list, "
 "statistics, status, upload, and download response payloads."
 msgstr ""
+"Déanann scéim OpenAPI cur síos anois ar chríochphointí gníomhaíochta lena "
+"liosta iarbhír, staitisticí, stádas, uaslódálacha agus ualaí freagartha "
+"íoslódála."
 
 #: changes.rst:44 changes.rst:149 changes.rst:284 changes.rst:327
 #: changes.rst:424 changes.rst:567 changes.rst:662 changes.rst:717
@@ -19875,26 +19947,20 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "64?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/164?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/64?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"164?closed=1>`__."
 
 #: changes.rst:56
 msgid "Weblate 5.17"
 msgstr "Weblate 5.17"
 
 #: changes.rst:58
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 15th 2026.*"
-msgstr "*Scaoilte an 15 Aibreán 2025.*"
+msgstr "*Scaoilte ar an 15 Aibreán 2026.*"
 
 #: changes.rst:62
 msgid ""
@@ -19925,14 +19991,13 @@ msgstr ""
 "dtacaítear leo do gach formáid comhaid."
 
 #: changes.rst:65
-#, fuzzy
-#| msgid "Shared components can now be categorized within the target project."
 msgid ""
 "Shared components can now be categorized within the target project, "
 "including through the :ref:`api` using the ``category_id`` parameter."
 msgstr ""
 "Is féidir comhpháirteanna comhroinnte a chatagóiriú anois laistigh den "
-"tionscadal sprice."
+"tionscadal sprice, lena n-áirítear tríd an :ref:`api` ag baint úsáide as an "
+"bparaiméadar ``category_id``."
 
 #: changes.rst:66
 msgid ""
@@ -19978,11 +20043,6 @@ msgstr ""
 "do chuardach mórchóir leis."
 
 #: changes.rst:72
-#, fuzzy
-#| msgid ""
-#| "Added ``from_component`` support to the REST API for creating components "
-#| "from existing component content and for creating translations seeded by "
-#| "automatic translation from existing components."
 msgid ""
 "Added ``from_component`` support to the REST API for creating components "
 "from existing component content and for seeding new translations by "
@@ -19990,8 +20050,8 @@ msgid ""
 msgstr ""
 "Cuireadh tacaíocht ``from_component`` leis an REST API chun comhpháirteanna "
 "a chruthú ó ábhar comhpháirteanna atá ann cheana féin agus chun aistriúcháin "
-"a chruthú a bunaíodh le haistriúchán uathoibríoch ó chomhpháirteanna atá ann "
-"cheana féin."
+"nua a chur trí aistriúchán uathoibríoch ó chomhpháirteanna atá ann cheana "
+"féin."
 
 #: changes.rst:73
 msgid ""
@@ -20050,12 +20110,9 @@ msgid "Improved plural handling in :ref:`auto-translation`."
 msgstr "Láimhseáil fheabhsaithe iolra i :ref:`auto-translation`."
 
 #: changes.rst:84
-#, fuzzy
-#| msgid "Improved error messages in some of the :ref:`api` endpoints."
 msgid "Improved error messages in some :ref:`api` endpoints."
 msgstr ""
-"Teachtaireachtaí earráide feabhsaithe i roinnt de na "
-"críochphointí :ref:`api`."
+"Teachtaireachtaí earráide feabhsaithe i roinnt críochphointí :ref:`api`."
 
 #: changes.rst:85
 msgid ""
@@ -20083,6 +20140,11 @@ msgid ""
 "and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the "
 "bundled NGINX."
 msgstr ""
+"Nochtann Docker anois :envvar:`WEBLATE_COMMIT_PENDING_HOURS`, "
+":envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` chun an t-éileamh aitheantóra "
+"úsáideora uathúil Keycloak a shaincheapadh, agus "
+":envvar:`WEBLATE_NGINX_IPV6` chun éisteoirí IPv6 a rialú sa NGINX atá "
+"pacáilte."
 
 #: changes.rst:88
 msgid ""
@@ -20093,20 +20155,16 @@ msgstr ""
 "athchóirithe tionscadail/comhpháirteanna anois."
 
 #: changes.rst:89
-#, fuzzy
-#| msgid ""
-#| "Improved documentation with auto-generated snippets "
-#| "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
-#| "translation` machines."
 msgid ""
 "Improved documentation with auto-generated snippets "
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
 "translation` machines, and clarified merge-conflict behavior for exported "
 "repositories using shallow clones by default."
 msgstr ""
-"Doiciméadú feabhsaithe le sleachta uathghinte do "
-"mheaisíní :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, "
-"agus :ref:`machine-translation`."
+"Doiciméadú feabhsaithe le sleachta uathghinte do mheaisíní :ref:`addons`, "
+":ref:`fmt_capabs`, :ref:`checks`, agus :ref:`machine-translation`, agus "
+"iompar coinbhleachta cumaiscthe soiléirithe do stórtha onnmhairithe ag baint "
+"úsáide as clóin éadoimhne de réir réamhshocraithe."
 
 #: changes.rst:90
 msgid ""
@@ -20190,16 +20248,13 @@ msgstr ""
 "soiléire ar fáil d'úsáideoirí údaraithe anois."
 
 #: changes.rst:98
-#, fuzzy
-#| msgid ""
-#| "Improved performance of project language counting and API listing on "
-#| "projects with shared components."
 msgid ""
 "Faster category and project removals, and improved performance of project "
 "language counting and API listing on projects with shared components."
 msgstr ""
-"Feabhsú ar fheidhmíocht chomhaireamh teangacha tionscadail agus liostú API "
-"ar thionscadail le comhpháirteanna comhroinnte."
+"Baint níos tapúla de chatagóirí agus tionscadail, agus feidhmíocht "
+"fheabhsaithe maidir le comhaireamh teangacha tionscadail agus liostú API ar "
+"thionscadail le comhpháirteanna comhroinnte."
 
 #: changes.rst:99
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
@@ -20216,100 +20271,101 @@ msgstr ""
 "ndiaidh iarrachtaí cúltaca nár éirigh leo."
 
 #: changes.rst:101
-#, fuzzy
-#| msgid ""
-#| "Reduced repeated metric queries when rendering activity charts on "
-#| "overview pages with cold caches."
 msgid ""
 "Improved loading speed for comments on the translate page and reduced "
 "repeated metric queries when rendering activity charts on overview pages "
 "with cold caches."
 msgstr ""
-"Laghdaíodh líon na bhfiosrúchán méadrach arís agus arís eile agus cairteacha "
+"Luas lódála feabhsaithe do thráchtanna ar an leathanach aistriúcháin agus "
+"laghdú ar cheisteanna méadracha arís agus arís eile agus cairteacha "
 "gníomhaíochta á rindreáil ar leathanaigh forbhreathnaithe le taisceáin fhuar."
 
 #: changes.rst:104
-#, fuzzy
-#| msgid "Security policies"
 msgid "Security fixes"
-msgstr "Polasaithe slándála"
+msgstr "Socruithe slándála"
 
 #: changes.rst:105
-#, fuzzy
-#| msgid "Tightened repository boundary checks for symlink targets."
 msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
 msgstr ""
-"Seiceálacha níos déine ar theorainn na stórtha le haghaidh spriocanna nasc "
-"siombalach."
+"Seiceálacha teorann stóir cruaite le haghaidh spriocanna nasc siombalach "
+"(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
 
 #: changes.rst:106
-#, fuzzy
-#| msgid ""
-#| "Server-Side Request Forgery while cloning repository "
-#| "(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 msgid ""
 "Hardened component file handling for repository symlinks "
 "(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 msgstr ""
-"Góchumadh Iarratais Taobh an Fhreastalaí agus clónáil stórais á déanamh "
-"(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
+"Láimhseáil comhad comhpháirte cruaite le haghaidh naisc shiombalacha stórtha "
+"(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 
 #: changes.rst:107
 msgid ""
 "Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-"
 "gw9x-477v`)."
 msgstr ""
+"Forfheidhmiú ceadanna :ref:`api` níos déine (:cve:`2026-34393` / :ghsa:`3382-"
+"gw9x-477v`)."
 
 #: changes.rst:108
 msgid ""
 "Hardened project-level :ref:`machine-translation` against SSRF "
 "(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 msgstr ""
+":ref:`machine-translation` cruaite ar leibhéal tionscadail i gcoinne SSRF "
+"(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 
 #: changes.rst:109
 msgid ""
 "Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` "
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 msgstr ""
+"Bailíochtú suímh níos doichte i :ref:`addon-weblate.cdn.cdnjs` (:cve:`2026-"
+"33220` / :ghsa:`mqph-7h49-hqfm`)."
 
 #: changes.rst:110
 msgid ""
 "Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset "
 "downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 msgstr ""
+"Cuireadh :setting:`ALLOWED_ASSET_DOMAINS` i bhfeidhm trasna atreoruithe le "
+"haghaidh íoslódálacha sócmhainní (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)"
+"."
 
 #: changes.rst:111
 msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
 msgstr ""
+"Cruaite :ref:`addon-weblate.webhook.webhook` (:cve:`2026-39845` / "
+":ghsa:`f8hv-g549-hwg2`)."
 
 #: changes.rst:112
 msgid ""
 "Removed unintended :ref:`translation-memory` API endpoints "
 "(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 msgstr ""
+"Baineadh críochphointí API neamhbheartaithe :ref:`translation-memory` "
+"(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 
 #: changes.rst:113
 msgid ""
 "Tightened API access control for pending tasks "
 "(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 msgstr ""
+"Rialú rochtana API níos doichte le haghaidh tascanna atá ar feitheamh "
+"(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 
 #: changes.rst:114
-#, fuzzy
-#| msgid ""
-#| "Project backup restore no longer trusts repository-local VCS "
-#| "configuration and hooks from the uploaded archive."
 msgid ""
 "Hardened :ref:`projectbackup` restore against repository-local VCS "
 "configuration and hooks from uploaded archives "
 "(:cve:`2026-33435` / :ghsa:`558g-h753-6m33`)."
 msgstr ""
-"Ní chuireann athchóiriú cúltaca tionscadail muinín a thuilleadh i "
-"gcumraíocht VCS áitiúil an stórais agus i gcrúcaí ón gcartlann uaslódáilte."
+"Athchóiriú cruaite :ref:`projectbackup` i gcoinne chumraíocht VCS áitiúil-"
+"stórach agus crúcaí ó chartlanna uaslódáilte (:cve:`2026-33435` / "
+":ghsa:`558g-h753-6m33`)."
 
 #: changes.rst:118
 msgid ""
@@ -20367,6 +20423,10 @@ msgid ""
 "upgrade, and prevent removing the last assigned team to avoid orphaning the "
 "token."
 msgstr ""
+"Glanann :ref:`project-api` úsáideoirí sean-robot anois nuair a scriostar "
+"agus nuair a uasghrádaítear tionscadal, agus cuireann sé cosc ar an "
+"bhfoireann dheireanach a sannadh a bhaint chun nach ndéanfar an comhartha a "
+"dhílleachtú."
 
 #: changes.rst:125
 msgid ""
@@ -20438,6 +20498,8 @@ msgid ""
 ":ref:`mt-mymemory` now falls back to HTTP status handling when the service "
 "returns a non-JSON error response."
 msgstr ""
+"Titeann :ref:`mt-mymemory` ar ais anois go láimhseáil stádais HTTP nuair a "
+"sheolann an tseirbhís freagra earráide neamh-JSON."
 
 #: changes.rst:135
 msgid ""
@@ -20489,19 +20551,16 @@ msgstr ""
 "paraiméadair formáide comhaid socraithe go sainráite."
 
 #: changes.rst:141
-#, fuzzy
-#| msgid ""
-#| "Reduced repeated database queries in :ref:`addon-"
-#| "weblate.generate.fill_read_only` during the daily add-on task."
 msgid ""
 "Reduced repeated database queries in :ref:`addon-"
 "weblate.generate.fill_read_only` during the daily add-on task, and fixed "
 "auto-translation progress updates when the queued target disappears before "
 "execution."
 msgstr ""
-"Laghdaíodh líon na gceisteanna arís agus arís eile ar bhunachar sonraí "
-"i :ref:`addon-weblate.generate.fill_read_only` le linn an tasc breiseáin "
-"laethúil."
+"Laghdaíodh líon na gceisteanna athfhillteacha bunachar sonraí i :ref:`addon-"
+"weblate.generate.fill_read_only` le linn an tasc laethúil breiseáin, agus "
+"socraíodh nuashonruithe dul chun cinn uathoibríoch aistriúcháin nuair a "
+"imíonn an sprioc atá sa scuaine roimh fhorghníomhú."
 
 #: changes.rst:142
 msgid ""
@@ -20533,12 +20592,16 @@ msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
+"Ní dhéileálann :ref:`machine-translation` le hábhar róil reStructuredText "
+"inaistrithe mar :ref:`placeables-mt` a thuilleadh."
 
 #: changes.rst:146
 msgid ""
 ":ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation "
 "such as ``؟!`` and ``!؟``."
 msgstr ""
+"Aithníonn :ref:`check-end-interrobang` poncaíocht interrobang Araibise anois "
+"ar nós ``؟!`` agus ``!؟``."
 
 #: changes.rst:150
 msgid ""
@@ -26548,6 +26611,9 @@ msgid ""
 "Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
 "Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
+"Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
+"Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.rst:10
 msgid ""
@@ -26569,12 +26635,31 @@ msgid ""
 "jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
 "Gayoso, anas agha, Ettore Atalan"
 msgstr ""
+"PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
+"Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
+"Zahid Rizky Fakhri, symegac, Francesco Marinucci, Michal Čihař, Hyeonjeong "
+"Lee, ovl-1, Tarás Lavrentiev, Edson Wolf, Yuri Chornoivan, Omer I.S., "
+"Arantxa, Tuomas Hietala, Milo Ivir, justcontributor, Kristoffer Grundström, "
+"Andi Chandler, Andrei Stepanov, ButterflyOfFire, Átila França, Мария "
+"Рангелова, EESF-2, CzaroGame, Agnieszka C, Manuela Silva, پرویز قادر, "
+"JiZPaper, Fjuro, Alexis Launay, tfr tint, Candied-Ecard, Kyotaro Iijima, "
+"Priit Jõerüüt, Matthaiks, Besnik Bleta, delvani, Mickaël Binos, VfBFan, UDP, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, mohammadA, 大王叫我来巡山, "
+"Sketch6580, Dick Groskamp, Heimen Stoffels, Yaron Shahrabani, Любомир "
+"Василев, Максим Горпиніч, Emin Tufan Çetin, Horus68, Sjur N Moshagen, Peter "
+"Vančo, Romhányi-Kakucska Viktor, ZayedRashid, Julien Lepiller, Massimo "
+"Pissarello, Jeff Huang, ojppe, தமிழ்நேரம், ibragimov, Sylvestre Ledru, Ldm "
+"Public, pan93412, Jernej Pangerc, Luciana Waldbaur, username-generic, "
+"jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
+"Gayoso, anas agha, Ettore Atalan"
 
 #: changes/contributors/5.17.rst:15
 msgid ""
 "Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
+"smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -45459,26 +45544,24 @@ msgid "Configuration object, overrides any other parameters."
 msgstr "Sáraíonn réad cumraíochta aon pharaiméadair eile."
 
 #: python.rst:44
-#, fuzzy
-#| msgid "total number of strings"
 msgid "Total number of HTTP retries."
-msgstr "líon iomlán na teaghráin"
+msgstr "Líon iomlán na n-athiarrachtaí HTTP."
 
 #: python.rst:46
 msgid "HTTP status codes that should trigger retries."
-msgstr ""
+msgstr "Cóid stádais HTTP ar cheart dóibh ath-iarrachtaí a spreagadh."
 
 #: python.rst:48
 msgid "HTTP methods that may be retried."
-msgstr ""
+msgstr "Modhanna HTTP a d'fhéadfaí a athiarracht."
 
 #: python.rst:50
 msgid "Retry backoff factor passed to urllib3."
-msgstr ""
+msgstr "Fachtóir cúltaca athiarrachta curtha chuig urllib3."
 
 #: python.rst:52
 msgid "HTTP request timeout in seconds."
-msgstr ""
+msgstr "Am scoir iarratais HTTP i soicindí."
 
 #: python.rst:55
 msgid "Access class to the API, define API key and optionally API URL."
@@ -45519,6 +45602,10 @@ msgid ""
 "configuration file (:file:`.weblate`, :file:`.weblate.ini`, "
 "or :file:`weblate.ini`) from the current directory or its parents."
 msgstr ""
+"Luchtaíonn sé cumraíocht ó ``path`` nuair a shonraítear é. Seachas sin, "
+"luchtaíonn sé an comhad cumraíochta domhanda a aimsíodh agus ansin an comhad "
+"cumraíochta tionscadail is gaire (:file:`.weblate`, :file:`.weblate.ini`, nó "
+":file:`weblate.ini`) ón eolaire reatha nó óna thuismitheoirí."
 
 #: python.rst:111
 msgid "Settings to override as list of tuples"
@@ -48793,15 +48880,15 @@ msgid "Triggered after a Change event is created."
 msgstr "Cuirtear i ngníomh tar éis teagmhas Athraithe a chruthú."
 
 #: snippets/addon-events-autogenerated.rst:42
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Manual trigger"
-msgstr "Spreagadh foláireamh"
+msgstr "Truicear láimhe"
 
 #: snippets/addon-events-autogenerated.rst:44
 msgid ""
 "Triggered when an add-on is run manually from add-on management or the API."
 msgstr ""
+"Cuirtear i ngníomh nuair a ritheann breiseán de láimh ó bhainistíocht "
+"breiseán nó ón API."
 
 #: snippets/addon-events-autogenerated.rst:49
 msgid "Repository post-add"
@@ -50028,11 +50115,6 @@ msgstr ""
 "ar athruithe comhaid sa chóras rialaithe leagain."
 
 #: snippets/addons-autogenerated.rst:232
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language. All named groups in the "
-#| "regular expression can be used as variables in the template fields."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. The regular "
@@ -50040,28 +50122,32 @@ msgid ""
 "match component and language. All named groups in the regular expression can "
 "be used as variables in the template fields."
 msgstr ""
-"Caithfidh dhá ghrúpa ainmnithe a bheith sa slonn rialta chun comhaid "
-"aistriúcháin a mheaitseáil le comhpháirt agus teanga a mheaitseáil. Is "
-"féidir gach grúpa ainmnithe sa slonn rialta a úsáid mar athróga sna réimsí "
-"teimpléad."
+"Déantar an meaitseáil trí úsáid a bhaint as nathanna rialta a chuireann "
+"cumraíocht chasta ar chumas, ach tá gá le roinnt eolais chun é sin a "
+"dhéanamh. Caithfidh dhá ghrúpa ainmnithe a bheith sa ghnáthsheanchas chun "
+"comhaid aistriúcháin a mheaitseáil chun comhpháirt agus teanga a "
+"mheaitseáil. Is féidir na grúpaí ainmnithe go léir sa ghnáthsheanchas a "
+"úsáid mar athróga sna réimsí teimpléid."
 
 #: snippets/addons-autogenerated.rst:239
-#, fuzzy
-#| msgid "System requirements"
 msgid "Discovery requirements"
-msgstr "Riachtanais chórais"
+msgstr "Riachtanais fionnachtana"
 
 #: snippets/addons-autogenerated.rst:241
 msgid ""
 "To discover a component successfully, the configuration has to do all of the "
 "following:"
 msgstr ""
+"Chun comhpháirt a aimsiú go rathúil, ní mór don chumraíocht na nithe seo a "
+"leanas go léir a dhéanamh:"
 
 #: snippets/addons-autogenerated.rst:243
 msgid ""
 "The regular expression must define ``component`` and ``language`` named "
 "groups."
 msgstr ""
+"Caithfidh an abairt rialta grúpaí ainmnithe ``component`` agus ``language`` "
+"a shainiú."
 
 #: snippets/addons-autogenerated.rst:244
 msgid ""
@@ -50069,26 +50155,35 @@ msgid ""
 "``{{ component }}``, so the rendered value actually changes for each "
 "discovered component."
 msgstr ""
+"Caithfidh ``{{ component }}`` a bheith i réimsí teimpléid a úsáidtear chun "
+"comhaid in aghaidh an chomhpháirte a ainmniú nó a aimsiú, ionas go n-"
+"athraíonn an luach rindreáilte i ndáiríre do gach comhpháirt a aimsítear."
 
 #: snippets/addons-autogenerated.rst:247
 msgid ""
 "For monolingual formats, the component must contain a file matching "
 "``base_file_template`` and at least one translation file matching ``match``."
 msgstr ""
+"I gcás formáidí aonteangacha, ní mór comhad a mheaitseálann "
+"``base_file_template`` agus comhad aistriúcháin amháin ar a laghad a "
+"mheaitseálann ``match`` a bheith sa chomhpháirt."
 
 #: snippets/addons-autogenerated.rst:251
 msgid "Worked example: ``news_<lang>.md``"
-msgstr ""
+msgstr "Sampla oibre: ``news_<lang>.md``"
 
 #: snippets/addons-autogenerated.rst:253
 msgid "This is a common filename-based language variant layout:"
-msgstr ""
+msgstr "Seo leagan amach coitianta teanga atá bunaithe ar ainm comhaid:"
 
 #: snippets/addons-autogenerated.rst:259
 msgid ""
 "Use the :guilabel:`Filename-based language variants` preset for a starting "
 "point, then choose the matching file format and review the populated values."
 msgstr ""
+"Bain úsáid as an réamhshocrú :guilabel:`File-name-based language variants` "
+"mar phointe tosaigh, ansin roghnaigh an fhormáid comhaid chomhoiriúnach agus "
+"athbhreithnigh na luachanna atá líonta isteach."
 
 #: snippets/addons-autogenerated.rst:262 snippets/addons-autogenerated.rst:299
 #: snippets/addons-autogenerated.rst:312 snippets/addons-autogenerated.rst:325
@@ -50102,10 +50197,8 @@ msgid "Component name:"
 msgstr "Ainm na Comhpháirte:"
 
 #: snippets/addons-autogenerated.rst:266
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Discovered file masks:"
-msgstr "Masc comhaid scáileáin"
+msgstr "Maisc chomhaid a aimsíodh:"
 
 #: snippets/addons-autogenerated.rst:270
 msgid ""
@@ -50113,6 +50206,9 @@ msgid ""
 "language suffix, so :file:`docs/news_en.md`, :file:`docs/news_pt_BR.md`, "
 "and :file:`docs/news_pt-BR.md` all become the ``news`` component."
 msgstr ""
+"Sa sampla seo, réitíonn ``{{ component }}`` go dtí an bunainm roimh iarmhír "
+"na teanga, mar sin bíonn :file:`docs/news_en.md`, :file:`docs/"
+"news_pt_BR.md`, agus :file:`docs/news_pt-BR.md` ina gcomhpháirt ``news``."
 
 #: snippets/addons-autogenerated.rst:274
 msgid "You can use Django template markup in all filename fields, for example:"
@@ -50121,12 +50217,8 @@ msgstr ""
 "mar shampla:"
 
 #: snippets/addons-autogenerated.rst:277
-#, fuzzy
-#| msgid "Verbose component name, used to display the component name."
 msgid "Component name parsed from the ``component`` match group"
-msgstr ""
-"Ainm comhpháirte briathra, a úsáidtear chun ainm an chomhábhair a "
-"thaispeáint."
+msgstr "Ainm an chomhpháirte parsáilte ón ngrúpa meaitseála ``component``"
 
 #: snippets/addons-autogenerated.rst:279
 msgid "Component filename with upper case first letter"
@@ -50156,6 +50248,9 @@ msgid ""
 "layout. The following examples show other repository structures you can "
 "match."
 msgstr ""
+"Clúdaíonn an sampla thuas an leagan amach malairte is coitianta atá bunaithe "
+"ar ainm comhaid. Taispeánann na samplaí seo a leanas struchtúir stórtha eile "
+"ar féidir leat a mheaitseáil."
 
 #: snippets/addons-autogenerated.rst:295
 msgid "One folder per language"
@@ -50941,16 +51036,12 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1090
 #: snippets/addons-autogenerated.rst:1203
 #: snippets/addons-autogenerated.rst:1282
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-add`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-"
 "trigger`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-add`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, "
+":ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:1007
 msgid ""
@@ -60234,7 +60325,7 @@ msgstr "Cuardaigh le ríomhphost."
 
 #: user/search.rst:283
 msgid "Search by audit log IP address."
-msgstr ""
+msgstr "Cuardaigh de réir seoladh IP loga iniúchta."
 
 #: user/translating.rst:2
 msgid "Translating using Weblate"
@@ -62427,39 +62518,30 @@ msgstr ""
 "Úsáideann an t-ordú chun an coimeádán a sheoladh an chomhréir seo a leanas:"
 
 #: wlc.rst:63
-#, fuzzy
-#| msgid ""
-#| "You might want to pass your :ref:`wlc-config` to the Docker container, "
-#| "the easiest approach is to add your current directory as :file:`/home/"
-#| "weblate` volume:"
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container. When "
 "your repository contains a project configuration such as :file:`.weblate`, "
 "the easiest approach is to add your current directory as the :file:`/home/"
 "weblate` volume:"
 msgstr ""
-"B'fhéidir gur mhaith leat do :ref:`wlc-config` a chur ar aghaidh chuig an "
-"gcoimeádán Docker, is é an cur chuige is éasca ná do chomhadlann reatha a "
-"chur leis mar :file:`/home/weblate` toirt:"
+"B’fhéidir gur mhaith leat do :ref:`wlc-config` a chur chuig an gcoimeádán "
+"Docker. Nuair a bhíonn cumraíocht tionscadail ar nós :file:`.weblate` i do "
+"stór, is é an cur chuige is fusa ná d’eolaire reatha a chur leis mar an "
+"toirt :file:`/home/weblate`:"
 
 #: wlc.rst:74
 msgid "Getting started"
 msgstr "Ag tosú"
 
 #: wlc.rst:76
-#, fuzzy
-#| msgid ""
-#| "The :program:`wlc` configuration is stored in :file:`~/.config/weblate` "
-#| "(see :ref:`wlc-config` for other locations), please create it to match "
-#| "your environment:"
 msgid ""
 "The easiest way to get started is to create a personal :program:`wlc` "
 "configuration in :file:`~/.config/weblate` (see :ref:`wlc-config` for the "
 "full discovery rules and other locations):"
 msgstr ""
-"Stóráiltear an chumraíocht :program:`wlc` i :file:`~/.config/weblate` "
-"(féach :ref:`wlc-config` le haghaidh láithreacha eile), cruthaigh é chun "
-"teacht le do thimpeallacht:"
+"Is é an bealach is fusa le tosú ná cumraíocht phearsanta :program:`wlc` a "
+"chruthú i :file:`~/.config/weblate` (féach :ref:`wlc-config` le haghaidh na "
+"rialacha fionnachtana iomlána agus suíomhanna eile):"
 
 #: wlc.rst:89
 msgid "You can then invoke commands on the default server:"
@@ -62545,6 +62627,8 @@ msgid ""
 "Load configuration only from ``PATH`` instead of the discovered global and "
 "project configuration files, see :ref:`wlc-config`."
 msgstr ""
+"Luchtaigh cumraíocht ó ``PATH`` amháin in ionad na gcomhad cumraíochta "
+"domhanda agus tionscadail a aimsíodh, féach :ref:`wlc-config`."
 
 #: wlc.rst:170
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
@@ -62730,48 +62814,44 @@ msgstr "Comhaid chumraíochta"
 msgid ""
 "When :option:`--config` is provided, :program:`wlc` loads only that file."
 msgstr ""
+"Nuair a chuirtear :option:`--config` ar fáil, ní luchtóidh :program:`wlc` "
+"ach an comhad sin."
 
 #: wlc.rst:303
 msgid ""
 "Without :option:`--config`, :program:`wlc` first loads the discovered global "
 "configuration file from the standard platform-specific locations:"
 msgstr ""
+"Gan :option:`--config`, luchtóidh :program:`wlc` an comhad cumraíochta "
+"domhanda a aimsíodh ar dtús ó na suíomhanna caighdeánacha ardáin-shonracha:"
 
 #: wlc.rst:306
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: wlc.rst:307
-#, fuzzy
-#| msgid "User configuration file on Windows in the roamed profile."
 msgid "Global configuration file on Windows in the roamed profile."
-msgstr "Comhad cumraíochta úsáideora ar Windows sa phróifíl fánaíochta."
+msgstr "Comhad cumraíochta domhanda ar Windows sa phróifíl fánaíochta."
 
 #: wlc.rst:308
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: wlc.rst:309
-#, fuzzy
-#| msgid "User configuration file on Windows in the local profile."
 msgid "Global configuration file on Windows in the local profile."
-msgstr "Comhad cumraíochta úsáideora ar Windows sa phróifíl áitiúil."
+msgstr "Comhad cumraíochta domhanda ar Windows sa phróifíl áitiúil."
 
 #: wlc.rst:310
 msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: wlc.rst:311
-#, fuzzy
-#| msgid "Changed configuration of filesystem paths."
 msgid "Global configuration file on Unix-like systems."
-msgstr "Athraíodh cumraíocht chosáin an chórais comhad."
+msgstr "Comhad cumraíochta domhanda ar chórais cosúil le Unix."
 
 #: wlc.rst:313
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
-msgstr "Comhad cumraíochta ar fud an chórais."
+msgstr "Comhad cumraíochta taca don chóras ar fad."
 
 #: wlc.rst:315
 msgid ""
@@ -62796,22 +62876,26 @@ msgid ""
 "After loading the global configuration, :program:`wlc` loads the nearest "
 "project configuration file from the current directory or its parents:"
 msgstr ""
+"Tar éis an chumraíocht dhomhanda a luchtú, luchtóidh :program:`wlc` an "
+"comhad cumraíochta tionscadail is gaire ón eolaire reatha nó óna "
+"thuismitheoirí:"
 
 #: wlc.rst:325
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: wlc.rst:326
-#, fuzzy
-#| msgid "Configuration file placed in the project directory."
 msgid "Project configuration file placed in the repository."
-msgstr "Comhad cumraíochta curtha san eolaire tionscadail."
+msgstr "Comhad cumraíochta tionscadail curtha sa stórlann."
 
 #: wlc.rst:328
 msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
+"Ní luchtaítear ach an comhad cumraíochta tionscadail is gaire. Déantar "
+"neamhaird de chomhaid chumraíochta i gcomhadlanna tuismitheora níos faide i "
+"gcéin."
 
 #: wlc.rst:331
 msgid ""
@@ -62845,6 +62929,10 @@ msgid ""
 "Current :program:`wlc` releases use this setting name in place of the older "
 "``method_whitelist`` option."
 msgstr ""
+"Socruithe roghnacha athiarrachta agus sos ama HTTP curtha chuig ``urllib3``. "
+"Úsáid ``allowed_methods`` chun na modhanna iarrata is féidir a athiarracht a "
+"liostáil. Úsáideann na heisiúintí reatha :program:`wlc` an t-ainm socraithe "
+"seo in ionad an rogha ``method_whitelist`` atá ann cheana."
 
 #: wlc.rst:355
 msgid "The configuration file is an INI file, for example:"
@@ -62855,11 +62943,6 @@ msgid "The API keys are stored in the ``[keys]`` section:"
 msgstr "Stóráiltear eochracha an API sa rannán ``[keys]``:"
 
 #: wlc.rst:375
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using "
-#| "the :file:`.weblate` configuration in the VCS repository so "
-#| "that :program:`wlc` knows which server it should talk to."
 msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
@@ -62868,18 +62951,16 @@ msgid ""
 "using :envvar:`WLC_KEY`."
 msgstr ""
 "Ligeann sé seo duit eochracha a stóráil i do shocruithe pearsanta, agus an "
-"chumraíocht :file:`.weblate` in úsáid sa stór VCS ionas go mbeidh a fhios "
-"ag :program:`wlc` cén freastalaí ar cheart dó labhairt leis."
+"chumraíocht :file:`.weblate` á húsáid agat sa stór VCS ionas go mbeidh a "
+"fhios ag :program:`wlc` cén freastalaí ba chóir dó labhairt leis. I CI, "
+"coinnigh cumraíocht an stórais amháin i rialú leaganacha agus instealladh an "
+"eochair API ag baint úsáide as :envvar:`WLC_KEY`."
 
 #: wlc.rst:382
 msgid "Environment variables"
 msgstr "Athróga timpeallachta"
 
 #: wlc.rst:386
-#, fuzzy
-#| msgid ""
-#| "The API URL and key can also be configured using environment variables. "
-#| "This is especially useful for CI workflows:"
 msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows where the repository provides the "
@@ -62887,7 +62968,8 @@ msgid ""
 msgstr ""
 "Is féidir URL agus eochair an API a chumrú ag baint úsáide as athróga "
 "comhshaoil freisin. Tá sé seo an-úsáideach go háirithe le haghaidh sreafaí "
-"oibre CI:"
+"oibre CI ina soláthraíonn an stór cumraíocht an tionscadail agus ina n-"
+"instealltar :envvar:`WLC_KEY` mar rún:"
 
 #: wlc.rst:398
 msgid "The configuration precedence (highest to lowest) is:"
@@ -62909,6 +62991,9 @@ msgid ""
 "configuration plus the nearest project configuration when :option:`--config` "
 "is not used."
 msgstr ""
+"Cumraíocht luchtaithe ó :option:`--config`, nó ón gcumraíocht dhomhanda a "
+"aimsíodh móide an chumraíocht tionscadail is gaire nuair nach n-úsáidtear "
+":option:`--config`."
 
 #: wlc.rst:407
 msgid "Examples"
