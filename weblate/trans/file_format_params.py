@@ -567,7 +567,7 @@ class LineMaxLength(BaseFileFormatParam):
     label = gettext_lazy("Maximum line length")
     field_class = forms.IntegerField
     default = 80
-    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 20}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 20, "max_value": 1000}
     help_text = gettext_lazy(
         "The maximum number of characters for each line in the output file. "
     )
