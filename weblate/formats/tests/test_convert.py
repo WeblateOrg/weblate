@@ -298,6 +298,66 @@ Content
         self.assertFalse(unit2.is_translated())
 >>>>>>> main
 
+    def test_extraction_with_code_block(self, extract_code_blocks: bool = True) -> None:
+        file_content = """```python
+print('hello')
+```"""
+        input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
+        with self.temporary_file_format_param(
+            "md_extract_code_blocks", extract_code_blocks
+        ):
+            storage = self.parse_file(input_bytes)
+        if extract_code_blocks:
+            self.assertEqual(len(storage.content_units), 1)
+        else:
+            self.assertEqual(len(storage.content_units), 0)
+
+    def test_extraction_with_code_block_off(self) -> None:
+        self.test_extraction_with_code_block(extract_code_blocks=False)
+
+    def test_placeholders_extraction(self, ignore_placeholders: bool = False) -> None:
+        file_content = """
+Message with a [link label](https://example.com)
+"""
+        input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
+        with self.temporary_file_format_param(
+            "md_no_placeholders", ignore_placeholders
+        ):
+            storage = self.parse_file(input_bytes)
+        if ignore_placeholders:
+            self.assertIn(
+                "Message with a [link label](https://example.com)",
+                storage.content_units[0].source,
+            )
+        else:
+            self.assertIn(
+                "Message with a [link label]{1}", storage.content_units[0].source
+            )
+
+    def test_placeholders_extraction_off(self) -> None:
+        self.test_placeholders_extraction(ignore_placeholders=True)
+
+    def test_frontmatter_extraction(self, extract_frontmatter: bool = True) -> None:
+        file_content = """---
+title: Title
+---
+
+# Header 1
+Content
+"""
+        input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
+        with self.temporary_file_format_param(
+            "md_extract_frontmatter", extract_frontmatter
+        ):
+            storage = self.parse_file(input_bytes)
+        if extract_frontmatter:
+            self.assertEqual(len(storage.content_units), 3)
+        else:
+            self.assertEqual(len(storage.content_units), 2)
+
+    def test_frontmatter_extraction_off(self) -> None:
+        self.test_frontmatter_extraction(extract_frontmatter=False)
+
 
 class OpenDocumentFormatTest(ConvertFormatTest):
     format_class = OpenDocumentFormat
