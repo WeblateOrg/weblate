@@ -2172,6 +2172,10 @@ class CategorySerializer(RemovableSerializer[Category]):
         view_name="api:category-statistics",
         lookup_field="pk",
     )
+    announcements_url = serializers.HyperlinkedIdentityField(
+        view_name="api:category-announcements",
+        lookup_field="pk",
+    )
 
     class Meta:
         model = Category
@@ -2183,6 +2187,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             "category",
             "url",
             "statistics_url",
+            "announcements_url",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:category-detail"},
