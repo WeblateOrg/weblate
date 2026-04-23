@@ -23,6 +23,7 @@ Weblate 5.17.1
 * Track superuser and site-wide team changes in :ref:`audit-log`.
 * Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
 * Project website and repository browser URL alerts now show validation errors more clearly.
+* Project-level machine translation validation errors for private or local endpoints now better explain the allowed setup on hosted and self-managed sites.
 * Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
 * Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
 * :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.

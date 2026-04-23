@@ -4342,6 +4342,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
 
 class MachineryValidationTest(TestCase):
+    @override_settings(OFFER_HOSTING=False)
     def test_project_machinery_rejects_private_url(self) -> None:
         form = DeepLTranslation.settings_form(
             DeepLTranslation,
@@ -4354,6 +4355,25 @@ class MachineryValidationTest(TestCase):
             "internal or non-public address",
             str(form.errors["__all__"]),
         )
+        self.assertIn("site administrator", str(form.errors["__all__"]))
+        self.assertIn("site-wide or allowlisted", str(form.errors["__all__"]))
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_project_machinery_rejects_private_url_on_hosted_site(self) -> None:
+        form = DeepLTranslation.settings_form(
+            DeepLTranslation,
+            data={"key": "x", "url": "http://127.0.0.1:11434/"},
+            allow_private_targets=False,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "internal or non-public address",
+            str(form.errors["__all__"]),
+        )
+        self.assertNotIn("site administrator", str(form.errors["__all__"]))
+        self.assertNotIn("site-wide", str(form.errors["__all__"]))
+        self.assertNotIn("allowlisted", str(form.errors["__all__"]))
 
     def test_check_failure_hides_response_body(self) -> None:
         response = Mock()
@@ -4531,6 +4551,7 @@ class MachineryValidationTest(TestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
+    @override_settings(OFFER_HOSTING=False)
     def test_project_validation_uses_runtime_url_guard(
         self, mocked_getaddrinfo
     ) -> None:
@@ -4549,6 +4570,8 @@ class MachineryValidationTest(TestCase):
             "internal or non-public address",
             str(form.non_field_errors()),
         )
+        self.assertIn("site administrator", str(form.non_field_errors()))
+        self.assertIn("site-wide or allowlisted", str(form.non_field_errors()))
 
     @override_settings(ALLOWED_MACHINERY_DOMAINS=[".example.com"])
     def test_check_failure_shows_wildcard_allowlisted_provider_message(self) -> None:
