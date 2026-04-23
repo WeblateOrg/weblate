@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-18 00:31-0500\n"
-"PO-Revision-Date: 2026-04-23 16:47+0000\n"
+"PO-Revision-Date: 2026-04-23 18:18+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -4841,7 +4841,7 @@ msgstr "翻訳文での Fluent 構文エラー。"
 
 #: weblate/checks/format.py:529
 msgid "The following format strings are in the wrong order:"
-msgstr "順序が間違っているフォーマット文字列：%s"
+msgstr "順序が間違っているフォーマット文字列："
 
 #: weblate/checks/format.py:618
 msgid "Python format"
@@ -8393,16 +8393,14 @@ msgid "Disable password"
 msgstr "パスワードを無効化"
 
 #: weblate/templates/accounts/user.html:437
-#, fuzzy
-#| msgid "Revert"
 msgid "Revert edits"
-msgstr "取り消す"
+msgstr "編集の取消"
 
 #: weblate/templates/accounts/user.html:440
 #, python-format
 msgid ""
 "Revert the latest editable translations by %(user)s across all projects."
-msgstr ""
+msgstr "%(user)s が最後に編集した翻訳を、どのプロジェクトであっても元に戻します。"
 
 #: weblate/templates/accounts/user.html:445
 #: weblate/templates/accounts/user.html:470
@@ -8452,13 +8450,13 @@ msgid "Close"
 msgstr "閉じる"
 
 #: weblate/templates/accounts/user.html:465
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> across "
 "all projects."
 msgstr ""
-"これにより、このプロジェクトから <b>%(name)s</b> チームが削除されます。"
+"これを実行すると、<b>%(user)s</b> が最後に編集した翻訳を、どのプロジェクトで"
+"あっても元に戻します。"
 
 #: weblate/templates/accounts/user.html:480
 msgid "Account removal deletes all user private data."
@@ -8522,7 +8520,7 @@ msgstr "このアドオンには設定項目がありません。"
 #: weblate/templates/addons/addon_detail.html:65
 #: weblate/templates/addons/addon_list.html:69
 msgid "Run now"
-msgstr ""
+msgstr "今すぐ実行"
 
 #: weblate/templates/addons/addon_detail.html:69
 #: weblate/templates/addons/addon_list.html:72
@@ -8693,32 +8691,28 @@ msgstr ""
 "す。"
 
 #: weblate/templates/addons/discovery_presets.html:5
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Guided presets"
-msgstr "請求プロジェクト"
+msgstr "ガイド付き初期設定"
 
 #: weblate/templates/addons/discovery_presets.html:7
 msgid ""
 "Fill the form from a detected or generic repository layout, then edit the "
 "populated values as needed."
 msgstr ""
+"検出された、または一般的なリポジトリ構成からフォームを自動入力します。必要で"
+"あれば値を編集してください。"
 
 #: weblate/templates/addons/discovery_presets.html:42
 msgid "Examples:"
 msgstr "例:"
 
 #: weblate/templates/addons/discovery_presets.html:47
-#, fuzzy
-#| msgid "Protected"
 msgid "Detected"
-msgstr "保護"
+msgstr "検出済み"
 
 #: weblate/templates/addons/discovery_presets.html:49
-#, fuzzy
-#| msgid "Generate"
 msgid "Generic"
-msgstr "生成"
+msgstr "一般的"
 
 #: weblate/templates/addons/discovery_preview.html:8
 msgid "Matched files"
@@ -8807,10 +8801,8 @@ msgid "Project URL slug"
 msgstr "プロジェクト URL スラッグ"
 
 #: weblate/templates/addons/language_consistency_preview.html:4
-#, fuzzy
-#| msgid "Review strings"
 msgid "Review before installing"
-msgstr "文字列の査読"
+msgstr "インストール前に査読"
 
 #: weblate/templates/addons/language_consistency_preview.html:9
 #, python-format
@@ -8823,6 +8815,10 @@ msgid_plural ""
 "    The preview below shows %(action_count)s translation files.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    以下のプレビューでは、%(action_count)s 件の翻訳ファイルを表示しています"
+"。\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:14
 #, python-format
@@ -8835,6 +8831,9 @@ msgid_plural ""
 "    It affects %(component_count)s components.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    これは %(component_count)s 個のコンポーネントに影響します。\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:20
 #, python-format
@@ -8849,6 +8848,10 @@ msgid_plural ""
 "component settings.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      表示されている %(failure_count)s 件の追加は、現在のコンポーネント設定で"
+"は追加できません。\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:30
 #, python-format
@@ -8861,6 +8864,9 @@ msgid_plural ""
 "      Showing %(entries)s preview entries.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      %(entries)s 件のプレビュー項目を表示しています。\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:35
 #, python-format
@@ -8873,33 +8879,32 @@ msgid_plural ""
 "      So far this includes %(component_count)s components.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      現在までは %(component_count)s 個のコンポーネントが含まれています\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:40
 msgid ""
 "There might be more affected components, languages, and translation files."
 msgstr ""
+"影響を受けるコンポーネント、言語、翻訳ファイルがさらに存在することがあります"
+"。"
 
 #: weblate/templates/addons/language_consistency_preview.html:49
-#, fuzzy
-#| msgid "Language added"
 msgid "Languages to add"
-msgstr "言語追加"
+msgstr "追加する言語"
 
 #: weblate/templates/addons/language_consistency_preview.html:50
-#, fuzzy
-#| msgid "File format"
 msgid "Files to create"
-msgstr "ファイル形式"
+msgstr "作成するファイル"
 
 #: weblate/templates/addons/language_consistency_preview.html:80
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Skipped additions"
-msgstr "最近の追加"
+msgstr "スキップされた追加"
 
 #: weblate/templates/addons/language_consistency_preview.html:93
 msgid "No missing language files would be created."
-msgstr ""
+msgstr "不足している言語ファイルは作成されません。"
 
 #: weblate/templates/addons/pseudolocale.html:4
 msgid "Generated strings"
@@ -10452,16 +10457,12 @@ msgid "Reset and reapply"
 msgstr "リセットして再適用"
 
 #: weblate/templates/js/git-status.html:180
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
-"Weblate のリポジトリを上流に合わせてリセットし、上流の翻訳を Weblate の現在の"
-"状態に置き換えます。"
+"Weblate のリポジトリを上流に合わせてリセットし、保留中の翻訳をリセット後の状"
+"態に戻します。"
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -10472,6 +10473,8 @@ msgid ""
 "Missing language files must already exist upstream or Weblate must be able "
 "to create them for the component."
 msgstr ""
+"不足している言語ファイルは、上流に存在している必要があります。存在しない場合"
+"は、Weblate がコンポーネント設定に基づいて作成できる必要があります。"
 
 #: weblate/templates/js/git-status.html:188
 msgid "Cleanup"
@@ -11433,10 +11436,8 @@ msgid "Failed with an error"
 msgstr "エラーにより失敗"
 
 #: weblate/templates/manage/backups.html:27
-#, fuzzy
-#| msgid "Completed translation"
 msgid "Completed with warnings"
-msgstr "翻訳済"
+msgstr "警告付きで終了"
 
 #: weblate/templates/manage/backups.html:30
 msgid "Turned off"
@@ -11463,16 +11464,12 @@ msgid "Backup service credentials"
 msgstr "バックアップ サービスの認証情報"
 
 #: weblate/templates/manage/backups.html:85
-#, fuzzy
-#| msgid "Failures"
 msgid "Failed"
-msgstr "不完全数"
+msgstr "失敗"
 
 #: weblate/templates/manage/backups.html:87
-#, fuzzy
-#| msgid "Strings"
 msgid "Warnings"
-msgstr "文字列"
+msgstr "警告"
 
 #: weblate/templates/manage/backups.html:109
 msgid "Turn off"
@@ -13465,10 +13462,8 @@ msgstr ""
 "新を行うことを推奨します。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "リポジトリを更新できません。"
+msgstr "Weblate が検証できないリポジトリ ブラウザーの URL："
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -13488,10 +13483,8 @@ msgstr ""
 "パスである場合に発生します。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
+msgstr "Weblate が検証できないプロジェクトの Web サイト URL："
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -14260,19 +14253,17 @@ msgid "Edit team membership for %(username)s"
 msgstr "%(username)s が所属するチームの編集"
 
 #: weblate/templates/trans/project-access.html:103 weblate/trans/forms.py:1433
-#, fuzzy
-#| msgid "Removed user"
 msgid "Revert user edits"
-msgstr "ユーザーの削除"
+msgstr "ユーザーの編集を元に戻す"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
 msgstr ""
-"これにより、このプロジェクトから <b>%(name)s</b> チームが削除されます。"
+"これにより、このプロジェクトで <b>%(user)s</b> が最後に編集した翻訳が元に戻さ"
+"れます。"
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -15382,31 +15373,23 @@ msgstr "リポジトリで追加された原文"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:188
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "プロジェクト名"
+msgstr "プロジェクトをバックアップしました"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:190
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "プロジェクト削除"
+msgstr "プロジェクトを復元しました"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:192
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "コンポーネント削除"
+msgstr "コンポーネントを復元しました"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:194
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "ユーザー削除"
+msgstr "ユーザーの編集を元に戻しました"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -15546,34 +15529,24 @@ msgid "Context"
 msgstr "コンテキスト"
 
 #: weblate/trans/change_display.py:469
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup file"
-msgstr "バックアップに失敗しました"
+msgstr "バックアップ ファイル"
 
 #: weblate/trans/change_display.py:477
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup created"
-msgstr "バックアップに失敗しました"
+msgstr "バックアップを作成しました"
 
 #: weblate/trans/change_display.py:481
-#, fuzzy
-#| msgid "Backup service: %(url)s"
 msgid "Backup server"
-msgstr "バックアップ サービス: %(url)s"
+msgstr "バックアップ サーバー"
 
 #: weblate/trans/change_display.py:485
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup domain"
-msgstr "バックアップに失敗しました"
+msgstr "バックアップ ドメイン"
 
 #: weblate/trans/change_display.py:492
-#, fuzzy
-#| msgid "Organize component"
 msgid "Original component"
-msgstr "コンポーネントの整理"
+msgstr "オリジナルのコンポーネント"
 
 #: weblate/trans/change_display.py:544
 msgid "Current translation"
@@ -16146,11 +16119,9 @@ msgid "Block the user for one month"
 msgstr "ユーザーを 1 か月間ブロック"
 
 #: weblate/trans/forms.py:1435
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "現在の検索で最後の翻訳に移動します。"
+msgstr "このユーザーが、現在のプロジェクトで行った最後の翻訳の編集を元に戻します。"
 
 #: weblate/trans/forms.py:1447
 msgid "Report format"
@@ -16264,7 +16235,7 @@ msgstr "このカテゴリは、選択したプロジェクトに属していま
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible:"
-msgstr "これらのコンポーネントを公開するには、有効なライセンスが必要です：%s"
+msgstr "これらのコンポーネントを公開するには、有効なライセンスが必要です："
 
 #: weblate/trans/forms.py:2528
 msgid ""
@@ -16531,16 +16502,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "フラグを使用して、翻訳内の特別な文字列を示します。"
 
 #: weblate/trans/guide.py:267
-#, fuzzy
-#| msgid ""
-#| "Add safe-html flag to avoid dangerous HTML from translators for strings "
-#| "which are rendered as HTML."
 msgid ""
 "Add safe-html or auto-safe-html flag to avoid dangerous HTML from "
 "translators for strings which are rendered as HTML."
 msgstr ""
-"翻訳者が危険な HTML を生成できないように、HTMLとしてレンダリングされる文字列"
-"に safe-html フラグを追加します。"
+"HTML としてレンダリングされる文字列に対し、翻訳者が危険な HTML を入力できない"
+"ように、safe-html または auto-safe-html フラグを追加する。"
 
 #: weblate/trans/guide.py:302
 msgid "Workflow customization"
@@ -17323,22 +17290,20 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "この設定を空白にした場合、プロジェクトから継承されます。"
 
 #: weblate/trans/models/component.py:1929
-#, fuzzy
-#| msgid ""
-#| "Could not verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
-"SSH ホスト鍵の検証に失敗しました。管理画面内の SSH ページで、鍵を追加してくだ"
-"さい。"
+"SSH ホスト鍵の検証に失敗しました。管理画面の SSH ページで鍵を追加してください"
+"。"
 
 #: weblate/trans/models/component.py:1935
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint "
 "and replace the stored host key on the SSH page in the admin interface."
 msgstr ""
+"このリポジトリの SSH ホスト鍵が変更されています。新しい諮問を確認し、管理画面"
+"の SSH ページで保存されているホスト鍵を変更してください。"
 
 #: weblate/trans/models/component.py:1972
 msgid ""
@@ -17387,6 +17352,10 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"リポジトリをリセットしましたが、%(files)s が存在しないため保留中の翻訳を再適"
+"用できませんでした。保留中の変更は保持されています。復旧するには、上流に"
+"ファイルを追加して再スキャンするか、Weblate が翻訳ファイルを作成できるように"
+"コンポーネントを設定してください。"
 
 #: weblate/trans/models/component.py:2572
 #, python-format
@@ -17394,6 +17363,10 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"リポジトリをリセットしましたが、%(file)s が存在しないため保留中の翻訳を再適用"
+"できませんでした。保留中の変更は保持されています。復旧するには、上流に"
+"ファイルを追加して再スキャンするか、Weblate が翻訳ファイルを作成できるように"
+"コンポーネントを設定してください。"
 
 #: weblate/trans/models/component.py:2590
 #, python-format
@@ -17404,18 +17377,16 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"リポジトリをリセットしましたが、保留中の翻訳を再適用する際に %(files)s を再生"
+"成できませんでした。保留中の変更は保持されています。"
 
 #: weblate/trans/models/component.py:2600
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Weblateのリポジトリを上流に合わせてリセットし、Weblate内の保留中の変更をすべ"
-"て破棄します。"
+"リポジトリをリセットしましたが、保留中の翻訳を再生成できませんでした。保留中"
+"の変更は保持されています。"
 
 #: weblate/trans/models/component.py:2620
 #, python-format
@@ -18007,10 +17978,8 @@ msgid "User configured character: {}"
 msgstr "ユーザー定義の文字: {}"
 
 #: weblate/trans/tasks.py:686
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "自動翻訳中"
+msgstr "対象が存在しないため、自動翻訳されませんでした。"
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -18314,12 +18283,12 @@ msgstr "ユーザーは、すでにこのプロジェクトからブロックさ
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
 msgstr ""
+"このプロジェクトで %(user)s が行った編集を元に戻す処理がスケジュールされまし"
+"た。"
 
 #: weblate/trans/views/acl.py:208
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "User is not blocked on this project."
-msgstr "ユーザーをこのプロジェクトからブロックしました。"
+msgstr "このユーザーは、このプロジェクトでブロックされていません。"
 
 #: weblate/trans/views/acl.py:281
 msgid "Token has been removed from this project."
@@ -18519,10 +18488,8 @@ msgstr ""
 "す。"
 
 #: weblate/trans/views/edit.py:520
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not revert the selected change."
-msgstr "一つ前の翻訳がありません。"
+msgstr "選択した変更を元に戻せませんでした。"
 
 #: weblate/trans/views/edit.py:536
 msgid "You do not have privilege to accept suggestions!"
@@ -18813,7 +18780,7 @@ msgstr[0] "言語"
 
 #: weblate/utils/backup.py:123
 msgid "Borg completed with warnings without any output."
-msgstr ""
+msgstr "Borg は警告付きで完了しましたが、出力はありませんでした。"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -19025,10 +18992,8 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "{field} に対する検索条件には対応していません: {value}"
 
 #: weblate/utils/search.py:852
-#, fuzzy
-#| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
-msgstr "{} フラグを解析できませんでした: {}"
+msgstr "解析できない IP アドレス：{}"
 
 #: weblate/utils/search.py:907
 msgid "Mixed operators!"
@@ -19326,10 +19291,9 @@ msgid "Unknown error"
 msgstr "不明なエラー"
 
 #: weblate/vcs/git.py:2204
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "復元に失敗したスクリーンショット %(name)s：%(error)s"
+msgstr "取得できない GitLab プロジェクト (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2323
 msgid "Pagure merge request"
