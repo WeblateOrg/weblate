@@ -18,10 +18,13 @@ Weblate 2026.5
 .. rubric:: Compatibility
 
 * The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
+* The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
