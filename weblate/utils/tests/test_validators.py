@@ -20,6 +20,7 @@ from weblate.utils.validators import (
     clean_fullname,
     validate_asset_url,
     validate_backup_path,
+    validate_contact_url,
     validate_filename,
     validate_fullname,
     validate_machinery_hostname,
@@ -472,6 +473,50 @@ class BackupTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
         validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))
+
+
+class ContactURLTest(SimpleTestCase):
+    def test_accepts_contact_pages(self) -> None:
+        for url in (
+            "https://signal.me/#eu/example",
+            "https://t.me/example",
+            "https://matrix.to/#/@user:example.org",
+            "https://example.org/users/contact",
+        ):
+            validate_contact_url(url)
+
+    def test_rejects_direct_download_paths(self) -> None:
+        for url in (
+            "https://example.org/file.zip",
+            "https://example.org/file.ZIP",
+            "https://github.com/Tedixx/i/raw/i/i.zip",
+            "https://example.org/file%2Ezip",
+            "https://example.org/archive.tar.gz",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_contact_url(url)
+
+    def test_ignores_query_string_filenames(self) -> None:
+        validate_contact_url("https://example.org/contact?file=tool.zip")
+
+    def test_rejects_userinfo(self) -> None:
+        for url in (
+            "https://user@example.org/contact",
+            "https://user:password@example.org/contact",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_contact_url(url)
+
+    def test_rejects_private_targets(self) -> None:
+        for url in (
+            "https://127.0.0.1/contact",
+            "https://[::1]/contact",
+            "https://192.168.1.1/contact",
+            "https://localhost/contact",
+            "https://intranet/contact",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_contact_url(url)
 
 
 class OutboundAddressValidationTest(SimpleTestCase):

@@ -29,6 +29,7 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
+from weblate.accounts.forms import ProfileForm
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
 from weblate.accounts.views import log_handled_auth_failure
@@ -649,6 +650,78 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+
+    def test_profile_contact_rejects_direct_download(self) -> None:
+        form = ProfileForm(
+            {"contact": "https://example.org/file.zip"},
+            instance=self.user.profile,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("not directly to a file download", form.errors["contact"][0])
+
+    def test_profile_contact_rejects_userinfo(self) -> None:
+        form = ProfileForm(
+            {"contact": "https://user@example.org/contact"},
+            instance=self.user.profile,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("username or password credentials", form.errors["contact"][0])
+
+    def test_profile_contact_rejects_private_target(self) -> None:
+        form = ProfileForm(
+            {"contact": "https://127.0.0.1/contact"},
+            instance=self.user.profile,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("internal or non-public address", form.errors["contact"][0])
+
+    def test_user_contact_warning(self) -> None:
+        profile = self.anotheruser.profile
+        profile.contact = "https://example.org/contact"
+        profile.save(update_fields=["contact"])
+
+        contact_url = reverse(
+            "user_contact", kwargs={"user": self.anotheruser.username}
+        )
+        response = self.client.get(
+            reverse("user_page", kwargs={"user": self.anotheruser.username})
+        )
+
+        self.assertContains(response, f'href="{contact_url}"')
+        self.assertNotContains(response, 'href="https://example.org/contact"')
+
+        response = self.client.get(contact_url)
+        self.assertContains(response, "External contact link")
+        self.assertContains(response, "example.org/contact")
+        self.assertContains(response, 'href="https://example.org/contact"')
+
+    def test_user_contact_missing(self) -> None:
+        response = self.client.get(
+            reverse("user_contact", kwargs={"user": self.anotheruser.username})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_user_contact_redirects_legacy_invalid_values(self) -> None:
+        contact_url = reverse(
+            "user_contact", kwargs={"user": self.anotheruser.username}
+        )
+        profile_url = reverse("user_page", kwargs={"user": self.anotheruser.username})
+
+        for url in (
+            "https://example.org/file.zip",
+            "https://user@example.org/contact",
+            "https://127.0.0.1/contact",
+        ):
+            Profile.objects.filter(pk=self.anotheruser.profile.pk).update(contact=url)
+
+            response = self.client.get(contact_url, follow=True)
+
+            self.assertRedirects(response, profile_url)
+            self.assertContains(response, "This contact link is no longer available.")
 
     def test_profile_dashboard(self) -> None:
         # Save profile with invalid settings
