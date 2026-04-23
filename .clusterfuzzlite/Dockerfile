@@ -1,7 +1,7 @@
 # Copyright © Weblate contributors
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-FROM gcr.io/oss-fuzz-base/base-builder-python:ubuntu-24-04@sha256:f2acba4b8134471d6147d0f060fce2a8961317ff4f34e1af974488ccfa38b7d0
+FROM gcr.io/oss-fuzz-base/base-builder-python:ubuntu-24-04@sha256:1f20728dd1fe96e5e39c33abf153cf1e82aa4915336f5962423fc3e3e21c1198
 
 ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv-python
