@@ -400,6 +400,12 @@ LICENSES = (
         False,
     ),
     (
+        "Brian-Gladman-3-Clause-no-conversion",
+        "Brian Gladman 3-Clause License (no conversion clause)",
+        "https://spdx.org/licenses/Brian-Gladman-3-Clause-no-conversion.html",
+        False,
+    ),
+    (
         "BSD-1-Clause",
         "BSD 1-Clause License",
         "https://spdx.org/licenses/BSD-1-Clause.html",
@@ -2719,6 +2725,12 @@ LICENSES = (
         "Mup",
         "Mup License",
         "https://spdx.org/licenses/Mup.html",
+        False,
+    ),
+    (
+        "MVT-1.1",
+        "MVT License 1.1",
+        "https://spdx.org/licenses/MVT-1.1.html",
         False,
     ),
     (
