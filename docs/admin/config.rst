@@ -901,7 +901,8 @@ List for credentials for Gitea servers.
 
 .. seealso::
 
-   * :ref:`vcs-gitea`
+   * :doc:`/admin/code-hosting`
+   * :ref:`code-hosting-gitea-pull-requests`
    * `Creating a Gitea personal access token`_
 
 .. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
@@ -932,7 +933,7 @@ List for credentials for GitLab servers.
 
 .. seealso::
 
-   * :ref:`vcs-gitlab`
+   * :ref:`code-hosting-gitlab-merge-requests`
    * `GitLab: Personal access token <https://docs.gitlab.com/user/profile/personal_access_tokens/>`_
 
 .. setting:: GITHUB_CREDENTIALS
@@ -974,7 +975,7 @@ List for credentials for GitHub servers.
 
 .. seealso::
 
-   * :ref:`vcs-github`
+   * :ref:`code-hosting-github-pull-requests`
    * `Creating a GitHub personal access token`_
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
@@ -1001,7 +1002,7 @@ List for credentials for Bitbucket Data Center.
 
 .. seealso::
 
-   * :ref:`vcs-bitbucket-data-center`
+   * :ref:`code-hosting-bitbucket-data-center-pull-requests`
    * `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
@@ -1040,7 +1041,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   * :ref:`vcs-bitbucket-cloud`
+   * :ref:`code-hosting-bitbucket-cloud-pull-requests`
    * `Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/>`_
    * `API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/api-token-permissions/>`_
 
@@ -1083,7 +1084,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   * :ref:`vcs-azure-devops`
+   * :ref:`code-hosting-azure-devops-pull-requests`
    * `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
@@ -1458,7 +1459,7 @@ List for credentials for Pagure servers.
 
 .. seealso::
 
-   * :ref:`vcs-pagure`
+   * :ref:`code-hosting-pagure-merge-requests`
    * `Pagure API <https://pagure.io/api/0/>`_
 
 .. setting:: PASSWORD_MINIMAL_STRENGTH
@@ -2438,8 +2439,11 @@ VCS_API_DELAY
 .. versionadded:: 4.15.1
 
 Configures minimal delay in seconds between third-party API calls in
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
-:ref:`vcs-azure-devops`.
+:ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`, and
+:ref:`code-hosting-azure-devops-pull-requests`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
@@ -2455,8 +2459,11 @@ VCS_API_TIMEOUT
 .. versionadded:: 5.15
 
 Configures timeout in seconds for third-party API calls such as forking or
-creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`,
-:ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`.
+creating merge requests in :ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`, and
+:ref:`code-hosting-azure-devops-pull-requests`.
 
 The default value is 10.
 

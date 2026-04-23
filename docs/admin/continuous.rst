@@ -11,6 +11,8 @@ instead of working through huge amount of new text just prior to release.
 
    :doc:`/devel/integration` describes basic ways to integrate your development
    with Weblate.
+   :doc:`/admin/code-hosting` lists provider-specific setup steps for common
+   code hosting sites.
 
 This is the process:
 
@@ -81,16 +83,9 @@ Updating repositories
 You should set up some way of updating backend repositories from their
 source.
 
-* Use :ref:`hooks` to integrate with most of common code hosting services:
-
-  * :ref:`github-setup`
-  * :ref:`gitlab-setup`
-  * :ref:`bitbucket-setup`
-  * :ref:`pagure-setup`
-  * :ref:`azure-setup`
-  * :ref:`gitea-setup`
-
-  You must also :ref:`project-enable_hooks` for this to work.
+* Use :ref:`hooks` to integrate with most of common code hosting services, see
+  :doc:`/admin/code-hosting`. You must also :ref:`project-enable_hooks` for
+  this to work.
 
 * Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
 
@@ -293,159 +288,38 @@ Here are few options how to avoid that:
 
    :ref:`wlc`
 
+Code hosting notifications
+++++++++++++++++++++++++++
+
+Provider-specific app and webhook instructions for GitHub, GitLab, Bitbucket,
+Pagure, Azure Repos, Gitea, Forgejo, and Gitee are covered in
+:doc:`/admin/code-hosting`.
+
 .. _github-setup:
-
-Automatically receiving changes from GitHub
-+++++++++++++++++++++++++++++++++++++++++++
-
-Weblate comes with native support for GitHub.
-
-If you are using Hosted Weblate, the recommended approach is to install the
-`Weblate app <https://github.com/apps/weblate>`_. The app delivers GitHub
-notifications to Hosted Weblate, so you do not need to configure a separate
-:guilabel:`Webhook` in GitHub. It does not by itself grant Hosted Weblate write
-access to the repository, though. To push changes back, you still need to add
-the Hosted Weblate :guilabel:`weblate` GitHub user as a collaborator with write
-access, see :ref:`hosted-push`.
-
-If you are not using the app, add the Weblate Webhook in the repository
-settings (:guilabel:`Webhooks`) to receive notifications on every push to a
-GitHub repository, as shown on the image below:
-
-.. image:: /images/github-settings.png
-
-The :guilabel:`Payload URL` consists of your Weblate URL appended by
-``/hooks/github/``, for example for the Hosted Weblate service, this is
-``https://hosted.weblate.org/hooks/github/``.
-
-You can leave other values at default settings (Weblate can handle both
-content types and consumes just the `push` event).
-
-.. seealso::
-
-   * :http:post:`/hooks/github/`
-   * :ref:`hosted-push`
-
-.. _bitbucket-setup:
-
-Automatically receiving changes from Bitbucket
-++++++++++++++++++++++++++++++++++++++++++++++
-
-Weblate has support for Bitbucket webhooks, add a webhook
-which triggers upon repository push, with destination to ``/hooks/bitbucket/`` URL
-on your Weblate installation (for example
-``https://hosted.weblate.org/hooks/bitbucket/``).
-
-.. image:: /images/bitbucket-settings.png
-
-.. seealso::
-
-   * :http:post:`/hooks/bitbucket/`
-   * :ref:`hosted-push`
-
 .. _gitlab-setup:
-
-Automatically receiving changes from GitLab
-+++++++++++++++++++++++++++++++++++++++++++
-
-Weblate has support for GitLab hooks, add a project webhook
-with destination to ``/hooks/gitlab/`` URL on your Weblate installation
-(for example ``https://hosted.weblate.org/hooks/gitlab/``).
-
-.. admonition:: Troubleshooting
-
-   * Check `GitLab webhook request history`_ if webhooks are delivered.
-   * The response payload contains information about matched components.
-
-.. _GitLab webhook request history: https://docs.gitlab.com/user/project/integrations/webhooks/#view-webhook-request-history
-
-.. seealso::
-
-   * :http:post:`/hooks/gitlab/`
-   * :ref:`hosted-push`
-
+.. _bitbucket-setup:
 .. _pagure-setup:
-
-Automatically receiving changes from Pagure
-+++++++++++++++++++++++++++++++++++++++++++
-
-Weblate has support for Pagure hooks, add a webhook
-with destination to ``/hooks/pagure/`` URL on your Weblate installation (for
-example ``https://hosted.weblate.org/hooks/pagure/``). This can be done in
-:guilabel:`Activate Web-hooks` under :guilabel:`Project options`:
-
-.. image:: /images/pagure-webhook.png
-
-.. seealso::
-
-   * :http:post:`/hooks/pagure/`
-   * :ref:`hosted-push`
-
 .. _azure-setup:
-
-Automatically receiving changes from Azure Repos
-++++++++++++++++++++++++++++++++++++++++++++++++
-
-Weblate has support for Azure Repos webhooks, add a webhook for
-:guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL on your
-Weblate installation (for example ``https://hosted.weblate.org/hooks/azure/``).
-This can be done in :guilabel:`Service hooks` under :guilabel:`Project
-settings`.
-
-
-.. seealso::
-
-   * `Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_
-   * :http:post:`/hooks/azure/`
-   * :ref:`hosted-push`
-
 .. _gitea-setup:
-
-Automatically receiving changes from Gitea Repos
-++++++++++++++++++++++++++++++++++++++++++++++++
-
-Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` for
-:guilabel:`Push events` event with destination to ``/hooks/gitea/`` URL on your
-Weblate installation (for example ``https://hosted.weblate.org/hooks/gitea/``).
-This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
-
-.. seealso::
-
-   * `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_
-   * :http:post:`/hooks/gitea/`
-   * :ref:`hosted-push`
-
 .. _forgejo-setup:
-
-Automatically receiving changes from Forgejo Repos
-++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` for
-:guilabel:`Push events` event with destination to ``/hooks/forgejo/`` URL on your
-Weblate installation (for example ``https://hosted.weblate.org/hooks/forgejo/``).
-This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
-
-.. seealso::
-
-   * `Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/webhooks/>`_
-   * :http:post:`/hooks/forgejo/`
-   * :ref:`hosted-push`
-
 .. _gitee-setup:
 
-Automatically receiving changes from Gitee Repos
-++++++++++++++++++++++++++++++++++++++++++++++++
+Provider-specific notifications
+```````````````````````````````
 
-Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` for
-:guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your
-Weblate installation (for example ``https://hosted.weblate.org/hooks/gitee/``).
-This can be done in :guilabel:`WebHooks` under repository :guilabel:`Management`.
+These legacy anchors are kept for compatibility. Current provider-specific app
+and webhook setup is documented in :doc:`/admin/code-hosting`.
 
 .. seealso::
 
-   * `Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_
-   * :http:post:`/hooks/gitee/`
-   * :ref:`hosted-push`
+   * :ref:`GitHub notifications <code-hosting-github-notifications>`
+   * :ref:`GitLab notifications <code-hosting-gitlab-notifications>`
+   * :ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`
+   * :ref:`Pagure notifications <code-hosting-pagure-notifications>`
+   * :ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`
+   * :ref:`Gitea notifications <code-hosting-gitea-notifications>`
+   * :ref:`Forgejo notifications <code-hosting-forgejo-notifications>`
+   * :ref:`Gitee notifications <code-hosting-gitee-notifications>`
 
 Automatically updating repositories nightly
 +++++++++++++++++++++++++++++++++++++++++++
@@ -467,12 +341,18 @@ If you do not want changes to be pushed automatically, you can do that manually
 under :guilabel:`Repository maintenance` or using the API via :option:`wlc push`.
 
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
+For provider-specific push setup, see :doc:`/admin/code-hosting`.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`,
-:ref:`vcs-azure-devops` or :ref:`vcs-gerrit` reviews, you can activate these by
-choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`,
-:guilabel:`Azure DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
+:ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`,
+:ref:`code-hosting-azure-devops-pull-requests`, or
+:ref:`code-hosting-gerrit` reviews. You can activate these by choosing
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`,
+:guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` as
+:ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, Mercurial, GitHub, GitLab,
 Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
@@ -516,72 +396,72 @@ Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
      - Branch name
 
    * - GitHub pull request from fork
-     - :ref:`vcs-github`
+     - :ref:`code-hosting-github-pull-requests`
      - `empty`
      - `empty`
 
    * - GitHub pull request from branch
-     - :ref:`vcs-github`
+     - :ref:`code-hosting-github-pull-requests`
      - SSH URL [#empty]_
      - Branch name
 
    * - GitLab merge request from fork
-     - :ref:`vcs-gitlab`
+     - :ref:`code-hosting-gitlab-merge-requests`
      - `empty`
      - `empty`
 
    * - GitLab merge request from branch
-     - :ref:`vcs-gitlab`
+     - :ref:`code-hosting-gitlab-merge-requests`
      - SSH URL [#empty]_
      - Branch name
 
    * - Gitea merge request from fork
-     - :ref:`vcs-gitea`
+     - :ref:`code-hosting-gitea-pull-requests`
      - `empty`
      - `empty`
 
    * - Gitea merge request from branch
-     - :ref:`vcs-gitea`
+     - :ref:`code-hosting-gitea-pull-requests`
      - SSH URL [#empty]_
      - Branch name
 
    * - Pagure merge request from fork
-     - :ref:`vcs-pagure`
+     - :ref:`code-hosting-pagure-merge-requests`
      - `empty`
      - `empty`
 
    * - Pagure merge request from branch
-     - :ref:`vcs-pagure`
+     - :ref:`code-hosting-pagure-merge-requests`
      - SSH URL [#empty]_
      - Branch name
 
    * - Azure DevOps pull request from fork
-     - :ref:`vcs-azure-devops`
+     - :ref:`code-hosting-azure-devops-pull-requests`
      - `empty`
      - `empty`
 
    * - Azure DevOps pull request from branch
-     - :ref:`vcs-azure-devops`
+     - :ref:`code-hosting-azure-devops-pull-requests`
      - SSH URL [#empty]_
      - Branch name
 
    * - Bitbucket Data Center pull request from fork
-     - :ref:`vcs-bitbucket-data-center`
+     - :ref:`code-hosting-bitbucket-data-center-pull-requests`
      - `empty`
      - `empty`
 
    * - Bitbucket Data Center pull request from branch
-     - :ref:`vcs-bitbucket-data-center`
+     - :ref:`code-hosting-bitbucket-data-center-pull-requests`
      - SSH URL [#empty]_
      - Branch name
 
    * - Bitbucket Cloud pull request from fork
-     - :ref:`vcs-bitbucket-cloud`
+     - :ref:`code-hosting-bitbucket-cloud-pull-requests`
      - `empty`
      - `empty`
 
    * - Bitbucket Cloud pull request from branch
-     - :ref:`vcs-bitbucket-cloud`
+     - :ref:`code-hosting-bitbucket-cloud-pull-requests`
      - SSH URL [#empty]_
      - Branch name
 
