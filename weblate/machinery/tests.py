@@ -56,7 +56,10 @@ from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
-from weblate.machinery.libretranslate import LibreTranslateTranslation
+from weblate.machinery.libretranslate import (
+    LibreTranslateTranslation,
+    LTEngineTranslation,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
@@ -241,7 +244,8 @@ DEEPL_TARGET_LANG_RESPONSE = [
     {"language": "PT-PT", "name": "Portuguese (European)", "supports_formality": True},
 ]
 
-LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
+LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": ["¡Hola, Mundo!"]}
+LIBRETRANSLATE_SINGLE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
 LIBRETRANSLATE_TRANS_ERROR_RESPONSE = {
     "error": "Please contact the server operator to obtain an API key"
 }
@@ -261,6 +265,15 @@ LIBRETRANSLATE_LANG_RESPONSE = [
     {"code": "ru", "name": "Russian"},
     {"code": "es", "name": "Spanish"},
 ]
+
+
+def get_translate_payloads(url: str) -> list[dict[str, object]]:
+    return [
+        json.loads(call.request.body or "{}")
+        for call in responses.calls
+        if call.request.url == url
+    ]
+
 
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
@@ -2358,13 +2371,16 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         "key": "",
     }
 
+    def get_api_url(self, path: str) -> str:
+        return f"{self.CONFIGURATION['url'].rstrip('/')}/{path}"
+
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
 
     def mock_error(self) -> None:
         responses.add(
             responses.POST,
-            "https://libretranslate.com/translate",
+            self.get_api_url("translate"),
             json=LIBRETRANSLATE_TRANS_ERROR_RESPONSE,
             status=403,
         )
@@ -2372,12 +2388,12 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         responses.add(
             responses.GET,
-            "https://libretranslate.com/languages",
+            self.get_api_url("languages"),
             json=LIBRETRANSLATE_LANG_RESPONSE,
         )
         responses.add(
             responses.POST,
-            "https://libretranslate.com/translate",
+            self.get_api_url("translate"),
             json=LIBRETRANSLATE_TRANS_RESPONSE,
         )
 
@@ -2392,6 +2408,28 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             "zh_Hans", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
+
+    @responses.activate
+    def test_translate_result_content(self) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_response()
+        translation = self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assertEqual(translation[0][0]["text"], "¡Hola, Mundo!")
+
+    @responses.activate
+    def test_uses_batched_query(self) -> None:
+        machine = self.get_machine()
+        self.mock_response()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+
+        payloads = get_translate_payloads(self.get_api_url("translate"))
+        self.assertEqual(len(payloads), 1)
+        self.assertEqual(payloads[0]["q"], [self.SOURCE_TRANSLATED])
 
     @responses.activate
     def test_cache(self) -> None:
@@ -2410,6 +2448,102 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
         self.assertEqual(len(responses.calls), 0)
+
+
+class LTEngineTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = LTEngineTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "es"
+    NOTSUPPORTED = "cs"
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "url": "http://ltengine:5050/",
+        "key": "",
+    }
+
+    def get_api_url(self, path: str) -> str:
+        return f"{self.CONFIGURATION['url'].rstrip('/')}/{path}"
+
+    def mock_empty(self) -> NoReturn:
+        self.skipTest("Not tested")
+
+    def test_batch_size(self) -> None:
+        self.assertEqual(self.MACHINE_CLS.batch_size, 1)
+
+    def mock_error(self) -> None:
+        responses.add(
+            responses.POST,
+            self.get_api_url("translate"),
+            json=LIBRETRANSLATE_TRANS_ERROR_RESPONSE,
+            status=403,
+        )
+
+    def mock_response(self) -> None:
+        responses.add(
+            responses.GET,
+            self.get_api_url("languages"),
+            json=LIBRETRANSLATE_LANG_RESPONSE,
+        )
+        responses.add(
+            responses.POST,
+            self.get_api_url("translate"),
+            json=LIBRETRANSLATE_SINGLE_TRANS_RESPONSE,
+        )
+
+    @responses.activate
+    def test_translate_result_content(self) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_response()
+        translation = self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assertEqual(translation[0][0]["text"], "¡Hola, Mundo!")
+
+    @responses.activate
+    def test_uses_scalar_query(self) -> None:
+        machine = self.get_machine()
+        self.mock_response()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+
+        payloads = get_translate_payloads(self.get_api_url("translate"))
+        self.assertEqual(len(payloads), 1)
+        self.assertEqual(payloads[0]["q"], self.SOURCE_TRANSLATED)
+
+    @responses.activate
+    def test_uses_scalar_query_for_batch(self) -> None:
+        machine = self.get_machine()
+        responses.add(
+            responses.GET,
+            self.get_api_url("languages"),
+            json=LIBRETRANSLATE_LANG_RESPONSE,
+        )
+        responses.add(
+            responses.POST,
+            self.get_api_url("translate"),
+            json={"translatedText": "¡Hola, Mundo!"},
+        )
+        responses.add(
+            responses.POST,
+            self.get_api_url("translate"),
+            json={"translatedText": "¡Adiós, Mundo!"},
+        )
+
+        unit1 = MockUnit(
+            code=self.SUPPORTED, source=self.SOURCE_TRANSLATED, target="target"
+        )
+        unit2 = MockUnit(code=self.SUPPORTED, source="Goodbye, world!")
+        unit2.translated = False
+        machine.batch_translate([unit1, unit2])
+
+        payloads = get_translate_payloads(self.get_api_url("translate"))
+        self.assertEqual(len(payloads), 2)
+        self.assertEqual(payloads[0]["q"], self.SOURCE_TRANSLATED)
+        self.assertEqual(payloads[1]["q"], "Goodbye, world!")
+        self.assertEqual(unit1.machinery["translation"][0], "¡Hola, Mundo!")
+        self.assertEqual(unit2.machinery["translation"][0], "¡Adiós, Mundo!")
 
 
 class AWSTranslationTest(BaseMachineTranslationTest):
