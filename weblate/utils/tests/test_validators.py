@@ -20,10 +20,14 @@ from weblate.utils.validators import (
     clean_fullname,
     validate_asset_url,
     validate_backup_path,
+    validate_code_site_url,
+    validate_contact_url,
+    validate_fediverse_url,
     validate_filename,
     validate_fullname,
     validate_machinery_hostname,
     validate_machinery_url,
+    validate_profile_url,
     validate_project_web,
     validate_re,
     validate_repo_url,
@@ -472,6 +476,151 @@ class BackupTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
         validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))
+
+
+class ProfileURLTest(SimpleTestCase):
+    def test_accepts_profile_pages(self) -> None:
+        for url in (
+            "https://example.org/",
+            "https://codeberg.org/user",
+            "https://mastodon.example/@user",
+        ):
+            validate_profile_url(url)
+
+    def test_rejects_direct_download_paths(self) -> None:
+        for url in (
+            "https://example.org/file.zip",
+            "https://example.org/file.ZIP",
+            "https://github.com/Tedixx/i/raw/i/i.zip",
+            "https://example.org/file%2Ezip",
+            "https://example.org/archive.tar.gz",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_profile_url(url)
+
+    def test_ignores_query_string_filenames(self) -> None:
+        validate_profile_url("https://example.org/profile?file=tool.zip")
+
+    def test_rejects_userinfo(self) -> None:
+        for url in (
+            "https://user@example.org/profile",
+            "https://user:password@example.org/profile",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_profile_url(url)
+
+    def test_rejects_private_targets(self) -> None:
+        for url in (
+            "https://127.0.0.1/profile",
+            "https://[::1]/profile",
+            "https://192.168.1.1/profile",
+            "https://localhost/profile",
+            "https://intranet/profile",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_profile_url(url)
+
+
+class CodeSiteURLTest(SimpleTestCase):
+    def test_accepts_code_profile_pages(self) -> None:
+        for url in (
+            "https://codeberg.org/user",
+            "https://codeberg.org/user/project",
+            "https://gitlab.example/group/subgroup/project",
+            "https://gitlab.com/user.name",
+            "https://sr.ht/~user",
+            "https://sr.ht/~user/project",
+            "https://gitlab.example/-/u/12345",
+        ):
+            validate_code_site_url(url)
+
+    def test_rejects_non_profile_paths(self) -> None:
+        for url in (
+            "https://codeberg.org/explore/repos",
+            "https://codeberg.org/explore",
+            "https://codeberg.org/user/three.js",
+            "https://gitlab.example/group/subgroup/tool.zip",
+            "https://gitlab.example/group/subgroup/project/-/archive/main/tool.zip",
+            "https://github.example/user/repo/archive/refs/tags/v1.0.zip",
+            "https://gitlab.example/-/profile/account",
+            "https://example.org/",
+            "https://codeberg.org/user#projects",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_code_site_url(url)
+
+
+class ContactURLTest(SimpleTestCase):
+    def test_accepts_contact_pages(self) -> None:
+        for url in (
+            "https://signal.me/#eu/example",
+            "https://t.me/example",
+            "https://matrix.to/#/@user:example.org",
+            "https://example.org/users/contact",
+        ):
+            validate_contact_url(url)
+
+    def test_rejects_direct_download_paths(self) -> None:
+        for url in (
+            "https://example.org/file.zip",
+            "https://example.org/file.ZIP",
+            "https://github.com/Tedixx/i/raw/i/i.zip",
+            "https://example.org/file%2Ezip",
+            "https://example.org/archive.tar.gz",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_contact_url(url)
+
+    def test_ignores_query_string_filenames(self) -> None:
+        validate_contact_url("https://example.org/contact?file=tool.zip")
+
+    def test_rejects_userinfo(self) -> None:
+        for url in (
+            "https://user@example.org/contact",
+            "https://user:password@example.org/contact",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_contact_url(url)
+
+    def test_rejects_private_targets(self) -> None:
+        for url in (
+            "https://127.0.0.1/contact",
+            "https://[::1]/contact",
+            "https://192.168.1.1/contact",
+            "https://localhost/contact",
+            "https://intranet/contact",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_contact_url(url)
+
+
+class FediverseURLTest(SimpleTestCase):
+    def test_accepts_fediverse_profile_pages(self) -> None:
+        for url in (
+            "https://social.example/example",
+            "https://mastodon.example/@example",
+            "https://mastodon.example/users/example",
+            "https://peertube.example/accounts/example",
+            "https://friendica.example/profile/example",
+            "https://hubzilla.example/channel/example",
+            "https://lemmy.example/u/example",
+            "https://social.example/web/@example",
+            "https://social.example/@example@example.org",
+            "https://diaspora.example/people/0123456789abcdef",
+        ):
+            validate_fediverse_url(url)
+
+    def test_rejects_non_profile_paths(self) -> None:
+        for url in (
+            "https://mastodon.example/@example/with_replies",
+            "https://mastodon.example/tags/weblate",
+            "https://mastodon.example/@example/123",
+            "https://bsky.example/profile/example.bsky.social",
+            "https://example.org/",
+            "https://mastodon.example/@example?foo=bar",
+        ):
+            with self.assertRaises(ValidationError):
+                validate_fediverse_url(url)
 
 
 class OutboundAddressValidationTest(SimpleTestCase):

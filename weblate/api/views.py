@@ -1270,10 +1270,14 @@ class CreditsMixin:
 class AnnouncementsMixin:
     def get_context(self, obj):
         project = None
+        category = None
         component = None
         language = None
         if isinstance(obj, Project):
             project = obj
+        if isinstance(obj, Category):
+            project = obj.project
+            category = obj
         if isinstance(obj, Component):
             project = obj.project
             component = obj
@@ -1282,14 +1286,14 @@ class AnnouncementsMixin:
             component = obj.component
             language = obj.language
 
-        return (obj, project, component, language)
+        return (project, category, component, language)
 
     def get_announcements(self, obj):
-        _obj, project, component, language = self.get_context(obj)
+        project, category, component, language = self.get_context(obj)
 
         return Announcement.objects.filter(
             project=project,
-            category=None,
+            category=category,
             component=component,
             language=language,
         )
@@ -1310,7 +1314,7 @@ class AnnouncementsMixin:
         obj = self.get_object()
 
         if request.method == "POST":
-            obj, project, component, language = self.get_context(obj)
+            project, category, component, language = self.get_context(obj)
             if not request.user.has_perm("announcement.add", obj):
                 self.permission_denied(request, "Can not create announcement")
             serializer = AnnouncementSerializer(
@@ -1318,6 +1322,7 @@ class AnnouncementsMixin:
                 context={
                     "request": request,
                     "project": project,
+                    "category": category,
                     "component": component,
                     "language": language,
                 },
@@ -1325,6 +1330,7 @@ class AnnouncementsMixin:
             serializer.is_valid(raise_exception=True)
             serializer.save(
                 project=project,
+                category=category,
                 component=component,
                 language=language,
                 user=request.user,
@@ -3396,7 +3402,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(list=extend_schema(description="List available categories."))
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ModelViewSet, AnnouncementsMixin):
     """Category API."""
 
     queryset = Category.objects.none()

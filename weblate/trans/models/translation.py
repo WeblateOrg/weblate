@@ -1683,30 +1683,38 @@ class Translation(
                     )
                 ) from error
 
+        def load_uploaded_store(
+            template_store: TranslationFormat | None,
+            *,
+            is_template: bool = False,
+        ) -> TranslationFormat:
+            try:
+                return try_load(
+                    fileobj.name,
+                    filecopy,
+                    component.file_format_cls,
+                    template_store,
+                    is_template=is_template,
+                    language_code=self.language_code,
+                    source_language=self.component.source_language.code,
+                    file_format_params=self.component.file_format_params,
+                )
+            except Exception as error:
+                raise FileParseError(
+                    gettext("Could not parse uploaded file: %s")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(self.component.repo, self.component.push),
+                        extra_paths=(self.component.full_path,),
+                    )
+                ) from error
+
         # Load backend file
         if method == "add" and self.is_template:
-            template_store = try_load(
-                fileobj.name,
-                filecopy,
-                component.file_format_cls,
-                None,
-                is_template=True,
-                language_code=self.language_code,
-                source_language=self.component.source_language.code,
-                file_format_params=self.component.file_format_params,
-            )
-
+            template_store = load_uploaded_store(None, is_template=True)
         else:
             template_store = component.template_store
-        store = try_load(
-            fileobj.name,
-            filecopy,
-            component.file_format_cls,
-            template_store,
-            language_code=self.language_code,
-            source_language=self.component.source_language.code,
-            file_format_params=self.component.file_format_params,
-        )
+        store = load_uploaded_store(template_store)
 
         # Check valid plural forms
         if hasattr(store.store, "parseheader"):

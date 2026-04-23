@@ -6,12 +6,15 @@ Weblate 5.17.1
 .. rubric:: New features
 
 * Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
+* :ref:`mt-ltengine` machine translation service.
 
 .. rubric:: Improvements
 
 * Fixed revert links in the translate-view history tab after moving a component to another project.
 * Clarified the site-wide scope of the global ``user.edit`` permission.
 * Clarified :ref:`autoclean-tm`.
+* Clarified how :ref:`glossary-terminology` creates and maintains glossary language entries.
+* Documented current :ref:`translation-memory` management options in the UI.
 * Improved :ref:`screenshots` documentation and linked it from the screenshots UI.
 * The OpenAPI schema is cleaner and provides tighter API description.
 * Password updates now regenerate your personal API key by default.
@@ -23,9 +26,13 @@ Weblate 5.17.1
 * Track superuser and site-wide team changes in :ref:`audit-log`.
 * Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
 * Project website and repository browser URL alerts now show validation errors more clearly.
+* Project-level machine translation validation errors for private or local endpoints now better explain the allowed setup on hosted and self-managed sites.
 * Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
 * Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
+* Extended the conflicting repository setup alert to direct Git pushes, see :ref:`alerts`.
+* :doc:`/admin/announcements` can now also be managed via the :ref:`api` for categories.
 * :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
+* :ref:`profile` links now show an external-link warning where possible; obvious direct file download URLs and invalid code site or Fediverse profile links are rejected.
 
 .. rubric:: Bug fixes
 

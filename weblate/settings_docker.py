@@ -1272,6 +1272,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.glosbe.GlosbeTranslation",
     "weblate.machinery.google.GoogleTranslation",
     "weblate.machinery.googlev3.GoogleV3Translation",
+    "weblate.machinery.libretranslate.LTEngineTranslation",
     "weblate.machinery.libretranslate.LibreTranslateTranslation",
     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
     "weblate.machinery.modernmt.ModernMTTranslation",

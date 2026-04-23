@@ -230,6 +230,19 @@ class ImportTest(ImportBaseTest):
 class ImportErrorTest(ImportBaseTest):
     """Testing import of broken files."""
 
+    def test_invalid_toml_is_reported(self) -> None:
+        fd, filename = tempfile.mkstemp(suffix=".toml")
+        try:
+            with os.fdopen(fd, "wb") as handle:
+                handle.write(b"=broken")
+
+            response = self.do_import(test_file=filename, follow=True)
+        finally:
+            os.unlink(filename)
+
+        self.assertRedirects(response, self.translation_url)
+        self.assertContains(response, "Could not parse uploaded file")
+
     def test_mismatched_plurals(self) -> None:
         """
         Test importing a file with different number of plural forms.

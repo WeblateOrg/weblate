@@ -3050,6 +3050,7 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
 
 .. http:patch:: /api/categories/(int:id)/
 
@@ -3092,6 +3093,44 @@ Categories
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/categories/(int:id)/announcements/
+
+   .. versionadded:: 5.17.1
+
+    Returns announcements for a category.
+
+    :param id: Category ID
+    :type id: int
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/categories/(int:id)/announcements/
+
+   .. versionadded:: 5.17.1
+
+    Creates an announcement for a category.
+
+    :param id: Category ID
+    :type id: int
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/categories/(int:id)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17.1
+
+    Deletes an announcement from a category.
+
+    :param id: Category ID
+    :type id: int
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
 
 .. _hooks:
 

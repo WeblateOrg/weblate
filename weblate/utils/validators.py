@@ -15,7 +15,7 @@ from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import regex
 from confusable_homoglyphs import confusables
@@ -448,6 +448,240 @@ class WeblateURLValidator(URLValidator):
             raise ValidationError(
                 gettext("This website cannot be used. Please provide a different one.")
             )
+
+
+PROFILE_URL_BLOCKED_EXTENSIONS = (
+    ".7z",
+    ".apk",
+    ".appimage",
+    ".bat",
+    ".bin",
+    ".bz2",
+    ".cmd",
+    ".deb",
+    ".dmg",
+    ".exe",
+    ".gz",
+    ".hta",
+    ".iso",
+    ".jar",
+    ".js",
+    ".lnk",
+    ".msi",
+    ".pkg",
+    ".ps1",
+    ".rar",
+    ".reg",
+    ".rpm",
+    ".scr",
+    ".sh",
+    ".tar",
+    ".vbs",
+    ".wsf",
+    ".xz",
+    ".zip",
+)
+
+CODE_SITE_PROFILE_SEGMENT = re.compile(r"^~?[A-Za-z0-9][A-Za-z0-9_.-]{0,254}$")
+CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS = {
+    "-",
+    "about",
+    "admin",
+    "api",
+    "explore",
+    "help",
+    "login",
+    "oauth",
+    "org",
+    "organizations",
+    "projects",
+    "session",
+    "settings",
+    "signup",
+    "users",
+}
+FEDIVERSE_PROFILE_PREFIXES = {"accounts", "channel", "profile", "u", "users"}
+FEDIVERSE_REJECTED_TOP_LEVEL_SEGMENTS = {
+    "about",
+    "admin",
+    "api",
+    "auth",
+    "directory",
+    "explore",
+    "featured",
+    "groups",
+    "home",
+    "interact",
+    "login",
+    "media",
+    "notifications",
+    "oauth",
+    "objects",
+    "posts",
+    "public",
+    "search",
+    "settings",
+    "share",
+    "tags",
+    "users",
+    "webfinger",
+}
+FEDIVERSE_PROFILE_SEGMENT = re.compile(r"^@?[A-Za-z0-9][A-Za-z0-9_.-]{0,254}$")
+FEDIVERSE_HANDLE_SEGMENT = re.compile(
+    r"^@[A-Za-z0-9][A-Za-z0-9_.-]{0,254}(?:@[A-Za-z0-9.-]+)?$"
+)
+FEDIVERSE_PROFILE_ID = re.compile(r"^[A-Za-z0-9_-]+$")
+
+
+def _validate_public_profile_url(
+    value: str | None,
+    *,
+    credentials_message: str,
+) -> None:
+    """Reject unsafe public profile URLs before path-shape checks."""
+    if not value:
+        return
+
+    parsed = urlparse(value)
+    if parsed.username or parsed.password:
+        raise ValidationError(credentials_message)
+
+    validate_outbound_url(value, allow_private_targets=False)
+
+
+def _has_blocked_profile_url_extension(value: str) -> bool:
+    path = unquote(urlparse(value).path).lower().rstrip("/")
+    return path.endswith(PROFILE_URL_BLOCKED_EXTENSIONS)
+
+
+def _get_profile_path_segments(value: str) -> list[str]:
+    parsed = urlparse(value)
+    if parsed.query or parsed.fragment:
+        return []
+    return [
+        segment for segment in unquote(parsed.path).strip("/").split("/") if segment
+    ]
+
+
+def validate_profile_url(value: str | None) -> None:
+    """Reject unsafe public profile URLs."""
+    _validate_public_profile_url(
+        value,
+        credentials_message=gettext(
+            "Profile URL cannot include username or password credentials."
+        ),
+    )
+    if value and _has_blocked_profile_url_extension(value):
+        raise ValidationError(
+            gettext(
+                "Profile URL should link to a profile page, "
+                "not directly to a file download."
+            )
+        )
+
+
+def validate_code_site_url(value: str | None) -> None:
+    """Reject URLs not matching common code hosting profile shapes."""
+    _validate_public_profile_url(
+        value,
+        credentials_message=gettext(
+            "Profile URL cannot include username or password credentials."
+        ),
+    )
+    if not value:
+        return
+
+    segments = _get_profile_path_segments(value)
+    has_blocked_extension = _has_blocked_profile_url_extension(value)
+    is_profile_like = (
+        len(segments) == 1
+        and segments[0] not in CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS
+        and CODE_SITE_PROFILE_SEGMENT.match(segments[0])
+    )
+    is_repository_like = (
+        len(segments) >= 2
+        and segments[0] not in CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS
+        and all(segment != "-" for segment in segments)
+        and all(CODE_SITE_PROFILE_SEGMENT.match(segment) for segment in segments)
+    )
+    if has_blocked_extension:
+        raise ValidationError(
+            gettext(
+                "Profile URL should link to a profile page, "
+                "not directly to a file download."
+            )
+        )
+    if is_profile_like:
+        return
+    if is_repository_like:
+        return
+    if len(segments) == 3 and segments[:2] == ["-", "u"] and segments[2].isdigit():
+        return
+
+    raise ValidationError(
+        gettext(
+            "Code site URL should link to a user profile or repository page on a "
+            "code hosting site."
+        )
+    )
+
+
+def validate_contact_url(value: str | None) -> None:
+    """Reject unsafe public contact URLs."""
+    _validate_public_profile_url(
+        value,
+        credentials_message=gettext(
+            "Contact URL cannot include username or password credentials."
+        ),
+    )
+    if value and _has_blocked_profile_url_extension(value):
+        raise ValidationError(
+            gettext(
+                "Contact URL should link to a contact or profile page, "
+                "not directly to a file download."
+            )
+        )
+
+
+def validate_fediverse_url(value: str | None) -> None:
+    """Reject URLs not matching common Fediverse profile shapes."""
+    validate_profile_url(value)
+    if not value:
+        return
+
+    segments = _get_profile_path_segments(value)
+    if len(segments) == 1 and FEDIVERSE_HANDLE_SEGMENT.match(segments[0]):
+        return
+    if (
+        len(segments) == 1
+        and segments[0] not in FEDIVERSE_REJECTED_TOP_LEVEL_SEGMENTS
+        and "." not in segments[0]
+        and FEDIVERSE_PROFILE_SEGMENT.match(segments[0])
+    ):
+        return
+    if (
+        len(segments) == 2
+        and segments[0] in FEDIVERSE_PROFILE_PREFIXES
+        and (segments[0] != "profile" or "." not in segments[1])
+        and FEDIVERSE_PROFILE_SEGMENT.match(segments[1])
+    ):
+        return
+    if (
+        len(segments) == 2
+        and segments[0] == "web"
+        and FEDIVERSE_HANDLE_SEGMENT.match(segments[1])
+    ):
+        return
+    if (
+        len(segments) == 2
+        and segments[0] == "people"
+        and FEDIVERSE_PROFILE_ID.match(segments[1])
+    ):
+        return
+
+    raise ValidationError(
+        gettext("Fediverse URL should link to a Fediverse user profile.")
+    )
 
 
 def validate_asset_url(value: str) -> None:

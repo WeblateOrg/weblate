@@ -59,7 +59,14 @@ from weblate.utils.stats import (
     GhostProjectLanguageStats,
     ProjectLanguageStats,
 )
-from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
+from weblate.utils.validators import (
+    EMAIL_BLACKLIST,
+    WeblateURLValidator,
+    validate_code_site_url,
+    validate_contact_url,
+    validate_fediverse_url,
+    validate_profile_url,
+)
 from weblate.wladmin.models import get_support_status
 
 from .types import ThemeChoices
@@ -828,12 +835,12 @@ class Profile(models.Model):
     website = models.URLField(
         verbose_name=gettext_lazy("Website URL"),
         blank=True,
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_profile_url],
     )
     contact = models.URLField(
         verbose_name=gettext_lazy("Contact URL"),
         blank=True,
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_contact_url],
         help_text=gettext_lazy(
             "Link to contact you online using services like Signal, SimpleX or Telegram."
         ),
@@ -854,7 +861,7 @@ class Profile(models.Model):
             "Link to your Fediverse profile for federated services "
             "like Mastodon or diaspora*."
         ),
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_fediverse_url],
     )
     codesite = models.URLField(
         verbose_name=gettext_lazy("Code site URL"),
@@ -862,7 +869,7 @@ class Profile(models.Model):
         help_text=gettext_lazy(
             "Link to your code profile for services like Codeberg or GitLab."
         ),
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_code_site_url],
     )
     github = models.SlugField(
         verbose_name=gettext_lazy("GitHub username"),

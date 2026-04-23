@@ -29,6 +29,7 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
+from weblate.accounts.forms import ProfileForm
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
 from weblate.accounts.views import log_handled_auth_failure
@@ -649,6 +650,178 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+
+    def test_profile_contact_rejects_direct_download(self) -> None:
+        form = ProfileForm(
+            {"contact": "https://example.org/file.zip"},
+            instance=self.user.profile,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("not directly to a file download", form.errors["contact"][0])
+
+    def test_profile_contact_rejects_userinfo(self) -> None:
+        form = ProfileForm(
+            {"contact": "https://user@example.org/contact"},
+            instance=self.user.profile,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("username or password credentials", form.errors["contact"][0])
+
+    def test_profile_contact_rejects_private_target(self) -> None:
+        form = ProfileForm(
+            {"contact": "https://127.0.0.1/contact"},
+            instance=self.user.profile,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("internal or non-public address", form.errors["contact"][0])
+
+    def test_profile_url_fields_reject_direct_download(self) -> None:
+        for field in ("website", "codesite", "fediverse"):
+            with self.subTest(field=field):
+                form = ProfileForm(
+                    {field: "https://example.org/file.zip"},
+                    instance=self.user.profile,
+                )
+
+                self.assertFalse(form.is_valid())
+                self.assertIn("not directly to a file download", form.errors[field][0])
+
+    def test_profile_url_fields_reject_userinfo(self) -> None:
+        for field in ("website", "codesite", "fediverse"):
+            with self.subTest(field=field):
+                form = ProfileForm(
+                    {field: "https://user@example.org/profile"},
+                    instance=self.user.profile,
+                )
+
+                self.assertFalse(form.is_valid())
+                self.assertIn("username or password credentials", form.errors[field][0])
+
+    def test_profile_url_fields_reject_private_target(self) -> None:
+        for field in ("website", "codesite", "fediverse"):
+            with self.subTest(field=field):
+                form = ProfileForm(
+                    {field: "https://127.0.0.1/profile"},
+                    instance=self.user.profile,
+                )
+
+                self.assertFalse(form.is_valid())
+                self.assertIn("internal or non-public address", form.errors[field][0])
+
+    def test_profile_url_fields_reject_non_profile_paths(self) -> None:
+        for field, url, message in (
+            (
+                "codesite",
+                "https://codeberg.org/explore/repos",
+                "profile or repository page on a code hosting site",
+            ),
+            (
+                "fediverse",
+                "https://mastodon.example/tags/weblate",
+                "Fediverse user profile",
+            ),
+        ):
+            with self.subTest(field=field):
+                form = ProfileForm({field: url}, instance=self.user.profile)
+
+                self.assertFalse(form.is_valid())
+                self.assertIn(message, form.errors[field][0])
+
+    def test_profile_url_fields_accept_common_legacy_or_platform_paths(self) -> None:
+        for field, url in (
+            ("codesite", "https://codeberg.org/user/project"),
+            ("codesite", "https://gitlab.example/group/subgroup/project"),
+            ("fediverse", "https://peertube.example/accounts/example"),
+            ("fediverse", "https://hubzilla.example/channel/example"),
+            ("fediverse", "https://social.example/example"),
+            ("fediverse", "https://social.example/web/@example"),
+        ):
+            with self.subTest(field=field, url=url):
+                form = ProfileForm({field: url}, instance=self.user.profile)
+
+                self.assertTrue(form.is_valid())
+
+    def test_user_profile_link_warning(self) -> None:
+        profile = self.anotheruser.profile
+        profile.website = (
+            "https://example.org/users/profile-with-a-very-long-path-name-that-"
+            "should-not-be-shortened-on-warning-page"
+        )
+        profile.contact = "https://example.org/contact"
+        profile.codesite = "https://codeberg.org/example"
+        profile.fediverse = "https://mastodon.example/@example"
+        profile.save(update_fields=["website", "contact", "codesite", "fediverse"])
+
+        response = self.client.get(
+            reverse("user_page", kwargs={"user": self.anotheruser.username})
+        )
+
+        for link, url in (
+            ("website", profile.website),
+            ("contact", "https://example.org/contact"),
+            ("codesite", "https://codeberg.org/example"),
+        ):
+            with self.subTest(link=link):
+                warning_url = reverse(
+                    "user_profile_link",
+                    kwargs={"user": self.anotheruser.username, "link": link},
+                )
+                self.assertContains(response, f'href="{warning_url}"')
+                self.assertNotContains(response, f'href="{url}"')
+
+                warning_response = self.client.get(warning_url)
+                self.assertContains(warning_response, "External profile link")
+                self.assertContains(warning_response, f"Destination: {url}")
+                self.assertContains(warning_response, f'href="{url}"')
+
+        self.assertContains(response, 'href="https://mastodon.example/@example"')
+        self.assertContains(response, 'rel="ugc me"')
+        self.assertNotContains(
+            response,
+            reverse(
+                "user_profile_link",
+                kwargs={"user": self.anotheruser.username, "link": "fediverse"},
+            ),
+        )
+
+    def test_user_profile_link_missing(self) -> None:
+        for link in ("website", "contact", "codesite", "fediverse"):
+            with self.subTest(link=link):
+                response = self.client.get(
+                    reverse(
+                        "user_profile_link",
+                        kwargs={"user": self.anotheruser.username, "link": link},
+                    )
+                )
+
+                self.assertEqual(response.status_code, 404)
+
+    def test_user_profile_link_redirects_legacy_invalid_values(self) -> None:
+        profile_url = reverse("user_page", kwargs={"user": self.anotheruser.username})
+
+        for link, url in (
+            ("website", "https://example.org/file.zip"),
+            ("contact", "https://user@example.org/contact"),
+            ("codesite", "https://127.0.0.1/profile"),
+        ):
+            with self.subTest(link=link):
+                warning_url = reverse(
+                    "user_profile_link",
+                    kwargs={"user": self.anotheruser.username, "link": link},
+                )
+                Profile.objects.filter(pk=self.anotheruser.profile.pk).update(
+                    **{link: url}
+                )
+
+                response = self.client.get(warning_url, follow=True)
+
+                self.assertRedirects(response, profile_url)
+                self.assertContains(
+                    response, "This profile link is no longer available."
+                )
 
     def test_profile_dashboard(self) -> None:
         # Save profile with invalid settings
