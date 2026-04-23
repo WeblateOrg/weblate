@@ -83,7 +83,7 @@ class BaseFileFormatParam:
         "gwt_encoding",
         "merge_duplicates",
     ]
-    file_formats: Sequence[str] = []
+    file_formats: Sequence[str] = ()
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
     default: str | int | bool
@@ -321,7 +321,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
-    file_formats = ("po",)
+    file_formats: Sequence[str] = ("po",)
 
 
 @register_file_format_param

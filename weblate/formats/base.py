@@ -22,7 +22,9 @@ from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.checks.flags import Flags
-from weblate.trans.file_format_params import get_params_for_file_format
+from weblate.trans.file_format_params import (
+    get_params_for_file_format,
+)
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import get_repo_temp_dir
@@ -37,7 +39,9 @@ if TYPE_CHECKING:
     from lxml import etree
 
     from weblate.lang.models import Language, Plural
-    from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.file_format_params import (
+        FileFormatParams,
+    )
     from weblate.trans.models import Component, Translation, Unit
     from weblate.utils.state import StringState
 
@@ -1032,6 +1036,7 @@ class BaseExporter:
     set_id = False
     file_format = ""
     storage_class: ClassVar[type[TranslateToolkitStore]]
+    file_format_params: FileFormatParams
 
     def __init__(
         self,
@@ -1043,20 +1048,22 @@ class BaseExporter:
         fieldnames=None,
     ) -> None:
         self.translation = translation
-        self.file_format_params = {}
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
             self.source_language = translation.component.source_language
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
-            self.file_format_params = self.translation.component.file_format_params
+            self.file_format_params = cast(
+                "FileFormatParams", self.translation.component.file_format_params
+            )
         else:
             self.project = project
             self.language = language
             self.source_language = source_language
             self.plural = language.plural
             self.url = url
+            self.file_format_params = cast("FileFormatParams", {})
         self.fieldnames = fieldnames
 
     @staticmethod
