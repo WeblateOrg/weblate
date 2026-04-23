@@ -457,6 +457,10 @@ might want to strip leading directory by ``parentdir`` filter (see
 :ref:`markup`):
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
 
+.. seealso::
+
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
 .. _component-repoweb-translations:
 
 Repository browser for translations
@@ -469,6 +473,7 @@ You can use :ref:`markup`.
 
 For example on GitHub, use something like:
 ``https://github.com/WeblateOrg/translations/blob/{{branch}}/{{filename}}#L{{line}}``
+
 .. seealso::
 
    * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`

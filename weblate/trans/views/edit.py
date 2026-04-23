@@ -25,7 +25,7 @@ from django.http import (
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.translation import gettext, gettext_lazy, ngettext
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS, get_display_checks
@@ -58,19 +58,20 @@ from weblate.trans.models import (
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
+    try_linkify_filename,
     unit_state_class,
     unit_state_title,
 )
-from weblate.trans.util import redirect_next, render
+from weblate.trans.util import redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
-from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
@@ -83,9 +84,6 @@ if TYPE_CHECKING:
     )
 
 SESSION_SEARCH_CACHE_TTL = 1800
-DELETE_UNIT_LOCKED_MESSAGE = gettext_lazy(
-    "Could not remove the string because another background operation is in progress. Please try again later."
-)
 
 
 def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None:
@@ -513,11 +511,18 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
         )
         return None
 
-    if not change.revert(
-        request.user, change_action=ActionEvents.REVERT, request=request
-    ):
-        messages.error(request, gettext("Could not revert the selected change."))
+    if not change.can_revert():
+        messages.error(request, gettext("Can not revert to empty translation!"))
         return None
+    # Store unit
+    unit.translate(
+        request.user,
+        split_plural(change.old),
+        STATE_NEEDS_REWRITING
+        if change.action == ActionEvents.MARKED_EDIT
+        else unit.state,
+        change_action=ActionEvents.REVERT,
+    )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 
@@ -781,16 +786,16 @@ def translate(request: AuthenticatedHttpRequest, path):
                 unit.translation, user, initial={"variant": unit.pk}
             ),
             "screenshot_form": screenshot_form,
-            "translation_file_link": lambda: (
-                unit.translation.component.get_repoweb_link(
-                    unit.translation.filename,
-                    # '1' as a placeholder, because `get_repoweb_link` can't currently
-                    # generate links without line specified. Although it's ok to use
-                    # '' or '0' on GitHub or GitLab, let's play it safe for now.
-                    "1",
-                    is_translation=True,
-                    user=user,
-                )
+            "translation_file_link": lambda: try_linkify_filename(
+                unit.translation.filename,
+                unit.translation.filename,
+                # '1' as a placeholder, because `get_repoweb_link` can't currently
+                # generate links without line specified. Although it's ok to use
+                # '' or '0' on GitHub or GitLab, let's play it safe for now.
+                "1",
+                unit,
+                user.profile,
+                is_translation=True,
             ),
         },
     )
@@ -860,8 +865,6 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             threshold=autoform.cleaned_data["threshold"],
         )
         messages.success(request, result["message"])
-        for warning in result.get("warnings", []):
-            messages.warning(request, warning)
     else:
         task = auto_translate.delay(
             translation_id=translation_id,
@@ -1134,9 +1137,6 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
 
     try:
         unit.translation.delete_unit(request, unit)
-    except WeblateLockTimeoutError:
-        messages.error(request, DELETE_UNIT_LOCKED_MESSAGE)
-        return redirect(unit)
     except FileParseError as error:
         unit.translation.component.update_import_alerts(delete=False)
         messages.error(request, gettext("Could not remove the string: %s") % error)

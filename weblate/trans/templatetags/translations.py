@@ -911,7 +911,7 @@ def unit_state_title(unit) -> str:
 
 
 def try_linkify_filename(
-    text, filename: str, line: str, unit, profile, link_class: str = ""
+    text, filename: str, line: str, unit, profile, link_class: str = "", is_translation: bool = False
 ):
     """
     Attempt to convert `text` to a repo link to `filename:line`.
@@ -924,7 +924,7 @@ def try_linkify_filename(
         link = text
     elif profile:
         link = unit.translation.component.get_repoweb_link(
-            filename, line, profile.editor_link
+            filename, line, profile.editor_link, is_translation=is_translation
         )
     if link:
         return format_html(SOURCE_LINK, link, text, link_class)
