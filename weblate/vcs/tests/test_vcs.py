@@ -9,8 +9,8 @@ import os.path
 import re
 import shutil
 import tempfile
-from io import BytesIO
 from contextlib import ExitStack
+from io import BytesIO
 from os import utime
 from pathlib import Path
 from time import time
