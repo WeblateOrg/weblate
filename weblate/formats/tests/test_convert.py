@@ -4,6 +4,8 @@
 
 """File format specific behavior."""
 
+from __future__ import annotations
+
 import os
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -27,6 +29,8 @@ from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from translate.storage.pypo import pofile
+
+    from weblate.trans.file_format_params import FileFormatParams
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
@@ -156,6 +160,12 @@ Nazdar
     CONVERT_EXISTING: ClassVar[list[MockUnit]] = [
         MockUnit(source="Hello", target="Ahoj")
     ]
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {
+        "line_max_length": 80,
+        "md_extract_code_blocks": False,
+        "md_extract_frontmatter": True,
+        "md_no_placeholders": False,
+    }
 
     def test_existing_units(self) -> None:
         testdata = Path(self.FILE).read_bytes()
@@ -205,6 +215,66 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
             MarkdownFormat.check_flags,
             ("auto-safe-html", "strict-same", "md-text"),
         )
+
+    def test_extraction_with_code_block(self, extract_code_blocks: bool = True) -> None:
+        file_content = """```python
+print('hello')
+```"""
+        input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
+        with self.temporary_file_format_param(
+            "md_extract_code_blocks", extract_code_blocks
+        ):
+            storage = self.parse_file(input_bytes)
+        if extract_code_blocks:
+            self.assertEqual(len(storage.content_units), 1)
+        else:
+            self.assertEqual(len(storage.content_units), 0)
+
+    def test_extraction_with_code_block_off(self) -> None:
+        self.test_extraction_with_code_block(extract_code_blocks=False)
+
+    def test_placeholders_extraction(self, ignore_placeholders: bool = False) -> None:
+        file_content = """
+Message with a [link label](https://example.com)
+"""
+        input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
+        with self.temporary_file_format_param(
+            "md_no_placeholders", ignore_placeholders
+        ):
+            storage = self.parse_file(input_bytes)
+        if ignore_placeholders:
+            self.assertIn(
+                "Message with a [link label](https://example.com)",
+                storage.content_units[0].source,
+            )
+        else:
+            self.assertIn(
+                "Message with a [link label]{1}", storage.content_units[0].source
+            )
+
+    def test_placeholders_extraction_off(self) -> None:
+        self.test_placeholders_extraction(ignore_placeholders=True)
+
+    def test_frontmatter_extraction(self, extract_frontmatter: bool = True) -> None:
+        file_content = """---
+title: Title
+---
+
+# Header 1
+Content
+"""
+        input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
+        with self.temporary_file_format_param(
+            "md_extract_frontmatter", extract_frontmatter
+        ):
+            storage = self.parse_file(input_bytes)
+        if extract_frontmatter:
+            self.assertEqual(len(storage.content_units), 3)
+        else:
+            self.assertEqual(len(storage.content_units), 2)
+
+    def test_frontmatter_extraction_off(self) -> None:
+        self.test_frontmatter_extraction(extract_frontmatter=False)
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):

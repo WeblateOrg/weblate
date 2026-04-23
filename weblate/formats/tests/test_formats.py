@@ -12,6 +12,7 @@ import os.path
 import shutil
 import tempfile
 from abc import ABC, abstractmethod
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
@@ -367,6 +368,20 @@ class BaseFormatTest(FormatTestCase, ABC):
     @abstractmethod
     def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
+
+    @contextmanager
+    def temporary_file_format_param(self, key: str, value: object):
+        """Temporarily set a file format parameter for the duration of the context."""
+        original_set = key in self.FILE_FORMAT_PARAMS
+        original_value = self.FILE_FORMAT_PARAMS.get(key)
+        self.FILE_FORMAT_PARAMS[key] = value
+        try:
+            yield
+        finally:
+            if original_set:
+                self.FILE_FORMAT_PARAMS[key] = original_value
+            else:
+                self.FILE_FORMAT_PARAMS.pop(key, None)
 
     def parse_file(self, filename: str | IO[bytes], template: str | None = None):
         if self.MONOLINGUAL:

@@ -49,6 +49,10 @@ class FileFormatParams(TypedDict, total=False):
     csv_simple_encoding: str
     gwt_encoding: str
     merge_duplicates: bool
+    line_max_length: int
+    md_extract_code_blocks: bool
+    md_extract_frontmatter: bool
+    md_no_placeholders: bool
 
 
 class BaseFileFormatParam:
@@ -74,6 +78,10 @@ class BaseFileFormatParam:
         "csv_simple_encoding",
         "gwt_encoding",
         "merge_duplicates",
+        "line_max_length",
+        "md_extract_code_blocks",
+        "md_extract_frontmatter",
+        "md_no_placeholders",
     ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
@@ -550,3 +558,52 @@ class GWTEncoding(BaseFileFormatParam):
     ]
     default = "utf-8"
     help_text = gettext_lazy("Encoding used for GWT Properties files")
+
+
+@register_file_format_param
+class LineMaxLength(BaseFileFormatParam):
+    name = "line_max_length"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Maximum line length")
+    field_class = forms.IntegerField
+    default = 80
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 20}
+    help_text = gettext_lazy(
+        "The maximum number of characters for each line in the output file. "
+    )
+
+
+@register_file_format_param
+class MdExtractCodeBlocks(BaseFileFormatParam):
+    name = "md_extract_code_blocks"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Extract code blocks")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy(
+        "Whether to extract translatable content from code blocks in Markdown files."
+    )
+
+
+@register_file_format_param
+class MdExtractFrontmatter(BaseFileFormatParam):
+    name = "md_extract_frontmatter"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Extract front matter")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy(
+        "Whether to extract and translate YAML front matter blocks in Markdown files."
+    )
+
+
+@register_file_format_param
+class MdNoPlaceholders(BaseFileFormatParam):
+    name = "md_no_placeholders"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Disable placeholders")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Disables detection and processing of placeholders in Markdown files."
+    )
