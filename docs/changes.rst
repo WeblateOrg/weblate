@@ -14,6 +14,7 @@ Weblate 5.17.1
 * Clarified the site-wide scope of the global ``user.edit`` permission.
 * Clarified :ref:`autoclean-tm`.
 * Clarified how :ref:`glossary-terminology` creates and maintains glossary language entries.
+* Documented current :ref:`translation-memory` management options in the UI.
 * Improved :ref:`screenshots` documentation and linked it from the screenshots UI.
 * The OpenAPI schema is cleaner and provides tighter API description.
 * Password updates now regenerate your personal API key by default.
