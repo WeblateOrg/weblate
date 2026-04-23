@@ -379,6 +379,92 @@ class ConflictingRepositorySetupAlertTest(ViewTestCase):
         Component.objects.filter(pk=component.pk).update(**defaults)
         component.refresh_from_db()
 
+    def test_conflicting_repository_setup_for_git_push_branch(self) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+        Component.objects.filter(pk__in=(self.component.pk, other.pk)).update(
+            push_branch="weblate-test"
+        )
+        self.component.refresh_from_db()
+        other.refresh_from_db()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        self.assertEqual(alert.details["component_ids"], [other.pk])
+        self.assertTrue(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_for_git_default_push_branch(self) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        self.assertEqual(alert.details["component_ids"], [other.pk])
+        self.assertTrue(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_ignored_for_different_git_branch(
+        self,
+    ) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+        Component.objects.filter(pk=other.pk).update(branch="weblate-test-2")
+        other.refresh_from_db()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+        self.assertFalse(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_from_peer_on_git_branch_save(
+        self,
+    ) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        other.branch = "translations"
+        other.filemask = "translations/*.po"
+        with patch.object(Component, "queue_background_task", return_value=None):
+            other.save()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
     def test_conflicting_repository_setup(self) -> None:
         self.configure_merge_request_component(self.component)
         other = self.create_conflicting_component()

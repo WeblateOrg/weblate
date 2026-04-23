@@ -58,6 +58,8 @@ For application-developer workflows and broader product integration guidance, us
 - Mock external VCS operations and API calls in tests.
 - For user-visible changes, add or update a changelog entry in the top section
   of `docs/changes.rst` for the upcoming release.
+- Do not alter changelog sections for already released versions; put follow-up
+  entries in the current unreleased section instead.
 - Keep changelog entries concise and link to the relevant documentation for the
   feature instead of embedding long explanations in the changelog itself.
 - Minor fixes and fixes for features that have not been released yet do not
