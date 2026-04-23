@@ -15,7 +15,7 @@ from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import regex
 from confusable_homoglyphs import confusables
@@ -448,6 +448,62 @@ class WeblateURLValidator(URLValidator):
             raise ValidationError(
                 gettext("This website cannot be used. Please provide a different one.")
             )
+
+
+CONTACT_URL_BLOCKED_EXTENSIONS = (
+    ".7z",
+    ".apk",
+    ".appimage",
+    ".bat",
+    ".bin",
+    ".bz2",
+    ".cmd",
+    ".deb",
+    ".dmg",
+    ".exe",
+    ".gz",
+    ".hta",
+    ".iso",
+    ".jar",
+    ".js",
+    ".lnk",
+    ".msi",
+    ".pkg",
+    ".ps1",
+    ".rar",
+    ".reg",
+    ".rpm",
+    ".scr",
+    ".sh",
+    ".tar",
+    ".vbs",
+    ".wsf",
+    ".xz",
+    ".zip",
+)
+
+
+def validate_contact_url(value: str | None) -> None:
+    """Reject obvious direct downloads in profile contact URLs."""
+    if not value:
+        return
+
+    parsed = urlparse(value)
+    if parsed.username or parsed.password:
+        raise ValidationError(
+            gettext("Contact URL cannot include username or password credentials.")
+        )
+
+    validate_outbound_url(value, allow_private_targets=False)
+
+    path = unquote(parsed.path).lower().rstrip("/")
+    if path.endswith(CONTACT_URL_BLOCKED_EXTENSIONS):
+        raise ValidationError(
+            gettext(
+                "Contact URL should link to a contact or profile page, "
+                "not directly to a file download."
+            )
+        )
 
 
 def validate_asset_url(value: str) -> None:

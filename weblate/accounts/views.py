@@ -151,6 +151,7 @@ from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_e
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.validators import WeblateURLValidator, validate_contact_url
 from weblate.utils.version import USER_AGENT
 from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
@@ -843,6 +844,32 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
                     )
                 )
             ),
+        },
+    )
+
+
+@login_not_required
+def user_contact(request: AuthenticatedHttpRequest, user: str):
+    page_user = get_object_or_404(User.objects.select_related("profile"), username=user)
+    page_profile = page_user.profile
+    contact_url = page_profile.contact
+    if not contact_url:
+        raise Http404
+    try:
+        WeblateURLValidator()(contact_url)
+        validate_contact_url(contact_url)
+    except ValidationError:
+        messages.warning(request, gettext("This contact link is no longer available."))
+        return redirect(page_profile.get_absolute_url())
+
+    return render(
+        request,
+        "accounts/user_contact.html",
+        {
+            "contact_url": contact_url,
+            "page_user": page_user,
+            "page_profile": page_profile,
+            "title": gettext("External contact link"),
         },
     )
 

@@ -59,7 +59,11 @@ from weblate.utils.stats import (
     GhostProjectLanguageStats,
     ProjectLanguageStats,
 )
-from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
+from weblate.utils.validators import (
+    EMAIL_BLACKLIST,
+    WeblateURLValidator,
+    validate_contact_url,
+)
 from weblate.wladmin.models import get_support_status
 
 from .types import ThemeChoices
@@ -833,7 +837,7 @@ class Profile(models.Model):
     contact = models.URLField(
         verbose_name=gettext_lazy("Contact URL"),
         blank=True,
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_contact_url],
         help_text=gettext_lazy(
             "Link to contact you online using services like Signal, SimpleX or Telegram."
         ),

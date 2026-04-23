@@ -223,6 +223,10 @@ All of the fields on this page are optional and can be deleted at any time, and
 by filling them out, you're giving us consent to share this data wherever your
 user profile appears.
 
+The :guilabel:`Contact URL` should point to a contact or profile page, for
+example on Signal, SimpleX or Telegram. Obvious direct file download links can
+be rejected, and public contact links show a warning before leaving Weblate.
+
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.
 
