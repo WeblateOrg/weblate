@@ -446,6 +446,7 @@ class OldComponentSettings(TypedDict):
     vcs: str
     push: str
     push_branch: str
+    branch: str
     repo: str
 
 
@@ -1211,6 +1212,7 @@ class Component(  # noqa: PLR0904
             "vcs": self.get_old_component_setting("vcs", current),
             "push": self.get_old_component_setting("push", current),
             "push_branch": self.get_old_component_setting("push_branch", current),
+            "branch": self.get_old_component_setting("branch", current),
             "repo": self.get_old_component_setting("repo", current),
         }
 
@@ -5036,18 +5038,22 @@ class Component(  # noqa: PLR0904
             return None
 
     def get_conflicting_setup_components(self) -> ComponentQuerySet:
-        if self.is_repo_link or not self.push or not self.push_branch:
+        config = self.get_conflicting_repository_setup_config()
+        if config is None:
             return Component.objects.none()
 
-        if self.vcs not in VCS_REGISTRY.merge_request_based:
-            return Component.objects.none()
+        push, push_branch = config
 
-        return Component.objects.filter(
-            push=self.push,
-            push_branch=self.push_branch,
-            vcs__in=VCS_REGISTRY.merge_request_based,
-            linked_component__isnull=True,
-        ).exclude(pk=self.pk)
+        return (
+            Component.objects.filter(
+                push=push,
+                vcs__in=VCS_REGISTRY.git_based,
+                linked_component__isnull=True,
+            )
+            .exclude(pk=self.pk)
+            .exclude(vcs="local")
+            .filter(Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch))
+        )
 
     def get_conflicting_repository_setup_config(
         self, old_settings: OldComponentSettings | None = None
@@ -5055,20 +5061,25 @@ class Component(  # noqa: PLR0904
         if old_settings is None:
             push = self.push
             push_branch = self.push_branch
+            branch = self.branch
             repo = self.repo
             vcs = self.vcs
         else:
             push = old_settings["push"]
             push_branch = old_settings["push_branch"]
+            branch = old_settings["branch"]
             repo = old_settings["repo"]
             vcs = old_settings["vcs"]
 
         if (
-            vcs not in VCS_REGISTRY.merge_request_based
+            vcs not in VCS_REGISTRY.git_based
+            or vcs == "local"
             or not push
-            or not push_branch
             or is_repo_link(repo)
         ):
+            return None
+        push_branch = push_branch or branch
+        if not push_branch:
             return None
         return (push, push_branch)
 
@@ -5101,12 +5112,18 @@ class Component(  # noqa: PLR0904
             cleanup_configs = self.get_conflicting_repository_setup_configs()
 
         for push, push_branch in cleanup_configs:
-            matching = Component.objects.filter(
-                push=push,
-                push_branch=push_branch,
-                vcs__in=VCS_REGISTRY.merge_request_based,
-                linked_component__isnull=True,
-            ).exclude(pk=self.pk)
+            matching = (
+                Component.objects.filter(
+                    push=push,
+                    vcs__in=VCS_REGISTRY.git_based,
+                    linked_component__isnull=True,
+                )
+                .exclude(pk=self.pk)
+                .exclude(vcs="local")
+                .filter(
+                    Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch)
+                )
+            )
             if matching.count() == 1:
                 Alert.objects.filter(
                     name="ConflictingRepositorySetup", component__in=matching
