@@ -9,7 +9,7 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0068_unit_source_tm_index"),
+        ("trans", "0073_alter_change_action"),
     ]
 
     operations = [
