@@ -11,7 +11,8 @@ from datetime import datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from altcha import ChallengeOptions, create_challenge, verify_solution
+from altcha import create_challenge_v1 as create_challenge
+from altcha import verify_solution_v1 as verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -38,6 +39,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     get_all_user_mails,
     invalidate_reset_codes,
+    reset_api_token,
 )
 from weblate.auth.models import Group, User
 from weblate.lang.models import Language
@@ -57,7 +59,7 @@ from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_ra
 from weblate.utils.validators import validate_fullname
 
 if TYPE_CHECKING:
-    from altcha import Challenge
+    from altcha import ChallengeV1 as Challenge
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
 
@@ -454,6 +456,10 @@ class UserForm(forms.ModelForm):
 class CaptchaWidget(forms.TextInput):
     challenge: Challenge | None = None
 
+    @staticmethod
+    def serialize_challenge(challenge: Challenge) -> str:
+        return json.dumps(challenge.to_dict())
+
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         if self.challenge is None:
             msg = "Challenge is missing!"
@@ -462,15 +468,7 @@ class CaptchaWidget(forms.TextInput):
         return format_html(
             "<altcha-widget challengejson='{}' strings='{}' hidefooter auto='onfocus'></altcha-widget>",
             # Directly include challenge
-            json.dumps(
-                {
-                    "algorithm": self.challenge.algorithm,
-                    "challenge": self.challenge.challenge,
-                    "maxnumber": self.challenge.max_number,
-                    "salt": self.challenge.salt,
-                    "signature": self.challenge.signature,
-                }
-            ),
+            self.serialize_challenge(self.challenge),
             # Localize strings
             json.dumps(
                 {
@@ -545,12 +543,11 @@ class CaptchaForm(forms.Form):
         # and then compared to time.time()
         expires = datetime.now(tz=None) + timedelta(hours=1)  # noqa: DTZ005
 
-        challenge_options = ChallengeOptions(
+        self.challenge = create_challenge(
             hmac_key=settings.SECRET_KEY,
             max_number=settings.ALTCHA_MAX_NUMBER,
             expires=expires,
         )
-        self.challenge = create_challenge(challenge_options)
         return self.challenge
 
     def generate_captcha(self) -> None:
@@ -727,6 +724,16 @@ class SetPasswordForm(DjangoSetPasswordForm):
         label=gettext_lazy("New password confirmation"),
         new_password=True,
     )
+    regenerate_api_key = forms.BooleanField(
+        label=gettext_lazy("Regenerate API key"),
+        help_text=gettext_lazy(
+            "Leave enabled to revoke the current API key and generate a new one. "
+            "This is recommended if you suspect your password was compromised. "
+            "Disable it to keep your current API key active after changing your password."
+        ),
+        required=False,
+        initial=True,
+    )
 
     @transaction.atomic
     # pylint: disable-next=arguments-renamed
@@ -749,6 +756,9 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
         # Invalidate password reset codes
         invalidate_reset_codes(self.user)
+
+        if self.cleaned_data.get("regenerate_api_key"):
+            reset_api_token(self.user)
 
         if delete_session:
             request.session.flush()

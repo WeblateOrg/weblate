@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar, Protocol
 
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -16,13 +16,46 @@ from weblate.accounts.avatar import get_user_display
 from weblate.logger import LOGGER
 from weblate.utils.data import data_dir
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Category, Project
+
+
+class _HasUser(Protocol):
+    @property
+    def user(self) -> User | None: ...
+
+
+class _HasOptionalId(Protocol):
+    @property
+    def id(self) -> int | None: ...
+
+
+class _HasComponentCategoryAttrs(Protocol):
+    @property
+    def category(self) -> Category | None: ...
+
+    @property
+    def project(self) -> Project: ...
+
+    @property
+    def id(self) -> int | None: ...
+
+    @property
+    def slug(self) -> str: ...
+
+    @property
+    def name(self) -> str: ...
+
+    def _clean_unique_together(self, field: str, msg: str, lookup: str) -> None: ...
+
 
 class BaseURLMixin:
     def get_url_path(self) -> tuple[str, ...]:
         raise NotImplementedError
 
     @cached_property
-    def full_slug(self):
+    def full_slug(self) -> str:
         return "/".join(self.get_url_path())
 
 
@@ -59,12 +92,12 @@ class LoggerMixin(BaseURLMixin):
 class PathMixin(LoggerMixin, URLMixin):
     """Mixin for models with path manipulations."""
 
-    def _get_path(self):
+    def _get_path(self) -> str:
         """Actual calculation of path."""
         return os.path.join(data_dir("vcs"), *self.get_url_path())
 
     @cached_property
-    def full_path(self):
+    def full_path(self) -> str:
         return self._get_path()
 
     def invalidate_path_cache(self) -> None:
@@ -104,21 +137,23 @@ class PathMixin(LoggerMixin, URLMixin):
 
 
 class UserDisplayMixin:
-    def get_user_display(self, icon: bool = True):
+    def get_user_display(self: _HasUser, icon: bool = True):
         return get_user_display(self.user, icon, link=True)
 
-    def get_user_text_display(self):
+    def get_user_text_display(self: _HasUser):
         return get_user_display(self.user, icon=False, link=True)
 
 
 class CacheKeyMixin:
     @cached_property
-    def cache_key(self) -> str:
+    def cache_key(self: _HasOptionalId) -> str:
         return f"{self.__class__.__name__}-{self.id}"
 
 
 class ComponentCategoryMixin:
-    def _clean_unique_together(self, field: str, msg: str, lookup: str) -> None:
+    def _clean_unique_together(
+        self: _HasComponentCategoryAttrs, field: str, msg: str, lookup: str
+    ) -> None:
         if self.category:
             matching_components = self.category.component_set.filter(**{field: lookup})
             matching_categories = self.category.category_set.filter(**{field: lookup})
@@ -139,7 +174,7 @@ class ComponentCategoryMixin:
         if matching_categories.exists() or matching_components.exists():
             raise ValidationError({field: msg})
 
-    def clean_unique_together(self) -> None:
+    def clean_unique_together(self: _HasComponentCategoryAttrs) -> None:
         self._clean_unique_together(
             "slug",
             gettext(

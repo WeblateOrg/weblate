@@ -33,6 +33,10 @@ from weblate.utils.environment import (
     get_saml_idp,
     modify_env_list,
 )
+from weblate.utils.version_display import (
+    VERSION_DISPLAY_HIDE,
+    normalize_version_display,
+)
 
 # Title of site to use
 SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", "Weblate")
@@ -156,6 +160,7 @@ LANGUAGES = (
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
+    ("vi", "Tiếng việt"),
     ("zh-hans", "简体中文"),
     ("zh-hant", "正體中文"),
 )
@@ -436,7 +441,7 @@ if WEBLATE_SAML_IDP:
     SOCIAL_AUTH_SAML_IMAGE = get_env_str("WEBLATE_SAML_IDP_IMAGE")
     SOCIAL_AUTH_SAML_TITLE = get_env_str("WEBLATE_SAML_IDP_TITLE")
 
-# Azure
+# Microsoft Entra ID
 SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY")
 if SOCIAL_AUTH_AZUREAD_OAUTH2_KEY:
     SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = get_env_str(
@@ -444,7 +449,7 @@ if SOCIAL_AUTH_AZUREAD_OAUTH2_KEY:
     )
     AUTHENTICATION_BACKENDS += ("social_core.backends.azuread.AzureADOAuth2",)
 
-# Azure AD Tenant
+# Microsoft Entra ID with Tenant
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = get_env_str(
     "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY"
 )
@@ -479,7 +484,9 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     )
     SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
     SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
-    SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email"
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Fedora OpenIDConnect
@@ -701,12 +708,21 @@ VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
 VCS_API_TIMEOUT = get_env_int("WEBLATE_VCS_API_TIMEOUT", 10)
 VCS_ALLOW_HOSTS = set(get_env_list("WEBLATE_VCS_ALLOW_HOSTS", []))
 VCS_ALLOW_SCHEMES = set(get_env_list("WEBLATE_VCS_ALLOW_SCHEMES", ["https", "ssh"]))
+VCS_RESTRICT_PRIVATE = get_env_bool("WEBLATE_VCS_RESTRICT_PRIVATE", True)
 
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 REGISTRATION_ALLOW_DISPOSABLE_EMAILS = get_env_bool(
     "WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS", False
 )
+PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
+    "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE", True
+)
+PROJECT_WEB_RESTRICT_ALLOWLIST = set(
+    get_env_list("WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST", [])
+)
+WEBHOOK_RESTRICT_PRIVATE = get_env_bool("WEBLATE_WEBHOOK_RESTRICT_PRIVATE", True)
+WEBHOOK_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST", [])
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:
@@ -1067,8 +1083,11 @@ EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 # Enable remote hooks
 ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
 
-# Version hiding
+# Version visibility
+VERSION_DISPLAY = get_env_str("WEBLATE_VERSION_DISPLAY")
 HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
+VERSION_DISPLAY = normalize_version_display(VERSION_DISPLAY, HIDE_VERSION)
+HIDE_VERSION = VERSION_DISPLAY == VERSION_DISPLAY_HIDE
 
 # Licensing filter
 license_filter_list = get_env_list_or_none("WEBLATE_LICENSE_FILTER")
@@ -1139,6 +1158,7 @@ CHECK_LIST = [
     "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
+    "weblate.checks.format.LaravelFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",
     "weblate.checks.format.PercentPlaceholdersCheck",
@@ -1198,6 +1218,7 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
     "weblate.trans.autofixes.chars.DevanagariDanda",
+    "weblate.trans.autofixes.chars.PunctuationSpacing",
     "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
@@ -1209,6 +1230,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.UpdateConfigureAddon",
     "weblate.addons.gettext.MsgmergeAddon",
     "weblate.addons.gettext.XgettextAddon",
+    "weblate.addons.gettext.MesonAddon",
     "weblate.addons.gettext.DjangoAddon",
     "weblate.addons.gettext.SphinxAddon",
     "weblate.addons.gettext.GettextAuthorComments",
@@ -1485,7 +1507,7 @@ GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
 STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
 LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
 PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
-
+PASSWORD_RESET_URL = get_env_str("WEBLATE_PASSWORD_RESET_URL")
 # Third party services integration
 MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
 MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")

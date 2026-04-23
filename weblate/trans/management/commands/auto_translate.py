@@ -110,8 +110,12 @@ class Command(WeblateTranslationCommand):
 
         message = auto.perform(
             auto_source="mt" if options["mt"] else "others",
-            source_component_id=source_component_id,
+            source_component_ids=(
+                [source_component_id] if source_component_id is not None else None
+            ),
             engines=options["mt"],
             threshold=options["threshold"],
         )
         self.stdout.write(message)
+        for warning in auto.get_warnings():
+            self.stdout.write(warning)

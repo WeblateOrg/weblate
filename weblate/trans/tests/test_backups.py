@@ -4,8 +4,10 @@
 
 """Tests for data exports."""
 
+import json
 import os
 import tempfile
+from unittest.mock import patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
@@ -17,14 +19,18 @@ from django.core.management import call_command
 from django.test import override_settings
 from django.urls import reverse
 
+from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import AutoGroup, Group, Role
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, list_backups
+from weblate.trans.change_display import get_change_history_context
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -45,6 +51,141 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def write_tampered_component_backup(
+        self, *, repo: str | None = None, push: str | None = None
+    ) -> str:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with (
+            ZipFile(backup.filename, "r") as source_zip,
+            ZipFile(temp_name, "w") as target_zip,
+        ):
+            for item in source_zip.infolist():
+                data = source_zip.read(item.filename)
+                if item.filename.endswith(
+                    f"{self.component.slug}.json"
+                ) and item.filename.startswith("components/"):
+                    component_data = json.loads(data.decode("utf-8"))
+                    if repo is not None:
+                        component_data["component"]["repo"] = repo
+                    if push is not None:
+                        component_data["component"]["push"] = push
+                    data = json.dumps(component_data).encode("utf-8")
+                target_zip.writestr(item, data)
+
+        return temp_name
+
+    def test_backup_creates_history_entry(self) -> None:
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertIsNone(change.user)
+        self.assertEqual(
+            change.details,
+            {"backup_filename": backup.relative_filename},
+        )
+        history_data = get_change_history_context(change)
+        self.assertEqual(history_data["description"], "Project backed up")
+        self.assertEqual(
+            history_data["change_details_fields"][0]["label"],
+            "Backup file",
+        )
+        self.assertIn(
+            backup.relative_filename,
+            history_data["change_details_fields"][0]["content"],
+        )
+
+    def test_backup_creates_history_entry_with_user(self) -> None:
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project, self.user)
+
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+    def test_restore_creates_history_entries(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        project_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(project_change.user, self.user)
+        self.assertEqual(project_change.author, self.user)
+        self.assertEqual(
+            project_change.details,
+            {
+                "backup_timestamp": restore.data["metadata"]["timestamp"],
+                "backup_server": restore.data["metadata"]["server"],
+                "backup_domain": restore.data["metadata"]["domain"],
+            },
+        )
+        history_data = get_change_history_context(project_change)
+        self.assertEqual(history_data["description"], "Project restored")
+        self.assertEqual(
+            [field["label"] for field in history_data["change_details_fields"]],
+            ["Backup created", "Backup server", "Backup domain"],
+        )
+
+        component_changes = Change.objects.filter(
+            project=restored, action=ActionEvents.COMPONENT_RESTORE
+        )
+        self.assertEqual(component_changes.count(), restored.component_set.count())
+        self.assertEqual(
+            {change.details["original_slug"] for change in component_changes},
+            {
+                ProjectBackup.full_slug_without_project(component)
+                for component in self.project.component_set.iterator()
+            },
+        )
+        for change in component_changes:
+            self.assertEqual(change.user, self.user)
+            self.assertEqual(change.author, self.user)
+            self.assertIsNotNone(change.component)
+            component_history_data = get_change_history_context(change)
+            self.assertEqual(
+                component_history_data["description"], "Component restored"
+            )
+            self.assertEqual(
+                component_history_data["change_details_fields"][0]["label"],
+                "Original component",
+            )
+
+    def test_restore_batches_change_addon_dispatch(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        WebhookAddon.create(
+            configuration={
+                "webhook_url": "https://example.com/hook",
+                "events": [ActionEvents.PROJECT_RESTORE],
+            },
+            run=False,
+        )
+
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit") as mocked_delay:
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
+        self.assertEqual(mocked_delay.call_count, 2)
+        self.assertEqual(
+            sorted(len(call.args[0]) for call in mocked_delay.call_args_list),
+            [1, restored.component_set.count() + 1],
+        )
 
     def test_create_backup(self) -> None:
         # Create linked component
@@ -207,6 +348,94 @@ class BackupsTest(ViewTestCase):
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()
+
+    def test_restore_synthesizes_source_translation_check_flags(self) -> None:
+        source = self.component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_file = next(
+                path
+                for path in zipfile.namelist()
+                if path.startswith("components/")
+                and path.endswith(f"{self.component.slug}.json")
+            )
+            component_data = json.loads(zipfile.read(component_file).decode("utf-8"))
+        self.assertFalse(
+            any(
+                "check_flags" in translation
+                for translation in component_data["translations"]
+            )
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        restored_source = restored_component.source_translation
+
+        self.assertEqual(restored_source.check_flags, "read-only")
+
+    def test_restore_rejects_invalid_repo_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            repo="https://private.example/repo.git"
+        )
+
+        try:
+            restore = ProjectBackup(temp_name)
+            with (
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                ),
+                self.assertRaises(ValidationError) as error,
+            ):
+                restore.validate()
+
+            self.assertEqual(
+                error.exception.message_dict,
+                {
+                    "repo": [
+                        "This URL is prohibited because it points to an internal or non-public address."
+                    ]
+                },
+            )
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_invalid_push_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            push="https://private.example/push.git"
+        )
+
+        try:
+            restore = ProjectBackup(temp_name)
+            with (
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                ),
+                self.assertRaises(ValidationError) as error,
+            ):
+                restore.validate()
+
+            self.assertEqual(
+                error.exception.message_dict,
+                {
+                    "push": [
+                        "This URL is prohibited because it points to an internal or non-public address."
+                    ]
+                },
+            )
+        finally:
+            os.unlink(temp_name)
 
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
@@ -479,6 +708,9 @@ class BackupsTest(ViewTestCase):
         response = self.client.post(url)
         self.assertRedirects(response, url)
         self.assertEqual(start + 1, len(list_backups(self.project)))
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
         response = self.client.get(url)
         self.assertNotContains(response, " no backups")
 

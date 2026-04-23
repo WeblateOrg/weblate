@@ -184,6 +184,14 @@ class ActionEvents(IntegerChoices):
     NEW_SOURCE_UPLOAD = 89, gettext_lazy("Source string added in the upload")
     # Translators: Name of event in the history
     NEW_SOURCE_REPO = 90, gettext_lazy("Source string added in the repository")
+    # Translators: Name of event in the history
+    PROJECT_BACKUP = 91, gettext_lazy("Project backed up")
+    # Translators: Name of event in the history
+    PROJECT_RESTORE = 92, gettext_lazy("Project restored")
+    # Translators: Name of event in the history
+    COMPONENT_RESTORE = 93, gettext_lazy("Component restored")
+    # Translators: Name of event in the history
+    USER_REVERT = 94, gettext_lazy("User edit reverted")
 
 
 # Actions which are logged
@@ -204,6 +212,9 @@ ACTIONS_LOG = {
     ActionEvents.REMOVE_CATEGORY,
     ActionEvents.RENAME_CATEGORY,
     ActionEvents.MOVE_CATEGORY,
+    ActionEvents.PROJECT_BACKUP,
+    ActionEvents.PROJECT_RESTORE,
+    ActionEvents.COMPONENT_RESTORE,
 }
 
 
@@ -221,6 +232,7 @@ ACTIONS_REVERTABLE = {
     ActionEvents.PROPAGATED_EDIT,
     ActionEvents.STRING_REPO_UPDATE,
     ActionEvents.STRING_UPLOAD_UPDATE,
+    ActionEvents.USER_REVERT,
 }
 
 # Content changes considered when looking for last author
@@ -241,6 +253,7 @@ ACTIONS_CONTENT = {
     ActionEvents.EXTRA_FLAGS,
     ActionEvents.NEW_UNIT,
     ActionEvents.ENFORCED_CHECK,
+    ActionEvents.USER_REVERT,
 }
 
 # Actions shown on the repository management page

@@ -18,7 +18,8 @@ from weblate.checks.source import (
 )
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.models import Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase, FixtureTestCase
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
 class OptionalPluralCheckTest(TestCase):
@@ -49,7 +50,7 @@ class EllipsisCheckTest(TestCase):
         self.assertTrue(self.check.check_source(["text..."], MockUnit()))
 
 
-class LongUntranslatedCheckTestCase(FixtureTestCase):
+class LongUntranslatedCheckTestCase(FixtureComponentTestCase):
     check = LongUntranslatedCheck()
 
     def test_recent(self) -> None:
@@ -79,8 +80,10 @@ class LongUntranslatedCheckTestCase(FixtureTestCase):
         unit = self.get_unit(language="en")
         unit.timestamp = timezone.now() - timedelta(days=100)
         unit.save()
-        unit.translation.component.stats.set_data({"translated": 1, "all": 1})
-        unit.translation.component.stats.save()
+        Unit.objects.filter(translation__component=unit.translation.component).exclude(
+            source_unit=unit
+        ).update(state=STATE_TRANSLATED)
+        unit.unit_set.exclude(pk=unit.pk).update(state=STATE_EMPTY, target="")
         self.check.perform_batch(self.component)
         self.assertIn("long_untranslated", unit.all_checks_names)
 

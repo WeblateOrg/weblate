@@ -38,21 +38,39 @@ def sorted_events(events: Iterable[AddonEvent]) -> Iterable[AddonEvent]:
     return sorted(events, key=lambda event: event.label)
 
 
-SHARED_PARAMS = {"engines", "file_format", "events"}
+SHARED_PARAMS = ("engines", "file_format", "events")
 
 
 class Command(DocGeneratorCommand):
     help = "List installed add-ons"
 
+    def add_arguments(self, parser):
+        super().add_arguments(parser)
+        parser.add_argument(
+            "-s",
+            "--sections",
+            nargs="*",
+            choices=["events", "addons", "parameters"],
+            help="Filter output by section. Can specify multiple sections. "
+            "If not specified, all sections are shown.",
+        )
+
     def handle(self, *args, **options) -> None:
         """List installed add-ons."""
-        # Shared parameters
-        self.params = SHARED_PARAMS.copy()
-        self.param_docs: dict[str, list[str]] = {}
+        self.sections.clear()
 
-        self.generate_events_doc()
-        self.generate_addons_doc()
-        self.generate_addon_parameters_doc()
+        # Shared parameters
+        self.params = set(SHARED_PARAMS)
+        self.param_docs: dict[str, list[str]] = {}
+        sections = set(options.get("sections", []) or [])
+        show_all = not sections
+
+        if show_all or "events" in sections:
+            self.generate_events_doc()
+        if show_all or {"addons", "parameters"} & sections:
+            self.generate_addons_doc(include_sections=show_all or "addons" in sections)
+        if show_all or "parameters" in sections:
+            self.generate_addon_parameters_doc()
 
         self.write_sections(options.get("output"))
 
@@ -78,11 +96,12 @@ class Command(DocGeneratorCommand):
             content.append("")
         self.add_section("events", content)
 
-    def generate_addons_doc(self) -> None:
-        self.add_section(
-            "addons-header",
-            ["Built-in add-ons", "++++++++++++++++"],
-        )
+    def generate_addons_doc(self, *, include_sections: bool) -> None:
+        if include_sections:
+            self.add_section(
+                "addons-header",
+                ["Built-in add-ons", "++++++++++++++++"],
+            )
 
         fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
         for addon_name, obj in sorted(ADDONS.items()):
@@ -169,12 +188,22 @@ class Command(DocGeneratorCommand):
                     "\n".join(wrap(str(obj.description), 79)),
                 ]
             )
-            self.add_section(addon_name, addon_lines)
+            if include_sections:
+                self.add_section(addon_name, addon_lines)
 
     def generate_addon_parameters_doc(self) -> None:
         self.add_section(
             "addon-parameters",
-            ["\n".join(items) for items in self.param_docs.values()],
+            [
+                "Common add-on parameters",
+                "++++++++++++++++++++++++",
+                "",
+                *[
+                    "\n".join(self.param_docs[name])
+                    for name in SHARED_PARAMS
+                    if name in self.param_docs
+                ],
+            ],
         )
 
     def get_documented_field(self, form_class, name: str, field):

@@ -324,9 +324,15 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``.
    :doc:`psa:backends/gitea`
 
 .. _azure-auth:
+.. _entra-auth:
 
-Microsoft Azure Active Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID
+~~~~~~~~~~~~~~~~~~
+
+Azure Active Directory (Azure AD) is now Microsoft Entra ID. Weblate keeps the
+``azuread-oauth2`` and ``azuread-tenant-oauth2`` backend names for
+compatibility with the underlying Python Social Auth backends and existing
+deployments.
 
 Weblate can be configured to use common or specific tenants for authentication.
 
@@ -336,13 +342,15 @@ for tenant-specific authentication.
 
 You will need following:
 
-* *Application (client) ID* can be obtained from application page. *Object ID* is not used in Weblate.
+* *Application (client) ID* is available on the app registration overview in the
+  Microsoft Entra admin center. *Object ID* is not used in Weblate.
 * *Directory (tenant) ID* is needed for tenant scoped authentication, what is usually desired.
-* *Secret value* is displayed once you generate a secret for an application. *Secret ID* is not used in Weblate.
+* *Secret value* is displayed once you create a client secret for the app
+  registration. *Secret ID* is not used in Weblate.
 
 .. code-block:: python
 
-    # Azure AD common
+    # Microsoft Entra ID common
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
@@ -357,7 +365,7 @@ You will need following:
 
 .. code-block:: python
 
-    # Azure AD Tenant
+    # Microsoft Entra ID with Tenant
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
@@ -638,6 +646,9 @@ Once you have the package installed, you can hook it into the Django authenticat
         # Email is required for Weblate (used in VCS commits)
         "email": "mail",
     }
+    # Optional: route "Forgot your password?" to your LDAP self-service page
+    PASSWORD_RESET_URL = "https://id.example.net/password-reset/"
+
 
     # Hide the registration form
     REGISTRATION_OPEN = False
@@ -830,6 +841,10 @@ Recovery codes
 Each user can configure this in :ref:`profile-account` and second factor will
 be required to sign in addition to the existing authentication method.
 
-This can be enforced for users at the project (see :ref:`project-enforced_2fa`) or team level.
+This can be enforced for users at the project (see :ref:`project-enforced_2fa`)
+or team level. In site-wide deployments, this can also be used to enforce
+two-factor authentication for all users by enabling it on the default
+:guilabel:`Users` team, which is assigned automatically to new users by
+:ref:`automatic team assignment <autoteam>`.
 
 The permissions of a team with enforced two-factor authentication won't be applied to users who do not have it configured.

@@ -112,7 +112,7 @@ ALLOWED_ASSET_SIZE
 
 .. versionadded:: 5.14
 
-Configures size limit for fetching assets in Weblate. Defaults to 4 MB.
+Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
 
 .. seealso::
 
@@ -361,10 +361,16 @@ in :setting:`DATA_DIR`.
 Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
 network filesystem.
 
+Weblate also stores generated SSH wrapper scripts here, so :setting:`CACHE_DIR`
+needs to be on an executable filesystem if :setting:`DATA_DIR` is mounted with
+``noexec``.
+
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 The following subdirectories usually exist:
 
+:file:`ssh`
+   Generated SSH wrapper scripts used for VCS access.
 :file:`fonts`
    :program:`font-config` cache for :ref:`fonts`.
 :file:`avatar`
@@ -1109,23 +1115,48 @@ error messages too in a similar manner.
 
     On by default.
 
+.. setting:: VERSION_DISPLAY
+
+VERSION_DISPLAY
+---------------
+
+.. versionadded:: 5.17
+
+Controls how prominently Weblate exposes its own version.
+
+Supported values are:
+
+``show``
+    Show the version in shared UI such as the footer and expose it in
+    :http:get:`/api/metrics/`.
+
+``soft``
+    Hide the version from prominent shared UI, while keeping it discoverable on
+    the :guilabel:`About` page and in :http:get:`/api/metrics/`.
+
+``hide``
+    Hide the version from shared UI and :http:get:`/api/metrics/`. This also
+    makes anonymous documentation links point to the latest documentation
+    instead of the version matching the installed release.
+
+Hiding the version is a recommended security practice in some corporations,
+but it does not prevent an attacker from inferring the version by probing
+behavior.
+
+.. note::
+
+    The default is ``show``.
+
 .. setting:: HIDE_VERSION
 
 HIDE_VERSION
 ------------
 
 .. versionadded:: 4.3.1
+.. deprecated:: 5.17
 
-Hides version info from unauthenticated users. This also makes all
-documentation links point to the latest version instead of the documentation
-matching the currently installed version.
-
-Hiding the version is a recommended security practice in some corporations,
-does not prevent an attacker from figuring out version by probing behavior.
-
-.. note::
-
-    This is turned off by default.
+Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to
+get the same behavior as ``VERSION_DISPLAY = "hide"``.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
@@ -1447,6 +1478,17 @@ Defaults to 0, which means strength checking is disabled.
    * :ref:`password-authentication`
    * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
+.. setting:: PASSWORD_RESET_URL
+
+PASSWORD_RESET_URL
+------------------
+
+.. versionadded:: 5.17
+
+URL for password reset when authentication is handled by an external identity provider, such as LDAP, SAML, or OAuth.
+
+When set, :guilabel:`Forgot your password?` on the sign-in page links to this URL
+instead of Weblate's built-in password reset page.
 
 .. setting:: PRIVACY_URL
 
@@ -1681,6 +1723,42 @@ Default configuration:
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+   * :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`
+
+.. setting:: PROJECT_WEB_RESTRICT_ALLOWLIST
+
+PROJECT_WEB_RESTRICT_ALLOWLIST
+------------------------------
+
+.. versionadded:: 5.17
+
+Defines a set of project slugs exempt from
+:setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+:setting:`PROJECT_WEB_RESTRICT_PRIVATE`, and
+:setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website.
+Project slugs are matched case-insensitively.
+
+.. caution::
+
+   This exemption weakens outbound URL protections for matching projects,
+   including the private-target restriction enforced by
+   :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted,
+   administrator-managed projects where bypassing these checks is intentional.
+
+Default configuration:
+
+.. code-block:: python
+
+   PROJECT_WEB_RESTRICT_ALLOWLIST = set()
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 
@@ -1697,6 +1775,25 @@ Reject using numeric IP address in project website. On by default.
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+
+.. setting:: PROJECT_WEB_RESTRICT_PRIVATE
+
+PROJECT_WEB_RESTRICT_PRIVATE
+----------------------------
+
+.. versionadded:: 5.17
+
+Reject using project website and repository browser URLs pointing to internal or
+non-public addresses. On by default.
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :ref:`component-repoweb`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. setting:: PROJECT_WEB_RESTRICT_RE
@@ -1713,6 +1810,44 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_PRIVATE_ALLOWLIST
+
+WEBHOOK_PRIVATE_ALLOWLIST
+-------------------------
+
+.. versionadded:: 5.17
+
+Defines hostnames or domains exempt from :setting:`WEBHOOK_RESTRICT_PRIVATE`
+for outbound webhook delivery. Entries follow Django host matching semantics,
+so values such as ``hooks.internal.example`` or ``.internal.example`` can be
+used.
+
+Default configuration:
+
+.. code-block:: python
+
+   WEBHOOK_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`WEBHOOK_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_RESTRICT_PRIVATE
+
+WEBHOOK_RESTRICT_PRIVATE
+------------------------
+
+.. versionadded:: 5.17
+
+Reject webhook URLs pointing to internal or non-public addresses unless the
+target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
+
+.. seealso::
+
+   * :ref:`addon-weblate.webhook.webhook`
+   * :setting:`WEBHOOK_PRIVATE_ALLOWLIST`
 
 .. setting:: PUBLIC_ENGAGE
 
@@ -2256,7 +2391,11 @@ VCS_ALLOW_HOSTS
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
+which does no filtering at all.
+
+When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
+from the private-target restriction.
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2265,7 +2404,18 @@ VCS_ALLOW_SCHEMES
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
+``ssh`` are allowed by default.
+
+.. setting:: VCS_RESTRICT_PRIVATE
+
+VCS_RESTRICT_PRIVATE
+--------------------
+
+.. versionadded:: 5.17
+
+Reject VCS repository URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
 
 .. setting:: VCS_API_DELAY
 

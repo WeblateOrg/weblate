@@ -7,6 +7,7 @@ import re
 import uuid
 from collections import defaultdict
 from contextvars import ContextVar
+from dataclasses import dataclass
 from functools import cache as functools_cache
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
@@ -333,7 +334,7 @@ class UserQuerySet(models.QuerySet["User"]):
         fallback: User | None,
         request: AuthenticatedHttpRequest,
     ) -> User | None:
-        from weblate.accounts.models import AuditLog
+        from weblate.accounts.models import AuditLog  # noqa: PLC0415
 
         if author_email and (fallback is None or not fallback.has_email(author_email)):
             author, created = User.objects.get_or_create(
@@ -444,6 +445,11 @@ class GroupManyToManyField(models.ManyToManyField):
 
 
 class User(AbstractBaseUser):
+    @dataclass
+    class AuditState:
+        group_ids: set[int]
+        is_superuser: bool
+
     username = UsernameField(
         gettext_lazy("Username"),
         max_length=USERNAME_LENGTH,
@@ -505,6 +511,7 @@ class User(AbstractBaseUser):
     )
 
     objects = UserManager.from_queryset(UserQuerySet)()
+    _audit_state: AuditState | None = None
 
     # django_otp integration (via OTPMiddleware)
     otp_device: Device
@@ -526,7 +533,7 @@ class User(AbstractBaseUser):
         return self.full_name
 
     def save(self, *args, **kwargs) -> None:
-        from weblate.accounts.models import AuditLog
+        from weblate.accounts.models import AuditLog  # noqa: PLC0415
 
         original = None
         if self.pk:
@@ -880,7 +887,7 @@ class User(AbstractBaseUser):
 
     @property
     def component_permissions(self) -> SimplePermissionCacheType:
-        """List all project permissions."""
+        """List all component permissions."""
         return self._permissions["components"]
 
     @cached_property
@@ -933,41 +940,137 @@ class User(AbstractBaseUser):
         *,
         user: User | None = None,
     ) -> None:
-        from weblate.accounts.models import AuditLog
-
         self.groups.add(team)
-
-        username: str | None
-        if user is not None:
-            username = user.username
-        elif request is not None:
-            username = request.user.username
-        else:
-            username = None
-
-        AuditLog.objects.create(
-            user=self,
-            request=request if request is not None and request.user == self else None,
-            activity="team-add",
-            username=username,
-            team=team.name,
-        )
+        self._audit_team_change(request, team, activity="team-add", actor=user)
 
     def remove_team(
         self, request: AuthenticatedHttpRequest | None, team: Group
     ) -> None:
-        from weblate.accounts.models import AuditLog
-
         self.groups.remove(team)
+        self._audit_team_change(request, team, activity="team-remove")
+
+    def store_audit_state(
+        self,
+        *,
+        group_ids: set[int] | None = None,
+        is_superuser: bool | None = None,
+    ) -> None:
+        if self._audit_state is not None:
+            msg = "Audit state is already stored!"
+            raise ValueError(msg)
+        self._audit_state = self.AuditState(
+            group_ids=(
+                set(self.groups.values_list("id", flat=True))
+                if group_ids is None
+                else group_ids
+            ),
+            is_superuser=self.is_superuser if is_superuser is None else is_superuser,
+        )
+
+    def log_audit_state(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        *,
+        actor: User | None = None,
+    ) -> None:
+        audit_state = self._audit_state
+        self._audit_state = None
+        if audit_state is None:
+            return
+
+        self.audit_superuser_change(
+            request,
+            previous_is_superuser=audit_state.is_superuser,
+            actor=actor,
+        )
+        self.audit_team_membership_changes(
+            request,
+            previous_group_ids=audit_state.group_ids,
+            actor=actor,
+        )
+
+    def audit_superuser_change(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        *,
+        previous_is_superuser: bool,
+        actor: User | None = None,
+    ) -> None:
+        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+
+        if previous_is_superuser == self.is_superuser:
+            return
+
         AuditLog.objects.create(
             user=self,
-            request=request if request is not None and request.user == self else None,
-            activity="team-remove",
-            username=request.user.username
-            if request is not None and request.user
-            else None,
+            request=self._get_audit_request(request),
+            activity="superuser-granted" if self.is_superuser else "superuser-revoked",
+            username=self._get_audit_actor_username(request, actor=actor),
+        )
+
+    def audit_team_membership_changes(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        *,
+        previous_group_ids: set[int],
+        actor: User | None = None,
+    ) -> None:
+        current_group_ids = set(self.groups.values_list("id", flat=True))
+
+        for team in Group.objects.filter(
+            pk__in=current_group_ids - previous_group_ids
+        ).order():
+            self._audit_team_change(request, team, activity="team-add", actor=actor)
+        for team in Group.objects.filter(
+            pk__in=previous_group_ids - current_group_ids
+        ).order():
+            self._audit_team_change(request, team, activity="team-remove", actor=actor)
+
+    @staticmethod
+    def _get_audit_actor_username(
+        request: AuthenticatedHttpRequest | None,
+        *,
+        actor: User | None = None,
+    ) -> str | None:
+        if actor is not None:
+            return actor.username
+        if request is not None and request.user.is_authenticated:
+            return request.user.username
+        return None
+
+    def _get_audit_request(
+        self, request: AuthenticatedHttpRequest | None
+    ) -> AuthenticatedHttpRequest | None:
+        if request is not None and request.user == self:
+            return request
+        return None
+
+    def _audit_team_change(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        team: Group,
+        *,
+        activity: Literal["team-add", "team-remove"],
+        actor: User | None = None,
+    ) -> None:
+        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+
+        AuditLog.objects.create(
+            user=self,
+            request=self._get_audit_request(request),
+            activity=self._get_team_audit_activity(team, activity),
+            username=self._get_audit_actor_username(request, actor=actor),
             team=team.name,
         )
+
+    @staticmethod
+    def _get_team_audit_activity(
+        team: Group,
+        activity: Literal["team-add", "team-remove"],
+    ) -> str:
+        if team.defining_project_id is None:
+            return f"sitewide-{activity}"
+        return activity
 
     def has_email(self, email: str) -> bool:
         return (
@@ -1252,7 +1355,9 @@ class Invitation(models.Model):
         return reverse("invitation", kwargs={"pk": self.uuid})
 
     def send_email(self) -> None:
-        from weblate.accounts.notifications import send_notification_email
+        from weblate.accounts.notifications import (  # noqa: PLC0415
+            send_notification_email,
+        )
 
         email: str
         if self.email:
@@ -1269,18 +1374,21 @@ class Invitation(models.Model):
             "invite",
             info=f"{self}",
             context={"invitation": self, "validity": settings.AUTH_TOKEN_VALID // 3600},
+            user=self.user,
         )
 
     def accept(self, request: AuthenticatedHttpRequest, user: User) -> None:
-        from weblate.accounts.models import AuditLog
+        from weblate.accounts.models import AuditLog  # noqa: PLC0415
 
         if self.user and self.user != user:
             msg = "User mismatch on accept!"
             raise ValueError(msg)
 
         if self.is_superuser:
+            user.store_audit_state()
             user.is_superuser = True
             user.save(update_fields=["is_superuser"])
+            user.log_audit_state(request, actor=self.author)
 
         AuditLog.objects.create(
             user=user,

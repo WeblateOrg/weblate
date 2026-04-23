@@ -54,7 +54,7 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.templatetags.translations import get_breadcrumbs  # noqa: PLC0415
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -66,7 +66,11 @@ def key_translated(instance):
 
 
 def key_unreviewed(instance):
-    return instance.stats.waiting_review
+    stats = instance.stats
+    # Mixed listings can include objects without review workflow enabled.
+    if stats.has_review:
+        return stats.waiting_review
+    return 0
 
 
 def key_untranslated(instance):
@@ -119,10 +123,10 @@ def optional_form(form, perm_user, perm, perm_obj, **kwargs):
 
 def get_percent_color(percent) -> str:
     if percent >= 85:
-        return "#2eccaa"
+        return "#158068"
     if percent >= 50:
-        return "#38f"
-    return "#f6664c"
+        return "#1565c0"
+    return "#cc3d20"
 
 
 def get_page_limit(request: AuthenticatedHttpRequest, default: int) -> tuple[int, int]:
@@ -586,6 +590,7 @@ def download_translation_file(
                 raise Http404(msg)
             # Create response
             response = FileResponse(
+                # pylint: disable-next=consider-using-with
                 open(filename, "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )

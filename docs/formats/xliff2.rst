@@ -38,6 +38,8 @@ Example XLIFF file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.xliff2
     :language: xml
 
+.. include:: /snippets/format-features/xliff2-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

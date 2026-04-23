@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 from collections import defaultdict
 from datetime import timedelta
+from functools import partial
 from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
@@ -23,11 +24,26 @@ from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
-from weblate.utils.requests import get_uri_error
+from weblate.utils.requests import (
+    format_validation_error,
+    get_uri_error,
+    validate_request_url,
+)
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.validators import (
+    WeblateURLValidator,
+    is_project_web_allowlisted,
+    validate_project_web,
+)
+from weblate.vcs.base import (
+    is_ssh_host_key_mismatch_error,
+    is_ssh_host_key_verification_error,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
@@ -37,6 +53,26 @@ if TYPE_CHECKING:
 
 ALERTS: dict[str, type[BaseAlert]] = {}
 ALERTS_IMPORT: set[str] = set()
+
+
+def _get_validated_uri_error(
+    uri: str,
+    validators: tuple[Callable[[str], None], ...],
+    *,
+    allow_private_targets: bool | None = None,
+) -> str | None:
+    for validator in validators:
+        try:
+            validator(uri)
+        except ValidationError as error:
+            return format_validation_error(error)
+    if allow_private_targets is None:
+        allow_private_targets = not settings.PROJECT_WEB_RESTRICT_PRIVATE
+    try:
+        validate_request_url(uri, allow_private_targets=allow_private_targets)
+    except ValidationError as error:
+        return format_validation_error(error)
+    return get_uri_error(uri)
 
 
 def register(cls: type[BaseAlert]) -> type[BaseAlert]:
@@ -104,7 +140,7 @@ class BaseAlert:
     on_import = False
     link_wide = False
     project_wide = False
-    dismissable = False
+    dismissible = False
     doc_page = ""
     doc_anchor = ""
 
@@ -164,8 +200,8 @@ class MultiAlert(BaseAlert):
     def process_occurrences(
         self, occurrences: list[dict[str, str]]
     ) -> list[dict[str, Any]]:
-        from weblate.lang.models import Language
-        from weblate.trans.models import Unit
+        from weblate.lang.models import Language  # noqa: PLC0415
+        from weblate.trans.models import Unit  # noqa: PLC0415
 
         processors = (
             ("language_code", "language", Language.objects.all(), "code"),
@@ -236,7 +272,7 @@ class DuplicateFilemask(BaseAlert):
 
     @staticmethod
     def get_translations(component: Component) -> TranslationQuerySet:
-        from weblate.trans.models import Translation
+        from weblate.trans.models import Translation  # noqa: PLC0415
 
         return Translation.objects.filter(
             Q(component=component) | Q(component__linked_component=component)
@@ -275,6 +311,40 @@ class DuplicateFilemask(BaseAlert):
                 for filename in self.duplicates
             ]
         }
+
+
+@register
+class ConflictingRepositorySetup(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Conflicting repository setup.")
+
+    def __init__(self, instance: Alert, component_ids: list[int]) -> None:
+        super().__init__(instance)
+        self.component_ids = component_ids
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        conflicts = list(
+            component.get_conflicting_setup_components().values_list("id", flat=True)
+        )
+        if conflicts:
+            return {"component_ids": conflicts}
+        return False
+
+    def get_analysis(self) -> dict[str, Any]:
+        return {"repo_link": self.instance.component.get_repo_link_url()}
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        from weblate.trans.models import Component  # noqa: PLC0415
+
+        result = super().get_context(user)
+        result["analysis"]["conflicts"] = list(
+            Component.objects.filter(pk__in=self.component_ids)
+            .filter_access(user)
+            .select_related("project")
+            .order_by("project__slug", "slug")
+        )
+        return result
 
 
 @register
@@ -322,6 +392,15 @@ class BaseGitFailure(ErrorAlert):
         repo_suggestion = None
         force_push_suggestion = False
         component = self.instance.component
+        host_key_mismatch = is_ssh_host_key_mismatch_error(self.error)
+        host_key = (
+            is_ssh_host_key_verification_error(self.error) and not host_key_mismatch
+        )
+        host_key_message = None
+        if host_key_mismatch:
+            host_key_message = component.get_ssh_host_key_mismatch_error_message()
+        elif host_key:
+            host_key_message = component.get_ssh_host_key_error_message()
 
         # Missing credentials
         if terminal_disabled:
@@ -345,6 +424,7 @@ class BaseGitFailure(ErrorAlert):
             "behind": behind,
             "repo_suggestion": repo_suggestion,
             "force_push_suggestion": force_push_suggestion,
+            "host_key_message": host_key_message,
             "not_found": any(
                 message in self.error for message in self.not_found_messages
             ),
@@ -405,7 +485,7 @@ class RepositoryChanges(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Repository has changes.")
     link_wide = True
-    dismissable = True
+    dismissible = True
 
 
 @register
@@ -454,7 +534,7 @@ class ExtractPotAddonError(MultiAlert):
 class ExtractPotMissingMsgmerge(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("POT updates do not update PO files.")
-    dismissable = True
+    dismissible = True
     doc_page = "addons"
     doc_anchor = "addon-weblate-gettext-msgmerge"
 
@@ -462,6 +542,7 @@ class ExtractPotMissingMsgmerge(BaseAlert):
     def check_component(component: Component) -> bool | dict | None:
         extractors = {
             "weblate.gettext.xgettext",
+            "weblate.gettext.meson",
             "weblate.gettext.django",
             "weblate.gettext.sphinx",
         }
@@ -495,6 +576,8 @@ class MonolingualTranslation(BaseAlert):
             or component.template
             or not component.source_language.uses_whitespace()
         ):
+            return False
+        if component.source_language_id is None:
             return False
 
         # Pick translation with translated strings except source one
@@ -548,7 +631,7 @@ class UnsupportedConfiguration(BaseAlert):
 class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Broken repository browser URL")
-    dismissable = True
+    dismissible = True
     doc_page = "admin/projects"
     doc_anchor = "component-repoweb"
 
@@ -562,6 +645,8 @@ class BrokenBrowserURL(BaseAlert):
         location_error = None
         location_link = None
         if component.repoweb:
+            if component.source_language_id is None:
+                return False
             # Pick random translation with translated strings except source one
             translation = (
                 component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
@@ -581,7 +666,10 @@ class BrokenBrowserURL(BaseAlert):
                     if location_link is None:
                         continue
                     # We only test first link
-                    location_error = get_uri_error(location_link)
+                    location_error = _get_validated_uri_error(
+                        location_link,
+                        validators=(WeblateURLValidator(),),
+                    )
                     break
         if location_error:
             return {"link": location_link, "error": location_error}
@@ -592,7 +680,7 @@ class BrokenBrowserURL(BaseAlert):
 class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Broken project website URL")
-    dismissable = True
+    dismissible = True
     doc_page = "admin/projects"
     doc_anchor = "project-web"
     project_wide = True
@@ -607,7 +695,19 @@ class BrokenProjectURL(BaseAlert):
             return False
 
         if component.project.web:
-            location_error = get_uri_error(component.project.web)
+            project_slug = component.project.slug or None
+            allow_private_targets = (
+                not settings.PROJECT_WEB_RESTRICT_PRIVATE
+                or is_project_web_allowlisted(project_slug)
+            )
+            location_error = _get_validated_uri_error(
+                component.project.web,
+                validators=(
+                    WeblateURLValidator(),
+                    partial(validate_project_web, project_slug=project_slug),
+                ),
+                allow_private_targets=allow_private_targets,
+            )
             if location_error is not None:
                 return {"error": location_error}
         return False
@@ -622,7 +722,7 @@ class UnusedScreenshot(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        from weblate.screenshots.models import Screenshot
+        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
 
         return (
             Screenshot.objects.filter(translation__component=component)
@@ -636,7 +736,7 @@ class UnusedScreenshot(BaseAlert):
 class AmbiguousLanguage(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Ambiguous language code.")
-    dismissable = True
+    dismissible = True
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
 
@@ -758,7 +858,7 @@ class UnusedComponent(BaseAlert):
 class MonolingualGlossary(BaseAlert):
     verbose = gettext_lazy("Glossary using monolingual files.")
     doc_page = "user/glossary"
-    dismissable = True
+    dismissible = True
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:

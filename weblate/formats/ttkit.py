@@ -12,10 +12,11 @@ import importlib
 import inspect
 import os
 import re
-import subprocess
+import subprocess  # noqa: S404
+from copy import copy
 from io import StringIO
 from pathlib import Path
-from typing import IO, TYPE_CHECKING, Any, ClassVar
+from typing import IO, TYPE_CHECKING, Any, ClassVar, cast
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -50,7 +51,7 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
-from translate.storage.ts2 import tsfile, tsunit
+from translate.storage.ts2 import tsfile
 from translate.storage.xliff import ID_SEPARATOR, Xliff1File, Xliff1Unit
 from translate.storage.xliff2 import Xliff2File, Xliff2Unit
 from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUnit
@@ -67,17 +68,18 @@ from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
 from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.util import (
-    get_clean_env,
     get_string,
     rich_to_xliff_string,
     xliff_string_to_rich,
 )
+from weblate.utils.commands import get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
+    STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -85,6 +87,7 @@ from weblate.utils.state import (
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
+    from translate.storage.aresource import AndroidResourceUnit
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
     from translate.storage.csvl10n import csvfile
     from translate.storage.ini import inifile, iniunit
@@ -98,7 +101,6 @@ if TYPE_CHECKING:
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
-SUPPORTS_FUZZY = (pounit, tsunit, csvunit)
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 
 
@@ -163,7 +165,7 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
             return False
         # Most of the formats do not support this, but they
         # happily return False
-        if isinstance(self.unit, SUPPORTS_FUZZY):
+        if STATE_FUZZY in self.parent.additional_states:
             return self.unit.isfuzzy()
         return fallback
 
@@ -260,7 +262,7 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that searializing of empty values works correctly
+        # Propagate to value so that serializing of empty values works correctly
         if not target:
             self.unit.value = self.unit.target
 
@@ -291,7 +293,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             store.setsourcelanguage(self.source_language)
 
     def get_encoding(self) -> str | None:
-        return get_encoding_param(self.file_format_params)
+        return get_encoding_param(self.format_id, self.file_format_params)
 
     def load(
         self,
@@ -299,7 +301,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         template_store: TranslationFormat | None,
     ) -> S:
         """Load file using defined loader."""
-        from weblate.trans.file_format_params import get_params_for_file_format
+        from weblate.trans.file_format_params import (  # noqa: PLC0415
+            get_params_for_file_format,
+        )
 
         store: S
 
@@ -340,7 +344,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         if not isinstance(self.storefile, str):
             msg = "Can save only to a file."
             raise TypeError(msg)
-        self.save_atomic(self.storefile, self.save_content)
+        self.save_atomic(
+            self.storefile, self.save_content, repo_temp_dir=self.repo_temp_dir
+        )
 
     def is_valid(self) -> bool:
         """
@@ -473,7 +479,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             store.store.savefile(filename)
         elif cls.empty_file_template is not None:
             Path(filename).write_bytes(
-                cls.get_new_file_content(get_encoding_param(file_format_params))
+                cls.get_new_file_content(
+                    get_encoding_param(cls.format_id, file_format_params)
+                )
             )
         else:
             msg = "Not supported"
@@ -533,6 +541,7 @@ class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
             if encoding in cls.loader:
                 module_name, class_name = cls.loader[encoding]
             else:
+                # Defensive fallback for missing/unknown encoding values.
                 module_name, class_name = next(iter(cls.loader.values()))
         elif isinstance(cls.loader, tuple):
             # Tuple style loader, import from translate toolkit
@@ -549,7 +558,7 @@ class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
 
     def get_store_instance(self, **kwargs) -> S:
         kwargs.update(self.get_format_class_kwargs())
-        store = self.get_class(get_encoding_param(self.file_format_params))(**kwargs)
+        store = self.get_class(self.get_encoding())(**kwargs)
 
         # Apply possible fixups
         self.fixup(store)
@@ -1239,6 +1248,67 @@ class INIUnit(TTKitUnit):
 class AndroidUnit(MonolingualIDUnit):
     """Wrapper unit for Android Resource."""
 
+    def get_markup_reference_unit(self) -> AndroidResourceUnit:
+        """Use the template shape to derive markup behavior whenever possible."""
+        if self.template is not None:
+            return cast("AndroidResourceUnit", self.template)
+        return cast("AndroidResourceUnit", self.mainunit)
+
+    def get_target_markup_mode(self) -> str:
+        """Return Android target markup mode inferred from the reference unit."""
+        return self.get_markup_reference_unit().target_markup_mode
+
+    def has_xml_markup(self) -> bool:
+        """Check whether XML markup mode contains real child elements to preserve."""
+        reference_unit = self.get_markup_reference_unit()
+        if self.get_target_markup_mode() != reference_unit.TARGET_MARKUP_XML:
+            return False
+        if reference_unit.xmlelement.tag == reference_unit.PLURAL_TAG:
+            return any(
+                len(entry) != 0
+                for entry in reference_unit.xmlelement.iterchildren("item")
+            )
+        return len(reference_unit.xmlelement) != 0
+
+    def needs_safe_html(self) -> bool:
+        """Check whether Android string should always run HTML safety validation."""
+        reference_unit = self.get_markup_reference_unit()
+        return self.get_target_markup_mode() == reference_unit.TARGET_MARKUP_ESCAPED
+
+    def needs_auto_safe_html(self) -> bool:
+        """Check whether Android string should conditionally run HTML safety validation."""
+        reference_unit = self.get_markup_reference_unit()
+        return self.get_target_markup_mode() == reference_unit.TARGET_MARKUP_CDATA
+
+    def apply_template_target_markup(self) -> None:
+        """Keep Android target serialization mode aligned with the template."""
+        if self.template is None or not self.has_unit():
+            return
+
+        target_unit = cast("AndroidResourceUnit", self.unit)
+        target_unit.target_markup_mode = self.get_target_markup_mode()
+
+    def clone_template(self) -> None:
+        super().clone_template()
+        self.apply_template_target_markup()
+
+    def set_target(self, target: str | list[str]) -> None:
+        self.apply_template_target_markup()
+        super().set_target(target)
+
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
+        """Infer checks from template markup mode for Android-formatted strings."""
+        if self.has_xml_markup():
+            # Real XML child nodes should stay valid XML in translations.
+            yield "xml-text"
+        elif self.needs_safe_html():
+            # Escaped text is always rendered as HTML styling via Html.fromHtml().
+            yield "safe-html"
+        elif self.needs_auto_safe_html():
+            # CDATA can represent either HTML-like text or literal angle brackets.
+            yield "auto-safe-html"
+        yield from super().get_extra_flags()
+
     def set_state(self, state) -> None:
         """Tag unit as translatable/readonly aside from fuzzy and approved flags."""
         super().set_state(state)
@@ -1250,6 +1320,11 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
     loader = pofile  # type: ignore[assignment]
     plural_preference = None
     supports_plural: bool = True
+    supports_descriptions = True
+    supports_context = True
+    supports_location = True
+    supports_flags = True
+    additional_states = (STATE_FUZZY,)
 
     def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
@@ -1345,7 +1420,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise ValueError(msg)
 
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # noqa: S603
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),
@@ -1417,6 +1492,10 @@ class TSFormat(TTKitFormat):
     set_context_bilingual = False
     supports_plural: bool = True
     plural_preference = (Plural.SOURCE_QT,)
+    supports_descriptions = True
+    supports_location = True
+    supports_flags = True
+    additional_states = (STATE_FUZZY,)
 
 
 class XliffFormat(TTKitFormat):
@@ -1424,6 +1503,13 @@ class XliffFormat(TTKitFormat):
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = Xliff1File
+    supports_plural = True
+    supports_descriptions = True
+    supports_context = True
+    supports_location = True
+    supports_flags = True
+    supports_read_only = True
+    additional_states = (STATE_FUZZY, STATE_APPROVED)
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
@@ -1547,6 +1633,8 @@ class StringsFormat(PropertiesBaseFormat):
         "utf-8": ("properties", "stringsutf8file"),
         "utf-16": ("properties", "stringsfile"),
     }
+    supports_descriptions = True
+    check_flags = ("objc-format",)
 
     @classmethod
     def get_new_translation(cls, encoding: str | None = None):
@@ -1568,6 +1656,7 @@ class PropertiesFormat(PropertiesBaseFormat):
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.properties",)
     check_flags = ("auto-java-messageformat",)
+    supports_descriptions = True
 
 
 class JoomlaFormat(PropertiesBaseFormat):
@@ -1578,6 +1667,8 @@ class JoomlaFormat(PropertiesBaseFormat):
     monolingual = True
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.ini",)
+    supports_descriptions: bool = True
+    supports_location: bool = True
 
 
 class GWTFormat(PropertiesBaseFormat):
@@ -1594,6 +1685,8 @@ class GWTFormat(PropertiesBaseFormat):
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
     supports_plural: bool = True
+    supports_descriptions = True
+    monolingual = True
 
 
 class PhpFormat[S: phpfile, U: phpunit, T: PHPUnit](TTKitFormat[S, U, T]):
@@ -1604,6 +1697,8 @@ class PhpFormat[S: phpfile, U: phpunit, T: PHPUnit](TTKitFormat[S, U, T]):
     empty_file_template = "<?php\n"
     autoload: tuple[str, ...] = ("*.php",)
     unit_class = PHPUnit  # type: ignore[assignment]
+    supports_descriptions: bool = True
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -1635,7 +1730,8 @@ class RESXFormat(TTKitFormat):
     empty_file_template = RESXFile.XMLskeleton
     autoload: tuple[str, ...] = ("*.resx",)
     language_format = "bcp"
-    supports_plural: bool = True
+    supports_descriptions: bool = True
+    supports_flags: bool = True
     store: RESXFile
 
 
@@ -1659,6 +1755,10 @@ class AndroidFormat(TTKitFormat):
     )
     strict_format_plurals: bool = True
     supports_plural: bool = True
+    supports_plurals = True
+    supports_descriptions = True
+    supports_flags = True
+    supports_read_only = True
 
 
 class MOKOFormat(AndroidFormat):
@@ -1728,6 +1828,7 @@ class WebExtensionJSONFormat(JSONFormat):
     autoload: tuple[str, ...] = ("messages*.json",)
     unit_class = PlaceholdersJSONUnit
     supports_plural: bool = True
+    supports_descriptions: bool = True
 
 
 class I18NextFormat(JSONFormat):
@@ -1756,6 +1857,7 @@ class GoI18JSONFormat(JSONFormat):
     autoload: tuple[str, ...] = ()
     empty_file_template = "[]\n"
     supports_plural: bool = True
+    supports_descriptions = True
 
 
 class GoI18V2JSONFormat(JSONFormat):
@@ -1765,6 +1867,7 @@ class GoI18V2JSONFormat(JSONFormat):
     loader = GoI18NV2JsonFile
     autoload: tuple[str, ...] = ()
     supports_plural: bool = True
+    supports_descriptions = True
 
 
 class ARBFormat(JSONFormat):
@@ -1775,6 +1878,8 @@ class ARBFormat(JSONFormat):
     autoload: tuple[str, ...] = ("*.arb",)
     unit_class = PlaceholdersJSONUnit
     check_flags = ("icu-message-format",)
+    supports_plural: bool = True
+    supports_descriptions = True
 
 
 class GoTextFormat(JSONFormat):
@@ -1785,6 +1890,8 @@ class GoTextFormat(JSONFormat):
     autoload: tuple[str, ...] = ()
     unit_class = PlaceholdersJSONUnit
     supports_plural: bool = True
+    supports_descriptions = True
+    supports_location = True
 
 
 class FormatJSFormat(JSONFormat):
@@ -1854,6 +1961,10 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit  # type: ignore[assignment]
     autoload: tuple[str, ...] = ("*.csv",)
+    supports_descriptions: bool = True
+    supports_context: bool = True
+    supports_location: bool = True
+    additional_states = (STATE_FUZZY,)
 
     def __init__(
         self,
@@ -1864,6 +1975,7 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
         is_template: bool = False,
         existing_units: list[Any] | None = None,
         file_format_params: FileFormatParams | None = None,
+        repo_temp_dir: str | Path | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -1873,6 +1985,7 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
             is_template=is_template,
             existing_units=existing_units,
             file_format_params=file_format_params,
+            repo_temp_dir=repo_temp_dir,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -2001,6 +2114,7 @@ class RubyYAMLFormat(YAMLFormat):
     loader = ("yaml", "RubyYAMLFile")
     autoload: tuple[str, ...] = ("*.ryml", "*.yml", "*.yaml")
     supports_plural: bool = True
+    monolingual = True
 
 
 class DTDFormat(TTKitFormat):
@@ -2012,6 +2126,7 @@ class DTDFormat(TTKitFormat):
     unit_class = MonolingualSimpleUnit
     empty_file_template = "\n"
     can_add_unit: bool = False
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2057,6 +2172,7 @@ class SubRipFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("*.srt",)
     monolingual = True
     autoaddon: ClassVar[dict[str, dict[str, Any]]] = {"weblate.flags.same_edit": {}}
+    supports_location = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2096,6 +2212,7 @@ class FlatXMLFormat(TTKitFormat):
     monolingual = True
     unit_class = FlatXMLUnit
     empty_file_template = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+    supports_flags: bool = True
 
     def get_format_class_kwargs(self):
         return {
@@ -2243,7 +2360,13 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
         for unit in current_units:
             # If the translation unit is missing and the current unit is not
             # only about comment.
-            if unit.has_content() and unit.has_unit() and unit.unit.missing:
+            if unit.has_content() and not unit.has_unit():
+                # Materialize missing units before saving to avoid passing None
+                # into Translate Toolkit's addunit() implementation.
+                unit._unit = copy(unit.mainunit)  # noqa: SLF001
+                unit.unit.target = unit.mainunit.source
+                unit.unit.missing = True
+            elif unit.has_content() and unit.unit.missing:
                 # Ensure to display in the missing comment the value coming from the source
                 unit.unit.target = unit.mainunit.source
                 # The flag has been changed after setting the target, let's switch it back to true
@@ -2383,6 +2506,9 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
     use_settarget = True
     monolingual = False
     supports_explanation: bool = True
+    supports_descriptions = True
+    supports_flags = True
+    supports_context = True
 
     def __init__(
         self,
@@ -2393,6 +2519,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
         is_template: bool = False,
         existing_units: list[Any] | None = None,
         file_format_params: FileFormatParams | None = None,
+        repo_temp_dir: str | Path | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -2402,6 +2529,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
             source_language=source_language,
             existing_units=existing_units,
             file_format_params=file_format_params,
+            repo_temp_dir=repo_temp_dir,
         )
         # Add language header if not present
         self.store.addheader()
@@ -2416,6 +2544,7 @@ class PropertiesMi18nFormat(PropertiesBaseFormat):
     language_format = "bcp_legacy"
     check_flags = ("es-format",)
     monolingual = True
+    supports_descriptions = True
 
 
 class CatkeysFormat[S: CatkeysFile, U: CatkeysUnit, T: TTKitUnit](TTKitFormat[S, U, T]):
@@ -2444,6 +2573,7 @@ class StringsdictFormat(ZeroCLDRPluralMixin, DictStoreFormat):
     loader = ("stringsdict", "StringsDictFile")
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.stringsdict",)
+    check_flags = ("objc-format",)
     empty_file_template = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -2511,6 +2641,8 @@ class FluentFormat(TTKitFormat):
         "ignore-xml-tags",
         "ignore-xml-invalid",
     )
+    supports_descriptions = True
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:

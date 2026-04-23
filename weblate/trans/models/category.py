@@ -197,7 +197,10 @@ class Category(
 
     def get_child_components_access(self, user: User):
         """List child components, including shared components linked to this category."""
-        from weblate.trans.models.component import Component, ComponentLink
+        from weblate.trans.models.component import (  # noqa: PLC0415
+            Component,
+            ComponentLink,
+        )
 
         shared_ids = ComponentLink.objects.filter(category=self).values_list(
             "component_id", flat=True
@@ -216,7 +219,7 @@ class Category(
     @cached_property
     def languages(self):
         """Return list of all languages used in category, including shared components."""
-        from weblate.trans.models.component import ComponentLink
+        from weblate.trans.models.component import ComponentLink  # noqa: PLC0415
 
         shared_ids = ComponentLink.objects.filter(
             Q(category=self)
@@ -234,7 +237,7 @@ class Category(
 
     @cached_property
     def all_components(self) -> QuerySet[Component]:
-        from weblate.trans.models import Component
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return Component.objects.filter(
             Q(category=self)

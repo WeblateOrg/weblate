@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<p>
+  {% translate "Another component is configured to push merge requests to the same repository and push branch." %}
+  {% translate "This can cause the branch to be overwritten." %}
+</p>
+
+<p>
+  {% translate "Use a different push branch for each component, or share the repository using the following Weblate URL:" %}
+  <code>{{ analysis.repo_link }}</code>
+</p>
+
+<ul>
+  {% for conflicting_component in analysis.conflicts %}
+    <li>
+      <a href="{{ conflicting_component.get_absolute_url }}">{{ conflicting_component }}</a>
+    </li>
+  {% endfor %}
+</ul>

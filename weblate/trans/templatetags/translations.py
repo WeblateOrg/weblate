@@ -142,6 +142,16 @@ class Formatter:
         self.differ = Differ()
         self.whitespace = whitespace
 
+    def insert_before_opening_tags(self, position: int, tag: str) -> None:
+        """Insert a tag after closers and before any opening tags at a position."""
+        current = self.tags[position]
+        insert_at = len(current)
+        for index, current_tag in enumerate(current):
+            if not current_tag.startswith("</"):
+                insert_at = index
+                break
+        current.insert(insert_at, tag)
+
     def parse(self) -> None:
         if self.unit:
             self.parse_highlight()
@@ -224,7 +234,7 @@ class Formatter:
                 if move_space:
                     self.tags[offset].append(SPACE_START)
                 if append_end:
-                    self.tags[end].append("</ins>")
+                    self.insert_before_opening_tags(end, "</ins>")
                 if start_space != -1:
                     self.tags[end].append(SPACE_START)
 
@@ -382,8 +392,8 @@ class Formatter:
         for match in re.finditer(
             re.escape(self.search_match), self.value, flags=re.IGNORECASE
         ):
-            self.tags[match.start()].append(start_tag)
-            self.tags[match.end()].insert(0, end_tag)
+            self.insert_before_opening_tags(match.start(), start_tag)
+            self.insert_before_opening_tags(match.end(), end_tag)
 
     def parse_whitespace(self) -> None:
         """Highlight whitespaces."""
@@ -488,6 +498,8 @@ class Formatter:
         yield from tags[len(value)]
 
     def format(self):
+        # Safe to mark because format_generator escapes raw string content inline
+        # and only emits formatter-controlled markup for diffs/highlights/tooltips.
         return mark_safe("".join(self.format_generator()))  # noqa: S308
 
 
@@ -1644,13 +1656,14 @@ def format_last_changes_content(
     debug: bool = False,
     search_url: str | None = None,
     offset: int | None = None,
+    translate_url: str | None = None,
 ):
     """
     Format last changes content for display.
 
     This is a simplified version of the prepare_last_changes_context function.
     """
-    from weblate.trans.change_display import get_change_history_context
+    from weblate.trans.change_display import get_change_history_context  # noqa: PLC0415
 
     if isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()
@@ -1684,6 +1697,7 @@ def format_last_changes_content(
         "debug": debug,
         "search_url": search_url,
         "offset": offset,
+        "translate_url": translate_url,
     }
 
 

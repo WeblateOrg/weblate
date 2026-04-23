@@ -1,4 +1,5 @@
 .. _apple:
+.. _strings:
 
 Apple iOS strings
 -----------------
@@ -18,6 +19,8 @@ Apple iOS strings are usually used as monolingual.
    * `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_
    * `Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_
    * :doc:`tt:formats/strings`
+
+.. include:: /snippets/format-features/strings-features.rst
 
 Weblate configuration
 +++++++++++++++++++++

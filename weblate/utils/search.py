@@ -8,6 +8,7 @@ import threading
 import warnings
 from datetime import datetime
 from functools import lru_cache, reduce
+from ipaddress import ip_address
 from itertools import chain
 from operator import and_, or_
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
@@ -284,7 +285,7 @@ class BaseTermExpr:
         microsecond=None,
     ):
         # Lazily import as this can be expensive
-        from dateparser.date import DateDataParser
+        from dateparser.date import DateDataParser  # noqa: PLC0415
 
         # Custom RELATIVE_BASE allows to base "1 day ago" from the midnight instead
         # of the current time
@@ -411,7 +412,7 @@ class BaseTermExpr:
         return result
 
     def convert_change_action(self, text: str) -> int:
-        from weblate.trans.models import Change
+        from weblate.trans.models import Change  # noqa: PLC0415
 
         try:
             return Change.ACTION_NAMES[text]
@@ -469,7 +470,7 @@ class BaseTermExpr:
 
         if isinstance(match, RegexExpr):
             # Regular expression
-            from weblate.trans.models import Unit
+            from weblate.trans.models import Unit  # noqa: PLC0415
 
             with transaction.atomic():
                 try:
@@ -716,7 +717,7 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on a reverse ForeignKey relation
         with AND using exists ensures each check condition gets its own subquery.
         """
-        from weblate.checks.models import Check
+        from weblate.checks.models import Check  # noqa: PLC0415
 
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
@@ -734,7 +735,7 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on a reverse ForeignKey relation
         with AND using exists ensures each check condition gets its own subquery.
         """
-        from weblate.checks.models import Check
+        from weblate.checks.models import Check  # noqa: PLC0415
 
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
@@ -752,7 +753,7 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on ManyToMany relations
         with AND using exists ensures each screenshot condition gets its own subquery.
         """
-        from weblate.screenshots.models import Screenshot
+        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
 
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         screenshot_query = Screenshot.objects.filter(**{lookup: text})
@@ -783,7 +784,7 @@ class UnitTermExpr(BaseTermExpr):
         return self.convert_int(text)
 
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
-        from weblate.trans.models import Change
+        from weblate.trans.models import Change  # noqa: PLC0415
 
         if field in {"changed", "changed_by"}:
             return query & Q(change__action__in=Change.ACTIONS_CONTENT)
@@ -843,12 +844,34 @@ class SuperuserUserTermExpr(UserTermExpr):
         "email": "social_auth__verifiedemail__email",
     }
 
+    def convert_ip(self, text: str) -> str:
+        try:
+            return str(ip_address(text))
+        except ValueError as exc:
+            raise SearchQueryError(
+                gettext("Could not parse IP address: {}").format(text)
+            ) from exc
+
+    def ip_field(self, text: str, context: dict) -> Q:
+        if self.operator not in {":", ":="}:
+            raise SearchQueryError(
+                gettext("Unsupported lookup for {field}: {value}").format(
+                    field="ip", value=text
+                )
+            )
+        return Q(auditlog__address=self.convert_ip(text))
+
     def convert_non_field(self) -> Q:
-        return (
+        result = (
             Q(username__icontains=self.match)
             | Q(full_name__icontains=self.match)
             | Q(social_auth__verifiedemail__email__iexact=self.match)
         )
+        try:
+            address = self.convert_ip(self.match)
+        except SearchQueryError:
+            return result
+        return result | Q(auditlog__address=address)
 
     def is_field(self, text: str, context: dict) -> Q:
         if text == "active":

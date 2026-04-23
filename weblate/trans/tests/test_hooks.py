@@ -6,17 +6,33 @@
 
 import json
 from abc import ABC, abstractmethod
-from typing import Never
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 from urllib.parse import urlencode
 
+from django.http import QueryDict
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.views.hooks import HOOK_HANDLERS, validate_full_name
+from weblate.trans.views.hooks import (
+    HOOK_HANDLERS,
+    HookPayloadError,
+    HookRequestSerializer,
+    extract_payload,
+    extract_request_data,
+    normalize_branch_ref,
+    require_mapping,
+    validate_full_name,
+)
+
+if TYPE_CHECKING:
+    from weblate.trans.views.hooks import (
+        JSONDict,
+    )
 
 GITHUB_PAYLOAD = """
 {
@@ -1137,6 +1153,77 @@ GITEA_PAYLOAD = """
 }
 """
 
+FORGEJO_PAYLOAD = """
+{
+  "secret": "3gEsCfjlV2ugRwgpU#w1*WaW*wa4NXgGmpCfkbG3",
+  "ref": "refs/heads/main",
+  "before": "28e1879d029cb852e4844d9c718537df08844e03",
+  "after": "bffeb74224043ba2feb48d137756c8a9331c449a",
+  "compare_url": "http://localhost:3000/forgejo/webhooks/compare/28e187...bffeb7422",
+  "commits": [
+    {
+      "id": "bffeb74224043ba2feb48d137756c8a9331c449a",
+      "message": "Webhooks Yay!",
+      "url": "http://localhost:3000/forgejo/webhooks/commit/bffeb74224043ba2feb4",
+      "author": {
+        "name": "Forgejo",
+        "email": "someone@forgejo.org",
+        "username": "forgejo"
+      },
+      "committer": {
+        "name": "Forgejo",
+        "email": "someone@forgejo.org",
+        "username": "forgejo"
+      },
+      "timestamp": "2017-03-13T13:52:11-04:00"
+    }
+  ],
+  "repository": {
+    "id": 140,
+    "owner": {
+      "id": 1,
+      "login": "forgejo",
+      "full_name": "Forgejo",
+      "email": "someone@forgejo.org",
+      "avatar_url": "https://localhost:3000/avatars/1",
+      "username": "forgejo"
+    },
+    "name": "webhooks",
+    "full_name": "forgejo/webhooks",
+    "description": "",
+    "private": false,
+    "fork": false,
+    "html_url": "http://localhost:3000/forgejo/webhooks",
+    "ssh_url": "ssh://forgejo@localhost:2222/forgejo/webhooks.git",
+    "clone_url": "http://localhost:3000/forgejo/webhooks.git",
+    "website": "",
+    "stars_count": 0,
+    "forks_count": 1,
+    "watchers_count": 1,
+    "open_issues_count": 7,
+    "default_branch": "main",
+    "created_at": "2017-02-26T04:29:06-05:00",
+    "updated_at": "2017-03-13T13:51:58-04:00"
+  },
+  "pusher": {
+    "id": 1,
+    "login": "forgejo",
+    "full_name": "Forgejo",
+    "email": "someone@forgejo.org",
+    "avatar_url": "https://localhost:3000/avatars/1",
+    "username": "forgejo"
+  },
+  "sender": {
+    "id": 1,
+    "login": "forgejo",
+    "full_name": "Forgejo",
+    "email": "someone@forgejo.org",
+    "avatar_url": "https://localhost:3000/avatars/1",
+    "username": "forgejo"
+  }
+}
+"""
+
 
 GITEE_PAYLOAD = """
 {
@@ -1328,6 +1415,17 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_forgejo(self) -> None:
+        # Adjust matching repo
+        self.component.repo = "http://localhost:3000/forgejo/webhooks.git"
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": FORGEJO_PAYLOAD},
+        )
+        self.assertContains(response, "Update triggered")
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_gitee(self) -> None:
         # Adjust matching repo
         self.component.repo = "https://gitee.com/oschina/gitee.git"
@@ -1503,15 +1601,20 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with github."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "github"}))
-        self.assertContains(response, "Missing payload parameter!", status_code=400)
+        self.assertContains(response, "This field is required.", status_code=400)
         # wrong
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}), {"payload": "XX"}
         )
-        self.assertContains(response, "JSON parse error", status_code=400)
+        self.assertContains(response, "Value must be valid JSON.", status_code=400)
         # missing data
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}), {"payload": "{}"}
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        # wrong JSON type
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}), {"payload": "[]"}
         )
         self.assertContains(response, "Invalid data in json payload!", status_code=400)
         # application/x-www-form-urlencoded
@@ -1527,12 +1630,12 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with gitlab."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "gitlab"}))
-        self.assertContains(response, "Missing payload parameter!", status_code=400)
+        self.assertContains(response, "This field is required.", status_code=400)
         # missing content-type header
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}), {"payload": "anything"}
         )
-        self.assertContains(response, "JSON parse error", status_code=400)
+        self.assertContains(response, "Value must be valid JSON.", status_code=400)
         # wrong
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),
@@ -1540,6 +1643,13 @@ class HooksViewTest(ViewTestCase):
             content_type="application/json",
         )
         self.assertContains(response, "JSON parse error", status_code=400)
+        # wrong JSON type
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitlab"}),
+            "[42]",
+            content_type="application/json",
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
         # missing params
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),
@@ -1588,7 +1698,7 @@ class HookBackendTestCase(SimpleTestCase, ABC):
         self.assertEqual(expected, result)
 
     @abstractmethod
-    def test_git(self) -> Never:
+    def test_git(self) -> None:
         raise NotImplementedError
 
 
@@ -1948,11 +2058,104 @@ class ValidateFullNameTest(SimpleTestCase):
         """Test empty full_name."""
         self.assertFalse(validate_full_name(""))
 
+    def test_validate_full_name_none(self) -> None:
+        """Test missing full_name."""
+        self.assertFalse(validate_full_name(None))
+
     def test_validate_full_name_multiple_slashes(self) -> None:
         """Test full_name with multiple slashes (still valid)."""
         # These are valid as they have slash and length > 5
         self.assertTrue(validate_full_name("org/project/repo"))
         self.assertTrue(validate_full_name("user/sub/project"))
+
+
+class NormalizeBranchRefTest(SimpleTestCase):
+    """Test branch ref normalization."""
+
+    def test_normalize_branch_ref(self) -> None:
+        """Test standard branch ref normalization."""
+        self.assertEqual(normalize_branch_ref("refs/heads/main"), "main")
+
+    def test_normalize_branch_ref_none(self) -> None:
+        """Test missing branch ref."""
+        with self.assertRaises(HookPayloadError) as cm:
+            normalize_branch_ref(None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_normalize_branch_ref_invalid_type(self) -> None:
+        """Test invalid branch ref type."""
+        with self.assertRaises(HookPayloadError) as cm:
+            normalize_branch_ref(123)  # type: ignore[arg-type]
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+
+class HookSerializerTest(SimpleTestCase):
+    """Test serializer-backed webhook payload validation."""
+
+    def test_extract_payload_parses_json_object(self) -> None:
+        payload = QueryDict("payload=%7B%22ref%22%3A+%22main%22%7D")
+        self.assertEqual(
+            extract_payload(payload),
+            {"ref": "main"},
+        )
+
+    def test_extract_payload_rejects_invalid_json(self) -> None:
+        payload = QueryDict("payload=%5B")
+        with self.assertRaises(ParseError) as cm:
+            extract_payload(payload)
+        self.assertIn("Value must be valid JSON.", str(cm.exception))
+
+    def test_extract_request_data_keeps_json_payload(self) -> None:
+        payload = {"ref": "refs/heads/main"}
+        self.assertEqual(
+            extract_request_data("application/json", payload),
+            payload,
+        )
+
+    def test_extract_request_data_keeps_json_payload_with_parameters(self) -> None:
+        payload = {"ref": "refs/heads/main"}
+        self.assertEqual(
+            extract_request_data("application/json; charset=utf-8", payload),
+            payload,
+        )
+
+    def test_extract_request_data_uses_payload_for_form(self) -> None:
+        payload = QueryDict("payload=%7B%22ref%22%3A+%22main%22%7D")
+        self.assertEqual(
+            extract_request_data("application/x-www-form-urlencoded", payload),
+            {"ref": "main"},
+        )
+
+    def test_request_serializer_rejects_non_mapping(self) -> None:
+        serializer = HookRequestSerializer(data=[42])
+        self.assertFalse(serializer.is_valid())
+        self.assertEqual(
+            serializer.errors["non_field_errors"][0],
+            "Invalid data in json payload!",
+        )
+
+    def test_request_serializer_rejects_empty_mapping(self) -> None:
+        serializer = HookRequestSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+        self.assertEqual(
+            serializer.errors["non_field_errors"][0],
+            "Invalid data in json payload!",
+        )
+
+
+class RequireMappingTest(SimpleTestCase):
+    """Test payload mapping validation."""
+
+    def test_require_mapping(self) -> None:
+        """Test valid mapping."""
+        payload: JSONDict = {"html_url": "https://example.invalid/repo"}
+        self.assertEqual(require_mapping(payload, "repository"), payload)
+
+    def test_require_mapping_none(self) -> None:
+        """Test missing mapping."""
+        with self.assertRaises(HookPayloadError) as cm:
+            require_mapping(None, "repository")
+        self.assertIn("Invalid repository in payload", str(cm.exception))
 
 
 class InvalidBackendTest(SimpleTestCase):
@@ -1981,8 +2184,9 @@ class InvalidBackendTest(SimpleTestCase):
         handler = HOOK_HANDLERS["github"]
         payload = json.loads(GITHUB_PAYLOAD)
         del payload["ref"]
-        with self.assertRaises(KeyError):
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
 
     def test_bitbucket_no_full_name_components(self) -> None:
         """Test Bitbucket handler when full_name cannot be determined."""
@@ -2022,8 +2226,92 @@ class InvalidBackendTest(SimpleTestCase):
         handler = HOOK_HANDLERS["gitea"]
         payload = json.loads(GITEA_PAYLOAD)
         del payload["repository"]["full_name"]
-        with self.assertRaises(KeyError):
+        result = handler(payload, None)
+        if result is None:
+            self.fail("Expected Gitea handler to return hook data")
+        self.assertIsNone(result["full_name"])
+
+    def test_gitea_null_ref(self) -> None:
+        """Test Gitea handler with null ref."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["ref"] = None
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_gitea_missing_ref(self) -> None:
+        """Test Gitea handler with missing ref."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        del payload["ref"]
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_gitea_invalid_ref_type(self) -> None:
+        """Test Gitea handler with non-string ref."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["ref"] = 123
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_gitea_null_repository(self) -> None:
+        """Test Gitea handler with null repository."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"] = None
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Invalid repository in payload", str(cm.exception))
+
+    def test_forgejo_missing_full_name(self) -> None:
+        """Test Forgejo handler with missing full_name."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        del payload["repository"]["full_name"]
+        result = handler(payload, None)
+        if result is None:
+            self.fail("Expected Forgejo handler to return hook data")
+        self.assertIsNone(result["full_name"])
+
+    def test_forgejo_null_ref(self) -> None:
+        """Test Forgejo handler with null ref."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["ref"] = None
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_forgejo_missing_ref(self) -> None:
+        """Test Forgejo handler with missing ref."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        del payload["ref"]
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_forgejo_invalid_ref_type(self) -> None:
+        """Test Forgejo handler with non-string ref."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["ref"] = 123
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Missing ref in payload", str(cm.exception))
+
+    def test_forgejo_null_repository(self) -> None:
+        """Test Forgejo handler with null repository."""
+        handler = HOOK_HANDLERS["forgejo"]
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"] = None
+        with self.assertRaises(HookPayloadError) as cm:
+            handler(payload, None)
+        self.assertIn("Invalid repository in payload", str(cm.exception))
 
     def test_gitee_missing_path_with_namespace(self) -> None:
         """Test Gitee handler with missing path_with_namespace."""
@@ -2168,6 +2456,133 @@ class InvalidPayloadTest(ViewTestCase):
         )
         self.assertContains(
             response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_full_name_none(self) -> None:
+        """Test Gitea webhook with null full_name."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["full_name"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_ref_none(self) -> None:
+        """Test Gitea webhook with null ref."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["ref"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Missing ref in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_repository_none(self) -> None:
+        """Test Gitea webhook with null repository."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_full_name_empty(self) -> None:
+        """Test Forgejo webhook with empty full_name."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"]["full_name"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_full_name_no_slash(self) -> None:
+        """Test Forgejo webhook with full_name without slash."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"]["full_name"] = "invalidname"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_full_name_none(self) -> None:
+        """Test Forgejo webhook with null full_name."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"]["full_name"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_ref_none(self) -> None:
+        """Test Forgejo webhook with null ref."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["ref"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Missing ref in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_invalid_repository_none(self) -> None:
+        """Test Forgejo webhook with null repository."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        payload["repository"] = None
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_forgejo_missing_repository_key(self) -> None:
+        """Test Forgejo webhook with missing repository key."""
+        payload = json.loads(FORGEJO_PAYLOAD)
+        del payload["repository"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
         )
 
     @override_settings(ENABLE_HOOKS=True)
@@ -2324,7 +2739,11 @@ class InvalidPayloadTest(ViewTestCase):
             reverse("webhook", kwargs={"service": "gitea"}),
             {"payload": json.dumps(payload)},
         )
-        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_gitee_missing_repository_key(self) -> None:

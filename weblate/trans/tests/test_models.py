@@ -11,11 +11,13 @@ from pathlib import Path
 from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
+from translate.storage.fluent import FluentContentError
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
@@ -151,6 +153,27 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
+
+    def test_web_restriction_allowlist(self) -> None:
+        with override_settings(
+            PROJECT_WEB_RESTRICT_HOST={"example.com"},
+            PROJECT_WEB_RESTRICT_ALLOWLIST={"trusted-project"},
+            PROJECT_WEB_RESTRICT_PRIVATE=False,
+        ):
+            project = Project(
+                name="Trusted",
+                slug="trusted-project",
+                web="https://example.com/",
+            )
+            self.assertIsNone(project.full_clean())
+
+            blocked = Project(
+                name="Blocked",
+                slug="blocked-project",
+                web="https://example.com/",
+            )
+            with self.assertRaises(ValidationError):
+                blocked.full_clean()
 
     def test_actual_project_removal_batches_linked_alert_updates(self) -> None:
         self.component = self.create_po()
@@ -405,6 +428,53 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all_words, 19)
+
+    def test_source_translation_heals_managed_readonly_flag(self) -> None:
+        component = self.create_component()
+        source = component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+
+        component = Component.objects.get(pk=component.pk)
+        source = component.source_translation
+
+        self.assertEqual(source.check_flags, "read-only, strict-same")
+
+    def test_source_translation_sync_invalidates_flag_caches(self) -> None:
+        component = self.create_component()
+        source = component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+        source = Translation.objects.get(pk=source.pk)
+
+        self.assertFalse(source.is_readonly)
+        self.assertNotIn("read-only", source.all_flags)
+
+        source.sync_readonly_check_flag(save=False)
+
+        self.assertTrue(source.is_readonly)
+        self.assertIn("read-only", source.all_flags)
+
+    def test_commit_pending_skips_translation_without_filename(self) -> None:
+        component = self.create_component()
+        source = component.source_translation
+        user = create_test_user()
+        unit = source.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one source unit.")
+        PendingUnitChange.store_unit_change(unit=unit, author=user)
+        self.assertEqual(source.count_pending_units, 1)
+
+        with patch("weblate.trans.models.translation.report_error") as report_error:
+            self.assertTrue(component.commit_pending("test", None))
+
+        report_error.assert_called_once_with(
+            "Attempted to commit translation without filename",
+            project=component.project,
+            message=True,
+            extra_log=f"translation={source.full_slug}, pending_changes=1",
+        )
+        self.assertEqual(source.count_pending_units, 0)
 
     def test_validation(self) -> None:
         """Translation validation."""
@@ -700,6 +770,77 @@ class TranslationTest(RepoTestCase):
 
         ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
         self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
+
+    def test_commit_retry_unit_fluent_content_error_uses_handled_logging(self) -> None:
+        """Dedicated Fluent content errors should be logged locally, not reported."""
+        user = create_test_user()
+        component = self.create_ftl()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Ahoj, ${ name }!", STATE_APPROVED)
+
+        fluent_error = FluentContentError(
+            'Error in source of FluentUnit "hello":\nsynthetic fluent content error'
+        )
+        with (
+            patch(
+                "weblate.formats.ttkit.FluentUnit.set_target",
+                side_effect=fluent_error,
+            ),
+            patch("weblate.trans.models.translation.log_handled_exception") as mock_log,
+            patch("weblate.trans.models.translation.report_error") as mock_report,
+        ):
+            component.commit_pending("test", None)
+
+        mock_log.assert_called_once()
+        mock_report.assert_not_called()
+
+        change = PendingUnitChange.objects.get(unit=unit)
+        self.assertIn("last_failed", change.metadata)
+        self.assertEqual(change.metadata["failed_revision"], translation.revision)
+        self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
+        self.assertEqual(change.metadata["blocking_unit"], False)
+        self.assertIn(
+            "synthetic fluent content error",
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED)
+            .latest("timestamp")
+            .target,
+        )
+
+    def test_commit_retry_unit_unexpected_error_reports(self) -> None:
+        """Unexpected unit update errors should continue to go through report_error."""
+        user = create_test_user()
+        component = self.create_ftl()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Ahoj, ${ name }!", STATE_APPROVED)
+
+        with (
+            patch(
+                "weblate.formats.ttkit.FluentUnit.set_target",
+                side_effect=ValueError("unexpected failure"),
+            ),
+            patch("weblate.trans.models.translation.log_handled_exception") as mock_log,
+            patch("weblate.trans.models.translation.report_error") as mock_report,
+        ):
+            component.commit_pending("test", None)
+
+        mock_log.assert_not_called()
+        mock_report.assert_called_once()
+
+        change = PendingUnitChange.objects.get(unit=unit)
+        self.assertIn("last_failed", change.metadata)
+        self.assertEqual(change.metadata["failed_revision"], translation.revision)
+        self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
+        self.assertEqual(change.metadata["blocking_unit"], False)
+        self.assertIn(
+            "unexpected failure",
+            unit.change_set.filter(action=ActionEvents.SAVE_FAILED)
+            .latest("timestamp")
+            .target,
+        )
 
     def test_commit_successful_deletes_failed_changes(self) -> None:
         """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
@@ -1144,6 +1285,53 @@ class PendingUnitChangeTest(RepoTestCase):
             set(components.values_list("pk", flat=True)), {self.component.pk}
         )
 
+    def test_find_committable_components_uses_linked_component_age(self) -> None:
+        self.component.commit_pending_age = 3
+        self.component.save(update_fields=["commit_pending_age"])
+
+        linked_component = self.create_link_existing(
+            name="Component linked age", slug="component-linked-age"
+        )
+        linked_component.commit_pending_age = 1
+        linked_component.save(update_fields=["commit_pending_age"])
+
+        translation = linked_component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        self.assertIsNotNone(unit)
+        if unit is None:
+            self.fail("Expected a unit in linked component test fixture.")
+        unit.translate(self.user, "Linked component age test", STATE_TRANSLATED)
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+        components = PendingUnitChange.objects.find_committable_components()
+        self.assertEqual(set(components.values_list("pk", flat=True)), set())
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=4))
+        components = PendingUnitChange.objects.find_committable_components()
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)), {self.component.pk}
+        )
+
+    def test_has_pending_changes_uses_prefetched_relation(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        pending_unit = translation.unit_set.get(source="Hello, world!\n")
+        pending_unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        clean_unit = translation.unit_set.exclude(pk=pending_unit.pk).first()
+        if clean_unit is None:
+            self.fail("Expected a unit without pending changes in test fixture.")
+
+        prefetched_units = {
+            unit.pk: unit
+            for unit in translation.unit_set.filter(
+                pk__in=(pending_unit.pk, clean_unit.pk)
+            ).prefetch_related("pending_changes")
+        }
+
+        with self.assertNumQueries(0):
+            self.assertTrue(prefetched_units[pending_unit.pk].has_pending_changes)
+            self.assertFalse(prefetched_units[clean_unit.pk].has_pending_changes)
+
     def test_find_committable_components_with_commit_policy(self) -> None:
         """Test find_committable_components respects commit policies."""
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
@@ -1220,7 +1408,7 @@ class PendingUnitChangeTest(RepoTestCase):
         unit3.translate(self.user, "Orangutan má %d banánů.\n", STATE_TRANSLATED)
         PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
 
-        # component 1 is now finable because the change failed to apply more than a week ago
+        # component 1 is now findable because the change failed to apply more than a week ago
         # component 3 is now findable because the blocking_unit filter is not applied here
         components = PendingUnitChange.objects.find_committable_components(hours=1)
         self.assertEqual(

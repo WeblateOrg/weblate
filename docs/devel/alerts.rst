@@ -23,6 +23,7 @@ Currently the following is covered:
 * Ambiguous language code
 * Unused new base in component settings
 * Duplicate file mask used for linked components
+* Conflicting merge request repository setup
 * Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)
 
 The alerts are updated daily, or on related change (for example when
@@ -39,6 +40,17 @@ but will disappear once the underlying problem has been fixed.
 A component with both duplicated strings and languages looks like this:
 
 .. image:: /screenshots/alerts.webp
+
+Conflicting repository setup
+----------------------------
+
+This alert is shown when multiple components using pull or merge request
+workflows are configured to push to the same repository and push branch.
+Such a setup can overwrite the shared branch.
+
+To resolve this, either configure a different :guilabel:`Push branch` for each
+component or share the repository between components using a
+``weblate://project/component`` repository URL.
 
 .. seealso::
 

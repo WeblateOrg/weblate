@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections import UserString
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext, override
 
+from weblate.utils.outbound import validate_runtime_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import WeblateEditorURLValidator, WeblateURLValidator
 
@@ -27,7 +28,7 @@ class InvalidString(UserString):
 
 
 class RestrictedEngine(Engine):
-    default_builtins: list[str] = [  # noqa: RUF012
+    default_builtins: ClassVar[list[str]] = [
         "django.template.defaultfilters",
         "weblate.utils.templatetags.safe_render",
     ]
@@ -40,7 +41,7 @@ class RestrictedEngine(Engine):
 
 def render_template(template: str, **kwargs):
     """Render string template with Weblate context."""
-    from weblate.trans.models import Component, Project, Translation
+    from weblate.trans.models import Component, Project, Translation  # noqa: PLC0415
 
     translation = kwargs.get("translation")
     component = kwargs.get("component")
@@ -112,9 +113,9 @@ def validate_render(value: str, **kwargs) -> str:
 
 
 def validate_render_mock(value: str, *, translation: bool = False, **kwargs) -> str:
-    from weblate.lang.models import Language
-    from weblate.trans.models import Component, Project, Translation
-    from weblate.utils.stats import DummyTranslationStats
+    from weblate.lang.models import Language  # noqa: PLC0415
+    from weblate.trans.models import Component, Project, Translation  # noqa: PLC0415
+    from weblate.utils.stats import DummyTranslationStats  # noqa: PLC0415
 
     project = Project(name="project", slug="project", id=-1)
     project.stats = DummyTranslationStats(project)  # type: ignore[assignment]
@@ -178,8 +179,17 @@ def validate_repoweb(val: str, allow_editor: bool = False) -> None:
         and val.split("://", 1)[0].lower() in WeblateEditorURLValidator.schemes
     ):
         validator = WeblateEditorURLValidator()
+    elif allow_editor:
+        validator = WeblateURLValidator()
     else:
         validator = WeblateURLValidator()
+        try:
+            validate_runtime_url(
+                url, allow_private_targets=not settings.PROJECT_WEB_RESTRICT_PRIVATE
+            )
+        except ValidationError as error:
+            if not isinstance(error.__cause__, OSError):
+                raise
     validator(url)
 
 

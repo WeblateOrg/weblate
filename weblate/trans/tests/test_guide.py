@@ -10,7 +10,12 @@ from pathlib import Path
 
 from django.utils.functional import cached_property
 
-from weblate.trans.guide import DjangoGuideline, SphinxGuideline, XgettextGuideline
+from weblate.trans.guide import (
+    DjangoGuideline,
+    MesonGuideline,
+    SphinxGuideline,
+    XgettextGuideline,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -53,5 +58,20 @@ class ExtractorGuideTest(ViewTestCase):
         (docs_dir / "index.rst").write_text("Heading\n=======\n", encoding="utf-8")
 
         guideline = SphinxGuideline(self.component)
+
+        self.assertTrue(guideline.is_relevant())
+
+    def test_meson_guideline(self) -> None:
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+
+        guideline = MesonGuideline(self.component)
 
         self.assertTrue(guideline.is_relevant())

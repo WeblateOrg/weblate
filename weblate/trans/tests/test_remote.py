@@ -144,12 +144,10 @@ class MultiRepoTest(ViewTestCase):
 
     def test_failed_update(self) -> None:
         """Test failed remote update."""
-        if os.path.exists(self.git_repo_path):
-            remove_tree(self.git_repo_path)
-        if os.path.exists(self.mercurial_repo_path):
-            remove_tree(self.mercurial_repo_path)
-        if os.path.exists(self.subversion_repo_path):
-            remove_tree(self.subversion_repo_path)
+        for repo_name in ("test-repo.git", "test-repo.hg", "test-repo.svn"):
+            repo_path = self.get_repo_path(repo_name)
+            if os.path.exists(repo_path):
+                remove_tree(repo_path)
         translation = self.component.translation_set.get(language_code="cs")
         self.assertFalse(translation.do_update(self.request))
 
@@ -597,9 +595,10 @@ class MultiRepoTest(ViewTestCase):
             "# Test Project\n\nThis is a test README.\n", encoding="utf-8"
         )
         with self.component.repository.lock:
-            self.component.repository.execute(["add", "README.md"])
+            self.component.repository.execute(["add", "README.md"], remote_op="none")
             self.component.repository.execute(
-                ["commit", "-m", "Add README.md (non-translation file)"]
+                ["commit", "-m", "Add README.md (non-translation file)"],
+                remote_op="none",
             )
             self.component.repository.push(self.component.push_branch)
 

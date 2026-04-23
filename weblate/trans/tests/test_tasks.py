@@ -8,7 +8,7 @@ from unittest.mock import patch
 from django.test.utils import override_settings
 from django.utils import timezone
 
-from weblate.checks.tasks import batch_update_checks
+from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.models import Comment, PendingUnitChange, Suggestion
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
@@ -20,7 +20,7 @@ from weblate.trans.tasks import (
     daily_update_checks,
     update_remotes,
 )
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ComponentTestCase
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.tasks import (
     update_language_stats_parents,
@@ -30,7 +30,7 @@ from weblate.utils.tasks import (
 from weblate.utils.version import GIT_VERSION
 
 
-class CleanupTest(ViewTestCase):
+class CleanupTest(ComponentTestCase):
     def test_cleanup_suggestions_case_sensitive(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
@@ -100,7 +100,7 @@ class CleanupTest(ViewTestCase):
         self.test_cleanup_old_comments(1)
 
 
-class TasksTest(ViewTestCase):
+class TasksTest(ComponentTestCase):
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
 
@@ -254,5 +254,21 @@ class TasksTest(ViewTestCase):
     def test_update_project_stats_link_missing_project(self) -> None:
         update_project_stats_link(-1)
 
-    def test_batch_update_checks_missing_component(self) -> None:
-        batch_update_checks(-1, ["same"])
+    def test_finalize_component_checks_missing_component(self) -> None:
+        finalize_component_checks(-1, [], ["same"], batch_mode=True)
+
+    def test_finalize_component_checks_missing_source_translation(self) -> None:
+        source_translation = self.component.get_source_translation()
+        self.assertIsNotNone(source_translation)
+        source_translation.delete()
+        self.component.__dict__.pop("source_translation", None)
+
+        finalize_component_checks(
+            self.component.id, [], ["multiple_failures"], batch_mode=True
+        )
+
+        self.assertFalse(
+            self.component.translation_set.filter(
+                language=self.component.source_language
+            ).exists()
+        )

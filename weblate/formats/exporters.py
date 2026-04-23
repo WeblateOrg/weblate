@@ -55,6 +55,7 @@ class PoExporter(BaseExporter):
     name = "po"
     content_type = "text/x-po"
     extension = "po"
+    file_format = "po"
     verbose = gettext_lazy("gettext PO")
     storage_class: ClassVar[type[TranslationStore]] = pofile
 
@@ -194,6 +195,9 @@ class MoExporter(PoExporter):
     def store_flags(self, output, flags) -> None:
         return
 
+    def setup_storage(self, storage) -> None:
+        return
+
     def add_unit(self, unit) -> None:
         # Parse properties from unit
         if self.monolingual:
@@ -235,6 +239,7 @@ class CSVExporter(CVSBaseExporter):
     name = "csv"
     content_type = "text/csv"
     extension = "csv"
+    file_format = "csv"
     verbose = gettext_lazy("CSV")
 
     def string_filter(self, text):
@@ -257,6 +262,7 @@ class MultiCSVExporter(CVSBaseExporter):
     name = "csv-multi"
     content_type = "text/csv"
     extension = "csv"
+    file_format = "csv-multi"
     verbose = gettext_lazy("Multivalue CSV")
 
     @staticmethod
@@ -350,11 +356,13 @@ class JSONExporter(MonolingualExporter):
     name = "json"
     content_type = "application/json"
     extension = "json"
+    file_format = "json"
     verbose = gettext_lazy("JSON")
 
 
 class JSONNestedExporter(JSONExporter):
     name = "json-nested"
+    file_format = "json-nested"
     verbose = gettext_lazy("JSON nested structure file")
     storage_class = JsonNestedFile
 
@@ -385,6 +393,7 @@ class StringsExporter(MonolingualExporter):
     name = "strings"
     content_type = "text/plain"
     extension = "strings"
+    file_format = "strings"
     verbose = gettext_lazy("iOS strings")
 
     def create_unit(self, source):

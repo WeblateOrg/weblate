@@ -134,6 +134,10 @@ While the base language file will be:
     msgstr "None"
 
 
+.. include:: /snippets/format-features/po-mono-features.rst
+
+.. include:: /snippets/format-features/po-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

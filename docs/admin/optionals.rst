@@ -56,6 +56,8 @@ requires an API token which can be obtained in your
 
     git clone 'https://user:KEY@example.org/git/weblate/main/'
 
+.. include:: /snippets/git-export-lfs-note.rst
+
 .. hint::
 
    By default members or :guilabel:`Users` group and anonymous user have access
@@ -141,11 +143,13 @@ documents.
 
 .. note::
 
-    Legal documents for the Hosted Weblate service are available in this Git repository
+    Legal documents for the Hosted Weblate service operated by Weblate s.r.o.
+    are available in this Git repository:
     <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>.
 
-    Most likely these will not be directly usable to you, but might come in handy
-    as a starting point if adjusted to meet your needs.
+    The bundled terms of service and related legal documents are specific to
+    that service and are not intended for general use. They might still come
+    in handy as a starting point if adjusted to meet your needs.
 
 Installation
 ++++++++++++
@@ -174,6 +178,18 @@ Installation
     weblate migrate
 
 3. Edit the legal documents in the :file:`weblate/legal/templates/legal/` folder to match your service.
+
+.. hint::
+
+   In Docker deployments, enable the legal module using
+   :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of editing
+   :file:`settings.py`. Use ``tos-confirm`` to enable the legal module and
+   terms of service confirmation enforcement, or ``wllegal`` to additionally
+   load the hosted legal document templates used by services operated by
+   Weblate s.r.o. These templates are not intended for general use. To provide
+   your own templates in Docker, place them in
+   :file:`/app/data/python/customize/templates/legal/documents`, see
+   :ref:`docker-static-override`.
 
 Usage
 +++++

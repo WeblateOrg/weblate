@@ -33,6 +33,19 @@
     </div>
   </form>
 
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Bulk invite users" %}</h4>
+      </div>
+      <div class="card-body">{{ bulk_invite_form|crispy }}</div>
+      <div class="card-footer">
+        <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
+      </div>
+    </div>
+  </form>
+
   {% if invitations %}
     <div class="card">
       <div class="card-header">

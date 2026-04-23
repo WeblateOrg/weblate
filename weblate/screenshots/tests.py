@@ -8,6 +8,7 @@ from difflib import get_close_matches
 from itertools import chain
 from pathlib import Path
 from shutil import copyfile
+from unittest.mock import MagicMock, patch
 
 import requests
 import responses
@@ -28,6 +29,7 @@ from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
+from weblate.utils.docs import get_doc_url
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -36,6 +38,9 @@ class ViewTest(FixtureTestCase):
     def test_list_empty(self) -> None:
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")
+        self.assertContains(
+            response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
 
     def do_upload(self, **kwargs):
         with open(TEST_SCREENSHOT, "rb") as handle:
@@ -74,6 +79,12 @@ class ViewTest(FixtureTestCase):
         response = self.do_upload(image="")
         self.assertContains(response, "Could not upload screenshot")
 
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_upload_too_big(self) -> None:
+        self.make_manager()
+        response = self.do_upload()
+        self.assertContains(response, "Uploaded file is too big.")
+
     def test_upload_source(self) -> None:
         self.make_manager()
         source = self.component.source_translation.unit_set.all()[0]
@@ -111,6 +122,33 @@ class ViewTest(FixtureTestCase):
         )
         self.assertContains(response, "Picture")
         self.assertEqual(Screenshot.objects.all()[0].name, "Picture")
+
+    def test_detail_has_documentation_link(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        response = self.client.get(screenshot.get_absolute_url())
+        self.assertContains(
+            response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
+
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_edit_metadata_with_existing_oversized_image(self) -> None:
+        self.make_manager()
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot = Screenshot.objects.create(
+                name="Obrazek",
+                translation=self.component.source_translation,
+                user=self.user,
+            )
+            screenshot.image.save("screenshot.png", File(handle))
+
+        response = self.client.post(
+            screenshot.get_absolute_url(), {"name": "Picture"}, follow=True
+        )
+        self.assertContains(response, "Picture")
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.name, "Picture")
 
     def test_view(self) -> None:
         self.make_manager()
@@ -265,6 +303,66 @@ class ViewTest(FixtureTestCase):
             "OCR recognition not working, no recognized strings found",
         )
 
+    def test_ocr_truncated_image(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        image = MagicMock()
+        image.__enter__.return_value = image
+
+        def close_and_propagate(*_args) -> bool:
+            image.close()
+            return False
+
+        image.__exit__.side_effect = close_and_propagate
+        image.load.side_effect = OSError(
+            "image file is truncated (5 bytes not processed)"
+        )
+
+        with (
+            patch("weblate.screenshots.views.Image.open", return_value=image),
+            patch("weblate.screenshots.views.get_tesseract") as mocked_tesseract,
+            self.assertLogs("weblate", level="WARNING") as logs,
+        ):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertNotIn('<a class="add-string', data["results"])
+        self.assertIn(
+            "Skipping OCR for unreadable screenshot",
+            "\n".join(logs.output),
+        )
+        self.assertGreaterEqual(image.close.call_count, 1)
+        mocked_tesseract.assert_not_called()
+
+    def test_ocr_tesseract_error_propagates(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        image = MagicMock()
+        image.__enter__.return_value = image
+
+        def close_and_propagate(*_args) -> bool:
+            image.close()
+            return False
+
+        image.__exit__.side_effect = close_and_propagate
+
+        with (
+            patch("weblate.screenshots.views.Image.open", return_value=image),
+            patch(
+                "weblate.screenshots.views.get_tesseract",
+                side_effect=OSError("No space left on device"),
+            ),
+            self.assertRaises(OSError),
+        ):
+            self.client.post(reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk}))
+
+        self.assertGreaterEqual(image.close.call_count, 1)
+
     def test_translation_manipulations(self) -> None:
         self.make_manager()
         translation = self.component.translation_set.get(language_code="cs")
@@ -410,6 +508,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "Unsupported image type")
 
     @responses.activate
+    @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_invalid_image_url_size(self) -> None:
         self.make_manager()
         # Mock a too big image
@@ -567,6 +666,38 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
         )[0].image.size
         self.assertNotEqual(existing_ss_size, updated_ss_size)
 
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_update_screenshots_from_repo_too_big(self) -> None:
+        repository = self.component.repository
+        last_revision = repository.last_revision
+        existing_ss_size = Screenshot.objects.filter(
+            translation__component=self.component,
+            repository_filename="test-update.png",
+        )[0].image.size
+
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test-update.png"))
+        with repository.lock:
+            repository.set_committer("Second Bar", "second@example.net")
+            repository.commit(
+                "Test commit",
+                "Foo Bar <foo@bar.com>",
+                timezone.now(),
+                ["test-update.png"],
+            )
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertEqual(
+            Screenshot.objects.filter(
+                translation__component=self.component,
+                repository_filename="test-update.png",
+            )[0].image.size,
+            existing_ss_size,
+        )
+
     def test_add_screenshots_from_repo(self) -> None:
         repository = self.component.repository
         last_revision = repository.last_revision
@@ -591,4 +722,29 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
                 repository_filename="test.png",
             ).count(),
             1,
+        )
+
+    @override_settings(ALLOWED_ASSET_SIZE=1)
+    def test_add_screenshots_from_repo_too_big(self) -> None:
+        repository = self.component.repository
+        last_revision = repository.last_revision
+
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test.png"))
+        with repository.lock:
+            repository.set_committer("Second Bar", "second@example.net")
+            repository.commit(
+                "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), ["test.png"]
+            )
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertEqual(
+            Screenshot.objects.filter(
+                translation__component=self.component,
+                repository_filename="test.png",
+            ).count(),
+            0,
         )

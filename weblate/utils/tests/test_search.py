@@ -628,6 +628,10 @@ class UserQueryParserTest(SearchTestCase):
                 Q(social_auth__verifiedemail__email__icontains="hello"),
             )
 
+    def test_ip(self) -> None:
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("ip:192.0.2.1", Q(auditlog__address="192.0.2.1"))
+
     def test_joined(self) -> None:
         self.assert_query(
             "joined:2018",
@@ -700,6 +704,21 @@ class SuperuserQueryParserTest(UserQueryParserTest):
     def test_email(self) -> None:
         self.assert_query(
             "email:hello", Q(social_auth__verifiedemail__email__icontains="hello")
+        )
+
+    def test_ip(self) -> None:
+        self.assert_query("ip:192.0.2.1", Q(auditlog__address="192.0.2.1"))
+        self.assert_query("ip:2001:0db8::1", Q(auditlog__address="2001:db8::1"))
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("ip:not-an-ip", Q(auditlog__address="not-an-ip"))
+
+    def test_plain_ip(self) -> None:
+        self.assert_query(
+            "192.0.2.1",
+            Q(username__icontains="192.0.2.1")
+            | Q(full_name__icontains="192.0.2.1")
+            | Q(social_auth__verifiedemail__email__iexact="192.0.2.1")
+            | Q(auditlog__address="192.0.2.1"),
         )
 
     def test_is(self) -> None:

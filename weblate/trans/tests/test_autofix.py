@@ -101,6 +101,66 @@ class AutoFixTest(TestCase):
             (["<https://weblate.org>"], False),
         )
 
+    def test_auto_safe_html(self) -> None:
+        fix = BleachHTML()
+        unit = MockUnit(source="link", flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(["<b>link</b>"], unit),
+            (["link"], True),
+        )
+        unit = MockUnit(source="Press <b to continue", flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(["<script>alert(1)</script>"], unit),
+            (["<script>alert(1)</script>"], False),
+        )
+        unit = MockUnit(
+            source='<a href="https://weblate.org">link</a>', flags="auto-safe-html"
+        )
+        self.assertEqual(
+            fix.fix_target(['<a href="javascript:foo()">link</a>'], unit),
+            (["<a>link</a>"], True),
+        )
+        unit = MockUnit(source="<x-demo>link</x-demo>", flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(['<x-demo onclick="alert(1)">link</x-demo>'], unit),
+            (["<x-demo>link</x-demo>"], True),
+        )
+        unit = MockUnit(source='<a title="1 > 0">link</a>', flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(['<a title="1 > 0" href="javascript:foo()">link</a>'], unit),
+            (['<a title="1 > 0">link</a>'], True),
+        )
+        unit = MockUnit(source='<a title="a<b">link</a>', flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(['<a title="a<b" href="javascript:foo()">link</a>'], unit),
+            (['<a title="a<b">link</a>'], True),
+        )
+        unit = MockUnit(source="Line<br/>break", flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(["Line<script>alert(1)</script>break"], unit),
+            (["Linebreak"], True),
+        )
+        unit = MockUnit(source="<option selected>", flags="auto-safe-html")
+        self.assertEqual(
+            fix.fix_target(["<script>alert(1)</script>"], unit),
+            (["<script>alert(1)</script>"], False),
+        )
+
+    def test_auto_safe_html_markdown_component(self) -> None:
+        fix = BleachHTML()
+        value = "<TOCInline toc={toc.filter((node)) => node.level === 2)} />"
+        unit = MockUnit(source=value, flags="auto-safe-html,md-text")
+        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+
+    def test_auto_safe_html_safe_html_wins(self) -> None:
+        fix = BleachHTML()
+        value = "<TOCInline toc={toc.filter((node)) => node.level === 2)} />"
+        unit = MockUnit(source=value, flags="auto-safe-html,md-text,safe-html")
+        self.assertEqual(
+            fix.fix_target(["<script>alert(1)</script>"], unit),
+            ([""], True),
+        )
+
     def test_zerospace(self) -> None:
         unit = MockUnit(source="Foo\u200b")
         fix = RemoveZeroSpace()
@@ -145,6 +205,12 @@ class AutoFixTest(TestCase):
         # No format string
         unit.flags = Flags("auto-java-messageformat")
         self.assertEqual(fix.fix_target(["Bar"], unit), (["Bar"], False))
+        unit.source = "{0,number}"
+        unit.sources = [unit.source]
+        self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))
+        unit.flags = Flags("auto-java-messageformat,ignore-java-format")
+        self.assertEqual(fix.fix_target(["bar'"], unit), (["bar'"], False))
+        unit.flags = Flags("auto-java-messageformat")
         unit.source = "test {0}"
         unit.sources = [unit.source]
         # Nothing to fix
@@ -203,4 +269,47 @@ class AutoFixTest(TestCase):
         )
         self.assertEqual(
             fix.fix_target(["This :"], fr_rst_unit), (["This\u00a0:"], True)
+        )
+
+    def test_punctuation_spacing_xliff(self) -> None:
+        fix = PunctuationSpacing()
+        xliff_flag = r'placeholders:r"<x\s[^>]*/>"'
+        # target with ' :' inside equiv-text, should not be modified
+        fr_xliff_unit = MockUnit(
+            source='Quota <x id="INTERPOLATION" equiv-text="{{ quota | bytes : 0 }}"/> par jour',
+            code="fr",
+            flags=xliff_flag,
+        )
+        self.assertEqual(
+            fix.fix_target(
+                [
+                    'Quota <x id="INTERPOLATION" equiv-text="{{ quota | bytes : 0 }}"/> par jour'
+                ],
+                fr_xliff_unit,
+            ),
+            (
+                [
+                    'Quota <x id="INTERPOLATION" equiv-text="{{ quota | bytes : 0 }}"/> par jour'
+                ],
+                False,
+            ),
+        )
+
+        # ' :' outside a placeholder must still be fixed.
+        fr_xliff_unit2 = MockUnit(
+            source='Quota: <x id="INTERPOLATION" equiv-text="{{ count }}"/> items',
+            code="fr",
+            flags=xliff_flag,
+        )
+        self.assertEqual(
+            fix.fix_target(
+                ['Quota : <x id="INTERPOLATION" equiv-text="{{ count }}"/> éléments'],
+                fr_xliff_unit2,
+            ),
+            (
+                [
+                    'Quota\u00a0: <x id="INTERPOLATION" equiv-text="{{ count }}"/> éléments'
+                ],
+                True,
+            ),
         )

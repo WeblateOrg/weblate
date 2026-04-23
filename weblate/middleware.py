@@ -78,6 +78,7 @@ CSP_DIRECTIVES: CSP_TYPE = {
 # URLs requiring inline javascript
 INLINE_PATHS = {
     "social:begin",
+    "saml_login_binding",
     "djangosaml2idp:saml_login_process",
 }
 
@@ -206,18 +207,18 @@ class RedirectMiddleware:
         request.user.check_access_component(component)
         return component
 
-    def check_existing_translations(self, name: str, project: Project) -> bool:
+    def check_existing_translations(self, language: Language, project: Project) -> bool:
         """
         Check in existing translations for specific language.
 
         Return False if language translation not present, else True.
         """
-        return any(lang.name == name for lang in project.languages)
+        return project.has_language(language)
 
     def process_exception(  # noqa: C901
         self, request: AuthenticatedHttpRequest, exception
     ) -> HttpResponse | None:
-        from weblate.utils.views import UnsupportedPathObjectError
+        from weblate.utils.views import UnsupportedPathObjectError  # noqa: PLC0415
 
         if not isinstance(exception, Http404):
             return None
@@ -232,7 +233,7 @@ class RedirectMiddleware:
 
         kwargs = dict(resolver_match.kwargs)
         path = list(kwargs.get("path", ()))
-        language_name = None
+        language = None
         if not path:
             return None
 
@@ -246,7 +247,6 @@ class RedirectMiddleware:
                 language = self.fixup_language(path[-1])
                 if language is not None:
                     path[-1] = language.code
-                    language_name = language.name
                     language_len = 1
 
             try:
@@ -276,10 +276,8 @@ class RedirectMiddleware:
                             return None
                         path[:path_offset] = component.get_url_path()
 
-                if language_name:
-                    existing_trans = self.check_existing_translations(
-                        language_name, project
-                    )
+                if language:
+                    existing_trans = self.check_existing_translations(language, project)
                     if not existing_trans:
                         messages.add_message(
                             request,
@@ -287,7 +285,7 @@ class RedirectMiddleware:
                             gettext(
                                 "%s translation is currently not available, but can be added."
                             )
-                            % language_name,
+                            % language.name,
                         )
                         return redirect(reverse("show", kwargs={"path": path[:-1]}))
 
@@ -447,7 +445,7 @@ class CSPBuilder:
                     # Handle SAML redirect flow
                     elif hasattr(backend, "get_idp"):
                         # Lazily import here to avoid pulling in xmlsec
-                        from social_core.backends.saml import SAMLAuth
+                        from social_core.backends.saml import SAMLAuth  # noqa: PLC0415
 
                         assert issubclass(backend, SAMLAuth)  # noqa: S101
 

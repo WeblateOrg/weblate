@@ -14,7 +14,7 @@ from email.headerregistry import Address
 from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
 from pathlib import Path
-from typing import cast
+from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import urlparse
 
 import regex
@@ -28,6 +28,7 @@ from django.core.validators import (
     validate_domain_name,
     validate_ipv46_address,
 )
+from django.db.models.fields.files import FieldFile
 from django.http.request import validate_host
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
@@ -37,9 +38,18 @@ from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_excluded
-from weblate.utils.outbound import validate_outbound_hostname, validate_outbound_url
+from weblate.utils.files import is_excluded, read_file_bytes
+from weblate.utils.outbound import (
+    is_allowlisted_hostname,
+    validate_outbound_hostname,
+    validate_outbound_url,
+    validate_runtime_url,
+)
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
+
+if TYPE_CHECKING:
+    from django.core.files.base import File
+    from django.core.files.base import File as DjangoFile
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -113,22 +123,25 @@ def validate_re_nonempty(value: str) -> None:
     validate_re(value, allow_empty=False)
 
 
-def validate_bitmap(value) -> None:
+def validate_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.ALLOWED_ASSET_SIZE:
+        raise ValidationError(gettext("Uploaded file is too big."))
+
+
+def validate_bitmap(
+    value: FieldFile | File | None,
+) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
     if value is None:
         return
+    if not (isinstance(value, FieldFile) and getattr(value, "_committed", True)):
+        validate_upload_size(value)
 
     # Ensure we have image object and content type
     # Pretty much copy from django.forms.fields.ImageField:
 
-    # We need to get a file object for Pillow. We might have a path or we
-    # might have to read the data into memory.
-    if hasattr(value, "temporary_file_path"):
-        content = value.temporary_file_path()
-    elif hasattr(value, "read"):
-        content = BytesIO(value.read())
-    else:
-        content = BytesIO(value["content"])
+    content_target: Any = value
+    content = BytesIO(read_file_bytes(value))
 
     try:
         # load() could spot a truncated JPEG, but it loads the entire
@@ -139,21 +152,19 @@ def validate_bitmap(value) -> None:
 
         # Pillow doesn't detect the MIME type of all formats. In those
         # cases, content_type will be None.
-        value.file.content_type = Image.MIME.get(cast("str", image.format))
+        content_type = Image.MIME.get(cast("str", image.format))
+        if content_target is not None:
+            content_target.content_type = content_type
     except Exception as exc:
         # Pillow doesn't recognize it as an image.
         raise ValidationError(
             gettext("The uploaded image was invalid."), code="invalid_image"
         ).with_traceback(sys.exc_info()[2]) from exc
-    if hasattr(value.file, "seek") and callable(value.file.seek):
-        value.file.seek(0)
 
     # Check image type
-    if value.file.content_type not in ALLOWED_IMAGES:
+    if content_type not in ALLOWED_IMAGES:
         image.close()
-        raise ValidationError(
-            gettext("Unsupported image type: %s") % value.file.content_type
-        )
+        raise ValidationError(gettext("Unsupported image type: %s") % content_type)
 
     # Check dimensions
     width, height = image.size
@@ -283,7 +294,7 @@ def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
 
 def validate_backup_path(value: str) -> None:
     # Lazily import borg as it pulls quite a lot of memory usage
-    from borg.helpers import Location
+    from borg.helpers import Location  # noqa: PLC0415
 
     try:
         loc = Location(value)
@@ -339,30 +350,72 @@ def validate_project_name(value) -> None:
         raise ValidationError(gettext("This name is prohibited"))
 
 
-def validate_project_web(value) -> None:
+def _validate_runtime_public_url(
+    value: str,
+    *,
+    allow_private_targets: bool,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+) -> None:
+    hostname = urlparse(value).hostname or ""
+    if allow_private_targets or is_allowlisted_hostname(hostname, allowed_domains):
+        return
+
+    try:
+        validate_runtime_url(value, allow_private_targets=False)
+    except ValidationError as error:
+        if not isinstance(error.__cause__, OSError):
+            raise
+
+
+def is_project_web_allowlisted(project_slug: str | None) -> bool:
+    if project_slug is None:
+        return False
+
+    normalized_slug = project_slug.lower()
+    return normalized_slug in {
+        slug.lower() for slug in settings.PROJECT_WEB_RESTRICT_ALLOWLIST
+    }
+
+
+def validate_project_web(value: str, *, project_slug: str | None = None) -> None:
+    allowlisted = is_project_web_allowlisted(project_slug)
+
     # Regular expression filtering
-    if settings.PROJECT_WEB_RESTRICT_RE is not None and re.match(
-        settings.PROJECT_WEB_RESTRICT_RE, value
+    if (
+        not allowlisted
+        and settings.PROJECT_WEB_RESTRICT_RE is not None
+        and re.match(settings.PROJECT_WEB_RESTRICT_RE, value)
     ):
-        raise ValidationError(gettext("This URL is prohibited"))
+        raise ValidationError(
+            gettext("This URL is prohibited because it matches a restricted pattern.")
+        )
     parsed = urlparse(value)
     hostname = parsed.hostname or ""
     hostname = hostname.lower()
 
     # Hostname filtering
-    if any(
+    if not allowlisted and any(
         hostname.endswith(blocked) for blocked in settings.PROJECT_WEB_RESTRICT_HOST
     ):
-        raise ValidationError(gettext("This URL is prohibited"))
+        raise ValidationError(
+            gettext("This URL is prohibited because it uses a restricted host.")
+        )
 
     # Numeric address filtering
-    if settings.PROJECT_WEB_RESTRICT_NUMERIC:
+    if not allowlisted and settings.PROJECT_WEB_RESTRICT_NUMERIC:
         try:
             validate_ipv46_address(hostname)
         except ValidationError:
             pass
         else:
-            raise ValidationError(gettext("This URL is prohibited"))
+            raise ValidationError(
+                gettext("This URL is prohibited because it uses a numeric IP address.")
+            )
+
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=allowlisted or not settings.PROJECT_WEB_RESTRICT_PRIVATE,
+    )
 
 
 def validate_webhook_secret_string(value: str) -> None:
@@ -424,6 +477,20 @@ def validate_machinery_hostname(
     )
 
 
+def validate_webhook_url(value: str) -> None:
+    WeblateServiceURLValidator()(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+
+
 class WeblateEditorURLValidator(WeblateURLValidator):
     schemes: list[str] = [  # noqa: RUF012
         "editor",
@@ -470,12 +537,19 @@ class WeblateServiceURLValidator(WeblateURLValidator):
 
 
 def validate_repo_url(url: str) -> None:
-    parsed = urlparse(url)
+    normalized_url = url
+    parsed = urlparse(normalized_url)
     if not parsed.scheme:
+        if os.path.isabs(url) or url.startswith(("./", "../")):
+            if "file" not in settings.VCS_ALLOW_SCHEMES:
+                raise ValidationError(
+                    gettext("Fetching VCS repository using %s is not allowed.") % "file"
+                )
+            return
         # assume all links without schema are ssh links
-        url = f"ssh://{url}"
+        normalized_url = f"ssh://{url}"
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(normalized_url)
         except ValueError as error:
             raise ValidationError(
                 gettext("Could not parse URL: {}").format(error)
@@ -494,13 +568,35 @@ def validate_repo_url(url: str) -> None:
     # URL validation using for http (the URL validator is too strict to handle others)
     if parsed.scheme in {"http", "https"}:
         validator = URLValidator(schemes=list(settings.VCS_ALLOW_SCHEMES))
-        validator(url)
+        validator(normalized_url)
+
+    hostname = parsed.hostname
+
+    if parsed.scheme == "file":
+        if hostname is None:
+            return
+        raise ValidationError(gettext("Could not parse URL."))
+
+    if hostname is None:
+        raise ValidationError(gettext("Could not parse URL."))
 
     # Filter hosts if configured
-    if settings.VCS_ALLOW_HOSTS and parsed.hostname not in settings.VCS_ALLOW_HOSTS:
+    if settings.VCS_ALLOW_HOSTS and hostname not in settings.VCS_ALLOW_HOSTS:
         raise ValidationError(
-            gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
+            gettext("Fetching VCS repository from %s is not allowed.") % hostname
         )
+
+    allowlisted = hostname in settings.VCS_ALLOW_HOSTS
+    allow_private_targets = allowlisted or not settings.VCS_RESTRICT_PRIVATE
+
+    validate_outbound_url(
+        normalized_url,
+        allow_private_targets=allow_private_targets,
+    )
+    _validate_runtime_public_url(
+        normalized_url,
+        allow_private_targets=allow_private_targets,
+    )
 
 
 @deconstructible

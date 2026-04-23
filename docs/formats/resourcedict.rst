@@ -26,6 +26,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.xaml
     :language: xml
 
+.. include:: /snippets/format-features/resourcedictionary-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

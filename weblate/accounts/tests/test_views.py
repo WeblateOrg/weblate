@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from time import sleep
+from types import SimpleNamespace
 from unittest import mock
 
 from django.conf import settings
@@ -15,11 +16,24 @@ from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
+from requests.exceptions import HTTPError
+from rest_framework.authtoken.models import Token
+from social_core.exceptions import (
+    AuthCanceled,
+    AuthFailed,
+    AuthForbidden,
+    AuthMissingParameter,
+    AuthStateMissing,
+    AuthTokenError,
+    InvalidEmail,
+)
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
+from weblate.accounts.views import log_handled_auth_failure
 from weblate.auth.models import User
+from weblate.billing.models import Plan
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -28,6 +42,7 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.utils.ratelimit import reset_rate_limit
+from weblate.utils.state import STATE_TRANSLATED
 
 CONTACT_DATA = {
     "name": "Test",
@@ -53,6 +68,47 @@ class ViewTest(RepoTestCase):
         user.email = "noreply@example.com"
         user.save()
         return user
+
+    @staticmethod
+    def get_backend(name: str = "github") -> mock.Mock:
+        backend = mock.Mock()
+        backend.name = name
+        return backend
+
+    def assert_social_complete_result(
+        self,
+        error: Exception,
+        *,
+        expected_text: str,
+        backend: str = "github",
+        session_updates: dict[str, object] | None = None,
+        reportable: bool,
+    ) -> None:
+        session = self.client.session
+        if session_updates is not None:
+            for key, value in session_updates.items():
+                session[key] = value
+            session.save()
+
+        with (
+            mock.patch("weblate.accounts.views.complete", side_effect=error),
+            mock.patch("weblate.accounts.views.report_error") as mocked_report_error,
+            mock.patch(
+                "weblate.accounts.views.log_handled_auth_failure"
+            ) as mocked_handled_error,
+        ):
+            response = self.client.get(
+                reverse("social:complete", args=(backend,)), follow=True
+            )
+
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(response, expected_text)
+        if reportable:
+            mocked_report_error.assert_called_once()
+            mocked_handled_error.assert_not_called()
+        else:
+            mocked_report_error.assert_not_called()
+            mocked_handled_error.assert_called_once()
 
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS=("Weblate test <noreply@weblate.org>",)
@@ -133,8 +189,6 @@ class ViewTest(RepoTestCase):
     @override_settings(OFFER_HOSTING=True)
     def test_libre(self) -> None:
         """Test for hosting form with enabled hosting."""
-        from weblate.billing.models import Plan
-
         self.get_user()
         self.client.login(username="testuser", password="testpassword")
 
@@ -159,8 +213,6 @@ class ViewTest(RepoTestCase):
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_trial(self) -> None:
         """Test for trial form with disabled hosting."""
-        from weblate.billing.models import Plan
-
         Plan.objects.create(price=1, slug="640k")
         user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
@@ -260,6 +312,37 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertContains(response, "Thank you for using Weblate")
 
+    def test_login_next_redirect(self) -> None:
+        user = self.get_user()
+
+        response = self.client.post(
+            reverse("login"),
+            {
+                "username": user.username,
+                "password": "testpassword",
+                "next": f"{reverse('profile')}#account",
+            },
+        )
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+
+    def test_login_rejects_unsafe_next(self) -> None:
+        user = self.get_user()
+
+        for next_url in ("https://evil.example/", "////evil.example"):
+            with self.subTest(next_url=next_url):
+                self.client.logout()
+                response = self.client.post(
+                    reverse("login"),
+                    {
+                        "username": user.username,
+                        "password": "testpassword",
+                        "next": next_url,
+                    },
+                )
+
+                self.assertRedirects(response, reverse("home"))
+
     @social_core_override_settings(
         AUTHENTICATION_BACKENDS=(
             "social_core.backends.github.GithubOAuth2",
@@ -289,6 +372,147 @@ class ViewTest(RepoTestCase):
             response, "This username/password combination was not found."
         )
 
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        REGISTRATION_OPEN=False,
+        PASSWORD_RESET_URL="https://id.example.net/password-reset",
+    )
+    def test_login_password_reset_url(self) -> None:
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, 'href="https://id.example.net/password-reset"')
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        REGISTRATION_OPEN=False,
+        PASSWORD_RESET_URL=None,
+    )
+    def test_login_without_configured_password_reset_url(self) -> None:
+        response = self.client.get(reverse("login"))
+        self.assertNotContains(response, reverse("password_reset"))
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.email.EmailAuth",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        REGISTRATION_OPEN=False,
+        PASSWORD_RESET_URL=None,
+    )
+    def test_login_uses_internal_password_reset_url(self) -> None:
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, f'href="{reverse("password_reset")}"')
+
+    def test_social_complete_logs_missing_provider_email(self) -> None:
+        self.assert_social_complete_result(
+            AuthMissingParameter(self.get_backend(), "email"),
+            expected_text=(
+                "Got no e-mail address from third party authentication service."
+            ),
+            reportable=False,
+        )
+
+    def test_social_complete_logs_disabled_registration(self) -> None:
+        self.assert_social_complete_result(
+            AuthMissingParameter(self.get_backend(), "disabled"),
+            expected_text="New registrations are turned off.",
+            reportable=False,
+        )
+
+    def test_social_complete_logs_invalid_email_for_reset(self) -> None:
+        self.assert_social_complete_result(
+            InvalidEmail(self.get_backend("email")),
+            expected_text=(
+                "Try resetting your password again to verify your identity, "
+                "the confirmation link probably expired."
+            ),
+            backend="email",
+            session_updates={"password_reset": True},
+            reportable=False,
+        )
+
+    def test_social_complete_logs_missing_state(self) -> None:
+        self.assert_social_complete_result(
+            AuthStateMissing(self.get_backend()),
+            expected_text="Could not authenticate due to invalid session state.",
+            reportable=False,
+        )
+
+    def test_social_complete_logs_expired_provider_code(self) -> None:
+        self.assert_social_complete_result(
+            AuthFailed(
+                self.get_backend(),
+                "The code passed is incorrect or expired.",
+            ),
+            expected_text=(
+                "Could not authenticate, probably due to an expired token "
+                "or connection error."
+            ),
+            reportable=False,
+        )
+
+    def test_social_complete_reports_token_error(self) -> None:
+        self.assert_social_complete_result(
+            AuthTokenError(self.get_backend(), "Invalid key/secret, perhaps expired"),
+            expected_text=(
+                "Authentication failed: Token error: Invalid key/secret, "
+                "perhaps expired"
+            ),
+            reportable=True,
+        )
+
+    def test_social_complete_reports_auth_forbidden(self) -> None:
+        self.assert_social_complete_result(
+            AuthForbidden(self.get_backend()),
+            expected_text="The server does not allow authentication.",
+            reportable=True,
+        )
+
+    def test_social_complete_reports_provider_http_error(self) -> None:
+        self.assert_social_complete_result(
+            HTTPError(
+                "401 Client Error: Unauthorized for url: https://api.github.com/user"
+            ),
+            expected_text="The authentication provider could not be reached.",
+            reportable=True,
+        )
+
+    def test_social_complete_logs_auth_canceled(self) -> None:
+        self.assert_social_complete_result(
+            AuthCanceled(self.get_backend(), "access_denied"),
+            expected_text="Authentication cancelled.",
+            reportable=False,
+        )
+
+    def test_log_handled_auth_failure_uses_string_reason(self) -> None:
+        request = self.client.get(reverse("login")).wsgi_request
+        request.session["password_reset"] = True
+
+        with mock.patch(
+            "weblate.accounts.views.log_handled_exception"
+        ) as mocked_log_handled_exception:
+            log_handled_auth_failure(
+                request,
+                "github",
+                AuthFailed(
+                    self.get_backend(),
+                    "The code passed is incorrect or expired.",
+                ),
+            )
+
+        mocked_log_handled_exception.assert_called_once_with(
+            "Handled auth failure",
+            extra_log=(
+                "backend=github, action=reset, path=/accounts/login/, "
+                "reason=The code passed is incorrect or expired."
+            ),
+        )
+
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False) -> None:
         if login:
@@ -315,7 +539,8 @@ class ViewTest(RepoTestCase):
 
     def test_password(self) -> None:
         # Create user
-        self.get_user()
+        user = self.get_user()
+        old_token = user.auth_token.key
         # Login
         self.client.login(username="testuser", password="testpassword")
         # Change without data
@@ -340,13 +565,34 @@ class ViewTest(RepoTestCase):
                 "password": "testpassword",
                 "new_password1": "1pa$$word!",
                 "new_password2": "1pa$$word!",
+                "regenerate_api_key": "on",
             },
         )
 
         self.assertRedirects(response, f"{reverse('profile')}#account")
-        self.assertTrue(
-            User.objects.get(username="testuser").check_password("1pa$$word!")
+        updated_user = User.objects.get(username="testuser")
+        self.assertTrue(updated_user.check_password("1pa$$word!"))
+        self.assertNotEqual(updated_user.auth_token.key, old_token)
+        self.assertFalse(Token.objects.filter(key=old_token).exists())
+
+    def test_password_keeps_api_key(self) -> None:
+        user = self.get_user()
+        old_token = user.auth_token.key
+
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.post(
+            reverse("password"),
+            {
+                "password": "testpassword",
+                "new_password1": "1pa$$word!",
+                "new_password2": "1pa$$word!",
+            },
         )
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        updated_user = User.objects.get(username="testuser")
+        self.assertTrue(updated_user.check_password("1pa$$word!"))
+        self.assertEqual(updated_user.auth_token.key, old_token)
 
     def test_api_key(self) -> None:
         # Create user
@@ -675,6 +921,8 @@ class EditUserTest(FixtureTestCase):
         self.assertRedirects(response, user.get_absolute_url())
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_superuser)
+        audit = user.auditlog_set.get(activity="superuser-revoked")
+        self.assertEqual(audit.params["username"], self.user.username)
         # No permissions now
         response = self.client.post(
             self.user.get_absolute_url(),
@@ -686,3 +934,39 @@ class EditUserTest(FixtureTestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+
+class AdminUserRevertTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.user.is_superuser = True
+        self.user.save()
+        self.target_user = User.objects.create_user(
+            username="sitewide-target", password="testpassword"
+        )
+
+    def test_revert_user_edits(self) -> None:
+        unit = self.get_unit()
+        self.change_unit("Nazdar svete!\n", user=self.target_user)
+
+        with mock.patch(
+            "weblate.accounts.views.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-1"),
+        ) as mocked_delay:
+            response = self.client.post(
+                self.target_user.get_absolute_url(),
+                {"revert_user_edits": "1"},
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.target_user.id,
+            acting_user_id=self.user.id,
+            sitewide=True,
+        )
+        self.assertContains(
+            response, "Reverting edits by sitewide-target site-wide was scheduled."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)

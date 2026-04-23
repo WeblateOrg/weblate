@@ -17,6 +17,8 @@ A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` is us
     * :doc:`/formats/android`
     * :doc:`tt:formats/android`
 
+.. include:: /snippets/format-features/moko-resource-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

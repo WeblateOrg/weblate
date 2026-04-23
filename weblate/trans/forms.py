@@ -40,6 +40,7 @@ from django.utils.text import normalize_newlines, slugify
 from django.utils.translation import gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
+from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
@@ -1427,6 +1428,13 @@ class UserBlockForm(forms.Form):
             "Internal notes regarding blocking the user that are not visible to the user."
         ),
     )
+    revert_edits = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Revert user edits"),
+        help_text=gettext_lazy(
+            "Revert the latest translation edits from this user in the current project."
+        ),
+    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "auto_id" not in kwargs:
@@ -1847,6 +1855,50 @@ class ComponentSettingsForm(
         self.fields["vcs"].choices = [
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
+        self.patch_unlinking_linked_repository_settings()
+        self.patch_linked_repository_settings()
+
+    def get_linked_repository_component(self) -> Component | None:
+        repo = self.data.get("repo") if self.is_bound else self.instance.repo
+        if not repo:
+            return None
+        try:
+            return Component.objects.get_linked(repo)
+        except (Component.DoesNotExist, ValueError):
+            return None
+
+    def patch_unlinking_linked_repository_settings(self) -> None:
+        if not self.is_bound or not self.instance.is_repo_link:
+            return
+
+        repo = self.data.get("repo") or ""
+        if is_repo_link(repo):
+            return
+
+        data = copy.copy(self.data)
+        for field_name in Component.LINKED_REPOSITORY_SETTINGS:
+            if field_name not in data:
+                data[field_name] = self.fields[field_name].prepare_value(
+                    getattr(self.instance, field_name)
+                )
+        self.data = data
+
+    def patch_linked_repository_settings(self) -> None:
+        linked_component = self.get_linked_repository_component()
+        if linked_component is None:
+            return
+
+        inherited_note = Component.LINKED_REPOSITORY_SETTING_MESSAGE
+        for field_name in Component.LINKED_REPOSITORY_SETTINGS:
+            field = self.fields[field_name]
+            effective_value = getattr(linked_component, field_name)
+            self.initial[field_name] = effective_value
+            field.initial = effective_value
+            field.disabled = True
+            if field.help_text:
+                field.help_text = format_html("{} {}", field.help_text, inherited_note)
+            else:
+                field.help_text = inherited_note
 
     @property
     def hide_restricted(self) -> bool:
@@ -1864,6 +1916,11 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+
+        repo = data.get("repo") or ""
+        if is_repo_link(repo):
+            for field_name in Component.LINKED_REPOSITORY_SETTINGS:
+                data[field_name] = getattr(self.instance, field_name)
 
         if "file_format_params" in data:
             data["file_format_params"] = strip_unused_file_format_params(
@@ -3266,7 +3323,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.project = project
         super().__init__(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, acting_user: User | None = None, **kwargs):
         self.instance.is_bot = True
         base_name = name = f"bot-{self.project.slug}-{slugify(self.instance.full_name)}"
         while User.objects.filter(
@@ -3277,6 +3334,13 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.instance.email = f"{name}@bots.noreply.weblate.org"
         result = super().save(*args, **kwargs)
         self.project.add_user(self.instance, "Administration")
+        AuditLog.objects.create(
+            self.instance,
+            None,
+            "token-created",
+            project=self.project.name,
+            username=acting_user.username if acting_user is not None else None,
+        )
         return result
 
     def clean_expires(self):

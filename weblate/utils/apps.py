@@ -92,7 +92,7 @@ def check_celery(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
-    from weblate.utils.tasks import ping
+    from weblate.utils.tasks import ping  # noqa: PLC0415
 
     errors: list[CheckMessage] = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -339,14 +339,16 @@ def check_data_writable(
         ]
     dirs: list[Path] = [
         Path(settings.DATA_DIR),
+        data_path("locks"),
         data_path("home"),
         data_path("ssh"),
         data_path("vcs"),
         data_path("backups"),
         data_path("fonts"),
+        data_path("cache") / "ssh",
         data_path("cache") / "fonts",
     ]
-    message = "Path {} is not writable, check your DATA_DIR settings."
+    message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."
     for path in dirs:
         path.mkdir(parents=True, exist_ok=True)
         if not os.access(path, os.W_OK):

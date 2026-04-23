@@ -28,11 +28,15 @@ from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.docs import DocVersionsMixin
-from weblate.utils.errors import report_error
+from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.outbound import is_allowlisted_hostname
-from weblate.utils.requests import http_request, validate_request_url
+from weblate.utils.requests import (
+    fetch_url,
+    fetch_validated_url,
+    validate_request_url,
+)
 from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
@@ -316,18 +320,28 @@ class BatchMachineTranslation(DocVersionsMixin):
             headers.update(self.get_headers())
 
         # Fire request
-        response = http_request(
-            method,
-            url,
-            headers=headers,
-            timeout=self.request_timeout,
-            auth=self.get_auth(),
-            raise_for_status=False,
-            validate_url=not self.allow_private_targets,
-            allow_private_targets=self.allow_private_targets,
-            allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
-            **kwargs,
-        )
+        if self.allow_private_targets:
+            response = fetch_url(
+                method,
+                url,
+                headers=headers,
+                timeout=self.request_timeout,
+                auth=self.get_auth(),
+                raise_for_status=False,
+                **kwargs,
+            )
+        else:
+            response = fetch_validated_url(
+                method,
+                url,
+                headers=headers,
+                timeout=self.request_timeout,
+                auth=self.get_auth(),
+                raise_for_status=False,
+                allow_private_targets=False,
+                allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+                **kwargs,
+            )
 
         self.check_failure(response)
 
@@ -351,6 +365,10 @@ class BatchMachineTranslation(DocVersionsMixin):
         report_error(
             f"machinery[{self.name}]: {cause}", extra_log=extra_log, message=message
         )
+
+    def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
+        """Log a handled error without reporting it to external services."""
+        log_handled_exception(f"machinery[{self.name}]: {cause}", extra_log=extra_log)
 
     @cached_property
     def supported_languages(self):
@@ -809,7 +827,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     @cached_property
     def user(self):
         """Weblate user used to track changes by this engine."""
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         return User.objects.get_or_create_bot(
             scope="mt",
@@ -955,7 +973,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         *extra_parts,
     ):
         """Retrieve cached translation with glossary checksum."""
-        from weblate.glossary.models import get_glossary_tsv
+        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
 
         return super().get_cached(
             unit,
@@ -974,7 +992,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
-        from weblate.glossary.models import get_glossary_tsv
+        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
 
         if unit is None:
             return None
@@ -1074,7 +1092,15 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 
 class ResponseStatusMachineTranslation(MachineTranslation):
     def check_failure(self, response: Response) -> None:
-        payload = response.json()
+        try:
+            payload = response.json()
+        except JSONDecodeError:
+            super().check_failure(response)
+            return
+
+        if not isinstance(payload, dict):
+            super().check_failure(response)
+            return
 
         # Check response status
         response_status = payload.get("responseStatus", payload.get("code", None))

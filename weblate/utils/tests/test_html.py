@@ -11,6 +11,7 @@ from weblate.utils.html import (
     HTML2Text,
     HTMLSanitizer,
     extract_html_tags,
+    is_auto_safe_html_source,
     list_to_tuples,
     mail_quote_value,
 )
@@ -50,6 +51,65 @@ class HtmlTestCase(SimpleTestCase):
 
     def test_noclose(self) -> None:
         self.assertEqual(extract_html_tags("<br>"), ({"br"}, {"br": set()}))
+
+    def test_auto_safe_html_plain_text(self) -> None:
+        self.assertTrue(is_auto_safe_html_source("Just text", Flags()))
+
+    def test_auto_safe_html_html(self) -> None:
+        self.assertTrue(
+            is_auto_safe_html_source('<a href="https://weblate.org">link</a>', Flags())
+        )
+
+    def test_auto_safe_html_custom_element(self) -> None:
+        self.assertTrue(is_auto_safe_html_source("<x-demo>link</x-demo>", Flags()))
+
+    def test_auto_safe_html_normalized_html(self) -> None:
+        for source in (
+            "<br/>",
+            '<img src="test.png" />',
+            "<!-- comment -->",
+            "<!DOCTYPE html>",
+        ):
+            with self.subTest(source=source):
+                self.assertTrue(is_auto_safe_html_source(source, Flags()))
+
+    def test_auto_safe_html_inferred_structure(self) -> None:
+        self.assertFalse(is_auto_safe_html_source("<option selected>", Flags()))
+
+    def test_auto_safe_html_markdown_autolink(self) -> None:
+        self.assertTrue(
+            is_auto_safe_html_source("See <https://weblate.org>", Flags("md-text"))
+        )
+
+    def test_auto_safe_html_jsx(self) -> None:
+        self.assertFalse(
+            is_auto_safe_html_source(
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                Flags("md-text"),
+            )
+        )
+
+    def test_auto_safe_html_malformed_tag(self) -> None:
+        self.assertFalse(is_auto_safe_html_source("<a href=", Flags()))
+
+    def test_auto_safe_html_unmatched_tag_text(self) -> None:
+        self.assertFalse(is_auto_safe_html_source("Press <b to continue", Flags()))
+
+    def test_auto_safe_html_quoted_gt(self) -> None:
+        self.assertTrue(is_auto_safe_html_source('<a title="1 > 0">link</a>', Flags()))
+
+    def test_auto_safe_html_quoted_lt(self) -> None:
+        self.assertTrue(is_auto_safe_html_source('<a title="a<b">link</a>', Flags()))
+
+    def test_auto_safe_html_exotic_markup(self) -> None:
+        for source in ("<svg><circle /></svg>", "<math><mrow /></math>"):
+            with self.subTest(source=source):
+                self.assertFalse(is_auto_safe_html_source(source, Flags()))
+
+    def test_auto_safe_html_duplicate_boolean_attr(self) -> None:
+        self.assertFalse(
+            is_auto_safe_html_source('<input disabled disabled="">', Flags())
+        )
 
     def test_html2text_simple(self) -> None:
         html2text = HTML2Text()

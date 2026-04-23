@@ -246,7 +246,9 @@
                   {% for name in new_backends %}
                     <a href=""
                        class="btn btn-link link-post"
-                       data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name %}</a>
+                       data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name only="icon" %}
+                      <br />
+                    {% auth_name name only="name" %}</a>
                   {% endfor %}
                 </div>
               </div>

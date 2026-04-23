@@ -7,7 +7,7 @@ from __future__ import annotations
 from shutil import disk_usage
 
 # pylint: disable-next=unused-import
-from typing import TYPE_CHECKING, Any, Literal, cast
+from typing import TYPE_CHECKING, Any, Literal, cast, get_args
 from urllib.parse import quote
 
 from django.conf import settings
@@ -32,7 +32,11 @@ from requests.exceptions import HTTPError, Timeout
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.views import UserList, get_initial_contact
 from weblate.auth.decorators import management_access
-from weblate.auth.forms import AdminInviteUserForm, SitewideTeamForm
+from weblate.auth.forms import (
+    AdminBulkInviteForm,
+    AdminInviteUserForm,
+    SitewideTeamForm,
+)
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -55,12 +59,14 @@ from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 from weblate.vcs.ssh import (
+    KeyType,
     add_host_key,
     can_generate_key,
     generate_ssh_key,
     get_all_key_data,
-    get_host_keys,
+    get_host_key_entries,
     get_key_data_raw,
+    remove_host_key,
 )
 from weblate.wladmin.forms import (
     ActivateForm,
@@ -78,13 +84,7 @@ if TYPE_CHECKING:
     from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
 
-    from weblate.auth.models import (
-        AuthenticatedHttpRequest,
-        GroupQuerySet,
-    )
-    from weblate.vcs.ssh import (
-        KeyType,
-    )
+    from weblate.auth.models import AuthenticatedHttpRequest, GroupQuerySet
 
 MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -413,9 +413,16 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/performance.html", context)
 
 
+def get_key_type(data: QueryDict) -> KeyType:
+    value = data.get("type", "rsa")
+    if value not in get_args(KeyType):
+        raise Http404
+    return cast("KeyType", value)
+
+
 @management_access
 def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
-    key_type = cast("KeyType", request.GET.get("type", "rsa"))
+    key_type = get_key_type(request.GET)
     filename, data = get_key_data_raw(key_type=key_type, kind="private")
     if data is None:
         raise Http404
@@ -437,7 +444,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
 
     # Generate key if it does not exist yet
     if can_generate and action == "generate":
-        key_type = cast("KeyType", request.POST.get("type", "rsa"))
+        key_type = get_key_type(request.POST)
         generate_ssh_key(request, key_type=key_type)
         return redirect("manage-ssh")
 
@@ -455,6 +462,8 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
                 form.cleaned_data["port"],
                 accept_fingerprint=form.cleaned_data["fingerprint"],
             )
+    elif action == "remove-host":
+        remove_host_key(request, request.POST.get("host_key", ""))
 
     context = {
         "public_ssh_keys": keys,
@@ -462,7 +471,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
         "missing_ssh_keys": [
             keydata for keydata in keys.values() if keydata["key"] is None
         ],
-        "host_keys": get_host_keys(),
+        "host_keys": get_host_key_entries(),
         "menu_items": MENU,
         "menu_page": "ssh",
         "add_form": form,
@@ -497,26 +506,48 @@ class AdminUserList(UserList):
     def get_base_queryset(self) -> QuerySet[User]:
         return User.objects.all()
 
+    @staticmethod
+    def get_invite_form(data=None) -> AdminInviteUserForm:
+        return AdminInviteUserForm(data, auto_id="id_admin_invite_%s")
+
+    @staticmethod
+    def get_bulk_invite_form(data=None) -> AdminBulkInviteForm:
+        return AdminBulkInviteForm(data, auto_id="id_admin_bulk_invite_%s")
+
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
-        if "email" in request.POST:
-            invite_form = AdminInviteUserForm(request.POST)
+        if "emails" in request.POST:
+            bulk_invite_form = self.get_bulk_invite_form(request.POST)
+            if bulk_invite_form.is_valid():
+                bulk_invite_form.save(request)
+                return redirect("manage-users")
+            show_form_errors(request, bulk_invite_form)
+        elif "email" in request.POST:
+            invite_form = self.get_invite_form(request.POST)
             if invite_form.is_valid():
                 invite_form.save(request)
                 return redirect("manage-users")
+            show_form_errors(request, invite_form)
         return super().get(request, **kwargs)
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
 
-        if self.request.method == "POST":
-            invite_form = AdminInviteUserForm(self.request.POST)
+        if self.request.method == "POST" and "email" in self.request.POST:
+            invite_form = self.get_invite_form(self.request.POST)
             invite_form.is_valid()
         else:
-            invite_form = AdminInviteUserForm()
+            invite_form = self.get_invite_form()
+
+        if self.request.method == "POST" and "emails" in self.request.POST:
+            bulk_invite_form = self.get_bulk_invite_form(self.request.POST)
+            bulk_invite_form.is_valid()
+        else:
+            bulk_invite_form = self.get_bulk_invite_form()
 
         result["menu_items"] = MENU
         result["menu_page"] = "users"
         result["invite_form"] = invite_form
+        result["bulk_invite_form"] = bulk_invite_form
         result["search_form"] = self.form
         result["invitations"] = Invitation.objects.all().select_related("user")
         return result
@@ -535,7 +566,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     if form.is_valid():
         query = form.cleaned_data.get("q", "")
         parser = cast(
-            "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "unit")
+            "Literal['user', 'superuser']", getattr(form.fields["q"], "parser", "user")
         )
         user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
@@ -592,7 +623,7 @@ def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_access
 def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
-    from weblate.billing.models import Billing
+    from weblate.billing.models import Billing  # noqa: PLC0415
 
     trial = []
     pending = []

@@ -218,6 +218,8 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_interrobang(self) -> None:
         self.do_test(False, ("string!?", "string?", ""))
         self.do_test(False, ("string?", "string?!", ""))
+        self.do_test(False, ("string؟!", "string?", ""))
+        self.do_test(False, ("string?", "string!؟", ""))
         self.do_test(False, ("string⁈", "string?", ""))
         self.do_test(False, ("string?", "string⁉", ""))
         self.do_test(False, ("string？！", "string?", ""))
@@ -244,6 +246,8 @@ class EndExclamationCheckTest(CheckTestCase):
     def test_interrobang(self) -> None:
         self.do_test(False, ("string!?", "string!", ""))
         self.do_test(False, ("string!", "string?!", ""))
+        self.do_test(False, ("string!؟", "string!", ""))
+        self.do_test(False, ("string!", "string؟!", ""))
         self.do_test(False, ("string⁈", "string!", ""))
         self.do_test(False, ("string!", "string⁉", ""))
         self.do_test(False, ("string？！", "string!", ""))
@@ -262,6 +266,8 @@ class EndInterrobangCheckTest(CheckTestCase):
 
     def test_translate(self) -> None:
         self.do_test(False, ("string!?", "string!?", ""))
+        self.do_test(False, ("string?!", "string؟!", ""))
+        self.do_test(False, ("string!?", "string!؟", ""))
         self.do_test(False, ("string⁉", "string⁈", ""))
         self.do_test(False, ("string⁉", "string⁉", ""))
         self.do_test(False, ("string！？", "string！？", ""))
@@ -269,6 +275,7 @@ class EndInterrobangCheckTest(CheckTestCase):
         self.do_test(False, ("string?!", "string？！", ""))
         self.do_test(False, ("string！？", "string!?", ""))
         self.do_test(True, ("string?", "string?!", ""))
+        self.do_test(True, ("string?", "string؟!", ""))
         self.do_test(False, ("string⁉", "string!?", ""))
         self.do_test(False, ("string?!", "string⁈", ""))
         self.do_test(False, ("string？！", "string⁈", ""))
@@ -517,6 +524,30 @@ class PunctuationSpacingCheckTest(CheckTestCase):
                 ":ref:`document` here",
                 ":ref:`document` tam",
                 "rst-text",
+            ),
+            "fr",
+        )
+
+    def test_angular_fr_placeholders(self) -> None:
+        # XLIFF placeholder regex so highlight_string skips equiv-text content
+        xliff_placeholder = r'placeholders:r"<x\s[^>]*/>"'
+        # Check should not fire when punctuation is inside placeholder equiv-text
+        self.do_test(
+            False,
+            (
+                'Orangutan has <x id="INTERPOLATION" equiv-text="{{ count | other: 0 }}"/> banana.\n',
+                'Orangutan a <x id="INTERPOLATION" equiv-text="{{ count | other: 0 }}"/> banane.\n',
+                xliff_placeholder,
+            ),
+            "fr",
+        )
+        # Check should fire when punctuation is outside placeholder
+        self.do_test(
+            True,
+            (
+                'Orangutan has: <x id="INTERPOLATION" equiv-text="{{ count }}"/> banana.\n',
+                'Orangutan a: <x id="INTERPOLATION" equiv-text="{{ count }}"/> banane.\n',
+                xliff_placeholder,
             ),
             "fr",
         )

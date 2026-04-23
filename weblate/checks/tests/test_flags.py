@@ -4,8 +4,15 @@
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
+from lxml import etree
 
-from weblate.checks.flags import TYPED_FLAGS, TYPED_FLAGS_ARGS, Flags, FlagsValidator
+from weblate.checks.flags import (
+    TYPED_FLAGS,
+    TYPED_FLAGS_ARGS,
+    Flags,
+    FlagsValidator,
+    get_auto_flag_names,
+)
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoFormat
 from weblate.trans.defines import VARIANT_KEY_LENGTH
@@ -51,6 +58,38 @@ class FlagTest(SimpleTestCase):
         self.assertFalse(flags.has_any({"baz"}))
         self.assertTrue(flags.has_any({"bar", "foo"}))
         self.assertTrue(flags.has_any({"bar", "baz"}))
+
+    def test_is_active(self) -> None:
+        flags = Flags("safe-html")
+        self.assertTrue(flags.is_active("safe-html", "source"))
+        self.assertEqual(get_auto_flag_names("safe-html"), ("auto-safe-html",))
+
+        flags = Flags("java-format")
+        self.assertTrue(flags.is_active("java-format", "source"))
+        self.assertEqual(
+            get_auto_flag_names("java-format"), ("auto-java-messageformat",)
+        )
+
+        flags = Flags("auto-safe-html")
+        self.assertTrue(flags.is_active("safe-html", "Plain text"))
+        self.assertFalse(
+            flags.is_active(
+                "safe-html",
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+            )
+        )
+
+        flags = Flags("auto-safe-html,ignore-safe-html")
+        self.assertFalse(flags.is_active("safe-html", "Plain text"))
+
+        flags = Flags("auto-java-messageformat")
+        self.assertTrue(flags.is_active("java-format", "{0} strings"))
+        self.assertTrue(flags.is_active("java-format", "{0,number} strings"))
+        self.assertFalse(flags.is_active("java-format", "Plain text"))
+        self.assertFalse(flags.is_active("java-format", "{0 strings"))
+
+        flags = Flags("auto-java-messageformat,ignore-java-format")
+        self.assertFalse(flags.is_active("java-format", "{0} strings"))
 
     def test_parse_empty(self) -> None:
         self.assertEqual(Flags("").items(), set())
@@ -251,7 +290,6 @@ class FlagTest(SimpleTestCase):
         flags.validate()
 
     def test_equals(self) -> None:
-        from lxml import etree
 
         flags = Flags("foo:foo, bar:bar")
         self.assertEqual(flags, Flags("bar:bar, foo:foo"))

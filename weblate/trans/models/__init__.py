@@ -114,6 +114,9 @@ def component_post_delete(sender, instance: Component, **kwargs) -> None:
     if not instance.is_repo_link:
         delete_object_dir(instance)
 
+    if batch is None:
+        instance.cleanup_conflicting_repository_setup_alerts()
+
 
 @receiver(post_delete, sender=Translation)
 def translation_post_delete(sender, instance: Translation, **kwargs) -> None:
@@ -125,7 +128,7 @@ def translation_post_delete(sender, instance: Translation, **kwargs) -> None:
 @receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
 def component_links_updated(sender, instance, **kwargs) -> None:
-    from weblate.utils.tasks import update_project_stats_link
+    from weblate.utils.tasks import update_project_stats_link  # noqa: PLC0415
 
     update_project_stats_link.delay_on_commit(instance.project_id)
 

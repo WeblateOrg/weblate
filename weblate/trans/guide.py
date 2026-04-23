@@ -233,7 +233,7 @@ class ScreenshotGuideline(Guideline):
     url = "screenshots"
 
     def is_passing(self):
-        from weblate.screenshots.models import Screenshot
+        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
 
         return Screenshot.objects.filter(translation__component=self.component).exists()
 
@@ -264,7 +264,7 @@ class FlagsGuideline(Guideline):
 @register
 class SafeHTMLGuideline(Guideline):
     description = gettext_lazy(
-        "Add safe-html flag to avoid dangerous HTML from translators for strings which are rendered as HTML."
+        "Add safe-html or auto-safe-html flag to avoid dangerous HTML from translators for strings which are rendered as HTML."
     )
     url = "settings"
     anchor = "show"
@@ -284,8 +284,12 @@ class SafeHTMLGuideline(Guideline):
     def is_passing(self):
         return (
             "safe-html" in self.component.check_flags
+            or "auto-safe-html" in self.component.check_flags
             or self.component.source_translation.unit_set.filter(
                 extra_flags__contains="safe-html"
+            ).exists()
+            or self.component.source_translation.unit_set.filter(
+                extra_flags__contains="auto-safe-html"
             ).exists()
         )
 
@@ -403,6 +407,12 @@ class XgettextGuideline(AddonGuideline):
                 if os.path.splitext(filename)[1] in XGETTEXT_GUIDE_SUFFIXES:
                     return True
         return False
+
+
+@register
+class MesonGuideline(AddonGuideline):
+    addon = "weblate.gettext.meson"
+    hint = True
 
 
 @register

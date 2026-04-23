@@ -5,10 +5,11 @@
 from __future__ import annotations
 
 import os
-import subprocess
+import subprocess  # noqa: S404
+from collections.abc import Mapping, Sequence
 from contextlib import suppress
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -21,8 +22,8 @@ from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.templatetags.translations import format_json
-from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
@@ -42,17 +43,26 @@ if TYPE_CHECKING:
     from weblate.trans.models import Category, Change, Project, Translation, Unit
 
 
+type AddonConfigurationScalar = str | int | float | bool | None
+type AddonConfigurationValue = (
+    AddonConfigurationScalar
+    | Sequence[AddonConfigurationValue]
+    | Mapping[str, AddonConfigurationValue]
+)
+type AddonConfiguration = dict[str, AddonConfigurationValue]
+
+
 class CompatDict(TypedDict, total=False):
     vcs: set[str]
     file_format: set[str]
     edit_template: set[bool]
 
 
-class BaseAddon(DocVersionsMixin):
+class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     """Base class for Weblate add-ons."""
 
     events: ClassVar[set[AddonEvent]] = set()
-    settings_form: type[BaseAddonForm] | None = None
+    settings_form: type[BaseAddonForm[StoredConfigurationT, Self]] | None = None
     name = ""
     compat: ClassVar[CompatDict] = {}
     multiple = False
@@ -103,14 +113,14 @@ class BaseAddon(DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
-        from weblate.addons.models import Addon
+        from weblate.addons.models import Addon  # noqa: PLC0415
 
         result = Addon(
             project=project,
             category=category,
             component=component,
             name=cls.name,
-            acting_user=acting_user,
+            acting_user=acting_user,  # type: ignore[misc]
             **kwargs,
         )
 
@@ -149,7 +159,7 @@ class BaseAddon(DocVersionsMixin):
         category: Category | None = None,
         project: Project | None = None,
         **kwargs,
-    ) -> BaseAddonForm | None:
+    ) -> BaseAddonForm[StoredConfigurationT, Self] | None:
         """Return configuration form for adding new add-on."""
         if cls.settings_form is None:
             return None
@@ -159,13 +169,34 @@ class BaseAddon(DocVersionsMixin):
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
 
-    def get_settings_form(self, user: User | None, **kwargs) -> BaseAddonForm | None:
+    def get_settings_form(
+        self, user: User | None, **kwargs
+    ) -> BaseAddonForm[StoredConfigurationT, Self] | None:
         """Return configuration form for this add-on."""
         if self.settings_form is None:
             return None
         if "data" not in kwargs:
-            kwargs["data"] = self.instance.configuration
+            kwargs["data"] = self.get_settings_form_data()
         return self.settings_form(user, self, **kwargs)
+
+    def get_settings_form_data(self) -> Mapping[str, AddonConfigurationValue]:
+        return cast("Mapping[str, AddonConfigurationValue]", self.stored_configuration)
+
+    @property
+    def stored_configuration(self) -> StoredConfigurationT:
+        return cast("StoredConfigurationT", self.instance.configuration)
+
+    def normalize_configuration(
+        self, configuration: StoredConfigurationT
+    ) -> ConfigurationT:
+        return cast("ConfigurationT", configuration)
+
+    def get_configuration(self) -> ConfigurationT:
+        return self.normalize_configuration(self.stored_configuration)
+
+    @property
+    def configuration(self) -> ConfigurationT:
+        return self.get_configuration()
 
     def show_setting_field(self, field: BoundField) -> bool:
         return not field.is_hidden and field.value()
@@ -200,14 +231,14 @@ class BaseAddon(DocVersionsMixin):
             if self.show_setting_field(field)
         ]
 
-    def configure(self, configuration: dict[str, Any]) -> None:
+    def configure(self, configuration: StoredConfigurationT) -> None:
         """Save configuration."""
         self.instance.configuration = configuration
         self.instance.save()
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        from weblate.addons.tasks import postconfigure_addon
+        from weblate.addons.tasks import postconfigure_addon  # noqa: PLC0415
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
@@ -232,7 +263,7 @@ class BaseAddon(DocVersionsMixin):
             self.post_configure_run_project(project)
 
     def post_configure_run_project(self, project: Project) -> None:
-        from weblate.addons.models import execute_addon_event
+        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
         for component in project.component_set.iterator():
             if self.can_process(component=component):
@@ -249,7 +280,7 @@ class BaseAddon(DocVersionsMixin):
             )
 
     def post_configure_run_category(self, category: Category) -> None:
-        from weblate.addons.models import execute_addon_event
+        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
         for component in category.all_components.iterator():
             if self.can_process(component=component):
@@ -268,7 +299,7 @@ class BaseAddon(DocVersionsMixin):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
-        from weblate.addons.models import execute_addon_event
+        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -488,6 +519,12 @@ class BaseAddon(DocVersionsMixin):
         """Event handler after new translation is added."""
         # To be implemented in a subclass
 
+    def post_remove(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> dict | None:
+        """Event handler after a translation is removed."""
+        # To be implemented in a subclass
+
     def unit_pre_create(
         self, unit: Unit, activity_log_id: int | None = None
     ) -> dict | None:
@@ -523,11 +560,13 @@ class BaseAddon(DocVersionsMixin):
         Override this for project-level logic, or override daily_component()
         for per-component logic.
         """
-        for comp in self.resolve_components(
-            component=component, category=category, project=project
-        ):
-            if self.can_process(component=comp):
-                self.daily_component(comp, activity_log_id=activity_log_id)
+        return self.handle_scoped_component_event(
+            self.daily_component,
+            component=component,
+            category=category,
+            project=project,
+            activity_log_id=activity_log_id,
+        )
 
     def daily_component(
         self,
@@ -535,12 +574,69 @@ class BaseAddon(DocVersionsMixin):
         activity_log_id: int | None = None,
     ) -> dict | None:
         """Per-component daily processing. Override this for component-level logic."""
+        return None
+
+    def manual(
+        self,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """
+        Scope-aware manual entry point.
+
+        By default this mirrors the daily handler and lets add-ons opt in
+        explicitly by subscribing to the manual event.
+        """
+        return self.handle_scoped_component_event(
+            self.manual_component,
+            component=component,
+            category=category,
+            project=project,
+            activity_log_id=activity_log_id,
+        )
+
+    def handle_scoped_component_event(
+        self,
+        handler: Callable[[Component, int | None], dict | None],
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        results: dict[str, dict] = {}
+        for comp in self.resolve_components(
+            component=component, category=category, project=project
+        ):
+            if self.can_process(component=comp):
+                result = cast(
+                    "dict | None",
+                    handler(comp, activity_log_id),
+                )
+                if result is not None:
+                    results[comp.full_slug] = result
+        if not results:
+            return None
+        if component is not None and len(results) == 1:
+            return next(iter(results.values()))
+        return {"components": results}
+
+    def manual_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """Per-component manual processing."""
+        return self.daily_component(component, activity_log_id=activity_log_id)
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> dict | None:
         """Event handler for component update."""
         # To be implemented in a subclass
+        return None
 
     def check_change_action(self, change: Change) -> bool:
         """Early filtering of Change actions before triggering change_event callback."""
@@ -551,13 +647,14 @@ class BaseAddon(DocVersionsMixin):
     ) -> dict | None:
         """Event handler for change event."""
         # To be implemented in a subclass
+        return None
 
     def execute_process(
         self, component: Component, cmd: list[str], env: dict[str, str] | None = None
     ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(
+            output = subprocess.check_output(  # noqa: S603
                 cmd,
                 env=get_clean_env(env),
                 cwd=component.full_path,
@@ -652,7 +749,7 @@ class BaseAddon(DocVersionsMixin):
         obj: Component | Project | Category | None,
         request: AuthenticatedHttpRequest,
     ) -> None:
-        from weblate.trans.tasks import perform_update
+        from weblate.trans.tasks import perform_update  # noqa: PLC0415
 
         if cls.trigger_update and isinstance(obj, Component):
             perform_update.delay("Component", obj.pk, auto=True)
@@ -668,7 +765,7 @@ class BaseAddon(DocVersionsMixin):
     @cached_property
     def user(self) -> User:
         """Weblate user used to track changes by this add-on."""
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not self.user_name or not self.user_verbose:
             msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"

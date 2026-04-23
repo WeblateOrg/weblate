@@ -8,7 +8,6 @@ import locale
 import os
 import platform
 import re
-import sys
 from operator import itemgetter
 from types import GeneratorType
 from typing import TYPE_CHECKING, Any, cast
@@ -26,7 +25,7 @@ from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.auth.results import Denied
-from weblate.utils.data import data_dir
+from weblate.utils.files import cleanup_error_message
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
@@ -86,6 +85,23 @@ PRIORITY_CHOICES = (
 CJK_PATTERN = re.compile(
     r"([\u1100-\u11ff\u2e80-\u2fdf\u2ff0-\u9fff\ua960-\ua97f\uac00-\ud7ff\uf900-\ufaff\ufe30-\ufe4f\uff00-\uffef\U0001aff0-\U0001b16f\U0001f200-\U0001f2ff\U00020000-\U0003FFFF]+)"
 )
+BACKEND_URL_RE = re.compile(r"(?P<url>[a-z][a-z0-9+.-]*://[^\s\"'<>]+)", re.IGNORECASE)
+BACKEND_HOST_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
+    (re.compile(r"(Could not resolve host:\s*)(\S+)", re.IGNORECASE), r"\1..."),
+    (
+        re.compile(r"(Could not resolve hostname\s+)(\S+)(?=[:\s])", re.IGNORECASE),
+        r"\1...",
+    ),
+    (
+        re.compile(r"(connect to host\s+)(\S+)(\s+port\s+)", re.IGNORECASE),
+        r"\1...\3",
+    ),
+    (
+        re.compile(r"(Failed to connect to\s+)(\S+)(\s+port\s+)", re.IGNORECASE),
+        r"\1...\3",
+    ),
+    (re.compile(r"(Connection to\s+)(\S+)(?=\s)", re.IGNORECASE), r"\1..."),
+)
 
 
 def is_plural(text: str) -> bool:
@@ -128,7 +144,7 @@ def is_repo_link(val: str) -> bool:
 
 
 def translation_percent(
-    translated: int, total: int, zero_complete: bool = True
+    translated: int, total: int | None, zero_complete: bool = True
 ) -> float:
     """Return translation percentage."""
     if total == 0:
@@ -142,55 +158,6 @@ def translation_percent(
     if promile == 1000 and translated < total:
         return 99.9
     return promile / 10
-
-
-def get_clean_env(
-    extra: dict[str, str] | None = None, extra_path: str | None = None
-) -> dict[str, str]:
-    """Return cleaned up environment for subprocess execution."""
-    environ = {
-        "LANG": "C.UTF-8",
-        "LC_ALL": "C.UTF-8",
-        "HOME": data_dir("home"),
-        "PATH": "/bin:/usr/bin:/usr/local/bin",
-    }
-    if extra is not None:
-        environ.update(extra)
-    variables = (
-        # Keep PATH setup
-        "PATH",
-        # Keep Python search path
-        "PYTHONPATH",
-        # Keep linker configuration
-        "LD_LIBRARY_PATH",
-        "LD_PRELOAD",
-        # Fontconfig configuration by weblate.fonts
-        "FONTCONFIG_FILE",
-        # Needed by Git on Windows
-        "SystemRoot",
-        # Pass proxy configuration
-        "http_proxy",
-        "https_proxy",
-        "HTTPS_PROXY",
-        "NO_PROXY",
-        # below two are needed for openshift3 deployment,
-        # where nss_wrapper is used
-        # more on the topic on below link:
-        # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
-        "NSS_WRAPPER_GROUP",
-        "NSS_WRAPPER_PASSWD",
-    )
-    for var in variables:
-        if var in os.environ:
-            environ[var] = os.environ[var]
-    # Extend path to include Python environment, avoid inserting already existing ones to
-    # not break existing ordering (for example PATH injection used in tests)
-    venv_path = os.path.join(sys.exec_prefix, "bin")
-    if venv_path not in environ["PATH"]:
-        environ["PATH"] = f"{venv_path}:{environ['PATH']}"
-    if extra_path and extra_path not in environ["PATH"]:
-        environ["PATH"] = f"{extra_path}:{environ['PATH']}"
-    return environ
 
 
 def cleanup_repo_url(url: str, text: str | None = None) -> str:
@@ -207,6 +174,60 @@ def cleanup_repo_url(url: str, text: str | None = None) -> str:
     if parsed.username:
         return text.replace(f"{parsed.username}@", "")
     return text
+
+
+def build_path_redaction_pattern(path: str) -> re.Pattern[str]:
+    """Build a regex matching an internal path and any descendant path."""
+    normalized_path = path.rstrip("/")
+    return re.compile(
+        rf"{re.escape(normalized_path)}(?P<suffix>(?:/[^\s\"'<>]+)*)(?=$|[^A-Za-z0-9_-])"
+    )
+
+
+def sanitize_backend_error_message(
+    text: str,
+    *,
+    repo_urls: Iterable[str | None] = (),
+    extra_paths: Iterable[os.PathLike[str] | str | None] = (),
+) -> str:
+    """Strip internal transport and filesystem details from backend errors."""
+    result = str(text)
+    url_placeholder = gettext("repository URL")
+
+    for repo_url in repo_urls:
+        if repo_url:
+            candidates = [repo_url]
+            cleaned_repo_url = cleanup_repo_url(repo_url)
+            if cleaned_repo_url != repo_url:
+                candidates.append(cleaned_repo_url)
+            for candidate in candidates:
+                result = result.replace(candidate, url_placeholder)
+
+    for extra_path in extra_paths:
+        if not extra_path:
+            continue
+        normalized_path = os.fspath(extra_path).rstrip("/")
+        if normalized_path:
+            result = build_path_redaction_pattern(normalized_path).sub(
+                lambda match: f"...{match.group('suffix')}",
+                result,
+            )
+
+    result = cleanup_error_message(result)
+    result = BACKEND_URL_RE.sub(url_placeholder, result)
+
+    for pattern, replacement in BACKEND_HOST_PATTERNS:
+        result = pattern.sub(replacement, result)
+
+    lines: list[str] = []
+    seen_lines: set[str] = set()
+    for line in result.splitlines():
+        stripped = re.sub(r"\s+", " ", line).strip()
+        if stripped and stripped not in seen_lines:
+            seen_lines.add(stripped)
+            lines.append(stripped)
+
+    return "\n".join(lines).strip()
 
 
 def redirect_param(location, params, *args, **kwargs):
@@ -232,7 +253,7 @@ def cleanup_path(path: str) -> str:
 
 def get_project_description(project: Project) -> str:
     """Return verbose description for project translation."""
-    # Cache the count as it might be expensive to calculate (it pull
+    # Cache the count as it might be expensive to calculate (it pulls
     # all project stats) and there is no need to always have up to date
     # count here
     cache_key = f"project-lang-count-{project.id}"
@@ -355,7 +376,7 @@ def check_upload_method_permissions(
     user: User, translation: Translation, method: str
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
-    from weblate.formats.base import BilingualUpdateMixin
+    from weblate.formats.base import BilingualUpdateMixin  # noqa: PLC0415
 
     if method == "source":
         if not translation.is_source:
@@ -401,15 +422,17 @@ def count_words(string: str, language: Language | None = None) -> int:
     """Count number of words in a string."""
     if language is not None and language.is_cjk():
         count = 0
-        for s in split_plural(string):
-            if is_unused_string(s):
+        for part in split_plural(string):
+            if is_unused_string(part):
                 continue
             even = True
-            for sec in CJK_PATTERN.split(string):
+            for sec in CJK_PATTERN.split(part):
                 if even:
                     count += len(sec.split())
                 else:
                     count += len(sec)
                 even = not even
         return count
-    return sum(len(s.split()) for s in split_plural(string) if not is_unused_string(s))
+    return sum(
+        len(part.split()) for part in split_plural(string) if not is_unused_string(part)
+    )

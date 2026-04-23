@@ -70,6 +70,8 @@
     Enables the :ref:`check-c-format` quality check.
 ``c-sharp-format``
     Enables the :ref:`check-c-sharp-format` quality check.
+``csharp-format``
+    Enables the :ref:`check-c-sharp-format` quality check.
 ``es-format``
     Enables the :ref:`check-es-format` quality check.
 ``i18next-interpolation``
@@ -80,6 +82,9 @@
     Enables the :ref:`check-java-printf-format` quality check.
 ``java-format``
     Enables the :ref:`check-java-format` quality check.
+``auto-java-messageformat``
+    Treat a text as conditional Java MessageFormat, enabling :ref:`check-java-format` only when the source contains Java MessageFormat placeholders.
+    Enables the :ref:`check-java-format` quality check.
 ``javascript-format``
     Enables the :ref:`check-javascript-format` quality check.
 ``laravel-format``
@@ -88,6 +93,8 @@
     Enables the :ref:`check-lua-format` quality check.
 ``object-pascal-format``
     Enables the :ref:`check-object-pascal-format` quality check.
+``objc-format``
+    Enables the :ref:`check-objc-format` quality check.
 ``percent-placeholders``
     Enables the :ref:`check-percent-placeholders` quality check.
 ``perl-brace-format``
@@ -125,6 +132,9 @@
 ``regex``
     Enables the :ref:`check-regex` quality check.
 ``safe-html``
+    Enables the :ref:`check-safe-html` quality check.
+``auto-safe-html``
+    Treat a text as conditional HTML, enabling :ref:`check-safe-html` only for plain text or source strings that contain standard HTML markup or valid custom elements. This is useful for extended Markdown variants such as MDX, where angle-bracket syntax may not be HTML.
     Enables the :ref:`check-safe-html` quality check.
 ``url``
     The string should consist of only a URL.
@@ -186,6 +196,8 @@
     Skip the :ref:`check-lua-format` quality check.
 ``ignore-object-pascal-format``
     Skip the :ref:`check-object-pascal-format` quality check.
+``ignore-objc-format``
+    Skip the :ref:`check-objc-format` quality check.
 ``ignore-percent-placeholders``
     Skip the :ref:`check-percent-placeholders` quality check.
 ``ignore-perl-brace-format``

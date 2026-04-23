@@ -74,25 +74,25 @@ Choosing Docker image tag
 
 Please choose a tag that matches your environment and expectations:
 
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-| Tag name                | Description                                                                                                | Use case                                                                    |
-+=========================+============================================================================================================+=============================================================================+
-|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>``              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>.<MINOR>``      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<VERSION>.<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment                                |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features                          |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features                       |
-+-------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+| Tag name                                | Description                                                                                                | Use case                                                                    |
++=========================================+============================================================================================================+=============================================================================+
+|``latest``                               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>``                              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>.<MINOR>``                      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``<MAJOR>.<MINOR>.<PATCH>.<BUILD>``      | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``edge``                                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``edge-<DATE>-<SHA>``                    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment                                |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``bleeding``                             | Development version Weblate from Git                                                                       | Rolling updates to test upcoming Weblate features                           |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``                | Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features                       |
++-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
 
 Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
 
@@ -230,12 +230,6 @@ Usually it is good idea to only update the Weblate container and keep the Postgr
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
 
-.. versionchanged:: 4.17-1
-
-   Since Weblate 4.17-1, the Docker container uses Django 4.2 what requires
-   PostgreSQL 12 or newer, please upgrade it prior to upgrading Weblate.
-   See :ref:`docker-postgres-upgrade`.
-
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:
 
@@ -267,6 +261,23 @@ not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the Po
 
 Upgrading PostgreSQL container
 ++++++++++++++++++++++++++++++
+
+.. note::
+
+   PostgreSQL 18 changed the default data directory inside the container. A
+   common older setup mounted the database volume at
+   ``/var/lib/postgresql/data``, while PostgreSQL 18 now uses
+   ``/var/lib/postgresql`` by default.
+
+   If you are upgrading from an older version, either update the mount target
+   in your Docker configuration to the new path, or keep the old mount target
+   and set ``PGDATA`` accordingly.
+
+   Leaving the old mount target unchanged without setting ``PGDATA`` can cause
+   PostgreSQL to write its data outside the persisted volume.
+
+   See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for
+   more information.
 
 PostgreSQL containers do not support automatic upgrading between version, you
 need to perform the upgrade manually. Following steps show one of the options
@@ -582,7 +593,7 @@ Generic settings
 
 .. envvar:: WEBLATE_ADMIN_NOTIFY_ERROR
 
-   Whether to sent e-mail to admins upon server error. Turned on by default.
+   Whether to send e-mail to admins upon server error. Turned on by default.
 
    You might want to use other error collection like Sentry or Rollbar and turn this off.
 
@@ -694,6 +705,28 @@ Generic settings
       environment:
         WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS: 1
 
+.. envvar:: WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
+.. envvar:: WEBLATE_WEBHOOK_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
+.. envvar:: WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.
@@ -736,6 +769,26 @@ Generic settings
        * :setting:`ENABLE_HTTPS`
        * :ref:`production-site`
        * :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
+
+.. envvar:: WEBLATE_NGINX_IPV6
+
+   .. versionadded:: 5.17
+
+   Controls whether the bundled NGINX listens on IPv6 addresses.
+
+   Supported values are:
+
+   * ``auto`` to enable IPv6 listeners only when IPv6 is available in the
+     container runtime. This is the default.
+   * ``on`` to always enable IPv6 listeners.
+   * ``off`` to disable IPv6 listeners.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_NGINX_IPV6: auto
 
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
@@ -811,6 +864,36 @@ Generic settings
 
         environment:
           WEBLATE_REQUIRE_LOGIN: 1
+
+.. envvar:: WEBLATE_LEGAL_INTEGRATION
+
+    Enables the :ref:`legal` module in Docker deployments.
+    By default, the integration is disabled; leave this variable unset or empty to disable it.
+
+    Supported values are:
+
+    * ``tos-confirm`` to enable the legal module and enforce terms of service
+      confirmation during social authentication and for signed-in users.
+    * ``wllegal`` to enable the same integration and additionally load the
+      hosted legal document templates from ``wllegal``. These templates are
+      used by services operated by Weblate s.r.o. and are not intended for
+      general use.
+
+    To provide your own legal documents in Docker, override the templates in
+    :file:`/app/data/python/customize/templates/legal/documents`, see
+    :ref:`docker-static-override`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_INTEGRATION: tos-confirm
+
+    .. seealso::
+
+       * :ref:`legal`
+       * :ref:`docker-static-override`
 
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 
@@ -895,7 +978,7 @@ Generic settings
 
 .. envvar:: WEBLATE_STATIC_URL
 
-   Configures URL prefix for static files server from :setting:`CACHE_DIR`.
+   Configures URL prefix for static files served from :setting:`CACHE_DIR`.
 
 .. envvar:: WEBLATE_SILENCED_SYSTEM_CHECKS
 
@@ -932,6 +1015,10 @@ Generic settings
 .. envvar:: WEBLATE_WEBSITE_REQUIRED
 
    Configures :setting:`WEBSITE_REQUIRED`.
+
+.. envvar:: WEBLATE_VERSION_DISPLAY
+
+    Configures :setting:`VERSION_DISPLAY`.
 
 .. envvar:: WEBLATE_HIDE_VERSION
 
@@ -1086,6 +1173,12 @@ Generic settings
    .. versionadded:: 5.15
 
    Configures :setting:`VCS_ALLOW_SCHEMES`.
+
+.. envvar:: WEBLATE_VCS_RESTRICT_PRIVATE
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`VCS_RESTRICT_PRIVATE`.
 
 .. envvar:: WEBLATE_VCS_CLONE_DEPTH
 
@@ -1430,23 +1523,23 @@ Gitea
 
    Enables Gitea authentication.
 
-Azure Active Directory
-~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID
+~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
 
-    Enables Azure Active Directory authentication, see :ref:`azure-auth`.
+    Enables Microsoft Entra ID authentication, see :ref:`entra-auth`.
 
-Azure Active Directory with Tenant support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Microsoft Entra ID with Tenant support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
 
-    Enables Azure Active Directory authentication with Tenant support, see
-    :ref:`azure-auth`.
+    Enables Microsoft Entra ID authentication with Tenant support, see
+    :ref:`entra-auth`.
 
 Keycloak
 ~~~~~~~~
@@ -1461,6 +1554,13 @@ Keycloak
 .. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE
 
     Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY
+
+    .. versionadded:: 5.17
+
+    Configures which claim is used as the unique user identifier from Keycloak.
+    Defaults to ``email``.
 
     .. hint::
 
@@ -1490,7 +1590,7 @@ Slack
 ~~~~~
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_SLACK_KEY
-.. envvar:: SOCIAL_AUTH_SLACK_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_SLACK_SECRET
 
     Enables Slack authentication, see :ref:`slack-auth`.
 
@@ -1873,6 +1973,10 @@ Site integration
 .. envvar:: WEBLATE_PRIVACY_URL
 
    Configures :setting:`PRIVACY_URL`.
+
+.. envvar:: WEBLATE_PASSWORD_RESET_URL
+
+   Configures :setting:`PASSWORD_RESET_URL`.
 
 Collecting error reports and monitoring performance
 +++++++++++++++++++++++++++++++++++++++++++++++++++

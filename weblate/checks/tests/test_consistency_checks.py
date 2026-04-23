@@ -4,7 +4,9 @@
 
 """Tests for consistency checks."""
 
-from django.test import TestCase
+from unittest.mock import patch
+
+from django.test import SimpleTestCase, TestCase
 
 from weblate.checks.consistency import (
     ConsistencyCheck,
@@ -18,7 +20,10 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Unit
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import (
+    ComponentTestCase,
+    FixtureTestCase,
+)
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -69,7 +74,7 @@ class SamePluralsCheckTest(PluralsCheckTest):
         )
 
 
-class TranslatedCheckTest(ViewTestCase):
+class TranslatedCheckTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.check = TranslatedCheck()
@@ -108,7 +113,20 @@ class TranslatedCheckTest(ViewTestCase):
         )
 
 
-class ConsistencyCheckTest(ViewTestCase):
+class ReusedCheckGuardTest(SimpleTestCase):
+    def test_reuse_ignores_non_propagating_component(self) -> None:
+        check = ReusedCheck()
+        unit = MockUnit(target="Jeden")
+        unit.translation.component.allow_translation_propagation = False
+        unit.translation.component.batch_checks = True
+
+        with patch.object(check, "handle_batch") as handle_batch:
+            self.assertFalse(check.check_target_unit([], [], unit))
+
+        handle_batch.assert_not_called()
+
+
+class ConsistencyCheckTest(ComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.other = self.create_link_existing()

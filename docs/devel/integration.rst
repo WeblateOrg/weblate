@@ -166,7 +166,8 @@ Managing the local VCS repository
 Weblate stores all translations in its underlying version control repository.
 It is suggested to be connected to a remote one, but internal-only setup is
 also possible. The :guilabel:`Repository maintenance` allows
-controlling this repository.
+controlling this repository. For a detailed description of the available
+actions, see :ref:`repository-maintenance`.
 
 .. hint::
 
@@ -177,5 +178,6 @@ controlling this repository.
 
 .. seealso::
 
+   * :ref:`repository-maintenance`
    * :doc:`/admin/continuous`
    * :doc:`/vcs`

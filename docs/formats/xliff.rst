@@ -136,6 +136,8 @@ Example XLIFF file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.xliff
     :language: xml
 
+.. include:: /snippets/format-features/xliff-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

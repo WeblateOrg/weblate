@@ -20,7 +20,12 @@ from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
 
-from .validators import WeblateServiceURLValidator, validate_email, validate_username
+from .validators import (
+    WeblateServiceURLValidator,
+    validate_email,
+    validate_upload_size,
+    validate_username,
+)
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
@@ -40,8 +45,8 @@ class QueryField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value):
-        from weblate.auth.models import get_anonymous
-        from weblate.utils.search import SearchQueryError, parse_query
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        from weblate.utils.search import SearchQueryError, parse_query  # noqa: PLC0415
 
         if not value:
             if self.required:
@@ -117,7 +122,7 @@ class UserField(forms.CharField):
         return attrs
 
     def clean(self, value):
-        from weblate.auth.models import User
+        from weblate.auth.models import User  # noqa: PLC0415
 
         if not value:
             if self.required:
@@ -147,6 +152,20 @@ class EmailField(forms.EmailField):
     def __init__(self, *args, **kwargs) -> None:
         kwargs.setdefault("max_length", EMAIL_LENGTH)
         super().__init__(*args, **kwargs)
+
+
+class AssetFileField(forms.FileField):
+    def __init__(self, *args, **kwargs) -> None:
+        validators = list(kwargs.pop("validators", ()))
+        validators.insert(0, validate_upload_size)
+        super().__init__(*args, validators=validators, **kwargs)
+
+
+class AssetImageField(forms.ImageField):
+    def to_python(self, data):
+        if data is not None:
+            validate_upload_size(data)
+        return super().to_python(data)
 
 
 class SortedChoiceWidget(forms.widgets.ChoiceWidget):

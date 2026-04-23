@@ -8,7 +8,7 @@ import json
 import math
 import os
 import re
-from typing import TYPE_CHECKING, BinaryIO, TypedDict
+from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
@@ -47,18 +47,19 @@ SUPPORTED_FORMATS = (
 )
 
 MIN_SIMILARITY_THRESHOLD = 0.3
+MAX_MACHINERY_SIMILARITY_BACKOFF = 0.2
 MEMORY_LOOKUP_LIMIT = 50
 
 
 class MemoryDict(TypedDict):
     source: str
-    context: str
     target: str
     source_language: str
     target_language: str
     origin: str
     category: int
-    status: int
+    context: NotRequired[str]
+    status: NotRequired[int]
 
 
 class MemoryImportError(Exception):
@@ -79,7 +80,25 @@ def get_node_data(unit, node):
     )
 
 
+def load_memory_json_data(content: bytes) -> list[MemoryDict]:
+    """Load and validate a memory export payload."""
+    # Lazily import as this is expensive
+    from jsonschema import validate  # noqa: PLC0415
+
+    data = json.loads(force_str(content))
+    validate(data, load_schema("weblate-memory.schema.json"))
+    return cast("list[MemoryDict]", data)
+
+
+def load_memory_tmx_store(fileobj: BinaryIO):
+    """Parse a TMX file into a translate-toolkit store."""
+    return tmxfile.parsefile(fileobj)
+
+
 class MemoryQuerySet(models.QuerySet):
+    def global_file_query(self) -> Q:
+        return Q(from_file=True, user__isnull=True, project__isnull=True)
+
     def filter_type(
         self,
         *,
@@ -93,7 +112,7 @@ class MemoryQuerySet(models.QuerySet):
             base = base.using("memory_db")
         query = Q()
         if from_file:
-            query |= Q(from_file=from_file)
+            query |= self.global_file_query()
         if use_shared:
             query |= Q(shared=use_shared)
         if project:
@@ -178,11 +197,22 @@ class MemoryQuerySet(models.QuerySet):
         if threshold >= 100:
             return 1.0
         if threshold >= 75:
+            # High-quality machinery lookups should not back off to the broad
+            # interactive-search floor; those scans are expensive on large TMs.
+            minimum = max(
+                MIN_SIMILARITY_THRESHOLD,
+                round(
+                    self.threshold_to_similarity(text, threshold)
+                    - MAX_MACHINERY_SIMILARITY_BACKOFF,
+                    3,
+                ),
+            )
             length = self.get_lookup_length(text)
             if length <= 8:
-                return 0.92
+                return max(minimum, 0.92)
             if length <= 16:
-                return 0.90
+                return max(minimum, 0.90)
+            return minimum
         return MIN_SIMILARITY_THRESHOLD
 
     def lookup(
@@ -196,7 +226,6 @@ class MemoryQuerySet(models.QuerySet):
         threshold: int = 75,
     ):
         base = self.prefetch_project().filter_type(
-            # Type filtering
             user=user,
             project=project,
             use_shared=use_shared,
@@ -325,19 +354,15 @@ class MemoryManager(models.Manager):
         status: int = 0,
     ) -> int:
         # Lazily import as this is expensive
-        from jsonschema import validate
-        from jsonschema.exceptions import ValidationError
+        from jsonschema.exceptions import ValidationError  # noqa: PLC0415
 
-        content = fileobj.read()
         try:
-            data = json.loads(force_str(content))
+            data = load_memory_json_data(fileobj.read())
         except json.JSONDecodeError as error:
             report_error("Could not parse memory")
             raise MemoryImportError(
                 gettext("Could not parse JSON file: %s") % error
             ) from error
-        try:
-            validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
             report_error("Could not validate memory")
             raise MemoryImportError(
@@ -382,15 +407,18 @@ class MemoryManager(models.Manager):
         status: int = 0,
     ) -> int:
         try:
-            storage = tmxfile.parsefile(fileobj)
+            storage = load_memory_tmx_store(fileobj)
         except (SyntaxError, AssertionError) as error:
             report_error("Could not parse")
             raise MemoryImportError(
                 gettext("Could not parse TMX file: %s") % error
             ) from error
         header = next(
-            storage.document.getroot().iterchildren(storage.namespaced("header"))
+            storage.document.getroot().iterchildren(storage.namespaced("header")),
+            None,
         )
+        if header is None:
+            raise MemoryImportError(gettext("Header missing in the TMX file!"))
         lang_cache: dict[str, Language] = {}
         srclang = header.get("srclang")
         if not srclang:
@@ -469,7 +497,7 @@ class MemoryManager(models.Manager):
         `weblate.formats.auto`.
 
         """
-        from weblate.formats.auto import try_load
+        from weblate.formats.auto import try_load  # noqa: PLC0415
 
         lang_cache: dict[str, Language] = {}
         try:

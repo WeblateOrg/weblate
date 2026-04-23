@@ -5,9 +5,9 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
-from django.db.models import F, Q
+from django.db.models import F, Prefetch, Q
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
@@ -26,11 +26,20 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.trans.models import Category, Component, Project, Unit
     from weblate.utils.state import StringState
 
 
-class GenerateFileAddon(BaseAddon):
+class GenerateFileAddonConfiguration(TypedDict):
+    filename: str
+    template: str
+
+
+class GenerateFileAddon(
+    BaseAddon[GenerateFileAddonConfiguration, GenerateFileAddonConfiguration]
+):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
         AddonEvent.EVENT_INSTALL,
@@ -65,14 +74,11 @@ class GenerateFileAddon(BaseAddon):
         store_hash: bool,
         activity_log_id: int | None = None,
     ) -> None:
-        filename = self.render_repo_filename(
-            self.instance.configuration["filename"], translation
-        )
+        configuration = self.configuration
+        filename = self.render_repo_filename(configuration["filename"], translation)
         if not filename:
             return
-        content = render_template(
-            self.instance.configuration["template"], translation=translation
-        )
+        content = render_template(configuration["template"], translation=translation)
         Path(filename).write_text(content, encoding="utf-8")
         # For pre_commit hook
         translation.addon_commit_files.append(filename)
@@ -102,11 +108,11 @@ class LocaleGenerateAddonBase(BaseAddon):
     multiple = True
     icon = "language.svg"
 
+    def map_strings(self, units: Iterable[Unit]) -> dict[int, Unit]:
+        return {cast("int", unit.source_unit_id): unit for unit in units}
+
     def fetch_strings(self, translation: Translation, query: Q) -> dict[int, Unit]:
-        return {
-            cast("int", unit.source_unit_id): unit
-            for unit in translation.unit_set.filter(query)
-        }
+        return self.map_strings(translation.unit_set.filter(query))
 
     def generate_translation(
         self,
@@ -120,10 +126,16 @@ class LocaleGenerateAddonBase(BaseAddon):
         var_suffix: str = "",
         var_multiplier: float = 0.0,
         target_state: StringState = STATE_TRANSLATED,
+        sources: dict[int, Unit] | None = None,
+        targets: dict[int, Unit] | None = None,
     ) -> int:
         updated = 0
-        sources = self.fetch_strings(source_translation, Q(state__gte=STATE_TRANSLATED))
-        targets = self.fetch_strings(target_translation, query)
+        if sources is None:
+            sources = self.fetch_strings(
+                source_translation, Q(state__gte=STATE_TRANSLATED)
+            )
+        if targets is None:
+            targets = self.fetch_strings(target_translation, query)
         for source_id, unit in targets.items():
             if source_id not in sources:
                 continue
@@ -320,16 +332,33 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
         self.do_update(component)
 
     def do_update(self, component: Component) -> None:
+        query = Q(state=STATE_READONLY) & ~Q(target=F("source"))
         source_translation = component.source_translation
+        unit_prefetch = Prefetch(
+            "unit_set",
+            queryset=source_translation.unit_set.model.objects.filter(query),
+            to_attr="fill_read_only_units",
+        )
+        translations = list(
+            component.translation_set.select_related("plural")
+            .prefetch()
+            .prefetch_related(unit_prefetch)
+        )
+        source_translation = next(
+            translation for translation in translations if translation.is_source
+        )
+        sources = self.fetch_strings(source_translation, Q(state__gte=STATE_TRANSLATED))
         updated = 0
-        for translation in component.translation_set.prefetch():
+        for translation in translations:
             if translation.is_source:
                 continue
             updated += self.generate_translation(
                 source_translation,
                 translation,
                 target_state=STATE_READONLY,
-                query=Q(state=STATE_READONLY) & ~Q(target=F("source")),
+                query=query,
+                sources=sources,
+                targets=self.map_strings(translation.fill_read_only_units),
             )
         if updated:
             # Commit generated changes to the files

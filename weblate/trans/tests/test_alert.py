@@ -7,17 +7,25 @@
 import os
 import tempfile
 from pathlib import Path
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
-from django.test import override_settings
+from django.core.exceptions import ValidationError
+from django.template.loader import render_to_string
+from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
-from weblate.trans.models.alert import update_alerts
+from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models.alert import UpdateFailure, update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.vcs.models import VCS_REGISTRY
+
+if TYPE_CHECKING:
+    from weblate.trans.models.alert import Alert
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -47,6 +55,70 @@ class WebsiteAlertSettingTest(ViewTestCase):
             self.component.alert_set.filter(name="BrokenProjectURL").exists()
         )
         mocked_get_uri_error.assert_called_once_with("https://example.com/project")
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    @patch("weblate.trans.models.alert.get_uri_error")
+    def test_website_alert_uses_validator_error_without_fetch(
+        self, mocked_get_uri_error
+    ) -> None:
+        self.project.web = "https://localhost/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        self.assertEqual(
+            self.component.alert_set.get(name="BrokenProjectURL").details["error"],
+            "This URL is prohibited because it uses a restricted host.",
+        )
+        mocked_get_uri_error.assert_not_called()
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    @patch(
+        "weblate.trans.models.alert.validate_request_url",
+        side_effect=ValidationError("URL domain is not allowed."),
+    )
+    @patch("weblate.trans.models.alert.get_uri_error")
+    def test_website_alert_uses_runtime_validation_without_fetch(
+        self, mocked_get_uri_error, mocked_validate_request_url
+    ) -> None:
+        self.project.web = "https://public.example/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        self.assertEqual(
+            self.component.alert_set.get(name="BrokenProjectURL").details["error"],
+            "URL domain is not allowed.",
+        )
+        mocked_validate_request_url.assert_called_once_with(
+            "https://public.example/project", allow_private_targets=False
+        )
+        mocked_get_uri_error.assert_not_called()
+
+    @override_settings(
+        WEBSITE_ALERTS_ENABLED=True,
+        PROJECT_WEB_RESTRICT_ALLOWLIST={"test"},
+    )
+    @patch("weblate.trans.models.alert.get_uri_error", return_value=None)
+    @patch("weblate.trans.models.alert.validate_request_url")
+    def test_website_alert_respects_project_allowlist(
+        self, mocked_validate_request_url, mocked_get_uri_error
+    ) -> None:
+        self.project.web = "https://localhost/project"
+
+        update_alerts(self.component, {"BrokenProjectURL"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        mocked_validate_request_url.assert_called_once_with(
+            "https://localhost/project", allow_private_targets=True
+        )
+        mocked_get_uri_error.assert_called_once_with("https://localhost/project")
 
 
 class AlertTest(ViewTestCase):
@@ -201,6 +273,233 @@ class AlertTest(ViewTestCase):
         self.assertEqual(alert.details["files"], ["alert-base.pot"])
 
 
+class NoMaskMatchesAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_rescan_adds_alert_when_mask_and_new_base_missing(self) -> None:
+        self.assertFalse(self.component.alert_set.filter(name="NoMaskMatches").exists())
+
+        for filename in Path(self.component.full_path, "po").glob("*.po"):
+            filename.unlink(missing_ok=True)
+        Path(cast("str", self.component.get_new_base_filename())).unlink(
+            missing_ok=True
+        )
+
+        self.component.create_translations_immediate(force=True)
+
+        translations = list(
+            self.component.translation_set.values_list("language_code", "filename")
+        )
+        self.assertEqual(translations, [("en", "po/hello.pot")])
+        self.assertTrue(self.component.alert_set.filter(name="NoMaskMatches").exists())
+
+
+class AlertQueryPrefetchTest(ViewTestCase):
+    def test_project_repo_components_prefetch_all_alerts(self) -> None:
+        self._create_component(
+            "po",
+            "po-link/*.po",
+            project=self.project,
+            name="LinkedRepo",
+        )
+        self.create_json(project=self.project, name="JSONRepo")
+
+        project = Project.objects.get(pk=self.project.pk)
+        components = project.all_repo_components
+
+        self.assertEqual(len(components), 3)
+        with self.assertNumQueries(0):
+            alert_maps = [component.all_alerts for component in components]
+
+        self.assertEqual(len(alert_maps), 3)
+
+    def test_linked_children_prefetch_all_alerts(self) -> None:
+        self.create_link_existing(name="Linked A", slug="linked-a")
+        self.create_link_existing(name="Linked B", slug="linked-b")
+
+        component = Component.objects.get(pk=self.component.pk)
+        children = list(component.linked_children)
+
+        self.assertEqual(len(children), 2)
+        with self.assertNumQueries(0):
+            alert_maps = [child.all_alerts for child in children]
+
+        self.assertEqual(len(alert_maps), 2)
+
+
+@override_settings(
+    GITHUB_CREDENTIALS={
+        "api.github.com": {
+            "username": "test",
+            "token": "token",
+        }
+    }
+)
+class ConflictingRepositorySetupAlertTest(ViewTestCase):
+    @staticmethod
+    def clear_vcs_registry_cache() -> None:
+
+        for key in ("data", "merge_request_based", "git_based"):
+            VCS_REGISTRY.__dict__.pop(key, None)
+
+    def create_component(self):
+        return self.create_po()
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        super().setUpTestData()
+
+        cls.clear_vcs_registry_cache()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.clear_vcs_registry_cache()
+        super().tearDownClass()
+
+    def create_conflicting_component(self, **kwargs) -> Component:
+        name = kwargs.pop("name", "Test2")
+        push = kwargs.pop("push", None)
+        component = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name=name,
+            **kwargs,
+        )
+        config_kwargs = {}
+        if push is not None:
+            config_kwargs["push"] = push
+        self.configure_merge_request_component(component, **config_kwargs)
+        return component
+
+    def configure_merge_request_component(self, component: Component, **kwargs) -> None:
+        defaults = {"vcs": "github", "push_branch": "weblate-test"}
+        defaults.update(kwargs)
+        Component.objects.filter(pk=component.pk).update(**defaults)
+        component.refresh_from_db()
+
+    def test_conflicting_repository_setup(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        self.assertEqual(alert.details["component_ids"], [other.pk])
+        self.assertTrue(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "same repository and push branch")
+        self.assertContains(response, self.component.get_repo_link_url())
+
+    def test_conflicting_repository_setup_ignored_for_forks(self) -> None:
+        self.configure_merge_request_component(self.component, push="")
+        other = self.create_conflicting_component(push="")
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+        self.assertFalse(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_after_branch_change(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        Component.objects.filter(pk=other.pk).update(push_branch="weblate-test-2")
+        other.refresh_from_db()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_from_peer_on_save(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        other.push_branch = "weblate-test-2"
+        with patch.object(Component, "queue_background_task", return_value=None):
+            other.save()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_from_peer_on_delete(self) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        other.delete()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_not_removed_from_peer_on_unrelated_save(
+        self,
+    ) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        other.name = "Renamed"
+        with patch.object(Component, "queue_background_task", return_value=None):
+            other.save()
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_kept_for_remaining_peers_on_delete(
+        self,
+    ) -> None:
+        self.configure_merge_request_component(self.component)
+        other = self.create_conflicting_component()
+        third = self.create_conflicting_component(name="Test3")
+
+        for component in (self.component, other, third):
+            update_alerts(component, {"ConflictingRepositorySetup"})
+
+        other.delete()
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+        self.assertTrue(
+            third.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+
 class LanguageAlertTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
@@ -323,4 +622,102 @@ class MonolingualAlertTest(ViewTestCase):
         )
         self.assertTrue(
             component.alert_set.filter(name="MonolingualTranslation").exists()
+        )
+
+
+class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_broken_project_url_renders_validation_error_as_main_message(
+        self,
+    ) -> None:
+        rendered = render_to_string(
+            "trans/alert/brokenprojecturl.html",
+            {
+                "component": SimpleNamespace(
+                    project=SimpleNamespace(web="https://weblate.contact.de")
+                ),
+                "error": (
+                    "This URL is prohibited because it points to an internal or "
+                    "non-public address."
+                ),
+            },
+        )
+
+        self.assertIn(
+            "Weblate could not validate the project website URL:",
+            rendered,
+        )
+        self.assertIn(
+            "This URL is prohibited because it points to an internal or non-public "
+            "address.",
+            rendered,
+        )
+        self.assertNotIn("non-existing location", rendered)
+
+    def test_broken_browser_url_renders_validation_error_as_main_message(
+        self,
+    ) -> None:
+        rendered = render_to_string(
+            "trans/alert/brokenbrowserurl.html",
+            {
+                "link": "https://weblate.contact.de/source/file.po",
+                "error": (
+                    "This URL is prohibited because it points to an internal or "
+                    "non-public address."
+                ),
+            },
+        )
+
+        self.assertIn(
+            "Weblate could not validate the repository browser URL:",
+            rendered,
+        )
+        self.assertIn(
+            "This URL is prohibited because it points to an internal or non-public "
+            "address.",
+            rendered,
+        )
+        self.assertNotIn("non-existing location", rendered)
+
+    def test_update_failure_analysis_uses_component_host_key_message(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        alert = UpdateFailure(
+            cast("Alert", SimpleNamespace(component=component)),
+            "REMOTE HOST IDENTIFICATION HAS CHANGED!\nHost key verification failed.\n",
+        )
+
+        self.assertEqual(alert.get_analysis()["host_key_message"], "host key changed")
+
+    def test_common_repo_renders_host_key_mismatch_message(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "behind": False,
+                    "force_push_suggestion": False,
+                    "gerrit": False,
+                    "host_key_message": (
+                        "The SSH host key for the repository has changed. "
+                        "Verify the new fingerprint, remove the stored host key, "
+                        "and add the new one on the SSH page in the admin interface."
+                    ),
+                    "not_found": False,
+                    "permission": False,
+                    "repo_suggestion": None,
+                    "temporary": False,
+                    "terminal": False,
+                }
+            },
+        )
+
+        self.assertIn(
+            "The SSH host key for the repository has changed.",
+            rendered,
         )

@@ -152,8 +152,14 @@ class AddonList(PathViewMixin, ListView):
                 gettext("Add-on cannot be installed: ”%s”") % name
             )
 
-        form = None
-        if addon.settings_form is None:
+        form = addon.get_add_form(
+            request.user,
+            component=obj_component,
+            category=obj_category,
+            project=obj_project,
+            data=request.POST if "form" in request.POST else None,
+        )
+        if form is None:
             addon.create(
                 component=obj_component,
                 category=obj_category,
@@ -162,32 +168,17 @@ class AddonList(PathViewMixin, ListView):
             )
             return self.redirect_list()
 
-        if "form" in request.POST:
-            form = addon.get_add_form(
-                request.user,
-                component=obj_component,
-                category=obj_category,
-                project=obj_project,
-                data=request.POST,
-            )
-            if form.is_valid():
-                instance = form.save()
-                if addon.stay_on_create:
-                    messages.info(
-                        self.request,
-                        gettext(
-                            "Add-on installed, please review integration instructions."
-                        ),
-                    )
-                    return redirect(instance)
-                return self.redirect_list()
-        else:
-            form = addon.get_add_form(
-                request.user,
-                component=obj_component,
-                category=obj_category,
-                project=obj_project,
-            )
+        if "form" in request.POST and form.is_valid():
+            instance = form.save()
+            if addon.stay_on_create:
+                messages.info(
+                    self.request,
+                    gettext(
+                        "Add-on installed, please review integration instructions."
+                    ),
+                )
+                return redirect(instance)
+            return self.redirect_list()
 
         addon.pre_install(obj, request)
         return self.response_class(
@@ -260,6 +251,17 @@ class AddonDetail(BaseAddonView, UpdateView):
             return reverse("manage-addons")
         return reverse("addons", kwargs={"path": target.get_url_path()})
 
+    def trigger_manual_run(self, request: AuthenticatedHttpRequest):
+        if not self.object.can_run_manually:
+            messages.error(
+                request, gettext("This add-on cannot be triggered manually.")
+            )
+            return redirect(self.get_success_url())
+
+        self.object.schedule_manual_run()
+        messages.success(request, gettext("Add-on run has been scheduled."))
+        return redirect(self.get_success_url())
+
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
         self.object = obj
@@ -275,6 +277,8 @@ class AddonDetail(BaseAddonView, UpdateView):
                 request, gettext("Invalid add-on name: ”%s”") % obj.addon_name
             )
             return redirect(self.get_success_url())
+        if "run" in request.POST:
+            return self.trigger_manual_run(request)
         return super().post(request, *args, **kwargs)
 
 

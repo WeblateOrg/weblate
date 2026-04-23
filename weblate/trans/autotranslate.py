@@ -10,7 +10,7 @@ from celery import current_task
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Value
+from django.db.models import Case, IntegerField, Value, When
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
@@ -18,7 +18,7 @@ from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, Suggestion, Translation, Unit
-from weblate.trans.util import split_plural
+from weblate.trans.util import is_plural, split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -47,12 +47,18 @@ class BaseAutoTranslate:
         mode: str,
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
+        allow_non_shared_tm_source_components: bool = False,
     ) -> None:
         self.user: User | None = user
         self.q: str = q
         self.mode: str = mode
         self.component_wide: bool = component_wide
         self.unit_ids: list[int] | None = unit_ids
+        self.allow_non_shared_tm_source_components = (
+            allow_non_shared_tm_source_components
+        )
+        self.failure_message: str | None = None
+        self.warnings: list[str] = []
 
     def get_message(self) -> str:
         if self.updated == 0:
@@ -70,6 +76,13 @@ class BaseAutoTranslate:
     def get_task_meta(self) -> dict[str, Any]:
         """Return a metadata dictionary for Celery task progress tracking."""
         raise NotImplementedError
+
+    def add_warning(self, warning: str) -> None:
+        if warning not in self.warnings:
+            self.warnings.append(warning)
+
+    def get_warnings(self) -> list[str]:
+        return self.warnings
 
     def set_progress(self, current: int) -> None:
         if current_task and current_task.request.id and self.progress_steps:
@@ -90,9 +103,17 @@ class AutoTranslate(BaseAutoTranslate):
         mode: str,
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
+        allow_non_shared_tm_source_components: bool = False,
     ) -> None:
         super().__init__(
-            user=user, q=q, mode=mode, component_wide=component_wide, unit_ids=unit_ids
+            user=user,
+            q=q,
+            mode=mode,
+            component_wide=component_wide,
+            unit_ids=unit_ids,
+            allow_non_shared_tm_source_components=(
+                allow_non_shared_tm_source_components
+            ),
         )
         self.translation: Translation = translation
         translation.component.start_batched_checks()
@@ -122,7 +143,12 @@ class AutoTranslate(BaseAutoTranslate):
         max_length = unit.get_max_length()
         if self.mode == "suggest" or any(len(item) > max_length for item in target):
             suggestion = Suggestion.objects.add(
-                unit, target, request=None, vote=False, user=user, raise_exception=False
+                unit,
+                target,
+                request=None,
+                vote=False,
+                user=user or self.user,
+                raise_exception=False,
             )
             if suggestion:
                 self.updated += 1
@@ -145,33 +171,125 @@ class AutoTranslate(BaseAutoTranslate):
             self.translation.log_info("finalizing automatic translation")
             self.translation.store_update_changes()
             if not self.component_wide:
-                self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()
             self.translation.invalidate_cache()
             if self.user:
                 self.user.profile.increase_count("translated", self.updated)
 
+    def collect_other_translations(
+        self, filtered_sources, component_ids: list[int]
+    ) -> dict[str, list[str]]:
+        """Collect candidate translations while preserving source priority."""
+        translations: dict[str, list[str]] = {}
+        mismatched_translation_ids: set[int] = set()
+        target_plural_id = self.translation.plural_id
+
+        if component_ids:
+            component_priority = {
+                component_id: index for index, component_id in enumerate(component_ids)
+            }
+            translation_priority: dict[str, int] = {}
+            source_units = (
+                filtered_sources.annotate(
+                    component_priority=Case(
+                        *[
+                            When(
+                                translation__component_id=component_id,
+                                then=priority,
+                            )
+                            for component_id, priority in component_priority.items()
+                        ],
+                        output_field=IntegerField(),
+                    )
+                )
+                .order_by("component_priority", "translation_id")
+                .values_list(
+                    "translation__component_id",
+                    "source",
+                    "target",
+                    "translation_id",
+                    "translation__plural_id",
+                )
+            )
+            for (
+                component_id,
+                source,
+                target,
+                translation_id,
+                plural_id,
+            ) in source_units:
+                if plural_id != target_plural_id and (
+                    is_plural(source) or is_plural(target)
+                ):
+                    mismatched_translation_ids.add(translation_id)
+                    continue
+                priority = component_priority[component_id]
+                if priority >= translation_priority.get(source, len(component_ids)):
+                    continue
+                translations[source] = split_plural(target)
+                translation_priority[source] = priority
+        else:
+            source_units = filtered_sources.values_list(
+                "source", "target", "translation_id", "translation__plural_id"
+            ).order_by("translation_id")
+            for source, target, translation_id, plural_id in source_units:
+                if plural_id != target_plural_id and (
+                    is_plural(source) or is_plural(target)
+                ):
+                    mismatched_translation_ids.add(translation_id)
+                    continue
+                translations.setdefault(source, split_plural(target))
+
+        mismatched_components = (
+            Component.objects.filter(translation__in=mismatched_translation_ids)
+            .defer_huge()
+            .prefetch()
+            .distinct()
+            .order_project()
+        )
+        for component in mismatched_components:
+            self.add_warning(
+                gettext(
+                    "Plural forms in %(component)s do not match the target translation. "
+                    "Automatic translation skipped pluralized strings and processed only single-form strings."
+                )
+                % {"component": component}
+            )
+
+        return translations
+
     @transaction.atomic
-    def process_others(self, source_component_id: int | None) -> None:
+    def process_others(self, source_component_ids: list[int] | None) -> None:
         """Perform automatic translation based on other components."""
         sources = Unit.objects.filter(
-            translation__plural=self.translation.plural,
+            translation__language=self.translation.language,
             state__gte=STATE_TRANSLATED,
         )
+        # Read-only units can have STATE_READONLY even when their target is
+        # empty, so state__gte=STATE_TRANSLATED is not enough to find usable
+        # translations. The lower-MD5 lookup matches the trans_unit_target_md5
+        # index and keeps this exclusion cheap on large components.
+        sources = sources.exclude(target__lower__md5=MD5(Value("")))
         source_language = self.translation.component.source_language
-        if source_component_id:
-            component = Component.objects.get(id=source_component_id)
+        component_ids = list(dict.fromkeys(source_component_ids or []))
+        if component_ids:
+            components = list(Component.objects.filter(id__in=component_ids))
+            component_map = {component.id: component for component in components}
+            if len(component_map) != len(component_ids):
+                raise Component.DoesNotExist
 
-            if (
-                not component.project.contribute_shared_tm
-                and component.project != self.translation.component.project
-            ):
-                msg = "Project has disabled contribution to shared translation memory."
-                raise PermissionDenied(msg)
-            if component.source_language != source_language:
-                msg = "Component have different source languages."
-                raise PermissionDenied(msg)
-            sources = sources.filter(translation__component=component)
+            for component_id in component_ids:
+                component = component_map[component_id]
+                if not self.allow_non_shared_tm_source_components and (
+                    not component.project.contribute_shared_tm
+                    and component.project != self.translation.component.project
+                ):
+                    msg = "Project has disabled contribution to shared translation memory."
+                    raise PermissionDenied(msg)
+                if component.source_language != source_language:
+                    msg = "Component have different source languages."
+                    raise PermissionDenied(msg)
+            sources = sources.filter(translation__component_id__in=component_ids)
         else:
             project = self.translation.component.project
             sources = sources.filter(
@@ -193,12 +311,8 @@ class AutoTranslate(BaseAutoTranslate):
         )
 
         # Fetch available translations
-        translations = {
-            source: split_plural(target)
-            for source, target in sources.filter(
-                source__lower__md5__in=source_md5s
-            ).values_list("source", "target")
-        }
+        filtered_sources = sources.filter(source__lower__md5__in=source_md5s)
+        translations = self.collect_other_translations(filtered_sources, component_ids)
 
         # Fetch translated unit IDs
         # Cannot use get_units() directly as SELECT FOR UPDATE cannot be used with JOIN
@@ -330,24 +444,28 @@ class AutoTranslate(BaseAutoTranslate):
         auto_source: Literal["mt", "others"],
         engines: list[str],
         threshold: int,
-        source_component_id: int | None,
+        source_component_ids: list[int] | None,
     ) -> str:
         translation = self.translation
+        self.failure_message = None
         translation.log_info(
             "starting automatic translation (%s) %s: %s: %s",
             self.mode,
             current_task.request.id if current_task and current_task.request.id else "",
             auto_source,
-            ", ".join(engines) if engines else source_component_id,
+            ", ".join(engines)
+            if engines
+            else ", ".join(str(item) for item in source_component_ids or []),
         )
         try:
             if auto_source == "mt":
                 self.process_mt(engines, threshold)
             else:
-                self.process_others(source_component_id)
+                self.process_others(source_component_ids)
         except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
-            return gettext("Automatic translation failed: %s") % error
+            self.failure_message = gettext("Automatic translation failed: %s") % error
+            return self.failure_message
 
         translation.log_info("completed automatic translation")
 
@@ -366,6 +484,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         mode: str,
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
+        allow_non_shared_tm_source_components: bool = False,
     ) -> None:
         super().__init__(
             user=user,
@@ -373,6 +492,9 @@ class BatchAutoTranslate(BaseAutoTranslate):
             mode=mode,
             component_wide=component_wide,
             unit_ids=unit_ids,
+            allow_non_shared_tm_source_components=(
+                allow_non_shared_tm_source_components
+            ),
         )
         self._task_meta: dict[str, Any] = {}
 
@@ -408,7 +530,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         auto_source: Literal["mt", "others"],
         engines: list[str],
         threshold: int,
-        source_component_id: int | None,
+        source_component_ids: list[int] | None,
     ) -> str:
         for pos, translation in enumerate(self.translations, start=1):
             auto_translate = AutoTranslate(
@@ -418,15 +540,20 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 mode=self.mode,
                 component_wide=self.component_wide,
                 unit_ids=self.unit_ids,
+                allow_non_shared_tm_source_components=(
+                    self.allow_non_shared_tm_source_components
+                ),
             )
 
             auto_translate.perform(
                 auto_source=auto_source,
                 engines=engines,
                 threshold=threshold,
-                source_component_id=source_component_id,
+                source_component_ids=source_component_ids,
             )
             self.updated += auto_translate.updated
+            for warning in auto_translate.get_warnings():
+                self.add_warning(warning)
             self.set_progress(pos)
 
         return self.get_message()

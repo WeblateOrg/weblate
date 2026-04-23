@@ -19,6 +19,8 @@ with (what is most often the) English strings.
    * :ref:`addon-weblate.json.customize`
    * :ref:`addon-weblate.cleanup.generic`
 
+.. include:: /snippets/format-features/gotext-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

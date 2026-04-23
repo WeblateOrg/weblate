@@ -7,24 +7,31 @@
 from __future__ import annotations
 
 import time
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
 
 from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
+from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Translation, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import format_newly_failing_checks_message
+from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
+    STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck
@@ -95,6 +102,13 @@ class EditTest(ViewTestCase):
         self.assertEqual(plurals[0], "Opice má %d banán.\n")
         self.assertEqual(plurals[1], "Opice má %d banány.\n")
         self.assertEqual(plurals[2], "Opice má %d banánů.\n")
+
+    def test_screenshot_context_has_documentation_link(self) -> None:
+        self.make_manager()
+        response = self.client.get(self.translate_url)
+        self.assertContains(
+            response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
 
     def test_fuzzy(self) -> None:
         """Test for fuzzy flag handling."""
@@ -524,6 +538,90 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(4, "en")
 
+    def test_edit_does_not_rebuild_component_language_stats(self) -> None:
+        self.assertGreater(self.get_translation().stats.all, 0)
+        with patch(
+            "weblate.trans.models.component.Component.invalidate_cache",
+            autospec=True,
+        ) as invalidate_cache:
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
+        invalidate_cache.assert_not_called()
+
+    def test_suppress_cache_invalidation_is_reentrant(self) -> None:
+        translation = self.get_translation()
+        with patch(
+            "weblate.trans.models.translation.transaction.on_commit"
+        ) as on_commit:
+            with translation.suppress_cache_invalidation():
+                translation.invalidate_cache()
+                with translation.suppress_cache_invalidation():
+                    translation.invalidate_cache()
+                translation.invalidate_cache()
+                on_commit.assert_not_called()
+
+            translation.invalidate_cache()
+            translation.invalidate_cache()
+
+        on_commit.assert_called_once()
+
+    def test_source_edit_updates_translation_and_component_stats(self) -> None:
+        translation = self.get_translation()
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "cs")
+        translation = Translation.objects.get(pk=translation.pk)
+        component = Component.objects.get(pk=self.component.pk)
+        unit_before = translation.unit_set.get(context="hello")
+        all_chars_before = translation.stats.all_chars
+        all_words_before = translation.stats.all_words
+        translated_before = translation.stats.translated
+        component_all_chars_before = component.stats.all_chars
+
+        self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en")
+
+        translation = Translation.objects.get(pk=translation.pk)
+        component = Component.objects.get(pk=self.component.pk)
+        unit_after = translation.unit_set.get(context="hello")
+        all_chars_delta = len(unit_after.source) - len(unit_before.source)
+        all_words_delta = unit_after.num_words - unit_before.num_words
+
+        self.assertEqual(
+            translation.stats.all_chars,
+            all_chars_before + all_chars_delta,
+        )
+        self.assertEqual(
+            translation.stats.all_words,
+            all_words_before + all_words_delta,
+        )
+        self.assertEqual(translation.stats.translated, translated_before - 1)
+        self.assertNotEqual(component.stats.all_chars, component_all_chars_before)
+        self.assertEqual(
+            component.stats.all_chars,
+            sum(
+                child.stats.all_chars
+                for child in Component.objects.get(
+                    pk=self.component.pk
+                ).translation_set.all()
+            ),
+        )
+
+    def test_source_edit_falls_back_to_full_recompute_on_nonlocal_checks(self) -> None:
+        def fake_run_checks(unit, *args, **kwargs) -> None:
+            unit.translation.require_full_stats_rebuild()
+
+        with (
+            patch(
+                "weblate.trans.models.unit.Unit.run_checks",
+                autospec=True,
+                side_effect=fake_run_checks,
+            ),
+            patch(
+                "weblate.trans.models.component.Component.invalidate_cache",
+                autospec=True,
+            ) as invalidate_cache,
+        ):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
+
+        invalidate_cache.assert_called()
+
     def test_edit_revert(self) -> None:
         translation = self.get_translation()
         # Edit translation
@@ -616,6 +714,29 @@ class EditPoMonoTest(EditTest):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.stats.all, 12)
         self.assertEqual(unit_count - 4, Unit.objects.count())
+
+    def test_remove_unit_locked(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        unit = self.get_unit().source_unit
+
+        with patch(
+            "weblate.trans.models.translation.Translation.delete_unit",
+            side_effect=WeblateLockTimeoutError(
+                "repository locked",
+                lock=SimpleNamespace(scope="repository", origin="test/component"),
+            ),
+        ):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": unit.pk}),
+                follow=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Could not remove the string because another background operation is in progress. Please try again later.",
+        )
 
 
 class EditIphoneTest(EditTest):
@@ -1045,7 +1166,8 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"checksum": unit.checksum, "revert": changes[1].id}
         )
         unit = self.get_unit()
-        self.assertEqual(unit.target, target_2)
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
         # check that we cannot revert to string from another translation
         self.edit_unit("Thank you for using Weblate.", "Kiitoksia Weblaten kaytosta.")
         unit2 = self.get_unit(source="Thank you for using Weblate.")
@@ -1054,7 +1176,38 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
         self.assertContains(response, "Could not find the reverted change.")
-        self.assert_backend(2)
+        self.assert_backend(1)
+
+    def test_revert_history_after_component_move_uses_current_translate_url(
+        self,
+    ) -> None:
+        second_project = Project.objects.create(
+            name="Second project",
+            slug="second-project",
+            web="https://weblate.org/",
+        )
+        setup_project_groups(Project, second_project, created=False)
+        second_project.add_user(self.user, "Administration")
+
+        self.component.project = second_project
+        self.component.save()
+        self.component.refresh_from_db()
+        self.translation.refresh_from_db()
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        unit = self.get_unit(translation=self.translation)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+        translate_url = ProjectLanguage(
+            second_project,
+            self.translation.language,
+        ).get_translate_url()
+
+        response = self.client.get(translate_url, {"checksum": unit.checksum})
+
+        self.assertContains(
+            response,
+            f'href="{translate_url}?checksum={unit.checksum}&amp;revert={change.id}"',
+        )
 
     def test_revert_plural(self) -> None:
         source = "Orangutan has %d banana.\n"
@@ -1083,6 +1236,38 @@ class EditComplexTest(ViewTestCase):
         )
         unit = self.get_unit(source)
         self.assertEqual(unit.get_target_plurals(), target)
+
+    def test_revert_empty(self) -> None:
+        source = "Hello, world!\n"
+        target = "Nazdar svete!\n"
+        self.edit_unit(source, target)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+
+        self.client.get(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
+        )
+
+        unit = self.get_unit(source)
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
+
+    def test_revert_restores_old_state(self) -> None:
+        source = "Hello, world!\n"
+        original = "Nazdar svete!\n"
+        updated = "Hei maailma!\n"
+        self.change_unit(original, source=source, state=STATE_NEEDS_REWRITING)
+        self.edit_unit(source, updated)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+
+        self.client.get(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
+        )
+
+        unit = self.get_unit(source)
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
     def test_edit_fixup(self) -> None:
         # Save with failing check

@@ -1,47 +1,161 @@
-Weblate 5.17
-------------
+Weblate 5.17.1
+--------------
 
 *Not yet released.*
 
 .. rubric:: New features
 
+* Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
+
+.. rubric:: Improvements
+
+* Fixed revert links in the translate-view history tab after moving a component to another project.
+* Clarified the site-wide scope of the global ``user.edit`` permission.
+* Clarified :ref:`autoclean-tm`.
+* Improved :ref:`screenshots` documentation and linked it from the screenshots UI.
+* The OpenAPI schema is cleaner and provides tighter API description.
+* Password updates now regenerate your personal API key by default.
+* The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
+* Improved :ref:`addon-weblate.discovery.discovery` guidance with guided client-side presets, clearer ``{{ component }}`` validation, and a worked discovery-template example in the docs.
+* Admins can now revert edits from blocked users in a project or from any user site-wide.
+* Clarified :ref:`generic-upgrade-instructions` to state that Celery queues should be empty before upgrading.
+* Admin user management search can now find users by audit log IP address.
+* Track superuser and site-wide team changes in :ref:`audit-log`.
+* Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
+* Project website and repository browser URL alerts now show validation errors more clearly.
+* Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
+* Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
+* :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
+
+.. rubric:: Bug fixes
+
+* :ref:`check-rst-references` no longer crashes on repeated explicit-link targets.
+* Component updates no longer time out waiting on their own repository lock during validation.
+* :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
+* Client-side popup notifications triggered by JavaScript now use Bootstrap toasts.
+* Dark theme Bootstrap subtle and emphasis colors now use higher-contrast values, improving popup toasts and other semantic UI elements.
+* Repository alerts, history entries, and task messages now preserve multiline Git and SSH backend error output.
+* Interrupted Git rebases now recover more reliably after worker restarts, and signal-terminated backend commands are reported more clearly.
+* Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
+* Git exporter no longer rejects shared-history fetches just because the first negotiated ``have`` revisions are newer than Weblate's local history.
+* :ref:`mt-weblate-translation-memory` automatic translation avoids broad PostgreSQL searches.
+* Project backup import now revalidates component repository URLs before restore.
+* The :guilabel:`SSH keys` management page can now remove stored host keys so changed host keys can be replaced there.
+* Malformed IPv6 repository URLs no longer crash SSH host key detection.
+* :ref:`addon-weblate.gettext.xgettext` and related POT update add-ons now replace the standard descriptive-title placeholder in normalized POT headers again.
+* :ref:`addon-weblate.gettext.django` now skips repository ``locale`` trees during preflight validation, fixing components that store ``django.pot`` in a top-level ``locale`` directory.
+* Screenshot OCR now skips corrupted or truncated image files instead of failing the request.
+* Monolingual component validation now honors :ref:`component-source_language` when checking duplicate files alongside a separate :ref:`component-template`.
+* The OpenAPI schema now describes action endpoints with their actual list, statistics, status, upload, and download response payloads.
+* :ref:`Translation memory upload <memory-user>` and :wladmin:`import_memory` now report a validation error for TMX files missing the required header instead of failing the request.
+* Project listings now show review progress columns when any listed project has reviews enabled.
+* The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
+* Automatic translation from other components now ignores read-only source candidates with empty translations.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.17.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/164?closed=1>`__.
+
+Weblate 5.17
+------------
+
+*Released on April 15th 2026.*
+
+.. rubric:: New features
+
+* Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project slugs from project website restriction settings.
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
-* Shared components can now be categorized within the target project.
-* :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
-* Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
+* Added new management command :wladmin:`list_format_features`, which generates RST documentation snippets describing the supported features for every file format.
+* Shared components can now be categorized within the target project, including through the :ref:`api` using the ``category_id`` parameter.
+* Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` to update POT files with configurable update cadence.
+* Added :setting:`PASSWORD_RESET_URL` to customize the sign-in page password reset link, useful for external identity providers (Docker env: :envvar:`WEBLATE_PASSWORD_RESET_URL`).
+* Added :ref:`bulk user invitations <invite-user>`.
+* Added :ref:`check-objc-format`.
+* Added Forgejo notification webhook, see :ref:`forgejo-setup`.
+* Added translation memory API filtering, scoped access, and bulk lookup support.
+* Added ``from_component`` support to the REST API for creating components from existing component content and for seeding new translations by automatic translation from existing components.
+* :doc:`/admin/announcements` can now be managed via the :ref:`api` for projects, components and translations.
+* Added a ``soft`` mode to :setting:`VERSION_DISPLAY` to hide the Weblate version from prominent UI while keeping it available on the :guilabel:`About` page and :http:get:`/api/metrics/`.
 
 .. rubric:: Improvements
 
 * Track origin of newly added source strings.
+* Markdown now uses ``auto-safe-html`` by default, applying :ref:`check-safe-html` and :ref:`autofix-html` only to plain text and source strings that contain standard HTML markup or valid custom elements.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
-* Improved error messages in some of the :ref:`api` endpoints.
+* Added a component alert for conflicting merge request repository setup, see :ref:`alerts`.
+* Improved plural handling in :ref:`auto-translation`.
+* Improved error messages in some :ref:`api` endpoints.
+* Updated Microsoft Entra ID authentication docs and Microsoft sign-in branding while keeping legacy Azure AD backend identifiers and documentation anchors for compatibility.
 * Improved performance of project and category search result pages with very large match sets.
-* :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* Docker now exposes :envvar:`WEBLATE_COMMIT_PENDING_HOURS`, :envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` for customizing the Keycloak unique user identifier claim, and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the bundled NGINX.
+* Project history now records project backups and project/component restore events.
+* Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines, and clarified merge-conflict behavior for exported repositories using shallow clones by default.
+* Added :setting:`PROJECT_WEB_RESTRICT_PRIVATE` to reject project website and repository browser URLs targeting internal or non-public addresses, :setting:`WEBHOOK_RESTRICT_PRIVATE` to reject webhook URLs targeting internal or non-public addresses, and :setting:`VCS_RESTRICT_PRIVATE` to reject repository and push URLs targeting internal or non-public addresses. These are exposed in Docker as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`.
 * Improved performance of :ref:`mt-weblate` lookups.
+* Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` which now defaults to 10 MB.
+* Expanded :doc:`/security/threat-model` to cover webhook trust boundaries and delegated authorization boundaries, and clarified the instance-wide 2FA enforcement path in :doc:`/admin/auth`.
+* :ref:`manage-vcs-reset-reapply` now recreates missing translation files when possible and otherwise reports a clearer recovery error instead of failing later with a generic parse error.
+* Updated :doc:`/contributing/documentation` to describe the current ``make -C docs update-docs`` workflow for generated snippets.
+* Linked repository components now inherit :ref:`component-push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-auto_lock_error` from the linked component that owns the repository.
+* Git exporter now provides clearer push and missing-revision errors to authorized users.
+* Faster category and project removals, and improved performance of project language counting and API listing on projects with shared components.
+* Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs.
+* Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
+* Improved loading speed for comments on the translate page and reduced repeated metric queries when rendering activity charts on overview pages with cold caches.
+
+.. rubric:: Security fixes
+
+* Hardened repository boundary checks for symlink targets (:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`).
+* Hardened component file handling for repository symlinks (:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`).
+* Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-gw9x-477v`).
+* Hardened project-level :ref:`machine-translation` against SSRF (:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`).
+* Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` (:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`).
+* Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`).
+* Hardened :ref:`addon-weblate.webhook.webhook` (:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`).
+* Removed unintended :ref:`translation-memory` API endpoints (:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`).
+* Tightened API access control for pending tasks (:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`).
+* Hardened :ref:`projectbackup` restore against repository-local VCS configuration and hooks from uploaded archives (:cve:`2026-33435` / :ghsa:`558g-h753-6m33`).
 
 .. rubric:: Bug fixes
 
-* Component file handling now validates repository symlinks.
-* Improved REST API permission enforcement.
-* Hardened project-level machine translation against SSRF by blocking private-network targets for untrusted endpoints and hiding untrusted remote error details.
-* Prevented removing the last team from a project token.
+* :ref:`Project backup <projectbackup>` now preserves source translation read-only handling, and source-side pending commits without files are discarded to avoid repeated parse failures.
+* Fixed background failures in :ref:`addon-weblate.autotranslate.autotranslate`.
+* Generated SSH wrapper scripts are now stored in :setting:`CACHE_DIR` instead of persistent SSH storage, and obsolete or stale wrappers are cleaned up during upgrade.
+* Hardened Git branch handling to reject invalid branch names before repository operations.
+* Sanitized repository and upload backend errors before exposing them in UI and API responses.
+* Matching exporters now honor component file format parameters.
+* :ref:`project-api` now clean up stale bot users on project deletion and upgrade, and prevent removing the last assigned team to avoid orphaning the token.
 * Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
-* :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
-* Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
+* :wladmin:`list_checks` now requires exactly one ``--sections`` value when writing generated documentation to a file using ``--output``.
 * Watched translations on the dashboard now use a stable language-aware ordering.
-* Removed unintended API endpoints for translation memory.
-* Improved API access control for pending tasks.
-* Faster category and project removals.
-* Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
+* Reduced error-reporting noise for handled authentication callback failures and clarified password reset confirmation messages.
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
+* :ref:`mt-mymemory` now falls back to HTTP status handling when the service returns a non-JSON error response.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
-* Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 * POT update add-ons now fall back to the component URL for the ``Report-Msgid-Bugs-To`` header when the component setting is empty.
+* Improved repository lock error handling when deleting units.
+* Adding new languages now rescans only the newly added languages instead of forcing a full component scan.
+* :ref:`check-max-size` previews now keep the configured text box visible and render overflowing text in red.
+* Restored documented default encoding fallback for :doc:`/formats/apple` and :doc:`/formats/java` when file format parameters are not explicitly set.
+* Reduced repeated database queries in :ref:`addon-weblate.generate.fill_read_only` during the daily add-on task, and fixed auto-translation progress updates when the queued target disappears before execution.
+* :doc:`/formats/android` now preserves template-defined escaped markup formatting when saving translations.
+* REST API component creation now handles temporary uploaded files for ``docfile`` and ``zipfile`` uploads.
+* SSH repository errors now distinguish changed host keys from missing host keys and avoid automatically trusting host key replacements.
+* :ref:`machine-translation` no longer treats translatable reStructuredText role content as :ref:`placeables-mt`.
+* :ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation such as ``؟!`` and ``!؟``.
 
 .. rubric:: Compatibility
 
@@ -57,6 +171,8 @@ Weblate 5.17
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
+* If you run Weblate in Docker and rely on IPv6 listeners, review :envvar:`WEBLATE_NGINX_IPV6`. The default ``auto`` enables IPv6 listeners only when IPv6 is available in the container runtime; use ``on`` to always enable them or ``off`` to disable them.
+* Outbound project links, webhook URLs, and repository or push URLs pointing to internal or non-public addresses are now rejected by default. If your setup intentionally uses internal addresses, adjust the corresponding restriction settings such as :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, or :setting:`VCS_RESTRICT_PRIVATE`, and the related allowlists such as :setting:`VCS_ALLOW_HOSTS`.
 
 .. rubric:: Contributors
 

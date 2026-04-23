@@ -6,10 +6,14 @@
 
 from __future__ import annotations
 
-import os
 from typing import ClassVar
 
 from appconf import AppConf
+
+from weblate.utils.version_display import (
+    VERSION_DISPLAY_HIDE,
+    normalize_version_display,
+)
 
 
 class WeblateConf(AppConf):
@@ -72,7 +76,8 @@ class WeblateConf(AppConf):
 
     BORG_EXTRA_ARGS = None
 
-    HIDE_VERSION = "WEBLATE_HIDE_VERSION" in os.environ
+    VERSION_DISPLAY = None
+    HIDE_VERSION = False
 
     CSP_SCRIPT_SRC: ClassVar[list[str]] = []
     CSP_IMG_SRC: ClassVar[list[str]] = []
@@ -84,13 +89,25 @@ class WeblateConf(AppConf):
     PROJECT_NAME_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_HOST: ClassVar[set[str]] = {"localhost"}
+    PROJECT_WEB_RESTRICT_ALLOWLIST: ClassVar[set[str]] = set()
     PROJECT_WEB_RESTRICT_NUMERIC = True
+    PROJECT_WEB_RESTRICT_PRIVATE = True
+    WEBHOOK_RESTRICT_PRIVATE = True
+    WEBHOOK_PRIVATE_ALLOWLIST: ClassVar[list[str]] = []
 
     LOCALE_FILTER_FILES = True
 
     ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
     ALLOWED_MACHINERY_DOMAINS: ClassVar[list[str]] = []
-    ALLOWED_ASSET_SIZE: ClassVar[int] = 4194304
+    ALLOWED_ASSET_SIZE: ClassVar[int] = 10_000_000
+
+    def configure(self):
+        data = AppConf.configure(self).copy()
+        data["VERSION_DISPLAY"] = normalize_version_display(
+            data["VERSION_DISPLAY"], data["HIDE_VERSION"]
+        )
+        data["HIDE_VERSION"] = data["VERSION_DISPLAY"] == VERSION_DISPLAY_HIDE
+        return data
 
     class Meta:
         prefix = ""

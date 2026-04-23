@@ -21,7 +21,7 @@ from weblate.trans.templatetags.translations import (
     translation_progress_render,
 )
 from weblate.trans.templatetags.upload_methods import get_upload_method_help
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
 
 
@@ -183,7 +183,7 @@ class LocationLinksTest(TestCase):
         )
 
 
-class TranslationFormatTestCase(FixtureTestCase):
+class TranslationFormatTestCase(FixtureComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.translation = self.get_translation()
@@ -227,6 +227,25 @@ class TranslationFormatTestCase(FixtureTestCase):
             world
             """,
         )
+
+    def test_html_escape(self) -> None:
+        content = format_translation(
+            ['<script>alert("x")</script>'],
+            self.component.source_language,
+        )["items"][0]["content"]
+        self.assertEqual(content, "&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;")
+        self.assertNotIn("<script>", content)
+
+    def test_diff_html_escape(self) -> None:
+        content = format_translation(
+            ['<script>alert("x")</script>'],
+            self.component.source_language,
+            diff="",
+        )["items"][0]["content"]
+        self.assertIn("<ins>", content)
+        self.assertIn("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;", content)
+        self.assertNotIn("<script>", content)
+        self.assertNotIn("</script>", content)
 
     def test_diff_change_newlinse(self) -> None:
         self.assertHTMLEqual(
@@ -464,6 +483,24 @@ ahoj svete [hello world]">
             """,
         )
 
+    def test_glossary_search_nesting(self) -> None:
+        """Test for correct nesting of glossary terms within search matches."""
+        glossary_unit = self.build_glossary("Translation", "Tradução", [(0, 11)])
+        content = format_translation(
+            ["Translation comment"],
+            self.component.source_language,
+            glossary=[glossary_unit],
+            search_match="Translation comment",
+        )["items"][0]["content"]
+        self.assertHTMLEqual(
+            content,
+            """
+            <span class="hlmatch">
+                <span class="glossary-term" title="Glossary term:
+Tradução [Translation]">Translation</span> comment</span>
+            """,
+        )
+
     def test_glossary_brackets(self) -> None:
         self.assertHTMLEqual(
             format_translation(
@@ -515,6 +552,25 @@ ahoj [hello]">Hello</span>
             world
             """,
         )
+
+    def test_glossary_script_escape(self) -> None:
+        content = format_translation(
+            ["Hello world"],
+            self.component.source_language,
+            glossary=[
+                self.build_glossary(
+                    "hello",
+                    '<script>alert(1)</script>"x="y',
+                    [(0, 5)],
+                )
+            ],
+        )["items"][0]["content"]
+        self.assertIn(
+            "&lt;script&gt;alert(1)&lt;/script&gt;&quot;x=&quot;y [hello]",
+            content,
+        )
+        self.assertNotIn("<script>", content)
+        self.assertNotIn('x="y', content)
 
     def test_glossary_multi(self) -> None:
         self.assertHTMLEqual(
@@ -815,6 +871,219 @@ class DiffTestCase(SimpleTestCase):
                 ["Hello world!"], MockLanguage("en"), search_match="hello"
             )["items"][0]["content"],
             '<span class="hlmatch">Hello</span> world!',
+        )
+
+    def test_fmtsearchmatch_inserted_diff(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello  world"],
+                MockLanguage("en"),
+                diff="Hello world",
+                search_match="world",
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space"></span>
+            </span>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                </span>
+            </ins>
+            <span class="hlmatch">world</span>
+            """,
+        )
+
+    def test_fmtsearchmatch_deleted_diff(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello world"],
+                MockLanguage("en"),
+                diff="Hello  world",
+                search_match="o w",
+            )["items"][0]["content"],
+            """
+            Hell
+            <span class="hlmatch">
+                o
+                <del>
+                    <span class="hlspace">
+                        <span class="space-space"></span>
+                    </span>
+                </del>
+                w
+            </span>
+            orld
+            """,
+        )
+
+
+class FormatterNestingTestCase(SimpleTestCase):
+    class GlossaryTerm:
+        def __init__(self, source: str, target: str, positions: list[tuple[int, int]]):
+            self.source = source
+            self.target = target
+            self.glossary_positions = positions
+            self.all_flags = []
+
+    def test_search_glossary_nesting(self) -> None:
+        content = format_translation(
+            ["Translation comment"],
+            MockLanguage("en"),
+            glossary=[self.GlossaryTerm("Translation", "Tradução", [(0, 11)])],
+            search_match="Translation comment",
+        )["items"][0]["content"]
+        self.assertHTMLEqual(
+            content,
+            """
+            <span class="hlmatch">
+                <span class="glossary-term" title="Glossary term:
+Tradução [Translation]">Translation</span> comment
+            </span>
+            """,
+        )
+
+    def test_search_inserted_diff_nesting(self) -> None:
+        content = format_translation(
+            ["Hello  world"],
+            MockLanguage("en"),
+            diff="Hello world",
+            search_match="world",
+        )["items"][0]["content"]
+        self.assertHTMLEqual(
+            content,
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space"></span>
+            </span>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                </span>
+            </ins>
+            <span class="hlmatch">world</span>
+            """,
+        )
+
+    def test_search_deleted_diff_nesting(self) -> None:
+        content = format_translation(
+            ["Hello world"],
+            MockLanguage("en"),
+            diff="Hello  world",
+            search_match="o w",
+        )["items"][0]["content"]
+        self.assertHTMLEqual(
+            content,
+            """
+            Hell
+            <span class="hlmatch">
+                o
+                <del>
+                    <span class="hlspace">
+                        <span class="space-space"></span>
+                    </span>
+                </del>
+                w
+            </span>
+            orld
+            """,
+        )
+
+    def test_search_whitespace_nesting(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello  world"],
+                MockLanguage("en"),
+                search_match="o  w",
+            )["items"][0]["content"],
+            """
+            Hell
+            <span class="hlmatch">
+                o
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                    <span class="space-space"></span>
+                </span>
+                w
+            </span>
+            orld
+            """,
+        )
+
+    def test_search_newline_nesting(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\nworld"],
+                MockLanguage("en"),
+                search_match="o\nw",
+            )["items"][0]["content"],
+            """
+            Hell
+            <span class="hlmatch">
+                o
+                <span class="hlspace">
+                    <span class="space-nl"></span>
+                </span><br>
+                w
+            </span>
+            orld
+            """,
+        )
+
+    def test_search_spanning_inserted_diff_nesting(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello  world"],
+                MockLanguage("en"),
+                diff="Hello world",
+                search_match="o  w",
+            )["items"][0]["content"],
+            """
+            Hell
+            <span class="hlmatch">
+                o
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                </span>
+                <ins>
+                    <span class="hlspace">
+                        <span class="space-space"></span>
+                    </span>
+                </ins>
+                w
+            </span>
+            orld
+            """,
+        )
+
+    def test_search_spanning_deleted_newline_diff_nesting(self) -> None:
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello world"],
+                MockLanguage("en"),
+                diff="Hello\nworld",
+                search_match="o w",
+            )["items"][0]["content"],
+            """
+            Hell
+            <span class="hlmatch">
+                o
+                <del>
+                    <span class="hlspace">
+                        <span class="space-nl"></span>
+                    </span><br>
+                </del>
+                <ins>
+                    <span class="hlspace">
+                        <span class="space-space"></span>
+                    </span>
+                </ins>
+                w
+            </span>
+            orld
+            """,
         )
 
 

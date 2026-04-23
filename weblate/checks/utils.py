@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from weblate.checks.models import CHECKS
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator
 
     from weblate.trans.models import Unit
 
@@ -21,8 +21,8 @@ def highlight_pygments(source: str, unit: Unit) -> Generator[tuple[int, int, str
     This is not really a full syntax highlighting, we're only interested in
     non-translatable strings.
     """
-    from pygments.lexers.markup import RstLexer
-    from pygments.token import Token
+    from pygments.lexers.markup import RstLexer  # noqa: PLC0415
+    from pygments.token import Token  # noqa: PLC0415
 
     if "rst-text" in unit.all_flags:
         lexer = RstLexer(stripnl=False)
@@ -88,3 +88,34 @@ def highlight_string(
                 hl_idx_next += 1
 
     return highlights
+
+
+def replace_highlighted(
+    source: str,
+    unit: Unit,
+    replacement: str | Callable[[int], str] = "",
+    *,
+    highlight_syntax: bool = False,
+) -> str:
+    """Replace highlighted ranges in source string."""
+    highlights = highlight_string(source, unit, highlight_syntax=highlight_syntax)
+    if not highlights:
+        return source
+
+    result = []
+    last_end = 0
+    for start, end, _text in highlights:
+        if start < last_end:
+            continue
+        result.append(source[last_end:start])
+        if callable(replacement):
+            result.append(replacement(start))
+        else:
+            result.append(replacement)
+        last_end = end
+    result.append(source[last_end:])
+    return "".join(result)
+
+
+def placeholder_replacement(start_index: int) -> str:
+    return f"x-weblate-{start_index}"

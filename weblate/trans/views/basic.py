@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import Counter
 from contextlib import suppress
-from typing import TYPE_CHECKING, Any, overload
+from typing import TYPE_CHECKING, NotRequired, Protocol, TypedDict, Unpack, overload
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -90,6 +90,19 @@ if TYPE_CHECKING:
     from weblate.trans.models.component import ComponentQuerySet
 
 
+class LanguageChangeKwargs(TypedDict):
+    user: User
+    component: Component
+    details: dict[str, str]
+    translation: NotRequired[Translation]
+
+
+class _ComponentChangeSet(Protocol):
+    def create(
+        self, *, action: ActionEvents, **kwargs: Unpack[LanguageChangeKwargs]
+    ) -> Change: ...
+
+
 @never_cache
 def list_projects(request: AuthenticatedHttpRequest):
     """List all projects."""
@@ -110,6 +123,10 @@ def list_projects(request: AuthenticatedHttpRequest):
     else:
         show_form_errors(request, form)
 
+    show_review_columns = projects.filter(
+        Q(source_review=True) | Q(translation_review=True)
+    ).exists()
+
     return render(
         request,
         "projects.html",
@@ -125,6 +142,7 @@ def list_projects(request: AuthenticatedHttpRequest):
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
+            "show_review_columns": show_review_columns,
         },
     )
 
@@ -154,19 +172,23 @@ def add_ghost_translations(
 ):
     """Add ghost translations for user languages to the list."""
     project = obj if isinstance(obj, Project) else obj.project
-    language_ids = {translation.language.id for translation in translations}
-    languages_allowed: set[int] | None = None
-    for language in user.profile.all_languages:
-        # Skip languages already present
-        if language.id in language_ids:
-            continue
+    existing_language_ids = {translation.language.id for translation in translations}
+    user_languages = list(user.profile.all_languages)
+    missing_languages = [
+        language
+        for language in user_languages
+        if language.id not in existing_language_ids
+    ]
+    if not missing_languages:
+        return
 
+    allowed_language_ids = Language.objects.get_allowed_add_language_ids(
+        project, (language.id for language in missing_languages)
+    )
+
+    for language in missing_languages:
         # Skip languages not allowed for adding
-        if languages_allowed is None:
-            languages_allowed = set(
-                Language.objects.filter_for_add(project).values_list("id", flat=True)
-            )
-        if language.id not in languages_allowed:
+        if language.id not in allowed_language_ids:
             continue
 
         # Generate ghost object
@@ -932,7 +954,9 @@ def new_project_or_category_language(
         if form.is_valid():
             languages = Language.objects.filter(code__in=form.cleaned_data["lang"])
             language_map = {lang.code: lang for lang in languages}
-            lang_counters = {lang_code: Counter() for lang_code in language_map}
+            lang_counters: dict[str, Counter[str]] = {
+                lang_code: Counter() for lang_code in language_map
+            }
 
             for component in eligible_components:
                 _, component_counts = add_languages_to_component(
@@ -1016,15 +1040,16 @@ def add_languages_to_component(
     languages: list[Language],
     component: Component,
     show_messages: bool,
-) -> tuple[Any, Counter]:
-    added = False
-    result = component
-    kwargs = {
+) -> tuple[Component | Translation | str, Counter[str]]:
+    added_codes: set[str] = set()
+    result: Component | Translation | str = component
+    change_set: _ComponentChangeSet = component.change_set
+    kwargs: LanguageChangeKwargs = {
         "user": user,
         "component": component,
         "details": {},
     }
-    lang_counts = Counter()
+    lang_counts: Counter[str] = Counter()
     with component.repository.lock:
         component.commit_pending("add language", None)
         for language in languages:
@@ -1039,22 +1064,18 @@ def add_languages_to_component(
                     show_messages=show_messages,
                 )
                 if translation:
-                    added = True
+                    added_codes.add(translation.language_code)
                     kwargs["translation"] = translation
                     if len(languages) == 1:
                         result = translation
-                    component.change_set.create(
-                        action=ActionEvents.ADDED_LANGUAGE, **kwargs
-                    )
+                    change_set.create(action=ActionEvents.ADDED_LANGUAGE, **kwargs)
                     lang_counts[f"added_{lang_code}"] += 1
                     continue
 
             elif component.new_lang == "contact":
                 if component.translation_set.filter(language_code=lang_code).exists():
                     continue
-                component.change_set.create(
-                    action=ActionEvents.REQUESTED_LANGUAGE, **kwargs
-                )
+                change_set.create(action=ActionEvents.REQUESTED_LANGUAGE, **kwargs)
                 if show_messages:
                     messages.success(
                         request,
@@ -1070,8 +1091,10 @@ def add_languages_to_component(
 
         with suppress(FileParseError):
             # force_scan needed, see add_new_language
-            if added and not component.create_translations(
-                request=request, force_scan=True
+            if added_codes and not component.create_translations(
+                request=request,
+                force_scan=True,
+                langs=sorted(added_codes),
             ):
                 if show_messages:
                     messages.success(

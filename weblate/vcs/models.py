@@ -35,6 +35,7 @@ class VCSConf(AppConf):
     VCS_API_TIMEOUT = 10
     VCS_ALLOW_SCHEMES: ClassVar[set[str]] = {"https", "ssh"}
     VCS_ALLOW_HOSTS: ClassVar[set[str]] = set()
+    VCS_RESTRICT_PRIVATE = True
 
     # GitHub username for sending pull requests
     GITHUB_CREDENTIALS: ClassVar[dict] = {}
@@ -88,12 +89,22 @@ class VcsClassLoader(ClassLoader):
 
     @cached_property
     def git_based(self) -> set[str]:
-        from weblate.vcs.git import GitRepository
+        from weblate.vcs.git import GitRepository  # noqa: PLC0415
 
         return {
             vcs.get_identifier()
             for vcs in self.values()
             if issubclass(vcs, GitRepository)
+        }
+
+    @cached_property
+    def merge_request_based(self) -> set[str]:
+        from weblate.vcs.git import GitMergeRequestBase  # noqa: PLC0415
+
+        return {
+            vcs.get_identifier()
+            for vcs in self.values()
+            if issubclass(vcs, GitMergeRequestBase)
         }
 
 

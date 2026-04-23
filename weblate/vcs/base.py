@@ -10,10 +10,11 @@ import hashlib
 import logging
 import os
 import os.path
-import subprocess
+import signal
+import subprocess  # noqa: S404
 from contextlib import suppress
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Literal, Self, TypedDict
 
 from dateutil import parser
 from django.core.cache import cache
@@ -21,10 +22,16 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
 
-from weblate.trans.util import get_clean_env, path_separator
+from weblate.trans.util import path_separator
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
-from weblate.utils.files import is_excluded
+from weblate.utils.files import (
+    REPO_TEMP_DIRNAME,
+    is_excluded,
+    is_path_within_resolved_directory,
+    remove_tree,
+)
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -39,10 +46,97 @@ if TYPE_CHECKING:
 
 LOGGER = logging.getLogger("weblate.vcs")
 
+SSH_HOST_KEY_VERIFICATION_FAILED = "Host key verification failed"
+
+
+def get_config_check_cache_key(component_pk: int) -> str:
+    """Build cache key for repository configuration refresh."""
+    wrapper_hash = hashlib.sha256(
+        SSH_WRAPPER.filename.as_posix().encode("utf-8")
+    ).hexdigest()
+    return f"sp-config-check-{wrapper_hash}-{component_pk}"
+
+
+def get_repository_lock_key(base_path: str, component: Component | None) -> int | str:
+    """Build lock key for repository operations."""
+    if component is not None and component.pk is not None:
+        return component.pk
+    return hashlib.sha256(base_path.encode("utf-8")).hexdigest()
+
 
 class SubprocessArgs(TypedDict, total=False):
     stdin: int
     input: str
+
+
+type RemoteOperation = Literal["none", "pull", "push"]
+
+
+class RepositoryLock:
+    def __init__(self, repository: Repository, lock: WeblateLock) -> None:
+        self.repository = repository
+        self._lock = lock
+        self._recovery_pending = False
+        self._recovering = False
+
+    @property
+    def lock_object(self) -> WeblateLock:
+        return self._lock
+
+    def replace_lock(self, lock: Self) -> None:
+        self._lock = lock._lock
+        self._recovery_pending = lock._recovery_pending
+        self._recovering = lock._recovering
+
+    def replace_lock_if_matching(self, lock: Self) -> bool:
+        if self._lock.name != lock._lock.name:
+            return False
+        self.replace_lock(lock)
+        return True
+
+    def __enter__(self) -> None:
+        outermost_enter = not self._lock.is_locked
+        self._lock.__enter__()
+        if outermost_enter:
+            self._recovery_pending = True
+        try:
+            self.repository.ensure_lock_session_recovered()
+        except Exception as error:
+            self._lock.__exit__(type(error), error, error.__traceback__)
+            if not self._lock.is_locked:
+                self._reset_recovery_state()
+            raise
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback,
+    ) -> None:
+        self._lock.__exit__(exc_type, exc_value, traceback)
+        if not self._lock.is_locked:
+            self._reset_recovery_state()
+
+    def begin_recovery(self) -> bool:
+        if not self.is_locked or self._recovering or not self._recovery_pending:
+            return False
+        self._recovering = True
+        self._recovery_pending = False
+        return True
+
+    def fail_recovery(self) -> None:
+        self._recovering = False
+        self._recovery_pending = True
+
+    def finish_recovery(self) -> None:
+        self._recovering = False
+
+    def _reset_recovery_state(self) -> None:
+        self._recovering = False
+        self._recovery_pending = False
+
+    def __getattr__(self, name: str):
+        return getattr(self._lock, name)
 
 
 class RepositoryError(Exception):
@@ -61,8 +155,60 @@ class RepositoryError(Exception):
         return self.get_message()
 
 
+class RepositoryCommandError(RepositoryError):
+    """Error raised by the underlying VCS command."""
+
+    def get_message(self):
+        if self.retcode < 0:
+            signum = -self.retcode
+            with suppress(ValueError):
+                signal_name = signal.Signals(signum).name
+                if signum == signal.SIGTERM:
+                    hint = (
+                        "The underlying command was terminated by signal "
+                        f"{signal_name}, usually because the worker or host was "
+                        "restarted or stopped during the operation."
+                    )
+                else:
+                    hint = (
+                        "The underlying command was terminated by signal "
+                        f"{signal_name}."
+                    )
+                message = self.args[0].rstrip()
+                if message:
+                    return f"{message}\n\n{hint} ({self.retcode})"
+                return f"{hint} ({self.retcode})"
+        return super().get_message()
+
+
+class RepositoryValidationError(RepositoryError):
+    """Error raised when repository configuration violates runtime policy."""
+
+
 class RepositorySymlinkError(ValueError):
     """Raised when symlink resolution fails due to links outside the repository tree or excessive symlink depth."""
+
+
+def is_ssh_host_key_verification_error(errormessage: str) -> bool:
+    """Detect SSH host key verification failures."""
+    return SSH_HOST_KEY_VERIFICATION_FAILED.lower() in errormessage.lower()
+
+
+def is_ssh_host_key_mismatch_error(errormessage: str) -> bool:
+    """Detect SSH host key mismatch warnings for changed remote identities."""
+    normalized = errormessage.lower()
+    return (
+        "remote host identification has changed" in normalized
+        or "possible dns spoofing detected" in normalized
+        or ("host key for" in normalized and "has changed" in normalized)
+    )
+
+
+def should_auto_add_ssh_host_key(errormessage: str) -> bool:
+    """Allow TOFU host key acceptance only for first-seen hosts."""
+    return is_ssh_host_key_verification_error(
+        errormessage
+    ) and not is_ssh_host_key_mismatch_error(errormessage)
 
 
 class Repository:
@@ -86,7 +232,9 @@ class Repository:
     )
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
+    metadata_dir_name: ClassVar[str | None] = None
     _version: ClassVar[str | None] = None
+    _version_error: ClassVar[Exception | None] = None
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -101,22 +249,21 @@ class Repository:
         local: bool = False,
     ) -> None:
         self.path: str = path
-        if branch is None:
+        if not branch:
             self.branch = self.default_branch
         else:
             self.branch = branch
         self.component = component
         self.last_output = ""
         base_path = self.path.rstrip("/").rstrip("\\")
-        self.lock = WeblateLock(
-            lock_path=os.path.dirname(base_path),
-            scope="repo",
-            key=component.pk if component else os.path.basename(base_path),
+        lock = WeblateLock(
+            scope="repository",
+            key=get_repository_lock_key(base_path, component),
             slug=os.path.basename(base_path),
-            file_template="{slug}.lock",
             timeout=120,
             origin=component.full_slug if component else base_path,
         )
+        self.lock = RepositoryLock(self, lock)
         self._config_updated = False
         self.local = local
         # Create ssh wrapper for possible use
@@ -126,6 +273,10 @@ class Repository:
     @classmethod
     def get_remote_branch(cls, repo: str) -> str:  # noqa: ARG003
         return cls.default_branch
+
+    @classmethod
+    def validate_branch_name(cls, branch: str) -> str:
+        return branch
 
     @classmethod
     def add_breadcrumb(cls, message: str, **data) -> None:
@@ -151,7 +302,7 @@ class Repository:
         if self.component is None:
             msg = "Component not set!"
             raise TypeError(msg)
-        cache_key = f"sp-config-check-{self.component.pk}"
+        cache_key = get_config_check_cache_key(self.component.pk)
         if cache.get(cache_key) is None:
             self.check_config()
             cache.set(cache_key, True, 86400)
@@ -160,6 +311,39 @@ class Repository:
     def check_config(self) -> None:
         """Check VCS configuration."""
         raise NotImplementedError
+
+    def get_metadata_dir(self) -> Path | None:
+        if self.metadata_dir_name is None:
+            return None
+        metadata_dir = Path(self.path) / self.metadata_dir_name
+        if not metadata_dir.is_dir():
+            return None
+        return metadata_dir
+
+    def get_repo_temp_dir(self, create: bool = True) -> Path | None:
+        metadata_dir = self.get_metadata_dir()
+        if metadata_dir is None:
+            return None
+        temp_dir = metadata_dir / REPO_TEMP_DIRNAME
+        if create:
+            temp_dir.mkdir(parents=True, exist_ok=True)
+        return temp_dir
+
+    def cleanup_repo_temp_dir(self) -> None:
+        temp_dir = self.get_repo_temp_dir(create=False)
+        if temp_dir is None or not temp_dir.is_dir():
+            return
+        for item in temp_dir.iterdir():
+            try:
+                if item.is_symlink() or not item.is_dir():
+                    item.unlink(missing_ok=True)
+                else:
+                    remove_tree(item)
+            except OSError as error:
+                self.log(
+                    f"Failed to clean repository temp entry {item}: {error}",
+                    level=logging.WARNING,
+                )
 
     def is_valid(self) -> bool:
         """Check whether this is a valid repository."""
@@ -173,18 +357,21 @@ class Repository:
     def resolve_symlinks(self, path: str) -> str:
         """Resolve any symlinks in the path."""
         # Resolve symlinks first
-        real_path = path_separator(os.path.realpath(os.path.join(self.path, path)))
-        repository_path = path_separator(os.path.realpath(self.path))
+        real_path = Path(os.path.realpath(os.path.join(self.path, path)))
+        repository_path = Path(os.path.realpath(self.path))
 
-        if not real_path.startswith(repository_path):
+        if not is_path_within_resolved_directory(real_path, repository_path):
             msg = "Too many symlinks or link outside tree"
             raise RepositorySymlinkError(msg)
 
-        if is_excluded(real_path):
+        if is_excluded(path_separator(os.fspath(real_path))):
             msg = "Link to a restricted location"
             raise RepositorySymlinkError(msg)
 
-        return real_path[len(repository_path) :].lstrip("/")
+        relative_path = os.path.relpath(real_path, repository_path)
+        if relative_path == ".":
+            return ""
+        return path_separator(relative_path)
 
     @staticmethod
     def _getenv(
@@ -196,6 +383,8 @@ class Repository:
         base: dict[str, str] = {
             # Avoid prompts from Git
             "GIT_TERMINAL_PROMPT": "0",
+            # Avoid git advises like merge conflicts resolution
+            "GIT_ADVICE": "0",
             # Avoid Git traversing outside the data dir
             "GIT_CEILING_DIRECTORIES": data_path("vcs").as_posix(),
             # Use ssh wrapper
@@ -260,7 +449,7 @@ class Repository:
                 if isinstance(error.stderr, bytes)
                 else error.stderr
             )
-            raise RepositoryError(
+            raise RepositoryCommandError(
                 0,
                 f"Subprocess didn't complete before {error.timeout} seconds\n{stdout}{stderr or ''}",
             ) from error
@@ -288,7 +477,7 @@ class Repository:
                     retry=False,
                 )
 
-            raise RepositoryError(process.returncode, errormessage)
+            raise RepositoryCommandError(process.returncode, errormessage)
         return process.stdout
 
     @staticmethod
@@ -299,10 +488,24 @@ class Repository:
     def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004
         return False
 
+    def recover_lock_session(self) -> None:
+        self.cleanup_repo_temp_dir()
+
+    def ensure_lock_session_recovered(self) -> None:
+        if not self.lock.begin_recovery():
+            return
+        try:
+            self.recover_lock_session()
+        except Exception:
+            self.lock.fail_recovery()
+            raise
+        self.lock.finish_recovery()
+
     def execute(
         self,
         args: list[str],
         *,
+        remote_op: RemoteOperation,
         needs_lock: bool = True,
         fullcmd: bool = False,
         merge_err: bool = True,
@@ -310,12 +513,17 @@ class Repository:
         environment: dict[str, str] | None = None,
     ):
         """Execute command and caches its output."""
+        self.ensure_lock_session_recovered()
         if needs_lock:
             if not self.lock.is_locked:
                 msg = "Repository operation without lock held!"
                 raise RuntimeError(msg)
             if self.component:
                 self.ensure_config_updated()
+        if remote_op == "pull":
+            self.validate_pull_url()
+        elif remote_op == "push":
+            self.validate_push_url()
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
@@ -327,14 +535,14 @@ class Repository:
                 stdin=stdin,
                 environment=environment,
             )
-        except RepositoryError as error:
+        except RepositoryCommandError as error:
             if not is_status and not self.local:
                 self.log_status(error)
             raise
         return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
-        with suppress(RepositoryError):
+        with suppress(RepositoryCommandError):
             self.log(f"failure {error}")
             self.log(self.status())
 
@@ -350,13 +558,21 @@ class Repository:
         return self.get_last_revision()
 
     def get_last_revision(self):
-        return self.execute(self._cmd_last_revision, needs_lock=False, merge_err=False)
+        return self.execute(
+            self._cmd_last_revision,
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
+        )
 
     @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
         return self.execute(
-            self._cmd_last_remote_revision, needs_lock=False, merge_err=False
+            self._cmd_last_remote_revision,
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
         )
 
     @classmethod
@@ -364,8 +580,35 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
+    @staticmethod
+    def validate_remote_url(url: str) -> None:
+        """Revalidate a remote URL before using it."""
+        from django.core.exceptions import ValidationError  # noqa: PLC0415
+
+        from weblate.utils.validators import validate_repo_url  # noqa: PLC0415
+
+        try:
+            validate_repo_url(url)
+        except ValidationError as error:
+            raise RepositoryValidationError(0, "; ".join(error.messages)) from error
+
+    def validate_pull_url(self, url: str | None = None) -> None:
+        """Validate the pull URL in the current runtime context."""
+        if url is None and self.component is not None:
+            url = self.component.repo
+        if url:
+            self.validate_remote_url(url)
+
+    def validate_push_url(self, url: str | None = None) -> None:
+        """Validate the push URL in the current runtime context."""
+        if url is None and self.component is not None:
+            url = self.component.push or self.component.repo
+        if url:
+            self.validate_remote_url(url)
+
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
+        self.validate_pull_url(source)
         self._clone(source, self.path, self.branch)
 
     @classmethod
@@ -384,7 +627,7 @@ class Repository:
 
     def status(self) -> str:
         """Return status of the repository."""
-        return self.execute(self._cmd_status, needs_lock=False)
+        return self.execute(self._cmd_status, remote_op="none", needs_lock=False)
 
     def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
@@ -506,14 +749,20 @@ class Repository:
     @classmethod
     def get_version(cls):
         """Get cached backend version."""
-        if cls._version is None:
+        version = cls.__dict__.get("_version")
+        version_error = cls.__dict__.get("_version_error")
+
+        if version is None and version_error is None:
             try:
                 cls._version = cls._get_version()
             except Exception as error:
-                cls._version = error
-        if isinstance(cls._version, Exception):
-            raise cls._version
-        return cls._version
+                cls._version_error = error
+            version = cls.__dict__.get("_version")
+            version_error = cls.__dict__.get("_version_error")
+
+        if version_error is not None:
+            raise version_error
+        return version
 
     @classmethod
     def _get_version(cls):
@@ -534,7 +783,13 @@ class Repository:
         """Create new revision."""
         raise NotImplementedError
 
-    def remove(self, files: list[str], message: str, author: str | None = None) -> None:
+    def remove(
+        self,
+        files: list[str],
+        message: str,
+        author: str | None = None,
+        extra_commit_files: list[str] | None = None,
+    ) -> None:
         """Remove files and creates new revision."""
         raise NotImplementedError
 
@@ -632,9 +887,9 @@ class Repository:
     def cleanup(self) -> None:
         """Cleanup repository status."""
         # Recover from failed merge/rebase
-        with suppress(RepositoryError):
+        with suppress(RepositoryCommandError):
             self.merge(abort=True)
-        with suppress(RepositoryError):
+        with suppress(RepositoryCommandError):
             self.rebase(abort=True)
         # Remove stale branches
         self.remove_stale_branches()
@@ -656,7 +911,10 @@ class Repository:
         This is not universal as refspec is different per vcs.
         """
         lines = self.execute(
-            [*self._cmd_list_changed_files, refspec], needs_lock=False, merge_err=False
+            [*self._cmd_list_changed_files, refspec],
+            remote_op="none",
+            needs_lock=False,
+            merge_err=False,
         ).splitlines()
         return list(self.parse_changed_files(lines))
 
@@ -672,7 +930,8 @@ class Repository:
         return self.list_changed_files(self.ref_to_remote.format(compare_to))
 
     def get_remote_branch_name(self, branch: str | None = None) -> str:
-        return f"origin/{self.branch if branch is None else branch}"
+        branch_name = branch or self.branch
+        return f"origin/{self.validate_branch_name(branch_name)}"
 
     def list_remote_branches(self) -> list[str]:
         return []

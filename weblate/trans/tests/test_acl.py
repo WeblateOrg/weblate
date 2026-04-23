@@ -4,20 +4,26 @@
 
 """Test for ACL management."""
 
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from social_django.models import UserSocialAuth
 
+from weblate.accounts.models import VerifiedEmail
 from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Project
+from weblate.trans.models import Change, Project
+from weblate.trans.tasks import revert_user_edits as revert_user_edits_task
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import enable_login_required_settings
 from weblate.utils.pii import mask_email
+from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.accounts.models import AuditLog
@@ -145,6 +151,184 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             action=ActionEvents.INVITE_USER
         )
         self.assertEqual(change.get_details_display(), self.user.username)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_user(self) -> None:
+        """Bulk invite creates invitations and skips invalid addresses."""
+        self.project.add_user(self.user, "Administration")
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": (
+                    f"{self.user.email}\n"
+                    "new@example.com invalid-address new@example.com"
+                ),
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "2 invitation e-mails were sent.")
+        self.assertContains(response, "Skipped 2 addresses")
+        self.assertContains(response, "invalid-address: Enter a valid e-mail address.")
+        self.assertContains(
+            response, "new@example.com: duplicate address in the submission"
+        )
+        self.assertEqual(Invitation.objects.count(), 2)
+        self.assertEqual(len(mail.outbox), 2)
+
+        invitation = Invitation.objects.get(user=self.user)
+        self.assertEqual(invitation.group, self.admin_group)
+
+        change = Project.objects.get(pk=self.project.pk).change_set.filter(
+            action=ActionEvents.INVITE_USER
+        )
+        self.assertEqual(change.count(), 2)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_skips_pending_invitation(self) -> None:
+        """Bulk invite skips equivalent pending invitations."""
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {"email": "existing@example.com", "group": self.admin_group.pk},
+            follow=True,
+        )
+        mail.outbox = []
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "existing@example.com another@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        self.assertContains(
+            response, "existing@example.com: pending invitation already exists"
+        )
+        self.assertEqual(Invitation.objects.count(), 2)
+        self.assertEqual(len(mail.outbox), 1)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_keeps_ambiguous_verified_email_email_based(self) -> None:
+        """Bulk invite does not bind ambiguous verified e-mails to one user."""
+        self.project.add_user(self.user, "Administration")
+        first_user = User.objects.create_user(
+            "verified-one", "verified-one@example.org", "testpassword"
+        )
+        second_user = User.objects.create_user(
+            "verified-two", "verified-two@example.net", "testpassword"
+        )
+        first_social = UserSocialAuth.objects.create(
+            user=first_user, provider="github", uid="verified-one"
+        )
+        second_social = UserSocialAuth.objects.create(
+            user=second_user, provider="gitlab", uid="verified-two"
+        )
+        VerifiedEmail.objects.create(
+            social=first_social, email="shared-verified@example.com"
+        )
+        VerifiedEmail.objects.create(
+            social=second_social, email="shared-verified@example.com"
+        )
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "shared-verified@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        invitation = Invitation.objects.get()
+        self.assertIsNone(invitation.user)
+        self.assertEqual(invitation.email, "shared-verified@example.com")
+
+    @override_settings(
+        REGISTRATION_OPEN=True,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_EMAIL_MATCH=r"^allowed@example\.com$",
+    )
+    def test_bulk_invite_uses_weblate_email_validation(self) -> None:
+        """Bulk invite reuses the same e-mail validation as single invite."""
+        self.project.add_user(self.user, "Administration")
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "blocked@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "No invitations were created.")
+        self.assertContains(
+            response, "blocked@example.com: This e-mail address is disallowed."
+        )
+        self.assertEqual(Invitation.objects.count(), 0)
+        self.assertEqual(len(mail.outbox), 0)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_clears_email_when_verified_user_resolved(self) -> None:
+        """Bulk invite keeps user-bound invitations in the expected either/or state."""
+        self.project.add_user(self.user, "Administration")
+        invited_user = User.objects.create_user(
+            "verified-match", "primary@example.org", "testpassword"
+        )
+        social = UserSocialAuth.objects.create(
+            user=invited_user, provider="github", uid="verified-match"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "secondary@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        invitation = Invitation.objects.get()
+        self.assertEqual(invitation.user, invited_user)
+        self.assertEqual(invitation.email, "")
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_bulk_invite_skips_second_address_for_same_resolved_user(self) -> None:
+        """Bulk invite avoids duplicate invitations for one resolved account."""
+        self.project.add_user(self.user, "Administration")
+        invited_user = User.objects.create_user(
+            "same-user", "primary@example.org", "testpassword"
+        )
+        social = UserSocialAuth.objects.create(
+            user=invited_user, provider="github", uid="same-user"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {
+                "emails": "primary@example.org secondary@example.com",
+                "group": self.admin_group.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "1 invitation e-mail was sent.")
+        self.assertContains(
+            response, "secondary@example.com: pending invitation already exists"
+        )
+        self.assertEqual(Invitation.objects.count(), 1)
+        self.assertEqual(len(mail.outbox), 1)
+        invitation = Invitation.objects.get()
+        self.assertEqual(invitation.user, invited_user)
+        self.assertEqual(invitation.email, "")
 
     @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
     def test_invite_user_closed(self) -> None:
@@ -459,6 +643,162 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 1)
         self.assertEqual(self.project.userblock_set.filter(note="Spamming").count(), 1)
+
+    def test_block_user_revert_edits(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        unit = self.get_unit()
+        self.change_unit("Nazdar svete!\n", user=self.second_user)
+
+        with patch(
+            "weblate.trans.views.acl.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-1"),
+        ) as mocked_delay:
+            response = self.client.post(
+                reverse("block-user", kwargs=self.kw_project),
+                {
+                    "user": self.second_user.username,
+                    "revert_edits": "on",
+                },
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            sitewide=False,
+        )
+        self.assertContains(
+            response, "Reverting edits by seconduser in this project was scheduled."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertFalse(
+            Change.objects.filter(action=ActionEvents.USER_REVERT).exists()
+        )
+
+    def test_block_user_revert_edits_already_blocked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+
+        with patch(
+            "weblate.trans.views.acl.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-3"),
+        ) as mocked_delay:
+            response = self.client.post(
+                reverse("block-user", kwargs=self.kw_project),
+                {
+                    "user": self.second_user.username,
+                    "revert_edits": "on",
+                },
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            sitewide=False,
+        )
+        self.assertContains(
+            response, "Reverting edits by seconduser in this project was scheduled."
+        )
+        self.assertNotContains(response, "User is already blocked on this project.")
+
+    def test_revert_user_edits_task(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        unit = self.get_unit()
+        self.change_unit("Ahoj svete!\n", user=self.user)
+        self.change_unit("Nazdar svete!\n", user=self.second_user)
+        self.change_unit("Cus svete!\n", user=self.second_user)
+
+        result = revert_user_edits_task(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "reverted": 1,
+                "skipped": 0,
+                "skipped_newer": 0,
+                "skipped_failed": 0,
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        change = Change.objects.get(action=ActionEvents.USER_REVERT, unit=unit)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.get_details_display(), self.second_user.username)
+
+    def test_block_user_revert_edits_skips_newer_changes(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        unit = self.get_unit()
+        self.change_unit("Nazdar svete!\n", user=self.second_user)
+        self.change_unit("Ahoj svete!\n", user=self.user)
+
+        result = revert_user_edits_task(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "reverted": 0,
+                "skipped": 1,
+                "skipped_newer": 1,
+                "skipped_failed": 0,
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertFalse(
+            Change.objects.filter(action=ActionEvents.USER_REVERT).exists()
+        )
+
+    def test_revert_blocked_user_edits(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        unit = self.get_unit()
+        self.change_unit("Nazdar svete!\n", user=self.second_user)
+        self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+
+        with patch(
+            "weblate.trans.views.acl.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-2"),
+        ) as mocked_delay:
+            response = self.client.post(
+                reverse("revert-blocked-user-edits", kwargs=self.kw_project),
+                {"user": self.second_user.username},
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            sitewide=False,
+        )
+        self.assertContains(
+            response, "Reverting edits by seconduser in this project was scheduled."
+        )
+        self.assertEqual(self.project.userblock_set.count(), 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def test_delete_group(self) -> None:
         self.project.add_user(self.user, "Administration")

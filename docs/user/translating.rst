@@ -308,8 +308,12 @@ String attributes
 Explanation
     Further clarification can be provided in Weblate via :ref:`additional-explanation`.
 Screenshots
-    Screenshots can be uploaded to Weblate to better inform translators
-    of where and how the string is used, see :ref:`screenshots`.
+    Screenshots can be uploaded directly from this panel using
+    :guilabel:`Add screenshot`, or managed elsewhere in Weblate to better
+    inform translators of where and how the string is used. Source-language
+    screenshots are shown for every translation of the string, while
+    translation-specific screenshots are shown only for that translation; see
+    :ref:`screenshots`.
 Nearby strings
     Displays neighbouring strings from the translation file.
     These are usually also used in a similar context and prove
@@ -387,6 +391,11 @@ Two modes of operation are possible:
 - Using other Weblate components as a source for translations.
 - Using selected machine translation services with translations above a certain
   quality threshold.
+
+When using other components as the source, Weblate applies translations only
+when plural forms are compatible. If the source component uses different plural
+rules, pluralized strings are skipped and Weblate shows a warning, while
+single-form strings are still translated.
 
 You can also choose which strings are to be auto-translated.
 

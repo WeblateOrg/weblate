@@ -250,12 +250,12 @@
             <tbody>
               {% for social in page_user.social_auth.all %}
                 <tr>
-                  <th>{% auth_name social.provider ' ' %}</th>
+                  <th>{% auth_name social.provider %}</th>
                   <td>{{ social.uid }}</td>
                   <td>
                     {% for verified in social.verifiedemail_set.all %}
                       {{ verified.email }}
-                      {% if not loop.last %},{% endif %}
+                      {% if not forloop.last %},{% endif %}
                     {% endfor %}
                   </td>
                 </tr>
@@ -430,6 +430,47 @@
                        name="disable_password"
                        value="{% translate "Disable password" %}"
                        class="btn btn-danger red">
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Revert edits" %}</h4>
+              </div>
+              <div class="card-body">
+                {% blocktranslate with user=page_user.username %}Revert the latest editable translations by {{ user }} across all projects.{% endblocktranslate %}
+              </div>
+              <div class="card-footer">
+                <input type="button"
+                       name="revert_user_edits"
+                       value="{% translate "Revert" %}"
+                       class="btn btn-danger red"
+                       data-bs-toggle="modal"
+                       data-bs-target="#revert_user_edits_{{ page_user.id }}">
+              </div>
+            </div>
+            <div class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
+                 id="revert_user_edits_{{ page_user.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% blocktranslate with user=page_user.username %}This will revert the latest editable translations by <b>{{ user }}</b> across all projects.{% endblocktranslate %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit"
+                           name="revert_user_edits"
+                           value="{% translate "Revert" %}"
+                           class="btn btn-danger" />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card">

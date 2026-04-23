@@ -23,14 +23,16 @@ class MissingTransactionError(ProgrammingError):
     pass
 
 
-def adjust_similarity_threshold(value: float) -> None:
+def adjust_similarity_threshold(value: float, *, alias: str | None = None) -> None:
     """
     Adjust pg_trgm.similarity_threshold for the % operator.
 
     Ideally we would use directly similarity() in the search, but that doesn't seem
     to use index, while using % does.
     """
-    if "memory_db" in connections:
+    if alias is not None:
+        connection = connections[alias]
+    elif "memory_db" in connections:
         connection = connections["memory_db"]
     else:
         connection = connections["default"]
@@ -141,7 +143,7 @@ def re_escape(pattern: str) -> str:
 
 
 def measure_database_latency() -> float:
-    from weblate.trans.models import Project
+    from weblate.trans.models import Project  # noqa: PLC0415
 
     start = time.monotonic()
     Project.objects.exists()

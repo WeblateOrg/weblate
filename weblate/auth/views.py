@@ -28,6 +28,7 @@ from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
 
 if TYPE_CHECKING:
+    from django.forms.models import BaseInlineFormSet
     from django.http import HttpResponse
 
     from weblate.auth.models import (
@@ -41,7 +42,7 @@ class TeamUpdateView(UpdateView):
     template_name = "auth/team.html"
     request: AuthenticatedHttpRequest
 
-    auto_formset = inlineformset_factory(
+    auto_formset: type[BaseInlineFormSet] = inlineformset_factory(
         Group,
         AutoGroup,
         fields=("match",),

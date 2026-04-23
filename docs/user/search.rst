@@ -279,3 +279,5 @@ Additional lookups are available in the :ref:`management-interface`:
    Search for active users.
 ``email:TEXT``
    Search by e-mail.
+``ip:TEXT``
+   Search by audit log IP address.

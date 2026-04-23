@@ -43,7 +43,7 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.validators import validate_plural_formula
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
     from django_stubs_ext import StrOrPromise
 
@@ -139,6 +139,50 @@ def get_default_lang() -> int:
 
 
 class LanguageQuerySet(models.QuerySet["Language"]):
+    @staticmethod
+    def _cache_result_key(code: str) -> str:
+        return f"result:{code}"
+
+    @staticmethod
+    def _cache_exact_key(code: str) -> str:
+        return f"code:{code}"
+
+    @staticmethod
+    def _cache_iexact_key(code: str) -> str:
+        return f"iexact:{code.lower()}"
+
+    @staticmethod
+    def _cache_name_key(name: str) -> str:
+        return f"name:{name.lower()}"
+
+    def build_fuzzy_get_cache(self) -> dict[str, Language | str]:
+        cache: dict[str, Language | str] = {}
+        lowered: dict[str, list[Language]] = defaultdict(list)
+        names: dict[str, list[Language]] = defaultdict(list)
+
+        for language in self.iterator():
+            cache[self._cache_exact_key(language.code)] = language
+            lowered[language.code.lower()].append(language)
+            if language.code in data.NO_CODE_LANGUAGES:
+                names[language.name.lower()].append(language)
+
+        for key, languages in lowered.items():
+            if len(languages) == 1:
+                cache[self._cache_iexact_key(key)] = languages[0]
+        for key, languages in names.items():
+            if len(languages) == 1:
+                cache[self._cache_name_key(key)] = languages[0]
+
+        return cache
+
+    @staticmethod
+    def _cache_get(
+        cache: dict[str, Language | str] | None, key: str
+    ) -> Language | str | None:
+        if cache is None:
+            return None
+        return cache.get(key)
+
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
         result = self.filter(*args, **kwargs)[:2]
@@ -192,7 +236,10 @@ class LanguageQuerySet(models.QuerySet["Language"]):
         return code.strip(".")
 
     def aliases_get(
-        self, code: str, expanded_code: str | None = None
+        self,
+        code: str,
+        expanded_code: str | None = None,
+        cache: dict[str, Language | str] | None = None,
     ) -> Language | None:
         code = code.lower()
         # Normalize script suffix
@@ -210,7 +257,9 @@ class LanguageQuerySet(models.QuerySet["Language"]):
         for newcode in codes:
             if newcode in ALIASES:
                 testcode = ALIASES[newcode]
-                ret = self.try_get(code=testcode)
+                ret = self._cache_get(cache, self._cache_exact_key(testcode))
+                if not isinstance(ret, Language):
+                    ret = self.try_get(code=testcode)
                 if ret is not None:
                     return ret
 
@@ -224,67 +273,27 @@ class LanguageQuerySet(models.QuerySet["Language"]):
                 and "_" not in ALIASES[language]
             ):
                 testcode = f"{ALIASES[language]}_{country}"
-                ret = self.fuzzy_get_strict(code=testcode)
+                ret = self.fuzzy_get_strict(code=testcode, cache=cache)
                 if ret is not None:
                     return ret
 
         return None
 
-    def fuzzy_get_strict(self, code: str) -> Language | None:
-        result = self.fuzzy_get(code)
-        if isinstance(result, str):
+    @staticmethod
+    def get_expanded_code(code: str) -> str | None:
+        if len(code) != 4:
             return None
-        return result
+        return f"{code[:2]}_{code[2:]}".lower()
 
-    def fuzzy_get(self, code: str) -> Language | str:
-        """
-        Get matching language for code.
+    @classmethod
+    def normalize_variant_code(cls, code: str) -> tuple[str, str]:
+        lang, country, subtags = cls.parse_lang_country(code)
 
-        The code does not have to be exactly same (cs_CZ is trteated same as
-        cs-CZ) or returns None.
-
-        It also handles Android special naming of regional locales like pt-rBR.
-        """
-        code = self.sanitize_code(code)
-        expanded_code = None
-
-        lookups = [
-            # First try getting language as is (case-sensitive)
-            Q(code=code),
-            # Then try getting language as is (case-insensitive)
-            Q(code__iexact=code),
-            # Replace dash with underscore (for things as zh_Hant)
-            Q(code__iexact=code.replace("-", "_")),
-            # Replace plus with underscore (for things as zh+Hant+HK on Android)
-            Q(code__iexact=code.replace("+", "_")),
-        ]
-
-        # Country codes used without underscore (ptbr insteat of pt_BR)
-        if len(code) == 4:
-            expanded_code = f"{code[:2]}_{code[2:]}".lower()
-            lookups.append(Q(code__iexact=expanded_code))
-
-        for lookup in lookups:
-            # First try getting language as is
-            ret = self.try_get(lookup)
-            if ret is not None:
-                return ret
-
-        # Handle aliases
-        ret = self.aliases_get(code, expanded_code)
-        if ret is not None:
-            return ret
-
-        # Parse the string
-        lang, country, subtags = self.parse_lang_country(code)
-
-        # Try "corrected" code
         if country is not None:
             if "@" in country:
                 region, variant = country.split("@", 1)
                 country = f"{region.upper()}@{variant.lower()}"
             elif "_" in country:
-                # Xliff way of defining variants
                 region, variant = country.split("_", 1)
                 country = f"{region.upper()}@{variant.lower()}"
             elif country in KNOWN_SUFFIXES:
@@ -297,26 +306,162 @@ class LanguageQuerySet(models.QuerySet["Language"]):
 
         if subtags:
             newcode += subtags
+        return lang, newcode
+
+    def fuzzy_get_strict(
+        self, code: str, cache: dict[str, Language | str] | None = None
+    ) -> Language | None:
+        result = self.fuzzy_get(code, cache=cache)
+        if isinstance(result, str):
+            return None
+        return result
+
+    def fuzzy_get(
+        self, code: str, cache: dict[str, Language | str] | None = None
+    ) -> Language | str:
+        """
+        Get matching language for code.
+
+        The code does not have to be exactly same (cs_CZ is trteated same as
+        cs-CZ) or returns None.
+
+        It also handles Android special naming of regional locales like pt-rBR.
+        """
+        result = self._cache_get(cache, self._cache_result_key(code))
+        if result is not None:
+            return result
+
+        code = self.sanitize_code(code)
+        result = self._cache_get(cache, self._cache_result_key(code))
+        if result is not None:
+            return result
+
+        expanded_code = self.get_expanded_code(code)
+        result = self._fuzzy_get_cached(code, expanded_code, cache)
+        if isinstance(result, Language):
+            if cache is not None:
+                cache[self._cache_result_key(code)] = result
+            return result
+
+        lookups = [
+            # First try getting language as is (case-sensitive)
+            Q(code=code),
+            # Then try getting language as is (case-insensitive)
+            Q(code__iexact=code),
+            # Replace dash with underscore (for things as zh_Hant)
+            Q(code__iexact=code.replace("-", "_")),
+            # Replace plus with underscore (for things as zh+Hant+HK on Android)
+            Q(code__iexact=code.replace("+", "_")),
+        ]
+
+        if expanded_code is not None:
+            lookups.append(Q(code__iexact=expanded_code))
+        result = self._fuzzy_get_uncached(code, expanded_code, lookups, cache=cache)
+        if cache is not None:
+            cache[self._cache_result_key(code)] = result
+        return result
+
+    def _fuzzy_get_cached(
+        self,
+        code: str,
+        expanded_code: str | None,
+        cache: dict[str, Language | str] | None,
+    ) -> Language | None:
+        if cache is None:
+            return None
+
+        direct_candidates = [
+            self._cache_exact_key(code),
+            self._cache_iexact_key(code),
+            self._cache_iexact_key(code.replace("-", "_")),
+            self._cache_iexact_key(code.replace("+", "_")),
+        ]
+        if expanded_code is not None:
+            direct_candidates.append(self._cache_iexact_key(expanded_code))
+
+        for key in direct_candidates:
+            ret = self._cache_get(cache, key)
+            if isinstance(ret, Language):
+                return ret
+
+        ret = self.aliases_get(code, expanded_code, cache=cache)
+        if ret is not None:
+            return ret
+
+        lang, newcode = self.normalize_variant_code(code)
+        ret = self._cache_get(cache, self._cache_iexact_key(newcode))
+        if isinstance(ret, Language):
+            return ret
+
+        if settings.SIMPLIFY_LANGUAGES:
+            ret = self._fuzzy_get_simplified_cached(lang, newcode, expanded_code, cache)
+            if ret is not None:
+                return ret
+
+        ret = self._cache_get(cache, self._cache_name_key(code))
+        if isinstance(ret, Language):
+            return ret
+
+        return None
+
+    def _fuzzy_get_uncached(
+        self,
+        code: str,
+        expanded_code: str | None,
+        lookups: list[Q],
+        cache: dict[str, Language | str] | None = None,
+    ) -> Language | str:
+        for lookup in lookups:
+            ret = self.try_get(lookup)
+            if ret is not None:
+                return ret
+
+        ret = self.aliases_get(code, expanded_code, cache=cache)
+        if ret is not None:
+            return ret
+
+        lang, newcode = self.normalize_variant_code(code)
 
         ret = self.try_get(code__iexact=newcode)
         if ret is not None:
             return ret
 
-        # Try canonical variant
         if settings.SIMPLIFY_LANGUAGES:
-            if newcode.lower() in DEFAULT_LANGS:
-                ret = self.try_get(code=lang.lower())
-            elif expanded_code is not None and expanded_code in DEFAULT_LANGS:
-                ret = self.try_get(code=expanded_code[:2])
+            ret = self._fuzzy_get_simplified(lang, newcode, expanded_code)
             if ret is not None:
                 return ret
 
-        # Try using name
         ret = self.try_get(Q(name__iexact=code) & Q(code__in=data.NO_CODE_LANGUAGES))
         if ret is not None:
             return ret
 
         return newcode
+
+    def _fuzzy_get_simplified(
+        self, lang: str, newcode: str, expanded_code: str | None
+    ) -> Language | None:
+        if newcode.lower() in DEFAULT_LANGS:
+            return self.try_get(code=lang.lower())
+        if expanded_code is not None and expanded_code in DEFAULT_LANGS:
+            return self.try_get(code=expanded_code[:2])
+        return None
+
+    def _fuzzy_get_simplified_cached(
+        self,
+        lang: str,
+        newcode: str,
+        expanded_code: str | None,
+        cache: dict[str, Language | str],
+    ) -> Language | None:
+        if newcode.lower() in DEFAULT_LANGS:
+            ret = self._cache_get(cache, self._cache_exact_key(lang.lower()))
+            if isinstance(ret, Language):
+                return ret
+        if expanded_code is not None and expanded_code in DEFAULT_LANGS:
+            ret = self._cache_get(cache, self._cache_exact_key(expanded_code[:2]))
+            if isinstance(ret, Language):
+                return ret
+        return None
 
     def auto_get_or_create(
         self,
@@ -385,7 +530,7 @@ class LanguageQuerySet(models.QuerySet["Language"]):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        from weblate.trans.models import Translation
+        from weblate.trans.models import Translation  # noqa: PLC0415
 
         return self.filter(Exists(Translation.objects.filter(language=OuterRef("pk"))))
 
@@ -471,13 +616,53 @@ class LanguageQuerySet(models.QuerySet["Language"]):
     def prefetch(self) -> Self:
         return self.prefetch_related("plural_set")
 
-    def filter_for_add(self, project: Project) -> Self:
+    def get_addable_codes(self) -> list[str]:
         codes = BASIC_LANGUAGES
         if settings.BASIC_LANGUAGES is not None:
             codes = settings.BASIC_LANGUAGES
+        return list(codes)
+
+    def get_allowed_add_language_ids(
+        self, project: Project, language_ids: Iterable[int]
+    ) -> set[int]:
+        from weblate.trans.models import Component, Translation  # noqa: PLC0415
+
+        candidate_language_ids = set(language_ids)
+        if not candidate_language_ids:
+            return set()
+
+        allowed_language_ids = set(
+            self.filter(
+                id__in=candidate_language_ids,
+                code__in=self.get_addable_codes(),
+            ).values_list("id", flat=True)
+        )
+        remaining_language_ids = candidate_language_ids - allowed_language_ids
+        if not remaining_language_ids:
+            return allowed_language_ids
+
+        allowed_language_ids.update(
+            Component.objects.filter(
+                project=project,
+                source_language_id__in=remaining_language_ids,
+            )
+            .values_list("source_language_id", flat=True)
+            .distinct()
+        )
+        allowed_language_ids.update(
+            Translation.objects.filter(
+                component__project=project,
+                language_id__in=remaining_language_ids,
+            )
+            .values_list("language_id", flat=True)
+            .distinct()
+        )
+        return allowed_language_ids
+
+    def filter_for_add(self, project: Project) -> Self:
         return self.filter(
             # Include basic languages
-            Q(code__in=codes)
+            Q(code__in=self.get_addable_codes())
             # Include source languages in a project
             | Q(component__project=project)
             # Include translations in a project
@@ -512,8 +697,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         It is based on languages defined in the languages-data repo.
         """
-        from weblate_language_data.languages import LANGUAGES
-        from weblate_language_data.population import POPULATION
+        from weblate_language_data.languages import LANGUAGES  # noqa: PLC0415
+        from weblate_language_data.population import POPULATION  # noqa: PLC0415
 
         if logger is None:
             logger = dummy_logger
@@ -659,8 +844,11 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         # Migrate content from aliased language to alias target
         weblate_data_lang_codes = {lang[0] for lang in LANGUAGES}
-        for code, language in languages.items():
+        alias_migrated = False
+        removed_languages: list[str] = []
+        for code, language in tuple(languages.items()):
             if (code in ALIASES) and (code not in weblate_data_lang_codes):
+                alias_migrated = True
                 alias_target = Language.objects.get(code=ALIASES[code])
                 self.move_language(language, alias_target, logger)
 
@@ -668,12 +856,22 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 if language.has_no_children():
                     logger(f"Removing {language}")
                     language.delete()
+                    removed_languages.append(code)
                 else:
                     logger(
                         f"Skipping removal of {language} due to existing child objects"
                     )
 
-        self._fixup_plural_types(logger)
+        for code in removed_languages:
+            languages.pop(code, None)
+            plurals.pop(code, None)
+
+        # Alias migration can create target plurals that were not part of the
+        # initial cache snapshot, so use a live scan in that case.
+        if alias_migrated:
+            self._fixup_plural_types(logger)
+        else:
+            self._fixup_plural_types(logger, plurals)
 
     def move_language(
         self,
@@ -731,23 +929,44 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         source.memory_source_set.update(source_language=target)
         source.memory_target_set.update(target_language=target)
 
-    def _fixup_plural_types(self, logger) -> None:
+    def _fixup_plural_types(
+        self,
+        logger: Callable[[str], None],
+        plurals: dict[str, dict[int, list[Plural]]] | None = None,
+    ) -> None:
         """Fix plural types as they were changed in Weblate codebase."""
-        if not Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
-            for plural in Plural.objects.filter(
+        candidates: Iterable[Plural]
+        if plurals is None:
+            if Plural.objects.filter(type=data.PLURAL_ONE_FEW_MANY).exists():
+                return
+            candidates = Plural.objects.filter(
                 type=data.PLURAL_ONE_FEW_OTHER
-            ).select_related("language"):
-                language = plural.language
-                newtype = get_plural_type(language.base_code, plural.formula)
-                if newtype == data.PLURAL_UNKNOWN:
-                    msg = f"Invalid plural type of {plural.formula}"
-                    raise ValueError(msg)
-                if newtype != plural.type:
-                    plural.type = newtype
-                    plural.save(update_fields=["type"])
-                    logger(
-                        f"Updated type of {plural.formula} for language {language.code}"
-                    )
+            ).select_related("language")
+        else:
+            known_plurals = tuple(
+                plural
+                for language_plurals in plurals.values()
+                for source_plurals in language_plurals.values()
+                for plural in source_plurals
+            )
+            if any(plural.type == data.PLURAL_ONE_FEW_MANY for plural in known_plurals):
+                return
+            candidates = (
+                plural
+                for plural in known_plurals
+                if plural.type == data.PLURAL_ONE_FEW_OTHER
+            )
+
+        for plural in candidates:
+            language = plural.language
+            newtype = get_plural_type(language.base_code, plural.formula)
+            if newtype == data.PLURAL_UNKNOWN:
+                msg = f"Invalid plural type of {plural.formula}"
+                raise ValueError(msg)
+            if newtype != plural.type:
+                plural.type = newtype
+                plural.save(update_fields=["type"])
+                logger(f"Updated type of {plural.formula} for language {language.code}")
 
 
 def setup_lang(sender, **kwargs) -> None:
@@ -794,7 +1013,7 @@ class Language(models.Model, CacheKeyMixin):
         return self.format_full_name(self.get_localized_name())
 
     def __init__(self, *args, **kwargs) -> None:
-        from weblate.utils.stats import LanguageStats
+        from weblate.utils.stats import LanguageStats  # noqa: PLC0415
 
         super().__init__(*args, **kwargs)
         self.stats = LanguageStats(self)

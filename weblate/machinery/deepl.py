@@ -92,6 +92,11 @@ class DeepLTranslation(
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
 
+    def delete_cache(self) -> None:
+        """Delete general caches and DeepL-specific glossary support cache."""
+        super().delete_cache()
+        cache.delete(self.get_cache_key("glossary_languages"))
+
     def get_error_message(self, exc):
         if isinstance(exc, RequestException) and exc.response is not None:
             try:

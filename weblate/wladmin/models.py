@@ -30,7 +30,7 @@ from weblate.utils.backup import (
     prune,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
-from weblate.utils.requests import http_request
+from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
@@ -38,6 +38,9 @@ from weblate.vcs.ssh import ensure_ssh_key
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.utils.backup import (
+        BorgResult,
+    )
 
 
 class WeblateConf(AppConf):
@@ -206,10 +209,7 @@ class SupportStatus(models.Model):
         ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
-        response = http_request(
-            "post", settings.SUPPORT_API_URL, data=data, timeout=360
-        )
-        response.raise_for_status()
+        response = fetch_url("post", settings.SUPPORT_API_URL, data=data, timeout=360)
         payload = response.json()
         self.name = payload["name"]
         self.expiry = dateutil.parser.parse(payload["expiry"])
@@ -290,22 +290,45 @@ class BackupService(models.Model):
 
     @cached_property
     def last_logs(self) -> models.QuerySet[BackupLog]:
-        return self.backuplog_set.order_by("-timestamp")[:10]
+        return self.backuplog_set.order_by("-timestamp", "-pk")[:10]
 
     @cached_property
     def has_errors(self) -> bool:
         return self.current_error is not None
 
     @cached_property
+    def has_warnings(self) -> bool:
+        return self.current_warning is not None
+
+    @cached_property
     def current_error(self) -> BackupLog | None:
-        # Any unresolved error keeps backup status failed; only a newer backup
-        # success clears it for the management UI.
+        # Any unresolved error keeps backup status failed; a newer backup
+        # completion clears it for the management UI even if borg emitted
+        # warnings and the operator should inspect the log.
         for log in self.last_logs:
             if log.event == "error":
                 return log
             if log.event == "backup":
                 return None
         return None
+
+    @cached_property
+    def current_warning(self) -> BackupLog | None:
+        for log in self.last_logs:
+            if log.event == "error":
+                return None
+            if log.warning:
+                return log
+            if log.event == "backup":
+                return None
+        return None
+
+    def create_backup_log(self, event: str, result: BorgResult) -> None:
+        self.backuplog_set.create(
+            event=event,
+            log=result.output,
+            warning=result.has_warnings,
+        )
 
     def ensure_init(self) -> bool:
         if self.paperkey:
@@ -316,8 +339,8 @@ class BackupService(models.Model):
             self.save(update_fields=["paperkey"])
         except BackupError:
             try:
-                log = initialize(self.repository, self.passphrase)
-                self.backuplog_set.create(event="init", log=log)
+                result = initialize(self.repository, self.passphrase)
+                self.create_backup_log("init", result)
                 self.paperkey = get_paper_key(self.repository)
                 self.save(update_fields=["paperkey"])
             except BackupError as error:
@@ -327,23 +350,23 @@ class BackupService(models.Model):
 
     def backup(self) -> None:
         try:
-            log = backup(self.repository, self.passphrase)
-            self.backuplog_set.create(event="backup", log=log)
+            result = backup(self.repository, self.passphrase)
+            self.create_backup_log("backup", result)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
     def prune(self) -> None:
         try:
-            log = prune(self.repository, self.passphrase)
-            self.backuplog_set.create(event="prune", log=log)
+            result = prune(self.repository, self.passphrase)
+            self.create_backup_log("prune", result)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
     def cleanup(self) -> None:
         initial = self.backuplog_set.filter(event="cleanup").exists()
         try:
-            log = cleanup(self.repository, self.passphrase, initial=initial)
-            self.backuplog_set.create(event="cleanup", log=log)
+            result = cleanup(self.repository, self.passphrase, initial=initial)
+            self.create_backup_log("cleanup", result)
         except BackupError as error:
             self.backuplog_set.create(event="error", log=str(error))
 
@@ -367,6 +390,7 @@ class BackupLog(models.Model):
         ),
         db_index=True,
     )
+    warning = models.BooleanField(default=False)
     log = models.TextField()
 
     class Meta:

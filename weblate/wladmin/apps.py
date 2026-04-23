@@ -33,7 +33,7 @@ def check_backups(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.wladmin.models import BackupService
+    from weblate.wladmin.models import BackupService  # noqa: PLC0415
 
     errors = []
     if not BackupService.objects.filter(enabled=True).exists():
@@ -73,7 +73,7 @@ def check_support(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.wladmin.models import SupportStatus
+    from weblate.wladmin.models import SupportStatus  # noqa: PLC0415
 
     support_status = SupportStatus.objects.get_current()
     if not support_status.has_expired_support or support_status.expiry is None:

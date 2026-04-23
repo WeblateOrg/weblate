@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
-from weblate.checks.same import strip_format
+from weblate.checks.utils import highlight_string
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -38,7 +38,7 @@ FRENCH_PUNCTUATION_MISSING_RE_NNBSP = (
     f"([^\u202f])([{''.join(FRENCH_PUNCTUATION_NNBSP)}])"
 )
 MY_QUESTION_MARK = "\u1038\u104b"
-INTERROBANGS = ("?!", "!?", "？！", "！？", "⁈", "⁉")
+INTERROBANGS = ("?!", "!?", "؟!", "!؟", "？！", "！？", "⁈", "⁉")
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -533,15 +533,36 @@ class PunctuationSpacingCheck(TargetCheck):
         return super().should_skip(unit)
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        # Remove possible markup
-        target = strip_format(target, unit.all_flags)
-        # Remove XML/HTML entities to simplify parsing
+        # Remove XML/HTML entities first (indices must match the string we iterate over)
         target = strip_entities(target)
-
+        # Skip punctuation inside placeables (e.g XLIFF equiv-text, RST).
+        # Enable syntax highlighting so RST inline literals/strong/emph spans
+        # are also excluded (previously handled by RST_MATCH).
+        highlighted_ranges = [
+            (start, end)
+            for start, end, _ in highlight_string(
+                target, unit, highlight_syntax="rst-text" in unit.all_flags
+            )
+        ]
+        highlighted_ranges.sort()
         whitespace = {" ", "\u00a0", "\u202f", "\u2009"}
-
         total = len(target)
+        range_index = 0
+        current_start, current_end = (
+            highlighted_ranges[0] if highlighted_ranges else (None, None)
+        )
         for i, char in enumerate(target):
+            # Advance to the next highlighted range if we've passed the current one.
+            while current_start is not None and i >= current_end:
+                range_index += 1
+                if range_index < len(highlighted_ranges):
+                    current_start, current_end = highlighted_ranges[range_index]
+                else:
+                    current_start = current_end = None
+                    break
+            # Skip characters that fall inside a highlighted range.
+            if current_start is not None and current_start <= i < current_end:
+                continue
             if char in FRENCH_PUNCTUATION:
                 if i == 0:
                     # Trigger if punctionation at beginning of the string
@@ -559,6 +580,12 @@ class PunctuationSpacingCheck(TargetCheck):
         return False
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
+        # If there are placeables in target, skip Fix button and rely on save-time
+        # autofix which has position-aware checks.
+        if highlight_string(
+            unit.target, unit, highlight_syntax="rst-text" in unit.all_flags
+        ):
+            return None
         return [
             # First fix possibly wrong whitespace
             (

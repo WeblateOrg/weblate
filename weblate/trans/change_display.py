@@ -230,6 +230,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
         ActionEvents.ADD_USER,
         ActionEvents.INVITE_USER,
         ActionEvents.REMOVE_USER,
+        ActionEvents.USER_REVERT,
     }
     details_required = True
 
@@ -348,6 +349,12 @@ def get_change_history_context(change: Change) -> dict[str, Any]:
     """
     if details := change.get_details_display():
         return {"description": details, "change_details_fields": []}
+    if change.action in {
+        ActionEvents.PROJECT_BACKUP,
+        ActionEvents.PROJECT_RESTORE,
+        ActionEvents.COMPONENT_RESTORE,
+    }:
+        return ShowBackupRestoreEvent(change).get_context()
     if change.show_content() and change.unit:
         return ShowChangeContent(change).get_context()
     if change.show_source():
@@ -446,6 +453,46 @@ class ShowChangeAction(BaseChangeHistoryContext):
 
     def get_description(self) -> str:
         return self.change.get_action_display()
+
+
+class ShowBackupRestoreEvent(BaseChangeHistoryContext):
+    """Display backup and restore event details in history."""
+
+    def get_description(self) -> str:
+        return self.change.get_action_display()
+
+    def get_change_details_fields(self) -> list[FieldDict]:
+        details = self.change.details
+        if self.change.action == ActionEvents.PROJECT_BACKUP:
+            return [
+                self.make_field(
+                    gettext("Backup file"),
+                    format_html("<code>{}</code>", details["backup_filename"]),
+                )
+            ]
+
+        if self.change.action == ActionEvents.PROJECT_RESTORE:
+            return [
+                self.make_field(
+                    gettext("Backup created"),
+                    details["backup_timestamp"],
+                ),
+                self.make_field(
+                    gettext("Backup server"),
+                    details["backup_server"],
+                ),
+                self.make_field(
+                    gettext("Backup domain"),
+                    details["backup_domain"],
+                ),
+            ]
+
+        return [
+            self.make_field(
+                gettext("Original component"),
+                format_html("<code>{}</code>", details["original_slug"]),
+            )
+        ]
 
 
 class ShowChangeContent(BaseChangeHistoryContext):

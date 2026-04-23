@@ -18,7 +18,11 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.gpg import get_gpg_errors, get_gpg_public_key
 from weblate.vcs.mercurial import HgRepository
-from weblate.vcs.ssh import ensure_ssh_key
+from weblate.vcs.ssh import (
+    cleanup_legacy_wrapper_dirs,
+    cleanup_stale_wrapper_dirs,
+    ensure_ssh_key,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
@@ -50,7 +54,7 @@ def check_vcs(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.vcs.models import VCS_REGISTRY
+    from weblate.vcs.models import VCS_REGISTRY  # noqa: PLC0415
 
     message = "Failure in loading VCS module for {}: {}"
     return [
@@ -84,7 +88,7 @@ def check_vcs_credentials(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.vcs.models import VCS_REGISTRY
+    from weblate.vcs.models import VCS_REGISTRY  # noqa: PLC0415
 
     return [
         weblate_check("weblate.C040", error)
@@ -103,6 +107,8 @@ class VCSConfig(AppConfig):
         post_migrate.connect(self.post_migrate, sender=self)
 
     def post_migrate(self, sender: AppConfig, **kwargs) -> None:
+        cleanup_legacy_wrapper_dirs()
+        cleanup_stale_wrapper_dirs()
         ensure_ssh_key()
         home = data_dir("home")
 
@@ -113,12 +119,9 @@ class VCSConfig(AppConfig):
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
         lockfile = WeblateLock(
-            lock_path=home,
-            scope="gitlock",
+            scope="vcs:setup",
             key=0,
             slug="",
-            cache_template="lock:{scope}",
-            file_template="{scope}",
             timeout=120,
         )
         with lockfile:

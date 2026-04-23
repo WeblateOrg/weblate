@@ -8,10 +8,10 @@ from django.urls import reverse
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, ComponentList, Project
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class DashboardTest(ViewTestCase):
+class DashboardTest(FixtureTestCase):
     """Test for home/index view."""
 
     def setUp(self) -> None:
@@ -30,6 +30,34 @@ class DashboardTest(ViewTestCase):
     def test_view_projects(self) -> None:
         response = self.client.get(reverse("projects"))
         self.assertContains(response, "Test")
+        self.assertNotContains(response, "Unreviewed")
+
+    def test_view_projects_review_columns(self) -> None:
+        no_review = Project.objects.create(name="No review", slug="no-review")
+        self.create_po(project=no_review, name="Other")
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+
+        response = self.client.get(reverse("projects"))
+
+        self.assertContains(response, "Approved")
+        self.assertContains(response, "Unreviewed")
+        self.assertContains(response, "No review")
+
+        content = response.content.decode()
+        marker = 'href="/projects/no-review/"'
+        row_start = content.rfind("<tr", 0, content.index(marker))
+        row_end = content.index("</tr>", row_start)
+        no_review_row = content[row_start:row_end]
+        self.assertIn('class="number zero-width-540" data-value="0"', no_review_row)
+        self.assertIn('class="number zero-width-640" data-value="0"', no_review_row)
+        self.assertNotIn("q=state:translated ", no_review_row)
+
+        response = self.client.get(reverse("projects"), {"sort_by": "unreviewed"})
+        self.assertEqual(
+            [project.slug for project in response.context["projects"]],
+            ["no-review", "test"],
+        )
 
     def test_view_projects_slash(self) -> None:
         response = self.client.get("/projects")

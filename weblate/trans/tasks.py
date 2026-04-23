@@ -17,20 +17,21 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Count, F
+from django.db.models import Count, Exists, F, OuterRef
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import override
+from django.utils.translation import gettext, override
 
-from weblate.addons.models import Addon
+from weblate.accounts.utils import remove_user
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import BatchAutoTranslate
+from weblate.trans.component_copy import copy_component_addons
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
     Category,
@@ -56,6 +57,8 @@ from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+
+    from weblate.trans.models.change import RevertUserEditsResult
 
 
 @app.task(
@@ -184,6 +187,28 @@ def commit_pending(
             logger(f"Committing {component}")
 
         perform_commit.delay(component.pk, "commit_pending")
+
+
+@app.task(trail=False)
+def revert_user_edits(
+    target_user_id: int,
+    acting_user_id: int,
+    *,
+    project_id: int | None = None,
+    sitewide: bool = False,
+) -> RevertUserEditsResult:
+    if project_id is None and not sitewide:
+        msg = "Either project_id or sitewide must be provided"
+        raise ValueError(msg)
+
+    target_user = User.objects.get(pk=target_user_id)
+    acting_user = User.objects.get(pk=acting_user_id)
+    project = Project.objects.get(pk=project_id) if project_id is not None else None
+    return Change.objects.revert_user_edits(
+        target_user,
+        acting_user,
+        project=project,
+    )
 
 
 @app.task(trail=False)
@@ -399,6 +424,7 @@ def component_alerts(component_ids=None) -> None:
 @transaction.atomic
 def component_after_save(
     pk: int,
+    *,
     changed_git: bool,
     changed_setup: bool,
     changed_template: bool,
@@ -406,6 +432,9 @@ def component_after_save(
     changed_enforced_checks: bool,
     skip_push: bool,
     create: bool,
+    seed_source_component_id: int | None = None,
+    copy_seed_addons: bool = False,
+    seed_author: str | None = None,
 ) -> dict[Literal["component"], int]:
     component = Component.objects.get(pk=pk)
     component.after_save(
@@ -416,6 +445,9 @@ def component_after_save(
         changed_enforced_checks=changed_enforced_checks,
         skip_push=skip_push,
         create=create,
+        seed_source_component_id=seed_source_component_id,
+        copy_seed_addons=copy_seed_addons,
+        seed_author=seed_author,
     )
     return {"component": pk}
 
@@ -530,6 +562,37 @@ def category_removal(pk: int, uid: int) -> None:
     transaction.on_commit(batch.flush)
 
 
+def cleanup_project_tokens(project: Project, user: User | None) -> None:
+    """Remove project-scoped tokens before project groups are deleted."""
+    other_project_groups = User.groups.through.objects.filter(
+        user_id=OuterRef("pk"),
+        group__defining_project__isnull=False,
+    ).exclude(group__defining_project=project)
+    project_tokens = (
+        User.objects.filter(
+            groups__defining_project=project,
+            is_bot=True,
+            username__startswith="bot-",
+            email__endswith="@bots.noreply.weblate.org",
+        )
+        .exclude(username__contains=":")
+        .exclude(full_name="Deleted User")
+        .annotate(has_other_project_groups=Exists(other_project_groups))
+        .filter(has_other_project_groups=False)
+        .distinct()
+        .order_by("pk")
+    )
+    username = user.username if user is not None else None
+    for token_user in project_tokens.iterator():
+        remove_user(
+            token_user,
+            None,
+            activity="token-removed",
+            project=project.name,
+            username=username,
+        )
+
+
 @app.task(
     trail=False,
     autoretry_for=(IntegrityError,),
@@ -554,6 +617,7 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
             user=user,
             author=user,
         )
+        cleanup_project_tokens(project, user)
         batch = RemovalBatch()
         with removal_batch_context(batch):
             project.delete()
@@ -565,6 +629,18 @@ def project_removal(pk: int, uid: int | None) -> None:
     """Backup project and schedule actual removal."""
     create_project_backup(pk)
     actual_project_removal.delay(pk, uid)
+
+
+def store_auto_translate_activity_log(
+    activity_log_id: int | None, result: dict[str, Any]
+) -> dict[str, Any]:
+    if activity_log_id is None:
+        return result
+
+    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
+
+    update_addon_activity_log(activity_log_id, result, pending=False)
+    return result
 
 
 @app.task(
@@ -589,34 +665,40 @@ def auto_translate(  # noqa: PLR0913
     category_id: int | None = None,
     project_id: int | None = None,
     language_id: int | None = None,
-):
-    result: dict[str, Any] = {}
+    activity_log_id: int | None = None,
+) -> dict[str, Any]:
+    result: dict[str, Any] = {"warnings": []}
     obj: Translation | Component | Category | ProjectLanguage
-    if translation_id is not None:
-        obj = Translation.objects.get(pk=translation_id)
-        result["translation"] = obj.id
-    elif component_id is not None:
-        obj = Component.objects.get(pk=component_id)
-        result["component"] = obj.id
-    elif category_id is not None:
-        obj = Category.objects.get(pk=category_id)
-        result["category"] = obj.id
-    elif project_id is not None:
-        if language_id is None:
-            msg = "language_id must be provided when project_id is given"
-            raise ValueError(msg)
-        obj = ProjectLanguage(
-            project=Project.objects.get(pk=project_id),
-            language=Language.objects.get(pk=language_id),
-        )
-        result["project"] = obj.project.id
-        result["language"] = obj.language.id
-    else:
-        msg = "One of translation_id, component_id, category_id, or project_id must be provided"
-        raise ValueError(msg)
-
     user = User.objects.get(pk=user_id) if user_id else None
     with override(user.profile.language if user else "en"):
+        try:
+            if translation_id is not None:
+                obj = Translation.objects.get(pk=translation_id)
+                result["translation"] = obj.id
+            elif component_id is not None:
+                obj = Component.objects.get(pk=component_id)
+                result["component"] = obj.id
+            elif category_id is not None:
+                obj = Category.objects.get(pk=category_id)
+                result["category"] = obj.id
+            elif project_id is not None:
+                if language_id is None:
+                    msg = "language_id must be provided when project_id is given"
+                    raise ValueError(msg)
+                obj = ProjectLanguage(
+                    project=Project.objects.get(pk=project_id),
+                    language=Language.objects.get(pk=language_id),
+                )
+                result["project"] = obj.project.id
+                result["language"] = obj.language.id
+            else:
+                msg = "One of translation_id, component_id, category_id, or project_id must be provided"
+                raise ValueError(msg)
+        except ObjectDoesNotExist:
+            result["message"] = gettext(
+                "Automatic translation skipped because the target no longer exists."
+            )
+            return store_auto_translate_activity_log(activity_log_id, result)
         auto = BatchAutoTranslate(
             obj,
             user=user,
@@ -630,13 +712,15 @@ def auto_translate(  # noqa: PLR0913
                 auto_source=auto_source,
                 engines=engines,
                 threshold=threshold,
-                source_component_id=source_component_id,
+                source_component_ids=(
+                    [source_component_id] if source_component_id is not None else None
+                ),
             )
         except PermissionDenied as error:
-            result.update({"message": str(error)})
+            result.update({"message": str(error), "warnings": auto.get_warnings()})
         else:
-            result.update({"message": message})
-        return result
+            result.update({"message": message, "warnings": auto.get_warnings()})
+        return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(
@@ -647,30 +731,40 @@ def auto_translate(  # noqa: PLR0913
 )
 def auto_translate_component(
     component_id: int,
+    *,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
     source_component_id: int | None = None,
-):
+    user_id: int | None = None,
+    activity_log_id: int | None = None,
+) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
+    user = User.objects.get(pk=user_id) if user_id else None
     auto = BatchAutoTranslate(
         component_obj,
-        user=None,
+        user=user,
         q=q,
         mode=mode,
         component_wide=True,
     )
-    auto.perform(
+    message = auto.perform(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
-        source_component_id=source_component_id,
+        source_component_ids=(
+            [source_component_id] if source_component_id is not None else None
+        ),
     )
-    component_obj.update_source_checks()
     component_obj.run_batched_checks()
-    return {"component": component_obj.id}
+    result = {
+        "component": component_obj.id,
+        "message": message,
+        "warnings": auto.get_warnings(),
+    }
+    return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(trail=False)
@@ -688,23 +782,19 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
     component.save(force_insert=True)
     component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
     if copy_from:
+        source_component = Component.objects.filter(pk=copy_from).first()
         # Copy non-automatic component lists
         for clist in ComponentList.objects.filter(
             components__id=copy_from, autocomponentlist__isnull=True
         ):
             clist.components.add(component)
         # Copy add-ons
-        if copy_addons:
-            addons = Addon.objects.filter(component__pk=copy_from, repo_scope=False)
-            for addon in addons:
-                # Avoid installing duplicate addons
-                if component.addon_set.filter(name=addon.name).exists():
-                    continue
-                if not addon.addon.can_install(component=component):
-                    continue
-                addon.addon.create(
-                    component=component, configuration=addon.configuration
-                )
+        if copy_addons and source_component is not None:
+            copy_component_addons(
+                component,
+                source_component,
+                same_project_only=False,
+            )
     if in_task:
         return {"component": component.id}
     return component
@@ -768,7 +858,7 @@ def daily_update_checks() -> None:
 
 @app.task(trail=False)
 def cleanup_project_backups() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
 
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
@@ -808,12 +898,13 @@ def cleanup_project_backups() -> None:
 
 
 @app.task(trail=False)
-def create_project_backup(pk) -> None:
-    from weblate.trans.backups import ProjectBackup
+def create_project_backup(pk: int, uid: int | None = None) -> None:
+    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
 
     project = Project.objects.get(pk=pk)
+    user = User.objects.get(pk=uid) if uid else None
     backup = ProjectBackup()
-    backup.backup_project(project)
+    backup.backup_project(project, user)
 
 
 @app.task(trail=False)
@@ -824,7 +915,7 @@ def remove_project_backup_download(name: str) -> None:
 
 @app.task(trail=False)
 def cleanup_project_backup_download() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
 
     if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
         return

@@ -6,16 +6,20 @@ from __future__ import annotations
 import os
 import shutil
 import stat
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db.models import TextChoices
+from django.db.models.fields.files import FieldFile
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from translation_finder.finder import EXCLUDES
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from pathlib import Path
+
+    from django.core.files.base import File
 
 WEBLATE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(WEBLATE_DIR)
@@ -29,6 +33,7 @@ CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
+REPO_TEMP_DIRNAME = "weblate-tmp"
 
 
 class FileUploadMethod(TextChoices):
@@ -74,19 +79,20 @@ def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
 
 def should_skip(location):
     """Check for skipping location in manage commands."""
-    location = os.path.abspath(location)
-    return not location.startswith(WEBLATE_DIR) or location.startswith(
-        (
-            VENV_DIR,
-            settings.DATA_DIR,
-            DEFAULT_DATA_DIR,
-            BUILD_DIR,
-            DEFAULT_TEST_DIR,
-            DOCS_DIR,
-            SCRIPTS_DIR,
-            CLIENT_DIR,
-            EXAMPLES_DIR,
-        )
+    excluded_directories = (
+        VENV_DIR,
+        settings.DATA_DIR,
+        DEFAULT_DATA_DIR,
+        BUILD_DIR,
+        DEFAULT_TEST_DIR,
+        DOCS_DIR,
+        SCRIPTS_DIR,
+        CLIENT_DIR,
+        EXAMPLES_DIR,
+    )
+    return not is_path_within_directory(location, WEBLATE_DIR) or any(
+        is_path_within_directory(location, excluded_directory)
+        for excluded_directory in excluded_directories
     )
 
 
@@ -95,8 +101,102 @@ def is_excluded(path: str) -> bool:
     return any(exclude in f"/{path}/" for exclude in PATH_EXCLUDES) or ".." in path
 
 
+def is_path_within_directory(path: str, directory: str) -> bool:
+    """Check whether resolved path is contained within resolved directory."""
+    try:
+        resolved_directory = Path(directory).resolve(strict=False)
+    except OSError:
+        return False
+    return is_path_within_resolved_directory(path, resolved_directory)
+
+
+def is_path_within_resolved_directory(
+    path: str | Path, resolved_directory: Path
+) -> bool:
+    """Check whether resolved path is contained within a resolved directory."""
+    try:
+        resolved_path = Path(path).resolve(strict=False)
+    except OSError:
+        return False
+    return resolved_path.is_relative_to(resolved_directory)
+
+
 def cleanup_error_message(text: str) -> str:
     """Remove absolute paths from the text."""
     return text.replace(settings.CACHE_DIR or "NONEXISTING_CACHE", "...").replace(
         settings.DATA_DIR, "..."
     )
+
+
+def _get_path_device_id(path: Path) -> int | None:
+    current = path
+    while True:
+        try:
+            return current.stat().st_dev
+        except OSError:
+            parent = current.parent
+            if parent == current:
+                return None
+            current = parent
+
+
+def get_repo_temp_dir(path: str | Path, temp_dir: str | Path | None = None) -> Path:
+    """
+    Return a temp directory suitable for atomic replacement into ``path``.
+
+    The returned directory is the target directory itself, or the parent of
+    ``path`` when ``path`` does not point to a directory. If ``temp_dir`` is
+    provided, it is only used when it appears to be on the same filesystem
+    device as the target directory; otherwise this falls back to the
+    path-adjacent directory so atomic replace operations remain possible.
+    """
+    try:
+        resolved = Path(path).resolve(strict=False)
+    except OSError:
+        resolved = Path(path)
+    result = resolved if resolved.is_dir() else resolved.parent
+    if temp_dir is not None:
+        explicit = Path(temp_dir)
+        result_device = _get_path_device_id(result)
+        explicit_device = _get_path_device_id(explicit)
+        if (
+            result_device is not None
+            and explicit_device is not None
+            and result_device == explicit_device
+        ):
+            explicit.mkdir(parents=True, exist_ok=True)
+            return explicit
+    result.mkdir(parents=True, exist_ok=True)
+    return result
+
+
+def _validate_file_size(size: int | None, max_size: int | None) -> None:
+    if max_size is not None and size is not None and size > max_size:
+        raise ValidationError(gettext("Uploaded file is too big."))
+
+
+def _read_content(filelike: FieldFile | File, max_size: int | None) -> bytes:
+    _validate_file_size(getattr(filelike, "size", None), max_size)
+    if max_size is None:
+        return filelike.read()
+
+    content = filelike.read(max_size + 1)
+    if len(content) > max_size:
+        raise ValidationError(gettext("Uploaded file is too big."))
+    return content
+
+
+def read_file_bytes(filelike: FieldFile | File, max_size: int | None = None) -> bytes:
+    """Read file content without breaking Django's upload/save lifecycle."""
+    if isinstance(filelike, FieldFile) and getattr(filelike, "_committed", True):
+        filelike.open("rb")
+        try:
+            return _read_content(filelike, max_size)
+        finally:
+            filelike.close()
+
+    filelike.seek(0)
+    try:
+        return _read_content(filelike, max_size)
+    finally:
+        filelike.seek(0)

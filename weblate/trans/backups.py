@@ -17,16 +17,18 @@ from itertools import chain
 from operator import itemgetter
 from pathlib import Path
 from shutil import copyfileobj
-from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
+from typing import TYPE_CHECKING, Any, BinaryIO, Literal, TypedDict, overload
 from zipfile import ZipFile
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.db import transaction
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.utils.timezone import make_aware
+from django.utils.translation import gettext
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
@@ -34,8 +36,10 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     Label,
@@ -48,7 +52,11 @@ from weblate.trans.models import (
 )
 from weblate.utils.data import data_path
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.validators import validate_bitmap, validate_filename
+from weblate.utils.validators import (
+    validate_bitmap,
+    validate_filename,
+    validate_repo_url,
+)
 from weblate.utils.version import VERSION
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -395,9 +403,12 @@ class ProjectBackup:
                     },
                 )
             )
+            image_name = screenshot.image.name
+            if image_name is None:
+                raise ValidationError(gettext("Screenshot image is missing."))
             backupzip.write(
                 os.path.join(settings.MEDIA_ROOT, screenshot.image.path),
-                os.path.join("screenshots", os.path.basename(screenshot.image.name)),
+                os.path.join("screenshots", os.path.basename(image_name)),
             )
 
         validate_schema(data, "weblate-component.schema.json")
@@ -423,7 +434,7 @@ class ProjectBackup:
         )
 
     @transaction.atomic
-    def backup_project(self, project: Project) -> None:
+    def backup_project(self, project: Project, user: User | None = None) -> None:
         """Backup whole project."""
         project.log_info("creating project backup")
         # Generate data
@@ -456,15 +467,21 @@ class ProjectBackup:
                 self.backup_component(backupzip, component)
 
         os.rename(part_name, self.filename)
-        self.log_backup(project)
+        self.log_backup(project, user)
 
-    def log_backup(self, project: Project) -> None:
+    def log_backup(self, project: Project, user: User | None = None) -> None:
         project.log_info("project backup completed")
+        project.change_set.create(
+            action=ActionEvents.PROJECT_BACKUP,
+            user=user,
+            author=user,
+            details={"backup_filename": self.relative_filename},
+        )
         for billing in project.billings:
             self.log_backup_billing(project, billing)
 
     def log_backup_billing(self, project: Project, billing: Billing) -> None:
-        from weblate.billing.models import BillingEvent
+        from weblate.billing.models import BillingEvent  # noqa: PLC0415
 
         billing.billinglog_set.create(
             event=BillingEvent.PROJECT_BACKUP,
@@ -474,6 +491,21 @@ class ProjectBackup:
                 "project_name": project.name,
             },
         )
+
+    def get_restore_history_details(self) -> dict[str, str]:
+        metadata = self.data["metadata"]
+        return {
+            "backup_timestamp": metadata["timestamp"],
+            "backup_server": metadata["server"],
+            "backup_domain": metadata["domain"],
+        }
+
+    @staticmethod
+    def get_component_backup_slug(data: dict[str, Any]) -> str:
+        slug = data["slug"]
+        if category := data.get("category"):
+            return f"{category}/{slug}"
+        return slug
 
     def list_components(self, zipfile: ZipFile) -> list[str]:
         return [
@@ -557,6 +589,30 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
+    @overload
+    def load_component(
+        self,
+        zipfile: ZipFile,
+        filename: str,
+        *,
+        skip_linked: bool = False,
+        do_restore: Literal[False] = False,
+        actor: None = None,
+        changes: None = None,
+    ) -> bool: ...
+
+    @overload
+    def load_component(
+        self,
+        zipfile: ZipFile,
+        filename: str,
+        *,
+        skip_linked: bool = False,
+        do_restore: Literal[True],
+        actor: User,
+        changes: list[Change],
+    ) -> bool: ...
+
     def load_component(
         self,
         zipfile: ZipFile,
@@ -564,10 +620,13 @@ class ProjectBackup:
         *,
         skip_linked: bool = False,
         do_restore: bool = False,
+        actor: User | None = None,
+        changes: list[Change] | None = None,
     ) -> bool:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.validate_component_urls(data["component"])
             if skip_linked and data["component"]["repo"].startswith("weblate:"):
                 return False
             if data["component"]["vcs"] not in VCS_REGISTRY:
@@ -585,20 +644,99 @@ class ProjectBackup:
                     raise ValueError(msg)
 
             if do_restore:
-                self.restore_component(zipfile, data)
+                if actor is None:
+                    msg = "Need a restore actor."
+                    raise TypeError(msg)
+                if changes is None:
+                    msg = "Need a restore changes list."
+                    raise TypeError(msg)
+                self.restore_component(zipfile, data, actor, changes)
             return True
 
-    def load_components(self, zipfile: ZipFile, *, do_restore: bool = False) -> None:
+    @staticmethod
+    def validate_component_urls(component: dict[str, Any]) -> None:
+        for field in ("repo", "push"):
+            value = component.get(field)
+            if not value:
+                continue
+            try:
+                validate_repo_url(value)
+            except ValidationError as error:
+                raise ValidationError({field: error.messages}) from error
+
+    @overload
+    def load_components(
+        self,
+        zipfile: ZipFile,
+        *,
+        do_restore: Literal[False] = False,
+        actor: None = None,
+        changes: None = None,
+    ) -> None: ...
+
+    @overload
+    def load_components(
+        self,
+        zipfile: ZipFile,
+        *,
+        do_restore: Literal[True],
+        actor: User,
+        changes: list[Change],
+    ) -> None: ...
+
+    def load_components(
+        self,
+        zipfile: ZipFile,
+        *,
+        do_restore: bool = False,
+        actor: User | None = None,
+        changes: list[Change] | None = None,
+    ) -> None:
         pending: list[str] = []
+        if do_restore:
+            if actor is None:
+                msg = "Need a restore actor."
+                raise TypeError(msg)
+            if changes is None:
+                msg = "Need a restore changes list."
+                raise TypeError(msg)
+            for component in self.list_components(zipfile):
+                processed = self.load_component(
+                    zipfile,
+                    component,
+                    skip_linked=True,
+                    do_restore=True,
+                    actor=actor,
+                    changes=changes,
+                )
+                if not processed:
+                    pending.append(component)
+            for component in pending:
+                self.load_component(
+                    zipfile,
+                    component,
+                    skip_linked=False,
+                    do_restore=True,
+                    actor=actor,
+                    changes=changes,
+                )
+            return
+
         for component in self.list_components(zipfile):
             processed = self.load_component(
-                zipfile, component, skip_linked=True, do_restore=do_restore
+                zipfile,
+                component,
+                skip_linked=True,
+                do_restore=False,
             )
             if not processed:
                 pending.append(component)
         for component in pending:
             self.load_component(
-                zipfile, component, skip_linked=False, do_restore=do_restore
+                zipfile,
+                component,
+                skip_linked=False,
+                do_restore=False,
             )
 
     def validate(self) -> None:
@@ -745,9 +883,16 @@ class ProjectBackup:
         if pending_unit_changes:
             PendingUnitChange.objects.bulk_create(pending_unit_changes)
 
-    def restore_component(self, zipfile: ZipFile, data: dict) -> None:  # noqa: C901
+    def restore_component(  # noqa: C901
+        self,
+        zipfile: ZipFile,
+        data: dict,
+        actor: User,
+        changes: list[Change],
+    ) -> None:
         if self.project is None:
             raise TypeError
+        original_slug = self.get_component_backup_slug(data["component"])
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
@@ -807,6 +952,7 @@ class ProjectBackup:
                 plural=plural,
                 revision=item["revision"],
             )
+            translation.sync_readonly_check_flag(save=False)
             translation.original_id = item["id"]
             if language == source_language:
                 source_translation_id = item["id"]
@@ -904,7 +1050,13 @@ class ProjectBackup:
                 restored_image = File(
                     BytesIO(handle.read()), name=os.path.basename(item["image"])
                 )
-                validate_bitmap(restored_image)
+                try:
+                    validate_bitmap(restored_image)
+                except ValidationError as error:
+                    raise ValidationError(
+                        gettext("Could not restore screenshot %(name)s: %(error)s")
+                        % {"name": item["image"], "error": error}
+                    ) from error
                 screenshot.image.save(
                     os.path.basename(item["image"]), restored_image, save=False
                 )
@@ -928,6 +1080,16 @@ class ProjectBackup:
 
         if not component.is_repo_link:
             component.configure_repo(pull=False)
+
+        changes.append(
+            Change(
+                component=component,
+                action=ActionEvents.COMPONENT_RESTORE,
+                user=actor,
+                author=actor,
+                details={"original_slug": original_slug},
+            )
+        )
 
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
@@ -979,6 +1141,7 @@ class ProjectBackup:
             raise ValueError(msg)
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
+            restore_changes: list[Change] = []
 
             # Create project
             kwargs = self.data["project"].copy()
@@ -1038,10 +1201,26 @@ class ProjectBackup:
                     git_refs_dir.mkdir(parents=True, exist_ok=True)
 
             # Create components
-            self.load_components(zipfile, do_restore=True)
+            self.load_components(
+                zipfile,
+                do_restore=True,
+                actor=user,
+                changes=restore_changes,
+            )
 
             if "teams" in self.data:
                 self.restore_teams(self.data["teams"])
+
+        restore_changes.append(
+            Change(
+                project=project,
+                action=ActionEvents.PROJECT_RESTORE,
+                user=user,
+                author=user,
+                details=self.get_restore_history_details(),
+            )
+        )
+        Change.objects.bulk_create(restore_changes, batch_size=500)
 
         return self.project
 

@@ -47,7 +47,7 @@ class WeblateTags(Tags):
 
 
 def setup(app) -> None:
-    # Monkey path gettext build tags handling, this is workaround until
+    # Monkey patch gettext build tags handling, this is workaround until
     # https://github.com/sphinx-doc/sphinx/issues/13307 is addressed.
     sphinx.builders.gettext.I18nTags = WeblateTags
     # Used in Sphinx docs, needed for intersphinx links to it
@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.17"
+release = "5.17.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -93,6 +93,7 @@ extensions = [
     "djangodocs",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
+    "autodoc_signature_filter",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",
@@ -112,6 +113,11 @@ exclude_patterns = [
     "Thumbs.db",
     ".DS_Store",
     "devel/reporting-example.rst",
+    # exclude snippets from being treated as standalone documents
+    # as they are already included in the real pages
+    # this prevents some labels defined in snippets from being marked as duplicate
+    "snippets/*",
+    "snippets/**/*",
 ]
 
 ogp_social_cards = {
@@ -166,14 +172,14 @@ html_theme_options = {
     "dark_css_variables": {
         "font-stack": '"Source Sans 3", sans-serif',
         "font-stack--monospace": '"Source Code Pro", monospace',
-        "color-brand-primary": "#1fa385",
-        "color-brand-content": "#1fa385",
+        "color-brand-primary": "#107a62",
+        "color-brand-content": "#107a62",
     },
     "light_css_variables": {
         "font-stack": '"Source Sans 3", sans-serif',
         "font-stack--monospace": '"Source Code Pro", monospace',
-        "color-brand-primary": "#1fa385",
-        "color-brand-content": "#1fa385",
+        "color-brand-primary": "#107a62",
+        "color-brand-content": "#107a62",
     },
 }
 
@@ -380,12 +386,16 @@ linkcheck_ignore = [
     "http://ftp.pwg.org/",
     # Access to our service has been temporarily blocked
     "https://yandex.com/dev/translate/",
+    # Times out in CI
+    "https://ai.youdao.com/product-fanyi-text.s",
     # 403
     "https://openai.com/",
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
     "https://api.sap.com/api/translationhub/overview",
+    # Anchor is not there for linkcheck
+    "https://hub.docker.com/_/postgres#pgdata",
     # Protected by Anubis
     "https://anubis.techaro.lol/",
     # Seems unstable
@@ -399,6 +409,8 @@ linkcheck_ignore = [
     "https://docs.github.com/",
     "https://translate.yandex.com/",
     "https://www.gnu.org/",
+    "https://www.contributor-covenant.org/",
+    "https://mymemory.translated.net/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]
@@ -449,7 +461,7 @@ autodoc_mock_imports = [
     "rest_framework",
 ]
 
-# Create single gettext PO file for while documentation,
+# Create single gettext PO file for whole documentation,
 # instead of having one file per chapter.
 gettext_compact = "docs"
 

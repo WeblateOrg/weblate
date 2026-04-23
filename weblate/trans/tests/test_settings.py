@@ -4,15 +4,22 @@
 
 """Test for settings management."""
 
+from typing import cast
+from unittest.mock import patch
+
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from filelock import FileLock
 
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
+from weblate.trans.forms import ComponentSettingsForm
 from weblate.trans.models import CommitPolicyChoices, Component, Project, Unit
+from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.views import get_form_data
+from weblate.vcs.base import RepositoryLock
 
 
 class SettingsTest(ViewTestCase):
@@ -170,7 +177,9 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         self.assertContains(response, "Settings")
-        data = get_form_data(response.context["form"].initial)
+        data = cast(
+            "dict[str, object]", get_form_data(response.context["form"].initial)
+        )
         data["license"] = "MIT"
         data["enforced_checks"] = ["same", "duplicate"]
         response = self.client.post(url, data, follow=True)
@@ -178,8 +187,311 @@ class SettingsTest(ViewTestCase):
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.license, "MIT")
         self.assertEqual(component.enforced_checks, ["same", "duplicate"])
+        self.assertEqual(
+            component.change_set.get(action=ActionEvents.LICENSE_CHANGE).user,
+            self.user,
+        )
         self.assertEqual(Check.objects.filter(name="same").count(), 2)
         for unit in Unit.objects.filter(check__name="same"):
             self.assertFalse(
                 unit.translated, f"{unit} should not be marked as translated"
             )
+
+    def test_component_post_locks_component_before_binding_form(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+
+        events: list[tuple[str, int]] = []
+        original_get_for_update = ComponentQuerySet.get_for_update
+        original_form_init = ComponentSettingsForm.__init__
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        def record_form_init(*args, **kwargs):
+            events.append(("form_init", kwargs["instance"].pk))
+            return original_form_init(*args, **kwargs)
+
+        with (
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+            patch.object(
+                ComponentSettingsForm,
+                "__init__",
+                autospec=True,
+                side_effect=record_form_init,
+            ),
+        ):
+            response = self.client.post(url, data)
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        lock_index = events.index(("lock", self.component.pk))
+        form_init_index = events.index(("form_init", self.component.pk))
+        self.assertLess(
+            lock_index,
+            form_init_index,
+            "Component row should be locked before the bound settings form is created",
+        )
+
+    def test_component_post_acquires_repository_lock_before_row_lock(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+
+        events: list[tuple[str, int]] = []
+        original_lock_enter = RepositoryLock.__enter__
+        original_get_for_update = ComponentQuerySet.get_for_update
+
+        def record_lock_enter(lock):
+            component = lock.repository.component
+            if component is not None:
+                events.append(("repo_lock", component.pk))
+            return original_lock_enter(lock)
+
+        def record_get_for_update(*args, **kwargs):
+            events.append(("row_lock", kwargs["pk"]))
+            return original_get_for_update(*args, **kwargs)
+
+        with (
+            patch.object(
+                RepositoryLock,
+                "__enter__",
+                autospec=True,
+                side_effect=record_lock_enter,
+            ),
+            patch.object(
+                ComponentQuerySet,
+                "get_for_update",
+                autospec=True,
+                side_effect=record_get_for_update,
+            ),
+        ):
+            response = self.client.post(url, data)
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.assertLess(
+            events.index(("repo_lock", self.component.pk)),
+            events.index(("row_lock", self.component.pk)),
+            "Component repository lock should be acquired before the row lock",
+        )
+
+    def test_component_post_reuses_repository_lock_during_validation(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+
+        original_clean = Component.clean
+
+        def clean_with_fresh_repository_lock(instance):
+            instance.drop_repository_cache()
+            with instance.repository.lock:
+                return original_clean(instance)
+
+        with (
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(
+                Component,
+                "clean",
+                autospec=True,
+                side_effect=clean_with_fresh_repository_lock,
+            ),
+            patch.object(FileLock, "acquire", autospec=True) as acquire,
+            patch.object(FileLock, "release", autospec=True) as release,
+        ):
+            response = self.client.post(url, data)
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        acquire.assert_called_once()
+        self.assertEqual(
+            sum(
+                call.kwargs.get("force", False) is False
+                for call in release.call_args_list
+            ),
+            1,
+        )
+
+    def test_linked_component_repository_settings_show_effective_values(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="Settings linked", slug="settings-linked", filemask="po/*.po"
+        )
+        linked_component.push_on_commit = False
+        linked_component.commit_pending_age = 1
+        linked_component.auto_lock_error = True
+        linked_component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+
+        url = reverse("settings", kwargs={"path": linked_component.get_url_path()})
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+        form = response.context["form"]
+
+        self.assertTrue(form.fields["push_on_commit"].disabled)
+        self.assertTrue(form.initial["push_on_commit"])
+        self.assertTrue(form.fields["commit_pending_age"].disabled)
+        self.assertEqual(form.initial["commit_pending_age"], 12)
+        self.assertTrue(form.fields["auto_lock_error"].disabled)
+        self.assertFalse(form.initial["auto_lock_error"])
+
+        data = get_form_data(form.initial)
+        data["name"] = "Settings linked renamed"
+        data["push_on_commit"] = ""
+        data["commit_pending_age"] = 1
+        data["auto_lock_error"] = 1
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=linked_component,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+
+        linked_component.refresh_from_db()
+        self.assertEqual(linked_component.name, "Settings linked renamed")
+        self.assertFalse(linked_component.push_on_commit)
+        self.assertEqual(linked_component.commit_pending_age, 1)
+        self.assertTrue(linked_component.auto_lock_error)
+
+    def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.component.push_on_commit = False
+        self.component.commit_pending_age = 1
+        self.component.auto_lock_error = True
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_po(
+            name="settings-link-target",
+            project=self.project,
+        )
+        linked_component.push_on_commit = True
+        linked_component.commit_pending_age = 12
+        linked_component.auto_lock_error = False
+        linked_component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+
+        data = get_form_data(response.context["form"].initial)
+        data["repo"] = linked_component.get_repo_link_url()
+        data["branch"] = ""
+        data["push"] = ""
+        data["push_branch"] = ""
+        data["push_on_commit"] = 1
+        data["commit_pending_age"] = 12
+        data["auto_lock_error"] = ""
+
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.linked_component_id, linked_component.pk)
+        self.assertFalse(self.component.push_on_commit)
+        self.assertEqual(self.component.commit_pending_age, 1)
+        self.assertTrue(self.component.auto_lock_error)
+
+    def test_linked_component_settings_can_unlink_with_repository_settings(
+        self,
+    ) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.component.push_on_commit = True
+        self.component.commit_pending_age = 12
+        self.component.auto_lock_error = False
+        self.component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        linked_component = self.create_link_existing(
+            name="Settings linked unlink",
+            slug="settings-linked-unlink",
+            filemask="po/*.po",
+        )
+        linked_component.push_on_commit = False
+        linked_component.commit_pending_age = 17
+        linked_component.auto_lock_error = True
+        linked_component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+
+        url = reverse("settings", kwargs={"path": linked_component.get_url_path()})
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+        self.assertTrue(response.context["form"].fields["push_on_commit"].disabled)
+
+        data = get_form_data(response.context["form"].initial)
+        data["repo"] = self.component.repo
+        data["branch"] = self.component.branch
+        data["push"] = self.component.push
+        del data["push_on_commit"]
+        del data["commit_pending_age"]
+        del data["auto_lock_error"]
+
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=linked_component,
+        )
+        self.assertFalse(form.fields["push_on_commit"].disabled)
+        self.assertFalse(form.fields["commit_pending_age"].disabled)
+        self.assertFalse(form.fields["auto_lock_error"].disabled)
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+
+        linked_component.refresh_from_db()
+        self.assertIsNone(linked_component.linked_component_id)
+        self.assertEqual(linked_component.repo, self.component.repo)
+        self.assertEqual(linked_component.branch, self.component.branch)
+        self.assertEqual(linked_component.push, self.component.push)
+        self.assertFalse(linked_component.push_on_commit)
+        self.assertEqual(linked_component.commit_pending_age, 17)
+        self.assertTrue(linked_component.auto_lock_error)

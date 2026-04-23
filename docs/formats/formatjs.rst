@@ -35,6 +35,8 @@ Example file:
      }
    }
 
+.. include:: /snippets/format-features/formatjs-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

@@ -25,7 +25,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "5.17-dev"
+VERSION = "5.17.1-dev"
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
@@ -79,9 +79,9 @@ class Release(NamedTuple):
 
 
 def download_version_info() -> list[Release]:
-    from weblate.utils.requests import http_request
+    from weblate.utils.requests import fetch_url  # noqa: PLC0415
 
-    response = http_request("get", PYPI)
+    response = fetch_url("get", PYPI)
     result = []
     for version, info in response.json()["releases"].items():
         if not info:

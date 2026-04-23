@@ -34,8 +34,18 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
 path = [
+  "docs/specs/schemas/**.json"
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Michal Čihař <michal@weblate.org>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "docs/locales/*/LC_MESSAGES/docs.po",
   "docs/locales/docs.pot",
-  "docs/specs/schemas/**.json",
+  "weblate/locale/*/LC_MESSAGES/django.po",
+  "weblate/locale/*/LC_MESSAGES/djangojs.po",
   "weblate/locale/django.pot",
   "weblate/locale/djangojs.pot"
 ]

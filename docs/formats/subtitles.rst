@@ -14,6 +14,8 @@ Weblate can translate various subtitle files:
 
    :doc:`tt:formats/subtitles`
 
+.. include:: /snippets/format-features/srt-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

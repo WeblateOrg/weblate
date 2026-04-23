@@ -8,14 +8,16 @@ from __future__ import annotations
 
 import os
 import string
-import subprocess
+import subprocess  # noqa: S404
+from dataclasses import dataclass
 from pathlib import Path
 from random import SystemRandom
 from urllib.parse import urlparse
 
 from django.conf import settings
+from django.utils.translation import gettext
 
-from weblate.trans.util import get_clean_env
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.files import cleanup_error_message
@@ -37,14 +39,11 @@ def ensure_backup_dir():
 
 
 def backup_lock():
-    backup_dir = ensure_backup_dir()
+    ensure_backup_dir()
     return WeblateLock(
-        lock_path=backup_dir,
-        scope="backuplock",
+        scope="backup:run",
         key=0,
         slug="",
-        cache_template="lock:{scope}",
-        file_template=".{scope}",
         timeout=120,
         expiry_timeout=4 * 3600,
     )
@@ -52,6 +51,16 @@ def backup_lock():
 
 class BackupError(Exception):
     pass
+
+
+@dataclass(frozen=True)
+class BorgResult:
+    output: str
+    returncode: int = 0
+
+    @property
+    def has_warnings(self) -> bool:
+        return self.returncode == 1
 
 
 def make_password(length: int = 50):
@@ -63,6 +72,8 @@ def make_password(length: int = 50):
 def tag_cache_dirs() -> None:
     """Create CACHEDIR.TAG in our cache dirs to exclude from backups."""
     dirs = [
+        # SSH wrapper cache
+        data_dir("cache", "ssh"),
         # Fontconfig cache
         data_dir("cache", "fonts"),
         # Static files (default is inside data)
@@ -84,13 +95,15 @@ def tag_cache_dirs() -> None:
             Path(tagfile).write_text(CACHEDIR, encoding="utf-8")
 
 
-def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
+def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> BorgResult:
     """Execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
         try:
-            return subprocess.check_output(
-                ["borg", "--rsh", SSH_WRAPPER.filename, *cmd],
+            result = subprocess.run(  # noqa: S603
+                ["borg", "--rsh", SSH_WRAPPER.filename, *cmd],  # noqa: S607
+                check=False,
+                stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(env),
                 text=True,
@@ -99,18 +112,22 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:
             report_error("Borg could not be executed")
             msg = f"Could not execute borg program: {error}"
             raise BackupError(msg) from error
-        except subprocess.CalledProcessError as error:
-            add_breadcrumb(
-                category="backup", message="borg output", stdout=error.stdout
-            )
-            report_error("Borg failed")
-            msg = cleanup_error_message(error.stdout or "")
-            if not msg.strip():
-                msg = f"Borg exited with status {error.returncode} without any output"
-            raise BackupError(msg) from error
+        stdout = result.stdout or ""
+        if result.returncode == 0:
+            return BorgResult(output=stdout)
+        if result.returncode == 1:
+            if not stdout.strip():
+                stdout = gettext("Borg completed with warnings without any output.")
+            return BorgResult(output=stdout, returncode=1)
+        add_breadcrumb(category="backup", message="borg output", stdout=stdout)
+        report_error("Borg failed")
+        msg = cleanup_error_message(stdout)
+        if not msg.strip():
+            msg = f"Borg exited with status {result.returncode} without any output"
+        raise BackupError(msg)
 
 
-def initialize(location: str, passphrase: str) -> str:
+def initialize(location: str, passphrase: str) -> BorgResult:
     """Initialize repository."""
     parsed = urlparse(location)
     if parsed.hostname:
@@ -123,10 +140,10 @@ def initialize(location: str, passphrase: str) -> str:
 
 def get_paper_key(location: str) -> str:
     """Get paper key for recovery."""
-    return run_borg(["key", "export", "--paper", location])
+    return run_borg(["key", "export", "--paper", location]).output
 
 
-def backup(location: str, passphrase: str) -> str:
+def backup(location: str, passphrase: str) -> BorgResult:
     """Perform DATA_DIR backup."""
     tag_cache_dirs()
     command = [
@@ -134,7 +151,7 @@ def backup(location: str, passphrase: str) -> str:
         "--verbose",
         "--list",
         "--filter",
-        "AME",
+        "ACME",
         "--stats",
         "--exclude-caches",
         "--exclude",
@@ -158,7 +175,7 @@ def backup(location: str, passphrase: str) -> str:
     )
 
 
-def prune(location: str, passphrase: str) -> str:
+def prune(location: str, passphrase: str) -> BorgResult:
     """Prune past backups."""
     return run_borg(
         [
@@ -178,7 +195,7 @@ def prune(location: str, passphrase: str) -> str:
     )
 
 
-def cleanup(location: str, passphrase: str, initial: bool) -> str:
+def cleanup(location: str, passphrase: str, initial: bool) -> BorgResult:
     cmd = ["compact"]
     if initial:
         cmd.append("--cleanup-commits")

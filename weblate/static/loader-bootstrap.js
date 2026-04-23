@@ -32,25 +32,67 @@ function decreaseLoading(sel) {
 }
 
 function addAlert(message, kind = "danger", delay = 3000) {
-  const alerts = $("#popup-alerts");
-  const e = $(
-    '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
-  );
-  e.addClass(`alert-${kind}`);
-  e.append(new Text(message));
-  e.hide();
-  alerts.show().append(e);
-  e.slideDown(200);
-  e.on("closed.bs.alert", () => {
-    if (alerts.find(".alert").length === 0) {
-      alerts.hide();
-    }
-  });
-  if (delay) {
-    e.delay(delay).slideUp(200, function () {
-      $(this).alert("close");
-    });
+  const toasts = document.getElementById("popup-toasts");
+  if (toasts === null) {
+    return;
   }
+  const supportedKinds = new Set([
+    "danger",
+    "warning",
+    "info",
+    "success",
+    "primary",
+    "secondary",
+    "light",
+    "dark",
+  ]);
+  let toastKind = kind === "error" ? "danger" : kind;
+  if (!supportedKinds.has(toastKind)) {
+    toastKind = "danger";
+  }
+  const assertiveKinds = new Set(["danger", "warning"]);
+  const isAssertive = assertiveKinds.has(toastKind);
+  const toast = document.createElement("div");
+  toast.classList.add(
+    "toast",
+    "align-items-center",
+    `text-${toastKind}-emphasis`,
+    `bg-${toastKind}-subtle`,
+    `border-${toastKind}-subtle`,
+  );
+  toast.setAttribute("role", isAssertive ? "alert" : "status");
+  toast.setAttribute("aria-live", isAssertive ? "assertive" : "polite");
+  toast.setAttribute("aria-atomic", "true");
+
+  const content = document.createElement("div");
+  content.classList.add("d-flex");
+
+  const body = document.createElement("div");
+  body.classList.add("toast-body");
+  body.append(document.createTextNode(String(message)));
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.classList.add("btn-close", "me-2", "m-auto");
+  closeButton.setAttribute("data-bs-dismiss", "toast");
+  closeButton.setAttribute("aria-label", gettext("Close"));
+
+  content.append(body, closeButton);
+  toast.append(content);
+  toast.addEventListener(
+    "hidden.bs.toast",
+    () => {
+      bootstrap.Toast.getInstance(toast)?.dispose();
+      toast.remove();
+    },
+    { once: true },
+  );
+  toasts.append(toast);
+
+  bootstrap.Toast.getOrCreateInstance(toast, {
+    autohide: Boolean(delay),
+    delay,
+  }).show();
 }
 
 jQuery.fn.extend({
@@ -578,12 +620,11 @@ $(function () {
       $content.load($target.data("href"), (_responseText, status, xhr) => {
         if (status !== "success") {
           const msg = gettext("Error while loading page:");
-          $content.html(
-            `<div class="alert alert-danger" role="alert">
-                ${msg} ${xhr.statusText} (${xhr.status})
-              </div>
-            `,
-          );
+          const $alert = $("<div/>", {
+            class: "alert alert-danger",
+            role: "alert",
+          }).text(`${msg} ${xhr.statusText} (${xhr.status})`);
+          $content.empty().append($alert);
         }
         $target.data("loaded", 1);
         loadTableSorting();
@@ -978,6 +1019,8 @@ $(function () {
   $("[data-task]").each(function () {
     const $message = $(this);
     const $bar = $message.find(".progress-bar");
+    const $messageText = $message.find(".task-message");
+    const $warnings = $message.find(".task-warnings");
     $bar.attr("data-completed", "0");
 
     const progressCompleted = () => {
@@ -998,9 +1041,19 @@ $(function () {
         $.get($message.data("task"), (data) => {
           $bar.width(`${data.progress}%`);
           if (data.completed) {
+            const result = data.result ?? {};
             progressCompleted();
-            if (data.result.message) {
-              $message.text(data.result.message);
+            if (result.message) {
+              $messageText.text(result.message);
+            }
+            if (result.warnings?.length) {
+              $warnings.empty();
+              result.warnings.forEach((warning) => {
+                $("<div>")
+                  .addClass("text-warning mt-2")
+                  .text(warning)
+                  .appendTo($warnings);
+              });
             }
           }
         }).fail((jqXhr) => {
@@ -1512,76 +1565,9 @@ $(function () {
     });
   });
 
-  $("input[name='period']").daterangepicker({
-    autoApply: false,
-    autoUpdateInput: false,
-    startDate: $("input[name='period']#id_period").attr("data-start-date"),
-    endDate: $("input[name='period']#id_period").attr("data-end-date"),
-    alwaysShowCalendars: true,
-    cancelButtonClasses: "btn-warning",
-    opens: "left",
-    locale: {
-      customRangeLabel: gettext("Custom range"),
-      cancelLabel: gettext("Clear"),
-      daysOfWeek: [
-        pgettext("Short name of day", "Su"),
-        pgettext("Short name of day", "Mo"),
-        pgettext("Short name of day", "Tu"),
-        pgettext("Short name of day", "We"),
-        pgettext("Short name of day", "Th"),
-        pgettext("Short name of day", "Fr"),
-        pgettext("Short name of day", "Sa"),
-      ],
-      monthNames: [
-        pgettext("Short name of month", "Jan"),
-        pgettext("Short name of month", "Feb"),
-        pgettext("Short name of month", "Mar"),
-        pgettext("Short name of month", "Apr"),
-        pgettext("Short name of month", "May"),
-        pgettext("Short name of month", "Jun"),
-        pgettext("Short name of month", "Jul"),
-        pgettext("Short name of month", "Aug"),
-        pgettext("Short name of month", "Sep"),
-        pgettext("Short name of month", "Oct"),
-        pgettext("Short name of month", "Nov"),
-        pgettext("Short name of month", "Dec"),
-      ],
-    },
-    ranges: {
-      [gettext("Today")]: [moment(), moment()],
-      [gettext("Yesterday")]: [
-        moment().subtract(1, "days"),
-        moment().subtract(1, "days"),
-      ],
-      [gettext("Last 7 days")]: [moment().subtract(6, "days"), moment()],
-      [gettext("Last 30 days")]: [moment().subtract(29, "days"), moment()],
-      [gettext("This month")]: [
-        moment().startOf("month"),
-        moment().endOf("month"),
-      ],
-      [gettext("Last month")]: [
-        moment().subtract(1, "month").startOf("month"),
-        moment().subtract(1, "month").endOf("month"),
-      ],
-      [gettext("This year")]: [
-        moment().startOf("year"),
-        moment().endOf("year"),
-      ],
-      [gettext("Last year")]: [
-        moment().subtract(1, "year").startOf("year"),
-        moment().subtract(1, "year").endOf("year"),
-      ],
-    },
-  });
-
-  $("input[name='period']").on("apply.daterangepicker", function (_ev, picker) {
-    $(this).val(
-      `${picker.startDate.format("MM/DD/YYYY")} - ${picker.endDate.format("MM/DD/YYYY")}`,
-    );
-  });
-
-  $("input[name='period']").on("cancel.daterangepicker", (_ev, picker) => {
-    picker.element.val("");
+  /* Date range picker for period inputs */
+  document.querySelectorAll("input[name='period']").forEach((input) => {
+    new DateRangePicker(input);
   });
 
   /* Singular or plural new unit switcher */
