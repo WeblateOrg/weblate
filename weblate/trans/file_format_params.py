@@ -353,7 +353,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
-    file_formats = ("po",)
+    file_formats: Sequence[str] = ("po",)
 
 
 @register_file_format_param
