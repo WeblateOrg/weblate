@@ -6,6 +6,7 @@ Weblate 5.17.1
 .. rubric:: New features
 
 * Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
+* :ref:`mt-ltengine` machine translation service.
 
 .. rubric:: Improvements
 
