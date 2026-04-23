@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-23 19:16+0000\n"
+"PO-Revision-Date: 2026-04-24 17:37+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -4991,67 +4991,59 @@ msgstr "デフォルトで有効。"
 
 #: admin/config.rst:1125
 msgid "Controls how prominently Weblate exposes its own version."
-msgstr ""
+msgstr "Weblate が自身のバージョン情報をどの程度目立つ形で公開するかを制御します。"
 
 #: admin/config.rst:1127 admin/install/docker.rst:779
 #: admin/install/docker.rst:873
-#, fuzzy
-#| msgid "Supported features"
 msgid "Supported values are:"
-msgstr "対応機能"
+msgstr "対応する値："
 
 #: admin/config.rst:1130
 msgid ""
 "Show the version in shared UI such as the footer and expose it "
 "in :http:get:`/api/metrics/`."
 msgstr ""
+"バージョン情報をフッターなどの共有 UI に表示し、:http:get:`/api/metrics/` で"
+"も公開します。"
 
 #: admin/config.rst:1134
 msgid ""
 "Hide the version from prominent shared UI, while keeping it discoverable on "
 "the :guilabel:`About` page and in :http:get:`/api/metrics/`."
 msgstr ""
+"バージョン情報を主要な共有 UI から非公開にしますが、:guilabel:`About` ページ"
+"および :http:get:`/api/metrics/` では引き続き公開します。"
 
 #: admin/config.rst:1138
-#, fuzzy
-#| msgid ""
-#| "Hides version info from unauthenticated users. This also makes all "
-#| "documentation links point to the latest version instead of the "
-#| "documentation matching the currently installed version."
 msgid ""
 "Hide the version from shared UI and :http:get:`/api/metrics/`. This also "
 "makes anonymous documentation links point to the latest documentation "
 "instead of the version matching the installed release."
 msgstr ""
-"未認証のユーザーにはバージョン情報は表示されません。また、これにより、すべて"
-"のドキュメント リンクは、現在インストールされているバージョンに一致するドキュ"
-"メントではなく、最新バージョンを参照します。"
+"バージョン情報を共有 UI と :http:get:`/api/metrics/` で非表示にします。また、"
+"匿名ユーザー向けのドキュメント リンクは、インストールされているバージョンでは"
+"なく最新ドキュメントを参照するようにします。"
 
 #: admin/config.rst:1142
-#, fuzzy
-#| msgid ""
-#| "Hiding the version is a recommended security practice in some "
-#| "corporations, does not prevent an attacker from figuring out version by "
-#| "probing behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "but it does not prevent an attacker from inferring the version by probing "
 "behavior."
 msgstr ""
-"一部の企業ではバージョンの非表示が推奨されていますが、攻撃者が動作を調査して"
+"一部の企業ではバージョンは非公開と推奨されていますが、攻撃者が動作を調査して"
 "バージョンを特定することを阻止できません。"
 
 #: admin/config.rst:1148
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default is ``show``."
-msgstr "デフォルト値は 10 です。"
+msgstr "デフォルトは ``show`` です。"
 
 #: admin/config.rst:1158
 msgid ""
 "Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to "
 "get the same behavior as ``VERSION_DISPLAY = \"hide\"``."
 msgstr ""
+":setting:`VERSION_DISPLAY` の互換エイリアスです。これを ``True`` に設定すると"
+"、``VERSION_DISPLAY = \"hide\"`` と同じ動作になります。"
 
 #: admin/config.rst:1166
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -5299,12 +5291,17 @@ msgid ""
 "URL for password reset when authentication is handled by an external "
 "identity provider, such as LDAP, SAML, or OAuth."
 msgstr ""
+"LDAP、SAML、OAuth などの外部 ID プロバイダーで認証を行う場合のパスワード "
+"リセット URL を指定します。"
 
 #: admin/config.rst:1490
 msgid ""
 "When set, :guilabel:`Forgot your password?` on the sign-in page links to "
 "this URL instead of Weblate's built-in password reset page."
 msgstr ""
+"設定すると、サインインページの :guilabel:`パスワードをお忘れですか？` は "
+"Weblate の組み込みパスワード リセット ページではなく、この URL にリンクされま"
+"す。"
 
 #: admin/config.rst:1500
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -5541,17 +5538,12 @@ msgstr ""
 "フォルトでは有効。"
 
 #: admin/config.rst:1788
-#, fuzzy
-#| msgid ""
-#| "Reject using project website and repository browser URLs pointing to non-"
-#| "global IP ranges. On by default."
 msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
 msgstr ""
-"プロジェクト Web サイトおよびリポジトリブラウザーの URL が、グローバル IP レ"
-"ンジ以外（非グローバルアドレス帯）を指している場合は拒否します。デフォルトで"
-"有効です。"
+"プロジェクト Web サイトおよびリポジトリ ブラウザーの URL が内部アドレスまたは"
+"非公開アドレスを指している場合に拒否します。デフォルトで有効。"
 
 #: admin/config.rst:1806
 msgid ""
@@ -5568,6 +5560,10 @@ msgid ""
 "semantics, so values such as ``hooks.internal.example`` or "
 "``.internal.example`` can be used."
 msgstr ""
+"外部 Webhook 配信において :setting:`WEBHOOK_RESTRICT_PRIVATE` の対象外とする"
+"ホスト名またはドメインを設定します。エントリは Django のホストマッチング規則"
+"に従い、``hooks.internal.example`` や ``.internal.example`` のような値を使用"
+"できます。"
 
 #: admin/config.rst:1844
 msgid ""
@@ -5575,6 +5571,9 @@ msgid ""
 "target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Webhook の URL が内部アドレスまたは非公開アドレスを指している場合、対象ホスト"
+"が :setting:`WEBHOOK_PRIVATE_ALLOWLIST` に含まれていない限り拒否します。"
+"デフォルトで有効。"
 
 #: admin/config.rst:1859
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -6086,34 +6085,28 @@ msgstr ""
 "接頭辞を含めることが必要です。"
 
 #: admin/config.rst:2394
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Defaults to an empty "
-#| "set what does no filtering at all."
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set, "
 "which does no filtering at all."
 msgstr ""
-"VCS URL を設定する際に許可するホストのセット。デフォルトは空セットで、フィル"
-"タリングを全く行いません。"
+"VCS URL を設定する際に許可するホストのセット。デフォルトは空セットで、"
+"フィルタリングは一切行いません。"
 
 #: admin/config.rst:2397
 msgid ""
 "When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also "
 "exempt from the private-target restriction."
 msgstr ""
+":setting:`VCS_RESTRICT_PRIVATE` が有効な場合、ここで指定したホストは"
+"プライベート アドレス制限の対象外となります。"
 
 #: admin/config.rst:2407
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Only ``https`` and "
-#| "``ssh`` are allowed by default."
 msgid ""
 "A set of URL schemes to allow when configuring VCS URL. Only ``https`` and "
 "``ssh`` are allowed by default."
 msgstr ""
-"VCS URL 設定時に許可されるホストのセット。デフォルトで許可されるのは "
-"``https`` と ``ssh`` のみです。"
+"VCS URL 設定時に許可される URL スキームのセット。デフォルトでは ``https`` と "
+"``ssh`` のみが許可されています。"
 
 #: admin/config.rst:2417
 msgid ""
@@ -6121,6 +6114,9 @@ msgid ""
 "unless the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by "
 "default."
 msgstr ""
+"VCS リポジトリの URL が内部アドレスまたは非公開アドレスを指している場合、対象"
+"ホストが :setting:`VCS_ALLOW_HOSTS` に含まれていない限り拒否します。"
+"デフォルトで有効。"
 
 #: admin/config.rst:2427
 msgid ""
@@ -6582,12 +6578,17 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+":guilabel:`リポジトリ メンテナンス` 画面では、プロジェクト、コンポーネント、"
+"翻訳単位ごとのリポジトリ状態を表示し、権限を持つユーザーが管理画面から"
+"メンテナンス操作を実行できます。"
 
 #: admin/continuous.rst:187
 msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
+"同じ操作は :ref:`api` や、対応している範囲では :ref:`wlc` からも実行できます"
+"。"
 
 #: admin/continuous.rst:190
 msgid ""
@@ -6595,6 +6596,8 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"各操作の利用可否は、権限、設定されたバージョン管理システム、プッシュ設定の有"
+"無、選択した対象がロック可能かどうかに依存します。"
 
 #: admin/continuous.rst:197
 msgid "Action"
@@ -6602,220 +6605,213 @@ msgstr "処理"
 
 #: admin/continuous.rst:198
 msgid "What it does"
-msgstr ""
+msgstr "何を行うか"
 
 #: admin/continuous.rst:199
 msgid "Typical use"
-msgstr ""
+msgstr "代表的な使用例"
 
 #: admin/continuous.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Commit`"
-msgstr ":guilabel:`カスタム`"
+msgstr ":guilabel:`コミット`"
 
 #: admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Commit any pending changes and merge them into the upstream repository."
 msgid "Commits pending changes stored in Weblate to the local repository."
-msgstr "保留中の変更をコミットし、上流リポジトリにマージする。"
+msgstr "保留中の変更を Weblate からローカル リポジトリにコミットします。"
 
 #: admin/continuous.rst:203
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
+"他の場所でリポジトリ作業を行う前に、Weblate 側の保留中変更をフラッシュします"
+"。"
 
 #: admin/continuous.rst:205
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Push`"
-msgstr ":guilabel:`公開`"
+msgstr ":guilabel:`プッシュ`"
 
 #: admin/continuous.rst:206
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid "Pushes committed local repository changes to the configured upstream."
-msgstr "コミットした変更を上流の VCS リポジトリにプッシュします。"
+msgstr ""
+"コミット済みのローカル リポジトリの変更を、設定された上流リポジトリにプッシュ"
+"します。"
 
 #: admin/continuous.rst:207
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
+"自動プッシュが無効または遅延している場合に、コミット済みの翻訳を上流へ送信し"
+"ます。"
 
 #: admin/continuous.rst:209
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Update`"
-msgstr ":guilabel:`プライベート`"
+msgstr ":guilabel:`更新`"
 
 #: admin/continuous.rst:210
 msgid ""
 "Fetches upstream changes and integrates them using the component's "
 "configured :ref:`component-merge_style`."
 msgstr ""
+"上流の変更を取得し、コンポーネントで設定された :ref:`component-merge_style` "
+"を使用して統合します。"
 
 #: admin/continuous.rst:211
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
-msgstr ""
+msgstr "デフォルトの統合方式を使用して、Weblate を上流と同期させます。"
 
 #: admin/continuous.rst:213
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with merge`"
-msgstr ":guilabel:`内部リポジトリの更新`"
+msgstr ":guilabel:`マージして更新`"
 
 #: admin/continuous.rst:214
 msgid "Fetches upstream changes and integrates them with an explicit merge."
-msgstr ""
+msgstr "上流の変更を取得し、明示的なマージで統合します。"
 
 #: admin/continuous.rst:215
 msgid "Override the default merge style for a single update."
-msgstr ""
+msgstr "単一の更新操作に限り、デフォルトのマージ方式を上書きします。"
 
 #: admin/continuous.rst:217
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with rebase`"
-msgstr ":guilabel:`内部リポジトリの更新`"
+msgstr ":guilabel:`リベースして更新`"
 
 #: admin/continuous.rst:218
 msgid ""
 "Fetches upstream changes and rebases local Weblate commits on top of "
 "upstream."
-msgstr ""
+msgstr "上流の変更を取得し、Weblate のローカル コミットを上流の上にリベースします。"
 
 #: admin/continuous.rst:219
 msgid "Keep history linear when that matches your workflow."
-msgstr ""
+msgstr "ワークフローに適している場合、履歴を時系列順に保持します。"
 
 #: admin/continuous.rst:221
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr "fast-forward なしでマージする"
+msgstr ":guilabel:`fast-forward なしでマージして更新`"
 
 #: admin/continuous.rst:222
 msgid ""
 "Fetches upstream changes and creates an explicit merge commit even when a "
 "fast-forward would be possible."
 msgstr ""
+"上流の変更を取得し、fast-forward が可能な場合でも明示的なマージコミットを作成"
+"します。"
 
 #: admin/continuous.rst:223
 msgid "Preserve merge commits for auditing or branch-management reasons."
-msgstr ""
+msgstr "監査やブランチ管理の理由でマージコミットを保持したい場合に使用します。"
 
 #: admin/continuous.rst:225
-#, fuzzy
-#| msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
 msgid ":guilabel:`Lock` / :guilabel:`Unlock`"
-msgstr ":guilabel:`Maintenance` から :guilabel:`Reset`"
+msgstr ":guilabel:`ロック` / :guilabel:`ロック解除`"
 
 #: admin/continuous.rst:226
 msgid "Prevents or allows translators to make further changes in Weblate."
-msgstr ""
+msgstr "翻訳者が Weblate 上で変更を加えることを禁止または許可します。"
 
 #: admin/continuous.rst:227
-#, fuzzy
-#| msgid "Test pulling changes from your repository into Weblate"
 msgid ""
 "Freeze translation changes while doing repository maintenance outside "
 "Weblate."
-msgstr "リポジトリから Weblate へ変更をプルできることをテストします"
+msgstr "Weblate 外でリポジトリ メンテナンスを行う間、翻訳の変更を一時的に凍結します。"
 
 #: admin/continuous.rst:229
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and discard`"
-msgstr ":guilabel:`文字列の削除`"
+msgstr ":guilabel:`リセットして破棄`"
 
 #: admin/continuous.rst:230
 msgid ""
 "Resets Weblate's local repository to upstream and discards pending Weblate "
 "changes."
 msgstr ""
+"Weblate のローカル リポジトリを上流にリセットし、Weblate 側の保留中変更を破棄"
+"します。"
 
 #: admin/continuous.rst:231
 msgid "Use when upstream should overwrite the local Weblate repository state."
-msgstr ""
+msgstr "上流の状態でローカルの Weblate リポジトリを上書きしたい場合に使用します。"
 
 #: admin/continuous.rst:233
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and reapply`"
-msgstr ":guilabel:`文字列の削除`"
+msgstr ":guilabel:`リセットして再適用`"
 
 #: admin/continuous.rst:234
 msgid ""
 "Resets Weblate's local repository to upstream while preserving pending "
 "translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
+"Weblate のローカル リポジトリを上流にリセットしつつ、保留中の翻訳を保持します"
+"。参照: :ref:`manage-vcs-reset-reapply`。"
 
 #: admin/continuous.rst:235
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
 msgstr ""
+"履歴が分岐してしまった場合でも、保留中の Weblate 翻訳を保持したまま復旧できま"
+"す。"
 
 #: admin/continuous.rst:237
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Cleanup`"
-msgstr ":guilabel:`カスタム`"
+msgstr ":guilabel:`クリーンアップ`"
 
 #: admin/continuous.rst:238
 msgid ""
 "Removes untracked files and stale branches from the local repository "
 "checkout."
 msgstr ""
+"ローカル リポジトリのチェックアウトから、未追跡ファイルや古いブランチを削除し"
+"ます。"
 
 #: admin/continuous.rst:239
 msgid ""
 "Clean up leftover files or stale repository state in Weblate's checkout."
 msgstr ""
+"Weblate のチェックアウト内に残っている不要ファイルや古いリポジトリ状態を"
+"クリーンアップします。"
 
 #: admin/continuous.rst:241
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Synchronize`"
-msgstr ":guilabel:`プライベート`"
+msgstr ":guilabel:`同期`"
 
 #: admin/continuous.rst:242
 msgid ""
 "Forces Weblate to write all known translations back to the repository files."
 msgstr ""
+"Weblate が把握しているすべての翻訳を、強制的にリポジトリ ファイルへ書き戻しま"
+"す。"
 
 #: admin/continuous.rst:243
 msgid ""
 "Repair cases where repository files became out of sync with the database "
 "state."
-msgstr ""
+msgstr "リポジトリ ファイルがデータベースの状態とずれてしまった場合に修復します。"
 
 #: admin/continuous.rst:245
-#, fuzzy
-#| msgid ":guilabel:`Resolve comment`"
 msgid ":guilabel:`Rescan`"
-msgstr ":guilabel:`コメントの解決`"
+msgstr ":guilabel:`再スキャン`"
 
 #: admin/continuous.rst:246
-#, fuzzy
-#| msgid "Test pulling changes from your repository into Weblate"
 msgid "Re-reads translation files from the local repository into Weblate."
-msgstr "リポジトリから Weblate へ変更をプルできることをテストします"
+msgstr "ローカル リポジトリから翻訳ファイルを再読み込みして Weblate に取り込みます。"
 
 #: admin/continuous.rst:247
 msgid "Import file changes after manual repository work or file creation."
 msgstr ""
+"手動でリポジトリ作業やファイル作成を行った後の変更を取り込むために使用します"
+"。"
 
 #: admin/continuous.rst:252
 msgid "Reset and reapply recovery behavior"
-msgstr ""
+msgstr "リセットして復旧処理を再実行"
 
 #: admin/continuous.rst:254
 msgid ""
 "The :guilabel:`Reset and reapply` operation keeps pending translations from "
 "Weblate while resetting the local repository state to match upstream."
 msgstr ""
+":guilabel:`リセットして再実行` 操作は、Weblate の保留中翻訳を保持したまま、"
+"ローカル リポジトリの状態を上流に合わせてリセットします。"
 
 #: admin/continuous.rst:257
 msgid ""
@@ -6823,6 +6819,9 @@ msgid ""
 "files still exist after the reset or when Weblate can create them for the "
 "component, for example using a valid :ref:`component-new_base`."
 msgstr ""
+"対象言語ファイルがリセット後も存在する場合、またはコンポーネントが有効な "
+":ref:`component-new_base` を使用してファイルを作成できる場合に限り、保留中の"
+"翻訳を復元できます。"
 
 #: admin/continuous.rst:261
 msgid ""
@@ -6830,6 +6829,8 @@ msgid ""
 "its database and reports a recovery error instead of failing later with a "
 "generic parse error."
 msgstr ""
+"この条件を満たさない場合、Weblate は保留中の変更をデータベースに保持し、後で"
+"一般的なパースエラーとして失敗する代わりに、復旧エラーとして報告します。"
 
 #: admin/continuous.rst:268
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -6927,21 +6928,23 @@ msgid ""
 "still need to add the Hosted Weblate :guilabel:`weblate` GitHub user as a "
 "collaborator with write access, see :ref:`hosted-push`."
 msgstr ""
+"Hosted Weblate を使用している場合は、`Weblate アプリ <https://github.com/"
+"apps/weblate>`_ をインストールする方法を推奨します。このアプリは GitHub の通"
+"知を Hosted Weblate に送信するため、GitHub 側で個別に :guilabel:`Webhook` を"
+"設定する必要はありません。ただし、このアプリ自体には Hosted Weblate への書き"
+"込み権限はありません。変更をプッシュするには、Hosted Weblate の "
+":guilabel:`weblate` GitHub ユーザーをコラボレーターとして書き込み権限付きで追"
+"加する必要があります（参照: :ref:`hosted-push`）。"
 
 #: admin/continuous.rst:311
-#, fuzzy
-#| msgid ""
-#| "To receive notifications on every push to a GitHub repository, add the "
-#| "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as "
-#| "shown on the image below:"
 msgid ""
 "If you are not using the app, add the Weblate Webhook in the repository "
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
-"通知を、GitHub リポジトリへプッシュするたびに受け取るには、リポジトリの設定画"
-"面（:guilabel:`Webhook`）から Weblate の Web フックを追加します。Web フックの"
-"設定画面:"
+"アプリを使用していない場合 は 、以下の画像のように、リポジトリ設定の "
+":guilabel:`Webhooks` から Weblate の Webhook を追加して、GitHubリポジトリへの"
+"プッシュごとに通知を受け取るようにしてください。"
 
 #: admin/continuous.rst:317
 msgid ""
@@ -7096,19 +7099,10 @@ msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/continuous.rst:421
-#, fuzzy
-#| msgid "Automatically receiving changes from Azure Repos"
 msgid "Automatically receiving changes from Forgejo Repos"
-msgstr "変更を Azure リポジトリから自動受信"
+msgstr "Forgejo リポジトリからの変更を自動的に受信する"
 
 #: admin/continuous.rst:423
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` "
-#| "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/gitea/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/forgejo/`` "
@@ -7116,25 +7110,23 @@ msgid ""
 "hooks/forgejo/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"Weblate は、Gitea の Web フックに対応しています。:guilabel:`プッシュ イベント"
-"` 用の :guilabel:`Gitea の Web フック` を、インストールした Weblate の URL "
-"に ``/hooks/gitea/`` を追加して、宛先を指定します（例: ``https://"
-"hosted.weblate.org/hooks/gitea/``）。これは、:guilabel:`Web フック` リポジト"
-"リの中にある :guilabel:`設定` で指定します。"
+"Weblate は、Forgejo の Web フックに対応しています。:guilabel:`プッシュ "
+"イベント` 用の :guilabel:`Forgejo の Web フック` を、インストールした "
+"Weblate の URL に ``/hooks/Forgejo/`` を追加して、宛先を指定します（例: "
+"``https://hosted.weblate.org/hooks/Forgejo/``）。これは、:guilabel:`Web "
+"フック` リポジトリの中にある :guilabel:`設定` で指定します。"
 
 #: admin/continuous.rst:430
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/"
 "webhooks/>`_"
-msgstr "`Gitea の Webhook マニュアル <https://docs.gitea.io/en-us/webhooks/>`_"
+msgstr ""
+"`Forgejo の Webhook ドキュメント <https://forgejo.org/docs/latest/user/"
+"webhooks/>`_"
 
 #: admin/continuous.rst:431
-#, fuzzy
-#| msgid ":http:post:`/hooks/azure/`"
 msgid ":http:post:`/hooks/forgejo/`"
-msgstr ":http:post:`/hooks/azure/`"
+msgstr ":http:post:`/hooks/forgejo/`"
 
 #: admin/continuous.rst:437
 msgid "Automatically receiving changes from Gitee Repos"
@@ -10270,8 +10262,6 @@ msgid "Development version Weblate from Git"
 msgstr "Git から開発版の Weblate"
 
 #: admin/install/docker.rst:92
-#, fuzzy
-#| msgid "Rollling updates to test upcoming Weblate features"
 msgid "Rolling updates to test upcoming Weblate features"
 msgstr "今後の Weblate の機能をテストするためのローリング アップデート"
 
@@ -10479,6 +10469,10 @@ msgid ""
 "common older setup mounted the database volume at ``/var/lib/postgresql/"
 "data``, while PostgreSQL 18 now uses ``/var/lib/postgresql`` by default."
 msgstr ""
+"PostgreSQL 18 では、コンテナ内のデフォルト データ ディレクトリが変更されまし"
+"た。従来の一般的な構成では ``/var/lib/postgresql/data`` にボリュームを"
+"マウントしていましたが、PostgreSQL 18 ではデフォルトが ``/var/lib/"
+"postgresql`` に変更されました。"
 
 #: admin/install/docker.rst:272
 msgid ""
@@ -10486,18 +10480,24 @@ msgid ""
 "in your Docker configuration to the new path, or keep the old mount target "
 "and set ``PGDATA`` accordingly."
 msgstr ""
+"古いバージョンからアップグレードする場合は、Docker 設定でマウント先を新しい"
+"パスに更新するか、旧パスのまま ``PGDATA`` を設定してください。"
 
 #: admin/install/docker.rst:276
 msgid ""
 "Leaving the old mount target unchanged without setting ``PGDATA`` can cause "
 "PostgreSQL to write its data outside the persisted volume."
 msgstr ""
+"``PGDATA`` を設定せずに旧マウント先をそのまま使用すると、PostgreSQL が永続化"
+"されていない場所にデータを書き込む可能性があります。"
 
 #: admin/install/docker.rst:279
 msgid ""
 "See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for "
 "more information."
 msgstr ""
+"詳細は `PGDATA のドキュメント <https://hub.docker.com/_/postgres#pgdata>`_ を"
+"確認してください。"
 
 #: admin/install/docker.rst:282
 msgid ""
@@ -10814,14 +10814,11 @@ msgstr ""
 "る）またはパスワードの回復にのみ使用してください。"
 
 #: admin/install/docker.rst:596
-#, fuzzy
-#| msgid ""
-#| "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgid ""
 "Whether to send e-mail to admins upon server error. Turned on by default."
 msgstr ""
 "サーバー エラーが発生したときに、管理者にメールを送信するかどうか。デフォルト"
-"では有効です。"
+"では有効。"
 
 #: admin/install/docker.rst:598
 msgid ""
@@ -10897,16 +10894,12 @@ msgid "Defaults to enabled."
 msgstr "デフォルトでは有効です。"
 
 #: admin/install/docker.rst:720
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
-msgstr ":setting:`PROJECT_WEB_RESTRICT_PRIVATE` を設定します。"
+msgstr ":setting:`WEBHOOK_RESTRICT_PRIVATE` を設定します。"
 
 #: admin/install/docker.rst:728
-#, fuzzy
-#| msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
 msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
-msgstr ":setting:`VCS_ALLOW_HOSTS` を設定します。"
+msgstr ":setting:`WEBHOOK_PRIVATE_ALLOWLIST` を設定します。"
 
 #: admin/install/docker.rst:732
 msgid ""
