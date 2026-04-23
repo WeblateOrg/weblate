@@ -911,7 +911,13 @@ def unit_state_title(unit) -> str:
 
 
 def try_linkify_filename(
-    text, filename: str, line: str, unit, profile, link_class: str = "", is_translation: bool = False
+    text,
+    filename: str,
+    line: str,
+    unit,
+    profile,
+    link_class: str = "",
+    is_translation: bool = False,
 ):
     """
     Attempt to convert `text` to a repo link to `filename:line`.
