@@ -1044,6 +1044,14 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.assertRaises(RepositorySymlinkError):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
+    def test_resolve_symlinks_allows_regular_repository_path(self) -> None:
+        filename = "locale/cs.po"
+        full_path = os.path.join(self.repo.path, filename)
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        Path(full_path).write_text("TEST\n", encoding="utf-8")
+
+        self.assertEqual(self.repo.resolve_symlinks(filename), filename)
+
     def test_merge_commit(self) -> None:
         self.test_commit()
         self.test_merge()
