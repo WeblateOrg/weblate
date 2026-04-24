@@ -315,12 +315,23 @@ class UnitQuerySet(models.QuerySet["Unit"]):
     def source_lookup(self) -> dict[str, Unit]:
         return {unit.source: unit for unit in self}
 
+    @cached_property
+    def id_hash_lookup(self) -> dict[int, Unit]:
+        return {unit.id_hash: unit for unit in self}
+
     def get_unit(self, ttunit: TranslationUnit) -> Unit:
         """
         Find unit matching translate-toolkit unit.
 
         This is used for import, so kind of fuzzy matching is expected.
         """
+        import_id_hash = getattr(ttunit, "import_id_hash", None)
+        if import_id_hash is not None:
+            try:
+                return self.id_hash_lookup[import_id_hash]
+            except KeyError:
+                pass
+
         source = ttunit.source
         context = ttunit.context
 

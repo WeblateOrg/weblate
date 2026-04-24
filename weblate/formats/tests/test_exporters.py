@@ -3,10 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import csv
 import os
 import shutil
 import subprocess  # noqa: S404
 import tempfile
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -29,7 +31,11 @@ from weblate.formats.exporters import (
     XliffExporter,
     XlsxExporter,
 )
-from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.helpers import (
+    CSV_PLURAL_FIELDNAMES,
+    NamedBytesIO,
+    format_csv_id_hash,
+)
 from weblate.formats.multi import MultiCSVFormat
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
@@ -81,6 +87,7 @@ class PoExporterTest(BaseTestCase):
         nplurals=3,
         template=None,
         source_info=None,
+        file_format="xliff",
         file_format_params=None,
         **kwargs,
     ):
@@ -91,7 +98,7 @@ class PoExporterTest(BaseTestCase):
         component = Component(
             slug="comp",
             project=project,
-            file_format="xliff",
+            file_format=file_format,
             file_format_params=file_format_params or {},
             template=template,
             source_language=Language.objects.get(code="en"),
@@ -329,6 +336,43 @@ class CSVExporterTest(PoExporterTest):
         # Doesn't support plurals
         pass
 
+    def test_plural_rows(self) -> None:
+        output = self.check_unit(
+            source="%(count)s file\x1e\x1e%(count)s files",
+            target="\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souborů",
+            state=STATE_TRANSLATED,
+        ).decode()
+
+        self.assertNotIn("multistring", output)
+        self.assertNotIn("\x1e", output)
+
+        rows = list(csv.DictReader(StringIO(output)))
+        self.assertEqual(len(rows), 3)
+        self.assertEqual([row["target_plural_form"] for row in rows], ["0", "1", "2"])
+        self.assertEqual(
+            [row["target"] for row in rows],
+            ["", "'%(count)s soubory'", "'%(count)s souborů'"],
+        )
+        self.assertEqual(
+            [row["id_hash"] for row in rows],
+            [format_csv_id_hash(-1)] * 3,
+        )
+
+    def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
+        output = self.check_unit(
+            nplurals=1,
+            file_format="csv-multi",
+            source="Source A\x1e\x1eSource B",
+            target="Target A\x1e\x1eTarget B",
+            state=STATE_TRANSLATED,
+        ).decode()
+
+        rows = list(csv.DictReader(StringIO(output)))
+        self.assertEqual(len(rows), 1)
+        for field in CSV_PLURAL_FIELDNAMES:
+            self.assertNotIn(field, rows[0])
+        self.assertIn("Target A", rows[0]["target"])
+
     def test_non_matching_encoding_params(self) -> None:
         exporter = self.get_exporter(
             translation=Translation(
@@ -365,6 +409,61 @@ class XlsxExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_plural_rows(self) -> None:
+        from openpyxl import load_workbook  # noqa: PLC0415
+
+        output = self.check_unit(
+            source="%(count)s file\x1e\x1e%(count)s files",
+            target="\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souborů",
+            state=STATE_TRANSLATED,
+        )
+
+        workbook = load_workbook(BytesIO(output))
+        worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook has no active worksheet."
+            raise AssertionError(msg)
+        rows = list(worksheet.iter_rows(values_only=True))
+        headers = rows[0]
+        data = [dict(zip(headers, row, strict=True)) for row in rows[1:]]
+
+        self.assertEqual(len(data), 3)
+        self.assertEqual([row["target_plural_form"] for row in data], ["0", "1", "2"])
+        self.assertEqual(data[0]["target"], None)
+        self.assertEqual(
+            [row["id_hash"] for row in data],
+            [format_csv_id_hash(-1)] * 3,
+        )
+
+    def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
+        from openpyxl import load_workbook  # noqa: PLC0415
+
+        output = self.check_unit(
+            nplurals=1,
+            file_format="csv-multi",
+            source="Source A\x1e\x1eSource B",
+            target="Target A\x1e\x1eTarget B",
+            state=STATE_TRANSLATED,
+        )
+
+        workbook = load_workbook(BytesIO(output))
+        worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook has no active worksheet."
+            raise AssertionError(msg)
+        rows = list(worksheet.iter_rows(values_only=True))
+        headers = rows[0]
+        data = [dict(zip(headers, row, strict=True)) for row in rows[1:]]
+
+        self.assertEqual(len(data), 1)
+        for field in CSV_PLURAL_FIELDNAMES:
+            self.assertNotIn(field, data[0])
+        target = data[0]["target"]
+        if not isinstance(target, str):
+            msg = f"Unexpected target cell value: {target!r}"
+            raise TypeError(msg)
+        self.assertIn("Target A", target)
 
 
 class AndroidResourceExporterTest(PoExporterTest):
