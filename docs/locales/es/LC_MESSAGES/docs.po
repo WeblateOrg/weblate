@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-23 13:10+0000\n"
+"PO-Revision-Date: 2026-04-24 17:37+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: admin/access.rst:33 admin/config.rst:577
 msgid ":guilabel:`Protected`"
-msgstr ":guilabel:`Protected`"
+msgstr ":guilabel:`Protegido`"
 
 #: admin/access.rst:36 admin/access.rst:44 admin/access.rst:52
 msgid "Only chosen users can contribute."
@@ -143,7 +143,7 @@ msgstr ""
 
 #: admin/access.rst:49 admin/config.rst:581
 msgid ":guilabel:`Custom`"
-msgstr ":guilabel:`Custom`"
+msgstr ":guilabel:`Personal`"
 
 #: admin/access.rst:56
 msgid "Not available on Hosted Weblate."
@@ -506,7 +506,6 @@ msgstr ""
 "`Administración` del proyecto."
 
 #: admin/access.rst:231
-#, fuzzy
 msgid ""
 "This project-scoped delegation is separate from the site-wide ``user.edit`` "
 "permission. Membership in a project `Administration` team allows managing "
@@ -4742,7 +4741,7 @@ msgstr ""
 
 #: admin/config.rst:525
 msgid ":file:`fonts`:"
-msgstr ":file:`fonts`:"
+msgstr ":file:`tipografías`:"
 
 #: admin/config.rst:526
 msgid "User-uploaded fonts, see :ref:`fonts`."
@@ -19796,7 +19795,6 @@ msgstr ""
 "se pueden reemplazar allí."
 
 #: changes.rst:37
-#, fuzzy
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext` and related POT update add-ons now "
 "replace the standard descriptive-title placeholder in normalized POT headers "
@@ -19807,7 +19805,6 @@ msgstr ""
 "estándar descriptive-title en los encabezados POT normalizados."
 
 #: changes.rst:38
-#, fuzzy
 msgid ""
 ":ref:`addon-weblate.gettext.django` now skips repository ``locale`` trees "
 "during preflight validation, fixing components that store ``django.pot`` in "
@@ -19836,13 +19833,12 @@ msgstr ""
 ":ref:`component-template` separado."
 
 #: changes.rst:41
-#, fuzzy
 msgid ""
 "The OpenAPI schema now describes action endpoints with their actual list, "
 "statistics, status, upload, and download response payloads."
 msgstr ""
 "El esquema OpenAPI ahora describe los puntos finales de acción con su lista "
-"real, estadísticas, estado y cargas útiles de respuesta de carga y descarga."
+"real, estadísticas, estado y respuestas de subida y bajadas de cargas útiles."
 
 #: changes.rst:44 changes.rst:149 changes.rst:284 changes.rst:327
 #: changes.rst:424 changes.rst:567 changes.rst:662 changes.rst:717
@@ -20014,19 +20010,14 @@ msgstr ""
 "restringido y compatibilidad con búsquedas masivas."
 
 #: changes.rst:72
-#, fuzzy
-#| msgid ""
-#| "Added ``from_component`` support to the REST API for creating components "
-#| "from existing component content and for creating translations seeded by "
-#| "automatic translation from existing components."
 msgid ""
 "Added ``from_component`` support to the REST API for creating components "
 "from existing component content and for seeding new translations by "
 "automatic translation from existing components."
 msgstr ""
 "Se ha añadido compatibilidad con ``from_component`` al API REST para crear "
-"componentes a partir del contenido del componente existente y para generar "
-"nuevas traducciones mediante traducción automática a partir de traducciones "
+"componentes a partir del contenido del componente existente y para anidar "
+"traducciones nuevas mediante traducción automática a partir de componentes "
 "existentes."
 
 #: changes.rst:73
@@ -20130,11 +20121,6 @@ msgstr ""
 "restauración de proyecto/componente."
 
 #: changes.rst:89
-#, fuzzy
-#| msgid ""
-#| "Improved documentation with auto-generated snippets "
-#| "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
-#| "translation` machines."
 msgid ""
 "Improved documentation with auto-generated snippets "
 "for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-"
@@ -20143,8 +20129,8 @@ msgid ""
 msgstr ""
 "Documentación mejorada con fragmentos auto‐generados para máquinas "
 ":ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, y :ref:`machine-"
-"translation`, y aclaró el comportamiento de los conflictos de fusión para "
-"los repositorios exportados que utilizan clones superficiales por defecto."
+"translation`, y aclaró los conflictos del fusión de comportamiento para "
+"repositorios exportados utilizando clones superficiales por defecto."
 
 #: changes.rst:90
 msgid ""
@@ -20227,10 +20213,6 @@ msgstr ""
 "ausente más claros a los usuarios autorizados."
 
 #: changes.rst:98
-#, fuzzy
-#| msgid ""
-#| "Improved performance of project language counting and API listing on "
-#| "projects with shared components."
 msgid ""
 "Faster category and project removals, and improved performance of project "
 "language counting and API listing on projects with shared components."
@@ -20254,22 +20236,16 @@ msgstr ""
 "tras intentos de respaldo incorrectos."
 
 #: changes.rst:101
-#, fuzzy
-#| msgid ""
-#| "Reduced repeated metric queries when rendering activity charts on "
-#| "overview pages with cold caches."
 msgid ""
 "Improved loading speed for comments on the translate page and reduced "
 "repeated metric queries when rendering activity charts on overview pages "
 "with cold caches."
 msgstr ""
 "Velocidad de carga mejorada para los comentarios en la página de traducción "
-"y se han reducido las consultas métricas repetidas al mostrar gráficos de "
-"actividad en páginas de resumen con las caché inactivas."
+"y se han reducido las consultas métricas repetidas al renderizar caracteres "
+"de actividad sobre páginas de resumen con las caché inactivas."
 
 #: changes.rst:104
-#, fuzzy
-#| msgid "Security policies"
 msgid "Security fixes"
 msgstr "Correcciones de seguridad"
 
@@ -20290,13 +20266,12 @@ msgstr ""
 "repositorio (:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 
 #: changes.rst:107
-#, fuzzy
 msgid ""
 "Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-"
 "gw9x-477v`)."
 msgstr ""
-"Se ha reforzado la aplicación de permisos :ref:`api` (:cve:`2026-34393` / "
-":ghsa:`3382-gw9x-477v`)."
+"Se ha reforzado los permisos de :ref:`api` (:cve:`2026-34393` / :ghsa:`3382-"
+"gw9x-477v`)."
 
 #: changes.rst:108
 msgid ""
@@ -20307,7 +20282,6 @@ msgstr ""
 "translation` contra SSRF (:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 
 #: changes.rst:109
-#, fuzzy
 msgid ""
 "Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` "
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
@@ -20316,17 +20290,15 @@ msgstr ""
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 
 #: changes.rst:110
-#, fuzzy
 msgid ""
 "Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset "
 "downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 msgstr ""
-"Se aplicó la configuración :setting:`ALLOWED_ASSET_DOMAINS` en todas las "
-"redirecciones para descargas de recursos (:cve:`2026-33440` / :ghsa:`5fhx-"
+"Se aplicó los ajustes :setting:`ALLOWED_ASSET_DOMAINS` a través de todas las "
+"redirecciones para descargas de activos (:cve:`2026-33440` / :ghsa:`5fhx-"
 "9jwj-867m`)."
 
 #: changes.rst:111
-#, fuzzy
 msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
@@ -20335,28 +20307,22 @@ msgstr ""
 ":ghsa:`f8hv-g549-hwg2`)."
 
 #: changes.rst:112
-#, fuzzy
 msgid ""
 "Removed unintended :ref:`translation-memory` API endpoints "
 "(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 msgstr ""
-"Se eliminaron los puntos finales de la API :ref:`translation-memory` no "
+"Se retiraron los puntos finales de la API :ref:`translation-memory` no "
 "deseados (:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 
 #: changes.rst:113
-#, fuzzy
 msgid ""
 "Tightened API access control for pending tasks "
 "(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 msgstr ""
-"Control de acceso a la API más estricto para tareas pendientes (:cve:`2026-"
+"Control de acceso al API más estricto para tareas pendientes (:cve:`2026-"
 "33212` / :ghsa:`vj45-x3pj-f4w4`)."
 
 #: changes.rst:114
-#, fuzzy
-#| msgid ""
-#| "Project backup restore no longer trusts repository-local VCS "
-#| "configuration and hooks from the uploaded archive."
 msgid ""
 "Hardened :ref:`projectbackup` restore against repository-local VCS "
 "configuration and hooks from uploaded archives "
@@ -20418,15 +20384,14 @@ msgstr ""
 "formato de disco del componente."
 
 #: changes.rst:124
-#, fuzzy
 msgid ""
 ":ref:`project-api` now clean up stale bot users on project deletion and "
 "upgrade, and prevent removing the last assigned team to avoid orphaning the "
 "token."
 msgstr ""
-":ref:`project-api` ahora limpia los usuarios de bots obsoletos en la "
-"eliminación y actualización del proyecto, y evita eliminar el último equipo "
-"asignado para evitar que el token quede huérfano."
+":ref:`project-api` ahora elimina los usuarios de los bot obsoletos en "
+"eliminación de proyecto y mejora, y evita retirar el último equipo asignado "
+"para evitar que el vale quede huérfano."
 
 #: changes.rst:125
 msgid ""
@@ -20492,13 +20457,12 @@ msgid ":ref:`mt-deepl` maps plain Portuguese to European Portuguese."
 msgstr ":ref:`mt-deepl` asigna el portugués en plano al portugués europeo."
 
 #: changes.rst:134
-#, fuzzy
 msgid ""
 ":ref:`mt-mymemory` now falls back to HTTP status handling when the service "
 "returns a non-JSON error response."
 msgstr ""
 ":ref:`mt-mymemory` ahora recurre al manejo de estado HTTP cuando el servicio "
-"devuelve una respuesta de error que no es JSON."
+"devuelve una respuesta de error distinta de JSON."
 
 #: changes.rst:135
 msgid ""
@@ -20549,10 +20513,6 @@ msgstr ""
 "los parámetros del formato de archivo."
 
 #: changes.rst:141
-#, fuzzy
-#| msgid ""
-#| "Reduced repeated database queries in :ref:`addon-"
-#| "weblate.generate.fill_read_only` during the daily add-on task."
 msgid ""
 "Reduced repeated database queries in :ref:`addon-"
 "weblate.generate.fill_read_only` during the daily add-on task, and fixed "
@@ -20562,7 +20522,7 @@ msgstr ""
 "Se redujeron las consultas repetidas a la base de datos en :ref:`addon-"
 "weblate.generate.fill_read_only` durante la tarea diaria del complemento y "
 "corrigió las actualizaciones del progreso de la traducción automática cuando "
-"el destino en cola desaparece antes de la ejecución.."
+"el destino en cola desaparece antes de la ejecución."
 
 #: changes.rst:142
 msgid ""
@@ -20590,16 +20550,14 @@ msgstr ""
 "reemplazos de clave del host."
 
 #: changes.rst:145
-#, fuzzy
 msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
-":ref:`machine-translation` ya no trata el contenido del rol reStructuredText "
-"traducible como :ref:`placeables-mt`."
+":ref:`machine-translation` ya no trata más el contenido del rol "
+"reStructuredText traducible como :ref:`placeables-mt`."
 
 #: changes.rst:146
-#, fuzzy
 msgid ""
 ":ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation "
 "such as ``؟!`` and ``!؟``."
@@ -36956,7 +36914,7 @@ msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
-":doc:`Translation topic in the Django documentation <django:topics/i18n/"
+":doc:`Tema de traducción en la documentación de Django <django:topics/i18n/"
 "translation>`"
 
 #: contributing/frontend.rst:121
@@ -45741,30 +45699,24 @@ msgid "Configuration object, overrides any other parameters."
 msgstr "Objeto de configuración, anula cualquier otro parámetro."
 
 #: python.rst:44
-#, fuzzy
-#| msgid "total number of strings"
 msgid "Total number of HTTP retries."
 msgstr "Número total de reintentos HTTP."
 
 #: python.rst:46
-#, fuzzy
 msgid "HTTP status codes that should trigger retries."
-msgstr "Códigos de estado HTTP que deberían provocar reintentos."
+msgstr "Códigos de estado HTTP que provocarían reintentos."
 
 #: python.rst:48
-#, fuzzy
 msgid "HTTP methods that may be retried."
 msgstr "Métodos HTTP que pueden reintentarse."
 
 #: python.rst:50
-#, fuzzy
 msgid "Retry backoff factor passed to urllib3."
 msgstr "El factor de retroceso de reintento se pasa a urllib3."
 
 #: python.rst:52
-#, fuzzy
 msgid "HTTP request timeout in seconds."
-msgstr "Tiempo de espera de la solicitud HTTP en segundos."
+msgstr "Vencimiento de espera de la solicitud HTTP en segundos."
 
 #: python.rst:55
 msgid "Access class to the API, define API key and optionally API URL."
@@ -45800,7 +45752,6 @@ msgid "Path from which to load configuration."
 msgstr "Ruta desde la cual cargar la configuración."
 
 #: python.rst:96
-#, fuzzy
 msgid ""
 "Loads configuration from ``path`` when it is specified. Otherwise it loads "
 "the discovered global configuration file and then the nearest project "
@@ -49105,8 +49056,6 @@ msgid "Triggered after a Change event is created."
 msgstr "Disparador tras ser creado un evento de Cambio."
 
 #: snippets/addon-events-autogenerated.rst:42
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Manual trigger"
 msgstr "Disparador manual"
 
@@ -50341,11 +50290,6 @@ msgstr ""
 "cambios de los archivos en el sistema de control de versiones."
 
 #: snippets/addons-autogenerated.rst:232
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language. All named groups in the "
-#| "regular expression can be used as variables in the template fields."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. The regular "
@@ -50354,20 +50298,17 @@ msgid ""
 "be used as variables in the template fields."
 msgstr ""
 "La comparación se realiza mediante expresiones regulares, lo que permite una "
-"configuración compleja, pero se requieren ciertos conocimientos para ello. "
+"configuración compleja, pero se requieren algunos conocimientos para ello. "
 "La expresión regular para buscar archivos de traducción debe contener dos "
 "grupos de nombres para buscar el componente y el idioma. Todos los grupos "
 "con nombre de la expresión regular pueden utilizarse como variables en los "
 "campos de plantilla."
 
 #: snippets/addons-autogenerated.rst:239
-#, fuzzy
-#| msgid "System requirements"
 msgid "Discovery requirements"
 msgstr "Requisitos de descubrimiento"
 
 #: snippets/addons-autogenerated.rst:241
-#, fuzzy
 msgid ""
 "To discover a component successfully, the configuration has to do all of the "
 "following:"
@@ -50376,7 +50317,6 @@ msgstr ""
 "lo siguiente:"
 
 #: snippets/addons-autogenerated.rst:243
-#, fuzzy
 msgid ""
 "The regular expression must define ``component`` and ``language`` named "
 "groups."
@@ -50385,7 +50325,6 @@ msgstr ""
 "``lenguaje``."
 
 #: snippets/addons-autogenerated.rst:244
-#, fuzzy
 msgid ""
 "Template fields used to name or locate per-component files must include "
 "``{{ component }}``, so the rendered value actually changes for each "
@@ -50393,10 +50332,9 @@ msgid ""
 msgstr ""
 "Los campos de plantilla utilizados para nombrar o localizar archivos por "
 "componente deben incluir ``{{ component }}``, de modo que el valor "
-"renderizado cambia realmente para cada componente descubierto."
+"representado cambia realmente para cada componente descubierto."
 
 #: snippets/addons-autogenerated.rst:247
-#, fuzzy
 msgid ""
 "For monolingual formats, the component must contain a file matching "
 "``base_file_template`` and at least one translation file matching ``match``."
@@ -50406,18 +50344,16 @@ msgstr ""
 "coincida con ``match``."
 
 #: snippets/addons-autogenerated.rst:251
-#, fuzzy
 msgid "Worked example: ``news_<lang>.md``"
 msgstr "Ejemplo práctico: ``news_<lang>.md``"
 
 #: snippets/addons-autogenerated.rst:253
-#, fuzzy
 msgid "This is a common filename-based language variant layout:"
 msgstr ""
-"Este es un diseño de variante de lenguaje común basado en nombres de archivo:"
+"Este es una distribución de variante de lenguaje común basado en nombres de "
+"archivo:"
 
 #: snippets/addons-autogenerated.rst:259
-#, fuzzy
 msgid ""
 "Use the :guilabel:`Filename-based language variants` preset for a starting "
 "point, then choose the matching file format and review the populated values."
@@ -50438,13 +50374,10 @@ msgid "Component name:"
 msgstr "Nombre del componente:"
 
 #: snippets/addons-autogenerated.rst:266
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Discovered file masks:"
 msgstr "Máscaras de archivo descubiertas:"
 
 #: snippets/addons-autogenerated.rst:270
-#, fuzzy
 msgid ""
 "In this example, ``{{ component }}`` resolves to the basename before the "
 "language suffix, so :file:`docs/news_en.md`, :file:`docs/news_pt_BR.md`, "
@@ -50452,7 +50385,7 @@ msgid ""
 msgstr ""
 "En este ejemplo, ``{{ component }}`` se resuelve al nombre base antes del "
 "sufijo de idioma, por lo que :file:`docs/news_en.md`, :file:`docs/"
-"news_pt_BR.md` y :file:`docs/news_pt-BR.md` se convierten todos en el "
+"news_es_ES.md` y :file:`docs/news_es-ES.md` se convierten todos en el "
 "componente ``news``."
 
 #: snippets/addons-autogenerated.rst:274
@@ -50462,8 +50395,6 @@ msgstr ""
 "campos de nombre de archivo, por ejemplo:"
 
 #: snippets/addons-autogenerated.rst:277
-#, fuzzy
-#| msgid "Verbose component name, used to display the component name."
 msgid "Component name parsed from the ``component`` match group"
 msgstr ""
 "Nombre del componente analizado a partir del grupo de coincidencias "
@@ -50492,15 +50423,14 @@ msgid "Component discovery examples"
 msgstr "Ejemplos de búsqueda de componentes"
 
 #: snippets/addons-autogenerated.rst:291
-#, fuzzy
 msgid ""
 "The worked example above covers the most common filename-based variant "
 "layout. The following examples show other repository structures you can "
 "match."
 msgstr ""
-"El ejemplo anterior muestra la variante más común basada en nombres de "
-"archivo. Los siguientes ejemplos muestran otras estructuras de repositorio "
-"que puede utilizar."
+"El ejemplo anterior cubre la variante más común basada en nombre de archivo. "
+"Los siguientes ejemplos muestran otras estructuras de repositorio que puede "
+"coincidir."
 
 #: snippets/addons-autogenerated.rst:295
 msgid "One folder per language"
@@ -54037,7 +53967,7 @@ msgstr "La cadena en formato Python no coincide con la de origen."
 
 #: snippets/checks-autogenerated.rst:1006
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
-msgstr ":ref:`Python string formatting <python:old-string-formatting>`"
+msgstr ":ref:`Formato de cadenas en Python <python:old-string-formatting>`"
 
 #: snippets/checks-autogenerated.rst:1015
 msgid "Qt format"
@@ -58453,7 +58383,7 @@ msgstr "Lista de roles incorporados"
 
 #: snippets/roles.rst:11 snippets/roles.rst:112
 msgid ":guilabel:`Post announcements`"
-msgstr ":guilabel:`Post announcements`"
+msgstr ":guilabel:`Publicar anuncios`"
 
 #: snippets/roles.rst:12 snippets/roles.rst:113
 msgid ":guilabel:`Delete announcements`"
@@ -58646,7 +58576,7 @@ msgstr ":guilabel:`Empujar cambio desde el repositorio interno`"
 
 #: snippets/roles.rst:57 snippets/roles.rst:194
 msgid ":guilabel:`Reset changes in the internal repository`"
-msgstr ":guilabel:`Reset changes in the internal repository`"
+msgstr ":guilabel:`Restablecer cambios en el repositorio interno`"
 
 #: snippets/roles.rst:58 snippets/roles.rst:195
 msgid ":guilabel:`Update the internal repository`"
@@ -60549,9 +60479,8 @@ msgid "Search by e-mail."
 msgstr "Buscar en correo-e."
 
 #: user/search.rst:283
-#, fuzzy
 msgid "Search by audit log IP address."
-msgstr "Búsqueda por dirección IP del registro de auditoría."
+msgstr "Búsqueda por dirección IP de la bitácora de auditoría."
 
 #: user/translating.rst:2
 msgid "Translating using Weblate"
@@ -62719,11 +62648,6 @@ msgid "The command to launch the container uses the following syntax:"
 msgstr "El comando para lanzar el contenedor utiliza la siguiente sintaxis:"
 
 #: wlc.rst:63
-#, fuzzy
-#| msgid ""
-#| "You might want to pass your :ref:`wlc-config` to the Docker container, "
-#| "the easiest approach is to add your current directory as :file:`/home/"
-#| "weblate` volume:"
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container. When "
 "your repository contains a project configuration such as :file:`.weblate`, "
@@ -62731,20 +62655,15 @@ msgid ""
 "weblate` volume:"
 msgstr ""
 "Es posible que desee pasar su :ref:`wlc-config` al contenedor Docker. Cuando "
-"tu repositorio contiene una configuración de proyecto como :file:`.weblate`, "
-"la forma más sencilla de hacerlo es añadir su directorio actual como el "
-"volumen :file:`/home/weblate`:"
+"tu repositorio contiene una configuración de proyecto tal como "
+":file:`.weblate`, la forma más sencilla de hacerlo es agregar su directorio "
+"actual como el volumen :file:`/home/weblate`:"
 
 #: wlc.rst:74
 msgid "Getting started"
 msgstr "Primeros pasos"
 
 #: wlc.rst:76
-#, fuzzy
-#| msgid ""
-#| "The :program:`wlc` configuration is stored in :file:`~/.config/weblate` "
-#| "(see :ref:`wlc-config` for other locations), please create it to match "
-#| "your environment:"
 msgid ""
 "The easiest way to get started is to create a personal :program:`wlc` "
 "configuration in :file:`~/.config/weblate` (see :ref:`wlc-config` for the "
@@ -62752,7 +62671,7 @@ msgid ""
 msgstr ""
 "La forma más sencilla de empezar es crear una configuración personal de "
 ":program:`wlc` en :file:`~/.config/weblate` (consulte :ref:`wlc-config` para "
-"ver las reglas de detección completas y otras ubicaciones):"
+"ver las reglas de detección completas y otros lugares):"
 
 #: wlc.rst:89
 msgid "You can then invoke commands on the default server:"
@@ -62832,7 +62751,6 @@ msgstr ""
 "Puede encontrar su clave en su perfil de Weblate."
 
 #: wlc.rst:165
-#, fuzzy
 msgid ""
 "Load configuration only from ``PATH`` instead of the discovered global and "
 "project configuration files, see :ref:`wlc-config`."
@@ -63023,7 +62941,6 @@ msgid "Configuration files"
 msgstr "Archivos de configuración"
 
 #: wlc.rst:301
-#, fuzzy
 msgid ""
 "When :option:`--config` is provided, :program:`wlc` loads only that file."
 msgstr ""
@@ -63031,22 +62948,19 @@ msgstr ""
 "archivo."
 
 #: wlc.rst:303
-#, fuzzy
 msgid ""
 "Without :option:`--config`, :program:`wlc` first loads the discovered global "
 "configuration file from the standard platform-specific locations:"
 msgstr ""
 "Sin :option:`--config`, :program:`wlc` primero carga el archivo de "
-"configuración global detectado desde las ubicaciones estándar específicas de "
-"la plataforma:"
+"configuración global detectado desde los lugares estándar específicos de la "
+"plataforma:"
 
 #: wlc.rst:306
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Usuarios\\\\NOMBRE\\\\AppData\\\\Roaming\\\\weblate.ini`"
 
 #: wlc.rst:307
-#, fuzzy
-#| msgid "User configuration file on Windows in the roamed profile."
 msgid "Global configuration file on Windows in the roamed profile."
 msgstr "Archivo de configuración global en Windows en el perfil itinerante."
 
@@ -63055,8 +62969,6 @@ msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NOMBRE\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: wlc.rst:309
-#, fuzzy
-#| msgid "User configuration file on Windows in the local profile."
 msgid "Global configuration file on Windows in the local profile."
 msgstr "Archivo de configuración global en Windows en el perfil local."
 
@@ -63065,16 +62977,12 @@ msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: wlc.rst:311
-#, fuzzy
-#| msgid "Changed configuration of filesystem paths."
 msgid "Global configuration file on Unix-like systems."
 msgstr "Archivo de configuración global en sistemas tipo Unix."
 
 #: wlc.rst:313
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
-msgstr "Archivo de configuración de reserva para todo el sistema."
+msgstr "Archivo de configuración de alternativa para todo el sistema."
 
 #: wlc.rst:315
 msgid ""
@@ -63095,34 +63003,30 @@ msgstr ""
 "preferidos para el archivo de configuración."
 
 #: wlc.rst:322
-#, fuzzy
 msgid ""
 "After loading the global configuration, :program:`wlc` loads the nearest "
 "project configuration file from the current directory or its parents:"
 msgstr ""
 "Tras cargar la configuración global, :program:`wlc` carga el archivo de "
 "configuración del proyecto más cercano desde el directorio actual o sus "
-"padres:"
+"antecesores:"
 
 #: wlc.rst:325
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: wlc.rst:326
-#, fuzzy
-#| msgid "Configuration file placed in the project directory."
 msgid "Project configuration file placed in the repository."
-msgstr "Archivo de configuración del proyecto ubicado en el repositorio."
+msgstr "Archivo de configuración del proyecto situado en el repositorio."
 
 #: wlc.rst:328
-#, fuzzy
 msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
 "Solo se carga el archivo de configuración del proyecto más cercano. Los "
-"archivos de configuración que se encuentren en directorios superiores más "
-"alejados se ignoran."
+"archivos de configuración que se encuentren más alejados de los directorios "
+"superiores se ignoran."
 
 #: wlc.rst:331
 msgid ""
@@ -63151,7 +63055,6 @@ msgid "Path to the default translation - component or project."
 msgstr "Ruta para la traducción por defecto - componente o proyecto."
 
 #: wlc.rst:350
-#, fuzzy
 msgid ""
 "Optional HTTP retry and timeout settings passed to ``urllib3``. Use "
 "``allowed_methods`` to list the request methods that may be retried. "
@@ -63161,8 +63064,8 @@ msgstr ""
 "Configuración opcional de reintentos HTTP y tiempo de espera que se pasa a "
 "``urllib3``. Utilice ``allowed_methods`` para listar los métodos de "
 "solicitud que se pueden reintentar. Las versiones actuales de :program:`wlc` "
-"utilizan este nombre de configuración en lugar de la opción anterior "
-"``method_whitelist``."
+"utilizan este nombre de ajuste en lugar de la opción ``method_whitelist`` "
+"anterior."
 
 #: wlc.rst:355
 msgid "The configuration file is an INI file, for example:"
@@ -63173,11 +63076,6 @@ msgid "The API keys are stored in the ``[keys]`` section:"
 msgstr "Las claves del API son almacenadas dentro de la sección ``[keys]``:"
 
 #: wlc.rst:375
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using "
-#| "the :file:`.weblate` configuration in the VCS repository so "
-#| "that :program:`wlc` knows which server it should talk to."
 msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
@@ -63187,7 +63085,7 @@ msgid ""
 msgstr ""
 "Esto le permite almacenar claves en sus ajustes personales, mientras utiliza "
 "la configuración :file:`.weblate` en el repositorio VCS para que "
-":program:`wlc` sepa con qué servidor debe comunicarse. En CI, mantenga solo "
+":program:`wlc` sepa con qué servidor debe comunicarse. En IC, mantenga solo "
 "la configuración del repositorio en el control de versiones e inyecte la "
 "clave API usando :envvar:`WLC_KEY`."
 
@@ -63196,10 +63094,6 @@ msgid "Environment variables"
 msgstr "Variables de entorno"
 
 #: wlc.rst:386
-#, fuzzy
-#| msgid ""
-#| "The API URL and key can also be configured using environment variables. "
-#| "This is especially useful for CI workflows:"
 msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows where the repository provides the "
@@ -63223,7 +63117,6 @@ msgid "Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
 msgstr "Variables de entorno (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
 
 #: wlc.rst:402
-#, fuzzy
 msgid ""
 "Configuration loaded from :option:`--config`, or from the discovered global "
 "configuration plus the nearest project configuration when :option:`--config` "
