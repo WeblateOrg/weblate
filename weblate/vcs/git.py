@@ -44,18 +44,25 @@ from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
 from weblate.utils.files import (
     is_excluded,
-    is_path_within_resolved_directory,
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
+from weblate.utils.zip import (
+    ZipSafetyError,
+    ZipSafetyLimits,
+    extract_zip_member,
+    iter_safe_zip_members,
+    validate_zip_members,
+)
 from weblate.vcs.base import Repository, RepositoryCommandError, RepositoryError
 from weblate.vcs.gpg import get_gpg_sign_key
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
     from datetime import datetime
+    from zipfile import ZipInfo
 
     from django_stubs_ext import StrOrPromise
     from requests.auth import AuthBase
@@ -2112,6 +2119,9 @@ class LocalRepository(GitRepository):
     identifier = "local"
     default_branch = "main"
     supports_push = False
+    ZIP_IMPORT_LIMITS: ClassVar[ZipSafetyLimits] = ZipSafetyLimits(
+        max_total_uncompressed_size=250 * 1024 * 1024,
+    )
 
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
@@ -2199,26 +2209,26 @@ class LocalRepository(GitRepository):
     @classmethod
     def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:
         # Extract zip file content, ignoring some files
-        with (
-            cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo,
-            ZipFile(zipfile) as zipobj,
-        ):
-            resolved_target = Path(target).resolve(strict=False)
-            for info in zipobj.infolist():
-                destination = (resolved_target / info.filename).resolve(strict=False)
-                if not is_path_within_resolved_directory(destination, resolved_target):
-                    msg = gettext("ZIP file contains invalid path: {path}").format(
-                        path=info.filename
-                    )
-                    raise RepositoryError(1, msg)
-                if is_excluded(info.filename):
-                    continue
-                mode = (info.external_attr >> 16) & 0o170000
-                if mode == 0o120000:
-                    msg = gettext("ZIP file contains unsupported symbolic links.")
-                    raise RepositoryError(1, msg)
-                zipobj.extract(info, path=target)
-            return repo
+        with ZipFile(zipfile) as zipobj:
+
+            def skip_member(info: ZipInfo) -> bool:
+                return is_excluded(info.filename)
+
+            try:
+                validate_zip_members(
+                    zipobj,
+                    limits=cls.ZIP_IMPORT_LIMITS,
+                    skip_member=skip_member,
+                )
+            except ZipSafetyError as error:
+                raise RepositoryError(1, str(error)) from error
+
+            with cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo:
+                for info, destination in iter_safe_zip_members(
+                    zipobj, target, skip_member=skip_member
+                ):
+                    extract_zip_member(zipobj, info, destination)
+                return repo
 
     @classmethod
     def from_files(cls, target: str, files: dict[str, bytes]) -> Self:

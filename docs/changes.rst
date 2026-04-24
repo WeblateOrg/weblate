@@ -33,7 +33,8 @@ Weblate 5.17.1
 * :doc:`/admin/announcements` can now also be managed via the :ref:`api` for categories.
 * :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
 * :ref:`profile` links now show an external-link warning where possible; obvious direct file download URLs and invalid code site or Fediverse profile links are rejected.
-* Translation file uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE` before parsing.
+* Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE` and :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` before parsing.
+* Component ZIP imports and project backup restores now share stricter ZIP archive safety checks.
 
 .. rubric:: Bug fixes
 

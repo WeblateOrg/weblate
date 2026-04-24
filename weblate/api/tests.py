@@ -3218,6 +3218,53 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
+    @override_settings(COMPONENT_ZIP_UPLOAD_MAX_SIZE=1)
+    def test_create_component_zipfile_too_big(self) -> None:
+        handle = BytesIO(b"xx")
+        handle.name = "translations.zip"
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "zipfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "filemask": "*.po",
+                "new_base": "project.pot",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertIn("Uploaded ZIP file is too big.", str(response.data))
+
+    def test_create_component_zipfile_unsafe_path(self) -> None:
+        handle = BytesIO()
+        with zipfile.ZipFile(handle, "w") as archive:
+            archive.writestr("../outside.po", "blocked")
+        handle.seek(0)
+        handle.name = "translations.zip"
+
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "zipfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "filemask": "*.po",
+                "new_base": "project.pot",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertIn("Could not parse uploaded ZIP file.", str(response.data))
+
     def test_create_component_zipfile_bad_params(self) -> None:
         with open(TEST_ZIP, "rb") as handle:
             self.do_request(

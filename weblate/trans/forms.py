@@ -108,6 +108,7 @@ from weblate.utils.state import (
     get_state_label,
 )
 from weblate.utils.validators import (
+    validate_component_zip_upload_size,
     validate_file_extension,
     validate_translation_upload_size,
 )
@@ -2150,7 +2151,10 @@ class ComponentScratchCreateForm(ComponentProjectForm):
 class ComponentZipCreateForm(ComponentProjectForm):
     zipfile = forms.FileField(
         label=gettext_lazy("ZIP file containing translations"),
-        validators=[FileExtensionValidator(allowed_extensions=["zip"])],
+        validators=[
+            validate_component_zip_upload_size,
+            FileExtensionValidator(allowed_extensions=["zip"]),
+        ],
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
 

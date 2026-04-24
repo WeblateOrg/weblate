@@ -477,6 +477,23 @@ Number of hours between committing pending changes by way of the background task
    * :wladmin:`commit_pending`
 
 
+.. setting:: COMPONENT_ZIP_UPLOAD_MAX_SIZE
+
+COMPONENT_ZIP_UPLOAD_MAX_SIZE
+-----------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded component ZIP files.
+Defaults to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``
+environment variable.
+
+.. seealso::
+
+   * :ref:`component`
+
 .. setting:: CONTACT_FORM
 
 CONTACT_FORM
