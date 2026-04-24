@@ -1844,6 +1844,9 @@ WEBHOOK_RESTRICT_PRIVATE
 Reject webhook URLs pointing to internal or non-public addresses unless the
 target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
 
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
+
 .. seealso::
 
    * :ref:`addon-weblate.webhook.webhook`
@@ -2429,6 +2432,9 @@ VCS_RESTRICT_PRIVATE
 
 Reject VCS repository URLs pointing to internal or non-public addresses unless
 the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
 
 .. setting:: VCS_API_DELAY
 

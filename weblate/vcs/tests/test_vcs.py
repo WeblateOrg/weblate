@@ -1312,6 +1312,12 @@ class VCSGitUpstreamTest(VCSGitTest):
     _repo_override: str = ""
 
     def setUp(self) -> None:
+        getaddrinfo_patcher = patch(
+            "weblate.utils.outbound.socket.getaddrinfo",
+            return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+        )
+        getaddrinfo_patcher.start()
+        self.addCleanup(getaddrinfo_patcher.stop)
         super().setUp()
         # Set repo URL to match configured credentials
         if self._repo_override:
