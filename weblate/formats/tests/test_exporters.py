@@ -229,6 +229,25 @@ class PoExporterTest(BaseTestCase):
     def test_has_addunit(self) -> None:
         self.assertTrue(hasattr(self.exporter.storage, "addunit"))
 
+    def test_headers_config(
+        self, language_team: bool = True, x_generator: bool = True
+    ) -> None:
+        if self._class is not PoExporter:
+            return
+        result = self.check_unit(
+            source="xxx",
+            target="yyy",
+            file_format_params={
+                "po_set_language_team": language_team,
+                "po_set_x_generator": x_generator,
+            },
+        ).decode()
+        self.assertEqual(language_team, "Language-Team: <http://example.com/" in result)
+        self.assertEqual(x_generator, "X-Generator: Weblate " in result)
+
+    def test_headers_config_off(self) -> None:
+        self.test_headers_config(language_team=False, x_generator=False)
+
 
 class PoXliffExporterTest(PoExporterTest):
     _class = PoXliffExporter

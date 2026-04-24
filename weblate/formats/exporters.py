@@ -26,6 +26,10 @@ from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
+from weblate.trans.file_format_params import (
+    GettextSetLanguageTeamHeader,
+    GettextXGenerator,
+)
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
@@ -67,14 +71,20 @@ class PoExporter(BaseExporter):
         store = super().get_storage()
         plural = self.plural
 
+        headers_kwargs = {}
+        if GettextSetLanguageTeamHeader.get_value(self.file_format_params):
+            headers_kwargs["language_team"] = f"{self.language.name} <{self.url}>"
+
+        if GettextXGenerator.get_value(self.file_format_params):
+            headers_kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
+
         # Set po file header
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator=f"Weblate {weblate.utils.version.VERSION}",
             project_id_version=f"{self.language.name} ({self.project.name})",
             plural_forms=plural.plural_form,
-            language_team=f"{self.language.name} <{self.url}>",
+            **headers_kwargs,
         )
         return store
 

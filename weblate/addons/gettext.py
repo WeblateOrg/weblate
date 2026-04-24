@@ -34,6 +34,7 @@ from weblate.addons.forms import (
 )
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
+from weblate.trans.file_format_params import GettextReportMsgidBugsTo
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
@@ -804,9 +805,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         report_msgid_bugs_to = component.report_source_bugs or get_site_url(
             component.get_absolute_url()
         )
-        if report_msgid_bugs_to:
+        if report_msgid_bugs_to and GettextReportMsgidBugsTo.get_value(
+            component.file_format_params
+        ):
             header_updates["report_msgid_bugs_to"] = report_msgid_bugs_to
-        store.update_header(**header_updates)
+        store.update_header(component.file_format_params, **header_updates)
 
         if had_descriptive_title:
             title_line = f"Translations for {component_name}.\n"

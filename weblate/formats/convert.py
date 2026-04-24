@@ -57,6 +57,7 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
     from weblate.formats.base import TranslationUnit
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
@@ -172,7 +173,7 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     def create_new_file(
         cls,
         filename: str,
-        language: str,  # noqa: ARG003
+        language: Language,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
         file_format_params: FileFormatParams | None = None,  # noqa: ARG003

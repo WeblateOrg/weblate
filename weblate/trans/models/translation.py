@@ -39,6 +39,11 @@ from weblate.trans.exceptions import (
     FileParseError,
     PluralFormsMismatchError,
 )
+from weblate.trans.file_format_params import (
+    GettextLastTranslator,
+    GettextReportMsgidBugsTo,
+    GettextSetLanguageTeamHeader,
+)
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
@@ -1236,25 +1241,27 @@ class Translation(
 
         # Prepare headers to update
         headers = {
-            "last_translator": author_name,
             "plural_forms": self.plural.plural_form,
             "language": self.language_code,
             "PO_Revision_Date": now.strftime("%Y-%m-%d %H:%M%z"),
         }
 
         # Optionally store language team with link to website
-        if self.component.project.set_language_team:
+        if GettextSetLanguageTeamHeader.get_value(self.component.file_format_params):
             headers["language_team"] = (
                 f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
             )
+        if GettextLastTranslator.get_value(self.component.file_format_params):
+            headers["last_translator"] = author_name
 
         # Optionally store email for reporting bugs in source
-        report_source_bugs = self.component.report_source_bugs
-        if report_source_bugs:
+        if (
+            report_source_bugs := self.component.report_source_bugs
+        ) and GettextReportMsgidBugsTo.get_value(self.component.file_format_params):
             headers["report_msgid_bugs_to"] = report_source_bugs
 
         # Update generic headers
-        store.update_header(**headers)
+        store.update_header(self.component.file_format_params, **headers)
 
         # save translation changes
         store.save()

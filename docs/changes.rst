@@ -5,6 +5,7 @@ Weblate 5.17.1
 
 .. rubric:: New features
 
+* :ref:`file_format_params` now include ``po_set_language_team``, ``po_set_last_translator``, ``po_set_x_generator``, and ``po_report_msgid_bugs_to`` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers in Gettext PO and POT files.
 * Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
 * :ref:`mt-ltengine` machine translation service.
 
@@ -63,6 +64,8 @@ Weblate 5.17.1
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 
 .. rubric:: Compatibility
+
+* The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team`` file format parameter at the component level; see :ref:`file_format_params`.
 
 .. rubric:: Upgrading
 

@@ -490,6 +490,8 @@ class BackupsTest(ViewTestCase):
 
     def verify_restored(self) -> None:
         restored = Project.objects.get(slug="restored")
+        component = restored.component_set.get(slug="test")
+        glossary = restored.component_set.get(slug="glossary")
         self.assertEqual(
             16,
             Unit.objects.filter(translation__component__project=restored).count(),
@@ -522,6 +524,9 @@ class BackupsTest(ViewTestCase):
             {("Label", "navy")},
             set(restored.label_set.values_list("name", "color")),
         )
+        # check that set_language_team is migrated to file format parameters
+        self.assertTrue(component.file_format_params["po_set_language_team"])
+        self.assertIsNone(glossary.file_format_params.get("po_set_language_team"))
 
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
