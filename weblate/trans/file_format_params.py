@@ -96,14 +96,19 @@ class BaseFileFormatParam:
 
         if self.field_class == forms.BooleanField:
             field_classes.append("form-check-input")
+        elif self.field_class == forms.ChoiceField:
+            field_classes.append("form-select")
         else:
             field_classes.append("form-control")
 
-        return {
+        attrs = {
             "label": self.label,
             "fileformats": " ".join(self.file_formats),
             "class": " ".join(field_classes),
         }
+        if self.help_text:
+            attrs["help_text"] = self.help_text
+        return attrs
 
     def get_field_kwargs(self) -> dict:
         kwargs = cast("dict", self.field_kwargs.copy())
