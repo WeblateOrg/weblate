@@ -563,7 +563,7 @@ def _validate_profile_like_url(
     """Validate common profile/contact URL safety checks."""
     _validate_public_profile_url(value, credentials_message=credentials_message)
     if value and _has_blocked_profile_url_extension(value):
-        raise ValidationError(gettext(blocked_extension_message))
+        raise ValidationError(blocked_extension_message)
 
 
 def _get_profile_path_segments(value: str) -> list[str]:
@@ -582,7 +582,7 @@ def validate_profile_url(value: str | None) -> None:
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
         ),
-        blocked_extension_message=(
+        blocked_extension_message=gettext(
             "Profile URL should link to a profile page, "
             "not directly to a file download."
         ),
@@ -596,7 +596,7 @@ def validate_code_site_url(value: str | None) -> None:
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
         ),
-        blocked_extension_message=(
+        blocked_extension_message=gettext(
             "Profile URL should link to a profile page, "
             "not directly to a file download."
         ),
@@ -638,7 +638,7 @@ def validate_contact_url(value: str | None) -> None:
         credentials_message=gettext(
             "Contact URL cannot include username or password credentials."
         ),
-        blocked_extension_message=(
+        blocked_extension_message=gettext(
             "Contact URL should link to a contact or profile page, "
             "not directly to a file download."
         ),
