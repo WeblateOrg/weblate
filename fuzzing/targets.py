@@ -286,7 +286,6 @@ def _build_backup_archive(data: bytes) -> bytes:
             "ignore",
             message=r"Duplicate name: .*",
             category=UserWarning,
-            module="zipfile",
         )
         with ZipFile(buffer, "w", compression=compression) as archive:
             if fdp.consume_bool():

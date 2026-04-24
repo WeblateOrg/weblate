@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import warnings
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
@@ -12,11 +13,13 @@ from fuzzing.targets import fuzz_backups
 
 class BackupFuzzTargetTest(SimpleTestCase):
     def test_duplicate_zip_members_are_ignored(self) -> None:
-        fuzz_backups(
-            bytes.fromhex(
-                "222043d16f2d332e302d6f722d7001000000636f64696e67732e7574665f3332696967"
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            fuzz_backups(
+                bytes.fromhex(
+                    "222043d16f2d332e302d6f722d7001000000636f64696e67732e7574665f3332696967"
+                )
             )
-        )
 
     def test_invalid_member_paths_are_ignored(self) -> None:
         fuzz_backups(
