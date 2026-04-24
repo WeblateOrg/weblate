@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-23 18:18+0000\n"
+"PO-Revision-Date: 2026-04-24 17:37+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -11498,14 +11498,16 @@ msgid ""
 "``auto`` to enable IPv6 listeners only when IPv6 is available in the "
 "container runtime. This is the default."
 msgstr ""
+"\"``auto``, um IPv6-Listener nur zu aktivieren, wenn IPv6 in der Container-"
+"Laufzeitumgebung verfügbar ist. Dies ist die Voreinstellung."
 
 #: admin/install/docker.rst:783
 msgid "``on`` to always enable IPv6 listeners."
-msgstr ""
+msgstr "``on``, um IPv6-Listener immer zu aktivieren."
 
 #: admin/install/docker.rst:784
 msgid "``off`` to disable IPv6 listeners."
-msgstr ""
+msgstr "``off``, um IPv6-Listener zu deaktivieren."
 
 #: admin/install/docker.rst:795
 msgid ""
@@ -11595,12 +11597,18 @@ msgid ""
 "Enables the :ref:`legal` module in Docker deployments. By default, the "
 "integration is disabled; leave this variable unset or empty to disable it."
 msgstr ""
+"Aktiviert das Modul :ref:`legal` in Docker-Bereitstellungen. Standardmäßig "
+"ist die Integration deaktiviert; lassen Sie diese Variable nicht gesetzt "
+"oder leer, um sie zu deaktivieren."
 
 #: admin/install/docker.rst:875
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce terms of service "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
+"``tos-confirm``, um das Rechtsmodul zu aktivieren und die Bestätigung der "
+"Nutzungsbedingungen während der sozialen Authentifizierung und für "
+"angemeldete Benutzer durchzusetzen."
 
 #: admin/install/docker.rst:877
 msgid ""
@@ -11608,6 +11616,10 @@ msgid ""
 "legal document templates from ``wllegal``. These templates are used by "
 "services operated by Weblate s.r.o. and are not intended for general use."
 msgstr ""
+"``wllegal``, um dieselbe Integration zu ermöglichen und zusätzlich die "
+"gehosteten rechtlichen Dokumentenvorlagen von ``wllegal`` zu laden. Diese "
+"Vorlagen werden von den von Weblate s.r.o. betriebenen Diensten verwendet, "
+"und sind nicht für den allgemeinen Gebrauch bestimmt."
 
 #: admin/install/docker.rst:882
 msgid ""
@@ -11615,6 +11627,9 @@ msgid ""
 "in :file:`/app/data/python/customize/templates/legal/documents`, "
 "see :ref:`docker-static-override`."
 msgstr ""
+"Um Ihre eigenen rechtlichen Dokumente in Docker bereitzustellen, "
+"überschreiben Sie die Vorlagen in :file:`/app/data/python/customize/"
+"templates/legal/documents`, siehe :ref:`docker-static-override`."
 
 #: admin/install/docker.rst:900
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -12146,6 +12161,8 @@ msgid ""
 "Configures which claim is used as the unique user identifier from Keycloak. "
 "Defaults to ``email``."
 msgstr ""
+"Legt fest, welcher Claim als eindeutige Benutzerkennung von Keycloak "
+"verwendet wird. Der Standardwert ist ``email``."
 
 #: admin/install/docker.rst:1567
 msgid ""
@@ -15148,6 +15165,10 @@ msgid ""
 "contributing/documentation` workflow and the ``make -C docs update-docs`` "
 "targets."
 msgstr ""
+"Beim Verwenden von ``--output`` muss genau ein Wert in ``--sections`` "
+"ausgewählt werden, damit jeder generierte Ausschnitt in eine eigene Datei "
+"geschrieben wird. Dies entspricht dem Ablauf von :doc:`/contributing/"
+"documentation` und den Zielen ``make -C docs update-docs``."
 
 #: admin/management.rst:770
 msgid ""
@@ -15535,13 +15556,6 @@ msgid "Translation memory status"
 msgstr "Übersetzungsspeicherstatus"
 
 #: admin/memory.rst:79
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, stale and "
-#| "obsolete entries with pending status are automatically removed when a "
-#| "translation is approved."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
@@ -15551,9 +15565,8 @@ msgstr ""
 "Übersetzungsspeichereinträge können zwei verschiedene Status haben: "
 "**aktiv** und **ausstehend**. Ausstehende Einträge werden in "
 "Übersetzungsvorschlägen berücksichtigt, allerdings mit einem Qualitätsabzug. "
-"Wenn :ref:`autoclean-tm` aktiviert ist, werden veraltete Einträge mit dem "
-"Status „ausstehend“ automatisch entfernt, wenn eine Übersetzung genehmigt "
-"wird."
+"Wenn :ref:`autoclean-tm` aktiviert ist, werden passende ausstehende Einträge "
+"entfernt, wenn eine Übersetzung aktiv wird."
 
 #: admin/memory.rst:87 admin/projects.rst:199
 msgid "Autoclean translation memory"
@@ -15564,18 +15577,24 @@ msgid ""
 "When enabled for a project, Weblate replaces older automatically created "
 "translation memory entries when a translation becomes active:"
 msgstr ""
+"Wenn für ein Projekt aktiviert, ersetzt Weblate ältere, automatisch "
+"erstellte Einträge im Übersetzungsspeicher, wenn eine Übersetzung aktiv wird:"
 
 #: admin/memory.rst:94
 msgid ""
 "With :ref:`project-translation_review` enabled, cleanup happens when the "
 "translation is approved."
 msgstr ""
+"Bei eingeschaltetem :ref:`project-translation_review`, erfolgt der "
+"Bereinigungsvorgang, wenn die Übersetzung genehmigt wird."
 
 #: admin/memory.rst:96
 msgid ""
 "Without review, cleanup happens as soon as the translation reaches the "
 "translated state."
 msgstr ""
+"Ohne Überprüfung erfolgt der Bereinigungsvorgang , sobald die Übersetzung "
+"den Status „übersetzt“ erreicht hat."
 
 #: admin/memory.rst:99
 msgid ""
@@ -15586,12 +15605,22 @@ msgid ""
 "translation is then stored again as an active entry in the scopes that are "
 "enabled for that change."
 msgstr ""
+"Für dasselbe Paar aus Ausgangszeichenkette, Komponente, Kontext und "
+"Ausgangs-/Zielsprache entfernt Weblate übereinstimmende Nicht-Datei-Einträge "
+"aus dem Übersetzungsspeicher, einschließlich Einträgen mit einem anderen "
+"Zieltext. Dies gilt für alle persönlichen, projektbezogenen und gemeinsamen "
+"Bereiche des Übersetzungsspeichers. Die aktuelle Übersetzung wird dann "
+"erneut als aktiver Eintrag in den Bereichen gespeichert, die für diese "
+"Änderung aktiviert sind."
 
 #: admin/memory.rst:105
 msgid ""
 "Entries imported from external translation memory files are not cleaned up "
 "automatically. Entries with a different context are kept."
 msgstr ""
+"Einträge, die aus externen Übersetzungsspeicherdateien importiert werden, "
+"werden nicht automatisch bereinigt. Einträge mit einem anderen Kontext "
+"werden beibehalten."
 
 #: admin/memory.rst:108
 msgid ""
@@ -15982,17 +16011,15 @@ msgstr ""
 "WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents> verfügbar."
 
 #: admin/optionals.rst:150
-#, fuzzy
-#| msgid ""
-#| "Most likely these will not be directly usable to you, but might come in "
-#| "handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "that service and are not intended for general use. They might still come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
-"Höchstwahrscheinlich sind diese für Sie nicht direkt verwendbar, können aber "
-"als Ausgangspunkt nützlich sein, wenn Sie sie an Ihre Bedürfnisse anpassen."
+"Die beigefügten Nutzungsbedingungen und zugehörigen rechtlichen Dokumente "
+"beziehen sich speziell auf diesen Dienst und sind nicht für den allgemeinen "
+"Gebrauch bestimmt. Sie können dennoch als Ausgangspunkt dienen, wenn Sie sie "
+"an Ihre Bedürfnisse anpassen."
 
 #: admin/optionals.rst:157
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -16020,6 +16047,15 @@ msgid ""
 "python/customize/templates/legal/documents`, see :ref:`docker-static-"
 "override`."
 msgstr ""
+"Aktivieren Sie in Docker-Bereitstellungen das Rechtsmodul mit "
+":envvar:`WEBLATE_LEGAL_INTEGRATION`, anstatt :file:`settings.py` zu "
+"bearbeiten. Verwenden Sie ``tos-confirm``, um das Rechtsmodul und die "
+"Durchsetzung der Nutzungsbedingungen zu aktivieren, oder ``wllegal``, um "
+"zusätzlich die gehosteten rechtlichen Dokumentenvorlagen zu laden, die von "
+"den von Weblate s.r.o. betriebenen Diensten verwendet werden. Diese Vorlagen "
+"sind nicht für den allgemeinen Gebrauch bestimmt. Um Ihre eigenen Vorlagen "
+"in Docker bereitzustellen, legen Sie diese in :file:`/app/data/python/"
+"customize/templates/legal/documents` ab, siehe :ref:`docker-static-override`."
 
 #: admin/optionals.rst:197
 msgid ""
@@ -16613,22 +16649,21 @@ msgstr ""
 "mit :ref:`project-use_shared_tm` umgeschaltet."
 
 #: admin/projects.rst:203
-#, fuzzy
-#| msgid ""
-#| "Whether to automatically remove outdated and obsolete entries from "
-#| "translation memory."
 msgid ""
 "Whether to replace older automatically created translation memory entries "
 "when a translation becomes active."
 msgstr ""
-"Ob veraltete und überholte Einträge automatisch aus dem Übersetzungsspeicher "
-"entfernt werden sollen."
+"Ob ältere, automatisch erstellte Übersetzungsspeichereinträge ersetzt werden "
+"sollen, wenn eine Übersetzung aktiv wird."
 
 #: admin/projects.rst:206
 msgid ""
 "Matching is based on the same source string, component, context, and source/"
 "target language pair. Uploaded translation memory files are not affected."
 msgstr ""
+"Der Abgleich basiert auf derselben Ausgangszeichenkette, Komponente, "
+"demselben Kontext und Paar aus Ausgangs-/Zielsprache. Hochgeladene "
+"Übersetzungsspeicherdateien sind davon nicht betroffen."
 
 #: admin/projects.rst:220
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -19101,18 +19136,15 @@ msgstr ""
 "siehe :doc:`backup`."
 
 #: admin/upgrade.rst:36
-#, fuzzy
-#| msgid ""
-#| "Stop the WSGI and Celery processes to avoid old processes running while "
-#| "upgrading. Otherwise incompatible changes in the database might occur."
 msgid ""
 "Wait for the Celery queues to become empty, then stop the WSGI and Celery "
 "processes to avoid old processes running while upgrading. Otherwise "
 "incompatible changes in the database might occur."
 msgstr ""
-"Die WSGI- und Celery-Prozesse stoppen, um zu vermeiden, dass alte Prozesse "
-"während des Upgrades weiterlaufen. Andernfalls kann es zu inkompatiblen "
-"Änderungen in der Datenbank kommen."
+"Abwarten, bis die Celery-Warteschlangen leer sind, und dann die WSGI- und "
+"Celery-Prozesse anhalten, um zu vermeiden, dass alte Prozesse während des "
+"Upgrades weiterlaufen. Andernfalls kann es zu inkompatiblen Änderungen in "
+"der Datenbank kommen."
 
 #: admin/upgrade.rst:40
 msgid ""
@@ -19121,6 +19153,12 @@ msgid ""
 "can monitor queue length in the :ref:`management-interface` or by "
 "using :wladmin:`celery_queues`."
 msgstr ""
+"Die Celery-Aufgabenwarteschlange ist keine über unterschiedliche Versionen "
+"hinweg stabile Schnittstelle, sodass nicht garantiert werden kann, dass in "
+"der Warteschlange befindliche Aufgaben aus der alten Version nach dem "
+"Upgrade noch funktionieren. Sie können die Länge der Warteschlange über die "
+":ref:`management-interface` oder mithilfe von :wladmin:`celery_queues` "
+"überwachen."
 
 #: admin/upgrade.rst:45
 msgid "Upgrade Weblate"
@@ -19720,6 +19758,8 @@ msgid ""
 "Add-ons that opt in to manual triggering can now be run from add-on "
 "management and the :ref:`addons-api`."
 msgstr ""
+"Erweiterungen, für welche die manuelle Auslösung aktiviert ist, können jetzt "
+"über die Erweiterungsverwaltung und :ref:`addons-api` ausgeführt werden."
 
 #: changes.rst:11 changes.rst:77 changes.rst:181 changes.rst:216
 #: changes.rst:263 changes.rst:307 changes.rst:352 changes.rst:393
@@ -19739,16 +19779,18 @@ msgstr "Verbesserungen"
 #: changes.rst:12
 msgid "Clarified the site-wide scope of the global ``user.edit`` permission."
 msgstr ""
+"Den plattformweiten Anwendungsbereich der globalen Berechtigung "
+"``user.edit`` präzisiert."
 
 #: changes.rst:13
 msgid "Clarified :ref:`autoclean-tm`."
-msgstr ""
+msgstr ":ref:`autoclean-tm` präzisiert."
 
 #: changes.rst:14
-#, fuzzy
-#| msgid "Password hashing now uses Argon2 by default."
 msgid "Password updates now regenerate your personal API key by default."
-msgstr "Passwort-Hashing verwendet jetzt standardmäßig Argon2."
+msgstr ""
+"Bei einer Passwortänderung wird der persönliche API-Schlüssel nun "
+"standardmäßig neu generiert."
 
 #: changes.rst:15
 msgid ""
@@ -19756,6 +19798,9 @@ msgid ""
 "shows a preview and requires confirmation before creating missing language "
 "files across projects, categories, or site-wide scopes."
 msgstr ""
+"Der Web-Installationsablauf für :ref:`addon-weblate.consistency.languages` "
+"zeigt jetzt eine Vorschau an und erfordert eine Bestätigung, bevor fehlende "
+"Sprachdateien projekt-, kategorie- oder seitenweit erstellt werden."
 
 #: changes.rst:16
 msgid ""
@@ -20182,6 +20227,10 @@ msgid ""
 "and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the "
 "bundled NGINX."
 msgstr ""
+"Docker stellt nun :envvar:`WEBLATE_COMMIT_PENDING_HOURS`, "
+":envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` zur Anpassung des Keycloak-"
+"Claims für die eindeutige Benutzerkennung sowie :envvar:`WEBLATE_NGINX_IPV6` "
+"zur Steuerung der IPv6-Listener im mitgelieferten NGINX bereit."
 
 #: changes.rst:88
 msgid ""
@@ -20640,6 +20689,11 @@ msgid ""
 "listeners only when IPv6 is available in the container runtime; use ``on`` "
 "to always enable them or ``off`` to disable them."
 msgstr ""
+"Wenn Sie Weblate in Docker betreiben und auf IPv6-Listener angewiesen sind, "
+"überprüfen Sie :envvar:`WEBLATE_NGINX_IPV6`. Die Standardeinstellung "
+"``auto`` aktiviert IPv6-Listener nur, wenn IPv6 in der Container-"
+"Laufzeitumgebung verfügbar ist; verwenden Sie ``on``, um sie immer zu "
+"aktivieren oder ``off``, um sie zu deaktivieren."
 
 #: changes.rst:163
 #, fuzzy
