@@ -2324,6 +2324,19 @@ to the donation page in case there is no active support subscription.
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
+.. setting:: TRANSLATION_UPLOAD_MAX_SIZE
+
+TRANSLATION_UPLOAD_MAX_SIZE
+---------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded translation files. Defaults
+to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
+environment variable.
+
 .. setting:: UNUSED_ALERT_DAYS
 
 UNUSED_ALERT_DAYS

@@ -107,7 +107,10 @@ from weblate.utils.state import (
     StringState,
     get_state_label,
 )
-from weblate.utils.validators import validate_file_extension
+from weblate.utils.validators import (
+    validate_file_extension,
+    validate_translation_upload_size,
+)
 from weblate.utils.views import get_sort_name
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -694,7 +697,8 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
     """Base form for uploading a file."""
 
     file = forms.FileField(
-        label=gettext_lazy("File"), validators=[validate_file_extension]
+        label=gettext_lazy("File"),
+        validators=[validate_translation_upload_size, validate_file_extension],
     )
     method = forms.ChoiceField(
         label=gettext_lazy("File upload mode"),

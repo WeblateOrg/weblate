@@ -128,6 +128,11 @@ def validate_upload_size(value: DjangoFile) -> None:
         raise ValidationError(gettext("Uploaded file is too big."))
 
 
+def validate_translation_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.TRANSLATION_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+
+
 def validate_bitmap(
     value: FieldFile | File | None,
 ) -> None:
