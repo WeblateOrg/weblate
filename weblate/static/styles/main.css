@@ -2732,3 +2732,9 @@ table.table-simple tbody#glossary-terms .alert-info {
 .translate-explanation {
   background-color: var(--bs-secondary-bg) !important;
 }
+
+/* styling fix for file format parameters caused by `display: none` elements as first children in the same container */
+.file-format-param {
+  display: flow-root;
+  clear: left;
+}
