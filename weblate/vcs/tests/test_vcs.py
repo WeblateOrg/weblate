@@ -16,7 +16,7 @@ from pathlib import Path
 from time import time
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import patch
-from zipfile import ZipFile
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import responses
 from django.core.cache import cache
@@ -29,6 +29,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
+from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
@@ -2921,6 +2922,48 @@ remove the file manually to continue.
         target = os.path.join(self.tempdir, "from-zip-path")
 
         with self.assertRaisesRegex(RepositoryError, "ZIP file contains invalid path"):
+            LocalRepository.from_zip(target, archive)
+        self.assertFalse(os.path.exists(target))
+
+    def test_from_zip_rejects_too_many_entries(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("first.po", "msgid ''\nmsgstr ''\n")
+            zipfile.writestr("second.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-too-many")
+
+        with (
+            patch.object(
+                LocalRepository,
+                "ZIP_IMPORT_LIMITS",
+                ZipSafetyLimits(max_members=1),
+            ),
+            self.assertRaisesRegex(RepositoryError, "contains too many entries"),
+        ):
+            LocalRepository.from_zip(target, archive)
+
+    def test_from_zip_rejects_compressed_large_entry(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("large.po", b"a" * 5000, compress_type=ZIP_DEFLATED)
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-compressed")
+
+        with (
+            patch.object(
+                LocalRepository,
+                "ZIP_IMPORT_LIMITS",
+                ZipSafetyLimits(
+                    max_compressed_entry_size=100,
+                    min_compressed_ratio_size=10,
+                    max_compressed_entry_ratio=5,
+                ),
+            ),
+            self.assertRaisesRegex(
+                RepositoryError, "compressed entry that is too large"
+            ),
+        ):
             LocalRepository.from_zip(target, archive)
 
 

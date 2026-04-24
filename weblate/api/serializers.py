@@ -59,7 +59,11 @@ from weblate.trans.util import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
-from weblate.utils.validators import validate_bitmap, validate_translation_upload_size
+from weblate.utils.validators import (
+    validate_bitmap,
+    validate_component_zip_upload_size,
+    validate_translation_upload_size,
+)
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 from weblate.utils.views import (
@@ -68,6 +72,7 @@ from weblate.utils.views import (
     get_form_errors,
     guess_filemask_from_doc,
 )
+from weblate.vcs.base import RepositoryError
 
 NEW_UNIT_STATE_CHOICES = tuple(
     choice for choice in StringState.choices if choice[0] != STATE_READONLY
@@ -882,7 +887,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
-    zipfile = serializers.FileField(required=False)
+    zipfile = serializers.FileField(
+        required=False, validators=[validate_component_zip_upload_size]
+    )
     docfile = serializers.FileField(required=False)
     from_component = ComponentReferenceField(required=False, write_only=True)
     disable_autoshare = serializers.BooleanField(required=False)
@@ -1285,7 +1292,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             if zipfile is not None:
                 try:
                     create_component_from_zip(attrs, zipfile)
-                except BadZipfile as error:
+                except (BadZipfile, OSError, RepositoryError) as error:
                     raise serializers.ValidationError(
                         {"zipfile": "Could not parse uploaded ZIP file."}
                     ) from error
