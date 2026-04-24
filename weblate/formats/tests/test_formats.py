@@ -377,17 +377,18 @@ class BaseFormatTest(FormatTestCase, ABC):
         self, key: FileFormatParamKey, value: str | int | bool
     ):
         """Temporarily set a file format parameter for the duration of the context."""
-        original_set = key in self.FILE_FORMAT_PARAMS
-        original_value: str | int | bool | None = (
-            self.FILE_FORMAT_PARAMS[key] if original_set else None
-        )
-        self.FILE_FORMAT_PARAMS[key] = value
-        try:
-            yield
-        finally:
-            if original_set:
-                self.FILE_FORMAT_PARAMS[key] = original_value
-            else:
+        if key in self.FILE_FORMAT_PARAMS:
+            previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]
+            self.FILE_FORMAT_PARAMS[key] = value
+            try:
+                yield
+            finally:
+                self.FILE_FORMAT_PARAMS[key] = previous
+        else:
+            self.FILE_FORMAT_PARAMS[key] = value
+            try:
+                yield
+            finally:
                 self.FILE_FORMAT_PARAMS.pop(key, None)
 
     def parse_file(self, filename: str | IO[bytes], template: str | None = None):
