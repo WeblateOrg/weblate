@@ -202,7 +202,7 @@ def validate_fullname(val):
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
 
-    if FULL_NAME_RESTRICT.match(val):
+    if FULL_NAME_RESTRICT.search(val):
         raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
