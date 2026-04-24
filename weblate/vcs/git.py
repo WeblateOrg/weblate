@@ -42,7 +42,11 @@ from requests.exceptions import HTTPError
 
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_excluded, remove_tree
+from weblate.utils.files import (
+    is_excluded,
+    is_path_within_resolved_directory,
+    remove_tree,
+)
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
@@ -2199,8 +2203,21 @@ class LocalRepository(GitRepository):
             cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo,
             ZipFile(zipfile) as zipobj,
         ):
-            names = [name for name in zipobj.namelist() if not is_excluded(name)]
-            zipobj.extractall(path=target, members=names)
+            resolved_target = Path(target).resolve(strict=False)
+            for info in zipobj.infolist():
+                destination = (resolved_target / info.filename).resolve(strict=False)
+                if not is_path_within_resolved_directory(destination, resolved_target):
+                    msg = gettext("ZIP file contains invalid path: {path}").format(
+                        path=info.filename
+                    )
+                    raise RepositoryError(1, msg)
+                if is_excluded(info.filename):
+                    continue
+                mode = (info.external_attr >> 16) & 0o170000
+                if mode == 0o120000:
+                    msg = gettext("ZIP file contains unsupported symbolic links.")
+                    raise RepositoryError(1, msg)
+                zipobj.extract(info, path=target)
             return repo
 
     @classmethod
