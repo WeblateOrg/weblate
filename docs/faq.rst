@@ -543,8 +543,9 @@ Does Weblate support other VCSes than Git and Mercurial?
 --------------------------------------------------------
 
 Weblate currently does not have native support for anything other than
-:ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit`
-and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to write
+:ref:`vcs-git` (with extended support for
+:ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gerrit`, and
+:ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
 
 Weblate also supports VCS-less operation, see :ref:`vcs-local`.
