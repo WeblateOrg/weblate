@@ -9,12 +9,14 @@ import os.path
 import re
 import shutil
 import tempfile
+from io import BytesIO
 from contextlib import ExitStack
 from os import utime
 from pathlib import Path
 from time import time
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import patch
+from zipfile import ZipFile
 
 import responses
 from django.core.cache import cache
@@ -2888,6 +2890,30 @@ remove the file manually to continue.
             )
         finally:
             shutil.rmtree(tempdir)
+
+    def test_from_zip_rejects_symlink_entry(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("symlink", "ignored")
+            info = zipfile.getinfo("symlink")
+            info.external_attr = 0o120777 << 16
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-symlink")
+
+        with self.assertRaisesRegex(
+            RepositoryError, "ZIP file contains unsupported symbolic links"
+        ):
+            LocalRepository.from_zip(target, archive)
+
+    def test_from_zip_rejects_path_outside_target(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("../../outside.txt", "blocked")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-path")
+
+        with self.assertRaisesRegex(RepositoryError, "ZIP file contains invalid path"):
+            LocalRepository.from_zip(target, archive)
 
 
 @override_settings(
