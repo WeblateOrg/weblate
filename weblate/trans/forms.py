@@ -1598,6 +1598,16 @@ class FormParamsWidget(forms.MultiWidget):
         return [value.get(param_name) for param_name in self.fields_order]
 
     def get_context(self, *args, **kwargs) -> dict[str, Any]:
+        # Crispy injects `form-control` class to all subwidgets, which can conflict
+        # with some of our widgets, so we need to remove it from checkboxes and selects
+        for widget in self.widgets:
+            classes = widget.attrs.get("class", "").split()
+            if "form-control" in classes and (
+                "form-check-input" in classes or "form-select" in classes
+            ):
+                widget.attrs["class"] = " ".join(
+                    c for c in classes if c != "form-control"
+                )
         context = super().get_context(*args, **kwargs)
         context["subwidget_class"] = self.subwidget_class
         return context
