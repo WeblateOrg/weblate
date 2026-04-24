@@ -364,11 +364,12 @@ class Repository:
             msg = "Too many symlinks or link outside tree"
             raise RepositorySymlinkError(msg)
 
-        if is_excluded(path_separator(os.fspath(real_path))):
+        relative_path = os.path.relpath(real_path, repository_path)
+
+        if is_excluded(path_separator(relative_path)):
             msg = "Link to a restricted location"
             raise RepositorySymlinkError(msg)
 
-        relative_path = os.path.relpath(real_path, repository_path)
         if relative_path == ".":
             return ""
         return path_separator(relative_path)
