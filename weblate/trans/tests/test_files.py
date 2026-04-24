@@ -10,11 +10,13 @@ import os
 import tempfile
 from io import BytesIO
 from pathlib import Path
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
-from django.test import SimpleTestCase
+from django.core.exceptions import ValidationError
+from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
@@ -28,6 +30,9 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
+
+if TYPE_CHECKING:
+    from django.http import HttpResponseBase
 
 TEST_PO = get_test_file("cs.po")
 TEST_PO_PLURAL = get_test_file("cs-plural.po")
@@ -64,7 +69,7 @@ class ImportBaseTest(ViewTestCase):
 
     def do_import(
         self, *, test_file: str | None = None, follow: bool = False, **kwargs
-    ) -> None:
+    ) -> HttpResponseBase:
         """Perform file import."""
         if test_file is None:
             test_file = self.test_file
@@ -125,6 +130,24 @@ class ImportTest(ImportBaseTest):
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
         self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_import_too_big(self) -> None:
+        response = self.do_import(follow=True)
+
+        self.assertRedirects(response, self.translation_url)
+        self.assertContains(response, "Uploaded translation file is too big.")
+
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_direct_upload_too_big_without_size(self) -> None:
+        translation = self.get_translation()
+        request = self.get_request()
+        handle = NamedBytesIO("test.po", Path(TEST_PO).read_bytes())
+
+        with self.assertRaisesMessage(
+            ValidationError, "Uploaded translation file is too big."
+        ):
+            translation.handle_upload(request, handle, "")
 
     def test_import_author(self) -> None:
         """Test importing normally."""

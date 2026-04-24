@@ -59,7 +59,7 @@ from weblate.trans.util import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
-from weblate.utils.validators import validate_bitmap
+from weblate.utils.validators import validate_bitmap, validate_translation_upload_size
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 from weblate.utils.views import (
@@ -1568,7 +1568,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
-    file = serializers.FileField()
+    file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
