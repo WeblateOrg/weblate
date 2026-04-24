@@ -84,7 +84,10 @@ from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 if TYPE_CHECKING:
     from lxml.etree import _Element
 
-    from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.file_format_params import (
+        FileFormatParamKey,
+        FileFormatParams,
+    )
 
 
 class DummyBilingualUpdate(BilingualUpdateMixin):
@@ -370,10 +373,14 @@ class BaseFormatTest(FormatTestCase, ABC):
         raise NotImplementedError
 
     @contextmanager
-    def temporary_file_format_param(self, key: str, value: object):
+    def temporary_file_format_param(
+        self, key: FileFormatParamKey, value: str | int | bool
+    ):
         """Temporarily set a file format parameter for the duration of the context."""
         original_set = key in self.FILE_FORMAT_PARAMS
-        original_value = self.FILE_FORMAT_PARAMS.get(key)
+        original_value: str | int | bool | None = (
+            self.FILE_FORMAT_PARAMS[key] if original_set else None
+        )
         self.FILE_FORMAT_PARAMS[key] = value
         try:
             yield

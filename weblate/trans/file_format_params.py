@@ -55,34 +55,37 @@ class FileFormatParams(TypedDict, total=False):
     md_no_placeholders: bool
 
 
+FileFormatParamKey = Literal[
+    "json_sort_keys",
+    "json_indent",
+    "json_indent_style",
+    "json_use_compact_separators",
+    "po_line_wrap",
+    "po_keep_previous",
+    "po_no_location",
+    "po_fuzzy_matching",
+    "yaml_indent",
+    "yaml_line_wrap",
+    "yaml_line_break",
+    "xml_closing_tags",
+    "flatxml_root_name",
+    "flatxml_value_name",
+    "flatxml_key_name",
+    "strings_encoding",
+    "properties_encoding",
+    "csv_encoding",
+    "csv_simple_encoding",
+    "gwt_encoding",
+    "merge_duplicates",
+    "line_max_length",
+    "md_extract_code_blocks",
+    "md_extract_frontmatter",
+    "md_no_placeholders",
+]
+
+
 class BaseFileFormatParam:
-    name: Literal[
-        "json_sort_keys",
-        "json_indent",
-        "json_indent_style",
-        "json_use_compact_separators",
-        "po_line_wrap",
-        "po_keep_previous",
-        "po_no_location",
-        "po_fuzzy_matching",
-        "yaml_indent",
-        "yaml_line_wrap",
-        "yaml_line_break",
-        "xml_closing_tags",
-        "flatxml_root_name",
-        "flatxml_value_name",
-        "flatxml_key_name",
-        "strings_encoding",
-        "properties_encoding",
-        "csv_encoding",
-        "csv_simple_encoding",
-        "gwt_encoding",
-        "merge_duplicates",
-        "line_max_length",
-        "md_extract_code_blocks",
-        "md_extract_frontmatter",
-        "md_no_placeholders",
-    ]
+    name: FileFormatParamKey
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
