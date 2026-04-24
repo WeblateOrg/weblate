@@ -91,6 +91,8 @@ class FullNameCleanTest(SimpleTestCase):
     def test_html(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname("<h1>User</h1>")
+        with self.assertRaises(ValidationError):
+            validate_fullname("User<b>ffff</b>")
 
 
 class UserNameCleanTest(SimpleTestCase):
