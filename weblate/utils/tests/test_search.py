@@ -179,6 +179,8 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "change_time:2018 AND change_action:'Marked for edit'", expected
         )
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("NOT change_action:new-string", Q())
 
     def test_dates(self) -> None:
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)

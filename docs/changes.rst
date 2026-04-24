@@ -30,10 +30,13 @@ Weblate 5.17.1
 * Project-level machine translation validation errors for private or local endpoints now better explain the allowed setup on hosted and self-managed sites.
 * Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
 * Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
+* :setting:`VCS_RESTRICT_PRIVATE` and :setting:`WEBHOOK_RESTRICT_PRIVATE` now reject URLs whose hostnames cannot be resolved during validation unless the host is explicitly allowed.
 * Extended the conflicting repository setup alert to direct Git pushes, see :ref:`alerts`.
 * :doc:`/admin/announcements` can now also be managed via the :ref:`api` for categories.
 * :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
 * :ref:`profile` links now show an external-link warning where possible; obvious direct file download URLs and invalid code site or Fediverse profile links are rejected.
+* Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE` and :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` before parsing.
+* Component ZIP imports and project backup restores now share stricter ZIP archive safety checks.
 
 .. rubric:: Bug fixes
 

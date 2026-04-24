@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
 import sentry_sdk
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, transaction
@@ -83,6 +84,18 @@ if TYPE_CHECKING:
     from .project import Project
 
 UploadResult = tuple[int, int, int, int]
+
+
+def read_translation_upload(fileobj: BinaryIO) -> bytes:
+    max_size = settings.TRANSLATION_UPLOAD_MAX_SIZE
+    size = getattr(fileobj, "size", None)
+    if size is not None and size > max_size:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+
+    content = fileobj.read(max_size + 1)
+    if len(content) > max_size:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+    return content
 
 
 class NewUnitParams(TypedDict):
@@ -1493,6 +1506,7 @@ class Translation(
         """Replace source translations with uploaded one."""
         component = self.component
         filenames = []
+        filecopy = read_translation_upload(fileobj)
         with component.repository.lock:
             # Commit pending changes
             try:
@@ -1511,7 +1525,7 @@ class Translation(
             with tempfile.NamedTemporaryFile(
                 prefix="weblate-upload", dir=self.component.full_path, delete=False
             ) as temp:
-                temp.write(fileobj.read())
+                temp.write(filecopy)
 
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
@@ -1548,7 +1562,7 @@ class Translation(
         self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
     ) -> UploadResult:
         """Replace file content with uploaded one."""
-        filecopy = fileobj.read()
+        filecopy = read_translation_upload(fileobj)
         fileobj.close()
         fileobj = NamedBytesIO(fileobj.name, filecopy)
         self.unit_set.select_for_update()
@@ -1662,7 +1676,7 @@ class Translation(
     ) -> TranslationFormat:
         component = self.component
 
-        filecopy = fileobj.read()
+        filecopy = read_translation_upload(fileobj)
         fileobj.close()
 
         # Strip possible UTF-8 BOM

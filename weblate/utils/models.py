@@ -100,6 +100,8 @@ class WeblateConf(AppConf):
     ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
     ALLOWED_MACHINERY_DOMAINS: ClassVar[list[str]] = []
     ALLOWED_ASSET_SIZE: ClassVar[int] = 10_000_000
+    TRANSLATION_UPLOAD_MAX_SIZE: ClassVar[int] = 50_000_000
+    COMPONENT_ZIP_UPLOAD_MAX_SIZE: ClassVar[int] = 50_000_000
 
     def configure(self):
         data = AppConf.configure(self).copy()

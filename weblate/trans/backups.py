@@ -58,10 +58,20 @@ from weblate.utils.validators import (
     validate_repo_url,
 )
 from weblate.utils.version import VERSION
+from weblate.utils.zip import (
+    ZipSafetyLimits,
+    extract_zip_member,
+    iter_safe_zip_members,
+    validate_zip_member_path,
+)
+from weblate.utils.zip import (
+    validate_zip_members as validate_safe_zip_members,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from zipfile import ZipInfo
 
     from django.db.models import Model
 
@@ -538,44 +548,34 @@ class ProjectBackup:
     def get_limit(cls, setting_name: str, default: int) -> int:
         return int(getattr(settings, setting_name, default))
 
+    def validate_backup_zip_member(self, info: ZipInfo) -> None:
+        validate_filename(info.filename, check_prohibited=False)
+        if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
+            return
+        validate_zip_member_path(info.filename[self.VCS_PREFIX_LEN :])
+
     def validate_zip_members(self, zipfile: ZipFile) -> None:
-        infos = zipfile.infolist()
-        max_members = self.get_limit(
-            "PROJECT_BACKUP_IMPORT_MAX_MEMBERS", self.MAX_ARCHIVE_MEMBERS
+        validate_safe_zip_members(
+            zipfile,
+            limits=ZipSafetyLimits(
+                max_members=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_MEMBERS", self.MAX_ARCHIVE_MEMBERS
+                ),
+                max_compressed_entry_size=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE",
+                    self.MAX_COMPRESSED_ENTRY_SIZE,
+                ),
+                min_compressed_ratio_size=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE",
+                    self.MIN_COMPRESSED_RATIO_SIZE,
+                ),
+                max_compressed_entry_ratio=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO",
+                    self.MAX_COMPRESSED_ENTRY_RATIO,
+                ),
+            ),
+            validate_member=self.validate_backup_zip_member,
         )
-        if len(infos) > max_members:
-            msg = "The ZIP file contains too many entries."
-            raise ValueError(msg)
-
-        max_entry_size = self.get_limit(
-            "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE",
-            self.MAX_COMPRESSED_ENTRY_SIZE,
-        )
-        min_ratio_size = self.get_limit(
-            "PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE", self.MIN_COMPRESSED_RATIO_SIZE
-        )
-        max_compression_ratio = self.get_limit(
-            "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO",
-            self.MAX_COMPRESSED_ENTRY_RATIO,
-        )
-
-        seen_names: set[str] = set()
-        for info in infos:
-            if info.filename in seen_names:
-                msg = "The zip file contains duplicate files. Please generate a new backup with a newer version of Weblate."
-                raise ValueError(msg)
-            seen_names.add(info.filename)
-            validate_filename(info.filename, check_prohibited=False)
-            if info.is_dir():
-                continue
-
-            if info.file_size > max_entry_size:
-                if info.file_size < min_ratio_size:
-                    continue
-                compressed_size = max(info.compress_size, 1)
-                if info.file_size / compressed_size > max_compression_ratio:
-                    msg = "The ZIP file contains a compressed entry that is too large."
-                    raise ValueError(msg)
 
     def load_data(self, zipfile: ZipFile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
@@ -1140,6 +1140,7 @@ class ProjectBackup:
             msg = "Project backup has to be validated before restore."
             raise ValueError(msg)
         with ZipFile(self.filename, "r") as zipfile:
+            self.validate_zip_members(zipfile)
             self.load_data(zipfile)
             restore_changes: list[Change] = []
 
@@ -1180,23 +1181,27 @@ class ProjectBackup:
 
             # Extract VCS
             project_path = Path(project.full_path)
-            for info in zipfile.infolist():
+
+            def skip_vcs_member(info: ZipInfo) -> bool:
                 if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
-                    continue
+                    return True
                 path = info.filename[self.VCS_PREFIX_LEN :]
                 # Skip potentially dangerous paths
-                if path != os.path.normpath(path):
-                    continue
-                if self.is_unsafe_vcs_path(path):
-                    continue
-                targetpath = project_path / path
-                # Make sure the directory exists
-                targetpath.parent.mkdir(parents=True, exist_ok=True)
-                with zipfile.open(info) as source, targetpath.open("wb") as target:
-                    copyfileobj(source, target)
+                return path != os.path.normpath(path) or self.is_unsafe_vcs_path(path)
+
+            def vcs_member_name(info: ZipInfo) -> str:
+                return info.filename[self.VCS_PREFIX_LEN :]
+
+            for info, targetpath in iter_safe_zip_members(
+                zipfile,
+                project_path,
+                skip_member=skip_vcs_member,
+                member_name=vcs_member_name,
+            ):
+                extract_zip_member(zipfile, info, targetpath)
                 # Create possibly missing refs directory in .git, this is not restored as
                 # all references are in packed_refs after `git gc`.
-                if path.endswith(".git/packed-refs"):
+                if vcs_member_name(info).endswith(".git/packed-refs"):
                     git_refs_dir = targetpath.parent / "refs"
                     git_refs_dir.mkdir(parents=True, exist_ok=True)
 

@@ -76,7 +76,7 @@ class ConvertPoUnit[U: pounit, F: "ConvertFormat"](BasePoUnit[U, F]):  # type: i
         """Check whether unit is translated."""
         if self.parent.is_template:
             return self.has_translation()
-        return self.unit is not None and self.has_translation()
+        return self.has_unit() and self.has_translation()
 
     def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs editing."""

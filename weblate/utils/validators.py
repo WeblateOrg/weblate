@@ -128,6 +128,16 @@ def validate_upload_size(value: DjangoFile) -> None:
         raise ValidationError(gettext("Uploaded file is too big."))
 
 
+def validate_translation_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.TRANSLATION_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+
+
+def validate_component_zip_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.COMPONENT_ZIP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
+
+
 def validate_bitmap(
     value: FieldFile | File | None,
 ) -> None:
@@ -202,7 +212,7 @@ def validate_fullname(val):
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
 
-    if FULL_NAME_RESTRICT.match(val):
+    if FULL_NAME_RESTRICT.search(val):
         raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
@@ -354,6 +364,7 @@ def _validate_runtime_public_url(
     value: str,
     *,
     allow_private_targets: bool,
+    allow_unresolved_hostname: bool = True,
     allowed_domains: list[str] | tuple[str, ...] = (),
 ) -> None:
     hostname = urlparse(value).hostname or ""
@@ -363,7 +374,7 @@ def _validate_runtime_public_url(
     try:
         validate_runtime_url(value, allow_private_targets=False)
     except ValidationError as error:
-        if not isinstance(error.__cause__, OSError):
+        if not allow_unresolved_hostname or not isinstance(error.__cause__, OSError):
             raise
 
 
@@ -563,7 +574,7 @@ def _validate_profile_like_url(
     """Validate common profile/contact URL safety checks."""
     _validate_public_profile_url(value, credentials_message=credentials_message)
     if value and _has_blocked_profile_url_extension(value):
-        raise ValidationError(gettext(blocked_extension_message))
+        raise ValidationError(blocked_extension_message)
 
 
 def _get_profile_path_segments(value: str) -> list[str]:
@@ -582,7 +593,7 @@ def validate_profile_url(value: str | None) -> None:
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
         ),
-        blocked_extension_message=(
+        blocked_extension_message=gettext(
             "Profile URL should link to a profile page, "
             "not directly to a file download."
         ),
@@ -596,7 +607,7 @@ def validate_code_site_url(value: str | None) -> None:
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
         ),
-        blocked_extension_message=(
+        blocked_extension_message=gettext(
             "Profile URL should link to a profile page, "
             "not directly to a file download."
         ),
@@ -638,7 +649,7 @@ def validate_contact_url(value: str | None) -> None:
         credentials_message=gettext(
             "Contact URL cannot include username or password credentials."
         ),
-        blocked_extension_message=(
+        blocked_extension_message=gettext(
             "Contact URL should link to a contact or profile page, "
             "not directly to a file download."
         ),
@@ -723,6 +734,7 @@ def validate_webhook_url(value: str) -> None:
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
         allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
@@ -832,6 +844,7 @@ def validate_repo_url(url: str) -> None:
     _validate_runtime_public_url(
         normalized_url,
         allow_private_targets=allow_private_targets,
+        allow_unresolved_hostname=False,
     )
 
 

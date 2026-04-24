@@ -17,6 +17,7 @@ from django.test import SimpleTestCase
 from weblate.utils.files import (
     REPO_TEMP_DIRNAME,
     get_repo_temp_dir,
+    is_excluded,
     is_path_within_directory,
     read_file_bytes,
     remove_tree,
@@ -70,6 +71,14 @@ class FilesTestCase(SimpleTestCase):
 
         self.assertEqual(read_file_bytes(filelike, max_size=10), b"test")
         self.assertEqual(filelike.tell(), 0)
+
+    def test_is_excluded_rejects_path_traversal_and_absolute_paths(self) -> None:
+        self.assertTrue(is_excluded("../outside.po"))
+        self.assertTrue(is_excluded("/etc/passwd"))
+        self.assertTrue(is_excluded(r"C:\temp\escape.po"))
+
+    def test_is_excluded_allows_regular_relative_paths(self) -> None:
+        self.assertFalse(is_excluded("locale/cs/messages.po"))
 
     def test_is_path_within_directory_accepts_descendants(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:

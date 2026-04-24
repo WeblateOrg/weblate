@@ -6,7 +6,7 @@ from __future__ import annotations
 import os
 import shutil
 import stat
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -98,7 +98,16 @@ def should_skip(location):
 
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
-    return any(exclude in f"/{path}/" for exclude in PATH_EXCLUDES) or ".." in path
+    normalized = path.replace("\\", "/")
+    posix_path = PurePosixPath(normalized)
+    windows_path = PureWindowsPath(path)
+    return (
+        any(exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES)
+        or ".." in posix_path.parts
+        or posix_path.is_absolute()
+        or windows_path.is_absolute()
+        or bool(windows_path.drive)
+    )
 
 
 def is_path_within_directory(path: str, directory: str) -> bool:

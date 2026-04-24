@@ -602,6 +602,60 @@ class BackupsTest(ViewTestCase):
         finally:
             os.unlink(temp_name)
 
+    def test_restore_rejects_unsafe_vcs_path_after_prefix_strip(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr("vcs/C:foo", b"blocked", compress_type=ZIP_STORED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
+        PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE=10,
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=100,
+    )
+    def test_restore_revalidates_zip_members(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    target_zip.writestr(item, source_zip.read(item.filename))
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+
+            with ZipFile(temp_name, "a") as zipfile:
+                zipfile.writestr("payload.bin", b"a" * 5000, compress_type=ZIP_DEFLATED)
+
+            with self.assertRaisesRegex(
+                ValueError, "compressed entry that is too large"
+            ):
+                restore.restore(
+                    project_name="Restored", project_slug="restored", user=self.user
+                )
+        finally:
+            os.unlink(temp_name)
+
     def test_restore_skips_git_hooks(self) -> None:
         backup = ProjectBackup()
         backup.backup_project(self.project)

@@ -10,11 +10,13 @@ import re
 import shutil
 import tempfile
 from contextlib import ExitStack
+from io import BytesIO
 from os import utime
 from pathlib import Path
 from time import time
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import patch
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import responses
 from django.core.cache import cache
@@ -27,6 +29,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
+from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
@@ -1044,6 +1047,14 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.assertRaises(RepositorySymlinkError):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
+    def test_resolve_symlinks_allows_regular_repository_path(self) -> None:
+        filename = "locale/cs.po"
+        full_path = os.path.join(self.repo.path, filename)
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        Path(full_path).write_text("TEST\n", encoding="utf-8")
+
+        self.assertEqual(self.repo.resolve_symlinks(filename), filename)
+
     def test_merge_commit(self) -> None:
         self.test_commit()
         self.test_merge()
@@ -1302,6 +1313,12 @@ class VCSGitUpstreamTest(VCSGitTest):
     _repo_override: str = ""
 
     def setUp(self) -> None:
+        getaddrinfo_patcher = patch(
+            "weblate.utils.outbound.socket.getaddrinfo",
+            return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+        )
+        getaddrinfo_patcher.start()
+        self.addCleanup(getaddrinfo_patcher.stop)
         super().setUp()
         # Set repo URL to match configured credentials
         if self._repo_override:
@@ -2888,6 +2905,72 @@ remove the file manually to continue.
             )
         finally:
             shutil.rmtree(tempdir)
+
+    def test_from_zip_rejects_symlink_entry(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("symlink", "ignored")
+            info = zipfile.getinfo("symlink")
+            info.external_attr = 0o120777 << 16
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-symlink")
+
+        with self.assertRaisesRegex(
+            RepositoryError, "ZIP file contains unsupported symbolic links"
+        ):
+            LocalRepository.from_zip(target, archive)
+
+    def test_from_zip_rejects_path_outside_target(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("../../outside.txt", "blocked")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-path")
+
+        with self.assertRaisesRegex(RepositoryError, "ZIP file contains invalid path"):
+            LocalRepository.from_zip(target, archive)
+        self.assertFalse(os.path.exists(target))
+
+    def test_from_zip_rejects_too_many_entries(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("first.po", "msgid ''\nmsgstr ''\n")
+            zipfile.writestr("second.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-too-many")
+
+        with (
+            patch.object(
+                LocalRepository,
+                "ZIP_IMPORT_LIMITS",
+                ZipSafetyLimits(max_members=1),
+            ),
+            self.assertRaisesRegex(RepositoryError, "contains too many entries"),
+        ):
+            LocalRepository.from_zip(target, archive)
+
+    def test_from_zip_rejects_compressed_large_entry(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("large.po", b"a" * 5000, compress_type=ZIP_DEFLATED)
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-compressed")
+
+        with (
+            patch.object(
+                LocalRepository,
+                "ZIP_IMPORT_LIMITS",
+                ZipSafetyLimits(
+                    max_compressed_entry_size=100,
+                    min_compressed_ratio_size=10,
+                    max_compressed_entry_ratio=5,
+                ),
+            ),
+            self.assertRaisesRegex(
+                RepositoryError, "compressed entry that is too large"
+            ),
+        ):
+            LocalRepository.from_zip(target, archive)
 
 
 @override_settings(
