@@ -73,6 +73,7 @@ from weblate.utils.stats import GhostStats, TranslationStats
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -1326,6 +1327,34 @@ class Translation(
             ),
         )
 
+    def validate_upload_plural_forms(self, unit: TranslationUnit) -> None:
+        target_plural_forms = getattr(unit, "target_plural_forms", ())
+        if not target_plural_forms:
+            return
+
+        invalid = [form for form in target_plural_forms if form >= self.plural.number]
+        if invalid:
+            raise FileParseError(
+                gettext("Plural form %d in the uploaded file is out of range.")
+                % invalid[0]
+            )
+
+    def validate_upload_unit_metadata(self, unit: TranslationUnit) -> None:
+        try:
+            _ = getattr(unit, "import_id_hash", None)
+        except ValueError as error:
+            raise FileParseError(str(error)) from error
+        self.validate_upload_plural_forms(unit)
+
+    def validate_upload_plural_store(self, store: TranslationFormat) -> None:
+        try:
+            units = store.content_units
+        except ValueError as error:
+            raise FileParseError(str(error)) from error
+
+        for unit in units:
+            self.validate_upload_unit_metadata(unit)
+
     def merge_translations(
         self,
         request: AuthenticatedHttpRequest,
@@ -1346,6 +1375,8 @@ class Translation(
         add_approve = method == "approve"
         not_found_log: list[str] = []
 
+        self.validate_upload_plural_store(store2)
+
         # Are there any translations to propagate?
         # This is just an optimalization to avoid doing that for every unit.
         propagate = (
@@ -1365,6 +1396,7 @@ class Translation(
         )
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
+            self.validate_upload_unit_metadata(unit2)
             try:
                 unit = unit_set.get_unit(unit2)
             except Unit.DoesNotExist:
@@ -1422,9 +1454,12 @@ class Translation(
         accepted = 0
         not_found_log: list[str] = []
 
+        self.validate_upload_plural_store(store)
+
         unit_set = self.unit_set.all()
 
         for _unused, unit in store.iterate_merge(fuzzy):
+            self.validate_upload_unit_metadata(unit)
             # Grab database unit
             try:
                 dbunit = unit_set.get_unit(unit)
@@ -1624,8 +1659,12 @@ class Translation(
         has_template = component.has_template()
         skipped = 0
         accepted = 0
-        component.start_batched_checks()
         existing: set[str] | set[tuple[str, str]]
+
+        self.validate_upload_plural_store(store)
+
+        component.start_batched_checks()
+
         if has_template:
             existing = set(self.unit_set.values_list("context", flat=True))
         else:
@@ -1637,6 +1676,7 @@ class Translation(
                     existing.add((ex_context, split_plural(ex_source)[0]))
 
         for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
+            self.validate_upload_unit_metadata(unit)
             idkey = unit.context if has_template else (unit.context, unit.source)
             if idkey in existing:
                 skipped += 1
@@ -1697,6 +1737,14 @@ class Translation(
                     )
                 ) from error
 
+        existing_units_cache: Iterable[Unit] | None = None
+
+        def get_existing_units() -> Iterable[Unit]:
+            nonlocal existing_units_cache
+            if existing_units_cache is None:
+                existing_units_cache = self.unit_set.all()
+            return existing_units_cache
+
         def load_uploaded_store(
             template_store: TranslationFormat | None,
             *,
@@ -1711,6 +1759,7 @@ class Translation(
                     is_template=is_template,
                     language_code=self.language_code,
                     source_language=self.component.source_language.code,
+                    existing_units=get_existing_units,
                     file_format_params=self.component.file_format_params,
                 )
             except Exception as error:

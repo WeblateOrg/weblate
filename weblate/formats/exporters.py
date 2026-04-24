@@ -14,7 +14,6 @@ from django.utils.translation import gettext_lazy
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
-from translate.storage.csvl10n import csvfile
 from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
 from translate.storage.poxliff import PoXliffFile
@@ -26,6 +25,14 @@ from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
+from weblate.formats.helpers import (
+    CSV_ID_HASH,
+    CSV_PLURAL_FIELDNAMES,
+    CSV_SOURCE_PLURAL_FORM,
+    CSV_TARGET_PLURAL_FORM,
+)
+from weblate.formats.ttkit import WeblateCSVFile
+from weblate.lang.models import PluralMapper
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
@@ -224,7 +231,7 @@ class MoExporter(PoExporter):
 
 
 class CVSBaseExporter(BaseExporter):
-    storage_class = csvfile
+    storage_class = WeblateCSVFile
 
     def get_storage(self):
         storage = self.storage_class(fieldnames=self.fieldnames)
@@ -235,7 +242,55 @@ class CVSBaseExporter(BaseExporter):
         return storage
 
 
-class CSVExporter(CVSBaseExporter):
+class PluralCSVExportMixin(BaseExporter):
+    def add_unit(self, unit) -> None:
+        if unit.is_plural:
+            self.add_plural_unit(unit)
+            return
+        super().add_unit(unit)
+
+    def add_plural_fieldnames(self) -> None:
+        for field in CSV_PLURAL_FIELDNAMES:
+            if field not in self.storage.fieldnames:
+                self.storage.fieldnames.append(field)
+
+    def get_source_plural_index(
+        self, unit, target_index: int, sources: list[str]
+    ) -> int:
+        if not sources:
+            return 0
+
+        source_plural = unit.translation.component.source_language.plural
+        target_plural = unit.translation.plural
+        if len(sources) == source_plural.number and target_index < target_plural.number:
+            mapper = PluralMapper(source_plural, target_plural)
+            if mapper.same_plurals and target_index < len(sources):
+                return target_index
+            if target_plural.number == 1:
+                return len(sources) - 1
+            source_index = mapper.target_map[target_index][0]
+            if source_index is not None and 0 <= source_index < len(sources):
+                return source_index
+            return len(sources) - 1
+
+        return min(target_index, len(sources) - 1)
+
+    def add_plural_unit(self, unit) -> None:
+        self.add_plural_fieldnames()
+        sources = unit.get_source_plurals()
+
+        for target_index, target in enumerate(unit.get_target_plurals()):
+            source_index = self.get_source_plural_index(unit, target_index, sources)
+            output = self.create_unit(self.string_filter(sources[source_index]))
+            self.add(output, self.string_filter(target))
+            setattr(output, CSV_SOURCE_PLURAL_FORM, str(source_index))
+            setattr(output, CSV_TARGET_PLURAL_FORM, str(target_index))
+            setattr(output, CSV_ID_HASH, str(unit.id_hash))
+            self.store_unit_metadata(output, unit)
+            self.storage.addunit(output)
+
+
+class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
     name = "csv"
     content_type = "text/csv"
     extension = "csv"
@@ -326,7 +381,7 @@ class MultiCSVExporter(CVSBaseExporter):
                 self.add_unit(unit)
 
 
-class XlsxExporter(XMLFilterMixin, CVSBaseExporter):
+class XlsxExporter(PluralCSVExportMixin, XMLFilterMixin, CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"

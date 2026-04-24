@@ -39,6 +39,15 @@ CONTROLCHARS = {
 }
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
+CSV_SOURCE_PLURAL_FORM = "source_plural_form"
+CSV_TARGET_PLURAL_FORM = "target_plural_form"
+CSV_ID_HASH = "id_hash"
+CSV_PLURAL_FIELDNAMES = (
+    CSV_SOURCE_PLURAL_FORM,
+    CSV_TARGET_PLURAL_FORM,
+    CSV_ID_HASH,
+)
+
 
 class NamedBytesIO(BytesIO):
     """StringIO with mode attribute to make ttkit happy."""

@@ -25,6 +25,7 @@ from translate.storage.pypo import pofile
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
+from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.multi import MultiUnit
 from weblate.formats.ttkit import (
@@ -81,6 +82,8 @@ from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from lxml.etree import _Element
 
     from weblate.trans.file_format_params import FileFormatParams
@@ -235,6 +238,11 @@ TEST_FLUENT = get_test_file("cs.ftl")
 
 
 class AutoLoadTest(SimpleTestCase):
+    class ExistingUnitsProbe:
+        def __iter__(self) -> Iterator[object]:
+            msg = "existing units should not be loaded"
+            raise AssertionError(msg)
+
     def single_test(self, filename, fileclass) -> None:
         store = try_load(
             filename,
@@ -245,6 +253,17 @@ class AutoLoadTest(SimpleTestCase):
         )
         self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
+
+    def test_existing_units_not_loaded_for_po(self) -> None:
+        store = try_load(
+            TEST_PO,
+            Path(TEST_PO).read_bytes(),
+            PoFormat,
+            None,
+            existing_units=self.ExistingUnitsProbe(),
+        )
+
+        self.assertIsInstance(store, PoFormat)
 
     def test_detect_android(self) -> None:
         self.assertEqual(AndroidFormat, detect_filename("foo/bar/strings_baz.xml"))
@@ -1744,6 +1763,174 @@ class CSVFormatTest(BaseFormatTest):
     FIND_MATCH = "Hello, world!\r\n"
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+
+    def test_plural_metadata_rows(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s file","","ctx","0","0","-123"\n'
+                b'"%(count)s files","%(count)s soubory","ctx","1","1","-123"\n'
+                b'"%(count)s files","%(count)s souboru","ctx","1","2","-123"\n',
+            )
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertEqual(
+            units[0].source,
+            "%(count)s file\x1e\x1e%(count)s files",
+        )
+        self.assertEqual(
+            units[0].target,
+            "\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souboru",
+        )
+        self.assertEqual(units[0].context, "ctx")
+        self.assertEqual(units[0].import_id_hash, -123)
+        self.assertEqual(units[0].target_plural_forms, (0, 1, 2))
+
+        units[0].set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
+        units[0].set_state(STATE_FUZZY)
+        self.assertEqual(
+            [row.target for row in storage.store.units],
+            ["jeden soubor", "%(count)s soubory", "%(count)s souboru"],
+        )
+        self.assertTrue(all(row.isfuzzy() for row in storage.store.units))
+
+    def test_plural_metadata_rows_without_id_hash(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s file","","ctx","0","0",""\n'
+                b'"%(count)s files","%(count)s soubory","ctx","1","1",""\n'
+                b'"%(count)s files","%(count)s souboru","ctx","1","2",""\n',
+            )
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertEqual(
+            units[0].source,
+            "%(count)s file\x1e\x1e%(count)s files",
+        )
+        self.assertEqual(
+            units[0].target,
+            "\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souboru",
+        )
+        self.assertEqual(units[0].context, "ctx")
+        self.assertIsNone(units[0].import_id_hash)
+
+    def test_plural_metadata_rows_without_id_hash_sparse_source(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        source = "%(count)s file\x1e\x1e%(count)s files"
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s files","%(count)s soubor","ctx","1","0",""\n',
+            ),
+            existing_units=[
+                SimpleNamespace(
+                    context="ctx",
+                    source=source,
+                    get_source_plurals=lambda: source.split("\x1e\x1e"),
+                )
+            ],
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertEqual(units[0].source, source)
+        self.assertEqual(units[0].target, "%(count)s soubor")
+        self.assertIsNone(units[0].import_id_hash)
+
+    def test_plural_metadata_rows_without_id_hash_keeps_groups_separate(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","source_plural_form","target_plural_form"\n'
+                b'"%(count)s file","%(count)s soubor","0","0"\n'
+                b'"%(count)s files","%(count)s soubory","1","1"\n'
+                b'"%(count)s day","%(count)s den","0","0"\n'
+                b'"%(count)s days","%(count)s dny","1","1"\n',
+            )
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 2)
+        self.assertEqual(
+            [unit.source for unit in units],
+            [
+                "%(count)s file\x1e\x1e%(count)s files",
+                "%(count)s day\x1e\x1e%(count)s days",
+            ],
+        )
+        self.assertEqual(
+            [unit.target for unit in units],
+            [
+                "%(count)s soubor\x1e\x1e%(count)s soubory",
+                "%(count)s den\x1e\x1e%(count)s dny",
+            ],
+        )
+
+    def test_plural_metadata_conflicting_source_form(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s file","%(count)s soubor","ctx","0","0","-123"\n'
+                b'"%(count)s files","%(count)s soubory","ctx","0","1","-123"\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "Conflicting source plural form"):
+            _ = storage.content_units
+
+    def test_plural_metadata_index_limit(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        for field, metadata in (
+            (
+                b"source_plural_form",
+                (
+                    b'"source","target","source_plural_form","target_plural_form"\n'
+                    b'"%(count)s files","%(count)s soubory","1000000","0"\n'
+                ),
+            ),
+            (
+                b"target_plural_form",
+                (
+                    b'"source","target","target_plural_form"\n'
+                    b'"%(count)s files","%(count)s soubory","1000000"\n'
+                ),
+            ),
+        ):
+            with (
+                self.subTest(field=field),
+                self.assertRaisesRegex(ValueError, "out of range"),
+            ):
+                storage = self.format_class(NamedBytesIO("plural.csv", metadata))
+                _ = storage.content_units
 
 
 class CSVFormatNoHeadTest(CSVFormatTest):

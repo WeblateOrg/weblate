@@ -7,6 +7,7 @@ Weblate 5.17.1
 
 * Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
 * :ref:`mt-ltengine` machine translation service.
+* :ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now export plural strings as separate plural-form rows that can be imported back.
 
 .. rubric:: Improvements
 
