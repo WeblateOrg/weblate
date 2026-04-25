@@ -6,9 +6,10 @@
 
 from __future__ import annotations
 
+import csv
 import os
 import tempfile
-from io import BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
@@ -21,9 +22,10 @@ from django.urls import reverse
 from openpyxl import load_workbook
 
 from weblate.formats.helpers import NamedBytesIO
-from weblate.lang.models import Language
+from weblate.formats.ttkit import CSVFormat
+from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import FailedCommitError
+from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.models import Change, ComponentList, PendingUnitChange, Translation
 from weblate.trans.tests.test_views import ViewTestCase
@@ -280,6 +282,172 @@ class ImportErrorTest(ImportBaseTest):
         self.assertIn(
             "Plural forms in the uploaded file do not match", messages[0].message
         )
+
+
+class PluralMetadataUploadValidationTest(ImportBaseTest):
+    @staticmethod
+    def get_csv_content(rows: list[dict[str, str]]) -> bytes:
+        output = StringIO()
+        fieldnames = [
+            "source",
+            "target",
+            "id_hash",
+            "source_plural_form",
+            "target_plural_form",
+        ]
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+        return output.getvalue().encode()
+
+    @classmethod
+    def get_csv_store(cls, rows: list[dict[str, str]]) -> CSVFormat:
+        return CSVFormat(NamedBytesIO("plural.csv", cls.get_csv_content(rows)))
+
+    def test_merge_plural_metadata_out_of_range_is_not_partially_applied(
+        self,
+    ) -> None:
+        translation = self.get_translation()
+        request = self.get_request()
+        hello_unit = self.get_unit()
+        plural_unit = self.get_unit("Orangutan has %d banana.\n")
+        original_hello_target = hello_unit.target
+        original_plural_target = plural_unit.target
+
+        store = self.get_csv_store(
+            [
+                {
+                    "source": hello_unit.source,
+                    "target": "This should not be imported.\n",
+                    "id_hash": str(hello_unit.id_hash),
+                    "source_plural_form": "",
+                    "target_plural_form": "",
+                },
+                {
+                    "source": plural_unit.get_source_plurals()[1],
+                    "target": "Invalid plural form.\n",
+                    "id_hash": str(plural_unit.id_hash),
+                    "source_plural_form": "1",
+                    "target_plural_form": str(translation.plural.number),
+                },
+            ]
+        )
+
+        with self.assertRaisesMessage(
+            FileParseError,
+            f"Plural form {translation.plural.number} in the uploaded file is out of range.",
+        ):
+            translation.merge_translations(
+                request, self.user, store, "", "translate", ""
+            )
+
+        hello_unit.refresh_from_db()
+        plural_unit.refresh_from_db()
+        self.assertEqual(hello_unit.target, original_hello_target)
+        self.assertEqual(plural_unit.target, original_plural_target)
+
+    def test_merge_malformed_id_hash_is_not_partially_applied(self) -> None:
+        translation = self.get_translation()
+        request = self.get_request()
+        hello_unit = self.get_unit()
+        original_target = hello_unit.target
+
+        store = self.get_csv_store(
+            [
+                {
+                    "source": hello_unit.source,
+                    "target": "This should not be imported.\n",
+                    "id_hash": str(hello_unit.id_hash),
+                    "source_plural_form": "",
+                    "target_plural_form": "",
+                },
+                {
+                    "source": hello_unit.source,
+                    "target": "Invalid id hash.\n",
+                    "id_hash": "invalid",
+                    "source_plural_form": "",
+                    "target_plural_form": "",
+                },
+            ]
+        )
+
+        with self.assertRaisesMessage(
+            FileParseError, "Invalid id_hash metadata in CSV file: invalid"
+        ):
+            translation.merge_translations(
+                request, self.user, store, "", "translate", ""
+            )
+
+        hello_unit.refresh_from_db()
+        self.assertEqual(hello_unit.target, original_target)
+
+    def test_upload_plural_metadata_without_id_hash_sparse_source_form(self) -> None:
+        translation = self.get_translation()
+        translation.plural = Plural.objects.create(
+            language=translation.language, number=1, formula="0"
+        )
+        translation.save(update_fields=["plural"])
+
+        plural_unit = self.get_unit("Orangutan has %d banana.\n")
+        target = "Imported one plural form.\n"
+
+        result = translation.handle_upload(
+            self.get_request(),
+            NamedBytesIO(
+                "plural.csv",
+                self.get_csv_content(
+                    [
+                        {
+                            "source": plural_unit.get_source_plurals()[1],
+                            "target": target,
+                            "id_hash": "",
+                            "source_plural_form": "1",
+                            "target_plural_form": "0",
+                        },
+                    ]
+                ),
+            ),
+            "replace-translated",
+            method="translate",
+        )
+
+        self.assertEqual(result, (0, 0, 1, 1))
+        plural_unit.refresh_from_db()
+        self.assertEqual(plural_unit.target, target)
+
+    def test_add_plural_metadata_with_id_hash_sparse_source_form_skips_existing(
+        self,
+    ) -> None:
+        translation = self.get_translation()
+        translation.plural = Plural.objects.create(
+            language=translation.language, number=1, formula="0"
+        )
+        translation.save(update_fields=["plural"])
+        plural_unit = self.get_unit("Orangutan has %d banana.\n")
+        initial_count = translation.unit_set.count()
+
+        result = translation.handle_upload(
+            self.get_request(),
+            NamedBytesIO(
+                "plural.csv",
+                self.get_csv_content(
+                    [
+                        {
+                            "source": plural_unit.get_source_plurals()[1],
+                            "target": "Existing one plural form.\n",
+                            "id_hash": str(plural_unit.id_hash),
+                            "source_plural_form": "1",
+                            "target_plural_form": "0",
+                        },
+                    ]
+                ),
+            ),
+            "",
+            method="add",
+        )
+
+        self.assertEqual(result, (0, 1, 0, 1))
+        self.assertEqual(translation.unit_set.count(), initial_count)
 
 
 class BOMImportTest(ImportTest):
