@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-21 02:17+0200\n"
-"PO-Revision-Date: 2026-04-24 17:37+0000\n"
+"PO-Revision-Date: 2026-04-25 18:13+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -393,6 +393,9 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"站点级用户管理由全局 ``user.edit`` 权限控制。不同于项目访问管理，这是一个受信"
+"任的管理权限，允许编辑整个实例上的用户账户，包括分配站点级团队和将超级用户地"
+"位授予受管账户，甚至是调用者自己的账户。"
 
 #: admin/access.rst:194
 msgid ""
@@ -469,6 +472,9 @@ msgid ""
 "management in the Weblate UI and API and should be assigned only to fully "
 "trusted site administrators."
 msgstr ""
+"此站点范围的授权有别于站点级 ``user.edit`` 权限。项目 `Administration` 团队的"
+"成员身份只允许管理相应项目的权限，而 ``user.edit`` 授予在 Weblate 用户界面和 "
+"API 管理全站用户的权限，应只分配给完全受信赖的站点管理员。"
 
 #: admin/access.rst:240
 msgid "Per-project access tokens"
@@ -1171,6 +1177,8 @@ msgid ""
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"可从附加组件管理或用 :ref:`API <addons-api>` 运行默认启用手动触发的附加组件。"
+"结果记录于附加组件活动日志中。"
 
 #: admin/addons.rst:28
 msgid "Obsolete add-ons"
@@ -5152,6 +5160,8 @@ msgid ""
 "target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"拒绝指向内部或非公开地址的 webhook URL，除非目标主机包含在 "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST` 中。默认开启。"
 
 #: admin/config.rst:1859
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -5628,7 +5638,7 @@ msgstr "配置 VCS URL 时要允许的一组主机。默认是空组，表示完
 msgid ""
 "When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also "
 "exempt from the private-target restriction."
-msgstr ""
+msgstr "启用 :setting:`VCS_RESTRICT_PRIVATE` 时，匹配的主机同样豁免内网目标限制。"
 
 #: admin/config.rst:2407
 msgid ""
@@ -5643,6 +5653,8 @@ msgid ""
 "unless the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by "
 "default."
 msgstr ""
+"拒绝指向内部或非公开地址的 VCS 仓库 URL，除非目标主机包含在 "
+":setting:`VCS_ALLOW_HOSTS` 中。默认开启。"
 
 #: admin/config.rst:2427
 msgid ""
@@ -5714,8 +5726,8 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
-"在从 Weblate 推送而得到 ``fatal: protocol error: expected old/new/ref, got "
-"'shallow <commit hash>'`` 错误的情况下，通过设置来完全关闭浅克隆："
+"假如从 Weblate 推送得到 ``fatal: protocol error: expected old/new/ref, got "
+"'shallow <commit hash>'`` 错误，通过设置来完全关闭浅克隆："
 
 #: admin/config.rst:2501
 msgid ""
@@ -6057,12 +6069,14 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+":guilabel:`仓库维护` 视图显示项目、部件或翻译的仓库状态，并让特权用户从用户界"
+"面运行维护操作。"
 
 #: admin/continuous.rst:187
 msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
-msgstr ""
+msgstr "也可用 :ref:`api` 触发相同操作，或为受支持的子集触发相同操作，:ref:`wlc`。"
 
 #: admin/continuous.rst:190
 msgid ""
@@ -6070,6 +6084,8 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"单独操作的可用性取决于权限，配置的 VCS，是否配置了推送，是否所选对象可被锁定"
+"。"
 
 #: admin/continuous.rst:197
 msgid "Action"
@@ -6077,11 +6093,11 @@ msgstr "操作"
 
 #: admin/continuous.rst:198
 msgid "What it does"
-msgstr ""
+msgstr "它做什么"
 
 #: admin/continuous.rst:199
 msgid "Typical use"
-msgstr ""
+msgstr "典型使用"
 
 #: admin/continuous.rst:201
 msgid ":guilabel:`Commit`"
