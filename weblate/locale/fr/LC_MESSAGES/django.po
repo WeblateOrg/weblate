@@ -4,7 +4,7 @@
 # Ldm Public <ldmpub@gmail.com>, 2023, 2024, 2025, 2026.
 # tachyglossues <tachyglossues@gmail.com>, 2023.
 # Hajanirina Ridjvan RANDRIANANDRAINA <darijavan@gmail.com>, 2023.
-# Julien Humbert <julroy67@gmail.com>, 2023, 2024, 2025.
+# Julien Humbert <julroy67@gmail.com>, 2023, 2024, 2025, 2026.
 # Dream Maker <v.michoux@gmail.com>, 2023.
 # Yvan Zo <yvanzo@users.noreply.hosted.weblate.org>, 2024.
 # ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>, 2024.
@@ -31,8 +31,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-20 03:50+0000\n"
-"Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
+"PO-Revision-Date: 2026-04-25 18:12+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -1476,23 +1476,17 @@ msgid "Website"
 msgstr "Site web"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "URL du site Web de gestion du code"
+msgstr "Site Web de gestion du code"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Le service n’est plus disponible"
+msgstr "Ce profil n’est plus disponible."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Profil utilisateur"
+msgstr "Lien de profil externe"
 
 #: weblate/accounts/views.py:1015 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1965,6 +1959,8 @@ msgstr "Normaliser l'en-tête POT"
 #: weblate/addons/forms.py:154
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Mets à jour les en-têtes gettext et remplace les commentaires POT "
+"temporaires."
 
 #: weblate/addons/forms.py:158
 msgid "Update PO files using msgmerge"
@@ -1975,12 +1971,12 @@ msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
 msgstr ""
+"S’assure que l’extension msgmerge est installée et se déclenche après la "
+"mise à jour du fichier POT."
 
 #: weblate/addons/forms.py:188
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Impossible d’ajouter le commentaire"
+msgstr "Ne pas extraire les commentaires"
 
 #: weblate/addons/forms.py:189
 msgid "Extract all comments"
@@ -1999,6 +1995,9 @@ msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Choisissez si xgettext doit n’extraire aucun commentaire, tous les "
+"commentaires ou uniquement les commentaires marqués avec une étiquette "
+"spécifique."
 
 #: weblate/addons/forms.py:209
 msgid "Comment tag"
@@ -2008,26 +2007,27 @@ msgstr "Commenter l'étiquette"
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Étiquette transmise à xgettext pour l’extraction des commentaires lorsque le "
+"mode commentaire étiqueté est utilisé."
 
 #: weblate/addons/forms.py:217
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Vérifications système"
+msgstr "Vérifications xgettext"
 
 #: weblate/addons/forms.py:222
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Vérifications supplémentaires de xgettext à activer pour les messages "
+"extraits."
 
 #: weblate/addons/forms.py:226
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Branche supplémentaire"
+msgstr "Mot-clé supplémentaire"
 
 #: weblate/addons/forms.py:229
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Mot-clé facultatif supplémentaire transmis à xgettext en utilisant --keyword."
 
 #: weblate/addons/forms.py:258 weblate/addons/forms.py:349
 #: weblate/addons/forms.py:356
@@ -2039,21 +2039,20 @@ msgid "Input source"
 msgstr "Modifier la source"
 
 #: weblate/addons/forms.py:270 weblate/addons/forms.py:289
-#, fuzzy
-#| msgctxt "Number of source characters"
-#| msgid "Source characters"
 msgid "Source file patterns"
-msgstr "Caractères sources"
+msgstr "Motifs de fichiers sources"
 
 #: weblate/addons/forms.py:271
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "Manifeste POTFILES"
 
 #: weblate/addons/forms.py:276
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Sélectionnez si xgettext doit lire les fichiers source à partir de motifs "
+"globaux ou à partir d’un manifeste POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:281
 msgid "xgettext language"
@@ -2061,17 +2060,19 @@ msgstr "langage xgettext"
 
 #: weblate/addons/forms.py:285
 msgid "Programming language passed to xgettext, for example Python or C."
-msgstr ""
+msgstr "Langage de programmation transmis à xgettext, par exemple Python ou C."
 
 #: weblate/addons/forms.py:293
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Motifs globaux relatifs au dépôt, séparés par des lignes nouvelles, pour les "
+"fichiers à extraire avec xgettext."
 
 #: weblate/addons/forms.py:298
 msgid "POTFILES path"
-msgstr ""
+msgstr "Chemin vers POTFILES"
 
 #: weblate/addons/forms.py:302
 msgid ""
@@ -2079,20 +2080,21 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+"Chemin relatif au dépôt vers POTFILES ou POTFILES.in. Les entrées sont "
+"correspondantes à la racine du dépôt. S’il est présent à côté du manifeste, "
+"POTFILES.skip exclut les fichiers listés de l’extraction."
 
 #: weblate/addons/forms.py:370
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "Le chemin vers POTFILES doit pointer vers un fichier."
 
 #: weblate/addons/forms.py:379
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Réinitialiser le dépôt"
+msgstr "Présélection Meson"
 
 #: weblate/addons/forms.py:380
 msgid "GLib"
-msgstr ""
+msgstr "GLib"
 
 #: weblate/addons/forms.py:384
 msgid ""
@@ -2118,6 +2120,8 @@ msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\" or \"djangojs.pot\"."
 msgstr ""
+"L’extension Django s’attend à ce que le modèle pour les nouvelles "
+"traductions soit nommé « django.pot » ou « djangojs.pot »."
 
 #: weblate/addons/forms.py:447
 msgid "Filtering"
@@ -2137,6 +2141,8 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"Supprime optionnellement les chaînes qui ne sont pas utiles à traduire après "
+"l’extraction Sphinx."
 
 #: weblate/addons/forms.py:478
 #, fuzzy
@@ -2155,10 +2161,8 @@ msgid ""
 msgstr "Le modèle pour les nouvelles traductions est non valide."
 
 #: weblate/addons/forms.py:504 weblate/addons/forms.py:510
-#, fuzzy
-#| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
-msgstr "Impossible de créer le dossier du projet : %s"
+msgstr "Impossible de déterminer le répertoire source de Sphinx."
 
 #: weblate/addons/forms.py:519
 msgid "Name of generated file"
@@ -2229,16 +2233,12 @@ msgstr ""
 "le vote est désactivé."
 
 #: weblate/addons/forms.py:631
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "Je confirme que les correspondances ci-dessus semblent correctes"
+msgstr "Je confirme que les actions ci-dessus sont correctes"
 
 #: weblate/addons/forms.py:654
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "Veuillez examiner et confirmer les composants correspondants."
+msgstr "Veuillez réviser et confirmer les modifications de langues manquantes."
 
 #: weblate/addons/forms.py:753
 msgid "Regular expression to match translation files against"
@@ -2247,11 +2247,11 @@ msgstr ""
 "traduction"
 
 #: weblate/addons/forms.py:756
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid ""
 "The regular expression must define named groups for component and language."
-msgstr "L’expression rationnelle ne peut pas détecter une chaîne vide."
+msgstr ""
+"L’expression rationnelle doit définir des groupes nommés pour composant et "
+"langue."
 
 #: weblate/addons/forms.py:760
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2346,7 +2346,7 @@ msgstr "Je confirme que les correspondances ci-dessus semblent correctes"
 #: weblate/addons/forms.py:902
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "Préconfiguration générique : %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:915
 #, fuzzy
@@ -2355,21 +2355,18 @@ msgid "format not preset"
 msgstr "Informations sur le projet"
 
 #: weblate/addons/forms.py:923
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Fichier de langue de base mono-langue"
+msgstr "base mono-langue : %(base)s"
 
 #: weblate/addons/forms.py:926
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "Définir le nom du fichier de base mono-langue"
+msgstr "pas de base mono-langue"
 
 #: weblate/addons/forms.py:934
 #, python-format
 msgid "%(format)s; %(base)s"
-msgstr ""
+msgstr "%(format)s ; %(base)s"
 
 #: weblate/addons/forms.py:944
 msgid "One folder per language"
@@ -5626,7 +5623,7 @@ msgstr "Configuration Weblate"
 
 #: weblate/examples/check_czech.py:18 weblate/examples/check_foo.py:18
 msgid "Your translation is foo"
-msgstr "Votre traduction est blabla."
+msgstr "Votre traduction est blabla"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:94
@@ -6118,10 +6115,8 @@ msgid "Git export failed."
 msgstr ""
 
 #: weblate/gitexport/views.py:295
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Fichier non pris en charge !"
+msgstr "Service Git non pris en charge."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -8837,12 +8832,13 @@ msgid "Close"
 msgstr "Fermer"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> across "
 "all projects."
-msgstr "Cela supprimera l’équipe <b>%(name)s</b> de ce projet."
+msgstr ""
+"Cela va restaurer les dernières traductions modifiables par <b>%(user)s</b> "
+"sur tous les projets."
 
 #: weblate/templates/accounts/user.html:486
 msgid "Account removal deletes all user private data."
@@ -14013,10 +14009,8 @@ msgstr ""
 "utiliser le service mais il est recommandé de mettre à jour votre abonnement."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "Impossible de mettre à jour le dépôt."
+msgstr "Weblate n’a pas pu valider l’URL du navigateur du dépôt :"
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -14037,10 +14031,8 @@ msgstr ""
 "des références à un répertoire parent ou est absolu."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate n’a pas pu pousser les modifications vers le dépôt amont."
+msgstr "Weblate n’a pas pu valider l’URL du site Web du projet :"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -14621,8 +14613,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement %(object)s "
-"traductions et tous leurs contenus."
+"Cette action est irréversible. Cela supprimera définitivement %(object)s "
+"traductions et tous les contenus connexes."
 
 #: weblate/templates/trans/delete-category-language.html:7
 #: weblate/templates/trans/delete-project-language.html:7
@@ -14640,8 +14632,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement le projet "
-"%(object)s et tout le contenu qui s’y rapporte."
+"Cette action est irréversible. Cela supprimera définitivement le projet %"
+"(object)s et tous les contenus connexes."
 
 #: weblate/templates/trans/delete-category.html:5
 #: weblate/templates/trans/delete-project.html:5
@@ -14674,8 +14666,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement le composant "
-"%(object)s et tout le contenu qui s’y rapporte."
+"Cette action est irréversible. Cela supprimera définitivement le composant %"
+"(object)s et tous les contenus connexes."
 
 #: weblate/templates/trans/delete-component.html:25
 msgid "Component to remove"
@@ -14725,8 +14717,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement la traduction "
-"de %(object)s et tout le contenu qui s’y rapporte."
+"Cette action est irréversible. Cela supprimera définitivement la traduction "
+"de %(object)s et tous les contenus connexes."
 
 #: weblate/templates/trans/delete-translation.html:18
 msgid "Translation to remove"
@@ -14827,12 +14819,13 @@ msgid "Revert user edits"
 msgstr "L’utilisateur a été supprimé"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
-msgstr "Cela supprimera l’équipe <b>%(name)s</b> de ce projet."
+msgstr ""
+"Cela va restaurer les dernières traductions modifiables par <b>%(user)s</b> "
+"dans ce projet."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -15316,12 +15309,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translate.html:1020
-#, fuzzy, python-format
-#| msgid "<code>%(flags)s</code> is inherited from %(object)s."
+#, python-format
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for %(format)s."
-msgstr "<code>%(flags)s</code> est hérité de %(object)s."
+msgstr ""
+"<code>%(flags)s</code> est hérité de %(object)s car la modification des "
+"chaînes sources n’est pas disponible pour %(format)s."
 
 #: weblate/templates/translate.html:1022
 #, fuzzy, python-format
@@ -16189,17 +16183,12 @@ msgid "Discovery configuration"
 msgstr "Configuration correcte"
 
 #: weblate/trans/discovery.py:562
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
-"L’expression rationnelle de correspondance des fichiers de traduction doit "
-"contenir deux groupes nommés, pour faire correspondre composant et langue. "
-"Des exemples :"
+"L’expression rationnelle utilisée pour trouver les fichiers correspondants "
+"est trop complexe et son évaluation a pris trop de temps."
 
 #: weblate/trans/discovery.py:587
 msgid ""
@@ -17206,10 +17195,8 @@ msgstr "Motif de fichier en double."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:319
-#, fuzzy
-#| msgid "Confirm resetting repository"
 msgid "Conflicting repository setup."
-msgstr "Confirmer la réinitialisation du dépôt"
+msgstr "Conflit dans la configuration du dépôt."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:353
@@ -17259,10 +17246,8 @@ msgstr "Impossible d’exécuter l’extension."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:529
-#, fuzzy
-#| msgid "Could not parse TMX file: %s"
 msgid "Could not update POT file."
-msgstr "Impossible d’analyser le fichier TMX : %s"
+msgstr "Impossible de mettre à jour le fichier POT."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:536
@@ -18248,16 +18233,14 @@ msgstr ""
 "pull/merge et que vous ne poussez pas vers une fourche."
 
 #: weblate/trans/models/component.py:4015
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Branche du dépôt"
+msgstr "Branche de dépôt non valide : %s"
 
 #: weblate/trans/models/component.py:4016
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Chaîne de recherche invalide !"
+msgstr "Branche de poussée invalide : %s"
 
 #: weblate/trans/models/component.py:4032
 #, python-format
@@ -18580,16 +18563,15 @@ msgid "Could not commit pending changes: %s"
 msgstr "Impossible de commiter les modifications en attente : %s"
 
 #: weblate/trans/models/translation.py:1591
-#, fuzzy, python-brace-format
-#| msgid "Could not parse {file}: {error}"
+#, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Impossible d’analyser {file} : {error}"
+msgstr ""
+"Impossible d’analyser le fichier téléversé comme {file_format} : {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Échec d’analyse du fichier Zip téléversé."
+msgstr "Impossible d’analyser le fichier téléversé : %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -18725,10 +18707,9 @@ msgid "User configured character: {}"
 msgstr "Caractère défini par l’utilisateur : {}"
 
 #: weblate/trans/tasks.py:699
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Traduction automatique en cours"
+msgstr ""
+"La traduction automatique a été ignorée parce que la cible n’existe plus."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19130,7 +19111,7 @@ msgstr "Trop de suggestions ({count}). Veuillez contacter un administrateur."
 #, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "Suggestion acceptée de %(count)d de %(user)s."
+msgstr[0] "%(count)d suggestion acceptée de %(user)s."
 msgstr[1] "%(count)d suggestions acceptées de %(user)s."
 
 #: weblate/trans/views/bulk_suggestions.py:118
@@ -19142,11 +19123,11 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
-"Acceptation de %(accepted)d des %(total)d suggestions de %(user)s. "
-"%(failed)d ont échoué en raison des autorisations ou des vérifications."
+"Acceptation de %(accepted)d des %(total)d suggestions de %(user)s. %(failed)"
+"d a échoué en raison des autorisations ou des vérifications."
 msgstr[1] ""
-"Acceptation de %(accepted)d des %(total)d suggestions de %(user)s. "
-"%(failed)d ont échoué en raison des autorisations ou des vérifications."
+"Acceptation de %(accepted)d des %(total)d suggestions de %(user)s. %(failed)"
+"d ont échoué en raison des autorisations ou des vérifications."
 
 #: weblate/trans/views/bulk_suggestions.py:137
 msgid "No suggestions found."
@@ -19218,18 +19199,13 @@ msgstr ""
 "Veuillez renseigner votre nom ainsi que votre courriel dans votre profil."
 
 #: weblate/trans/views/edit.py:98
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following fix-up was applied to the translation:"
 msgid_plural "The following fix-ups were applied to the translation:"
-msgstr[0] "Les corrections suivantes ont été appliquées à la traduction : %s"
-msgstr[1] "Les corrections suivantes ont été appliquées à la traduction : %s"
+msgstr[0] "La correction suivante a été appliquée à la traduction :"
+msgstr[1] "Les corrections suivantes ont été appliquées à la traduction :"
 
 #: weblate/trans/views/edit.py:110
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The translation has been saved, however there are some newly failing "
-#| "checks: {0}"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there is a newly failing check: "
 "{checks}"
@@ -19238,10 +19214,10 @@ msgid_plural ""
 "{checks}"
 msgstr[0] ""
 "La traduction a été enregistrée mais il y a de nouvelles erreurs de "
-"vérifications : {0}"
+"vérifications : {checks}"
 msgstr[1] ""
-"La traduction a été enregistrée mais il y a de nouvelles erreurs de "
-"vérifications : {0}"
+"Les traductions ont été enregistrées mais il y a de nouvelles erreurs de "
+"vérifications : {checks}"
 
 #: weblate/trans/views/edit.py:328
 msgid "Your suggestion is empty!"
@@ -19504,10 +19480,9 @@ msgstr ""
 "%(error)s"
 
 #: weblate/trans/views/settings.py:331
-#, fuzzy, python-format
-#| msgid "This component is currently locked."
+#, python-format
 msgid "This component is already shared in %s."
-msgstr "Ce composant est actuellement verrouillé."
+msgstr "Ce composant est déjà partagé dans %s."
 
 #: weblate/trans/views/settings.py:511
 msgid "Backup scheduled. It will be available soon."
@@ -19742,10 +19717,8 @@ msgstr ""
 
 #: weblate/utils/outbound.py:139 weblate/utils/outbound.py:189
 #: weblate/utils/validators.py:826 weblate/utils/validators.py:829
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse URL."
-msgstr "Impossible d'analyser l'URL : {}"
+msgstr "Impossible d’analyser l’URL."
 
 #: weblate/utils/outbound.py:174
 #, fuzzy
@@ -20092,10 +20065,9 @@ msgid "Component and priority"
 msgstr "Composant et priorité"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Fichier Zip contenant les sauvegardes du projet"
+msgstr "Le fichier ZIP contient un chemin d’accès non valide : {path}"
 
 #: weblate/utils/zip.py:62
 #, fuzzy
@@ -20110,10 +20082,8 @@ msgid "ZIP file contains unsupported special files."
 msgstr "Le composant contient une configuration non-supportée."
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Fichier Zip contenant les traductions"
+msgstr "Le fichier ZIP contient trop d’entrées."
 
 #: weblate/utils/zip.py:94
 msgid ""
@@ -20203,10 +20173,9 @@ msgid "Unknown error"
 msgstr "Erreur inconnue"
 
 #: weblate/vcs/git.py:2298
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "Impossible de restaurer la capture d’écran %(name)s : %(error)s"
+msgstr "Impossible d’obtenir le projet GitLab (%(status)s) : %(error)s"
 
 #: weblate/vcs/git.py:2417
 msgid "Pagure merge request"
@@ -20306,10 +20275,8 @@ msgstr ""
 "(%(keytype)s), veuillez vérifier qu’elle est correcte."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Impossible d’obtenir la clé de l’hôte : %s"
+msgstr "Impossible de lire les clés d’hôte stockées."
 
 #: weblate/vcs/ssh.py:406
 #, fuzzy
