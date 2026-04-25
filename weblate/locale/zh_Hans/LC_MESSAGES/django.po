@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-23 13:10+0000\n"
+"PO-Revision-Date: 2026-04-25 18:13+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1368,23 +1368,17 @@ msgid "Website"
 msgstr "网站"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "代码站 URL"
+msgstr "代码站"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "服务不再可用"
+msgstr "此个人资料链接不再可用。"
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "用户个人资料"
+msgstr "外部个人资料链接"
 
 #: weblate/accounts/views.py:1015 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -6160,14 +6154,10 @@ msgid "Source language selection"
 msgstr "源语言选择"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
-msgstr "此 URL 被禁止因它指向内部或非公开地址。"
+msgstr "项目级机器翻译不能使用内部或非公开的地址。"
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -6175,6 +6165,8 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"项目级机器翻译不能使用内部或非公开的地址。如果应在站点级别配置此服务或将此服"
+"务加入白名单，请联系站点管理员。"
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -6634,10 +6626,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "无法解析 TMX 文件：%s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "未在 TMX 文件中定义源语言！"
+msgstr "TMX 文件中没有标头！"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -8275,16 +8265,16 @@ msgstr "这会从 Weblate 中删除 <b>%(user)s</b>。"
 #: weblate/templates/accounts/user_profile_link.html:23
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
-msgstr ""
+msgstr "你正在离开 Weblate 打开由 %(user)s 提供的个人资料链接。"
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "目标：%(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "仅在信任此目标的情况下才继续。"
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8299,10 +8289,8 @@ msgid "Continue"
 msgstr "继续"
 
 #: weblate/templates/accounts/user_profile_link.html:35
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "备份"
+msgstr "返回"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
@@ -13175,14 +13163,10 @@ msgid ""
 msgstr "一旦又有必要，Weblate 会重试此操作，因此该警报可能因临时问题而消失。"
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
-#, fuzzy
-#| msgid ""
-#| "Another component is configured to push merge requests to the same "
-#| "repository and push branch."
 msgid ""
 "Another component is configured to push to the same repository and push "
 "branch."
-msgstr "另一个部件被配置为推送合并请求到相同的仓库和推送分支。"
+msgstr "另一个部件被配置为推送到相同的仓库和推送分支。"
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
@@ -16744,17 +16728,13 @@ msgid ""
 msgstr "无法验证 SSH 主机密钥，请在管理员界面的 SSH 页添加它。"
 
 #: weblate/trans/models/component.py:1955
-#, fuzzy
-#| msgid ""
-#| "The SSH host key for the repository has changed. Verify the new "
-#| "fingerprint and replace the stored host key on the SSH page in the admin "
-#| "interface."
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint, "
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
-"仓库的主机密钥已更改。验证新指纹并在管理界面的 SSH 页面中替换存储的主机密钥。"
+"仓库的主机密钥已更改。验证新指纹，删除存储的主机密钥，在管理界面的 SSH 页面中"
+"添加新的主机密钥。"
 
 #: weblate/trans/models/component.py:1992
 msgid ""
@@ -17225,10 +17205,8 @@ msgstr "无法接受建议！"
 
 #: weblate/trans/models/translation.py:93
 #: weblate/trans/models/translation.py:97 weblate/utils/validators.py:133
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded translation file is too big."
-msgstr "上传的文件太大。"
+msgstr "上传的翻译文件太大。"
 
 #: weblate/trans/models/translation.py:353
 #, python-format
@@ -17270,10 +17248,9 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "无法将上传文件解析为 {file_format} 格式：{error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "无法解析已上传的 ZIP 文件。"
+msgstr "无法解析上传的文件：%s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -18373,10 +18350,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "无法解析时间戳：{}"
 
 #: weblate/utils/search.py:424
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "未知搜索字段：{}"
+msgstr "未知的更改操作：{}"
 
 #: weblate/utils/search.py:451
 msgid "Unknown search field: {}"
@@ -18465,10 +18440,8 @@ msgid ""
 msgstr "正则表达式缺少命名组 \"{0}\"，定义它的最简单方法是 {1}。"
 
 #: weblate/utils/validators.py:138
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "上传的文件太大。"
+msgstr "上传的 ZIP 文件太大。"
 
 #: weblate/utils/validators.py:171
 msgid "The uploaded image was invalid."
@@ -18576,32 +18549,32 @@ msgstr "无法使用此网站。请另提供一个。"
 
 #: weblate/utils/validators.py:594 weblate/utils/validators.py:608
 msgid "Profile URL cannot include username or password credentials."
-msgstr ""
+msgstr "个人资料 URL 不能包含用户名或密码凭证。"
 
 #: weblate/utils/validators.py:597 weblate/utils/validators.py:611
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
-msgstr ""
+msgstr "配置文件 URL 应链接到个人资料页面，而不是直接下载文件。"
 
 #: weblate/utils/validators.py:639
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
-msgstr ""
+msgstr "代码站 URL 应该链接到代买托管站点上的用户个人资料或仓库页。"
 
 #: weblate/utils/validators.py:650
 msgid "Contact URL cannot include username or password credentials."
-msgstr ""
+msgstr "联系 URL 不能包含用户名或密码凭证。"
 
 #: weblate/utils/validators.py:653
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
-msgstr ""
+msgstr "联系 URL 应该链接到联系或个人资料页，而不是直接下载文件。"
 
 #: weblate/utils/validators.py:696
 msgid "Fediverse URL should link to a Fediverse user profile."
-msgstr ""
+msgstr "Fediverse URL 应该链接到 Fediverse 用户个人资料。"
 
 #: weblate/utils/validators.py:705
 msgid "URL domain is not allowed."
@@ -18654,42 +18627,35 @@ msgid "Component and priority"
 msgstr "部件和优先级"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "包含项目备份的 ZIP 文件"
+msgstr "ZIP 文件包含无效路径：{path}"
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "该组件包含多个重复的译文字符串。"
+msgstr "ZIP 文件包含不受支持的符号链接。"
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
-#, fuzzy
-#| msgid "The component contains several duplicated translation strings."
 msgid "ZIP file contains unsupported special files."
-msgstr "该组件包含多个重复的译文字符串。"
+msgstr "ZIP 文件包含不受支持的特殊文件。"
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "包含翻译的 ZIP 文件"
+msgstr "ZIP 文件包含项目过多。"
 
 #: weblate/utils/zip.py:94
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
-msgstr ""
+msgstr "该 zip 文件包含重复文件。请用新版本的 Weblate 生成新的备份文件。"
 
 #: weblate/utils/zip.py:114
 msgid "The ZIP file contains too much uncompressed data."
-msgstr ""
+msgstr "该 ZIP 文件包含太多未压缩的数据。"
 
 #: weblate/utils/zip.py:127
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "该 ZIP 文件包含过大的已压缩项。"
 
 #: weblate/vcs/base.py:231
 msgid "This will push changes to the upstream repository."
@@ -18848,31 +18814,22 @@ msgstr ""
 "正确。"
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "无法获取主机密钥：%s"
+msgstr "无法读取存储的主机密钥。"
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "找不到还原的更改。"
+msgstr "找不到所选的主机密钥。"
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "无法更新仓库。"
+msgstr "无法上传存储的主机密钥。"
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s)."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
-msgstr "添加了 %(host)s 指纹为 %(fingerprint)s 的主机密钥 (%(keytype)s)。"
+msgstr "删除了 %(host)s 指纹为 %(fingerprint)s 的主机密钥 (%(keytype)s)。"
 
 #: weblate/wladmin/forms.py:17
 msgid "Activation token"
