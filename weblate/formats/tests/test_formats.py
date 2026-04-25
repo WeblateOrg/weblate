@@ -12,6 +12,7 @@ import os.path
 import shutil
 import tempfile
 from abc import ABC, abstractmethod
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
@@ -83,7 +84,10 @@ from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 if TYPE_CHECKING:
     from lxml.etree import _Element
 
-    from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.file_format_params import (
+        FileFormatParamKey,
+        FileFormatParams,
+    )
 
 
 class DummyBilingualUpdate(BilingualUpdateMixin):
@@ -367,6 +371,25 @@ class BaseFormatTest(FormatTestCase, ABC):
     @abstractmethod
     def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
+
+    @contextmanager
+    def temporary_file_format_param(
+        self, key: FileFormatParamKey, value: str | int | bool
+    ):
+        """Temporarily set a file format parameter for the duration of the context."""
+        if key in self.FILE_FORMAT_PARAMS:
+            previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]
+            self.FILE_FORMAT_PARAMS[key] = value
+            try:
+                yield
+            finally:
+                self.FILE_FORMAT_PARAMS[key] = previous
+        else:
+            self.FILE_FORMAT_PARAMS[key] = value
+            try:
+                yield
+            finally:
+                self.FILE_FORMAT_PARAMS.pop(key, None)
 
     def parse_file(self, filename: str | IO[bytes], template: str | None = None):
         if self.MONOLINGUAL:
