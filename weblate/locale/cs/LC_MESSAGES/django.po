@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-22 13:06+0000\n"
+"PO-Revision-Date: 2026-04-25 18:12+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -1411,23 +1411,17 @@ msgid "Website"
 msgstr "Webové stránky"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "URL vývojářské stránky"
+msgstr "Stránky s kódem"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Služba již není k dispozici"
+msgstr "Odkaz na tento profil již není k dispozici."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Profil uživatele"
+msgstr "Odkaz na externí profil"
 
 #: weblate/accounts/views.py:1015 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -6371,14 +6365,12 @@ msgid "Source language selection"
 msgstr "Výběr zdrojového jazyka"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
-msgstr "Adresa je zakázaná, protože směřuje na interní nebo neveřejnou adresu."
+msgstr ""
+"Strojový překlad na úrovni projektu nemůže používat interní nebo neveřejné "
+"adresy."
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -6386,6 +6378,9 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"Strojový překlad na úrovni projektu nemůže používat interní nebo neveřejné "
+"adresy. Kontaktujte správce webu, pokud by měla tato služba nastavena na "
+"celém webu nebo na seznamu povolených."
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -6863,10 +6858,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "Nepodařilo ze zpracovat TMX soubor: %s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "V souboru TMX není definován zdrojový jazyk!"
+msgstr "V hlavičce chybí soubor TMX!"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -8597,15 +8590,17 @@ msgstr "Tímto odeberete <b>%(user)s</b> z Weblate."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Opouštíte Weblate pro otevření odkazu na profil poskytnutého uživatelem %"
+"(user)s."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "Cíl: %(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "Pokračujte pouze, pokud důvěřujete tomuto cíli."
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8620,10 +8615,8 @@ msgid "Continue"
 msgstr "Pokračovat"
 
 #: weblate/templates/accounts/user_profile_link.html:35
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Zálohy"
+msgstr "Zpět"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
@@ -13805,16 +13798,11 @@ msgstr ""
 "může v případě dočasných problémů zmizet."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
-#, fuzzy
-#| msgid ""
-#| "Another component is configured to push merge requests to the same "
-#| "repository and push branch."
 msgid ""
 "Another component is configured to push to the same repository and push "
 "branch."
 msgstr ""
-"Jiná součást byla nastavena, aby odesílala žádosti o sloučení do stejného "
-"repozitáře a větve."
+"Jiná součást byla nastavena, aby odesílala do stejného repozitáře a větve."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
@@ -17558,18 +17546,14 @@ msgstr ""
 "v administrátorském rozhraní."
 
 #: weblate/trans/models/component.py:1955
-#, fuzzy
-#| msgid ""
-#| "The SSH host key for the repository has changed. Verify the new "
-#| "fingerprint and replace the stored host key on the SSH page in the admin "
-#| "interface."
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint, "
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
-"Hostitelský klíč SSH repozitáře byl změněn. Ověřte nový otisk a nahraďte "
-"uložený hostitelský klíč na stránce SSH v administrátorském rozhraní."
+"Hostitelský klíč SSH repozitáře byl změněn. Ověřte nový otisk, odstraňte "
+"uložený hostitelský klíč a přidejte nový na stránce SSH v administrátorském "
+"rozhraní."
 
 #: weblate/trans/models/component.py:1992
 msgid ""
@@ -18094,10 +18078,8 @@ msgstr "Nepodařilo se přijmout návrh!"
 
 #: weblate/trans/models/translation.py:93
 #: weblate/trans/models/translation.py:97 weblate/utils/validators.py:133
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded translation file is too big."
-msgstr "Nahraný soubor je příliš velký."
+msgstr "Nahraný soubor překladů je příliš velký."
 
 #: weblate/trans/models/translation.py:353
 #, python-format
@@ -18142,10 +18124,9 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nepodařilo ze zpracovat nahraný soubor jako {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Nepodařilo ze zpracovat nahraný ZIP soubor."
+msgstr "Nepodařilo ze zpracovat nahraný soubor: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -19330,10 +19311,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "Nepodařilo ze zpracovat časovou značku: {}"
 
 #: weblate/utils/search.py:424
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "Neznámé pole vyhledávání: {}"
+msgstr "Neznámá akce změny: {}"
 
 #: weblate/utils/search.py:451
 msgid "Unknown search field: {}"
@@ -19424,10 +19403,8 @@ msgstr ""
 "jak jí určit je {1}."
 
 #: weblate/utils/validators.py:138
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "Nahraný soubor je příliš velký."
+msgstr "Nahraný soubor ZIP je příliš velký."
 
 #: weblate/utils/validators.py:171
 msgid "The uploaded image was invalid."
@@ -19537,31 +19514,39 @@ msgstr "Tuto webovou stránku nelze použít. Zvolte prosím jinou."
 #: weblate/utils/validators.py:594 weblate/utils/validators.py:608
 msgid "Profile URL cannot include username or password credentials."
 msgstr ""
+"Adresa profilu nemůže obsahovat informace o uživatelském jménu nebo heslu."
 
 #: weblate/utils/validators.py:597 weblate/utils/validators.py:611
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"Adresa profilu by měla odkazovat na stránku profilu, ne přímo na stažení "
+"souboru."
 
 #: weblate/utils/validators.py:639
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
 msgstr ""
+"Adresa webu s kódem by měla odkazovat na uživatelský profil nebo repozitář "
+"na webu pro hosting kódu."
 
 #: weblate/utils/validators.py:650
 msgid "Contact URL cannot include username or password credentials."
 msgstr ""
+"Adresa kontaktu nemůže obsahovat informace o uživatelském jménu nebo heslu."
 
 #: weblate/utils/validators.py:653
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"Adresa kontaktu by měla odkazovat na kontaktní nebo profilovou stránku, ne "
+"přímo na stažení souboru."
 
 #: weblate/utils/validators.py:696
 msgid "Fediverse URL should link to a Fediverse user profile."
-msgstr ""
+msgstr "Adresa Fediverse by měla odkazovat na uživatelský profil na Fediverse."
 
 #: weblate/utils/validators.py:705
 msgid "URL domain is not allowed."
@@ -19614,42 +19599,37 @@ msgid "Component and priority"
 msgstr "Součást a priorita"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Soubor ZIP obsahující zálohu projektu"
+msgstr "Soubor ZIP obsahuje neplatnou cestu: {path}"
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "Součást obsahuje nepodporovanou konfiguraci."
+msgstr "Soubor ZIP obsahuje nepodporované symbolické odkazy."
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported special files."
-msgstr "Součást obsahuje nepodporovanou konfiguraci."
+msgstr "Soubor ZIP obsahuje nepodporované speciální soubory."
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "ZIP soubor s překlady"
+msgstr "Soubor ZIP obsahuje příliš mnoho záznamů."
 
 #: weblate/utils/zip.py:94
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"Soubor ZIP obsahuje duplicitní soubory. Vygenerujte si prosím novou zálohu "
+"pomocí novější verze Weblate."
 
 #: weblate/utils/zip.py:114
 msgid "The ZIP file contains too much uncompressed data."
-msgstr ""
+msgstr "Soubor ZIP obsahuje příliš mnoho nekomprimovaných dat."
 
 #: weblate/utils/zip.py:127
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "Soubor ZIP obsahuje příliš velký komprimovaný záznam."
 
 #: weblate/vcs/base.py:231
 msgid "This will push changes to the upstream repository."
@@ -19812,32 +19792,24 @@ msgstr ""
 "prosím ověřte, že je tento otisk správný."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Nepodařilo se načíst klíč: %s"
+msgstr "Nepodařilo se přečíst uložené hostitelské klíče."
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "Vrácenou změnu se nedaří najít."
+msgstr "Nepodařilo se najít zvolený hostitelský klíč."
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "Nepodařilo se aktualizovat repozitář."
+msgstr "Nepodařilo se aktualizovat uložené hostitelské klíče."
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s)."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Přidán hostitelský klíč pro %(host)s s otiskem %(fingerprint)s (%(keytype)s)."
+"Odstraněn hostitelský klíč pro %(host)s s otiskem %(fingerprint)s (%(keytype)"
+"s)."
 
 #: weblate/wladmin/forms.py:17
 msgid "Activation token"
