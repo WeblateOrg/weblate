@@ -1706,6 +1706,7 @@ class ComponentSettingsForm(
             "push",
             "push_branch",
             "repoweb",
+            "repoweb_translations",
             "push_on_commit",
             "commit_pending_age",
             "merge_style",
@@ -1806,6 +1807,7 @@ class ComponentSettingsForm(
                         "push",
                         "push_branch",
                         "repoweb",
+                        "repoweb_translations",
                     ),
                     Fieldset(
                         gettext("Version control settings"),
@@ -1963,6 +1965,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "push",
             "push_branch",
             "repoweb",
+            "repoweb_translations",
             "file_format",
             "file_format_params",
             "filemask",
