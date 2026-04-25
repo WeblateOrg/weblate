@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-24 17:37+0000\n"
+"PO-Revision-Date: 2026-04-25 18:12+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1432,10 +1432,8 @@ msgid "Code site"
 msgstr "Адрес към страницата с код"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Услугата вече не е достъпна"
+msgstr "Връзката към профила вече не е налична."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
@@ -6478,6 +6476,10 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"Машинният превод на ниво проект не може да използва вътрешни или непублични "
+"адреси. Свържете се с администратора на уеб сайта, ако тази услуга би "
+"трябвало да бъде настроена за целия уеб сайт или добавена в списък с "
+"разрешени."
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -8721,15 +8723,16 @@ msgstr "Това ще премахне <b>%(user)s</b> от Weblate."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Напускате Weblate, за да отворите профилна връзка, предоставена от %(user)s."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "Дестинация: %(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "Продължете само, ако имате доверие на тази дестинация."
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8965,10 +8968,8 @@ msgstr ""
 "променете попълнените стойности според нуждите си."
 
 #: weblate/templates/addons/discovery_presets.html:42
-#, fuzzy
-#| msgid "Example add-on"
 msgid "Examples:"
-msgstr "Примерна добавка"
+msgstr "Примери:"
 
 #: weblate/templates/addons/discovery_presets.html:47
 #, fuzzy
@@ -13845,10 +13846,8 @@ msgstr ""
 "използвате услугата, но е препоръчително да надградите платежния си план."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "Неуспешно обновяване на хранилището."
+msgstr "Weblate не успя да потвърди адреса за разглеждане на хранилището:"
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -13868,10 +13867,8 @@ msgstr ""
 "към по-горна директория, или ако е абсолютен."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate не може да изпрати промените към отдалеченото хранилище."
+msgstr "Weblate не успя да потвърди адреса на уеб сайта на проекта:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -14652,12 +14649,13 @@ msgid "Revert user edits"
 msgstr "Премахнат е потребител"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
-msgstr "Това ще изтрие екипа <b>%(name)s</b> от този проект."
+msgstr ""
+"Това ще отмени последните редактируеми преводи направени от <b>%(user)s</b> "
+"в този проект."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -17848,7 +17846,15 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"Хранилището е нулирано, но чакащите преводи не успяха да бъдат приложени "
+"отново, тъй като %(files)s липсва. Чакащите промени са съхранени. За да ги "
+"възстановите, добавете файла в отдалеченото хранилище и сканирайте отново, "
+"така че Weblate да може да създаде файла за превод."
 msgstr[1] ""
+"Хранилището е нулирано, но чакащите преводи не успяха да бъдат приложени "
+"отново, тъй като следните файлове липсват: %(files)s. Чакащите промени са "
+"съхранени. За да ги възстановите, добавете файла в отдалеченото хранилище и "
+"сканирайте отново, така че Weblate да може да създаде файловете за превод."
 
 #: weblate/trans/models/component.py:2592
 #, python-format
@@ -17856,6 +17862,8 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"Хранилището е нулирано, но създаването на %(file)s при прилагането на "
+"чакащите преводи не беше успешно. Чакащите промени са съхранени."
 
 #: weblate/trans/models/component.py:2610
 #, python-format
@@ -17866,7 +17874,11 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"Хранилището е нулирано, но създаването на %(files)s при прилагането на "
+"чакащите преводи не беше успешно. Чакащите промени са съхранени."
 msgstr[1] ""
+"Хранилището е нулирано, но създаването на следните файлове при прилагането "
+"на чакащите преводи не беше успешно:%(files)s. Чакащите промени са съхранени."
 
 #: weblate/trans/models/component.py:2620
 #, fuzzy
@@ -18370,10 +18382,9 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Каченият файл не може да бъде анализиран като {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Неуспешен анализ на качения файл ZIP."
+msgstr "Неуспешен анализ на качения файл: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -18508,10 +18519,8 @@ msgid "User configured character: {}"
 msgstr "Потребителски знак: {}"
 
 #: weblate/trans/tasks.py:699
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Извършва се автоматичен превод"
+msgstr "Автоматичният превод е пропуснат, тъй като целта вече не съществува."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -18823,6 +18832,7 @@ msgstr "Потребителят вече е блокиран в този про
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
 msgstr ""
+"Беше насрочена отмяна на редакциите направени от %(user)s в този проект."
 
 #: weblate/trans/views/acl.py:208
 #, fuzzy
@@ -19345,7 +19355,7 @@ msgstr[1] "езици"
 
 #: weblate/utils/backup.py:120
 msgid "Borg completed with warnings without any output."
-msgstr ""
+msgstr "Borg завърши с предупредителни съобщения и без никакъв изход."
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -19755,32 +19765,40 @@ msgstr "Този уеб сайт не може да бъде използван.
 
 #: weblate/utils/validators.py:594 weblate/utils/validators.py:608
 msgid "Profile URL cannot include username or password credentials."
-msgstr ""
+msgstr "Адресът на профила не може да съдържа потребителското име или паролата."
 
 #: weblate/utils/validators.py:597 weblate/utils/validators.py:611
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"Адресът на профила трябва да води до профилна страница, а не до файл за "
+"сваляне."
 
 #: weblate/utils/validators.py:639
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
 msgstr ""
+"Адресът на уеб сайт с код трябва да води до страница с потребителски профил "
+"или хранилище в уеб сайт за съхранение на код."
 
 #: weblate/utils/validators.py:650
 msgid "Contact URL cannot include username or password credentials."
-msgstr ""
+msgstr "Адресът за връзка не може да включва потребителското име или паролата."
 
 #: weblate/utils/validators.py:653
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"Адресът за връзка трябва да води до профилна страница, а не до файл за "
+"сваляне."
 
 #: weblate/utils/validators.py:696
 msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
+"Адресът за Федивселената трябва да води до потребителски профил във "
+"Федивселената."
 
 #: weblate/utils/validators.py:705
 msgid "URL domain is not allowed."
@@ -19833,10 +19851,9 @@ msgid "Component and priority"
 msgstr "Компонент и приоритет"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Файл ZIP съдържащ резервно копие на проект"
+msgstr "Файлът ZIP съдържа грешен път: {path}"
 
 #: weblate/utils/zip.py:62
 #, fuzzy
@@ -19851,24 +19868,24 @@ msgid "ZIP file contains unsupported special files."
 msgstr "Дали компонентът е заключен за промени на превода."
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Файл ZIP с преводи"
+msgstr "Файлът ZIP съдържа твърде много записи."
 
 #: weblate/utils/zip.py:94
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"Архивният файл zip съдържа дублирани файлове. Моля, създайте ново резервно "
+"копие с по-нова версия на Weblate."
 
 #: weblate/utils/zip.py:114
 msgid "The ZIP file contains too much uncompressed data."
-msgstr ""
+msgstr "Архивният файл zip съдържа твърде много некомпресирани данни."
 
 #: weblate/utils/zip.py:127
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "Архивният файл zip съдържа компресиран запис, който е твърде голям."
 
 #: weblate/vcs/base.py:231
 msgid "This will push changes to the upstream repository."
@@ -19940,10 +19957,9 @@ msgid "Unknown error"
 msgstr "Неизвестна грешка"
 
 #: weblate/vcs/git.py:2298
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "Екранната снимка %(name)s не може да бъде възстановена: %(error)s"
+msgstr "Проектът от GitLab не може да бъде получен (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2417
 msgid "Pagure merge request"
@@ -20033,10 +20049,8 @@ msgstr ""
 "Моля, уверете се, че всичко е правилно."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Неуспешно получаване на ключа на хоста: %s"
+msgstr "Не могат да бъдат прочетени съхранените сървърни ключове."
 
 #: weblate/vcs/ssh.py:406
 #, fuzzy
