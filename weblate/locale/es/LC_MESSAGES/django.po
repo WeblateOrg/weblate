@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-22 10:10+0000\n"
+"PO-Revision-Date: 2026-04-25 18:12+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1455,23 +1455,17 @@ msgid "Website"
 msgstr "Sitio web"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "URL de sitio de programación"
+msgstr "Sitio de código"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "El servicio ya no está disponible"
+msgstr "Este perfil enlazado no está ya disponible."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Perfil de usuario"
+msgstr "Enlace de perfil externo"
 
 #: weblate/accounts/views.py:1015 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -6515,15 +6509,12 @@ msgid "Source language selection"
 msgstr "Selección del idioma origen"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
-"Esta URL está prohibida porque apunta a una dirección interna o no pública."
+"Traducción de máquina e nivel de proyecto no se puede utilizar direcciones "
+"internas o no públicas."
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -6531,6 +6522,9 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"Traducción de máquina a nivel de proyecto no puede ser utilizar direcciones "
+"internas o externas. Contacte con el admin del sitio si este servicio "
+"estaría configurado a todo el sitio o concedido por listado."
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -7017,10 +7011,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "No se ha podido analizar el archivo TMX: %s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "¡El idioma de origen no está definido en el archivo TMX!"
+msgstr "¡Cabecera ausente en el archivo TMX!"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -8772,15 +8764,16 @@ msgstr "Esto eliminará al <b>%(user)s</b> de Weblate."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Está dejando de Weblate abra un enlace de perfil proporcionado por %(user)s."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "Destino: %(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "Solo continuar si confía en este destino."
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8795,10 +8788,8 @@ msgid "Continue"
 msgstr "Continuar"
 
 #: weblate/templates/accounts/user_profile_link.html:35
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Copias de respaldo"
+msgstr "Atrás"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
@@ -14014,16 +14005,12 @@ msgstr ""
 "que la alerta podría desaparecer por las incidencias temporales."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
-#, fuzzy
-#| msgid ""
-#| "Another component is configured to push merge requests to the same "
-#| "repository and push branch."
 msgid ""
 "Another component is configured to push to the same repository and push "
 "branch."
 msgstr ""
-"Está configurado otro componente para solicitudes push merge para el mismo "
-"repositorio y push branch."
+"Está configurado otro componente para inserción al mismo repositorio y rama "
+"de inserción."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
@@ -17838,19 +17825,14 @@ msgstr ""
 "la interfaz administrativa."
 
 #: weblate/trans/models/component.py:1955
-#, fuzzy
-#| msgid ""
-#| "The SSH host key for the repository has changed. Verify the new "
-#| "fingerprint and replace the stored host key on the SSH page in the admin "
-#| "interface."
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint, "
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
 "La clave del hospedaje SSH para el repositorio ha cambiado. Verifique la "
-"huella digital nueva y remplace la clave de host almacenada en la página SSH "
-"en el interfaz administrativo."
+"huella digital nueva, retira la clave de host almacenada, y agrega una nueva "
+"en la página SSH en el interfaz administrativo."
 
 #: weblate/trans/models/component.py:1992
 msgid ""
@@ -18389,10 +18371,8 @@ msgstr "¡No se pudo aceptar la sugerencia!"
 
 #: weblate/trans/models/translation.py:93
 #: weblate/trans/models/translation.py:97 weblate/utils/validators.py:133
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded translation file is too big."
-msgstr "Archivo subido es muy grande."
+msgstr "El archivo de traducción subido es muy grande."
 
 #: weblate/trans/models/translation.py:353
 #, python-format
@@ -18436,10 +18416,9 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "No se pudo interpretar el archivo subido como {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "No se pudo procesar el archivo ZIP cargado."
+msgstr "No se pudo interpretar el archivo subido: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -19624,10 +19603,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "No se pudo interpretar sello temporal: {}"
 
 #: weblate/utils/search.py:424
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "Campo de búsqueda desconocido: {}"
+msgstr "Campo de acción desconocido: {}"
 
 #: weblate/utils/search.py:451
 msgid "Unknown search field: {}"
@@ -19718,10 +19695,8 @@ msgstr ""
 "es {1}."
 
 #: weblate/utils/validators.py:138
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "Archivo subido es muy grande."
+msgstr "Archivador ZIP subido es excesivamente grande."
 
 #: weblate/utils/validators.py:171
 msgid "The uploaded image was invalid."
@@ -19787,8 +19762,8 @@ msgstr "El nombre de archivo no puede ser una ruta absoluta."
 #: weblate/utils/validators.py:297
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
-"Simplifique el nombre de archivo tanto como pueda. Quizá prefiera utilizar: "
-"{}"
+"El apodo de usuario sería tan sencillo como sea posible. Quizá prefiera "
+"utilizar: {}"
 
 #: weblate/utils/validators.py:302
 msgid "The filename contains a prohibited folder."
@@ -19832,32 +19807,40 @@ msgstr "Este sitio web no puede ser utilizado. Proporcione uno diferente."
 
 #: weblate/utils/validators.py:594 weblate/utils/validators.py:608
 msgid "Profile URL cannot include username or password credentials."
-msgstr ""
+msgstr "El URL del perfil no puede incluir credenciales de apodo o contraseña."
 
 #: weblate/utils/validators.py:597 weblate/utils/validators.py:611
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"El URL del perfil enlazaría a una página de perfil, no directamente a una "
+"descarga de archivo."
 
 #: weblate/utils/validators.py:639
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
 msgstr ""
+"URL del sitio del código enlazaría a un perfil de usuario o página de "
+"repositorio en un código de sitio hospedado."
 
 #: weblate/utils/validators.py:650
 msgid "Contact URL cannot include username or password credentials."
 msgstr ""
+"URL de contacto no puede incluir credenciales del apodo de usuario o la "
+"contraseña."
 
 #: weblate/utils/validators.py:653
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"URL del contacto enlazaría a un contacto o página de perfil, no directamente "
+"a una descarga de archivo."
 
 #: weblate/utils/validators.py:696
 msgid "Fediverse URL should link to a Fediverse user profile."
-msgstr ""
+msgstr "URL Fediverse enlazaría a un perfil de usuario de Fediverse."
 
 #: weblate/utils/validators.py:705
 msgid "URL domain is not allowed."
@@ -19910,54 +19893,50 @@ msgid "Component and priority"
 msgstr "Componente y prioridad"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Archivo ZIP que contiene la copia de respaldo del proyecto"
+msgstr "Archivador ZIP contiene ruta no válida: {path}"
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "El componente contiene alguna configuración no admitida."
+msgstr "El archivador ZIP contiene enlaces simbólicos no admitidos."
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported special files."
-msgstr "El componente contiene alguna configuración no admitida."
+msgstr "El archivador ZIP contiene archivos especiales no admitidos."
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Archivo ZIP con traducciones"
+msgstr "El archivador ZIP contiene demasiados apuntes."
 
 #: weblate/utils/zip.py:94
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"El archivador zip contiene archivos duplicados. Genere un respaldo nuevo con "
+"una versión de Weblate más nueva."
 
 #: weblate/utils/zip.py:114
 msgid "The ZIP file contains too much uncompressed data."
-msgstr ""
+msgstr "El archivador ZIP contiene demasiados datos descomprimidos."
 
 #: weblate/utils/zip.py:127
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
+"El archivador ZIP contiene un apunte comprimido que es demasiado grande."
 
 #: weblate/vcs/base.py:231
 msgid "This will push changes to the upstream repository."
-msgstr "Esto empujará los cambios al repositorio upstream."
+msgstr "Esto empujará los cambios al repositorio en desarrollo."
 
 #: weblate/vcs/git.py:144
 msgid "This will push changes to the upstream Git repository."
-msgstr "Esto empujará los cambios al repositorio Git upstream."
+msgstr "Esto empujará los cambios al repositorio Git en desarrollo."
 
 #: weblate/vcs/git.py:852
 msgid "Possible cleanups:"
-msgstr "Posibles limpiezas:"
+msgstr "Posibles purgados:"
 
 #: weblate/vcs/git.py:870
 msgid "This will push changes to Gerrit for a review."
@@ -20113,33 +20092,24 @@ msgstr ""
 "(%(keytype)s). Compruebe que sea correcta."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "No se ha podido obtener la clave de host: %s"
+msgstr "No se han podido leer las claves de host almacenadas."
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "No se pudo encontrar el cambio revertido."
+msgstr "No se pudo encontrar la clave de host seleccionada."
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "No se pudo actualizar el repositorio."
+msgstr "No se pudo actualizar las claves de host almacenadas."
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s)."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Clave del host añadida para %(host)s con huella %(fingerprint)s "
-"(%(keytype)s)."
+"Clave host retirada para %(host)s con huella digital %(fingerprint)s (%"
+"(keytype)s)."
 
 #: weblate/wladmin/forms.py:17
 msgid "Activation token"
