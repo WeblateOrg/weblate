@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-22 10:11+0000\n"
+"PO-Revision-Date: 2026-04-26 22:41+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -222,6 +222,9 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Biarkan aktif untuk mencabut kunci API saat ini dan membuat yang baru. Hal "
+"ini disarankan jika Anda menduga kata sandi Anda telah bocor. Nonaktifkan "
+"opsi ini agar kunci API Anda tetap aktif setelah mengganti kata sandi."
 
 #: weblate/accounts/forms.py:766
 msgid "Your password has been changed."
@@ -1428,23 +1431,17 @@ msgid "Website"
 msgstr "Situs Web"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "Kode URL situs"
+msgstr "Situs kode"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Layanan tidak lagi tersedia"
+msgstr "Tautan profil ini sudah tidak tersedia."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Profil pengguna"
+msgstr "Tautan profil eksternal"
 
 #: weblate/accounts/views.py:1015 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -6430,15 +6427,12 @@ msgid "Source language selection"
 msgstr "Pemilihan bahasa sumber"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
-"URL ini dilarang karena itu mengalihkan ke alamat internal atau non-publik."
+"Penerjemahan mesin tingkat proyek tidak dapat menggunakan alamat internal "
+"atau non-publik."
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -6446,6 +6440,9 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"Penerjemahan mesin tingkat proyek tidak dapat menggunakan alamat internal "
+"atau non-publik. Hubungi administrator situs jika layanan ini harus "
+"dikonfigurasi di seluruh situs atau diizinkan."
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -6920,10 +6917,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "Tidak dapat mengurai berkas TMX: %s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "Bahasa sumber tidak didefinisikan dalam berkas TMX!"
+msgstr "Header tidak ditemukan dalam berkas TMX!"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -8654,15 +8649,17 @@ msgstr "Ini akan menghapus <b>%(user)s</b> dari Weblate."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Anda akan meninggalkan Weblate untuk membuka tautan profil yang diberikan "
+"oleh %(user)s."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "Tujuan: %(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "Lanjutkan hanya jika Anda mempercayai tujuan ini."
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8677,10 +8674,8 @@ msgid "Continue"
 msgstr "Lanjutkan"
 
 #: weblate/templates/accounts/user_profile_link.html:35
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Cadangan"
+msgstr "Kembali"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
@@ -13786,16 +13781,12 @@ msgstr ""
 "peringatannya mungkin hilang untuk isu sementara."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
-#, fuzzy
-#| msgid ""
-#| "Another component is configured to push merge requests to the same "
-#| "repository and push branch."
 msgid ""
 "Another component is configured to push to the same repository and push "
 "branch."
 msgstr ""
-"Komponen lain dikonfigurasikan untuk mendorong permintaan penggabungan ke "
-"repositori sama dan cabang dorong."
+"Komponen lain dikonfigurasi untuk mendorong ke repositori dan cabang dorong "
+"yang sama."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
@@ -17569,18 +17560,14 @@ msgstr ""
 "pada antarmuka admin."
 
 #: weblate/trans/models/component.py:1955
-#, fuzzy
-#| msgid ""
-#| "The SSH host key for the repository has changed. Verify the new "
-#| "fingerprint and replace the stored host key on the SSH page in the admin "
-#| "interface."
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint, "
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
-"Kunci host SSH untuk repositori telah berubah. Verifikasi sidik jari baru "
-"dan ganti kunci host yang tersimpan di halaman SSH pada antarmuka admin."
+"Kunci host SSH untuk repositori telah berubah. Verifikasi sidik jari baru, "
+"hapus kunci host yang tersimpan, dan tambahkan yang baru di halaman SSH pada "
+"antarmuka admin."
 
 #: weblate/trans/models/component.py:1992
 msgid ""
@@ -18099,10 +18086,8 @@ msgstr "Tidak dapat menerima saran!"
 
 #: weblate/trans/models/translation.py:93
 #: weblate/trans/models/translation.py:97 weblate/utils/validators.py:133
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded translation file is too big."
-msgstr "Berkas terunggah terlalu besar."
+msgstr "Berkas terjemahan yang diunggah terlalu besar."
 
 #: weblate/trans/models/translation.py:353
 #, python-format
@@ -18145,10 +18130,9 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Tidak dapat mengurai berkas sebagai {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Tidak dapat mengurai berkas ZIP yang diunggah."
+msgstr "Tidak dapat mengurai berkas yang diunggah: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -19291,10 +19275,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "Tidak dapat mengurai stempel waktu: {}"
 
 #: weblate/utils/search.py:424
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "Kolom pencarian tidak diketahui: {}"
+msgstr "Aksi perubahan tidak dikenal: {}"
 
 #: weblate/utils/search.py:451
 msgid "Unknown search field: {}"
@@ -19385,10 +19367,8 @@ msgstr ""
 "mendefinisikannya dengan {1}."
 
 #: weblate/utils/validators.py:138
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "Berkas terunggah terlalu besar."
+msgstr "Berkas ZIP yang diunggah terlalu besar."
 
 #: weblate/utils/validators.py:171
 msgid "The uploaded image was invalid."
@@ -19498,31 +19478,39 @@ msgstr "Situs web ini tidak dapat digunakan. Silakan sediakan situs web lain."
 #: weblate/utils/validators.py:594 weblate/utils/validators.py:608
 msgid "Profile URL cannot include username or password credentials."
 msgstr ""
+"URL profil tidak boleh menyertakan kredensial nama pengguna atau kata sandi."
 
 #: weblate/utils/validators.py:597 weblate/utils/validators.py:611
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"URL profil harus mengarah ke halaman profil, bukan langsung ke unduhan "
+"berkas."
 
 #: weblate/utils/validators.py:639
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
 msgstr ""
+"URL situs kode harus mengarah ke halaman profil pengguna atau halaman "
+"repositori pada situs hosting kode."
 
 #: weblate/utils/validators.py:650
 msgid "Contact URL cannot include username or password credentials."
 msgstr ""
+"URL kontak tidak boleh menyertakan kredensial nama pengguna atau kata sandi."
 
 #: weblate/utils/validators.py:653
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"URL kontak harus mengarah ke halaman kontak atau profil, bukan langsung ke "
+"unduhan berkas."
 
 #: weblate/utils/validators.py:696
 msgid "Fediverse URL should link to a Fediverse user profile."
-msgstr ""
+msgstr "URL Fediverse harus mengarah ke profil pengguna Fediverse."
 
 #: weblate/utils/validators.py:705
 msgid "URL domain is not allowed."
@@ -19575,42 +19563,37 @@ msgid "Component and priority"
 msgstr "Komponen dan prioritas"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Berkas ZIP berisi cadangan proyek"
+msgstr "Berkas ZIP mengandung jalur yang tidak valid: {path}"
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "Apakah komponen akan dikunci untuk memperbarui terjemahan."
+msgstr "Berkas ZIP mengandung tautan simbolis yang tidak didukung."
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "ZIP file contains unsupported special files."
-msgstr "Apakah komponen akan dikunci untuk memperbarui terjemahan."
+msgstr "Berkas ZIP mengandung berkas khusus yang tidak didukung."
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Berkas ZIP berisi terjemahan"
+msgstr "Berkas ZIP mengandung terlalu banyak entri."
 
 #: weblate/utils/zip.py:94
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"Berkas ZIP mengandung berkas duplikat. Harap buat cadangan baru dengan versi "
+"Weblate yang lebih baru."
 
 #: weblate/utils/zip.py:114
 msgid "The ZIP file contains too much uncompressed data."
-msgstr ""
+msgstr "Berkas ZIP mengandung terlalu banyak data yang tidak terkompresi."
 
 #: weblate/utils/zip.py:127
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "Berkas ZIP mengandung entri terkompresi yang terlalu besar."
 
 #: weblate/vcs/base.py:231
 msgid "This will push changes to the upstream repository."
@@ -19778,33 +19761,24 @@ msgstr ""
 "(%(keytype)s), mohon verifikasikan bahwa itu benar."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Tidak dapat memperoleh kunci host: %s"
+msgstr "Tidak dapat membaca kunci host yang tersimpan."
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "Tidak dapat menemukan perubahan yang dikembalikan."
+msgstr "Tidak dapat menemukan kunci host yang dipilih."
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "Tidak dapat memperbarui repositori."
+msgstr "Tidak dapat memperbarui kunci host yang tersimpan."
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s)."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Ditambahkan kunci hos untuk %(host)s dengan sidik jari %(fingerprint)s "
-"(%(keytype)s)."
+"Kunci host untuk %(host)s dengan sidik jari %(fingerprint)s (%(keytype)s) "
+"telah dihapus."
 
 #: weblate/wladmin/forms.py:17
 msgid "Activation token"
