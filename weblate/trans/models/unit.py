@@ -30,6 +30,7 @@ from weblate.memory.tasks import handle_unit_translation_change
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
+from weblate.trans.file_format_params import DOSLineEndings
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
@@ -2104,7 +2105,7 @@ class Unit(models.Model, LoggerMixin):
         not_empty = any(new_target_list)
 
         # Newlines fixup
-        if "dos-eol" in self.all_flags:
+        if DOSLineEndings.get_value(self.translation.component.file_format_params):
             self.target = NEWLINES.sub("\r\n", self.target)
 
         # Update string state

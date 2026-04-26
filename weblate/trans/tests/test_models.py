@@ -996,7 +996,8 @@ class UnitTest(ModelTestCase):
         self.assertEqual(unit.target, "new\nstring\n")
         # New object to clear all_flags cache
         unit = Unit.objects.get(pk=unit.pk)
-        unit.flags = "dos-eol"
+        unit.translation.component.file_format_params["dos_eol"] = True
+        unit.translation.component.save()
         unit.translate(user, "new\nstring", STATE_TRANSLATED)
         self.assertEqual(unit.target, "new\r\nstring\r\n")
         unit.translate(user, "other\r\nstring", STATE_TRANSLATED)

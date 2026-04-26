@@ -37,6 +37,7 @@ Weblate 5.17.1
 * :ref:`profile` links now show an external-link warning where possible; obvious direct file download URLs and invalid code site or Fediverse profile links are rejected.
 * Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE` and :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` before parsing.
 * Component ZIP imports and project backup restores now share stricter ZIP archive safety checks.
+* Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
 
 .. rubric:: Bug fixes
 
@@ -68,6 +69,8 @@ Weblate 5.17.1
 * Forgejo and Gitea test deliveries with sample loopback repository URLs no longer trigger slow suffix matching against all components.
 
 .. rubric:: Compatibility
+
+* The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
 
 .. rubric:: Upgrading
 
