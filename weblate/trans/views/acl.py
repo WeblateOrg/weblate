@@ -32,10 +32,16 @@ from weblate.trans.forms import (
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,
+    UserContributionCleanupForm,
     UserManageForm,
 )
 from weblate.trans.models import Project
-from weblate.trans.tasks import revert_user_edits as revert_user_edits_task
+from weblate.trans.tasks import (
+    cleanup_user_contributions as cleanup_user_contributions_task,
+)
+from weblate.trans.tasks import (
+    revert_user_edits as revert_user_edits_task,
+)
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
@@ -68,6 +74,36 @@ def check_user_form(
         return obj, form
     show_form_errors(request, form)
     return obj, None
+
+
+def is_contribution_cleanup_requested(form: UserContributionCleanupForm) -> bool:
+    return bool(
+        form.cleaned_data.get("reject_suggestions")
+        or form.cleaned_data.get("delete_comments")
+    )
+
+
+def schedule_contribution_cleanup(
+    request: AuthenticatedHttpRequest,
+    user: User,
+    project: Project,
+    form: UserContributionCleanupForm,
+) -> None:
+    cleanup_user_contributions_task.delay(
+        target_user_id=user.id,
+        acting_user_id=request.user.id,
+        project_id=project.id,
+        sitewide=False,
+        reject_suggestions=form.cleaned_data["reject_suggestions"],
+        delete_comments=form.cleaned_data["delete_comments"],
+    )
+    messages.success(
+        request,
+        gettext("Cleaning up contributions by %(user)s in this project was scheduled.")
+        % {
+            "user": user.username,
+        },
+    )
 
 
 @require_POST
@@ -137,6 +173,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
         messages.error(request, gettext("You can not block yourself on this project."))
     elif form is not None:
         user = form.cleaned_data["user"]
+        cleanup_requested = is_contribution_cleanup_requested(form)
 
         if form.cleaned_data.get("expiry"):
             expiry = timezone.now() + timedelta(days=int(form.cleaned_data["expiry"]))
@@ -156,7 +193,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
                 expiry=expiry.isoformat() if expiry else None,
             )
             messages.success(request, gettext("User has been blocked on this project."))
-        elif not form.cleaned_data["revert_edits"]:
+        elif not form.cleaned_data["revert_edits"] and not cleanup_requested:
             messages.error(request, gettext("User is already blocked on this project."))
 
         if form.cleaned_data["revert_edits"]:
@@ -173,6 +210,9 @@ def block_user(request: AuthenticatedHttpRequest, project):
                     "user": user.username,
                 },
             )
+
+        if cleanup_requested:
+            schedule_contribution_cleanup(request, user, obj, form)
 
     return redirect("manage-access", project=obj.slug)
 
@@ -200,6 +240,7 @@ def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
     obj, form = check_user_form(
         request,
         project,
+        form_class=UserContributionCleanupForm,
     )
 
     if form is not None:
@@ -207,19 +248,32 @@ def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
         if not user.userblock_set.filter(project=obj).exists():
             messages.error(request, gettext("User is not blocked on this project."))
         else:
-            revert_user_edits_task.delay(
-                target_user_id=user.id,
-                acting_user_id=request.user.id,
-                project_id=obj.id,
-                sitewide=False,
+            cleanup_form_submitted = "cleanup_user_contributions" in request.POST
+            revert_edits = (
+                form.cleaned_data["revert_edits"] or not cleanup_form_submitted
             )
-            messages.success(
-                request,
-                gettext("Reverting edits by %(user)s in this project was scheduled.")
-                % {
-                    "user": user.username,
-                },
-            )
+            cleanup_requested = is_contribution_cleanup_requested(form)
+
+            if revert_edits:
+                revert_user_edits_task.delay(
+                    target_user_id=user.id,
+                    acting_user_id=request.user.id,
+                    project_id=obj.id,
+                    sitewide=False,
+                )
+                messages.success(
+                    request,
+                    gettext(
+                        "Reverting edits by %(user)s in this project was scheduled."
+                    )
+                    % {
+                        "user": user.username,
+                    },
+                )
+            if cleanup_requested:
+                schedule_contribution_cleanup(request, user, obj, form)
+            if not revert_edits and not cleanup_requested:
+                messages.error(request, gettext("No cleanup action was selected."))
 
     return redirect("manage-access", project=obj.slug)
 

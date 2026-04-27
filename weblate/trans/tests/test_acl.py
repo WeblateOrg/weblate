@@ -18,8 +18,13 @@ from weblate.accounts.models import VerifiedEmail
 from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Project
-from weblate.trans.tasks import revert_user_edits as revert_user_edits_task
+from weblate.trans.models import Change, Comment, Project, Suggestion
+from weblate.trans.tasks import (
+    cleanup_user_contributions as cleanup_user_contributions_task,
+)
+from weblate.trans.tasks import (
+    revert_user_edits as revert_user_edits_task,
+)
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import enable_login_required_settings
 from weblate.utils.pii import mask_email
@@ -709,6 +714,108 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertNotContains(response, "User is already blocked on this project.")
 
+    def test_block_user_cleanup_contributions(self) -> None:
+        self.project.add_user(self.user, "Administration")
+
+        with patch(
+            "weblate.trans.views.acl.cleanup_user_contributions_task.delay",
+            return_value=SimpleNamespace(id="task-cleanup"),
+        ) as mocked_delay:
+            response = self.client.post(
+                reverse("block-user", kwargs=self.kw_project),
+                {
+                    "user": self.second_user.username,
+                    "reject_suggestions": "on",
+                    "delete_comments": "on",
+                },
+                follow=True,
+            )
+
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            sitewide=False,
+            reject_suggestions=True,
+            delete_comments=True,
+        )
+        self.assertContains(
+            response,
+            "Cleaning up contributions by seconduser in this project was scheduled.",
+        )
+
+    def test_revert_blocked_user_cleanup_contributions(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+
+        with (
+            patch(
+                "weblate.trans.views.acl.revert_user_edits_task.delay",
+                return_value=SimpleNamespace(id="task-revert"),
+            ) as mocked_revert,
+            patch(
+                "weblate.trans.views.acl.cleanup_user_contributions_task.delay",
+                return_value=SimpleNamespace(id="task-cleanup"),
+            ) as mocked_cleanup,
+        ):
+            response = self.client.post(
+                reverse("revert-blocked-user-edits", kwargs=self.kw_project),
+                {
+                    "user": self.second_user.username,
+                    "cleanup_user_contributions": "1",
+                    "reject_suggestions": "on",
+                },
+                follow=True,
+            )
+
+        mocked_revert.assert_not_called()
+        mocked_cleanup.assert_called_once_with(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            sitewide=False,
+            reject_suggestions=True,
+            delete_comments=False,
+        )
+        self.assertContains(
+            response,
+            "Cleaning up contributions by seconduser in this project was scheduled.",
+        )
+
+    def test_revert_blocked_user_cleanup_with_revert_edits(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+
+        with patch(
+            "weblate.trans.views.acl.revert_user_edits_task.delay",
+            return_value=SimpleNamespace(id="task-revert"),
+        ) as mocked_revert:
+            response = self.client.post(
+                reverse("revert-blocked-user-edits", kwargs=self.kw_project),
+                {
+                    "user": self.second_user.username,
+                    "cleanup_user_contributions": "1",
+                    "revert_edits": "on",
+                },
+                follow=True,
+            )
+
+        mocked_revert.assert_called_once_with(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            sitewide=False,
+        )
+        self.assertContains(
+            response, "Reverting edits by seconduser in this project was scheduled."
+        )
+
     def test_revert_user_edits_task(self) -> None:
         self.project.add_user(self.user, "Administration")
         unit = self.get_unit()
@@ -765,6 +872,54 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertFalse(
             Change.objects.filter(action=ActionEvents.USER_REVERT).exists()
+        )
+
+    def test_cleanup_user_contributions_task(self) -> None:
+        unit = self.get_unit()
+        other_user = User.objects.create_user(
+            "cleanup-other", "cleanup-other@example.org", "testpassword"
+        )
+        target_suggestion = Suggestion.objects.create(
+            unit=unit, target="Bad suggestion!\n", user=self.second_user
+        )
+        other_suggestion = Suggestion.objects.create(
+            unit=unit, target="Other suggestion!\n", user=other_user
+        )
+        target_comment = Comment.objects.create(
+            unit=unit, comment="Bad comment", user=self.second_user
+        )
+        other_comment = Comment.objects.create(
+            unit=unit, comment="Other comment", user=other_user
+        )
+
+        result = cleanup_user_contributions_task(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+            reject_suggestions=True,
+            delete_comments=True,
+        )
+
+        self.assertEqual(result, {"comments": 1, "suggestions": 1})
+        self.assertFalse(Suggestion.objects.filter(pk=target_suggestion.pk).exists())
+        self.assertTrue(Suggestion.objects.filter(pk=other_suggestion.pk).exists())
+        self.assertFalse(Comment.objects.filter(pk=target_comment.pk).exists())
+        self.assertTrue(Comment.objects.filter(pk=other_comment.pk).exists())
+        self.assertTrue(
+            Change.objects.filter(
+                action=ActionEvents.SUGGESTION_DELETE,
+                target="Bad suggestion!\n",
+                user=self.user,
+                unit=unit,
+            ).exists()
+        )
+        self.assertTrue(
+            Change.objects.filter(
+                action=ActionEvents.COMMENT_DELETE,
+                details={"comment": "Bad comment"},
+                user=self.user,
+                unit=unit,
+            ).exists()
         )
 
     def test_revert_blocked_user_edits(self) -> None:

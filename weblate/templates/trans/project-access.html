@@ -100,7 +100,7 @@
                      data-bs-toggle="modal"
                      data-bs-target="#revert_blocked_user_{{ userblock.user.id }}"
                      class="btn btn-link btn-xs"
-                     title="{% translate "Revert user edits" %}">{% icon 'undo.svg' %}</a>
+                     title="{% translate "Clean up user contributions" %}">{% icon 'undo.svg' %}</a>
                   <form action="{% url "unblock-user" project=object.slug %}"
                         method="post"
                         class="inlineform">
@@ -129,10 +129,14 @@
                                     aria-label="{% translate "Close" %}"></button>
                           </div>
                           <div class="modal-body">
-                            {% blocktranslate with user=userblock.user.username %}This will revert the latest editable translations by <b>{{ user }}</b> in this project.{% endblocktranslate %}
+                            {% blocktranslate with user=userblock.user.username %}Choose which contributions by <b>{{ user }}</b> to clean up in this project.{% endblocktranslate %}
+                            {% include "snippets/user-contribution-cleanup.html" with cleanup_user=userblock.user cleanup_id="project" show_revert_edits=True cleanup_sitewide=False only %}
                           </div>
                           <div class="modal-footer">
-                            <input type="submit" class="btn btn-danger" value="{% translate "Revert" %}" />
+                            <input type="submit"
+                                   name="cleanup_user_contributions"
+                                   class="btn btn-danger"
+                                   value="{% translate "Clean up" %}" />
                           </div>
                         </div>
                       </div>

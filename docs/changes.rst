@@ -25,6 +25,7 @@ Weblate 5.17.1
 * Admin user management search can now find users by audit log IP address.
 * Track superuser and site-wide team changes in :ref:`audit-log`.
 * Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
+* Admins can now reject pending suggestions and delete comments when cleaning up blocked or abusive users.
 * Project website and repository browser URL alerts now show validation errors more clearly.
 * Project-level machine translation validation errors for private or local endpoints now better explain the allowed setup on hosted and self-managed sites.
 * Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.

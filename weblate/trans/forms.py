@@ -1399,6 +1399,30 @@ class UserManageForm(forms.Form):
     )
 
 
+class UserContributionCleanupForm(UserManageForm):
+    revert_edits = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Revert user edits"),
+        help_text=gettext_lazy(
+            "Revert the latest translation edits from this user in the current project."
+        ),
+    )
+    reject_suggestions = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Reject user suggestions"),
+        help_text=gettext_lazy(
+            "Reject all pending suggestions from this user in the current project."
+        ),
+    )
+    delete_comments = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Delete user comments"),
+        help_text=gettext_lazy(
+            "Delete all comments from this user in the current project."
+        ),
+    )
+
+
 class UserAddTeamForm(UserManageForm):
     make_admin = forms.BooleanField(
         required=False,
@@ -1408,7 +1432,7 @@ class UserAddTeamForm(UserManageForm):
     )
 
 
-class UserBlockForm(forms.Form):
+class UserBlockForm(UserContributionCleanupForm):
     user = UserField(
         label=gettext_lazy("User to block"),
         help_text=gettext_lazy(
@@ -1433,18 +1457,21 @@ class UserBlockForm(forms.Form):
             "Internal notes regarding blocking the user that are not visible to the user."
         ),
     )
-    revert_edits = forms.BooleanField(
-        required=False,
-        label=gettext_lazy("Revert user edits"),
-        help_text=gettext_lazy(
-            "Revert the latest translation edits from this user in the current project."
-        ),
-    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "auto_id" not in kwargs:
             kwargs["auto_id"] = "id_block_%s"
         super().__init__(*args, **kwargs)
+        self.order_fields(
+            [
+                "user",
+                "expiry",
+                "note",
+                "revert_edits",
+                "reject_suggestions",
+                "delete_comments",
+            ]
+        )
 
 
 class ReportsForm(forms.Form):
