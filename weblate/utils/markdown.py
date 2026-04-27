@@ -19,6 +19,9 @@ from weblate.utils.errors import report_error
 from .concurrency import MARKDOWN_LOCK
 
 MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
+PLAIN_AUTOLINK_CHAR = r"A-Za-z0-9.!#$%&'*+/=?^_`{|}~:-"
+PLAIN_AUTOLINK_END = r"A-Za-z0-9/_~=#&+-"
+PLAIN_AUTOLINK_PAREN = rf"\([{PLAIN_AUTOLINK_CHAR}]+\)"
 
 
 def get_mention_users(text):
@@ -45,7 +48,8 @@ class SkipHtmlSpan(span_token.HtmlSpan):
 
 class PlainAutoLink(span_token.AutoLink):
     pattern = re.compile(
-        r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|})(~:-]+[A-Za-z0-9})])(?=\W|$)"
+        rf"\b(https?://(?:[{PLAIN_AUTOLINK_CHAR}]|{PLAIN_AUTOLINK_PAREN})*"
+        rf"(?:[{PLAIN_AUTOLINK_END}]|{PLAIN_AUTOLINK_PAREN}))(?=\W|$)"
     )
 
 

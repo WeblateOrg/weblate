@@ -146,6 +146,18 @@ class MarkdownTestCase(SimpleTestCase):
             '<p>This is <a rel="ugc" target="_blank" href="https://weblate.org">https://weblate.org</a></p>\n',
             render_markdown("This is https://weblate.org"),
         )
+        self.assertEqual(
+            '<p>This is <a rel="ugc" target="_blank" href="https://example.com/">https://example.com/</a></p>\n',
+            render_markdown("This is https://example.com/"),
+        )
+        self.assertEqual(
+            '<p>This is <a rel="ugc" target="_blank" href="https://example.com">https://example.com</a>)</p>\n',
+            render_markdown("This is https://example.com)"),
+        )
+        self.assertEqual(
+            '<p>This is <a rel="ugc" target="_blank" href="https://example.com">https://example.com</a>).</p>\n',
+            render_markdown("This is https://example.com)."),
+        )
 
     def test_plain_link_underscore(self) -> None:
         self.assertEqual(
