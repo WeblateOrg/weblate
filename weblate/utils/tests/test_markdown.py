@@ -4,18 +4,23 @@
 
 from unittest.mock import patch
 
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 
 from weblate.auth.models import User
 from weblate.utils.markdown import get_mention_users, render_markdown
 
 
-class MarkdownTestCase(TestCase):
+class MarkdownTestCase(SimpleTestCase):
     def test_link(self) -> None:
         self.assertEqual(
             '<p><a rel="ugc" target="_blank" '
             'href="https://weblate.org/">link</a></p>\n',
             render_markdown("[link](https://weblate.org/)"),
+        )
+        self.assertEqual(
+            '<p><a rel="ugc" target="_blank" href="https://e.com/%22%20'
+            'onclick=%22alert(1)">link</a></p>\n',
+            render_markdown('[link](<https://e.com/" onclick="alert(1)>)'),
         )
 
     def test_js(self) -> None:
@@ -120,6 +125,16 @@ class MarkdownTestCase(TestCase):
         self.assertEqual(
             '<p><img src="https://valid.link" alt="title" /></p>\n',
             render_markdown("![title](https://valid.link)"),
+        )
+        self.assertEqual(
+            '<p><img src="https://e.com/%22%20onerror=%22alert(1)" '
+            'alt="title" /></p>\n',
+            render_markdown('![title](<https://e.com/" onerror="alert(1)>)'),
+        )
+        self.assertEqual(
+            '<p><img src="https://valid.link" alt="ti &quot;tle" '
+            'title="quot&quot;ed" /></p>\n',
+            render_markdown("![ti \"tle](https://valid.link 'quot\"ed')"),
         )
         self.assertEqual(
             "<p>![](ftp://invalid.link)</p>\n",

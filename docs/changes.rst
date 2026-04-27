@@ -62,6 +62,7 @@ Weblate 5.17.1
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 * Markdown rendering now falls back to escaped plain text when the Markdown parser fails.
+* Markdown image URLs are now escaped before rendering.
 
 .. rubric:: Compatibility
 

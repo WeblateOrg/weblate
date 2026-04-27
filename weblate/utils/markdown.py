@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import html
 import re
 from functools import reduce
 
@@ -117,7 +118,11 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         Otherwise, escape the URL.
         """
         if self.check_url(token.src):
-            return super().render_image(token)
+            template = '<img src="{}" alt="{}"{} />'
+            title = f' title="{html.escape(token.title)}"' if token.title else ""
+            return template.format(
+                self.escape_url(token.src), self.render_to_plain(token), title
+            )
         return self.escape_html_text(f"![{token.title}]({token.src})")
 
     def check_url(self, url: str) -> bool:
