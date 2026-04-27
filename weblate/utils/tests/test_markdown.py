@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from unittest.mock import patch
+
 from django.test import TestCase
 
 from weblate.auth.models import User
@@ -47,6 +49,20 @@ class MarkdownTestCase(TestCase):
         self.assertEqual(
             "<p>foo<strong>bar</strong>baz</p>\n", render_markdown("foo**bar**baz")
         )
+
+    def test_parser_failure_fallback(self) -> None:
+        with (
+            patch(
+                "weblate.utils.markdown.mistletoe.Document",
+                side_effect=IndexError("string index out of range"),
+            ),
+            patch("weblate.utils.markdown.report_error") as report_error,
+        ):
+            self.assertEqual(
+                "<p>**markdown**<br>&lt;script&gt;</p>",
+                render_markdown("**markdown**\n<script>"),
+            )
+        report_error.assert_called_once_with("Markdown rendering failed")
 
     def test_autolink(self) -> None:
         self.assertEqual(

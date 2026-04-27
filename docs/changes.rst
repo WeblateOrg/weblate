@@ -61,6 +61,7 @@ Weblate 5.17.1
 * Project listings now show review progress columns when any listed project has reviews enabled.
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
+* Markdown rendering now falls back to escaped plain text when the Markdown parser fails.
 
 .. rubric:: Compatibility
 

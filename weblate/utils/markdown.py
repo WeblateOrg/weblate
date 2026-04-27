@@ -8,10 +8,12 @@ from functools import reduce
 
 import mistletoe
 from django.db.models import Q
+from django.utils.html import linebreaks
 from django.utils.safestring import mark_safe
 from mistletoe import span_token
 
 from weblate.auth.models import User
+from weblate.utils.errors import report_error
 
 from .concurrency import MARKDOWN_LOCK
 
@@ -126,6 +128,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
 
 
 def render_markdown(text: str) -> str:
+    original_text = text
     users = {u.username.lower(): u for u in get_mention_users(text)}
     parts = MENTION_RE.split(text)
     for pos, part in enumerate(parts):
@@ -138,5 +141,9 @@ def render_markdown(text: str) -> str:
                 f'**[{part}]({user.get_absolute_url()} "{user.get_visible_name()}")**'
             )
     text = "".join(parts)
-    with MARKDOWN_LOCK, SaferWeblateHtmlRenderer() as renderer:
-        return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308
+    try:
+        with MARKDOWN_LOCK, SaferWeblateHtmlRenderer() as renderer:
+            return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308
+    except Exception:
+        report_error("Markdown rendering failed")
+        return mark_safe(linebreaks(original_text, autoescape=True))  # noqa: S308
