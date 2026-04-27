@@ -5883,7 +5883,7 @@ class ComponentAPITest(APIBaseTest):
     def test_links_with_invalid_category(self) -> None:
         """Non-existent category_id should be rejected."""
         self.create_acl()
-        self.do_request(
+        missing_response = self.do_request(
             "api:component-links",
             self.component_kwargs,
             method="post",
@@ -5891,6 +5891,18 @@ class ComponentAPITest(APIBaseTest):
             superuser=True,
             request={"project_slug": "acl", "category_id": 99999},
         )
+        category = Category.objects.create(
+            name="Wrong Category", slug="wrong-cat", project=self.component.project
+        )
+        wrong_project_response = self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": category.pk},
+        )
+        self.assertEqual(wrong_project_response.data, missing_response.data)
 
     def test_links_duplicate(self) -> None:
         """Adding a link to an already linked project should return 400."""
@@ -6143,7 +6155,7 @@ class TasksAPITest(APIBaseTest):
             {"completed": False, "progress": 0, "result": None, "log": ""},
         )
 
-    def test_retrieve_denies_inaccessible_cached_component(self) -> None:
+    def test_retrieve_hides_inaccessible_cached_component(self) -> None:
         other_component = self.create_acl()
         cache.set(
             get_task_metadata_key(self.task_id),
@@ -6165,6 +6177,60 @@ class TasksAPITest(APIBaseTest):
                 "api:task-detail",
                 kwargs={"pk": self.task_id},
                 method="get",
+                code=404,
+            )
+
+    def test_retrieve_hides_inaccessible_cached_translation(self) -> None:
+        other_component = self.create_acl()
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_id": None,
+                "translation_id": other_component.source_translation.id,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=404,
+            )
+
+    def test_destroy_denies_visible_cached_component_without_edit_permission(
+        self,
+    ) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
                 code=403,
             )
 
@@ -9058,6 +9124,33 @@ class ScreenshotAPITest(APIBaseTest):
             ).count(),
             1,
         )
+
+    def test_create_hides_inaccessible_translation(self) -> None:
+        private_component = self.create_acl()
+        hidden_response = self.do_request(
+            "api:screenshot-list",
+            method="post",
+            code=400,
+            request={
+                "name": "Hidden translation screenshot",
+                "project_slug": private_component.project.slug,
+                "component_slug": private_component.slug,
+                "language_code": private_component.source_translation.language.code,
+            },
+        )
+        missing_response = self.do_request(
+            "api:screenshot-list",
+            method="post",
+            code=400,
+            request={
+                "name": "Missing translation screenshot",
+                "project_slug": "missing",
+                "component_slug": private_component.slug,
+                "language_code": private_component.source_translation.language.code,
+            },
+        )
+
+        self.assertEqual(hidden_response.data, missing_response.data)
 
     def test_patch_screenshot(self) -> None:
         self.do_request(

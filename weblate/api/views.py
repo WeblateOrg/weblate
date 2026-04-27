@@ -3206,13 +3206,14 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new screenshot."""
+        user = cast("User", request.user)
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
                 raise ValidationError({param: "This field is required."})
 
         try:
-            translation = Translation.objects.get(
+            translation = Translation.objects.filter_access(user).get(
                 component__project__slug=request.data["project_slug"],
                 component__slug=request.data["component_slug"],
                 language__code=request.data["language_code"],
@@ -3222,7 +3223,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 dict.fromkeys(required_params, "Translation not found.")
             ) from error
 
-        if not request.user.has_perm("screenshot.add", translation):
+        if not user.has_perm("screenshot.add", translation):
             self.permission_denied(request, "Can not add screenshot.")
 
         with transaction.atomic():
@@ -3230,18 +3231,18 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 data=request.data, context={"request": request}
             )
             serializer.is_valid(raise_exception=True)
-            instance = serializer.save(translation=translation, user=request.user)
+            instance = serializer.save(translation=translation, user=user)
 
             instance.change_set.create(
                 action=ActionEvents.SCREENSHOT_UPLOADED,
-                user=request.user,
+                user=user,
                 target=instance.name,
             )
 
             for unit in instance.units.all():
                 instance.change_set.create(
                     action=ActionEvents.SCREENSHOT_ADDED,
-                    user=request.user,
+                    user=user,
                     target=instance.name,
                     unit=unit,
                 )
@@ -3579,22 +3580,29 @@ class TasksViewSet(ViewSet):
     ) -> tuple[AsyncResult, Component | None]:
         obj: Model
         component: Component
-        task = AsyncResult(str(pk))
+        user = cast("User", request.user)
+        task: AsyncResult = AsyncResult(str(pk))
         metadata = get_task_metadata(str(pk)) or {}
         if translation_id := metadata.get("translation_id"):
-            obj = get_object_or_404(Translation, pk=translation_id)
-            component = obj.component
+            translation = get_object_or_404(
+                Translation.objects.filter_access(user), pk=translation_id
+            )
+            obj = translation
+            component = translation.component
         elif component_id := metadata.get("component_id"):
-            component = obj = get_object_or_404(Component, pk=component_id)
+            component = get_object_or_404(
+                Component.objects.filter_access(user), pk=component_id
+            )
+            obj = component
         else:
             msg = "Invalid task"
             raise Http404(msg)
 
         # Check access or permission
         if permission:
-            if not request.user.has_perm(permission, obj):
+            if not user.has_perm(permission, obj):
                 raise PermissionDenied
-        elif not request.user.can_access_component(component):
+        elif not user.can_access_component(component):
             raise PermissionDenied
 
         return task, component
