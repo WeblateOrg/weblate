@@ -34,7 +34,8 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
 "PO-Revision-Date: 2026-04-28 01:38+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6407,6 +6408,8 @@ msgid ""
 "The :guilabel:`Reset and reapply` operation keeps pending translations from "
 "Weblate while resetting the local repository state to match upstream."
 msgstr ""
+":guilabel:`重置和重新应用` 操作保留来自 Weblate 的待提交更改，同时重置本地仓"
+"库状态来匹配上游。"
 
 #: admin/continuous.rst:257
 msgid ""
@@ -6517,6 +6520,12 @@ msgid ""
 "still need to add the Hosted Weblate :guilabel:`weblate` GitHub user as a "
 "collaborator with write access, see :ref:`hosted-push`."
 msgstr ""
+"如果你在使用 Hosted Weblate，推荐的方法是安装 `Weblate 应用 <https://"
+"github.com/apps/weblate>`_。该应用向 Hosted Weblate 发送 GitHub 通知，这样您"
+"就无需在 GitHub 中单独配置 :guilabel:`Webhook` 。但请注意，应用不会自行授予 "
+"Hosted Weblate 写入仓库的权限。要将更改推送回去， 你还是需要把 Hosted "
+"Weblate :guilabel:`weblate` GitHub 用户添加为拥有写入权限的协作者，见 "
+":ref:`hosted-push`。"
 
 #: admin/continuous.rst:311
 msgid ""
@@ -9828,6 +9837,9 @@ msgid ""
 "common older setup mounted the database volume at ``/var/lib/postgresql/"
 "data``, while PostgreSQL 18 now uses ``/var/lib/postgresql`` by default."
 msgstr ""
+"PostgreSQL 18 更改了容器内默认的数据目录。常见的就设置将数据库卷挂载于 ``/"
+"var/lib/postgresql/data`` ，而 PostgreSQL 18 现在默认使用 ``/var/lib/"
+"postgresql`` 。"
 
 #: admin/install/docker.rst:272
 msgid ""
@@ -9835,18 +9847,22 @@ msgid ""
 "in your Docker configuration to the new path, or keep the old mount target "
 "and set ``PGDATA`` accordingly."
 msgstr ""
+"如果正在从老版本升级，要么将 Docker 配置中的挂载目标更新到新路径，要么保留旧"
+"的挂载目标并相应设置 ``PGDATA`` 。"
 
 #: admin/install/docker.rst:276
 msgid ""
 "Leaving the old mount target unchanged without setting ``PGDATA`` can cause "
 "PostgreSQL to write its data outside the persisted volume."
 msgstr ""
+"不设置 ``PGDATA`` 就保留旧的挂载目标可能导致 PostgreSQL 在持久卷外面写入其数"
+"据。"
 
 #: admin/install/docker.rst:279
 msgid ""
 "See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for "
 "more information."
-msgstr ""
+msgstr "更多信息见 `PGDATA 文档 <https://hub.docker.com/_/postgres#pgdata>`_ 。"
 
 #: admin/install/docker.rst:282
 msgid ""
@@ -10347,12 +10363,16 @@ msgid ""
 "Enables the :ref:`legal` module in Docker deployments. By default, the "
 "integration is disabled; leave this variable unset or empty to disable it."
 msgstr ""
+"在 Docker 部署中启用 :ref:`legal` 模块。该集成默认禁用；不设置此变量或留空来"
+"禁用它。"
 
 #: admin/install/docker.rst:875
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce terms of service "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
+"``tos-confirm`` 以启用法律模块并在社媒身份认证期间和对已登录用户强制确认服务"
+"条款。"
 
 #: admin/install/docker.rst:877
 msgid ""
@@ -10360,6 +10380,8 @@ msgid ""
 "legal document templates from ``wllegal``. These templates are used by "
 "services operated by Weblate s.r.o. and are not intended for general use."
 msgstr ""
+"``wllegal`` 来启用相同集成并额外从 ``wllegal`` 加载托管的法律文档模板。这些模"
+"板由 Weblate s.r.o. 运营的服务所使用，不用于一般用途。"
 
 #: admin/install/docker.rst:882
 msgid ""
@@ -10367,6 +10389,8 @@ msgid ""
 "in :file:`/app/data/python/customize/templates/legal/documents`, "
 "see :ref:`docker-static-override`."
 msgstr ""
+"要在 Docker 中提供自己的法律文档，请覆盖 :file:`/app/data/python/customize/"
+"templates/legal/documents` 中的模板，见 :ref:`docker-static-override`。"
 
 #: admin/install/docker.rst:900
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -10858,7 +10882,7 @@ msgstr "启用 Keycloak 身份认证，请参见 :doc:`psa:backends/keycloak`。
 msgid ""
 "Configures which claim is used as the unique user identifier from Keycloak. "
 "Defaults to ``email``."
-msgstr ""
+msgstr "配置将什么用作来自 Keycloak 的唯一用户标识符。默认为 ``电子邮箱`` 。"
 
 #: admin/install/docker.rst:1567
 msgid ""
@@ -13516,6 +13540,9 @@ msgid ""
 "contributing/documentation` workflow and the ``make -C docs update-docs`` "
 "targets."
 msgstr ""
+"使用 ``--output`` 要求在 ``--sections`` 中只选一个值，这样每个生成的文本片段"
+"都写入自己的文件中。 这匹配 :doc:`/contributing/documentation` 工作流以及 "
+"``make -C docs update-docs`` 目标。"
 
 #: admin/management.rst:770
 msgid ""
@@ -13869,7 +13896,7 @@ msgstr "自动清理翻译记忆库"
 msgid ""
 "When enabled for a project, Weblate replaces older automatically created "
 "translation memory entries when a translation becomes active:"
-msgstr ""
+msgstr "对项目启用后，当翻译生效时 Weblate 替换旧的自动生成的翻译记忆库条目："
 
 #: admin/memory.rst:94
 msgid ""
