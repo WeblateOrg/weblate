@@ -220,7 +220,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
 @require_POST
 @login_required
 def unblock_user(request: AuthenticatedHttpRequest, project):
-    """Block user from a project."""
+    """Unblock user from a project."""
     obj, form = check_user_form(
         request,
         project,
