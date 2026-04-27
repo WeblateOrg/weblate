@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import contextlib
+import csv
 import json
 import warnings
 from base64 import b64encode
@@ -371,6 +372,7 @@ def fuzz_translation_formats(data: bytes) -> None:
         LookupError,
         OSError,
         ParseException,
+        csv.Error,
         SyntaxError,
         TypeError,
         TranslateToolkitParseError,
