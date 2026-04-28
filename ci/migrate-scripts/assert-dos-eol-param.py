@@ -12,8 +12,6 @@ unit = Unit.objects.get(
     translation=translation,
     source="dos-eol-source",
     target="dos-eol-target",
-    extra_flags="dos-eol",
-    check_flags="dos-eol",
 )
 
 # check params are set

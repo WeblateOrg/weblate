@@ -9,11 +9,8 @@ from django.db.models import Q
 
 
 def remove_dos_eos_flag(flags: str) -> str:
-    if "dos-eol" in flags:
-        flags = flags.split(",")
-        flags.remove("dos-eol")
-        flags = ",".join(flags)
-    return flags
+    parts = [item.strip() for item in flags.split(",")]
+    return ",".join(item for item in parts if item and item != "dos-eol")
 
 
 def migrate_dos_eol_flags_to_file_format_params(apps, schema_editor):
@@ -39,7 +36,7 @@ def migrate_dos_eol_flags_to_file_format_params(apps, schema_editor):
 
         components_to_update.append(component)
 
-    # remove stal flag from units
+    # remove stale flag from units
     for unit in Unit.objects.filter(extra_flags__icontains="dos-eol"):
         unit.extra_flags = remove_dos_eos_flag(unit.extra_flags)
         units_to_update.append(unit)
@@ -70,8 +67,10 @@ def reverse_migration(apps, schema_editor):
         file_format_params__dos_eol__isnull=False
     ):
         if component.file_format_params["dos_eol"]:
-            check_flags = [*component.check_flags.split(","), "dos-eol"]
-            component.check_flags = ",".join(check_flags)
+            existing = [
+                item for item in component.check_flags.split(",") if item.strip()
+            ]
+            component.check_flags = ",".join([*existing, "dos-eol"])
 
         component.file_format_params.pop("dos_eol", None)
         components_to_update.append(component)

@@ -1682,8 +1682,9 @@ $(function () {
           .attr("fileformats")
           ?.split(" ");
         if (
-          fileFormats.includes(selectedFileFormat) ||
-          fileFormats.includes("*")
+          fileFormats &&
+          (fileFormats.includes(selectedFileFormat) ||
+            fileFormats.includes("*"))
         ) {
           $(this).show();
           displayFieldLabel = true;

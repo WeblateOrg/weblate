@@ -35,7 +35,7 @@ class BaseFileFormatsTest(ViewTestCase):
 
     def update_component_file_params(
         self,
-        component: Component | None,
+        component: Component | None = None,
         **new_file_param_kwargs: Unpack[FileFormatParams],
     ) -> None:
         if component is None:
