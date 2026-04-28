@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-20 03:50+0000\n"
+"PO-Revision-Date: 2026-04-29 04:10+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.17.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
@@ -1456,23 +1456,17 @@ msgid "Website"
 msgstr "Suíomh Gréasáin"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "Cód URL an tsuímh"
+msgstr "Suíomh cóid"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Níl an tseirbhís ar fáil a thuilleadh"
+msgstr "Níl an nasc próifíle seo ar fáil a thuilleadh."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Próifíl an úsáideora"
+msgstr "Nasc próifíle seachtrach"
 
 #: weblate/accounts/views.py:1015 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -6530,16 +6524,12 @@ msgid "Source language selection"
 msgstr "Rogha teanga foinse"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
-"Tá an URL seo toirmiscthe mar go bhfuil sé ag tagairt do sheoladh inmheánach "
-"nó neamhphoiblí."
+"Ní féidir le haistriúchán meaisín ar leibhéal tionscadail seoltaí "
+"inmheánacha ná neamhphoiblí a úsáid."
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -6547,6 +6537,10 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"Ní féidir le haistriúchán meaisín ar leibhéal tionscadail seoltaí "
+"inmheánacha ná seoltaí neamhphoiblí a úsáid. Téigh i dteagmháil le riarthóir "
+"an tsuímh más ceart an tseirbhís seo a chumrú ar fud an tsuímh nó a chur ar "
+"an liosta ceadanna."
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -7029,10 +7023,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "Níorbh fhéidir comhad TMX a pharsáil: %s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "Níl an teanga foinse sainithe sa chomhad TMX!"
+msgstr "Ceanntásc ar iarraidh sa chomhad TMX!"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -8829,15 +8821,18 @@ msgstr "Bainfidh sé seo <b>%(user)s</b> de Weblate."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Tá tú ag fágáil Weblate chun nasc próifíle arna sholáthar ag %(user)s a "
+"oscailt."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "Ceann Scríbe: %(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
 msgstr ""
+"Ná lean ar aghaidh ach amháin má tá muinín agat as an gceann scríbe seo."
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8852,10 +8847,8 @@ msgid "Continue"
 msgstr "Lean ar aghaidh"
 
 #: weblate/templates/accounts/user_profile_link.html:35
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Cúltacaí"
+msgstr "Ar ais"
 
 #: weblate/templates/accounts/webauthn.html:7
 msgid "Sign in using the security key"
@@ -14253,16 +14246,12 @@ msgstr ""
 "arís, agus mar sin seans go n-imeoidh an foláireamh as fadhbanna sealadacha."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
-#, fuzzy
-#| msgid ""
-#| "Another component is configured to push merge requests to the same "
-#| "repository and push branch."
 msgid ""
 "Another component is configured to push to the same repository and push "
 "branch."
 msgstr ""
-"Tá comhpháirt eile cumraithe chun iarratais chumasc a bhrú chuig an stór "
-"céanna agus brainse a bhrú."
+"Tá comhpháirt eile cumraithe chun brú chuig an stór céanna agus brainse a "
+"bhrú."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:5
 msgid "This can cause the branch to be overwritten."
@@ -18145,19 +18134,14 @@ msgstr ""
 "chomhéadan riaracháin é, le do thoil."
 
 #: weblate/trans/models/component.py:1955
-#, fuzzy
-#| msgid ""
-#| "The SSH host key for the repository has changed. Verify the new "
-#| "fingerprint and replace the stored host key on the SSH page in the admin "
-#| "interface."
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint, "
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
-"Tá athrú tagtha ar eochair óstach SSH an stórais. Fíoraigh an méarloirg nua "
-"agus cuir eochair óstach stóráilte ina háit ar an leathanach SSH sa "
-"chomhéadan riaracháin."
+"Tá athrú tagtha ar eochair óstach SSH an stórais. Fíoraigh an méarloirg nua, "
+"bain an eochair óstach stóráilte, agus cuir an ceann nua leis ar an "
+"leathanach SSH sa chomhéadan riaracháin."
 
 #: weblate/trans/models/component.py:1992
 msgid ""
@@ -18726,10 +18710,8 @@ msgstr "Níorbh fhéidir glacadh le moladh!"
 
 #: weblate/trans/models/translation.py:93
 #: weblate/trans/models/translation.py:97 weblate/utils/validators.py:133
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded translation file is too big."
-msgstr "Tá an comhad uaslódáilte rómhór."
+msgstr "Tá an comhad aistriúcháin uaslódáilte rómhór."
 
 #: weblate/trans/models/translation.py:353
 #, python-format
@@ -18777,10 +18759,9 @@ msgstr ""
 "Níorbh fhéidir an comhad uaslódáilte a pharsáil mar {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Níorbh fhéidir an comhad ZIP uaslódáilte a pharsáil."
+msgstr "Níorbh fhéidir an comhad uaslódáilte a pharsáil: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -20049,10 +20030,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "Níorbh fhéidir an stampa ama a pharsáil: {}"
 
 #: weblate/utils/search.py:424
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "Réimse cuardaigh anaithnid: {}"
+msgstr "Gníomh athraithe anaithnid: {}"
 
 #: weblate/utils/search.py:451
 msgid "Unknown search field: {}"
@@ -20143,10 +20122,8 @@ msgstr ""
 "bealach is simplí chun é a shainiú."
 
 #: weblate/utils/validators.py:138
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "Tá an comhad uaslódáilte rómhór."
+msgstr "Tá an comhad ZIP uaslódáilte rómhór."
 
 #: weblate/utils/validators.py:171
 msgid "The uploaded image was invalid."
@@ -20261,31 +20238,40 @@ msgstr ""
 #: weblate/utils/validators.py:594 weblate/utils/validators.py:608
 msgid "Profile URL cannot include username or password credentials."
 msgstr ""
+"Ní féidir dintiúir ainm úsáideora ná pasfhocail a áireamh i URL an phróifíle."
 
 #: weblate/utils/validators.py:597 weblate/utils/validators.py:611
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"Ba chóir go mbeadh nasc idir URL na próifíle agus leathanach próifíle, ní "
+"nasc díreach chuig comhad a íoslódáileadh."
 
 #: weblate/utils/validators.py:639
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
 msgstr ""
+"Ba chóir go mbeadh nasc idir URL an tsuímh cóid agus próifíl úsáideora nó "
+"leathanach stórtha ar shuíomh óstála cóid."
 
 #: weblate/utils/validators.py:650
 msgid "Contact URL cannot include username or password credentials."
 msgstr ""
+"Ní féidir dintiúir ainm úsáideora ná pasfhocail a áireamh sa URL teagmhála."
 
 #: weblate/utils/validators.py:653
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"Ba chóir go mbeadh nasc idir URL an teagmhála agus leathanach teagmhála nó "
+"próifíle, ní go díreach chuig íoslódáil comhaid."
 
 #: weblate/utils/validators.py:696
 msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
+"Ba chóir go mbeadh nasc idir URL Fediverse agus próifíl úsáideora Fediverse."
 
 #: weblate/utils/validators.py:705
 msgid "URL domain is not allowed."
@@ -20338,40 +20324,37 @@ msgid "Component and priority"
 msgstr "Comhpháirt agus tosaíocht"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Comhad ZIP ina bhfuil cúltaca tionscadail"
+msgstr "Tá cosán neamhbhailí sa chomhad ZIP: {path}"
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "ZIP file containing project backup"
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "Comhad ZIP ina bhfuil cúltaca tionscadail"
+msgstr "Tá naisc shiombalacha nach dtacaítear leo sa chomhad ZIP."
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
 msgid "ZIP file contains unsupported special files."
-msgstr ""
+msgstr "Tá comhaid speisialta nach dtacaítear leo sa chomhad ZIP."
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Comhad ZIP ina bhfuil aistriúcháin"
+msgstr "Tá an iomarca iontrálacha sa chomhad ZIP."
 
 #: weblate/utils/zip.py:94
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"Tá comhaid dhúblacha sa chomhad zip. Gin cúltaca nua le leagan níos nuaí de "
+"Weblate, le do thoil."
 
 #: weblate/utils/zip.py:114
 msgid "The ZIP file contains too much uncompressed data."
-msgstr ""
+msgstr "Tá an iomarca sonraí neamhchomhbhrúite sa chomhad ZIP."
 
 #: weblate/utils/zip.py:127
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "Tá iontráil chomhbhrúite atá rómhór sa chomhad ZIP."
 
 #: weblate/vcs/base.py:231
 msgid "This will push changes to the upstream repository."
@@ -20543,33 +20526,24 @@ msgstr ""
 "(%(keytype)s), deimhnigh go bhfuil sé ceart."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Níorbh fhéidir an eochair óstaigh a fháil: %s"
+msgstr "Níorbh fhéidir eochracha óstach stóráilte a léamh."
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "Níorbh fhéidir an t-athrú ar ais a aimsiú."
+msgstr "Níorbh fhéidir an eochair óstach roghnaithe a aimsiú."
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "Níorbh fhéidir an stór a nuashonrú."
+msgstr "Níorbh fhéidir eochracha óstach stóráilte a nuashonrú."
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s)."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Cuireadh eochair óstach leis do %(host)s le méarloirg %(fingerprint)s "
-"(%(keytype)s)."
+"Baineadh eochair óstach do %(host)s le méarloirg %(fingerprint)s (%(keytype)"
+"s)."
 
 #: weblate/wladmin/forms.py:17
 msgid "Activation token"
