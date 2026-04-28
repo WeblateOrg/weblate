@@ -55,3 +55,8 @@ class TranslationFormatFuzzTargetTest(SimpleTestCase):
         fuzz_translation_formats(
             b"input" + b"\0" * 19 + b"\x05" + b"\0" * 7 + b'"source","target"\r"a","b"'
         )
+
+    def test_empty_csv_header_error_is_ignored(self) -> None:
+        fuzz_translation_formats(
+            b"input" + b"\0" * 19 + b"\x05" + b"\0" * 7 + b"\xff\xfe"
+        )

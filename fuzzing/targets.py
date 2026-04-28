@@ -373,6 +373,7 @@ def fuzz_translation_formats(data: bytes) -> None:
         OSError,
         ParseException,
         csv.Error,
+        StopIteration,
         SyntaxError,
         TypeError,
         TranslateToolkitParseError,
