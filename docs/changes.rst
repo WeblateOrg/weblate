@@ -62,6 +62,7 @@ Weblate 5.17.1
 * Project listings now show review progress columns when any listed project has reviews enabled.
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
+* Project component pagination now keeps the :guilabel:`Components` tab active when jumping to a typed page number.
 * Markdown rendering now falls back to escaped plain text when the Markdown parser fails.
 * Markdown image URLs are now escaped before rendering.
 * Forgejo and Gitea test deliveries with sample loopback repository URLs no longer trigger slow suffix matching against all components.
