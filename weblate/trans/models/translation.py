@@ -2297,6 +2297,33 @@ class Translation(
             self.store_update_changes()
             self.component.invalidate_cache()
 
+    def _validate_new_unit_context(self, context: str) -> None:
+        if not context:
+            return
+
+        component = self.component
+        file_format_cls = component.file_format_cls
+        if not (self.filename and file_format_cls.has_hierarchical_contexts):
+            file_format_cls.validate_context(context)
+            return
+
+        try:
+            self.store.validate_new_context(
+                context,
+                pending_contexts=self.unit_set.filter(pending_changes__add_unit=True)
+                .values_list("context", flat=True)
+                .iterator(),
+            )
+        except FileParseError as error:
+            raise ValidationError(
+                gettext("Could not parse translation file: %s")
+                % sanitize_backend_error_message(
+                    str(error),
+                    repo_urls=(component.repo, component.push),
+                    extra_paths=(component.full_path,),
+                )
+            ) from error
+
     def validate_new_unit_data(
         self,
         context: str,
@@ -2335,8 +2362,7 @@ class Translation(
                         "Approved state is not available as reviews are not enabled."
                     )
                 )
-        if context:
-            component.file_format_cls.validate_context(context)
+        self._validate_new_unit_context(context)
         if not component.has_template():
             source_query = Q(source=join_plural(source))
             # Validate non-pluralized strings against pluralized ones because

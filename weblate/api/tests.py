@@ -35,6 +35,7 @@ from weblate.api.serializers import (
     CommentSerializer,
     ComponentSerializer,
     MemoryLookupRequestSerializer,
+    MonolingualUnitSerializer,
     RepoOperations,
 )
 from weblate.api.views import MemoryViewSet
@@ -7752,6 +7753,29 @@ class TranslationAPITest(APIBaseTest):
             code=400,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
+
+    def test_add_monolingual_parse_error(self) -> None:
+        component = self._create_component(
+            "json-nested",
+            "json-nested/*.json",
+            "json-nested/en.json",
+            name="JSON nested",
+            project=self.project,
+        )
+        translation = component.source_translation
+
+        with patch.object(
+            translation,
+            "load_store",
+            side_effect=FileParseError("Broken JSON"),
+        ):
+            serializer = MonolingualUnitSerializer(
+                data={"key": "test.key", "value": ["Source language"]},
+                context={"translation": translation},
+            )
+            self.assertFalse(serializer.is_valid())
+
+        self.assertIn("Broken JSON", str(serializer.errors))
 
     def test_add_bilingual(self) -> None:
         self.do_request(

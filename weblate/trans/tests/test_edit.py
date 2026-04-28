@@ -17,6 +17,7 @@ from weblate.addons.resx import ResxUpdateAddon
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
@@ -764,6 +765,21 @@ class EditRubyYAMLTest(EditTest):
     def create_component(self):
         return self.create_ruby_yaml()
 
+    def test_new_unit_hierarchical_context_validation(self) -> None:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+
+        response = self.add_unit("weblate")
+        self.assertContains(
+            response, "This key conflicts with an existing hierarchical key."
+        )
+
+        response = self.add_unit("weblate->hello->title")
+        self.assertContains(
+            response, "This key conflicts with an existing hierarchical key."
+        )
+
 
 class EditDTDTest(EditTest):
     has_plurals = False
@@ -774,6 +790,7 @@ class EditDTDTest(EditTest):
 
 class EditJSONMonoTest(EditTest):
     has_plurals = False
+    new_source_string = "Source string"
 
     def create_component(self):
         return self.create_json_mono()
@@ -782,9 +799,58 @@ class EditJSONMonoTest(EditTest):
         self.make_manager()
         self.component.manage_units = True
         self.component.file_format = "json-nested"
+        self.component.drop_file_format_cache()
         self.component.save()
         response = self.add_unit("key")
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New string has been added")
+
+    def test_new_unit_validation_flat_format_does_not_load_store(self) -> None:
+        self.translation.__dict__.pop("store", None)
+
+        with patch.object(
+            self.translation,
+            "load_store",
+            side_effect=AssertionError("store should not be loaded"),
+        ):
+            self.translation.validate_new_unit_data(
+                "flat.key",
+                ["Added source string"],
+                ["Added target string"],
+            )
+
+    def test_new_unit_validation_parse_error(self) -> None:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.file_format = "json-nested"
+        self.component.drop_file_format_cache()
+        self.component.save()
+
+        with patch.object(
+            Translation,
+            "load_store",
+            side_effect=FileParseError("Broken JSON"),
+        ):
+            response = self.add_unit("test.key")
+
+        self.assertContains(response, "Could not parse translation file: Broken JSON")
+
+    def test_new_unit_hierarchical_context_validation(self) -> None:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.file_format = "json-nested"
+        self.component.drop_file_format_cache()
+        self.component.save()
+
+        response = self.add_unit("test.key")
+        self.assertContains(response, "New string has been added")
+
+        response = self.add_unit("test.key.title")
+        self.assertContains(
+            response, "This key conflicts with an existing hierarchical key."
+        )
+
+        response = self.add_unit("other.key.title")
         self.assertContains(response, "New string has been added")
 
 
