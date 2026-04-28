@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
+from ipaddress import ip_address
 from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from urllib.parse import quote, urlparse
 
@@ -109,6 +110,41 @@ def validate_full_name(full_name: str | None) -> bool:
     if not full_name:
         return False
     return "/" in full_name and len(full_name) > 5
+
+
+def repo_hostname(repo: str) -> str | None:
+    """Extract hostname from repository URL or scp-like Git URL."""
+    parsed = urlparse(repo)
+    if parsed.hostname is not None:
+        return parsed.hostname
+    if ":" not in repo:
+        return None
+    host = repo.split(":", 1)[0].rsplit("@", 1)[-1]
+    return host or None
+
+
+def repo_is_loopback(repo: str) -> bool:
+    """Check whether repository URL points to a loopback host."""
+    hostname = repo_hostname(repo)
+    if hostname is None:
+        return False
+    if hostname == "localhost":
+        return True
+    try:
+        return ip_address(hostname).is_loopback
+    except ValueError:
+        return False
+
+
+def allow_fallback_matching(repos: list[str]) -> bool:
+    """
+    Allow suffix fallback only for payloads with at least one non-loopback URL.
+
+    Forgejo and Gitea test deliveries use sample localhost repository URLs. If
+    exact matching fails, suffix fallback would scan all components for that
+    sample repository path before responding to the hook.
+    """
+    return any(not repo_is_loopback(repo) for repo in repos)
 
 
 def normalize_branch_ref(ref: str | None) -> str:
@@ -637,7 +673,11 @@ class ServiceHookView(APIView):
 
         repo_components = Component.objects.filter(spfilter)
 
-        if not repo_components.exists() and validate_full_name(full_name):
+        if (
+            not repo_components.exists()
+            and validate_full_name(full_name)
+            and allow_fallback_matching(repos)
+        ):
             # Fall back to endswith matching if repository full name is reasonable
             repo_components = Component.objects.filter(
                 Q(repo__iendswith=full_name)

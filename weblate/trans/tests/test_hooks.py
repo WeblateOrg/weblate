@@ -22,6 +22,7 @@ from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
     HookPayloadError,
     HookRequestSerializer,
+    allow_fallback_matching,
     extract_payload,
     extract_request_data,
     normalize_branch_ref,
@@ -1426,6 +1427,21 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_forgejo_test_delivery_no_fallback_match(self) -> None:
+        self.component.repo = "https://example.com/forgejo/webhooks.git"
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "forgejo"}),
+            {"payload": FORGEJO_PAYLOAD},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_gitee(self) -> None:
         # Adjust matching repo
         self.component.repo = "https://gitee.com/oschina/gitee.git"
@@ -2067,6 +2083,26 @@ class ValidateFullNameTest(SimpleTestCase):
         # These are valid as they have slash and length > 5
         self.assertTrue(validate_full_name("org/project/repo"))
         self.assertTrue(validate_full_name("user/sub/project"))
+
+
+class AllowFallbackMatchingTest(SimpleTestCase):
+    """Test repository suffix fallback guard."""
+
+    def test_allow_fallback_matching(self) -> None:
+        self.assertTrue(allow_fallback_matching(["https://example.com/owner/repo"]))
+        self.assertTrue(allow_fallback_matching(["git@example.com:owner/repo.git"]))
+        self.assertFalse(allow_fallback_matching(["http://localhost:3000/owner/repo"]))
+        self.assertFalse(allow_fallback_matching(["ssh://git@127.0.0.1/owner/repo"]))
+
+    def test_allow_fallback_matching_mixed(self) -> None:
+        self.assertTrue(
+            allow_fallback_matching(
+                [
+                    "http://localhost:3000/owner/repo",
+                    "https://example.com/owner/repo",
+                ]
+            )
+        )
 
 
 class NormalizeBranchRefTest(SimpleTestCase):

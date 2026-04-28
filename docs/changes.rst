@@ -64,6 +64,7 @@ Weblate 5.17.1
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 * Markdown rendering now falls back to escaped plain text when the Markdown parser fails.
 * Markdown image URLs are now escaped before rendering.
+* Forgejo and Gitea test deliveries with sample loopback repository URLs no longer trigger slow suffix matching against all components.
 
 .. rubric:: Compatibility
 
