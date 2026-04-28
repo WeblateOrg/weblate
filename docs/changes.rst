@@ -41,6 +41,7 @@ Weblate 5.17.1
 .. rubric:: Bug fixes
 
 * :ref:`check-rst-references` no longer crashes on repeated explicit-link targets.
+* The :ref:`addons-api` now validates required add-on configuration when installing add-ons.
 * Component updates no longer time out waiting on their own repository lock during validation.
 * :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
 * Client-side popup notifications triggered by JavaScript now use Bootstrap toasts.

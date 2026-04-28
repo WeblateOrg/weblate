@@ -30,6 +30,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
+from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
 from weblate.api.serializers import (
     CommentSerializer,
@@ -9709,6 +9710,11 @@ class AddonAPITest(APIBaseTest):
             "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             "name_template": "{{ component|title }}",
             "language_regex": "^(?!xx).+$",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "copy_addons": True,
+            "remove": False,
         }
         self.assertEqual(Component.objects.all().count(), 2)
         self.create_addon(name="weblate.discovery.discovery", configuration=initial)
@@ -9716,10 +9722,52 @@ class AddonAPITest(APIBaseTest):
         self.assertEqual(self.component.addon_set.get().configuration, initial)
         self.assertEqual(Component.objects.all().count(), 6)
 
+    def test_configured_addon_requires_configuration(self) -> None:
+        response = self.create_addon(name="weblate.discovery.discovery", code=400)
+
+        self.assertFalse(
+            self.component.addon_set.filter(name="weblate.discovery.discovery").exists()
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "configuration")
+        self.assertIn("match", response.data["errors"][0]["detail"])
+
+    def test_configured_addon_requires_configuration_despite_defaults(self) -> None:
+        response = self.create_addon(name="weblate.git.squash", code=400)
+
+        self.assertFalse(
+            self.component.addon_set.filter(name="weblate.git.squash").exists()
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "configuration")
+        self.assertIn("squash", response.data["errors"][0]["detail"])
+
+    def test_create_preserves_omitted_optional_configuration(self) -> None:
+        configuration = {
+            "file_format": "po",
+            "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            "name_template": "{{ component|title }}",
+            "language_regex": "^(?!xx).+$",
+        }
+
+        self.create_addon(
+            name="weblate.discovery.discovery", configuration=configuration
+        )
+
+        self.assertEqual(self.component.addon_set.get().configuration, configuration)
+
     def test_edit(self) -> None:
-        initial = {"path": "{{ filename|stripext }}.mo"}
-        expected = {"path": "{{ language_code }}.mo"}
+        initial = {"path": "{{ filename|stripext }}.mo", "fuzzy": False}
+        expected = {"path": "{{ language_code }}.mo", "fuzzy": False}
         response = self.create_addon(name="weblate.gettext.mo", configuration=initial)
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={},
+        )
         self.assertEqual(self.component.addon_set.get().configuration, initial)
         self.do_request(
             "api:addon-detail",
@@ -9741,10 +9789,75 @@ class AddonAPITest(APIBaseTest):
         )
         self.assertEqual(self.component.addon_set.get().configuration, expected)
 
+    def test_edit_uses_existing_addon_for_configuration_serialization(
+        self,
+    ) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        with patch("weblate.addons.base.BaseAddon.post_configure") as mocked:
+            self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={
+                    "configuration": {
+                        "interval": "weekly",
+                        "normalize_header": False,
+                        "update_po_files": True,
+                        "input_mode": "patterns",
+                        "language": "Python",
+                        "source_patterns": ["src/*.py"],
+                        "potfiles_path": "",
+                    }
+                },
+            )
+        mocked.assert_called_once_with()
+
+        addon.refresh_from_db()
+        self.assertNotIn("_install_msgmerge", addon.configuration)
+        self.assertEqual(addon.configuration["source_patterns"], ["src/*.py"])
+
+    def test_edit_preserves_omitted_optional_configuration(self) -> None:
+        addon = GitSquashAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"squash": "all"},
+        ).instance
+
+        with patch("weblate.addons.base.BaseAddon.post_configure") as mocked:
+            self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={"configuration": {"squash": "language"}},
+            )
+        mocked.assert_called_once_with()
+
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration, {"squash": "language"})
+        self.assertTrue(addon.addon.configuration["append_trailers"])
+
     def create_project_addon(
         self, superuser=True, code=201, name="weblate.consistency.languages", **request
     ):
         request["name"] = name
+        if name == "weblate.consistency.languages" and "configuration" not in request:
+            request["configuration"] = {"confirm": True}
         return self.do_request(
             "api:project-addons",
             kwargs=self.project_kwargs,
