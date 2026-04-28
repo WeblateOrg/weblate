@@ -35,7 +35,8 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
 "PO-Revision-Date: 2026-04-29 04:10+0000\n"
-"Last-Translator: 王晨旭 <wcxu21@126.com>\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2911,7 +2912,6 @@ msgstr ""
 "文件，请针对该环境调整数据库和卷相关的步骤。"
 
 #: admin/backup.rst:235
-#, fuzzy
 msgid ""
 "Start with a Docker Compose checkout matching the restored deployment. "
 "Restore your original Compose overrides, secrets, and environment variables. "
@@ -2919,8 +2919,8 @@ msgid ""
 "this, but it is not imported automatically."
 msgstr ""
 "从与已还原部署相匹配的 Docker Compose 检出版本开始。还原你原始的 Compose 覆盖"
-"配置、密钥和环境变量。来自 :ref:`backup-dumps` 的 :file:`environment.yml`文件"
-"可以协助完成此操作，但它不会被自动导入。"
+"配置、密钥和环境变量。来自 :ref:`backup-dumps` 的 :file:`environment.yml` 文"
+"件可以协助完成此操作，但它不会被自动导入。"
 
 #: admin/backup.rst:240
 msgid ""
@@ -2928,16 +2928,16 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"用 :ref:`restore-borg` 恢复备份存档或解压缩你的手动备份让 Weblate 数据目录和 "
+":file:`backups/database.sql` 存在。"
 
 #: admin/backup.rst:244
 msgid "Stop the services which can write to the database or data volume:"
-msgstr ""
+msgstr "停止可写入数据库或数据卷的服务："
 
 #: admin/backup.rst:250
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "删除 PostgreSQL 卷："
+msgstr "重新创建 PostgreSQL 卷。"
 
 #: admin/backup.rst:258
 msgid ""
@@ -2945,24 +2945,24 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"卷名取决于 Compose 项目名，可能和 :file:`weblate-docker_postgres-data` 不同。"
+"删除任何卷前请检查你的设置。"
 
 #: admin/backup.rst:262
-#, fuzzy
-#| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "启动数据库容器："
+msgstr "启动数据库服务："
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "从备份恢复数据库："
+msgstr "恢复数据库转储："
 
 #: admin/backup.rst:274
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"检查数据库名匹配 :envvar:`POSTGRES_DB`，用户匹配 Compose 配置中的 "
+":envvar:`POSTGRES_USER`。"
 
 #: admin/backup.rst:277
 msgid ""
@@ -2970,20 +2970,25 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"将 Weblate 数据目录恢复到挂载为 :file:`/app/data` 的 Docker 数据卷，见 "
+":ref:`docker-volume`。此卷中的文件必须为 UID 1000 所有，见 :ref:`file-"
+"permissions`。"
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "启动剩余服务并跟随日志："
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"Weblate 容器在启动时执行数据库迁移。如果你也在升级 Weblate，请遵照 "
+":ref:`upgrading-docker`。"
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "恢复后刷新仓库："
 
 #: admin/backup.rst:308
 msgid "Manual backup"
@@ -4220,19 +4225,16 @@ msgid ""
 msgstr "通过后台任务方式提交待处理更改之间的小时数。"
 
 #: admin/config.rst:487
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded component ZIP files. "
 "Defaults to 50 MB."
-msgstr "配置获取 Weblate 资产的大小限制。默认为 10 MB。"
+msgstr "配置上传部件 ZIP 文件的最大大小，单位为字节。默认 50 MB。"
 
 #: admin/config.rst:490
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
-msgstr ""
+msgstr "在 Docker 中，用 ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
 
 #: admin/config.rst:504
 msgid ""
@@ -5264,18 +5266,13 @@ msgstr ""
 "在 :setting:`WEBHOOK_PRIVATE_ALLOWLIST` 中。默认开启。"
 
 #: admin/config.rst:1864
-#, fuzzy
-#| msgid ""
-#| "Reject webhook URLs pointing to internal or non-public addresses unless "
-#| "the target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On "
-#| "by default."
 msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included "
 "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr ""
-"拒绝指向内部或非公开地址的 webhook URL，除非目标主机包含"
-"在 :setting:`WEBHOOK_PRIVATE_ALLOWLIST` 中。默认开启。"
+"启用后将拒绝验证期间无法解析的主机名，除非在 "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST` 中明确允许它们。"
 
 #: admin/config.rst:1879
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -5688,19 +5685,16 @@ msgid ""
 msgstr "购买支持订阅改进你的 Weblate 体验并推进 Weblate 项目进展。"
 
 #: admin/config.rst:2354
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded translation files. "
 "Defaults to 50 MB."
-msgstr "配置获取 Weblate 资产的大小限制。默认为 10 MB。"
+msgstr "配置上传的翻译文件的最大大小，单位为字节。默认 50 MB。"
 
 #: admin/config.rst:2357
 msgid ""
 "In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`` "
 "environment variable."
-msgstr ""
+msgstr "在 Docker 中，用 ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
 
 #: admin/config.rst:2367
 msgid ""
@@ -5791,6 +5785,8 @@ msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"启用后，将拒绝无法在验证期间解析的主机名，除非在 :setting:`VCS_ALLOW_HOSTS` "
+"中明确包含它们。"
 
 #: admin/config.rst:2463
 msgid ""
@@ -13907,13 +13903,13 @@ msgstr "对项目启用后，当翻译生效时 Weblate 替换旧的自动生成
 msgid ""
 "With :ref:`project-translation_review` enabled, cleanup happens when the "
 "translation is approved."
-msgstr ""
+msgstr "启用 :ref:`project-translation_review` 时，清理在批准翻译时发生。"
 
 #: admin/memory.rst:96
 msgid ""
 "Without review, cleanup happens as soon as the translation reaches the "
 "translated state."
-msgstr ""
+msgstr "如果没有审校，译文一转为已翻译状态就会被清理。"
 
 #: admin/memory.rst:99
 msgid ""
@@ -13924,6 +13920,9 @@ msgid ""
 "translation is then stored again as an active entry in the scopes that are "
 "enabled for that change."
 msgstr ""
+"对于同一源字符串、部件、上下文和源/目标语言对，Weblate 从翻译记忆库中删除匹配"
+"的非文件条目，包括目标文本不同的条目。这应用于个人、项目和共享的翻译记忆库范"
+"围。然后当前翻译被在为此更改激活的范围中再次存储为活跃条目。"
 
 #: admin/memory.rst:105
 msgid ""
@@ -14002,17 +14001,13 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:151
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid "Personal uploads are available in your personal translation memory."
-msgstr "将文件导入 Weblate 翻译记忆库。"
+msgstr "个人上传在个人翻译记忆库中。"
 
 #: admin/memory.rst:152
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid ""
 "Project uploads are available in the selected project's translation memory."
-msgstr "将文件导入 Weblate 翻译记忆库。"
+msgstr "项目上传在所选项目的翻译记忆库中。"
 
 #: admin/memory.rst:153
 msgid ""
@@ -14021,11 +14016,6 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:157
-#, fuzzy
-#| msgid ""
-#| "Translation memories in various formats can be imported into Weblate, the "
-#| "TMX format is provided for interoperability with other tools. All "
-#| "supported formats are TMX, JSON, XLIFF, PO, CSV."
 msgid ""
 "Translation memories in various formats can be imported into Weblate. The "
 "TMX format is provided for interoperability with other tools. All supported "
@@ -14041,12 +14031,10 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:170
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid ""
 "You can search translation memory while editing strings from "
 "the :ref:`machine-translation` tab."
-msgstr "使用机器翻译的巨量翻译记忆库。"
+msgstr "你可以搜索翻译记忆库同时从 :ref:`machine-translation` 标签页编辑字符串。"
 
 #: admin/memory.rst:174
 msgid "Admin interface"
@@ -14063,22 +14051,14 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:184
-#, fuzzy
-#| msgid ""
-#| "It has the same options as the user interface, but also allows rebuilding "
-#| "parts of or the entire translation memory. All old entries can be flushed "
-#| "and re-created from a component or project by selecting "
-#| "\"Administration\" from amidst the different tabs at the top of the "
-#| "screen, and then \"Translation memory\"."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Existing entries for the selected "
 "component or project are deleted, and the memory is populated again from the "
 "current translations in the background."
 msgstr ""
-"它的选项和用户界面相同但还允许重建整个翻译记忆库的一部分。可从部件或项目清理"
-"掉和重建所有的旧条目，方法是从屏幕顶部不同选项卡中间选择“管理”选项卡，接着选"
-"中”翻译记忆库“。"
+"项目翻译记忆库视图也允许重建部分或完整的项目翻译记忆库。所选部件或项目的现有"
+"条目被删除，记忆库在后台从当前翻译再次被填充。"
 
 #: admin/memory.rst:192
 msgid ""
@@ -16921,10 +16901,8 @@ msgstr ""
 "description`。"
 
 #: admin/translating.rst:124
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots and visual context"
-msgstr "截图名称"
+msgstr "屏幕截图和可视化上下文"
 
 #: admin/translating.rst:126
 msgid ""
@@ -16946,10 +16924,8 @@ msgid ""
 msgstr ""
 
 #: admin/translating.rst:138
-#, fuzzy
-#| msgid "`Manage screenshots`"
 msgid "Managing screenshots in the UI"
-msgstr "`管理截图`"
+msgstr "在用户界面中管理屏幕截图"
 
 #: admin/translating.rst:140
 msgid ""
@@ -16972,14 +16948,6 @@ msgid ""
 msgstr "上传截图后，就可以在这个界面进行管理以及和源字符串的关联："
 
 #: admin/translating.rst:155
-#, fuzzy
-#| msgid ""
-#| "You can upload a screenshot from a local file or provide a URL to "
-#| "download an image from an external source. URL-based uploads may be "
-#| "restricted based on the :setting:`ALLOWED_ASSET_DOMAINS` setting, which "
-#| "controls which domains are trusted for downloading external assets, "
-#| "including any redirects followed while fetching the image, "
-#| "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgid ""
 "You can upload a screenshot from a local file, paste it from the clipboard, "
 "or provide a URL to download an image from an external source. URL-based "
@@ -16988,16 +16956,14 @@ msgid ""
 "assets, including any redirects followed while fetching the image, "
 "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgstr ""
-"可以从本地文件上传截图或提供从外部源下载图片的 URL。根据控制信任哪些域名下载"
-"外部资源的 :setting:`ALLOWED_ASSET_DOMAINS` 设置，包括获取图片时遵循的任何重"
-"定向，限制资源最大大小的 :setting:`ALLOWED_ASSET_SIZE` 设置，基于 URL 的上传"
-"可能受到限制。"
+"可以从本地文件上传截图，从剪贴板粘贴它，或提供从外部源下载图片的 URL。根据控"
+"制信任哪些域名下载外部资源的 :setting:`ALLOWED_ASSET_DOMAINS` 设置，包括获取"
+"图片时遵循的任何重定向，限制资源最大大小的 :setting:`ALLOWED_ASSET_SIZE` 设置"
+"，基于 URL 的上传可能受到限制。"
 
 #: admin/translating.rst:163
-#, fuzzy
-#| msgid "Fixed caching issues after updating screenshots from the repository."
 msgid "Managing screenshots from the repository"
-msgstr "修复了更新来自仓库的截屏文件后的缓存问题。"
+msgstr "管理来自仓库的截屏"
 
 #: admin/translating.rst:165
 msgid ""
@@ -17032,10 +16998,8 @@ msgstr ""
 "码的新截屏会被添加到部件中。"
 
 #: admin/translating.rst:188
-#, fuzzy
-#| msgid "`Manage screenshots`"
 msgid "Managing screenshots through the API"
-msgstr "`管理截图`"
+msgstr "通过 API 管理截图"
 
 #: admin/translating.rst:190
 msgid ""
@@ -17668,10 +17632,8 @@ msgid ""
 msgstr "选择手动触发的附加组件现在可以从附加组件管理和 :ref:`addons-api` 中运行。"
 
 #: changes.rst:9
-#, fuzzy
-#| msgid ":ref:`mt-yandex-v2` machine translation service."
 msgid ":ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-yandex-v2` 机器翻译服务。"
+msgstr ":ref:`mt-ltengine` 机器翻译服务。"
 
 #: changes.rst:12 changes.rst:102 changes.rst:206 changes.rst:241
 #: changes.rst:288 changes.rst:332 changes.rst:377 changes.rst:418
@@ -17689,12 +17651,10 @@ msgid "Improvements"
 msgstr "改进"
 
 #: changes.rst:13
-#, fuzzy
-#| msgid "Fixed crash after moving shared component between projects."
 msgid ""
 "Fixed revert links in the translate-view history tab after moving a "
 "component to another project."
-msgstr "修复了在项目之间移动共享部件后的崩溃。"
+msgstr "修复了移动部件到另一个项目后在翻译视图的历史记录标签中撤销链接的问题。"
 
 #: changes.rst:14
 msgid "Clarified the site-wide scope of the global ``user.edit`` permission."
@@ -17711,11 +17671,9 @@ msgid ""
 msgstr ""
 
 #: changes.rst:17
-#, fuzzy
-#| msgid "Improved :ref:`translation-memory` matching."
 msgid ""
 "Documented current :ref:`translation-memory` management options in the UI."
-msgstr "改进了 :ref:`translation-memory` 匹配。"
+msgstr "提供了用户界面中当前 :ref:`translation-memory` 管理选项的文档信息。"
 
 #: changes.rst:18
 msgid ""
@@ -17796,12 +17754,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:31
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Attribute translations copied by :ref:`addon-"
 "weblate.autotranslate.autotranslate` to the add-on user."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加组件"
+msgstr ""
+"将 :ref:`addon-weblate.autotranslate.autotranslate` 复制的翻译归属于附加组件"
+"用户。"
 
 #: changes.rst:32
 msgid ""
@@ -17817,37 +17775,24 @@ msgid ""
 msgstr ""
 
 #: changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "Added a component alert for conflicting merge request repository setup, "
-#| "see :ref:`alerts`."
 msgid ""
 "Extended the conflicting repository setup alert to direct Git pushes, "
 "see :ref:`alerts`."
-msgstr "为有冲突合并请求仓库设置添加部件警报，见 :ref:`alerts`。"
+msgstr "将有冲突的仓库设置警报扩展到直接 Git 推送，见 :ref:`alerts`。"
 
 #: changes.rst:35
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/announcements` can now be managed via the :ref:`api` for "
-#| "projects, components and translations."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "categories."
-msgstr ""
-"现在可通过项目、部件和翻译的 :ref:`api` 管理 :doc:`/admin/announcements` 了。"
+msgstr "现在也可通过类别的 :ref:`api` 管理 :doc:`/admin/announcements`。"
 
 #: changes.rst:36
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-"
-#| "translation` are now stored with a dedicated user as an author."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now records automatic "
 "translation results in the add-on activity log."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` 和 :ref:`auto-translation` "
-"现在以专门用户作为作者进行保存。"
+":ref:`addon-weblate.autotranslate.autotranslate` 现在在附加组件活动日志中记录"
+"自动翻译结果。"
 
 #: changes.rst:37
 msgid ""
@@ -32335,10 +32280,8 @@ msgid "Here is an example add-on:"
 msgstr "这里是一个附加组件的示例："
 
 #: contributing/addons.rst:23
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Typing add-on configuration"
-msgstr "可选的附加组件配置"
+msgstr "输入附加组件配置"
 
 #: contributing/addons.rst:25
 msgid ""
@@ -35239,19 +35182,14 @@ msgid "Conflicting repository setup"
 msgstr "有冲突的仓库设置"
 
 #: devel/alerts.rst:47
-#, fuzzy
-#| msgid ""
-#| "This alert is shown when multiple components using pull or merge request "
-#| "workflows are configured to push to the same repository and push branch. "
-#| "Such a setup can overwrite the shared branch."
 msgid ""
 "This alert is shown when multiple Git components are configured to push to "
 "the same repository and push branch. This includes pull or merge request "
 "workflows, and direct pushes to Git repositories. Such a setup can overwrite "
 "the shared branch."
 msgstr ""
-"多个使用拉取或合并请求的部件被配置为推送到相同仓库和推送分支时会显示此警报。"
-"这样的设置可能覆盖共享的分支。"
+"当多个 Git l 部件配置为推送到相同仓库和推送分支时显示此警告。这包括拉取过合并"
+"请求工作流和到 Git 仓库的直接推送。 这样的设置可以覆盖共享分支。"
 
 #: devel/alerts.rst:52
 msgid ""
@@ -43998,11 +43936,6 @@ msgid "US encryption controls"
 msgstr "美国加密控制"
 
 #: security/us-compliance.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate does not contain any cryptographic code, but might be subject "
-#| "export controls as it uses third party components utilizing cryptography "
-#| "for authentication, data-integrity and -confidentiality."
 msgid ""
 "Weblate does not contain any cryptographic code, but might be subject to "
 "export controls as it uses third party components utilizing cryptography for "
@@ -44012,10 +43945,6 @@ msgstr ""
 "密进行身份认证、数据完整性和机密性。"
 
 #: security/us-compliance.rst:24
-#, fuzzy
-#| msgid ""
-#| "Weblate and all it's dependencies have publicly available source code "
-#| "meaning it can usually be exported and reexported without restriction."
 msgid ""
 "Weblate and all its dependencies have publicly available source code meaning "
 "it can usually be exported and reexported without restriction."
