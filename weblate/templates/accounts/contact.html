@@ -15,9 +15,7 @@
     {% if show_form %}
 
       <p>
-        <a href="{% url 'contact' %}" class="btn btn-link p-0">
-          &larr; {% translate "Back to contact options" %}
-        </a>
+        <a href="{% url 'contact' %}" class="btn btn-link p-0">{% translate "Back to contact options" %}</a>
       </p>
 
       <form method="post" action="{% url 'contact' %}">
@@ -68,9 +66,7 @@
               </p>
             </div>
             <div class="card-footer">
-              <a class="btn btn-primary" href="{% url 'projects' %}">
-                {% translate "Browse projects" %}
-              </a>
+              <a class="btn btn-primary" href="{% url 'projects' %}">{% translate "Browse projects" %}</a>
             </div>
           </div>
         </div>
@@ -89,9 +85,7 @@
               <a class="btn btn-primary"
                  href="https://github.com/WeblateOrg/weblate/issues/new/choose"
                  rel="noopener noreferrer"
-                 target="_blank">
-                {% translate "Open issue tracker" %}
-              </a>
+                 target="_blank">{% translate "Open issue tracker" %}</a>
             </div>
           </div>
         </div>
@@ -111,9 +105,7 @@
                 <a class="btn btn-primary"
                    href="https://weblate.org/support/"
                    rel="noopener noreferrer"
-                   target="_blank">
-                  {% translate "View support offerings" %}
-                </a>
+                   target="_blank">{% translate "View support offerings" %}</a>
               </div>
             </div>
           </div>
@@ -125,17 +117,13 @@
               <h4 class="card-title">{% translate "Documentation" %}</h4>
             </div>
             <div class="card-body">
-              <p>
-                {% translate "Browse the Weblate documentation for guides on translating, administration, and configuration." %}
-              </p>
+              <p>{% translate "Browse the Weblate documentation for guides on translating, administration, and configuration." %}</p>
             </div>
             <div class="card-footer">
               <a class="btn btn-primary"
                  href="{% documentation 'index' %}"
                  rel="noopener noreferrer"
-                 target="_blank">
-                {% translate "Read the docs" %}
-              </a>
+                 target="_blank">{% translate "Read the docs" %}</a>
             </div>
           </div>
         </div>
@@ -157,9 +145,7 @@
               </p>
             </div>
             <div class="card-footer">
-              <a class="btn btn-primary" href="{% url 'contact' %}?topic=server">
-                {% translate "Open contact form" %}
-              </a>
+              <a class="btn btn-primary" href="{% url 'contact' %}?topic=server">{% translate "Open contact form" %}</a>
             </div>
           </div>
         </div>
