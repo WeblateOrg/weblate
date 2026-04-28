@@ -54,8 +54,8 @@ unit = Unit.objects.create(
     id_hash=10001,
 )
 
+assert "dos-eol" in project.check_flags
 assert "dos-eol" not in component1.check_flags
 assert "dos-eol" in component2.check_flags
 assert "dos-eol" in translation.check_flags
-assert "dos-eol" in unit.check_flags
 assert "dos-eol" in unit.extra_flags
