@@ -1143,3 +1143,42 @@ class AdminUserRevertTest(FixtureTestCase):
         unit.refresh_from_db()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
+
+    def test_revert_user_edits_cleanup_options(self) -> None:
+        with (
+            mock.patch(
+                "weblate.accounts.views.revert_user_edits_task.delay",
+                return_value=SimpleNamespace(id="task-revert"),
+            ) as mocked_revert,
+            mock.patch(
+                "weblate.accounts.views.cleanup_user_contributions_task.delay",
+                return_value=SimpleNamespace(id="task-cleanup"),
+            ) as mocked_cleanup,
+        ):
+            response = self.client.post(
+                self.target_user.get_absolute_url(),
+                {
+                    "cleanup_user_contributions": "1",
+                    "revert_edits": "on",
+                    "reject_suggestions": "on",
+                    "delete_comments": "on",
+                },
+                follow=True,
+            )
+
+        mocked_revert.assert_called_once_with(
+            target_user_id=self.target_user.id,
+            acting_user_id=self.user.id,
+            sitewide=True,
+        )
+        mocked_cleanup.assert_called_once_with(
+            target_user_id=self.target_user.id,
+            acting_user_id=self.user.id,
+            sitewide=True,
+            reject_suggestions=True,
+            delete_comments=True,
+        )
+        self.assertContains(
+            response,
+            "Cleaning up contributions by sitewide-target site-wide was scheduled.",
+        )

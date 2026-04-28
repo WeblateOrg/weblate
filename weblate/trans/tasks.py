@@ -212,6 +212,53 @@ def revert_user_edits(
 
 
 @app.task(trail=False)
+@transaction.atomic
+def cleanup_user_contributions(
+    target_user_id: int,
+    acting_user_id: int,
+    *,
+    project_id: int | None = None,
+    sitewide: bool = False,
+    reject_suggestions: bool = False,
+    delete_comments: bool = False,
+) -> dict[str, int]:
+    if project_id is None and not sitewide:
+        msg = "Either project_id or sitewide must be provided"
+        raise ValueError(msg)
+
+    target_user = User.objects.get(pk=target_user_id)
+    acting_user = User.objects.get(pk=acting_user_id)
+
+    rejected_suggestions = 0
+    deleted_comments = 0
+
+    if reject_suggestions:
+        suggestions = Suggestion.objects.filter(user=target_user).select_related("unit")
+        if project_id is not None:
+            suggestions = suggestions.filter(
+                unit__translation__component__project_id=project_id
+            )
+        for suggestion in suggestions.iterator(chunk_size=100):
+            suggestion.delete_log(acting_user, old=suggestion.unit.target)
+            rejected_suggestions += 1
+
+    if delete_comments:
+        comments = Comment.objects.filter(user=target_user).select_related("unit")
+        if project_id is not None:
+            comments = comments.filter(
+                unit__translation__component__project_id=project_id
+            )
+        for comment in comments.iterator(chunk_size=100):
+            comment.delete(user=acting_user)
+            deleted_comments += 1
+
+    return {
+        "comments": deleted_comments,
+        "suggestions": rejected_suggestions,
+    }
+
+
+@app.task(trail=False)
 def cleanup_component(pk: int) -> None:
     """
     Perform cleanup of component models.

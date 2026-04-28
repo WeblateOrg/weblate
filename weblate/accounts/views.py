@@ -144,7 +144,12 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
-from weblate.trans.tasks import revert_user_edits as revert_user_edits_task
+from weblate.trans.tasks import (
+    cleanup_user_contributions as cleanup_user_contributions_task,
+)
+from weblate.trans.tasks import (
+    revert_user_edits as revert_user_edits_task,
+)
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_error
@@ -727,19 +732,48 @@ class UserPage(UpdateView):
             if form.is_valid():
                 user.remove_team(request, form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(f"{self.get_success_url()}#groups")
-        if "revert_user_edits" in request.POST:
-            revert_user_edits_task.delay(
-                target_user_id=user.id,
-                acting_user_id=request.user.id,
-                sitewide=True,
+        if (
+            "cleanup_user_contributions" in request.POST
+            or "revert_user_edits" in request.POST
+        ):
+            cleanup_form_submitted = "cleanup_user_contributions" in request.POST
+            revert_edits = "revert_edits" in request.POST or (
+                "revert_user_edits" in request.POST and not cleanup_form_submitted
             )
-            messages.success(
-                request,
-                gettext("Reverting edits by %(user)s site-wide was scheduled.")
-                % {
-                    "user": user.username,
-                },
-            )
+            reject_suggestions = "reject_suggestions" in request.POST
+            delete_comments = "delete_comments" in request.POST
+            if revert_edits:
+                revert_user_edits_task.delay(
+                    target_user_id=user.id,
+                    acting_user_id=request.user.id,
+                    sitewide=True,
+                )
+                messages.success(
+                    request,
+                    gettext("Reverting edits by %(user)s site-wide was scheduled.")
+                    % {
+                        "user": user.username,
+                    },
+                )
+            if reject_suggestions or delete_comments:
+                cleanup_user_contributions_task.delay(
+                    target_user_id=user.id,
+                    acting_user_id=request.user.id,
+                    sitewide=True,
+                    reject_suggestions=reject_suggestions,
+                    delete_comments=delete_comments,
+                )
+                messages.success(
+                    request,
+                    gettext(
+                        "Cleaning up contributions by %(user)s site-wide was scheduled."
+                    )
+                    % {
+                        "user": user.username,
+                    },
+                )
+            if not revert_edits and not reject_suggestions and not delete_comments:
+                messages.error(request, gettext("No cleanup action was selected."))
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
         if "remove_user" in request.POST:
             remove_user(user, request, skip_notify=True)

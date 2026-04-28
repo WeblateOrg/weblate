@@ -1677,13 +1677,10 @@ class ComponentLinkRequestSerializer(ReadOnlySerializer):
         category_id = attrs.get("category_id")
         if category_id is not None:
             try:
-                category = Category.objects.get(pk=category_id)
+                category = project.category_set.get(pk=category_id)
             except Category.DoesNotExist as error:
                 msg = "Category not found."
                 raise serializers.ValidationError({"category_id": msg}) from error
-            if category.project != project:
-                msg = "The category does not belong to the selected project."
-                raise serializers.ValidationError({"category_id": msg})
             attrs["category"] = category
         else:
             attrs["category"] = None

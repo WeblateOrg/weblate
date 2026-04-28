@@ -38,6 +38,10 @@ jobs:
         sanitizer: ${{ matrix.sanitizer }}
     - name: Run Fuzzers (${{ matrix.sanitizer }})
       id: run
+      env:
+        CFLITE_MODE: batch
+        SENTRY_DSN: ${{ secrets.SENTRY_FUZZING_DSN }}
+        SENTRY_ENVIRONMENT: fuzzing-batch
       uses: ./.github/actions/cflite-run-fuzzers
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -74,6 +78,14 @@ jobs:
         results = runs[0].get("results", []) if runs else []
         print(f"\nSARIF results count: {len(results)}")
         PY
+    - name: Report fuzz findings to Sentry (${{ matrix.sanitizer }})
+      if: always() && steps.build.outcome == 'success'
+      env:
+        CFLITE_MODE: batch
+        SANITIZER: ${{ matrix.sanitizer }}
+        SENTRY_DSN: ${{ secrets.SENTRY_FUZZING_DSN }}
+        SENTRY_ENVIRONMENT: fuzzing-batch
+      run: python3 -m fuzzing.sentry_reporter --mode batch --sanitizer "${{ matrix.sanitizer }}"
     - name: Upload crash summaries artifact (${{ matrix.sanitizer }})
       if: always() && steps.build.outcome == 'success'
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

@@ -78,7 +78,7 @@ repos:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.4.12'
+    - '@biomejs/biome@2.4.13'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
@@ -158,7 +158,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.45.1
+  rev: v1.45.2
   hooks:
   - id: typos
     args: []
@@ -183,7 +183,7 @@ repos:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.1.82
+  rev: v0.1.83
   hooks:
   - id: rumdl
   - id: rumdl-fmt

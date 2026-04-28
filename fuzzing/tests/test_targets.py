@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
-from fuzzing.targets import fuzz_backups
+from fuzzing.targets import fuzz_backups, fuzz_translation_formats
 
 
 class BackupFuzzTargetTest(SimpleTestCase):
@@ -48,3 +48,10 @@ class BackupFuzzTargetTest(SimpleTestCase):
             self.assertRaisesRegex(ValueError, "unexpected failure"),
         ):
             fuzz_backups(b"\x00")
+
+
+class TranslationFormatFuzzTargetTest(SimpleTestCase):
+    def test_csv_parser_error_is_ignored(self) -> None:
+        fuzz_translation_formats(
+            b"input" + b"\0" * 19 + b"\x05" + b"\0" * 7 + b'"source","target"\r"a","b"'
+        )
