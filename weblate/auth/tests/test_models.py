@@ -254,3 +254,38 @@ class ModelTest(FixtureComponentTestCase):
             set(self.user.allowed_projects.values_list("slug", flat=True)),
             {public_project.slug, protected_project.slug, self.project.slug},
         )
+
+    def test_needs_project_filter(self) -> None:
+        Project.objects.create(
+            slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
+        )
+
+        self.user.clear_cache()
+        self.assertTrue(self.user.needs_project_filter)
+
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.assertFalse(self.user.needs_project_filter)
+
+    def test_needs_project_filter_all_projects_query(self) -> None:
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.assertIn(-SELECTION_ALL, self.user.project_permissions)
+        with self.assertNumQueries(0):
+            self.assertFalse(self.user.needs_project_filter)
+
+    def test_needs_project_filter_avoids_count_query(self) -> None:
+        self.assertNotIn(-SELECTION_ALL, self.user.project_permissions)
+
+        with self.assertNumQueries(1) as context:
+            self.assertTrue(self.user.needs_project_filter)
+
+        self.assertNotIn("COUNT(", context.captured_queries[0]["sql"].upper())
