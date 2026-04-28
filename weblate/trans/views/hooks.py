@@ -107,20 +107,69 @@ def validate_full_name(full_name: str | None) -> bool:
 
     This is to avoid using too short expression with possibly too broad matches.
     """
-    if not full_name:
+    full_name = normalize_full_name(full_name)
+    if full_name is None:
         return False
-    return "/" in full_name and len(full_name) > 5
+    name = strip_git_suffix(full_name.rsplit("/", 1)[-1])
+    return len(name) >= 3
+
+
+def strip_git_suffix(value: str) -> str:
+    """Strip a trailing .git suffix from a repository path."""
+    if value.endswith(".git"):
+        return value[:-4]
+    return value
+
+
+def normalize_full_name(full_name: str | None) -> str | None:
+    """Normalize repository full name for matching helpers."""
+    if not full_name:
+        return None
+    full_name = strip_git_suffix(full_name.strip("/"))
+    parts = full_name.split("/")
+    if len(parts) < 2 or any(not part for part in parts):
+        return None
+    return full_name
+
+
+def repo_connection(repo: str) -> tuple[str | None, str | None, int | None, bool]:
+    """Extract hostname, username and SSH port from repository URL."""
+    parsed = urlparse(repo)
+    if parsed.hostname is not None:
+        try:
+            port = parsed.port
+        except ValueError:
+            port = None
+        return parsed.hostname, parsed.username, port, parsed.scheme == "ssh"
+
+    if ":" not in repo:
+        return None, None, None, False
+
+    host = repo.split(":", 1)[0]
+    username = None
+    if "@" in host:
+        username, host = host.rsplit("@", 1)
+    return host or None, username or None, None, False
+
+
+def repo_is_scp_like(repo: str) -> bool:
+    """Check whether repository URL uses scp-like Git syntax."""
+    return urlparse(repo).hostname is None and ":" in repo
+
+
+def repo_path(repo: str) -> str | None:
+    """Extract repository path from URL or scp-like Git syntax."""
+    parsed = urlparse(repo)
+    if parsed.hostname is not None:
+        return strip_git_suffix(parsed.path.lstrip("/")) or None
+    if ":" not in repo:
+        return None
+    return strip_git_suffix(repo.split(":", 1)[1].lstrip("/")) or None
 
 
 def repo_hostname(repo: str) -> str | None:
     """Extract hostname from repository URL or scp-like Git URL."""
-    parsed = urlparse(repo)
-    if parsed.hostname is not None:
-        return parsed.hostname
-    if ":" not in repo:
-        return None
-    host = repo.split(":", 1)[0].rsplit("@", 1)[-1]
-    return host or None
+    return repo_connection(repo)[0]
 
 
 def repo_is_loopback(repo: str) -> bool:
@@ -145,6 +194,47 @@ def allow_fallback_matching(repos: list[str]) -> bool:
     sample repository path before responding to the hook.
     """
     return any(not repo_is_loopback(repo) for repo in repos)
+
+
+def url_host(hostname: str) -> str:
+    """Format a hostname for use in a URL."""
+    if ":" in hostname and not hostname.startswith("["):
+        return f"[{hostname}]"
+    return hostname
+
+
+def gitea_like_repo_variants(
+    clone_url: str, ssh_url: str, html_url: str, full_name: str | None
+) -> list[str]:
+    """Return exact repository URL variants for Gitea-like payloads."""
+    payload_repos = [clone_url, ssh_url, html_url]
+    repos = payload_repos.copy()
+    normalized_full_name = normalize_full_name(full_name)
+    if normalized_full_name is None:
+        return repos
+
+    repo_paths = (normalized_full_name, f"{normalized_full_name}.git")
+    for repo in payload_repos:
+        hostname, username, port, is_ssh_url = repo_connection(repo)
+        if (
+            hostname is None
+            or username is None
+            or not (is_ssh_url or repo_is_scp_like(repo))
+            or repo_path(repo) != normalized_full_name
+        ):
+            continue
+        formatted_host = url_host(hostname)
+        port_part = f":{port}" if port is not None else ""
+        repos.extend(
+            f"ssh://{username}@{formatted_host}{port_part}/{repo_path}"
+            for repo_path in repo_paths
+        )
+        if port in {None, 22} and ":" not in hostname:
+            repos.extend(
+                f"{username}@{hostname}:{repo_path}" for repo_path in repo_paths
+            )
+
+    return list(dict.fromkeys(repos))
 
 
 def normalize_branch_ref(ref: str | None) -> str:
@@ -405,18 +495,16 @@ def _gitea_like_hook_helper(
     data: dict, service_long_name: str
 ) -> HandlerResponse | None:
     repository = require_mapping(data.get("repository"), "repository")
+    html_url = require_string(repository.get("html_url"), "repository.html_url")
+    clone_url = require_string(repository.get("clone_url"), "repository.clone_url")
+    ssh_url = require_string(repository.get("ssh_url"), "repository.ssh_url")
+    full_name = optional_string(repository.get("full_name"), "repository.full_name")
     return {
         "service_long_name": service_long_name,
-        "repo_url": require_string(repository.get("html_url"), "repository.html_url"),
-        "repos": [
-            require_string(repository.get("clone_url"), "repository.clone_url"),
-            require_string(repository.get("ssh_url"), "repository.ssh_url"),
-            require_string(repository.get("html_url"), "repository.html_url"),
-        ],
+        "repo_url": html_url,
+        "repos": gitea_like_repo_variants(clone_url, ssh_url, html_url, full_name),
         "branch": normalize_branch_ref(data.get("ref")),
-        "full_name": optional_string(
-            repository.get("full_name"), "repository.full_name"
-        ),
+        "full_name": full_name,
     }
 
 
@@ -673,16 +761,18 @@ class ServiceHookView(APIView):
 
         repo_components = Component.objects.filter(spfilter)
 
+        fallback_full_name = normalize_full_name(full_name)
         if (
             not repo_components.exists()
-            and validate_full_name(full_name)
+            and fallback_full_name is not None
+            and validate_full_name(fallback_full_name)
             and allow_fallback_matching(repos)
         ):
             # Fall back to endswith matching if repository full name is reasonable
             repo_components = Component.objects.filter(
-                Q(repo__iendswith=full_name)
-                | Q(repo__iendswith=f"{full_name}/")
-                | Q(repo__iendswith=f"{full_name}.git")
+                Q(repo__iendswith=fallback_full_name)
+                | Q(repo__iendswith=f"{fallback_full_name}/")
+                | Q(repo__iendswith=f"{fallback_full_name}.git")
             )
 
         if branch is not None:
@@ -707,9 +797,9 @@ class ServiceHookView(APIView):
         )
 
         # Trigger updates
-        updates = 0
+        updated_components: list[Component] = []
         for obj in enabled_components:
-            updates += 1
+            updated_components.append(obj)
             LOGGER.info("%s notification will update %s", service_long_name, obj)
             obj.change_set.create(
                 action=ActionEvents.HOOK, details=service_data, user=user
@@ -722,17 +812,17 @@ class ServiceHookView(APIView):
             enabled_hook_matches=len(enabled_components),
         )
 
-        if updates == 0:
+        if not updated_components:
             return self.hook_response(
                 "No matching repositories found!",
                 status=202,
                 match_status=match_status,
             )
 
-        updated_components = [obj.full_slug for obj in enabled_components]
+        updated_component_slugs = [obj.full_slug for obj in updated_components]
 
         return self.hook_response(
-            f"Update triggered: {', '.join(updated_components)}",
+            f"Update triggered: {', '.join(updated_component_slugs)}",
             match_status=match_status,
             updated_components=updated_components,
         )
