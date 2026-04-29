@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-29 04:10+0000\n"
+"PO-Revision-Date: 2026-04-29 21:58+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -13928,7 +13928,7 @@ msgstr ""
 msgid ""
 "Entries imported from external translation memory files are not cleaned up "
 "automatically. Entries with a different context are kept."
-msgstr ""
+msgstr "不自动清理从外部翻译记忆库导入的条目。保留上下文不同的条目。"
 
 #: admin/memory.rst:108
 msgid ""
@@ -13957,25 +13957,27 @@ msgstr "用户界面"
 #: admin/memory.rst:128
 msgid ""
 "Translation memory can be managed from several places in the Weblate UI:"
-msgstr ""
+msgstr "可以从 Weblate 用户界面的几个地方管理翻译记忆库："
 
 #: admin/memory.rst:130
 msgid ""
 "Open the user menu and choose :guilabel:`Translation memory` to manage your "
 "personal translation memory."
-msgstr ""
+msgstr "打开用户菜单，选择 :guilabel:`翻译记忆库` 管理你的个人翻译记忆库。"
 
 #: admin/memory.rst:132
 msgid ""
 "Open a project and choose :guilabel:`Translation memory` from the project "
 "menu to manage translation memory for that project."
-msgstr ""
+msgstr "打开项目，从项目菜单选择 :guilabel:`翻译记忆库` 来管理项目的翻译记忆库。"
 
 #: admin/memory.rst:134
 msgid ""
 "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` to "
 "manage uploaded translation memory for the whole Weblate instance."
 msgstr ""
+"打开 :guilabel:`管理` ，选择 :guilabel:`翻译记忆库` 管理整个 Weblate 实例的已"
+"上传的翻译记忆库。"
 
 #: admin/memory.rst:137
 msgid ""
@@ -13986,6 +13988,9 @@ msgid ""
 "rebuild translation memory for the whole project or for individual "
 "components from the current translations."
 msgstr ""
+"翻译记忆库页面显示所选范围的条目数。根据范围不同，页面还按照来源、部件或语言"
+"对列出条目。所列条目可下载为 JSON 或 TMX。有所需权限的用户可以删除条目，项目"
+"视图可以从当前翻译重建整个项目或单独部件的翻译记忆库。"
 
 #: admin/memory.rst:144
 msgid ""
@@ -13993,12 +13998,14 @@ msgid ""
 "translation memory are enabled for the project, with a link to the project "
 "workflow settings when the user can edit the project."
 msgstr ""
+"项目视图还显示项目是否启用了共享的翻译记忆库和自动清理翻译记忆库，当用户可以"
+"编辑项目时会显示到项目工作流设置的链接。"
 
 #: admin/memory.rst:148
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are stored in the selected scope:"
-msgstr ""
+msgstr "可以在相同页面上导入翻译记忆库。上传的文件存储在所选范围中："
 
 #: admin/memory.rst:151
 msgid "Personal uploads are available in your personal translation memory."
@@ -14013,7 +14020,7 @@ msgstr "项目上传在所选项目的翻译记忆库中。"
 msgid ""
 "Administration uploads are available as uploaded shared entries for the "
 "whole Weblate instance."
-msgstr ""
+msgstr "管理性质的上传作为上传的共享条目对整个实例可用。"
 
 #: admin/memory.rst:157
 msgid ""
@@ -14029,6 +14036,8 @@ msgid ""
 "Source and target languages must be selected when uploading XLIFF, PO, or "
 "CSV files if the language information is not provided by the file itself."
 msgstr ""
+"如果 XLIFF、PO 或 CSV 文件本身未提供语言信息，那么上传这些类型的文件时必须选"
+"择源语言和目标语言。"
 
 #: admin/memory.rst:170
 msgid ""
@@ -14049,6 +14058,10 @@ msgid ""
 "memory, delete uploaded entries, and download uploaded, shared, or all "
 "entries as JSON or TMX."
 msgstr ""
+"管理型用户拥有额外的翻译记忆库管理控制。在 :guilabel:`管理` > :guilabel:`翻译"
+"记忆库` 中，此页面列出 Weblate 实例的已上传共享条目、共享条目和总条目。根据权"
+"限不同，它可导入上传的共享记忆库，删除上传的条目，下载已上传的、共享的、或者"
+"所有条目为 JSON 或 TMX 文件。"
 
 #: admin/memory.rst:184
 msgid ""
@@ -14340,6 +14353,12 @@ msgid ""
 "python/customize/templates/legal/documents`, see :ref:`docker-static-"
 "override`."
 msgstr ""
+"在 Docker 部署中，用 :envvar:`WEBLATE_LEGAL_INTEGRATION` 开启法律模块而不是编"
+"辑 :file:`settings.py`。用 ``tos-confirm`` 启用法律模块和服务条款确认强制，或"
+"者用 ``wllegal`` 额外加载Weblate s.r.o. 运营服务使用的托管的法律文档模板。这"
+"些模板不用于一般用途。要在 Docker 中提供自己的模板，请将它们放在 :file:`/app/"
+"data/python/customize/templates/legal/documents` 中, 见 :ref:`docker-static-"
+"override`。"
 
 #: admin/optionals.rst:197
 msgid ""
@@ -14868,6 +14887,8 @@ msgid ""
 "Matching is based on the same source string, component, context, and source/"
 "target language pair. Uploaded translation memory files are not affected."
 msgstr ""
+"匹配基于相同的源字符串、部件、上下文和源/目标语言对。不影响上传的翻译记忆库文"
+"件。"
 
 #: admin/projects.rst:220
 msgid "Configure per project access control, see :ref:`acl` for more details."
