@@ -3830,7 +3830,12 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data, [])
 
     @responses.activate
-    def test_install_machinery(self) -> None:
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_install_machinery(self, mocked_getaddrinfo, mocked_get_peer) -> None:
         """Test the machinery settings API endpoint for various scenarios."""
         # Deep import to avoid running these as tests
         from weblate.machinery.tests import (  # noqa: PLC0415
@@ -4073,6 +4078,8 @@ class ProjectAPITest(APIBaseTest):
         )
 
         self.assertEqual(new_config, response.data)
+        mocked_getaddrinfo.assert_called()
+        mocked_get_peer.assert_called()
 
     @override_settings(OFFER_HOSTING=False)
     def test_install_machinery_blocks_private_project_target(self) -> None:
