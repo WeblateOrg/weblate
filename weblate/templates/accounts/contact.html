@@ -14,10 +14,6 @@
 
     {% if show_form %}
 
-      <p>
-        <a href="{% url 'contact' %}" class="btn btn-link p-0">{% translate "Back to contact options" %}</a>
-      </p>
-
       <form method="post" action="{% url 'contact' %}">
         <div class="card">
           <div class="card-header">
@@ -35,6 +31,7 @@
             {{ form|crispy }}
           </div>
           <div class="card-footer">
+            <a href="{% url 'contact' %}" class="btn btn-primary">{% translate "Back" %}</a>
             <input type="submit" value="{% translate "Send" %}" class="btn btn-primary" />
           </div>
         </div>
