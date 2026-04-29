@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-28 01:38+0000\n"
+"PO-Revision-Date: 2026-04-29 04:09+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -3233,10 +3233,8 @@ msgid "The Borg session might look like this:"
 msgstr "De sessie van Borg zou er zo uit kunnen zien:"
 
 #: admin/backup.rst:228
-#, fuzzy
-#| msgid "Choosing Docker image tag"
 msgid "Restoring Docker based setup"
-msgstr "Docker image tag kiezen"
+msgstr "Herstellen van op Docker gebaseerde opstelling"
 
 #: admin/backup.rst:230
 msgid ""
@@ -3245,6 +3243,11 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"De volgende stappen gaan uit van de officiële Docker Compose-instellingen "
+"met de gebundelde services voor PostgreSQL en Valkey, bekijk :doc:`install/"
+"docker`. Als uw uitrol een externe database of een aangepast bestand Compose "
+"gebruikt, pas dan de stappen voor de database en het volume aan voor die "
+"omgeving."
 
 #: admin/backup.rst:235
 msgid ""
@@ -3253,6 +3256,11 @@ msgid ""
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Begin met een checkout van Docker Compose die overeenkomt met de herstelde "
+"uitrol. herstel uw originele overschrijvingen van Compose, geheime "
+"wachtwoorden en omgevingsvariabelen. Het bestand :file:`environment.yml` van "
+":ref:`backup-dumps` kan daarbij helpen, maar het wordt niet automatisch "
+"geïmporteerd."
 
 #: admin/backup.rst:240
 msgid ""
@@ -3260,16 +3268,18 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Herstel het back-uparchief met :ref:`restore-borg` of pak uw back-up "
+"handmatig uit, zodat de Weblate gegevensmap en :file:`backups/database.sql` "
+"beschikbaar komen."
 
 #: admin/backup.rst:244
 msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
+"Stop de services die naar de database of het gegevensvolume kunnen schrijven:"
 
 #: admin/backup.rst:250
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "Verwijder het volume van PostgreSQL:"
+msgstr "Maak het volume van PostgreSQL opnieuw."
 
 #: admin/backup.rst:258
 msgid ""
@@ -3277,24 +3287,26 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"De naam voor het volume is afhankelijk van de projectnaam van Compose en mag "
+"anders zijn dan die in :file:`weblate-docker_postgres-data`. Controleer uw "
+"instellingen voordat u een volume verwijdert."
 
 #: admin/backup.rst:262
-#, fuzzy
-#| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "Start de database container:"
+msgstr "Start de databaseservice:"
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Zet de database terug vanuit de back-up:"
+msgstr "Zet de databasedump terug:"
 
 #: admin/backup.rst:274
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Controleer of de naam van de database overeenkomt met :envvar:`POSTGRES_DB` "
+"en dat de gebruiker overeenkomt met :envvar:`POSTGRES_USER` in uw "
+"configuratie voor Compose."
 
 #: admin/backup.rst:277
 msgid ""
@@ -3302,20 +3314,25 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Herstel de Weblate gegevensmap naar het Docker gegevensvolume dat is gemount "
+"als :file:`/app/data`, bekijk :ref:`docker-volume`. Bestanden in dat volume "
+"moeten eigendom zijn van UID 1000, bekijk :ref:`file-permissions`."
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Start de resterende services en volg de logs:"
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"De Weblate container voert migraties van de database uit bij opstarten. Als "
+"u Weblate ook upgradet, volg :ref:`upgrading-docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "Vernieuw de opslagruimten na het herstellen:"
 
 #: admin/backup.rst:308
 msgid "Manual backup"
@@ -4730,21 +4747,20 @@ msgstr ""
 "taak op de achtergrond."
 
 #: admin/config.rst:487
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded component ZIP files. "
 "Defaults to 50 MB."
 msgstr ""
-"Configureert de limiet voor de grootte van het ophalen van dingen in "
-"Weblate. Standaard is 4 MB."
+"Configureert de maximale grootte, in bytes, voor geüploade ZIP-bestanden "
+"voor onderdelen. Standaard is 50 MB."
 
 #: admin/config.rst:490
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgstr ""
+"In Docker, configureer dat met de omgevingsvariabele "
+"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:504
 msgid ""
@@ -5913,6 +5929,9 @@ msgid ""
 "rejected unless they are explicitly included "
 "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr ""
+"Indien ingeschakeld worden hostnamen, die niet kunnen worden opgelost bij "
+"het valideren, geweigerd, tenzij ze expliciet zijn opgenomen in "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/config.rst:1879
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -6399,21 +6418,20 @@ msgstr ""
 "schakelen."
 
 #: admin/config.rst:2354
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded translation files. "
 "Defaults to 50 MB."
 msgstr ""
-"Configureert de limiet voor de grootte van het ophalen van dingen in "
-"Weblate. Standaard is 4 MB."
+"Configureert de maximale grootte, in bytes, voor geüploade vertaalbestanden. "
+"Standaard is 50 MB."
 
 #: admin/config.rst:2357
 msgid ""
 "In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`` "
 "environment variable."
 msgstr ""
+"In Docker, configureer dat met de omgevingsvariabele "
+"``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:2367
 msgid ""
@@ -6516,6 +6534,9 @@ msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Indien ingeschakeld worden hostnamen, die niet kunnen worden opgelost bij "
+"het valideren, geweigerd, tenzij ze expliciet zijn opgenomen in "
+":setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/config.rst:2463
 msgid ""
@@ -15674,24 +15695,32 @@ msgstr "Gebruikersinterface"
 msgid ""
 "Translation memory can be managed from several places in the Weblate UI:"
 msgstr ""
+"Vertaalgeheugen kan worden beheerd vanuit verscheidene plaatsen in de "
+"gebruikersinterface van Weblate:"
 
 #: admin/memory.rst:130
 msgid ""
 "Open the user menu and choose :guilabel:`Translation memory` to manage your "
 "personal translation memory."
 msgstr ""
+"Open het gebruikersmenu en kies :guilabel:`Vertaalgeheugen` om uw "
+"persoonlijke vertaalgeheugen te beheren."
 
 #: admin/memory.rst:132
 msgid ""
 "Open a project and choose :guilabel:`Translation memory` from the project "
 "menu to manage translation memory for that project."
 msgstr ""
+"Open een project en kies :guilabel:`Vertaalgeheugen` in het projectmenu om "
+"het vertaalgeheugen voor dat project te beheren."
 
 #: admin/memory.rst:134
 msgid ""
 "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` to "
 "manage uploaded translation memory for the whole Weblate instance."
 msgstr ""
+"Open :guilabel:`Beheer` en kies :guilabel:`Vertaalgeheugen` om geüpload "
+"vertaalgeheugen voor de gehele instantie van Weblate te beheren."
 
 #: admin/memory.rst:137
 msgid ""
@@ -15702,6 +15731,12 @@ msgid ""
 "rebuild translation memory for the whole project or for individual "
 "components from the current translations."
 msgstr ""
+"De pagina's voor het vertaalgeheugen geven items weer voor het geselecteerde "
+"bereik. Afhankelijk van het bereik vermeld het de items ook met oorsprong, "
+"onderdeel of taalpaar. De vermelde items kunnen worden gedownload als JSON "
+"of TMX. Gebruikers met de vereiste rechten kunnen items verwijderen en de "
+"projectweergave kan het vertaalgeheugen voor het gehele project opnieuw "
+"bouwen, of voor individuele onderdelen, vanuit de huidige vertalingen."
 
 #: admin/memory.rst:144
 msgid ""
@@ -15709,60 +15744,66 @@ msgid ""
 "translation memory are enabled for the project, with a link to the project "
 "workflow settings when the user can edit the project."
 msgstr ""
+"De projectweergave laat ook zien of gedeeld vertaalgeheugen en automatisch "
+"opruimen van het vertaalgeheugen zijn ingeschakeld voor het project, met een "
+"link naar de instellingen voor de projectwerkstroom als de gebruiker het "
+"project mag bewerken."
 
 #: admin/memory.rst:148
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are stored in the selected scope:"
 msgstr ""
+"Bestanden voor vertaalgeheugens kunnen op dezelfde pagina worden "
+"geïmporteerd. Geüploade bestanden worden opgeslagen in het geselecteerde "
+"bereik:"
 
 #: admin/memory.rst:151
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid "Personal uploads are available in your personal translation memory."
-msgstr "Importeert een bestand in het vertaalgeheugen van Weblate."
+msgstr ""
+"Persoonlijke uploads zijn beschikbaar in uw persoonlijke vertaalgeheugen."
 
 #: admin/memory.rst:152
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid ""
 "Project uploads are available in the selected project's translation memory."
-msgstr "Importeert een bestand in het vertaalgeheugen van Weblate."
+msgstr ""
+"Projectuploads zijn beschikbaar in het vertaalgeheugen van het geselecteerde "
+"project."
 
 #: admin/memory.rst:153
 msgid ""
 "Administration uploads are available as uploaded shared entries for the "
 "whole Weblate instance."
 msgstr ""
+"Uploads voor beheer zijn beschikbaar geüploade gedeelde items voor de gehele "
+"instantie van Weblate."
 
 #: admin/memory.rst:157
-#, fuzzy
-#| msgid ""
-#| "Translation memories in various formats can be imported into Weblate, the "
-#| "TMX format is provided for interoperability with other tools. All "
-#| "supported formats are TMX, JSON, XLIFF, PO, CSV."
 msgid ""
 "Translation memories in various formats can be imported into Weblate. The "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, and CSV."
 msgstr ""
 "Vertaalgeheugens in verscheidene indelingen kunnen worden geïmporteerd in "
-"Weblate, de indeling TMX wordt verschaft voor interoperabiliteit met andere "
-"programma's. Alle ondersteunde indelingen zijn: TMX, JSON, XLIFF, PO, CSV."
+"Weblate. De indeling TMX wordt verschaft voor interoperabiliteit met andere "
+"programma's. Alle ondersteunde indelingen zijn: TMX, JSON, XLIFF, PO en CSV."
 
 #: admin/memory.rst:161
 msgid ""
 "Source and target languages must be selected when uploading XLIFF, PO, or "
 "CSV files if the language information is not provided by the file itself."
 msgstr ""
+"Bron- en doeltaal moeten zijn geselecteerd bij het uploaden van XLIFF-, PO- "
+"of CSV-bestanden als de taalinformatie niet door het bestand zelf wordt "
+"gegeven."
 
 #: admin/memory.rst:170
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid ""
 "You can search translation memory while editing strings from "
 "the :ref:`machine-translation` tab."
-msgstr "Enorm vertaalgeheugen met machinevertaling."
+msgstr ""
+"U kunt het vertaalgeheugen doorzoeken, terwijl u tekenreeksen bewerkt, vanaf "
+"de tab :ref:`machine-translation`."
 
 #: admin/memory.rst:174
 msgid "Admin interface"
@@ -15777,26 +15818,25 @@ msgid ""
 "memory, delete uploaded entries, and download uploaded, shared, or all "
 "entries as JSON or TMX."
 msgstr ""
+"Gebruikers voor beheer hebben aanvullende mogelijkheden voor het beheren van "
+"vertaalgeheugens. In :guilabel:`Beheer` > :guilabel:`Vertaalgeheugen` "
+"vermeld de pagina geüploade gedeelde items, gedeelde items en het totale "
+"aantal items voor de instantie van Weblate. Afhankelijk van rechten kunnen "
+"gedeeld geheugen worden geüpload, geüploade items worden verwijderd en "
+"geüploade, gedeelde of alle items worden gedownload als JSON of TMX."
 
 #: admin/memory.rst:184
-#, fuzzy
-#| msgid ""
-#| "It has the same options as the user interface, but also allows rebuilding "
-#| "parts of or the entire translation memory. All old entries can be flushed "
-#| "and re-created from a component or project by selecting "
-#| "\"Administration\" from amidst the different tabs at the top of the "
-#| "screen, and then \"Translation memory\"."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Existing entries for the selected "
 "component or project are deleted, and the memory is populated again from the "
 "current translations in the background."
 msgstr ""
-"Het heeft dezelfde opties als de gebruikersinterface, maar maakt het ook "
-"mogelijk delen van het vertaalgeheugen, of het gehele, opnieuw op te bouwen. "
-"Alle oude items kunnen worden verwijderd en opnieuw worden gemaakt vanuit "
-"een onderdeel of project door \"Beheren\" te selecteren uit de verschillende "
-"tabs aan de bovenzijde van het scherm, en dan \"Vertaalgeheugen\"."
+"De weergave van het vertaalgeheugen voor het project maakt het ook mogelijk "
+"delen, of het gehele van het vertaalgeheugen voor het project, opnieuw op te "
+"bouwen. Bestaande items voor het geselecteerde onderdeel of project worden "
+"verwijderd en het geheugen wordt op de achtergrond opnieuw gevuld vanuit de "
+"huidige vertalingen."
 
 #: admin/memory.rst:192
 msgid ""
@@ -19053,6 +19093,9 @@ msgid ""
 "In addition to :ref:`additional`, screenshots can be managed in the Weblate "
 "UI, kept in sync from the repository, or handled through the :ref:`api`."
 msgstr ""
+"In aanvulling op :ref:`additional`, schermafdrukken kunnen worden beheerd in "
+"de gebruikersinterface van Weblate, gesynchroniseerd worden vanuit de "
+"opslagruimte of worden behandeld via de :ref:`api`."
 
 #: admin/translating.rst:138
 #, fuzzy
@@ -19073,6 +19116,17 @@ msgid ""
 "character recognition (OCR) by pressing the :guilabel:`Automatically "
 "recognize` button."
 msgstr ""
+"Elke schermafdruk wordt opgeslagen voor een specifieke taal voor vertaling. "
+"Op de pagina voor Vertalen worden schermafdrukken, die zijn verbonden met de "
+"brontaal, weergegeven voor elke vertaling van de tekenreeks, terwijl "
+"schermafdrukken, die zijn verbonden met een andere taal, worden weergegeven "
+"voor die taal. U kunt een schermafdruk direct toevoegen vanaf de pagina "
+"Vertalen met :guilabel:`Schermafdruk toevoegen` in het paneel "
+":guilabel:`Schermafdruk context`, of de afzonderlijke beheerinterface openen "
+"onder het menu :guilabel:`Bewerkingen`. Daar kunt u schermafdrukken "
+"uploaden, ze handmatig toewijzen aan brontekenreeksen of optische "
+"tekenherkenning (OCR) gebruiken door op de knop :guilabel:`Automatisch "
+"herkennen` te drukken."
 
 #: admin/translating.rst:150
 msgid ""
@@ -19107,12 +19161,8 @@ msgstr ""
 "instelt."
 
 #: admin/translating.rst:163
-#, fuzzy
-#| msgid "Fixed caching issues after updating screenshots from the repository."
 msgid "Managing screenshots from the repository"
-msgstr ""
-"Gerepareerde problemen met cachen na bijwerken van schermafdrukken vanuit de "
-"opslagruimte."
+msgstr "Beheren van schermafdrukken vanuit de opslagruimte"
 
 #: admin/translating.rst:165
 msgid ""
@@ -19139,6 +19189,9 @@ msgid ""
 "fill in :guilabel:`Repository path to screenshot` with the path tracked in "
 "the repository."
 msgstr ""
+"Handmatig verbinden van een geüploade schermafdruk met latere bijwerkingen "
+"vanuit de opslagruimte, vul :guilabel:`Pad opslagruimte naar schermafdruk` "
+"in met het pad dat in de opslagruimte wordt gevolgd."
 
 #: admin/translating.rst:176
 msgid ""
@@ -19171,6 +19224,17 @@ msgid ""
 "delete screenshots. Screenshot API objects include the related translation "
 "and the optional repository path used for repository-based updates."
 msgstr ""
+"Werkstromen voor schermafdrukken zijn ook beschikbaar via de REST API. "
+"Gebruik :http:get:`/api/components/(string:project)/(string:component)/"
+"screenshots/` om schermafdrukken voor een onderdeel te vermelden, "
+":http:post:`/api/screenshots/` om schermafdrukken te maken, :http:post:`/api/"
+"screenshots/(int:id)/file/` om de afbeelding te vervangen, :http:post:`/api/"
+"screenshots/(int:id)/units/` en :http:delete:`/api/screenshots/(int:id)/"
+"units/(int:unit_id)` om koppelingen naar brontekenreeksen te beheren en "
+":http:delete:`/api/screenshots/(int:id)/` om schermafdrukken te verwijderen. "
+"Schermafdruk API-objecten bevatten de gerelateerde vertaling en het "
+"optionele pad van de opslagruimte dat wordt gebruikt voor bijwerkingen, die "
+"zijn gebaseerd op de opslagruimte."
 
 #: admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -19850,10 +19914,8 @@ msgstr ""
 "add-onbeheer en de :ref:`addons-api`."
 
 #: changes.rst:9
-#, fuzzy
-#| msgid ":ref:`mt-yandex-v2` machine translation service."
 msgid ":ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-yandex-v2` service voor machinevertaling."
+msgstr ":ref:`mt-ltengine` service voor machinevertaling."
 
 #: changes.rst:12 changes.rst:102 changes.rst:206 changes.rst:241
 #: changes.rst:288 changes.rst:332 changes.rst:377 changes.rst:418
@@ -19891,6 +19953,8 @@ msgid ""
 "Clarified how :ref:`glossary-terminology` creates and maintains glossary "
 "language entries."
 msgstr ""
+"Verduidelijkt hoe :ref:`glossary-terminology` taalitems voor woordenlijsten "
+"maakt en beheert."
 
 #: changes.rst:17
 #, fuzzy
@@ -19904,10 +19968,14 @@ msgid ""
 "Improved :ref:`screenshots` documentation and linked it from the screenshots "
 "UI."
 msgstr ""
+"Verbeterde documentatie voor :ref:`screenshots` en daarnaar gekoppeld vanuit "
+"de gebruikersinterface voor schermafdrukken."
 
 #: changes.rst:19
 msgid "The OpenAPI schema is cleaner and provides tighter API description."
 msgstr ""
+"Het schema OpenAPI is duidelijker en verschaft betere beschrijving van de "
+"API."
 
 #: changes.rst:20
 msgid "Password updates now regenerate your personal API key by default."
@@ -19979,6 +20047,8 @@ msgid ""
 "Admins can now reject pending suggestions and delete comments when cleaning "
 "up blocked or abusive users."
 msgstr ""
+"Beheerders kunnen nu openstaande suggesties weigeren en opmerkingen "
+"verwijderen bij het opruimen van geblokkeerde of kwetsende gebruikers."
 
 #: changes.rst:29
 msgid ""
@@ -19994,20 +20064,25 @@ msgid ""
 "endpoints now better explain the allowed setup on hosted and self-managed "
 "sites."
 msgstr ""
+"Fouten voor valideren van machinevertalingen op projectniveau voor private "
+"of lokale eindpunten leggen nu beter de toegestane opstelling voor gehoste "
+"en zelf-beheerde sites uit."
 
 #: changes.rst:31
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Attribute translations copied by :ref:`addon-"
 "weblate.autotranslate.autotranslate` to the add-on user."
-msgstr "add-on :ref:`addon-weblate.autotranslate.autotranslate`"
+msgstr ""
+"Attributen voor vertalingen gekopieerd door :ref:`addon-"
+"weblate.autotranslate.autotranslate` naar de add-on gebruiker."
 
 #: changes.rst:32
 msgid ""
 "Documented restoring Docker based setups from backups, see :ref:`restore-"
 "docker`."
 msgstr ""
+"Herstellen van op Docker gebaseerde opstellingen vanuit back-ups "
+"gedocumenteerd , bekijk :ref:`restore-docker`."
 
 #: changes.rst:33
 msgid ""
@@ -20015,38 +20090,33 @@ msgid ""
 "reject URLs whose hostnames cannot be resolved during validation unless the "
 "host is explicitly allowed."
 msgstr ""
+":setting:`VCS_RESTRICT_PRIVATE` en :setting:`WEBHOOK_RESTRICT_PRIVATE` "
+"weigeren nu URL's waarvan de hostnamen niet kunnen wordne opgelost tijdens "
+"valideren, tenzij de host expliciet is toegestaan."
 
 #: changes.rst:34
-#, fuzzy
-#| msgid "Added component alert for broken repository browser URLs."
 msgid ""
 "Extended the conflicting repository setup alert to direct Git pushes, "
 "see :ref:`alerts`."
 msgstr ""
-"Alarm onderdeel toegevoegd voor defecte URL's voor de browser van de "
-"opslagruimten."
+"De melding voor conflicterend opstellen van de opslagruimte uitgebreid met "
+"directe Git pushes, bekijk :ref:`alerts`."
 
 #: changes.rst:35
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "categories."
 msgstr ""
-":doc:`/admin/announcements` kunnen worden gepost in het bereik van het "
-"project/de taal."
+":doc:`/admin/announcements` kunnen nu ook worden beheerd via de :ref:`api` "
+"voor categorieën."
 
 #: changes.rst:36
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-"
-#| "translation` are now stored with a dedicated user as an author."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now records automatic "
 "translation results in the add-on activity log."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` en :ref:`auto-translation` "
-"worden nu opgeslagen met een toegewezen gebruiker als auteur."
+":ref:`addon-weblate.autotranslate.autotranslate` legt nu resultaten voor "
+"automatisch vertalen vast in de add-on activiteitenlog."
 
 #: changes.rst:37
 msgid ""
@@ -20054,18 +20124,25 @@ msgid ""
 "obvious direct file download URLs and invalid code site or Fediverse profile "
 "links are rejected."
 msgstr ""
+"Links voor :ref:`profile` geven nu waar mogelijk een waarschuwing voor een "
+"externe link weer; duidelijke URL's voor direct downloaden van bestanden en "
+"ongeldige codesites of links naar profielen van Fediverse worden geweigerd."
 
 #: changes.rst:38
 msgid ""
 "Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE` "
 "and :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` before parsing."
 msgstr ""
+"Uploads dwingen nu :setting:`TRANSLATION_UPLOAD_MAX_SIZE` en "
+":setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` af voor het parsen."
 
 #: changes.rst:39
 msgid ""
 "Component ZIP imports and project backup restores now share stricter ZIP "
 "archive safety checks."
 msgstr ""
+"Importeren van ZIP voor onderdelen en terugzetten van projectback-ups delen "
+"nu striktere veiligheidscontroles voor ZIP-archieven."
 
 #: changes.rst:42 changes.rst:142 changes.rst:211 changes.rst:246
 #: changes.rst:300 changes.rst:339 changes.rst:384 changes.rst:435
@@ -20168,6 +20245,8 @@ msgid ""
 ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
 "PostgreSQL searches."
 msgstr ""
+":ref:`mt-weblate-translation-memory` automatisch vertalen vermijdt brede "
+"zoekacties in PostgreSQL."
 
 #: changes.rst:53
 msgid ""
@@ -20188,6 +20267,8 @@ msgstr ""
 #: changes.rst:55
 msgid "Malformed IPv6 repository URLs no longer crash SSH host key detection."
 msgstr ""
+"Misvormde IPv6-URL's voor de opslagruimte crashen niet langer het detecteren "
+"van SSH-hostsleutel."
 
 #: changes.rst:56
 msgid ""
@@ -20240,34 +20321,46 @@ msgid ""
 "now report a validation error for TMX files missing the required header "
 "instead of failing the request."
 msgstr ""
+":ref:`Uploaden vertaalgeheugen <memory-user>` en :wladmin:`import_memory` "
+"rapporteren een fout bij valideren voor TMX-bestanden waarvoor de vereiste "
+"header ontbreekt, in plaats van het verzoek te weigeren."
 
 #: changes.rst:62
 msgid ""
 "Project listings now show review progress columns when any listed project "
 "has reviews enabled."
 msgstr ""
+"Projectvermeldingen geven nu kolommen weer voor de voortgang van beoordelen, "
+"als een vermeld project beoordelen heeft ingeschakeld."
 
 #: changes.rst:63
 msgid ""
 "The missing file-mask matches :ref:`alert <alerts>` is now restored after "
 "rescans that leave only the source translation."
 msgstr ""
+"Het masker voor ontbrekend bestand dat overeen komt met :ref:`melding "
+"<alerts>` is nu hersteld naar opnieuw scannen dat alleen de bronvertaling "
+"achterlaat."
 
 #: changes.rst:64
 msgid ""
 "Automatic translation from other components now ignores read-only source "
 "candidates with empty translations."
 msgstr ""
+"Automatisch vertalen vanuit andere onderdelen negeert nu alleen-lezen "
+"bronkandidaten met lege vertalingen."
 
 #: changes.rst:65
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the Markdown "
 "parser fails."
 msgstr ""
+"Renderen van Markdown valt nu terug op geëscapete platte tekst als de parser "
+"voor Markdown weigert."
 
 #: changes.rst:66
 msgid "Markdown image URLs are now escaped before rendering."
-msgstr ""
+msgstr "URL's voor afbeeldingen in Markdown worden nu geëscapet voor renderen."
 
 #: changes.rst:69 changes.rst:174 changes.rst:309 changes.rst:352
 #: changes.rst:449 changes.rst:592 changes.rst:687 changes.rst:742
@@ -20457,6 +20550,10 @@ msgid ""
 "version from prominent UI while keeping it available on "
 "the :guilabel:`About` page and :http:get:`/api/metrics/`."
 msgstr ""
+"Toegevoegd een modus ``soft`` aan :setting:`VERSION_DISPLAY` om de versie "
+"van Weblate te verbergen in de prominente gebruikersinterface, terwijl het "
+"beschikbaar wordt gehouden op de pagina :guilabel:`Over` en :http:get:`/api/"
+"metrics/`."
 
 #: changes.rst:103
 #, fuzzy
@@ -20470,6 +20567,9 @@ msgid ""
 "html` and :ref:`autofix-html` only to plain text and source strings that "
 "contain standard HTML markup or valid custom elements."
 msgstr ""
+"Markdown gebruikt nu standaard ``auto-safe-html``, past :ref:`check-safe-"
+"html` en :ref:`autofix-html` alleen toe op platte tekst en brontekenreeksen "
+"die standaard HTML-opmaak gebruiken of geldige aangepaste elementen."
 
 #: changes.rst:105
 #, fuzzy
@@ -20481,6 +20581,8 @@ msgstr "Verbeterde beheerinterface voor groepen."
 msgid ""
 "Improved logic for adding monolingual plurals in :doc:`/formats/gettext`."
 msgstr ""
+"Verbeterde logica voor het toevoegen van enkeltalige meervouden in :doc:`/"
+"formats/gettext`."
 
 #: changes.rst:107
 msgid ""
@@ -20506,6 +20608,9 @@ msgid ""
 "branding while keeping legacy Azure AD backend identifiers and documentation "
 "anchors for compatibility."
 msgstr ""
+"Documenten voor Microsoft Entra ID-authenticatie en branding voor Microsoft "
+"aanmelden bijgewerkt, terwijl identificaties voor verouderde Azure AD "
+"backend en ankers voor documentatie voor compatibiliteit zijn behouden."
 
 #: changes.rst:111
 #, fuzzy
@@ -20523,12 +20628,19 @@ msgid ""
 "and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the "
 "bundled NGINX."
 msgstr ""
+"Docker geeft nu :envvar:`WEBLATE_COMMIT_PENDING_HOURS`, "
+":envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` weer voor het aanpassen van de "
+"Keycloakclaim voor unieke gebruikersidentificatie en "
+":envvar:`WEBLATE_NGINX_IPV6` voor het beheren van IPv6-listeners in de "
+"gebundelde NGINX."
 
 #: changes.rst:113
 msgid ""
 "Project history now records project backups and project/component restore "
 "events."
 msgstr ""
+"Projectgeschiedenis legt nu projectback-ups en gebeurtenissen voor "
+"terugzetten van project/onderdeel vast."
 
 #: changes.rst:114
 msgid ""
@@ -20537,6 +20649,10 @@ msgid ""
 "translation` machines, and clarified merge-conflict behavior for exported "
 "repositories using shallow clones by default."
 msgstr ""
+"Verbeterde documentatie met automatisch gemaakte snippers voor "
+":ref:`addons`, :ref:`fmt_capabs`, :ref:`checks` en :ref:`machine-"
+"translation` machines, en gedrag voor samenvoeg-conflict verduidelijkt voor "
+"geëxporteerde opslagruimten, die standaard oppervlakkige kloons gebruiken."
 
 #: changes.rst:115
 msgid ""
@@ -20549,6 +20665,16 @@ msgid ""
 "as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, "
 "and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 msgstr ""
+"Toegevoegd :setting:`PROJECT_WEB_RESTRICT_PRIVATE` om URL's te weigeren voor "
+"projectwebsite en opslagruimtebrowser die als doel interne of niet-publieke "
+"adressen hebben, :setting:`WEBHOOK_RESTRICT_PRIVATE` om URL's te weigeren "
+"voor webhooks, die als doel interne of niet-publieke adressen hebben, en "
+":setting:`VCS_RESTRICT_PRIVATE` oURL's te weigeren naar opslagruimte of om "
+"te pushen, die als doel interne of niet-publieke adressen hebben. Deze "
+"worden in Docker weergegeven als "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, "
+":envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE` en "
+":envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 
 #: changes.rst:116
 msgid "Improved performance of :ref:`mt-weblate` lookups."
@@ -20559,6 +20685,8 @@ msgid ""
 "Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` "
 "which now defaults to 10 MB."
 msgstr ""
+"Formulieren voor uploaden van schermafdrukken en lettertypen houden nu "
+"rekening met :setting:`ALLOWED_ASSET_SIZE`, die nu standaard 10 MB is."
 
 #: changes.rst:118
 msgid ""
@@ -20566,6 +20694,9 @@ msgid ""
 "delegated authorization boundaries, and clarified the instance-wide 2FA "
 "enforcement path in :doc:`/admin/auth`."
 msgstr ""
+":doc:`/security/threat-model` uitgebreid om vertrouwensgrenzen voor webhooks "
+"en gedelegeerde grenzen voor autorisatie te behandelen en het instantiebrede "
+"pad voor het afdwingen van 2FA verduidelijkt in :doc:`/admin/auth`."
 
 #: changes.rst:119
 msgid ""
@@ -20573,12 +20704,18 @@ msgid ""
 "possible and otherwise reports a clearer recovery error instead of failing "
 "later with a generic parse error."
 msgstr ""
+":ref:`manage-vcs-reset-reapply` maakt nu ontbrekende vertaalbestanden "
+"opnieuw, indien mogelijk, en rapporteert anders een duidelijker fout bij "
+"herstellen, in plaats van later te mislukken met een algemene fout bij "
+"parsen."
 
 #: changes.rst:120
 msgid ""
 "Updated :doc:`/contributing/documentation` to describe the current ``make -C "
 "docs update-docs`` workflow for generated snippets."
 msgstr ""
+":doc:`/contributing/documentation` bijgewerkt om de huidige werkstroom "
+"``make -C docs update-docs`` voor gemaakte snippers te beschrijven."
 
 #: changes.rst:121
 msgid ""
@@ -20586,30 +20723,41 @@ msgid ""
 "push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-"
 "auto_lock_error` from the linked component that owns the repository."
 msgstr ""
+"Gekoppelde onderdelen van de opslagruimte erven nu :ref:`component-"
+"push_on_commit`, :ref:`component-commit_pending_age` en :ref:`component-"
+"auto_lock_error` van het gekoppelde onderdeel dat eigenaar is van de "
+"opslagruimte."
 
 #: changes.rst:122
 msgid ""
 "Git exporter now provides clearer push and missing-revision errors to "
 "authorized users."
 msgstr ""
+"Git exporteerder verschaft nu duidelijker fouten voor push en missing-"
+"revision voor geautoriseerde gebruikers."
 
 #: changes.rst:123
-#, fuzzy
-#| msgid "Improved performance of project creation and saving."
 msgid ""
 "Faster category and project removals, and improved performance of project "
 "language counting and API listing on projects with shared components."
-msgstr "Verbeterde prestaties voor maken en opslaan van project."
+msgstr ""
+"Sneller verwijderen van categorieën en projecten en verbeterde uitvoering "
+"van tellen van projecttaal en API-vermelding voor projecten met gedeelde "
+"onderdelen."
 
 #: changes.rst:124
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
 msgstr ""
+"Verduidelijkte Git LFS-limieten van :ref:`git-exporter` in de "
+"gebruikersinterface en documentatie."
 
 #: changes.rst:125
 msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
+"Verbeterde status :ref:`backup` die rapporteert of onderhoud wordt behouden "
+"na mislukte pogingen voor back-up."
 
 #: changes.rst:126
 msgid ""
@@ -20617,6 +20765,9 @@ msgid ""
 "repeated metric queries when rendering activity charts on overview pages "
 "with cold caches."
 msgstr ""
+"Verbeterde laadsnelheid voor opmerkingen op de pagina Vertalen en verkleinde "
+"herhaalde metrische query's bij het renderen van diagrammen over "
+"activiteiten op overzichtspagina's met koude caches."
 
 #: changes.rst:129
 #, fuzzy
@@ -20629,6 +20780,8 @@ msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
 msgstr ""
+"Verharde controles van grenzen opslagruimte voor doelen van symlinks "
+"(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
 
 #: changes.rst:131
 msgid ""
@@ -20643,42 +20796,56 @@ msgid ""
 "Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-"
 "gw9x-477v`)."
 msgstr ""
+"Verscherpt afdwingen recht :ref:`api` (:cve:`2026-34393` / :ghsa:`3382-gw9x-"
+"477v`)."
 
 #: changes.rst:133
 msgid ""
 "Hardened project-level :ref:`machine-translation` against SSRF "
 "(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 msgstr ""
+"Verhard :ref:`machine-translation` op projectniveau tegen SSRF (:cve:`2026-"
+"34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 
 #: changes.rst:134
 msgid ""
 "Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` "
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 msgstr ""
+"Verscherpt valideren locatie in :ref:`addon-weblate.cdn.cdnjs` (:cve:`2026-"
+"33220` / :ghsa:`mqph-7h49-hqfm`)."
 
 #: changes.rst:135
 msgid ""
 "Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset "
 "downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 msgstr ""
+"Afdwingen :setting:`ALLOWED_ASSET_DOMAINS` bij redirects bij het downloaden "
+"van items (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 
 #: changes.rst:136
 msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
 msgstr ""
+"Verharde :ref:`addon-weblate.webhook.webhook` (:cve:`2026-39845` / "
+":ghsa:`f8hv-g549-hwg2`)."
 
 #: changes.rst:137
 msgid ""
 "Removed unintended :ref:`translation-memory` API endpoints "
 "(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 msgstr ""
+"Niet bedoelde :ref:`translation-memory` API-eindpunten verwijderd "
+"(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 
 #: changes.rst:138
 msgid ""
 "Tightened API access control for pending tasks "
 "(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 msgstr ""
+"Verscherpte API-toegangscontrole voor openstaande taken (:cve:`2026-33212` / "
+":ghsa:`vj45-x3pj-f4w4`)."
 
 #: changes.rst:139
 msgid ""
@@ -20686,6 +20853,9 @@ msgid ""
 "configuration and hooks from uploaded archives "
 "(:cve:`2026-33435` / :ghsa:`558g-h753-6m33`)."
 msgstr ""
+"Verhard terugzetten van :ref:`projectbackup` tegen opslagruimte-lokale VCS-"
+"configuratie en hooks van geüploade archieven (:cve:`2026-33435` / "
+":ghsa:`558g-h753-6m33`)."
 
 #: changes.rst:143
 msgid ""
@@ -20693,6 +20863,9 @@ msgid ""
 "only handling, and source-side pending commits without files are discarded "
 "to avoid repeated parse failures."
 msgstr ""
+":ref:`Project back-up <projectbackup>` behoudt nu alleen-lezen afhandeling "
+"van bronvertaling en openstaande commits aan de zijde van de bron, zonder "
+"bestanden, worden genegeerd om herhaald mislukken van parsen te voorkomen."
 
 #: changes.rst:144
 msgid ""
@@ -20708,18 +20881,25 @@ msgid ""
 "of persistent SSH storage, and obsolete or stale wrappers are cleaned up "
 "during upgrade."
 msgstr ""
+"Gemaakte SSH-wrapperscripts worden nu opgeslagen in :setting:`CACHE_DIR`, in "
+"plaats van de blijvende opslag voor SSH en overbodige en hangende wrappers "
+"worden opgeruimd bij upgraden."
 
 #: changes.rst:146
 msgid ""
 "Hardened Git branch handling to reject invalid branch names before "
 "repository operations."
 msgstr ""
+"Verharde Git branchafhandeling om ongeldige branchnamen te weigeren voor "
+"bewerkingen aan de opslagruimte."
 
 #: changes.rst:147
 msgid ""
 "Sanitized repository and upload backend errors before exposing them in UI "
 "and API responses."
 msgstr ""
+"Bijgewerkte fouten voor backend van opslagruimte en upload voordat ze worden "
+"weergegeven in antwoorden van gebruikersinterface en API."
 
 #: changes.rst:148
 #, fuzzy
@@ -20733,22 +20913,29 @@ msgid ""
 "upgrade, and prevent removing the last assigned team to avoid orphaning the "
 "token."
 msgstr ""
+":ref:`project-api` ruimt nu hangende bot-gebruikers op bij verwijderen van "
+"project en upgraden en voorkomt het verwijderen van het laatste toegewezen "
+"team om het wees worden van het token te vermijden."
 
 #: changes.rst:150
 msgid ""
 "Batch automatic translation now uses project-level machinery configuration "
 "instead of only site-wide settings."
 msgstr ""
+"Batch automatisch vertalen gebruikt nu machine-configuratie op "
+"projectniveau, in plaats van alleen sitebrede instellingen."
 
 #: changes.rst:151
 msgid "Fixed sorting by the **Unreviewed** column in listings."
-msgstr ""
+msgstr "Gerepareerd het sorteren op de kolom **Niet beoordeeld** in lijsten."
 
 #: changes.rst:152
 msgid ""
 "Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter "
 "Waw (\"و\") adjacent to XML tags."
 msgstr ""
+"Valse positieven gerepareerd in :ref:`check-xml-chars-around-tags` voor "
+"Arabische letter Waw (\"و\") die naast XML-tags ligt."
 
 #: changes.rst:153
 #, fuzzy
@@ -20762,46 +20949,61 @@ msgid ""
 ":wladmin:`list_checks` now requires exactly one ``--sections`` value when "
 "writing generated documentation to a file using ``--output``."
 msgstr ""
+":wladmin:`list_checks` vereist nu exact een waarde ``--sections`` bij het "
+"schrijven van gemaakte documentatie naar een bestand met ``--output``."
 
 #: changes.rst:155
 msgid ""
 "Watched translations on the dashboard now use a stable language-aware "
 "ordering."
 msgstr ""
+"Gevolgde vertalingen op het dashboard gebruiken nu een stabiele taalbewuste "
+"volgorde."
 
 #: changes.rst:156
 msgid ""
 "Reduced error-reporting noise for handled authentication callback failures "
 "and clarified password reset confirmation messages."
 msgstr ""
+"Verminderde fouten rapporterende ruis voor afgehandeld mislukt terugroepen "
+"van authenticatie en verduidelijkte bevestigingsberichten voor herstellen "
+"van wachtwoorden."
 
 #: changes.rst:157
 msgid ""
 ":doc:`/admin/machine` now falls back to the default API URL when base URL is "
 "empty."
 msgstr ""
+":doc:`/admin/machine` valt nu terug op de standaard API-URL als de basis-URL "
+"leeg is."
 
 #: changes.rst:158
 msgid ":ref:`mt-deepl` maps plain Portuguese to European Portuguese."
-msgstr ""
+msgstr ":ref:`mt-deepl` verwijst plat Portugees naar Europees Portugees."
 
 #: changes.rst:159
 msgid ""
 ":ref:`mt-mymemory` now falls back to HTTP status handling when the service "
 "returns a non-JSON error response."
 msgstr ""
+":ref:`mt-mymemory` valt nu terug op HTTP-statusafhandeling als de service "
+"een niet JSON foutantwoord teruggeeft."
 
 #: changes.rst:160
 msgid ""
 "Push branches are no longer updated with upstream-only commits in multi-"
 "branch workflows."
 msgstr ""
+"Branches voor pushen worden niet langer bijgewerkt met upstream-only commits "
+"in werkstromen met meerdere branches."
 
 #: changes.rst:161
 msgid ""
 "POT update add-ons now fall back to the component URL for the ``Report-Msgid-"
 "Bugs-To`` header when the component setting is empty."
 msgstr ""
+"Add-ons voor updaten van POT vallen nu terug op de onderdeels-URL voor de "
+"header ``Report-Msgid-Bugs-To`` als de instelling voor het onderdeel leeg is."
 
 #: changes.rst:162
 #, fuzzy
@@ -20814,18 +21016,25 @@ msgid ""
 "Adding new languages now rescans only the newly added languages instead of "
 "forcing a full component scan."
 msgstr ""
+"Toevoegen van nieuwe talen scant nu alleen de nieuw toegevoegde talen, in "
+"plaats van een volledige scan van het onderdeel af te dwingen."
 
 #: changes.rst:164
 msgid ""
 ":ref:`check-max-size` previews now keep the configured text box visible and "
 "render overflowing text in red."
 msgstr ""
+":ref:`check-max-size` voorbeelden houden nu het geconfigureerde tekstvak "
+"zichtbaar en renderen overstromende tekst in rood."
 
 #: changes.rst:165
 msgid ""
 "Restored documented default encoding fallback for :doc:`/formats/apple` "
 "and :doc:`/formats/java` when file format parameters are not explicitly set."
 msgstr ""
+"Teruggezette gedocumenteerde standaard terugvallen voor codering voor :doc:`/"
+"formats/apple` en :doc:`/formats/java` als parameters voor de "
+"bestandsindeling niet expliciet zijn ingesteld."
 
 #: changes.rst:166
 msgid ""
@@ -20834,12 +21043,18 @@ msgid ""
 "auto-translation progress updates when the queued target disappears before "
 "execution."
 msgstr ""
+"Verminderde herhaalde databasequery's in :ref:`addon-"
+"weblate.generate.fill_read_only` gedurende de dagelijkse add-ontaak en "
+"gerepareerde updates voor voortgang automatisch vertalen, wanneer het doel "
+"in de wachtrij verdwijnt voor het uitvoeren."
 
 #: changes.rst:167
 msgid ""
 ":doc:`/formats/android` now preserves template-defined escaped markup "
 "formatting when saving translations."
 msgstr ""
+":doc:`/formats/android` behoudt nu sjabloon gedefinieerde geëscapete opmaak "
+"bij opslaan van vertalingen."
 
 #: changes.rst:168
 msgid ""
@@ -20854,18 +21069,25 @@ msgid ""
 "SSH repository errors now distinguish changed host keys from missing host "
 "keys and avoid automatically trusting host key replacements."
 msgstr ""
+"Fouten in SSH-opslagruimte onderscheiden nu gewijzigde hostsleutels van "
+"ontbrekende hostsleutels en vermijden het automatisch vertrouwen van "
+"vervangen van hostsleutels."
 
 #: changes.rst:170
 msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
+":ref:`machine-translation` behandelt te vertaalbare inhoud voor de rol "
+"reStructuredText niet langer als :ref:`placeables-mt`."
 
 #: changes.rst:171
 msgid ""
 ":ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation "
 "such as ``؟!`` and ``!؟``."
 msgstr ""
+":ref:`check-end-interrobang` herkent nu Arabische punctuatie voor "
+"interrobang, zoals ``؟!`` en ``!؟``."
 
 #: changes.rst:175
 msgid ""
@@ -20873,6 +21095,10 @@ msgid ""
 "party add-ons that used ``project_scope = True`` should override "
 "``can_install()`` to return ``False`` when ``component`` is not ``None``."
 msgstr ""
+"Het klasseattribuut ``project_scope`` voor add-ons is verwijderd. Add-ons "
+"van derde partijen die ``project_scope = True`` gebruikten zouden "
+"``can_install()`` moeten overschrijven om ``False`` terug te geven als "
+"``component`` niet ``None`` is."
 
 #: changes.rst:176
 msgid ""
@@ -20884,6 +21110,14 @@ msgid ""
 "project scope should override ``daily(component, project)`` directly to "
 "implement project-level logic."
 msgstr ""
+"De handtekening voor de methode ``daily()`` voor add-ons is gewijzigd. Add-"
+"ons die eerder ``daily(component)`` overschreven om werk per-onderdeel uit "
+"te voeren, zouden nu in plaats daarvan ``daily_component(component)`` moeten "
+"overschrijven. De basismethode ``daily()`` gaat automatisch door onderdelen "
+"en roept voor elk daarvan ``daily_component()`` aan. Add-ons die kunnen "
+"worden geoptimaliseerd om te werken in het projectbereik zouden ``daily"
+"(component, project)`` direct moeten overschrijven om logica op "
+"projectniveau te implementeren."
 
 #: changes.rst:177
 #, fuzzy
@@ -20908,13 +21142,11 @@ msgid ""
 "Uploaded project backups are now validated more strictly during import and "
 "suspicious ZIP archives can be rejected; see :ref:`projectbackup`."
 msgstr ""
+"Geüploade projectback-ups worden nu meer strikt gevalideerd bij het "
+"importeren en verdachte ZIP-archieven kunnen worden geweigerd; bekijk "
+":ref:`projectbackup`."
 
 #: changes.rst:186
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; "
-#| "please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most "
 "notably :setting:`ADMINS` syntax has changed in Django and "
@@ -20922,8 +21154,9 @@ msgid ""
 "adjust your settings accordingly."
 msgstr ""
 "Er zijn verscheidene wijzigingen in :file:`settings_example.py`, de meest "
-"opvallende zijn wijzigingen aan instellingen in ``AUTH_PASSWORD_VALIDATORS`` "
-"en ``INSTALLED_APPS``; pas uw instellingen overeenkomstig aan."
+"opvallende zijn :setting:`ADMINS`, syntaxis is gewijzigd in Django en "
+"``SOCIAL_AUTH_PIPELINE`` en ``INSTALLED_APPS`` moeten worden aangepast; pas "
+"uw instellingen overeenkomstig aan."
 
 #: changes.rst:187
 msgid ""
@@ -20932,6 +21165,10 @@ msgid ""
 "listeners only when IPv6 is available in the container runtime; use ``on`` "
 "to always enable them or ``off`` to disable them."
 msgstr ""
+"Als u Weblate uitvoert in Docker en vertrouwt op IPv6-listeners, bekijk dan "
+":envvar:`WEBLATE_NGINX_IPV6`. De standaard ``auto`` schakelt IPv6-listeners "
+"alleen in als IPv6 beschikbaar is in de containerruntime; gebruik ``on`` om "
+"ze altijd in te schakelen of ``off`` om ze uit te schakelen."
 
 #: changes.rst:188
 msgid ""
@@ -20943,6 +21180,13 @@ msgid ""
 "or :setting:`VCS_RESTRICT_PRIVATE`, and the related allowlists such "
 "as :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Uitgaande projectlinks, webhook-URL's en URL's voor opslagruimte of voor "
+"pushen, die verwijzen naar interne of niet-publieke adressen worden nu "
+"standaard geweigerd. Als uw opstelling met opzet interne adressen gebruikt, "
+"pas dan de overeenkomende instellingen voor beperkingen aan, zoals "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE` "
+"of :setting:`VCS_RESTRICT_PRIVATE`, en de gerelateerde lijst met toegestane "
+"vermeldingen, zoals :setting:`VCS_ALLOW_HOSTS`."
 
 #: changes.rst:194
 #, fuzzy
@@ -20973,24 +21217,24 @@ msgid ""
 "New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even "
 "with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Nieuwe instelling :setting:`PUBLIC_ENGAGE` om de pagina publiek te maken, "
+"zelfs met :setting:`REQUIRE_LOGIN`."
 
 #: changes.rst:207
-#, fuzzy
-#| msgid "Improved navigation in dictionary."
 msgid "Improved matching in :doc:`/admin/memory`."
-msgstr "Verbeterde navigatie in woordenboek."
+msgstr "Verbeterd overeenkomen in :doc:`/admin/memory`."
 
 #: changes.rst:208
-#, fuzzy
-#| msgid "number of strings with suggestions"
 msgid "Show the number of strings waiting for review in listings."
-msgstr "aantal tekenreeksen met suggesties"
+msgstr "Geef het aantal tekenreeksen weer dat op beoordelen wacht in lijsten."
 
 #: changes.rst:212
 msgid ""
 "Avoid displaying confusing status icons for ghost languages on project or "
 "category level."
 msgstr ""
+"Vermijd het weergeven van verwarrende pictogrammen voor de status van "
+"spooktalen op de niveaus voor project of categorie."
 
 #: changes.rst:213
 #, fuzzy
@@ -21016,7 +21260,7 @@ msgstr "Verbeterd valideren bij toevoegen/opslaan onderdeel."
 
 #: changes.rst:216
 msgid "Disabled throttling for incoming webhooks."
-msgstr ""
+msgstr "Afknijpen van inkomende webhooks uitgeschakeld."
 
 #: changes.rst:217
 #, fuzzy
@@ -21053,16 +21297,12 @@ msgid "*Released on February 26th 2026.*"
 msgstr "*Uitgegeven op 16 februari 2026.*"
 
 #: changes.rst:237
-#, fuzzy
-#| msgid ""
-#| ":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
-#| "resjson`, and :doc:`/formats/toml` are now supported file formats."
 msgid ""
 ":doc:`/formats/asciidoc`, :doc:`/formats/xliff` with Apple extensions, "
 "and :doc:`/formats/wxl` are now supported file formats."
 msgstr ""
-":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
-"resjson` en :doc:`/formats/toml` zijn nu ondersteunde bestandsindelingen."
+":doc:`/formats/asciidoc`, :doc:`/formats/xliff` met Apple-extensies, en "
+":doc:`/formats/wxl` zijn nu ondersteunde bestandsindelingen."
 
 #: changes.rst:238
 msgid ""
@@ -21070,6 +21310,9 @@ msgid ""
 "disposable e-mail domains during registration (Docker "
 "env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 msgstr ""
+"Toegevoegd :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` om optioneel "
+"wegwerp e-maildomeinen toe te staan bij registreren (Docker env: "
+":envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 
 #: changes.rst:242
 msgid ""
@@ -21077,27 +21320,23 @@ msgid ""
 "between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, "
 "and :guilabel:`Needs checking` states."
 msgstr ""
+"Verbeterde documentatie voor statussen van vertalingen om het verschil "
+"duidelijk te maken tussen de statussen :guilabel:`Bewerken nodig`, "
+":guilabel:`Herschrijven nodig` en :guilabel:`Controleren nodig`."
 
 #: changes.rst:243
-#, fuzzy
-#| msgid ""
-#| "Better preserve translation on source file change in :doc:`/formats/html` "
-#| "and :doc:`/formats/txt`."
 msgid ""
 "Improved initial import of translations for :doc:`/formats/markdown` "
 "and :doc:`/formats/html`."
 msgstr ""
-"Beter behouden van vertaling voor wijziging in bronbestand in :doc:`/formats/"
-"html` en :doc:`/formats/txt`."
+"Verbeterd initieel importeren van vertalingen voor :doc:`/formats/markdown` "
+"en :doc:`/formats/html`."
 
 #: changes.rst:247
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
 msgid ":ref:`addon-weblate.webhook.slack` properly delivers all events."
 msgstr ""
-":ref:`addon-weblate.webhook.webhook` afleveren van projectbrede "
-"gebeurtenissen."
+":ref:`addon-weblate.webhook.slack` levert op juiste wijze alle "
+"gebeurtenissen af."
 
 #: changes.rst:248
 #, fuzzy
@@ -21106,10 +21345,8 @@ msgid ":ref:`check-punctuation-spacing` better handles XML markup."
 msgstr ":ref:`check-punctuation-spacing` geldt niet langer voor Bretons."
 
 #: changes.rst:249
-#, fuzzy
-#| msgid ":doc:`/formats/excel` better handles blank cells."
 msgid ":doc:`/formats/stringsdict` better handle some plurals."
-msgstr ":doc:`/formats/excel` handelt blanco cellen beter af."
+msgstr ":doc:`/formats/stringsdict` handelt enkele meervoudsvormen beter af."
 
 #: changes.rst:250
 #, fuzzy
@@ -21118,32 +21355,37 @@ msgid "Improved plurals handling for language variants."
 msgstr "Verbeterde afhandeling van lange namen voor talen."
 
 #: changes.rst:251
-#, fuzzy
-#| msgid "Set up access control"
 msgid "Fixed API access control."
-msgstr "Stel toegangsbeheer in"
+msgstr "Vast API toegangsbeheer."
 
 #: changes.rst:253
 msgid "Users can manage their own notification subscriptions via the API."
 msgstr ""
+"Gebruikers kunnen hun eigen abonnementen voor notificatie beheren via de API."
 
 #: changes.rst:254
 msgid ""
 "Project administrators can manage teams in their projects via the API, "
 "according to access control rules."
 msgstr ""
+"Projectbeheerders kunnen teams in hun projecten beheren via de API, "
+"overeenkomstig de regels voor toegangscontrole."
 
 #: changes.rst:255
 msgid ""
 "The add-ons listing in the API now correctly honors user permissions "
 "(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 msgstr ""
+"De in de API vermelde add-ons houden nu correct rekening met de rechten van "
+"gebruikers (:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 
 #: changes.rst:257
 msgid ""
 "Fixed source column being cleared when translating monolingual :doc:`/"
 "formats/csv`."
 msgstr ""
+"Gerepareerd dat de bronkolom leeg wordt gemaakt bij het vertalen van "
+"enkeltalige :doc:`/formats/csv`."
 
 #: changes.rst:267
 msgid ""
@@ -21296,6 +21538,8 @@ msgid ""
 "Argument injection in the management console "
 "(:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)."
 msgstr ""
+"Argumentinjectie in de beheersconsole (:cve:`2026-24126` / :ghsa:`33fm-6gp7-"
+"4p47`)."
 
 #: changes.rst:302
 msgid ""
@@ -23710,20 +23954,14 @@ msgstr ""
 "de Project-:ref:`api`."
 
 #: changes.rst:1261
-#, fuzzy
-#| msgid ""
-#| "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
 msgid "Added :http:get:`/api/projects/(string:project)/machinery_settings/`."
 msgstr ""
-"Toegevoegd :http:get:`/api/projects/{string:project}/machinery_settings/`."
+"Toegevoegd :http:get:`/api/projects/(string:project)/machinery_settings/`."
 
 #: changes.rst:1262
-#, fuzzy
-#| msgid ""
-#| "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
 msgid "Added :http:post:`/api/projects/(string:project)/machinery_settings/`."
 msgstr ""
-"Toegevoegd :http:post:`/api/projects/{string:project}/machinery_settings/`."
+"Toegevoegd :http:post:`/api/projects/(string:project)/machinery_settings/`."
 
 #: changes.rst:1264
 msgid ""
@@ -26096,6 +26334,8 @@ msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
 "Malte L., StoyanDimitrov, 49"
 msgstr ""
+"Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
+"Malte L., StoyanDimitrov, 49"
 
 #: changes/contributors/5.10.1.rst:7 changes/contributors/5.10.2.rst:7
 #: changes/contributors/5.10.3.rst:7 changes/contributors/5.10.4.rst:7
@@ -26116,6 +26356,7 @@ msgid "Translations contributions"
 msgstr "Bijgedragen vertalingen"
 
 #: changes/contributors/5.10.rst:10
+#, fuzzy
 msgid ""
 "Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
 "来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
@@ -26134,6 +26375,22 @@ msgid ""
 "qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
 "leyakid803, 김인수, bovirus"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus"
 
 #: changes/contributors/5.10.1.rst:12 changes/contributors/5.10.2.rst:12
 #: changes/contributors/5.10.3.rst:12 changes/contributors/5.10.4.rst:12
@@ -26168,6 +26425,7 @@ msgid ""
 msgstr "Michal Čihař, gersona, Mehdi El Oualy"
 
 #: changes/contributors/5.10.1.rst:10
+#, fuzzy
 msgid ""
 "Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
 "来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
@@ -26188,8 +26446,27 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 
 #: changes/contributors/5.10.2.rst:10
+#, fuzzy
 msgid ""
 "Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
 "来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
@@ -26210,8 +26487,27 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 
 #: changes/contributors/5.10.3.rst:10
+#, fuzzy
 msgid ""
 "Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
 "来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
@@ -26233,6 +26529,25 @@ msgid ""
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
 "í Felli, Basheer Radman, dedakir923, xuars"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
+"í Felli, Basheer Radman, dedakir923, xuars"
 
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
 #: changes/contributors/5.11.2.rst:5 changes/contributors/5.11.2.rst:15
@@ -26250,18 +26565,25 @@ msgid "Michal Čihař"
 msgstr "Michal Čihař"
 
 #: changes/contributors/5.10.4.rst:10
+#, fuzzy
 msgid ""
 "Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
 "chen, Michal Čihař, cat"
 msgstr ""
+"Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
+"chen, Michal Čihař, cat"
 
 #: changes/contributors/5.11.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
 "Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 msgstr ""
+"Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
+"Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 
 #: changes/contributors/5.11.rst:10
+#, fuzzy
 msgid ""
 "Michal Čihař, Vinko Kastelic, Dick Groskamp, ButterflyOfFire, Amalia "
 "Nostalgia, VfBFan, Balázs Úr, william chen, Alexander Gabilondo, cat, Fjuro, "
@@ -26275,16 +26597,30 @@ msgid ""
 "Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
 "Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 msgstr ""
+"Michal Čihař, Vinko Kastelic, Dick Groskamp, ButterflyOfFire, Amalia "
+"Nostalgia, VfBFan, Balázs Úr, william chen, Alexander Gabilondo, cat, Fjuro, "
+"Ritwik, Rafael Fontenelle, Bee Crankson, Ldm Public, Christian Wia, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), தமிழ்நேரம், Emilia Meza, elid, xuars, Andi Chandler, "
+"RViktor, Tuukka Salminen, Yaron Shahrabani, Chang-Chia Tseng, Manuela Silva, "
+"Espea Tiviq, dedakir923, Besnik Bleta, ប៉ុកណូ រ៉ូយ៉ាល់, Dag Høidahl, Priit Jõerüüt, "
+"pan93412, Miguel A. Bouzada, Vũ Minh Nguyên, CyrTranslit, Avi Markovitz, "
+"Temuri Doghonadze, Matthaiks, Champ0999, Yauhen, Massimo Pissarello, "
+"Sketch6580, Максим Горпиніч, Emin Tufan Çetin, Agnieszka C, Ettore Atalan, "
+"Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
+"Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 
 #: changes/contributors/5.11.rst:15
+#, fuzzy
 msgid "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
-msgstr ""
+msgstr "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
 
 #: changes/contributors/5.11.1.rst:5
+#, fuzzy
 msgid "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
 
 #: changes/contributors/5.11.1.rst:10
+#, fuzzy
 msgid ""
 "xuars, Fjuro, Yaron Shahrabani, VfBFan, Michal Čihař, Yauhen, RViktor, cat, "
 "Andrei Stepanov, Ettore Atalan, 大学没毕业, Miguel A. Bouzada, ssantos, Emin "
@@ -26293,31 +26629,49 @@ msgid ""
 "Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
 "Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 msgstr ""
+"xuars, Fjuro, Yaron Shahrabani, VfBFan, Michal Čihař, Yauhen, RViktor, cat, "
+"Andrei Stepanov, Ettore Atalan, 大学没毕业, Miguel A. Bouzada, ssantos, Emin "
+"Tufan Çetin, Jeff Huang, Christian Wia, Murun Battulga, Сергей, Peter Vančo, "
+"Dick Groskamp, amano, Julien Humbert, தமிழ்நேரம், WofWca, dedakir923, Rafael "
+"Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
+"Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 
 #: changes/contributors/5.11.1.rst:15
+#, fuzzy
 msgid "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
 
 #: changes/contributors/5.11.2.rst:10
+#, fuzzy
 msgid ""
 "Yauhen, Michal Čihař, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
 "Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
 "dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
 "jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 msgstr ""
+"Yauhen, Michal Čihař, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 
 #: changes/contributors/5.11.4.rst:5
+#, fuzzy
 msgid "Michal Čihař, مهدي الوالي"
-msgstr ""
+msgstr "Michal Čihař, مهدي الوالي"
 
 #: changes/contributors/5.12.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, nijel, Kartik Ohri, مهدي الوالي, Gersona, Mehdi El Oualy, "
 "KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
 "michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 msgstr ""
+"Michal Čihař, nijel, Kartik Ohri, مهدي الوالي, Gersona, Mehdi El Oualy, "
+"KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
+"michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 
 #: changes/contributors/5.12.rst:10
+#, fuzzy
 msgid ""
 "Michal Čihař, Yauhen, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
 "Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
@@ -26337,35 +26691,68 @@ msgid ""
 "hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
 "Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 msgstr ""
+"Michal Čihař, Yauhen, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri, "
+"Miguel A. Bouzada, Yaron Shahrabani, Fjuro, Jose Delvani, Jim Spentzos, "
+"Michał Korczak, Taufik Adi Wicaksono, joel MKO, Ldm Public, Carmelo "
+"Serraino, Yu Ting, Alex, Yago Raña Gayoso, Boonsita Noijad, Massimo "
+"Pissarello, 大王叫我来巡山, rimasx, Abhinav Ohri, Любомир Василев, Manuela "
+"Silva, Juzé, Licaon Kter, Anon, Ecron, ButterflyOfFire, Milo Ivir, Yuliia "
+"Ozkan, Christian Wia, Nat A, Drugi Sapog, Martin Srebotnjak, "
+"searinminecraft, Chou Chamnan, Priit Jõerüüt, Matthaiks, Sketch6580, Максим "
+"Горпиніч, Сергей, cat, Roland Reck, Agnieszka C, VfBFan, Besnik Bleta, Dick "
+"Groskamp, Pierfrancesco Passerini, PriitUring, Ding User, 大学没毕业, Peter "
+"Vančo, pan93412, Κyriaki L, Marijn Scholtus, Emin Tufan Çetin, Zulfar, Oasis "
+"Tri, zenobit, Abduqadir Abliz, ssantos, தமிழ்நேரம், lm, gogu, Andi Chandler, "
+"hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
+"Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 
 #: changes/contributors/5.12.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, Kartik Ohri, AliceVisek, Gersona, KasukabeDefenceForce, "
 "ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
 "Yuki Noda, zoe, Zoe"
 msgstr ""
+"Michal Čihař, Kartik Ohri, AliceVisek, Gersona, KasukabeDefenceForce, "
+"ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
+"Yuki Noda, zoe, Zoe"
 
 #: changes/contributors/5.12.1.rst:10
+#, fuzzy
 msgid "VfBFan, qywter11 qywter11, Manuela Silva"
-msgstr ""
+msgstr "VfBFan, qywter11 qywter11, Manuela Silva"
 
 #: changes/contributors/5.12.2.rst:10
+#, fuzzy
 msgid ""
 "eulalio, Linerly, Peter Vančo, Yaron Shahrabani, VfBFan, Roland Reck, "
 "Manuela Silva, Abduqadir Abliz, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Zahid Rizky "
 "Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
 "Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 msgstr ""
+"eulalio, Linerly, Peter Vančo, Yaron Shahrabani, VfBFan, Roland Reck, "
+"Manuela Silva, Abduqadir Abliz, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Zahid Rizky "
+"Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
+"Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 
 #: changes/contributors/5.13.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, nijel, michael-smt, Kartik Ohri, مهدي الوالي, Benjamin Alan "
 "Jamie, Gersona, KarenKonou, Julian Wachholz, Jana, softworkz, Luc Didry, "
 "Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
 "Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, michael-smt, Kartik Ohri, مهدي الوالي, Benjamin Alan "
+"Jamie, Gersona, KarenKonou, Julian Wachholz, Jana, softworkz, Luc Didry, "
+"Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
+"Chilukuri"
 
 #: changes/contributors/5.13.rst:10
+#, fuzzy
 msgid ""
 "Emin Tufan Çetin, VfBFan, 大王叫我来巡山, Horus68, Aindriú Mac Giolla Eoin, "
 "Zulfar, Сергей, Besnik Bleta, Andi Chandler, Drugi Sapog, Eisuke Kawashima, "
@@ -26385,21 +26772,46 @@ msgid ""
 "Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
 "Alexander"
 msgstr ""
+"Emin Tufan Çetin, VfBFan, 大王叫我来巡山, Horus68, Aindriú Mac Giolla Eoin, "
+"Zulfar, Сергей, Besnik Bleta, Andi Chandler, Drugi Sapog, Eisuke Kawashima, "
+"wang, தமிழ்நேரம், Abduqadir Abliz, Yago Raña Gayoso, Manuela Silva, Arantxa, "
+"Linerly, Dick Groskamp, John, Peter Vančo, Jim Kats, WaldiS, caendeith, "
+"Michal Čihař, Florent, RViktor, hugoalh, Arun K Varghese, Wael Ibrahim, Juno "
+"Takano, Chang-Chia Tseng, eulalio, Fjuro, jonnysemon, Michael Neuendorf, "
+"Shizeeg Unadequatov, oxisol, Pierfrancesco Passerini, 大学没毕业, Любомир "
+"Василев, Ильсур Фаритович Ирназаров, Rafael Fontenelle, Yu Ting, J. Lavoie, "
+"Ilsur Irnazarov, Poesty Li, Xentrox Aero, amano, ButterflyOfFire, gfbdrgn, "
+"Zahid Rizky Fakhri, searinminecraft, Miguel A. Bouzada, pan93412, Mohammed "
+"Al Otaibi, Pexauteau Santander, Avi Markovitz, Helder Santana, qtm, "
+"Christian Wia, Ricky Tigg, Priit Jõerüüt, LucasMZ, VisionR1, ssantos, "
+"Yauhen, Clément Lyonnet, yangyangdaji, Максим Горпиніч, Matthaiks, Agnieszka "
+"C, Aleš Hakl, Yaron Shahrabani, Massimo Pissarello, 이정희, Dinh Nguyen, "
+"Martin Srebotnjak, Thunderstrike116, sletego, Sketch6580, 안정언, AlaxLima, "
+"Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
+"Alexander"
 
 #: changes/contributors/5.13.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, nijel, Benjamin Alan Jamie, Julian Wachholz, Jana, Nik "
 "Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
 "Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, Benjamin Alan Jamie, Julian Wachholz, Jana, Nik "
+"Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
+"Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 
 #: changes/contributors/5.13.1.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
 "Paul Harriet Asiñero"
 msgstr ""
+"Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
+"Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.1.rst:10
+#, fuzzy
 msgid ""
 "pan93412, eulalio, Zahid Rizky Fakhri, Maciej Olko, Aindriú Mac Giolla Eoin, "
 "Christian Wia, Fjuro, Brian Njoroge, ssantos, Junghyuk Kwon, hugoalh, Alexis "
@@ -26420,14 +26832,34 @@ msgid ""
 "Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
 "Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 msgstr ""
+"pan93412, eulalio, Zahid Rizky Fakhri, Maciej Olko, Aindriú Mac Giolla Eoin, "
+"Christian Wia, Fjuro, Brian Njoroge, ssantos, Junghyuk Kwon, hugoalh, Alexis "
+"Launay, Wolf, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Yaron Shahrabani, Marija "
+"Grineviciute, Milo Ivir, Данил Костенков, Dick Groskamp, abdelbasset "
+"jabrane, CyrTranslit, cat, Michal Čihař, VfBFan, Wuzzy, Michalis, Deleted "
+"User, Francisco Serrador, Adolfo Jayme Barrientos, Ricky Tigg, Nicolas Van "
+"Aarsen, Julien Humbert, Jérôme, Nifou, Miguel A. Bouzada, elid, RViktor, "
+"Taufik Adi Wicaksono, Reza Almanda, Sveinn í Felli, Massimo Pissarello, "
+"Kyotaro Iijima, amano, 이정희, WaldiS, tomkolp, Piotr Kołtun, Horus68, "
+"Manuela Silva, Alan Marques, Rafael Fontenelle, Alefsander Ribeiro "
+"Nascimento, Simona Iacob, Nicoara Alex, Golubev Alexander, Сергей, "
+"Blueberry, Mingun, xXx, Vin, BouenMarsh, gfbdrgn, Igor Polyakov, qtm, Alexey "
+"Napalkov, Julija Juli, Reno Tx, தமிழ்நேரம், Kaya Zeren, Yuri Chornoivan, Ihor "
+"Hordiichuk, Mirka Danylenko, Tymofii Lytvynenko, Andrij Mizyk, Максим "
+"Горпиніч, 大王叫我来巡山, Sketch6580, JY3, 大学没毕业, Xiang Heng Wei, "
+"yangyangdaji, Xzonn, Peter Dave Hello, 峡州仙士, Winston Sung, Toomore "
+"Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
+"Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 
 #: changes/contributors/5.13.1.rst:15
+#, fuzzy
 msgid "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
-msgstr ""
+msgstr "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.2.rst:10
+#, fuzzy
 msgid "Divarrek, VfBFan"
-msgstr ""
+msgstr "Divarrek, VfBFan"
 
 #: changes/contributors/5.13.2.rst:15
 #, fuzzy
@@ -26442,20 +26874,29 @@ msgid "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
 msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 
 #: changes/contributors/5.13.3.rst:10
+#, fuzzy
 msgid ""
 "Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
 "Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
 "Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 
 #: changes/contributors/5.14.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, softworkz, Gersona, Benjamin Alan Jamie, Kartik Ohri, Kai "
 "Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
 "Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, softworkz, Gersona, Benjamin Alan Jamie, Kartik Ohri, Kai "
+"Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
+"Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 
 #: changes/contributors/5.14.rst:10
+#, fuzzy
 msgid ""
 "Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
 "Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
@@ -26470,13 +26911,29 @@ msgid ""
 "webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
 "Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute, "
+"Peter Vančo, Laurent FAVOLE, Сергей, Royston Shufflebotham, Massimo "
+"Pissarello, Emin Tufan Çetin, Juno Takano, Horus68, Martin Srebotnjak, "
+"Altos, ovl-1, 이정희, Yauhen, cat, Jessica Patricio, Alejandro Moctezuma, "
+"Kristijan \\\"Fremen\\\" Velkovski, Liviu Roman, Sveinn í Felli, Yamin "
+"Siahmargooei, Besnik Bleta, Øjvind Fritjof Arnfred, Danial Behzadi, Miguel "
+"A. Bouzada, CRISTIAN ANDREI, Denis96, Ldm Public, ROSPL-GR2-2025, Dick "
+"Groskamp, Jim Kats, Graaati, coronabond, VfBFan, Любомир Василев, GitHub "
+"webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
+"Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 
 #: changes/contributors/5.14.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, Gersona, Kai Kewley, Raphael Michel, Benjamin Alan Jamie, "
 "michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
 "eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, Gersona, Kai Kewley, Raphael Michel, Benjamin Alan Jamie, "
+"michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
+"eulalio, Sketch6580"
 
 #: changes/contributors/5.14.1.rst:5
 #, fuzzy
@@ -26485,6 +26942,7 @@ msgid "Michal Čihař, Karen Konou, Gersona"
 msgstr "Michal Čihař, Gersona"
 
 #: changes/contributors/5.14.1.rst:10
+#, fuzzy
 msgid ""
 "Agnieszka C, Žiga Deisinger, Anthony Guéchoum, VfBFan, eulalio, Zahid Rizky "
 "Fakhri, Максим Горпиніч, Fjuro, Aindriú Mac Giolla Eoin, Peter Vančo, Dick "
@@ -26495,6 +26953,14 @@ msgid ""
 "学没毕业, Francisco Serrador, hoanghuy309, Arantxa, Denys Nykula, Martin "
 "Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 msgstr ""
+"Agnieszka C, Žiga Deisinger, Anthony Guéchoum, VfBFan, eulalio, Zahid Rizky "
+"Fakhri, Максим Горпиніч, Fjuro, Aindriú Mac Giolla Eoin, Peter Vančo, Dick "
+"Groskamp, Kyotaro Iijima, Pavel Miniutka, delvani, 大王叫我来巡山, Kaya "
+"Zeren, Øjvind Fritjof Arnfred, cat, mdfaruk896852-code, Michal Čihař, GitHub "
+"webhook, Besnik Bleta, Horus68, Hotripak, Aitor Astorga, Massimo Pissarello, "
+"Rafael Fontenelle, Sketch6580, Любомир Василев, Danial Behzadi, Milo Ivir, 大"
+"学没毕业, Francisco Serrador, hoanghuy309, Arantxa, Denys Nykula, Martin "
+"Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 
 #: changes/contributors/5.14.1.rst:15
 #, fuzzy
@@ -26503,13 +26969,18 @@ msgid "Michal Čihař, DeMiro5001, Gersona, Steffen"
 msgstr "Michal Čihař, Gersona"
 
 #: changes/contributors/5.15.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, michael-smt, Steven Loria, Tudor Gradinaru, Karen Konou, "
 "Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
 "Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Steven Loria, Tudor Gradinaru, Karen Konou, "
+"Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
+"Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.rst:10
+#, fuzzy
 msgid ""
 "Miguel A. Bouzada, Turkish Language Team 🇹🇷, Francisco Serrador, "
 "hoanghuy309, Priit Jõerüüt, Ldm Public, eulalio, ssantos, Christian Wia, "
@@ -26526,20 +26997,41 @@ msgid ""
 "Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
 "Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 msgstr ""
+"Miguel A. Bouzada, Turkish Language Team 🇹🇷, Francisco Serrador, "
+"hoanghuy309, Priit Jõerüüt, Ldm Public, eulalio, ssantos, Christian Wia, "
+"Andi Chandler, Joel A, Peter Vančo, Dick Groskamp, Besnik Bleta, Dũng Vũ, "
+"Nicola Bortoletto, Ricky Tigg, Chang-Chia Tseng, 大学没毕业, Yaron "
+"Shahrabani, Karen Konou, Michal Čihař, Minh Tâm Nguyễn, VfBFan, Miniontoby, "
+"pan93412, ButterflyOfFire, 이정희, Wirjadisastra Wiki, Sketch6580, liilliil, "
+"dreigiau, Blueberry, Jim Kats, Arif Budiman, marvel at flowers, 大王叫我来巡"
+"山, Golubev Alexander, Alyaksandr Koshal, Yauhen, 109247019824, Сергей, "
+"Manuela Silva, ابْنُ السَدِيمِ, Changseop Yeom, Daniel Nylander, Kristoffer "
+"Grundström, Annamurat Ovezov, gattyan61, Fulup Jakez, Milo Ivir, پرویز قادر, "
+"Xusi Fons, Anusuk Sangubon, Matthaiks, Gašper Pintar, Максим Горпиніч, "
+"Aindriú Mac Giolla Eoin, Fjuro, Любомир Василев, Massimo Pissarello, "
+"Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
+"Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 
 #: changes/contributors/5.15.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
 "Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
+"Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.1.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
 "aditi, Edison Dao, biplopghimire"
 msgstr ""
+"Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
+"aditi, Edison Dao, biplopghimire"
 
 #: changes/contributors/5.15.1.rst:10
+#, fuzzy
 msgid ""
 "eulalio, Yauhen, Emin Tufan Çetin, Priit Jõerüüt, Любомир Василев, Fjuro, "
 "Zahid Rizky Fakhri, Takeru Mikenu, ButterflyOfFire, 김인수, Manuela Silva, "
@@ -26548,20 +27040,33 @@ msgid ""
 "Massimo Pissarello, មនុញ្ញ - MᴇᴀнNսɴн, Jim Kats, Aindriú Mac Giolla Eoin, "
 "VfBFan"
 msgstr ""
+"eulalio, Yauhen, Emin Tufan Çetin, Priit Jõerüüt, Любомир Василев, Fjuro, "
+"Zahid Rizky Fakhri, Takeru Mikenu, ButterflyOfFire, 김인수, Manuela Silva, "
+"Pierfrancesco Passerini, Michal Čihař, 大王叫我来巡山, Dick Groskamp, Максим "
+"Горпиніч, Matthaiks, γλωσσολαλιά, Turkish Language Team 🇹🇷, Besnik Bleta, "
+"Massimo Pissarello, មនុញ្ញ - MᴇᴀнNսɴн, Jim Kats, Aindriú Mac Giolla Eoin, "
+"VfBFan"
 
 #: changes/contributors/5.15.1.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
 "biplopghimire"
 msgstr ""
+"Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
+"biplopghimire"
 
 #: changes/contributors/5.15.2.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
 "Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
+"Benjamin Alan Jamie"
 
 #: changes/contributors/5.15.2.rst:10
+#, fuzzy
 msgid ""
 "Jim Kats, Horus68, Francisco Serrador, VfBFan, Fjuro, Andi Chandler, Eduard "
 "Ereza Martínez, Takeru Mikenu, eulalio, Mickaël Binos, Любомир Василев, "
@@ -26574,21 +27079,39 @@ msgid ""
 "Sangubon, پرویز قادر, Fulup Jakez, Matthaiks, Besnik Bleta, Hotripak, 大王叫"
 "我来巡山, Agnieszka C"
 msgstr ""
+"Jim Kats, Horus68, Francisco Serrador, VfBFan, Fjuro, Andi Chandler, Eduard "
+"Ereza Martínez, Takeru Mikenu, eulalio, Mickaël Binos, Любомир Василев, "
+"Peter Vančo, Mateus Liberale Gomes, Hanu E., Pierfrancesco Passerini, amano, "
+"Blueberry, ButterflyOfFire, Basheer Radman, therealmate, មនុញ្ញ - MᴇᴀнNսɴн, "
+"தமிழ்நேரம், EdoAug, Zahid Rizky Fakhri, Milo Ivir, Kristoffer Grundström, "
+"searinminecraft, Kyotaro Iijima, adecorte, Priit Jõerüüt, Rhoslyn Prys, Shah "
+"Zaman Pathan, Daniel Nylander, Michal Čihař, Kristijan \\\"Fremen\\\" "
+"Velkovski, Aindriú Mac Giolla Eoin, Tuomas Hietala, 이정희, pan93412, Anusuk "
+"Sangubon, پرویز قادر, Fulup Jakez, Matthaiks, Besnik Bleta, Hotripak, 大王叫"
+"我来巡山, Agnieszka C"
 
 #: changes/contributors/5.15.2.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
 "alexis-pinon, Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
+"alexis-pinon, Benjamin Alan Jamie"
 
 #: changes/contributors/5.16.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, Kartik Ohri, Karen Konou, Serrano Pereira, moonchoe, "
 "softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Serrano Pereira, moonchoe, "
+"softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 
 #: changes/contributors/5.16.rst:10
+#, fuzzy
 msgid ""
 "தமிழ்நேரம், Andi Chandler, Daniel Nylander, Michal Čihař, VfBFan, "
 "ButterflyOfFire, Emin Tufan Çetin, eulalio, Milo Ivir, Yuri Chornoivan, 大王"
@@ -26605,19 +27128,39 @@ msgid ""
 "Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
 "Duverne, 大学没毕业, Hotripak, delvani, A J."
 msgstr ""
+"தமிழ்நேரம், Andi Chandler, Daniel Nylander, Michal Čihař, VfBFan, "
+"ButterflyOfFire, Emin Tufan Çetin, eulalio, Milo Ivir, Yuri Chornoivan, 大王"
+"叫我来巡山, Zahid Rizky Fakhri, Peter Vančo, Kyotaro Iijima, amano, "
+"Hyeonjeong Lee, Yaron Shahrabani, Massimo Pissarello, Blueberry, Aindriú Mac "
+"Giolla Eoin, CRISTIAN ANDREI, Максим Горпиніч, Shah Zaman Pathan, Eduard "
+"Ereza Martínez, Alexis Launay, Luis Carlos González Morales, AlaxLima, "
+"Andrei Stepanov, Pierfrancesco Passerini, Valentin Ljuba, Anusuk Sangubon, "
+"Supaplex, Besnik Bleta, Matthaiks, Agnieszka C, Sketch6580, Mickaël Binos, U "
+"G, Kristoffer Grundström, Fjuro, 109247019824, Miguel A. Bouzada, Jim "
+"Spentzos, Fulup Jakez, Jim Kats, Omer I.S., nautilusx, jonnysemon, Martin "
+"Srebotnjak, Umida Hikmatilla, Arif Budiman, Ldm Public, pan93412, Heimen "
+"Stoffels, Romhányi-Kakucska Viktor, Pedro Leite, RViktor, Dick Groskamp, "
+"Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
+"Duverne, 大学没毕业, Hotripak, delvani, A J."
 
 #: changes/contributors/5.16.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, Kartik Ohri, moonchoe, Karen Konou, softworkz, Serhii H., "
 "shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11"
 msgstr ""
+"Michal Čihař, Kartik Ohri, moonchoe, Karen Konou, softworkz, Serhii H., "
+"shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11"
 
 #: changes/contributors/5.16.1.rst:5
+#, fuzzy
 msgid "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.1.rst:10
+#, fuzzy
 msgid ""
 "Heimen Stoffels, Michal Čihař, delvani, Yaron Shahrabani, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/"
 "ℂ𝕠𝕠𝕠𝕝), Priit Jõerüüt, Zahid Rizky Fakhri, Pierfrancesco Passerini, Massimo "
@@ -26630,10 +27173,21 @@ msgid ""
 "justcontributor, Valentin Ljuba, Daniel Nylander, Arantxa, Marino Díaz, "
 "Artemka"
 msgstr ""
+"Heimen Stoffels, Michal Čihař, delvani, Yaron Shahrabani, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/"
+"ℂ𝕠𝕠𝕠𝕝), Priit Jõerüüt, Zahid Rizky Fakhri, Pierfrancesco Passerini, Massimo "
+"Pissarello, Romhányi-Kakucska Viktor, Mickaël Binos, Milo Ivir, Blueberry, 大"
+"王叫我来巡山, VfBFan, Besnik Bleta, Nikolay Korotkiy, Pavel Borecki, "
+"Matthaiks, Agnieszka C, Emin Tufan Çetin, Agustina Giselle, Fjuro, RViktor, "
+"ojppe, eulalio, Pavel Miniutka, Kristoffer Grundström, Aindriú Mac Giolla "
+"Eoin, reducedradius, Максим Горпиніч, Руслан Пузич, Francisco Serrador, "
+"Kyotaro Iijima, Petr Kadlec, தமிழ்நேரம், Dick Groskamp, PICOPress, "
+"justcontributor, Valentin Ljuba, Daniel Nylander, Arantxa, Marino Díaz, "
+"Artemka"
 
 #: changes/contributors/5.16.1.rst:15
+#, fuzzy
 msgid "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.2.rst:5
 #, fuzzy
@@ -26642,13 +27196,18 @@ msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgstr "Michal Čihař, Gersona"
 
 #: changes/contributors/5.17.rst:5
+#, fuzzy
 msgid ""
 "Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
 "Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
 "Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
+"Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
+"Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.rst:10
+#, fuzzy
 msgid ""
 "PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
 "Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
@@ -26668,12 +27227,32 @@ msgid ""
 "jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
 "Gayoso, anas agha, Ettore Atalan"
 msgstr ""
+"PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
+"Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
+"Zahid Rizky Fakhri, symegac, Francesco Marinucci, Michal Čihař, Hyeonjeong "
+"Lee, ovl-1, Tarás Lavrentiev, Edson Wolf, Yuri Chornoivan, Omer I.S., "
+"Arantxa, Tuomas Hietala, Milo Ivir, justcontributor, Kristoffer Grundström, "
+"Andi Chandler, Andrei Stepanov, ButterflyOfFire, Átila França, Мария "
+"Рангелова, EESF-2, CzaroGame, Agnieszka C, Manuela Silva, پرویز قادر, "
+"JiZPaper, Fjuro, Alexis Launay, tfr tint, Candied-Ecard, Kyotaro Iijima, "
+"Priit Jõerüüt, Matthaiks, Besnik Bleta, delvani, Mickaël Binos, VfBFan, UDP, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, mohammadA, 大王叫我来巡山, "
+"Sketch6580, Dick Groskamp, Heimen Stoffels, Yaron Shahrabani, Любомир "
+"Василев, Максим Горпиніч, Emin Tufan Çetin, Horus68, Sjur N Moshagen, Peter "
+"Vančo, Romhányi-Kakucska Viktor, ZayedRashid, Julien Lepiller, Massimo "
+"Pissarello, Jeff Huang, ojppe, தமிழ்நேரம், ibragimov, Sylvestre Ledru, Ldm "
+"Public, pan93412, Jernej Pangerc, Luciana Waldbaur, username-generic, "
+"jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
+"Gayoso, anas agha, Ettore Atalan"
 
 #: changes/contributors/5.17.rst:15
+#, fuzzy
 msgid ""
 "Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
+"smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -34365,16 +34944,12 @@ msgid "Django 3.1 is now required."
 msgstr "Django 3.1 is nu vereist."
 
 #: changes/v4.rst:941
-#, fuzzy
-#| msgid ""
-#| "In case you are using MySQL or MariaDB, the minimal required versions "
-#| "have increased, see :ref:`mysql`."
 msgid ""
 "In case you are using MySQL or MariaDB, the minimal required versions have "
 "increased."
 msgstr ""
 "In het geval u MySQL of MariaDB gebruikt, zijn de minimaal vereiste versies "
-"verhoogd, bekijk :ref:`mysql`."
+"verhoogd."
 
 #: changes/v4.rst:945
 msgid ""
@@ -35632,6 +36207,11 @@ msgid ""
 "``Project``, ``Unit``, ``Change``, and ``User``. Add-on configuration forms "
 "should subclass ``weblate.addons.forms.BaseAddonForm``."
 msgstr ""
+"Add-onhooks ontvangen ORM-objecten vanuit de modules ``weblate.*.models``, "
+"inclusief ``Addon``, ``Component``, ``Translation``, ``Category``, "
+"``Project``, ``Unit``, ``Change`` en ``User``. Formulieren voor "
+"configuraties van add-ons zouden de subklasse "
+"``weblate.addons.forms.BaseAddonForm`` moeten vermelden."
 
 #: contributing/addons.rst:16
 msgid "Here is an example add-on:"
@@ -35650,6 +36230,10 @@ msgid ""
 "type their own configuration by parameterizing ``BaseAddon`` and "
 "``BaseAddonForm``."
 msgstr ""
+"Configuratie van de add-on wordt opgeslagen in het JSON-veld "
+"``Addon.configuration``, dus het model behoudt de vastgelegde gegevens als "
+"ruwe JSON. Implementaties van add-ons mogen hun eigen configuratie typeren "
+"met de parameters ``BaseAddon`` en ``BaseAddonForm``."
 
 #: contributing/addons.rst:29
 msgid ""
@@ -35660,6 +36244,13 @@ msgid ""
 "``self.configuration`` or ``self.get_configuration()`` so it sees normalized "
 "defaults instead of raw persisted JSON."
 msgstr ""
+"Gebruik twee klassen ``TypedDict`` als de opgeslagen JSON kan verschillen "
+"van de vorm in runtime: een toestemmende, gewoonlijk ``total=False``, "
+"opgeslagen configuratie voor verouderde of ontbrekende waarden en een totale "
+"runtime-configuratie die wordt teruggegeven door ``normalize_configuration()"
+"``. Code voor de runtime-add-on zou ``self.configuration`` of "
+"``self.get_configuration()`` moeten lezen, zodat het genormaliseerde "
+"standaarden ziet in plaats van ruw vastgelegde JSON."
 
 #: contributing/addons.rst:36
 msgid ""
@@ -35668,6 +36259,10 @@ msgid ""
 "Keep the form's ``serialize_form()`` return type aligned with the stored "
 "configuration type."
 msgstr ""
+"Voor eenvoudige add-ons waar de opgeslagen en runtime vormen identiek zijn, "
+"definieer een enkele ``TypedDict`` en gebruik die voor beide ``BaseAddon`` "
+"typen parameters. Houdt het terugkeertype ``serialize_form()`` van het "
+"formulier in lijn met het opgeslagen configuratietype."
 
 #: contributing/code.rst:2
 msgid "Weblate source code"
@@ -36519,12 +37114,6 @@ msgid "Building the documentation locally"
 msgstr "De documentatie lokaal bouwen"
 
 #: contributing/documentation.rst:28
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in the ``docs`` dependency group "
-#| "in :file:`pyproject.toml`. The build can be performed using :program:`ci/"
-#| "run-docs`."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`. If you "
@@ -36533,9 +37122,10 @@ msgid ""
 "sufficient."
 msgstr ""
 "Documentatie kan ook lokaal worden bewerkt en gebouwd, de vereisten voor "
-"Python staan in de groep met afhankelijkheden ``docs`` "
-"in :file:`pyproject.toml`. Het bouwen kan worden uitgevoerd met :program:`ci/"
-"run-docs`."
+"Python staan in de groep met afhankelijkheden ``docs`` in "
+":file:`pyproject.toml`. Als u al de volledige ontwikkelomgeving gebruikt is "
+"``uv sync --all-extras --dev`` voldoende. Voor alleen werk aan documentatie "
+"is ``uv sync --group docs`` voldoende."
 
 #: contributing/documentation.rst:33
 #, fuzzy
@@ -36548,6 +37138,8 @@ msgid ""
 "The :program:`ci/run-docs` wrapper builds the documentation with warnings "
 "treated as errors."
 msgstr ""
+"De wrapper :program:`ci/run-docs` bouwt de documentatie met waarschuwingen "
+"die worden behandelt als fouten."
 
 #: contributing/documentation.rst:45
 msgid ""
@@ -36591,32 +37183,32 @@ msgid ""
 "This target regenerates the snippets currently used by the documentation, "
 "including:"
 msgstr ""
+"Dit doel maakt de momenteel door de documentatie gebruikte snippers opnieuw, "
+"inclusief:"
 
 #: contributing/documentation.rst:65
 msgid "add-on events, built-in add-ons, and common add-on parameters"
 msgstr ""
+"add-on gebeurtenissen, ingebouwde add-ons en veel voorkomende parameters "
+"voor add-ons"
 
 #: contributing/documentation.rst:66
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "machine translation services"
-msgstr "Programma's voor machinevertaling"
+msgstr "services voor machinevertalingen"
 
 #: contributing/documentation.rst:67
 msgid "file format parameters and file format feature tables"
 msgstr ""
+"parameters voor bestandsindeling en tabellen voor mogelijkheden van "
+"bestandsindelingen"
 
 #: contributing/documentation.rst:68
-#, fuzzy
-#| msgid "List of built-in roles"
 msgid "permissions and built-in roles"
-msgstr "Lijst met ingebouwde rollen"
+msgstr "rechten en ingebouwde rollen"
 
 #: contributing/documentation.rst:69
-#, fuzzy
-#| msgid "Checks and fixups"
 msgid "checks and check flags"
-msgstr "Controles en reparaties"
+msgstr "controles en vlaggen voor controles"
 
 #: contributing/documentation.rst:71
 msgid ""
@@ -36625,6 +37217,11 @@ msgid ""
 "includes three generated files for events, built-in add-ons, and common add-"
 "on parameters, while obsolete add-ons are maintained directly in the page."
 msgstr ""
+"Houd handmatig onderhouden tekst op de pagina van de ouder-documentatie in "
+"plaats van het toe te voegen aan automatisch gemaakte snippers. "
+"Bijvoorbeeld: :doc:`/admin/addons` bevat drie gemaakte bestanden voor "
+"gebeurtenissen, ingebouwde add-ons en veel voorkomende parameters voor add-"
+"ons, terwijl overbodige add-ons direct op de pagina worden onderhouden."
 
 #: contributing/documentation.rst:76
 msgid ""
@@ -36632,6 +37229,10 @@ msgid ""
 "are documented in :doc:`/admin/management`, and the exact commands used by "
 "``update-docs`` are listed in :file:`docs/Makefile`."
 msgstr ""
+"Wanneer u slechts een deel opnieuw moet maken, zijn de individuele "
+"beheersopdrachten gedocumenteerd in :doc:`/admin/management` en de exacte "
+"opdrachten die worden gebruikt door ``update-docs`` wordne vermeld in "
+":file:`docs/Makefile`."
 
 #: contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -37423,6 +38024,9 @@ msgid ""
 "`translate-toolkit`_, the library to manipulate the translation files, "
 "originally third-party library but now maintained by Weblate."
 msgstr ""
+"`translate-toolkit`_, de bibliotheek om de vertaalbestanden te bewerken, van "
+"origine een bibliotheek van een derde partij, maar nu onderhouden door "
+"Weblate."
 
 #: contributing/modules.rst:20
 msgid "Extending built-in language definitions"
@@ -37763,16 +38367,24 @@ msgid ""
 "in :file:`pyproject.toml`, so installing those dependencies "
 "makes :program:`prek` available."
 msgstr ""
+"De gemakkelijkste benadering om dit allemaal af te dwingen is door "
+":program:`prek` te installeren. Dit is een herimplementatie van het "
+"gereedschap `pre-commit`_, gebruikt door Weblate. Het is opgenomen in de "
+"afhankelijkheden voor ontwikkeling die zijn vermeld in "
+":file:`pyproject.toml`, dus het installeren van die afhankelijkheden maakt "
+":program:`prek` beschikbaar."
 
 #: contributing/snippets/code-guide.rst:89
 msgid "To check all files manually, run:"
-msgstr ""
+msgstr "Alle bestanden handmatig controleren, voer uit:"
 
 #: contributing/snippets/code-guide.rst:95
 msgid ""
 "If you prefer the original :program:`pre-commit` client, it uses the same "
 "configuration from :file:`.pre-commit-config.yaml`."
 msgstr ""
+"Wanneer u liever de originele cliënt :program:`pre-commit` gebruikt, het "
+"gebruikt dezelfde configuratie uit :file:`.pre-commit-config.yaml`."
 
 #: contributing/snippets/code-guide.rst:101
 msgid "Coding securely"
@@ -37895,10 +38507,8 @@ msgid "Clone the Weblate source code:"
 msgstr "Kloon de broncode van Weblate:"
 
 #: contributing/start.rst:30
-#, fuzzy
-#| msgid "Creating a Python module"
 msgid "Create a Python environment:"
-msgstr "Een module voor Python maken"
+msgstr "Een omgeving voor Python maken:"
 
 #: contributing/start.rst:37
 msgid ""
@@ -38138,17 +38748,20 @@ msgstr ""
 
 #: contributing/submodules.rst:2
 msgid "Subprojects and embedded code"
-msgstr ""
+msgstr "Subprojecten en ingebedde code"
 
 #: contributing/submodules.rst:4
 msgid ""
 "Weblate would not be possible without other projects it depends on. This "
 "document describes how other code is used in Weblate."
 msgstr ""
+"Weblate zou niet mogelijk zijn zonder andere projecten waarvan het "
+"afhankelijk is. Dit document beschrijft hoe andere code in Weblate wordt "
+"gebruikt."
 
 #: contributing/submodules.rst:8
 msgid "Vendored frontend code"
-msgstr ""
+msgstr "Ingebouwde code aan de voorzijde"
 
 #: contributing/submodules.rst:10
 msgid ""
@@ -38157,10 +38770,14 @@ msgid ""
 "REUSE as described in :doc:`license`. The up-to-date list of dependencies "
 "can be reviewed in :ref:`sbom`."
 msgstr ""
+"Weblate heeft verscheidene bibliotheken van JavaScript ingebouwd. Het proces "
+"wordt beschreven in :doc:`frontend` en de licentiëring van elke ingebouwde "
+"bibliotheek is gedocumenteerd via REUSE, zoals beschreven in :doc:`license`. "
+"De up-to-date lijst met afhankelijkheden kan worden bekeken in :ref:`sbom`."
 
 #: contributing/submodules.rst:16
 msgid "SPDX license data"
-msgstr ""
+msgstr "SPDX licentiegegevens"
 
 #: contributing/submodules.rst:18
 msgid ""
@@ -38168,6 +38785,9 @@ msgid ""
 "and :file:`weblate/utils/licensedata.py` is generated using :file:`scripts/"
 "generate-license-data.py`."
 msgstr ""
+"De SPDX licentiegegevens zijn opgenomen als een submodule van Git in de "
+"broncode en :file:`weblate/utils/licensedata.py` is gemaakt met "
+":file:`scripts/generate-license-data.py`."
 
 #: contributing/submodules.rst:23
 #, fuzzy
@@ -38181,6 +38801,9 @@ msgid ""
 "repo.*.tar` are generated from https://github.com/WeblateOrg/test, "
 "see :ref:`test-data`."
 msgstr ""
+"De test-opslagruimten :file:`weblate/trans/tests/data/test-base-repo.*.tar` "
+"zijn gemaakt vanuit https://github.com/WeblateOrg/test, bekijk :ref:`test-"
+"data`."
 
 #: contributing/submodules.rst:31
 msgid ""
@@ -38189,6 +38812,10 @@ msgid ""
 "in :ref:`sbom`. The most important dependencies are also described "
 "in :ref:`python-deps`."
 msgstr ""
+"Weblate zou niet mogelijk kunnen zijn zonder heel veel afhankelijkheden van "
+"derde partijen. De huidige afhankelijkheden staan in :file:`pyproject.toml` "
+"en kunnen worden bekeken in :ref:`sbom`. De meest belangrijke "
+"afhankelijkheden worden ook beschreven in :ref:`python-deps`."
 
 #: contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -38255,6 +38882,7 @@ msgstr "Code beveiliging scannen met `CodeQL <https://codeql.github.com/>`_."
 #: contributing/tests.rst:26
 msgid "Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_."
 msgstr ""
+"Testen van visuele wijzigingen gebruikt `Argos CI <https://argos-ci.com>`_."
 
 #: contributing/tests.rst:27
 msgid ""
@@ -38262,6 +38890,9 @@ msgid ""
 "third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_ "
 "framework."
 msgstr ""
+"Code-opmaak gebruikt `prek <https://pypi.org/project/prek/>`_, een snellere "
+"herimplementatie van derde partij van het framewerk `pre-commit <https://pre-"
+"commit.com/>`_."
 
 #: contributing/tests.rst:30
 msgid "Migration testing from all supported releases"
@@ -38871,13 +39502,13 @@ msgstr "Dupliceer bestandsmasker voor gekoppelde onderdelen"
 
 #: devel/alerts.rst:26
 msgid "Conflicting merge request repository setup"
-msgstr ""
+msgstr "Opstelling opslagruimte voor conflicterende samenvoegverzoeken"
 
 #: devel/alerts.rst:27
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
-msgstr "Configureert :setting:`UNUSED_ALERT_DAYS`."
+msgstr ""
+"Onderdeel lijkt niet te worden gebruikt (te configureren met "
+":setting:`UNUSED_ALERT_DAYS`)"
 
 #: devel/alerts.rst:29
 msgid ""
@@ -38894,6 +39525,9 @@ msgid ""
 "using :setting:`WEBSITE_ALERTS_ENABLED`, in which case Weblate will no "
 "longer generate alerts for unreachable project websites."
 msgstr ""
+"Controles voor beschikbaarheid van projectwebsites kan worden uitgeschakeld "
+"met :setting:`WEBSITE_ALERTS_ENABLED`, in welk geval Weblate niet langer "
+"meldingen zal maken voor onbereikbare websites."
 
 #: devel/alerts.rst:36
 msgid ""
@@ -38912,10 +39546,8 @@ msgstr ""
 "Een onderdeel met zowel gedupliceerde tekenreeksen en talen ziet er zo uit:"
 
 #: devel/alerts.rst:45
-#, fuzzy
-#| msgid "Configure repository integration:"
 msgid "Conflicting repository setup"
-msgstr "Integratie van de opslagruimte configureren:"
+msgstr "Conflicterende opstelling van de opslagruimte"
 
 #: devel/alerts.rst:47
 msgid ""
@@ -38924,6 +39556,11 @@ msgid ""
 "workflows, and direct pushes to Git repositories. Such a setup can overwrite "
 "the shared branch."
 msgstr ""
+"Deze melding wordt weergegeven als meerdere onderdelen van Git zijn "
+"geconfigureerd om naar dezelfde opslagruimte en dezelfde branch te pushen. "
+"Dit omvat werkstromen voor pull of merge requests en direct pushen naar "
+"opslagruimten van Git. Een dergelijk opstelling kan de gedeelde branch "
+"overschrijven."
 
 #: devel/alerts.rst:52
 msgid ""
@@ -38931,6 +39568,9 @@ msgid ""
 "each component or share the repository between components using a "
 "``weblate://project/component`` repository URL."
 msgstr ""
+"Configureer, om dit op te lossen, ofwel een andere :guilabel:`Push branch` "
+"voor elk onderdeel of deel de opslagruimte tussen onderdelen met een URL "
+"voor de opslagruimte ``weblate://project/component``."
 
 #: devel/community.rst:2
 msgid "Building a translators community"
@@ -39581,14 +40221,6 @@ msgid "String extraction for Weblate CDN"
 msgstr "Tekenreeks uitnemen voor Weblate CDN"
 
 #: devel/html.rst:67
-#, fuzzy
-#| msgid ""
-#| "The translation strings have to be present in Weblate. You can either "
-#| "manage these manually, use API to create them or list files or URLs "
-#| "using :guilabel:`Extract strings from HTML files` and Weblate will "
-#| "extract them automatically. The files have to present in the repository "
-#| "or contain remote URLs which will be download and parsed regularly by "
-#| "Weblate."
 msgid ""
 "The translation strings have to be present in Weblate. You can either manage "
 "these manually, use API to create them or list files or URLs "
@@ -39603,7 +40235,9 @@ msgstr ""
 "lijsten zetten of URL's met :guilabel:`Tekenreeksen uitnemen uit HTML-"
 "bestanden` en Weblate zal ze automatisch uitnemen. De bestanden moeten "
 "aanwezig zijn in de opslagruimte of URL's op afstand bevatten die regelmatig "
-"zullen worden gedownload en geparset door Weblate."
+"zullen worden gedownload en geparset door Weblate. URL's op afstand zijn "
+"beperkt door :setting:`ALLOWED_ASSET_DOMAINS`, inclusief eventuele doelen "
+"voor verwijzing."
 
 #: devel/html.rst:74
 msgid ""
@@ -39999,12 +40633,6 @@ msgid "Managing the local VCS repository"
 msgstr "Beheren van de lokale opslagruimte van VCS"
 
 #: devel/integration.rst:166
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translations in its underlying version control "
-#| "repository. It is suggested to be connected to a remote one, but internal-"
-#| "only setup is also possible. The :guilabel:`Repository maintenance` "
-#| "allows controlling this repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
@@ -40015,7 +40643,9 @@ msgstr ""
 "Weblate slaat alle vertalingen op in zijn onderliggende opslagruimte voor "
 "versiebeheer. Het wordt verondersteld verbonden te zijn met een op afstand, "
 "maar een opstelling alleen-intern is ook mogelijk. Het :guilabel:`Onderhoud "
-"opslagruimte` maakt het mogelijk deze opslagruimte te beheren."
+"opslagruimte` maakt het mogelijk deze opslagruimte te beheren. Voor een "
+"gedetailleerde beschrijving van de beschikbare acties, bekijk "
+":ref:`repository-maintenance`."
 
 #: devel/integration.rst:174
 msgid ""
@@ -40985,7 +41615,7 @@ msgstr "Te vertalen document"
 
 #: devel/reporting-example.rst:2
 msgid "Edits total"
-msgstr ""
+msgstr "Totaal aantal bewerkingen"
 
 #: devel/reporting-example.rst:2
 #, fuzzy
@@ -41085,7 +41715,7 @@ msgstr "`Doeltekens`"
 
 #: devel/reporting-example.rst:2
 msgid "Count edited"
-msgstr ""
+msgstr "Aantal bewerkte"
 
 #: devel/reporting-example.rst:2
 #, fuzzy
@@ -41119,7 +41749,7 @@ msgstr "`Doeltekens`"
 
 #: devel/reporting-example.rst:4
 msgid "John Done"
-msgstr ""
+msgstr "Jan Uitgevoerd"
 
 #: devel/reporting-example.rst:4
 #, fuzzy
@@ -41128,12 +41758,13 @@ msgid "john@example.com"
 msgstr "noreply@example.com"
 
 #: devel/reporting-example.rst:4
+#, fuzzy
 msgid "2025-03-13T14:08:02.681269+00:00"
-msgstr ""
+msgstr "2025-03-13T14:08:02.681269+00:00"
 
 #: devel/reporting-example.rst:5
 msgid "Jane Done"
-msgstr ""
+msgstr "Jane Uitgevoerd"
 
 #: devel/reporting-example.rst:5
 #, fuzzy
@@ -41142,8 +41773,9 @@ msgid "jane@example.com"
 msgstr "noreply@example.com"
 
 #: devel/reporting-example.rst:5
+#, fuzzy
 msgid "2025-03-01T11:00:00.000000+00:00"
-msgstr ""
+msgstr "2025-03-01T11:00:00.000000+00:00"
 
 #: devel/review.rst:4
 msgid "Reviewing strings"
@@ -41644,18 +42276,26 @@ msgid ""
 "project workflow around strings, releases, and communication. A few "
 "practices make collaboration much easier:"
 msgstr ""
+"De technische kant is slechts een gedeelte van het werk. Vertalers vallen "
+"ook de werkstromen voor het project voor tekenreeksen, uitgaven en "
+"communicatie op. Een paar werkwijzen maken samenwerken veel gemakkelijker:"
 
 #: devel/starting.rst:114
 msgid ""
 "Respond to translator questions and comments, and make sure the advertised "
 "contact channel is actually monitored."
 msgstr ""
+"Reageer op vragen en antwoorden van vertalers en zorg ervoor dat het "
+"geadverteerde contactkanaal ook feitelijk wordt gemonitord."
 
 #: devel/starting.rst:116
 msgid ""
 "Avoid unnecessary churn in source strings. Rewording or replacing existing "
 "strings without a user-visible reason creates avoidable translation work."
 msgstr ""
+"Vermijd onnodige wijzigingen in brontekenreeksen. Opnieuw verwoorden of "
+"vervangen van bestaande tekenreeksen zonder een voor de gebruiker zichtbare "
+"reden maakt te vermijden werk voor vertalers."
 
 #: devel/starting.rst:118
 msgid ""
@@ -41663,24 +42303,35 @@ msgid ""
 "Avoid concatenating sentences from fragments, use placeholders that can be "
 "reordered, and rely on built-in plural handling."
 msgstr ""
+"Voeg voldoende context voor vertalers toe om korte of verwarrende "
+"tekenreeksen te begrijpen. Vermijd het samenvoegen van zinnen uit "
+"fragmenten, gebruik plaatsvervangers waarvan de volgorde kan worden "
+"gewijzigd en vertrouw op de ingebouwde afhandeling van meervoudsvormen."
 
 #: devel/starting.rst:121
 msgid ""
 "Ship translations regularly so completed work does not stay unused in "
 "Weblate for long periods."
 msgstr ""
+"Haal vertalingen regelmatig op, zodat voltooid werk niet voor langere tijd "
+"ongebruikt in Weblate blijft staan."
 
 #: devel/starting.rst:123
 msgid ""
 "Communicate workflow or policy changes, and keep contribution requirements "
 "realistic for smaller language teams."
 msgstr ""
+"Communiceer wijzigingen in werkstromen of beleid en houd eisen voor "
+"deelnemen realistisch voor kleinere taalteams."
 
 #: devel/starting.rst:125
 msgid ""
 "If a project is no longer maintained, reflect that in the translation "
 "workflow instead of leaving components open indefinitely."
 msgstr ""
+"Als een project niet langer wordt onderhouden, laat dat dan zien in de "
+"werkstroom voor vertalingen, in plaats van onderdelen oneindig open te laten "
+"staan."
 
 #: devel/starting.rst:128
 msgid ""
@@ -41689,6 +42340,11 @@ msgid ""
 "history and reduce the risk that finished work is forgotten before a "
 "release. See :ref:`continuous-translation` for automation options."
 msgstr ""
+"Weblate kan helpen bij enkele van deze problemen. In het bijzonder maken "
+"regelmatig automatische commits van Weblate de voortgang van de vertaling "
+"zichtbaar in de geschiedenis van de broncode en verkleinen het risico dat "
+"voltooid werk voor een uitgave wordt vergeten. Bekijk :ref:`continuous-"
+"translation` voor opties voor automatiseren."
 
 #: devel/success-stories.rst:2
 msgid "Success stories"
@@ -42234,6 +42890,16 @@ msgid ""
 "conflicting changes. Administrators who want to make this workflow more "
 "reliable can adjust :setting:`VCS_CLONE_DEPTH`."
 msgstr ""
+"Weblate gebruikt standaard oppervlakkige kloons om tijd voor klonen en "
+"schijfgebruik te verminderen. Daarom werkt de werkstroom het beste als u "
+"begint met een up-to-date checkout van de opslagruimte upstream. Als u "
+"direct kloont vanuit de geëxporteerde opslagruimte van Weblate, of als in uw "
+"checkout van upstream recente commits ontbreken, kan ``git remote update "
+"weblate`` mislukken met fouten zoals ``warning: no common commits``, ``bad "
+"revision``, of ontbrekende objecten. Dit betekent niet noodzakelijkerwijze "
+"dat Weblate en de opslagruimte upstream conflicterende wijzigingen hebben. "
+"Beheerders die deze werkstroom betrouwbaarder willen maken kunnen "
+":setting:`VCS_CLONE_DEPTH` aanpassen."
 
 #: faq.rst:67
 msgid ""
@@ -42251,6 +42917,8 @@ msgid ""
 "The workflow usually looks like this when you start from an up-to-date "
 "checkout of the upstream repository:"
 msgstr ""
+"De werkstroom ziet er gewoonlijk zo uit als u begint vanuit een up-to-date "
+"checkout van de opslagruimte upstream:"
 
 #: faq.rst:112
 msgid ""
@@ -43123,6 +43791,8 @@ msgid ""
 "Please refer to the documentation page of each individual file format for "
 "information about which features are supported in that format."
 msgstr ""
+"Bekijk de documentatiepagina van elke individuele bestandsindeling voor "
+"informatie over welke mogelijkheden worden ondersteund in die indeling."
 
 #: formats.rst:40
 msgid "Bilingual and monolingual formats"
@@ -43705,16 +44375,12 @@ msgid "AsciiDoc files"
 msgstr "Lokale bestanden"
 
 #: formats/asciidoc.rst:10
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the HTML files and offered for "
-#| "the translation."
 msgid ""
 "The translatable content is extracted from the AsciiDoc files and offered "
 "for the translation."
 msgstr ""
-"De vertaalbare inhoud wordt uitgenomen uit de HTML-bestanden en aangeboden "
-"voor vertalen."
+"De vertaalbare inhoud wordt uitgenomen uit de AsciiDoc-bestanden en "
+"aangeboden voor vertalen."
 
 #: formats/asciidoc.rst:18 formats/catkeys.rst:14 formats/csv.rst:56
 #: formats/fluent.rst:20 formats/formatjs.rst:15 formats/html.rst:16
@@ -43728,10 +44394,8 @@ msgid "Example file:"
 msgstr "Voorbeeld bestand:"
 
 #: formats/asciidoc.rst:36
-#, fuzzy
-#| msgid "`ARB file`"
 msgid "`AsciiDoc file`"
-msgstr "`ARB-bestand`"
+msgstr "`AsciiDoc-bestand`"
 
 #: formats/asciidoc.rst:42 formats/html.rst:43 formats/markdown.rst:52
 #: formats/txt.rst:51
@@ -44693,6 +45357,13 @@ msgid ""
 "html`` flag for strings that are known to contain HTML and should always be "
 "sanitized, including SVG or MathML snippets."
 msgstr ""
+"Eenheden van Markdown krijgen automatisch de vlaggen ``md-text`` en ``auto-"
+"safe-html``. Dat houdt de controle voor niet veilige HTMLactief voor platte "
+"tekst, standaard HTML en aangepaste elementen, terwijl opruimen van HTML in "
+"niet-HTML syntaxis tussen vierkante haken, zoals MDX of JSX-achtige "
+"componenten wordt vermeden. Gebruik de expliciete vlag ``safe-html`` voor "
+"tekenreeksen waarvan bekend is dat ze HTML bevatten en altijd zouden moeten "
+"worden schoongemaakt, inclusief SVG of snippers van MathML."
 
 #: formats/markdown.rst:44
 msgid "`Markdown file`"
@@ -45278,14 +45949,8 @@ msgid "`XLIFF 1.2 with Apple extensions`"
 msgstr "`XLIFF 1.2 met gettext-extensies`"
 
 #: formats/xliff.rst:27
-#, fuzzy
-#| msgid ""
-#| "XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to "
-#| "support plurals."
 msgid "XLIFF enriched by Apple to support plurals."
-msgstr ""
-"XLIFF verrijkt met `XLIFF 1.2 Representation Guide for Gettext PO`_ om "
-"meervouden te ondersteunen."
+msgstr "XLIFF verrijkt door Apple om meervoud te ondersteunen."
 
 #: formats/xliff.rst:32
 msgid "`XML Localization Interchange File Format (XLIFF)`_ specification"
@@ -45728,26 +46393,24 @@ msgid "Configuration object, overrides any other parameters."
 msgstr "Configuratie-object, overschrijft alle andere parameters."
 
 #: python.rst:44
-#, fuzzy
-#| msgid "total number of strings"
 msgid "Total number of HTTP retries."
-msgstr "totaal aantal tekenreeksen"
+msgstr "Totaal aantal pogingen om HTTP opnieuw te proberen."
 
 #: python.rst:46
 msgid "HTTP status codes that should trigger retries."
-msgstr ""
+msgstr "HTTP-statuscodes die opnieuw zouden moeten activeren."
 
 #: python.rst:48
 msgid "HTTP methods that may be retried."
-msgstr ""
+msgstr "HTTP-methoden die opnieuw mogen worden geprobeerd."
 
 #: python.rst:50
 msgid "Retry backoff factor passed to urllib3."
-msgstr ""
+msgstr "Factor voor stoppen met opnieuw proberen doorgegeven aan urllib3."
 
 #: python.rst:52
 msgid "HTTP request timeout in seconds."
-msgstr ""
+msgstr "Time-out voor HTTP-request in seconden."
 
 #: python.rst:55
 msgid "Access class to the API, define API key and optionally API URL."
@@ -45789,6 +46452,10 @@ msgid ""
 "configuration file (:file:`.weblate`, :file:`.weblate.ini`, "
 "or :file:`weblate.ini`) from the current directory or its parents."
 msgstr ""
+"Laadt de configuratie vanuit ``path`` waar het is gespecificeerd. Anders "
+"wordt het gevonden globale configuratiebestand geladen en dan het dichtstbij "
+"gelegen projectconfiguratiebestand (:file:`.weblate`, :file:`.weblate.ini` "
+"of :file:`weblate.ini`) vanuit de huidige map of zijn ouders."
 
 #: python.rst:111
 msgid "Settings to override as list of tuples"
@@ -46348,23 +47015,33 @@ msgid ""
 "affect the confidentiality, integrity, or availability of the service beyond "
 "routine operational noise."
 msgstr ""
+"Declareer een incident wanneer een gebeurtenis is bevestigd of sterk wordt "
+"verdacht om de vertrouwelijkheid, integriteit of beschikbaarheid van de "
+"service te beïnvloeden tot boven routinematige operationele ruis."
 
 #: security/incident-response-plan.rst:46
 msgid ""
 "The **Security Officer** declares the incident, assigns the initial "
 "severity, and appoints the **Incident Response Lead (IRL)**."
 msgstr ""
+"De **Security Officer** declareert het incident, wijst de initiële ernst toe "
+"en wijst de **Incident Response Lead (IRL)** aan."
 
 #: security/incident-response-plan.rst:48
 msgid ""
 "If the Security Officer is unavailable, any available senior operator may "
 "declare the incident and hand over ownership as soon as practical."
 msgstr ""
+"Als de Security Officer niet beschikbaar is, mag elke beschikbare senior "
+"operator het incident declareren en overdragen zodra dat praktisch mogelijk "
+"is."
 
 #: security/incident-response-plan.rst:50
 msgid ""
 "Reclassify the incident if the scope or impact changes during investigation."
 msgstr ""
+"Herclassificeer het incident als het bereik of de impact wijzigt tijdens het "
+"onderzoek."
 
 #: security/incident-response-plan.rst:53
 msgid "Incident categories"
@@ -46555,25 +47232,25 @@ msgid ""
 "Create an incident record with a case ID and record timeline updates as "
 "actions are taken."
 msgstr ""
+"Maak een incidentrecord met een zaaks-ID en werk de tijdlijn bij als acties "
+"worden ondernomen."
 
 #: security/incident-response-plan.rst:100
 msgid ""
 "Coordinate human response in **Signal** and keep technical alerting in the "
 "existing monitoring systems."
 msgstr ""
+"Coördineer menselijke antwoorden in **Signal** en houdt technische meldingen "
+"in de bestaande monitorsystemen."
 
 #: security/incident-response-plan.rst:102
-#, fuzzy
-#| msgid ""
-#| "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
-#| "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgid ""
 "For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot** "
 "before taking disruptive action when it is safe to do so."
 msgstr ""
-"**Forensische voorbereidingen:** Voor incidenten van Categorie 1 of 2, maak "
-"een handmatige **Hetzner Cloud Snapshot** voordat een vernietigende actie "
-"wordt uitgevoerd."
+"Voor incidenten van Categorie 1 of 2, maak een handmatige **Hetzner Cloud "
+"Snapshot** voordat een vernietigende actie wordt uitgevoerd, als dat veilig "
+"is om te doen."
 
 #: security/incident-response-plan.rst:105
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
@@ -46616,6 +47293,8 @@ msgid ""
 "Revoke or rotate affected administrative, API, VCS, and webhook credentials "
 "as applicable."
 msgstr ""
+"Verwijder of roteer beïnvloede wachtwoordgegevens voor beheer, API, VCS en "
+"webhook indien nodig."
 
 #: security/incident-response-plan.rst:116
 msgid ""
@@ -46623,6 +47302,9 @@ msgid ""
 "Weblate application and audit logs, affected configuration state, and the "
 "list of impacted credentials or integrations."
 msgstr ""
+"Behoud relevant bewijs, inclusief systeemlogs, logs voor omgekeerde proxy, "
+"logs voor de toepassing Weblate en auditlogs, de beïnvloede staat van de "
+"configuratie en de lijst met getroffen wachtwoorden of integraties."
 
 #: security/incident-response-plan.rst:121
 msgid "Eradication"
@@ -46672,16 +47354,22 @@ msgid ""
 "Confirm the root cause has been removed or a compensating control is in "
 "place before restoring normal traffic."
 msgstr ""
+"Bevestig dat de bron van het probleem is verwijderd of dat compenserend "
+"beheer is ingesteld, voordat het normale verkeer wordt hervat."
 
 #: security/incident-response-plan.rst:135
 msgid ""
 "Rotate affected credentials and verify integrity of the restored system, "
 "repositories, and configuration."
 msgstr ""
+"Roteer beïnvloede wachtwoordgegevens en verifieer integriteit van het "
+"herstelde systeem, opslagruimten en configuratie."
 
 #: security/incident-response-plan.rst:137
 msgid "The Security Officer and IRL approve returning to normal operations."
 msgstr ""
+"De Security Officer en de IRL keuren het terugkeren naar normale "
+"werkzaamheden goed."
 
 #: security/incident-response-plan.rst:138
 msgid ""
@@ -46732,6 +47420,8 @@ msgid ""
 "Verify whether escalation, alerting, and external communication "
 "followed :doc:`/security/issues` as expected."
 msgstr ""
+"Verifieer of escalatie, meldingen en externe communicatie :doc:`/security/"
+"issues` volgde zoals werd verwacht."
 
 #: security/index.rst:2
 msgid "Security, privacy and compliance"
@@ -47874,6 +48564,11 @@ msgid ""
 "deployment-hardened interface rather than a cryptographically authenticated "
 "one by default."
 msgstr ""
+"Webhook eindpunten voor sommige VCS-integraties zijn met opzet georiënteerd "
+"op compatibiliteit en kunnen niet geauthenticeerde leveringen accepteren van "
+"ondersteunde smidsen. Weblate behandelt daarom door webhook geactiveerde "
+"bijwerkingen van de opslagruimte als een verharde ontwikkelingsinterface, "
+"dan standaard een cryptografisch geauthenticeerde."
 
 #: security/threat-model.rst:14
 msgid ""
@@ -47882,6 +48577,10 @@ msgid ""
 "proxy rate limiting, request size limits, minimizing public exposure, and "
 "monitoring."
 msgstr ""
+"Totdat eigen geauthenticeerde integraties voor deze platforms beschikbaar "
+"zijn, is weerstand tegen misbruik van webhooks afhankelijk van compenserend "
+"beheer, zoals omgekeerde proxy toegangsbeperking, beperkingen van grootte "
+"van verzoeken, minimaliseren van publieke weergave en monitoren."
 
 #: security/threat-model.rst:19
 msgid "System description and scope"
@@ -47907,6 +48606,13 @@ msgid ""
 "permissions. Project-scoped API tokens can also be granted team memberships "
 "and permissions similar to users."
 msgstr ""
+"Autorisatie in Weblate is niet beperkt tot instantiebrede beheerder versus "
+"toegang voor normale gebruikers. Rechten kunnen per site, project, "
+"component, taal, woordenlijst of ander bereik worden gedelegeerd, inclusief "
+"aangewezen VCS, vertaalgeheugen, schermafdruk, beoordelen en rechten voor "
+"het beheren van toegang tot het project. API-tokens voor het bereik Project "
+"kunnen ook teamlidmaatschappen en rechten, soortgelijk als aan gebruikers, "
+"worden verleend."
 
 #: security/threat-model.rst:32
 msgid "Assets:"
@@ -47971,6 +48677,9 @@ msgid ""
 "callers invoking repository hooks, sometimes with unauthenticated endpoints "
 "enabled per project."
 msgstr ""
+"**Webhook bron ↔ Webserver:** Externe codehosting services of andere "
+"aanroepers activeren hooks voor de opslagruimte, soms met niet "
+"geauthenticeerde eindpunten ingeschakeld per project."
 
 #: security/threat-model.rst:65
 msgid ""
@@ -48019,12 +48728,18 @@ msgid ""
 "integration settings can cause Weblate to initiate connections to external "
 "VCS hosts or other services."
 msgstr ""
+"**Geprivilegieerde gebruikersconfiguratie ↔ Uitgaand netwerk:** Project- en "
+"integratie-instellingen kunnen ervoor zorgen dat Weblate verbindingen "
+"initieert naar externe VCS-hosts of andere services."
 
 #: security/threat-model.rst:71
 msgid ""
 "**Imported backup archive ↔ Weblate application/filesystem:** Backup restore "
 "processes attacker-controlled archive contents, metadata, and VCS state."
 msgstr ""
+"**Geïmporteerd back-uparchief ↔ Weblate toepassing/bestandssysteem:** Back-"
+"up terugzetten verwerkt door aanvaller beheerde inhoud van het archief, "
+"metadata en de staat van het VCS."
 
 #: security/threat-model.rst:72
 #, fuzzy
@@ -48044,6 +48759,9 @@ msgid ""
 "Delegated project- and component-scoped permissions create additional "
 "privilege boundaries inside the application."
 msgstr ""
+"**Geauthenticeerde gebruiker/token ↔ Projectbeheerder/beoordelaar/VCS-"
+"beheerder:** Gedelegeerde rechten voor bereiken project en onderdeel maken "
+"extra grenzen voor privileges binnen de toepassing."
 
 #: security/threat-model.rst:76
 msgid "Threat identification"
@@ -48146,12 +48864,17 @@ msgid ""
 "trigger repository updates or other automation, especially when "
 "unauthenticated hooks are enabled."
 msgstr ""
+"**Vervalste levering webhook:** Een aanvaller dient een valse lading voor "
+"een webhook in om bijwerken van de opslagruimte of andere automatisering te "
+"actieveren, speciaal wanneer niet geauthenticeerde hooks zijn ingeschakeld."
 
 #: security/threat-model.rst:100
 msgid ""
 "Unauthorized repository synchronization, noisy task execution, or follow-on "
 "abuse of automation paths."
 msgstr ""
+"Niet geautoriseerd synchroniseren van de opslagruimte, uitvoeren van een "
+"taak met ruis, of opvolgend misbruik van paden voor automatisering."
 
 #: security/threat-model.rst:103
 msgid ""
@@ -48159,18 +48882,27 @@ msgid ""
 "payloads so Weblate processes repository states or branches different from "
 "the legitimate event."
 msgstr ""
+"**Manipuleren van lading of opnieuw afspelen:** Een aanvaller speelt "
+"ladingen van webhooks opnieuw af of past die ladingen aan zodat Weblate de "
+"staat van de opslagruimte of branches anders verwerkt dan die van de "
+"legitieme gebeurtenis."
 
 #: security/threat-model.rst:104
 msgid ""
 "Unexpected updates, repository confusion, or misuse of privileged VCS "
 "credentials."
 msgstr ""
+"Onverwacht bijwerken, verwarring in de opslagruimte of misbruik van "
+"geprivilegieerde wachtwoordgegevens voor VCS."
 
 #: security/threat-model.rst:107
 msgid ""
 "**Hook flooding:** An attacker sends excessive webhook requests or oversized "
 "payloads, overwhelming request handling or background workers."
 msgstr ""
+"**Hook overstromen:** Een aanvaller stuurt excessieve webhookverzoeken of "
+"veel te grote ladingen, overweldigt het afhandelen van de verzoeken of "
+"werkers of de achtergrond."
 
 #: security/threat-model.rst:108
 #, fuzzy
@@ -48184,12 +48916,17 @@ msgid ""
 "payloads and learns whether repositories, branches, or components exist "
 "based on response metadata."
 msgstr ""
+"**Nummeren van opslagruimte via webhookantwoorden:** Een aanvaller probeert "
+"ladingen van webhooks en leert daaruit of opslagruimten, branches of "
+"onderdelen bestaan, gebaseerd op metadata in de antwoorden."
 
 #: security/threat-model.rst:112
 msgid ""
 "Disclosure of private project structure, enabled hooks, or component "
 "identifiers."
 msgstr ""
+"Onthullen van structuur van private projecten, ingeschakelde hooks of "
+"identificaties voor onderdelen."
 
 #: security/threat-model.rst:114 security/threat-model.rst:130
 #: security/threat-model.rst:178
@@ -48201,12 +48938,17 @@ msgid ""
 "**Limited webhook attribution:** Hook-triggered updates are recorded as "
 "coming from a service bot rather than a forge-authenticated principal."
 msgstr ""
+"**beperkte attributie webhook:** Door hook geactiveerde bijwerkingen worden "
+"opgenomen alsof ze komen vanaf een service-bot, in plaats van als zijnde "
+"afkomstig van een als vervalser geauthenticeerd doel."
 
 #: security/threat-model.rst:116
 msgid ""
 "Reduced forensic confidence when investigating malicious or disputed hook "
 "activity."
 msgstr ""
+"Verminderd forensisch vertrouwen bij het onderzoeken van kwaadwillige of "
+"verdachte activiteiten van webhooks."
 
 #: security/threat-model.rst:117
 msgid "**Weblate application**"
@@ -48337,7 +49079,7 @@ msgstr "Systeem gecompromitteerd, uitnemen gegevens."
 
 #: security/threat-model.rst:153
 msgid "**Backup import / restore**"
-msgstr ""
+msgstr "**Back-up importeren / terugzetten**"
 
 #: security/threat-model.rst:155
 msgid ""
@@ -48345,12 +49087,17 @@ msgid ""
 "members or a large aggregate uncompressed size, exhausting disk, memory, "
 "worker time, or inode capacity."
 msgstr ""
+"**Vergroting van archief tijdens terugzetten:** Een samengestelde back-up "
+"bevat veel items van een grote samengestelde niet gecomprimeerde grootte, "
+"overmatige schijf, geheugen, werktijd of capaciteit in slechte blokken."
 
 #: security/threat-model.rst:156
 msgid ""
 "Restore-time denial of service and possible service degradation for the "
 "instance."
 msgstr ""
+"Geen service tijdens terugzetten en mogelijk degradatie van de service voor "
+"de instantie."
 
 #: security/threat-model.rst:159
 msgid ""
@@ -48358,12 +49105,17 @@ msgid ""
 "misleading project metadata or unsafe repository state despite path "
 "validation and schema checks."
 msgstr ""
+"**Kwaadwillige back-up metadata of staat VCS:** Een samengestelde back-up "
+"zet misleidende projectmetadata terug of onveilige staat voor de "
+"opslagruimte ondanks valideren van pad en controles van schema."
 
 #: security/threat-model.rst:160
 msgid ""
 "Corrupted restored projects, unsafe repository state, or administrative "
 "confusion."
 msgstr ""
+"Corrupte teruggezette projecten, onveilige staat opslagruimte, of verwarring "
+"bij beheerders."
 
 #: security/threat-model.rst:161
 msgid "**Database/Datastore**"
@@ -48434,10 +49186,8 @@ msgid "Accountability issues."
 msgstr "Problemen met verantwoordelijkheid."
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Optional category configuration"
 msgid "**Outbound integrations / VCS configuration**"
-msgstr "Optionele configuratie categorie"
+msgstr "**Uitgaande integraties / configuratie VCS**"
 
 #: security/threat-model.rst:183
 msgid ""
@@ -48445,12 +49195,18 @@ msgid ""
 "privileged user configures repository or integration endpoints that cause "
 "Weblate to connect to internal or otherwise restricted hosts."
 msgstr ""
+"**Vervalsen van verzoek vanaf serverzijde of onbedoelde interne "
+"bereikbaarheid:** Een geprivilegieerde gebruiker configureert eindpunten "
+"voor de opslagruimte of integratie die ervoor zorgen dat Weblate verbindt "
+"met interne of anderszins beperkte hosts."
 
 #: security/threat-model.rst:184
 msgid ""
 "Exposure of internal services, metadata endpoints, or restricted network "
 "paths."
 msgstr ""
+"Weergeven van interne services, eindpunten voor metadata of beperkte "
+"netwerkpaden."
 
 #: security/threat-model.rst:185
 msgid "**User interaction**"
@@ -48556,22 +49312,25 @@ msgstr ""
 "bekijk :doc:`/admin/auth`."
 
 #: security/threat-model.rst:211
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "**Webhook security:**"
-msgstr "Webhaak geheime wachtwoord"
+msgstr "**Webhook beveiliging:**"
 
 #: security/threat-model.rst:212
 msgid ""
 "Current product limitation: webhook authenticity is not uniformly enforced "
 "in-app for all supported forge integrations."
 msgstr ""
+"Huidige productbeperking: authenticiteit voor webhook wordt niet uniform "
+"afgedwongen in-app voor alle ondersteunde integraties voor vervalsingen."
 
 #: security/threat-model.rst:213
 msgid ""
 "Treat webhook endpoints as deployment-hardened interfaces and enable them "
 "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgstr ""
+"Behandel eindpunten van webhooks als verharde ontwikkelingsinterfaces en "
+"schakel ze alleen in als dat nodig is, bekijk :ref:`hooks` en :ref:`project-"
+"enable_hooks`."
 
 #: security/threat-model.rst:214
 msgid ""
@@ -48579,12 +49338,18 @@ msgid ""
 "request size limits, optional source-IP filtering, minimizing public "
 "exposure, and alerting on webhook spikes."
 msgstr ""
+"Beheer voor ontwikkeling vereist vandaag de dag toegangscontrole voor "
+"omgekeerde proxy, limieten voor grootte van verzoeken, optioneel filteren "
+"van bron-IP, publieke weergave minimaliseren en alert zijn op aanvallen via "
+"webhooks."
 
 #: security/threat-model.rst:215
 msgid ""
 "Validate webhook event type and payload before triggering repository updates "
 "or tasks."
 msgstr ""
+"Webhook gebeurtenistype en lading valideren voor het activeren van "
+"bijwerkingen van opslagruimte of taken."
 
 #: security/threat-model.rst:216
 msgid ""
@@ -48592,6 +49357,9 @@ msgid ""
 "authenticated integrations that validate source authenticity before "
 "scheduling repository updates."
 msgstr ""
+"De toekomstige productrichting is om compatibiliteits-webhooks te vervangen "
+"door eigen geauthenticeerde integraties die de bronauthenticiteit valideren "
+"voordat bijwerken van de opslagruimte wordt gepland."
 
 #: security/threat-model.rst:217
 msgid "**Input validation and output encoding:**"
@@ -48654,30 +49422,37 @@ msgid ""
 "for outbound integrations where deployments need to constrain server-"
 "initiated connections."
 msgstr ""
+"Documenteren en beoordelen van lijst met toegestane hostnamen en beperkingen "
+"voor private-netwerk voor uitgaande integraties waar de uitrol server-"
+"geïnitieerde verbindingen moet beperken."
 
 #: security/threat-model.rst:226
-#, fuzzy
-#| msgid "**VCS integration security:**"
 msgid "**Backup import security:**"
-msgstr "**Beveiligen integratie van VCS:**"
+msgstr "**Beveiliging importeren back-up:**"
 
 #: security/threat-model.rst:227
 msgid ""
 "Treat backup archives as untrusted input and validate both metadata and "
 "extracted paths."
 msgstr ""
+"Back-up-archieven behandelen als niet te vertrouwen invoer en zowel metadata "
+"als uitgenomen paden te valideren."
 
 #: security/threat-model.rst:228
 msgid ""
 "Enforce aggregate archive-size and extraction-budget limits, not only per-"
 "entry checks."
 msgstr ""
+"Afdwingen van limieten voor grootte en uitgenomen budget voor samengestelde "
+"archieven, niet alleen controles per-item."
 
 #: security/threat-model.rst:229
 msgid ""
 "Monitor restore failures and unusually large imports as potential abuse "
 "indicators."
 msgstr ""
+"Monitoren van mislukken van terugzetten en ongebruikelijk grote import als "
+"potentiële indicaties voor misbruik."
 
 #: security/threat-model.rst:230
 msgid "**Data protection:**"
@@ -48848,7 +49623,7 @@ msgstr ""
 
 #: security/us-compliance.rst:28
 msgid "Export control classification number"
-msgstr ""
+msgstr "Beheren classificatienummer voor exporteren"
 
 #: security/us-compliance.rst:30
 msgid ""
@@ -48860,6 +49635,13 @@ msgid ""
 "``5D992.c`` after the applicable BIS classification or self-classification "
 "process."
 msgstr ""
+"Weblate heeft nog geen Commodity Classification Automated Tracking System "
+"(CCATS) bepaling ontvangen van het Bureau of Industry and Security (BIS). "
+"Gebaseerd op de gebruikte cryptografische functionaliteit via zijn "
+"afhankelijkheden, zou Weblate over het algemeen moeten worden behandeld als "
+"encryptiesoftware onder ECCN ``5D002.c.1``. Een distributie op grote schaal "
+"kan in plaats daarvan worden geclassificeerd als ECCN ``5D992.c`` na de van "
+"toepassing zijnde classificatie van BIS of proces voor zelf-classificatie."
 
 #: security/us-compliance.rst:37
 msgid ""
@@ -48870,34 +49652,49 @@ msgid ""
 "outside the EAR. Custom builds, hosted services, bundled distributions, and "
 "downstream deployments should be evaluated as a whole by the exporting party."
 msgstr ""
+"Weblate broncode en uitgave-artefacten zijn publiekelijk beschikbaar. Onder "
+"BIS begeleiding en 15 CFR 742.15(b) is publiekelijk beschikbare broncode "
+"voor encryptie geclassificeerd onder ECCN ``5D002`` niet onderworpen aan de "
+"EAR als aan de van toepassing zijnde voorwaarden wordt voldaan, en "
+"corresponderende objectcode kan ook buiten de EAR liggen. Aangepaste bouw, "
+"gehoste services, gebundelde distributies en downstream uitrol zouden als "
+"geheel moeten worden geëvalueerd door de exporterende partij."
 
 #: security/us-compliance.rst:46
 msgid ""
 "`BIS encryption controls <https://www.bis.gov/learn-support/encryption-"
 "controls>`_"
 msgstr ""
+"`BIS encryptiebeheer <https://www.bis.gov/learn-support/encryption-controls>"
+"`_"
 
 #: security/us-compliance.rst:47
 msgid ""
 "`Encryption items not subject to the EAR <https://www.bis.gov/learn-support/"
 "encryption-controls/encryption-items-not-subject-to-ear>`_"
 msgstr ""
+"`Encryptie-items niet onderworpen aan de EAR <https://www.bis.gov/learn-"
+"support/encryption-controls/encryption-items-not-subject-to-ear>`_"
 
 #: security/us-compliance.rst:49
 msgid ""
 "`BIS mass market guidance <https://www.bis.gov/learn-support/encryption-"
 "controls/mass-market>`_"
 msgstr ""
+"`BIS begeleiding voor grote schaal <https://www.bis.gov/learn-support/"
+"encryption-controls/mass-market>`_"
 
 #: security/us-compliance.rst:51
 msgid ""
 "`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/part-742/"
 "section-742.15>`_"
 msgstr ""
+"`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/part-742/section-"
+"742.15>`_"
 
 #: security/us-compliance.rst:55
 msgid "Cryptographic functionality"
-msgstr ""
+msgstr "Cryptografische functionaliteit"
 
 #: security/us-compliance.rst:57
 msgid ""
@@ -49049,6 +49846,8 @@ msgstr "Alarm geactiveerd"
 msgid ""
 "Triggered when an add-on is run manually from add-on management or the API."
 msgstr ""
+"Geactiveerd als een add-on handmatig wordt uitgevoerd vanuit add-onbeheer of "
+"de API."
 
 #: snippets/addon-events-autogenerated.rst:49
 msgid "Repository post-add"
@@ -49273,7 +50072,7 @@ msgstr "Google Cloud Translation Basic"
 #: snippets/addon-parameters-autogenerated.rst:41
 #: snippets/machines-autogenerated.rst:568
 msgid "LTEngine"
-msgstr ""
+msgstr "LTEngine"
 
 #: snippets/addon-parameters-autogenerated.rst:45
 #: snippets/machines-autogenerated.rst:692
@@ -50307,12 +51106,16 @@ msgid ""
 "To discover a component successfully, the configuration has to do all of the "
 "following:"
 msgstr ""
+"Voor het met succes vinden van een onderdeel, moet de configuratie al het "
+"volgende doen:"
 
 #: snippets/addons-autogenerated.rst:243
 msgid ""
 "The regular expression must define ``component`` and ``language`` named "
 "groups."
 msgstr ""
+"De reguliere expressie moet ``component`` en ``language`` genoemde groepen "
+"definiëren."
 
 #: snippets/addons-autogenerated.rst:244
 msgid ""
@@ -50320,26 +51123,37 @@ msgid ""
 "``{{ component }}``, so the rendered value actually changes for each "
 "discovered component."
 msgstr ""
+"Velden in sjablonen die bestanden per onderdeel benoemen of lokaliseren "
+"moeten ``{{ component }}`` bevatten, zodat de gerenderde waarde feitelijk "
+"wijzigt voor elk gevonden onderdeel."
 
 #: snippets/addons-autogenerated.rst:247
 msgid ""
 "For monolingual formats, the component must contain a file matching "
 "``base_file_template`` and at least one translation file matching ``match``."
 msgstr ""
+"Voor enkeltalige indelingen moet het onderdeel een bestand bevatten dat "
+"overeenkomt met ``base_file_template`` en ten minste een vertaalbestand dat "
+"overeenkomt met ``match``."
 
 #: snippets/addons-autogenerated.rst:251
 msgid "Worked example: ``news_<lang>.md``"
-msgstr ""
+msgstr "Werkend voorbeeld: ``news_<lang>.md``"
 
 #: snippets/addons-autogenerated.rst:253
 msgid "This is a common filename-based language variant layout:"
 msgstr ""
+"Dit is een veel voorkomende lay-outvariant van op bestandsnaam gebaseerde "
+"taal:"
 
 #: snippets/addons-autogenerated.rst:259
 msgid ""
 "Use the :guilabel:`Filename-based language variants` preset for a starting "
 "point, then choose the matching file format and review the populated values."
 msgstr ""
+"Gebruik de voorkeuze :guilabel:`Op bestandsnaam gebaseerde taal varianten` "
+"als beginpunt, en kies dan de overeenkomende bestandsindeling en beoordeel "
+"de ingevulde waarden."
 
 #: snippets/addons-autogenerated.rst:262 snippets/addons-autogenerated.rst:299
 #: snippets/addons-autogenerated.rst:312 snippets/addons-autogenerated.rst:325
@@ -50353,10 +51167,8 @@ msgid "Component name:"
 msgstr "Naam van onderdeel:"
 
 #: snippets/addons-autogenerated.rst:266
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Discovered file masks:"
-msgstr "Schermafdruk bestandsmasker"
+msgstr "Gevonden bestandsmaskers:"
 
 #: snippets/addons-autogenerated.rst:270
 msgid ""
@@ -50364,6 +51176,10 @@ msgid ""
 "language suffix, so :file:`docs/news_en.md`, :file:`docs/news_pt_BR.md`, "
 "and :file:`docs/news_pt-BR.md` all become the ``news`` component."
 msgstr ""
+"In dit voorbeeld wijzigt ``{{ component }}`` naar de basisnaam voor het "
+"achtervoegsel voor de taal, dus :file:`docs/news_en.md`, :file:`docs/"
+"news_pt_BR.md` en :file:`docs/news_pt-BR.md` worden allemaal het onderdeel "
+"``news``."
 
 #: snippets/addons-autogenerated.rst:274
 msgid "You can use Django template markup in all filename fields, for example:"
@@ -50372,12 +51188,9 @@ msgstr ""
 "bestandsnaam, bijvoorbeeld:"
 
 #: snippets/addons-autogenerated.rst:277
-#, fuzzy
-#| msgid "Verbose component name, used to display the component name."
 msgid "Component name parsed from the ``component`` match group"
 msgstr ""
-"Uitgebreide naam voor het onderdeel, gebruikt om de naam van het onderdeel "
-"weer te geven."
+"Naam onderdeel geparset uit de groep met overeenkomsten voor ``component``"
 
 #: snippets/addons-autogenerated.rst:279
 msgid "Component filename with upper case first letter"
@@ -50407,6 +51220,10 @@ msgid ""
 "layout. The following examples show other repository structures you can "
 "match."
 msgstr ""
+"Het werkende voorbeeld hierboven behandelt de meest voorkomende lay-"
+"outvariant voor de op bestandsnamen gebaseerde taal. De volgende voorbeelden "
+"laten andere structuren van opslagruimten zien die u overeen kunt laten "
+"komen."
 
 #: snippets/addons-autogenerated.rst:295
 msgid "One folder per language"
@@ -51114,19 +51931,14 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "ALL_LINGUAS-optie in het configuratiebestand bijwerken"
 
 #: snippets/addons-autogenerated.rst:961 snippets/addons-autogenerated.rst:1020
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-"
 "post-remove`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, "
+":ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-post-"
+"remove`"
 
 #: snippets/addons-autogenerated.rst:963
 msgid ""
@@ -51215,8 +52027,8 @@ msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-"
 "trigger`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-add`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, "
+":ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:1007
 msgid ""
@@ -51296,24 +52108,22 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1071
 #: snippets/addons-autogenerated.rst:1255
 msgid "ellipsis-unicode"
-msgstr ""
+msgstr "ellips-unicode"
 
 #: snippets/addons-autogenerated.rst:1073
 #: snippets/addons-autogenerated.rst:1257
-#, fuzzy
-#| msgid "Mismatched ellipsis"
 msgid "space-ellipsis"
-msgstr "Niet overeenkomend beletselteken"
+msgstr "spatie-ellipsis"
 
 #: snippets/addons-autogenerated.rst:1075
 #: snippets/addons-autogenerated.rst:1259
 msgid "quote-unicode"
-msgstr ""
+msgstr "aanhalingsteken-unicode"
 
 #: snippets/addons-autogenerated.rst:1077
 #: snippets/addons-autogenerated.rst:1261
 msgid "bullet-unicode"
-msgstr ""
+msgstr "opsommingsteken-unicode"
 
 #: snippets/addons-autogenerated.rst:1079
 #: snippets/addons-autogenerated.rst:1263
@@ -52196,16 +53006,13 @@ msgstr ""
 "momenteel alleen de kwaliteitscontrole :ref:`check-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:53
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an Bulletin Board Code (BBCode) document, "
-#| "affects :ref:`check-same`."
 msgid ""
 "Treat a text as an Bulletin Board Code (BBCode) document, "
 "affects :ref:`check-same`. Enables the :ref:`check-bbcode` quality check."
 msgstr ""
 "Behandelt tekst als een document met Bulletin Board Code (BBCode), heeft "
-"invloed op :ref:`check-same`."
+"invloed op :ref:`check-same`. Schakelt de kwaliteitscontrole :ref:`check-"
+"bbcode` in."
 
 #: snippets/check-flags-autogenerated.rst:56
 #, fuzzy
@@ -52226,17 +53033,13 @@ msgid "Enables the :ref:`check-fluent-references` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-fluent-references` over."
 
 #: snippets/check-flags-autogenerated.rst:62
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-inner-html` quality check."
 msgid "Enables the :ref:`check-fluent-target-inner-html` quality check."
 msgstr ""
-"Schakel de kwaliteitscontrole :ref:`check-fluent-source-inner-html` in."
+"Schakelt de kwaliteitscontrole :ref:`check-fluent-target-inner-html` in."
 
 #: snippets/check-flags-autogenerated.rst:64
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-syntax` quality check."
 msgid "Enables the :ref:`check-fluent-target-syntax` quality check."
-msgstr "Schakel de kwaliteitscontrole :ref:`check-fluent-source-syntax` in."
+msgstr "Schakelt de kwaliteitscontrole :ref:`check-fluent-target-syntax` in."
 
 #: snippets/check-flags-autogenerated.rst:66
 #, fuzzy
@@ -52277,13 +53080,12 @@ msgid "Enables the :ref:`check-i18next-interpolation` quality check."
 msgstr "Schakel de kwaliteitscontrole :ref:`check-i18next-interpolation` in."
 
 #: snippets/check-flags-autogenerated.rst:80
-#, fuzzy
-#| msgid "Enable the :ref:`check-icu-message-format-syntax` quality check."
 msgid ""
 "Enables the :ref:`check-icu-message-format` and :ref:`check-icu-message-"
 "format-syntax` quality checks."
 msgstr ""
-"Schakel de kwaliteitscontrole :ref:`check-icu-message-format-syntax` in."
+"Schakelt de kwaliteitscontroles :ref:`check-icu-message-format` en "
+":ref:`check-icu-message-format-syntax` in."
 
 #: snippets/check-flags-autogenerated.rst:82
 #, fuzzy
@@ -52303,6 +53105,10 @@ msgid ""
 "format` only when the source contains Java MessageFormat placeholders. "
 "Enables the :ref:`check-java-format` quality check."
 msgstr ""
+"Behandel een tekst als voorwaardelijke Java MessageFormat, schakel "
+":ref:`check-java-format` alleen in als de bron plaatsvervangers voor Java "
+"MessageFormat bevat. Schakelt de kwaliteitscontrole :ref:`check-java-format` "
+"in."
 
 #: snippets/check-flags-autogenerated.rst:89
 #, fuzzy
@@ -52311,10 +53117,8 @@ msgid "Enables the :ref:`check-javascript-format` quality check."
 msgstr "Schakel de kwaliteitscontrole :ref:`check-javascript-format` in."
 
 #: snippets/check-flags-autogenerated.rst:91
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-laravel-format` quality check."
-msgstr "Schakel de kwaliteitscontrole :ref:`check-lua-format` in."
+msgstr "Schakelt de kwaliteitscontrole :ref:`check-laravel-format` in."
 
 #: snippets/check-flags-autogenerated.rst:93
 #, fuzzy
@@ -52329,10 +53133,8 @@ msgid "Enables the :ref:`check-object-pascal-format` quality check."
 msgstr "Schakel de kwaliteitscontrole :ref:`check-object-pascal-format` in."
 
 #: snippets/check-flags-autogenerated.rst:97
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-objc-format` quality check."
-msgstr "Schakel de kwaliteitscontrole :ref:`check-c-format` in."
+msgstr "Schakelt de kwaliteitscontrole :ref:`check-objc-format` in."
 
 #: snippets/check-flags-autogenerated.rst:99
 #, fuzzy
@@ -52443,10 +53245,8 @@ msgid "Enables the :ref:`check-max-size` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-max-size` over."
 
 #: snippets/check-flags-autogenerated.rst:131
-#, fuzzy
-#| msgid "Enable the :ref:`check-percent-placeholders` quality check."
 msgid "Enables the :ref:`check-placeholders` quality check."
-msgstr "Schakel de kwaliteitscontrole :ref:`check-percent-placeholders` in."
+msgstr "Schakelt de kwaliteitscontrole :ref:`check-placeholders` in."
 
 #: snippets/check-flags-autogenerated.rst:133
 #, fuzzy
@@ -52468,6 +53268,11 @@ msgid ""
 "where angle-bracket syntax may not be HTML. Enables the :ref:`check-safe-"
 "html` quality check."
 msgstr ""
+"Behandel een tekst als voorwaardelijke HTML, schakel :ref:`check-safe-html` "
+"alleen in voor platte tekst of brontekenreeksen die standaard HTML-opmaak of "
+"geldige aangepaste elementen bevatten. Dit is nuttig voor varianten met "
+"uitgebreide Markdown, zoals MDX, waar syntaxis tussen rechte haken geen HTML "
+"hoeft te zijn. Schakelt de kwaliteitscontrole :ref:`check-safe-html` in."
 
 #: snippets/check-flags-autogenerated.rst:140
 #, fuzzy
@@ -52503,10 +53308,8 @@ msgid "Skip the :ref:`check-bbcode` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-bbcode` over."
 
 #: snippets/check-flags-autogenerated.rst:158
-#, fuzzy
-#| msgid "Skip the :ref:`check-xml-tags` quality check."
 msgid "Skip the :ref:`check-xml-chars-around-tags` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-xml-tags` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-xml-chars-around-tags` over."
 
 #: snippets/check-flags-autogenerated.rst:160
 msgid "Skip the :ref:`check-duplicate` quality check."
@@ -52578,10 +53381,8 @@ msgid "Skip the :ref:`check-javascript-format` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-javascript-format` over."
 
 #: snippets/check-flags-autogenerated.rst:194
-#, fuzzy
-#| msgid "Skip the :ref:`check-lua-format` quality check."
 msgid "Skip the :ref:`check-laravel-format` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-lua-format` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-laravel-format` over."
 
 #: snippets/check-flags-autogenerated.rst:196
 msgid "Skip the :ref:`check-lua-format` quality check."
@@ -52592,10 +53393,8 @@ msgid "Skip the :ref:`check-object-pascal-format` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-object-pascal-format` over."
 
 #: snippets/check-flags-autogenerated.rst:200
-#, fuzzy
-#| msgid "Skip the :ref:`check-c-format` quality check."
 msgid "Skip the :ref:`check-objc-format` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-c-format` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-objc-format` over."
 
 #: snippets/check-flags-autogenerated.rst:202
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
@@ -52718,10 +53517,8 @@ msgid "Skip the :ref:`check-plurals` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-plurals` over."
 
 #: snippets/check-flags-autogenerated.rst:262
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid "Skip the :ref:`check-multiple-capital` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-multiple-failures` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-multiple-capital` over."
 
 #: snippets/check-flags-autogenerated.rst:264
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
@@ -53793,10 +54590,8 @@ msgstr ""
 "niet overeen met de bron."
 
 #: snippets/checks-autogenerated.rst:693
-#, fuzzy
-#| msgid ":ref:`docker-secrets`, :ref:`ldap-auth`"
 msgid ":ref:`properties`, :ref:`gwt`"
-msgstr ":ref:`docker-secrets`, :ref:`ldap-auth`"
+msgstr ":ref:`properties`, :ref:`gwt`"
 
 #: snippets/checks-autogenerated.rst:694
 #, fuzzy
@@ -53816,6 +54611,9 @@ msgid ""
 "enabling :ref:`check-java-format` only when the source contains Java "
 "MessageFormat placeholders."
 msgstr ""
+"``auto-java-messageformat``: Behandel een tekst als voorwaardelijke Java "
+"MessageFormat, schakel :ref:`check-java-format` alleen in als de bron "
+"plaatsvervangers voor Java MessageFormat bevat."
 
 #: snippets/checks-autogenerated.rst:705
 msgid ""
@@ -53946,10 +54744,8 @@ msgstr ""
 "De tekenreeks voor de indeling in Objective-C komt niet overeen met de bron."
 
 #: snippets/checks-autogenerated.rst:841
-#, fuzzy
-#| msgid ":ref:`monitoring`, :ref:`monitoring-celery`"
 msgid ":ref:`strings`, :ref:`stringsdict`"
-msgstr ":ref:`monitoring`, :ref:`monitoring-celery`"
+msgstr ":ref:`strings`, :ref:`stringsdict`"
 
 #: snippets/checks-autogenerated.rst:854
 msgid "Percent placeholders"
@@ -55079,14 +55875,12 @@ msgid "The translation uses unsafe HTML markup."
 msgstr "De vertaling gebruikt onveilige HTML-opmaak."
 
 #: snippets/checks-autogenerated.rst:2084
-#, fuzzy
-#| msgid ":ref:`html`, :ref:`markdown`"
 msgid ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
-msgstr ":ref:`html`, :ref:`markdown`"
+msgstr ":ref:`html`, :ref:`markdown`, :ref:`asciidoc`"
 
 #: snippets/checks-autogenerated.rst:2085
 msgid "``auto-safe-html``, ``safe-html``"
-msgstr ""
+msgstr "``auto-safe-html``, ``safe-html``"
 
 #: snippets/checks-autogenerated.rst:2087
 msgid ""
@@ -55095,6 +55889,11 @@ msgid ""
 "markup or valid custom elements. This is useful for extended Markdown "
 "variants such as MDX, where angle-bracket syntax may not be HTML."
 msgstr ""
+"``auto-safe-html``: Behandel een tekst als voorwaardelijke HTML, schakel "
+":ref:`check-safe-html` alleen in voor platte tekst of brontekenreeksen die "
+"standaard HTML-opmaak of geldige aangepaste elementen bevatten. Dit is "
+"nuttig voor varianten met uitgebreide Markdown, zoals MDX, waar syntaxis "
+"tussen rechte haken geen HTML hoeft te zijn."
 
 #: snippets/checks-autogenerated.rst:2092
 msgid ""
@@ -56076,7 +56875,7 @@ msgstr "Web extensies"
 #: snippets/format-features/xlsx-features.rst:9
 #: snippets/format-features/yaml-features.rst:9
 msgid "Linguality :ref:`ⓘ <bimono>`"
-msgstr ""
+msgstr "Taalgebied :ref:`ⓘ <bimono>`"
 
 #: snippets/format-features/appstore-features.rst:10
 #: snippets/format-features/aresource-features.rst:10
@@ -56276,14 +57075,8 @@ msgstr "Bekijk :ref:`format-description`"
 #: snippets/format-features/xliff2-features.rst:15
 #: snippets/format-features/xlsx-features.rst:15
 #: snippets/format-features/yaml-features.rst:15
-#, fuzzy
-#| msgid ""
-#| "Some file formats support storing explanation within the file, "
-#| "see :ref:`format-explanation`."
 msgid "Supports explanation :ref:`ⓘ <format-explanation>`"
-msgstr ""
-"Sommige bestandsindelingen ondersteuning het opslaan van de uitleg in het "
-"bestand, bekijk :ref:`format-explanation`."
+msgstr "Ondersteunt uitleg :ref:`ⓘ <format-explanation>`"
 
 #: snippets/format-features/appstore-features.rst:17
 #: snippets/format-features/arb-features.rst:17
@@ -56448,10 +57241,8 @@ msgstr "Bekijk :ref:`format-location`"
 #: snippets/format-features/xliff2-features.rst:21
 #: snippets/format-features/xlsx-features.rst:21
 #: snippets/format-features/yaml-features.rst:21
-#, fuzzy
-#| msgid "See :ref:`format-flags`."
 msgid "Supports flags :ref:`ⓘ <format-flags>`"
-msgstr "Bekijk :ref:`format-flags`."
+msgstr "Ondersteunt vlaggen :ref:`ⓘ <format-flags>`"
 
 #: snippets/format-features/appstore-features.rst:23
 #: snippets/format-features/arb-features.rst:23
@@ -56561,7 +57352,7 @@ msgstr "identificatie eenheid"
 #: snippets/format-features/xlsx-features.rst:27
 #: snippets/format-features/yaml-features.rst:25
 msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
-msgstr ""
+msgstr "Ondersteunt tekenreeksen alleen-lezen :ref:`ⓘ <read-only-strings>`"
 
 #: snippets/format-features/arb-features.rst:10
 #: snippets/format-features/csv-features.rst:10
@@ -56608,15 +57399,15 @@ msgstr "Bekijk :ref:`format-states`"
 
 #: snippets/format-features/csv-features.rst:26
 msgid "``csv``, ``csv-multi``, ``csv-simple``"
-msgstr ""
+msgstr "``csv``, ``csv-multi``, ``csv-simple``"
 
 #: snippets/format-features/go-i18n-json-features.rst:24
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
-msgstr ""
+msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
-msgstr ""
+msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -56630,11 +57421,6 @@ msgid "Administrative status"
 msgstr "Beheersstatus"
 
 #: snippets/format-features/tbx-features.rst:30
-#, fuzzy
-#| msgid ""
-#| "Terms with administrative status ``forbidden`` or ``obsolete`` in "
-#| "``<termNote type=\"administrativeStatus\">`` are marked with the "
-#| "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgid ""
 "Terms with administrative status ``forbidden`` or ``obsolete`` in "
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
@@ -56642,84 +57428,70 @@ msgid ""
 msgstr ""
 "Termen met de beheersstatus ``forbidden`` of ``obsolete`` in ``<termNote "
 "type=\"administrativeStatus\">`` worden gemarkeerd met de vlag ``forbidden`` "
-"(:ref:`glossary-forbidden`)."
+"(:ref:`glossary-forbidden`).,"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Translation needed"
 msgstr "Vertaling nodig"
 
 #: snippets/format-features/tbx-features.rst:31
-#, fuzzy
-#| msgid ""
-#| "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
-#| "marked as read-only (:ref:`glossary-untranslatable`)."
 msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`).,"
 msgstr ""
 "Termen met ``<termNote type=\"translationNote\">`` die ``no`` bevatten "
-"worden gemarkeerd als alleen-lezen (:ref:`glossary-untranslatable`)."
+"worden gemarkeerd als alleen-lezen (:ref:`glossary-untranslatable`).,"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Usage notes"
 msgstr "Opmerkingen voor gebruik"
 
 #: snippets/format-features/tbx-features.rst:32
-#, fuzzy
-#| msgid ""
-#| "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in "
-#| "the glossary."
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary.,"
 msgstr ""
 "Opmerkingen voor gebruik uit de tags ``<descrip type=\"Usage note\">`` "
-"worden in de woordenlijst weergegeven."
+"worden in de woordenlijst weergegeven.,"
 
 #: snippets/format-features/tbx-features.rst:36
-#, fuzzy
-#| msgid ""
-#| "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
-#| "translation string explanation from ``<note from=\"translator\">``."
 msgid ""
 ":ref:`format-explanation`: Source string explanation is saved and loaded "
 "from the ``<descrip>`` tag, translation string explanation from ``<note "
 "from=\"translator\">``"
 msgstr ""
-"Uitleg van de brontekenreeks wordt opgeslagen en geladen uit de tag "
-"``<descrip>``, de uitleg voor de vertaalde tekenreeks uit ``<note "
-"from=\"translator\">``."
+":ref:`format-explanation`: Uitleg van de brontekenreeks wordt opgeslagen en "
+"geladen uit de tag ``<descrip>``, de uitleg voor de vertaalde tekenreeks uit "
+"``<note from=\"translator\">``"
 
 #: snippets/format-features/txt-features.rst:24
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
-msgstr ""
+msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
 msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
-#, fuzzy
-#| msgid "``10`` -- Needs editing"
 msgid "``Approved``, ``Needs editing``"
-msgstr "``10`` -- Bewerken nodig"
+msgstr "``Goedgekeurd``, ``Bewerken nodig``"
 
 #: snippets/format-features/xliff-features.rst:26
 msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
-msgstr ""
+msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 
 #: snippets/format-features/xliff2-features.rst:8
 msgid "``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff2-features.rst:26
 msgid "``xliff2``, ``xliff2-placeables``"
-msgstr ""
+msgstr "``xliff2``, ``xliff2-placeables``"
 
 #: snippets/format-features/xlsx-features.rst:8
 msgid "``.csv``, ``.xlsx``"
-msgstr ""
+msgstr "``.csv``, ``.xlsx``"
 
 #: snippets/format-in-development.rst:3
 msgid ""
@@ -56739,6 +57511,12 @@ msgid ""
 "can clone from Weblate with ``GIT_LFS_SKIP_SMUDGE=1`` to skip downloading "
 "Git LFS objects."
 msgstr ""
+"Weblate serveert de opslagruimte van Git zelf, maar het serveert geen Git "
+"LFS-objecten. Voor opslagruimten die Git LFS gebruiken, kloon vanuit de "
+"opslagruimte upstream en voeg Weblate toe als een andere remote. Als u "
+"alleen door Git gevolgde bestanden nodig hebt, kunt u klonen vanuit Weblate "
+"met ``GIT_LFS_SKIP_SMUDGE=1`` om het downloaden van Git LFS-objecten over te "
+"slaan."
 
 #: snippets/linked-repository-setting.rst:1
 msgid ""
@@ -56746,6 +57524,10 @@ msgid ""
 "controlled by the linked component that owns the repository. Linked child "
 "components use the value from that component."
 msgstr ""
+"Voor gekoppelde opslagruimten die :ref:`internal-urls` gebruiken, wordt deze "
+"instelling beheerd door het gekoppelde onderdeel dat eigenaar is van de "
+"opslagruimte. Gekoppelde kind-onderdelen gebruiken de waarde uit dat "
+"onderdeel."
 
 #: snippets/machines-autogenerated.rst:0
 msgid "Service ID"
@@ -57487,6 +58269,12 @@ msgid ""
 "context directly to the model. Use LTEngine when you specifically want its "
 "local translation engine or future LTEngine translation improvements."
 msgstr ""
+"LTEngine verschaft een lokaal LibreTranslate-compatibel API backend door "
+"grote taalmodellen. Voor vele installaties van Weblate passen eigen LLM-"
+"services, zoals :ref:`mt-ollama`, beter, omdat Weblate context direct naar "
+"het model kan sturen. Gebruik LTEngine als u specifiek diens lokale "
+"vertalingsprogramma wilt of toekomstige verbeteringen voor vertalingen in "
+"LTEngine."
 
 #: snippets/machines-autogenerated.rst:620
 msgid "Application base URL"
@@ -59515,6 +60303,10 @@ msgid ""
 "keeps an entry for it in every glossary language. If a language entry is "
 "removed, the next glossary synchronization creates it again."
 msgstr ""
+"Terwijl de vlag op de term blijft, behandelt Weblate het als terminologie en "
+"behoudt er ene item voor in elke taal voor een woordenlijst. Als ene "
+"taalitem wordt verwijderd, maakt de volgende synchronisatie van de "
+"woordenlijst het opnieuw aan."
 
 #: user/glossary.rst:108
 msgid ""
@@ -59522,6 +60314,9 @@ msgid ""
 "does not remove or otherwise revert entries that were already created. They "
 "remain regular glossary entries."
 msgstr ""
+"Verwijderen van de vlag ``terminology`` stopt dit automatische onderhoud, "
+"maar het verwijdert niet of draait niet terug de items die al werden "
+"gemaakt. Ze blijven gewone items in de woordenlijst."
 
 #: user/glossary.rst:119 user/translating.rst:95
 msgid "Variants"
@@ -60015,6 +60810,12 @@ msgid ""
 "can be rejected, and public profile links show a warning before leaving "
 "Weblate where possible."
 msgstr ""
+"URL's naar publieke profielen, zoals :guilabel:`Website URL`, "
+":guilabel:`Contact URL`, :guilabel:`Fediverse URL` en :guilabel:`Code site "
+"URL`, zouden moeten verwijzen naar een pagina van een website, contact of "
+"profiel. Duidelijke links voor het direct downloaden van bestanden kunnen "
+"worden geweigerd en links voor publieke profielen geven een waarschuwing "
+"weer voordat het Weblate verlaat, indien mogelijk."
 
 #: user/profile.rst:232
 msgid ""
@@ -60026,6 +60827,15 @@ msgid ""
 "username``, ``/accounts/username``, ``/channel/username``, ``/profile/"
 "username``, ``/u/username``, or ``/people/identifier``."
 msgstr ""
+"De :guilabel:`Codesite URL` zou algemene profielpaden voor codehosten moeten "
+"bevatten, zoals ``/gebruikersnaam`` of ``/~gebruikersnaam``; bestaande links "
+"in de stijl van de opslagruimte, zoals ``/gebruikersnaam/project`` of ``/"
+"groep/subgroep/project`` worden ook geaccepteerd. De :guilabel:`Fediverse "
+"URL` zou algemene paden voor profielen moeten gebruiken, zoals ``/"
+"gebruikersnaam``, ``/@gebruikersnaam``, ``/web/@gebruikersnaam``, ``/"
+"gebruikers/gebruikersnaam``, ``/accounts/gebruikersnaam``, ``/kanaal/"
+"gebruikersnaam``, ``/profiel/gebruikersnaam``, ``/u/gebruikersnaam`` of ``/"
+"mensen/identificatie``."
 
 #: user/profile.rst:241
 msgid ""
@@ -60149,16 +60959,13 @@ msgid "Timestamp for when the string was added to Weblate."
 msgstr "Tijdstempel van toen de tekenreeks werd toegevoegd aan Weblate."
 
 #: user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string states (``approved``, ``translated``, ``needs-"
-#| "editing``, ``empty``, ``read-only``)."
 msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``needs-rewriting``, ``needs-checking``, ``empty``, ``read-only``)."
 msgstr ""
 "Zoeken naar statussen van tekenreeksen (``approved``, ``translated``, "
-"``needs-editing``, ``empty``, ``read-only``)."
+"``needs-editing``, ``needs-rewriting``, ``needs-checking``, ``empty``, "
+"``read-only``)."
 
 #: user/search.rst:50
 msgid ""
@@ -60564,11 +61371,6 @@ msgstr ""
 "tussen 2 en 5, gebruik ``source:r\"[2-5]\"``."
 
 #: user/search.rst:224
-#, fuzzy
-#| msgid ""
-#| "The regular expressions are evaluated by the database backend and might "
-#| "use different extensions, please consult the database documentation below "
-#| "for more details."
 msgid ""
 "The regular expressions are evaluated by the database backend and might use "
 "different extensions, please consult the database documentation for more "
@@ -60576,7 +61378,7 @@ msgid ""
 msgstr ""
 "De reguliere uitdrukkingen worden geëvalueerd door de backend van de "
 "database en zouden andere uitdrukkingen kunnen gebruiken, bekijk de "
-"documentatie voor de database hieronder voor meer details."
+"documentatie voor de database voor meer details:"
 
 #: user/search.rst:228
 #, fuzzy
@@ -60682,7 +61484,7 @@ msgstr "Zoeken op e-mail."
 
 #: user/search.rst:283
 msgid "Search by audit log IP address."
-msgstr ""
+msgstr "Zoeken op auditlog IP-adres."
 
 #: user/translating.rst:2
 msgid "Translating using Weblate"
@@ -61318,6 +62120,12 @@ msgid ""
 "every translation of the string, while translation-specific screenshots are "
 "shown only for that translation; see :ref:`screenshots`."
 msgstr ""
+"Schermafdrukken kunnen direct worden geüpload vanuit dit paneel met "
+":guilabel:`Schermafdruk toevoegen`, of ergens anders in Weblate worden "
+"beheerd om vertalers beter te informeren over waar en hoe de tekenreeks "
+"wordt gebruikt. Schermafdrukken van brontaal worden voor elke vertaling van "
+"de tekenreeks weergegeven, terwijl vertaling specifieke schermafdrukken "
+"alleen worden weergegeven voor die vertaling; bekijk :ref:`screenshots`."
 
 #: user/translating.rst:317
 msgid "Nearby strings"
@@ -61518,6 +62326,12 @@ msgid ""
 "plural rules, pluralized strings are skipped and Weblate shows a warning, "
 "while single-form strings are still translated."
 msgstr ""
+"Bij het gebruiken van andere onderdelen als de bron, past Weblate "
+"vertalingen alleen toe als meervoudsvormen compatibel zijn. Als het "
+"onderdeel van de bron andere regels voor meervoudsvormen gebruikt, worden "
+"tekenreeksen van meervoudsvormen overgeslagen en laat Weblate een "
+"waarschuwing zien, terwijl tekenreeksen voor enkelvoud nog steeds worden "
+"vertaald."
 
 #: user/translating.rst:400
 msgid "You can also choose which strings are to be auto-translated."
@@ -61780,6 +62594,11 @@ msgid ""
 "app handles incoming notifications from GitHub, but pushing changes back "
 "still uses the Hosted Weblate :guilabel:`weblate` user."
 msgstr ""
+"Op GitHub moet u de gebruiker van Hosted Weblate :guilabel:`weblate` "
+"toevoegen of uitnodigen met schrijftoegang, zelfs als u de Hosted Weblate "
+"GitHub-app gebruikt. De app handelt inkomende notificaties van GitHub af, "
+"maar het terugpushen van wijzigingen gebruikt nog steeds de gebruiker van "
+"Hosted Weblate :guilabel:`weblate`."
 
 #: vcs.rst:53
 msgid ""
@@ -62870,20 +63689,16 @@ msgid "The command to launch the container uses the following syntax:"
 msgstr "De opdracht om de container te starten gebruikt de volgende syntaxis:"
 
 #: wlc.rst:63
-#, fuzzy
-#| msgid ""
-#| "You might want to pass your :ref:`wlc-config` to the Docker container, "
-#| "the easiest approach is to add your current directory as :file:`/home/"
-#| "weblate` volume:"
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container. When "
 "your repository contains a project configuration such as :file:`.weblate`, "
 "the easiest approach is to add your current directory as the :file:`/home/"
 "weblate` volume:"
 msgstr ""
-"U wilt misschien uw :ref:`wlc-config` doorgeven aan de Docker container, de "
-"gemakkelijkste benadering is om uw huidige map toe te voegen als het "
-"volume :file:`/home/weblate`:"
+"U wilt misschien uw :ref:`wlc-config` doorgeven aan de Docker container. "
+"Wanneer uw opslagruimte een projectconfiguratie bevat zoals "
+":file:`.weblate`, de gemakkelijkste benadering is om uw huidige map toe te "
+"voegen als het volume :file:`/home/weblate`:"
 
 #: wlc.rst:74
 msgid "Getting started"
@@ -62988,6 +63803,8 @@ msgid ""
 "Load configuration only from ``PATH`` instead of the discovered global and "
 "project configuration files, see :ref:`wlc-config`."
 msgstr ""
+"Laad configuratie alleen vanuit ``PATH`` in plaats van de gevonden globale "
+"en projectconfiguratiebestanden, bekijk :ref:`wlc-config`."
 
 #: wlc.rst:170
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
@@ -63180,12 +63997,16 @@ msgstr "Configuratiebestanden"
 msgid ""
 "When :option:`--config` is provided, :program:`wlc` loads only that file."
 msgstr ""
+"Wanneer :option:`--config` wordt opgegeven, laadt :program:`wlc` alleen dat "
+"bestand."
 
 #: wlc.rst:303
 msgid ""
 "Without :option:`--config`, :program:`wlc` first loads the discovered global "
 "configuration file from the standard platform-specific locations:"
 msgstr ""
+"Zonder :option:`--config`, laad :program:`wlc` eerst het gevonden globale "
+"configuratiebestand vanaf de standaard platform-specifieke locaties:"
 
 #: wlc.rst:306
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
@@ -63246,6 +64067,8 @@ msgid ""
 "After loading the global configuration, :program:`wlc` loads the nearest "
 "project configuration file from the current directory or its parents:"
 msgstr ""
+"Na het laden van de globale configuratie, laad :program:`wlc` het dichtstbij "
+"gelegen projectconfiguratiebestand vanuit de huidige map of diens ouders:"
 
 #: wlc.rst:325
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
@@ -63262,6 +64085,8 @@ msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
+"Alleen het dichtstbijzijnde projectconfiguratiebestand wordt geladen. "
+"Configuratiebestanden in verder weg gelegen oudermappen worden genegeerd."
 
 #: wlc.rst:331
 msgid ""
@@ -63294,6 +64119,11 @@ msgid ""
 "Current :program:`wlc` releases use this setting name in place of the older "
 "``method_whitelist`` option."
 msgstr ""
+"Optionele instelling voor HTTP opnieuw proberen en time-out doorgegeven aan "
+"``urllib3``. Gebruik ``allowed_methods`` om de methoden voor verzoekn te "
+"vermelden die opnieuw mogen worden geprobeerd. Momenteel geeft "
+":program:`wlc` deze instellingsnaam weer in plaats van de oudere optie "
+"``method_whitelist``."
 
 #: wlc.rst:355
 msgid "The configuration file is an INI file, for example:"
@@ -63304,11 +64134,6 @@ msgid "The API keys are stored in the ``[keys]`` section:"
 msgstr "De sleutels voor de API worden opgeslagen in het gedeelte ``[keys]``:"
 
 #: wlc.rst:375
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using "
-#| "the :file:`.weblate` configuration in the VCS repository so "
-#| "that :program:`wlc` knows which server it should talk to."
 msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
@@ -63318,7 +64143,9 @@ msgid ""
 msgstr ""
 "Dit stelt u in staat sleutels op te slaan in uw persoonlijke instellingen, "
 "bij het gebruiken van de configuratie :file:`.weblate` in de opslagruimte "
-"van het VCS zodat :program:`wlc` weet met welke server het zou moeten praten."
+"van het VCS zodat :program:`wlc` weet met welke server het zou moeten "
+"praten. In CI, behoud alleen de configuratie voor de opslagruimte in "
+"versiebeheer en injecteer de API-sleutel met :envvar:`WLC_KEY`."
 
 #: wlc.rst:382
 #, fuzzy
@@ -63332,6 +64159,10 @@ msgid ""
 "is especially useful for CI workflows where the repository provides the "
 "project configuration and :envvar:`WLC_KEY` is injected as a secret:"
 msgstr ""
+"De API URL en sleutel kunnen ook worden geconfigureerd met "
+"omgevingsvariabelen. Dat is speciaal handig voor CI werkstromen waar de "
+"opslagruimte de projectconfiguratie verschaft en :envvar:`WLC_KEY` als "
+"geheim wordt geïnjecteerd:"
 
 #: wlc.rst:398
 #, fuzzy
@@ -63341,11 +64172,11 @@ msgstr "Opvallende wijzigingen configuratie of afhankelijkheden:"
 
 #: wlc.rst:400
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."
-msgstr ""
+msgstr "Argumenten opdrachtregel (:option:`--url`, :option:`--key`)."
 
 #: wlc.rst:401
 msgid "Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
-msgstr ""
+msgstr "Omgevingsvariabelen (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
 
 #: wlc.rst:402
 msgid ""
@@ -63353,6 +64184,9 @@ msgid ""
 "configuration plus the nearest project configuration when :option:`--config` "
 "is not used."
 msgstr ""
+"Configuration geladen uit :option:`--config`, of vanuit de gevonden globale "
+"configuratie plus de dichtstbij gelegen projectconfiguratie, wanneer "
+":option:`--config` niet wordt gebruikt."
 
 #: wlc.rst:407
 msgid "Examples"
@@ -63514,24 +64348,15 @@ msgstr ""
 "bestand, afhankelijk van de bestandsindeling."
 
 #: workflows.rst:67
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change, fuzzy matching or translator action. The translation is stored in "
-#| "the file if the :ref:`project-commit_policy` allows it. Depending on the "
-#| "file format it might be marked as needing edit (for example as it gets a "
-#| "``fuzzy`` flag in the gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of fuzzy matching or "
 "translator action. Depending on the file format it might be marked as "
 "needing edit (for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgstr ""
 "Vertaling heeft Bewerken nodig, dit is gewoonlijk het resultaat van een "
-"wijziging in een brontekenreeks, fuzzy overeenkomst of actie van de "
-"vertaler. De vertaling wordt opgeslagen in het bestand, als :ref:`project-"
-"commit_policy` dat toestaat. Afhankelijk van de bestandsindeling zou het "
-"kunnen zijn gemarkeerd als Bewerken nodig (bijvoorbeeld als het een vlag "
-"``fuzzy`` krijgt in het bestand van gettext)."
+"fuzzy overeenkomst of actie van de vertaler. Afhankelijk van de "
+"bestandsindeling zou het kunnen zijn gemarkeerd als Bewerken nodig "
+"(bijvoorbeeld als het een vlag ``fuzzy`` krijgt in het bestand van gettext)."
 
 #: workflows.rst:69
 msgid "Needs rewriting"
@@ -63540,6 +64365,8 @@ msgstr "Opnieuw schrijven nodig"
 #: workflows.rst:70
 msgid "Translation needs to be rewritten because of a source string change."
 msgstr ""
+"Vertaling moet opnieuw worden geschreven wegens een wijziging in de "
+"brontekenreeks."
 
 #: workflows.rst:71
 msgid "Needs checking"
@@ -63551,6 +64378,11 @@ msgid ""
 "typically set for new source strings imported from the VCS when the Source "
 "edit addon is enabled, or when a source string is reported for checking."
 msgstr ""
+"Staat gebruikt voor tekenreeksen in bron/sjabloon die beoordelen door "
+"ontwikkelaar nodig hebben. Het wordt gewoonlijk ingesteld voor nieuwe "
+"brontekenreeksen die worden geïmporteerd vanuit het VCS wanneer de add-on "
+"Source edit is ingeschakeld, of als een brontekenreeks ter controle wordt "
+"aangeboden."
 
 #: workflows.rst:76
 #, fuzzy
@@ -63563,6 +64395,8 @@ msgid ""
 "Translation is made. The translated state is shown as \"Waiting for review\" "
 "if reviews are enabled."
 msgstr ""
+"Vertaling is gemaakt. De vertaalde status wordt weergegeven als \"Wachten op "
+"beoordelen\" als beoordelen is ingeschakeld."
 
 #: workflows.rst:79
 msgid ""

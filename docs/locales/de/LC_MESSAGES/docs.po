@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-24 17:37+0000\n"
+"PO-Revision-Date: 2026-04-29 04:10+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -2505,7 +2505,7 @@ msgstr "`So senden Sie einen benutzerdefinierten RelayState mit Okta`_"
 
 #: admin/auth.rst:587
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
-msgstr ":ref:`Configuring SAML in Docker <docker-saml>`"
+msgstr ":ref:`SAML in Docker konfigurieren <docker-saml>`"
 
 #: admin/auth.rst:593
 msgid "LDAP authentication"
@@ -3263,10 +3263,8 @@ msgid "The Borg session might look like this:"
 msgstr "Die Borg-Sitzung könnte wie folgt aussehen:"
 
 #: admin/backup.rst:228
-#, fuzzy
-#| msgid "Choosing Docker image tag"
 msgid "Restoring Docker based setup"
-msgstr "Docker-Image-Tag auswählen"
+msgstr "Docker-basierte Konfiguration wiederherstellen"
 
 #: admin/backup.rst:230
 msgid ""
@@ -3275,6 +3273,11 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Die folgenden Schritte gehen von der offiziellen Docker-Compose-"
+"Konfiguration aus, bei der die mitgelieferten PostgreSQL- und Valkey-Dienste "
+"verwendet werden, siehe :doc:`install/docker`. Wenn Ihre Bereitstellung eine "
+"externe Datenbank oder eine angepasste Compose-Datei verwendet, passen Sie "
+"die Schritte für die Datenbank und das Volume an diese Einsatzumgebung an."
 
 #: admin/backup.rst:235
 msgid ""
@@ -3283,6 +3286,11 @@ msgid ""
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Beginnen Sie mit einem Docker-Compose-Checkout, welcher der "
+"wiederhergestellten Bereitstellung entspricht. Stellen Sie Ihre "
+"ursprünglichen Compose-Überschreibungen, Geheimnisse und Umgebungsvariablen "
+"wieder her. Die Datei :file:`environment.yml` aus :ref:`backup-dumps` kann "
+"dabei helfen, wird jedoch nicht automatisch importiert."
 
 #: admin/backup.rst:240
 msgid ""
@@ -3290,16 +3298,19 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Das Sicherungsarchiv mit :ref:`restore-borg` wiederherstellen oder die "
+"manuelle Sicherung entpacken, sodass das Weblate-Datenverzeichnis und "
+":file:`backups/database.sql` verfügbar sind."
 
 #: admin/backup.rst:244
 msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
+"Die Dienste beenden, die in die Datenbank oder auf das Daten-Volume "
+"schreiben können:"
 
 #: admin/backup.rst:250
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "PostgreSQL-Volumen entfernen:"
+msgstr "Das PostgreSQL-Volume neu erstellen."
 
 #: admin/backup.rst:258
 msgid ""
@@ -3307,24 +3318,25 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"Der Volume-Name hängt vom Namen des Compose-Projekts ab und kann von "
+":file:`weblate-docker_postgres-data` abweichen. Überprüfen Sie Ihre "
+"Konfiguration, bevor Sie ein Volume entfernen."
 
 #: admin/backup.rst:262
-#, fuzzy
-#| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "Datenbank-Container öffnen:"
+msgstr "Den Datenbankdienst starten:"
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Datenbank aus Sicherung wiederherstellen:"
+msgstr "Den Datenbankauszug wiederherstellen:"
 
 #: admin/backup.rst:274
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Prüfen Sie, ob der Datenbankname mit :envvar:`POSTGRES_DB` und der Benutzer "
+"mit :envvar:`POSTGRES_USER` in Ihrer Compose-Konfiguration übereinstimmt."
 
 #: admin/backup.rst:277
 msgid ""
@@ -3332,20 +3344,26 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Das Weblate-Datenverzeichnis im Docker-Daten-Volume wiederherstellen, das "
+"als :file:`/app/data` eingebunden ist, siehe :ref:`docker-volume`. Die "
+"Dateien in diesem Volume müssen zur UID 1000 gehören, siehe :ref:`file-"
+"permissions`."
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Die verbleibenden Dienste starten und den Protokollen folgen:"
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"Der Weblate-Container führt beim Start Datenbankmigrationen durch. Wenn Sie "
+"auch ein Upgrade von Weblate durchführen, folgen Sie :ref:`upgrading-docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "Die Repositorys nach der Wiederherstellung aktualisieren:"
 
 #: admin/backup.rst:308
 msgid "Manual backup"
@@ -4770,21 +4788,20 @@ msgstr ""
 "Hintergrundaufgabe."
 
 #: admin/config.rst:487
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded component ZIP files. "
 "Defaults to 50 MB."
 msgstr ""
-"Konfiguriert das Größenlimit für den Abruf von Assets in Weblate. Der "
-"Standardwert ist 10 MB."
+"Legt die maximale Größe in Bytes für hochgeladene ZIP-Dateien von "
+"Komponenten fest. Der Standardwert ist 50 MB."
 
 #: admin/config.rst:490
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgstr ""
+"In Docker konfigurieren Sie dies mit der Umgebungsvariable "
+"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:504
 msgid ""
@@ -4855,7 +4872,7 @@ msgstr ""
 
 #: admin/config.rst:542
 msgid ":file:`fonts`:"
-msgstr ":file:`fonts`:"
+msgstr ":file:`fonts`"
 
 #: admin/config.rst:543
 msgid "User-uploaded fonts, see :ref:`fonts`."
@@ -5957,19 +5974,14 @@ msgstr ""
 "enthalten ist. Standardmäßig aktiviert."
 
 #: admin/config.rst:1864
-#, fuzzy
-#| msgid ""
-#| "Reject webhook URLs pointing to internal or non-public addresses unless "
-#| "the target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On "
-#| "by default."
 msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included "
 "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr ""
-"Lehnt Webhook-URLs die auf interne oder nicht öffentliche Adressen verweisen "
-"ab, sofern der Ziel-Host nicht in :setting:`WEBHOOK_PRIVATE_ALLOWLIST` "
-"enthalten ist. Standardmäßig aktiviert."
+"Wenn aktiviert, werden Hostnamen, die beim Validieren nicht aufgelöst werden "
+"können, zurückgewiesen, sofern sie nicht explizit in "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST` enthalten sind."
 
 #: admin/config.rst:1879
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -6460,21 +6472,20 @@ msgstr ""
 "zu deaktivieren."
 
 #: admin/config.rst:2354
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded translation files. "
 "Defaults to 50 MB."
 msgstr ""
-"Konfiguriert das Größenlimit für den Abruf von Assets in Weblate. Der "
-"Standardwert ist 10 MB."
+"Legt die maximale Größe in Bytes für hochgeladene Übersetzungsdateien fest. "
+"Der Standardwert ist 50 MB."
 
 #: admin/config.rst:2357
 msgid ""
 "In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`` "
 "environment variable."
 msgstr ""
+"In Docker konfigurieren Sie dies mit der Umgebungsvariable "
+"``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:2367
 msgid ""
@@ -6576,6 +6587,9 @@ msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Wenn aktiviert, werden Hostnamen, die beim Validieren nicht aufgelöst werden "
+"können, zurückgewiesen, sofern sie nicht explizit in "
+":setting:`VCS_ALLOW_HOSTS` enthalten sind."
 
 #: admin/config.rst:2463
 msgid ""
@@ -9105,7 +9119,9 @@ msgstr ""
 
 #: admin/install.rst:585
 msgid ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
-msgstr ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
+msgstr ""
+":ref:`Konfigurieren von ausgehenden E-Mails im Docker-Container <docker-mail>"
+"`"
 
 #: admin/install.rst:590
 msgid "Running behind reverse proxy"
@@ -10378,9 +10394,9 @@ msgid ""
 "changes, digest notifications, or backups)."
 msgstr ""
 "Dies hat schwerwiegende Auswirkungen auf die Leistung der Weboberfläche und "
-"beeinträchtigt Funktionen, die von regelmäßigen Auslösern abhängen (z. B. "
-"das Committen ausstehender Änderungen, Zusammenfassungsbenachrichtigungen "
-"oder Sicherungen)."
+"beeinträchtigt Funktionen, die von regelmäßigen Triggern abhängen (z. B. das "
+"Committen ausstehender Änderungen, Zusammenfassungsbenachrichtigungen oder "
+"Sicherungen)."
 
 #: admin/install.rst:1598
 msgid ""
@@ -12811,7 +12827,7 @@ msgstr ""
 
 #: admin/install/docker.rst:2147
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
-msgstr ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
+msgstr ":doc:`Celery-Worker-Optionen <celery:reference/celery.bin.worker>`"
 
 #: admin/install/docker.rst:2154
 msgid ""
@@ -19173,10 +19189,8 @@ msgstr ""
 "Beschreibung anzeigen, siehe :ref:`format-description`."
 
 #: admin/translating.rst:124
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots and visual context"
-msgstr "Name des Bildschirmfotos"
+msgstr "Bildschirmfotos und visueller Kontext"
 
 #: admin/translating.rst:126
 msgid ""
@@ -19201,10 +19215,8 @@ msgid ""
 msgstr ""
 
 #: admin/translating.rst:138
-#, fuzzy
-#| msgid "`Manage screenshots`"
 msgid "Managing screenshots in the UI"
-msgstr "`Bildschirmfotos verwalten`"
+msgstr "Bildschirmfotos in der Bedienoberfläche verwalten"
 
 #: admin/translating.rst:140
 msgid ""
@@ -19255,12 +19267,8 @@ msgstr ""
 "begrenzt."
 
 #: admin/translating.rst:163
-#, fuzzy
-#| msgid "Fixed caching issues after updating screenshots from the repository."
 msgid "Managing screenshots from the repository"
-msgstr ""
-"Caching-Probleme nach dem Aktualisieren von Bildschirmfotos aus dem "
-"Repository behoben."
+msgstr "Bildschirmfotos aus dem Repository verwalten"
 
 #: admin/translating.rst:165
 msgid ""
@@ -19301,10 +19309,8 @@ msgstr ""
 "entsprechen, werden der Komponente hinzugefügt."
 
 #: admin/translating.rst:188
-#, fuzzy
-#| msgid "`Manage screenshots`"
 msgid "Managing screenshots through the API"
-msgstr "`Bildschirmfotos verwalten`"
+msgstr "Bildschirmfotos über die API verwalten"
 
 #: admin/translating.rst:190
 msgid ""
@@ -20008,10 +20014,8 @@ msgstr ""
 "über die Erweiterungsverwaltung und :ref:`addons-api` ausgeführt werden."
 
 #: changes.rst:9
-#, fuzzy
-#| msgid ":ref:`mt-yandex-v2` machine translation service."
 msgid ":ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-yandex-v2` maschineller Übersetzungsdienst."
+msgstr ":ref:`mt-ltengine` maschineller Übersetzungsdienst."
 
 #: changes.rst:12 changes.rst:102 changes.rst:206 changes.rst:241
 #: changes.rst:288 changes.rst:332 changes.rst:377 changes.rst:418
@@ -20511,14 +20515,12 @@ msgstr ""
 "jedes Dateiformat beschreiben."
 
 #: changes.rst:90
-#, fuzzy
-#| msgid "Shared components can now be categorized within the target project."
 msgid ""
 "Shared components can now be categorized within the target project, "
 "including through the :ref:`api` using the ``category_id`` parameter."
 msgstr ""
 "Gemeinsam genutzte Komponenten können nun im Zielprojekt kategorisiert "
-"werden."
+"werden, auch über :ref:`api` mit dem Parameter ``category_id``."
 
 #: changes.rst:91
 msgid ""
@@ -49484,11 +49486,6 @@ msgid "US encryption controls"
 msgstr "US-Verschlüsselungskontrollen"
 
 #: security/us-compliance.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate does not contain any cryptographic code, but might be subject "
-#| "export controls as it uses third party components utilizing cryptography "
-#| "for authentication, data-integrity and -confidentiality."
 msgid ""
 "Weblate does not contain any cryptographic code, but might be subject to "
 "export controls as it uses third party components utilizing cryptography for "
@@ -49500,17 +49497,13 @@ msgstr ""
 "einsetzen."
 
 #: security/us-compliance.rst:24
-#, fuzzy
-#| msgid ""
-#| "Weblate and all it's dependencies have publicly available source code "
-#| "meaning it can usually be exported and reexported without restriction."
 msgid ""
 "Weblate and all its dependencies have publicly available source code meaning "
 "it can usually be exported and reexported without restriction."
 msgstr ""
-"Weblate und alle seine Abhängigkeiten verfügen über öffentlich zugänglichen "
-"Quellcode, was bedeutet, dass er in der Regel ohne Einschränkungen "
-"exportiert und reexportiert werden kann."
+"Der Quellcode von Weblate und all seinen Abhängigkeiten ist öffentlich "
+"zugänglich, sodass er in der Regel ohne Einschränkungen exportiert und "
+"reexportiert werden kann."
 
 #: security/us-compliance.rst:28
 msgid "Export control classification number"
@@ -49708,15 +49701,15 @@ msgid "Triggered after a Change event is created."
 msgstr "Wird ausgelöst, nachdem ein Änderungsereignis erstellt wurde."
 
 #: snippets/addon-events-autogenerated.rst:42
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Manual trigger"
-msgstr "Warnung ausgelöst"
+msgstr "Manueller Trigger"
 
 #: snippets/addon-events-autogenerated.rst:44
 msgid ""
 "Triggered when an add-on is run manually from add-on management or the API."
 msgstr ""
+"Wird ausgelöst, wenn eine Erweiterung manuell über die "
+"Erweiterungsverwaltung oder API ausgeführt wird."
 
 #: snippets/addon-events-autogenerated.rst:49
 msgid "Repository post-add"
@@ -54579,7 +54572,7 @@ msgstr "Einfache Formatzeichenkette"
 
 #: snippets/checks-autogenerated.rst:979
 msgid ":ref:`Python brace format <python:formatstrings>`"
-msgstr ":ref:`Python brace format <python:formatstrings>`"
+msgstr ":ref:`Python-Brace-Format <python:formatstrings>`"
 
 #: snippets/checks-autogenerated.rst:980 snippets/checks-autogenerated.rst:1007
 msgid ""
@@ -54599,7 +54592,7 @@ msgstr "Python-Formatzeichenkette passt nicht zur Ausgangszeichenkette."
 
 #: snippets/checks-autogenerated.rst:1006
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
-msgstr ":ref:`Python string formatting <python:old-string-formatting>`"
+msgstr ":ref:`Python-Zeichenkettenformatierung <python:old-string-formatting>`"
 
 #: snippets/checks-autogenerated.rst:1015
 msgid "Qt format"

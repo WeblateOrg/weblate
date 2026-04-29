@@ -757,7 +757,11 @@ class User(AbstractBaseUser):
     def needs_project_filter(self):
         if self.is_superuser:
             return False
-        return self.allowed_projects.count() != Project.objects.all().count()
+        if -SELECTION_ALL in self.project_permissions:
+            return False
+        return Project.objects.exclude(
+            pk__in=self.allowed_projects.values("pk").order_by()
+        ).exists()
 
     @cached_property
     def watched_projects(self):

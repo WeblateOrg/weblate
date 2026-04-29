@@ -25,6 +25,7 @@ from weblate.trans.views.hooks import (
     allow_fallback_matching,
     extract_payload,
     extract_request_data,
+    gitea_like_repo_variants,
     normalize_branch_ref,
     require_mapping,
     validate_full_name,
@@ -1386,6 +1387,17 @@ class HooksViewTest(ViewTestCase):
             headers={"x-github-event": "push"},
         )
         self.assertContains(response, "Update triggered")
+        component_url = reverse(
+            "api:component-detail",
+            kwargs={
+                "project__slug": self.component.project.slug,
+                "slug": self.component.slug,
+            },
+        )
+        self.assertEqual(
+            response.json()["updated_components"],
+            [f"http://example.com{component_url}"],
+        )
 
         # Check change details display
         change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
@@ -1409,6 +1421,16 @@ class HooksViewTest(ViewTestCase):
     def test_hook_gitea(self) -> None:
         # Adjust matching repo
         self.component.repo = "http://localhost:3000/gitea/webhooks.git"
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}), {"payload": GITEA_PAYLOAD}
+        )
+        self.assertContains(response, "Update triggered")
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_gitea_loopback_ssh_repo_variant(self) -> None:
+        # Adjust matching repo
+        self.component.repo = "ssh://gitea@localhost:2222/gitea/webhooks"
         self.component.save()
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitea"}), {"payload": GITEA_PAYLOAD}
@@ -2052,23 +2074,26 @@ class ValidateFullNameTest(SimpleTestCase):
 
     def test_validate_full_name_valid(self) -> None:
         """Test valid full_name formats."""
-        # Valid full_name with slash and length > 5
         self.assertTrue(validate_full_name("owner/repo"))
         self.assertTrue(validate_full_name("organization/project"))
         self.assertTrue(validate_full_name("user/repository-name"))
         self.assertTrue(validate_full_name("long-owner/long-repo-name"))
+        self.assertTrue(validate_full_name("a/bcd"))
+        self.assertTrue(validate_full_name("/owner/repo/"))
 
     def test_validate_full_name_too_short(self) -> None:
-        """Test full_name that's too short (≤5 chars)."""
+        """Test full_name with short repository name."""
         self.assertFalse(validate_full_name("a/b"))  # 3 chars
         self.assertFalse(validate_full_name("ab/c"))  # 4 chars
-        self.assertFalse(validate_full_name("a/bcd"))  # 5 chars
-        self.assertTrue(validate_full_name("ab/cde"))  # 6 chars, valid
+        self.assertFalse(validate_full_name("owner/a"))
+        self.assertFalse(validate_full_name("owner/ab"))
+        self.assertFalse(validate_full_name("owner/a.git"))
 
     def test_validate_full_name_no_slash(self) -> None:
         """Test full_name without slash."""
         self.assertFalse(validate_full_name("noslash"))
         self.assertFalse(validate_full_name("repository"))
+        self.assertFalse(validate_full_name("/repository/"))
 
     def test_validate_full_name_empty(self) -> None:
         """Test empty full_name."""
@@ -2080,9 +2105,70 @@ class ValidateFullNameTest(SimpleTestCase):
 
     def test_validate_full_name_multiple_slashes(self) -> None:
         """Test full_name with multiple slashes (still valid)."""
-        # These are valid as they have slash and length > 5
         self.assertTrue(validate_full_name("org/project/repo"))
         self.assertTrue(validate_full_name("user/sub/project"))
+        self.assertFalse(validate_full_name("org//repo"))
+
+
+class GiteaLikeRepoVariantsTest(SimpleTestCase):
+    """Test exact repository URL variants for Gitea-like payloads."""
+
+    def test_gitea_like_repo_variants_include_same_host_ssh_forms(self) -> None:
+        repos = gitea_like_repo_variants(
+            "http://localhost:3000/forgejo/webhooks.git",
+            "ssh://forgejo@git.example.com/forgejo/webhooks.git",
+            "http://localhost:3000/forgejo/webhooks",
+            "forgejo/webhooks",
+        )
+
+        self.assertIn("forgejo@git.example.com:forgejo/webhooks.git", repos)
+        self.assertIn("forgejo@git.example.com:forgejo/webhooks", repos)
+        self.assertIn("ssh://forgejo@git.example.com/forgejo/webhooks.git", repos)
+        self.assertIn("ssh://forgejo@git.example.com/forgejo/webhooks", repos)
+        self.assertNotIn("git@localhost:forgejo/webhooks.git", repos)
+        self.assertNotIn("git@git.example.com:forgejo/webhooks.git", repos)
+        self.assertNotIn("forgejo@localhost:forgejo/webhooks.git", repos)
+        self.assertEqual(len(repos), len(set(repos)))
+
+    def test_gitea_like_repo_variants_preserve_ssh_port(self) -> None:
+        repos = gitea_like_repo_variants(
+            "http://localhost:3000/forgejo/webhooks.git",
+            "ssh://forgejo@localhost:2222/forgejo/webhooks.git",
+            "http://localhost:3000/forgejo/webhooks",
+            "forgejo/webhooks",
+        )
+
+        self.assertIn("ssh://forgejo@localhost:2222/forgejo/webhooks.git", repos)
+        self.assertIn("ssh://forgejo@localhost:2222/forgejo/webhooks", repos)
+        self.assertNotIn("forgejo@localhost:forgejo/webhooks.git", repos)
+
+    def test_gitea_like_repo_variants_skip_mismatched_path(self) -> None:
+        repos = gitea_like_repo_variants(
+            "http://localhost:3000/forgejo/webhooks.git",
+            "ssh://forgejo@git.example.com/other/project.git",
+            "http://localhost:3000/forgejo/webhooks",
+            "forgejo/webhooks",
+        )
+
+        self.assertNotIn("forgejo@git.example.com:forgejo/webhooks.git", repos)
+        self.assertNotIn("ssh://forgejo@git.example.com/forgejo/webhooks.git", repos)
+
+    def test_gitea_like_repo_variants_skip_invalid_full_name(self) -> None:
+        repos = gitea_like_repo_variants(
+            "http://localhost:3000/webhooks.git",
+            "ssh://forgejo@localhost:2222/webhooks.git",
+            "http://localhost:3000/webhooks",
+            "webhooks",
+        )
+
+        self.assertEqual(
+            repos,
+            [
+                "http://localhost:3000/webhooks.git",
+                "ssh://forgejo@localhost:2222/webhooks.git",
+                "http://localhost:3000/webhooks",
+            ],
+        )
 
 
 class AllowFallbackMatchingTest(SimpleTestCase):
