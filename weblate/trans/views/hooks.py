@@ -34,6 +34,8 @@ from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from django_stubs_ext import StrOrPromise
 
 BITBUCKET_GIT_REPOS = (
@@ -584,7 +586,7 @@ def pagure_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     }
 
 
-def expand_quoted(name: str):
+def expand_quoted(name: str) -> Generator[str]:
     yield name
     quoted = quote(name)
     if quoted != name:
