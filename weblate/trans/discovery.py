@@ -662,6 +662,28 @@ class ComponentDiscovery:
         else:
             LOGGER.info(*args)
 
+    def clean_inherited_file_format_options(
+        self, kwargs: dict[str, object], name: str
+    ) -> None:
+        """Drop inherited component options unsupported by the discovered format."""
+        if kwargs.get("edit_template", True) and not self.file_format_cls.can_edit_base:
+            self.log(
+                "Disabling template editing for %s because it is not supported",
+                name,
+            )
+            kwargs["edit_template"] = False
+
+        if (
+            kwargs.get("manage_units")
+            and not self.file_format_cls.can_add_unit
+            and not self.file_format_cls.can_delete_unit
+        ):
+            kwargs["manage_units"] = False
+            self.log(
+                "Disabling managing strings for %s because it is not supported",
+                name,
+            )
+
     def create_component(
         self,
         main: Component | None,
@@ -693,9 +715,7 @@ class ComponentDiscovery:
             kwargs.pop("enforced_checks", None)
             kwargs.pop("file_format_params", None)
 
-        # Disable template editing if not supported by format
-        if not self.file_format_cls.can_edit_base:
-            kwargs["edit_template"] = False
+        self.clean_inherited_file_format_options(kwargs, name)
 
         # Fill in repository
         if "repo" not in kwargs:

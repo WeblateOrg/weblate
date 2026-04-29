@@ -50,6 +50,7 @@ Weblate 5.17.1
 * Monolingual component validation now honors :ref:`component-source_language` when checking duplicate files alongside a separate :ref:`component-template`.
 * :ref:`Translation memory upload <memory-user>` and :wladmin:`import_memory` now report a validation error for TMX files missing the required header instead of failing the request.
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
+* :ref:`addon-weblate.discovery.discovery` now disables inherited string management for discovered formats that do not support adding or removing strings.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 * Project component pagination now keeps the :guilabel:`Components` tab active when jumping to a typed page number.
 * Markdown rendering now falls back to escaped plain text when the parser fails and escapes image URLs before rendering.

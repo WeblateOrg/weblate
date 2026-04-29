@@ -302,6 +302,34 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
 
+    def test_perform_disables_unsupported_unit_management(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        for language in ("cs", "en"):
+            (docs / f"news_{language}.md").write_text(
+                "# News\n\nContent\n", encoding="utf-8"
+            )
+
+        self.component.manage_units = True
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>.+?)_(?P<language>[^/.]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}_en.md",
+        )
+
+        created, matched, deleted, skipped = discovery.perform(preview=True)
+
+        self.assertEqual(skipped, [])
+        self.assertEqual(matched, [])
+        self.assertEqual(deleted, [])
+        self.assertEqual(len(created), 1)
+        self.assertEqual(created[0][0]["mask"], "docs/news_*.md")
+        component = created[0][1]
+        self.assertIsNotNone(component)
+        self.assertFalse(component.manage_units)
+
     def test_create_component_tolerates_missing_copy_from_addons_source(self) -> None:
         source_component = self._create_component(
             "po",
