@@ -50,7 +50,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-22 10:10+0000\n"
+"PO-Revision-Date: 2026-04-29 21:57+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -415,6 +415,7 @@ msgstr ""
 "необходимо создать новое приглашение."
 
 #: admin/access.rst:181
+#, fuzzy
 msgid ""
 "The same kind of invitations are available site-wide from "
 "the :ref:`management interface <management-interface>` on "
@@ -424,8 +425,16 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
+"Такие же приглашения общесайтово доступны из :ref:`интерфейса управления "
+"<management-interface>` на вкладке :guilabel:`Пользователи`. Как "
+"администраторы проекта, так и администраторы сайта могут также приглашать "
+"несколько пользователей одновременно, вставляя через пробел адреса "
+"электронной почты. Все приглашения, созданные одним массовым действием, "
+"используют выбранную команду, а общесайтовые массовые приглашения также "
+"применяют выбранный флаг суперпользователя."
 
 #: admin/access.rst:188
+#, fuzzy
 msgid ""
 "Site-wide user management is controlled by the global ``user.edit`` "
 "permission. Unlike project access management, this is a trusted "
@@ -433,13 +442,23 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"Общесайтовое управление пользователями контролируется глобальным разрешением "
+"``user.edit``. В отличие от управления доступом к проекту, это доверенное "
+"административное разрешение, которое позволяет редактировать учётные записи "
+"пользователей во всём экземпляре, включая назначение общесайтовых команд и "
+"предоставление статуса суперпользователя управляемой учётной записи, даже "
+"собственной учётной записи вызывающего."
 
 #: admin/access.rst:194
+#, fuzzy
 msgid ""
 "Bulk invitations are processed individually. Invalid addresses and addresses "
 "with an already pending invitation are skipped while valid invitations are "
 "still created and sent."
 msgstr ""
+"Массовые приглашения обрабатываются по отдельности. Недействительные адреса "
+"и адреса с уже ожидающим приглашением пропускаются, при этом действительные "
+"приглашения всё равно создаются и отправляются."
 
 #: admin/access.rst:200
 msgid ""
@@ -507,6 +526,7 @@ msgstr ""
 "этого добавьте их в команду `Администрации` проекта."
 
 #: admin/access.rst:231
+#, fuzzy
 msgid ""
 "This project-scoped delegation is separate from the site-wide ``user.edit`` "
 "permission. Membership in a project `Administration` team allows managing "
@@ -514,6 +534,11 @@ msgid ""
 "management in the Weblate UI and API and should be assigned only to fully "
 "trusted site administrators."
 msgstr ""
+"Эта делегация в рамках проекта отделена от общесайтового разрешения "
+"``user.edit``. Членство в команде `Управляющие` проекта позволяет управлять "
+"доступом только для этого проекта, в то время как ``user.edit`` "
+"предоставляет общесайтовое управление пользователями в интерфейсе Weblate и "
+"API и должно назначаться только полностью доверенным администраторам сайта."
 
 #: admin/access.rst:240
 msgid "Per-project access tokens"
@@ -941,7 +966,7 @@ msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
-"Проект ``foo`` с компонентами: ``foo/bar`` и ` `` `foo/baz``, с правами "
+"Проект ``foo`` с компонентами: ``foo/bar`` и ``foo/baz``, с правами "
 "рецензирования и управления, в следующей команде:"
 
 #: admin/access.rst:443
@@ -1049,10 +1074,14 @@ msgstr ""
 "регулярное выражение ``^$`` (которому не будет соответствовать ничего)."
 
 #: admin/access.rst:489
+#, fuzzy
 msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
+"Массовое приглашение через пользовательский интерфейс создаёт приглашения. "
+"Существующие пользователи всё равно должны подтвердить приглашение, прежде "
+"чем стать членами команды."
 
 #: admin/access.rst:493
 msgid "Default teams and roles"
@@ -1241,16 +1270,20 @@ msgstr ""
 "настроив Weblate таким образом, чтобы доступ к нему имели только известные "
 "пользователи. Для этого вы можете установить :setting:`REGISTRATION_OPEN` в "
 "``False``, чтобы предотвратить регистрацию любых новых пользователей, и "
-"установить :setting:`REQUIRE_LOGIN` в ``/.*``, чтобы требовать авторизацию "
+"установить :setting:`REQUIRE_LOGIN` в ``True``, чтобы требовать авторизацию "
 "для доступа ко всем страницам сайта. В принципе, это способ заблокировать "
 "установку Weblate."
 
 #: admin/access.rst:583
+#, fuzzy
 msgid ""
 "Additionally, changing :setting:`DEFAULT_ACCESS_CONTROL` to ``100`` will "
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Кроме того, изменение :setting:`DEFAULT_ACCESS_CONTROL` на ``100`` сделает "
+"все вновь созданные проекты приватными, что потребует явного предоставления "
+"доступа."
 
 #: admin/access.rst:588
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -1262,14 +1295,18 @@ msgstr ""
 #, fuzzy
 #| msgid "Search in user comments."
 msgid "Expiration of user accounts"
-msgstr "Поиск в пользовательских комментариях."
+msgstr "Истечение срока действия учётных записей"
 
 #: admin/access.rst:595
+#, fuzzy
 msgid ""
 "Each account can have an expiry set. After the expiration, the account will "
 "be automatically disabled. This is used for :ref:`project-api`, but can be "
 "utilized for regular users as well."
 msgstr ""
+"Для каждой учётной записи можно установить срок действия. После истечения "
+"срока учётная запись будет автоматически отключена. Это используется для "
+":ref:`project-api`, но может быть применено и для обычных пользователей."
 
 #: admin/addons.rst:7 api.rst:2741
 msgid "Add-ons"
@@ -1298,17 +1335,21 @@ msgstr ""
 "api>`, :setting:`DEFAULT_ADDONS` или :wladmin:`install_addon`."
 
 #: admin/addons.rst:18
+#, fuzzy
 msgid ""
 "Add-ons that opt in to manual triggering can be run from add-on management "
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"Надстройки, которые поддерживают ручной запуск, можно запустить из "
+"управления надстройками или с помощью :ref:`API <addons-api>`. Результаты "
+"записываются в журнал активности надстройки."
 
 #: admin/addons.rst:28
 #, fuzzy
 #| msgid "Delete add-on."
 msgid "Obsolete add-ons"
-msgstr "Удаляет надстройку."
+msgstr "Устаревшие надстройки"
 
 #: admin/addons.rst:33
 msgid "Customize XML output"
@@ -1319,7 +1360,7 @@ msgstr "Настройка вывода XML"
 #, fuzzy
 #| msgid "See :ref:`format-plurals`"
 msgid "Replaced by :ref:`file_format_params`."
-msgstr "См. :ref:`format-plurals`"
+msgstr "Заменено на :ref:`file_format_params`."
 
 #: admin/addons.rst:42
 msgid "Customize YAML output"
@@ -1580,7 +1621,7 @@ msgstr "Настраивает :ref:`machine-translation-setup`."
 #, fuzzy
 #| msgid "Source string, see :ref:`additional`."
 msgid "Configure site-wide addons, see :ref:`addons`."
-msgstr "Миесказначоdžанние радка-зичодніка"
+msgstr "Настройка общесайтовых надстроек, см. :ref:`addons`."
 
 #: admin/admin.rst:28
 msgid "Performance report"
@@ -1627,12 +1668,17 @@ msgstr ""
 "строке, используя команду :wladmin:`celery_queues`."
 
 #: admin/admin.rst:44
+#, fuzzy
 msgid ""
 ":guilabel:`HTTP environment` allows you to see HTTP environment observed by "
 "Weblate. This is useful when debugging reverse proxy configuration, "
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`Окружение HTTP` позволяет увидеть HTTP-окружение, наблюдаемое "
+"Weblate. Это полезно при отладке конфигурации обратного прокси, см. "
+":ref:`reverse-proxy`. :guilabel:`Заголовки HTTP` показывает полные заголовки "
+"HTTP-запроса для предоставления дополнительной информации."
 
 #: admin/admin.rst:48
 msgid ""
@@ -1703,7 +1749,8 @@ msgid ""
 msgstr ""
 "В разделе :guilabel:`Отчёты` вы можете проверить статус вашего сайта, "
 "настроить его для :ref:`рабочей среды <production>`, или управлять ключами "
-"SSH, используемыми для :ref:`доступа к репозиториям <vcs-repos>`."
+"SSH, используемыми для доступа к :ref:`репозиториям систем контроля версий "
+"<vcs-repos>`."
 
 #: admin/admin.rst:92
 msgid ""
@@ -1905,7 +1952,7 @@ msgstr ""
 #, fuzzy
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
 msgstr ""
-"Попытки авторизации учитываются при применении :ref:`ограничений на частоту "
+"Попытки авторизации подпадают под действие :ref:`ограничения частоты "
 "запросов <rate-limit>`."
 
 #: admin/auth.rst:18
@@ -1932,11 +1979,9 @@ msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Для авторизации используется встроенное решение Django, включающее в себя "
-"для этого авторизацию от различных социальных сетей. Использование этого "
-"решения означает, что вы сможете импортировать себе базу данных "
-"пользователей других проектов, написанных на Django (смотрите "
-"раздел :ref:`pootle-migration`)."
+"Использование встроенной авторизации Django означает, что вы можете "
+"импортировать базу данных пользователей из других проектов на основе Django "
+"(см. :ref:`pootle-migration`)."
 
 #: admin/auth.rst:29
 msgid ""
@@ -1956,9 +2001,8 @@ msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
-"Благодаря пакету :doc:`Python Social Auth <psa:index>`, Weblate поддерживает "
-"авторизацию с использованием множества сторонних сервисов, таких как GitLab, "
-"Ubuntu, Fedora и другие."
+"Благодаря :doc:`psa:index` Weblate поддерживает авторизацию с использованием "
+"многих сторонних сервисов, таких как GitLab, Ubuntu, Fedora и других."
 
 #: admin/auth.rst:38
 #, fuzzy
@@ -1966,8 +2010,8 @@ msgid ""
 "Please check their documentation for generic configuration instructions "
 "in :doc:`psa:configuration/django`."
 msgstr ""
-"Для получения общих инструкций по настройке ознакомьтесь с их документацией "
-"в разделе :doc:`среды Django <psa:configuration/django>`."
+"Пожалуйста, обратитесь к их документации за общими инструкциями по настройке "
+"в :doc:`psa:configuration/django`."
 
 #: admin/auth.rst:43
 msgid ""
@@ -2014,7 +2058,7 @@ msgstr ""
 #: admin/auth.rst:70
 #, fuzzy
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ":doc:`Бэкэнд пакета Python Social Auth <psa:backends/index>`"
+msgstr ":doc:`Бэкенд Python Social Auth <psa:backends/index>`"
 
 #: admin/auth.rst:73
 msgid "OpenID authentication"
@@ -2126,8 +2170,8 @@ msgid ""
 "To use Google OAuth 2, you need to register an OAuth application at <https://"
 "console.developers.google.com/>."
 msgstr ""
-"Для использования Google OAuth 2 необходимо зарегистрировать приложение на "
-"<https://console.developers.google.com/> и включить Google+ API."
+"Для использования Google OAuth 2 необходимо зарегистрировать приложение "
+"OAuth по адресу <https://console.developers.google.com/>."
 
 #: admin/auth.rst:202
 msgid ""
@@ -2208,15 +2252,20 @@ msgstr ""
 #, fuzzy
 #| msgid "Microsoft Translator"
 msgid "Microsoft Entra ID"
-msgstr "Microsoft переводчик"
+msgstr "Microsoft Entra ID"
 
 #: admin/auth.rst:332
+#, fuzzy
 msgid ""
 "Azure Active Directory (Azure AD) is now Microsoft Entra ID. Weblate keeps "
 "the ``azuread-oauth2`` and ``azuread-tenant-oauth2`` backend names for "
 "compatibility with the underlying Python Social Auth backends and existing "
 "deployments."
 msgstr ""
+"Azure Active Directory (Azure AD) теперь называется Microsoft Entra ID. "
+"Weblate сохраняет имена бэкендов ``azuread-oauth2`` и ``azuread-tenant-"
+"oauth2`` для совместимости с нижележащими бэкендами Python Social Auth и "
+"существующими развёртываниями."
 
 #: admin/auth.rst:337
 msgid ""
@@ -2249,8 +2298,9 @@ msgid ""
 "*Application (client) ID* is available on the app registration overview in "
 "the Microsoft Entra admin center. *Object ID* is not used in Weblate."
 msgstr ""
-"*Идентификатор (ID) приложения (клиента)* можно получить на странице "
-"приложения. *Идентификатор объекта* в Weblate не используется."
+"*Идентификатор приложения (клиента)* доступен в обзоре регистрации "
+"приложения в центре администрирования Microsoft Entra. *Идентификатор "
+"объекта* в Weblate не используется."
 
 #: admin/auth.rst:347
 msgid ""
@@ -2269,8 +2319,8 @@ msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
-"*Значение секрета* отображается после создания ключа для приложения. "
-"*Идентификатор (ID) секрета* не используется в Weblate."
+"*Значение секрета* отображается после создания секрета клиента для "
+"регистрации приложения. *Идентификатор секрета* в Weblate не используется."
 
 #: admin/auth.rst:393 admin/install/docker.rst:1590
 msgid "Slack"
@@ -2414,12 +2464,17 @@ msgstr ""
 msgid ""
 "The SAML XML metadata URL is ``/accounts/metadata/saml/``, which is also an "
 "entity ID."
-msgstr "URL-адрес XML с метаданными SAML — ``/accounts/metadata/saml/``."
+msgstr ""
+"URL-адрес XML-метаданных SAML — ``/accounts/metadata/saml/``, который также "
+"является идентификатором сущности."
 
 #: admin/auth.rst:501
+#, fuzzy
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
 msgstr ""
+"URL-адрес входа — ``/accounts/complete/saml/`` (также известный как URL-"
+"адрес ACS)."
 
 #: admin/auth.rst:502
 msgid ""
@@ -2437,8 +2492,9 @@ msgid "Example configuration:"
 msgstr "Пример настроек:"
 
 #: admin/auth.rst:544
+#, fuzzy
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Вы можете сгенерировать новую пару ключей, используя:"
 
 #: admin/auth.rst:550
 #, fuzzy
@@ -2449,8 +2505,9 @@ msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IdP to provide them:"
 msgstr ""
-"Конфигурация по умолчанию извлекает информацию о пользователе из следующих "
-"атрибутов, настраивает вашу IdP для их предоставления:"
+"Конфигурация по умолчанию извлекает данные пользователя из следующих "
+"атрибутов, настройте вашего поставщика удостоверений (IdP) для их "
+"предоставления:"
 
 #: admin/auth.rst:554
 msgid "Attribute"
@@ -2481,10 +2538,13 @@ msgid "Username"
 msgstr "Имя пользователя"
 
 #: admin/auth.rst:567
+#, fuzzy
 msgid ""
 "When configuring Weblate SP in your IdP, it is recommended to choose "
 "persistent :guilabel:`Name ID format`."
 msgstr ""
+"При настройке поставщика услуг (SP) Weblate в вашем IdP рекомендуется "
+"выбирать постоянный :guilabel:`формат идентификатора имени`."
 
 #: admin/auth.rst:572
 msgid ""
@@ -2496,22 +2556,27 @@ msgstr ""
 "IdP."
 
 #: admin/auth.rst:577
+#, fuzzy
 msgid ""
 "Weblate authentication relies on the ``RelayState`` parameter to be passed "
 "through the authentication process. This needs to be configured with some "
 "identity providers:"
 msgstr ""
+"Авторизация Weblate relies на параметр ``RelayState``, который должен "
+"передаваться в процессе авторизации. Это необходимо настроить с некоторыми "
+"поставщиками удостоверений:"
 
 #: admin/auth.rst:581
+#, fuzzy
 msgid "`How to Send a Custom RelayState with Okta`_"
-msgstr ""
+msgstr "`Как отправить пользовательский RelayState с Okta`_"
 
 #: admin/auth.rst:587
 #, fuzzy
 #| msgid ""
 #| ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
-msgstr ":ref:`Настройка SAML в Docker’е <docker-saml>`"
+msgstr ":ref:`Настройка SAML в Docker <docker-saml>`"
 
 #: admin/auth.rst:593
 msgid "LDAP authentication"
@@ -2701,7 +2766,9 @@ msgstr "Ключи безопасности (WebAuthn)"
 #: admin/auth.rst:824
 #, fuzzy
 msgid "Both, Passkeys and security keys are supported."
-msgstr "На hети адрас будзие адпраŭлиена паквиерdžанние."
+msgstr ""
+"Поддерживаются как ключи доступа (Passkeys), так и аппаратные ключи "
+"безопасности."
 
 #: admin/auth.rst:826
 msgid ""
@@ -2736,9 +2803,11 @@ msgid ""
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
-"Приложения авторизации генерируют одноразовые пароли, используемые в "
-"качестве второго фактора для подтверждения вашей личности при запросе на "
-"вход."
+"Приложения-аутентификаторы и расширения браузера, такие как Aegis, "
+"Bitwarden, Google Authenticator, 1Password, Authy, Microsoft Authenticator и "
+"другие, генерируют одноразовые пароли на основе времени, которые "
+"используются в качестве второго фактора для подтверждения вашей личности при "
+"запросе во время входа."
 
 #: admin/auth.rst:836
 msgid "Recovery codes"
@@ -2772,6 +2841,7 @@ msgstr ""
 "фактор."
 
 #: admin/auth.rst:844
+#, fuzzy
 msgid ""
 "This can be enforced for users at the project (see :ref:`project-"
 "enforced_2fa`) or team level. In site-wide deployments, this can also be "
@@ -2779,6 +2849,13 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"Это может быть принудительно применено для пользователей на уровне проекта "
+"(см. :ref:`project-enforced_2fa`) или команды. В общесайтовых развёртываниях "
+"это также может использоваться для принудительного включения двухфакторной "
+"авторизации для всех пользователей путём её включения в команде "
+":guilabel:`Пользователи` по умолчанию, которая автоматически назначается "
+"новым пользователям с помощью :ref:`автоматического назначения команды "
+"<autoteam>`."
 
 #: admin/auth.rst:850
 msgid ""
@@ -2846,11 +2923,17 @@ msgstr ""
 "резервных копий в течение 30 дней)."
 
 #: admin/backup.rst:31
+#, fuzzy
 msgid ""
 "Import validation of uploaded project backups can be tuned "
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Проверку импорта загруженных резервных копий проектов можно настроить с "
+"помощью :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` и "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:37
 msgid ""
@@ -2896,9 +2979,7 @@ msgstr ""
 #| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 #| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
-msgstr ""
-"Теперь обе поддерживаемые базы данных: и PostgreSQL, и MySQL/MariaDB, "
-"включаются в автоматические резервные копии."
+msgstr "Базы данных PostgreSQL включаются в автоматические резервные копии."
 
 #: admin/backup.rst:61
 msgid ""
@@ -2941,9 +3022,9 @@ msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
-"Если же вы используете :ref:`хранилище резервных копий на Weblate.org "
-"<cloudbackup>`, то сохраните также резервную копию вашего закрытого SSH-"
-"ключа — он понадобится для доступа к вашим резервным копиям."
+"Если вы используете :ref:`cloudbackup`, сделайте также резервную копию "
+"вашего закрытого SSH-ключа, так как он используется для доступа к вашим "
+"резервным копиям."
 
 #: admin/backup.rst:86
 msgid "Customizing backup"
@@ -3040,7 +3121,7 @@ msgstr ""
 #: admin/backup.rst:123
 #, fuzzy
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr "Раздел :doc:`Общие сведения <borg:usage/general>` в документации Borg"
+msgstr ":doc:`Общее использование <borg:usage/general>` в документации Borg"
 
 #: admin/backup.rst:126
 msgid "Local filesystem"
@@ -3146,15 +3227,20 @@ msgid ""
 "Weblate can SSH to the server without a password (see :ref:`weblate-ssh-"
 "key`)."
 msgstr ""
-"Добавить SSH-ключ Weblate к пользователю, чтобы Weblate мог подключаться к "
-"серверу по SSH без пароля (смотреть раздел :ref:`weblate-ssh-key`)."
+"Добавьте SSH-ключ Weblate в файл пользователя `.ssh/authorized_keys`, чтобы "
+"Weblate мог подключаться к серверу по SSH без пароля (см. :ref:`weblate-ssh-"
+"key`)."
 
 #: admin/backup.rst:168
+#, fuzzy
 msgid ""
 "Create a user-writable directory where Weblate can remotely set up the Borg "
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Создайте доступный для записи пользователем каталог, где Weblate сможет "
+"удалённо настроить репозиторий резервных копий Borg, например, в домашнем "
+"каталоге (т.е. ``/home/borg/backups``)."
 
 #: admin/backup.rst:169
 #, fuzzy
@@ -3165,15 +3251,18 @@ msgid ""
 "Configure the backup location in Weblate as ``user@host:/home/borg/backups`` "
 "or ``ssh://user@host:port/home/borg/backups``."
 msgstr ""
-"Настройте местоположение резервного копирования в Weblate как "
-"``пользователь@хост:/путь/к/резервным копиям`` или ``ssh://"
-"пользователь@хост:порт/путь/к/резервным копиям``."
+"Настройте расположение резервных копий в Weblate как ``user@host:/home/borg/"
+"backups`` или ``ssh://user@host:port/home/borg/backups``."
 
 #: admin/backup.rst:170
+#, fuzzy
 msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI."
 msgstr ""
+"После включения резервное копирование будет запускаться автоматически "
+"ежедневно. Вы также можете запустить резервное копирование вручную из "
+"интерфейса Weblate."
 
 #: admin/backup.rst:174
 msgid ""
@@ -3267,65 +3356,88 @@ msgstr "Сеанс Borg может выглядеть как-то так:"
 #, fuzzy
 #| msgid "Choosing Docker image tag"
 msgid "Restoring Docker based setup"
-msgstr "Выбор метки изображения Docker"
+msgstr "Восстановление установки на основе Docker"
 
 #: admin/backup.rst:230
+#, fuzzy
 msgid ""
 "The following steps assume the official Docker Compose setup using the "
 "bundled PostgreSQL and Valkey services, see :doc:`install/docker`. If your "
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Следующие шаги предполагают официальную установку Docker Compose с "
+"использованием встроенных служб PostgreSQL и Valkey, см. :doc:`install/"
+"docker`. Если в вашем развёртывании используется внешняя база данных или "
+"настроенный файл Compose, адаптируйте шаги для базы данных и тома под эту "
+"среду."
 
 #: admin/backup.rst:235
+#, fuzzy
 msgid ""
 "Start with a Docker Compose checkout matching the restored deployment. "
 "Restore your original Compose overrides, secrets, and environment variables. "
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Начните с извлечения (checkout) Docker Compose, соответствующего "
+"восстанавливаемому развёртыванию. Восстановите ваши исходные переопределения "
+"Compose, секреты и переменные окружения. Файл :file:`environment.yml` из "
+":ref:`backup-dumps` может помочь в этом, но он не импортируется "
+"автоматически."
 
 #: admin/backup.rst:240
+#, fuzzy
 msgid ""
 "Restore the backup archive using :ref:`restore-borg` or unpack your manual "
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Восстановите архив резервной копии с помощью :ref:`restore-borg` или "
+"распакуйте вашу ручную резервную копию так, чтобы стали доступны каталог "
+"данных Weblate и файл :file:`backups/database.sql`."
 
 #: admin/backup.rst:244
+#, fuzzy
 msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
+"Остановите службы, которые могут выполнять запись в базу данных или том с "
+"данными:"
 
 #: admin/backup.rst:250
 #, fuzzy
 #| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "Удаление тома PostgreSQL:"
+msgstr "Пересоздайте том PostgreSQL."
 
 #: admin/backup.rst:258
+#, fuzzy
 msgid ""
 "The volume name depends on the Compose project name and can differ "
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"Имя тома зависит от имени проекта Compose и может отличаться от "
+":file:`weblate-docker_postgres-data`. Проверьте вашу установку перед "
+"удалением какого-либо тома."
 
 #: admin/backup.rst:262
 #, fuzzy
 #| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "Запустить контейнер базы данных:"
+msgstr "Запустите службу базы данных:"
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Восстановите данные из резервной копии:"
+msgstr "Восстановить дамп базы данных:"
 
 #: admin/backup.rst:274
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Убедитесь, что имя базы данных соответствует :envvar:`POSTGRES_DB`, а "
+"пользователь — :envvar:`POSTGRES_USER` в вашей конфигурации Compose."
 
 #: admin/backup.rst:277
 msgid ""
@@ -3333,20 +3445,25 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Восстановите каталог данных Weblate в том данных Docker, смонтированный как "
+":file:`/app/data`, см. :ref:`docker-volume`. Файлы в этом томе должны "
+"принадлежать UID 1000, см. :ref:`file-permissions`."
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Запустить остальные службы и следить за журналами:"
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"Контейнер Weblate выполняет миграции базы данных при запуске. Если вы также "
+"обновляете Weblate, следуйте :ref:`upgrading-docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "Обновить репозитории после восстановления:"
 
 #: admin/backup.rst:308
 msgid "Manual backup"
@@ -3396,21 +3513,15 @@ msgid "Native database backup"
 msgstr "Встроенные средства базы данных для резервного копирования"
 
 #: admin/backup.rst:336
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
-"Рекомендуемый подход заключается в создании дампа базы данных с помощью "
-"родных для конкретной СУБД инструментов, таких как :program:`pg_dump` "
-"или :program:`mysqldump`. Обычно они работают лучше, чем резервные копии "
-"Django, и восстанавливают полные таблицы со всеми данными."
+"Рекомендуемый подход — сохранять дамп базы данных с помощью родных для базы "
+"данных инструментов, таких как :program:`pg_dump`. Обычно это работает "
+"лучше, чем резервное копирование Django, и восстанавливает полные таблицы со "
+"всеми их данными."
 
 #: admin/backup.rst:340
 msgid ""
@@ -3592,6 +3703,8 @@ msgid ""
 "Generated SSH wrapper scripts are stored in :setting:`CACHE_DIR` and do not "
 "need to be backed up."
 msgstr ""
+"Сгенерированные скрипты-обёртки SSH хранятся в :setting:`CACHE_DIR`, и их не "
+"нужно резервировать."
 
 #: admin/backup.rst:428
 msgid "User uploaded files"
@@ -3760,16 +3873,12 @@ msgstr ""
 "Флаги для каждой строки, извлекаемые из формата файла, см. :ref:`formats`."
 
 #: admin/checks.rst:40
-#, fuzzy
-#| msgid ""
-#| "Translation flags (currently only ``read-only`` flag for bilingual source "
-#| "string)."
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string or when monolingual template editing is turned off)."
 msgstr ""
-"Флаги перевода (в настоящее время только флаг ``read-only`` «только для "
-"чтения» для двуязычной исходной строки)."
+"Флаги перевода (в настоящее время только флаг ``read-only`` для двуязычной "
+"исходной строки или когда редактирование одноязычного шаблона отключено)."
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
