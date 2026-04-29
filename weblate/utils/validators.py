@@ -138,6 +138,11 @@ def validate_component_zip_upload_size(value: DjangoFile) -> None:
         raise ValidationError(gettext("Uploaded ZIP file is too big."))
 
 
+def validate_project_backup_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.PROJECT_BACKUP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
+
+
 def validate_bitmap(
     value: FieldFile | File | None,
 ) -> None:

@@ -110,6 +110,7 @@ from weblate.utils.state import (
 from weblate.utils.validators import (
     validate_component_zip_upload_size,
     validate_file_extension,
+    validate_project_backup_upload_size,
     validate_translation_upload_size,
 )
 from weblate.utils.views import get_sort_name
@@ -2753,7 +2754,10 @@ class ProjectImportForm(BillingMixin, forms.Form):
 
     zipfile = forms.FileField(
         label=gettext_lazy("ZIP file containing project backup"),
-        validators=[FileExtensionValidator(allowed_extensions=["zip"])],
+        validators=[
+            validate_project_backup_upload_size,
+            FileExtensionValidator(allowed_extensions=["zip"]),
+        ],
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
 
