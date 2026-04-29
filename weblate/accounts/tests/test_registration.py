@@ -874,7 +874,7 @@ class RegistrationTest(BaseRegistrationTest):
             responses.GET,
             "https://api.github.com/user",
             json={
-                "email": "foo@example.net",
+                "email": "",
                 "login": "weblate",
                 "id": 1,
                 "name": "Test Weblate Name",
@@ -922,6 +922,7 @@ class RegistrationTest(BaseRegistrationTest):
             {"state": query["state"][0] or return_query["state"][0], "code": "XXX"},
             follow=True,
         )
+        responses.assert_call_count("https://api.github.com/user/emails", 1)
         if fail:
             self.assertContains(response, "is already in use for another account")
             return

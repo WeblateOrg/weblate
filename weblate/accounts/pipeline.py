@@ -40,7 +40,6 @@ from weblate.auth.models import (
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.requests import fetch_url
 from weblate.utils.validators import (
     CRUD_RE,
     USERNAME_MATCHER,
@@ -87,15 +86,8 @@ def get_valid_invitation(
     return invitation
 
 
-def get_github_emails(access_token):
-    """Get real e-mail from GitHub."""
-    response = fetch_url(
-        "get",
-        "https://api.github.com/user/emails",
-        headers={"Authorization": f"token {access_token}"},
-        timeout=10.0,
-    )
-    data = response.json()
+def parse_github_emails(data):
+    """Parse GitHub e-mails fetched by python-social-auth."""
     email = None
     primary = None
     public = None
@@ -146,8 +138,8 @@ def reauthenticate(
 @partial
 def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
     """Force entering e-mail for backends which don't provide it."""
-    if backend.name == "github":
-        email, emails = get_github_emails(kwargs["response"]["access_token"])
+    if backend.name == "github" and "emails" in kwargs["response"]:
+        email, emails = parse_github_emails(kwargs["response"]["emails"])
         details["verified_emails"] = emails
         if email is not None:
             details["email"] = email
