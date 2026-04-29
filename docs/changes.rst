@@ -6,70 +6,61 @@ Weblate 5.17.1
 .. rubric:: New features
 
 * Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
-* :ref:`mt-ltengine` machine translation service.
+* Admins can now clean up blocked or abusive users by reverting edits, rejecting pending suggestions, and deleting comments across project or site-wide scopes.
+* Admin user management can now find users by audit log IP address.
+* :doc:`/admin/announcements` can now also be managed via the :ref:`api` for categories.
+* Added :ref:`mt-ltengine` machine translation service.
 
 .. rubric:: Improvements
 
-* Fixed revert links in the translate-view history tab after moving a component to another project.
-* Clarified the site-wide scope of the global ``user.edit`` permission.
-* Clarified :ref:`autoclean-tm`.
-* Clarified how :ref:`glossary-terminology` creates and maintains glossary language entries.
-* Documented current :ref:`translation-memory` management options in the UI.
+* Improved documentation for the global ``user.edit`` permission, :ref:`autoclean-tm`, :ref:`glossary-terminology`, and current :ref:`translation-memory` management options in the UI.
 * Improved :ref:`screenshots` documentation and linked it from the screenshots UI.
-* The OpenAPI schema is cleaner and provides tighter API description.
-* Password updates now regenerate your personal API key by default.
-* The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
-* Improved :ref:`addon-weblate.discovery.discovery` guidance with guided client-side presets, clearer ``{{ component }}`` validation, and a worked discovery-template example in the docs.
-* Admins can now revert edits from blocked users in a project or from any user site-wide.
+* Documented restoring Docker-based setups from backups, see :ref:`restore-docker`.
 * Clarified :ref:`generic-upgrade-instructions` to state that Celery queues should be empty before upgrading.
-* Admin user management search can now find users by audit log IP address.
-* Track superuser and site-wide team changes in :ref:`audit-log`.
-* Installing :ref:`addon-weblate.discovery.discovery` on a component now suggests additional guided presets detected from the component repository layout.
-* Admins can now reject pending suggestions and delete comments when cleaning up blocked or abusive users.
-* Project website and repository browser URL alerts now show validation errors more clearly.
-* Project-level machine translation validation errors for private or local endpoints now better explain the allowed setup on hosted and self-managed sites.
-* Attribute translations copied by :ref:`addon-weblate.autotranslate.autotranslate` to the add-on user.
-* Documented restoring Docker based setups from backups, see :ref:`restore-docker`.
-* :setting:`VCS_RESTRICT_PRIVATE` and :setting:`WEBHOOK_RESTRICT_PRIVATE` now reject URLs whose hostnames cannot be resolved during validation unless the host is explicitly allowed.
+* The OpenAPI schema is cleaner and now describes action endpoints with their actual list, statistics, status, upload, and download response payloads.
+* The web installation flow for :ref:`addon-weblate.consistency.languages` now shows a preview and requires confirmation before creating missing language files across projects, categories, or site-wide scopes.
+* :ref:`addon-weblate.discovery.discovery` now offers guided client-side presets, suggests presets detected from component repository layouts, validates ``{{ component }}`` more clearly, and includes a worked discovery-template example in the docs.
+* Superuser and site-wide team changes are now tracked in :ref:`audit-log`.
+* URL validation alerts now show clearer errors for project website and repository browser URLs, and project-level machine translation validation better explains private or local endpoint restrictions on hosted and self-managed sites.
+* :ref:`addon-weblate.autotranslate.autotranslate` now attributes copied translations to the add-on user and records automatic translation results in the add-on activity log.
 * Extended the conflicting repository setup alert to direct Git pushes, see :ref:`alerts`.
-* :doc:`/admin/announcements` can now also be managed via the :ref:`api` for categories.
-* :ref:`addon-weblate.autotranslate.autotranslate` now records automatic translation results in the add-on activity log.
-* :ref:`profile` links now show an external-link warning where possible; obvious direct file download URLs and invalid code site or Fediverse profile links are rejected.
-* Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`, and :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE` before parsing.
-* Component ZIP imports and project backup restores now share stricter ZIP archive safety checks, including total uncompressed data limits for project backup imports.
+* :ref:`profile` links now show an external-link warning where possible.
+* Client-side popup notifications triggered by JavaScript now use Bootstrap toasts, with higher-contrast dark theme colors for Bootstrap subtle and emphasis variants.
+* The :guilabel:`SSH keys` management page can now remove stored host keys so changed host keys can be replaced there.
+* Project listings now show review progress columns when any listed project has reviews enabled.
 
 .. rubric:: Bug fixes
 
+* Fixed revert links in the translate-view history tab after moving a component to another project.
 * Invitation acceptance now verifies the invited e-mail address and invitation expiry before granting team membership.
 * :ref:`check-rst-references` no longer crashes on repeated explicit-link targets.
 * The :ref:`addons-api` now validates required add-on configuration when installing add-ons.
 * Component updates no longer time out waiting on their own repository lock during validation.
 * :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
-* Client-side popup notifications triggered by JavaScript now use Bootstrap toasts.
-* Dark theme Bootstrap subtle and emphasis colors now use higher-contrast values, improving popup toasts and other semantic UI elements.
 * Repository alerts, history entries, and task messages now preserve multiline Git and SSH backend error output.
 * Interrupted Git rebases now recover more reliably after worker restarts, and signal-terminated backend commands are reported more clearly.
 * Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
 * Git exporter no longer rejects shared-history fetches just because the first negotiated ``have`` revisions are newer than Weblate's local history.
 * :ref:`mt-weblate-translation-memory` automatic translation avoids broad PostgreSQL searches.
 * Project backup import now revalidates component repository URLs before restore.
-* The :guilabel:`SSH keys` management page can now remove stored host keys so changed host keys can be replaced there.
 * Malformed IPv6 repository URLs no longer crash SSH host key detection.
 * :ref:`addon-weblate.gettext.xgettext` and related POT update add-ons now replace the standard descriptive-title placeholder in normalized POT headers again.
 * :ref:`addon-weblate.gettext.django` now skips repository ``locale`` trees during preflight validation, fixing components that store ``django.pot`` in a top-level ``locale`` directory.
 * Screenshot OCR now skips corrupted or truncated image files instead of failing the request.
 * Monolingual component validation now honors :ref:`component-source_language` when checking duplicate files alongside a separate :ref:`component-template`.
-* The OpenAPI schema now describes action endpoints with their actual list, statistics, status, upload, and download response payloads.
 * :ref:`Translation memory upload <memory-user>` and :wladmin:`import_memory` now report a validation error for TMX files missing the required header instead of failing the request.
-* Project listings now show review progress columns when any listed project has reviews enabled.
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 * Project component pagination now keeps the :guilabel:`Components` tab active when jumping to a typed page number.
-* Markdown rendering now falls back to escaped plain text when the Markdown parser fails.
-* Markdown image URLs are now escaped before rendering.
+* Markdown rendering now falls back to escaped plain text when the parser fails and escapes image URLs before rendering.
 * Forgejo and Gitea test deliveries with sample loopback repository URLs no longer trigger slow suffix matching against all components.
 
 .. rubric:: Compatibility
+
+* Password updates now regenerate your personal API key by default.
+* :setting:`VCS_RESTRICT_PRIVATE` and :setting:`WEBHOOK_RESTRICT_PRIVATE` now reject URLs whose hostnames cannot be resolved during validation unless the host is explicitly allowed.
+* :ref:`profile` URL validation now rejects obvious direct file download URLs and invalid code site or Fediverse profile links.
+* Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`, and :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE` before parsing. Component ZIP imports and project backup restores now share stricter ZIP archive safety checks, including total uncompressed data limits for project backup imports.
 
 .. rubric:: Upgrading
 
