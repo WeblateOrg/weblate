@@ -49,6 +49,7 @@ Weblate 5.17.1
 * Screenshot OCR now skips corrupted or truncated image files instead of failing the request.
 * Monolingual component validation now honors :ref:`component-source_language` when checking duplicate files alongside a separate :ref:`component-template`.
 * :ref:`Translation memory upload <memory-user>` and :wladmin:`import_memory` now report a validation error for TMX files missing the required header instead of failing the request.
+* :ref:`mt-weblate-translation-memory` no longer misses boundary similarity matches after stricter lookups.
 * The missing file-mask matches :ref:`alert <alerts>` is now restored after rescans that leave only the source translation.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 * Project component pagination now keeps the :guilabel:`Components` tab active when jumping to a typed page number.
