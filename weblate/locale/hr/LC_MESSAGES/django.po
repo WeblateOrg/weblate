@@ -10,8 +10,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-18 07:54+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-04-30 07:18+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -190,7 +190,7 @@ msgstr ""
 #: weblate/templates/trans/project-access.html:61 weblate/utils/fields.py:39
 #: weblate/wladmin/forms.py:57
 msgid "E-mail"
-msgstr "E-mail adresa"
+msgstr "E-mail"
 
 #: weblate/accounts/forms.py:657
 msgid "An e-mail with a confirmation link will be sent here."
@@ -929,7 +929,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:867
 msgid "Code site URL"
-msgstr "URL web-mjesta koda"
+msgstr "URL web-stranice koda"
 
 #: weblate/accounts/models.py:870
 msgid "Link to your code profile for services like Codeberg or GitLab."
@@ -1404,16 +1404,12 @@ msgid "Website"
 msgstr "Web-stranica"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "URL web-mjesta koda"
+msgstr "Web-stranica koda"
 
 #: weblate/accounts/views.py:880
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Usluga više nije dostupna"
+msgstr "Ova poveznia na profil više nije dostupna."
 
 #: weblate/accounts/views.py:892
 #: weblate/templates/accounts/user_profile_link.html:19
@@ -2264,10 +2260,9 @@ msgid "format not preset"
 msgstr "Unaprijed postavljene postavke za Meson"
 
 #: weblate/addons/forms.py:923
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Jednojezična datoteka osnovnog jezika"
+msgstr "jednojezična osnova: %(base)s"
 
 #: weblate/addons/forms.py:926
 #, fuzzy
@@ -2920,7 +2915,7 @@ msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Nije moguće ukloniti izraz jer u pozadini teče jedna druga operacija. "
+"Nije bilo moguće ukloniti izraz jer u pozadini teče jedna druga operacija. "
 "Pokušaj ponovo kasnije."
 
 #: weblate/api/views.py:222
@@ -8594,12 +8589,13 @@ msgid "Close"
 msgstr "Zatvori"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> across "
 "all projects."
-msgstr "Ovo će izbrisati tim <b>%(name)s</b> iz ovog projekta."
+msgstr ""
+"Ovo će vratiti najnovije prijevode korisnika <b>%(user)s</b> u svim "
+"projektim."
 
 #: weblate/templates/accounts/user.html:486
 msgid "Account removal deletes all user private data."
@@ -13733,10 +13729,8 @@ msgstr ""
 "preporučujemo da nadogradiš tarifu."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "Nije bilo moguće aktualizirati repozitorij."
+msgstr "Weblate nije mogao validirati URL preglednika repozitorija:"
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -13756,10 +13750,8 @@ msgstr ""
 "na nadređenu mapu ili ako je staza apsolutna."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate nije uspio prenijeti promjene u izvorni repozitorij."
+msgstr "Weblate nije uspio validirati URL web-stranicu projekta:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -14524,18 +14516,17 @@ msgid "Edit team membership for %(username)s"
 msgstr "Uredi članstvo tima za %(username)s"
 
 #: weblate/templates/trans/project-access.html:103 weblate/trans/forms.py:1438
-#, fuzzy
-#| msgid "Removed user"
 msgid "Revert user edits"
-msgstr "Uklonjeni korisnik"
+msgstr "Ukloni korisnička promjene"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
-msgstr "Ovo će izbrisati tim <b>%(name)s</b> iz ovog projekta."
+msgstr ""
+"Ovo će poništiti najnovije prijevode korisnika <b>%(user)s</b> u ovom "
+"projektu."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -18222,10 +18213,9 @@ msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nije bilo moguće obraditi prenesenu datotku kao {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Nije bilo moguće analizirati prenešene ZIP datoeke."
+msgstr "Nije bilo moguće analizirati prenešenu datoeku: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -18360,10 +18350,8 @@ msgid "User configured character: {}"
 msgstr "Korisnički određen znak: {}"
 
 #: weblate/trans/tasks.py:699
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Automatsko prevođenje u tijeku"
+msgstr "Automatski prijevod je preskočen jer cilj više ne postoji."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -18828,14 +18816,14 @@ msgstr "Otkrivena je licenca kao %s. Provjeri je li točna."
 
 #: weblate/trans/views/create.py:441
 msgid "Could not parse uploaded ZIP file."
-msgstr "Nije bilo moguće analizirati prenešene ZIP datoeke."
+msgstr "Nije bilo moguće analizirati prenešenu ZIP datoteku."
 
 #: weblate/trans/views/dashboard.py:170
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
-"Projekt koji tražiš je uklonjen, no možeš doprinijeti drugim projektima."
+"Projekt koji tražiš je uklonjen, međutim možeš doprinijeti drugim projektima."
 
 #: weblate/trans/views/dashboard.py:179
 msgid ""
@@ -19701,26 +19689,21 @@ msgid "Component and priority"
 msgstr "Komponenta i prioritet"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "ZIP datoteka sa sigurnosnom kopijom projekta"
+msgstr "ZIP datoteka sadrži nevažeću stazu: {path}"
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "ZIP file containing project backup"
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "ZIP datoteka sa sigurnosnom kopijom projekta"
+msgstr "ZIP datoteka sadrži nepodržane simboličke poveznice."
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
 msgid "ZIP file contains unsupported special files."
 msgstr ""
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "ZIP datoteka s prijevodima"
+msgstr "ZIP datoteka sadrži previše unosa."
 
 #: weblate/utils/zip.py:94
 msgid ""
@@ -19806,10 +19789,9 @@ msgid "Unknown error"
 msgstr "Nepoznata greška"
 
 #: weblate/vcs/git.py:2298
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "Nije moguće obnoviti snimku ekrana %(name)s: %(error)s"
+msgstr "Nije bilo moguće dohvatiti GitLab projekt (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2417
 msgid "Pagure merge request"
