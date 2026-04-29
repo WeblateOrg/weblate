@@ -246,7 +246,7 @@ class ViewTest(RepoTestCase):
         user = self.get_user()
         # Login
         self.client.login(username=user.username, password="testpassword")
-        response = self.client.get(reverse("contact"))
+        response = self.client.get(reverse("contact"), {"topic": "server"})
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 
