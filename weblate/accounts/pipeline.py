@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
+from typing import NoReturn
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
@@ -29,7 +30,13 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import Invitation, User, get_anonymous
+from weblate.auth.models import (
+    Invitation,
+    InvitationError,
+    InvitationExpiredError,
+    User,
+    get_anonymous,
+)
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
@@ -51,6 +58,33 @@ class UsernameAlreadyAssociated(AuthAlreadyAssociated):
 
 class EmailAlreadyAssociated(AuthAlreadyAssociated):
     pass
+
+
+def invalid_invitation(
+    strategy, backend, message: str, error: Exception | None = None
+) -> NoReturn:
+    strategy.request.session.pop("invitation_link", None)
+    messages.warning(strategy.request, message)
+    messages.warning(
+        strategy.request, gettext("The registration link has been invalidated.")
+    )
+    raise AuthMissingParameter(backend, "invitation") from error
+
+
+def get_valid_invitation(
+    strategy, backend, invitation_pk: str | None
+) -> Invitation | None:
+    if not invitation_pk:
+        return None
+
+    invitation = Invitation.objects.filter(pk=invitation_pk).first()
+    if invitation is None:
+        invalid_invitation(
+            strategy, backend, gettext("The invitation link is no longer valid.")
+        )
+    if invitation.is_expired():
+        invalid_invitation(strategy, backend, gettext("This invitation has expired."))
+    return invitation
 
 
 def get_github_emails(access_token):
@@ -288,6 +322,11 @@ def store_params(strategy, user: User, **kwargs):
         except Invitation.DoesNotExist:
             del session["invitation_link"]
             invitation_pk = None
+        else:
+            if invitation.is_expired():
+                del session["invitation_link"]
+                invitation = None
+                invitation_pk = None
 
     return {
         "weblate_action": action,
@@ -329,7 +368,7 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
             pass
 
 
-def ensure_valid(
+def ensure_valid(  # noqa: PLR0917
     strategy,
     backend,
     user: User,
@@ -338,6 +377,8 @@ def ensure_valid(
     weblate_expires,
     new_association,
     details,
+    invitation_link: Invitation | None = None,
+    invitation_pk: str | None = None,
     **kwargs,
 ) -> None:
     """Ensure the activation link is still."""
@@ -377,6 +418,28 @@ def ensure_valid(
         )
 
         raise AuthMissingParameter(backend, "user")
+
+    if user is None:
+        invitation = (
+            get_valid_invitation(strategy, backend, invitation_pk) or invitation_link
+        )
+        if invitation and invitation.is_expired():
+            invalid_invitation(
+                strategy, backend, gettext("This invitation has expired.")
+            )
+        if (
+            invitation
+            and invitation.email
+            and not invitation.matches_email(details.get("email", ""))
+        ):
+            invalid_invitation(
+                strategy,
+                backend,
+                gettext(
+                    "This invitation can be accepted only by the e-mail address "
+                    "chosen by the inviter; it can't be used by your account."
+                ),
+            )
 
     # Verify if this mail is not used on other accounts
     if new_association:
@@ -421,13 +484,57 @@ def store_email(strategy, backend, user: User, social, details, **kwargs) -> Non
 
 
 def handle_invite(
-    strategy, backend, user: User, social, invitation_pk: str, **kwargs
+    strategy,
+    backend,
+    user: User,
+    social,
+    invitation_pk: str | None,
+    is_new=False,
+    **kwargs,
 ) -> None:
     # Accept triggering invitation
     if invitation_pk:
         invitation = Invitation.objects.filter(pk=invitation_pk).first()
-        if invitation is not None:
-            invitation.accept(strategy.request, user)
+        if invitation is None:
+            strategy.request.session.pop("invitation_link", None)
+        elif invitation.is_expired():
+            strategy.request.session.pop("invitation_link", None)
+            if is_new:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext("This invitation has expired."),
+                )
+        elif invitation.matches_user(user):
+            try:
+                invitation.accept(strategy.request, user)
+            except InvitationExpiredError as error:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext("This invitation has expired."),
+                    error,
+                )
+            except InvitationError as error:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext("The invitation link is no longer valid."),
+                    error,
+                )
+            else:
+                strategy.request.session.pop("invitation_link", None)
+        else:
+            strategy.request.session.pop("invitation_link", None)
+            if is_new:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext(
+                        "This invitation can be accepted only by the e-mail address "
+                        "chosen by the inviter; it can't be used by your account."
+                    ),
+                )
     # Merge possibly pending invitations for this e-mail address
     Invitation.objects.filter(email=user.email).update(user=user, email="")
 

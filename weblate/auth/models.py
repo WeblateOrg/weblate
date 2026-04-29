@@ -8,6 +8,7 @@ import uuid
 from collections import defaultdict
 from contextvars import ContextVar
 from dataclasses import dataclass
+from datetime import timedelta
 from functools import cache as functools_cache
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
@@ -1295,6 +1296,18 @@ def setup_project_groups(
         group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
 
 
+class InvitationError(Exception):
+    """Base exception for invitation acceptance failures."""
+
+
+class InvitationExpiredError(InvitationError):
+    """Invitation is too old to accept."""
+
+
+class InvitationUserMismatchError(InvitationError):
+    """Invitation can not be accepted by this user."""
+
+
 class Invitation(models.Model):
     """
     User invitation store.
@@ -1358,6 +1371,19 @@ class Invitation(models.Model):
     def get_absolute_url(self) -> str:
         return reverse("invitation", kwargs={"pk": self.uuid})
 
+    def is_expired(self) -> bool:
+        return self.timestamp <= timezone.now() - timedelta(
+            seconds=settings.AUTH_TOKEN_VALID
+        )
+
+    def matches_email(self, email: str) -> bool:
+        return bool(self.email and email and self.email.casefold() == email.casefold())
+
+    def matches_user(self, user: User) -> bool:
+        if self.user_id is not None:
+            return self.user_id == user.pk
+        return self.matches_email(user.email)
+
     def send_email(self) -> None:
         from weblate.accounts.notifications import (  # noqa: PLC0415
             send_notification_email,
@@ -1381,12 +1407,16 @@ class Invitation(models.Model):
             user=self.user,
         )
 
-    def accept(self, request: AuthenticatedHttpRequest, user: User) -> None:
+    def accept(self, request: AuthenticatedHttpRequest | None, user: User) -> None:
         from weblate.accounts.models import AuditLog  # noqa: PLC0415
 
-        if self.user and self.user != user:
+        if self.is_expired():
+            msg = "Invitation expired on accept!"
+            raise InvitationExpiredError(msg)
+
+        if not self.matches_user(user):
             msg = "User mismatch on accept!"
-            raise ValueError(msg)
+            raise InvitationUserMismatchError(msg)
 
         if self.is_superuser:
             user.store_audit_state()

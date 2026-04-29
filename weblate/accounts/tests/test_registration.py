@@ -7,8 +7,10 @@
 from __future__ import annotations
 
 import os
+from datetime import timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
+from unittest.mock import MagicMock, patch
 from urllib.parse import parse_qs, urlparse
 
 import responses
@@ -17,12 +19,21 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.pipeline import ensure_valid, handle_invite
 from weblate.accounts.tasks import cleanup_social_auth
-from weblate.auth.models import Group, Invitation, User
+from weblate.auth.models import (
+    Group,
+    Invitation,
+    InvitationExpiredError,
+    InvitationUserMismatchError,
+    User,
+)
+from weblate.auth.views import accept_invitation
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -126,6 +137,31 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         if data is None:
             data = REGISTRATION_DATA
         return self.client.post(reverse("register"), data, follow=True)
+
+    def create_registration_invitation(
+        self, email: str = REGISTRATION_DATA["email"], *, is_superuser: bool = False
+    ) -> tuple[Group, Invitation]:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author,
+            email=email,
+            username=REGISTRATION_DATA["username"],
+            full_name=REGISTRATION_DATA["fullname"],
+            group=invited_group,
+            is_superuser=is_superuser,
+        )
+        return invited_group, invitation
+
+    def use_invitation(self, invitation: Invitation) -> None:
+        session = self.client.session
+        session["invitation_link"] = str(invitation.pk)
+        session.save()
+
+    def expire_invitation(self, invitation: Invitation) -> None:
+        Invitation.objects.filter(pk=invitation.pk).update(
+            timestamp=timezone.now() - timedelta(seconds=settings.AUTH_TOKEN_VALID + 1)
+        )
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def perform_registration(self) -> None:
@@ -238,6 +274,177 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(
             response, "Sorry, new registrations are turned off on this site."
         )
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_invitation_registration_requires_invited_email(self) -> None:
+        invited_group, invitation = self.create_registration_invitation()
+        self.use_invitation(invitation)
+
+        data = REGISTRATION_DATA.copy()
+        data["email"] = "attacker@example.org"
+        response = self.do_register(data)
+
+        self.assertContains(
+            response,
+            "This invitation can be accepted only by the e-mail address chosen by the inviter",
+        )
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+        self.assertFalse(User.objects.filter(email=data["email"]).exists())
+        self.assertFalse(User.objects.filter(groups=invited_group).exists())
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_invitation_registration_email_match_is_case_insensitive(self) -> None:
+        invited_group, invitation = self.create_registration_invitation(
+            email=REGISTRATION_DATA["email"].upper()
+        )
+        self.use_invitation(invitation)
+
+        response = self.do_register()
+
+        self.assertContains(response, REGISTRATION_SUCCESS)
+        self.assert_registration()
+        user = User.objects.get(username=REGISTRATION_DATA["username"])
+        self.assertTrue(user.groups.filter(pk=invited_group.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_expired_invitation_does_not_open_registration(self) -> None:
+        _, invitation = self.create_registration_invitation()
+        self.expire_invitation(invitation)
+        self.use_invitation(invitation)
+
+        response = self.do_register()
+
+        self.assertContains(
+            response, "Sorry, new registrations are turned off on this site."
+        )
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertNotIn("invitation_link", self.client.session)
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_expired_invitation_is_rejected_at_accept_time(self) -> None:
+        invited_group, invitation = self.create_registration_invitation()
+        self.use_invitation(invitation)
+
+        response = self.do_register()
+        self.assertContains(response, REGISTRATION_SUCCESS)
+        confirmation_url = self.assert_registration_mailbox()
+        self.expire_invitation(invitation)
+
+        response = self.client.get(confirmation_url, follow=True)
+
+        self.assertContains(response, "This invitation has expired.")
+        self.assertFalse(User.objects.filter(email=REGISTRATION_DATA["email"]).exists())
+        self.assertFalse(User.objects.filter(groups=invited_group).exists())
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_expired_user_invitation_accept_rejected(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+        self.expire_invitation(invitation)
+
+        invitation.refresh_from_db()
+        with self.assertRaisesRegex(InvitationExpiredError, "expired"):
+            invitation.accept(None, invited_user)
+
+        self.assertFalse(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_accept_invitation_helper_deletes_once(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+
+        accept_invitation(None, invitation, invited_user)
+
+        self.assertTrue(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_invitation_view_accept_handles_expired_race(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+        self.client.force_login(invited_user)
+
+        with patch(
+            "weblate.auth.models.Invitation.accept",
+            side_effect=InvitationExpiredError("Invitation expired on accept!"),
+        ):
+            response = self.client.post(invitation.get_absolute_url(), follow=True)
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertContains(response, "This invitation has expired.")
+        self.assertFalse(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_email_invitation_accept_requires_matching_user_email(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        attacker = User.objects.create_user("attacker", "attacker@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author,
+            email="victim@example.com",
+            group=invited_group,
+            is_superuser=True,
+        )
+
+        with self.assertRaisesRegex(InvitationUserMismatchError, "User mismatch"):
+            invitation.accept(None, attacker)
+
+        attacker.refresh_from_db()
+        self.assertFalse(attacker.is_superuser)
+        self.assertFalse(attacker.groups.filter(pk=invited_group.pk).exists())
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_stale_invitation_does_not_block_existing_social_login(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        existing_user = User.objects.create_user(
+            "existing", "existing@example.com", "x"
+        )
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author,
+            email="victim@example.com",
+            group=invited_group,
+            is_superuser=True,
+        )
+        strategy = MagicMock()
+        strategy.request.session = {"invitation_link": str(invitation.pk)}
+        backend = MagicMock()
+
+        ensure_valid(
+            strategy,
+            backend,
+            existing_user,
+            existing_user.pk,
+            "activation",
+            9_999_999_999,
+            False,
+            {"email": existing_user.email},
+            invitation,
+            str(invitation.pk),
+        )
+        handle_invite(
+            strategy, backend, existing_user, None, str(invitation.pk), is_new=False
+        )
+
+        existing_user.refresh_from_db()
+        self.assertFalse(existing_user.is_superuser)
+        self.assertFalse(existing_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+        self.assertNotIn("invitation_link", strategy.request.session)
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_register_redirects_authenticated_get(self) -> None:

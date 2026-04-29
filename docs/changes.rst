@@ -40,6 +40,7 @@ Weblate 5.17.1
 
 .. rubric:: Bug fixes
 
+* Invitation acceptance now verifies the invited e-mail address and invitation expiry before granting team membership.
 * :ref:`check-rst-references` no longer crashes on repeated explicit-link targets.
 * Component updates no longer time out waiting on their own repository lock during validation.
 * :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
