@@ -29,7 +29,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, F, Q, Value
+from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -4404,9 +4404,7 @@ class Component(  # noqa: PLR0904
             ).update(variant=variant)
 
         # Delete stale variant links
-        self.variant_set.annotate(unit_count=Count("defining_units")).filter(
-            variant_regex="", unit_count=0
-        ).delete()
+        self.variant_set.filter(variant_regex="", defining_units__isnull=True).delete()
 
     def _update_alerts(self) -> None:
         self._alerts_scheduled = False

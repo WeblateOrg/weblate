@@ -19,7 +19,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Count, Exists, F, OuterRef
+from django.db.models import Exists, F, OuterRef
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -43,6 +43,7 @@ from weblate.trans.models import (
     Project,
     Suggestion,
     Translation,
+    Unit,
 )
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.removal import RemovalBatch, removal_batch_context
@@ -286,9 +287,12 @@ def cleanup_component(pk: int) -> None:
 
     # Remove all units where there is just one referenced unit (self)
     with transaction.atomic():
+        referenced_units = Unit.objects.filter(source_unit=OuterRef("pk")).exclude(
+            pk=OuterRef("pk")
+        )
         deleted, details = (
-            translation.unit_set.annotate(Count("unit"))
-            .filter(unit__count__lte=1)
+            translation.unit_set.alias(has_references=Exists(referenced_units))
+            .filter(has_references=False)
             .delete()
         )
         if deleted:

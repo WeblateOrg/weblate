@@ -726,8 +726,7 @@ class UnusedScreenshot(BaseAlert):
 
         return (
             Screenshot.objects.filter(translation__component=component)
-            .annotate(Count("units"))
-            .filter(units__count=0)
+            .filter(units__isnull=True)
             .exists()
         )
 
