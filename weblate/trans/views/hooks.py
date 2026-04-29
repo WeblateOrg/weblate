@@ -386,7 +386,7 @@ def bitbucket_extract_full_name(repository: dict) -> str:
     raise ValueError(msg)
 
 
-def bitbucket_extract_repo_url(data, repository: dict) -> str:
+def bitbucket_extract_repo_url(data: dict, repository: dict) -> str:
     if "links" in repository:
         if "html" in repository["links"]:
             return repository["links"]["html"]["href"]
