@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-30 07:18+0000\n"
+"PO-Revision-Date: 2026-05-01 01:27+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -10655,8 +10655,8 @@ msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
-"Resetira Weblateov repozitorij kako bi ga uskladio glavnom granom izvornog "
-"kod i odbacuje sve promjene na čekanju u Weblateu."
+"Resetira Weblateov repozitorij kako bi ga uskladio s glavnom granom i "
+"odbacuje sve promjene na čekanju u Weblateu."
 
 #: weblate/templates/js/git-status.html:169
 msgid "Use when you want the upstream to be the authority for translations."
@@ -10675,16 +10675,12 @@ msgid "Reset and reapply"
 msgstr "Resetiraj i primijeni ponovo"
 
 #: weblate/templates/js/git-status.html:180
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
-"Resetira Weblateov repozitorij u prvobitno stanje i zamjenjuje prijevode na "
-"glavnoj grani izvornog koda s trenutnim stanjem iz Weblatea."
+"Resetira Weblateov repozitorij kako bi ga uskladio s glavnom granom i "
+"ponovno primjenjuje prijevode na resetirano stanje repozitorija."
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -11649,7 +11645,7 @@ msgstr "Sigurnosne kopije"
 #: weblate/templates/manage/backups.html:23
 #, python-format
 msgid "Backup service: %(url)s"
-msgstr "Sigurnosne kopije: %(url)s"
+msgstr "Usluga za spremanje sigurnosnih kopija: %(url)s"
 
 #: weblate/templates/manage/backups.html:25
 msgid "Failed with an error"
@@ -15829,34 +15825,24 @@ msgid "Context"
 msgstr "Kontekst"
 
 #: weblate/trans/change_display.py:469
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup file"
-msgstr "Neuspjela izrada sigurnosne kopije"
+msgstr "Datoteka sigurnosne kopije"
 
 #: weblate/trans/change_display.py:477
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup created"
-msgstr "Neuspjela izrada sigurnosne kopije"
+msgstr "Sigurnosna kopija je stvorena"
 
 #: weblate/trans/change_display.py:481
-#, fuzzy
-#| msgid "Backup service: %(url)s"
 msgid "Backup server"
-msgstr "Sigurnosne kopije: %(url)s"
+msgstr "Server sigurnosnih kopija"
 
 #: weblate/trans/change_display.py:485
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Backup domain"
-msgstr "Neuspjela izrada sigurnosne kopije"
+msgstr "Domena sigurnosnih kopija"
 
 #: weblate/trans/change_display.py:492
-#, fuzzy
-#| msgid "Organize component"
 msgid "Original component"
-msgstr "Organiziraj komponentu"
+msgstr "Izvorna komponenta"
 
 #: weblate/trans/change_display.py:544
 msgid "Current translation"
@@ -16429,11 +16415,10 @@ msgid "Block the user for one month"
 msgstr "Blokiraj korisnika mjesec dana"
 
 #: weblate/trans/forms.py:1440
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Idi na zadnji prijevod u trenutačoj pretrazi."
+msgstr ""
+"Vrati najnovije promjene prijevoda ovog korisnika u trenutačnom projektu."
 
 #: weblate/trans/forms.py:1452
 msgid "Report format"
@@ -16821,16 +16806,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Koristi oznake za označavanje posebnih izraza u tvom prijevodu."
 
 #: weblate/trans/guide.py:267
-#, fuzzy
-#| msgid ""
-#| "Add safe-html flag to avoid dangerous HTML from translators for strings "
-#| "which are rendered as HTML."
 msgid ""
 "Add safe-html or auto-safe-html flag to avoid dangerous HTML from "
 "translators for strings which are rendered as HTML."
 msgstr ""
-"Dodaj „safe-html” oznaku za izbjegavanje opasnih HTML oznaka od prevodilaca "
-"za izraze koji se prikazuju kao HTML."
+"Dodaj „safe-html” ili „auto-safe-html” oznaku za izbjegavanje opasnih HTML "
+"oznaka od prevoditelja za izraze koji se prikazuju kao HTML."
 
 #: weblate/trans/guide.py:302
 msgid "Workflow customization"
@@ -17627,15 +17608,11 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "Ova se postavka nasljeđuje od projekta ako se ostavi prazno."
 
 #: weblate/trans/models/component.py:1949
-#, fuzzy
-#| msgid ""
-#| "Could not verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
-"Nije bilo moguće provjeriti SSH ključ računala. Dodaj ih na SSH stranici u "
+"Nije bilo moguće provjeriti SSH ključ hosta. Dodaj ga na SSH stranicu u "
 "administratorskom sučelju."
 
 #: weblate/trans/models/component.py:1955
@@ -17715,16 +17692,12 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: weblate/trans/models/component.py:2620
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Resetira Weblateov repozitorij kako bi ga uskladio glavnom granom izvornog "
-"kod i odbacuje sve promjene na čekanju u Weblateu."
+"Repozitorij je resetiran, ali nije moguće ponovo stvoriti prijevode na "
+"čekanju. Promjene na čekanju su sačuvane."
 
 #: weblate/trans/models/component.py:2640
 #, python-format
@@ -19883,10 +19856,8 @@ msgstr ""
 "%(keytype)s. Provjeri njegovu točnost."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Nije bilo moguće dohvatiti ključ računala: %s"
+msgstr "Nije bilo moguće pročitati spremljene ključeve hosta."
 
 #: weblate/vcs/ssh.py:406
 #, fuzzy
