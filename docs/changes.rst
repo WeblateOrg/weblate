@@ -1,3 +1,26 @@
+Weblate 2026.5
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/2026.5.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?closed=1>`__.
+
 Weblate 5.17.1
 --------------
 
