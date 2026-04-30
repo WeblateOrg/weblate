@@ -52,6 +52,7 @@ function mainLicenseTransform(packages) {
     "altcha",
     "source-",
     "bootstrap",
+    "@orchidjs",
   ];
   return genericTransform(
     packages,
@@ -69,10 +70,6 @@ function tributeLicenseTransform(packages) {
 
 function autosizeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
-}
-
-function tomSelectLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("tom-select"));
 }
 
 function prismJsLicenseTransform(packages) {
@@ -123,6 +120,23 @@ function autoCompleteLicenseTransform(packages) {
   }
   return "";
 }
+function tomSelectLicenseTransform(packages) {
+  const pkg = packages.find((pkgsItem) =>
+    pkgsItem.name.startsWith("tom-select"),
+  );
+  if (pkg) {
+    const author =
+      typeof pkg.author === "string"
+        ? pkg.author
+        : pkg.author?.email
+          ? `${pkg.author.name} <${pkg.author.email}>`
+          : pkg.author?.name
+            ? pkg.author.name
+            : "";
+    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
+  }
+  return "";
+}
 // REUSE-IgnoreEnd
 
 // Webpack configuration
@@ -133,7 +147,7 @@ module.exports = {
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
     autosize: "./src/autosize.js",
-    "tom-select": "./src/tom-select",
+    "tom-select": "./src/tom-select.js",
     mousetrap: "./src/mousetrap.js",
     prismjs: "./src/prismjs.js",
     altcha: "./src/altcha.js",
@@ -170,7 +184,7 @@ module.exports = {
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "autosize.js.license": autosizeLicenseTransform,
-        "tom-select.license": tomSelectLicenseTransform,
+        "tom-select.js.license": tomSelectLicenseTransform,
         "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,
         "mousetrap.js.license": mousetrapLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
