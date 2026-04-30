@@ -6,7 +6,8 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from typing import NoReturn
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, NoReturn
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
@@ -47,8 +48,13 @@ from weblate.utils.validators import (
     clean_fullname,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
+VerifiedEmailList = list[tuple[str, bool]]
+GitHubEmailData = Mapping[str, str | bool | None]
 
 
 class UsernameAlreadyAssociated(AuthAlreadyAssociated):
@@ -86,31 +92,37 @@ def get_valid_invitation(
     return invitation
 
 
-def parse_github_emails(data):
+def parse_github_emails(
+    data: Iterable[GitHubEmailData],
+) -> tuple[str | None, VerifiedEmailList]:
     """Parse GitHub e-mails fetched by python-social-auth."""
-    email = None
-    primary = None
-    public = None
-    emails = []
+    email: str | None = None
+    primary: str | None = None
+    public: str | None = None
+    emails: VerifiedEmailList = []
     for entry in data:
+        address = entry.get("email")
+        if not isinstance(address, str):
+            continue
+
         # Skip noreply e-mail only if we need deliverable e-mails
-        if entry["email"].endswith("@users.noreply.github.com"):
+        if address.endswith("@users.noreply.github.com"):
             # Add E-Mail and set is_deliverable to false
-            emails.append((entry["email"], False))
+            emails.append((address, False))
             continue
         # Skip not verified ones
-        if not entry["verified"]:
+        if not entry.get("verified"):
             continue
 
         # Add E-Mail and set is_deliverable to true
-        emails.append((entry["email"], True))
+        emails.append((address, True))
         if entry.get("visibility") == "public":
             # There is just one public mail, prefer it
-            public = entry["email"]
+            public = address
             continue
-        email = entry["email"]
-        if entry["primary"]:
-            primary = entry["email"]
+        email = address
+        if entry.get("primary"):
+            primary = address
     return public or primary or email, emails
 
 
@@ -453,26 +465,24 @@ def ensure_valid(  # noqa: PLR0917
 def store_email(strategy, backend, user: User, social, details, **kwargs) -> None:
     """Store verified e-mail."""
     # The email can be empty for some services
-    if details.get("verified_emails"):
+    if "verified_emails" in details:
         # For some reasons tuples get converted to lists inside python social auth
-        current = {tuple(verified) for verified in details["verified_emails"]}
-        existing = set(social.verifiedemail_set.values_list("email", "is_deliverable"))
-        for remove in existing - current:
-            social.verifiedemail_set.filter(
-                email=remove[0], is_deliverable=remove[1]
-            ).delete()
-        for add in current - existing:
-            social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
+        current: set[tuple[str, bool]] = set(map(tuple, details["verified_emails"]))
     elif details.get("email"):
-        verified, created = VerifiedEmail.objects.get_or_create(
-            social=social, defaults={"email": details["email"]}
-        )
-        if (
-            not created and verified.email != details["email"]
-        ) or not verified.is_deliverable:
-            verified.email = details["email"]
-            verified.is_deliverable = True
-            verified.save()
+        current = {(details["email"], True)}
+    else:
+        return
+
+    existing_emails = set()
+    for verified in social.verifiedemail_set.order_by("pk"):
+        entry = (verified.email, verified.is_deliverable)
+        if entry in current and entry not in existing_emails:
+            existing_emails.add(entry)
+        else:
+            verified.delete()
+
+    for add in current - existing_emails:
+        social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
 
 
 def handle_invite(

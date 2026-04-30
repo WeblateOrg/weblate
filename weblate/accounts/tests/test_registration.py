@@ -24,7 +24,7 @@ from rest_framework.authtoken.models import Token
 
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.models import VerifiedEmail
-from weblate.accounts.pipeline import ensure_valid, handle_invite
+from weblate.accounts.pipeline import ensure_valid, handle_invite, store_email
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import (
     Group,
@@ -949,6 +949,92 @@ class RegistrationTest(BaseRegistrationTest):
                 ("noreply-weblate@example.org", True),
                 ("noreply@users.noreply.github.com", False),
             },
+        )
+
+    def test_store_email_multiple_existing(self) -> None:
+        """Store email when an identity has several verified e-mails."""
+        user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
+        social = user.social_auth.create(provider="github", uid="1")
+        VerifiedEmail.objects.create(social=social, email="old@example.org")
+        VerifiedEmail.objects.create(
+            social=social,
+            email="noreply-weblate@example.org",
+            is_deliverable=False,
+        )
+
+        store_email(
+            MagicMock(),
+            MagicMock(),
+            user,
+            social,
+            {"email": "noreply-weblate@example.org"},
+        )
+
+        self.assertEqual(VerifiedEmail.objects.filter(social=social).count(), 1)
+        self.assertTrue(
+            VerifiedEmail.objects.get(
+                social=social, email="noreply-weblate@example.org"
+            ).is_deliverable
+        )
+        self.assertFalse(
+            VerifiedEmail.objects.filter(
+                social=social, email="old@example.org"
+            ).exists()
+        )
+
+    def test_store_email_multiple_existing_new_email(self) -> None:
+        """Store email by reusing one of several existing verified e-mails."""
+        user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
+        social = user.social_auth.create(provider="github", uid="1")
+        VerifiedEmail.objects.create(social=social, email="old@example.org")
+        VerifiedEmail.objects.create(social=social, email="second@example.org")
+
+        store_email(
+            MagicMock(),
+            MagicMock(),
+            user,
+            social,
+            {"email": "noreply-weblate@example.org"},
+        )
+
+        self.assertEqual(VerifiedEmail.objects.filter(social=social).count(), 1)
+        self.assertEqual(
+            set(
+                VerifiedEmail.objects.filter(social=social).values_list(
+                    "email", "is_deliverable"
+                )
+            ),
+            {("noreply-weblate@example.org", True)},
+        )
+
+    def test_store_email_verified_emails_cleanup(self) -> None:
+        """Store all verified e-mails and clean up stale duplicate entries."""
+        user = User.objects.create_user("weblate", "noreply-weblate@example.org", "x")
+        social = user.social_auth.create(provider="github", uid="1")
+        VerifiedEmail.objects.create(social=social, email="old@example.org")
+        VerifiedEmail.objects.create(social=social, email="first@example.org")
+        VerifiedEmail.objects.create(social=social, email="first@example.org")
+
+        store_email(
+            MagicMock(),
+            MagicMock(),
+            user,
+            social,
+            {
+                "verified_emails": [
+                    ("first@example.org", True),
+                    ("second@example.org", False),
+                ]
+            },
+        )
+
+        self.assertEqual(
+            set(
+                VerifiedEmail.objects.filter(social=social).values_list(
+                    "email", "is_deliverable"
+                )
+            ),
+            {("first@example.org", True), ("second@example.org", False)},
         )
 
     def test_github_existing(self) -> None:
