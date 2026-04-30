@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:9b1e5730-1656-56bf-914c-5a8b0c1b99c4",
+  "serialNumber": "urn:uuid:e1cc4ffd-af76-565c-b9d1-5753b6942ce5",
   "version": 1,
   "metadata": {
     "lifecycles": [
@@ -73,6 +73,99 @@
         {
           "license": {
             "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@orchidjs/sifter@1.1.0",
+      "type": "library",
+      "name": "@orchidjs/sifter",
+      "version": "1.1.0",
+      "scope": "required",
+      "author": "Brian Reavis",
+      "description": "A library for textually searching arrays and hashes of objects by property (or multiple properties). Designed specifically for autocomplete.",
+      "purl": "pkg:npm/%40orchidjs/sifter@1.1.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@orchidjs/sifter"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@orchidjs/sifter/-/sifter-1.1.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/orchidjs/sifter.js.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/orchidjs/sifter.js#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/orchidjs/sifter.js/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "998c0709fafbdfa70859676185266f0db7fdd002addb1cab26ca4a142deac88246d4bb6b25e26e9d812a0861b802ada28c435b7385a43a3b3372f35a2004bfa5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@orchidjs/unicode-variants@1.1.2",
+      "type": "library",
+      "name": "@orchidjs/unicode-variants",
+      "version": "1.1.2",
+      "scope": "required",
+      "description": "Unicode variant string matching",
+      "purl": "pkg:npm/%40orchidjs/unicode-variants@1.1.2",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@orchidjs/unicode-variants"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@orchidjs/unicode-variants/-/unicode-variants-1.1.2.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/orchidjs/unicode-variants.git"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/orchidjs/unicode-variants#readme"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/orchidjs/unicode-variants/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e43a1b5b508782705138e129165117cad103e4ea2c11611216f83f558987d35e37a177228d84e9ad16094ecfb9e47cc633822ac622c54aea84ceef663cdc15b0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
           }
         }
       ]
@@ -783,53 +876,6 @@
       ]
     },
     {
-      "bom-ref": "multi.js@0.5.3",
-      "type": "library",
-      "name": "multi.js",
-      "version": "0.5.3",
-      "scope": "required",
-      "author": "Fabian Lindfors",
-      "description": "A user-friendly replacement for select boxes with multiple attribute enabled",
-      "purl": "pkg:npm/multi.js@0.5.3",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/multi.js"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/multi.js/-/multi.js-0.5.3.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/Fabianlindfors/multi.js.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/Fabianlindfors/multi.js"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/Fabianlindfors/multi.js/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "0da60e45f4aaa9863713ace18dbe021987b65549d05d5db6b190e816ce87dc67b9b3387c155a1a934b49a6e605829c67f35921390af6c0cf3e80c0e08cbf46c9"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
       "bom-ref": "prismjs@1.30.0",
       "type": "library",
       "name": "prismjs",
@@ -924,6 +970,53 @@
       ]
     },
     {
+      "bom-ref": "tom-select@2.6.0",
+      "type": "library",
+      "name": "tom-select",
+      "version": "2.6.0",
+      "scope": "required",
+      "author": "Josh Schmidt",
+      "description": "Tom Select is a versatile and dynamic <select> UI control. Forked from Selectize.js to provide a framework agnostic autocomplete widget with native-feeling keyboard navigation, it's useful for tagging, contact lists, country selectors, etc.",
+      "purl": "pkg:npm/tom-select@2.6.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/tom-select"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/tom-select/-/tom-select-2.6.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/orchidjs/tom-select.git"
+        },
+        {
+          "type": "website",
+          "url": "https://tom-select.js.org"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/orchidjs/tom-select/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "a364e8063854027aeb42f5bf86b63d73ffd3a4ea402984a57ee1677f40c8c0dcbeb9afa69989ec1783f137f3e9cc17d421f10590d6009e078605f380656177b7"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "tributejs@5.1.3",
       "type": "library",
       "name": "tributejs",
@@ -984,14 +1077,24 @@
         "jquery@3.7.1",
         "mousetrap@1.6.5",
         "mousetrap-global-bind@1.1.0",
-        "multi.js@0.5.3",
         "prismjs@1.30.0",
         "slugify@1.6.9",
+        "tom-select@2.6.0",
         "tributejs@5.1.3"
       ]
     },
     {
       "ref": "@altcha/crypto@0.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "@orchidjs/sifter@1.1.0",
+      "dependsOn": [
+        "@orchidjs/unicode-variants@1.1.2"
+      ]
+    },
+    {
+      "ref": "@orchidjs/unicode-variants@1.1.2",
       "dependsOn": []
     },
     {
@@ -1078,16 +1181,19 @@
       ]
     },
     {
-      "ref": "multi.js@0.5.3",
-      "dependsOn": []
-    },
-    {
       "ref": "prismjs@1.30.0",
       "dependsOn": []
     },
     {
       "ref": "slugify@1.6.9",
       "dependsOn": []
+    },
+    {
+      "ref": "tom-select@2.6.0",
+      "dependsOn": [
+        "@orchidjs/sifter@1.1.0",
+        "@orchidjs/unicode-variants@1.1.2"
+      ]
     },
     {
       "ref": "tributejs@5.1.3",
