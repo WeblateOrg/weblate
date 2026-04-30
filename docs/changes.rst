@@ -1,7 +1,30 @@
-Weblate 5.17.1
+Weblate 2026.5
 --------------
 
 *Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/2026.5.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?closed=1>`__.
+
+Weblate 5.17.1
+--------------
+
+*Released on April 30th 2026.*
 
 .. rubric:: New features
 
@@ -31,6 +54,9 @@ Weblate 5.17.1
 
 .. rubric:: Bug fixes
 
+* Image URLs in Markdown are now escaped before rendering (:ghsa:`5cmv-3rc4-7279`).
+* Tightened :ref:`api` input validation to prevent translation enumeration (:ghsa:`gcg5-86jr-f7jg`).
+* Project backup imports now revalidate component repository URLs before restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`).
 * Fixed revert links in the translate-view history tab after moving a component to another project.
 * Invitation acceptance now verifies the invited e-mail address and invitation expiry before granting team membership.
 * :ref:`check-rst-references` no longer crashes on repeated explicit-link targets.
@@ -42,7 +68,6 @@ Weblate 5.17.1
 * Borg backups that finish with warnings are no longer shown as failed in the management UI, and backup logs now show ``C`` entries for files that changed during the backup.
 * Git exporter no longer rejects shared-history fetches just because the first negotiated ``have`` revisions are newer than Weblate's local history.
 * :ref:`mt-weblate-translation-memory` automatic translation avoids broad PostgreSQL searches.
-* Project backup import now revalidates component repository URLs before restore.
 * Malformed IPv6 repository URLs no longer crash SSH host key detection.
 * :ref:`addon-weblate.gettext.xgettext` and related POT update add-ons now replace the standard descriptive-title placeholder in normalized POT headers again.
 * :ref:`addon-weblate.gettext.django` now skips repository ``locale`` trees during preflight validation, fixing components that store ``django.pot`` in a top-level ``locale`` directory.
@@ -54,12 +79,12 @@ Weblate 5.17.1
 * :ref:`addon-weblate.discovery.discovery` now disables inherited string management for discovered formats that do not support adding or removing strings.
 * Automatic translation from other components now ignores read-only source candidates with empty translations.
 * Project component pagination now keeps the :guilabel:`Components` tab active when jumping to a typed page number.
-* Markdown rendering now falls back to escaped plain text when the parser fails and escapes image URLs before rendering.
+* Markdown rendering now falls back to escaped plain text when the parser fails.
 * Forgejo and Gitea test deliveries with sample loopback repository URLs no longer trigger slow suffix matching against all components.
 
 .. rubric:: Compatibility
 
-* Password updates now regenerate your personal API key by default.
+* Password changes now regenerate personal API keys by default (:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`).
 * :setting:`VCS_RESTRICT_PRIVATE` and :setting:`WEBHOOK_RESTRICT_PRIVATE` now reject URLs whose hostnames cannot be resolved during validation unless the host is explicitly allowed.
 * :ref:`profile` URL validation now rejects obvious direct file download URLs and invalid code site or Fediverse profile links.
 * Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`, and :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE` before parsing. Component ZIP imports and project backup restores now share stricter ZIP archive safety checks, including total uncompressed data limits for project backup imports.
