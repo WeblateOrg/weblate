@@ -577,7 +577,7 @@ class LineMaxLength(BaseFileFormatParam):
     default = 80
     field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 20, "max_value": 1000}
     help_text = gettext_lazy(
-        "The maximum number of characters for each line in the output file. "
+        "The maximum number of characters for each line in the output file."
     )
 
 
