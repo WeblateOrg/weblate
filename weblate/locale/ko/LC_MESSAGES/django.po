@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-04-24 21:21-0500\n"
-"PO-Revision-Date: 2026-04-20 03:50+0000\n"
-"Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
+"PO-Revision-Date: 2026-05-01 01:27+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2212,10 +2212,9 @@ msgid "format not preset"
 msgstr "Meson 프리셋"
 
 #: weblate/addons/forms.py:923
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "단일언어 기반 언어 파일"
+msgstr "단일언어 기반: %(base)s"
 
 #: weblate/addons/forms.py:926
 #, fuzzy
@@ -3506,11 +3505,10 @@ msgid "%(email)s: pending invitation already exists"
 msgstr ""
 
 #: weblate/auth/forms.py:388
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "사용자 초대 이메일이 전송되었습니다."
+msgstr[0] "%(count)d개의 초대 이메일이 발송되었습니다."
 
 #: weblate/auth/forms.py:399
 #, python-format
@@ -5859,10 +5857,8 @@ msgid "Git export failed."
 msgstr ""
 
 #: weblate/gitexport/views.py:295
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "지원되지 않는 파일입니다!"
+msgstr "지원되지 않는 Git 서비스입니다."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -8447,12 +8443,13 @@ msgid "Close"
 msgstr "닫기"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> across "
 "all projects."
-msgstr "이 프로젝트에서 <b>%(name)s</b> 팀이 삭제됩니다."
+msgstr ""
+"이렇게 하면 <b>%(user)s</b> 님이 모든 프로젝트에서 최근에 편집한 번역이 "
+"되돌려집니다."
 
 #: weblate/templates/accounts/user.html:486
 msgid "Account removal deletes all user private data."
@@ -14185,12 +14182,13 @@ msgid "Revert user edits"
 msgstr "제거된 사용자"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "This will revert the latest editable translations by <b>%(user)s</b> in this "
 "project."
-msgstr "이 프로젝트에서 <b>%(name)s</b> 팀이 삭제됩니다."
+msgstr ""
+"이렇게 하면 이 프로젝트에서 <b>%(user)s</b> 님이 편집한 최신 번역이 "
+"되돌려집니다."
 
 #: weblate/templates/trans/project-access.html:154
 #, python-format
@@ -14655,12 +14653,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translate.html:1020
-#, fuzzy, python-format
-#| msgid "<code>%(flags)s</code> is inherited from %(object)s."
+#, python-format
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for %(format)s."
-msgstr "<code>%(flags)s</code>는 %(object)s 에서 상속됩니다."
+msgstr ""
+"<code>%(flags)s</code>는 %(format)s의 경우 소스 문자열 편집이 불가능하기 "
+"때문에 %(object)s에서 상속됩니다."
 
 #: weblate/templates/translate.html:1022
 #, fuzzy, python-format
@@ -15386,10 +15385,9 @@ msgid "Screenshot image is missing."
 msgstr "스크린샷 파일 마스크"
 
 #: weblate/trans/backups.py:1057
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not restore screenshot %(name)s: %(error)s"
-msgstr "%(file)s 파일을 구문 분석할 수 없습니다: %(error)s"
+msgstr "%(name)s 스크린숏을 복원할 수 없습니다: %(error)s"
 
 #: weblate/trans/change_display.py:36 weblate/trans/models/change.py:504
 msgid "The component was automatically locked because of an alert."
@@ -17485,10 +17483,9 @@ msgid "Invalid repository branch: %s"
 msgstr "잘못된 리포지터리 분기: %s"
 
 #: weblate/trans/models/component.py:4016
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "잘못된 검색 문자열!"
+msgstr "잘못된 푸시 브랜치: %s"
 
 #: weblate/trans/models/component.py:4032
 #, python-format
@@ -17779,16 +17776,14 @@ msgid "Could not commit pending changes: %s"
 msgstr "보류 중인 변경사항을 커밋하지 못했습니다: %s"
 
 #: weblate/trans/models/translation.py:1591
-#, fuzzy, python-brace-format
-#| msgid "Could not parse {file}: {error}"
+#, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "{file}을(를) 분석할 수 없습니다: {error}"
+msgstr "업로드된 파일을 {file_format} 형식으로 구문 분석할 수 없음: {error}"
 
 #: weblate/trans/models/translation.py:1718
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "업로드된 ZIP 파일을 구문 분석할 수 없습니다."
+msgstr "업로드된 파일을 구문 분석할 수 없음: %s"
 
 #: weblate/trans/models/translation.py:2318
 msgid "Plurals are not supported by the file format."
@@ -18642,10 +18637,9 @@ msgid ""
 msgstr "설정에 문제가 있어 %(obj)s를 변경할 수 없습니다: %(error)s"
 
 #: weblate/trans/views/settings.py:331
-#, fuzzy, python-format
-#| msgid "This component is currently locked."
+#, python-format
 msgid "This component is already shared in %s."
-msgstr "이 구성요소는 현재 잠겨있습니다."
+msgstr "이 구성요소는 이미 %s에서 공유되었습니다."
 
 #: weblate/trans/views/settings.py:511
 msgid "Backup scheduled. It will be available soon."
@@ -19209,10 +19203,9 @@ msgid "Component and priority"
 msgstr "구성 요소 및 우선순위"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "프로젝트 백업이 포함된 ZIP 파일"
+msgstr "ZIP 파일에 잘못된 경로가 포함됨: {path}"
 
 #: weblate/utils/zip.py:62
 #, fuzzy
@@ -19317,10 +19310,9 @@ msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
 #: weblate/vcs/git.py:2298
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "%(file)s 파일을 구문 분석할 수 없습니다: %(error)s"
+msgstr "GitLab 프로젝트를 가져올 수 없음(%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2417
 msgid "Pagure merge request"
