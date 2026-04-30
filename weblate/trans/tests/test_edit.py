@@ -11,6 +11,7 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
@@ -36,6 +37,15 @@ from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck
+
+
+class EditScreenshotContextTest(ViewTestCase):
+    def test_screenshot_context_has_documentation_link(self) -> None:
+        self.make_manager()
+        response = self.client.get(self.translation.get_translate_url())
+        self.assertContains(
+            response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
 
 
 class EditTest(ViewTestCase):
@@ -103,13 +113,6 @@ class EditTest(ViewTestCase):
         self.assertEqual(plurals[0], "Opice má %d banán.\n")
         self.assertEqual(plurals[1], "Opice má %d banány.\n")
         self.assertEqual(plurals[2], "Opice má %d banánů.\n")
-
-    def test_screenshot_context_has_documentation_link(self) -> None:
-        self.make_manager()
-        response = self.client.get(self.translate_url)
-        self.assertContains(
-            response, get_doc_url("admin/translating", "screenshots", user=self.user)
-        )
 
     def test_fuzzy(self) -> None:
         """Test for fuzzy flag handling."""
@@ -795,12 +798,20 @@ class EditJSONMonoTest(EditTest):
     def create_component(self):
         return self.create_json_mono()
 
-    def test_new_unit_validation(self) -> None:
-        self.make_manager()
+    def enable_nested_unit_management(self) -> None:
         self.component.manage_units = True
         self.component.file_format = "json-nested"
         self.component.drop_file_format_cache()
-        self.component.save()
+        # These tests only need the changed settings to be visible to the view.
+        # Avoid Component.save(), which rescans the repository as a side effect.
+        Component.objects.filter(pk=self.component.pk).update(
+            file_format=self.component.file_format,
+            manage_units=self.component.manage_units,
+        )
+
+    def test_new_unit_validation(self) -> None:
+        self.make_manager()
+        self.enable_nested_unit_management()
         response = self.add_unit("key")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "New string has been added")
@@ -821,10 +832,7 @@ class EditJSONMonoTest(EditTest):
 
     def test_new_unit_validation_parse_error(self) -> None:
         self.make_manager()
-        self.component.manage_units = True
-        self.component.file_format = "json-nested"
-        self.component.drop_file_format_cache()
-        self.component.save()
+        self.enable_nested_unit_management()
 
         with patch.object(
             Translation,
@@ -835,12 +843,47 @@ class EditJSONMonoTest(EditTest):
 
         self.assertContains(response, "Could not parse translation file: Broken JSON")
 
+    def test_new_unit_validation_materializes_pending_contexts(self) -> None:
+        self.enable_nested_unit_management()
+        store = self.translation.store
+
+        with patch.object(store, "validate_new_context") as validate_new_context:
+            self.translation.validate_new_unit_data(
+                "test.key",
+                ["Added source string"],
+                ["Added target string"],
+            )
+
+        self.assertIsInstance(
+            validate_new_context.call_args.kwargs["pending_contexts"], list
+        )
+
+    def test_add_unit_revalidates_hierarchical_context(self) -> None:
+        self.enable_nested_unit_management()
+        translation = self.component.source_translation
+
+        translation.add_unit(
+            None,
+            "test.key",
+            ["Added source string"],
+            "",
+            author=self.user,
+        )
+
+        with self.assertRaisesMessage(
+            ValidationError, "This key conflicts with an existing hierarchical key."
+        ):
+            translation.add_unit(
+                None,
+                "test.key.title",
+                ["Other source string"],
+                "",
+                author=self.user,
+            )
+
     def test_new_unit_hierarchical_context_validation(self) -> None:
         self.make_manager()
-        self.component.manage_units = True
-        self.component.file_format = "json-nested"
-        self.component.drop_file_format_cache()
-        self.component.save()
+        self.enable_nested_unit_management()
 
         response = self.add_unit("test.key")
         self.assertContains(response, "New string has been added")

@@ -12,7 +12,7 @@ import sentry_sdk
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import Case, IntegerField, Q, Value, When
 from django.db.models.functions import MD5, Lower
@@ -1111,7 +1111,6 @@ def save_zen(request: AuthenticatedHttpRequest, path):
 
 @require_POST
 @login_required
-@transaction.atomic
 def new_unit(request: AuthenticatedHttpRequest, path):
     translation = parse_path(request, path, (Translation,))
     if not request.user.has_perm("unit.add", translation):
@@ -1121,7 +1120,21 @@ def new_unit(request: AuthenticatedHttpRequest, path):
     if not form.is_valid():
         show_form_errors(request, form)
     else:
-        created_unit = translation.add_unit(request, **form.as_kwargs())
+        try:
+            created_unit = translation.add_unit(request, **form.as_kwargs())
+        except WeblateLockTimeoutError:
+            messages.error(
+                request,
+                gettext(
+                    "Could not add the string because another background operation is "
+                    "in progress. Please try again later."
+                ),
+            )
+            return redirect(translation)
+        except ValidationError as error:
+            for message in error.messages:
+                messages.error(request, message)
+            return redirect(translation)
         messages.success(request, gettext("New string has been added."))
         return redirect(created_unit)
 

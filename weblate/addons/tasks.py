@@ -47,7 +47,12 @@ def read_component_file(component: Component, filename: str) -> str:
     return Path(component.full_path, resolved).read_text(encoding="utf-8")
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def cdn_parse_html(addon_id: int, component_id: int) -> None:
     try:
         addon = Addon.objects.get(pk=addon_id)

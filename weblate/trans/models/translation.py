@@ -1980,22 +1980,52 @@ class Translation(
         state: StringState | None = None,
         author: User,
     ) -> Unit | None: ...
-    @transaction.atomic
-    def add_unit(  # noqa: C901, PLR0914, PLR0915, PLR0912
+    def add_unit(
         self,
-        request,
-        context,
-        source,
-        target=None,
+        request: AuthenticatedHttpRequest | None,
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         *,
-        extra_flags="",
-        explanation="",
-        auto_context=False,
-        is_batch_update=False,
-        skip_existing=False,
-        state=None,
-        author=None,
-    ):
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
+        is_batch_update: bool = False,
+        skip_existing: bool = False,
+        state: StringState | None = None,
+        author: User | None = None,
+    ) -> Unit | None:
+        with self.component.lock:
+            return self._add_unit_locked(
+                request,
+                context,
+                source,
+                target,
+                extra_flags=extra_flags,
+                explanation=explanation,
+                auto_context=auto_context,
+                is_batch_update=is_batch_update,
+                skip_existing=skip_existing,
+                state=state,
+                author=author,
+            )
+
+    @transaction.atomic
+    def _add_unit_locked(  # noqa: C901, PLR0914, PLR0915, PLR0912
+        self,
+        request: AuthenticatedHttpRequest | None,
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
+        *,
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
+        is_batch_update: bool = False,
+        skip_existing: bool = False,
+        state: StringState | None = None,
+        author: User | None = None,
+    ) -> Unit | None:
         if isinstance(source, list):
             source = join_plural(source)
 
@@ -2042,6 +2072,15 @@ class Translation(
             while self.unit_set.filter(context=context, **filter_args).exists():
                 suffix += 1
                 context = f"{base}{suffix}"
+
+        if not is_batch_update:
+            self._validate_new_unit_context(context)
+            self._validate_new_unit_duplicate(
+                context,
+                source,
+                auto_context=auto_context,
+                skip_existing=skip_existing,
+            )
 
         unit_ids = []
         changes = []
@@ -2307,12 +2346,15 @@ class Translation(
             file_format_cls.validate_context(context)
             return
 
+        pending_contexts = list(
+            self.unit_set.filter(pending_changes__add_unit=True).values_list(
+                "context", flat=True
+            )
+        )
         try:
             self.store.validate_new_context(
                 context,
-                pending_contexts=self.unit_set.filter(pending_changes__add_unit=True)
-                .values_list("context", flat=True)
-                .iterator(),
+                pending_contexts=pending_contexts,
             )
         except FileParseError as error:
             raise ValidationError(
@@ -2323,6 +2365,32 @@ class Translation(
                     extra_paths=(component.full_path,),
                 )
             ) from error
+
+    def _get_new_unit_duplicate_filters(self, source: list[str]) -> list[Q]:
+        if self.component.has_template():
+            return []
+
+        source_query = Q(source=join_plural(source))
+        # Validate non-pluralized strings against pluralized ones because
+        # having singular and plural entries with matching sources does not
+        # work for most of the formats.
+        source_query |= Q(source__startswith=join_plural([source[0], ""]))
+        if len(source) > 1:
+            source_query |= Q(source=source[0])
+        return [source_query]
+
+    def _validate_new_unit_duplicate(
+        self, context: str, source: str, *, auto_context: bool, skip_existing: bool
+    ) -> None:
+        if (
+            not auto_context
+            and not skip_existing
+            and self.unit_set.filter(
+                *self._get_new_unit_duplicate_filters(split_plural(source)),
+                context=context,
+            ).exists()
+        ):
+            raise ValidationError(gettext("This string seems to already exist."))
 
     def validate_new_unit_data(
         self,
@@ -2336,8 +2404,6 @@ class Translation(
         skip_existing: bool = False,
     ) -> None:
         component = self.component
-        # extra holds Q objects to be unpacked in the filter() call below
-        extra: list[Q] = []
         if isinstance(source, str):
             source = [source]
         if len(source) > 1 and not component.file_format_cls.supports_plural:
@@ -2363,23 +2429,12 @@ class Translation(
                     )
                 )
         self._validate_new_unit_context(context)
-        if not component.has_template():
-            source_query = Q(source=join_plural(source))
-            # Validate non-pluralized strings against pluralized ones because
-            # having singular and plural entries with matching sources does not
-            # work for most of the formats
-
-            # Look for plural string with the same singular (also matches strings with any plural form)
-            source_query |= Q(source__startswith=join_plural([source[0], ""]))
-
-            # Look for singular string with the same text
-            if len(source) > 1:
-                source_query |= Q(source=source[0])
-
-            extra.append(source_query)
-
-        if not auto_context and self.unit_set.filter(*extra, context=context).exists():
-            raise ValidationError(gettext("This string seems to already exist."))
+        self._validate_new_unit_duplicate(
+            context,
+            join_plural(source),
+            auto_context=auto_context,
+            skip_existing=skip_existing,
+        )
         # Avoid using source translations without a filename
         if not self.filename:
             try:
