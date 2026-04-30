@@ -45,7 +45,7 @@ function mainLicenseTransform(packages) {
     "tributejs",
     "@tarekraafat/autocomplete.js",
     "autosize",
-    "multi.js",
+    "tom-select",
     "mousetrap",
     "prismjs",
     "@altcha",
@@ -71,8 +71,8 @@ function autosizeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
 }
 
-function multiJsLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("multi.js"));
+function tomSelectLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("tom-select"));
 }
 
 function prismJsLicenseTransform(packages) {
@@ -133,7 +133,7 @@ module.exports = {
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
     autosize: "./src/autosize.js",
-    multi: "./src/multi.js",
+    "tom-select": "./src/tom-select",
     mousetrap: "./src/mousetrap.js",
     prismjs: "./src/prismjs.js",
     altcha: "./src/altcha.js",
@@ -170,8 +170,8 @@ module.exports = {
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "autosize.js.license": autosizeLicenseTransform,
-        "multi.js.license": multiJsLicenseTransform,
-        "../../styles/vendor/multi.css.license": multiJsLicenseTransform,
+        "tom-select.license": tomSelectLicenseTransform,
+        "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,
         "mousetrap.js.license": mousetrapLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
