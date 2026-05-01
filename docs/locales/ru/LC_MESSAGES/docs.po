@@ -50,7 +50,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-30 07:18+0000\n"
+"PO-Revision-Date: 2026-05-01 01:27+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -60,7 +60,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:218
@@ -6992,28 +6992,25 @@ msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"Вы можете выполнить второй шаг в Weblate, и это гарантирует, что все "
+"ожидающие изменения будут включены до выполнения этой операции."
 
 #: admin/continuous.rst:136
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
-msgstr "Избежание конфликтов слияния изменений, созданных Weblate"
+msgstr ""
+"Избежание конфликтов слияния путём блокировки Weblate при внешних изменениях"
 
 #: admin/continuous.rst:138
-#, fuzzy
-#| msgid ""
-#| "The second approach can be achieved by using :ref:`api` to force Weblate "
-#| "to push all pending changes and lock the translation while you are doing "
-#| "changes on your side."
 msgid ""
 "Integrating Weblate into your updating process so that it flushes changes "
 "before updating the files outside Weblate can be achieved by "
 "using :ref:`api` to force Weblate to push all pending changes and lock the "
 "translation while you are doing changes on your side."
 msgstr ""
-"Второй подход может быть достигнут путём использования :ref:`api`, "
-"заставляющего Weblate отправить на все отложенные изменения и заблокировать "
-"перевод, пока вы на своей стороне проводите изменения."
+"Интегрировать Weblate в ваш процесс обновления так, чтобы он сохранял "
+"изменения перед обновлением файлов вне Weblate, можно с помощью :ref:`api`, "
+"заставляя Weblate отправить все ожидающие изменения и заблокировать перевод, "
+"пока вы вносите изменения на своей стороне."
 
 #: admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
@@ -7034,9 +7031,8 @@ msgid ""
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
 "В примере используется :ref:`wlc`, которому требуется настройка (ключи API) "
-"для удалённого управления Weblate. Также вы можете решить задачу с помощью "
-"любого HTTP-клиента вместо :ref:`wlc`, к примеру, curl, смотрите раздел "
-":ref:`api`."
+"для удалённого управления Weblate. Вы также можете добиться этого с помощью "
+"любого HTTP-клиента вместо :ref:`wlc`, например curl; см. раздел :ref:`api`."
 
 #: admin/continuous.rst:181
 msgid "Repository maintenance"
@@ -7048,12 +7044,18 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+"Представление :guilabel:`Обслуживание репозитория` показывает статус "
+"репозитория для проекта, компонента или перевода и позволяет "
+"привилегированным пользователям запускать операции обслуживания из "
+"пользовательского интерфейса."
 
 #: admin/continuous.rst:187
 msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
+"Те же действия могут быть также вызваны с помощью :ref:`api` или, для "
+"поддерживаемого подмножества, :ref:`wlc`."
 
 #: admin/continuous.rst:190
 msgid ""
@@ -7061,6 +7063,9 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"Доступность отдельных действий зависит от разрешений, настроенной системы "
+"контроля версий, настроена ли отправка, и может ли выбранный объект быть "
+"заблокирован."
 
 #: admin/continuous.rst:197
 msgid "Action"
@@ -7068,222 +7073,228 @@ msgstr "Действие"
 
 #: admin/continuous.rst:198
 msgid "What it does"
-msgstr ""
+msgstr "Что это делает"
 
 #: admin/continuous.rst:199
 msgid "Typical use"
-msgstr ""
+msgstr "Типичное использование"
 
 #: admin/continuous.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Commit`"
-msgstr ":guilabel:`Пользовательский`"
+msgstr ":guilabel:`Коммит`"
 
 #: admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Commit any pending changes and merge them into the upstream repository."
 msgid "Commits pending changes stored in Weblate to the local repository."
-msgstr "Коммит ожидающих изменений в репозиторий Weblate."
+msgstr ""
+"Фиксирует ожидающие изменения, хранящиеся в Weblate, в локальном репозитории."
 
 #: admin/continuous.rst:203
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
+"Сбросить ожидающие изменения Weblate перед выполнением работы с репозиторием "
+"в другом месте."
 
 #: admin/continuous.rst:205
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Push`"
-msgstr ":guilabel:`Публичный`"
+msgstr ":guilabel:`Отправить`"
 
 #: admin/continuous.rst:206
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid "Pushes committed local repository changes to the configured upstream."
-msgstr "Отправляет закоммиченные изменения в вышестоящий репозиторий."
+msgstr ""
+"Отправляет зафиксированные изменения локального репозитория в настроенный "
+"вышестоящий репозиторий."
 
 #: admin/continuous.rst:207
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
+"Отправить зафиксированные переводы в вышестоящий репозиторий, когда "
+"автоматическая отправка отключена или задержана."
 
 #: admin/continuous.rst:209
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Update`"
-msgstr ":guilabel:`Приватный`"
+msgstr ":guilabel:`Обновить`"
 
 #: admin/continuous.rst:210
 msgid ""
 "Fetches upstream changes and integrates them using the component's "
 "configured :ref:`component-merge_style`."
 msgstr ""
+"Извлекает изменения из вышестоящего репозитория и интегрирует их, используя "
+"настроенный в компоненте :ref:`component-merge_style`."
 
 #: admin/continuous.rst:211
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
 msgstr ""
+"Синхронизировать Weblate с вышестоящим репозиторием, используя стратегию "
+"интеграции по умолчанию."
 
 #: admin/continuous.rst:213
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with merge`"
-msgstr ":guilabel:`Обновление внутреннего репозитория`"
+msgstr ":guilabel:`Обновить со слиянием`"
 
 #: admin/continuous.rst:214
 msgid "Fetches upstream changes and integrates them with an explicit merge."
 msgstr ""
+"Извлекает изменения из вышестоящего репозитория и интегрирует их с явным "
+"слиянием."
 
 #: admin/continuous.rst:215
 msgid "Override the default merge style for a single update."
-msgstr ""
+msgstr "Переопределить стиль слияния по умолчанию для одного обновления."
 
 #: admin/continuous.rst:217
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with rebase`"
-msgstr ":guilabel:`Обновление внутреннего репозитория`"
+msgstr ":guilabel:`Обновить со сменой базы`"
 
 #: admin/continuous.rst:218
 msgid ""
 "Fetches upstream changes and rebases local Weblate commits on top of "
 "upstream."
 msgstr ""
+"Извлекает изменения из вышестоящего репозитория и перемещает локальные "
+"коммиты Weblate поверх вышестоящих."
 
 #: admin/continuous.rst:219
 msgid "Keep history linear when that matches your workflow."
 msgstr ""
+"Сохранять линейную историю, если это соответствует вашему рабочему процессу."
 
 #: admin/continuous.rst:221
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr "Слияние без fast-forward"
+msgstr ":guilabel:`Обновить со слиянием без ускорения`"
 
 #: admin/continuous.rst:222
 msgid ""
 "Fetches upstream changes and creates an explicit merge commit even when a "
 "fast-forward would be possible."
 msgstr ""
+"Извлекает изменения из вышестоящего репозитория и создаёт явный коммит "
+"слияния, даже если возможно ускорение."
 
 #: admin/continuous.rst:223
 msgid "Preserve merge commits for auditing or branch-management reasons."
-msgstr ""
+msgstr "Сохранять коммиты слияния для аудита или управления ветками."
 
 #: admin/continuous.rst:225
-#, fuzzy
-#| msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
 msgid ":guilabel:`Lock` / :guilabel:`Unlock`"
-msgstr ":guilabel:`Сброс` из :guilabel:`Обслуживания`"
+msgstr ":guilabel:`Заблокировать` / :guilabel:`Разблокировать`"
 
 #: admin/continuous.rst:226
 msgid "Prevents or allows translators to make further changes in Weblate."
 msgstr ""
+"Запрещает или разрешает переводчикам вносить дальнейшие изменения в Weblate."
 
 #: admin/continuous.rst:227
-#, fuzzy
-#| msgid "You pull changes from a remote repository to Weblate like this:"
 msgid ""
 "Freeze translation changes while doing repository maintenance outside "
 "Weblate."
 msgstr ""
-"Извлечь изменения из дистанционного репозитория в Weblate можно как-то так:"
+"Заморозить изменения переводов во время обслуживания репозитория вне Weblate."
 
 #: admin/continuous.rst:229
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and discard`"
-msgstr ":guilabel:`Удаление строки`"
+msgstr ":guilabel:`Сбросить и отклонить`"
 
 #: admin/continuous.rst:230
 msgid ""
 "Resets Weblate's local repository to upstream and discards pending Weblate "
 "changes."
 msgstr ""
+"Сбрасывает локальный репозиторий Weblate к состоянию вышестоящего и "
+"отбрасывает ожидающие изменения Weblate."
 
 #: admin/continuous.rst:231
 msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr ""
+"Используйте, когда вышестоящий репозиторий должен перезаписать локальное "
+"состояние репозитория Weblate."
 
 #: admin/continuous.rst:233
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and reapply`"
-msgstr ":guilabel:`Удаление строки`"
+msgstr ":guilabel:`Сбросить и применить заново`"
 
 #: admin/continuous.rst:234
 msgid ""
 "Resets Weblate's local repository to upstream while preserving pending "
 "translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
+"Сбрасывает локальный репозиторий Weblate к состоянию вышестоящего, сохраняя "
+"ожидающие переводы. См. :ref:`manage-vcs-reset-reapply`."
 
 #: admin/continuous.rst:235
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
 msgstr ""
+"Восстановиться после расхождения истории, сохраняя ожидающие переводы "
+"Weblate."
 
 #: admin/continuous.rst:237
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Cleanup`"
-msgstr ":guilabel:`Пользовательский`"
+msgstr ":guilabel:`Очистка`"
 
 #: admin/continuous.rst:238
 msgid ""
 "Removes untracked files and stale branches from the local repository "
 "checkout."
 msgstr ""
+"Удаляет неотслеживаемые файлы и устаревшие ветки из локальной рабочей копии "
+"репозитория."
 
 #: admin/continuous.rst:239
 msgid ""
 "Clean up leftover files or stale repository state in Weblate's checkout."
 msgstr ""
+"Очистить остаточные файлы или устаревшее состояние репозитория в рабочей "
+"копии Weblate."
 
 #: admin/continuous.rst:241
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Synchronize`"
-msgstr ":guilabel:`Приватный`"
+msgstr ":guilabel:`Синхронизировать`"
 
 #: admin/continuous.rst:242
 msgid ""
 "Forces Weblate to write all known translations back to the repository files."
 msgstr ""
+"Заставляет Weblate записать все известные переводы обратно в файлы "
+"репозитория."
 
 #: admin/continuous.rst:243
 msgid ""
 "Repair cases where repository files became out of sync with the database "
 "state."
 msgstr ""
+"Исправить случаи, когда файлы репозитория рассинхронизировались с состоянием "
+"базы данных."
 
 #: admin/continuous.rst:245
-#, fuzzy
-#| msgid ":guilabel:`Resolve comment`"
 msgid ":guilabel:`Rescan`"
-msgstr ":guilabel:`Разрешить комментарий`"
+msgstr ":guilabel:`Пересканировать`"
 
 #: admin/continuous.rst:246
-#, fuzzy
-#| msgid "You pull changes from a remote repository to Weblate like this:"
 msgid "Re-reads translation files from the local repository into Weblate."
-msgstr ""
-"Извлечь изменения из дистанционного репозитория в Weblate можно как-то так:"
+msgstr "Повторно считывает файлы переводов из локального репозитория в Weblate."
 
 #: admin/continuous.rst:247
 msgid "Import file changes after manual repository work or file creation."
 msgstr ""
+"Импортировать изменения файлов после ручной работы с репозиторием или "
+"создания файлов."
 
 #: admin/continuous.rst:252
 msgid "Reset and reapply recovery behavior"
-msgstr ""
+msgstr "Поведение восстановления при сбросе и повторном применении"
 
 #: admin/continuous.rst:254
 msgid ""
 "The :guilabel:`Reset and reapply` operation keeps pending translations from "
 "Weblate while resetting the local repository state to match upstream."
 msgstr ""
+"Операция :guilabel:`Сбросить и применить заново` сохраняет ожидающие "
+"переводы из Weblate, одновременно сбрасывая состояние локального репозитория "
+"до соответствия вышестоящему."
 
 #: admin/continuous.rst:257
 msgid ""
@@ -7291,6 +7302,9 @@ msgid ""
 "files still exist after the reset or when Weblate can create them for the "
 "component, for example using a valid :ref:`component-new_base`."
 msgstr ""
+"Операция может восстановить ожидающие переводы, только когда файлы целевого "
+"языка всё ещё существуют после сброса или когда Weblate может создать их для "
+"компонента, например, используя действительный :ref:`component-new_base`."
 
 #: admin/continuous.rst:261
 msgid ""
@@ -7298,21 +7312,15 @@ msgid ""
 "its database and reports a recovery error instead of failing later with a "
 "generic parse error."
 msgstr ""
+"Если ни одно из этих условий не выполнено, Weblate сохраняет ожидающие "
+"изменения в своей базе данных и сообщает об ошибке восстановления, вместо "
+"того чтобы позже завершиться ошибкой с общей ошибкой разбора."
 
 #: admin/continuous.rst:268
-#, fuzzy
-#| msgid "Avoiding merge conflicts on Weblate originated changes"
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr "Избежание конфликтов слияния изменений, созданных Weblate"
+msgstr "Избежание конфликтов слияния путём сосредоточения на операциях Git"
 
 #: admin/continuous.rst:270
-#, fuzzy
-#| msgid ""
-#| "Even when Weblate is the single source of the changes in the translation "
-#| "files, conflicts can appear when using :ref:`addon-weblate.git.squash` "
-#| "add-on, :ref:`component-merge_style` is configured to :guilabel:`Rebase`, "
-#| "or you are squashing commits outside Weblate (for example when merging a "
-#| "pull request)."
 msgid ""
 "Even when Weblate is the single source of the changes in the translation "
 "files, conflicts can appear when using :ref:`addon-weblate.git.squash` add-"
@@ -7320,21 +7328,13 @@ msgid ""
 "are squashing commits outside of Weblate (for example, when merging a pull "
 "request)."
 msgstr ""
-"Даже если Weblate является единственным источником изменений в файлах "
-"перевода, могут возникать конфликты, когда используется "
-"дополнение :ref:`addon-weblate.git.squash`, :ref:`component-merge_style` "
-"настроен на :guilabel:`Rebase` («Сменить базу»), или вы сминаете коммиты вне "
-"Weblate (например, при слиянии запроса на извлечение)."
+"Даже когда Weblate является единственным источником изменений в файлах "
+"перевода, конфликты могут возникать при использовании дополнения :ref:`addon-"
+"weblate.git.squash`, когда :ref:`component-merge_style` настроен на "
+":guilabel:`Rebase` , или когда вы склеиваете коммиты вне Weblate (например, "
+"при слиянии запроса на извлечение)."
 
 #: admin/continuous.rst:275
-#, fuzzy
-#| msgid ""
-#| "The reason for merge conflicts is different in this case - there are "
-#| "changes in Weblate which happened after you merged Weblate commits. This "
-#| "typically happens if merging is not automated and waits for days or weeks "
-#| "for a human to review them. Git is then sometimes no longer able to "
-#| "identify upstream changes as matching to Weblate one and refuses to "
-#| "perform rebase."
 msgid ""
 "The reason for merge conflicts is different in this case - there are changes "
 "in Weblate which happened after you merged Weblate commits. This typically "
@@ -7342,12 +7342,12 @@ msgid ""
 "to review them. Git is then sometimes no longer able to identify upstream "
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
-"Причина конфликтов слияния в данном случае другая - в Weblate есть "
-"изменения, произошедшие после слияния коммитов Weblate. Обычно это "
-"происходит, если слияние не автоматизировано и человек ждёт несколько дней "
-"или недель, чтобы просмотреть их. В этом случае Git иногда не может "
-"определить, что изменения, внесённые выше по потоку, соответствуют "
-"изменениям, внесённым в Weblate, и отказывается выполнять смену базы."
+"Причина конфликтов слияния в данном случае иная — в Weblate есть изменения, "
+"произошедшие после того, как вы объединили коммиты Weblate. Обычно это "
+"происходит, если слияние не автоматизировано и ожидает несколько дней или "
+"недель, пока человек их проверит. Затем Git иногда больше не может "
+"определить, что изменения из вышестоящего репозитория соответствуют "
+"изменениям Weblate, и отказывается выполнять смену базы."
 
 #: admin/continuous.rst:281
 msgid ""
@@ -7415,36 +7415,34 @@ msgid ""
 "still need to add the Hosted Weblate :guilabel:`weblate` GitHub user as a "
 "collaborator with write access, see :ref:`hosted-push`."
 msgstr ""
+"Если вы используете Hosted Weblate, рекомендуемый подход — установить "
+"`приложение Weblate <https://github.com/apps/weblate>`_. Приложение "
+"доставляет уведомления GitHub в Hosted Weblate, поэтому вам не нужно "
+"настраивать отдельный :guilabel:`веб-обработчик` в GitHub. Однако само по "
+"себе оно не предоставляет Hosted Weblate доступ на запись к репозиторию. "
+"Чтобы отправлять изменения обратно, вам всё равно нужно добавить "
+"пользователя GitHub Hosted Weblate :guilabel:`weblate` в качестве соавтора с "
+"доступом на запись; см. :ref:`hosted-push`."
 
 #: admin/continuous.rst:311
-#, fuzzy
-#| msgid ""
-#| "To receive notifications on every push to a GitHub repository, add the "
-#| "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as "
-#| "shown on the image below:"
 msgid ""
 "If you are not using the app, add the Weblate Webhook in the repository "
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
-"Для получения уведомлений о каждой отправке в репозиторий GitHub, добавьте в "
-"настройки репозитория (:guilabel:`Webhooks`) веб-обработчик Weblate, как "
-"показано на изображении ниже:"
+"Если вы не используете приложение, добавьте веб-обработчик Weblate в "
+"настройках репозитория (:guilabel:`Webhooks`), чтобы получать уведомления о "
+"каждой отправке в репозиторий GitHub, как показано на изображении ниже:"
 
 #: admin/continuous.rst:317
-#, fuzzy
-#| msgid ""
-#| "For the payload URL, append ``/hooks/github/`` to your Weblate URL, for "
-#| "example for the Hosted Weblate service, this is ``https://"
-#| "hosted.weblate.org/hooks/github/``."
 msgid ""
 "The :guilabel:`Payload URL` consists of your Weblate URL appended by ``/"
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
-"Для адреса полезной нагрузки (поля :guilabel:`Payload URL`), добавьте к URL-"
-"адресу вашего Weblate ``/hooks/github/``, например, для сервиса Hosted "
-"Weblate, это этот адрес будет ``https://hosted.weblate.org/hooks/github/``."
+":guilabel:`Payload URL` состоит из URL-адреса вашего Weblate с добавлением "
+"``/hooks/github/``, например, для службы Hosted Weblate это ``https://"
+"hosted.weblate.org/hooks/github/``."
 
 #: admin/continuous.rst:321
 msgid ""
@@ -7501,10 +7499,8 @@ msgid "Check `GitLab webhook request history`_ if webhooks are delivered."
 msgstr ""
 
 #: admin/continuous.rst:358
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "The response payload contains information about matched components."
-msgstr "Пожалуйста, проверьте и подтвердите сопоставленные компоненты."
+msgstr "Тело ответа содержит информацию о сопоставленных компонентах."
 
 #: admin/continuous.rst:364
 msgid ":http:post:`/hooks/gitlab/`"
@@ -7533,7 +7529,7 @@ msgstr ":http:post:`/hooks/pagure/`"
 
 #: admin/continuous.rst:387
 msgid "Automatically receiving changes from Azure Repos"
-msgstr "Автоматическое получение изменений из Azure Repos"
+msgstr "Автоматическое получение изменений из репозиториев Azure"
 
 #: admin/continuous.rst:389
 msgid ""
@@ -7592,19 +7588,10 @@ msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/continuous.rst:421
-#, fuzzy
-#| msgid "Automatically receiving changes from Azure Repos"
 msgid "Automatically receiving changes from Forgejo Repos"
-msgstr "Автоматическое получение изменений из Azure Repos"
+msgstr "Автоматическое получение изменений из репозиториев Forgejo"
 
 #: admin/continuous.rst:423
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` "
-#| "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/gitea/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/forgejo/`` "
@@ -7612,28 +7599,23 @@ msgid ""
 "hooks/forgejo/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"Weblate поддерживает веб-обработчики Gitea, добавьте веб-"
-"обработчик :guilabel:`Gitea Webhook` для события :guilabel:`Push events` с "
-"адресом назначения, равным адресу вашей установки Weblate с суффиксом ``/"
-"hooks/gitea/`` (например, ``https://hosted.weblate.org/hooks/gitea/``). "
-"Добавлять этот адрес нужно в поле :guilabel:`Webhooks`, расположенное в "
-"блоке :guilabel:`Settings`."
+"Weblate поддерживает веб-обработчики Forgejo, добавьте :guilabel:`Веб-"
+"обработчик Forgejo` для события :guilabel:`Push events` с адресом назначения "
+"``/hooks/forgejo/`` в вашей установке Weblate (например, ``https://"
+"hosted.weblate.org/hooks/forgejo/``). Это можно сделать в разделе "
+":guilabel:`Webhooks` в :guilabel:`Настройках` репозитория."
 
 #: admin/continuous.rst:430
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/"
 "webhooks/>`_"
 msgstr ""
-"`Веб-обработчики в руководстве по Gitea <https://docs.gitea.io/en-us/"
-"webhooks/>`_"
+"`Веб-обработчики в документации Forgejo <https://forgejo.org/docs/latest/"
+"user/webhooks/>`_"
 
 #: admin/continuous.rst:431
-#, fuzzy
-#| msgid ":http:post:`/hooks/azure/`"
 msgid ":http:post:`/hooks/forgejo/`"
-msgstr ":http:post:`/hooks/azure/`"
+msgstr ":http:post:`/hooks/forgejo/`"
 
 #: admin/continuous.rst:437
 msgid "Automatically receiving changes from Gitee Repos"
@@ -7704,24 +7686,14 @@ msgstr ""
 "командой :option:`wlc push`."
 
 #: admin/continuous.rst:469
-#, fuzzy
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
-"Параметры отправки отличаются в зависимости от используемой :ref:`системы "
-"контроля версий <vcs>`, подробнее об этом читайте в указанной главе."
+"Параметры отправки различаются в зависимости от используемой :ref:`vcs`, "
+"более подробная информация приведена в этой главе."
 
 #: admin/continuous.rst:471
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -7730,26 +7702,21 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"В случае, если вы не хотите использовать прямые отправки изменений Weblate, "
-"существует поддержка запросов на извлечение :ref:`vcs-github`, :ref:`vcs-"
-"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` или "
-"рецензирований :ref:`vcs-gerrit`, вы можете включить их, "
-"выбрав :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-"DevOps` или :guilabel:`Pagure` в качестве :ref:`component-vcs` "
-"в :ref:`component`."
+"Если вы не хотите использовать прямые отправки Weblate, существует поддержка "
+":ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, "
+":ref:`vcs-azure-devops` или :ref:`vcs-gerrit` рецензирований. Вы можете "
+"активировать их, выбрав :guilabel:`GitHub`, :guilabel:`GitLab`, "
+":guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps` или "
+":guilabel:`Pagure` в качестве :ref:`component-vcs` в :ref:`component`."
 
 #: admin/continuous.rst:477
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, Mercurial, GitHub, "
-#| "GitLab, Gitea, Pagure, and Azure DevOps:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
 "Cloud:"
 msgstr ""
-"В целом, следующие варианты доступны для Git, Mercurial, GitHub, GitLab, "
-"Gitea, Pagure и Azure DevOps:"
+"В целом, следующие параметры доступны для Git, Mercurial, GitHub, GitLab, "
+"Gitea, Pagure, Azure DevOps, Bitbucket Data Center и Bitbucket Cloud:"
 
 #: admin/continuous.rst:483
 msgid "Desired setup"
@@ -7851,11 +7818,8 @@ msgid "Bitbucket Cloud pull request from branch"
 msgstr "Запрос на извлечение в Bitbucket Cloud из форка"
 
 #: admin/continuous.rst:588
-#, fuzzy
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
-"Может быть пустым в случае, если :ref:`репозиторий исходного кода <component-"
-"repo>` поддерживает отправку изменений."
+msgstr "Может быть пустым, если :ref:`component-repo` поддерживает отправку."
 
 #: admin/continuous.rst:593
 msgid ""
@@ -7949,14 +7913,12 @@ msgid "A file download is requested."
 msgstr "Запрошена загрузка файла."
 
 #: admin/continuous.rst:640
-#, fuzzy
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
-"Изменения старше периода, определённого :ref:`возрастом изменений для "
-"коммита <component-commit_pending_age>` в :ref:`конфигурации компонента "
-"<component>`."
+"Изменение старше периода, определённого как :ref:`component-"
+"commit_pending_age` в :ref:`component`."
 
 #: admin/continuous.rst:644
 msgid ""
@@ -7992,16 +7954,14 @@ msgid "Processing repository with scripts"
 msgstr "Обработка репозитория скриптами"
 
 #: admin/continuous.rst:660
-#, fuzzy
 msgid ""
 "The way to customize how Weblate interacts with the repository "
 "is :ref:`addons`. Consult :ref:`addon-script` for info on how to execute "
 "external scripts through add-ons."
 msgstr ""
-"Настройка взаимодействия Weblate с репозиторием заключается в "
-"использовании :ref:`надстроек <addons>`. Для получения информации о том, как "
-"через надстройки выполнять внешние скрипты, обратитесь к разделу :ref:`addon-"
-"script`."
+"Способ настройки взаимодействия Weblate с репозиторием — это :ref:`addons`. "
+"Обратитесь к :ref:`addon-script` за информацией о том, как выполнять внешние "
+"скрипты через дополнения."
 
 #: admin/continuous.rst:667
 msgid "Keeping translations same across components"
@@ -8132,29 +8092,19 @@ msgstr ""
 "актуальности кода, включённого в Weblate, будут заниматься его кураторы."
 
 #: admin/customize.rst:11
-#, fuzzy
-#| msgid ""
-#| "You can also review the very same checklist from the :ref:`management-"
-#| "interface`."
 msgid "You can also customize Weblate look in :ref:`manage-appearance`."
 msgstr ""
-"Вы можете просмотреть этот же список из :ref:`интерфейса управления "
-"<management-interface>`."
+"Вы также можете настроить внешний вид Weblate в :ref:`manage-appearance`."
 
 #: admin/customize.rst:16
-#, fuzzy
-#| msgid ""
-#| "Neither internal interfaces nor templates are considered a stable API. "
-#| "Please review your own customizations for every upgrade, the interfaces "
-#| "or their semantics might change without notice."
 msgid ""
 "Neither internal interfaces nor templates are considered a stable API. "
 "Please review your customizations for every upgrade, the interfaces or their "
 "semantics might change without notice."
 msgstr ""
-"Ни внутренние интерфейсы, ни шаблоны не считаются стабильным API. При каждом "
-"обновлении просматривайте внесённые вами изменения: интерфейсы и их "
-"семантика могут измениться без предварительного уведомления."
+"Ни внутренние интерфейсы, ни шаблоны не считаются стабильным API. "
+"Пожалуйста, просматривайте свои настройки при каждом обновлении, интерфейсы "
+"или их семантика могут измениться без предварительного уведомления."
 
 #: admin/customize.rst:27
 msgid "Creating a Python module"
@@ -8183,16 +8133,15 @@ msgstr ""
 "Weblate, который также добавляется к путям поиска интерпретатора."
 
 #: admin/customize.rst:40
-#, fuzzy
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules "
 "in :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be "
 "loaded by Weblate, for example from a :ref:`settings override file <docker-"
 "settings-override>`."
 msgstr ""
-":ref:`Используя Docker <docker-deploy>`, вы можете поместить модули Python "
-"в :file:`/app/data/python/` (см. :ref:`docker-volume`), чтобы их можно было "
-"загрузить с помощью Weblate, например, из :ref:`файла переопределения "
+"При :ref:`использовании Docker <docker-deploy>` вы можете размещать модули "
+"Python в :file:`/app/data/python/` (см. :ref:`docker-volume`), чтобы они "
+"могли быть загружены Weblate, например, из :ref:`файла переопределения "
 "настроек <docker-settings-override>`."
 
 #: admin/customize.rst:45
@@ -8206,21 +8155,14 @@ msgstr ""
 "`weblate_customization`)."
 
 #: admin/customize.rst:48
-#, fuzzy
-#| msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgid ""
 "Within it, create a :file:`pyproject.toml` file to describe the package:"
-msgstr "В нём создайте файл :file:`setup.py` c описанием своего пакета:"
+msgstr "Внутри него создайте файл :file:`pyproject.toml` для описания пакета:"
 
 #: admin/customize.rst:63
-#, fuzzy
-#| msgid ""
-#| "Create a folder for your package (we will use `weblate_customization`)."
 msgid ""
 "Create a folder for the Python module: :file:`src/weblate_customization`"
-msgstr ""
-"Создайте каталог для вашего пакета (мы будем использовать "
-"`weblate_customization`)."
+msgstr "Создайте папку для модуля Python: :file:`src/weblate_customization`"
 
 #: admin/customize.rst:64
 msgid ""
@@ -8231,14 +8173,13 @@ msgstr ""
 "этот модуль."
 
 #: admin/customize.rst:65
-#, fuzzy
 msgid ""
 "This package can now be installed using :command:`uv pip install -e`. More "
 "info to be found in `Editable packages documentation`_."
 msgstr ""
-"Теперь этот пакет можно установить командой :command:`pip install -e`. Более "
-"подробную информацию можно найти в документе :ref:`«Редактируемые» установки "
-"<pip:editable-installs>`."
+"Этот пакет теперь можно установить с помощью :command:`uv pip install -e`. "
+"Более подробная информация приведена в `документации по редактируемым "
+"пакетам`_."
 
 #: admin/customize.rst:66
 msgid ""
@@ -8313,43 +8254,31 @@ msgstr ""
 "файлы, предназначенные для передачи клиентам."
 
 #: admin/customize.rst:129
-#, fuzzy
-#| msgid "Custom quality checks, add-ons and auto-fixes"
 msgid "Custom quality checks, add-ons, automatic suggestions and auto-fixes"
 msgstr ""
-"Пользовательские проверки качества, надстройки и автоматические исправления"
+"Пользовательские проверки качества, дополнения, автоматические предложения и "
+"автоисправления"
 
 #: admin/customize.rst:131
-#, fuzzy
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-"
 "checks`, :ref:`custom-machinery` or :ref:`own-addon` in Weblate:"
 msgstr ""
-"Для добавления в Weblate собственного кода для :ref:`автоматических "
-"исправлений <custom-autofix>`, :ref:`проверок <own-checks>` "
-"или :ref:`надстроек <own-addon>`:"
+"Чтобы установить ваш код для :ref:`custom-autofix`, :ref:`own-checks`, "
+":ref:`custom-machinery` или :ref:`own-addon` в Weblate:"
 
 #: admin/customize.rst:134
-#, fuzzy
-#| msgid ""
-#| "Place the files into your Python module containing the Weblate "
-#| "customization (see :ref:`custom-module`)."
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module` or :ref:`docker-python-override`)."
 msgstr ""
-"Поместите файлы в модуль Python, содержащий ваши настройки Weblate (смотрите "
-"раздел :ref:`custom-module`)."
+"Поместите файлы в ваш модуль Python, содержащий настройки Weblate (см. "
+":ref:`custom-module` или :ref:`docker-python-override`)."
 
 #: admin/customize.rst:136
-#, fuzzy
-#| msgid ""
-#| "Provide a fully-qualified path to the Python class implementing the check "
-#| "interface."
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings:"
-msgstr ""
-"Предоставьте полный путь к классу Python, реализующему интерфейс проверки."
+msgstr "Добавьте его полный путь к классу Python в соответствующих настройках:"
 
 #: admin/deployments.rst:4
 msgid "Weblate deployments"
@@ -8526,12 +8455,12 @@ msgid "Datastore"
 msgstr "Хранилище данных"
 
 #: admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
-msgstr "Сервер Redis для кэша и очереди задач, смотрите раздел :ref:`celery`."
+msgstr ""
+"Хранилище ключей/значений, такое как Valkey или Redis, для кэша и очереди "
+"задач, см. :ref:`celery`."
 
 #: admin/install.rst:150
 msgid "File system"
@@ -8563,16 +8492,12 @@ msgstr ""
 "быть предоставлен извне."
 
 #: admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` включает PostgreSQL и Redis, что делает "
-"установку проще."
+":doc:`/admin/install/docker` включает PostgreSQL и Valkey, что упрощает "
+"установку."
 
 #: admin/install.rst:164
 msgid "Software requirements"
@@ -8611,20 +8536,15 @@ msgid "Python dependencies"
 msgstr "Зависимости Python"
 
 #: admin/install.rst:184
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.11 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.12 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
 "Weblate написан на `Python <https://www.python.org/>`_ и поддерживает Python "
-"3.11 или новее. Вы можете установить зависимости с помощью pip или из "
-"пакетов ваших дистрибутивов, полный список доступен в "
-"файле: :file:`requirements.txt`."
+"3.12 или новее. Вы можете установить зависимости с помощью pip или из "
+"пакетов вашего дистрибутива, полный список доступен в "
+":file:`requirements.txt`."
 
 #: admin/install.rst:188
 msgid "Most notable dependencies:"
@@ -8699,16 +8619,12 @@ msgid "Integrating SAML 2 IDP into Weblate"
 msgstr "Интеграция SAML 2 IDP в Weblate"
 
 #: admin/install.rst:258
-#, fuzzy
-#| msgid "`openai <https://pypi.org/project/openai>`_"
 msgid "`Sphinx <https://pypi.org/project/Sphinx>`_"
-msgstr "`openai <https://pypi.org/project/openai>`_"
+msgstr "`Sphinx <https://pypi.org/project/Sphinx>`_"
 
 #: admin/install.rst:259
-#, fuzzy
-#| msgid "New add-on :ref:`addon-weblate.generate.prefill`."
 msgid "Needed for :ref:`addon-weblate.gettext.sphinx`"
-msgstr "Новое дополнение :ref:`addon-weblate.generate.prefill`."
+msgstr "Необходимо для :ref:`addon-weblate.gettext.sphinx`"
 
 #: admin/install.rst:263 admin/install.rst:267
 msgid "Hosted Weblate integration"
@@ -8740,25 +8656,16 @@ msgid "Troubleshooting pip install"
 msgstr "Решение проблем с pip install"
 
 #: admin/install.rst:301
-#, fuzzy
-#| msgid ""
-#| "The installed ``PyGobject`` package cannot find a matching GObject "
-#| "Introspection library. Before the 3.52 release, it required ``gobject-"
-#| "introspection-1.0`` and since then, it requires ``gobject-"
-#| "introspection-2.0``."
 msgid ""
 "The installed ``PyGobject`` package cannot find a matching GObject "
 "Introspection library - ``gobject-introspection-2.0``."
 msgstr ""
 "Установленный пакет ``PyGobject`` не может найти соответствующую библиотеку "
-"GObject Introspection. До выпуска 3.52 требовалась ``gobject-"
-"introspection-1.0``, а после него - ``gobject-introspection-2.0``."
+"GObject Introspection — ``gobject-introspection-2.0``."
 
 #: admin/install.rst:304
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "Older versions are no longer supported by Weblate."
-msgstr "Разрешения не управляются в Weblate."
+msgstr "Более старые версии больше не поддерживаются Weblate."
 
 #: admin/install.rst:307
 msgid ""
@@ -8845,7 +8752,6 @@ msgid "Build-time dependencies"
 msgstr "Зависимости времени компиляции"
 
 #: admin/install.rst:344
-#, fuzzy
 msgid ""
 "To build some of the :ref:`python-deps` you might need to install their "
 "dependencies. This depends on how you install them, so please consult "
@@ -8853,13 +8759,11 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
-"Для сборки некоторых :ref:`зависимостей Python <python-deps>` может "
-"потребоваться установка также и их зависимостей. Это зависит от того, как "
-"именно вы их устанавливаете, так что за справкой по установке обратитесь к "
-"документации соответствующих пакетов. Вручную устанавливать зависимости "
-"зависимостей вам не понадобятся, если вы, например, устанавливаете их через "
-"``pip`` и используете предварительно-собранные «колёса» (``Wheels``) или "
-"устанавливаете их через пакетный менеджер вашего дистрибутива."
+"Для сборки некоторых :ref:`python-deps` вам может потребоваться установить "
+"их зависимости. Это зависит от того, как вы их устанавливаете, поэтому, "
+"пожалуйста, обратитесь к документации отдельных пакетов. Они не понадобятся, "
+"если вы используете предварительно собранные ``Wheels`` при установке через "
+"``pip`` или если вы используете пакеты дистрибутива."
 
 #: admin/install.rst:352
 msgid "Pango and Cairo"
@@ -8934,17 +8838,14 @@ msgstr ""
 "получится, если у него не будет соответствующих прав доступа."
 
 #: admin/install.rst:408
-#, fuzzy
 msgid ""
 "You should also take care when running :ref:`manage`, as they should be ran "
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
 msgstr ""
-"Также вам следует быть особенно внимательными, когда "
-"запускаете :ref:`команды управления <manage>`, поскольку они должны "
-"выполняться под тем же пользователем, под которым запущен сам Weblate. В "
-"противном случае права доступа на некоторые файлы могут быть выставлены "
-"неверно."
+"Вы также должны быть осторожны при запуске :ref:`manage`, так как они должны "
+"выполняться от того же пользователя, от которого работает сам Weblate, иначе "
+"права на некоторые файлы могут быть неверными."
 
 #: admin/install.rst:412
 msgid ""
@@ -8988,10 +8889,8 @@ msgstr ""
 "connections`."
 
 #: admin/install.rst:445
-#, fuzzy
-#| msgid "Weblate containers are published to following registries:"
 msgid "Weblate needs at least the following number of connections:"
-msgstr "Контейнеры Weblate публикуются в следующих реестрах:"
+msgstr "Weblate требует как минимум следующее количество соединений:"
 
 #: admin/install.rst:447
 msgid ":math:`(4 \\times \\mathit{nCPUs}) + 2` for Celery processes"
@@ -9015,10 +8914,8 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:457
-#, fuzzy
-#| msgid ":ref:`autofix` are now applied to suggestions as well."
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref:`autofix` теперь применяются и к предложениям."
+msgstr ":ref:`manage` также требуют своего соединения."
 
 #: admin/install.rst:458
 msgid ""
@@ -9084,17 +8981,6 @@ msgid "The :file:`settings.py` snippet for PostgreSQL:"
 msgstr "Фрагмент настроек :file:`settings.py` для PostgreSQL:"
 
 #: admin/install.rst:542
-#, fuzzy
-#| msgid ""
-#| "The database migration performs `ALTER ROLE <https://www.postgresql.org/"
-#| "docs/12/sql-alterrole.html>`_ on database role used by Weblate. In most "
-#| "cases the name of the role matches username. In more complex setups the "
-#| "role name is different than username and you will get error about non-"
-#| "existing role during the database migration "
-#| "(``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does not "
-#| "exist``). This is known to happen with Azure Database for PostgreSQL, but "
-#| "it's not limited to this environment. Please set ``ALTER_ROLE`` to change "
-#| "name of the role Weblate should alter during the database migration."
 msgid ""
 "The database migration performs `ALTER ROLE <https://www.postgresql.org/docs/"
 "16/sql-alterrole.html>`_ on the database role used by Weblate. In most "
@@ -9106,16 +8992,16 @@ msgid ""
 "it's not limited to this environment. Please set ``ALTER_ROLE`` to change "
 "the name of the role Weblate should alter during the database migration."
 msgstr ""
-"При миграции базы данных выполняется `ALTER ROLE <https://www.postgresql.org/"
-"docs/12/sql-alterrole.html>`_ той роли, которую используется Weblate. В "
-"большинстве случаев имя роли совпадает с именем пользователя. В более же "
-"сложных случаях они могут отличаться и при миграции вы можете получить "
-"ошибку о том, что такая роль не существует "
+"Миграция базы данных выполняет `ALTER ROLE <https://www.postgresql.org/docs/"
+"16/sql-alterrole.html>`_ для роли базы данных, используемой Weblate. В "
+"большинстве случаев имя роли совпадает с именем пользователя. В более "
+"сложных настройках имя роли отличается от имени пользователя, и вы получите "
+"ошибку о несуществующей роли во время миграции базы данных "
 "(``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does not "
-"exist``). Известно, что такое случается при использовании базы данных Azure "
-"совместно с PostgreSQL, хотя это может происходить и при других "
-"обстоятельствах. Установите параметр ``ALTER_ROLE``, чтобы задать ту роль, "
-"которую Weblate должен изменить во время миграции базы данных."
+"exist``). Известно, что это происходит с Azure Database for PostgreSQL, но "
+"не ограничивается этой средой. Пожалуйста, установите ``ALTER_ROLE``, чтобы "
+"изменить имя роли, которую Weblate должен изменить во время миграции базы "
+"данных."
 
 #: admin/install.rst:557
 msgid "Other configurations"
@@ -9163,14 +9049,10 @@ msgstr ""
 "включить :setting:`django:EMAIL_USE_TLS`."
 
 #: admin/install.rst:585
-#, fuzzy
-#| msgid ""
-#| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-#| "<docker-mail>`"
 msgid ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
 msgstr ""
-":ref:`debug-mails`, :ref:`Настройка исходящего адреса электронной почты "
-"внутри контейнера Docker <docker-mail>`"
+":ref:`Настройка исходящей электронной почты в контейнере Docker <docker-mail>"
+"`"
 
 #: admin/install.rst:590
 msgid "Running behind reverse proxy"
@@ -9194,16 +9076,8 @@ msgid "Client IP address"
 msgstr "IP-адрес клиента"
 
 #: admin/install.rst:600
-#, fuzzy
-#| msgid ""
-#| "Several features in Weblate rely on being able to get client IP address. "
-#| "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-"
-#| "log`."
 msgid "This is needed for :ref:`rate-limit` or :ref:`audit-log`."
-msgstr ""
-"Некоторые функции Weblate полагаются на возможность получения IP-адреса "
-"клиента. Среди этих функций :ref:`rate-limit`, :ref:`spam-protection` "
-"или :ref:`audit-log`."
+msgstr "Это необходимо для :ref:`rate-limit` или :ref:`audit-log`."
 
 #: admin/install.rst:602
 msgid ""
@@ -9230,30 +9104,20 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:618
-#, fuzzy
-#| msgid "Service name"
 msgid "Server host name"
-msgstr "Слуžба"
+msgstr "Имя хоста сервера"
 
 #: admin/install.rst:619
-#, fuzzy
-#| msgid ""
-#| "Another thing to take care of is the :http:header:`Host` header. It "
-#| "should match to whatever is configured as :setting:`SITE_DOMAIN`. "
-#| "Additional configuration might be needed in your reverse proxy (for "
-#| "example use ``ProxyPreserveHost On`` for Apache or ``proxy_set_header "
-#| "Host $host;`` with nginx)."
 msgid ""
 "The :http:header:`Host` header should match to whatever is configured "
 "as :setting:`SITE_DOMAIN`. Additional configuration might be needed in your "
 "reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or "
 "``proxy_set_header Host $host;`` with nginx)."
 msgstr ""
-"Ещё один момент, на который следует обратить внимание, это "
-"заголовок :http:header:`Host`. Он должен соответствовать тому, что настроено "
-"в :setting:`SITE_DOMAIN`. Дополнительная настройка может потребоваться в "
-"вашем обратном прокси (например, используйте ``ProxyPreserveHost On`` для "
-"Apache или ``proxy_set_header Host $host;`` для nginx)."
+"Заголовок :http:header:`Host` должен соответствовать тому, что настроено как "
+":setting:`SITE_DOMAIN`. Может потребоваться дополнительная настройка в вашем "
+"обратном прокси (например, используйте ``ProxyPreserveHost On`` для Apache "
+"или ``proxy_set_header Host $host;`` для nginx)."
 
 #: admin/install.rst:626
 msgid ""
@@ -9383,16 +9247,12 @@ msgstr ""
 "данных данные об устаревших сессиях."
 
 #: admin/install.rst:757
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Если вы используете в качестве кэша Redis (смотрите раздел :ref:`production-"
-"cache`), рекомендуется использовать его также и для сессий:"
+"Если вы используете Valkey или Redis в качестве кэша (см. :ref:`production-"
+"cache`), рекомендуется использовать его также и для сеансов:"
 
 #: admin/install.rst:773
 msgid ""
@@ -9495,16 +9355,12 @@ msgstr ""
 "возможно, исправлять их все нет необходимости):"
 
 #: admin/install.rst:866
-#, fuzzy
-#| msgid ""
-#| "You can also review the very same checklist from the :ref:`management-"
-#| "interface`."
 msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
 msgstr ""
-"Вы можете просмотреть этот же список из :ref:`интерфейса управления "
-"<management-interface>`."
+"Вы также можете просмотреть этот же список в :ref:`manage-performance` в "
+":ref:`management-interface`."
 
 #: admin/install.rst:875
 msgid "Disable debug mode"
@@ -9553,13 +9409,12 @@ msgstr ""
 "имя сайта."
 
 #: admin/install.rst:917
-#, fuzzy
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
-"До выхода версии 4.2 вместо него использовалась среда «сайтов» Django, см. "
-"раздел :doc:`среды «сайтов» <django:ref/contrib/sites>`."
+"До выпуска 4.2 вместо этого использовалась платформа сайтов Django, "
+"пожалуйста, см. :doc:`django:ref/contrib/sites`."
 
 #: admin/install.rst:931
 msgid "Correctly configure HTTPS"
@@ -9649,34 +9504,24 @@ msgstr ""
 "конфигурацию, например, используя `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: admin/install.rst:994
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure cache"
-msgstr "Конфигурировать колонки"
+msgstr "Настройка кэша"
 
 #: admin/install.rst:996
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Если возможно, используйте Redis из Django, настроив переменную ``CACHES`` в "
-"файле настроек, например:"
+"Если возможно, используйте Valkey или Redis в Django, настроив переменную "
+"конфигурации ``CACHES``, например:"
 
 #: admin/install.rst:1017
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Если вы измените настройки кеширования Redis, то вам также понадобится "
-"изменить их и в Celery, смотреть раздел :ref:`celery`."
+"Если вы измените настройки кэша, вам может потребоваться также настроить их "
+"для Celery, см. :ref:`celery`."
 
 #: admin/install.rst:1028
 msgid "Avatar caching"
@@ -10162,10 +10007,8 @@ msgstr ""
 "конфигурацией, но для этого может потребоваться настройка вашего окружения."
 
 #: admin/install.rst:1372
-#, fuzzy
-#| msgid "Sample configuration for NGINX and Gunicorn"
 msgid "Sample configuration for NGINX and Granian"
-msgstr "Пример файла настроек NGINX и Gunicorn"
+msgstr "Пример конфигурации для NGINX и Granian"
 
 #: admin/install.rst:1374
 msgid ""
@@ -10183,30 +10026,20 @@ msgid "Sample configuration for NGINX and Gunicorn"
 msgstr "Пример файла настроек NGINX и Gunicorn"
 
 #: admin/install.rst:1391
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (also available as :file:`weblate/examples/"
 "weblate.nginx.gunicorn.conf`):"
 msgstr ""
-"Со следующим файлом настроек Weblate будет запускаться в Gunicorn и Apache "
-"2.4 (этот же пример есть в :file:`weblate/examples/apache.gunicorn.conf`):"
+"Следующая конфигурация запускает Weblate с использованием Gunicorn под веб-"
+"сервером NGINX (также доступна в виде :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: admin/install.rst:1406
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Примеры файлов настроек NGINX и uWSGI"
 
 #: admin/install.rst:1409
-#, fuzzy
-#| msgid ""
-#| "To run production webserver, use the WSGI wrapper installed with Weblate "
-#| "(in virtual env case it is installed as :file:`~/weblate-env/lib/"
-#| "python3.9/site-packages/weblate/wsgi.py`). Don't forget to set the Python "
-#| "search path to your virtualenv as well (for example using ``virtualenv = /"
-#| "home/user/weblate-env`` in uWSGI)."
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate "
 "(when using a Python environment it is installed as :file:`~/weblate-env/lib/"
@@ -10214,11 +10047,11 @@ msgid ""
 "search path to your Python environment as well (for example using "
 "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgstr ""
-"Для запуска рабочего веб-сервера используйте обёртку WSGI, устанавливаемую "
-"вместе с Weblate (в виртуальном окружении она устанавливается в :file:`~/"
-"weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Не забудьте также "
-"поместить ваше виртуальное окружение в пути поиска Python (например, "
-"используя ``virtualenv = /home/user/weblate-env`` в uWSGI)."
+"Для запуска рабочего веб-сервера используйте обёртку WSGI, установленную с "
+"Weblate (при использовании виртуального окружения Python она устанавливается "
+"как :file:`~/weblate-env/lib/python3.14/site-packages/weblate/wsgi.py`). Не "
+"забудьте также указать путь поиска Python в вашем виртуальном окружении "
+"(например, используя ``virtualenv = /home/user/weblate-env`` в uWSGI)."
 
 #: admin/install.rst:1415
 msgid ""
@@ -10289,10 +10122,8 @@ msgstr ""
 "2.4 (этот же пример есть в :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: admin/install.rst:1477
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Granian"
-msgstr "Пример файла настроек Apache и Gunicorn"
+msgstr "Пример конфигурации для запуска Granian"
 
 #: admin/install.rst:1479
 msgid ""
@@ -10308,10 +10139,8 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:1501
-#, fuzzy
-#| msgid "Sample configuration for Apache and Gunicorn"
 msgid "Sample configuration to start Gunicorn"
-msgstr "Пример файла настроек Apache и Gunicorn"
+msgstr "Пример конфигурации для запуска Gunicorn"
 
 #: admin/install.rst:1503
 msgid "Gunicorn has to be installed separately:"
@@ -10386,19 +10215,17 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Коммитинг отложенных изменений (смотрите раздел :ref:`lazy-commit`)."
 
 #: admin/install.rst:1560
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
-msgstr "Типовая конфигурация, основанная на Redis, выглядит как-то так:"
+msgstr ""
+"Типичная настройка с использованием Valkey или Redis в качестве бэкенда "
+"выглядит так:"
 
 #: admin/install.rst:1570
-#, fuzzy
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
-":ref:`Настройка Redis в качестве брокера в Celery <celery:broker-redis-"
-"configuration>`"
+":ref:`Настройка брокера Redis в Celery <celery:broker-redis-configuration>`"
 
 #: admin/install.rst:1572
 msgid ""
@@ -10453,18 +10280,16 @@ msgid "Running Celery as system service"
 msgstr "Запуск Celery в качестве системного сервиса"
 
 #: admin/install.rst:1610
-#, fuzzy
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered "
 "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
 "using systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
-"Скорее всего вы захотите запустить Celery в качестве демона, и как выполнить "
-"ваше желание описывается в разделе :doc:`Демонизация <celery:userguide/"
-"daemonizing>` документации Celery. Для наиболее распространённой установки "
-"Linux с использованием systemd вы можете воспользоваться примерами "
-"перечисленных ниже файлов, поставляемых в каталоге :file:`examples`."
+"Скорее всего, вы захотите запустить Celery как демона, и это описано в "
+":doc:`celery:userguide/daemonizing`. Для наиболее распространённой настройки "
+"Linux с использованием systemd вы можете использовать примеры файлов, "
+"поставляемых в папке :file:`examples`, перечисленных ниже."
 
 #: admin/install.rst:1615
 msgid ""
@@ -10504,18 +10329,12 @@ msgstr ""
 "beat."
 
 #: admin/install.rst:1639
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with built-in setup for scheduled tasks. You can however "
-#| "define additional tasks in :file:`settings.py`, for example "
-#| "see :ref:`lazy-commit`."
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example "
 "see :ref:`lazy-commit`."
 msgstr ""
-"Weblate поставляется со встроенной конфигурацией планировщика задач. Вы, "
-"однако, можете определить в :file:`settings.py` дополнительные задачи, для "
-"примера смотрите раздел :ref:`lazy-commit`."
+"Вы можете определить дополнительные задачи в :file:`settings.py`, например, "
+"см. :ref:`lazy-commit`."
 
 #: admin/install.rst:1645
 msgid "Monitoring Celery status"
@@ -10534,16 +10353,14 @@ msgstr ""
 "конфигурации в интерфейсе администратора."
 
 #: admin/install.rst:1654
-#, fuzzy
 msgid ""
 "The Celery errors are by default only logged into Celery log and are not "
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
-"Ошибки Celery по умолчанию записываются только в журнал Celery и "
-"пользователю не видны. В случае, если вы хотите видеть сводку по таким "
-"ошибкам, рекомендуется настроить :ref:`сбор отчетов об ошибках <collecting-"
-"errors>`."
+"Ошибки Celery по умолчанию записываются только в журнал Celery и не видны "
+"пользователю. Если вы хотите иметь обзор таких сбоев, рекомендуется "
+"настроить :ref:`collecting-errors`."
 
 #: admin/install.rst:1672
 msgid "Single-process Celery setup"
@@ -10691,9 +10508,8 @@ msgstr ""
 "файла."
 
 #: admin/install.rst:1783
-#, fuzzy
 msgid "Graylog log management"
-msgstr "Кираванние СШ-клиуčами"
+msgstr "Управление журналами Graylog"
 
 #: admin/install.rst:1787
 msgid ""
@@ -10703,17 +10519,12 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:1790
-#, fuzzy
-#| msgid ""
-#| "This is implemented in the :ref:`sample-configuration`. For Docker, "
-#| "use :envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgid ""
 "The configuration boilerplate is included in :ref:`sample-configuration`, "
 "for Docker this can be configured using :envvar:`WEBLATE_LOG_GELF_HOST`."
 msgstr ""
-"Этот параметр реализован в :ref:`примере файла настроек <sample-"
-"configuration>`. В Docker используйте "
-"переменную. :envvar:`WEBLATE_REQUIRE_LOGIN`."
+"Шаблон конфигурации включён в :ref:`sample-configuration`, для Docker это "
+"можно настроить с помощью :envvar:`WEBLATE_LOG_GELF_HOST`."
 
 #: admin/install.rst:1794
 msgid "Migrating Weblate to another server"
@@ -10735,24 +10546,15 @@ msgid "Migrating database"
 msgstr "Перенос базы данных"
 
 #: admin/install.rst:1803
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward approach is to use "
-#| "database native tools, as they are usually the most effective "
-#| "(e.g. :command:`mysqldump` or :command:`pg_dump`). Alternatively you can "
-#| "use replication in case your database supports it."
 msgid ""
 "The most straightforward approach is to use database native tools, as they "
 "are usually the most effective (e.g. :command:`pg_dump`). Alternatively you "
 "can use replication if your database supports it."
 msgstr ""
-"В зависимости от бэкэнда вашей базы данных у вас может быть несколько "
-"вариантов миграции базы данных. Самый простой подход — использовать "
-"собственные инструменты базы данных, поскольку они обычно наиболее "
-"эффективны (например, :command:`mysqldump` или :command:`pg_dump`). В "
-"качестве альтернативы вы можете использовать репликацию, если ваша база "
-"данных поддерживает её."
+"Самый простой подход — использовать собственные инструменты базы данных, так "
+"как они обычно наиболее эффективны (например, :command:`pg_dump`). Как "
+"вариант, вы можете использовать репликацию, если ваша база данных "
+"поддерживает её."
 
 #: admin/install.rst:1809
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -10779,37 +10581,29 @@ msgid "Other notes"
 msgstr "Прочие заметки"
 
 #: admin/install.rst:1821
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"Не забудьте переместить и другие сервисы, которые Weblate мог использовать, "
-"например, Redis, задачи Cron или модули пользовательской авторизации."
+"Не забудьте переместить другие службы, которые могли использоваться Weblate, "
+"такие как Valkey, Redis, задачи Cron или пользовательские бэкенды "
+"аутентификации."
 
 #: admin/install/docker.rst:2
 msgid "Installing using Docker"
 msgstr "Установка с помощью Docker’а"
 
 #: admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database and Valkey as "
 "a caching backend."
 msgstr ""
-"С помощью докеризированного развертывания Weblate вы можете обзавестись "
-"своим личный экземпляр Weblate за считаные секунды. Все зависимости Weblate "
-"уже включены в образ. В качестве базы данных по умолчанию настроена "
-"PostgreSQL."
+"С помощью докеризированного развёртывания Weblate вы можете запустить свой "
+"собственный экземпляр Weblate за считанные секунды. Все зависимости Weblate "
+"уже включены. PostgreSQL настроен как база данных по умолчанию, а Valkey — "
+"как бэкенд кэширования."
 
 #: admin/install/docker.rst:13 admin/install/kubernetes.rst:18
 #: admin/install/openshift.rst:12
@@ -10980,10 +10774,8 @@ msgid "Development version Weblate from Git"
 msgstr "Версия разработчика Weblate из Git"
 
 #: admin/install/docker.rst:92
-#, fuzzy
-#| msgid "Rollling updates to test upcoming Weblate features"
 msgid "Rolling updates to test upcoming Weblate features"
-msgstr "Запуск обновлений для тестирования предстоящих функций Weblate"
+msgstr "Поэтапные обновления для тестирования предстоящих функций Weblate"
 
 #: admin/install/docker.rst:94
 msgid "Well defined deploy to test upcoming Weblate features"
@@ -11359,22 +11151,16 @@ msgstr ""
 "для каждого контейнера."
 
 #: admin/install/docker.rst:428
-#, fuzzy
-#| msgid ""
-#| "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
-#| "environment variable. Please follow carefully the documentation as some "
-#| "of the services should be running just once in the cluster and the "
-#| "ordering of the services matters as well."
 msgid ""
 "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
 "environment variable. Please follow carefully the documentation as some of "
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
-"Каждый контейнер Weblate имеет определенную роль с помощью переменной "
-"окружения :envvar:`WEBLATE_SERVICE`. Пожалуйста, внимательно изучите "
-"документацию, так как некоторые сервисы должны быть запущены только один раз "
-"в кластере, и порядок следования сервисов также имеет значение."
+"Каждый контейнер Weblate имеет определённую роль с помощью переменной "
+"окружения :envvar:`WEBLATE_SERVICE`. Пожалуйста, внимательно следуйте "
+"документации, так как некоторые службы должны запускаться только один раз в "
+"кластере, и порядок служб также имеет значение."
 
 #: admin/install/docker.rst:433
 msgid ""
@@ -11391,13 +11177,12 @@ msgid "Docker environment variables"
 msgstr "Переменные окружения Docker"
 
 #: admin/install/docker.rst:442
-#, fuzzy
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
-"Многие :ref:`параметры конфигурации <config>` Weblate в контейнере Docker "
-"могут быть установлены через переменные окружения, описанные ниже."
+"Многие из :ref:`config` Weblate можно задать в контейнере Docker, используя "
+"переменные окружения, описанные ниже."
 
 #: admin/install/docker.rst:445
 msgid ""
@@ -11443,13 +11228,12 @@ msgstr ""
 "переменную :setting:`DEBUG`."
 
 #: admin/install/docker.rst:503
-#, fuzzy
 msgid ""
 "Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed "
 "logs."
 msgstr ""
-"Настраивает детализацию журнала. Установите для этого параметра значение "
-"DEBUG, чтобы получить более подробные журналы."
+"Настраивает детализацию журналирования. Установите значение ``DEBUG``, чтобы "
+"получить более подробные журналы."
 
 #: admin/install/docker.rst:505
 msgid ""
@@ -11589,16 +11373,12 @@ msgstr ""
 "параметр :std:setting:`REGISTRATION_OPEN`."
 
 #: admin/install/docker.rst:666
-#, fuzzy
-#| msgid ""
-#| "Configures whether registrations are open by "
-#| "toggling :std:setting:`REGISTRATION_OPEN`."
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
 msgstr ""
-"Настраивает статус открытия регистрации, переключая "
-"параметр :std:setting:`REGISTRATION_OPEN`."
+"Настраивает, используется ли капча для регистрации и других "
+"неаутентифицированных действий, см. :std:setting:`REGISTRATION_CAPTCHA`."
 
 #: admin/install/docker.rst:677
 msgid ""
@@ -11613,34 +11393,24 @@ msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgstr "Настраивает :std:setting:`REGISTRATION_REBIND`."
 
 #: admin/install/docker.rst:699
-#, fuzzy
-#| msgid "Configures :std:setting:`REGISTRATION_REBIND`."
 msgid "Configures :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
-msgstr "Настраивает :std:setting:`REGISTRATION_REBIND`."
+msgstr "Настраивает :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
 
 #: admin/install/docker.rst:712
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
-msgstr "Настройка :setting:`WEBSITE_REQUIRED`."
+msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:714 admin/install/docker.rst:722
-#, fuzzy
-#| msgid "Defaults to 5."
 msgid "Defaults to enabled."
-msgstr "По умолчанию установлен в 5."
+msgstr "По умолчанию включено."
 
 #: admin/install/docker.rst:720
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
-msgstr "Настройка :setting:`WEBSITE_REQUIRED`."
+msgstr "Настраивает :setting:`WEBHOOK_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:728
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
-msgstr "Настраивает параметр :setting:`ENABLE_HOOKS`."
+msgstr "Настраивает :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:732
 msgid ""
@@ -11736,15 +11506,13 @@ msgid "replaces any hyphens with underscores"
 msgstr "все дефисы заменяет на подчеркивания"
 
 #: admin/install/docker.rst:808
-#, fuzzy
 msgid "prepends ``HTTP_`` prefix"
-msgstr "добавляет префикс `` HTTP_``"
+msgstr "добавляет префикс ``HTTP_``"
 
 #: admin/install/docker.rst:810
-#, fuzzy
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
-"Таким образом, заголовок ``X-Forwarded-For` отображается на "
+"Таким образом, ``X-Forwarded-For`` будет отображаться как "
 "``HTTP_X_FORWARDED_FOR``."
 
 #: admin/install/docker.rst:823
@@ -11811,10 +11579,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:900
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
-msgstr "Настраивает параметр :setting:`BASIC_LANGUAGES`."
+msgstr "Включает :setting:`PUBLIC_ENGAGE`."
 
 #: admin/install/docker.rst:904
 msgid ""
@@ -11847,35 +11613,30 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:925
-#, fuzzy
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, "
 "see :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Настраивает значение по умолчанию для :ref:`управления доступом <project-"
-"access_control>` в новых проектах, смотрите описание "
-"параметра :setting:`DEFAULT_ACCESS_CONTROL`."
+"Настраивает :ref:`project-access_control` по умолчанию для новых проектов, "
+"см. :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: admin/install/docker.rst:941
-#, fuzzy
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
-"Настраивает значение по умолчанию для :ref:`ограниченного доступа <component-"
-"restricted>` в новых компонентах, смотрите описание "
-"параметра :setting:`DEFAULT_RESTRICTED_COMPONENT`."
+"Настраивает значение по умолчанию для :ref:`component-restricted` для новых "
+"компонентов, см. :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: admin/install/docker.rst:945
-#, fuzzy
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, "
 "see :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Настраивает значение по умолчанию для :ref:`разрешения распространения "
-"переводов <component-allow_translation_propagation>` в новых компонентах, "
-"смотрите описание параметра :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
+"Настраивает значение по умолчанию для :ref:`component-"
+"allow_translation_propagation` для новых компонентов, см. "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: admin/install/docker.rst:949
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
@@ -11894,14 +11655,12 @@ msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
 msgstr "Настраивает параметр :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: admin/install/docker.rst:965
-#, fuzzy
 msgid ""
 "Configures the default value for :ref:`component-commit_pending_age` for new "
 "components, see :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
-"Настраивает значение по умолчанию для :ref:`ограниченного доступа <component-"
-"restricted>` в новых компонентах, смотрите описание "
-"параметра :setting:`DEFAULT_RESTRICTED_COMPONENT`."
+"Настраивает значение по умолчанию для :ref:`component-commit_pending_age` "
+"для новых компонентов, см. :setting:`COMMIT_PENDING_HOURS`."
 
 #: admin/install/docker.rst:969
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
@@ -11917,14 +11676,11 @@ msgstr ""
 "описание параметра :setting:`URL_PREFIX`."
 
 #: admin/install/docker.rst:981
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgid ""
 "Configures URL prefix for static files served from :setting:`CACHE_DIR`."
 msgstr ""
-"Настраивает префикс URL-адреса, на котором запущен Weblate, смотрите "
-"описание параметра :setting:`URL_PREFIX`."
+"Настраивает префикс URL для статических файлов, обслуживаемых из "
+":setting:`CACHE_DIR`."
 
 #: admin/install/docker.rst:985
 msgid ""
@@ -11953,10 +11709,8 @@ msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgstr "Настройка :setting:`WEBSITE_REQUIRED`."
 
 #: admin/install/docker.rst:1021
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Configures :setting:`VERSION_DISPLAY`."
-msgstr "Настраивает :setting:`UNUSED_ALERT_DAYS`."
+msgstr "Настраивает :setting:`VERSION_DISPLAY`."
 
 #: admin/install/docker.rst:1025
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -12040,16 +11794,12 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Настраивает :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: admin/install/docker.rst:1145
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Настраивает :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "Настраивает :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: admin/install/docker.rst:1151
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr "Настраивает :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr "Настраивает :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 
 #: admin/install/docker.rst:1157
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
@@ -12060,58 +11810,40 @@ msgid "Configures :setting:`UPDATE_LANGUAGES`."
 msgstr "Настраивает параметр :setting:`UPDATE_LANGUAGES`."
 
 #: admin/install/docker.rst:1169
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
-msgstr "Настраивает параметр :setting:`ENABLE_HOOKS`."
+msgstr "Настраивает :setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/install/docker.rst:1175
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
-msgstr "Настраивает параметр :setting:`DEFAULT_SHARED_TM`."
+msgstr "Настраивает :setting:`VCS_ALLOW_SCHEMES`."
 
 #: admin/install/docker.rst:1181
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
-msgstr "Настройка :setting:`WEBSITE_REQUIRED`."
+msgstr "Настраивает :setting:`VCS_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:1187
-#, fuzzy
-#| msgid "Configures :setting:`ADMINS_CONTACT`."
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
-msgstr "Настраивает параметр :setting:`ADMINS_CONTACT`."
+msgstr "Настраивает :setting:`VCS_CLONE_DEPTH`."
 
 #: admin/install/docker.rst:1193
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Configures :setting:`VCS_API_DELAY`."
-msgstr "Настраивает :setting:`UNUSED_ALERT_DAYS`."
+msgstr "Настраивает :setting:`VCS_API_DELAY`."
 
 #: admin/install/docker.rst:1199
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`VCS_API_TIMEOUT`."
-msgstr "Настраивает параметр :setting:`LICENSE_FILTER`."
+msgstr "Настраивает :setting:`VCS_API_TIMEOUT`."
 
 #: admin/install/docker.rst:1205
-#, fuzzy
-#| msgid "Allow CORS requests from given origins."
 msgid "Allow CORS requests to API from given origins."
-msgstr "Разрешить запросы CORS из заданных источников."
+msgstr "Разрешить CORS-запросы к API из указанных источников."
 
 #: admin/install/docker.rst:1218
-#, fuzzy
-#| msgid "Allow CORS requests from given origins."
 msgid "Allows CORS requests to API from all origins."
-msgstr "Разрешить запросы CORS из заданных источников."
+msgstr "Разрешает CORS-запросы к API из всех источников."
 
 #: admin/install/docker.rst:1224
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`WEBSITE_ALERTS_ENABLED`."
-msgstr "Настройка :setting:`WEBSITE_REQUIRED`."
+msgstr "Настраивает :setting:`WEBSITE_ALERTS_ENABLED`."
 
 #: admin/install/docker.rst:1230
 msgid "Configures maximal body size accepted by the built-in web server."
@@ -12152,10 +11884,9 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:1259
-#, fuzzy
-#| msgid "An example configuration for GitHub might look like:"
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr "Пример конфигурации для GitHub может выглядеть следующим образом:"
+msgstr ""
+"Пример конфигурации для запросов на извлечение GitHub может выглядеть так:"
 
 #: admin/install/docker.rst:1267
 msgid "Will be used as:"
@@ -12177,12 +11908,10 @@ msgstr "Настраивает :ref:`vcs-github`, изменяя :setting:`GITHU
 #: admin/install/docker.rst:1300 admin/install/docker.rst:1311
 #: admin/install/docker.rst:1322 admin/install/docker.rst:1333
 #: admin/install/docker.rst:1352 admin/install/docker.rst:1364
-#, fuzzy
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
-":ref:`Конфигурирование учётных данных хостинга кода в Docker <docker-vcs-"
-"config>`"
+":ref:`Настройка учётных данных хостинга кода в Docker <docker-vcs-config>`"
 
 #: admin/install/docker.rst:1307
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
@@ -12333,28 +12062,20 @@ msgid "Enables Gitea authentication."
 msgstr "Включает авторизацию Gitea."
 
 #: admin/install/docker.rst:1532
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Microsoft Entra ID authentication, see :ref:`entra-auth`."
-msgstr "Включает авторизацию через Slack, смотрите раздел :ref:`slack-auth`."
+msgstr "Включает аутентификацию Microsoft Entra ID, см. :ref:`entra-auth`."
 
 #: admin/install/docker.rst:1535
-#, fuzzy
-#| msgid "Azure Active Directory with Tenant support"
 msgid "Microsoft Entra ID with Tenant support"
-msgstr "Azure Active Directory с поддержкой Tenant"
+msgstr "Microsoft Entra ID с поддержкой Tenant"
 
 #: admin/install/docker.rst:1541
-#, fuzzy
-#| msgid ""
-#| "Enables Azure Active Directory authentication with Tenant support, "
-#| "see :ref:`azure-auth`."
 msgid ""
 "Enables Microsoft Entra ID authentication with Tenant support, "
 "see :ref:`entra-auth`."
 msgstr ""
-"Включает авторизацию через Azure Active Directory с поддержкой Tenant, "
-"смотрите раздел :ref:`azure-auth`."
+"Включает аутентификацию Microsoft Entra ID с поддержкой Tenant, см. "
+":ref:`entra-auth`."
 
 #: admin/install/docker.rst:1545
 msgid "Keycloak"
@@ -12407,16 +12128,12 @@ msgid "Configures generic OpenID Connect integration."
 msgstr "Настраивает общую интеграцию OpenID Connect."
 
 #: admin/install/docker.rst:1617
-#, fuzzy
-#| msgid "OpenID Connect"
 msgid "Fedora OpenID Connect"
-msgstr "OpenID Connect"
+msgstr "Fedora OpenID Connect"
 
 #: admin/install/docker.rst:1624
-#, fuzzy
-#| msgid "Configures generic OpenID Connect integration."
 msgid "Configures Fedora OpenID Connect integration."
-msgstr "Настраивает общую интеграцию OpenID Connect."
+msgstr "Настраивает интеграцию Fedora OpenID Connect."
 
 #: admin/install/docker.rst:1633
 msgid "SAML"
@@ -12584,70 +12301,50 @@ msgstr ""
 "параметра :setting:`DATABASE_BACKUP`. По умолчанию установлен в ``plain``."
 
 #: admin/install/docker.rst:1790
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "Настройка почтового сервера"
+msgstr "Настройка сервера хранилища данных"
 
 #: admin/install/docker.rst:1792
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Weblate настоятельно рекомендует использовать Redis и при запуске Weblate’а "
-"в Docker’е вы должны предоставить экземпляр Redis’а."
+"Использование Valkey или Redis требуется контейнеру Weblate, и вы должны "
+"указать параметры подключения при запуске Weblate в Docker."
 
 #: admin/install/docker.rst:1801
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
 msgstr ""
-"Имя хоста или IP-адрес сервера Redis. По умолчанию установлен в ``cache``."
+"Имя хоста или IP-адрес сервера хранилища данных. По умолчанию ``cache``."
 
 #: admin/install/docker.rst:1805
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "Порт сервера Redis. По умолчанию установлен в ``6379``."
+msgstr "Порт сервера хранилища данных. По умолчанию ``6379``."
 
 #: admin/install/docker.rst:1809
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Номер базы данных Redis, по умолчанию установлен в ``1``."
+msgstr "Номер базы данных хранилища данных, по умолчанию ``1``."
 
 #: admin/install/docker.rst:1815
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "Пароль сервера Redis, по умолчанию не используется."
+msgstr ""
+"Пользователь базы данных хранилища данных, по умолчанию не используется."
 
 #: admin/install/docker.rst:1819
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "Пароль сервера Redis, по умолчанию не используется."
+msgstr "Пароль сервера хранилища данных, по умолчанию не используется."
 
 #: admin/install/docker.rst:1827
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Включает использование SSL для соединения с Redis."
+msgstr "Включает использование SSL для подключения к хранилищу данных."
 
 #: admin/install/docker.rst:1831
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
-"Может использоваться для отключения проверки SSL-сертификата для соединениий "
-"с Redis."
+"Может использоваться для отключения проверки SSL-сертификата для подключения "
+"к хранилищу данных."
 
 #: admin/install/docker.rst:1836
 msgid "Email server setup"
@@ -12754,10 +12451,8 @@ msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Настраивает параметр :setting:`PRIVACY_URL`."
 
 #: admin/install/docker.rst:1979
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`PASSWORD_RESET_URL`."
-msgstr "Настраивает параметр :setting:`STATUS_URL`."
+msgstr "Настраивает :setting:`PASSWORD_RESET_URL`."
 
 #: admin/install/docker.rst:1984
 msgid ""
@@ -12843,13 +12538,11 @@ msgstr ""
 "указывает местоположение, куда их надо сохранять."
 
 #: admin/install/docker.rst:2071
-#, fuzzy
-#| msgid "Changing enabled apps, checks, add-ons or autofixes"
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr ""
-"Изменение включённых приложений, проверок, надстроек или автоматических "
-"исправлений"
+"Изменение включённых приложений, проверок, дополнений, машинного перевода "
+"или автоисправлений"
 
 #: admin/install/docker.rst:2073
 msgid ""
@@ -12913,17 +12606,13 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2167
-#, fuzzy
-#| msgid "Configure how many uWSGI workers should be executed."
 msgid "Configure how many WSGI workers should be executed."
-msgstr "Настраивает количество выполняемых рабочих процессов uWSGI."
+msgstr "Настройте, сколько рабочих процессов WSGI должно выполняться."
 
 #: admin/install/docker.rst:2169
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2."
-msgstr "По умолчанию это означает :envvar:`WEBLATE_WORKERS`."
+msgstr "По умолчанию это половина от :envvar:`WEBLATE_WORKERS`, но не менее 2."
 
 #: admin/install/docker.rst:2180
 msgid ""
@@ -13022,18 +12711,16 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2247
-#, fuzzy
-#| msgid ""
-#| "The data volume is used to store Weblate persistent data such as cloned "
-#| "repositories or to customize Weblate installation."
 msgid ""
 "The :file:`data` volume is mounted as :file:`/app/data` and is used to store "
 "Weblate persistent data such as cloned repositories or to customize Weblate "
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
-"Том данных используется для хранения таких постоянных данных Weblate, как "
-"склонированные репозитории, или для настройки установки Weblate."
+"Том :file:`data` монтируется как :file:`/app/data` и используется для "
+"хранения постоянных данных Weblate, таких как клонированные репозитории, или "
+"для настройки установки Weblate. :setting:`DATA_DIR` более подробно "
+"описывает, что здесь хранится."
 
 #: admin/install/docker.rst:2251
 msgid ""
@@ -13075,18 +12762,14 @@ msgstr ""
 "именно этот пользователь используется внутри контейнера."
 
 #: admin/install/docker.rst:2267
-#, fuzzy
-#| msgid ""
-#| "When running the container with a read-only root filesystem, two "
-#| "additional `tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
-"При запуске контейнера с корневой файловой системой, доступной только для "
-"чтения, требуются два дополнительных тома tmpfs — :file:`/tmp` и :file:`/"
-"run`."
+"Контейнер Weblate также может выполняться с корневой файловой системой "
+"только для чтения. В этом случае должны быть смонтированы два дополнительных "
+"тома ``tmpfs``: :file:`/tmp` и :file:`/run`."
 
 #: admin/install/docker.rst:2274
 msgid ""
@@ -13114,29 +12797,26 @@ msgid "Configuration beyond environment variables"
 msgstr "Конфигурация за пределами переменных среды"
 
 #: admin/install/docker.rst:2292
-#, fuzzy
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
-":ref:`Переменные среды Docker <docker-environment>` предназначены для "
-"предоставления большинства :ref:`параметров конфигурации <config>`, имеющих "
+":ref:`Переменные окружения Docker <docker-environment>` предназначены для "
+"раскрытия большинства :ref:`параметров конфигурации <config>`, имеющих "
 "отношение к установкам Weblate."
 
 #: admin/install/docker.rst:2296
-#, fuzzy
 msgid ""
 "If you find a setting that is not exposed as an environment variable, and "
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
-"Если вы обнаружите параметр, который не представлен как переменная среды, и "
-"вы считаете, что так и должно быть, не стесняйтесь :ref:`попросить, чтобы он "
-"был представлен в будущей версии Weblate <report-issue>`."
+"Если вы обнаружите параметр, который не представлен как переменная "
+"окружения, и вы считаете, что он должен быть представлен, не стесняйтесь "
+":ref:`попросить раскрыть его в будущей версии Weblate <report-issue>`."
 
 #: admin/install/docker.rst:2300
-#, fuzzy
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
@@ -13144,7 +12824,7 @@ msgid ""
 "settings>`."
 msgstr ""
 "Если вам нужно изменить параметр, который не представлен как переменная "
-"среды Docker, вы всё равно можете это сделать либо :ref:`из тома данных "
+"окружения Docker, вы всё равно можете это сделать, либо :ref:`из тома данных "
 "<docker-settings-override>`, либо :ref:`расширив образ Docker <docker-custom-"
 "settings>`."
 
@@ -13153,7 +12833,6 @@ msgid "Overriding settings from the data volume"
 msgstr "Переопределение настроек из тома данных"
 
 #: admin/install/docker.rst:2314
-#, fuzzy
 msgid ""
 "You can create a file at :file:`/app/data/settings-override.py`, i.e. at the "
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
@@ -13161,7 +12840,7 @@ msgid ""
 msgstr ""
 "Вы можете создать файл :file:`/app/data/settings-override.py`, то есть в "
 "корне :ref:`тома данных <docker-volume>`, чтобы расширить или переопределить "
-"настройки, определённые через переменные среды."
+"настройки, заданные через переменные окружения."
 
 #: admin/install/docker.rst:2322
 msgid "Overriding settings by extending the Docker image"
@@ -13176,9 +12855,8 @@ msgstr ""
 "данных:"
 
 #: admin/install/docker.rst:2326
-#, fuzzy
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ":ref:`Создайте собственный пакет Python <custom-module>`."
+msgstr ":ref:`Создание пользовательского пакета Python <custom-module>`."
 
 #: admin/install/docker.rst:2328
 msgid ""
@@ -13330,10 +13008,8 @@ msgstr ""
 "отдельным томом, например:"
 
 #: admin/install/docker.rst:2424
-#, fuzzy
-#| msgid "Customizing backup"
 msgid "Customizing code"
-msgstr "Настройка резервного копирования"
+msgstr "Настройка кода"
 
 #: admin/install/docker.rst:2428
 msgid ""
@@ -13357,10 +13033,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2445
-#, fuzzy
-#| msgid "Interacting with others"
 msgid "Integrating third-party containers"
-msgstr "Взаимодействие с другими пользователями"
+msgstr "Интеграция сторонних контейнеров"
 
 #: admin/install/docker.rst:2447
 msgid ""
@@ -13371,10 +13045,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2452
-#, fuzzy
-#| msgid "The command to launch the container uses the following syntax:"
 msgid "When adding third-party containers, consider the following:"
-msgstr "У команды запуска контейнера следующий синтаксис:"
+msgstr "При добавлении сторонних контейнеров учитывайте следующее:"
 
 #: admin/install/docker.rst:2454
 msgid ""
@@ -13394,10 +13066,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2461
-#, fuzzy
-#| msgid "Version control integration"
 msgid "LibreTranslate Docker container integration"
-msgstr "Интеграция с системой контроля версий"
+msgstr "Интеграция контейнера Docker LibreTranslate"
 
 #: admin/install/docker.rst:2463
 msgid ""
@@ -13430,18 +13100,16 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2526
-#, fuzzy
-#| msgid "The Django admin interface"
 msgid "Access the Weblate admin interface"
-msgstr "Интерфейс администратора Django"
+msgstr "Доступ к интерфейсу администратора Weblate"
 
 #: admin/install/docker.rst:2527
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
 msgid ""
 "Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic "
 "suggestions`"
-msgstr ":guilabel:`Администрирование`, :guilabel:`Автоматический перевод`"
+msgstr ""
+"Перейдите в :guilabel:`Машинный перевод` → :guilabel:`Автоматические "
+"предложения`"
 
 #: admin/install/docker.rst:2528
 msgid "Add a new LibreTranslate service with:"
@@ -13490,12 +13158,11 @@ msgid "Leave empty"
 msgstr ""
 
 #: admin/install/docker.rst:2534
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid ""
 "LibreTranslate is now configured and available for machine translation in "
 "Weblate."
-msgstr "Теперь перевод открыт для обновлений."
+msgstr ""
+"Теперь LibreTranslate настроен и доступен для машинного перевода в Weblate."
 
 #: admin/install/docker.rst:2538
 msgid ""
@@ -13533,16 +13200,12 @@ msgid "No external ports are exposed, making the setup secure by default."
 msgstr ""
 
 #: admin/install/docker.rst:2548
-#, fuzzy
-#| msgid "Translate document"
 msgid "`LibreTranslate Docker documentation`_"
-msgstr "Перевести документ"
+msgstr "`Документация LibreTranslate Docker`_"
 
 #: admin/install/docker.rst:2556
-#, fuzzy
-#| msgid "Docker container security"
 msgid "Anubis Docker container integration"
-msgstr "Безопасность Docker-контейнера"
+msgstr "Интеграция контейнера Docker Anubis"
 
 #: admin/install/docker.rst:2558
 msgid ""
@@ -13574,10 +13237,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2606
-#, fuzzy
-#| msgid "You can have a number of fonts loaded into Weblate:"
 msgid "You can then turn on the Anubis usage in Weblate using:"
-msgstr "Вы можете загрузить в Weblate несколько шрифтов:"
+msgstr "Затем вы можете включить использование Anubis в Weblate с помощью:"
 
 #: admin/install/docker.rst:2618
 msgid "Configuring PostgreSQL server"
@@ -13720,13 +13381,6 @@ msgid "Web Console"
 msgstr "Веб-консоль"
 
 #: admin/install/openshift.rst:25
-#, fuzzy
-#| msgid ""
-#| "Copy the raw content from `template.yml <https://github.com/WeblateOrg/"
-#| "openshift/blob/main/template.yml>`_ and import them into your project, "
-#| "then use the ``Create`` button in the OpenShift web console to create "
-#| "your application. The web console will prompt you for the values for all "
-#| "of the parameters used by the template."
 msgid ""
 "Copy the raw content from `template.yml <https://github.com/WeblateOrg/"
 "openshift/blob/main/template.yml>`_ and import them into your project, then "
@@ -13734,11 +13388,11 @@ msgid ""
 "your application. The web console will prompt you for the values for all of "
 "the parameters used by the template."
 msgstr ""
-"Скопируйте содержимое из файла `template.yml <https://github.com/WeblateOrg/"
-"openshift/blob/main/template.yml>`_ и импортируйте их в свой проект, затем "
-"создайте приложение с помощью кнопки ``Create`` (Создать) в веб-консоли "
-"OpenShift. Веб-консоль предложит вам изменить значения параметров, "
-"используемых в шаблоне."
+"Скопируйте исходное содержимое из `template.yml <https://github.com/"
+"WeblateOrg/openshift/blob/main/template.yml>`_ и импортируйте его в свой "
+"проект, затем используйте кнопку :guilabel:`Create` в веб-консоли OpenShift "
+"для создания вашего приложения. Веб-консоль предложит вам ввести значения "
+"для всех параметров, используемых шаблоном."
 
 #: admin/install/openshift.rst:32
 msgid "CLI"
@@ -13805,21 +13459,19 @@ msgstr ""
 "паролем, сгенерированным при первом запуске, если он не был установлен явно."
 
 #: admin/install/openshift.rst:82
-#, fuzzy
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
 msgstr ""
-"Для сброса пароля пользователя `admin` перезапустите контейнер с переменной "
-"`WEBLATE_ADMIN_PASSWORD`, установленной в новое значение пароля в "
-"соответствующем хранилище секретов (``Secrete``)."
+"Чтобы сбросить пароль `admin`, перезапустите контейнер с "
+"``WEBLATE_ADMIN_PASSWORD``, установленным в новый пароль, в соответствующем "
+"``Secret``."
 
 #: admin/install/openshift.rst:86
 msgid "Eliminate"
 msgstr "Удаление"
 
 #: admin/install/openshift.rst:104
-#, fuzzy
 msgid ""
 "By processing the template a respective ``ConfigMap`` will be created and "
 "which can be used to customize the Weblate image. The ``ConfigMap`` is "
@@ -13828,11 +13480,10 @@ msgid ""
 "see :ref:`docker-environment` for full list of environment variables."
 msgstr ""
 "При обработке шаблона будет создан соответствующий ``ConfigMap``, который "
-"можно использовать для настройки образа Weblate. Этот ``ConfigMap`` напрямую "
-"монтируется в качестве переменных среды. Он вызывает новую развёртку, каждый "
-"раз, когда изменяется. Информацию по другим параметрам настройки и полный "
-"список переменных среды смотрите в :ref:`описании настройки Docker<docker-"
-"environment>`."
+"можно использовать для настройки образа Weblate. ``ConfigMap`` напрямую "
+"монтируется как переменные окружения и запускает новое развёртывание каждый "
+"раз при его изменении. Для получения дополнительных параметров настройки см. "
+":ref:`docker-environment` с полным списком переменных окружения."
 
 #: admin/install/source.rst:2
 msgid "Installing from sources"
@@ -13865,10 +13516,8 @@ msgstr ""
 "криптографической подписью, пожалуйста, смотрите раздел :ref:`verify`."
 
 #: admin/install/source.rst:21
-#, fuzzy
-#| msgid "Install current Weblate code into the virtualenv:"
 msgid "Install current Weblate code into the Python environment:"
-msgstr "Установите текущий код Weblate’а в виртуальное окружение:"
+msgstr "Установите текущий код Weblate в виртуальное окружение Python:"
 
 #: admin/install/source.rst:30
 msgid ""
@@ -14039,39 +13688,27 @@ msgstr ""
 "установки, или зарегистрируйтесь в качестве нового пользователя."
 
 #: admin/install/steps/install-after.rst:8
-#, fuzzy
-#| msgid ""
-#| "You can now run Weblate commands using :command:`weblate` command when "
-#| "Weblate virtualenv is active, see :ref:`manage`."
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate Python environment is active, see :ref:`manage`."
 msgstr ""
-"Теперь при помощи команды :command:`weblate` и когда активно виртуальное "
-"окружение Weblate вы можете запускать его команды, смотрите "
-"раздел :ref:`manage`."
+"Теперь вы можете запускать команды Weblate с помощью команды "
+":command:`weblate`, когда виртуальное окружение Python Weblate активно, см. "
+":ref:`manage`."
 
 #: admin/install/steps/install-after.rst:10
-#, fuzzy
-#| msgid "You can stop the test server with Ctrl+C."
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr "Остановить тестовый сервер можно комбинацией :kbd:`Ctrl+C`."
+msgstr "Вы можете остановить тестовый сервер с помощью :kbd:`Ctrl+C`."
 
 #: admin/install/steps/install-after.rst:11
-#, fuzzy
-#| msgid ""
-#| "Review potential issues with your installation either on ``/manage/"
-#| "performance/`` URL (see :ref:`management-interface`) or "
-#| "using :command:`weblate check --deploy`, see :ref:`production`."
 msgid ""
 "Review potential issues with your installation either on ``/manage/"
 "performance/`` URL (see :ref:`manage-performance`) or "
 "using :command:`weblate check --deploy`, see :ref:`production`."
 msgstr ""
-"Просмотрите список вероятных проблем с вашей установкой или по адресу ``/"
-"manage/performance/`` в URL (смотреть раздел :ref:`management-interface`), "
-"или с помощью команды :command:`weblate check --deploy`; смотреть также "
-"раздел :ref:`production`."
+"Проверьте потенциальные проблемы с вашей установкой либо по URL-адресу ``/"
+"manage/performance/`` (см. :ref:`manage-performance`), либо с помощью "
+":command:`weblate check --deploy`, см. :ref:`production`."
 
 #: admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -14132,19 +13769,14 @@ msgid "Configuring Weblate"
 msgstr "Настройка Weblate"
 
 #: admin/install/steps/install-configure.rst:6
-#, fuzzy
-#| msgid ""
-#| "The following assumes the virtualenv used by Weblate is activated (by "
-#| "executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
-#| "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgid ""
 "The following assumes the Python environment used by Weblate is activated "
 "(by executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
 "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
-"Далее предполагается, что виртуальное окружение, используемое Weblate "
-"активно (активировать можно командой ``. ~/weblate-env/bin/activate``). Если "
-"это не так, укажите полный путь к команде :command:`weblate`: ``~/weblate-"
+"Далее предполагается, что виртуальное окружение Python, используемое "
+"Weblate, активировано (с помощью выполнения ``. ~/weblate-env/bin/activate``)"
+". Если нет, укажите полный путь к команде :command:`weblate` как ``~/weblate-"
 "env/bin/weblate``."
 
 #: admin/install/steps/install-configure.rst:10
@@ -14220,22 +13852,16 @@ msgid "Python modules"
 msgstr "Модули Python"
 
 #: admin/install/steps/install-python.rst:6
-#, fuzzy
-#| msgid "Rolling updates in a production environment"
 msgid "We're installing Weblate in a separate Python environment."
-msgstr "Выполнение обновлений в рабочей среде"
+msgstr "Мы устанавливаем Weblate в отдельное виртуальное окружение Python."
 
 #: admin/install/steps/install-python.rst:9
-#, fuzzy
-#| msgid "Create the virtualenv for Weblate:"
 msgid "Create the Python environment for Weblate:"
-msgstr "Создайте виртуальное окружение для Weblate:"
+msgstr "Создайте виртуальное окружение Python для Weblate:"
 
 #: admin/install/steps/install-python.rst:15
-#, fuzzy
-#| msgid "Activate the virtualenv for Weblate:"
 msgid "Activate the Python environment for Weblate:"
-msgstr "Активируйте виртуальное окружение для Weblate:"
+msgstr "Активируйте виртуальное окружение Python для Weblate:"
 
 #: admin/install/steps/install-python.rst:21
 msgid "Install Weblate including all optional dependencies:"
@@ -14293,20 +13919,14 @@ msgid "uv package manager"
 msgstr ""
 
 #: admin/install/steps/install-uv.rst:6
-#, fuzzy
 msgid "We're using uv package manager to install Weblate."
-msgstr "Веблате ние кируже дазволами."
+msgstr "Мы используем менеджер пакетов uv для установки Weblate."
 
 #: admin/install/steps/install-uv.rst:15
-#, fuzzy
-#| msgid ""
-#| "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/"
-#| "#fetch-your-app-metadata>`_"
 msgid ""
 "`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 msgstr ""
-"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
-"your-app-metadata>`_"
+"`Установка uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 
 #: admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
@@ -14348,13 +13968,6 @@ msgid "Built-in language definitions"
 msgstr "Встроенные определения языков"
 
 #: admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "Definitions for about 650 languages are included in Weblate and the list "
-#| "is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :wladmin:`migrate` is executed, see :ref:`generic-"
-#| "upgrade-instructions`) the database of languages is updated to include "
-#| "all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 800 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -14362,11 +13975,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"В Weblate включены определения около 650 языков, и этот список расширяется в "
-"каждом выпуске. При каждом обновлении Weblate (точнее, при "
-"выполнении :wladmin:`migrate`, см. :ref:`generic-upgrade-instructions`) база "
-"данных языков обновляется и включает в себя все определения языков, "
-"поставляемые в Weblate."
+"Определения около 800 языков включены в Weblate, и список расширяется в "
+"каждом выпуске. При каждом обновлении Weblate (точнее, при каждом выполнении "
+":wladmin:`migrate`, см. :ref:`generic-upgrade-instructions`) база данных "
+"языков обновляется, чтобы включить все определения языков, поставляемые с "
+"Weblate."
 
 #: admin/languages.rst:20
 msgid ""
@@ -14400,13 +14013,12 @@ msgstr ""
 "639-1) из :ref:`component-filemask` с любым существующим объектом языка."
 
 #: admin/languages.rst:38
-#, fuzzy
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
-"Дальнейшую настройку этого сопоставления на уровне проекта можно осуществить "
-"с помощью :ref:`псевдонимов языков <project-language_aliases>`."
+"Вы можете дополнительно настроить это сопоставление на уровне проекта с "
+"помощью :ref:`project-language_aliases`."
 
 #: admin/languages.rst:40
 msgid ""
@@ -14461,15 +14073,14 @@ msgstr ""
 "определение было добавлено в последующих выпусках Weblate."
 
 #: admin/languages.rst:59
-#, fuzzy
 msgid ""
 "In case you see something unwanted as a language, you might want to "
 "adjust :ref:`component-language_regex` to ignore such file when parsing "
 "translations."
 msgstr ""
-"В случае, если вы видите в качестве языка что-то нежелательное, вам может "
-"понадобиться настроить :ref:`языковой фильтр <component-language_regex>` на "
-"игнорирование такого файла при разборе переводов."
+"Если вы видите что-то нежелательное в качестве языка, вам может "
+"потребоваться настроить :ref:`component-language_regex`, чтобы игнорировать "
+"такой файл при разборе переводов."
 
 #: admin/languages.rst:72
 msgid "Changing language definitions"
@@ -14518,14 +14129,12 @@ msgstr ""
 "только индивидуальные коды языков, избегая макроязыков."
 
 #: admin/languages.rst:98
-#, fuzzy
-#| msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
-"`Точка с запятой в Википедии <https://ru.wikipedia.org/wiki/"
-"Точка_с_запятой>`_"
+"`Макроязыки в Википедии <https://en.wikipedia.org/wiki/ISO_639_macrolanguage>"
+"`_"
 
 #: admin/languages.rst:105
 msgid "Each language consists of following fields:"
@@ -14658,28 +14267,25 @@ msgstr ""
 "определить, для чего они могут быть использованы."
 
 #: admin/licensing.rst:7
-#, fuzzy
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
-"Вы должны указать информацию о лицензии :ref:`компонента <component>`. Вам "
-"следует избегать требования заключения лицензионного соглашения с "
-"участниками, хотя это вполне возможно."
+"Вы должны указать информацию о лицензии :ref:`component`. Вам следует "
+"избегать требования лицензионного соглашения с участником, хотя это возможно."
 
 #: admin/licensing.rst:11
 msgid "License info"
 msgstr "Информация о лицензии"
 
 #: admin/licensing.rst:13
-#, fuzzy
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
-"После указания информации о лицензии (её названия и URL-адреса) эта "
-"информация отображается в разделе «Инфо» соответствующего :ref:`компонента "
-"<component>`."
+"После указания информации о лицензии (название лицензии и URL) эта "
+"информация отображается в разделе информации о переводе соответствующего "
+":ref:`component`."
 
 #: admin/licensing.rst:16
 msgid ""
