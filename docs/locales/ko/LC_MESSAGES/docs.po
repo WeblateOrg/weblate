@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-01 15:53+0000\n"
+"PO-Revision-Date: 2026-05-01 16:00+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
@@ -609,6 +609,10 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
+"언어, 구성요소, 프로젝트 등 고유한 개체에 대한 권한을 관리하는 전용 팀을 "
+"만들 수 있습니다. 이러한 팀은 추가 권한만 부여할 수 있지만 다른 사용자 지정 "
+"팀을 추가하여 사이트 전체 또는 프로젝트별 팀에서 부여한 권한을 취소할 수는 "
+"없습니다."
 
 #: admin/access.rst:309 admin/access.rst:437 admin/config.rst:321
 #: admin/config.rst:340 admin/config.rst:399 admin/install/docker.rst:490
@@ -807,6 +811,10 @@ msgid ""
 "permissions is granted for all the projects these components are "
 "in. :guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"팀이 :guilabel:`구성요소 목록` 을 지정하면 해당 팀의 회원에게 부여된 모든 "
+"권한은 팀에 첨부된 구성요소 목록의 모든 구성요소에 대해 부여되며, 해당 "
+"구성요소가 속한 모든 프로젝트에 대해 추가 권한이 없는 액세스 권한이 "
+"부여됩니다. :guilabel:`구성요소` 및 :guilabel:`프로젝트` 는 무시됩니다."
 
 #: admin/access.rst:413
 msgid ""
@@ -829,7 +837,6 @@ msgstr ""
 "무시됩니다."
 
 #: admin/access.rst:421
-#, fuzzy
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -837,10 +844,11 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"그렇지 않고 팀이 :guilabel:`프로젝트` 를 직접 나열하거나 :guilabel:`프로젝트 "
-"선택` 을 :guilabel:`모든 공개 프로젝트`와 같은 값으로 설정하여 지정한 경우, "
-"모든 권한이 모든 프로젝트에 적용되어 사실상 모든 프로젝트의 :ref:`제한 없는 "
-"구성요소 <component-restricted>` 에 동일한 접근 권한이 부여됩니다."
+"그렇지 않으면 팀이 직접 프로젝트들을 나열하거나 :guilabel:`프로젝트 선택` 을 "
+":guilabel:`모든 공개 프로젝트` 와 같은 값으로 설정하여 :guilabel:`프로젝트` "
+"를 지정하면 모든 프로젝트에 해당 권한이 적용되어 모든 프로젝트 :ref:`무제한 "
+"구성요소 <component-restricted>` 에 액세스할 수 있는 동일한 권한이 "
+"효과적으로 부여됩니다."
 
 #: admin/access.rst:427
 msgid ""
@@ -850,21 +858,26 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"팀의 :guilabel:`언어` 에 의해 부과되는 접속 제한은 사용자가 특정 작업을 "
+"수행할 수 있는 액세스 권한이 있는지 확인될 때 별도로 적용됩니다. 즉, 검토, "
+"번역 저장, 제안 추가 등과 같이 번역 프로세스 자체와 직접 관련된 작업에만 "
+"적용됩니다."
 
 #: admin/access.rst:434
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
+":guilabel:`언어 선택` 또는 :guilabel:`프로젝트 선택` 을 사용하여 모든 언어 "
+"또는 프로젝트들을 자동으로 포함할 수 있습니다."
 
 #: admin/access.rst:439
-#, fuzzy
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
-"구성요소 ``foo/bar``와 ``foo/baz`` 가 있는 프로젝트 ``foo`` 에서 검토 및 "
-"관리 권한을 가진 다음 팀:"
+"구성요소가 있는 프로젝트 ``foo`` : ``foo/bar`` 및 ``foo/baz``, 검토 및 관리 "
+"권한은 다음 팀에 있습니다:"
 
 #: admin/access.rst:443
 msgid "Group `Spanish Admin-Reviewers`"
@@ -893,13 +906,12 @@ msgid ""
 msgstr "해당 팀의 구성원은 다음 권한을 갖습니다 (기본 역할 설정 기준):"
 
 #: admin/access.rst:456
-#, fuzzy
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
-"``foo/bar``와 ``foo/baz`` 두 구성요소를 포함한 전체 프로젝트 ``foo`` 에 대한 "
-"일반 (탐색) 접근."
+"``foo/bar`` 와 ``foo/baz`` 두 구성요소를 포함한 전체 프로젝트 ``foo`` 에 "
+"대한 일반 (탐색) 접근."
 
 #: admin/access.rst:458
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
@@ -925,6 +937,9 @@ msgid ""
 "on their e-mail addresses. This assignment only happens upon account "
 "creation."
 msgstr ""
+":guilabel:`팀` 을 편집하는 동안 :guilabel:`자동 할당` 을 지정할 수 있는데, "
+"이는 새로 만든 사용자를 이메일 주소에 따라 팀에 자동으로 할당하는 데 "
+"사용되는 정규 표현식 목록입니다. 이 할당은 계정 생성 시에만 이루어집니다."
 
 #: admin/access.rst:472
 msgid ""
@@ -984,6 +999,9 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"이러한 역할과 팀은 설치 시 생성됩니다. 기본 제공 역할은 업그레이드 시 "
+"데이터베이스 마이그레이션을 통해 항상 최신 상태로 유지됩니다. 실제로는 "
+"변경할 수 없으므로 고유한 권한 집합을 정의하려면 새 역할을 정의하세요."
 
 #: admin/access.rst:508
 msgid ""
@@ -2712,12 +2730,17 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ 은 암호화된 백업을 생성하며 암호가 없으면 백업을 복원할 수 "
+"없습니다. 비밀번호는 새 백업 서비스를 추가할 때 생성되므로 복사하여 안전한 "
+"곳에 보관해야 합니다."
 
 #: admin/backup.rst:78
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+":ref:`cloudbackup` 를 사용하는 경우, 개인 SSH 키를 백업하여 백업에 "
+"액세스하는 데 사용됩니다."
 
 #: admin/backup.rst:86
 msgid "Customizing backup"
@@ -2846,6 +2869,8 @@ msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"백업이 저장될 디렉터리는 UID 1000이 소유해야 하며, 그렇지 않으면 Weblate가 "
+"해당 디렉터리에 백업을 쓸 수 없습니다."
 
 #: admin/backup.rst:157
 msgid "Remote backups"
@@ -2857,6 +2882,8 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"원격 백업을 만들기 위해서는 Weblate SSH 키를 사용하여 SSH를 통해 Weblate "
+"배포에 액세스하는 또 다른 서버에 `BorgBackup`_ 를 설치해야 합니다:"
 
 #: admin/backup.rst:163
 msgid "Prepare a server where your backups will be stored."
@@ -14359,6 +14386,9 @@ msgid ""
 "use :samp:`weblate migrate --noinput`, and then create an admin user "
 "using :wladmin:`createadmin` command."
 msgstr ""
+"대화형으로 설치를 실행하지 않으려면 :samp:`Weblate 마이그레이션 --noinput` "
+"을 사용한 다음 :wladmin:`createadmin` 명령을 사용하여 관리자 사용자를 생성할 "
+"수 있습니다."
 
 #: admin/management.rst:906
 msgid ":djadmin:`django:migrate`"
@@ -31073,7 +31103,7 @@ msgstr ":ref:`addon-weblate.generate.pseudolocale` 애드온의 확장 옵션입
 #: changes/v4.rst:419
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
-msgstr ""
+msgstr "``ignore-all-checks`` 플래그를 추가하여 문자열의 모든 품질 검사를 무시합니다."
 
 #: changes/v4.rst:420
 msgid ""
@@ -34645,6 +34675,9 @@ msgid ""
 "feature while editing, don’t change its docs before you have the answer. "
 "This means: You change or ask. Don’t do both at the same time."
 msgstr ""
+"확실하지 않다면 주저하지 말고 물어보세요. 편집하는 동안 어떤 기능에 대해 "
+"물어봐야 하는 경우 답을 얻기 전에 문서를 변경하지 마세요. 즉 변경하거나 "
+"물어보세요. 두 가지를 동시에 하지 마세요."
 
 #: contributing/documentation.rst:18
 msgid ""
@@ -44269,6 +44302,11 @@ msgid ""
 "benefit from the latest security improvements. Learn more "
 "about :ref:`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Weblate는 취약점을 해결하고 응용프로그램의 보안 태세를 강화하기 위한 보안 "
+"업데이트를 제공합니다. 최신 릴리스만 보안 업데이트를 받을 수 있습니다. "
+"사용자는 최신 보안 향상 기능의 혜택을 누리기 위해 Weblate를 최신 상태로 "
+"유지하는 것이 좋습니다. :ref:`자세히 알아보기 DeepL Weblate 릴리스 및 릴리스 "
+"수명 주기 <release-cycle>`."
 
 #: security/index.rst:26
 msgid "Security policies"
@@ -44330,6 +44368,9 @@ msgid ""
 "policies that are geared toward delivering timely security updates to "
 "Weblate."
 msgstr ""
+"Weblate의 개발팀은 보안 관련 문제점을 책임감 있게 보고하고 공개하기 위해 "
+"최선을 다하고 있습니다. 당사는 Weblate에 적시에 보안 업데이트를 제공하기 "
+"위한 정책을 채택하고 이에 따릅니다."
 
 #: security/issues.rst:17
 #, fuzzy
@@ -44351,6 +44392,10 @@ msgid ""
 "security/advisories/new>`_, or using `HackerOne <https://hackerone.com/"
 "weblate>`_."
 msgstr ""
+"대신 Weblate에서 보안에 영향을 미치는 것을 발견했다고 생각되면 "
+"security@weblate.org, `GitHub <https://github.com/WeblateOrg/weblate/"
+"security/advisories/new>`_, 또는 `HackerOne <https://hackerone.com/weblate>"
+"`_ 을 사용하여 문제점에 대한 설명을 제출해 주세요."
 
 #: security/issues.rst:27
 msgid ""
