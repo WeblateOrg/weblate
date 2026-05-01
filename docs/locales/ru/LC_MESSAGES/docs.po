@@ -50,7 +50,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-01 17:02+0000\n"
+"PO-Revision-Date: 2026-05-02 04:36+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1905,8 +1905,7 @@ msgstr ""
 "В установке по умолчанию Weblate использует python-social-auth, форму на "
 "сайте для обработки регистраций новых пользователей. После подтверждения "
 "своей электронной почты новый пользователь может вносить свой вклад в "
-"переводы или пройти авторизацию, воспользовавшись одним из сторонних "
-"сервисов."
+"переводы или пройти авторизацию, воспользовавшись одной из сторонних служб."
 
 #: admin/auth.rst:11
 msgid ""
@@ -1978,9 +1977,9 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"По умолчанию Weblate полагается на сторонние сервисы авторизации для "
+"По умолчанию Weblate полагается на сторонние службы авторизации для "
 "предоставления подтверждённого адреса электронной почты. Если некоторые "
-"сервисы, которые вы хотите использовать, это не поддерживают, включите "
+"службы, которые вы хотите использовать, это не поддерживают, включите "
 "принудительную проверку адреса электронной почты на стороне Weblate, "
 "настроив их параметр FORCE_EMAIL_VALIDATION. Например:"
 
@@ -2027,7 +2026,7 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
-"Для сервисов, основанных на OpenID, обычно это просто вопрос её включения. "
+"Для служб, основанных на OpenID, обычно это просто вопрос её включения. "
 "Следующий блок кода включает авторизацию OpenID для OpenSUSE, Fedora и "
 "Ubuntu:"
 
@@ -8568,7 +8567,7 @@ msgstr "https://toolkit.translatehouse.org/"
 
 #: admin/install.rst:196
 msgid "translation-finder"
-msgstr "поисковик переводов"
+msgstr "translation-finder"
 
 #: admin/install.rst:197
 msgid "https://github.com/WeblateOrg/translation-finder"
@@ -36453,22 +36452,17 @@ msgid "Clone the Weblate source code:"
 msgstr "Склонируйте исходный код Weblate:"
 
 #: contributing/start.rst:30
-#, fuzzy
-#| msgid "Creating a Python module"
 msgid "Create a Python environment:"
-msgstr "Создание модуля Python"
+msgstr "Создайте среду Python:"
 
 #: contributing/start.rst:37
-#, fuzzy
-#| msgid ""
-#| "Install Weblate (for this you need some system dependencies, see :doc:`../"
-#| "admin/install/source`):"
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`) and all dependencies useful for development:"
 msgstr ""
-"Установите Weblate (для этого потребуются некоторые системные зависимости, "
-"просмотрите :doc:`../admin/install/source`):"
+"Установите Weblate (для этого вам потребуются некоторые системные "
+"зависимости, см. :doc:`../admin/install/source`) и все зависимости, полезные "
+"для разработки:"
 
 #: contributing/start.rst:43
 msgid "Start a development server:"
@@ -36490,32 +36484,28 @@ msgid "Running Weblate locally in Docker"
 msgstr "Запуск Weblate локально внутри Doсker"
 
 #: contributing/start.rst:71
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose-plugin installed, you can spin up "
-#| "the development environment by simply running:"
 msgid ""
 "If you have Docker and the docker-compose-plugin installed, you need an "
 "additional tool called ``jq`` which you can install through your favorite "
 "package manager. Then, you can spin up the development environment by simply "
 "running:"
 msgstr ""
-"Если у вас установлен Docker и docker-compose-plugin, вы можете запустить "
-"среду разработки, просто запустив:"
+"Если у вас установлены Docker и docker-compose-plugin, вам понадобится "
+"дополнительный инструмент ``jq``, который можно установить через ваш любимый "
+"менеджер пакетов. Затем вы можете запустить среду разработки, просто "
+"выполнив:"
 
 #: contributing/start.rst:79
-#, fuzzy
 msgid ""
 "It will create a development Docker image and start it. Weblate is running "
 "on <http://127.0.0.1:8080/> and you can sign in as the user ``admin`` using "
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
-"Это создаст и запустит образ Docker для разработки. Weblate будет запущен на "
-"<http://127.0.0.1:8080/> и вы сможете зайти в него под пользователем "
-"``admin`` с паролем ``admin``. Новая установка будет пустой, так что дальше "
-"вам скорей всего надо будет :ref:`добавить туда проекты и компоненты "
-"перевода <adding-projects>`."
+"Он создаст и запустит образ Docker для разработки. Weblate будет работать по "
+"адресу <http://127.0.0.1:8080/>, и вы можете войти как пользователь "
+"``admin`` с паролем ``admin``. Новая установка пуста, поэтому вы, возможно, "
+"захотите продолжить с :ref:`adding-projects`."
 
 #: contributing/start.rst:84
 msgid ""
@@ -36524,18 +36514,15 @@ msgid ""
 msgstr ""
 
 #: contributing/start.rst:87
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in the :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory. For easier access to the database "
 "during development, the container running PostgreSQL is exposed on port "
 "``5433``."
 msgstr ""
-":file:`Dockerfile` и :file:`docker-compose.yml` для этого расположены в "
-"каталоге :file:`dev-docker`."
+":file:`Dockerfile` и :file:`docker-compose.yml` для этого находятся в "
+"каталоге :file:`dev-docker`. Для облегчения доступа к базе данных во время "
+"разработки контейнер с PostgreSQL доступен на порту ``5433``."
 
 #: contributing/start.rst:91
 msgid ""
@@ -36573,16 +36560,12 @@ msgstr ""
 "Docker и его перезапуску."
 
 #: contributing/start.rst:120
-#, fuzzy
-#| msgid ""
-#| "This is not a suitable setup for production, as it includes several hacks "
-#| "which are insecure, but they make development easier."
 msgid ""
 "This container is not suitable for production use. Security is sacrificed to "
 "make the development easier."
 msgstr ""
-"Эта установка не подходит для производства, поскольку она включает в себя "
-"несколько хаков, которые небезопасны, но они облегчают разработку."
+"Этот контейнер не подходит для использования в рабочей среде. Безопасность "
+"принесена в жертву для упрощения разработки."
 
 #: contributing/start.rst:126
 msgid "Bootstrapping your devel instance"
@@ -36626,34 +36609,24 @@ msgstr ""
 "будет указание интерпретатора, который вы хотите использовать:"
 
 #: contributing/start.rst:146
-#, fuzzy
-#| msgid ""
-#| "You can either choose to let PyCharm create the virtualenv for you, or "
-#| "select an already existing one:"
 msgid ""
 "You can either choose to let PyCharm create the Python environment for you, "
 "or select an already existing one:"
 msgstr ""
-"Вы можете либо позволить PyCharm создать виртуальное окружение за вас, либо "
-"выбрать уже существующее:"
+"Вы можете либо позволить PyCharm создать среду Python за вас, либо выбрать "
+"уже существующую:"
 
 #: contributing/start.rst:151
-#, fuzzy
-#| msgid ""
-#| "Don't forget to install the dependencies once the interpreter is set: "
-#| "Either through the console (the console from the IDE will directly use "
-#| "your virtualenv by default), or through the interface when you get a "
-#| "warning about missing dependencies."
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set: Either "
 "through the console (the console from the IDE will directly use your Python "
 "environment by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
-"Не забудьте установить зависимости после установки интерпретатора: Либо "
-"через консоль (по умолчанию консоль IDE будет напрямую использовать ваш "
-"virtualenv), либо через интерфейс, когда вы получите предупреждение о "
-"пропущенных зависимостях."
+"Не забудьте установить зависимости после настройки интерпретатора: либо "
+"через консоль (консоль IDE по умолчанию будет напрямую использовать вашу "
+"среду Python), либо через интерфейс, когда вы получите предупреждение о "
+"недостающих зависимостях."
 
 #: contributing/start.rst:156
 msgid ""
@@ -36735,10 +36708,8 @@ msgid ""
 msgstr ""
 
 #: contributing/submodules.rst:23
-#, fuzzy
-#| msgid "Test cases"
 msgid "Test data"
-msgstr "Тестовые случаи"
+msgstr "Тестовые данные"
 
 #: contributing/submodules.rst:25
 msgid ""
@@ -36793,16 +36764,12 @@ msgid "Unit and functional tests using `pytest <https://pytest.org/>`_."
 msgstr ""
 
 #: contributing/tests.rst:23
-#, fuzzy
-#| msgid ""
-#| "Source code for this documentation, which can be built using `Sphinx "
-#| "<https://www.sphinx-doc.org/>`_."
 msgid ""
 "Documentation build and external links using `Sphinx <https://www.sphinx-"
 "doc.org/>`_."
 msgstr ""
-"Исходный код данной документации, который можно собрать с помощью `Sphinx "
-"<https://www.sphinx-doc.org/>`_."
+"Сборка документации и внешние ссылки с использованием `Sphinx <https://"
+"www.sphinx-doc.org/>`_."
 
 #: contributing/tests.rst:24
 msgid ""
@@ -36838,14 +36805,6 @@ msgstr ""
 "могут быть протестированы)"
 
 #: contributing/tests.rst:33
-#, fuzzy
-#| msgid ""
-#| "The configuration for the CI is in :file:`.github/workflows` directory. "
-#| "It heavily uses helper scripts stored in :file:`ci` directory. The "
-#| "scripts can be also executed manually, but they require several "
-#| "environment variables, mostly defining Django settings file to use and "
-#| "database connection. The example definition of that is in :file:`scripts/"
-#| "test-database.sh`:"
 msgid ""
 "The configuration for the CI is in :file:`.github/workflows` directory. It "
 "heavily uses helper scripts stored in :file:`ci` directory. The scripts can "
@@ -36853,42 +36812,32 @@ msgid ""
 "mostly defining Django settings file to use and test database connection. "
 "The example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
-"Настройки для системы непрерывной интеграции расположены в "
-"каталоге :file:`.github/workflows`. Она полагается на скрипты, хранящиеся в "
-"каталоге :file:`ci`. Скрипты можно также выполнить вручную, но для этого "
-"нужно установить несколько переменных среды (в основном связанных с "
-"соединением с базой данных, те, что определены в файле настроек Django). "
-"Пример, как определить эти переменные, находится в :file:`scripts/test-"
-"database.sh`:"
+"Конфигурация для CI находится в каталоге :file:`.github/workflows`. Она "
+"активно использует вспомогательные скрипты, хранящиеся в каталоге "
+":file:`ci`. Скрипты также можно выполнять вручную, но для этого требуются "
+"несколько переменных окружения, в основном определяющих файл настроек Django "
+"и тестовое подключение к базе данных. Пример их определения находится в "
+":file:`scripts/test-database.sh`:"
 
 #: contributing/tests.rst:42
 msgid "The simple execution can look like:"
 msgstr "Простой запуск может выглядеть как:"
 
 #: contributing/tests.rst:54
-#, fuzzy
-#| msgid "Locking down Weblate"
 msgid "Local testing of Weblate"
-msgstr "Полная блокировка Weblate"
+msgstr "Локальное тестирование Weblate"
 
 #: contributing/tests.rst:56
-#, fuzzy
-#| msgid ""
-#| "Before running test, please ensure test dependencies are installed. This "
-#| "can be done by `pip install -r requirements-dev.txt` or `pip install -e ."
-#| "[test]`."
 msgid ""
 "Before running test, please ensure test dependencies are installed. This can "
 "be done by ``pip install -e .[test]``."
 msgstr ""
-"Пожалуйста, прежде, чем прогонять тест, убедитесь, что тестовые зависимости "
-"установлены. Этого можно добиться, выполнив `pip install -r requirements-"
-"dev.txt` или `pip install -e .[test]`."
+"Перед запуском теста убедитесь, что установлены тестовые зависимости. Это "
+"можно сделать с помощью ``pip install -e .[test]``."
 
 #: contributing/tests.rst:59
-#, fuzzy
 msgid "Testing using pytest"
-msgstr "Сайт часта"
+msgstr "Тестирование с помощью pytest"
 
 #: contributing/tests.rst:61
 msgid ""
@@ -36899,10 +36848,8 @@ msgstr ""
 "они нужны для некоторых из них:"
 
 #: contributing/tests.rst:67
-#, fuzzy
-#| msgid "To run a testsuite locally, use:"
 msgid "You can use `pytest` to run a testsuite locally:"
-msgstr "Чтобы запустить тесты локально, выполните:"
+msgstr "Вы можете использовать `pytest` для локального запуска набора тестов:"
 
 #: contributing/tests.rst:73
 msgid "Running an individual test file:"
@@ -36949,10 +36896,8 @@ msgstr ""
 "Django: :doc:`django:topics/testing/index`."
 
 #: contributing/tests.rst:109
-#, fuzzy
-#| msgid "Contributing to Weblate modules"
 msgid "Local testing of Weblate modules"
-msgstr "Внесение вклада в модули Weblate"
+msgstr "Локальное тестирование модулей Weblate"
 
 #: contributing/tests.rst:111
 msgid ""
@@ -36967,10 +36912,8 @@ msgid "You can then execute the testsuite in the repository checkout:"
 msgstr "Затем вы можете выполнить набор тестов при проверке репозитория:"
 
 #: contributing/tests.rst:126
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Testing repository"
-msgstr "Доступ к репозиториям"
+msgstr "Тестовый репозиторий"
 
 #: contributing/tests.rst:128
 msgid ""
@@ -36993,9 +36936,8 @@ msgid ""
 msgstr ""
 
 #: contributing/trademark.rst:2
-#, fuzzy
 msgid "Weblate Trademark Guidelines"
-msgstr "Статистика Веблате"
+msgstr "Руководство по товарному знаку Weblate"
 
 #: contributing/trademark.rst:4
 msgid ""
@@ -37140,10 +37082,8 @@ msgid ""
 msgstr ""
 
 #: contributing/trademark.rst:47
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "Social Media Guidelines"
-msgstr "Рекомендации по написанию кода"
+msgstr "Руководство по социальным сетям"
 
 #: contributing/trademark.rst:49
 msgid ""
@@ -37258,10 +37198,8 @@ msgid ""
 msgstr ""
 
 #: contributing/trademark.rst:85
-#, fuzzy
-#| msgid "Weblate Contributor Communication Guidelines"
 msgid "Weblate Community Guidelines"
-msgstr "Рекомендации по общению с участниками Weblate"
+msgstr "Руководство сообщества Weblate"
 
 #: contributing/trademark.rst:87
 msgid ""
@@ -37355,10 +37293,10 @@ msgid "Conflicting merge request repository setup"
 msgstr ""
 
 #: devel/alerts.rst:27
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
-msgstr "Настраивает :setting:`UNUSED_ALERT_DAYS`."
+msgstr ""
+"Компонент выглядит неиспользуемым (настраивается с помощью "
+":setting:`UNUSED_ALERT_DAYS`)"
 
 #: devel/alerts.rst:29
 msgid ""
@@ -37391,10 +37329,8 @@ msgid "A component with both duplicated strings and languages looks like this:"
 msgstr "Компонент с дубликатами исходных строк и языков выглядит вот так:"
 
 #: devel/alerts.rst:45
-#, fuzzy
-#| msgid "Repository integration"
 msgid "Conflicting repository setup"
-msgstr "Интеграция репозиториев"
+msgstr "Конфликтующая настройка репозитория"
 
 #: devel/alerts.rst:47
 msgid ""
@@ -37602,19 +37538,14 @@ msgstr ""
 "publications/machine-translation-quality.pdf"
 
 #: devel/community.rst:50
-#, fuzzy
-#| msgid ""
-#| "Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine "
-#| "Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. "
-#| "Möglichkeiten der Übersetzungskritik starting on page number 101"
 msgid ""
 "Joanna Best und Sylvia Kalina. Übersetzen und Dolmetschen: eine "
 "Orientierungshilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten "
 "der Übersetzungskritik starting on page number 101"
 msgstr ""
-"Джоанна Бест и Сильвия Калина. Письменный и устный перевод: руководство. А. "
-"Франке Верлаг Тюбинген и База, 2002. Возможности переводческой критики, "
-"начиная со страницы 101"
+"Joanna Best und Sylvia Kalina. Übersetzen und Dolmetschen: eine "
+"Orientierungshilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten "
+"der Übersetzungskritik, начиная со страницы 101"
 
 #: devel/community.rst:51
 msgid ""
@@ -37765,16 +37696,15 @@ msgid "Extracting translatable strings"
 msgstr "Извлечение строк для перевода"
 
 #: devel/gettext.rst:91
-#, fuzzy
 msgid ""
 "Once you have code using the gettext calls, you can use `xgettext`_ to "
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
-"После того, как вы добавите в свой код вызововы ``gettext``, вы можете "
-"извлечь сообщения из нег и записать их в `.pot-файлы <https://www.gnu.org/"
-"software/gettext/manual/gettext.html#index-files_002c-_002epot>`_ с помощью "
-"`xgettext`_ :"
+"После того как у вас есть код, использующий вызовы gettext, вы можете "
+"использовать `xgettext`_ для извлечения сообщений из него и сохранения их в "
+"`.pot-файл <https://www.gnu.org/software/gettext/manual/gettext.html#index-"
+"files_002c-_002epot>`_:"
 
 #: devel/gettext.rst:101
 msgid ""
@@ -38036,13 +37966,12 @@ msgid "Language cookie name"
 msgstr "Имя языковой куки"
 
 #: devel/html.rst:55
-#, fuzzy
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
-"Имя cookie с именем выбранного языка. Используется в отрывках JavaScript "
-"для :ref:`локализации HTML <cdn-addon-html>`."
+"Имя файла куки, содержащего выбранный пользователем язык. Используется во "
+"фрагменте JavaScript для :ref:`cdn-addon-html`."
 
 #: devel/html.rst:57 snippets/addons-autogenerated.rst:79
 msgid "Extract strings from HTML files"
@@ -38062,14 +37991,6 @@ msgid "String extraction for Weblate CDN"
 msgstr "Извлечение строк для Weblate CDN"
 
 #: devel/html.rst:67
-#, fuzzy
-#| msgid ""
-#| "The translation strings have to be present in Weblate. You can either "
-#| "manage these manually, use API to create them or list files or URLs "
-#| "using :guilabel:`Extract strings from HTML files` and Weblate will "
-#| "extract them automatically. The files have to present in the repository "
-#| "or contain remote URLs which will be download and parsed regularly by "
-#| "Weblate."
 msgid ""
 "The translation strings have to be present in Weblate. You can either manage "
 "these manually, use API to create them or list files or URLs "
@@ -38079,12 +38000,13 @@ msgid ""
 "URLs are restricted by :setting:`ALLOWED_ASSET_DOMAINS`, including any "
 "redirect targets."
 msgstr ""
-"Строки перевода должны присутствовать в Weblate. Вы можете заводить их "
-"вручную, использовать для их создания API или перечислить файлы или URL-"
-"адреса в параметре :guilabel:`Извлечение строк из HTML-файлов` и Weblate "
+"Строки перевода должны присутствовать в Weblate. Вы можете управлять ими "
+"вручную, использовать API для их создания или перечислить файлы или URL-"
+"адреса с помощью :guilabel:`Извлечение строк из HTML-файлов`, и Weblate "
 "извлечёт их автоматически. Файлы должны присутствовать в репозитории или "
-"содержать удалённые URL-адреса, которые Weblate будет регулярно проверять и "
-"анализировать."
+"содержать удалённые URL-адреса, которые будут регулярно загружаться и "
+"анализироваться Weblate. Удалённые URL-адреса ограничены "
+":setting:`ALLOWED_ASSET_DOMAINS`, включая любые цели перенаправления."
 
 #: devel/html.rst:74
 msgid ""
@@ -38097,13 +38019,12 @@ msgstr ""
 "извлечены две строки:"
 
 #: devel/html.rst:91
-#, fuzzy
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
 msgstr ""
-"Если вы не хотите изменять существующий код, вы также можете использовать `` "
-"* `` в качестве селектора для обработки всех элементов."
+"Если вы не хотите изменять существующий код, вы также можете использовать "
+"``*`` в качестве селектора для обработки всех элементов."
 
 #: devel/html.rst:96
 msgid ""
@@ -38178,76 +38099,52 @@ msgid "Importing a localization project into Weblate"
 msgstr "Импорт проекта локализации в Weblate"
 
 #: devel/integration.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has been developed with VCS integration in mind as it’s core "
-#| "feature, so the easiest way is to grant Weblate the access to your "
-#| "repository. The import process will guide you through configuring your "
-#| "translations into components."
 msgid ""
 "Weblate has been developed with VCS integration in mind as it’s core "
 "feature, so the easiest way is to grant Weblate the access to your "
 "repository. The import process will guide you through configuring your "
 "translations into Weblate components."
 msgstr ""
-"Weblate разрабатывался с прицелом на интеграцию с системами контроля версий, "
-"как его основной функциональной особенности. Так что, самый простой способ "
-"выполнить такую интеграцию — дать Weblate право доступа к вашему "
-"репозиторию. Этот процесс импорта проведёт вас через процедуру настройки "
-"вашего перевода в виде отдельных компонентов."
+"Weblate был разработан с учётом интеграции с системой контроля версий как "
+"его основной функции, поэтому проще всего предоставить Weblate доступ к "
+"вашему репозиторию. Процесс импорта проведёт вас через настройку ваших "
+"переводов в компоненты Weblate."
 
 #: devel/integration.rst:14
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use Weblate to set up a local repository "
-#| "containing all the translations without integration."
 msgid ""
 "Alternatively, you can let Weblate set up a local-only repository containing "
 "all the translations without integration."
 msgstr ""
-"В качестве альтернативы вы можете настроить локальный репозиторий Weblate, "
-"который будет содержать все переводы без необходимости интегрировать его с "
-"основным репозиторием."
+"В качестве альтернативы вы можете позволить Weblate создать локальный "
+"репозиторий, содержащий все переводы, без интеграции."
 
 #: devel/integration.rst:23
 msgid "Fetching updated translations from Weblate"
 msgstr "Извлечение обновлённых переводов из Weblate"
 
 #: devel/integration.rst:25
-#, fuzzy
-#| msgid ""
-#| "Weblate stores updated strings in a database and commits them to a local "
-#| "version control repository. You can add Weblate repository "
-#| "(when :ref:`git-exporter` is turned on) as additional remote and fetch "
-#| "translations update from it."
 msgid ""
 "Weblate stores updated strings in a database and commits them to a local "
 "version-control repository. You can add a Weblate repository (when :ref:`git-"
 "exporter` is turned on) as an additional remote repository and fetch "
 "translation updates from it."
 msgstr ""
-"Weblate сохраняет обновлённые строки в базе данных и фиксирует их в "
-"локальном репозитории контроля версий. Вы можете добавить репозиторий "
-"Weblate (когда :ref:`git-exporter` включён) в качестве дополнительного "
-"удалённого хранилища и получать из него обновления переводов."
+"Weblate хранит обновлённые строки в базе данных и фиксирует их в локальном "
+"репозитории контроля версий. Вы можете добавить репозиторий Weblate (когда "
+":ref:`git-exporter` включён) в качестве дополнительного удалённого "
+"репозитория и получать из него обновления переводов."
 
 #: devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "Prior to this, you might want to commit any pending changes "
-#| "(see :ref:`lazy-commit`). You can do so in the user interface (in "
-#| "the :guilabel:`Repository maintenance`) or from the command-line "
-#| "using :ref:`wlc`."
 msgid ""
 "Prior to this, you might want to commit any pending local changes made in "
 "Weblate (see :ref:`lazy-commit`). This can be done from the user interface "
 "(in the :guilabel:`Repository maintenance`), or from the command-line "
 "using :ref:`wlc`."
 msgstr ""
-"До этого вы можете зафиксировать любые ожидающие изменения (см. :ref:`lazy-"
-"commit`). Вы можете сделать это в пользовательском интерфейсе (в "
-"разделе :guilabel:`«Обслуживание репозитория»`) или из командной строки, "
-"используя :ref:`wlc`."
+"Перед этим вы, возможно, захотите зафиксировать все ожидающие локальные "
+"изменения, сделанные в Weblate (см. :ref:`lazy-commit`). Это можно сделать "
+"из пользовательского интерфейса (в :guilabel:`Repository maintenance`) или "
+"из командной строки с помощью :ref:`wlc`."
 
 #: devel/integration.rst:34
 msgid ""
@@ -38260,102 +38157,73 @@ msgstr ""
 "push` в :ref:`component`, см. :ref:`push-changes`."
 
 #: devel/integration.rst:37
-#, fuzzy
-#| msgid ""
-#| "Alternatively, you can use :doc:`/api` to update translations to match "
-#| "their latest version."
 msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
-"В качестве альтернативы, вы можете обновлять свои переводы до их последней "
-"версии через :doc:`/api`."
+"В качестве альтернативы используйте :doc:`/api` для обновления переводов, "
+"чтобы они соответствовали последней версии из вышестоящего репозитория в "
+"вашем удалённом репозитории VCS."
 
 #: devel/integration.rst:47
 msgid "Fetching remote changes into Weblate"
 msgstr "Загрузка удалённых изменений в Weblate"
 
 #: devel/integration.rst:49
-#, fuzzy
-#| msgid ""
-#| "To fetch the strings newly updated in your repository into Weblate, just "
-#| "let it pull from the upstream repository. This can be achieved in the "
-#| "user interface (in the :guilabel:`Repository maintenance`), or from the "
-#| "command-line using :ref:`wlc`."
 msgid ""
 "To fetch any strings recently updated in your remote VCS repository into "
 "Weblate, allow Weblate to pull from the upstream repository. This can be "
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
-"Для загрузки строк, которые недавно были обновлены в вашем репозитории в "
-"Weblate, просто позвольте ему извлечь их из вышестоящего репозитория. Это "
-"можно сделать либо через пользовательский интерфейс (на "
-"странице :guilabel:`Обслуживание репозитория`), либо из командной строки при "
-"помощи :ref:`клиента Weblate <wlc>`."
+"Чтобы получить любые недавно обновлённые строки из вашего удалённого "
+"репозитория VCS в Weblate, разрешите Weblate выполнить извлечение из "
+"вышестоящего репозитория. Это можно сделать в пользовательском интерфейсе (в "
+":guilabel:`Repository maintenance`) или из командной строки с помощью "
+":ref:`wlc`."
 
 #: devel/integration.rst:54
-#, fuzzy
-#| msgid ""
-#| "This can be automated by setting a webhook in your repository to trigger "
-#| "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
-#| "details."
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit. See :ref:`update-vcs` for more "
 "details."
 msgstr ""
-"Это действие можно автоматизировать, настроив в вашем репозитории веб-"
-"обработчика, которые уведомит Weblate о появлении нового коммита; подробнее "
-"смотрите в разделе :ref:`update-vcs`."
+"Это можно автоматизировать, настроив веб-обработчик в вашем репозитории для "
+"запуска Weblate при каждом новом коммите. Подробнее см. в :ref:`update-vcs`."
 
 #: devel/integration.rst:57
-#, fuzzy
-#| msgid ""
-#| "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
-#| "update translations to match your code base."
 msgid ""
 "If not using VCS integration, you can use the UI or :doc:`/api` to update "
 "the translations so that they match your codebase."
 msgstr ""
-"Если вы не используете интеграцию с системой контроля версий, то вы можете "
-"обновлять свои переводы в соответствии с вашей кодовой базой через "
-"пользовательский интерфейс или :doc:`/api`."
+"Если вы не используете интеграцию с системой контроля версий, вы можете "
+"использовать пользовательский интерфейс или :doc:`/api` для обновления "
+"переводов, чтобы они соответствовали вашей кодовой базе."
 
 #: devel/integration.rst:68 devel/translations.rst:7
 msgid "Adding new strings"
 msgstr "Добавление новых строк"
 
 #: devel/integration.rst:70
-#, fuzzy
-#| msgid ""
-#| "In case your translation files are stored in a VCS together with the "
-#| "code, you most likely have an existing workflow for developers to "
-#| "introduce new strings. Any way of adding strings will be picked up, but "
-#| "consider using :ref:`source-quality-gateway` to avoid introducing errors."
 msgid ""
 "If your translation files are stored in a remote VCS together with the code, "
 "you most likely have an existing workflow for developers to introduce new "
 "strings. Any way of adding strings will be picked up, but consider "
 "using :ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
-"Если ваши файлы перевода хранятся в системе контроля версий вместе с "
-"исходным кодом, то скорей всего у вас уже есть свой устоявшийся метод "
-"добавления новых строк разработчиками. Хотя вы и можете использовать любой "
-"метод на свой вкус, но рассмотрите возможность делать это с помощью метода, "
-"описанного в разделе «:ref:`source-quality-gateway`», дабы избегать ошибок."
+"Если ваши файлы переводов хранятся в удалённой системе контроля версий "
+"вместе с кодом, у вас, скорее всего, уже существует рабочий процесс для "
+"добавления разработчиками новых строк. Любой способ добавления строк будет "
+"принят, но рассмотрите возможность использования :ref:`source-quality-"
+"gateway`, чтобы избежать появления ошибок."
 
 #: devel/integration.rst:75
-#, fuzzy
-#| msgid ""
-#| "When the translation files are separate from the code, there are "
-#| "following ways to introduce new strings into Weblate."
 msgid ""
 "When translation files are separated from the code, the following ways can "
 "introduce new strings into Weblate."
 msgstr ""
-"Если файлы перевода отделены от кода, существуют следующие способы "
-"добавления новых строк в Weblate."
+"Когда файлы переводов отделены от кода, следующие способы могут ввести новые "
+"строки в Weblate."
 
 #: devel/integration.rst:78
 msgid ""
@@ -38387,15 +38255,10 @@ msgstr ""
 "смотрите раздел :ref:`upload-method`."
 
 #: devel/integration.rst:89
-#, fuzzy
-#| msgid ""
-#| "Availability of adding strings in Weblate depends on :ref:`component-"
-#| "manage_units`."
 msgid ""
 "The ability to add strings in Weblate requires :ref:`component-manage_units`."
 msgstr ""
-"Будет ли доступно добавление строк через Weblate зависит от параметра "
-"«:ref:`component-manage_units`»."
+"Возможность добавления строк в Weblate требует :ref:`component-manage_units`."
 
 #: devel/integration.rst:94
 msgid "Updating target-language files"
@@ -38419,22 +38282,14 @@ msgstr ""
 "такую очистку в соответствии с вашими требованиями."
 
 #: devel/integration.rst:103
-#, fuzzy
-#| msgid ""
-#| "Weblate will also not try to update bilingual files when the source "
-#| "changes, so if you need :file:`po` files to be updated from :file:`pot`, "
-#| "do it yourself by using :guilabel:`Update source strings` :ref:`upload-"
-#| "method`, or by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgid ""
 "Weblate will also not try to update bilingual files when the source changes, "
 "so if you need :file:`po` files to be updated from :file:`pot`, you have two "
 "options:"
 msgstr ""
-"Weblate также не будет пытаться обновлять двуязычные файлы при обновлении "
-"источника, так что, если вам нужно, чтобы файлы :file:`po` обновлялись из "
-"файлов :file:`pot`, сделайте это самостоятельно через :guilabel:`Обновить "
-"исходные строки` (смотрите раздел :ref:`upload-method`) или используйте для "
-"этого надстройку :ref:`addon-weblate.gettext.msgmerge`."
+"Weblate также не будет пытаться обновлять двуязычные файлы при изменении "
+"источника, поэтому если вам нужно, чтобы файлы :file:`po` обновлялись из "
+":file:`pot`, у вас есть два варианта:"
 
 #: devel/integration.rst:106
 msgid ""
@@ -38526,12 +38381,6 @@ msgid "Managing the local VCS repository"
 msgstr "Управление локальным хранилищем системы контроля версий (VCS)"
 
 #: devel/integration.rst:166
-#, fuzzy
-#| msgid ""
-#| "Weblate stores all translations in its underlying version control "
-#| "repository. It is suggested to be connected to a remote one, but internal-"
-#| "only setup is also possible. The :guilabel:`Repository maintenance` "
-#| "allows controlling this repository."
 msgid ""
 "Weblate stores all translations in its underlying version control "
 "repository. It is suggested to be connected to a remote one, but internal-"
@@ -38540,9 +38389,10 @@ msgid ""
 "actions, see :ref:`repository-maintenance`."
 msgstr ""
 "Weblate хранит все переводы в своём базовом репозитории контроля версий. "
-"Рекомендуется подключиться к удалённому репозиторию, но возможна и "
-"внутренняя настройка. Раздел :guilabel:`Обслуживание репозитория` позволяет "
-"вам управлять этим репозиторием."
+"Рекомендуется подключать его к удалённому репозиторию, но возможна и "
+"полностью внутренняя настройка. :guilabel:`Repository maintenance` позволяет "
+"управлять этим репозиторием. Для подробного описания доступных действий см. "
+":ref:`repository-maintenance`."
 
 #: devel/integration.rst:174
 msgid ""
@@ -38554,10 +38404,8 @@ msgstr ""
 "этим."
 
 #: devel/migration.rst:2
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "Migrating to Weblate"
-msgstr "Импорт в Weblate"
+msgstr "Миграция на Weblate"
 
 #: devel/migration.rst:4
 msgid ""
@@ -38575,16 +38423,12 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:13
-#, fuzzy
-#| msgid "Choosing internationalization framework"
 msgid ":doc:`starting` for choosing the right internationalization framework"
-msgstr "Выбор среды интернационализации"
+msgstr ":doc:`starting` для выбора правильного фреймворка интернационализации"
 
 #: devel/migration.rst:14
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid ":doc:`integration` for detailed integration options"
-msgstr ":doc:`integration`, :ref:`continuous-translation`"
+msgstr ":doc:`integration` для подробных вариантов интеграции"
 
 #: devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
@@ -38599,16 +38443,12 @@ msgid "**On your localization platform:**"
 msgstr ""
 
 #: devel/migration.rst:24
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Access to export your translation files"
-msgstr "Создайте репозиторий с вашими файлами перевода."
+msgstr "Доступ для экспорта ваших файлов переводов"
 
 #: devel/migration.rst:25
-#, fuzzy
-#| msgid "mask of translation files in the repository"
 msgid "List of translators and their roles/permissions"
-msgstr "маска файлов перевода в репозитории"
+msgstr "Список переводчиков и их ролей/разрешений"
 
 #: devel/migration.rst:26
 msgid ""
@@ -38616,10 +38456,8 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:28
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "**For Weblate:**"
-msgstr "Поддержать Weblate"
+msgstr "**Для Weblate:**"
 
 #: devel/migration.rst:30
 msgid ""
@@ -38632,16 +38470,12 @@ msgid "Admin or project creation permissions on your Weblate instance"
 msgstr ""
 
 #: devel/migration.rst:34
-#, fuzzy
-#| msgid "Share your translation"
 msgid "Prepare your translation files"
-msgstr "Поделитесь своим переводом"
+msgstr "Подготовьте ваши файлы переводов"
 
 #: devel/migration.rst:37
-#, fuzzy
-#| msgid "Manage translation memory (on the entire platform)"
 msgid "Export translations from your current platform"
-msgstr "Управление памятью переводов (на всей платформе)"
+msgstr "Экспортируйте переводы из вашей текущей платформы"
 
 #: devel/migration.rst:39
 msgid ""
@@ -38649,15 +38483,12 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:41
-#, fuzzy
-#| msgid ""
-#| "There are multiple options to download the translation memory of the "
-#| "whole instance."
 msgid ""
 "**Transifex**: Use their CLI tool or download translations from the web "
 "interface"
 msgstr ""
-"Существует несколько вариантов загрузки памяти переводов всего экземпляра."
+"**Transifex**: Используйте их инструмент CLI или загрузите переводы из веб-"
+"интерфейса"
 
 #: devel/migration.rst:42
 msgid ""
@@ -38680,10 +38511,8 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:53
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "Commit translations to your Git repository"
-msgstr "Коммит изменений во внутренний репозиторий"
+msgstr "Закоммитьте переводы в ваш Git-репозиторий"
 
 #: devel/migration.rst:57
 msgid ""
@@ -38693,10 +38522,8 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:61
-#, fuzzy
-#| msgid "Ignore uploaded translations which are already translated."
 msgid "If your translations aren't already in Git:"
-msgstr "Игнорировать загруженные переводы, которые уже переведены."
+msgstr "Если ваши переводы ещё не в Git:"
 
 #: devel/migration.rst:63
 msgid "Create a Git repository or use your existing project repository"
@@ -38713,34 +38540,24 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:75
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation` for optimal repository structure"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation` для оптимальной структуры репозитория"
 
 #: devel/migration.rst:76
-#, fuzzy
-#| msgid "version control system"
 msgid ":doc:`/vcs` for supported version control systems"
-msgstr "система контроля версий"
+msgstr ":doc:`/vcs` для поддерживаемых систем контроля версий"
 
 #: devel/migration.rst:79
-#, fuzzy
-#| msgid "Importing a localization project into Weblate"
 msgid "Import your project into Weblate"
-msgstr "Импорт проекта локализации в Weblate"
+msgstr "Импортируйте ваш проект в Weblate"
 
 #: devel/migration.rst:82
-#, fuzzy
-#| msgid "Creates a new project."
 msgid "Create a new project"
-msgstr "Создаёт новый проект."
+msgstr "Создайте новый проект"
 
 #: devel/migration.rst:84
-#, fuzzy
-#| msgid "Your Weblate instance URL"
 msgid "Navigate to your Weblate instance."
-msgstr "URL вашего экземпляра Weblate"
+msgstr "Перейдите к вашему экземпляру Weblate."
 
 #: devel/migration.rst:85
 msgid "Click :guilabel:`Add new translation project` in the **+** menu."
@@ -38759,20 +38576,16 @@ msgid "**URL slug**: Short identifier (e.g., ``myapp``)"
 msgstr ""
 
 #: devel/migration.rst:90
-#, fuzzy
-#| msgid "Project source language code (optional)"
 msgid "**Project website**: Your project homepage (optional)"
-msgstr "Код исходного языка проекта (необязательный)"
+msgstr "**Веб-сайт проекта**: Домашняя страница вашего проекта (необязательно)"
 
 #: devel/migration.rst:96
 msgid ":ref:`adding-projects` for detailed project creation instructions"
 msgstr ""
 
 #: devel/migration.rst:99
-#, fuzzy
-#| msgid "Creates component from remote version control repository."
 msgid "Add a component from your Git repository"
-msgstr "Создать компонент из удалённого репозитория системы контроля версий."
+msgstr "Добавьте компонент из вашего Git-репозитория"
 
 #: devel/migration.rst:101
 msgid ""
@@ -38780,16 +38593,12 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:102
-#, fuzzy
-#| msgid "From version control"
 msgid "Select :guilabel:`From version control`"
-msgstr "Из системы контроля версий"
+msgstr "Выберите :guilabel:`Из системы контроля версий`"
 
 #: devel/migration.rst:103
-#, fuzzy
-#| msgid "name of component"
 msgid "Configure your component:"
-msgstr "название компонента"
+msgstr "Настройте ваш компонент:"
 
 #: devel/migration.rst:105
 msgid ""
@@ -38812,22 +38621,16 @@ msgid "Weblate will automatically detect:"
 msgstr "Weblate автоматически обнаружит:"
 
 #: devel/migration.rst:111
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation file format"
-msgstr "Файл перевода"
+msgstr "Формат файла перевода"
 
 #: devel/migration.rst:112
-#, fuzzy
-#| msgid "All languages"
 msgid "Available languages"
-msgstr "Все языки"
+msgstr "Доступные языки"
 
 #: devel/migration.rst:115
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Review and confirm the detected settings"
-msgstr "Пожалуйста, проверьте и подтвердите сопоставленные компоненты."
+msgstr "Проверьте и подтвердите обнаруженные настройки"
 
 #: devel/migration.rst:121
 msgid ""
@@ -38844,26 +38647,20 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:131
-#, fuzzy
-#| msgid "Component configuration"
 msgid ":ref:`component` for all configuration options"
-msgstr "Настройки компонента"
+msgstr ":ref:`component` для всех параметров конфигурации"
 
 #: devel/migration.rst:132
 msgid ":ref:`bimono` for understanding monolingual vs. bilingual formats"
 msgstr ""
 
 #: devel/migration.rst:136
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure your workflow"
-msgstr "Настроить пароль"
+msgstr "Настройте ваш рабочий процесс"
 
 #: devel/migration.rst:139
-#, fuzzy
-#| msgid "Project access control"
 msgid "Set up access control"
-msgstr "Контроль доступа к проекту"
+msgstr "Настройте контроль доступа"
 
 #: devel/migration.rst:141
 msgid "Choose your project's visibility and access level:"
@@ -38880,10 +38677,9 @@ msgid "Select the appropriate :ref:`access control <acl>`:"
 msgstr ""
 
 #: devel/migration.rst:146
-#, fuzzy
-#| msgid "Publicly visible and anybody can contribute"
 msgid "**Public**: Open-source projects, anyone can contribute"
-msgstr "Видимый публично, в который внести свой вклад может любой желающий"
+msgstr ""
+"**Публичный**: Проекты с открытым исходным кодом, любой может внести вклад"
 
 #: devel/migration.rst:147
 msgid "**Protected**: Visible to all, but only invited users can translate"
@@ -38898,20 +38694,16 @@ msgid ":ref:`manage-acl` for detailed access control configuration"
 msgstr ""
 
 #: devel/migration.rst:157
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Set up continuous localization"
-msgstr "Непрерывный перевод"
+msgstr "Настройте непрерывную локализацию"
 
 #: devel/migration.rst:159
 msgid "Enable automatic updates and commits:"
 msgstr ""
 
 #: devel/migration.rst:161
-#, fuzzy
-#| msgid "Repository integration"
 msgid "Configure repository integration:"
-msgstr "Интеграция репозиториев"
+msgstr "Настройте интеграцию репозитория:"
 
 #: devel/migration.rst:163
 msgid ""
@@ -38926,20 +38718,13 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:166
-#, fuzzy
-#| msgid "Unused new base in component settings"
 msgid "Enable automatic actions in component settings:"
-msgstr "Неиспользованный новый базовый файл в настройках компонента"
+msgstr "Включите автоматические действия в настройках компонента:"
 
 #: devel/migration.rst:168
-#, fuzzy
-#| msgid ""
-#| "Use the commit script to automatically change a translation before it is "
-#| "committed to the repository."
 msgid "**Push on commit**: Automatically push translations to your repository"
 msgstr ""
-"Используйте скрипт коммита для автоматического внесения изменений в какой-"
-"либо перевод перед их коммитом в репозиторий."
+"**Отправка при коммите**: Автоматически отправлять переводы в ваш репозиторий"
 
 #: devel/migration.rst:169
 msgid ""
@@ -38948,30 +38733,25 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:173
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation` for complete workflow automation"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ""
+":ref:`continuous-translation` для полной автоматизации рабочего процесса"
 
 #: devel/migration.rst:176
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure quality checks and workflows"
-msgstr "Настроить пароль"
+msgstr "Настройте проверки качества и рабочие процессы"
 
 #: devel/migration.rst:178
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Customize translation quality controls:"
-msgstr "Фильтр качества перевода"
+msgstr "Настройте контроль качества перевода:"
 
 #: devel/migration.rst:180
-#, fuzzy
-#| msgid "Enable the :ref:`check-i18next-interpolation` quality check."
 msgid ""
 "**Enable checks**: Review :ref:`checks` and enable any opt-in quality checks "
 "you need."
-msgstr "Включите проверку качества :ref:`check-i18next-interpolation`."
+msgstr ""
+"**Включить проверки**: Просмотрите :ref:`checks` и включите любые "
+"дополнительные проверки качества, которые вам нужны."
 
 #: devel/migration.rst:181
 msgid ""
@@ -38986,10 +38766,8 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:185
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Optional: Enable add-ons"
-msgstr "Включить надстройку:"
+msgstr "Необязательно: Включить дополнения"
 
 #: devel/migration.rst:187
 msgid "Weblate offers :ref:`addons` to automate common tasks:"
@@ -39002,160 +38780,115 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:190
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ":ref:`addon-weblate.cleanup.generic`: Remove unused translation strings"
 msgstr ""
-"Если вы хотите только удалить устаревшие ключи перевода, используйте "
-"надстройку :ref:`addon-weblate.cleanup.generic`."
+":ref:`addon-weblate.cleanup.generic`: Удалить неиспользуемые строки перевода"
 
 #: devel/migration.rst:191
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid ""
 ":ref:`addon-weblate.git.squash`: Squash commits before pushing to your "
 "repository"
 msgstr ""
-"Переименован :ref:`addon-weblate.consistency.languages` для уточнения цели."
+":ref:`addon-weblate.git.squash`: Склеивать коммиты перед отправкой в ваш "
+"репозиторий"
 
 #: devel/migration.rst:192
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery`: Automatically discover new "
 "translation files"
 msgstr ""
-":ref:`addon-weblate.discovery.discovery` теперь сообщает о пропущенных "
-"записях."
+":ref:`addon-weblate.discovery.discovery`: Автоматически обнаруживать новые "
+"файлы переводов"
 
 #: devel/migration.rst:196
 msgid ":doc:`/admin/addons` for all available add-ons"
 msgstr ""
 
 #: devel/migration.rst:199
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Test and verify"
-msgstr "Сбросить и повторить"
+msgstr "Тестирование и проверка"
 
 #: devel/migration.rst:201
-#, fuzzy
-#| msgid "Support for locking translation by translator."
 msgid "Before announcing the migration to your translators:"
-msgstr "Поддержка блокировки перевода переводчиком."
+msgstr "Прежде чем объявить о миграции вашим переводчикам:"
 
 #: devel/migration.rst:203
 msgid "**Test the workflow**:"
 msgstr ""
 
 #: devel/migration.rst:205
-#, fuzzy
-#| msgid "Target translation"
 msgid "Make a test translation"
-msgstr "Целевой перевод"
+msgstr "Сделайте тестовый перевод"
 
 #: devel/migration.rst:206
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid "Verify it appears in your Git repository"
-msgstr "Сброс изменений во внутреннем репозитории"
+msgstr "Убедитесь, что он появился в вашем Git-репозитории"
 
 #: devel/migration.rst:207
-#, fuzzy
-#| msgid "You pull changes from a remote repository to Weblate like this:"
 msgid "Test pulling changes from your repository into Weblate"
-msgstr ""
-"Извлечь изменения из дистанционного репозитория в Weblate можно как-то так:"
+msgstr "Протестируйте извлечение изменений из вашего репозитория в Weblate"
 
 #: devel/migration.rst:209
-#, fuzzy
-#| msgid "Import existing translations"
 msgid "**Import any existing translation memory** (optional):"
-msgstr "Импортировать существующие переводы"
+msgstr "**Импортируйте существующую память переводов** (необязательно):"
 
 #: devel/migration.rst:211
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid "Use :ref:`translation-memory` to import previous translations"
-msgstr "Огромная память переводов с машинным переводом."
+msgstr "Используйте :ref:`translation-memory` для импорта предыдущих переводов"
 
 #: devel/migration.rst:212
 msgid "This helps with consistency and speeds up translation"
 msgstr ""
 
 #: devel/migration.rst:214
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "**Configure notifications**:"
-msgstr "Уведомления на уровне компонентов"
+msgstr "**Настройте уведомления**:"
 
 #: devel/migration.rst:216
-#, fuzzy
-#| msgid "Support for e-mail notifications of translators."
 msgid "Set up :ref:`notifications` for translation events"
-msgstr "Поддержка уведомлений по e-mail для переводчиков."
+msgstr "Настройте :ref:`notifications` для событий перевода"
 
 #: devel/migration.rst:217
-#, fuzzy
-#| msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgid "Configure repository :ref:`hooks` for your Git hosting service"
-msgstr ""
-"Настройте обработчики репозитория для автоматического получения обновлений в "
-"Weblate."
+msgstr "Настройте :ref:`hooks` репозитория для вашего Git-хостинга"
 
 #: devel/migration.rst:221
 msgid ":doc:`/admin/memory` for translation memory management"
 msgstr ""
 
 #: devel/migration.rst:224
-#, fuzzy
-#| msgid "Invite new user"
 msgid "Invite and manage users"
-msgstr "Пригласить нового пользователя"
+msgstr "Приглашайте и управляйте пользователями"
 
 #: devel/migration.rst:227
-#, fuzzy
-#| msgid "list_translators"
 msgid "Invite translators"
-msgstr "list_translators"
+msgstr "Пригласите переводчиков"
 
 #: devel/migration.rst:229
-#, fuzzy
-#| msgid "For `Protected` and `Private` projects only:"
 msgid "For **Protected** and **Private** projects:"
-msgstr "Только для проектов `защищённых` и `частных`:"
+msgstr "Для проектов **Защищённый** и **Частный**:"
 
 #: devel/migration.rst:231
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
 msgid "Navigate to :guilabel:`Operations` → :guilabel:`Users` in your project"
-msgstr ":guilabel:`Администрирование`, :guilabel:`Автоматический перевод`"
+msgstr ""
+"Перейдите в :guilabel:`Управление` → :guilabel:`Пользователи` в вашем проекте"
 
 #: devel/migration.rst:232
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid "Use :guilabel:`Add user` to invite translators"
-msgstr ":guilabel:`Добавление языка для перевода`"
+msgstr ""
+"Используйте :guilabel:`Добавить пользователя` для приглашения переводчиков"
 
 #: devel/migration.rst:233
 msgid "Assign them to appropriate teams:"
 msgstr ""
 
 #: devel/migration.rst:235
-#, fuzzy
-#| msgid "Change translated strings"
 msgid "**Translators**: Can translate strings"
-msgstr "Изменять переведённые строки"
+msgstr "**Переводчики**: Могут переводить строки"
 
 #: devel/migration.rst:236
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "**Reviewers**: Can review and approve translations"
-msgstr "Требуются выделенные рецензенты для одобрения переводов."
+msgstr "**Рецензенты**: Могут проверять и утверждать переводы"
 
 #: devel/migration.rst:237
 msgid "**Managers**: Can manage project settings"
@@ -39172,42 +38905,32 @@ msgid "Send your translators a welcome message with:"
 msgstr ""
 
 #: devel/migration.rst:245
-#, fuzzy
-#| msgid "Lists projects in Weblate."
 msgid "Link to your project on Weblate"
-msgstr "Вывести список существующих в Weblate проектов."
+msgstr "Ссылка на ваш проект в Weblate"
 
 #: devel/migration.rst:246
 msgid "Overview of any project-specific terminology or style guides"
 msgstr ""
 
 #: devel/migration.rst:247
-#, fuzzy
-#| msgid "Returns information about the project."
 msgid "Information about your review process"
-msgstr "Возвращает информацию о проекте."
+msgstr "Информация о вашем процессе рецензирования"
 
 #: devel/migration.rst:251
-#, fuzzy
-#| msgid ":ref:`manage-appearance`."
 msgid ":ref:`manage-acl` for team management"
-msgstr ":ref:`manage-appearance`."
+msgstr ":ref:`manage-acl` для управления командами"
 
 #: devel/migration.rst:252
 msgid ":doc:`/admin/access` for advanced permission configuration"
 msgstr ""
 
 #: devel/migration.rst:256
-#, fuzzy
-#| msgid "Next section"
 msgid "Next steps"
-msgstr "Следующий раздел"
+msgstr "Следующие шаги"
 
 #: devel/migration.rst:258
-#, fuzzy
-#| msgid "Promoting the translation"
 msgid "After completing the migration:"
-msgstr "Продвижение перевода"
+msgstr "После завершения миграции:"
 
 #: devel/migration.rst:260
 msgid ""
@@ -39243,16 +38966,12 @@ msgid ""
 msgstr ""
 
 #: devel/migration.rst:272
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional resources"
-msgstr "Дополнительные проекты"
+msgstr "Дополнительные ресурсы"
 
 #: devel/migration.rst:274
-#, fuzzy
-#| msgid "The documentation has detailed instructions"
 msgid ":doc:`integration` - Detailed integration patterns"
-msgstr "Подробная инструкция есть в документации"
+msgstr ":doc:`integration` — Подробные шаблоны интеграции"
 
 #: devel/migration.rst:275
 msgid ":doc:`/workflows` - Different workflow configurations"
@@ -39271,10 +38990,8 @@ msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
 msgstr ""
 
 #: devel/migration.rst:279
-#, fuzzy
-#| msgid "Frequently Asked Questions"
 msgid ":doc:`/faq` - Frequently asked questions"
-msgstr "Часто задаваемые вопросы"
+msgstr ":doc:`/faq` — Часто задаваемые вопросы"
 
 #: devel/migration.rst:283
 msgid ""
@@ -39352,11 +39069,6 @@ msgstr ""
 "документацию, а JSON полезен для дальнейшей обработки данных."
 
 #: devel/reporting.rst:16
-#, fuzzy
-#| msgid ""
-#| "You can choose predefined periods or enter a custom date range. In that "
-#| "case, the contributions are counted at midnight – that means that it "
-#| "includes the starting date and excludes the ending date."
 msgid ""
 "You can choose predefined periods or enter a custom date range. In that "
 "case, the contributions are counted at midnight – that means that it "
@@ -39364,9 +39076,11 @@ msgid ""
 "contributors in the output by their join date or the number of strings they "
 "have translated, in either ascending or descending order."
 msgstr ""
-"Вы можете выбрать один из имеющихся периодов или задать свой. В таком "
-"случае, переводы считаются в полночь, то есть включает дату начала и "
-"исключает дату окончания."
+"Вы можете выбрать предопределённые периоды или ввести произвольный диапазон "
+"дат. В этом случае вклад считается на полночь — это означает, что он "
+"включает начальную дату и исключает конечную. Вы можете сортировать "
+"участников в выводе по дате их присоединения или количеству переведённых ими "
+"строк, в порядке возрастания или убывания."
 
 #: devel/reporting.rst:25
 msgid "Number of words"
@@ -39535,10 +39249,8 @@ msgid "Amount of characters in the translated string."
 msgstr "Количество символов в переведенной строке."
 
 #: devel/reporting.rst:110
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "The translator's join date is also included in the report."
-msgstr "Перевод будет обновлён в фоновом режиме."
+msgstr "Дата присоединения переводчика также включена в отчёт."
 
 #: devel/reporting-example.rst:2
 msgid "Email"
@@ -39553,10 +39265,8 @@ msgid "Count total"
 msgstr "Count total"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Count total"
 msgid "Edits total"
-msgstr "Count total"
+msgstr "Всего правок"
 
 #: devel/reporting-example.rst:2
 msgid "Source words total"
@@ -39579,10 +39289,8 @@ msgid "Count new"
 msgstr "Count new"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "`Edits`"
 msgid "Edits new"
-msgstr "`Правки`"
+msgstr "Новых правок"
 
 #: devel/reporting-example.rst:2
 msgid "Source words new"
@@ -39605,10 +39313,8 @@ msgid "Count approved"
 msgstr "Count approved"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Count approved"
 msgid "Edits approved"
-msgstr "Count approved"
+msgstr "Утверждённых правок"
 
 #: devel/reporting-example.rst:2
 msgid "Source words approved"
@@ -39631,10 +39337,8 @@ msgid "Count edited"
 msgstr "Count edited"
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "Count edited"
 msgid "Edits edited"
-msgstr "Count edited"
+msgstr "Изменённых правок"
 
 #: devel/reporting-example.rst:2
 msgid "Source words edited"
@@ -39721,17 +39425,16 @@ msgid "Source strings checks"
 msgstr "Проверки исходных строк"
 
 #: devel/review.rst:27
-#, fuzzy
 msgid ""
 "There are many :ref:`checks`, some of them focus on improving the quality of "
 "source strings. Many failing checks suggest a hint to make source strings "
 "easier to translate. All types of failing source checks are displayed on the "
 "source language of every component."
 msgstr ""
-"Существует множество :ref:`проверок <checks>`, некоторые из них направлены "
-"на улучшение качества исходных строк. Многие неудачные проверки предполагают "
-"подсказку, позволяющую упростить перевод исходных строк. Все типы неудачных "
-"проверок исходного кода отображаются на исходном языке каждого компонента."
+"Существует множество :ref:`checks`, некоторые из них направлены на улучшение "
+"качества исходных строк. Многие неудачные проверки дают подсказки, как "
+"сделать исходные строки более лёгкими для перевода. Все типы неудачных "
+"проверок исходных строк отображаются на исходном языке каждого компонента."
 
 #: devel/review.rst:33
 msgid "Translation string checks"
@@ -39783,7 +39486,6 @@ msgid "Receiving source string feedback"
 msgstr "Получение обратной связи об исходных строках"
 
 #: devel/review.rst:61
-#, fuzzy
 msgid ""
 "Translators can comment on both translation and source strings. "
 "Each :ref:`component` can be configured to receive such comments to an e-"
@@ -39792,28 +39494,18 @@ msgid ""
 "an eye on when problems arise in translation, take care of them, and fix "
 "them quickly."
 msgstr ""
-"Переводчики могут комментировать как перевод, так и исходные строки. "
-"В :ref:`настройках <component>` каждого компонента можно задать отправку "
-"таких комментариев на электронную почту (смотреть раздел :ref:`component-"
-"report_source_bugs`); как правило, наилучшим подходом будет указать здесь "
-"адрес списка рассылки для разработчиков. Таким образом, вы сможете следить "
-"за возникновением проблем в переводе, вовремя о них узнавать и быстро их "
-"устранять."
+"Переводчики могут комментировать как строки перевода, так и исходные строки. "
+"Каждый :ref:`component` можно настроить на получение таких комментариев на "
+"адрес электронной почты (см. :ref:`component-report_source_bugs`), и обычно "
+"лучше всего использовать список рассылки разработчиков. Таким образом, вы "
+"можете следить за возникновением проблем в переводе, решать их и быстро "
+"исправлять."
 
 #: devel/share.rst:4
-#, fuzzy
-#| msgid "Building a translators community"
 msgid "Building the translation community"
-msgstr "Создание сообщества переводчиков"
+msgstr "Построение сообщества переводчиков"
 
 #: devel/share.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate provides you widgets to share on your website or other sources to "
-#| "promote the translation project. It also has a nice welcome page for new "
-#| "contributors to give them basic information about the translation. "
-#| "Additionally you can share information about translation using Facebook "
-#| "or X. All these possibilities can be found on the :guilabel:`Share` tab:"
 msgid ""
 "Weblate provides you content to share on your website or other channels to "
 "promote your translation project. A nice welcome page called Engage is "
@@ -39822,23 +39514,19 @@ msgid ""
 "efforts using social networks. All these possibilities can be found on "
 "the :guilabel:`Community` tab:"
 msgstr ""
-"Weblate предоставляет вам виджеты, которые вы можете разместить на своем "
-"сайте или в других источниках для продвижения проекта перевода. Ещё он "
-"предоставляет красивую страницу приветствия для новых участников, на которой "
-"они могут получить основную информацию о переводе. Кроме того, вы можете "
-"поделиться информацией о переводе через Facebook или X. Все эти возможности "
-"можно найти на вкладке :guilabel:`Поделиться`:"
+"Weblate предоставляет вам контент для публикации на вашем веб-сайте или "
+"других каналах, чтобы продвигать ваш проект перевода. Доступна красивая "
+"приветственная страница Engage, чтобы привлечь новых участников и "
+"предоставить им основную информацию о переводе. Кроме того, вы можете "
+"делиться информацией о работе в социальных сетях. Все эти возможности можно "
+"найти на вкладке :guilabel:`Community`:"
 
 #: devel/share.rst:14
-#, fuzzy
-#| msgid ""
-#| "All these badges are provided with the link to simple page which explains "
-#| "users how to translate using Weblate:"
 msgid ""
 "All these badges are provided with a link to simple page which explains "
 "users how to translate using Weblate:"
 msgstr ""
-"Во все эти плашки встроена ссылка на страницу, которая простыми словами "
+"Все эти бейджи предоставляются со ссылкой на простую страницу, которая "
 "объясняет пользователям, как переводить с помощью Weblate:"
 
 #: devel/sphinx.rst:2
@@ -39861,7 +39549,6 @@ msgstr ""
 "документацию."
 
 #: devel/sphinx.rst:10
-#, fuzzy
 msgid ""
 "I will not focus on writing documentation itself, if you need guidance with "
 "that, just follow instructions on the `Sphinx`_ website. Once you have "
@@ -39870,27 +39557,24 @@ msgid ""
 "It's matter of few configuration directives and invoking of the ``sphinx-"
 "intl`` tool."
 msgstr ""
-"Я не буду заострять внимание на написание самой документации, если вы "
-"нуждаетесь в консультации, просто следуйте инструкциям на сайте `Sphinx`_. "
-"После того, как ваша документация будет написана, её перевод будет довольно "
-"простым делом, поскольку Sphinx уже поддерживает для этого всё необходимое, "
-"что хорошо описано в его :ref:`документации по интернационализации "
-"<sphinx:intl>`. Это буквально вопрос настройки нескольких параметров и "
-"вызова инструмента ``sphinx-intl``."
+"Я не буду сосредотачиваться на написании самой документации; если вам нужны "
+"рекомендации по этому поводу, просто следуйте инструкциям на веб-сайте "
+"`Sphinx`_. Как только документация будет готова, перевести её довольно "
+"легко, так как Sphinx поддерживает это, и это довольно хорошо описано в их "
+":ref:`sphinx:intl`. Это вопрос нескольких директив конфигурации и вызова "
+"инструмента ``sphinx-intl``."
 
 #: devel/sphinx.rst:17
-#, fuzzy
 msgid ""
 "If you are using Read the Docs service, you can start building translated "
 "documentation on the Read the Docs. Their :doc:`rtd:localization` covers "
 "pretty much everything you need - creating another project, set its language "
 "and link it from main project as a translation."
 msgstr ""
-"Если вы пользуетесь сервисом Read the Docs, вы запустить сборку переведённой "
-"документации на Read the Docs. Их :doc:`документация по локализации "
-"<rtd:localization>` покрывает практически всё, что вам нужно знать — "
-"создание ещё одного проекта, установку его языка и связывание его с основным "
-"проектом в качестве перевода."
+"Если вы используете службы «Read the Docs», вы можете начать сборку "
+"переведённой документации на «Read the Docs». Их :doc:`rtd:localization` "
+"охватывает почти всё, что вам нужно: создание другого проекта, установка его "
+"языка и связывание его с основным проектом в качестве перевода."
 
 #: devel/sphinx.rst:22
 msgid ""
@@ -39999,19 +39683,17 @@ msgstr ""
 "должна их поддерживать."
 
 #: devel/starting.rst:18
-#, fuzzy
 msgid ""
 "Last but not least, sometimes it might be necessary to add some context to "
 "the translated string. Imagine a translator would get string ``Sun`` to "
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
-"И последнее, но не менее важное: иногда в переведённую строку может "
-"понадобиться добавить некий контекст. Представьте себе, что переводчик "
-"получил для перевода строку ``Sun``. Без контекста большинство людей "
-"перевели бы её как «Солнце», подразумевая, что речь идёт о нашей ближайшей "
-"звезде, но на самом деле она могла бы быть аббревиатурой для воскресенья "
-"(**Sun**\\ day)."
+"И последнее, но не менее важное: иногда может потребоваться добавить "
+"некоторый контекст к переводимой строке. Представьте, что переводчик "
+"получает строку ``Sun`` для перевода. Без контекста большинство людей "
+"перевели бы её как нашу ближайшую звезду, но на самом деле она может "
+"использоваться как аббревиатура воскресенья (Sunday)."
 
 #: devel/starting.rst:24
 msgid "Choosing internationalization framework"
@@ -40140,10 +39822,8 @@ msgstr ""
 "главах:"
 
 #: devel/starting.rst:89
-#, fuzzy
-#| msgid "Starting with internationalization"
 msgid "Educating developers for proper internationalization"
-msgstr "Знакомство с интернационализацией"
+msgstr "Обучение разработчиков правильной интернационализации"
 
 #: devel/starting.rst:91
 msgid ""
@@ -40228,10 +39908,8 @@ msgid ""
 msgstr ""
 
 #: devel/success-stories.rst:2
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Success stories"
-msgstr "Доступ к репозиториям"
+msgstr "Истории успеха"
 
 #: devel/success-stories.rst:6
 msgid ""
@@ -40371,21 +40049,18 @@ msgid "Adding new translations"
 msgstr "Добавление новых переводов"
 
 #: devel/translations.rst:30
-#, fuzzy
 msgid ""
 "New languages can be added right away when requested by a user in Weblate, "
 "or a notification will be sent to project admins for approval and manual "
 "addition. This can be done using :ref:`component-new_lang` "
 "in :ref:`component`."
 msgstr ""
-"Новые языки могут быть добавлены сразу, как пользователь их запросит через "
-"Weblate, либо же администраторам проекта будет отправлено уведомление, чтобы "
-"они одобрили запрос и добавили новый язык вручную. Это можно "
-"сделать :ref:`добавив новый перевод <component-new_lang>` в :ref:`настройках "
-"компонента <component>`."
+"Новые языки могут быть добавлены сразу по запросу пользователя в Weblate, "
+"или администраторам проекта будет отправлено уведомление для утверждения и "
+"ручного добавления. Это можно сделать с помощью :ref:`component-new_lang` в "
+":ref:`component`."
 
 #: devel/translations.rst:34
-#, fuzzy
 msgid ""
 "Some formats expect to start with an empty file and only translated strings "
 "to be included (for example :ref:`aresource`), while others expect to have "
@@ -40395,14 +40070,13 @@ msgid ""
 "depend on the format, but rather on the framework you use to handle the "
 "translation (for example with :ref:`json`)."
 msgstr ""
-"Некоторые форматы ожидают, что они будут начинаться с пустого файла и в него "
-"будут включены только переведённые строки (например, :ref:`aresource`), в то "
-"время как другие ожидают, что в файле будут присутствовать все ключи "
-"(например, :ref:`gettext`). Форматы на основе документов "
-"(например, :ref:`odf`) начинаются с копии исходного документа и всех строк, "
-"помеченных как «На правку». В некоторых ситуациях это на самом деле зависит "
-"не от формата, а от среды, которую вы используете для работы с файлами "
-"перевода (например, с :ref:`файлами JSON <json>`)."
+"Некоторые форматы предполагают начало с пустого файла и включение только "
+"переведённых строк (например, :ref:`aresource`), в то время как другие "
+"ожидают наличия всех ключей (например, :ref:`gettext`). Форматы на основе "
+"документов (например, :ref:`odf`) начинаются с копии исходного документа, и "
+"все строки помечены как требующие правки. В некоторых ситуациях это на самом "
+"деле зависит не от формата, а от фреймворка, который вы используете для "
+"обработки перевода (например, с :ref:`json`)."
 
 #: devel/translations.rst:42
 msgid ""
@@ -40455,12 +40129,6 @@ msgid "Removing existing translations"
 msgstr "Удаление существующих переводов"
 
 #: devel/translations.rst:75
-#, fuzzy
-#| msgid ""
-#| "Languages, components, or the projects they are in, can be removed "
-#| "(deleted from Weblate and remote repository if used) from the "
-#| "menu :guilabel:`Manage` ↓ :guilabel:`Removal` of each project, component, "
-#| "or language."
 msgid ""
 "Languages, components, or the projects they are in, can be removed (deleted "
 "from Weblate and remote repository if used) from the "
@@ -40468,8 +40136,8 @@ msgid ""
 "component, or language."
 msgstr ""
 "Языки, компоненты или проекты, в которых они находятся, могут быть удалены "
-"(из Weblate и удалённого репозитория, если он есть) через "
-"меню :guilabel:`Управлять` ↓ :guilabel:`Удаление` соответствующего проекта, "
+"(из Weblate и удалённого репозитория, если он используется) из меню "
+":guilabel:`Управление` → :guilabel:`Удаление` для каждого проекта, "
 "компонента или языка."
 
 #: devel/translations.rst:79
@@ -40501,19 +40169,14 @@ msgstr ""
 "следующем обновлении репозитория Weblate."
 
 #: devel/translations.rst:90
-#, fuzzy
-#| msgid ""
-#| "In Weblate’s UI via button :guilabel:`Tools` ↓ :guilabel:`Remove` while "
-#| "editing the string. This has differences between file formats, "
-#| "see: :ref:`component-manage_units`"
 msgid ""
 "In Weblate’s UI via button :guilabel:`Operations` ↓ :guilabel:`Remove` while "
 "editing the string. This has differences between file formats, "
 "see: :ref:`component-manage_units`"
 msgstr ""
-"В интерфейсе Weblate через кнопку :guilabel:`Инструменты` "
-"↓ :guilabel:`Удалить` в форме перевода строки. Для разных форматов здесь "
-"есть отличия, смотреть раздел :ref:`component-manage_units`"
+"В пользовательском интерфейсе Weblate через кнопку :guilabel:`Управление` → "
+":guilabel:`Удалить` при редактировании строки. Это различается для разных "
+"форматов файлов; см.: :ref:`component-manage_units`"
 
 #: devel/translations.rst:95
 msgid ""
@@ -40549,14 +40212,12 @@ msgid "Automated key based variants"
 msgstr "Автоматическая группировка вариантов на основе ключевых строк"
 
 #: devel/translations.rst:116
-#, fuzzy
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
 msgstr ""
-"Вы можете задать регулярное выражение для группировки строк на основе "
-"ключевых строк одноязычных переводов в :ref:`настройках компонента "
-"<component>`:"
+"Вы можете определить регулярное выражение для группировки строк на основе "
+"ключа одноязычных переводов в :ref:`component`:"
 
 #: devel/translations.rst:121
 msgid ""
@@ -40617,28 +40278,18 @@ msgstr ""
 "ключами которых нет ничего общего, хотя они всё же должны переводится вместе."
 
 #: devel/translations.rst:146
-#, fuzzy
 msgid ""
 "The additional variant for a string can also be added using "
 "the :guilabel:`Tools` while translating (when :ref:`component-manage_units` "
 "is turned on):"
 msgstr ""
-"Так дополнительные варианты для какой-либо строки можно добавить с помощью "
-"кнопки :guilabel:`Инструменты` во время перевода (если :ref:`управление "
-"строками <component-manage_units>` включено):"
+"Дополнительный вариант для строки также можно добавить с помощью "
+":guilabel:`Инструменты` во время перевода (когда :ref:`component-"
+"manage_units` включён):"
 
 #: devel/translations.rst:153
-#, fuzzy
-#| msgid ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "character."
-#| msgid_plural ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "characters."
 msgid "The variant source string has to be at most 768 characters long."
-msgstr ""
-"Этот пароль слишком длинный. Он должен содержать не более %(max_length)d "
-"символа."
+msgstr "Исходная строка варианта должна содержать не более 768 символов."
 
 #: devel/translations.rst:161
 msgid "Variants while translating"
@@ -41947,7 +41598,7 @@ msgstr "Формат файла"
 
 #: formats/android.rst:4
 msgid "Android string resources"
-msgstr "ресурсы строк Android"
+msgstr "Строковые ресурсы Android"
 
 #: formats/android.rst:10
 msgid "Android specific file format for translating applications."
@@ -44201,6 +43852,10 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"В зависимости от степени завершённости работы над переводом вы можете "
+"встретить абзацы или целые страницы, которые всё ещё на английском языке. Вы "
+"можете помочь сообществу, предоставив новые переводы или проверив "
+"существующие на Weblate."
 
 #: index.rst:25
 msgid ""
