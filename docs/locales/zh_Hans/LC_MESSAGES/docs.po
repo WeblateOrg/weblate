@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-03 05:10+0000\n"
+"PO-Revision-Date: 2026-05-03 09:34+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -18223,14 +18223,13 @@ msgstr ""
 "现在可通过项目、部件和翻译的 :ref:`api` 管理 :doc:`/admin/announcements` 了。"
 
 #: changes.rst:99
-#, fuzzy
 msgid ""
 "Added a ``soft`` mode to :setting:`VERSION_DISPLAY` to hide the Weblate "
 "version from prominent UI while keeping it available on "
 "the :guilabel:`About` page and :http:get:`/api/metrics/`."
 msgstr ""
 ":setting:`VERSION_DISPLAY` 新增 ``soft`` 模式在显眼的用户界面中隐藏 Weblate "
-"版本同时在 :guilabel:` 关于` 页面和 :http:get:`/api/metrics/` 显示版本号。"
+"版本同时在 :guilabel:`关于` 页面和 :http:get:`/api/metrics/` 显示版本号。"
 
 #: changes.rst:103
 msgid "Track origin of newly added source strings."
@@ -18242,6 +18241,8 @@ msgid ""
 "html` and :ref:`autofix-html` only to plain text and source strings that "
 "contain standard HTML markup or valid custom elements."
 msgstr ""
+"Markdown 现在默认使用 ``auto-safe-html`` ，只对纯文本和包含标准 HTML 标记或有"
+"效的自定义元素的源字符串应用 :ref:`check-safe-html` 和 :ref:`autofix-html`。"
 
 #: changes.rst:105
 msgid "Improved LLM interfaces for better reliability."
@@ -18272,6 +18273,8 @@ msgid ""
 "branding while keeping legacy Azure AD backend identifiers and documentation "
 "anchors for compatibility."
 msgstr ""
+"更新 Microsoft Entra ID 身份认证文档和 Microsoft 登录名同时为了兼容性保留 "
+"Azure AD 后端标识符和文档锚。"
 
 #: changes.rst:111
 msgid ""
@@ -18287,6 +18290,10 @@ msgid ""
 "and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the "
 "bundled NGINX."
 msgstr ""
+"Docker 现在暴露 "
+":envvar:`WEBLATE_COMMIT_PENDING_HOURS`、:envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` "
+"用于自定义 Keycloak 唯一用户标识符，暴露 :envvar:`WEBLATE_NGINX_IPV6` 用于在"
+"捆绑的 NGINX 中控制 IPv6 监听器。"
 
 #: changes.rst:113
 msgid ""
