@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-03 05:12+0000\n"
+"PO-Revision-Date: 2026-05-03 09:34+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -5122,11 +5122,11 @@ msgstr ""
 
 #: admin/config.rst:2630
 msgid "List of machinery services available for use."
-msgstr ""
+msgstr "Zoznam dostupných služieb strojového prekladu na použitie."
 
 #: admin/config.rst:2643
 msgid "Identity used by Weblate to sign Git commits, for example:"
-msgstr ""
+msgstr "Identita používaná Weblate na podpisovanie zápisov Git, napríklad:"
 
 #: admin/config.rst:2649
 msgid ""
@@ -5255,6 +5255,7 @@ msgstr ""
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`push-changes`)."
 msgstr ""
+"Zmeny sa odošlú späť do upstreamového repozitára (pozri :ref:`push-changes`)."
 
 #: admin/continuous.rst:73
 msgid ""
@@ -5279,35 +5280,43 @@ msgstr ""
 
 #: admin/continuous.rst:93
 msgid "You must also :ref:`project-enable_hooks` for this to work."
-msgstr ""
+msgstr "Aby to fungovalo, musíte tiež :ref:`project-enable_hooks`."
 
 #: admin/continuous.rst:95
 msgid ""
 "Manually trigger update either in the repository management or "
 "using :ref:`api` or :ref:`wlc`"
 msgstr ""
+"Manuálne spustiť aktualizáciu buď v správe repozitára alebo pomocou "
+":ref:`api` alebo :ref:`wlc`"
 
 #: admin/continuous.rst:97
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Povoľte :setting:`AUTO_UPDATE` na automatickú aktualizáciu všetkých "
+"komponentov vo vašej inštancii Weblate"
 
 #: admin/continuous.rst:99
 msgid ""
 "Execute :wladmin:`updategit` (with selection of project or ``--all`` to "
 "update all)"
 msgstr ""
+"Vykonajte :wladmin:`updategit` (s výberom projektu alebo ``--all`` na "
+"aktualizáciu všetkých)"
 
 #: admin/continuous.rst:101
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Vždy, keď Weblate aktualizuje repozitár, spustia sa doplnky po aktualizácii, "
+"pozri :ref:`addons`."
 
 #: admin/continuous.rst:107
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Vyhýbanie sa konfliktom pri zlúčení"
 
 #: admin/continuous.rst:109
 msgid ""
@@ -5315,10 +5324,15 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
+"Konflikty pri zlúčení z Weblate vznikajú, keď bol ten istý súbor zmenený vo "
+"Weblate aj mimo neho. V závislosti od situácie existuje niekoľko prístupov, "
+"ktoré tu môžu pomôcť:"
 
 #: admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr ""
+"Vyhýbanie sa konfliktom pri zlúčení zmenou prekladových súborov iba vo "
+"Weblate"
 
 #: admin/continuous.rst:121
 msgid ""
@@ -5328,28 +5342,41 @@ msgid ""
 "generate translatable files from the source code. In some cases, this can be "
 "split into two parts:"
 msgstr ""
+"Vyhýbaniu sa úpravám mimo Weblate je jednoduché pri jednojazyčných súboroch "
+"— môžete pridávať nové reťazce vo Weblate a nechať celé editovanie súborov "
+"tam. Pri dvojjazyčných súboroch zvyčajne existuje nejaký proces extrakcie "
+"správ na generovanie preložiteľných súborov zo zdrojového kódu. V niektorých "
+"prípadoch sa to dá rozdeliť na dve časti:"
 
 #: admin/continuous.rst:127
 msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"Extrakcia generuje šablónu (napríklad gettext POT sa generuje pomocou "
+":program:`xgettext`)."
 
 #: admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Ďalší proces ju zlúči do skutočných prekladov (gettext PO súbory sa "
+"aktualizujú pomocou :program:`msgmerge`)."
 
 #: admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"Druhý krok môžete vykonať vo Weblate a zabezpečí, že všetky čakajúce zmeny "
+"budú zahrnuté pred touto operáciou."
 
 #: admin/continuous.rst:136
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
 msgstr ""
+"Vyhýbanie sa konfliktom pri zlúčení uzamknutím Weblate počas vykonávania "
+"externých zmien"
 
 #: admin/continuous.rst:138
 msgid ""
@@ -5358,16 +5385,22 @@ msgid ""
 "using :ref:`api` to force Weblate to push all pending changes and lock the "
 "translation while you are doing changes on your side."
 msgstr ""
+"Integrácia Weblate do vášho procesu aktualizácie tak, aby vyprázdnil zmeny "
+"pred aktualizáciou súborov mimo Weblate, dá sa dosiahnuť použitím :ref:`api` "
+"na prinútenie Weblate odoslať všetky čakajúce zmeny a uzamknúť preklad, "
+"zatiaľ čo vykonávate zmeny na vašej strane."
 
 #: admin/continuous.rst:142
 msgid "The script for doing updates can look like this:"
-msgstr ""
+msgstr "Skript na vykonávanie aktualizácií môže vyzerať takto:"
 
 #: admin/continuous.rst:163
 msgid ""
 "If you have multiple components sharing the same repository, you need to "
 "lock them all separately:"
 msgstr ""
+"Ak máte viacero komponentov zdieľajúcich ten istý repozitár, musíte ich "
+"všetky uzamknúť samostatne:"
 
 #: admin/continuous.rst:174
 msgid ""
@@ -5375,6 +5408,10 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
+"Príklad používa :ref:`wlc`, ktorý potrebuje konfiguráciu (API kľúče), aby "
+"bolo možné ovládať Weblate na diaľku. Môžete to tiež dosiahnuť pomocou "
+"akéhokoľvek HTTP klienta namiesto :ref:`wlc`, napríklad curl, pozri "
+":ref:`api`."
 
 #: admin/continuous.rst:181
 msgid "Repository maintenance"
@@ -5386,12 +5423,17 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+"Zobrazenie :guilabel:`Údržba repozitára` zobrazuje stav repozitára pre "
+"projekt, komponent alebo preklad a umožňuje privilegovaným používateľom "
+"spúšťať operácie údržby z používateľského rozhrania."
 
 #: admin/continuous.rst:187
 msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
+"Rovnaké akcie je možné tiež spustiť pomocou :ref:`api` alebo, pre "
+"podporovanú podmnožinu, :ref:`wlc`."
 
 #: admin/continuous.rst:190
 msgid ""
@@ -5399,6 +5441,9 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"Dostupnosť jednotlivých akcií závisí od oprávnení, nakonfigurovaného systému "
+"verziovania, či je nakonfigurované odolanie a či je možné vybraný objekt "
+"uzamknúť."
 
 #: admin/continuous.rst:197
 msgid "Action"
@@ -5406,187 +5451,218 @@ msgstr "Akcia"
 
 #: admin/continuous.rst:198
 msgid "What it does"
-msgstr ""
+msgstr "Čo to robí"
 
 #: admin/continuous.rst:199
 msgid "Typical use"
-msgstr ""
+msgstr "Typické použitie"
 
 #: admin/continuous.rst:201
 msgid ":guilabel:`Commit`"
-msgstr ""
+msgstr ":guilabel:`Commit`"
 
 #: admin/continuous.rst:202
 msgid "Commits pending changes stored in Weblate to the local repository."
-msgstr ""
+msgstr "Zapíše čakajúce zmeny uložené vo Weblate do lokálneho repozitára."
 
 #: admin/continuous.rst:203
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
+"Vyprázdniť čakajúce zmeny vo Weblate pred vykonávaním práce s repozitárom "
+"inde."
 
 #: admin/continuous.rst:205
 msgid ":guilabel:`Push`"
-msgstr ""
+msgstr ":guilabel:`Push`"
 
 #: admin/continuous.rst:206
 msgid "Pushes committed local repository changes to the configured upstream."
 msgstr ""
+"Odošle zapísané zmeny lokálneho repozitára do nakonfigurovaného upstreamu."
 
 #: admin/continuous.rst:207
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
+"Pošle zapísané preklady upstream, keď je automatické odoslanie vypnuté alebo "
+"oneskorené."
 
 #: admin/continuous.rst:209
 msgid ":guilabel:`Update`"
-msgstr ""
+msgstr ":guilabel:`Update`"
 
 #: admin/continuous.rst:210
 msgid ""
 "Fetches upstream changes and integrates them using the component's "
 "configured :ref:`component-merge_style`."
 msgstr ""
+"Stiahne upstream zmeny a integruje ich pomocou nakonfigurovaného "
+":ref:`component-merge_style` komponentu."
 
 #: admin/continuous.rst:211
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
 msgstr ""
+"Synchronizovať Weblate s upstreamom pomocou predvolenej stratégie integrácie."
 
 #: admin/continuous.rst:213
 msgid ":guilabel:`Update with merge`"
-msgstr ""
+msgstr ":guilabel:`Aktualizácia so zlúčením`"
 
 #: admin/continuous.rst:214
 msgid "Fetches upstream changes and integrates them with an explicit merge."
-msgstr ""
+msgstr "Stiahne upstreamové zmeny a integruje ich s explicitným zlúčením."
 
 #: admin/continuous.rst:215
 msgid "Override the default merge style for a single update."
-msgstr ""
+msgstr "Prepísať predvolený štýl zlúčenia pre jednu aktualizáciu."
 
 #: admin/continuous.rst:217
 msgid ":guilabel:`Update with rebase`"
-msgstr ""
+msgstr ":guilabel:`Aktualizácia s rebasom`"
 
 #: admin/continuous.rst:218
 msgid ""
 "Fetches upstream changes and rebases local Weblate commits on top of "
 "upstream."
 msgstr ""
+"Stiahne upstreamové zmeny a rebasuje lokálne zápisy Weblate na vrchol "
+"upstreamu."
 
 #: admin/continuous.rst:219
 msgid "Keep history linear when that matches your workflow."
-msgstr ""
+msgstr "Udržiavať históriu lineárnu, keď to zodpovedá vášmu pracovnému postupu."
 
 #: admin/continuous.rst:221
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr ""
+msgstr ":guilabel:`Aktualizácia s merge bez fast‑forward`"
 
 #: admin/continuous.rst:222
 msgid ""
 "Fetches upstream changes and creates an explicit merge commit even when a "
 "fast-forward would be possible."
 msgstr ""
+"Stiahne upstreamové zmeny a vytvorí explicitný merge commit, aj keď by bol "
+"možný fast-forward."
 
 #: admin/continuous.rst:223
 msgid "Preserve merge commits for auditing or branch-management reasons."
-msgstr ""
+msgstr "Zachovať merge commity z dôvodov auditu alebo správy vetiev."
 
 #: admin/continuous.rst:225
 msgid ":guilabel:`Lock` / :guilabel:`Unlock`"
-msgstr ""
+msgstr ":guilabel:`Zamknúť` / :guilabel:`Odomknúť`"
 
 #: admin/continuous.rst:226
 msgid "Prevents or allows translators to make further changes in Weblate."
-msgstr ""
+msgstr "Zabráni alebo umožní prekladateľom vykonávať ďalšie zmeny vo Weblate."
 
 #: admin/continuous.rst:227
 msgid ""
 "Freeze translation changes while doing repository maintenance outside "
 "Weblate."
 msgstr ""
+"Zmraziť zmeny prekladu počas vykonávania údržby repozitára mimo Weblate."
 
 #: admin/continuous.rst:229
 msgid ":guilabel:`Reset and discard`"
-msgstr ""
+msgstr ":guilabel:`Resetovať a zahodiť`"
 
 #: admin/continuous.rst:230
 msgid ""
 "Resets Weblate's local repository to upstream and discards pending Weblate "
 "changes."
 msgstr ""
+"Resetuje lokálny repozitár Weblate na upstream a zahodí čakajúce zmeny "
+"Weblate."
 
 #: admin/continuous.rst:231
 msgid "Use when upstream should overwrite the local Weblate repository state."
-msgstr ""
+msgstr "Použiť, keď by upstream mal prepísať stav lokálneho repozitára Weblate."
 
 #: admin/continuous.rst:233
 msgid ":guilabel:`Reset and reapply`"
-msgstr ""
+msgstr ":guilabel:`Resetovať a znovu použiť`"
 
 #: admin/continuous.rst:234
 msgid ""
 "Resets Weblate's local repository to upstream while preserving pending "
 "translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
+"Resetuje lokálny repozitár Weblate na upstream pri zachovaní čakajúcich "
+"prekladov. Pozri :ref:`manage-vcs-reset-reapply`."
 
 #: admin/continuous.rst:235
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
 msgstr ""
+"Obnoviť sa z divergovanej histórie pri zachovaní čakajúcich prekladov "
+"Weblate."
 
 #: admin/continuous.rst:237
 msgid ":guilabel:`Cleanup`"
-msgstr ""
+msgstr ":guilabel:`Vyčistiť`"
 
 #: admin/continuous.rst:238
 msgid ""
 "Removes untracked files and stale branches from the local repository "
 "checkout."
 msgstr ""
+"Odstráni nesledované súbory a zastarané vetvy z lokálnej pracovnej kópie "
+"repozitára."
 
 #: admin/continuous.rst:239
 msgid ""
 "Clean up leftover files or stale repository state in Weblate's checkout."
 msgstr ""
+"Vyčistiť zostávajúce súbory alebo zastaraný stav repozitára vo pracovnej "
+"kópii Weblate."
 
 #: admin/continuous.rst:241
 msgid ":guilabel:`Synchronize`"
-msgstr ""
+msgstr ":guilabel:`Synchronizovať`"
 
 #: admin/continuous.rst:242
 msgid ""
 "Forces Weblate to write all known translations back to the repository files."
 msgstr ""
+"Prinúti Weblate zapísať všetky známe preklady späť do súborov repozitára."
 
 #: admin/continuous.rst:243
 msgid ""
 "Repair cases where repository files became out of sync with the database "
 "state."
 msgstr ""
+"Opraviť prípady, keď sa súbory repozitára dostali mimo synchronizácie so "
+"stavom databázy."
 
 #: admin/continuous.rst:245
 msgid ":guilabel:`Rescan`"
-msgstr ""
+msgstr ":guilabel:`Znovu skenovať`"
 
 #: admin/continuous.rst:246
 msgid "Re-reads translation files from the local repository into Weblate."
-msgstr ""
+msgstr "Znova načíta prekladové súbory z lokálneho repozitára do Weblate."
 
 #: admin/continuous.rst:247
 msgid "Import file changes after manual repository work or file creation."
 msgstr ""
+"Importovať zmeny súborov po manuálnej práci s repozitárom alebo vytvorení "
+"súboru."
 
 #: admin/continuous.rst:252
 msgid "Reset and reapply recovery behavior"
-msgstr ""
+msgstr "Správanie obnovy pri resete a opätovnom aplikovaní"
 
 #: admin/continuous.rst:254
 msgid ""
 "The :guilabel:`Reset and reapply` operation keeps pending translations from "
 "Weblate while resetting the local repository state to match upstream."
 msgstr ""
+"Operácia :guilabel:`Resetovať a znovu použiť` zachováva čakajúce preklady z "
+"Weblate pri resetovaní stavu lokálneho repozitára tak, aby zodpovedal "
+"upstreamu."
 
 #: admin/continuous.rst:257
 msgid ""
@@ -5594,6 +5670,9 @@ msgid ""
 "files still exist after the reset or when Weblate can create them for the "
 "component, for example using a valid :ref:`component-new_base`."
 msgstr ""
+"Operácia môže obnoviť čakajúce preklady iba vtedy, keď cieľové jazykové "
+"súbory stále existujú po resete alebo keď ich Weblate môže vytvoriť pre "
+"komponent, napríklad pomocou platného :ref:`component-new_base`."
 
 #: admin/continuous.rst:261
 msgid ""
@@ -5601,10 +5680,13 @@ msgid ""
 "its database and reports a recovery error instead of failing later with a "
 "generic parse error."
 msgstr ""
+"Ak nie je splnená ani jedna z týchto podmienok, Weblate uchováva čakajúce "
+"zmeny vo svojej databáze a hlási chybu obnovy namiesto neskoršieho zlyhania "
+"s všeobecnou chybou analýzy."
 
 #: admin/continuous.rst:268
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr ""
+msgstr "Vyhýbanie sa konfliktom pri zlúčení zameraním sa na operácie Git"
 
 #: admin/continuous.rst:270
 msgid ""
@@ -5614,6 +5696,10 @@ msgid ""
 "are squashing commits outside of Weblate (for example, when merging a pull "
 "request)."
 msgstr ""
+"Aj keď je Weblate jediným zdrojom zmien v prekladových súboroch, konflikty "
+"sa môžu objaviť pri používaní doplnku :ref:`addon-weblate.git.squash`, keď "
+"je :ref:`component-merge_style` nakonfigurovaný na :guilabel:`Rebase`, alebo "
+"keď squashujete commity mimo Weblate (napríklad pri zlúčení pull requestu)."
 
 #: admin/continuous.rst:275
 msgid ""
@@ -5623,6 +5709,12 @@ msgid ""
 "to review them. Git is then sometimes no longer able to identify upstream "
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
+"Dôvod konfliktov pri zlúčení je v tomto prípade odlišný - vo Weblate sú "
+"zmeny, ktoré sa udiali po tom, čo ste zlúčili zápisy Weblate. Toto sa "
+"typicky stáva, ak zlúčenie nie je automatizované a čaká dni alebo týždne, "
+"kým ich človek skontroluje. Git potom niekedy už nie je schopný "
+"identifikovať upstream zmeny ako zodpovedajúce tým z Weblate a odmietne "
+"vykonať rebase."
 
 #: admin/continuous.rst:281
 msgid ""
@@ -5630,42 +5722,53 @@ msgid ""
 "in Weblate when you merge a pull request, or avoid the conflicts completely "
 "by not squashing changes."
 msgstr ""
+"Na riešenie tohto musíte buď minimalizovať množstvo čakajúcich zmien vo "
+"Weblate, keď zlúčite pull request, alebo sa konfliktom úplne vyhnúť "
+"nesquashovaním zmien."
 
 #: admin/continuous.rst:285
 msgid "Here are few options how to avoid that:"
-msgstr ""
+msgstr "Tu je niekoľko možností, ako sa tomu vyhnúť:"
 
 #: admin/continuous.rst:287
 msgid ""
 "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
 "time. This is the root cause why git doesn't recognize changes after merging."
 msgstr ""
+"Nepoužívajte ani :ref:`addon-weblate.git.squash` ani squashovanie v čase "
+"zlúčenia. Toto je hlavná príčina, prečo git nerozpozná zmeny po zlúčení."
 
 #: admin/continuous.rst:288
 msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
 msgstr ""
+"Nechajte Weblate zapísať čakajúce zmeny pred zlúčením. Toto aktualizuje pull "
+"request so všetkými jeho zmenami a oba repozitáre budú synchronizované."
 
 #: admin/continuous.rst:289
 msgid ""
 "Use the review features in Weblate (see :doc:`/workflows`) so that you can "
 "automatically merge GitHub pull requests after CI passes."
 msgstr ""
+"Použite funkcie kontroly vo Weblate (pozri :doc:`/workflows`), aby ste mohli "
+"automaticky zlúčiť GitHub pull requesty po úspešnom prejdení CI."
 
 #: admin/continuous.rst:290
 msgid ""
 "Use locking in Weblate to avoid changes while GitHub pull request is in "
 "review."
 msgstr ""
+"Použite uzamykanie vo Weblate, aby ste sa vyhli zmenám, kým je GitHub pull "
+"request v recenzii."
 
 #: admin/continuous.rst:299
 msgid "Automatically receiving changes from GitHub"
-msgstr ""
+msgstr "Automatické prijímanie zmien z GitHubu"
 
 #: admin/continuous.rst:301
 msgid "Weblate comes with native support for GitHub."
-msgstr ""
+msgstr "Weblate prichádza s natívnou podporou pre GitHub."
 
 #: admin/continuous.rst:303
 msgid ""
@@ -5677,6 +5780,13 @@ msgid ""
 "still need to add the Hosted Weblate :guilabel:`weblate` GitHub user as a "
 "collaborator with write access, see :ref:`hosted-push`."
 msgstr ""
+"Ak používate Hosted Weblate, odporúčaný prístup je nainštalovať `aplikáciu "
+"Weblate <https://github.com/apps/weblate>`_. Aplikácia doručuje notifikácie "
+"GitHubu do Hosted Weblate, takže nemusíte konfigurovať samostatný "
+":guilabel:`Webhook` v GitHube. Sama o sebe však neudeľuje Hosted Weblate "
+"prístup na zápis do repozitára. Na odoslanie zmien späť stále potrebujete "
+"pridať používateľa Hosted Weblate :guilabel:`weblate` GitHub ako "
+"spolupracovníka s prístupom na zápis, pozri :ref:`hosted-push`."
 
 #: admin/continuous.rst:311
 msgid ""
@@ -5684,6 +5794,9 @@ msgid ""
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
+"Ak nepoužívate aplikáciu, pridajte Webhook Weblate v nastaveniach repozitára "
+"(:guilabel:`Webhooks`) na prijímanie notifikácií pri každom odoslaní do "
+"repozitára GitHub, ako je znázornené na obrázku nižšie:"
 
 #: admin/continuous.rst:317
 msgid ""
@@ -5691,20 +5804,25 @@ msgid ""
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
+":guilabel:`URL adresa payloadu` pozostáva z vašej URL Weblate doplnenej o ``/"
+"hooks/github/``, napríklad pre službu Hosted Weblate je to ``https://"
+"hosted.weblate.org/hooks/github/``."
 
 #: admin/continuous.rst:321
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
+"Môžete ponechať ostatné hodnoty na predvolených nastaveniach (Weblate "
+"zvládne oba typy obsahu a konzumuje iba udalosť `push`)."
 
 #: admin/continuous.rst:326
 msgid ":http:post:`/hooks/github/`"
-msgstr ""
+msgstr ":http:post:`/hooks/github/`"
 
 #: admin/continuous.rst:332
 msgid "Automatically receiving changes from Bitbucket"
-msgstr ""
+msgstr "Automatické prijímanie zmien z Bitbucketu"
 
 #: admin/continuous.rst:334
 msgid ""
@@ -5713,14 +5831,18 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate má podporu pre webhooks Bitbucket, pridajte webhook, ktorý sa spustí "
+"pri odoslaní repozitára, s cieľovou URL ``/hooks/bitbucket/`` na vašej "
+"inštalácii Weblate (napríklad ``https://hosted.weblate.org/hooks/bitbucket/"
+"``)."
 
 #: admin/continuous.rst:343
 msgid ":http:post:`/hooks/bitbucket/`"
-msgstr ""
+msgstr ":http:post:`/hooks/bitbucket/`"
 
 #: admin/continuous.rst:349
 msgid "Automatically receiving changes from GitLab"
-msgstr ""
+msgstr "Automatické prijímanie zmien z GitLabu"
 
 #: admin/continuous.rst:351
 msgid ""
@@ -5728,26 +5850,31 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate má podporu pre hooky GitLab, pridajte projektový webhook s cieľovou "
+"URL ``/hooks/gitlab/`` na vašej inštalácii Weblate (napríklad ``https://"
+"hosted.weblate.org/hooks/gitlab/``)."
 
 #: admin/continuous.rst:355 faq.rst:473
 msgid "Troubleshooting"
-msgstr ""
+msgstr "Riešenie problémov"
 
 #: admin/continuous.rst:357
 msgid "Check `GitLab webhook request history`_ if webhooks are delivered."
 msgstr ""
+"Skontrolujte `históriu požiadaviek webhooku GitLab`_, či sú webhooks "
+"doručované."
 
 #: admin/continuous.rst:358
 msgid "The response payload contains information about matched components."
-msgstr ""
+msgstr "Payload odpovede obsahuje informácie o zodpovedajúcich komponentoch."
 
 #: admin/continuous.rst:364
 msgid ":http:post:`/hooks/gitlab/`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitlab/`"
 
 #: admin/continuous.rst:370
 msgid "Automatically receiving changes from Pagure"
-msgstr ""
+msgstr "Automatické prijímanie zmien z Pagure"
 
 #: admin/continuous.rst:372
 msgid ""
@@ -5756,14 +5883,18 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate má podporu pre hooky Pagure, pridajte webhook s cieľovou URL ``/"
+"hooks/pagure/`` na vašej inštalácii Weblate (napríklad ``https://"
+"hosted.weblate.org/hooks/pagure/``). Toto je možné urobiť v "
+":guilabel:`Aktivovať Web-hooks` pod :guilabel:`Možnosti projektu`:"
 
 #: admin/continuous.rst:381
 msgid ":http:post:`/hooks/pagure/`"
-msgstr ""
+msgstr ":http:post:`/hooks/pagure/`"
 
 #: admin/continuous.rst:387
 msgid "Automatically receiving changes from Azure Repos"
-msgstr ""
+msgstr "Automatické prijímanie zmien z Azure Repos"
 
 #: admin/continuous.rst:389
 msgid ""
@@ -5773,20 +5904,27 @@ msgid ""
 "azure/``). This can be done in :guilabel:`Service hooks` "
 "under :guilabel:`Project settings`."
 msgstr ""
+"Weblate má podporu pre webhooks Azure Repos, pridajte webhook pre udalosť "
+":guilabel:`Kód odoslaný` s cieľovou URL ``/hooks/azure/`` na vašej "
+"inštalácii Weblate (napríklad ``https://hosted.weblate.org/hooks/azure/``). "
+"Toto je možné urobiť v :guilabel:`Service hooks` pod :guilabel:`Nastavenia "
+"projektu`."
 
 #: admin/continuous.rst:398
 msgid ""
 "`Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/"
 "devops/service-hooks/services/webhooks?view=azure-devops>`_"
 msgstr ""
+"`Web hooky v manuáli Azure DevOps <https://learn.microsoft.com/en-us/azure/"
+"devops/service-hooks/services/webhooks?view=azure-devops>`_"
 
 #: admin/continuous.rst:399
 msgid ":http:post:`/hooks/azure/`"
-msgstr ""
+msgstr ":http:post:`/hooks/azure/`"
 
 #: admin/continuous.rst:405
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr ""
+msgstr "Automatické prijímanie zmien z Gitea Repos"
 
 #: admin/continuous.rst:407
 msgid ""
@@ -5796,18 +5934,23 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
+"Weblate má podporu pre webhooks Gitea, pridajte :guilabel:`Gitea Webhook` "
+"pre udalosť :guilabel:`Udalosti push` s cieľovou URL ``/hooks/gitea/`` na "
+"vašej inštalácii Weblate (napríklad ``https://hosted.weblate.org/hooks/gitea/"
+"``). Toto je možné urobiť v :guilabel:`Webhooks` pod :guilabel:`Nastavenia` "
+"repozitára."
 
 #: admin/continuous.rst:414
 msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
-msgstr ""
+msgstr "`Webhooks v manuáli Gitea <https://docs.gitea.io/en-us/webhooks/>`_"
 
 #: admin/continuous.rst:415
 msgid ":http:post:`/hooks/gitea/`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/continuous.rst:421
 msgid "Automatically receiving changes from Forgejo Repos"
-msgstr ""
+msgstr "Automatické prijímanie zmien z Forgejo Repos"
 
 #: admin/continuous.rst:423
 msgid ""
@@ -5817,20 +5960,27 @@ msgid ""
 "hooks/forgejo/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
+"Weblate má podporu pre webhooks Forgejo, pridajte :guilabel:`Forgejo "
+"Webhook` pre udalosť :guilabel:`Udalosti push` s cieľovou URL ``/hooks/"
+"forgejo/`` na vašej inštalácii Weblate (napríklad ``https://"
+"hosted.weblate.org/hooks/forgejo/``). Toto je možné urobiť v "
+":guilabel:`Webhooks` pod :guilabel:`Nastavenia` repozitára."
 
 #: admin/continuous.rst:430
 msgid ""
 "`Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/"
 "webhooks/>`_"
 msgstr ""
+"`Webhooks v dokumentácii Forgejo <https://forgejo.org/docs/latest/user/"
+"webhooks/>`_"
 
 #: admin/continuous.rst:431
 msgid ":http:post:`/hooks/forgejo/`"
-msgstr ""
+msgstr ":http:post:`/hooks/forgejo/`"
 
 #: admin/continuous.rst:437
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr ""
+msgstr "Automatické prijímanie zmien z Gitee Repos"
 
 #: admin/continuous.rst:439
 msgid ""
@@ -5840,18 +5990,23 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under "
 "repository :guilabel:`Management`."
 msgstr ""
+"Weblate má podporu pre webhooks Gitee, pridajte :guilabel:`WebHook` pre "
+"udalosť :guilabel:`Push` s cieľovou URL ``/hooks/gitee/`` na vašej "
+"inštalácii Weblate (napríklad ``https://hosted.weblate.org/hooks/gitee/``). "
+"Toto je možné urobiť v :guilabel:`WebHooks` pod :guilabel:`Správa` "
+"repozitára."
 
 #: admin/continuous.rst:446
 msgid "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_"
-msgstr ""
+msgstr "`Webhooks v manuáli Gitee <https://gitee.com/help/categories/40>`_"
 
 #: admin/continuous.rst:447
 msgid ":http:post:`/hooks/gitee/`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitee/`"
 
 #: admin/continuous.rst:451
 msgid "Automatically updating repositories nightly"
-msgstr ""
+msgstr "Automatická nočná aktualizácia repozitárov"
 
 #: admin/continuous.rst:453
 msgid ""
@@ -5859,10 +6014,13 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate automaticky sťahuje vzdialené repozitáre každú noc na zlepšenie "
+"výkonu pri neskoršom zlúčení zmien. Voliteľne môžete toto nastaviť aj na "
+"nočné zlúčenia povolením :setting:`AUTO_UPDATE`."
 
 #: admin/continuous.rst:460
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "Odosielanie zmien z Weblate"
 
 #: admin/continuous.rst:462
 msgid ""
@@ -5874,12 +6032,21 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"Každý prekladový komponent môže mať nastavenú URL push (pozri "
+":ref:`component-push`), a v takom prípade bude Weblate schopný odoslať zmeny "
+"do vzdialeného repozitára. Weblate môže byť tiež nakonfigurovaný na "
+"automatické odosielanie zmien pri každom zápise (toto je predvolené, pozri "
+":ref:`component-push_on_commit`). Ak nechcete, aby sa zmeny odosielali "
+"automaticky, môžete to urobiť manuálne pod :guilabel:`Údržba repozitára` "
+"alebo pomocou API cez :option:`wlc push`."
 
 #: admin/continuous.rst:469
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
+"Možnosti odoslania sa líšia v závislosti od použitého :ref:`vcs`, viac "
+"podrobností nájdete v tejto kapitole."
 
 #: admin/continuous.rst:471
 msgid ""
@@ -5890,6 +6057,12 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"V prípade, že nechcete priame odoslania od Weblate, existuje podpora pre "
+"recenzie :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
+"pagure`, :ref:`vcs-azure-devops` alebo :ref:`vcs-gerrit`, môžete ich "
+"aktivovať výberom :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit`, :guilabel:`Azure DevOps` alebo :guilabel:`Pagure` ako "
+":ref:`component-vcs` v :ref:`component`."
 
 #: admin/continuous.rst:477
 msgid ""
@@ -5897,14 +6070,16 @@ msgid ""
 "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
 "Cloud:"
 msgstr ""
+"Celkovo sú s Git, Mercurial, GitHub, GitLab, Gitea, Pagure, Azure DevOps, "
+"Bitbucket Data Center a Bitbucket Cloud dostupné nasledujúce možnosti:"
 
 #: admin/continuous.rst:483
 msgid "Desired setup"
-msgstr ""
+msgstr "Požadované nastavenie"
 
 #: admin/continuous.rst:488 admin/continuous.rst:503
 msgid "No push"
-msgstr ""
+msgstr "Žiadne odoslanie"
 
 #: admin/continuous.rst:490 admin/continuous.rst:491 admin/continuous.rst:496
 #: admin/continuous.rst:505 admin/continuous.rst:506 admin/continuous.rst:511
@@ -5914,108 +6089,112 @@ msgstr ""
 #: admin/continuous.rst:561 admin/continuous.rst:570 admin/continuous.rst:571
 #: admin/continuous.rst:580 admin/continuous.rst:581
 msgid "`empty`"
-msgstr ""
+msgstr "`prázdne`"
 
 #: admin/continuous.rst:493 admin/continuous.rst:508
 msgid "Push directly"
-msgstr ""
+msgstr "Odoslať priamo"
 
 #: admin/continuous.rst:495 admin/continuous.rst:500 admin/continuous.rst:510
 #: admin/continuous.rst:515
 msgid "SSH URL"
-msgstr ""
+msgstr "SSH URL"
 
 #: admin/continuous.rst:498 admin/continuous.rst:513
 msgid "Push to separate branch"
-msgstr ""
+msgstr "Odoslať do samostatnej vetvy"
 
 #: admin/continuous.rst:501 admin/continuous.rst:516 admin/continuous.rst:526
 #: admin/continuous.rst:536 admin/continuous.rst:546 admin/continuous.rst:556
 #: admin/continuous.rst:566 admin/continuous.rst:576 admin/continuous.rst:586
 msgid "Branch name"
-msgstr ""
+msgstr "Názov vetvy"
 
 #: admin/continuous.rst:518
 msgid "GitHub pull request from fork"
-msgstr ""
+msgstr "GitHub pull request z forku"
 
 #: admin/continuous.rst:523
 msgid "GitHub pull request from branch"
-msgstr ""
+msgstr "GitHub pull request z vetvy"
 
 #: admin/continuous.rst:525 admin/continuous.rst:535 admin/continuous.rst:545
 #: admin/continuous.rst:555 admin/continuous.rst:565 admin/continuous.rst:575
 #: admin/continuous.rst:585
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "SSH URL [#empty]_"
 
 #: admin/continuous.rst:528
 msgid "GitLab merge request from fork"
-msgstr ""
+msgstr "GitLab merge request z forku"
 
 #: admin/continuous.rst:533
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "GitLab merge request z vetvy"
 
 #: admin/continuous.rst:538
 msgid "Gitea merge request from fork"
-msgstr ""
+msgstr "Gitea merge request z forku"
 
 #: admin/continuous.rst:543
 msgid "Gitea merge request from branch"
-msgstr ""
+msgstr "Gitea merge request z vetvy"
 
 #: admin/continuous.rst:548
 msgid "Pagure merge request from fork"
-msgstr ""
+msgstr "Pagure merge request z forku"
 
 #: admin/continuous.rst:553
 msgid "Pagure merge request from branch"
-msgstr ""
+msgstr "Pagure merge request z vetvy"
 
 #: admin/continuous.rst:558
 msgid "Azure DevOps pull request from fork"
-msgstr ""
+msgstr "Azure DevOps pull request z forku"
 
 #: admin/continuous.rst:563
 msgid "Azure DevOps pull request from branch"
-msgstr ""
+msgstr "Azure DevOps pull request z vetvy"
 
 #: admin/continuous.rst:568
 msgid "Bitbucket Data Center pull request from fork"
-msgstr ""
+msgstr "Bitbucket Data Center pull request z forku"
 
 #: admin/continuous.rst:573
 msgid "Bitbucket Data Center pull request from branch"
-msgstr ""
+msgstr "Bitbucket Data Center pull request z vetvy"
 
 #: admin/continuous.rst:578
 msgid "Bitbucket Cloud pull request from fork"
-msgstr ""
+msgstr "Bitbucket Cloud pull request z forku"
 
 #: admin/continuous.rst:583
 msgid "Bitbucket Cloud pull request from branch"
-msgstr ""
+msgstr "Bitbucket Cloud pull request z vetvy"
 
 #: admin/continuous.rst:588
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
+msgstr "Môže byť prázdne, ak :ref:`component-repo` podporuje odoslanie."
 
 #: admin/continuous.rst:593
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
+"Môžete tiež povoliť automatické odoslanie zmien po commitoch Weblate, toto "
+"je možné urobiť v :ref:`component-push_on_commit`."
 
 #: admin/continuous.rst:598
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
+"Pozri :ref:`vcs-repos` pre nastavenie SSH kľúčov a :ref:`lazy-commit` pre "
+"informácie o tom, kedy sa Weblate rozhodne odoslať zmeny."
 
 #: admin/continuous.rst:602
 msgid "Protected branches"
-msgstr ""
+msgstr "Chránené vetvy"
 
 #: admin/continuous.rst:604
 msgid ""
@@ -6024,22 +6203,26 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"Ak používate Weblate na chránenej vetve, môžete ho nakonfigurovať na "
+"používanie pull requestov a vykonávať skutočnú kontrolu prekladov (čo môže "
+"byť problematické pre jazyky, ktoré nepoznáte). Alternatívnym prístupom je "
+"vzdať sa tohto obmedzenia pre používateľa push Weblate."
 
 #: admin/continuous.rst:609
 msgid "For example on GitHub this can be done in the repository configuration:"
-msgstr ""
+msgstr "Napríklad na GitHube sa to dá urobiť v konfigurácii repozitára:"
 
 #: admin/continuous.rst:614
 msgid "Interacting with others"
-msgstr ""
+msgstr "Interakcia s ostatnými"
 
 #: admin/continuous.rst:616
 msgid "Weblate makes it easy to interact with others using its API."
-msgstr ""
+msgstr "Weblate uľahčuje interakciu s ostatnými pomocou svojho API."
 
 #: admin/continuous.rst:625
 msgid "Lazy commits"
-msgstr ""
+msgstr "Lenivé commity"
 
 #: admin/continuous.rst:627
 msgid ""
@@ -6049,34 +6232,44 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
+"Správanie Weblate je zoskupovať commity od toho istého autora do jedného "
+"commitu, ak je to možné. Toto výrazne znižuje počet commitov, avšak môžete "
+"ho potrebovať explicitne prinútiť vykonať commity v prípade, že chcete "
+"dostať repozitár VCS do synchronizácie, napr. pre zlúčenie (toto je v "
+"predvolenom nastavení povolené pre skupinu :guilabel:`Managers`, pozri "
+":ref:`privileges`)."
 
 #: admin/continuous.rst:633
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr ""
+"Zmeny v tomto režime sú zapísané, keď je splnená ktorákoľvek z nasledujúcich "
+"podmienok:"
 
 #: admin/continuous.rst:636
 msgid "Somebody else changes an already changed string."
-msgstr ""
+msgstr "Niekto iný zmení už zmenený reťazec."
 
 #: admin/continuous.rst:637
 msgid "A merge from upstream occurs."
-msgstr ""
+msgstr "Dôjde k zlúčeniu z upstreamu."
 
 #: admin/continuous.rst:638
 msgid "An explicit commit is requested."
-msgstr ""
+msgstr "Je vyžiadaný explicitný zápis."
 
 #: admin/continuous.rst:639
 msgid "A file download is requested."
-msgstr ""
+msgstr "Je vyžiadané stiahnutie súboru."
 
 #: admin/continuous.rst:640
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
+"Zmena je staršia ako obdobie definované ako :ref:`component-"
+"commit_pending_age` na :ref:`component`."
 
 #: admin/continuous.rst:644
 msgid ""
@@ -6084,6 +6277,9 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-"
 "weblate.git.squash` add-on in that case."
 msgstr ""
+"Zápisy sa vytvárajú pre každý komponent. Takže v prípade, že máte veľa "
+"komponentov, stále uvidíte veľa zápisov. V takom prípade môžete využiť "
+"doplnok :ref:`addon-weblate.git.squash`."
 
 #: admin/continuous.rst:648
 msgid ""
@@ -6095,10 +6291,17 @@ msgid ""
 "as :guilabel:`Task` with ``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` "
 "and desired interval."
 msgstr ""
+"Ak chcete zapisovať zmeny častejšie a bez kontroly veku, môžete naplánovať "
+"pravidelnú úlohu na vykonanie zápisu. Toto je možné urobiť pomocou "
+":guilabel:`Periodické úlohy` v :ref:`admin-interface`. Najprv vytvorte "
+"požadovaný :guilabel:`Interval` (napríklad 120 sekúnd). Potom pridajte novú "
+"periodickú úlohu a vyberte ``weblate.trans.tasks.commit_pending`` ako "
+":guilabel:`Úloha` s ``{\"hours\": 0}`` ako :guilabel:`Kľúčové argumenty` a "
+"požadovaným intervalom."
 
 #: admin/continuous.rst:658
 msgid "Processing repository with scripts"
-msgstr ""
+msgstr "Spracovanie repozitára skriptami"
 
 #: admin/continuous.rst:660
 msgid ""
@@ -6106,10 +6309,13 @@ msgid ""
 "is :ref:`addons`. Consult :ref:`addon-script` for info on how to execute "
 "external scripts through add-ons."
 msgstr ""
+"Spôsob, ako prispôsobiť, ako Weblate interaguje s repozitárom, je "
+":ref:`addons`. Konzultujte :ref:`addon-script` pre informácie o tom, ako "
+"vykonávať externé skripty prostredníctvom doplnkov."
 
 #: admin/continuous.rst:667
 msgid "Keeping translations same across components"
-msgstr ""
+msgstr "Udržiavanie rovnakých prekladov naprieč komponentmi"
 
 #: admin/continuous.rst:669
 msgid ""
@@ -6117,10 +6323,13 @@ msgid ""
 "the same strings have same translation. This can be achieved at several "
 "levels."
 msgstr ""
+"Keď máte viacero prekladových komponentov, môžete chcieť zabezpečiť, aby "
+"mali rovnaké reťazce rovnaký preklad. Toto je možné dosiahnuť na niekoľkých "
+"úrovniach."
 
 #: admin/continuous.rst:675
 msgid "Translation propagation"
-msgstr ""
+msgstr "Propagácia prekladu"
 
 #: admin/continuous.rst:677
 msgid ""
@@ -6129,34 +6338,47 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
+"S povoleným :ref:`component-allow_translation_propagation` (čo je "
+"predvolené, pozri :ref:`component`), sa všetky nové preklady automaticky "
+"vykonajú vo všetkých komponentoch so zodpovedajúcimi reťazcami. Takéto "
+"preklady sú správne pripísané aktuálne prekladajúcemu používateľovi vo "
+"všetkých komponentoch."
 
 #: admin/continuous.rst:682
 msgid "Propagation preconditions:"
-msgstr ""
+msgstr "Podmienky propagácie:"
 
 #: admin/continuous.rst:684
 msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
 msgstr ""
+"Všetky komponenty musia byť v jednom projekte (prepojenie komponentu nestačí)"
+"."
 
 #: admin/continuous.rst:685 devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"Povoľte :ref:`component-allow_translation_propagation` na automatické "
+"opätovné použitie prekladov pre zodpovedajúce reťazce."
 
 #: admin/continuous.rst:686
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr ""
+"Propagácia prekladu vyžaduje, aby sa kľúč zhodoval pre jednojazyčné formáty "
+"prekladu, takže na to myslite pri vytváraní prekladových kľúčov."
 
 #: admin/continuous.rst:688
 msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"Reťazce sa propagujú počas prekladania, reťazce načítané z repozitára sa "
+"nepropagujú."
 
 #: admin/continuous.rst:693
 msgid ""
@@ -6164,10 +6386,13 @@ msgid ""
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
+"Táto funkcia má momentálne obmedzenia a chceme ju urobiť univerzálnejšou. "
+"Prosím, podeľte sa o svoju spätnú väzbu na https://github.com/WeblateOrg/"
+"weblate/issues/3166."
 
 #: admin/continuous.rst:698
 msgid "Consistency check"
-msgstr ""
+msgstr "Kontrola konzistencie"
 
 #: admin/continuous.rst:700
 msgid ""
@@ -6175,6 +6400,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+"Kontrola :ref:`check-inconsistent` sa spustí vždy, keď sú reťazce rôzne. "
+"Môžete to využiť na manuálnu kontrolu takýchto rozdielov a výber správneho "
+"prekladu."
 
 #: admin/continuous.rst:707 snippets/addons-autogenerated.rst:16
 #: user/translating.rst:378
@@ -6189,10 +6417,15 @@ msgid ""
 "repository update using add-on (see :ref:`addon-"
 "weblate.autotranslate.autotranslate`)."
 msgstr ""
+"Automatický preklad založený na rôznych komponentoch môže byť spôsobom "
+"synchronizácie prekladov naprieč komponentmi. Môžete ho spustiť buď manuálne "
+"(pozri :ref:`auto-translation`) alebo ho nechať bežať automaticky pri "
+"aktualizácii repozitára pomocou doplnku (pozri :ref:`addon-"
+"weblate.autotranslate.autotranslate`)."
 
 #: admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "Prispôsobenie Weblate"
 
 #: admin/customize.rst:4
 msgid ""
@@ -6201,10 +6434,14 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
+"Rozširujte a prispôsobujte pomocou Django a Pythonu. Poskytujte svoje zmeny "
+"upstream, aby z nich mali prospech všetci. Tým sa znižujú náklady na údržbu; "
+"o kód vo Weblate sa stará pri zmene interných rozhraní alebo refaktorovaní "
+"kódu."
 
 #: admin/customize.rst:11
 msgid "You can also customize Weblate look in :ref:`manage-appearance`."
-msgstr ""
+msgstr "Vzhľad Weblate môžete tiež prispôsobiť v :ref:`manage-appearance`."
 
 #: admin/customize.rst:16
 msgid ""
@@ -6212,10 +6449,13 @@ msgid ""
 "Please review your customizations for every upgrade, the interfaces or their "
 "semantics might change without notice."
 msgstr ""
+"Ani interné rozhrania, ani šablóny nie sú považované za stabilné API. "
+"Prosím, skontrolujte svoje prispôsobenia pri každej aktualizácii, rozhrania "
+"alebo ich sémantika sa môžu zmeniť bez upozornenia."
 
 #: admin/customize.rst:27
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Vytvorenie modulu Python"
 
 #: admin/customize.rst:29
 msgid ""
@@ -6223,6 +6463,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Ak nie ste oboznámení s Pythonom, môžete sa pozrieť na `Python pre "
+"začiatočníkov <https://www.python.org/about/gettingstarted/>`_, ktorý "
+"vysvetľuje základy a odkazuje na ďalšie tutoriály."
 
 #: admin/customize.rst:33
 msgid ""
@@ -6231,6 +6474,10 @@ msgid ""
 "lib/python3.12/site-packages/`) or in the Weblate directory, which is also "
 "added to the interpreter search path."
 msgstr ""
+"Na napísanie súboru s vlastným kódom Python (nazývaným modul) je potrebné "
+"miesto na jeho uloženie, buď v systémovej ceste (zvyčajne niečo ako :file:`/"
+"usr/lib/python3.12/site-packages/`) alebo v adresári Weblate, ktorý je tiež "
+"pridaný do vyhľadávacej cesty interpretov."
 
 #: admin/customize.rst:40
 msgid ""
@@ -6239,143 +6486,173 @@ msgid ""
 "loaded by Weblate, for example from a :ref:`settings override file <docker-"
 "settings-override>`."
 msgstr ""
+"Pri :ref:`používaní Docker <docker-deploy>` môžete umiestniť moduly Python "
+"do :file:`/app/data/python/` (pozri :ref:`docker-volume`), aby ich mohlo "
+"načítať Weblate, napríklad z :ref:`súboru na prepísanie nastavení <docker-"
+"settings-override>`."
 
 #: admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr ""
+msgstr "Ešte lepšie, premeňte svoje prispôsobenie na riadny balík Python:"
 
 #: admin/customize.rst:47
 msgid "Create a folder for your package (we will use `weblate_customization`)."
-msgstr ""
+msgstr "Vytvorte priečinok pre váš balík (použijeme `weblate_customization`)."
 
 #: admin/customize.rst:48
 msgid ""
 "Within it, create a :file:`pyproject.toml` file to describe the package:"
-msgstr ""
+msgstr "V ňom vytvorte súbor :file:`pyproject.toml` na opis balíka:"
 
 #: admin/customize.rst:63
 msgid ""
 "Create a folder for the Python module: :file:`src/weblate_customization`"
-msgstr ""
+msgstr "Vytvorte priečinok pre modul Python: :file:`src/weblate_customization`"
 
 #: admin/customize.rst:64
 msgid ""
 "Within it, create a :file:`__init__.py` file to ensure Python can import the "
 "module."
 msgstr ""
+"V ňom vytvorte súbor :file:`__init__.py`, aby sa zabezpečilo, že Python môže "
+"importovať modul."
 
 #: admin/customize.rst:65
 msgid ""
 "This package can now be installed using :command:`uv pip install -e`. More "
 "info to be found in `Editable packages documentation`_."
 msgstr ""
+"Tento balík je teraz možné nainštalovať pomocou :command:`uv pip install -"
+"e`. Viac informácií nájdete v `Dokumentácii k editovateľným balíkom`_."
 
 #: admin/customize.rst:66
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"Po inštalácii je možné modul použiť v konfigurácii Weblate (napríklad "
+"``weblate_customization.checks.FooCheck``)."
 
 #: admin/customize.rst:71
 msgid "Your package structure should look like this:"
-msgstr ""
+msgstr "Štruktúra vášho balíka by mala vyzerať takto:"
 
 #: admin/customize.rst:83
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"Príklad prispôsobenia Weblate nájdete na <https://github.com/WeblateOrg/"
+"customize-example>, pokrýva všetky témy opísané nižšie."
 
 #: admin/customize.rst:88
 msgid "Changing the logo"
-msgstr ""
+msgstr "Zmena loga"
 
 #: admin/customize.rst:90
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Vytvorte jednoduchú aplikáciu Django obsahujúcu statické súbory, ktoré "
+"chcete prepísať (pozri :ref:`custom-module`)."
 
 #: admin/customize.rst:93
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "Branding sa objavuje v nasledujúcich súboroch:"
 
 #: admin/customize.rst:96
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "Logo zobrazené v navigačnom paneli."
 
 #: admin/customize.rst:98
 msgid "Web icons depending on screen resolution and web-browser."
 msgstr ""
+"Webové ikony v závislosti od rozlíšenia obrazovky a webového prehliadača."
 
 #: admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Webová ikona používaná staršími prehliadačmi."
 
 #: admin/customize.rst:102
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Avatary pre botov alebo anonymných používateľov. Niektoré webové prehliadače "
+"ich používajú ako ikony skratiek."
 
 #: admin/customize.rst:104
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Používa sa v notifikačných e-mailoch."
 
 #: admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr ""
+msgstr "Pridajte ju do :setting:`django:INSTALLED_APPS`:"
 
 #: admin/customize.rst:116
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
+"Spustite :samp:`weblate collectstatic --noinput` na zhromaždenie statických "
+"súborov poskytovaných klientom."
 
 #: admin/customize.rst:129
 msgid "Custom quality checks, add-ons, automatic suggestions and auto-fixes"
 msgstr ""
+"Vlastné kontroly kvality, doplnky, automatické návrhy a automatické opravy"
 
 #: admin/customize.rst:131
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-"
 "checks`, :ref:`custom-machinery` or :ref:`own-addon` in Weblate:"
 msgstr ""
+"Na inštaláciu vášho kódu pre :ref:`custom-autofix`, :ref:`own-checks`, "
+":ref:`custom-machinery` alebo :ref:`own-addon` vo Weblate:"
 
 #: admin/customize.rst:134
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module` or :ref:`docker-python-override`)."
 msgstr ""
+"Umiestnite súbory do vášho modulu Python obsahujúceho prispôsobenie Weblate "
+"(pozri :ref:`custom-module` alebo :ref:`docker-python-override`)."
 
 #: admin/customize.rst:136
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings:"
 msgstr ""
+"Pridajte jeho plne kvalifikovanú cestu k triede Python do vyhradených "
+"nastavení:"
 
 #: admin/deployments.rst:4
 msgid "Weblate deployments"
-msgstr ""
+msgstr "Nasadenia Weblate"
 
 #: admin/deployments.rst:6
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
 msgstr ""
+"Weblate je možné ľahko nainštalovať do vášho cloudu. Prosím, nájdite "
+"podrobného sprievodcu pre vašu platformu:"
 
 #: admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
-msgstr ""
+msgstr "Nasadenia tretích strán pre Weblate"
 
 #: admin/deployments.rst:17
 msgid ""
 "Following deployments are not developed or supported by Weblate team. Parts "
 "of the setup might vary from what is described in this documentation."
 msgstr ""
+"Nasledujúce nasadenia nie sú vyvíjané ani podporované tímom Weblate. Časti "
+"nastavenia sa môžu líšiť od toho, čo je popísané v tejto dokumentácii."
 
 #: admin/deployments.rst:21
 msgid "Weblate Cloudron Package"
-msgstr ""
+msgstr "Balík Weblate Cloudron"
 
 #: admin/deployments.rst:23
 msgid ""
@@ -6384,14 +6661,18 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
+"`Cloudron <https://www.cloudron.io/>`_ je platforma na samoobslužné "
+"hosťovanie webových aplikácií. Weblate nainštalovaný s Cloudron bude "
+"automaticky udržiavaný aktuálny. Balík je udržiavaný tímom Cloudron v ich "
+"`repozitári balíkov Weblate <https://git.cloudron.io/cloudron/weblate-app>`_."
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
-msgstr ""
+msgstr "Inštalácia Weblate s Cloudron"
 
 #: admin/deployments.rst:32
 msgid "Weblate in YunoHost"
-msgstr ""
+msgstr "Weblate v YunoHost"
 
 #: admin/deployments.rst:34
 msgid ""
@@ -6401,54 +6682,63 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
+"Projekt samoobslužného hosťovania `YunoHost <https://yunohost.org/>`_ "
+"poskytuje balík pre Weblate. Po inštalácii YunoHost môžete nainštalovať "
+"Weblate ako ktorúkoľvek inú aplikáciu. Poskytne vám plne fungujúci stack so "
+"zálohovaním a obnovou, ale možno budete musieť upraviť svoj konfiguračný "
+"súbor pre špecifické použitia."
 
 #: admin/deployments.rst:40
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr ""
+"Môžete použiť svoje administrátorské rozhranie alebo toto tlačidlo (privedie "
+"vás na váš server):"
 
 #: admin/deployments.rst:42
 msgid "Install Weblate with YunoHost"
-msgstr ""
+msgstr "Inštalácia Weblate s YunoHost"
 
 #: admin/deployments.rst:46
 msgid "It also is possible to use the command-line interface:"
-msgstr ""
+msgstr "Je tiež možné použiť rozhranie príkazového riadka:"
 
 #: admin/install.rst:9
 msgid "Quick setup guide"
-msgstr ""
+msgstr "Stručný sprievodca nastavením"
 
 #: admin/install.rst:4
 msgid "Configuration instructions"
-msgstr ""
+msgstr "Pokyny na konfiguráciu"
 
 #: admin/install.rst:7
 msgid "Installing Weblate"
-msgstr ""
+msgstr "Inštalácia Weblate"
 
 #: admin/install.rst:23
 msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
 msgstr ""
+"V závislosti od vášho nastavenia a skúseností si vyberte vhodnú metódu "
+"inštalácie:"
 
 #: admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ""
+msgstr ":doc:`install/docker`, odporúčané pre produkčné nastavenia."
 
 #: admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr ""
+msgstr "Inštalácia Virtualenv, odporúčaná pre produkčné nastavenia:"
 
 #: admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ""
+msgstr ":doc:`install/source`, odporúčané pre vývoj."
 
 #: admin/install.rst:43
 msgid "Architecture overview"
-msgstr ""
+msgstr "Prehľad architektúry"
 
 #: admin/install.rst:130
 msgid "Web server"
@@ -6928,6 +7218,8 @@ msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
 msgstr ""
+"Zvyčajne je dobrý nápad spúšťať Weblate v samostatnej databáze a samostatnom "
+"používateľskom účte:"
 
 #: admin/install.rst:502
 msgid ""
@@ -8110,7 +8402,7 @@ msgstr ""
 
 #: admin/install.rst:1749
 msgid "Rollbar"
-msgstr ""
+msgstr "Rollbar"
 
 #: admin/install.rst:1751
 msgid ""
@@ -9480,7 +9772,7 @@ msgstr ""
 
 #: admin/install/docker.rst:1599
 msgid "OpenID Connect"
-msgstr ""
+msgstr "OpenID Connect"
 
 #: admin/install/docker.rst:1610
 msgid "Configures generic OpenID Connect integration."
@@ -9488,7 +9780,7 @@ msgstr ""
 
 #: admin/install/docker.rst:1617
 msgid "Fedora OpenID Connect"
-msgstr ""
+msgstr "Fedora OpenID Connect"
 
 #: admin/install/docker.rst:1624
 msgid "Configures Fedora OpenID Connect integration."
@@ -9944,7 +10236,7 @@ msgstr ""
 
 #: admin/install/docker.rst:2221
 msgid "`Anubis`_"
-msgstr ""
+msgstr "`Anubis`_"
 
 #: admin/install/docker.rst:2229
 msgid "Docker container volumes"
@@ -10302,7 +10594,7 @@ msgstr "Služba"
 #: admin/install/docker.rst:2530 snippets/addon-parameters-autogenerated.rst:43
 #: snippets/machines-autogenerated.rst:522
 msgid "LibreTranslate"
-msgstr ""
+msgstr "LibreTranslate"
 
 #: admin/install/docker.rst:0 snippets/machines-autogenerated.rst:125
 #: snippets/machines-autogenerated.rst:207
@@ -12488,11 +12780,11 @@ msgstr ""
 
 #: admin/optionals.rst:210
 msgid "`Gravatar <https://gravatar.com/>`_"
-msgstr ""
+msgstr "`Gravatar <https://gravatar.com/>`_"
 
 #: admin/optionals.rst:211
 msgid "`Libravatar <https://www.libravatar.org/>`_"
-msgstr ""
+msgstr "`Libravatar <https://www.libravatar.org/>`_"
 
 #: admin/optionals.rst:222
 msgid "Signing Git commits with GnuPG"
@@ -13059,7 +13351,7 @@ msgstr ""
 #: admin/projects.rst:340 admin/projects.rst:725 admin/translating.rst:84
 #: formats.rst:105
 msgid "Translation flags"
-msgstr "Flagy prekladu"
+msgstr "Príznaky prekladu"
 
 #: admin/projects.rst:344 admin/projects.rst:727 admin/translating.rst:86
 msgid ""
@@ -13166,7 +13458,7 @@ msgstr ""
 
 #: admin/projects.rst:431
 msgid "Repository push URL"
-msgstr "URL push repozitára"
+msgstr "URL odoslania repozitára"
 
 #: admin/projects.rst:433
 msgid ""
@@ -13235,7 +13527,7 @@ msgstr ""
 
 #: admin/projects.rst:486
 msgid "Push branch"
-msgstr "Vetva push"
+msgstr "Vetva odoslania"
 
 #: admin/projects.rst:488
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
@@ -13353,7 +13645,7 @@ msgstr ""
 #: formats/xliff.rst:150 formats/xliff.rst:162 formats/xliff2.rst:51
 #: formats/yaml.rst:36
 msgid "Monolingual base language file"
-msgstr "Monolinguálny súbor základného jazyka"
+msgstr "Jednojazyčný súbor základného jazyka"
 
 #: admin/projects.rst:559
 msgid "Base file containing string definitions for :ref:`monolingual`."
@@ -13855,7 +14147,7 @@ msgstr ""
 
 #: admin/projects.rst:885
 msgid "Rebase"
-msgstr "Rebase"
+msgstr "Prepísať"
 
 #: admin/projects.rst:886
 msgid ""
@@ -13877,7 +14169,7 @@ msgstr ""
 
 #: admin/projects.rst:895
 msgid "Merge"
-msgstr "Merge"
+msgstr "Zlúčiť"
 
 #: admin/projects.rst:896
 msgid ""
@@ -13888,7 +14180,7 @@ msgstr ""
 
 #: admin/projects.rst:900
 msgid "Merge without fast-forward"
-msgstr "Merge bez fast-forward"
+msgstr "Zlúčiť bez fast-forward"
 
 #: admin/projects.rst:901
 msgid ""
@@ -13917,7 +14209,7 @@ msgstr ""
 
 #: admin/projects.rst:927
 msgid "Push on commit"
-msgstr "Push pri commite"
+msgstr "Odoslať pri zápise"
 
 #: admin/projects.rst:929
 msgid ""
@@ -13929,7 +14221,7 @@ msgstr ""
 
 #: admin/projects.rst:940
 msgid "Age of changes to commit"
-msgstr "Vek zmien na commit"
+msgstr "Vek zmien na zápis"
 
 #: admin/projects.rst:942
 msgid ""
@@ -17696,7 +17988,7 @@ msgstr ""
 
 #: changes.rst:784
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr ""
+msgstr "Obnovovanie :ref:`projectbackup` s hlasmi."
 
 #: changes.rst:785
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
@@ -30639,7 +30931,7 @@ msgstr ""
 
 #: contributing/snippets/code-guide.rst:60
 msgid "Commit messages"
-msgstr "Správy commitov"
+msgstr "Správy zápisov"
 
 #: contributing/snippets/code-guide.rst:62
 msgid ""
@@ -31504,7 +31796,7 @@ msgstr ""
 
 #: devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
-msgstr "Nesprávne nakonfigurovaný monolinguálny preklad."
+msgstr "Nesprávne nakonfigurovaný jednojazyčný preklad."
 
 #: devel/alerts.rst:20
 msgid "Broken :ref:`component`"
@@ -40161,11 +40453,11 @@ msgstr "Komponent odomknutý"
 
 #: snippets/addon-parameters-autogenerated.rst:249
 msgid "Changes committed"
-msgstr "Zmeny commitnuté"
+msgstr "Zmeny zapísané"
 
 #: snippets/addon-parameters-autogenerated.rst:251
 msgid "Changes pushed"
-msgstr "Zmeny pushnuté"
+msgstr "Zmeny odoslané"
 
 #: snippets/addon-parameters-autogenerated.rst:253
 msgid "Repository reset"
@@ -40177,7 +40469,7 @@ msgstr "Repozitár zlúčený"
 
 #: snippets/addon-parameters-autogenerated.rst:257
 msgid "Repository rebased"
-msgstr "Repozitár rebasingovaný"
+msgstr "Repozitár prepísaný"
 
 #: snippets/addon-parameters-autogenerated.rst:259
 msgid "Repository merge failed"
@@ -40185,11 +40477,11 @@ msgstr "Zlúčenie repozitára zlyhalo"
 
 #: snippets/addon-parameters-autogenerated.rst:261
 msgid "Repository rebase failed"
-msgstr "Rebasing repozitára zlyhal"
+msgstr "Prepis repozitára zlyhal"
 
 #: snippets/addon-parameters-autogenerated.rst:263
 msgid "Parsing failed"
-msgstr "Parsovanie zlyhalo"
+msgstr "Spracovanie zlyhalo"
 
 #: snippets/addon-parameters-autogenerated.rst:265
 msgid "Translation removed"
@@ -40205,7 +40497,7 @@ msgstr "Preklad nahradený"
 
 #: snippets/addon-parameters-autogenerated.rst:271
 msgid "Repository push failed"
-msgstr "Push repozitára zlyhal"
+msgstr "Odoslanie repozitára zlyhalo"
 
 #: snippets/addon-parameters-autogenerated.rst:273
 msgid "Suggestion removed during cleanup"
@@ -40567,7 +40859,7 @@ msgid ""
 "translatable strings."
 msgstr ""
 "Zoznam názvov súborov v aktuálnom repozitári alebo vzdialených URL na "
-"parsovanie pre prekladateľné reťazce."
+"spracovanie pre prekladateľné reťazce."
 
 #: snippets/addons-autogenerated.rst:82
 msgid ""
@@ -41217,7 +41509,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:636
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Hromadná úprava vlajok, štítkov alebo stavov reťazcov."
+msgstr "Hromadná úprava príznakov, štítkov alebo stavov reťazcov."
 
 #: snippets/addons-autogenerated.rst:642
 msgid "Label new strings automatically"
@@ -41652,8 +41944,7 @@ msgstr "Kontroly xgettext"
 #: snippets/addons-autogenerated.rst:1065
 #: snippets/addons-autogenerated.rst:1249
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr ""
-"Ďalšie kontrolné validácie xgettext na povolenie pre extrahované správy."
+msgstr "Ďalšie kontrolné overenie xgettext na povolenie pre extrahované správy."
 
 #: snippets/addons-autogenerated.rst:1071
 #: snippets/addons-autogenerated.rst:1255
@@ -41888,16 +42179,16 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:1294
 msgid "Squash Git commits"
-msgstr "Zlúčiť Git commity"
+msgstr "Zlúčiť Git zápisy"
 
 #: snippets/addons-autogenerated.rst:1298
 msgid "Commit squashing"
-msgstr "Zlučovanie commitov"
+msgstr "Zlučovanie zápisov"
 
 #: snippets/addons-autogenerated.rst:1302
 #: snippets/addons-autogenerated.rst:1329
 msgid "All commits into one"
-msgstr "Všetky commity do jedného"
+msgstr "Všetky zápisy do jedného"
 
 #: snippets/addons-autogenerated.rst:1304
 #: snippets/addons-autogenerated.rst:1330
@@ -41916,7 +42207,7 @@ msgstr "Na autora"
 
 #: snippets/addons-autogenerated.rst:1310
 msgid "Append trailers to squashed commit message"
-msgstr "Pripojiť trailer ku zlúčenému commitu"
+msgstr "Pripojiť trailer ku zlúčenému zápisu"
 
 #: snippets/addons-autogenerated.rst:1310
 msgid ""
@@ -41929,15 +42220,15 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:1312
 msgid "Commit message"
-msgstr "Správa commitu"
+msgstr "Správa zápisu"
 
 #: snippets/addons-autogenerated.rst:1312
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Táto správa commitu sa použije namiesto kombinovaných správ commitov zo "
-"zlučených commitov."
+"Táto správa zápisu sa použije namiesto kombinovaných správ zápisov zo "
+"zlúčených commitov."
 
 #: snippets/addons-autogenerated.rst:1315
 msgid ""
@@ -41947,7 +42238,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:1317
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Zlúčiť Git commity pred odoslaním zmien."
+msgstr "Zlúčiť Git zápisy pred odoslaním zmien."
 
 #: snippets/addons-autogenerated.rst:1323
 msgid ""
@@ -47728,11 +48019,11 @@ msgstr "Prístup k internému repozitáru"
 
 #: snippets/permissions.rst:293
 msgid "Commit changes to the internal repository"
-msgstr "Commitovať zmeny do interného repozitára"
+msgstr "Zapisovať zmeny do interného repozitára"
 
 #: snippets/permissions.rst:297
 msgid "Push change from the internal repository"
-msgstr "Pushnúť zmenu z interného repozitára"
+msgstr "Vyzdvihnúť zmenu z interného repozitára"
 
 #: snippets/permissions.rst:301
 msgid "Reset changes in the internal repository"
@@ -50895,7 +51186,7 @@ msgstr ""
 
 #: vcs.rst:368
 msgid "Git with force push"
-msgstr "Git s force push"
+msgstr "Git s vynúteným odoslaním"
 
 #: vcs.rst:370
 msgid ""
