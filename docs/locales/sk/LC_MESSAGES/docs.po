@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 08:45+0000\n"
+"PO-Revision-Date: 2026-05-04 09:20+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -9067,7 +9067,7 @@ msgstr ""
 
 #: admin/install.rst:833
 msgid "Filling up the database"
-msgstr ""
+msgstr "Naplnenie databázy"
 
 #: admin/install.rst:835
 msgid ""
@@ -9075,6 +9075,9 @@ msgid ""
 "the database structure. Now you should be able to create translation "
 "projects using the admin interface."
 msgstr ""
+"Po dokončení konfigurácie môžete spustiť :wladmin:`migrate` na vytvorenie "
+"štruktúry databázy. Teraz by ste mali byť schopní vytvárať prekladové "
+"projekty pomocou administrátorského rozhrania."
 
 #: admin/install.rst:839
 msgid ""
@@ -9082,10 +9085,13 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
+"Po dokončení by ste mali skontrolovať aj :guilabel:`Správu o výkone` v "
+"administrátorskom rozhraní, ktorá vám poskytne nápovedy týkajúce sa "
+"potenciálne neoptimálnej konfigurácie na vašej stránke."
 
 #: admin/install.rst:851
 msgid "Production setup"
-msgstr ""
+msgstr "Produkčné nastavenie"
 
 #: admin/install.rst:853
 msgid ""
@@ -9094,36 +9100,45 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
+"Pre produkčné nastavenie by ste mali vykonať úpravy opísané v nasledujúcich "
+"sekciách. Najkritičnejšie nastavenia spustia varovanie, ktoré je indikované "
+"vykričníkom v hornom paneli, ak ste prihlásení ako superpoužívateľ:"
 
 #: admin/install.rst:859
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
 msgstr ""
+"Odporúča sa tiež skontrolovať kontroly spustené Django (hoci nemusíte "
+"opraviť všetky z nich):"
 
 #: admin/install.rst:866
 msgid ""
 "You can also review the very same checklist at :ref:`manage-performance` in "
 "the :ref:`management-interface`."
 msgstr ""
+"Rovnaký kontrolný zoznam si môžete prezrieť aj v :ref:`manage-performance` v "
+":ref:`management-interface`."
 
 #: admin/install.rst:875
 msgid "Disable debug mode"
-msgstr ""
+msgstr "Vypnúť režim ladenia"
 
 #: admin/install.rst:877
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
-msgstr ""
+msgstr "Vypnite režim ladenia Django (:setting:`DEBUG`) pomocou:"
 
 #: admin/install.rst:883
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
+"Pri zapnutom režime ladenia Django ukladá všetky vykonané dotazy a zobrazuje "
+"používateľom spätné stopy chýb, čo nie je žiaduce v produkčnom nastavení."
 
 #: admin/install.rst:893
 msgid "Properly configure admins"
-msgstr ""
+msgstr "Správne nakonfigurovať administrátorov"
 
 #: admin/install.rst:895
 msgid ""
@@ -9131,10 +9146,13 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Nastavte správne administrátorské adresy do nastavenia :setting:`ADMINS`, "
+"aby ste definovali, kto bude dostávať e-maily v prípade, že sa na serveri "
+"niečo pokazí, napríklad:"
 
 #: admin/install.rst:909
 msgid "Set correct site domain"
-msgstr ""
+msgstr "Nastaviť správnu doménu stránky"
 
 #: admin/install.rst:911
 msgid ""
@@ -9142,16 +9160,21 @@ msgid ""
 "or registration e-mails will not work. This is configured "
 "using :setting:`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"Upravte názov a doménu stránky v administrátorskom rozhraní, inak odkazy v "
+"RSS alebo registračných e-mailoch nebudú fungovať. Toto sa konfiguruje "
+"pomocou :setting:`SITE_DOMAIN`, ktorý by mal obsahovať názov domény stránky."
 
 #: admin/install.rst:917
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
 msgstr ""
+"Pred vydaním 4.2 sa namiesto toho používal framework Django sites, pozrite "
+"si :doc:`django:ref/contrib/sites`."
 
 #: admin/install.rst:931
 msgid "Correctly configure HTTPS"
-msgstr ""
+msgstr "Správne nakonfigurovať HTTPS"
 
 #: admin/install.rst:933
 msgid ""
@@ -9159,16 +9182,21 @@ msgid ""
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
 msgstr ""
+"Dôrazne sa odporúča prevádzkovať Weblate pomocou šifrovaného protokolu "
+"HTTPS. Po jeho povolení by ste mali nastaviť :setting:`ENABLE_HTTPS` v "
+"nastaveniach:"
 
 #: admin/install.rst:942
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
 msgstr ""
+"Možno budete chcieť nastaviť aj HSTS, viac podrobností nájdete v "
+":ref:`django:security-recommendation-ssl`."
 
 #: admin/install.rst:953
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "Správne nastaviť SECURE_HSTS_SECONDS"
 
 #: admin/install.rst:955
 msgid ""
@@ -9177,6 +9205,10 @@ msgid ""
 "enable HTTP Strict Transport Security. By default it's set to 0 as shown "
 "below."
 msgstr ""
+"Ak je vaša stránka obsluhovaná cez SSL, mali by ste zvážiť nastavenie "
+"hodnoty pre :setting:`django:SECURE_HSTS_SECONDS` v :file:`settings.py` na "
+"povolenie HTTP Strict Transport Security. Predvolene je nastavená na 0, ako "
+"je uvedené nižšie."
 
 #: admin/install.rst:963
 msgid ""
@@ -9185,64 +9217,84 @@ msgid ""
 "the :ref:`django:http-strict-transport-security` header on all responses "
 "that do not already have it."
 msgstr ""
+"Ak je nastavená na nenulovú celočíselnú hodnotu, "
+":class:`django:django.middleware.security.SecurityMiddleware` nastaví "
+"hlavičku :ref:`django:http-strict-transport-security` na všetkých "
+"odpovediach, ktoré ju ešte nemajú."
 
 #: admin/install.rst:968
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
+"Nesprávne nastavenie môže nenávratne (na určitý čas) poškodiť vašu stránku. "
+"Najprv si prečítajte dokumentáciu :ref:`django:http-strict-transport-"
+"security`."
 
 #: admin/install.rst:975
 msgid "Use a powerful database engine"
-msgstr ""
+msgstr "Použiť výkonný databázový engine"
 
 #: admin/install.rst:977
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
+"Pre produkčné prostredie použite PostgreSQL, viac informácií nájdete v "
+":ref:`database-setup`."
 
 #: admin/install.rst:979
 msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
+"Spúšťajte databázový server na rovnakom mieste, inak môže výkon siete alebo "
+"spoľahlivosť pokaziť váš zážitok z Weblate."
 
 #: admin/install.rst:981
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
+"Skontrolujte výkon databázového servera alebo vylaďte jeho konfiguráciu, "
+"napríklad pomocou `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: admin/install.rst:994
 msgid "Configure cache"
-msgstr ""
+msgstr "Konfigurovať vyrovnávaciu pamäť"
 
 #: admin/install.rst:996
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
+"Ak je to možné, používajte Valkey alebo Redis z Django úpravou konfiguračnej "
+"premennej ``CACHES``, napríklad:"
 
 #: admin/install.rst:1017
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
+"V prípade, že zmeníte nastavenia pre vyrovnávaciu pamäť, možno budete musieť "
+"upraviť aj nastavenia pre Celery, pozri :ref:`celery`."
 
 #: admin/install.rst:1028
 msgid "Avatar caching"
-msgstr ""
+msgstr "Ukladanie avatarov do vyrovnávacej pamäte"
 
 #: admin/install.rst:1030
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
+"Okrem ukladania do vyrovnávacej pamäte Django vykonáva Weblate aj ukladanie "
+"avatarov do vyrovnávacej pamäte. Na tento účel sa odporúča použiť samostatnú "
+"vyrovnávaciu pamäť založenú na súboroch:"
 
 #: admin/install.rst:1066
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "Konfigurovať odosielanie e-mailov"
 
 #: admin/install.rst:1068
 msgid ""
@@ -9251,40 +9303,52 @@ msgid ""
 "configure :setting:`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match "
 "your environment, for example:"
 msgstr ""
+"Weblate potrebuje odosielať e-maily pri niekoľkých príležitostiach a tieto e-"
+"maily by mali mať správnu adresu odosielateľa, prosím nakonfigurujte "
+":setting:`SERVER_EMAIL` a :setting:`DEFAULT_FROM_EMAIL` tak, aby zodpovedali "
+"vášmu prostrediu, napríklad:"
 
 #: admin/install.rst:1080
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"Na vypnutie odosielania e-mailov Weblate nastavte "
+":setting:`django:EMAIL_BACKEND` na "
+"``django.core.mail.backends.dummy.EmailBackend``."
 
 #: admin/install.rst:1083
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Toto vypne *všetko* doručovanie e-mailov vrátane registračných e-mailov "
+"alebo e-mailov na resetovanie hesla."
 
 #: admin/install.rst:1090
 msgid ":std:setting:`django:EMAIL_BACKEND`"
-msgstr ""
+msgstr ":std:setting:`django:EMAIL_BACKEND`"
 
 #: admin/install.rst:1091 admin/install/docker.rst:621
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: admin/install.rst:1092 admin/install/docker.rst:612
 msgid ":std:setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":std:setting:`django:SERVER_EMAIL`"
 
 #: admin/install.rst:1098
 msgid "Allowed hosts setup"
-msgstr ""
+msgstr "Nastavenie povolených hostiteľov"
 
 #: admin/install.rst:1100
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django vyžaduje, aby :setting:`ALLOWED_HOSTS` obsahoval zoznam názvov domén, "
+"ktoré môže vaša stránka obsluhovať, ponechanie prázdneho zablokuje akékoľvek "
+"požiadavky."
 
 #: admin/install.rst:1103
 msgid ""
@@ -9292,15 +9356,19 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
+"V prípade, že toto nie je nakonfigurované tak, aby zodpovedalo vášmu HTTP "
+"serveru, dostanete chyby ako :samp:`Neplatná hlavička HTTP_HOST: '1.1.1.1'. "
+"Možno budete musieť pridať '1.1.1.1' do ALLOWED_HOSTS.`"
 
 #: admin/install.rst:1109
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"V kontajneri Docker je toto dostupné ako :envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: admin/install.rst:1120
 msgid "Django secret key"
-msgstr ""
+msgstr "Tajný kľúč Django"
 
 #: admin/install.rst:1122
 msgid ""
@@ -9308,16 +9376,21 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
+"Nastavenie :setting:`SECRET_KEY` používa Django na podpisovanie cookies a "
+"mali by ste skutočne vygenerovať vlastnú hodnotu, namiesto používania tej z "
+"ukážkového nastavenia."
 
 #: admin/install.rst:1125
 msgid ""
 "You can generate a new key using :program:`weblate-generate-secret-key` "
 "shipped with Weblate."
 msgstr ""
+"Nový kľúč môžete vygenerovať pomocou :program:`weblate-generate-secret-key`, "
+"ktorý je súčasťou Weblate."
 
 #: admin/install.rst:1135
 msgid "Running maintenance tasks"
-msgstr ""
+msgstr "Spúšťanie úloh údržby"
 
 #: admin/install.rst:1137
 msgid ""
@@ -9325,38 +9398,45 @@ msgid ""
 "the background. This is automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"Pre optimálny výkon je dobré spúšťať niektoré úlohy údržby na pozadí. Toto "
+"sa automaticky vykonáva pomocou :ref:`celery` a pokrýva nasledujúce úlohy:"
 
 #: admin/install.rst:1140
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Kontrola stavu konfigurácie (každú hodinu)."
 
 #: admin/install.rst:1141
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` "
 "and :wladmin:`commit_pending`."
 msgstr ""
+"Zapisovanie čakajúcich zmien (každú hodinu), pozri :ref:`lazy-commit` a "
+":wladmin:`commit_pending`."
 
 #: admin/install.rst:1142
 msgid "Updating component alerts (daily)."
-msgstr ""
+msgstr "Aktualizácia upozornení komponentov (denne)."
 
 #: admin/install.rst:1143
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
-msgstr ""
+msgstr "Aktualizácia vzdialených vetiev (nocou), pozri :setting:`AUTO_UPDATE`."
 
 #: admin/install.rst:1144
 msgid "Translation memory backup to JSON (daily), see :wladmin:`dump_memory`."
 msgstr ""
+"Záloha prekladovej pamäte do JSON (denne), pozri :wladmin:`dump_memory`."
 
 #: admin/install.rst:1145
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), "
 "see :wladmin:`cleanuptrans`."
 msgstr ""
+"Úlohy údržby fulltextu a databázy (denné a týždenné úlohy), pozri "
+":wladmin:`cleanuptrans`."
 
 #: admin/install.rst:1150
 msgid "System locales and encoding"
-msgstr ""
+msgstr "Systémové lokály a kódovanie"
 
 #: admin/install.rst:1152
 msgid ""
@@ -9364,12 +9444,17 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
+"Systémové lokály by mali byť nakonfigurované na také, ktoré podporujú UTF-8. "
+"Na väčšine distribúcií Linuxu je toto predvolené nastavenie. V prípade, že "
+"tomu tak na vašom systéme nie je, prosím, zmeňte lokály na variant UTF-8."
 
 #: admin/install.rst:1156
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there "
 "``LANG=\"C.UTF-8\"``."
 msgstr ""
+"Napríklad úpravou :file:`/etc/default/locale` a nastavením ``LANG=\"C.UTF-"
+"8\"``."
 
 #: admin/install.rst:1159
 msgid ""
@@ -9377,20 +9462,25 @@ msgid ""
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
+"V niektorých prípadoch majú jednotlivé služby samostatnú konfiguráciu pre "
+"lokály. Tá sa líši medzi distribúciami a webovými servermi, preto si "
+"skontrolujte dokumentáciu balíčkov vášho webového servera."
 
 #: admin/install.rst:1163
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "Apache na Ubuntu používa :file:`/etc/apache2/envvars`:"
 
 #: admin/install.rst:1170
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"Apache na CentOS používa :file:`/etc/sysconfig/httpd` (alebo :file:`/opt/rh/"
+"httpd24/root/etc/sysconfig/httpd`):"
 
 #: admin/install.rst:1180
 msgid "Using custom certificate authority"
-msgstr ""
+msgstr "Používanie vlastnej certifikačnej autority"
 
 #: admin/install.rst:1182
 msgid ""
@@ -9398,6 +9488,9 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
+"Weblate overuje certifikáty SSL počas požiadaviek HTTP. V prípade, že "
+"používate vlastnú certifikačnú autoritu, ktorá nie je dôveryhodná v "
+"predvolených balíkoch, budete musieť pridať jej certifikát ako dôveryhodný."
 
 #: admin/install.rst:1186
 msgid ""
@@ -9406,18 +9499,25 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
+"Uprednostňovaný prístup je urobiť to na systémovej úrovni, skontrolujte "
+"dokumentáciu vašej distribúcie pre viac podrobností (napríklad na debiane to "
+"môže byť urobené umiestnením certifikátu CA do :file:`/usr/local/share/ca-"
+"certificates/` a spustením :command:`update-ca-certificates`)."
 
 #: admin/install.rst:1193
 msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Kontajner Weblate ho nezahŕňa do cesty vyhľadávania, musíte zadať celú cestu "
+"na jeho spustenie. Napríklad:"
 
 #: admin/install.rst:1200
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
+"Po dokončení budú systémové nástroje dôverovať certifikátu a to zahŕňa Git."
 
 #: admin/install.rst:1203
 msgid ""
@@ -9425,10 +9525,14 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
+"Pre kód Python budete musieť nakonfigurovať requests na používanie "
+"systémového balíka CA namiesto toho, ktorý je s ním dodávaný. Toho sa dá "
+"dosiahnuť umiestnením nasledujúceho úryvku do :file:`settings.py` (cesta je "
+"špecifická pre Debian):"
 
 #: admin/install.rst:1217
 msgid "Compressing client assets"
-msgstr ""
+msgstr "Kompresia klientskych zdrojov"
 
 #: admin/install.rst:1219
 msgid ""
@@ -9439,6 +9543,11 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
+"Weblate obsahuje množstvo súborov JavaScript a CSS. Z dôvodov výkonu je "
+"dobré ich pred odoslaním klientovi komprimovať. V predvolenej konfigurácii "
+"sa to robí za behu s malou réžiou. Na veľkých inštaláciách sa odporúča "
+"povoliť režim offline kompresie. Toto treba urobiť v konfigurácii a "
+"kompresia sa musí spustiť pri každej aktualizácii Weblate."
 
 #: admin/install.rst:1226
 msgid ""
@@ -9447,58 +9556,72 @@ msgid ""
 "configuring :attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` "
 "(the latter is already included in the example configuration):"
 msgstr ""
+"Prepnutie konfigurácie je jednoduché povolením "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` a konfiguráciou "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` (posledné "
+"je už zahrnuté v ukážkovej konfigurácii):"
 
 #: admin/install.rst:1235
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
+"Pri každom nasadení musíte komprimovať súbory, aby zodpovedali aktuálnej "
+"verzii:"
 
 #: admin/install.rst:1243
 msgid "The official Docker image has this feature already enabled."
-msgstr ""
+msgstr "Oficiálny obraz Docker má túto funkciu už povolenú."
 
 #: admin/install.rst:1253
 msgid "Running server"
-msgstr ""
+msgstr "Spúšťanie servera"
 
 #: admin/install.rst:1257
 msgid ""
 "In case you are not experienced with services described below, you might "
 "want to try :doc:`install/docker`."
 msgstr ""
+"V prípade, že nemáte skúsenosti s nižšie popísanými službami, môžete "
+"vyskúšať :doc:`install/docker`."
 
 #: admin/install.rst:1259
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
+"Na spustenie Weblate budete potrebovať niekoľko služieb, odporúčané "
+"nastavenie pozostáva z:"
 
 #: admin/install.rst:1261
 msgid "Database server (see :ref:`database-setup`)"
-msgstr ""
+msgstr "Databázový server (pozri :ref:`database-setup`)"
 
 #: admin/install.rst:1262
 msgid "Cache server (see :ref:`production-cache`)"
-msgstr ""
+msgstr "Server vyrovnávacej pamäte (pozri :ref:`production-cache`)"
 
 #: admin/install.rst:1263
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
+"Frontendový webový server pre statické súbory a ukončenie SSL (pozri "
+":ref:`static-files`)"
 
 #: admin/install.rst:1264
 msgid "WSGI server for dynamic content (see :ref:`uwsgi`)"
-msgstr ""
+msgstr "WSGI server pre dynamický obsah (pozri :ref:`uwsgi`)"
 
 #: admin/install.rst:1265
 msgid "Celery for executing background tasks (see :ref:`celery`)"
-msgstr ""
+msgstr "Celery na vykonávanie úloh na pozadí (pozri :ref:`celery`)"
 
 #: admin/install.rst:1269
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
+"Medzi službami existujú určité závislosti, napríklad vyrovnávacia pamäť a "
+"databáza by mali bežať pri spúšťaní procesov Celery alebo uwsgi."
 
 #: admin/install.rst:1272
 msgid ""
@@ -9507,6 +9630,10 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access "
 "to :setting:`DATA_DIR`."
 msgstr ""
+"Vo väčšine prípadov budete spúšťať všetky služby na jednom (virtuálnom) "
+"serveri, ale v prípade, že je vaša inštalácia silne zaťažená, môžete služby "
+"rozdeliť. Jediným obmedzením je, že servery Celery a Wsgi potrebujú prístup "
+"k :setting:`DATA_DIR`."
 
 #: admin/install.rst:1279
 msgid ""
@@ -9514,14 +9641,17 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
+"Proces WSGI sa musí vykonávať pod tým istým používateľom ako proces Celery, "
+"inak budú súbory v :setting:`DATA_DIR` ukladané so zmiešaným vlastníctvom, "
+"čo povedie k problémom za behu."
 
 #: admin/install.rst:1283
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr ""
+msgstr "Pozrite si aj :ref:`file-permissions` a :ref:`celery`."
 
 #: admin/install.rst:1286
 msgid "Running web server"
-msgstr ""
+msgstr "Spúšťanie webového servera"
 
 #: admin/install.rst:1288
 msgid ""
@@ -9529,10 +9659,13 @@ msgid ""
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
+"Spúšťanie Weblate sa nelíši od spúšťania akéhokoľvek iného programu "
+"založeného na Django. Django sa zvyčajne vykonáva ako WSGI alebo fcgi (pozri "
+"príklady pre rôzne webové servery nižšie)."
 
 #: admin/install.rst:1292
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr ""
+msgstr "Na testovacie účely môžete použiť vstavaný webový server v Django:"
 
 #: admin/install.rst:1300
 msgid ""
@@ -9540,6 +9673,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation "
 "on :djadmin:`django:runserver`."
 msgstr ""
+"NEPOUŽÍVAJTE TENTO SERVER V PRODUKČNOM PROSTREDÍ. Neprešiel bezpečnostnými "
+"auditmi ani testami výkonu. Pozrite si aj dokumentáciu Django o "
+":djadmin:`django:runserver`."
 
 #: admin/install.rst:1306
 msgid ""
@@ -9547,14 +9683,17 @@ msgid ""
 "enabled as it is intended for development only. For production use, please "
 "see WSGI setups:"
 msgstr ""
+"Vstavaný server Django obsluhuje statické súbory iba so zapnutým "
+":setting:`DEBUG`, pretože je určený len na vývoj. Pre produkčné použitie "
+"pozrite nastavenia WSGI:"
 
 #: admin/install.rst:1320
 msgid "Serving static files"
-msgstr ""
+msgstr "Obsluha statických súborov"
 
 #: admin/install.rst:1322
 msgid ":file:`/media/` is no longer used for serving screenshots."
-msgstr ""
+msgstr ":file:`/media/` sa už nepoužíva na obsluhu snímok obrazovky."
 
 #: admin/install.rst:1325
 msgid ""
@@ -9564,27 +9703,35 @@ msgid ""
 "setting (this defaults to a ``static`` directory "
 "inside :setting:`CACHE_DIR`)."
 msgstr ""
+"Django potrebuje zhromaždiť svoje statické súbory v jednom adresári. Na to "
+"vykonajte :samp:`weblate collectstatic --noinput`. Toto skopíruje statické "
+"súbory do adresára špecifikovaného nastavením :setting:`django:STATIC_ROOT` "
+"(predvolene je to adresár ``static`` vo vnútri :setting:`CACHE_DIR`)."
 
 #: admin/install.rst:1330
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
+"Odporúča sa obsluhovať statické súbory priamo z vášho webového servera, mali "
+"by ste to použiť pre nasledujúce cesty:"
 
 #: admin/install.rst:1334
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined "
 "by :setting:`django:STATIC_ROOT`)."
 msgstr ""
+"Obsluhuje statické súbory pre Weblate a administrátorské rozhranie (z "
+"definície :setting:`django:STATIC_ROOT`)."
 
 #: admin/install.rst:1337
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
-msgstr ""
+msgstr "Malo by sa prepísať pravidlo na obsluhu :file:`/static/favicon.ico`."
 
 #: admin/install.rst:1353
 msgid "Content security policy"
-msgstr ""
+msgstr "Zásady zabezpečenia obsahu"
 
 #: admin/install.rst:1355
 msgid ""
@@ -9595,23 +9742,30 @@ msgid ""
 "Weblate and its configuration, but this might need customization for your "
 "environment."
 msgstr ""
+"Predvolená konfigurácia Weblate povoľuje middleware "
+"``weblate.middleware.SecurityMiddleware``, ktorý nastavuje bezpečnostné HTTP "
+"hlavičky ako :http:header:`Content-Security-Policy` alebo :http:header:`X-"
+"XSS-Protection`. Tieto sú predvolene nastavené tak, aby fungovali s Weblate "
+"a jeho konfiguráciou, ale môžu vyžadovať prispôsobenie pre vaše prostredie."
 
 #: admin/install.rst:1372
 msgid "Sample configuration for NGINX and Granian"
-msgstr ""
+msgstr "Ukážková konfigurácia pre NGINX a Granian"
 
 #: admin/install.rst:1374
 msgid ""
 "The following configuration runs Weblate using Granian the NGINX webserver:"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate pomocou Granian a webového servera "
+"NGINX:"
 
 #: admin/install.rst:1383 admin/install.rst:1495
 msgid "https://github.com/emmett-framework/granian"
-msgstr ""
+msgstr "https://github.com/emmett-framework/granian"
 
 #: admin/install.rst:1389
 msgid "Sample configuration for NGINX and Gunicorn"
-msgstr ""
+msgstr "Ukážková konfigurácia pre NGINX a Gunicorn"
 
 #: admin/install.rst:1391
 msgid ""
@@ -9619,10 +9773,13 @@ msgid ""
 "webserver (also available as :file:`weblate/examples/"
 "weblate.nginx.gunicorn.conf`):"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate pomocou Gunicorn pod webovým "
+"serverom NGINX (tiež dostupné ako :file:`weblate/examples/"
+"weblate.nginx.gunicorn.conf`):"
 
 #: admin/install.rst:1406
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr ""
+msgstr "Ukážková konfigurácia pre NGINX a uWSGI"
 
 #: admin/install.rst:1409
 msgid ""
@@ -9632,37 +9789,49 @@ msgid ""
 "search path to your Python environment as well (for example using "
 "``virtualenv = /home/user/weblate-env`` in uWSGI)."
 msgstr ""
+"Na spustenie produkčného webového servera použite wrapper WSGI nainštalovaný "
+"s Weblate (pri používaní prostredia Python je nainštalovaný ako :file:`~/"
+"weblate-env/lib/python3.14/site-packages/weblate/wsgi.py`). Nezabudnite "
+"nastaviť aj cestu vyhľadávania Python pre vaše prostredie Python (napríklad "
+"pomocou ``virtualenv = /home/user/weblate-env`` v uWSGI)."
 
 #: admin/install.rst:1415
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate ako uWSGI pod webovým serverom NGINX."
 
 #: admin/install.rst:1417
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/"
 "weblate.nginx.conf`):"
 msgstr ""
+"Konfigurácia pre NGINX (tiež dostupná ako :file:`weblate/examples/"
+"weblate.nginx.conf`):"
 
 #: admin/install.rst:1422
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/"
 "weblate.uwsgi.ini`):"
 msgstr ""
+"Konfigurácia pre uWSGI (tiež dostupná ako :file:`weblate/examples/"
+"weblate.uwsgi.ini`):"
 
 #: admin/install.rst:1434
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Ukážková konfigurácia pre Apache"
 
 #: admin/install.rst:1436 admin/install.rst:1529
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
+msgstr "Odporúča sa používať prefork MPM pri používaní WSGI s Weblate."
 
 #: admin/install.rst:1438
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate ako WSGI, musíte mať povolené "
+"``mod_wsgi`` (dostupné ako :file:`weblate/examples/apache.conf`):"
 
 #: admin/install.rst:1446
 msgid ""
@@ -9670,24 +9839,29 @@ msgid ""
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate vyžaduje Python 3, preto sa uistite, že používate variant modwsgi "
+"pre Python 3. Zvyčajne je dostupný ako samostatný balík, napríklad "
+"``libapache2-mod-wsgi-py3``."
 
 #: admin/install.rst:1450
 msgid "Use matching Python version to install Weblate."
-msgstr ""
+msgstr "Na inštaláciu Weblate použite zodpovedajúcu verziu Python."
 
 #: admin/install.rst:1460
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Ukážková konfigurácia pre Apache a Gunicorn"
 
 #: admin/install.rst:1462
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate v Gunicorn a Apache 2.4 (dostupné "
+"ako :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: admin/install.rst:1477
 msgid "Sample configuration to start Granian"
-msgstr ""
+msgstr "Ukážková konfigurácia na spustenie Granian"
 
 #: admin/install.rst:1479
 msgid ""
@@ -9695,30 +9869,37 @@ msgid ""
 "install everything you need to run Granian. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate má voliteľnú závislosť `wsgi` (pozri :ref:`python-deps`), ktorá "
+"nainštaluje všetko, čo potrebujete na spustenie Granian. Pri inštalácii "
+"Weblate môžete špecifikovať ako:"
 
 #: admin/install.rst:1486
 msgid ""
 "Once you have Granian installed, you can run it. This is usually done at the "
 "system level. The following examples show starting via systemd:"
 msgstr ""
+"Po nainštalovaní Granian ho môžete spustiť. Toto sa zvyčajne robí na "
+"systémovej úrovni. Nasledujúce príklady ukazujú spúšťanie cez systemd:"
 
 #: admin/install.rst:1501
 msgid "Sample configuration to start Gunicorn"
-msgstr ""
+msgstr "Ukážková konfigurácia na spustenie Gunicorn"
 
 #: admin/install.rst:1503
 msgid "Gunicorn has to be installed separately:"
-msgstr ""
+msgstr "Gunicorn sa musí nainštalovať samostatne:"
 
 #: admin/install.rst:1509
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
+"Po nainštalovaní Gunicorn ho môžete spustiť. Toto sa zvyčajne robí na "
+"systémovej úrovni. Nasledujúce príklady ukazujú spúšťanie cez systemd:"
 
 #: admin/install.rst:1527
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Spúšťanie Weblate pod cestou"
 
 #: admin/install.rst:1531
 msgid ""
@@ -9726,14 +9907,17 @@ msgid ""
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-"
 "path.conf`):"
 msgstr ""
+"Ukážková konfigurácia Apache na obsluhu Weblate pod ``/weblate``. Opäť "
+"pomocou ``mod_wsgi`` (tiež dostupné ako :file:`weblate/examples/apache-"
+"path.conf`):"
 
 #: admin/install.rst:1537
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Dodatočne budete musieť upraviť :file:`weblate/settings.py`:"
 
 #: admin/install.rst:1546
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Úlohy na pozadí pomocou Celery"
 
 #: admin/install.rst:1548
 msgid ""
@@ -9741,42 +9925,51 @@ msgid ""
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
+"Weblate používa Celery na vykonávanie pravidelných úloh a úloh na pozadí. "
+"Mali by ste spustiť službu Celery, ktorá ich bude vykonávať. Napríklad je "
+"zodpovedná za spracovanie nasledujúcich operácií (tento zoznam nie je úplný):"
 
 #: admin/install.rst:1552
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr ""
+msgstr "Prijímanie webhookov z externých služieb (pozri :ref:`hooks`)."
 
 #: admin/install.rst:1553
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"Spúšťanie pravidelných úloh údržby, ako sú zálohy, čistenia, denné doplnky "
+"alebo aktualizácie (pozri :ref:`backup`, :setting:`BACKGROUND_TASKS`, "
+":ref:`addons`)."
 
 #: admin/install.rst:1555
 msgid "Running :ref:`auto-translation`."
-msgstr ""
+msgstr "Spúšťanie :ref:`auto-translation`."
 
 #: admin/install.rst:1556
 msgid "Sending digest notifications."
-msgstr ""
+msgstr "Odosielanie súhrnných upozornení."
 
 #: admin/install.rst:1557
 msgid "Offloading expensive operations from the WSGI process."
-msgstr ""
+msgstr "Vykladanie náročných operácií z procesu WSGI."
 
 #: admin/install.rst:1558
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr ""
+msgstr "Zapisovanie čakajúcich zmien (pozri :ref:`lazy-commit`)."
 
 #: admin/install.rst:1560
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
 msgstr ""
+"Typické nastavenie používajúce Valkey alebo Redis ako backend vyzerá takto:"
 
 #: admin/install.rst:1570
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Konfigurácia brokera Redis v Celery <celery:broker-redis-configuration>"
+"`"
 
 #: admin/install.rst:1572
 msgid ""
@@ -9784,6 +9977,9 @@ msgid ""
 "scheduled tasks, this can be done directly on the command-line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"Mali by ste tiež spustiť worker Celery na spracovanie úloh a spustiť "
+"naplánované úlohy, toto sa dá urobiť priamo z príkazového riadku (čo je "
+"najmä užitočné pri ladení alebo vývoji):"
 
 #: admin/install.rst:1583
 msgid ""
@@ -9791,14 +9987,17 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
+"Proces Celery sa musí vykonávať pod tým istým používateľom ako proces WSGI, "
+"inak budú súbory v :setting:`DATA_DIR` ukladané so zmiešaným vlastníctvom, "
+"čo povedie k problémom za behu."
 
 #: admin/install.rst:1587
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "Pozrite si aj :ref:`file-permissions` a :ref:`server`."
 
 #: admin/install.rst:1590
 msgid "Executing Celery tasks in the WSGI using eager mode"
-msgstr ""
+msgstr "Vykonávanie úloh Celery vo WSGI pomocou eager režimu"
 
 #: admin/install.rst:1594
 msgid ""
@@ -9806,16 +10005,21 @@ msgid ""
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
+"Toto bude mať vážny vplyv na výkon webového rozhrania a pokazí funkcie "
+"závislé od pravidelného spúšťania (napríklad zapisovanie čakajúcich zmien, "
+"súhrnné upozornenia alebo zálohy)."
 
 #: admin/install.rst:1598
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
+"Pre vývoj môžete chcieť použiť eager konfiguráciu, ktorá spracováva všetky "
+"úlohy na mieste:"
 
 #: admin/install.rst:1608
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "Spúšťanie Celery ako systémovej služby"
 
 #: admin/install.rst:1610
 msgid ""
@@ -9824,44 +10028,57 @@ msgid ""
 "using systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
+"S najväčšou pravdepodobnosťou budete chcieť spustiť Celery ako démona a to "
+"je pokryté v :doc:`celery:userguide/daemonizing`. Pre najbežnejšie "
+"nastavenie Linuxu používajúce systemd môžete použiť ukážkové súbory dodávané "
+"v priečinku :file:`examples` uvedenom nižšie."
 
 #: admin/install.rst:1615
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-"
 "weblate.service`:"
 msgstr ""
+"Jednotka systemd umiestnená ako :file:`/etc/systemd/system/celery-"
+"weblate.service`:"
 
 #: admin/install.rst:1620
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
+"Konfigurácia prostredia umiestnená ako :file:`/etc/default/celery-weblate`:"
 
 #: admin/install.rst:1625
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
+"Dodatočná konfigurácia na rotáciu logov Celery pomocou :command:`logrotate` "
+"umiestnená ako :file:`/etc/logrotate.d/celery`:"
 
 #: admin/install.rst:1632
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Periodické úlohy pomocou Celery beat"
 
 #: admin/install.rst:1634
 msgid ""
 "Weblate comes with built-in setup for scheduled tasks. The task schedule is "
 "stored in the database and tasks are executed by the Celery beat daemon."
 msgstr ""
+"Weblate prichádza s vstavaným nastavením pre naplánované úlohy. Plán úloh je "
+"uložený v databáze a úlohy sú vykonávané démonom Celery beat."
 
 #: admin/install.rst:1639
 msgid ""
 "You can define additional tasks in :file:`settings.py`, for example "
 "see :ref:`lazy-commit`."
 msgstr ""
+"Môžete definovať ďalšie úlohy v :file:`settings.py`, napríklad pozri "
+":ref:`lazy-commit`."
 
 #: admin/install.rst:1645
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Monitorovanie stavu Celery"
 
 #: admin/install.rst:1647
 msgid ""
@@ -9870,6 +10087,10 @@ msgid ""
 "the command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
+"Aktuálnu dĺžku frontov úloh Celery nájdete v :ref:`management-interface` "
+"alebo môžete použiť :wladmin:`celery_queues` na príkazovom riadku. V "
+"prípade, že sa front stane príliš dlhým, dostanete aj chybu konfigurácie v "
+"administrátorskom rozhraní."
 
 #: admin/install.rst:1654
 msgid ""
@@ -9877,10 +10098,13 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
+"Chyby Celery sú predvolene logované iba do logu Celery a nie sú viditeľné "
+"pre používateľa. V prípade, že chcete mať prehľad o takýchto zlyhaniach, "
+"odporúča sa nakonfigurovať :ref:`collecting-errors`."
 
 #: admin/install.rst:1672
 msgid "Single-process Celery setup"
-msgstr ""
+msgstr "Nastavenie Celery s jedným procesom"
 
 #: admin/install.rst:1674
 msgid ""
@@ -9888,20 +10112,26 @@ msgid ""
 "Weblate processes. All Celery tasks can be executed in a single process "
 "using:"
 msgstr ""
+"V prípade, že máte veľmi obmedzenú pamäť, môžete chcieť znížiť počet "
+"procesov Weblate. Všetky úlohy Celery môžu byť vykonávané v jednom procese "
+"pomocou:"
 
 #: admin/install.rst:1681
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
+"Inštalácia používajúca Docker môže byť nakonfigurovaná na použitie "
+"nastavenia Celery s jedným procesom nastavením "
+":envvar:`CELERY_SINGLE_PROCESS`."
 
 #: admin/install.rst:1685
 msgid "This will have a noticeable performance impact on Weblate."
-msgstr ""
+msgstr "Toto bude mať citeľný vplyv na výkon Weblate."
 
 #: admin/install.rst:1690
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Monitorovanie Weblate"
 
 #: admin/install.rst:1692
 msgid ""
@@ -9909,20 +10139,25 @@ msgid ""
 "for example using Kubernetes. The Docker container has built-in health check "
 "using this URL."
 msgstr ""
+"Weblate poskytuje URL ``/healthz/`` na použitie v jednoduchých kontrolách "
+"stavu, napríklad pomocou Kubernetes. Kontajner Docker má vstavanú kontrolu "
+"stavu používajúcu túto URL."
 
 #: admin/install.rst:1695
 msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
+"Na monitorovanie metrík Weblate môžete použiť koncový bod API :http:get:`/"
+"api/metrics/`."
 
 #: admin/install.rst:1701
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
-msgstr ""
+msgstr "`Plugin Weblate pre Munin <https://github.com/WeblateOrg/munin>`_"
 
 #: admin/install.rst:1706 admin/install/docker.rst:1982
 msgid "Collecting error reports and monitoring performance"
-msgstr ""
+msgstr "Zhromažďovanie hlásení chýb a monitorovanie výkonu"
 
 #: admin/install.rst:1708
 msgid ""
@@ -9932,6 +10167,11 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"Weblate, ako akýkoľvek iný softvér, môže zlyhať. Na zhromažďovanie "
+"užitočných stavov zlyhania odporúčame používať služby tretích strán na "
+"zhromažďovanie takýchto informácií. Toto je obzvlášť užitočné v prípade "
+"zlyhávajúcich úloh Celery, ktoré by inak hlásili chyby iba do logov a vy by "
+"ste o nich neboli upozornení. Weblate má podporu pre nasledujúce služby:"
 
 #: admin/install.rst:1717
 msgid ""
@@ -9941,6 +10181,12 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"Predvolená konfigurácia Weblate inštrumentuje Django na odosielanie e-mailov "
+"pri chybách servera cez "
+":py:class:`django:django.utils.log.AdminEmailHandler`. Toto je nastavenie s "
+"najmenším úsilím, ale mali by ste zvážiť iné možnosti z dôvodu ochrany "
+"súkromia, keďže e-maily s chybami môžu obsahovať citlivé údaje. Viac si o "
+"tom môžete prečítať v :ref:`django:logging-security-implications`."
 
 #: admin/install.rst:1723
 msgid ""
@@ -9948,16 +10194,21 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Na vypnutie tohto správania odstráňte ``mail_admins`` z "
+":setting:`django:LOGGING` v nastaveniach Weblate alebo vypnite "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` v prostredí Docker."
 
 #: admin/install.rst:1728
 msgid "Sentry"
-msgstr ""
+msgstr "Sentry"
 
 #: admin/install.rst:1730
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate má vstavanú podporu pre `Sentry <https://sentry.io/>`_. Na jeho "
+"použitie stačí nastaviť :setting:`SENTRY_DSN` v :file:`settings.py`:"
 
 #: admin/install.rst:1737
 msgid ""
@@ -9966,6 +10217,10 @@ msgid ""
 "configured using :setting:`SENTRY_TRACES_SAMPLE_RATE` "
 "and :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr ""
+"Sentry sa dá použiť aj na monitorovanie výkonu Weblate zbieraním stôp a "
+"profilov pre definované percento operácií. Toto sa dá nakonfigurovať pomocou "
+":setting:`SENTRY_TRACES_SAMPLE_RATE` a "
+":setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: admin/install.rst:1749
 msgid "Rollbar"
@@ -9977,26 +10232,33 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate má vstavanú podporu pre `Rollbar <https://rollbar.com/>`_. Na jeho "
+"použitie stačí postupovať podľa inštrukcií pre `Rollbar notifier for Python "
+"<https://docs.rollbar.com/docs/python/>`_."
 
 #: admin/install.rst:1754
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "Stručne povedané, musíte upraviť :file:`settings.py`:"
 
 #: admin/install.rst:1772
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
+"Všetko ostatné je integrované automaticky, teraz budete zbierať chyby zo "
+"strany servera aj klienta."
 
 #: admin/install.rst:1777
 msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
+"Logovanie chýb tiež zahŕňa výnimky, ktoré boli elegantne spracované, ale "
+"môžu naznačovať problém – napríklad neúspešné parsovanie nahraného súboru."
 
 #: admin/install.rst:1783
 msgid "Graylog log management"
-msgstr ""
+msgstr "Správa logov Graylog"
 
 #: admin/install.rst:1787
 msgid ""
