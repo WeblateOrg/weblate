@@ -105,6 +105,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     force_uncleanup = False
     highlight_syntax = False
     glossary_support = False
+    llm_context_support = False
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
@@ -559,18 +560,102 @@ class BatchMachineTranslation(DocVersionsMixin):
         threshold,
         replacements,
         *extra_parts,
+        source_occurrence: int = 0,
     ) -> tuple[str | None, list[TranslationResultDict] | None]:
         if not self.cache_translations:
             return None, None
-        cache_key = self.get_cache_key(
-            "translation",
-            parts=(source_language, target_language, threshold, *extra_parts),
-            text=text,
+        cache_key = self.get_translation_cache_key(
+            unit,
+            source_language,
+            target_language,
+            text,
+            threshold,
+            replacements,
+            *extra_parts,
+            source_occurrence=source_occurrence,
         )
         result = cache.get(cache_key)
+        if result:
+            result = [item.copy() for item in result]
         if result and (replacements or self.force_uncleanup):
             self.uncleanup_results(replacements, result)
         return cache_key, result
+
+    def get_translation_cache_parts(
+        self,
+        unit,
+        source_language,
+        target_language,
+        text,
+        threshold,
+        replacements,
+        *,
+        source_occurrence: int = 0,
+    ) -> tuple[str, ...]:
+        return ()
+
+    def tsv_checksum(self, tsv: str) -> str:
+        """Calculate checksum of given TSV glossary."""
+        return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
+
+    def get_glossary_cache_part(self, unit: Unit) -> str:
+        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
+
+        return self.tsv_checksum(get_glossary_tsv(unit.translation))
+
+    def get_uncached_pending_key(self, index: int, text: str, unit: Unit | None) -> str:
+        if unit is None:
+            return f"pending:none:{calculate_hash(text)}"
+        translation = getattr(unit, "translation", None)
+        translation_id = getattr(translation, "id", None) or getattr(
+            translation, "pk", None
+        )
+        if translation_id is None:
+            return f"pending:{index}"
+        return f"pending:{translation_id}:{calculate_hash(text)}"
+
+    def get_translation_cache_extra_parts(
+        self,
+        index: int,
+        text: str,
+        unit: Unit | None,
+        source_occurrence: int,
+    ) -> tuple[str | int, ...]:
+        return ()
+
+    def get_translation_cache_key(
+        self,
+        unit,
+        source_language,
+        target_language,
+        text,
+        threshold,
+        replacements,
+        *extra_parts,
+        source_occurrence: int = 0,
+    ) -> str:
+        translation_cache_parts: tuple[str, ...] = ()
+        if unit is not None:
+            translation_cache_parts = self.get_translation_cache_parts(
+                unit,
+                source_language,
+                target_language,
+                text,
+                threshold,
+                replacements,
+                source_occurrence=source_occurrence,
+            )
+        return self.get_cache_key(
+            "translation",
+            parts=(
+                source_language,
+                target_language,
+                threshold,
+                *translation_cache_parts,
+                *extra_parts,
+            ),
+            text=text,
+        )
 
     def search(self, unit, text, user: User | None):
         """Search for known translations of `text`."""
@@ -589,9 +674,9 @@ class BatchMachineTranslation(DocVersionsMixin):
             return []
 
         self.account_usage(translation.component.project)
-        return self._translate(
+        return self._translate_sources(
             source_language, target_language, [(text, unit)], user, threshold=10
-        )[text]
+        )[0]
 
     def get_default_source_language(self, translation: Translation) -> Language:
         """Return default source language for the translation."""
@@ -652,14 +737,13 @@ class BatchMachineTranslation(DocVersionsMixin):
             alternate_units = plural_mapper.get_other_units([unit], source_language)
 
         plural_mapper.map_units([unit], alternate_units)
-        translations = self._translate(
+        return self._translate_sources(
             mapped_source_language,
             target_language,
             [(text, unit) for text in unit.plural_map],
             user,
             threshold=threshold,
         )
-        return [translations[text] for text in unit.plural_map]
 
     def download_multiple_translations(
         self,
@@ -685,43 +769,145 @@ class BatchMachineTranslation(DocVersionsMixin):
         self,
         source_language,
         target_language,
-        sources: list[tuple[str, Unit]],
+        sources: list[tuple[str, Unit | None]],
         user=None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
-        output: DownloadMultipleTranslations = {}
-        pending = defaultdict(list)
+        return {
+            text: result
+            for (text, _unit), result in zip(
+                sources,
+                self._translate_sources(
+                    source_language, target_language, sources, user, threshold
+                ),
+                strict=True,
+            )
+        }
+
+    def _translate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = 75,
+    ) -> list[list[TranslationResultDict]]:
+        output: list[list[TranslationResultDict]] = [[] for _source in sources]
+        pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]] = (
+            defaultdict(list)
+        )
+        pending_units: dict[str, Unit | None] = {}
+        pending_texts: dict[str, str] = {}
+        pending_occurrences: dict[str, int] = {}
         cache_keys: dict[str, str | None] = {}
+        source_occurrences: dict[tuple[int | None, str], int] = defaultdict(int)
         result: list[TranslationResultDict] | None
-        for text, unit in sources:
+        for index, (text, unit) in enumerate(sources):
             original_source = text
-            text, replacements = self.cleanup_text(text, unit)
+            replacements: dict[str, str]
+            if unit is None:
+                replacements = {}
+            else:
+                text, replacements = self.cleanup_text(text, unit)
 
             if not text or self.is_rate_limited():
-                output[original_source] = []
                 continue
+
+            occurrence_key = (id(unit) if unit is not None else None, text)
+            source_occurrence = source_occurrences[occurrence_key]
+            source_occurrences[occurrence_key] += 1
+            cache_extra_parts = (
+                self.get_translation_cache_extra_parts(
+                    index, text, unit, source_occurrence
+                )
+                if self.cache_translations
+                else ()
+            )
 
             # Try cached results
-            cache_keys[text], result = self.get_cached(
-                unit, source_language, target_language, text, threshold, replacements
+            cache_key, result = self.get_cached(
+                unit,
+                source_language,
+                target_language,
+                text,
+                threshold,
+                replacements,
+                *cache_extra_parts,
+                source_occurrence=source_occurrence,
+            )
+            pending_key = (
+                self.get_uncached_pending_key(index, text, unit)
+                if cache_key is None
+                else cache_key
             )
             if result is not None:
-                output[original_source] = result
+                for item in result:
+                    item["original_source"] = original_source
+                output[index] = result
                 continue
 
-            pending[text].append((unit, original_source, replacements))
+            pending[pending_key].append((index, unit, original_source, replacements))
+            pending_units[pending_key] = unit
+            pending_texts[pending_key] = text
+            pending_occurrences[pending_key] = source_occurrence
+            cache_keys[pending_key] = cache_key
 
         # Fetch pending strings to translate
         if pending:
+            self._download_pending_translations(
+                pending,
+                pending_units,
+                pending_texts,
+                pending_occurrences,
+                cache_keys,
+                output,
+                source_language=source_language,
+                target_language=target_language,
+                user=user,
+                threshold=threshold,
+            )
+        return output
+
+    def _download_pending_translations(
+        self,
+        pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]],
+        pending_units: dict[str, Unit | None],
+        pending_texts: dict[str, str],
+        pending_occurrences: dict[str, int],
+        cache_keys: dict[str, str | None],
+        output: list[list[TranslationResultDict]],
+        *,
+        source_language,
+        target_language,
+        user=None,
+        threshold: int = 75,
+    ) -> None:
+        remaining_keys = list(pending)
+        while remaining_keys:
+            batch_keys: list[str] = []
+            batch_texts: set[str] = set()
+            next_remaining_keys: list[str] = []
+            for pending_key in remaining_keys:
+                text = pending_texts[pending_key]
+                if text in batch_texts:
+                    next_remaining_keys.append(pending_key)
+                    continue
+                batch_keys.append(pending_key)
+                batch_texts.add(text)
+
             # Unit is only used in WeblateMemory and it is used only to get a project
             # so it doesn't matter we potentially flatten this.
             try:
-                translations = self.download_multiple_translations(
+                translations = self.download_pending_translations(
                     source_language,
                     target_language,
                     [
-                        (text, occurrences[0][0])
-                        for text, occurrences in pending.items()
+                        (
+                            pending_texts[pending_key],
+                            pending_units[pending_key],
+                            pending_occurrences[pending_key],
+                        )
+                        for pending_key in batch_keys
                     ],
                     user,
                     threshold,
@@ -736,19 +922,38 @@ class BatchMachineTranslation(DocVersionsMixin):
                 raise MachineTranslationError(self.get_error_message(exc)) from exc
 
             # Postprocess translations
-            for text, result in translations.items():
-                for _unit, original_source, replacements in pending[text]:
+            for pending_key in batch_keys:
+                text = pending_texts[pending_key]
+                result = translations[text]
+                for index, _unit, original_source, replacements in pending[pending_key]:
                     # Always operate on copy of the dictionaries
                     partial = [x.copy() for x in result]
 
                     for item in partial:
                         item["original_source"] = original_source
-                    if cache_key := cache_keys[text]:
+                    if cache_key := cache_keys[pending_key]:
                         cache.set(cache_key, partial, self.cache_expiry)
                     if replacements or self.force_uncleanup:
                         self.uncleanup_results(replacements, partial)
-                    output[original_source] = partial
-        return output
+                    output[index] = partial
+
+            remaining_keys = next_remaining_keys
+
+    def download_pending_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None, int]],
+        user: User | None = None,
+        threshold: int = 75,
+    ) -> DownloadMultipleTranslations:
+        return self.download_multiple_translations(
+            source_language,
+            target_language,
+            [(text, unit) for text, unit, _occurrence in sources],
+            user,
+            threshold,
+        )
 
     def get_error_message(self, exc: Exception) -> str:
         message = f"{exc.__class__.__name__}: {exc}"
@@ -804,16 +1009,25 @@ class BatchMachineTranslation(DocVersionsMixin):
         plural_mapper.map_units(units, alternate_units)
 
         # TODO: fetch source from other units
-        sources = [(text, unit) for unit in units for text in unit.plural_map]
-        translations = self._translate(source, language, sources, user, threshold)
+        sources: list[tuple[str, Unit | None]] = [
+            (text, unit) for unit in units for text in unit.plural_map
+        ]
+        translations = self._translate_sources(
+            source, language, sources, user, threshold
+        )
+        translations_index = 0
 
         for unit in units:
             result: UnitMemoryResultDict = unit.machinery
             if min(result.get("quality", ()), default=0) >= self.max_score:
+                translations_index += len(unit.plural_map)
                 continue
-            translation_lists = [translations[text] for text in unit.plural_map]
+            translation_lists = translations[
+                translations_index : translations_index + len(unit.plural_map)
+            ]
+            translations_index += len(unit.plural_map)
             plural_count = len(translation_lists)
-            translation = result.setdefault("translation", [""] * plural_count)
+            result_translations = result.setdefault("translation", [""] * plural_count)
             quality = result.setdefault("quality", [0] * plural_count)
             origin = result.setdefault("origin", [None] * plural_count)
             for plural, possible_translations in enumerate(translation_lists):
@@ -821,7 +1035,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                     if quality[plural] > item["quality"]:
                         continue
                     quality[plural] = item["quality"]
-                    translation[plural] = item["text"]
+                    result_translations[plural] = item["text"]
                     origin[plural] = self
 
     @cached_property
@@ -958,11 +1172,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         cache.set(cache_key, result, 24 * 3600)
         return result
 
-    def tsv_checksum(self, tsv: str) -> str:
-        """Calculate checksum of given TSV glossary."""
-        return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
-
-    def get_cached(
+    def get_translation_cache_parts(
         self,
         unit,
         source_language,
@@ -970,20 +1180,20 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
         text,
         threshold,
         replacements,
-        *extra_parts,
-    ):
-        """Retrieve cached translation with glossary checksum."""
-        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
-
-        return super().get_cached(
-            unit,
-            source_language,
-            target_language,
-            text,
-            threshold,
-            replacements,
-            self.tsv_checksum(get_glossary_tsv(unit.translation)),
-            *extra_parts,
+        *,
+        source_occurrence: int = 0,
+    ) -> tuple[str, ...]:
+        return (
+            self.get_glossary_cache_part(unit),
+            *super().get_translation_cache_parts(
+                unit,
+                source_language,
+                target_language,
+                text,
+                threshold,
+                replacements,
+                source_occurrence=source_occurrence,
+            ),
         )
 
     def get_glossary_count_limit(self) -> int:

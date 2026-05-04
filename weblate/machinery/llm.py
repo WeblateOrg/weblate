@@ -12,7 +12,10 @@ import string
 from collections import Counter, defaultdict
 from itertools import chain
 from operator import itemgetter
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict, TypeGuard
+
+from django.utils.html import strip_tags
+from django.utils.translation import override
 
 from weblate.checks.utils import highlight_string
 from weblate.glossary.models import (
@@ -25,11 +28,24 @@ from weblate.machinery.base import (
     MachineTranslationError,
 )
 from weblate.utils.errors import add_breadcrumb
+from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Unit
+    from django_stubs_ext import StrOrPromise
 
-    from .base import DownloadMultipleTranslations
+    from weblate.lang.models import Language, Plural
+    from weblate.trans.models import Component, Translation, Unit
+
+    from .base import (
+        DownloadMultipleTranslations,
+        SettingsDict,
+        TranslationResultDict,
+    )
+
+type JSONValue = (
+    bool | int | float | str | list[JSONValue] | dict[str, JSONValue] | None
+)
 
 PROMPT = """
 You are a professional translation engine specialized in structured localization tasks.
@@ -48,7 +64,31 @@ Input is provided as JSON with the following schema:
     }},
     "strings": [                                // strings to translate
         {{
-            "source": "source @@PH1@@string"    // text to translate with a non-translatable placeable
+            "source": "source @@PH1@@string",   // text to translate with a non-translatable placeable
+            "context": "gettext context",       // optional source context for bilingual strings
+            "key": "app.menu.save",             // optional key for monolingual strings
+            "explanation": "button label",      // optional explanation of meaning or usage
+            "secondary": {{                     // optional translation in configured secondary language
+                "language": "xx",
+                "text": "secondary language text"
+            }},
+            "plural": {{                        // optional plural metadata for this string
+                "form_index": 0,
+                "source_forms": 2,
+                "target_forms": 3,
+                "source_formula": "nplurals=2; plural=n != 1;",
+                "target_formula": "nplurals=3; plural=..."
+            }},
+            "failing_checks": [                 // optional active failing quality checks
+                {{
+                    "check_id": "same",
+                    "name": "Unchanged translation",
+                    "description": "Source and translation are identical."
+                }}
+            ],
+            "placeholders": {{                  // optional mapping of opaque tokens to original content
+                "@@PH1@@": "%s"
+            }}
         }},
         {{
             "source": "another string"          // text to translate without placeables
@@ -78,6 +118,9 @@ Rules:
 15. Placeholder contract: Tokens like @@PH44@@ are opaque atoms. Never translate, inflect, split, rename, reorder characters inside, wrap, or escape them. Never convert them to another syntax.
 16. Markup contract: Preserve markup, tags, attributes, entities, and similar control sequences exactly. Translate only human-readable text outside markup and outside placeholder tokens.
 17. Output contract: Return exactly one JSON array of strings, with no characters before `[` or after `]`.
+18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add their contents unless they are present in source.
+19. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens, not the mapped content.
+20. Failing checks describe issues to avoid or fix when improving an existing translation.
 
 Valid placeholder and markup handling:
 ["Click <a href=\"/x\">log out</a> and use @@PH195@@."]
@@ -95,12 +138,52 @@ RECOVERABLE_LLM_PLACEHOLDER_RE = re.compile(r"@@PH(?P<id>\d+) *@ *@")
 ESCAPED_LLM_PLACEHOLDER_RE = re.compile(r"(?:\\@){2}PH(?P<id>\d+) *\\@ *\\@")
 
 
+class LLMSecondaryContext(TypedDict):
+    language: str
+    text: str
+    language_name: NotRequired[str]
+
+
+class LLMPluralContext(TypedDict):
+    source_forms: int
+    target_forms: int
+    form_index: NotRequired[int]
+    source_formula: NotRequired[str]
+    target_formula: NotRequired[str]
+
+
+class LLMFailingCheckContext(TypedDict):
+    check_id: str
+    name: NotRequired[str]
+    description: NotRequired[str]
+
+
+class LLMStringContext(TypedDict, total=False):
+    context: str
+    key: str
+    explanation: str
+    secondary: LLMSecondaryContext
+    plural: LLMPluralContext
+    failing_checks: list[LLMFailingCheckContext]
+    placeholders: dict[str, str]
+
+
+class LLMStringPayload(LLMStringContext):
+    source: str
+    translation: NotRequired[str]
+
+
 class BaseLLMTranslation(BatchMachineTranslation):
     max_score = 90
     request_timeout = 120
     glossary_support = True
+    llm_context_support = True
     replacement_start = "@@PH"
     replacement_end = "@@"
+
+    def __init__(self, configuration: SettingsDict) -> None:
+        super().__init__(configuration)
+        self._secondary_context_cache: dict[tuple[int, int], Unit | None] | None = None
 
     def is_supported(self, source_language, target_language) -> bool:
         return True
@@ -117,6 +200,125 @@ class BaseLLMTranslation(BatchMachineTranslation):
     ) -> str | None:
         raise NotImplementedError
 
+    @staticmethod
+    def _normalize_context_text(text: str | None) -> str:
+        if text is None:
+            return ""
+        return text.strip()
+
+    @staticmethod
+    def _normalize_check_text(text: StrOrPromise | None) -> str:
+        if text is None:
+            return ""
+        return " ".join(strip_tags(str(text)).split())
+
+    @staticmethod
+    def _get_language_id(language: Language | None) -> int | None:
+        return getattr(language, "id", None) or getattr(language, "pk", None)
+
+    @classmethod
+    def _get_language_name(cls, language: Language) -> str:
+        return cls._normalize_context_text(language.get_name())
+
+    def get_uncached_pending_key(self, index: int, text: str, unit: Unit | None) -> str:
+        return f"pending:{index}"
+
+    def _ensure_secondary_context_cache(self) -> bool:
+        if self._secondary_context_cache is not None:
+            return False
+        self._secondary_context_cache = {}
+        return True
+
+    def _clear_secondary_context_cache(self, started_cache: bool) -> None:
+        if started_cache:
+            self._secondary_context_cache = None
+
+    def _translate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = 75,
+    ) -> list[list[TranslationResultDict]]:
+        started_cache = self._ensure_secondary_context_cache()
+        try:
+            return super()._translate_sources(
+                source_language, target_language, sources, user, threshold
+            )
+        finally:
+            self._clear_secondary_context_cache(started_cache)
+
+    @staticmethod
+    def _get_related_language_id(
+        obj: Component | Translation, field: Literal["language", "source_language"]
+    ) -> int | None:
+        if language_id := getattr(obj, f"{field}_id", None):
+            return language_id
+        return BaseLLMTranslation._get_language_id(getattr(obj, field, None))
+
+    @staticmethod
+    def _is_monolingual_unit(unit: Unit) -> bool:
+        component = getattr(getattr(unit, "translation", None), "component", None)
+        if component is None:
+            return False
+
+        has_template = getattr(component, "has_template", None)
+        if has_template is not None:
+            return bool(has_template())
+
+        file_format = getattr(component, "file_format_cls", None)
+        return bool(getattr(file_format, "monolingual", False))
+
+    @classmethod
+    def _get_explanation_context(cls, unit: Unit) -> str:
+        source_unit = getattr(unit, "source_unit", None)
+        if source_unit is not None:
+            explanation = cls._normalize_context_text(
+                getattr(source_unit, "explanation", "")
+            )
+            if explanation:
+                return explanation
+
+        return cls._normalize_context_text(getattr(unit, "explanation", ""))
+
+    @classmethod
+    def _get_failing_checks_context(
+        cls, unit: Unit, *, include_labels: bool = True
+    ) -> list[LLMFailingCheckContext]:
+        checks = getattr(unit, "active_checks", None)
+        if checks is None:
+            all_checks = getattr(unit, "all_checks", None)
+            if all_checks is None:
+                return []
+            checks = [
+                check for check in all_checks if not getattr(check, "dismissed", False)
+            ]
+
+        result: list[LLMFailingCheckContext] = []
+        for check in checks:
+            check_id = cls._normalize_context_text(check.name)
+            if check_id:
+                item: LLMFailingCheckContext = {"check_id": check_id}
+                if include_labels:
+                    with override("en"):
+                        name = cls._normalize_check_text(check.get_name())
+                        if name:
+                            item["name"] = name
+                        description = cls._normalize_check_text(check.get_description())
+                        if description:
+                            item["description"] = description
+                result.append(item)
+
+        result.sort(
+            key=lambda item: (
+                item["check_id"],
+                item.get("name", ""),
+                item.get("description", ""),
+            )
+        )
+        return result
+
     def make_re_placeholder(self, text: str) -> str:
         if LLM_PLACEHOLDER_RE.fullmatch(text):
             return f"{re.escape(text[:-2])} *{re.escape(text[-2:-1])} *{re.escape(text[-1:])}"
@@ -126,7 +328,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         self,
         source_language: str,
         target_language: str,
-        texts: list[dict[str, str]],
+        texts: list[LLMStringPayload],
         glossary: dict[str, str],
     ) -> str:
         result = {
@@ -137,11 +339,322 @@ class BaseLLMTranslation(BatchMachineTranslation):
         }
         return json.dumps(result)
 
+    @classmethod
+    def _get_placeholder_context(
+        cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
+    ) -> dict[str, str]:
+        placeholder_specs = cls._iter_source_placeholder_specs(
+            source_text, unit, source_occurrence
+        )
+        if not placeholder_specs:
+            return {}
+        return dict(placeholder_specs)
+
+    @classmethod
+    def _find_plural_indexes(cls, source_text: str, unit: Unit) -> list[int]:
+        for source_variants in (
+            getattr(unit, "plural_map", ()),
+            unit.get_source_plurals(),
+        ):
+            result: list[int] = []
+            for index, source_variant in enumerate(source_variants):
+                cleaned_source, _specs = cls._cleanup_source_variant(
+                    source_variant, unit
+                )
+                if cleaned_source == source_text:
+                    result.append(index)
+            if result:
+                return result
+
+        return []
+
+    @classmethod
+    def _find_plural_index(
+        cls, source_text: str, unit: Unit, source_occurrence: int = 0
+    ) -> int | None:
+        plural_indexes = cls._find_plural_indexes(source_text, unit)
+        if not plural_indexes:
+            return None
+        if source_occurrence < len(plural_indexes):
+            return plural_indexes[source_occurrence]
+        return plural_indexes[0]
+
+    @classmethod
+    def _get_plural_context(
+        cls,
+        source_text: str,
+        unit: Unit,
+        source_language: str | None,
+        source_occurrence: int = 0,
+    ) -> LLMPluralContext | None:
+        plural_map = getattr(unit, "plural_map", ())
+        source_plurals = unit.get_source_plurals()
+        if not (
+            getattr(unit, "is_plural", False)
+            or len(source_plurals) > 1
+            or len(plural_map) > 1
+        ):
+            return None
+
+        source_plural = cls._get_source_plural(unit, source_language)
+        source_forms = getattr(source_plural, "number", len(source_plurals))
+        target_plural = getattr(getattr(unit, "translation", None), "plural", None)
+        target_forms = getattr(target_plural, "number", len(unit.get_target_plurals()))
+
+        result: LLMPluralContext = {
+            "source_forms": source_forms,
+            "target_forms": target_forms,
+        }
+
+        if (
+            form_index := cls._find_plural_index(source_text, unit, source_occurrence)
+        ) is not None:
+            result["form_index"] = form_index
+
+        if source_formula := getattr(source_plural, "plural_form", ""):
+            result["source_formula"] = source_formula
+        if target_formula := getattr(target_plural, "plural_form", ""):
+            result["target_formula"] = target_formula
+
+        return result
+
+    @classmethod
+    def _get_source_plural(
+        cls, unit: Unit, source_language: str | None
+    ) -> Plural | None:
+        translation = getattr(unit, "translation", None)
+        component = getattr(translation, "component", None)
+        if component is None:
+            return None
+
+        language_code = source_language
+        candidates = (
+            getattr(component, "source_language", None),
+            getattr(component, "secondary_language", None),
+            getattr(getattr(component, "project", None), "secondary_language", None),
+            getattr(translation, "language", None),
+        )
+        for language in candidates:
+            if language is None:
+                continue
+            if (
+                language_code is not None
+                and getattr(language, "code", None) != language_code
+            ):
+                continue
+            return getattr(language, "plural", None)
+
+        return getattr(getattr(component, "source_language", None), "plural", None)
+
+    def _get_secondary_context(
+        self,
+        source_text: str,
+        unit: Unit,
+        source_occurrence: int = 0,
+    ) -> LLMSecondaryContext | None:
+        translation = getattr(unit, "translation", None)
+        component = getattr(translation, "component", None)
+        if translation is None or component is None:
+            return None
+
+        secondary_language = getattr(component, "secondary_language", None) or getattr(
+            getattr(component, "project", None), "secondary_language", None
+        )
+        if secondary_language is None:
+            return None
+
+        secondary_language_id = self._get_language_id(secondary_language)
+        if secondary_language_id in {
+            self._get_related_language_id(translation, "language"),
+            self._get_related_language_id(component, "source_language"),
+        }:
+            return None
+
+        source_unit = getattr(unit, "source_unit", None) or unit
+        unit_set = getattr(source_unit, "unit_set", None)
+        if unit_set is None:
+            return None
+
+        source_unit_id = getattr(source_unit, "id", None) or getattr(
+            source_unit, "pk", None
+        )
+        cache_key = (
+            source_unit_id if isinstance(source_unit_id, int) else id(source_unit),
+            secondary_language_id
+            if secondary_language_id is not None
+            else id(secondary_language),
+        )
+        secondary_context_cache = self._secondary_context_cache
+        if secondary_context_cache is not None and cache_key in secondary_context_cache:
+            secondary_unit = secondary_context_cache[cache_key]
+        else:
+            try:
+                if secondary_language_id is None:
+                    query = unit_set.filter(translation__language=secondary_language)
+                else:
+                    query = unit_set.filter(
+                        translation__language_id=secondary_language_id
+                    )
+                query = (
+                    query.filter(state__gte=STATE_TRANSLATED, state__lt=STATE_READONLY)
+                    .exclude(target="")
+                    .select_related("translation__language")
+                )
+                if unit_pk := getattr(unit, "pk", None):
+                    query = query.exclude(pk=unit_pk)
+                secondary_unit = query.first()
+            except (AttributeError, TypeError, ValueError):
+                return None
+            if secondary_context_cache is not None:
+                secondary_context_cache[cache_key] = secondary_unit
+
+        if secondary_unit is None:
+            return None
+
+        targets = secondary_unit.get_target_plurals()
+        form_index = self._find_plural_index(source_text, unit, source_occurrence)
+        if form_index is not None and form_index < len(targets) and targets[form_index]:
+            text = targets[form_index]
+        else:
+            text = next((target for target in targets if target), "")
+        if not text:
+            return None
+
+        result: LLMSecondaryContext = {
+            "language": str(getattr(secondary_language, "code", secondary_language)),
+            "text": text,
+        }
+        language_name = self._get_language_name(secondary_language)
+        if language_name and language_name != result["language"]:
+            result["language_name"] = language_name
+        return result
+
+    def _get_string_context(
+        self,
+        source_text: str,
+        unit: Unit | None,
+        source_language: str | None = None,
+        *,
+        include_check_labels: bool = True,
+        source_occurrence: int = 0,
+    ) -> LLMStringContext:
+        if unit is None:
+            return {}
+
+        result: LLMStringContext = {}
+
+        if context := self._normalize_context_text(getattr(unit, "context", "")):
+            if self._is_monolingual_unit(unit):
+                result["key"] = context
+            else:
+                result["context"] = context
+
+        if explanation := self._get_explanation_context(unit):
+            result["explanation"] = explanation
+
+        if secondary := self._get_secondary_context(
+            source_text, unit, source_occurrence
+        ):
+            result["secondary"] = secondary
+
+        if plural := self._get_plural_context(
+            source_text, unit, source_language, source_occurrence
+        ):
+            result["plural"] = plural
+
+        if failing_checks := self._get_failing_checks_context(
+            unit, include_labels=include_check_labels
+        ):
+            result["failing_checks"] = failing_checks
+
+        if placeholders := self._get_placeholder_context(
+            source_text, unit, source_occurrence
+        ):
+            result["placeholders"] = placeholders
+
+        return result
+
+    def _build_string_payload(
+        self,
+        source_text: str,
+        unit: Unit | None,
+        source_language: str | None = None,
+        source_occurrence: int = 0,
+    ) -> LLMStringPayload:
+        return {
+            "source": source_text,
+            **self._get_string_context(
+                source_text, unit, source_language, source_occurrence=source_occurrence
+            ),
+        }
+
+    def get_translation_cache_extra_parts(
+        self,
+        index: int,
+        text: str,
+        unit: Unit | None,
+        source_occurrence: int,
+    ) -> tuple[str | int, ...]:
+        if unit is None or source_occurrence == 0:
+            return ()
+
+        plural_map = getattr(unit, "plural_map", ())
+        source_plurals = unit.get_source_plurals()
+        if not (
+            getattr(unit, "is_plural", False)
+            or len(source_plurals) > 1
+            or len(plural_map) > 1
+        ):
+            return ()
+
+        plural_indexes = self._find_plural_indexes(text, unit)
+        if len(plural_indexes) <= 1 or source_occurrence >= len(plural_indexes):
+            return ()
+        return ("plural-form", plural_indexes[source_occurrence])
+
+    def get_translation_cache_parts(
+        self,
+        unit,
+        source_language,
+        target_language,
+        text,
+        threshold,
+        replacements,
+        *,
+        source_occurrence: int = 0,
+    ) -> tuple[str, ...]:
+        result = (
+            self.get_glossary_cache_part(unit),
+            *super().get_translation_cache_parts(
+                unit,
+                source_language,
+                target_language,
+                text,
+                threshold,
+                replacements,
+                source_occurrence=source_occurrence,
+            ),
+        )
+        context = self._get_string_context(
+            text,
+            unit,
+            source_language,
+            include_check_labels=False,
+            source_occurrence=source_occurrence,
+        )
+        if context:
+            return (
+                hash_to_checksum(calculate_hash(json.dumps(context, sort_keys=True))),
+                *result,
+            )
+        return result
+
     def _get_message(
         self,
         source_language: str,
         target_language: str,
         sources: list[tuple[str, Unit | None]],
+        source_occurrences: list[int] | None = None,
     ) -> str:
         glossary: dict[str, str] = {}
 
@@ -158,8 +671,19 @@ class BaseLLMTranslation(BatchMachineTranslation):
             )
 
         inputs = []
+        occurrence_counts: dict[tuple[int | None, str], int] = defaultdict(int)
 
-        for text, unit in sources:
+        for index, (text, unit) in enumerate(sources):
+            if source_occurrences is None:
+                occurrence_key = (id(unit) if unit is not None else None, text)
+                source_occurrence = occurrence_counts[occurrence_key]
+                occurrence_counts[occurrence_key] += 1
+            else:
+                source_occurrence = source_occurrences[index]
+
+            payload = self._build_string_payload(
+                text, unit, source_language, source_occurrence
+            )
             if (
                 unit is not None
                 and unit.translated
@@ -170,12 +694,11 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 translation = self._placeholderize_existing_translation(
                     unit.get_target_plurals()[0], text, unit
                 )
-                payload = {"source": text}
                 if translation is not None:
                     payload["translation"] = translation
                 inputs.append(payload)
             else:
-                inputs.append({"source": text})
+                inputs.append(payload)
 
         return self._build_message(source_language, target_language, inputs, glossary)
 
@@ -357,7 +880,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     @classmethod
     def _iter_source_placeholder_specs(
-        cls, source_text: str, unit: Unit | None
+        cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
     ) -> list[tuple[str, str]] | None:
         source_placeholders = [
             token for token, _end in cls._iter_placeholders(source_text)
@@ -366,14 +889,19 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return [] if not source_placeholders else None
 
         source_variants = dict.fromkeys(
-            chain(unit.get_source_plurals(), getattr(unit, "plural_map", ()))
+            chain(getattr(unit, "plural_map", ()), unit.get_source_plurals())
         )
+        matching_specs: list[list[tuple[str, str]]] = []
         for source_variant in source_variants:
             cleaned_source, specs = cls._cleanup_source_variant(source_variant, unit)
             if cleaned_source == source_text:
-                return specs
+                matching_specs.append(specs)
 
-        return None
+        if not matching_specs:
+            return None
+        if source_occurrence < len(matching_specs):
+            return matching_specs[source_occurrence]
+        return matching_specs[0]
 
     @classmethod
     def _iter_translation_highlights(
@@ -476,16 +1004,22 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return placeholderized
 
     @classmethod
+    def _is_string_list(
+        cls, value: JSONValue, expected_length: int
+    ) -> TypeGuard[list[str]]:
+        return (
+            isinstance(value, list)
+            and len(value) == expected_length
+            and all(isinstance(item, str) for item in value)
+        )
+
+    @classmethod
     def _validate_translations(
         cls,
-        translations: object,
+        translations: JSONValue,
         sources: list[tuple[str, Unit | None]],
     ) -> list[str]:
-        if (
-            not isinstance(translations, list)
-            or not all(isinstance(item, str) for item in translations)
-            or len(translations) != len(sources)
-        ):
+        if not cls._is_string_list(translations, len(sources)):
             msg = "Mismatching assistant reply."
             raise MachineTranslationError(msg)
 
@@ -519,10 +1053,68 @@ class BaseLLMTranslation(BatchMachineTranslation):
         user=None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
+        return self._download_multiple_translations(
+            source_language, target_language, sources, user, threshold
+        )
+
+    def download_pending_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None, int]],
+        user=None,
+        threshold: int = 75,
+    ) -> DownloadMultipleTranslations:
+        return self._download_multiple_translations(
+            source_language,
+            target_language,
+            [(text, unit) for text, unit, _occurrence in sources],
+            user,
+            threshold,
+            source_occurrences=[
+                source_occurrence for _text, _unit, source_occurrence in sources
+            ],
+        )
+
+    def _download_multiple_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = 75,
+        *,
+        source_occurrences: list[int] | None = None,
+    ) -> DownloadMultipleTranslations:
+        started_cache = self._ensure_secondary_context_cache()
+        try:
+            return self._download_multiple_translations_with_context_cache(
+                source_language,
+                target_language,
+                sources,
+                user,
+                threshold,
+                source_occurrences=source_occurrences,
+            )
+        finally:
+            self._clear_secondary_context_cache(started_cache)
+
+    def _download_multiple_translations_with_context_cache(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = 75,
+        *,
+        source_occurrences: list[int] | None = None,
+    ) -> DownloadMultipleTranslations:
         result: DownloadMultipleTranslations = defaultdict(list)
 
         prompt = self._get_prompt()
-        content = self._get_message(source_language, target_language, sources)
+        content = self._get_message(
+            source_language, target_language, sources, source_occurrences
+        )
 
         # Build previous messages for better anchoring assistant responses
         # TODO: This might use existing translations instead of hard-coded example

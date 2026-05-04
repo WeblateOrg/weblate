@@ -12,7 +12,8 @@ from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, NoReturn
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import MagicMock, Mock, call, patch
 
 import httpx
@@ -26,6 +27,8 @@ from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils.translation import get_language
+from django.utils.translation import override as translation_override
 from google.api_core import exceptions as google_api_exceptions
 from google.cloud.translate import (
     SupportedLanguages,
@@ -37,7 +40,7 @@ from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
 import weblate.machinery.models
-from weblate.checks.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockLanguage, MockUnit
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -86,6 +89,8 @@ from weblate.utils.state import STATE_TRANSLATED
 from .types import SourceLanguageChoices
 
 if TYPE_CHECKING:
+    from typing import Any
+
     from requests import PreparedRequest
 
     from weblate.machinery.base import (
@@ -504,6 +509,82 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(units[0].machinery["translation"], ["Nazdar %s!"])
         self.assertEqual(units[1].machinery["translation"], ["Nazdar %d!"])
 
+    def test_translate_skips_pending_cache_key_without_cache(self) -> None:
+        machine_translation = self.get_machine()
+        unit = MockUnit(code="cs", source=self.SOURCE_TRANSLATED)
+
+        with (
+            patch.object(
+                machine_translation,
+                "get_translation_cache_key",
+                side_effect=AssertionError("cache key should not be built"),
+            ),
+            patch.object(
+                machine_translation,
+                "get_translation_cache_extra_parts",
+                side_effect=AssertionError("cache extra parts should not be built"),
+            ),
+        ):
+            translation = machine_translation.translate(cast("Unit", unit))
+
+        self.assertEqual(len(translation[0]), self.EXPECTED_LEN)
+
+    def test_cached_translation_uses_current_original_source(self) -> None:
+        machine_translation = self.get_machine(cache=True)
+        unit1 = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
+        unit2 = MockUnit(code="cs", source="Hello, %d!", flags="c-format")
+
+        machine_translation.translate(cast("Unit", unit1))
+        translation = machine_translation.translate(cast("Unit", unit2))
+
+        self.assertEqual(translation[0][0]["text"], "Nazdar %d!")
+        self.assertEqual(translation[0][0]["original_source"], "Hello, %d!")
+
+    def test_translate_sources_collapses_duplicate_texts_without_cache(self) -> None:
+        class RecordingTranslation(DummyTranslation):
+            def __init__(self, settings) -> None:
+                super().__init__(settings)
+                self.batches: list[list[tuple[str, Unit | None]]] = []
+
+            def translate_sources_for_test(self, sources):
+                return self._translate_sources("en", "cs", sources)
+
+            def download_multiple_translations(
+                self,
+                source_language,
+                target_language,
+                sources,
+                user=None,
+                threshold: int = 75,
+            ):
+                self.batches.append(sources)
+                return {
+                    text: [
+                        {
+                            "text": f"{text} translated",
+                            "quality": self.max_score,
+                            "service": self.name,
+                            "source": text,
+                        }
+                    ]
+                    for text, _unit in sources
+                }
+
+        machine_translation = RecordingTranslation({})
+        machine_translation.cache_translations = False
+        unit = MockUnit(code="cs", source=self.SOURCE_TRANSLATED)
+
+        translations = machine_translation.translate_sources_for_test(
+            [(self.SOURCE_TRANSLATED, unit), (self.SOURCE_TRANSLATED, unit)]
+        )
+
+        self.assertEqual(len(translations), 2)
+        self.assertEqual(len(machine_translation.batches), 1)
+        self.assertEqual(
+            [text for text, _unit in machine_translation.batches[0]],
+            [self.SOURCE_TRANSLATED],
+        )
+
     def test_key(self) -> None:
         machine_translation = self.get_machine()
         self.assertEqual(
@@ -806,6 +887,30 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
             )
             self.assertIsNone(new_result)
             self.assertNotEqual(cache_key, new_cache_key)
+
+    def test_translate_sources_accepts_unit_none(self) -> None:
+        class TestMachine(DummyGlossaryTranslation):
+            def translate_sources_for_test(self):
+                return self._translate_sources("en", "cs", [("Hello, world!", None)])
+
+        machine = TestMachine(self.CONFIGURATION)
+        machine.delete_cache()
+        machine.cache_translations = True
+
+        with (
+            patch.object(
+                machine,
+                "cleanup_text",
+                side_effect=AssertionError("cleanup_text requires a unit"),
+            ),
+            patch(
+                "weblate.glossary.models.get_glossary_tsv",
+                side_effect=AssertionError("glossary cache parts require a unit"),
+            ),
+        ):
+            translations = machine.translate_sources_for_test()
+
+        self.assertEqual(translations[0][0]["text"], "Nazdar světe!")
 
 
 class GlosbeTranslationTest(BaseMachineTranslationTest):
@@ -2927,6 +3032,636 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
         )
 
+    def test_translate_sends_unit_context(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Hello, %s!",
+            flags="python-format",
+            context="greeting.button",
+        )
+        cast("Any", unit).source_unit = SimpleNamespace(
+            explanation="Shown on the greeting button.", unit_set=None
+        )
+        label_languages = []
+
+        class FakeCheck:
+            name = "same"
+            dismissed = False
+
+            @staticmethod
+            def get_name() -> str:
+                label_languages.append(get_language())
+                return "Unchanged translation"
+
+            @staticmethod
+            def get_description() -> str:
+                label_languages.append(get_language())
+                return "<strong>Source</strong> and translation are identical."
+
+        cast("Any", unit).active_checks = [FakeCheck()]
+        typed_unit = cast("Unit", unit)
+        cleaned_source, _replacements = machine.cleanup_text(unit.source, typed_unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            item = payload["strings"][0]
+            self.assertEqual(item["context"], "greeting.button")
+            self.assertEqual(item["explanation"], "Shown on the greeting button.")
+            self.assertEqual(
+                item["failing_checks"],
+                [
+                    {
+                        "check_id": "same",
+                        "name": "Unchanged translation",
+                        "description": "Source and translation are identical.",
+                    }
+                ],
+            )
+            self.assertEqual(item["placeholders"], {"@@PH7@@": "%s"})
+            return json.dumps(["Bonjour @@PH7@@!"])
+
+        with (
+            translation_override("cs"),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [(cleaned_source, typed_unit)]
+            )
+
+        self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour @@PH7@@!")
+        self.assertEqual(label_languages, ["en", "en"])
+
+    def test_translation_cache_uses_stable_check_id(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Hello, %s!",
+            flags="python-format",
+            context="greeting.button",
+        )
+        typed_unit = cast("Unit", unit)
+        cleaned_source, replacements = machine.cleanup_text(unit.source, typed_unit)
+
+        class LocalizedCheck:
+            name = "same"
+            dismissed = False
+
+            def __init__(self, label: str) -> None:
+                self.label = label
+
+            def get_name(self) -> str:
+                return self.label
+
+            def get_description(self) -> str:
+                return f"{self.label} description"
+
+        cast("Any", unit).active_checks = [LocalizedCheck("Unchanged translation")]
+        english_cache_parts = machine.get_translation_cache_parts(
+            typed_unit, "en", "fr", cleaned_source, 75, replacements
+        )
+
+        cast("Any", unit).active_checks = [LocalizedCheck("Unveränderte Übersetzung")]
+        german_cache_parts = machine.get_translation_cache_parts(
+            typed_unit, "en", "fr", cleaned_source, 75, replacements
+        )
+
+        self.assertEqual(english_cache_parts, german_cache_parts)
+
+    def test_translation_cache_sorts_failing_checks(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Hello, %s!",
+            flags="python-format",
+            context="greeting.button",
+        )
+        typed_unit = cast("Unit", unit)
+        cleaned_source, replacements = machine.cleanup_text(unit.source, typed_unit)
+
+        class NamedCheck:
+            dismissed = False
+
+            def __init__(self, name: str) -> None:
+                self.name = name
+
+            def get_name(self) -> str:
+                return self.name
+
+            def get_description(self) -> str:
+                return f"{self.name} description"
+
+        cast("Any", unit).active_checks = [NamedCheck("same"), NamedCheck("xml")]
+        original_cache_parts = machine.get_translation_cache_parts(
+            typed_unit, "en", "fr", cleaned_source, 75, replacements
+        )
+
+        cast("Any", unit).active_checks = [NamedCheck("xml"), NamedCheck("same")]
+        reordered_cache_parts = machine.get_translation_cache_parts(
+            typed_unit, "en", "fr", cleaned_source, 75, replacements
+        )
+
+        self.assertEqual(original_cache_parts, reordered_cache_parts)
+
+    def test_translation_cache_uses_glossary_checksum(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Hello, world!",
+        )
+        typed_unit = cast("Unit", unit)
+        cleaned_source, replacements = machine.cleanup_text(unit.source, typed_unit)
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar"
+        ):
+            original_cache_parts = machine.get_translation_cache_parts(
+                typed_unit, "en", "fr", cleaned_source, 75, replacements
+            )
+
+        with patch(
+            "weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar-edit"
+        ):
+            changed_cache_parts = machine.get_translation_cache_parts(
+                typed_unit, "en", "fr", cleaned_source, 75, replacements
+            )
+
+        self.assertNotEqual(original_cache_parts, changed_cache_parts)
+
+    def test_translation_cache_uses_stable_secondary_language_name(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Hello, world!",
+            context="greeting.button",
+        )
+        typed_unit = cast("Unit", unit)
+        cleaned_source, replacements = machine.cleanup_text(unit.source, typed_unit)
+
+        secondary_language = Language.objects.get(code="de")
+
+        def locale_dependent_language_name(_language) -> str:
+            if get_language() == "cs":
+                return "Localized language"
+            return "Default language"
+
+        secondary_unit = MockUnit(
+            code="de",
+            source="Hello, world!",
+            target="Secondary text",
+        )
+
+        class FakeUnitSet:
+            def filter(self, *args, **kwargs):
+                return self
+
+            def exclude(self, *args, **kwargs):
+                return self
+
+            def select_related(self, *args, **kwargs):
+                return self
+
+            @staticmethod
+            def first():
+                return secondary_unit
+
+        cast(
+            "Any", unit.translation.component.project
+        ).secondary_language = secondary_language
+        cast("Any", unit).source_unit = SimpleNamespace(unit_set=FakeUnitSet())
+
+        with patch.object(Language, "__str__", locale_dependent_language_name):
+            with translation_override("en"):
+                english_cache_parts = machine.get_translation_cache_parts(
+                    typed_unit, "en", "fr", cleaned_source, 75, replacements
+                )
+
+            with translation_override("cs"):
+                czech_cache_parts = machine.get_translation_cache_parts(
+                    typed_unit, "en", "fr", cleaned_source, 75, replacements
+                )
+
+        self.assertEqual(english_cache_parts, czech_cache_parts)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["secondary"],
+                {
+                    "language": "de",
+                    "language_name": secondary_language.get_name(),
+                    "text": "Secondary text",
+                },
+            )
+            return json.dumps(["Bonjour le monde!"])
+
+        with (
+            translation_override("cs"),
+            patch.object(Language, "__str__", locale_dependent_language_name),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en", "fr", [(cleaned_source, typed_unit)]
+            )
+
+        self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour le monde!")
+
+    def test_translate_caches_secondary_lookup_for_request(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Hello, world!",
+            context="greeting.button",
+        )
+        typed_unit = cast("Unit", unit)
+        secondary_language = MockLanguage("de")
+        secondary_unit = MockUnit(
+            code="de",
+            source="Hello, world!",
+            target="Secondary text",
+        )
+
+        class FakeUnitSet:
+            def __init__(self) -> None:
+                self.first_calls = 0
+
+            def filter(self, *args, **kwargs):
+                return self
+
+            def exclude(self, *args, **kwargs):
+                return self
+
+            def select_related(self, *args, **kwargs):
+                return self
+
+            def first(self):
+                self.first_calls += 1
+                return secondary_unit
+
+        unit_set = FakeUnitSet()
+        cast(
+            "Any", unit.translation.component.project
+        ).secondary_language = secondary_language
+        cast("Any", unit).source_unit = SimpleNamespace(unit_set=unit_set)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            strings = json.loads(content)["strings"]
+            self.assertEqual(len(strings), 2)
+            self.assertEqual(
+                [item["secondary"]["text"] for item in strings],
+                ["Secondary text", "Secondary text"],
+            )
+            return json.dumps(["Bonjour le monde!", "Salut le monde!"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(unit.source, typed_unit), (unit.source, typed_unit)],
+            )
+
+        self.assertEqual(unit_set.first_calls, 1)
+
+    def test_translate_sends_monolingual_key(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source="Save",
+            context="app.menu.save",
+        )
+        cast("Any", unit.translation.component).has_template = lambda: True
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(item["key"], "app.menu.save")
+            self.assertNotIn("context", item)
+            return json.dumps(["Enregistrer"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Enregistrer")
+
+    def test_translate_sends_plural_context(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source=["One file", "%d files"],
+            flags="python-format",
+        )
+        unit.plural_map = unit.get_source_plurals()
+        typed_unit = cast("Unit", unit)
+        cleaned_source, _replacements = machine.cleanup_text(
+            unit.plural_map[1], typed_unit
+        )
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(item["plural"]["form_index"], 1)
+            self.assertEqual(item["plural"]["source_forms"], 2)
+            self.assertEqual(item["plural"]["target_forms"], 2)
+            self.assertEqual(
+                item["plural"]["source_formula"], "nplurals=2; plural=(n != 1);"
+            )
+            self.assertIn("target_formula", item["plural"])
+            self.assertEqual(item["placeholders"], {"@@PH0@@": "%d"})
+            return json.dumps(["@@PH0@@ fichiers"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(cleaned_source, typed_unit)],
+            )
+
+        self.assertEqual(translation[cleaned_source][0]["text"], "@@PH0@@ fichiers")
+
+    def test_translate_sends_duplicate_plural_placeholder_context(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source=["%d file", "%s file"],
+            flags="python-format",
+        )
+        unit.plural_map = unit.get_source_plurals()
+        typed_unit = cast("Unit", unit)
+        cleaned_sources = [
+            machine.cleanup_text(source, typed_unit)[0] for source in unit.plural_map
+        ]
+        self.assertEqual(cleaned_sources, ["@@PH0@@ file", "@@PH0@@ file"])
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            strings = json.loads(content)["strings"]
+            self.assertEqual(
+                [item["plural"]["form_index"] for item in strings],
+                [0, 1],
+            )
+            self.assertEqual(
+                [item["placeholders"] for item in strings],
+                [{"@@PH0@@": "%d"}, {"@@PH0@@": "%s"}],
+            )
+            return json.dumps(["@@PH0@@ fichier", "@@PH0@@ fichiers"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(source, typed_unit) for source in cleaned_sources],
+            )
+
+        self.assertEqual(
+            [item["text"] for item in translation[cleaned_sources[0]]],
+            ["@@PH0@@ fichier", "@@PH0@@ fichiers"],
+        )
+
+    def test_translate_disambiguates_duplicate_plural_sources(self) -> None:
+        machine = self.get_machine(cache=True)
+        unit = MockUnit(
+            code="fr",
+            source=["fish", "fish"],
+            target=["", ""],
+        )
+        typed_unit = cast("Unit", unit)
+        translations_by_form = {0: "poisson", 1: "poissons"}
+        seen_form_indexes = []
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            strings = json.loads(content)["strings"]
+            self.assertEqual(len(strings), 1)
+            form_index = strings[0]["plural"]["form_index"]
+            seen_form_indexes.append(form_index)
+            return json.dumps([translations_by_form[form_index]])
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.translate(typed_unit)
+
+        self.assertEqual(seen_form_indexes, [0, 1])
+        self.assertEqual(
+            [[item["text"] for item in items] for items in translation],
+            [["poisson"], ["poissons"]],
+        )
+
+    def test_duplicate_plural_cache_tracks_occurrence_context(self) -> None:
+        machine = self.get_machine(cache=True)
+        unit = MockUnit(
+            code="fr",
+            source=["fish", "fish"],
+            target=["", ""],
+        )
+        typed_unit = cast("Unit", unit)
+        secondary_unit = MockUnit(
+            code="de",
+            source=["fish", "fish"],
+            target=["Fisch", "Fische old"],
+        )
+        secondary_language = MockLanguage("de")
+
+        class FakeUnitSet:
+            def filter(self, *args, **kwargs):
+                return self
+
+            def exclude(self, *args, **kwargs):
+                return self
+
+            def select_related(self, *args, **kwargs):
+                return self
+
+            @staticmethod
+            def first():
+                return secondary_unit
+
+        cast(
+            "Any", unit.translation.component.project
+        ).secondary_language = secondary_language
+        cast("Any", unit).source_unit = SimpleNamespace(unit_set=FakeUnitSet())
+        translations_by_secondary = {
+            "Fisch": "poisson",
+            "Fische old": "poissons old",
+            "Fische new": "poissons new",
+        }
+        seen_secondary = []
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            strings = json.loads(content)["strings"]
+            self.assertEqual(len(strings), 1)
+            secondary = strings[0]["secondary"]["text"]
+            seen_secondary.append(secondary)
+            return json.dumps([translations_by_secondary[secondary]])
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.translate(typed_unit)
+            self.assertEqual(seen_secondary, ["Fisch", "Fische old"])
+            self.assertEqual(
+                [[item["text"] for item in items] for items in translation],
+                [["poisson"], ["poissons old"]],
+            )
+
+            secondary_unit.targets[1] = "Fische new"
+            seen_secondary.clear()
+            translation = machine.translate(typed_unit)
+
+        self.assertEqual(seen_secondary, ["Fische new"])
+        self.assertEqual(
+            [[item["text"] for item in items] for items in translation],
+            [["poisson"], ["poissons new"]],
+        )
+
+    def test_translate_sends_selected_source_plural_context(self) -> None:
+        machine = self.get_machine()
+        unit = MockUnit(
+            code="fr",
+            source=["One file", "%d files"],
+            flags="python-format",
+        )
+        secondary_language = MockLanguage("pl")
+        cast(
+            "Any", unit.translation.component.project
+        ).secondary_language = secondary_language
+        unit.plural_map = ["%d plik", "%d pliki"]
+        typed_unit = cast("Unit", unit)
+        cleaned_source, _replacements = machine.cleanup_text(
+            unit.plural_map[0], typed_unit
+        )
+        default_source_formula = (
+            unit.translation.component.source_language.plural.plural_form
+        )
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(
+                item["plural"]["source_forms"], secondary_language.plural.number
+            )
+            self.assertEqual(
+                item["plural"]["source_formula"],
+                secondary_language.plural.plural_form,
+            )
+            self.assertNotEqual(
+                item["plural"]["source_formula"], default_source_formula
+            )
+            self.assertEqual(item["placeholders"], {"@@PH0@@": "%d"})
+            return json.dumps(["@@PH0@@ fichier"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "pl",
+                "fr",
+                [(cleaned_source, typed_unit)],
+            )
+
+        self.assertEqual(translation[cleaned_source][0]["text"], "@@PH0@@ fichier")
+
+    def test_batch_translate_preserves_duplicate_source_context(self) -> None:
+        machine = self.get_machine()
+        unit1 = MockUnit(code="fr", source="Archive", context="noun")
+        unit2 = MockUnit(code="fr", source="Archive", context="verb")
+        response_by_context = {
+            "noun": "Archive as noun",
+            "verb": "Archive as verb",
+        }
+        seen_contexts = []
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            strings = json.loads(content)["strings"]
+            self.assertEqual(len(strings), 1)
+            context = strings[0]["context"]
+            seen_contexts.append(context)
+            return json.dumps([response_by_context[context]])
+
+        with (
+            patch.object(
+                machine,
+                "get_translation_cache_key",
+                side_effect=AssertionError("cache key should not be built"),
+            ),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            machine.batch_translate([unit1, unit2])
+
+        self.assertEqual(seen_contexts, ["noun", "verb"])
+        self.assertEqual(unit1.machinery["translation"], ["Archive as noun"])
+        self.assertEqual(unit2.machinery["translation"], ["Archive as verb"])
+
     @responses.activate
     @respx.mock
     def test_translate_repairs_invalid_json_string_quotes(self) -> None:
@@ -2959,7 +3694,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             self.assertNotIn("[X", content)
 
             placeholder = re.search(r"@@PH\d+@@", content)
-            self.assertIsNotNone(placeholder)
+            if placeholder is None:
+                self.fail("Expected placeholder in LLM request")
 
             previous_payload = json.loads(previous_content)
             previous_sources = [item["source"] for item in previous_payload["strings"]]
@@ -3162,7 +3898,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             _previous_content: str,
             _previous_response: str,
         ) -> str:
-            placeholders = re.findall(r"@@PH\d+@@", content)
+            source = json.loads(content)["strings"][0]["source"]
+            placeholders = re.findall(r"@@PH\d+@@", source)
             self.assertEqual(len(placeholders), 2)
             return json.dumps([f"Items: {placeholders[1]}, value: {placeholders[0]}."])
 
@@ -3246,7 +3983,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             _previous_response: str,
         ) -> str:
             placeholder = re.search(r"@@PH\d+@@", content)
-            self.assertIsNotNone(placeholder)
+            if placeholder is None:
+                self.fail("Expected placeholder in LLM request")
             self.assertIn(f"{placeholder.group()}@example.com", content)
             return json.dumps([f"{placeholder.group()}@example.com"])
 
@@ -3274,7 +4012,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             _previous_content: str,
             _previous_response: str,
         ) -> str:
-            placeholders = re.findall(r"@@PH\d+@@", content)
+            source = json.loads(content)["strings"][0]["source"]
+            placeholders = re.findall(r"@@PH\d+@@", source)
             self.assertEqual(len(placeholders), 2)
             return json.dumps([f"{placeholders[0]}{placeholders[1]}"])
 
@@ -3404,6 +4143,50 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             "Unterminated string",
             str(error.exception.__cause__),
         )
+
+
+class OpenAILLMContextTest(FixtureComponentTestCase):
+    def test_translate_sends_configured_secondary_language(self) -> None:
+        language = Language.objects.get(code="de")
+        if not self.component.translation_set.filter(language=language).exists():
+            self.component.add_new_language(language, None)
+
+        self.change_unit("Hallo Welt\n", language="de")
+        self.project.secondary_language = language
+        self.project.save(update_fields=["secondary_language"])
+
+        unit = self.get_unit(language="cs")
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+            }
+        )
+        cleaned_source, _replacements = machine.cleanup_text(unit.source, unit)
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            item = json.loads(content)["strings"][0]
+            self.assertEqual(item["secondary"]["language"], "de")
+            self.assertEqual(item["secondary"]["text"], "Hallo Welt\n")
+            return json.dumps(["Ahoj světe\n"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "cs",
+                [(cleaned_source, unit)],
+            )
+
+        self.assertEqual(translation[cleaned_source][0]["text"], "Ahoj světe\n")
 
 
 class OpenAICustomTranslationTest(OpenAITranslationTest):

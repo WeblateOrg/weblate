@@ -49,6 +49,8 @@ class Command(DocGeneratorCommand):
                 features.append(":ref:`placeables-mt`")
             if obj.glossary_support:
                 features.append(":ref:`glossary-mt`")
+            if obj.llm_context_support:
+                features.append(":ref:`llm-translation-context`")
             if features:
                 prefix = ":Advanced features: "
                 for feature in features:

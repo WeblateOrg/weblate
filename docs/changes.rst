@@ -10,6 +10,7 @@ Weblate 2026.5
 .. rubric:: Improvements
 
 * Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
+* Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
 
 .. rubric:: Bug fixes
 

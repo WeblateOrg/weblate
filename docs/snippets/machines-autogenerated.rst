@@ -49,6 +49,7 @@ Anthropic
 :Service ID: ``anthropic``
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
+                    * :ref:`llm-translation-context`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                                                        |
                 |                     |                           |                                                                                                                           |
@@ -195,6 +196,7 @@ Azure OpenAI
 :Service ID: ``azure-openai``
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
+                    * :ref:`llm-translation-context`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                                                        |
                 |                     |                           |                                                                                                                           |
@@ -812,6 +814,7 @@ Ollama
 :Service ID: ``ollama``
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
+                    * :ref:`llm-translation-context`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                                                        |
                 |                     |                           |                                                                                                                           |
@@ -867,6 +870,7 @@ OpenAI
 :Service ID: ``openai``
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
+                    * :ref:`llm-translation-context`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                                                        |
                 |                     |                           |                                                                                                                           |
