@@ -1752,8 +1752,26 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
     )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
 
+    def test_add_language_updates_plural_header(self) -> None:
+        out = Path(self.tempdir) / f"test.{self.EXT}"
+        language = Language.objects.get(code="pl")
 
-class PoXliffFormatTest2(PoXliffFormatTest):
+        self.format_class.add_language(out, language, self.BASE)
+
+        storage = self.parse_file(out.as_posix())
+        header = storage.store.parseheader()
+        self.assertEqual(header["Plural-Forms"], language.plural.plural_form)
+        self.assertIn('target-language="pl"', out.read_text(encoding="utf-8"))
+
+    def test_get_plural_without_header_uses_xliff_preference(self) -> None:
+        storage = self.parse_file(TEST_XLIFF)
+        plural = storage.get_plural(Language.objects.get(code="he"))
+
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.number, 3)
+
+
+class PoXliffPoHeaderFormatTest(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
     EXPECTED_FLAGS: ClassVar[str | list[str]] = (
@@ -1763,6 +1781,30 @@ class PoXliffFormatTest2(PoXliffFormatTest):
     COUNT = 4
     MATCH = '<file original="cs.po"'
     FIND_MATCH = "Ahoj světe!\n"
+
+    def test_get_plural_uses_header(self) -> None:
+        plural_forms = (
+            "nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3));"
+        )
+        plural_formula = "(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))"
+        source_plural_forms = (
+            "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : "
+            "(n&gt;=2 &amp;&amp; n&lt;=4) ? 1 : 2;"
+        )
+        testfile = Path(self.tempdir) / "custom.poxliff"
+        testfile.write_text(
+            Path(self.FILE)
+            .read_text(encoding="utf-8")
+            .replace("Language: cs", "Language: he")
+            .replace(source_plural_forms, f"Plural-Forms: {plural_forms}"),
+            encoding="utf-8",
+        )
+
+        storage = self.parse_file(testfile.as_posix())
+        plural = storage.get_plural(Language.objects.get(code="he"))
+
+        self.assertEqual(plural.number, 4)
+        self.assertEqual(plural.formula, plural_formula)
 
 
 class RESXFormatTest(XMLMixin, BaseFormatTest):

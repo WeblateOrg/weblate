@@ -47,7 +47,7 @@ from translate.storage.jsonl10n import (
     WebExtensionJsonFile,
 )
 from translate.storage.lisa import LISAfile
-from translate.storage.poxliff import PoXliffFile
+from translate.storage.poxliff import PoXliffFile, PoXliffUnit
 from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
@@ -93,6 +93,7 @@ if TYPE_CHECKING:
     from translate.storage.ini import inifile, iniunit
     from translate.storage.php import phpfile, phpunit
     from translate.storage.placeables import StringElem
+    from translate.storage.poheader import poheader
     from translate.storage.properties import propfile, propunit
 
     from weblate.checks.flags import Flags
@@ -1316,20 +1317,45 @@ class AndroidUnit(MonolingualIDUnit):
             self.unit.marktranslatable(False)
 
 
-class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
-    loader = pofile  # type: ignore[assignment]
-    plural_preference = None
-    supports_plural: bool = True
-    supports_descriptions = True
-    supports_context = True
-    supports_location = True
-    supports_flags = True
-    additional_states = (STATE_FUZZY,)
+class PoHeaderMixin[
+    S: pofile | PoXliffFile,
+    U: pounit | PoXliffUnit,
+    T: TTKitUnit,
+](TTKitFormat[S, U, T]):
+    def _po_header_store(self) -> poheader:
+        return self.store
+
+    def _ensure_po_header_first(self, header: U | None = None) -> U | None:
+        """Keep PO-style header in the position expected by Translate Toolkit."""
+        units = self.store.units
+        if header is None:
+            header = next(
+                (unit for unit in units if getattr(unit, "isheader", lambda: False)()),
+                None,
+            )
+        if header is None:
+            return None
+
+        if units and units[0] is not header:
+            try:
+                units.remove(header)
+            except ValueError:
+                return header
+            units.insert(0, header)
+
+        element = getattr(header, "xmlelement", None)
+        parent = element.getparent() if element is not None else None
+        if parent is not None and parent.index(element) > 0:
+            parent.remove(element)
+            parent.insert(0, element)
+        return header
 
     def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
         # Fallback will trigger KeyError later
-        header = self.store.parseheader()
+        self._ensure_po_header_first()
+        store = self._po_header_store()
+        header = store.parseheader()
 
         try:
             number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
@@ -1353,12 +1379,15 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
         """Remove translations from Translate Toolkit store."""
         super().untranslate_store(language)
         plural = language.plural
+        store = self._po_header_store()
 
-        self.store.updateheader(
-            add=True,
-            last_translator="Automatically generated",
-            plural_forms=plural.plural_form,
-            language_team="none",
+        self._ensure_po_header_first(
+            store.updateheader(
+                add=True,
+                last_translator="Automatically generated",
+                plural_forms=plural.plural_form,
+                language_team="none",
+            )
         )
 
     def update_header(self, **kwargs) -> None:
@@ -1366,7 +1395,9 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
         kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
 
         # Adjust Content-Type header if needed
-        header = self.store.parseheader()
+        self._ensure_po_header_first()
+        store = self._po_header_store()
+        header = store.parseheader()
         if (
             "Content-Type" not in header
             or "charset=CHARSET" in header["Content-Type"]
@@ -1374,7 +1405,18 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
         ):
             kwargs["Content_Type"] = "text/plain; charset=UTF-8"
 
-        self.store.updateheader(add=True, **kwargs)
+        self._ensure_po_header_first(store.updateheader(add=True, **kwargs))
+
+
+class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](PoHeaderMixin[S, U, T]):
+    loader = pofile  # type: ignore[assignment]
+    plural_preference: tuple[int, ...] | None = None
+    supports_plural: bool = True
+    supports_descriptions = True
+    supports_context = True
+    supports_location = True
+    supports_flags = True
+    additional_states = (STATE_FUZZY,)
 
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()
@@ -1558,7 +1600,10 @@ class RichXliffFormat(XliffFormat):
     unit_class = RichXliffUnit
 
 
-class PoXliffFormat(XliffFormat):
+class PoXliffFormat(
+    PoHeaderMixin[PoXliffFile, PoXliffUnit, XliffUnit[PoXliffUnit, XliffFormat]],
+    XliffFormat,
+):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
