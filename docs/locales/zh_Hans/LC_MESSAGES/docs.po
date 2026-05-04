@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-03 09:34+0000\n"
+"PO-Revision-Date: 2026-05-04 06:43+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -18299,7 +18299,7 @@ msgstr ""
 msgid ""
 "Project history now records project backups and project/component restore "
 "events."
-msgstr ""
+msgstr "项目历史记录现在记录项目备份和项目/部件恢复事件。"
 
 #: changes.rst:114
 msgid ""
@@ -18323,6 +18323,12 @@ msgid ""
 "as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, "
 "and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 msgstr ""
+"新增 :setting:`PROJECT_WEB_RESTRICT_PRIVATE` 拒绝指向内部或非公开地址的项目网"
+"站和仓库浏览器 URL，:setting:`WEBHOOK_RESTRICT_PRIVATE` 拒绝指向内部或非公开"
+"地址的 webhook URL， :setting:`VCS_RESTRICT_PRIVATE` 拒绝指向内部或非公开地址"
+"的仓库和推送 URL。这些在 Docker 中暴露为 "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`、:envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`、 "
+":envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`。"
 
 #: changes.rst:116
 msgid "Improved performance of :ref:`mt-weblate` lookups."
@@ -18341,6 +18347,8 @@ msgid ""
 "delegated authorization boundaries, and clarified the instance-wide 2FA "
 "enforcement path in :doc:`/admin/auth`."
 msgstr ""
+"扩展了 :doc:`/security/threat-model` 涵盖 webhook 信任边界和的委托的授权边界"
+"，并在 :doc:`/admin/auth` 中表明整个示例的 2FA 身份认证路径。"
 
 #: changes.rst:119
 msgid ""
@@ -18348,12 +18356,16 @@ msgid ""
 "possible and otherwise reports a clearer recovery error instead of failing "
 "later with a generic parse error."
 msgstr ""
+":ref:`manage-vcs-reset-reapply` 现在如有可能会重新创建缺失的翻译文件，如不可"
+"能则报告更清晰的恢复错误而不是之后以一般性解析错误出错。"
 
 #: changes.rst:120
 msgid ""
 "Updated :doc:`/contributing/documentation` to describe the current ``make -C "
 "docs update-docs`` workflow for generated snippets."
 msgstr ""
+"更新了 :doc:`/contributing/documentation` 描述已生成片段的当前 ``make -C "
+"docs update-docs`` 工作流。"
 
 #: changes.rst:121
 msgid ""
@@ -18361,12 +18373,15 @@ msgid ""
 "push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-"
 "auto_lock_error` from the linked component that owns the repository."
 msgstr ""
+"链接的仓库部件现在从拥有仓库的已链接部件继承 :ref:`component-"
+"push_on_commit`、:ref:`component-commit_pending_age`、:ref:`component-"
+"auto_lock_error`。"
 
 #: changes.rst:122
 msgid ""
 "Git exporter now provides clearer push and missing-revision errors to "
 "authorized users."
-msgstr ""
+msgstr "Git 导出工具现在向已授权用户提供更清晰的推送和修改缺失错误。"
 
 #: changes.rst:123
 msgid ""
@@ -18377,7 +18392,7 @@ msgstr ""
 
 #: changes.rst:124
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
-msgstr ""
+msgstr "在用户界面和文档中阐明 :ref:`git-exporter` 的 Git LFS 限制。"
 
 #: changes.rst:125
 msgid ""
@@ -18391,6 +18406,8 @@ msgid ""
 "repeated metric queries when rendering activity charts on overview pages "
 "with cold caches."
 msgstr ""
+"改进了翻译页面的评论加载速度，减少了在有冷缓存的概览页面上渲染活动图表时的重"
+"复指标查询。"
 
 #: changes.rst:129
 msgid "Security fixes"
@@ -18400,7 +18417,7 @@ msgstr "安全修复"
 msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
-msgstr ""
+msgstr "强化了符号链接目标的仓库边界检查（:cve:`2026-40256`/:ghsa:`ffgh-3jrf-8wvh`)。"
 
 #: changes.rst:131
 msgid ""
@@ -18414,43 +18431,55 @@ msgstr ""
 msgid ""
 "Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-"
 "gw9x-477v`)."
-msgstr ""
+msgstr "收紧了 :ref:`api` 权限强制（:cve:`2026-34393`/:ghsa:`3382-gw9x-477v`）。"
 
 #: changes.rst:133
 msgid ""
 "Hardened project-level :ref:`machine-translation` against SSRF "
 "(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 msgstr ""
+"强化了项目级 :ref:`machine-translation` 对 SSRF 的防御（:cve:`2026-34244`/"
+":ghsa:`xrwr-fcw6-fmq8`）。"
 
 #: changes.rst:134
 msgid ""
 "Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` "
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 msgstr ""
+"收紧了 :ref:`addon-weblate.cdn.cdnjs` 中的位置验证（:cve:`2026-33220` / "
+":ghsa:`mqph-7h49-hqfm`）。"
 
 #: changes.rst:135
 msgid ""
 "Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset "
 "downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 msgstr ""
+"对资产下载重定向强制 :setting:`ALLOWED_ASSET_DOMAINS` （:cve:`2026-33440` / "
+":ghsa:`5fhx-9jwj-867m`）。"
 
 #: changes.rst:136
 msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
 msgstr ""
+"强化了 :ref:`addon-weblate.webhook.webhook` （:cve:`2026-39845` / "
+":ghsa:`f8hv-g549-hwg2`）。"
 
 #: changes.rst:137
 msgid ""
 "Removed unintended :ref:`translation-memory` API endpoints "
 "(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 msgstr ""
+"删除了非预期的 :ref:`translation-memory` API 端点（:cve:`2026-33214` / "
+":ghsa:`mpf5-3vph-q75r`）。"
 
 #: changes.rst:138
 msgid ""
 "Tightened API access control for pending tasks "
 "(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 msgstr ""
+"收紧了未完成任务的 API 访问控制（:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`）"
+"。"
 
 #: changes.rst:139
 msgid ""
@@ -18467,6 +18496,8 @@ msgid ""
 "only handling, and source-side pending commits without files are discarded "
 "to avoid repeated parse failures."
 msgstr ""
+":ref:`项目备份 <projectbackup>` 现在保留原文翻译只读处理，没有文件的原文侧待"
+"完成提交将被丢弃避免重复的解析失败。"
 
 #: changes.rst:144
 msgid ""
@@ -18480,12 +18511,14 @@ msgid ""
 "of persistent SSH storage, and obsolete or stale wrappers are cleaned up "
 "during upgrade."
 msgstr ""
+"生成的 SSH 包装器脚本现在存储在 :setting:`CACHE_DIR` 中而不是持久化的 SSH 存"
+"储中，废弃的或陈旧的包装器将在升级期间被清理。"
 
 #: changes.rst:146
 msgid ""
 "Hardened Git branch handling to reject invalid branch names before "
 "repository operations."
-msgstr ""
+msgstr "强化 Git 分支处理在仓库操作前拒绝无效的分支名。"
 
 #: changes.rst:147
 msgid ""
