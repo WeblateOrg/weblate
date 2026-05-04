@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 09:20+0000\n"
+"PO-Revision-Date: 2026-05-04 11:08+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -11357,16 +11357,20 @@ msgstr ""
 #: admin/install/docker.rst:1230
 msgid "Configures maximal body size accepted by the built-in web server."
 msgstr ""
+"Nastavuje maximálnu veľkosť tela požiadavky akceptovanú vstavaným webovým "
+"serverom."
 
 #: admin/install/docker.rst:1239
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
 "third-party container used in :ref:`docker-https-portal`."
 msgstr ""
+"Táto premenná zámerne neobsahuje predponu ``WEBLATE_``, pretože je zdieľaná "
+"s kontajnerom tretej strany používaným v :ref:`docker-https-portal`."
 
 #: admin/install/docker.rst:1246
 msgid "Code hosting sites credentials"
-msgstr ""
+msgstr "Prihlasovacie údaje pre služby hostingu kódu"
 
 #: admin/install/docker.rst:1248
 msgid ""
@@ -11375,6 +11379,10 @@ msgid ""
 "once. The following examples are for :ref:`vcs-github`, but applies to "
 "all :ref:`vcs` with appropriately changed variable names."
 msgstr ""
+"V Docker kontajneri je možné prihlasovacie údaje pre hosting kódu nastaviť "
+"buď v samostatných premenných, alebo pomocou Python slovníka na ich hromadné "
+"nastavenie. Nasledujúce príklady sú pre :ref:`vcs-github`, ale platia pre "
+"všetky :ref:`vcs` s primerane zmenenými názvami premenných."
 
 #: admin/install/docker.rst:1255
 msgid ""
@@ -11383,26 +11391,30 @@ msgid ""
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
+"Všetky názvy premenných prostredia musia obsahovať predponu ``WEBLATE_``. "
+"Napríklad, na konfiguráciu prihlasovacích údajov GitHub použite "
+"``WEBLATE_GITHUB_USERNAME``, nie ``GITHUB_USERNAME``. Toto platí či už "
+"konfigurujete pre pull requesty alebo akúkoľvek inú integráciu VCS."
 
 #: admin/install/docker.rst:1259
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr ""
+msgstr "Príklad konfigurácie pre GitHub pull requesty môže vyzerať takto:"
 
 #: admin/install/docker.rst:1267
 msgid "Will be used as:"
-msgstr ""
+msgstr "Bude použité ako:"
 
 #: admin/install/docker.rst:1278
 msgid "Alternatively the Python dictionary can be provided as a string:"
-msgstr ""
+msgstr "Alternatívne môže byť Python slovník poskytnutý ako reťazec:"
 
 #: admin/install/docker.rst:1284
 msgid "Or the path to a file containing the Python dictionary:"
-msgstr ""
+msgstr "Alebo cesta k súboru obsahujúcemu Python slovník:"
 
 #: admin/install/docker.rst:1296
 msgid "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
-msgstr ""
+msgstr "Konfiguruje :ref:`vcs-github` zmenou :setting:`GITHUB_CREDENTIALS`."
 
 #: admin/install/docker.rst:1300 admin/install/docker.rst:1311
 #: admin/install/docker.rst:1322 admin/install/docker.rst:1333
@@ -11410,194 +11422,217 @@ msgstr ""
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
+":ref:`Konfigurácia prihlasovacích údajov pre hosting kódu v Dockeri <docker-"
+"vcs-config>`"
 
 #: admin/install/docker.rst:1307
 msgid "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
-msgstr ""
+msgstr "Konfiguruje :ref:`vcs-gitlab` zmenou :setting:`GITLAB_CREDENTIALS`."
 
 #: admin/install/docker.rst:1318
 msgid "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
-msgstr ""
+msgstr "Konfiguruje :ref:`vcs-gitea` zmenou :setting:`GITEA_CREDENTIALS`."
 
 #: admin/install/docker.rst:1329
 msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
-msgstr ""
+msgstr "Konfiguruje :ref:`vcs-pagure` zmenou :setting:`PAGURE_CREDENTIALS`."
 
 #: admin/install/docker.rst:1340
 msgid ""
 "Configures :ref:`vcs-bitbucket-data-center` by "
 "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`vcs-bitbucket-data-center` zmenou "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: admin/install/docker.rst:1348
 msgid ""
 "Configures :ref:`vcs-bitbucket-cloud` by "
 "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`vcs-bitbucket-cloud` zmenou "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/install/docker.rst:1360
 msgid ""
 "Configures :ref:`vcs-azure-devops` by "
 "changing :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`vcs-azure-devops` zmenou "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: admin/install/docker.rst:1369
 msgid "Automatic suggestion settings"
-msgstr ""
+msgstr "Nastavenia automatických návrhov"
 
 #: admin/install/docker.rst:1373
 msgid ""
 "Automatic suggestion services are now configured in the user interface, "
 "see :ref:`machine-translation-setup`."
 msgstr ""
+"Služby automatických návrhov sa teraz konfigurujú v používateľskom rozhraní, "
+"pozrite :ref:`machine-translation-setup`."
 
 #: admin/install/docker.rst:1376
 msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
+"Existujúce premenné prostredia sa importujú počas migrácie na Weblate 4.13, "
+"ale ich ďalšia zmena nebude mať žiadny účinok."
 
 #: admin/install/docker.rst:1382
 msgid "Authentication settings"
-msgstr ""
+msgstr "Nastavenia autentifikácie"
 
 #: admin/install/docker.rst:1386
 msgid ""
 "The e-mail based authentication is turned on unless disabled "
 "by :envvar:`WEBLATE_NO_EMAIL_AUTH`."
 msgstr ""
+"Autentifikácia založená na e-maile je zapnutá, pokiaľ nie je vypnutá "
+"premennou :envvar:`WEBLATE_NO_EMAIL_AUTH`."
 
 #: admin/install/docker.rst:1389
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: admin/install/docker.rst:1402
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "Konfigurácia LDAP autentifikácie."
 
 #: admin/install/docker.rst:1404
 msgid "**Example for direct bind:**"
-msgstr ""
+msgstr "**Príklad pre priame viazanie:**"
 
 #: admin/install/docker.rst:1415
 msgid "**Example for search and bind:**"
-msgstr ""
+msgstr "**Príklad pre vyhľadanie a viazanie:**"
 
 #: admin/install/docker.rst:1427
 msgid "**Example for union search and bind:**"
-msgstr ""
+msgstr "**Príklad pre zjednotené vyhľadanie a viazanie:**"
 
 #: admin/install/docker.rst:1439
 msgid "**Example with search and bind against Active Directory:**"
-msgstr ""
+msgstr "**Príklad s vyhľadaním a viazaním voči Active Directory:**"
 
 #: admin/install/docker.rst:1458
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: admin/install/docker.rst:1469
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Povoľuje :ref:`github_auth`."
 
 #: admin/install/docker.rst:1472
 msgid "GitHub Enterprise Edition"
-msgstr ""
+msgstr "GitHub Enterprise Edition"
 
 #: admin/install/docker.rst:1480
 msgid "Enables :ref:`github_ee_auth`."
-msgstr ""
+msgstr "Povoľuje :ref:`github_ee_auth`."
 
 #: admin/install/docker.rst:1483
 msgid "Bitbucket"
-msgstr ""
+msgstr "Bitbucket"
 
 #: admin/install/docker.rst:1488
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Povoľuje :ref:`bitbucket_auth`."
 
 #: admin/install/docker.rst:1491
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: admin/install/docker.rst:1496
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Povoľuje :ref:`facebook_auth`."
 
 #: admin/install/docker.rst:1499
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: admin/install/docker.rst:1506
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Povoľuje :ref:`google_auth`."
 
 #: admin/install/docker.rst:1509
 msgid "GitLab"
-msgstr ""
+msgstr "GitLab"
 
 #: admin/install/docker.rst:1515
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Povoľuje :ref:`gitlab_auth`."
 
 #: admin/install/docker.rst:1518
 msgid "Gitea"
-msgstr ""
+msgstr "Gitea"
 
 #: admin/install/docker.rst:1524
 msgid "Enables Gitea authentication."
-msgstr ""
+msgstr "Povoľuje autentifikáciu Gitea."
 
 #: admin/install/docker.rst:1532
 msgid "Enables Microsoft Entra ID authentication, see :ref:`entra-auth`."
-msgstr ""
+msgstr "Povoľuje autentifikáciu Microsoft Entra ID, pozrite :ref:`entra-auth`."
 
 #: admin/install/docker.rst:1535
 msgid "Microsoft Entra ID with Tenant support"
-msgstr ""
+msgstr "Microsoft Entra ID s podporou tenantov"
 
 #: admin/install/docker.rst:1541
 msgid ""
 "Enables Microsoft Entra ID authentication with Tenant support, "
 "see :ref:`entra-auth`."
 msgstr ""
+"Povoľuje autentifikáciu Microsoft Entra ID s podporou tenantov, pozrite "
+":ref:`entra-auth`."
 
 #: admin/install/docker.rst:1545
 msgid "Keycloak"
-msgstr ""
+msgstr "Keycloak"
 
 #: admin/install/docker.rst:1556
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr ""
+msgstr "Povoľuje autentifikáciu Keycloak, pozrite :doc:`psa:backends/keycloak`."
 
 #: admin/install/docker.rst:1562
 msgid ""
 "Configures which claim is used as the unique user identifier from Keycloak. "
 "Defaults to ``email``."
 msgstr ""
+"Nastavuje, ktorý nárok (claim) sa použije ako jedinečný identifikátor "
+"používateľa z Keycloak. Predvolené je ``email``."
 
 #: admin/install/docker.rst:1567
 msgid ""
 "When Keycloak is configured to abstract third-party IDP, you will need to "
 "configure :envvar:`WEBLATE_CSP_FORM_SRC` for the third-party IDP domain."
 msgstr ""
+"Keď je Keycloak nakonfigurovaný na abstrakciu IDP tretej strany, budete "
+"musieť nakonfigurovať :envvar:`WEBLATE_CSP_FORM_SRC` pre doménu IDP tretej "
+"strany."
 
 #: admin/install/docker.rst:1570
 msgid "Example when Keycloak is passing authentication to Microsoft."
-msgstr ""
+msgstr "Príklad, keď Keycloak odovzdáva autentifikáciu Microsoftu."
 
 #: admin/install/docker.rst:1579
 msgid "Linux vendors"
-msgstr ""
+msgstr "Dodávatelia Linuxu"
 
 #: admin/install/docker.rst:1581
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
+"Môžete povoliť autentifikáciu pomocou autentifikačných služieb dodávateľov "
+"Linuxu nastavením nasledujúcich premenných na ľubovoľnú hodnotu."
 
 #: admin/install/docker.rst:1595
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr ""
+msgstr "Povoľuje autentifikáciu Slack, pozrite :ref:`slack-auth`."
 
 #: admin/install/docker.rst:1599
 msgid "OpenID Connect"
@@ -11605,7 +11640,7 @@ msgstr "OpenID Connect"
 
 #: admin/install/docker.rst:1610
 msgid "Configures generic OpenID Connect integration."
-msgstr ""
+msgstr "Konfiguruje všeobecnú integráciu OpenID Connect."
 
 #: admin/install/docker.rst:1617
 msgid "Fedora OpenID Connect"
@@ -11613,11 +11648,11 @@ msgstr "Fedora OpenID Connect"
 
 #: admin/install/docker.rst:1624
 msgid "Configures Fedora OpenID Connect integration."
-msgstr ""
+msgstr "Konfiguruje integráciu Fedora OpenID Connect."
 
 #: admin/install/docker.rst:1633
 msgid "SAML"
-msgstr ""
+msgstr "SAML"
 
 #: admin/install/docker.rst:1635
 msgid ""
@@ -11625,24 +11660,29 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Samo podpísané SAML kľúče sa automaticky vygenerujú pri prvom spustení "
+"kontajnera. Ak chcete použiť vlastné kľúče, umiestnite certifikát a súkromný "
+"kľúč do :file:`/app/data/ssl/saml.crt` a :file:`/app/data/ssl/saml.key`."
 
 #: admin/install/docker.rst:1645
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "Nastavenia SAML Identity Provider, pozrite :ref:`saml-auth`."
 
 #: admin/install/docker.rst:1656
 msgid "SAML attributes mapping."
-msgstr ""
+msgstr "Mapovanie SAML atribútov."
 
 #: admin/install/docker.rst:1660
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Ďalšie nastavenia autentifikácie"
 
 #: admin/install/docker.rst:1664
 msgid ""
 "Disables e-mail authentication when set to any value. See :ref:`disable-"
 "email-auth`."
 msgstr ""
+"Vypína e-mailovú autentifikáciu, keď je nastavená na ľubovoľnú hodnotu. "
+"Pozrite :ref:`disable-email-auth`."
 
 #: admin/install/docker.rst:1670
 msgid ""
@@ -11650,36 +11690,44 @@ msgid ""
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
+"Minimálne skóre hesla podľa odhadovača sily hesla `zxcvbn <https://"
+"github.com/dwolfhub/zxcvbn-python>`_. Predvolené je 3, nastavte na 0 pre "
+"vypnutie kontroly sily."
 
 #: admin/install/docker.rst:1681
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Nastavenie databázy PostgreSQL"
 
 #: admin/install/docker.rst:1683
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"Databáza je vytvorená súborom :file:`docker-compose.yml`, takže tieto "
+"nastavenia ovplyvňujú kontajnery Weblate aj PostgreSQL."
 
 #: admin/install/docker.rst:1692
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "Heslo PostgreSQL."
 
 #: admin/install/docker.rst:1700
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "Meno používateľa PostgreSQL."
 
 #: admin/install/docker.rst:1704
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "Názov databázy PostgreSQL."
 
 #: admin/install/docker.rst:1708
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Názov hostiteľa alebo IP adresa servera PostgreSQL. Predvolené je "
+"``database``."
 
 #: admin/install/docker.rst:1712
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"Port servera PostgreSQL. Predvolené je žiadny (používa predvolenú hodnotu)."
 
 #: admin/install/docker.rst:1716
 msgid ""
@@ -11687,45 +11735,58 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/docs/"
 "11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
+"Nakonfigurujte, ako PostgreSQL spravuje SSL pri pripojení k serveru, možné "
+"voľby nájdete v `Popisy režimov SSL <https://www.postgresql.org/docs/11/"
+"libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 
 #: admin/install/docker.rst:1721
 msgid ""
 "Configures name of the PostgreSQL role to alter during the database "
 "migration, see :ref:`config-postgresql`."
 msgstr ""
+"Nastavuje názov roly PostgreSQL, ktorá sa má upraviť počas migrácie "
+"databázy, pozrite :ref:`config-postgresql`."
 
 #: admin/install/docker.rst:1723
 msgid "Defaults to :envvar:`POSTGRES_USER`."
-msgstr ""
+msgstr "Predvolené je :envvar:`POSTGRES_USER`."
 
 #: admin/install/docker.rst:1729
 msgid ""
 "The lifetime of a database connection, as an integer of seconds. Use 0 to "
 "close database connections at the end of each request."
 msgstr ""
+"Životnosť pripojenia k databáze v sekundách ako celé číslo. Použite 0 na "
+"uzatvorenie pripojení k databáze na konci každej požiadavky."
 
 #: admin/install/docker.rst:1734
 msgid ""
 "The default behavior is to have unlimited persistent database connections."
-msgstr ""
+msgstr "Predvolené správanie je mať neobmedzené trvalé pripojenia k databáze."
 
 #: admin/install/docker.rst:1736
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
+"Povolenie trvalosti pripojenia zvyčajne spôsobí viac otvorených pripojení k "
+"databáze. Pred povolením upravte konfiguráciu databázy."
 
 #: admin/install/docker.rst:1755
 msgid ""
 "Disable server side cursors in the database. This is necessary in "
 "some :command:`pgbouncer` setups."
 msgstr ""
+"Vypnúť kurzory na strane servera v databáze. Toto je potrebné v niektorých "
+"nastaveniach :command:`pgbouncer`."
 
 #: admin/install/docker.rst:1767
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`"
 msgstr ""
+":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
+"DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: admin/install/docker.rst:1774
 msgid ""
@@ -11733,88 +11794,99 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
+"Nastavte na false pre vypnutie konfigurácie pripojenia k databáze založenej "
+"na prostredí. Použite :ref:`docker-settings-override` na manuálnu "
+"konfiguráciu pripojenia k databáze."
 
 #: admin/install/docker.rst:1779
 msgid "Database backup settings"
-msgstr ""
+msgstr "Nastavenia zálohovania databázy"
 
 #: admin/install/docker.rst:1786
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
+"Konfiguruje denný výpis databázy pomocou :setting:`DATABASE_BACKUP`. "
+"Predvolené je ``plain``."
 
 #: admin/install/docker.rst:1790
 msgid "Datastore server setup"
-msgstr ""
+msgstr "Nastavenie servera úložiska dát"
 
 #: admin/install/docker.rst:1792
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
+"Použitie Valkey alebo Redis je vyžadované kontajnerom Weblate a musíte "
+"poskytnúť parametre pripojenia pri spúšťaní Weblate v Dockeri."
 
 #: admin/install/docker.rst:1801
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
 msgstr ""
+"Názov hostiteľa alebo IP adresa servera úložiska dát. Predvolené je "
+"``cache``."
 
 #: admin/install/docker.rst:1805
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr ""
+msgstr "Port servera úložiska dát. Predvolené je ``6379``."
 
 #: admin/install/docker.rst:1809
 msgid "The datastore database number, defaults to ``1``."
-msgstr ""
+msgstr "Číslo databázy úložiska dát, predvolené je ``1``."
 
 #: admin/install/docker.rst:1815
 msgid "The datastore database user, not used by default."
-msgstr ""
+msgstr "Používateľ databázy úložiska dát, predvolene nepoužívané."
 
 #: admin/install/docker.rst:1819
 msgid "The datastore server password, not used by default."
-msgstr ""
+msgstr "Heslo servera úložiska dát, predvolene nepoužívané."
 
 #: admin/install/docker.rst:1827
 msgid "Enables using SSL for the datastore connection."
-msgstr ""
+msgstr "Povoľuje použitie SSL pre pripojenie k úložisku dát."
 
 #: admin/install/docker.rst:1831
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
+"Môže sa použiť na vypnutie overovania SSL certifikátu pre pripojenie k "
+"úložisku dát."
 
 #: admin/install/docker.rst:1836
 msgid "Email server setup"
-msgstr ""
+msgstr "Nastavenie e-mailového servera"
 
 #: admin/install/docker.rst:1838
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr ""
+msgstr "Aby fungovala odchádzajúca pošta, musíte poskytnúť poštový server."
 
 #: admin/install/docker.rst:1840
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "Príklad konfigurácie TLS:"
 
 #: admin/install/docker.rst:1849
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "Príklad konfigurácie SSL:"
 
 #: admin/install/docker.rst:1868
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "Názov hostiteľa alebo IP adresa poštového servera."
 
 #: admin/install/docker.rst:1879
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "Port poštového servera, predvolené je 25."
 
 #: admin/install/docker.rst:1887
 msgid "E-mail authentication user."
-msgstr ""
+msgstr "Používateľ pre e-mailovú autentifikáciu."
 
 #: admin/install/docker.rst:1895
 msgid "E-mail authentication password."
-msgstr ""
+msgstr "Heslo pre e-mailovú autentifikáciu."
 
 #: admin/install/docker.rst:1904
 msgid ""
@@ -11824,12 +11896,18 @@ msgid ""
 "experiencing problems, see the explicit TLS "
 "setting :envvar:`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"Či použiť implicitné TLS (zabezpečené) pripojenie pri komunikácii so SMTP "
+"serverom. Vo väčšine e-mailovej dokumentácie sa tento typ TLS pripojenia "
+"označuje ako SSL. Zvyčajne sa používa na porte 465. Ak máte problémy, "
+"pozrite explicitné nastavenie TLS :envvar:`WEBLATE_EMAIL_USE_TLS`."
 
 #: admin/install/docker.rst:1911 admin/install/docker.rst:1929
 msgid ""
 "The SSL/TLS support is automatically enabled based on "
 "the :envvar:`WEBLATE_EMAIL_PORT`."
 msgstr ""
+"Podpora SSL/TLS je automaticky povolená na základe "
+":envvar:`WEBLATE_EMAIL_PORT`."
 
 #: admin/install/docker.rst:1922
 msgid ""
@@ -11838,129 +11916,147 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS "
 "setting :envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"Či použiť TLS (zabezpečené) pripojenie pri komunikácii so SMTP serverom. "
+"Toto sa používa pre explicitné TLS pripojenia, zvyčajne na porte 587 alebo "
+"25. Ak máte problémy s visiacimi pripojeniami, pozrite implicitné nastavenie "
+"TLS :envvar:`WEBLATE_EMAIL_USE_SSL`."
 
 #: admin/install/docker.rst:1940
 msgid "Configures Django back-end to use for sending e-mails."
-msgstr ""
+msgstr "Konfiguruje Django back-end na odosielanie e-mailov."
 
 #: admin/install/docker.rst:1950
 msgid "Configures if and how Weblate should update repositories."
-msgstr ""
+msgstr "Konfiguruje, či a ako má Weblate aktualizovať repozitáre."
 
 #: admin/install/docker.rst:1956
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
+"Toto je booleovské nastavenie (použite ``\"true\"`` alebo ``\"false\"``)."
 
 #: admin/install/docker.rst:1959
 msgid "Site integration"
-msgstr ""
+msgstr "Integrácia stránky"
 
 #: admin/install/docker.rst:1963
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr ""
+msgstr "Konfiguruje :setting:`GET_HELP_URL`."
 
 #: admin/install/docker.rst:1967
 msgid "Configures :setting:`STATUS_URL`."
-msgstr ""
+msgstr "Konfiguruje :setting:`STATUS_URL`."
 
 #: admin/install/docker.rst:1971
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr ""
+msgstr "Konfiguruje :setting:`LEGAL_URL`."
 
 #: admin/install/docker.rst:1975
 msgid "Configures :setting:`PRIVACY_URL`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PRIVACY_URL`."
 
 #: admin/install/docker.rst:1979
 msgid "Configures :setting:`PASSWORD_RESET_URL`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PASSWORD_RESET_URL`."
 
 #: admin/install/docker.rst:1984
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
+"Odporúča sa systematicky zbierať chyby z inštalácie, pozrite "
+":ref:`collecting-errors`."
 
 #: admin/install/docker.rst:1987
 msgid "To enable support for Rollbar, set the following:"
-msgstr ""
+msgstr "Na povolenie podpory Rollbar nastavte nasledujúce:"
 
 #: admin/install/docker.rst:1991
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "Váš prístupový token pre Rollbar post server."
 
 #: admin/install/docker.rst:1995
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Vaše Rollbar prostredie, predvolené je ``production``."
 
 #: admin/install/docker.rst:1997
 msgid "To enable support for Sentry, set following:"
-msgstr ""
+msgstr "Na povolenie podpory Sentry nastavte nasledujúce:"
 
 #: admin/install/docker.rst:2001
 msgid "Your Sentry DSN, see :setting:`SENTRY_DSN`."
-msgstr ""
+msgstr "Váš Sentry DSN, pozrite :setting:`SENTRY_DSN`."
 
 #: admin/install/docker.rst:2005
 msgid ""
 "Your Sentry Environment (optional), defaults "
 "to :envvar:`WEBLATE_SITE_DOMAIN`."
 msgstr ""
+"Vaše Sentry prostredie (voliteľné), predvolené je "
+":envvar:`WEBLATE_SITE_DOMAIN`."
 
 #: admin/install/docker.rst:2009
 msgid "Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``."
 msgstr ""
+"Či monitorovať úlohy Celery Beat pomocou Sentry, predvolené je ``True``."
 
 #: admin/install/docker.rst:2013
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install/docker.rst:2024
 msgid "Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: admin/install/docker.rst:2035
 msgid "Configures :setting:`SENTRY_SEND_PII`."
-msgstr ""
+msgstr "Konfiguruje :setting:`SENTRY_SEND_PII`."
 
 #: admin/install/docker.rst:2038
 msgid "Localization CDN"
-msgstr ""
+msgstr "CDN pre lokalizáciu"
 
 #: admin/install/docker.rst:2045
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
-msgstr ""
+msgstr "Konfigurácia pre :ref:`addon-weblate.cdn.cdnjs`."
 
 #: admin/install/docker.rst:2047
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
 msgstr ""
+":envvar:`WEBLATE_LOCALIZE_CDN_PATH` je cesta vnútri kontajnera. Mala by byť "
+"uložená na trvalom zväzku, nie v dočasnom úložisku."
 
 #: admin/install/docker.rst:2050
 msgid "One of possibilities is storing that inside the Weblate data dir:"
-msgstr ""
+msgstr "Jednou z možností je uloženie do adresára dát Weblate:"
 
 #: admin/install/docker.rst:2060
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr ""
+"Ste zodpovední za nastavenie obsluhy súborov generovaných Weblate, on iba "
+"ukladá súbory na nakonfigurované miesto."
 
 #: admin/install/docker.rst:2071
 msgid ""
 "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgstr ""
+"Zmena povolených aplikácií, kontrol, doplnkov, strojového prekladu alebo "
+"automatických opráv"
 
 #: admin/install/docker.rst:2073
 msgid ""
 "The built-in configuration of enabled checks, add-ons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
+"Vstavanú konfiguráciu povolených kontrol, doplnkov alebo automatických opráv "
+"je možné upraviť nasledujúcimi premennými:"
 
 #: admin/install/docker.rst:2109
 msgid "Container settings"
-msgstr ""
+msgstr "Nastavenia kontajnera"
 
 #: admin/install/docker.rst:2115
 msgid ""
@@ -11968,6 +12064,9 @@ msgid ""
 "determined automatically on container startup based on number of CPU cores "
 "available."
 msgstr ""
+"Základný počet pracovníckych procesov bežiacich v kontajneri. Ak nie je "
+"nastavený, určuje sa automaticky pri štarte kontajnera na základe počtu "
+"dostupných jadier CPU."
 
 #: admin/install/docker.rst:2119
 msgid ""
@@ -11975,6 +12074,11 @@ msgid ""
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
 "and :envvar:`WEB_WORKERS`. You can use these settings to fine-tune."
 msgstr ""
+"Používa sa na určenie :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, a :envvar:`WEB_WORKERS`. Tieto nastavenia "
+"môžete použiť na jemné doladenie."
 
 #: admin/install/docker.rst:2132
 msgid ""
@@ -11982,47 +12086,58 @@ msgid ""
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
+"Tieto premenné vám umožňujú upraviť možnosti pracovníka Celery. Môže byť "
+"užitočné upraviť konkurenciu (``--concurrency 16``) alebo použiť inú "
+"implementáciu poolu (``--pool=gevent``)."
 
 #: admin/install/docker.rst:2136
 msgid ""
 "By default, the number of concurrent workers is based "
 "on :envvar:`WEBLATE_WORKERS`."
 msgstr ""
+"Predvolene je počet súbežných pracovníkov založený na "
+":envvar:`WEBLATE_WORKERS`."
 
 #: admin/install/docker.rst:2147
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
-msgstr ""
+msgstr ":doc:`Možnosti pracovníka Celery <celery:reference/celery.bin.worker>`"
 
 #: admin/install/docker.rst:2154
 msgid ""
 "This variable can be set to ``1`` to run only one celery process. This "
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
+"Túto premennú je možné nastaviť na ``1`` pre spustenie iba jedného procesu "
+"celery. Toto znižuje využitie pamäte, ale môže ovplyvniť výkon Weblate."
 
 #: admin/install/docker.rst:2167
 msgid "Configure how many WSGI workers should be executed."
-msgstr ""
+msgstr "Nakonfigurujte, koľko WSGI pracovníkov by malo byť spustených."
 
 #: admin/install/docker.rst:2169
 msgid ""
 "It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2."
-msgstr ""
+msgstr "Predvolené je polovica z :envvar:`WEBLATE_WORKERS`, ale vždy aspoň 2."
 
 #: admin/install/docker.rst:2180
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will used "
 "by :program:`granian`."
 msgstr ""
+":envvar:`WEB_WORKERS` konfiguruje, koľko pracovníckych procesov bude "
+"používať :program:`granian`."
 
 #: admin/install/docker.rst:2184
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
 msgstr ""
+"Definuje, ktoré služby by mali byť spustené vnútri kontajnera. Použite toto "
+"pre :ref:`docker-scaling`."
 
 #: admin/install/docker.rst:2186
 msgid "Following services are defined:"
-msgstr ""
+msgstr "Sú definované nasledujúce služby:"
 
 #: admin/install/docker.rst:2189
 msgid ""
@@ -12030,30 +12145,33 @@ msgid ""
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
+"Plánovač úloh Celery, mala by bežať iba jedna inštancia. Tento kontajner je "
+"tiež zodpovedný za migrácie štruktúry databázy a mal by byť spustený pred "
+"ostatnými."
 
 #: admin/install/docker.rst:2193
 msgid "Celery worker for backups, only one instance should be running."
-msgstr ""
+msgstr "Pracovník Celery pre zálohy, mala by bežať iba jedna inštancia."
 
 #: admin/install/docker.rst:2195
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "Všeobecný pracovník Celery."
 
 #: admin/install/docker.rst:2197
 msgid "Translation memory Celery worker."
-msgstr ""
+msgstr "Pracovník Celery pre prekladovú pamäť."
 
 #: admin/install/docker.rst:2199
 msgid "Notifications Celery worker."
-msgstr ""
+msgstr "Pracovník Celery pre notifikácie."
 
 #: admin/install/docker.rst:2201
 msgid "Automatic translation Celery worker."
-msgstr ""
+msgstr "Pracovník Celery pre automatický preklad."
 
 #: admin/install/docker.rst:2203
 msgid "Web server."
-msgstr ""
+msgstr "Webový server."
 
 #: admin/install/docker.rst:2213
 msgid ""
@@ -12062,6 +12180,10 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"URL servera `Anubis`_ na spracovanie autentifikácie podpožiadaviek. Toto "
+"môže byť užitočné na filtrovanie prichádzajúcich HTTP požiadaviek pomocou "
+"proof-of-work na zastavenie AI crawlerov. Musíte nakonfigurovať `Anubis for "
+"Subrequest Authentication`_, aby to fungovalo."
 
 #: admin/install/docker.rst:2221
 msgid "`Anubis`_"
@@ -12069,19 +12191,21 @@ msgstr "`Anubis`_"
 
 #: admin/install/docker.rst:2229
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Zväzky Docker kontajnera"
 
 #: admin/install/docker.rst:2231
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container."
-msgstr ""
+msgstr "Kontajner Weblate exportuje dva zväzky (:file:`data` a :file:`cache`)."
 
 #: admin/install/docker.rst:2236
 msgid ""
 "The other service containers (such as PostgreSQL or Valkey) have their data "
 "volumes as well and are required to maintain Weblate persistence."
 msgstr ""
+"Ostatné servisné kontajnery (ako PostgreSQL alebo Valkey) majú tiež svoje "
+"datové zväzky a sú potrebné na udržanie perzistencie Weblate."
 
 #: admin/install/docker.rst:2239
 msgid ""
@@ -12090,12 +12214,17 @@ msgid ""
 "does not save the data by default and needs additional configuration to "
 "enable persistence."
 msgstr ""
+"Kontajner PostgreSQL ukladá databázu do zväzku :file:`/var/lib/postgresql` a "
+"Valkey do zväzku :file:`/data`. Kontajner Valkey predvolene neukladá dáta a "
+"potrebuje dodatočnú konfiguráciu na povolenie perzistencie."
 
 #: admin/install/docker.rst:2244
 msgid ""
 "Base your configuration on Weblate-provided examples or consult their "
 "documentation for more information."
 msgstr ""
+"Založte svoju konfiguráciu na príkladoch poskytovaných Weblate alebo sa "
+"poraďte s ich dokumentáciou pre viac informácií."
 
 #: admin/install/docker.rst:2247
 msgid ""
@@ -12104,6 +12233,10 @@ msgid ""
 "installation. :setting:`DATA_DIR` describes in more detail what is stored "
 "here."
 msgstr ""
+"Zväzok :file:`data` je pripojený ako :file:`/app/data` a používa sa na "
+"uchovávanie perzistentných dát Weblate, ako sú klonované repozitáre, alebo "
+"na prispôsobenie inštalácie Weblate. :setting:`DATA_DIR` podrobnejšie "
+"popisuje, čo je tu uložené."
 
 #: admin/install/docker.rst:2251
 msgid ""
@@ -12111,6 +12244,9 @@ msgid ""
 "as :ref:`docker-settings-override`, :ref:`docker-static-override` "
 "or :ref:`docker-python-override`."
 msgstr ""
+"Zväzok :file:`data` je tiež miestom na uloženie prispôsobení Weblate, ako sú "
+":ref:`docker-settings-override`, :ref:`docker-static-override` alebo "
+":ref:`docker-python-override`."
 
 #: admin/install/docker.rst:2255
 msgid ""
@@ -12119,6 +12255,10 @@ msgid ""
 "weblate-docker_weblate-data/_data/` (the path consist of name of your docker-"
 "compose directory, container, and volume names)."
 msgstr ""
+"Umiestnenie Docker zväzku na hostiteľskom systéme závisí od vašej Docker "
+"konfigurácie, ale zvyčajne je uložený v :file:`/var/lib/docker/volumes/"
+"weblate-docker_weblate-data/_data/` (cesta pozostáva z názvu vášho docker-"
+"compose adresára, kontajnera a názvov zväzkov)."
 
 #: admin/install/docker.rst:2260
 msgid ""
@@ -12127,12 +12267,18 @@ msgid ""
 "container startup and the volume can be mounted using ephemeral filesystem "
 "such as `tmpfs`."
 msgstr ""
+"Zväzok :file:`cache` je pripojený ako :file:`/app/cache` a používa sa na "
+"uchovávanie statických súborov a :setting:`CACHE_DIR`. Jeho obsah sa znovu "
+"vytvára pri štarte kontajnera a zväzok môže byť pripojený pomocou efemérneho "
+"súborového systému, ako je `tmpfs`."
 
 #: admin/install/docker.rst:2264
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Pri manuálnom vytváraní zväzkov by vlastníkom adresárov mal byť UID 1000, "
+"pretože to je používateľ používaný vnútri kontajnera."
 
 #: admin/install/docker.rst:2267
 msgid ""
@@ -12140,26 +12286,33 @@ msgid ""
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
+"Kontajner Weblate môže byť spustený aj s koreňovým súborovým systémom iba na "
+"čítanie. V takom prípade by mali byť pripojené dva dodatočné ``tmpfs`` "
+"zväzky: :file:`/tmp` a :file:`/run`."
 
 #: admin/install/docker.rst:2274
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_"
 msgstr ""
+"`Dokumentácia Docker zväzkov <https://docs.docker.com/engine/storage/"
+"volumes/>`_"
 
 #: admin/install/docker.rst:2279
 msgid "Read-only root filesystem"
-msgstr ""
+msgstr "Koreňový súborový systém iba na čítanie"
 
 #: admin/install/docker.rst:2283
 msgid ""
 "When running the container with a read-only root filesystem, two additional "
 "`tmpfs` volumes are required - :file:`/tmp` and :file:`/run`."
 msgstr ""
+"Pri spúšťaní kontajnera s koreňovým súborovým systémom iba na čítanie sú "
+"potrebné dva dodatočné `tmpfs` zväzky - :file:`/tmp` a :file:`/run`."
 
 #: admin/install/docker.rst:2290
 msgid "Configuration beyond environment variables"
-msgstr ""
+msgstr "Konfigurácia nad rámec premenných prostredia"
 
 #: admin/install/docker.rst:2292
 msgid ""
@@ -12167,6 +12320,9 @@ msgid ""
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
+":ref:`Premenné prostredia Docker <docker-environment>` sú určené na "
+"sprístupnenie väčšiny :ref:`konfiguračných nastavení <config>` relevantných "
+"pre inštalácie Weblate."
 
 #: admin/install/docker.rst:2296
 msgid ""
@@ -12174,6 +12330,9 @@ msgid ""
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
+"Ak nájdete nastavenie, ktoré nie je vystavené ako premenná prostredia, a "
+"veríte, že by malo byť, neváhajte :ref:`požiadať o jeho vystavenie v budúcej "
+"verzii Weblate <report-issue>`."
 
 #: admin/install/docker.rst:2300
 msgid ""
@@ -12182,10 +12341,14 @@ msgid ""
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
+"Ak potrebujete upraviť nastavenie, ktoré nie je vystavené ako premenná "
+"prostredia Docker, môžete tak urobiť buď :ref:`zo zväzku dát <docker-"
+"settings-override>` alebo :ref:`rozšírením Docker obrazu <docker-custom-"
+"settings>`."
 
 #: admin/install/docker.rst:2312
 msgid "Overriding settings from the data volume"
-msgstr ""
+msgstr "Prepísanie nastavení zo zväzku dát"
 
 #: admin/install/docker.rst:2314
 msgid ""
@@ -12193,26 +12356,31 @@ msgid ""
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
+"Môžete vytvoriť súbor na :file:`/app/data/settings-override.py`, t.j. v "
+"koreni :ref:`zväzku dát <docker-volume>`, na rozšírenie alebo prepísanie "
+"nastavení definovaných cez premenné prostredia."
 
 #: admin/install/docker.rst:2322
 msgid "Overriding settings by extending the Docker image"
-msgstr ""
+msgstr "Prepísanie nastavení rozšírením Docker obrazu"
 
 #: admin/install/docker.rst:2324
 msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
-msgstr ""
+msgstr "Na prepísanie nastavení na úrovni Docker obrazu namiesto zo zväzku dát:"
 
 #: admin/install/docker.rst:2326
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`Vytvorte vlastný Python balík <custom-module>`."
 
 #: admin/install/docker.rst:2328
 msgid ""
 "Add a module to your package that imports all settings from "
 "``weblate.settings_docker``."
 msgstr ""
+"Pridajte modul do vášho balíka, ktorý importuje všetky nastavenia z "
+"``weblate.settings_docker``."
 
 #: admin/install/docker.rst:2331
 msgid ""
@@ -12220,6 +12388,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Napríklad, v rámci štruktúry balíka definovanej v :ref:`custom-module`, "
+"môžete vytvoriť súbor na ``weblate_customization/weblate_customization/"
+"settings.py`` s nasledujúcim počiatočným kódom:"
 
 #: admin/install/docker.rst:2340
 msgid ""
@@ -12227,12 +12398,17 @@ msgid ""
 "Docker image, and then installs your package and points the "
 "``DJANGO_SETTINGS_MODULE`` environment variable to your settings module:"
 msgstr ""
+"Vytvorte vlastný ``Dockerfile``, ktorý dedí z oficiálneho Docker obrazu "
+"Weblate, a potom nainštaluje váš balík a nasmeruje premennú prostredia "
+"``DJANGO_SETTINGS_MODULE`` na váš modul nastavení:"
 
 #: admin/install/docker.rst:2356
 msgid ""
 "Instead of using the official Weblate Docker image, build a custom image "
 "from this ``Dockerfile`` file."
 msgstr ""
+"Namiesto použitia oficiálneho Docker obrazu Weblate zostavte vlastný obraz z "
+"tohto súboru ``Dockerfile``."
 
 #: admin/install/docker.rst:2359
 msgid ""
@@ -12241,6 +12417,11 @@ msgid ""
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
+"Neexistuje `čistý spôsob <https://github.com/docker/compose/issues/7231>`__, "
+"ako to urobiť s ``docker-compose.override.yml``. *Mohli* by ste pridať "
+"``build: .`` do uzla ``weblate`` v tomto súbore, ale potom bude váš vlastný "
+"obraz označený ako ``weblate/weblate`` vo vašom systéme, čo môže byť "
+"problématické."
 
 #: admin/install/docker.rst:2365
 msgid ""
@@ -12250,16 +12431,25 @@ msgid ""
 "make a copy of the official ``docker-compose.yml`` file, and edit your copy "
 "to replace ``image: weblate/weblate`` with ``build: .``."
 msgstr ""
+"Takže, namiesto použitia ``docker-compose.yml`` priamo z `oficiálneho "
+"repozitára <https://github.com/WeblateOrg/docker-compose>`__, bez úprav, a "
+"jeho rozšírenia cez ``docker-compose.override.yml``, môžete chcieť vytvoriť "
+"kópiu oficiálneho súboru ``docker-compose.yml`` a upraviť vašu kópiu tak, "
+"aby nahradila ``image: weblate/weblate`` za ``build: .``."
 
 #: admin/install/docker.rst:2371
 msgid ""
 "See the `Compose file build reference`_ for details on building images from "
 "source when using ``docker-compose``."
 msgstr ""
+"Pozrite `Referenciu zostavovania Compose súborov`_ pre podrobnosti o "
+"zostavovaní obrazov zo zdroja pri použití ``docker-compose``."
 
 #: admin/install/docker.rst:2376
 msgid "Extend your custom settings module to define or redefine settings."
 msgstr ""
+"Rozšírte váš vlastný modul nastavení na definovanie alebo redefinovanie "
+"nastavení."
 
 #: admin/install/docker.rst:2378
 msgid ""
@@ -12269,6 +12459,11 @@ msgid ""
 "defined in the data volume. Setting defined after the import statement "
 "cannot be overridden."
 msgstr ""
+"Môžete definovať nastavenia pred alebo po príkaze importu vyššie, aby ste "
+"určili, ktoré nastavenia majú prednosť. Nastavenia definované pred príkazom "
+"importu môžu byť prepísané premennými prostredia a prepismi nastavení "
+"definovanými v zväzku dát. Nastavenia definované po príkaze importu nemôžu "
+"byť prepísané."
 
 #: admin/install/docker.rst:2384
 msgid ""
@@ -12278,10 +12473,15 @@ msgid ""
 "as environment variables, or allow overriding settings from Python files in "
 "the data volume."
 msgstr ""
+"Môžete ísť aj ďalej. Napríklad, môžete reprodukovať niektoré veci, ktoré "
+"``weblate.docker_settings`` `robí <https://github.com/WeblateOrg/weblate/"
+"blob/main/weblate/settings_docker.py>`__, ako je vystavovanie nastavení ako "
+"premenných prostredia, alebo umožnenie prepisovania nastavení z Python "
+"súborov v zväzku dát."
 
 #: admin/install/docker.rst:2393
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Nahrádzanie loga a iných statických súborov"
 
 #: admin/install/docker.rst:2395
 msgid ""
@@ -12290,12 +12490,18 @@ msgid ""
 "For example creating :file:`/app/data/python/customize/static/favicon.ico` "
 "will replace the favicon."
 msgstr ""
+"Statické súbory dodávané s Weblate môžu byť prepísané umiestnením do :file:`/"
+"app/data/python/customize/static` (pozrite :ref:`docker-volume`). Napríklad "
+"vytvorenie :file:`/app/data/python/customize/static/favicon.ico` nahradí "
+"favicon."
 
 #: admin/install/docker.rst:2402
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
+"Súbory sa skopírujú na zodpovedajúce miesto pri štarte kontajnera, takže po "
+"zmene obsahu zväzku je potrebný reštart Weblate."
 
 #: admin/install/docker.rst:2405
 msgid ""
@@ -12303,16 +12509,21 @@ msgid ""
 "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
 "customize/templates/legal/documents`."
 msgstr ""
+"Tento prístup môže byť tiež použitý na prepísanie šablón Weblate. Napríklad "
+"dokumenty :ref:`legal` môžu byť umiestnené do :file:`/app/data/python/"
+"customize/templates/legal/documents`."
 
 #: admin/install/docker.rst:2409
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Alternatívne môžete tiež zahrnúť vlastný modul (pozrite :doc:`../customize`) "
+"a pridať ho ako samostatný zväzok do Docker kontajnera, napríklad:"
 
 #: admin/install/docker.rst:2424
 msgid "Customizing code"
-msgstr ""
+msgstr "Prispôsobovanie kódu"
 
 #: admin/install/docker.rst:2428
 msgid ""
@@ -12320,6 +12531,9 @@ msgid ""
 "meant to be stable. Please review your custom code interacting with Weblate "
 "internals on each upgrade."
 msgstr ""
+"Interné API Weblate sa môže medzi verziami významne líšiť a nie je určené "
+"ako stabilné. Prosím, skontrolujte váš vlastný kód interagujúci s internými "
+"časťami Weblate pri každej aktualizácii."
 
 #: admin/install/docker.rst:2432
 msgid ""
@@ -12328,16 +12542,22 @@ msgid ""
 "inside Weblate (this is used for customizing templates and static files as "
 "described above)."
 msgstr ""
+"Môžete umiestniť dodatočný Python kód do :file:`/app/data/python/customize` "
+"(pozrite :ref:`docker-volume`). Je už nainštalovaný ako Django aplikácia "
+"vnútri Weblate (toto sa používa na prispôsobovanie šablón a statických "
+"súborov, ako je popísané vyššie)."
 
 #: admin/install/docker.rst:2437
 msgid ""
 "This can be used to place any code (for example :ref:`own-checks`) or to add "
 "custom maintenance tasks to the Celery task scheduler."
 msgstr ""
+"Toto môže byť použité na umiestnenie akéhokoľvek kódu (napríklad :ref:`own-"
+"checks`) alebo na pridanie vlastných úloh údržby do plánovača úloh Celery."
 
 #: admin/install/docker.rst:2445
 msgid "Integrating third-party containers"
-msgstr ""
+msgstr "Integrácia kontajnerov tretích strán"
 
 #: admin/install/docker.rst:2447
 msgid ""
@@ -12346,31 +12566,42 @@ msgid ""
 "or other tools that enhance the translation workflow. These services can be "
 "integrated into your Docker Compose configuration and work alongside Weblate."
 msgstr ""
+"Nastavenie Docker Weblate môže byť rozšírené o dodatočné kontajnery na "
+"poskytovanie doplnkových služieb, ako je strojový preklad, kontrola "
+"pravopisu, alebo iné nástroje, ktoré zlepšujú pracovný postup prekladu. "
+"Tieto služby môžu byť integrované do vašej konfigurácie Docker Compose a "
+"pracovať spolu s Weblate."
 
 #: admin/install/docker.rst:2452
 msgid "When adding third-party containers, consider the following:"
-msgstr ""
+msgstr "Pri pridávaní kontajnerov tretích strán zvážte nasledujúce:"
 
 #: admin/install/docker.rst:2454
 msgid ""
 "**Network connectivity**: Ensure containers can communicate with each other "
 "by placing them on the same Docker network"
 msgstr ""
+"**Sieťová konektivita**: Uistite sa, že kontajnery môžu medzi sebou "
+"komunikovať umiestnením do tej istej Docker siete"
 
 #: admin/install/docker.rst:2455
 msgid ""
 "**Data persistence**: Use volumes for services that need to persist data"
 msgstr ""
+"**Perzistencia dát**: Použite zväzky pre služby, ktoré potrebujú uchovávať "
+"dáta"
 
 #: admin/install/docker.rst:2456
 msgid ""
 "**Security**: Configure appropriate access controls and avoid exposing "
 "unnecessary ports"
 msgstr ""
+"**Bezpečnosť**: Nakonfigurujte vhodné riadenie prístupu a vyhnite sa "
+"vystavovaniu nepotrebných portov"
 
 #: admin/install/docker.rst:2461
 msgid "LibreTranslate Docker container integration"
-msgstr ""
+msgstr "Integrácia Docker kontajnera LibreTranslate"
 
 #: admin/install/docker.rst:2463
 msgid ""
@@ -12379,6 +12610,10 @@ msgid ""
 "Weblate provides offline machine translation capabilities without relying on "
 "external services."
 msgstr ""
+"`LibreTranslate <https://libretranslate.com/>`_ je bezplatná a open-source "
+"služba strojového prekladu, ktorú je možné hosťovať lokálne. Jej integrácia "
+"s Weblate poskytuje možnosti offline strojového prekladu bez závislosti na "
+"externých službách."
 
 #: admin/install/docker.rst:2467
 msgid ""
@@ -12387,34 +12622,41 @@ msgid ""
 "within the Docker network, it's only accessible to Weblate and not exposed "
 "to the public internet."
 msgstr ""
+"Službu LibreTranslate môžete začleniť do vášho nasadenia Weblate jej "
+"zaradením do súboru :file:`docker-compose.override.yml`. Keďže beží v rámci "
+"Docker siete, je prístupná iba pre Weblate a nie je vystavená verejnému "
+"internetu."
 
 #: admin/install/docker.rst:2469
 msgid "Basic setup using :file:`docker-compose.override.yml`:"
-msgstr ""
+msgstr "Základné nastavenie pomocou :file:`docker-compose.override.yml`:"
 
 #: admin/install/docker.rst:2492
 msgid "For GPU-accelerated translation (if you have NVIDIA GPU available):"
-msgstr ""
+msgstr "Pre preklad akcelerovaný GPU (ak máte dostupné NVIDIA GPU):"
 
 #: admin/install/docker.rst:2523
 msgid ""
 "After starting the services with ``docker compose down && docker compose up "
 "-d``, configure LibreTranslate in Weblate:"
 msgstr ""
+"Po spustení služieb pomocou ``docker compose down && docker compose up -d``, "
+"nakonfigurujte LibreTranslate vo Weblate:"
 
 #: admin/install/docker.rst:2526
 msgid "Access the Weblate admin interface"
-msgstr ""
+msgstr "Prístup do administrátorského rozhrania Weblate"
 
 #: admin/install/docker.rst:2527
 msgid ""
 "Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic "
 "suggestions`"
 msgstr ""
+"Prejdite na :guilabel:`Strojový preklad` → :guilabel:`Automatické návrhy`"
 
 #: admin/install/docker.rst:2528
 msgid "Add a new LibreTranslate service with:"
-msgstr ""
+msgstr "Pridajte novú službu LibreTranslate s:"
 
 #: admin/install/docker.rst:0
 msgid "Service"
@@ -12435,7 +12677,7 @@ msgstr "LibreTranslate"
 #: snippets/machines-autogenerated.rst:971
 #: snippets/machines-autogenerated.rst:1056 wlc.rst:392
 msgid "API URL"
-msgstr "API URL"
+msgstr "URL API"
 
 #: admin/install/docker.rst:0 snippets/machines-autogenerated.rst:77
 #: snippets/machines-autogenerated.rst:215
@@ -12456,37 +12698,46 @@ msgstr "API kľúč"
 
 #: admin/install/docker.rst:2532
 msgid "Leave empty"
-msgstr ""
+msgstr "Nechať prázdne"
 
 #: admin/install/docker.rst:2534
 msgid ""
 "LibreTranslate is now configured and available for machine translation in "
 "Weblate."
 msgstr ""
+"LibreTranslate je teraz nakonfigurovaný a dostupný pre strojový preklad vo "
+"Weblate."
 
 #: admin/install/docker.rst:2538
 msgid ""
 "The LibreTranslate service runs without the web UI (``--disable-web-ui``) "
 "and is only accessible via the API within the Docker network."
 msgstr ""
+"Služba LibreTranslate beží bez webového rozhrania (``--disable-web-ui``) a "
+"je prístupná iba cez API v rámci Docker siete."
 
 #: admin/install/docker.rst:2539
 msgid ""
 "Models are automatically updated when the container starts. "
 "(``LT_UPDATE_MODELS: true``)"
 msgstr ""
+"Modely sa automaticky aktualizujú pri štarte kontajnera. "
+"(``LT_UPDATE_MODELS: true``)"
 
 #: admin/install/docker.rst:2540
 msgid ""
 "Data is persisted using Docker volumes for optimal performance and data "
 "safety."
 msgstr ""
+"Dáta sú uchovávané pomocou Docker zväzkov pre optimálny výkon a bezpečnosť "
+"dát."
 
 #: admin/install/docker.rst:2541
 msgid ""
 "Health checks ensure that the Docker engine properly observes the state of "
 "the service."
 msgstr ""
+"Kontroly zdravia zabezpečujú, že Docker engine správne sleduje stav služby."
 
 #: admin/install/docker.rst:2542
 msgid ""
@@ -12494,18 +12745,23 @@ msgid ""
 "NVIDIA Docker support. This container runs as a privileged user to be able "
 "to use the GPU."
 msgstr ""
+"Pre akceleráciu GPU použite variant obrazu CUDA a uistite sa, že váš systém "
+"má podporu NVIDIA Docker. Tento kontajner beží ako privilegovaný používateľ, "
+"aby mohol používať GPU."
 
 #: admin/install/docker.rst:2543
 msgid "No external ports are exposed, making the setup secure by default."
 msgstr ""
+"Nie sú vystavené žiadne externé porty, čo robí nastavenie predvolene "
+"bezpečným."
 
 #: admin/install/docker.rst:2548
 msgid "`LibreTranslate Docker documentation`_"
-msgstr ""
+msgstr "`Dokumentácia LibreTranslate Docker`_"
 
 #: admin/install/docker.rst:2556
 msgid "Anubis Docker container integration"
-msgstr ""
+msgstr "Integrácia Docker kontajnera Anubis"
 
 #: admin/install/docker.rst:2558
 msgid ""
@@ -12513,36 +12769,47 @@ msgid ""
 "disruptive traffic on the server. It is typically needed for publicly open "
 "Weblate installations to avoid excessive load caused by scraping."
 msgstr ""
+"`Anubis`_ je utilita webového AI firewallu na blokovanie AI scraperov a "
+"iného rušivého prevádzky na serveri. Zvyčajne je potrebný pre verejne "
+"otvorené inštalácie Weblate, aby sa zabránilo nadmernému zaťaženiu "
+"spôsobenému scrapingom."
 
 #: admin/install/docker.rst:2562
 msgid "Anubis can be deployed using Docker Compose:"
-msgstr ""
+msgstr "Anubis môže byť nasadený pomocou Docker Compose:"
 
 #: admin/install/docker.rst:2596
 msgid ""
 "The ``anubis-data`` volume in the above configuration is expected to "
 "contain :file:`botPolicies.yaml` with a bot policy configured to your needs."
 msgstr ""
+"Očakáva sa, že zväzok ``anubis-data`` vo vyššie uvedenej konfigurácii bude "
+"obsahovať :file:`botPolicies.yaml` s politikou bota nakonfigurovanou podľa "
+"vašich potrieb."
 
 #: admin/install/docker.rst:2599
 msgid ""
 "At minimum, you need to adjust status codes as described in https://"
 "anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 msgstr ""
+"Minimálne musíte upraviť stavové kódy, ako je popísané na https://"
+"anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 
 #: admin/install/docker.rst:2602
 msgid ""
 "It is also recommended to configure persistent storage backend as described "
 "in https://anubis.techaro.lol/docs/admin/policies/#storage-backends."
 msgstr ""
+"Tiež sa odporúča nakonfigurovať backend perzistentného úložiska, ako je "
+"popísané na https://anubis.techaro.lol/docs/admin/policies/#storage-backends."
 
 #: admin/install/docker.rst:2606
 msgid "You can then turn on the Anubis usage in Weblate using:"
-msgstr ""
+msgstr "Potom môžete zapnúť používanie Anubis vo Weblate pomocou:"
 
 #: admin/install/docker.rst:2618
 msgid "Configuring PostgreSQL server"
-msgstr ""
+msgstr "Konfigurácia servera PostgreSQL"
 
 #: admin/install/docker.rst:2620
 msgid ""
@@ -12550,6 +12817,9 @@ msgid ""
 "effectively utilize your CPU cores or memory. It is recommended to customize "
 "the configuration to improve the performance."
 msgstr ""
+"Kontajner PostgreSQL používa predvolenú konfiguráciu PostgreSQL a nebude "
+"efektívne využívať vaše jadrá CPU alebo pamäť. Odporúča sa prispôsobiť "
+"konfiguráciu na zlepšenie výkonu."
 
 #: admin/install/docker.rst:2624
 msgid ""
@@ -12557,10 +12827,13 @@ msgid ""
 "at https://hub.docker.com/_/postgres. The configuration matching your "
 "environment can be generated using https://pgtune.leopard.in.ua/."
 msgstr ""
+"Konfigurácia môže byť upravená, ako je popísané v `Konfigurácia databázy` na "
+"https://hub.docker.com/_/postgres. Konfigurácia zodpovedajúca vášmu "
+"prostrediu môže byť vygenerovaná pomocou https://pgtune.leopard.in.ua/."
 
 #: admin/install/docker.rst:2629
 msgid "Container internals"
-msgstr ""
+msgstr "Interné časti kontajnera"
 
 #: admin/install/docker.rst:2631
 msgid ""
@@ -12568,10 +12841,12 @@ msgid ""
 "In case of :ref:`docker-scaling`, it only starts single service in a "
 "container."
 msgstr ""
+"Kontajner používa :program:`supervisor` na spúšťanie jednotlivých služieb. V "
+"prípade :ref:`docker-scaling` spúšťa v kontajneri iba jednu službu."
 
 #: admin/install/docker.rst:2634
 msgid "To check the services status use:"
-msgstr ""
+msgstr "Na kontrolu stavu služieb použite:"
 
 #: admin/install/docker.rst:2640
 msgid ""
@@ -12579,16 +12854,21 @@ msgid ""
 "details). You can stop processing some tasks by stopping the appropriate "
 "worker:"
 msgstr ""
+"Existujú individuálne služby pre každý rad Celery (pozrite :ref:`celery` pre "
+"podrobnosti). Môžete zastaviť spracovanie niektorých úloh zastavením "
+"príslušného pracovníka:"
 
 #: admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
-msgstr ""
+msgstr "Inštalácia na Kubernetes"
 
 #: admin/install/kubernetes.rst:6
 msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
 msgstr ""
+"Tento návod hľadá prispievateľov so skúsenosťami s Kubernetes, aby pokryli "
+"nastavenie podrobnejšie."
 
 #: admin/install/kubernetes.rst:9
 msgid ""
@@ -12597,22 +12877,29 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Pomocou Kubernetes Helm chartu môžete mať svoju osobnú inštanciu Weblate "
+"spustenú za pár sekúnd. Všetky závislosti Weblate sú už zahrnuté. PostgreSQL "
+"je nastavený ako predvolená databáza a používajú sa trvalé nároky na zväzky."
 
 #: admin/install/kubernetes.rst:14
 msgid ""
 "You can find the chart at <https://github.com/WeblateOrg/helm/> and it can "
 "be displayed at <https://artifacthub.io/packages/helm/weblate/weblate>."
 msgstr ""
+"Chart nájdete na <https://github.com/WeblateOrg/helm/> a môže byť zobrazený "
+"na <https://artifacthub.io/packages/helm/weblate/weblate>."
 
 #: admin/install/kubernetes.rst:28
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
+"Pre ďalšie možnosti konfigurácie pozrite :ref:`docker-environment` pre úplný "
+"zoznam premenných prostredia."
 
 #: admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Inštalácia na OpenShift"
 
 #: admin/install/openshift.rst:4
 msgid ""
@@ -12621,11 +12908,14 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"Pomocou šablóny OpenShift Weblate môžete mať svoju osobnú inštanciu Weblate "
+"spustenú za pár sekúnd. Všetky závislosti Weblate sú už zahrnuté. PostgreSQL "
+"je nastavený ako predvolená databáza a používajú sa trvalé nároky na zväzky."
 
 #: admin/install/openshift.rst:9
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
-msgstr ""
+msgstr "Šablónu nájdete na <https://github.com/WeblateOrg/openshift/>."
 
 #: admin/install/openshift.rst:14
 msgid ""
@@ -12633,6 +12923,9 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"Nasledujúce príklady predpokladajú, že máte funkčné prostredie OpenShift "
+"v3.x s nainštalovaným klientskym nástrojom ``oc``. Prosím, skontrolujte "
+"dokumentáciu OpenShift pre inštrukcie."
 
 #: admin/install/openshift.rst:18
 msgid ""
@@ -12640,10 +12933,14 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+":file:`template.yml` je vhodný na spúšťanie všetkých komponentov v "
+"OpenShift. Existuje aj :file:`template-external-postgresql.yml`, ktorý "
+"nespúšťa server PostgreSQL a umožňuje vám nakonfigurovať externý server "
+"PostgreSQL."
 
 #: admin/install/openshift.rst:23
 msgid "Web Console"
-msgstr ""
+msgstr "Webová konzola"
 
 #: admin/install/openshift.rst:25
 msgid ""
@@ -12653,25 +12950,32 @@ msgid ""
 "your application. The web console will prompt you for the values for all of "
 "the parameters used by the template."
 msgstr ""
+"Skopírujte surový obsah z `template.yml <https://github.com/WeblateOrg/"
+"openshift/blob/main/template.yml>`_ a importujte ho do vášho projektu, potom "
+"použite tlačidlo :guilabel:`Vytvoriť` vo webovej konzole OpenShift na "
+"vytvorenie vašej aplikácie. Webová konzola vás vyzve na zadanie hodnôt pre "
+"všetky parametre používané šablónou."
 
 #: admin/install/openshift.rst:32
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: admin/install/openshift.rst:34
 msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Na nahratie šablóny Weblate do knižnice šablón vášho aktuálneho projektu "
+"odovzdajte súbor :file:`template.yml` pomocou nasledujúceho príkazu:"
 
 #: admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
-msgstr ""
+msgstr "Šablóna je teraz dostupná na výber pomocou webovej konzoly alebo CLI."
 
 #: admin/install/openshift.rst:46 python.rst:0
 msgid "Parameters"
-msgstr ""
+msgstr "Parametre"
 
 #: admin/install/openshift.rst:48
 msgid ""
@@ -12679,22 +12983,29 @@ msgid ""
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
+"Parametre, ktoré môžete prepísať, sú uvedené v sekcii parametrov šablóny. "
+"Môžete ich vypísať pomocou CLI použitím nasledujúceho príkazu a "
+"špecifikovaním súboru, ktorý sa má použiť:"
 
 #: admin/install/openshift.rst:60
 msgid "Provisioning"
-msgstr ""
+msgstr "Zriaďovanie"
 
 #: admin/install/openshift.rst:62
 msgid ""
 "You can also use the CLI to process templates and use the configuration that "
 "is generated to create objects immediately."
 msgstr ""
+"Môžete tiež použiť CLI na spracovanie šablón a použiť vygenerovanú "
+"konfiguráciu na okamžité vytvorenie objektov."
 
 #: admin/install/openshift.rst:75
 msgid ""
 "The Weblate instance should be available after successful migration and "
 "deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
 msgstr ""
+"Inštancia Weblate by mala byť dostupná po úspešnej migrácii a nasadení na "
+"špecifikovanom parametri ``WEBLATE_SITE_DOMAIN``."
 
 #: admin/install/openshift.rst:78
 msgid ""
@@ -12702,16 +13013,21 @@ msgid ""
 "provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
 "first start if that was not set."
 msgstr ""
+"Po nastavení kontajnera sa môžete prihlásiť ako používateľ `admin` s heslom "
+"poskytnutým v ``WEBLATE_ADMIN_PASSWORD``, alebo s náhodným heslom "
+"vygenerovaným pri prvom štarte, ak nebolo nastavené."
 
 #: admin/install/openshift.rst:82
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
 msgstr ""
+"Na resetovanie hesla `admin` reštartujte kontajner s "
+"``WEBLATE_ADMIN_PASSWORD`` nastaveným na nové heslo v príslušnom ``Secret``."
 
 #: admin/install/openshift.rst:86
 msgid "Eliminate"
-msgstr ""
+msgstr "Odstrániť"
 
 #: admin/install/openshift.rst:104
 msgid ""
@@ -12724,19 +13040,23 @@ msgstr ""
 
 #: admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr ""
+msgstr "Inštalácia zo zdrojových kódov"
 
 #: admin/install/source.rst:4
 msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
+"Prosím, najprv dodržte inštalačné inštrukcie pre váš systém až po inštaláciu "
+"Weblate:"
 
 #: admin/install/source.rst:11
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
+"Získajte najnovšie zdrojové kódy Weblate pomocou Gitu (alebo stiahnite "
+"tarball a rozbaľte ho):"
 
 #: admin/install/source.rst:17
 msgid ""
@@ -12744,29 +13064,36 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"Alternatívne môžete použiť vydané archívy. Môžete si ich stiahnuť z našej "
+"webstránky <https://weblate.org/>. Tieto sťahovania sú kryptograficky "
+"podpísané, prosím, pozrite :ref:`verify`."
 
 #: admin/install/source.rst:21
 msgid "Install current Weblate code into the Python environment:"
-msgstr ""
+msgstr "Nainštalujte aktuálny kód Weblate do Python prostredia:"
 
 #: admin/install/source.rst:30
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
+"Skopírujte :file:`weblate/settings_example.py` do :file:`weblate/"
+"settings.py`."
 
 #: admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
-msgstr ""
+msgstr "Vytvorte databázu používanú Weblate, pozrite :ref:`database-setup`."
 
 #: admin/install/source.rst:37
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Vytvorte tabuľky Django, statické súbory a počiatočné dáta (pozrite "
+":ref:`tables-setup` a :ref:`static-files`):"
 
 #: admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "Tento krok by sa mal opakovať zakaždým, keď aktualizujete repozitár."
 
 #: admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -12775,10 +13102,14 @@ msgid ""
 "key, but you will want more changes for production setup, "
 "see :ref:`configuration`."
 msgstr ""
+"Upravte hodnoty v novom súbore :file:`settings.py` podľa svojich "
+"preferencií. Budete musieť poskytnúť aspoň prihlasovacie údaje k databáze a "
+"tajný kľúč Django, ale pre produkčné nastavenie budete chcieť viac zmien, "
+"pozrite :ref:`configuration`."
 
 #: admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
-msgstr ""
+msgstr "Hardvérové požiadavky"
 
 #: admin/install/steps/hw.rst:4
 msgid ""
@@ -12786,28 +13117,33 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and web server):"
 msgstr ""
+"Weblate by mal bez problémov bežať na akomkoľvek súčasnom hardvéri, "
+"nasledujúca je minimálna konfigurácia potrebná na spustenie Weblate na "
+"jednom hostiteľovi (Weblate, databáza a webový server):"
 
 #: admin/install/steps/hw.rst:8
 msgid "3 GB of RAM"
-msgstr ""
+msgstr "3 GB RAM"
 
 #: admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
-msgstr ""
+msgstr "2 jadrá CPU"
 
 #: admin/install/steps/hw.rst:10
 msgid "1 GB of storage space"
-msgstr ""
+msgstr "1 GB úložného priestoru"
 
 #: admin/install/steps/hw.rst:14
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Skutočné požiadavky pre vašu inštaláciu Weblate sa výrazne líšia v "
+"závislosti od veľkosti prekladov v nej spravovaných."
 
 #: admin/install/steps/hw.rst:18
 msgid "Memory usage"
-msgstr ""
+msgstr "Využitie pamäte"
 
 #: admin/install/steps/hw.rst:20
 msgid ""
@@ -12815,82 +13151,100 @@ msgid ""
 "system, database and Weblate). For hundreds of translation components, at "
 "least 4 GB of RAM is recommended."
 msgstr ""
+"Čím viac pamäte, tým lepšie - používa sa na cacheovanie na všetkých "
+"úrovniach (súborový systém, databáza a Weblate). Pre stovky prekladových "
+"komponentov sa odporúča aspoň 4 GB RAM."
 
 #: admin/install/steps/hw.rst:27
 msgid ""
 "For systems with less memory than recommended, :ref:`minimal-celery` is "
 "recommended."
 msgstr ""
+"Pre systémy s menším množstvom pamäte, než sa odporúča, sa odporúča "
+":ref:`minimal-celery`."
 
 #: admin/install/steps/hw.rst:30
 msgid "CPU usage"
-msgstr ""
+msgstr "Využitie CPU"
 
 #: admin/install/steps/hw.rst:32
 msgid "Many concurrent users increase the amount of needed CPU cores."
-msgstr ""
+msgstr "Veľa súbežných používateľov zvyšuje počet potrebných jadier CPU."
 
 #: admin/install/steps/hw.rst:35
 msgid "Storage usage"
-msgstr ""
+msgstr "Využitie úložiska"
 
 #: admin/install/steps/hw.rst:37
 msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words."
 msgstr ""
+"Typické využitie úložiska databázy je okolo 300 MB na 1 milión hostovaných "
+"slov."
 
 #: admin/install/steps/hw.rst:39
 msgid ""
 "Storage space needed for cloned repositories varies, but Weblate tries to "
 "keep their size minimal by doing shallow clones."
 msgstr ""
+"Potrebný úložný priestor pre klonované repozitáre sa líši, ale Weblate sa "
+"snaží udržiavať ich veľkosť minimálnu pomocou plytkých klonov."
 
 #: admin/install/steps/hw.rst:43
 msgid "Nodes"
-msgstr ""
+msgstr "Uzly"
 
 #: admin/install/steps/hw.rst:45
 msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
+"Pre malé a stredne veľké stránky (milióny hostovaných slov) môžu byť všetky "
+"komponenty Weblate (pozrite :ref:`architecture`) spustené na jednom uzle."
 
 #: admin/install/steps/hw.rst:48
 msgid ""
 "When you grow to hundreds of millions of hosted words, it is recommended to "
 "have a dedicated node for database (see :ref:`database-setup`)."
 msgstr ""
+"Keď narastiete na stovky miliónov hostovaných slov, odporúča sa mať "
+"vyhradený uzol pre databázu (pozrite :ref:`database-setup`)."
 
 #: admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "Po inštalácii"
 
 #: admin/install/steps/install-after.rst:4
 msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Gratulujeme, váš server Weblate je teraz spustený a môžete ho začať používať."
 
 #: admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "Teraz môžete pristupovať k Weblate na ``http://localhost:8000/``."
 
 #: admin/install/steps/install-after.rst:7
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
 msgstr ""
+"Prihláste sa s administrátorskými údajmi získanými počas inštalácie alebo "
+"zaregistrujte nových používateľov."
 
 #: admin/install/steps/install-after.rst:8
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate Python environment is active, see :ref:`manage`."
 msgstr ""
+"Teraz môžete spúšťať príkazy Weblate pomocou príkazu :command:`weblate`, keď "
+"je aktívne Python prostredie Weblate, pozrite :ref:`manage`."
 
 #: admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with :kbd:`Ctrl+C`."
-msgstr ""
+msgstr "Testovací server môžete zastaviť pomocou :kbd:`Ctrl+C`."
 
 #: admin/install/steps/install-after.rst:11
 msgid ""
@@ -12898,10 +13252,13 @@ msgid ""
 "performance/`` URL (see :ref:`manage-performance`) or "
 "using :command:`weblate check --deploy`, see :ref:`production`."
 msgstr ""
+"Skontrolujte potenciálne problémy s vašou inštaláciou buď na URL ``/manage/"
+"performance/`` (pozrite :ref:`manage-performance`) alebo pomocou "
+":command:`weblate check --deploy`, pozrite :ref:`production`."
 
 #: admin/install/steps/install-after.rst:14
 msgid "Adding translation"
-msgstr ""
+msgstr "Pridanie prekladu"
 
 #: admin/install/steps/install-after.rst:16
 msgid ""
@@ -12909,10 +13266,13 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Otvorte administrátorské rozhranie (``http://localhost:8000/create/project/"
+"``) a vytvorte projekt, ktorý chcete prekladať. Viac podrobností nájdete v "
+":ref:`project`."
 
 #: admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
-msgstr ""
+msgstr "Všetko, čo tu musíte špecifikovať, je názov projektu a jeho webstránka."
 
 #: admin/install/steps/install-after.rst:21
 msgid ""
@@ -12920,6 +13280,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. "
 "See :ref:`component` for more details."
 msgstr ""
+"Vytvorte komponent, ktorý je skutočným objektom na preklad - ukazuje na "
+"repozitár VCS a vyberá, ktoré súbory prekladať. Viac podrobností nájdete v "
+":ref:`component`."
 
 #: admin/install/steps/install-after.rst:25
 msgid ""
@@ -12929,6 +13292,11 @@ msgid ""
 "including :ref:`gettext`, :ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` "
 "or :ref:`fluent`, see :ref:`formats` for more details."
 msgstr ""
+"Dôležité polia tu sú: :ref:`component-name`, :ref:`component-repo` a "
+":ref:`component-filemask` na nájdenie preložiteľných súborov. Weblate "
+"podporuje širokú škálu formátov vrátane :ref:`gettext`, :ref:`aresource`, "
+":ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` alebo :ref:`fluent`, viac "
+"podrobností nájdete v :ref:`formats`."
 
 #: admin/install/steps/install-after.rst:31
 msgid ""
@@ -12936,10 +13304,13 @@ msgid ""
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
 msgstr ""
+"Po dokončení vyššie uvedeného (môže to byť zdĺhavý proces v závislosti od "
+"veľkosti vášho VCS repozitára a počtu správ na preklad) môžete začať "
+"prekladať."
 
 #: admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Konfigurácia Weblate"
 
 #: admin/install/steps/install-configure.rst:6
 msgid ""
@@ -12947,6 +13318,10 @@ msgid ""
 "(by executing ``. ~/weblate-env/bin/activate``). If not, specify the full "
 "path to the :command:`weblate` command as ``~/weblate-env/bin/weblate``."
 msgstr ""
+"Nasledujúce predpokladá, že Python prostredie používané Weblate je "
+"aktivované (vykonaním ``. ~/weblate-env/bin/activate``). Ak nie, "
+"špecifikujte celú cestu k príkazu :command:`weblate` ako ``~/weblate-env/bin/"
+"weblate``."
 
 #: admin/install/steps/install-configure.rst:10
 msgid ""
@@ -12954,92 +13329,116 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.9/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+"Skopírujte súbor :file:`~/weblate-env/lib/python3.9/site-packages/weblate/"
+"settings_example.py` do :file:`~/weblate-env/lib/python3.9/site-packages/"
+"weblate/settings.py`."
 
 #: admin/install/steps/install-configure.rst:16
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for a production-ready setup):"
 msgstr ""
+"Vytvorte databázu a jej štruktúru pre Weblate (príkladové nastavenia "
+"používajú PostgreSQL, skontrolujte :ref:`database-setup` pre produkčne "
+"pripravené nastavenie):"
 
 #: admin/install/steps/install-configure.rst:27
 msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
+"Vytvorte administrátorský účet ``admin``, vygenerujte jeho heslo a "
+"skopírujte ho do schránky; nezabudnite si ho uložiť na neskoršie použitie:"
 
 #: admin/install/steps/install-configure.rst:36
 msgid ""
 "If you previously missed/lost the admin password, you can generate a new one "
 "with the following command:"
 msgstr ""
+"Ak ste predtým prehliadli/stratili administrátorské heslo, môžete "
+"vygenerovať nové pomocou nasledujúceho príkazu:"
 
 #: admin/install/steps/install-configure.rst:46
 msgid ""
 "Collect the static files for your web server (see :ref:`server` "
 "and :ref:`static-files`):"
 msgstr ""
+"Zhromaždite statické súbory pre váš webový server (pozrite :ref:`server` a "
+":ref:`static-files`):"
 
 #: admin/install/steps/install-configure.rst:52
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
+"Komprimujte súbory JavaScript a CSS (voliteľné, pozrite :ref:`production-"
+"compress`):"
 
 #: admin/install/steps/install-configure.rst:58
 msgid ""
 "Start the Celery workers. This is not necessary for development purposes, "
 "but strongly recommended otherwise. :ref:`celery` has more info:"
 msgstr ""
+"Spustite pracovníkov Celery. Toto nie je potrebné pre vývojárske účely, ale "
+"inak sa dôrazne odporúča. :ref:`celery` obsahuje viac informácií:"
 
 #: admin/install/steps/install-configure.rst:65
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
 msgstr ""
+"Spustite vývojársky server (:ref:`server` podrobne popisuje produkčné "
+"nastavenie):"
 
 #: admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Python moduly"
 
 #: admin/install/steps/install-python.rst:6
 msgid "We're installing Weblate in a separate Python environment."
-msgstr ""
+msgstr "Inštalujeme Weblate v samostatnom Python prostredí."
 
 #: admin/install/steps/install-python.rst:9
 msgid "Create the Python environment for Weblate:"
-msgstr ""
+msgstr "Vytvorte Python prostredie pre Weblate:"
 
 #: admin/install/steps/install-python.rst:15
 msgid "Activate the Python environment for Weblate:"
-msgstr ""
+msgstr "Aktivujte Python prostredie pre Weblate:"
 
 #: admin/install/steps/install-python.rst:21
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
+msgstr "Nainštalujte Weblate vrátane všetkých voliteľných závislostí:"
 
 #: admin/install/steps/install-python.rst:28
 msgid ""
 "Please check :ref:`python-deps` for fine-tuning of optional dependencies."
 msgstr ""
+"Prosím, skontrolujte :ref:`python-deps` pre jemné doladenie voliteľných "
+"závislostí."
 
 #: admin/install/steps/install-python.rst:32
 msgid "`Using Python environments`_"
-msgstr ""
+msgstr "`Používanie Python prostredí`_"
 
 #: admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "Systémové požiadavky"
 
 #: admin/install/steps/install-system-devel.rst:7
 msgid ""
 "Install the dependencies needed to build the Python modules "
 "(see :ref:`requirements`):"
 msgstr ""
+"Nainštalujte závislosti potrebné na zostavenie Python modulov (pozrite "
+":ref:`requirements`):"
 
 #: admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
+"Nainštalujte požadované voliteľné závislosti v závislosti od funkcií, ktoré "
+"plánujete používať (pozrite :ref:`python-deps`):"
 
 #: admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -13048,59 +13447,69 @@ msgid ""
 "of your installation you might want to run these components on dedicated "
 "servers."
 msgstr ""
+"Voliteľne nainštalujte softvér na spúšťanie produkčného servera, pozrite "
+":ref:`server`, :ref:`database-setup`, :ref:`celery`. V závislosti od "
+"veľkosti vašej inštalácie môžete chcieť spustiť tieto komponenty na "
+"vyhradených serveroch."
 
 #: admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "Lokálne inštalačné inštrukcie:"
 
 #: admin/install/steps/install-uv.rst:2
 msgid "uv package manager"
-msgstr ""
+msgstr "Správca balíkov uv"
 
 #: admin/install/steps/install-uv.rst:6
 msgid "We're using uv package manager to install Weblate."
-msgstr ""
+msgstr "Na inštaláciu Weblate používame správcu balíkov uv."
 
 #: admin/install/steps/install-uv.rst:15
 msgid ""
 "`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 msgstr ""
+"`Inštalácia uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 
 #: admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "Inštalácia na Debian a Ubuntu"
 
 #: admin/install/venv-debian.rst:18
 msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"Staršie distribúcie nemajú ``libgirepository-2.0-dev``, použite "
+"``libgirepository1.0-dev`` namiesto toho. Pozrite tiež :ref:`troubleshoot-"
+"pip-install`."
 
 #: admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "Inštalácia na macOS"
 
 #: admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "Inštalácia na RedHat, Fedora a CentOS"
 
 #: admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "Inštalácia na SUSE a openSUSE"
 
 #: admin/languages.rst:4 admin/languages.rst:103
 msgid "Language definitions"
-msgstr ""
+msgstr "Definície jazykov"
 
 #: admin/languages.rst:6
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed."
 msgstr ""
+"Na správne zobrazenie rôznych prekladov sú potrebné informácie o názve "
+"jazyka, smere textu, definíciách množného čísla a kóde jazyka."
 
 #: admin/languages.rst:12
 msgid "Built-in language definitions"
-msgstr ""
+msgstr "Vstavané definície jazykov"
 
 #: admin/languages.rst:14
 msgid ""
@@ -13110,6 +13519,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
+"Definície pre približne 800 jazykov sú zahrnuté vo Weblate a zoznam sa "
+"rozširuje v každom vydaní. Pri každej aktualizácii Weblate (konkrétne pri "
+"vykonaní :wladmin:`migrate`, pozrite :ref:`generic-upgrade-instructions`) sa "
+"databáza jazykov aktualizuje, aby obsahovala všetky definície jazykov "
+"dodávané s Weblate."
 
 #: admin/languages.rst:20
 msgid ""
@@ -13117,16 +13531,21 @@ msgid ""
 "enforce updating the database to match Weblate built-in data "
 "using :wladmin:`setuplang`."
 msgstr ""
+"Túto funkciu je možné vypnúť pomocou :setting:`UPDATE_LANGUAGES`. Môžete "
+"tiež vynútiť aktualizáciu databázy, aby zodpovedala vstavaným dátam Weblate "
+"pomocou :wladmin:`setuplang`."
 
 #: admin/languages.rst:27
 msgid ""
 "`Current language definitions <https://github.com/WeblateOrg/language-data/"
 "blob/main/languages.csv>`_"
 msgstr ""
+"`Aktuálne definície jazykov <https://github.com/WeblateOrg/language-data/"
+"blob/main/languages.csv>`_"
 
 #: admin/languages.rst:32
 msgid "Parsing language codes"
-msgstr ""
+msgstr "Analýza kódov jazykov"
 
 #: admin/languages.rst:34
 msgid ""
@@ -13134,40 +13553,48 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
+"Pri analýze prekladov sa Weblate pokúša namapovať kód jazyka (zvyčajne ten "
+"podľa ISO 639-1) z :ref:`component-filemask` na existujúci objekt jazyka."
 
 #: admin/languages.rst:38
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
+"Toto mapovanie môžete ďalej upraviť na úrovni projektu pomocou :ref:`project-"
+"language_aliases`."
 
 #: admin/languages.rst:40
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
+"Ak sa nenájde presná zhoda, pokúsi sa ju čo najlepšie prispôsobiť "
+"existujúcemu jazyku. Skúšajú sa nasledujúce kroky:"
 
 #: admin/languages.rst:43
 msgid "Case insensitive lookups."
-msgstr ""
+msgstr "Vyhľadávania nerozlišujúce veľkosť písmen."
 
 #: admin/languages.rst:44
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "Normalizácia podčiarkovníkov a pomlčiek."
 
 #: admin/languages.rst:45
 msgid "Looking up built-in language aliases."
-msgstr ""
+msgstr "Vyhľadanie vstavaných aliasov jazykov."
 
 #: admin/languages.rst:46
 msgid "Looking up by language name."
-msgstr ""
+msgstr "Vyhľadanie podľa názvu jazyka."
 
 #: admin/languages.rst:47
 msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
 msgstr ""
+"Ignorovanie predvoleného kódu krajiny pre daný jazyk – výber ``cs`` namiesto "
+"``cs_CZ``."
 
 #: admin/languages.rst:49
 msgid ""
@@ -13179,6 +13606,13 @@ msgid ""
 "(see :ref:`contributing`), so that the proper definition can be added to the "
 "upcoming Weblate release."
 msgstr ""
+"Ak ani toto zlyhá, vytvorí sa nová definícia jazyka s použitím predvolených "
+"hodnôt (smer textu zľava doprava, jedno množné číslo). Automaticky vytvorený "
+"jazyk s kódom ``xx_XX`` bude pomenovaný ako :guilabel:`xx_XX (generated)`. "
+"Môžete to neskôr zmeniť v administrátorskom rozhraní (pozrite :ref:`changing-"
+"languages`) a nahlásiť to do sledovača problémov (pozrite "
+":ref:`contributing`), aby sa správna definícia mohla pridať do "
+"nadchádzajúceho vydania Weblate."
 
 #: admin/languages.rst:59
 msgid ""
@@ -13186,16 +13620,19 @@ msgid ""
 "adjust :ref:`component-language_regex` to ignore such file when parsing "
 "translations."
 msgstr ""
+"Ak vidíte niečo nechcené ako jazyk, môžete chcieť upraviť :ref:`component-"
+"language_regex`, aby sa takýto súbor ignoroval pri analýze prekladov."
 
 #: admin/languages.rst:72
 msgid "Changing language definitions"
-msgstr ""
+msgstr "Zmena definícií jazykov"
 
 #: admin/languages.rst:74
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"Definície jazykov môžete zmeniť v rozhraní jazykov (URL :file:`/languages/`)."
 
 #: admin/languages.rst:77
 msgid ""
@@ -13203,16 +13640,20 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
+"Pri úprave sa uistite, že všetky polia sú správne (najmä množné čísla a smer "
+"textu), inak prekladatelia nebudú môcť tieto preklady správne upravovať."
 
 #: admin/languages.rst:83
 msgid ""
 "Please consider contributing your changes back, see :ref:`extending-"
 "languages`."
 msgstr ""
+"Prosím, zvážte prispievanie vašich zmien späť, pozrite :ref:`extending-"
+"languages`."
 
 #: admin/languages.rst:88
 msgid "Ambiguous language codes and macrolanguages"
-msgstr ""
+msgstr "Nejasné kódy jazykov a makrojazyky"
 
 #: admin/languages.rst:90
 msgid ""
@@ -13222,20 +13663,27 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macrolanguages."
 msgstr ""
+"V mnohých prípadoch nie je dobrý nápad používať kód makrojazyka pre preklad. "
+"Typickým problematickým prípadom môže byť kurdský jazyk, ktorý môže byť "
+"písaný arabským alebo latinským písmom v závislosti od skutočného variantu. "
+"Pre správne správanie vo Weblate sa odporúča používať iba individuálne kódy "
+"jazykov a vyhýbať sa makrojazykom."
 
 #: admin/languages.rst:98
 msgid ""
 "`Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/"
 "ISO_639_macrolanguage>`_"
 msgstr ""
+"`Makrojazyky na Wikipédii <https://en.wikipedia.org/wiki/"
+"ISO_639_macrolanguage>`_"
 
 #: admin/languages.rst:105
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Každý jazyk pozostáva z nasledujúcich polí:"
 
 #: admin/languages.rst:110 admin/projects.rst:1204
 msgid "Language code"
-msgstr "Jazykový kód"
+msgstr "Kód jazyka"
 
 #: admin/languages.rst:112
 msgid ""
@@ -13245,6 +13693,11 @@ msgid ""
 "en.wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not have two "
 "letter code. It can also support extended codes as defined by `BCP 47`_."
 msgstr ""
+"Kód identifikujúci jazyk. Weblate preferuje dvojpísmenové kódy podľa `ISO "
+"639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_, ale používa kódy `ISO 639-"
+"2 <https://en.wikipedia.org/wiki/ISO_639-2>`_ alebo `ISO 639-3 <https://"
+"en.wikipedia.org/wiki/ISO_639-3>`_ pre jazyky, ktoré nemajú dvojpísmenový "
+"kód. Môže tiež podporovať rozšírené kódy podľa `BCP 47`_."
 
 #: admin/languages.rst:128 admin/projects.rst:1206
 msgid "Language name"
@@ -13255,6 +13708,8 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Viditeľný názov jazyka. Názvy jazykov zahrnuté vo Weblate sú tiež "
+"lokalizované v závislosti od jazyka používateľského rozhrania."
 
 #: admin/languages.rst:135
 msgid "Text direction"
@@ -13265,6 +13720,8 @@ msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
 msgstr ""
+"Určuje, či je jazyk písaný sprava doľava alebo zľava doprava. Táto vlastnosť "
+"je pre väčšinu jazykov správne automaticky detekovaná."
 
 #: admin/languages.rst:143
 msgid "Number of speakers"
@@ -13272,23 +13729,28 @@ msgstr "Počet hovoriacich"
 
 #: admin/languages.rst:145
 msgid "Number of worldwide speakers of this language."
-msgstr ""
+msgstr "Počet celosvetových hovoriacich týmto jazykom."
 
 #: admin/languages.rst:151
 msgid "Plural definitions"
-msgstr ""
+msgstr "Definície množného čísla"
 
 #: admin/languages.rst:153
 msgid ""
 "Weblate comes with a built-in set of plural definitions. These are based on "
 "file-format specifications, CLDR, and other sources."
 msgstr ""
+"Weblate prichádza s vstavanou sadou definícií množného čísla. Tie sú "
+"založené na špecifikáciách formátov súborov, CLDR a iných zdrojoch."
 
 #: admin/languages.rst:158
 msgid ""
 "Doing changes to the built-in plural definitions will most likely won't have "
 "desired effect, as these rules need to match underlying implementation."
 msgstr ""
+"Vykonávanie zmien vo vstavaných definíciách množného čísla pravdepodobne "
+"nebude mať požadovaný účinok, pretože tieto pravidlá musia zodpovedať "
+"základnej implementácii."
 
 #: admin/languages.rst:161
 msgid ""
@@ -13296,14 +13758,17 @@ msgid ""
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file a issue in our issue tracker."
 msgstr ""
+"Zmena počtu množného čísla alebo vzorca ovplyvní iba zobrazovanie reťazcov, "
+"ale nie analýzu a ukladanie reťazcov do súborov. Ak si myslíte, že Weblate "
+"sa správa nesprávne, prosím, nahláste problém v našom sledovači problémov."
 
 #: admin/languages.rst:169
 msgid "Plural number"
-msgstr ""
+msgstr "Počet množných čísiel"
 
 #: admin/languages.rst:171
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Počet množných čísiel používaných v jazyku."
 
 #: admin/languages.rst:176
 msgid "Plural formula"
@@ -13314,18 +13779,20 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Vzorec množného čísla kompatibilný s Gettextom používaný na určenie, ktorá "
+"forma množného čísla sa použije pre daný počet."
 
 #: admin/languages.rst:183
 msgid "`Additional functions for plural forms in GNU gettext`_"
-msgstr ""
+msgstr "`Dodatočné funkcie pre formy množného čísla v GNU gettext`_"
 
 #: admin/languages.rst:184
 msgid "`Language Plural Rules by the Unicode Consortium`_"
-msgstr ""
+msgstr "`Pravidlá množného čísla jazykov od Unicode Consortium`_"
 
 #: admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Licencovanie prekladov"
 
 #: admin/licensing.rst:3
 msgid ""
@@ -13333,22 +13800,30 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Môžete špecifikovať, pod akou licenciou sú preklady prispievané. Toto je "
+"obzvlášť dôležité urobiť, ak sú preklady verejne dostupné, aby ste "
+"stanovili, na čo môžu byť použité."
 
 #: admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"Mali by ste špecifikovať informácie o licencii :ref:`component`. Mali by ste "
+"sa vyhýbať vyžadovaniu licenčnej zmluvy s prispievateľom, hoci je to možné."
 
 #: admin/licensing.rst:11
 msgid "License info"
-msgstr ""
+msgstr "Informácie o licencii"
 
 #: admin/licensing.rst:13
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Po špecifikovaní informácií o licencii (názov licencie a URL) sa tieto "
+"informácie zobrazia v sekcii informácií o preklade príslušného "
+":ref:`component`."
 
 #: admin/licensing.rst:16
 msgid ""
@@ -13356,6 +13831,9 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Zvyčajne je toto najlepšie miesto na zverejnenie informácií o licencii, ak "
+"nie je vyžadovaný explicitný súhlas. Ak váš projekt alebo preklad nie je "
+"slobodný, pravdepodobne budete potrebovať predchádzajúci súhlas."
 
 #: admin/licensing.rst:20 admin/projects.rst:750
 msgid "Contributor license agreement"
@@ -13367,16 +13845,21 @@ msgid ""
 "it will be able to contribute. This is a clearly visible step when accessing "
 "the translation:"
 msgstr ""
+"Ak špecifikujete :ref:`component-agreement`, prispievať budú môcť iba "
+"používatelia, ktorí s tým súhlasili. Toto je jasne viditeľný krok pri "
+"prístupe k prekladu:"
 
 #: admin/licensing.rst:28
 msgid "User licenses"
-msgstr ""
+msgstr "Používateľské licencie"
 
 #: admin/licensing.rst:30
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Každý používateľ si môže zo svojho profilu prezrieť všetky licencie "
+"prekladov všetkých verejných projektov na inštancii:"
 
 #: admin/machine.rst:4 snippets/permissions.rst:77 user/translating.rst:363
 msgid "Automatic suggestions"
@@ -13385,7 +13868,7 @@ msgstr "Automatické návrhy"
 #: admin/machine.rst:8
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
-msgstr ""
+msgstr "Pred Weblate 4.13 boli služby konfigurované v :ref:`config`."
 
 #: admin/machine.rst:10
 msgid ""
@@ -13394,27 +13877,37 @@ msgid ""
 "site (under :guilabel:`Automatic suggestions` in :ref:`management-"
 "interface`) or at the project settings:"
 msgstr ""
+"Podpora pre niekoľko služieb strojového prekladu a prekladovej pamäte je "
+"vstavaná. Každú službu môže administrátor zapnúť pre celú stránku (pod "
+":guilabel:`Automatické návrhy` v :ref:`management-interface`) alebo v "
+"nastaveniach projektu:"
 
 #: admin/machine.rst:19
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Podliehajú ich podmienkam používania, takže sa uistite, že ich môžete "
+"používať tak, ako chcete."
 
 #: admin/machine.rst:22
 msgid ""
 "The services translate from the source language as configured "
 "at :ref:`component`, see :ref:`component-source_language`."
 msgstr ""
+"Služby prekladajú zo zdrojového jazyka, ako je nakonfigurované v "
+":ref:`component`, pozrite :ref:`component-source_language`."
 
 #: admin/machine.rst:25
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
+"Automatické návrhy pre každý projekt môžu byť tiež konfigurované cez "
+":ref:`api`."
 
 #: admin/machine.rst:34
 msgid "Priority of machine translation and translation memory services"
-msgstr ""
+msgstr "Priorita služieb strojového prekladu a prekladovej pamäte"
 
 #: admin/machine.rst:36
 msgid ""
@@ -13423,6 +13916,10 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+"Zhody :ref:`mt-weblate-translation-memory` so 100% skóre majú prioritu pred "
+"službami strojového prekladu. Ak sa nájde 100% zhoda v prekladovej pamäti, "
+"nevykoná sa žiadny strojový preklad. Ak sa vyskytne niekoľko 100% zhôd, "
+"použije sa prvá vrátená databázou."
 
 #: admin/machine.rst:38
 msgid ""
@@ -13432,10 +13929,15 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"Každá služba strojového prekladu má preddefinované maximálne skóre, ktoré "
+"môže dosiahnuť. Použitie nainštalovaných prekladových služieb je usporiadané "
+"podľa ich maximálneho skóre. Pre každý reťazec so skóre prekladu nižším ako "
+"maximum služby sa služba požiada o vyprodukovanie prekladu. Preklady so "
+"skóre vyšším ako aktuálne sú akceptované."
 
 #: admin/machine.rst:43
 msgid "Source strings for the machine translation"
-msgstr ""
+msgstr "Zdrojové reťazce pre strojový preklad"
 
 #: admin/machine.rst:47
 msgid ""
@@ -13443,50 +13945,57 @@ msgid ""
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
 msgstr ""
+"Pôvod zdrojových reťazcov pre všetky služby tretích strán môže byť "
+"konfigurovaný. Toto môže byť použité na doladenie služby pre dosiahnutie "
+"najlepších výsledkov. K dispozícii sú nasledujúce voľby:"
 
 #: admin/machine.rst:50
 msgid ":guilabel:`Automatic selection`"
-msgstr ""
+msgstr ":guilabel:`Automatický výber`"
 
 #: admin/machine.rst:51
 msgid "Chooses the best source language automatically."
-msgstr ""
+msgstr "Automaticky vyberie najlepší zdrojový jazyk."
 
 #: admin/machine.rst:53
 msgid "This is the default behavior."
-msgstr ""
+msgstr "Toto je predvolené správanie."
 
 #: admin/machine.rst:54
 msgid ":guilabel:`Component source language`"
-msgstr ""
+msgstr ":guilabel:`Zdrojový jazyk komponentu`"
 
 #: admin/machine.rst:55
 msgid "Uses the component source language."
-msgstr ""
+msgstr "Používa zdrojový jazyk komponentu."
 
 #: admin/machine.rst:57
 msgid "This was the behavior before the 5.11 release."
-msgstr ""
+msgstr "Toto bolo správanie pred vydaním 5.11."
 
 #: admin/machine.rst:58
 msgid ":guilabel:`Secondary language defined in project or component`"
-msgstr ""
+msgstr ":guilabel:`Sekundárny jazyk definovaný v projekte alebo komponente`"
 
 #: admin/machine.rst:59
 msgid ""
 "Use project :ref:`project-secondary_language` or component :ref:`component-"
 "secondary_language`."
 msgstr ""
+"Použite projekt :ref:`project-secondary_language` alebo komponent "
+":ref:`component-secondary_language`."
 
 #: admin/machine.rst:61
 msgid ""
 "Falls back to the automatic selection of the source language if the "
 "secondary language not configured."
 msgstr ""
+"Ak nie je nakonfigurovaný sekundárny jazyk, fallbackne na automatický výber "
+"zdrojového jazyka."
 
 #: admin/machine.rst:69
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Vlastný strojový preklad"
 
 #: admin/machine.rst:71
 msgid ""
@@ -13495,10 +14004,15 @@ msgid ""
 "(see :ref:`custom-module` or :ref:`docker-python-override`) and add fully "
 "qualified class name to :setting:`WEBLATE_MACHINERY`."
 msgstr ""
+"Môžete tiež implementovať svoje vlastné služby strojového prekladu pomocou "
+"niekoľkých riadkov Python kódu. Umiestnite kód do modulu, ktorý môže Weblate "
+"importovať (pozrite :ref:`custom-module` alebo :ref:`docker-python-"
+"override`) a pridajte plne kvalifikovaný názov triedy do "
+":setting:`WEBLATE_MACHINERY`."
 
 #: admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "Manažérske príkazy"
 
 #: admin/management.rst:8
 msgid ""
@@ -13506,6 +14020,9 @@ msgid ""
 "webserver can result in files getting wrong permissions, please "
 "check :ref:`file-permissions` for more details."
 msgstr ""
+"Spúšťanie manažérskych príkazov pod iným používateľom, než pod ktorým beží "
+"váš webový server, môže viesť k nesprávnym oprávneniam súborov, prosím "
+"skontrolujte :ref:`file-permissions` pre viac podrobností."
 
 #: admin/management.rst:12
 msgid ""
@@ -13513,14 +14030,19 @@ msgid ""
 "the Django sources, or as an extended set in a script "
 "called :command:`weblate` installable atop Weblate)."
 msgstr ""
+"Nájdete základné manažérske príkazy (dostupné ako :file:`./manage.py` v "
+"zdrojových kódoch Django, alebo ako rozšírenú sadu v skripte nazvanom "
+":command:`weblate` inštalovateľnom nad Weblate)."
 
 #: admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "Vyvolávanie manažérskych príkazov"
 
 #: admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Ako bolo uvedené vyššie, vyvolanie závisí od toho, ako ste nainštalovali "
+"Weblate."
 
 #: admin/management.rst:22
 msgid ""
@@ -13528,6 +14050,9 @@ msgid ""
 "path to :command:`weblate`, or activate the Python environment prior to "
 "invoking it:"
 msgstr ""
+"Ak používate Python prostredie pre Weblate, môžete buď špecifikovať celú "
+"cestu k :command:`weblate`, alebo aktivovať Python prostredie pred jeho "
+"vyvolaním:"
 
 #: admin/management.rst:34
 msgid ""
@@ -13535,6 +14060,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"Ak používate zdrojové kódy priamo (buď z tarballu alebo Git checkoutu), "
+"manažérsky skript je :file:`./manage.py` dostupný v zdrojoch Weblate. Na "
+"jeho spustenie:"
 
 #: admin/management.rst:42
 msgid ""
@@ -13543,67 +14071,82 @@ msgid ""
 "path (or Python environment path), from where you can use it to control "
 "Weblate:"
 msgstr ""
+"Ak ste nainštalovali Weblate pomocou inštalátora pip, alebo použitím skriptu "
+":file:`./setup.py`, :command:`weblate` je nainštalovaný do vašej cesty "
+"(alebo cesty Python prostredia), odkiaľ ho môžete použiť na ovládanie "
+"Weblate:"
 
 #: admin/management.rst:50
 msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
 msgstr ""
+"Pre Docker obraz je skript nainštalovaný ako vyššie a môžete ho spustiť "
+"pomocou :command:`docker exec`:"
 
 #: admin/management.rst:57
 msgid ""
 "For :program:`docker-compose-plugin` the process is similar, you just have "
 "to use :command:`docker compose exec`:"
 msgstr ""
+"Pre :program:`docker-compose-plugin` je proces podobný, musíte len použiť "
+":command:`docker compose exec`:"
 
 #: admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr ""
+"V prípade, že mu potrebujete odovzdať súbor, môžete dočasne pridať zväzok:"
 
 #: admin/management.rst:84
 msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
 msgstr ""
+"Importuje preklad zo súboru na použitie ako návrh pre daný preklad. Preskočí "
+"duplicitné preklady; pridajú sa iba odlišné."
 
 #: admin/management.rst:106
 msgid "Added parameter for translation mode."
-msgstr ""
+msgstr "Pridaný parameter pre režim prekladu."
 
 #: admin/management.rst:108
 msgid "Performs automatic translation based on other component translations."
-msgstr ""
+msgstr "Vykonáva automatický preklad na základe prekladov iných komponentov."
 
 #: admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
-msgstr ""
+msgstr "Importuje daný obsah do Weblate, užitočné pre benchmarking."
 
 #: admin/management.rst:163
 msgid "Example of performance profiling"
-msgstr ""
+msgstr "Príklad profilovania výkonu"
 
 #: admin/management.rst:175
 msgid "Example of memory profiling"
-msgstr ""
+msgstr "Príklad profilovania pamäte"
 
 #: admin/management.rst:194
 msgid ""
 "Creates a demo billing project. Can be executed multiple times to add "
 "additional invoices and billing events."
 msgstr ""
+"Vytvorí demo fakturačný projekt. Môže byť vykonaný viackrát na pridanie "
+"dodatočných faktúr a fakturačných udalostí."
 
 #: admin/management.rst:197
 msgid ""
 "This can be useful when developing Weblate. Needs :ref:`billing` installed."
 msgstr ""
+"Toto môže byť užitočné pri vývoji Weblate. Vyžaduje nainštalovaný "
+":ref:`billing`."
 
 #: admin/management.rst:210
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Zobrazuje dĺžku radov úloh Celery."
 
 #: admin/management.rst:221
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Vypíše aktuálny stav back-end Git repozitára."
 
 #: admin/management.rst:223 admin/management.rst:244 admin/management.rst:863
 #: admin/management.rst:883 admin/management.rst:940 admin/management.rst:959
@@ -13612,10 +14155,13 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"Môžete buď definovať, ktorý projekt alebo komponent aktualizovať (napríklad "
+"``weblate/application``), alebo použiť ``--all`` na aktualizáciu všetkých "
+"existujúcich komponentov."
 
 #: admin/management.rst:231
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr ""
+msgstr "Zapíše všetky možné čakajúce zmeny do back-end Git repozitára."
 
 #: admin/management.rst:233
 msgid ""
@@ -13623,10 +14169,14 @@ msgid ""
 "``weblate/application``), or use ``--all`` to update all existing "
 "components, or use ``--file-format`` to filter based on the file format."
 msgstr ""
+"Môžete buď definovať, ktorý projekt alebo komponent aktualizovať (napríklad "
+"``weblate/application``), alebo použiť ``--all`` na aktualizáciu všetkých "
+"existujúcich komponentov, alebo použiť ``--file-format`` na filtrovanie "
+"podľa formátu súboru."
 
 #: admin/management.rst:242
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "Zapíše čakajúce zmeny staršie ako daný vek."
 
 #: admin/management.rst:254
 msgid ""
@@ -13634,6 +14184,9 @@ msgid ""
 "real need to invoke this manually, besides forcing an earlier commit than "
 "specified by :ref:`component`."
 msgstr ""
+"Toto je automaticky vykonávané na pozadí Weblate, takže nie je skutočná "
+"potreba to vyvolávať manuálne, okrem vynútenia skoršieho zápisu, než je "
+"špecifikované v :ref:`component`."
 
 #: admin/management.rst:268
 msgid ""
@@ -13641,42 +14194,49 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
+"Vyčistí osirelé kontroly a návrhy prekladov. Zvyčajne nie je potrebné to "
+"spúšťať manuálne, pretože čistenia prebiehajú automaticky na pozadí."
 
 #: admin/management.rst:283
 msgid ""
 "Removes all obsolete entries with pending status from the translation memory."
 msgstr ""
+"Odstráni všetky zastarané položky s čakajúcim stavom z prekladovej pamäte."
 
 #: admin/management.rst:293
 msgid "Performs cleanup of stored SSH host keys:"
-msgstr ""
+msgstr "Vykoná vyčistenie uložených SSH hostiteľských kľúčov:"
 
 #: admin/management.rst:295
 msgid ""
 "Removes deprecated RSA keys for GitHub which might cause issues connecting "
 "to GitHub."
 msgstr ""
+"Odstráni zastarané RSA kľúče pre GitHub, ktoré môžu spôsobovať problémy pri "
+"pripájaní sa k GitHubu."
 
 #: admin/management.rst:296
 msgid "Removes duplicate entries in host keys."
-msgstr ""
+msgstr "Odstráni duplicitné položky v hostiteľských kľúčoch."
 
 #: admin/management.rst:307
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
-msgstr ""
+msgstr "Vytvorí účet ``admin`` s náhodným heslom, pokiaľ nie je špecifikované."
 
 #: admin/management.rst:338
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr ""
+msgstr "Exportuje JSON súbor obsahujúci obsah Prekladovej pamäte Weblate."
 
 #: admin/management.rst:350
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
 msgstr ""
+"Vypíše používateľské dáta do súboru na neskoršie použitie príkazom "
+":wladmin:`importuserdata`."
 
 #: admin/management.rst:354
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr ""
+msgstr "Toto sa hodí pri migrácii alebo zlúčení inštancií Weblate."
 
 #: admin/management.rst:363
 msgid ""
@@ -13684,14 +14244,17 @@ msgid ""
 "WeblateOrg/demo>. Make sure the celery tasks are running before running this "
 "command."
 msgstr ""
+"Vytvorí demo projekt s komponentmi založený na <https://github.com/"
+"WeblateOrg/demo>. Uistite sa, že úlohy celery bežia pred spustením tohto "
+"príkazu."
 
 #: admin/management.rst:366
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "Toto môže byť užitočné pri vývoji Weblate."
 
 #: admin/management.rst:383
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "Hromadný import komponentov na základe JSON dát."
 
 #: admin/management.rst:385
 msgid ""
@@ -13699,24 +14262,29 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
+"Štruktúra importovaného JSON súboru takmer zodpovedá objektu komponentu "
+"(pozrite :http:get:`/api/components/(string:project)/(string:component)/`)"
+".Musíte zahrnúť polia ``name`` a ``filemask``."
 
 #: admin/management.rst:405
 msgid "Example of JSON file:"
-msgstr ""
+msgstr "Príklad JSON súboru:"
 
 #: admin/management.rst:420
 msgid "Imports a file into the Weblate translation memory."
-msgstr ""
+msgstr "Importuje súbor do prekladovej pamäte Weblate."
 
 #: admin/management.rst:422
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "Podporované formáty súborov sú TMX, JSON, XLIFF, PO, CSV."
 
 #: admin/management.rst:424
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"Špecifikovanie zdrojového a cieľového jazyka môže byť potrebné pre formáty "
+"iné ako JSON a TMX."
 
 #: admin/management.rst:458
 msgid ""
@@ -13724,12 +14292,17 @@ msgid ""
 "the :ref:`addon-weblate.discovery.discovery` add-on, so you might want to "
 "use that instead."
 msgstr ""
+"Hromadne importuje komponenty do projektu na základe masky súboru. Je "
+"založené na doplnku :ref:`addon-weblate.discovery.discovery`, takže môžete "
+"chcieť použiť radšej ten."
 
 #: admin/management.rst:462
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"`<project>` označuje existujúci projekt, do ktorého majú byť komponenty "
+"importované."
 
 #: admin/management.rst:465
 msgid ""
@@ -13738,6 +14311,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"`<gitrepo>` definuje URL Git repozitára na použitie a `<branch>` označuje "
+"Git vetvu. Na import dodatočných prekladových komponentov z existujúceho "
+"komponentu Weblate použite URL `weblate://<project>/<component>` pre "
+"`<gitrepo>`."
 
 #: admin/management.rst:470
 msgid ""
@@ -13745,28 +14322,37 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"`<filemask>` definuje objavovanie súborov pre repozitár. Môže byť buď "
+"jednoduché pomocou wildcardov, alebo môže využiť plnú silu regulárnych "
+"výrazov."
 
 #: admin/management.rst:473
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"Jednoduché porovnávanie používa ``**`` pre názov komponentu a ``*`` pre "
+"jazyk, napríklad: ``**/*.po``"
 
 #: admin/management.rst:476
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`, for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 msgstr ""
+"Regulárny výraz musí obsahovať skupiny pomenované `component` a `language`, "
+"napríklad: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 
 #: admin/management.rst:479
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"Import porovnáva existujúce komponenty na základe súborov a pridáva tie, "
+"ktoré neexistujú. Mení už existujúce."
 
 #: admin/management.rst:528
 msgid "To give you some examples, let's try importing two projects."
-msgstr ""
+msgstr "Aby sme vám dali niekoľko príkladov, skúsime importovať dva projekty."
 
 #: admin/management.rst:530
 msgid ""
