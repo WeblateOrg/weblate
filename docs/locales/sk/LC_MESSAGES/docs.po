@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 06:43+0000\n"
+"PO-Revision-Date: 2026-05-04 07:56+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -4601,28 +4601,36 @@ msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgstr ""
+"V Dockeri to nakonfigurujte pomocou premennej prostredia "
+"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:504
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches the configuration of your mail server."
 msgstr ""
+"Konfiguruje, ako sa odosiela e-mail z kontaktného formulára. Vyberte "
+"konfiguráciu, ktorá zodpovedá konfigurácii vášho mailového servera."
 
 #: admin/config.rst:508
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
+"Odosielateľ sa používa ako :mailheader:`Reply-To`, toto je predvolené "
+"správanie."
 
 #: admin/config.rst:510
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"Odosielateľ sa používa ako :mailheader:`From`. Váš mailový server musí "
+"povoliť odosielanie takýchto e-mailov."
 
 #: admin/config.rst:513
 msgid "Disables the contact form entirely."
-msgstr ""
+msgstr "Úplne deaktivuje kontaktný formulár."
 
 #: admin/config.rst:527
 msgid ""
@@ -4630,14 +4638,16 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"Priečinok, kde Weblate ukladá všetky dáta. Obsahuje odkazy na repozitáre "
+"VCS, fulltextový index a rôzne konfiguračné súbory pre externé nástroje."
 
 #: admin/config.rst:533
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Domovský adresár používaný na vyvolávanie skriptov."
 
 #: admin/config.rst:535
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "SSH kľúče a konfigurácia."
 
 #: admin/config.rst:537
 msgid ""
@@ -4645,180 +4655,216 @@ msgid ""
 "by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, "
 "see :ref:`screenshots`."
 msgstr ""
+"Predvolené umiestnenie pre mediálne súbory Django, špecifikované pomocou "
+":setting:`django:MEDIA_ROOT`. Obsahuje nahrané snímky obrazovky, pozri "
+":ref:`screenshots`."
 
 #: admin/config.rst:539
 msgid "Version-control repositories for translations."
-msgstr ""
+msgstr "Repozitáre správy verzií pre preklady."
 
 #: admin/config.rst:541
 msgid "Daily backup data. Please check :ref:`backup-dumps` for details."
 msgstr ""
+"Denné zálohovacie dáta. Prosím, skontrolujte :ref:`backup-dumps` pre "
+"podrobnosti."
 
 #: admin/config.rst:542
 msgid ":file:`fonts`:"
-msgstr ""
+msgstr ":file:`fonts`:"
 
 #: admin/config.rst:543
 msgid "User-uploaded fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Písma nahrané používateľom, pozri :ref:`fonts`."
 
 #: admin/config.rst:545
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
 msgstr ""
+"Rôzne vyrovnávacie pamäte. Môžu byť umiestnené inde pomocou "
+":setting:`CACHE_DIR`."
 
 #: admin/config.rst:551
 msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Tento adresár musí byť zapisovateľný Weblate. Spúšťanie ako WSGI znamená, že "
+"používateľ ``www-data`` by mal mať k nemu prístup na zápis."
 
 #: admin/config.rst:554
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Najjednoduchší spôsob, ako to dosiahnuť, je urobiť používateľa vlastníkom "
+"adresára:"
 
 #: admin/config.rst:560
 msgid ""
 "Defaults to ``/home/weblate/data``, but it is expected to be configured."
 msgstr ""
+"Predvolene je ``/home/weblate/data``, ale očakáva sa, že bude "
+"nakonfigurovaný."
 
 #: admin/config.rst:573
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Či by sa zálohy databázy mali ukladať ako obyčajný text, komprimované alebo "
+"preskočené. Autorizované hodnoty sú:"
 
 #: admin/config.rst:589
 msgid "The default access-control setting for new projects:"
-msgstr ""
+msgstr "Predvolené nastavenie riadenia prístupu pre nové projekty:"
 
 #: admin/config.rst:600
 msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"Použite :guilabel:`Vlastné`, ak spravujete ACL manuálne, čo znamená, že sa "
+"nespoliehate na internú správu Weblate."
 
 #: admin/config.rst:615
 msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"Konfiguruje, či by :guilabel:`Automaticky sledovať projekty pri príspevku` "
+"malo byť zapnuté pre nových používateľov. Predvolene je ``True``."
 
 #: admin/config.rst:629
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Predvolená hodnota pre obmedzenie komponentu."
 
 #: admin/config.rst:643
 msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
+"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
+"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 
 #: admin/config.rst:645
 msgid ""
 "Default commit messages for different operations, please "
 "check :ref:`component` for details."
 msgstr ""
+"Predvolené správy commitu pre rôzne operácie, prosím, skontrolujte "
+":ref:`component` pre podrobnosti."
 
 #: admin/config.rst:660
 msgid "Default add-ons to install for every created component."
-msgstr ""
+msgstr "Predvolené doplnky na inštaláciu pre každý vytvorený komponent."
 
 #: admin/config.rst:664
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Toto nastavenie ovplyvňuje iba novo vytvorené komponenty."
 
 #: admin/config.rst:666 admin/config.rst:1286 admin/config.rst:1524
 #: admin/config.rst:1970 admin/config.rst:2286 admin/config.rst:2409
 #: admin/management.rst:92 admin/management.rst:146 admin/management.rst:919
 #: wlc.rst:57
 msgid "Example:"
-msgstr ""
+msgstr "Príklad:"
 
 #: admin/config.rst:695
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
-msgstr ""
+msgstr "E-mailová adresa commitujúceho, predvolene ``noreply@weblate.org``."
 
 #: admin/config.rst:706
 msgid "Committer name, defaulting to ``Weblate``."
-msgstr ""
+msgstr "Meno commitujúceho, predvolene ``Weblate``."
 
 #: admin/config.rst:719
 msgid ":ref:`component-source_language` for any new components."
-msgstr ""
+msgstr ":ref:`component-source_language` pre akékoľvek nové komponenty."
 
 #: admin/config.rst:721
 msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
+"Predvolene je `en`. Zodpovedajúci jazykový objekt musí existovať v databáze."
 
 #: admin/config.rst:733
 msgid ":ref:`component-merge_style` for any new components."
-msgstr ""
+msgstr ":ref:`component-merge_style` pre akékoľvek nové komponenty."
 
 #: admin/config.rst:735
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - predvolené"
 
 #: admin/config.rst:736
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: admin/config.rst:748
 msgid ""
 "Configures the default value of :ref:`project-use_shared_tm` "
 "and :ref:`project-contribute_shared_tm`."
 msgstr ""
+"Konfiguruje predvolenú hodnotu :ref:`project-use_shared_tm` a :ref:`project-"
+"contribute_shared_tm`."
 
 #: admin/config.rst:758 admin/install/docker.rst:931
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
 msgstr ""
+"Konfiguruje predvolenú hodnotu pre :ref:`project-translation_review`, "
+"predvolene vypnuté."
 
 #: admin/config.rst:767 admin/install/docker.rst:937
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
 msgstr ""
+"Konfiguruje predvolenú hodnotu pre :ref:`project-source_review`, predvolene "
+"vypnuté."
 
 #: admin/config.rst:776
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
-msgstr ""
+msgstr "Konfiguruje predvolenú hodnotu :ref:`project-autoclean_tm`."
 
 #: admin/config.rst:783
 msgid "Default setting for translation propagation, defaults to ``True``."
-msgstr ""
+msgstr "Predvolené nastavenie pre propagáciu prekladu, predvolene je ``True``."
 
 #: admin/config.rst:797
 msgid "Configures the default title and message for pull requests."
-msgstr ""
+msgstr "Konfiguruje predvolený titulok a správu pre pull requesty."
 
 #: admin/config.rst:804
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr ""
+"Či zapnúť avatary založené na Gravatare pre používateľov. Predvolene zapnuté."
 
 #: admin/config.rst:806
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Avatary sa načítavajú a ukladajú do vyrovnávacej pamäte na serveri, čím sa "
+"znižuje riziko úniku súkromných informácií a zrýchľuje sa používateľská "
+"skúsenosť."
 
 #: admin/config.rst:820
 msgid "Whether to turn on anonymous remote hooks."
-msgstr ""
+msgstr "Či zapnúť anonymné vzdialené háky."
 
 #: admin/config.rst:833
 msgid "Weblate now requires https for WebAuthn support."
-msgstr ""
+msgstr "Weblate teraz vyžaduje https pre podporu WebAuthn."
 
 #: admin/config.rst:835
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Či odosielať odkazy na Weblate ako HTTPS alebo HTTP. Toto nastavenie "
+"ovplyvňuje odosielané e-maily a generované absolútne URL."
 
 #: admin/config.rst:838
 msgid ""
@@ -4826,6 +4872,9 @@ msgid ""
 "related to HTTPS — it enables secure cookies, toggles HSTS or enables "
 "redirection to a HTTPS URL."
 msgstr ""
+"V predvolenej konfigurácii sa toto používa aj pre niekoľko nastavení Django "
+"súvisiacich s HTTPS — povoľuje zabezpečené cookies, prepína HSTS alebo "
+"povoľuje presmerovanie na HTTPS URL."
 
 #: admin/config.rst:842
 msgid ""
@@ -4837,6 +4886,14 @@ msgid ""
 "configure :setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly "
 "detect the SSL status."
 msgstr ""
+"Presmerovanie HTTPS môže byť v niektorých prípadoch problematické a môžete "
+"naraziť na problém s nekonečným presmerovaním v prípade, že používate "
+"reverzný proxy server vykonávajúci ukončenie SSL, ktorý správne nepredáva "
+"hlavičky protokolu Django. Prosím, upravte konfiguráciu svojho reverzného "
+"proxy servera tak, aby emitovat :http:header:`X-Forwarded-Proto` alebo "
+":http:header:`Forwarded` hlavičky alebo nakonfigurujte "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, aby Django správne detegovalo "
+"stav SSL."
 
 #: admin/config.rst:849
 msgid ""
@@ -4845,56 +4902,70 @@ msgid ""
 "to :setting:`django:SILENCED_SYSTEM_CHECKS`, but still WebAuthn will not "
 "work for sites without HTTPS."
 msgstr ""
+"V prípade, že je toto deaktivované, Weblate zlyhá pri štarte s chybou "
+"``otp_webauthn.E031``. Túto chybu môžete utíšiť pridaním do "
+":setting:`django:SILENCED_SYSTEM_CHECKS`, ale WebAuthn stále nebude fungovať "
+"pre stránky bez HTTPS."
 
 #: admin/config.rst:867
 msgid ""
 "Turn on/off the :guilabel:`Community` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"Zapnúť/vypnúť ponuku :guilabel:`Komunita`, aby používatelia mohli zdieľať "
+"pokrok v preklade na sociálnych sieťach."
 
 #: admin/config.rst:880
 msgid ""
 "Insert additional markup into the HTML header. Can be used for verification "
 "of site ownership, for example:"
 msgstr ""
+"Vložiť dodatočné značkovanie do hlavičky HTML. Dá sa použiť na overenie "
+"vlastníctva stránky, napríklad:"
 
 #: admin/config.rst:888
 msgid ""
 "No sanitization is performed on the string. It is inserted as-is into the "
 "HTML header."
 msgstr ""
+"Na reťazci sa nevykonáva žiadna sanitizácia. Vkladá sa tak, ako je, do "
+"hlavičky HTML."
 
 #: admin/config.rst:897
 msgid "URL where support for your Weblate instance can be found."
-msgstr ""
+msgstr "URL, kde nájdete podporu pre vašu inštanciu Weblate."
 
 #: admin/config.rst:906
 msgid "List for credentials for Gitea servers."
-msgstr ""
+msgstr "Zoznam poverení pre servery Gitea."
 
 #: admin/config.rst:922
 msgid "`Creating a Gitea personal access token`_"
-msgstr ""
+msgstr "`Vytvorenie osobného prístupového tokenu Gitea`_"
 
 #: admin/config.rst:933
 msgid "List for credentials for GitLab servers."
-msgstr ""
+msgstr "Zoznam poverení pre servery GitLab."
 
 #: admin/config.rst:946
 msgid ""
 "The personal access token needs the :guilabel:`api` scope to be able to use "
 "the API."
 msgstr ""
+"Osobný prístupový token potrebuje rozsah :guilabel:`api`, aby bolo možné "
+"používať API."
 
 #: admin/config.rst:953
 msgid ""
 "`GitLab: Personal access token <https://docs.gitlab.com/user/profile/"
 "personal_access_tokens/>`_"
 msgstr ""
+"`GitLab: Osobný prístupový token <https://docs.gitlab.com/user/profile/"
+"personal_access_tokens/>`_"
 
 #: admin/config.rst:962
 msgid "List for credentials for GitHub servers."
-msgstr ""
+msgstr "Zoznam poverení pre servery GitHub."
 
 #: admin/config.rst:975
 msgid ""
@@ -4903,40 +4974,50 @@ msgid ""
 "organization, so it won't work if you want Weblate to fork a repository "
 "outside the organization (typically to the user namespace)."
 msgstr ""
+"Je možné použiť aj jemne granularizované osobné prístupové tokeny aj "
+"klasické osobné prístupové tokeny. Jemne granularizované tokeny sú obmedzené "
+"na jednu organizáciu, takže to nebude fungovať, ak chcete, aby Weblate "
+"forkol repozitár mimo organizácie (typicky do namespace používateľa)."
 
 #: admin/config.rst:980
 msgid ""
 "To clone, push and create pull requests, the read and write access "
 "to :guilabel:`Contents` and :guilabel:`Pull requests` is required."
 msgstr ""
+"Na klonovanie, odosielanie a vytváranie pull requestov je potrebný prístup "
+"na čítanie a zápis k :guilabel:`Obsah` a :guilabel:`Pull requesty`."
 
 #: admin/config.rst:983
 msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
+":guilabel:`Administrácia` môže byť tiež potrebná na forknutie repozitára, ak "
+"zamýšľate používať forknutie a pôvodný repozitár nie je verejný."
 
 #: admin/config.rst:988
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
-msgstr ""
+msgstr "Použite ``api.github.com`` ako API host pre https://github.com/."
 
 #: admin/config.rst:995
 msgid "`Creating a GitHub personal access token`_"
-msgstr ""
+msgstr "`Vytvorenie osobného prístupového tokenu GitHub`_"
 
 #: admin/config.rst:1006
 msgid "List for credentials for Bitbucket Data Center."
-msgstr ""
+msgstr "Zoznam poverení pre Bitbucket Data Center."
 
 #: admin/config.rst:1022
 msgid ""
 "`Bitbucket: HTTP access token <https://confluence.atlassian.com/"
 "bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+"`Bitbucket: HTTP prístupový token <https://confluence.atlassian.com/"
+"bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: admin/config.rst:1031
 msgid "List for credentials for Bitbucket Cloud servers."
-msgstr ""
+msgstr "Zoznam poverení pre servery Bitbucket Cloud."
 
 #: admin/config.rst:1043 admin/config.rst:1083 admin/config.rst:2700
 msgid ""
@@ -4944,62 +5025,73 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Konfiguračný slovník pozostáva z poverení definovaných pre každého API "
+"hostiteľa. API hostiteľ sa môže líšiť od toho, čo používate vo webovom "
+"prehliadači, napríklad GitHub API sa pristupuje ako ``api.github.com``."
 
 #: admin/config.rst:1047 admin/config.rst:1087 admin/config.rst:2708
 msgid "The following configuration is available for each host:"
-msgstr ""
+msgstr "Nasledujúca konfigurácia je dostupná pre každého hostiteľa:"
 
 #: admin/config.rst:1050
 msgid "API user."
-msgstr ""
+msgstr "API používateľ."
 
 #: admin/config.rst:1052
 msgid "The user workspace slug."
-msgstr ""
+msgstr "Slug pracovného priestoru používateľa."
 
 #: admin/config.rst:1054
 msgid "The API token with `pullrequest:write` permission."
-msgstr ""
+msgstr "API token s oprávnením `pullrequest:write`."
 
 #: admin/config.rst:1056 admin/config.rst:1099
 msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
+"Dodatočné nastavenia, ktoré nie sú tu opísané, nájdete na :ref:`settings-"
+"credentials`."
 
 #: admin/config.rst:1061
 msgid ""
 "`Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-api-token/>`_"
 msgstr ""
+"`Vytvoriť API token <https://support.atlassian.com/bitbucket-cloud/docs/"
+"create-an-api-token/>`_"
 
 #: admin/config.rst:1062
 msgid ""
 "`API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
 "api-token-permissions/>`_"
 msgstr ""
+"`Oprávnenia API tokenu <https://support.atlassian.com/bitbucket-cloud/docs/"
+"api-token-permissions/>`_"
 
 #: admin/config.rst:1071
 msgid "List for credentials for Azure DevOps servers."
-msgstr ""
+msgstr "Zoznam poverení pre servery Azure DevOps."
 
 #: admin/config.rst:1090
 msgid "The name of the Azure DevOps project. This is not the repository name."
-msgstr ""
+msgstr "Názov projektu Azure DevOps. Toto nie je názov repozitára."
 
 #: admin/config.rst:1092
 msgid "The name of the organization of the project."
-msgstr ""
+msgstr "Názov organizácie projektu."
 
 #: admin/config.rst:1094
 msgid ""
 "An optional list of work items IDs from your organization. When provided new "
 "pull requests will have these attached."
 msgstr ""
+"Voliteľný zoznam ID pracovných položiek z vašej organizácie. Ak sú "
+"poskytnuté, nové pull requesty ich budú mať pripojené."
 
 #: admin/config.rst:1097 admin/config.rst:2713
 msgid "API token for the API user, required."
-msgstr ""
+msgstr "API token pre API používateľa, povinný."
 
 #: admin/config.rst:1104
 msgid ""
@@ -5007,18 +5099,25 @@ msgid ""
 "azure/devops/organizations/accounts/use-personal-access-tokens-to-"
 "authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+"`Azure DevOps: Osobný prístupový token <https://learn.microsoft.com/en-us/"
+"azure/devops/organizations/accounts/use-personal-access-tokens-to-"
+"authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: admin/config.rst:1111
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
 "Analytics."
 msgstr ""
+"Google Analytics ID na zapnutie monitorovania Weblate pomocou Google "
+"Universal Analytics."
 
 #: admin/config.rst:1115
 msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"Integrácia Google Analytics 4 nie je momentálne dostupná pre Weblate, "
+"prosím, pozrite https://github.com/WeblateOrg/weblate/issues/14015."
 
 #: admin/config.rst:1123
 msgid ""
@@ -5026,6 +5125,9 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
+"Skryť poverenia repozitára z webového rozhrania. V prípade, že máte URL "
+"repozitára s používateľom a heslom, Weblate ich skryje, keď sa zobrazujú "
+"súvisiace informácie používateľom."
 
 #: admin/config.rst:1127
 msgid ""
@@ -5033,31 +5135,39 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"Napríklad namiesto ``https://user:password@git.example.com/repo.git`` "
+"zobrazí iba ``https://git.example.com/repo.git``. Snaží sa tiež vyčistiť "
+"chybové správy VCS podobným spôsobom."
 
 #: admin/config.rst:1133
 msgid "On by default."
-msgstr ""
+msgstr "Predvolene zapnuté."
 
 #: admin/config.rst:1142
 msgid "Controls how prominently Weblate exposes its own version."
-msgstr ""
+msgstr "Riadi, ako výrazne Weblate vystavuje svoju vlastnú verziu."
 
 #: admin/config.rst:1144 admin/install/docker.rst:779
 #: admin/install/docker.rst:873
 msgid "Supported values are:"
-msgstr ""
+msgstr "Podporované hodnoty sú:"
 
 #: admin/config.rst:1147
 msgid ""
 "Show the version in shared UI such as the footer and expose it "
 "in :http:get:`/api/metrics/`."
 msgstr ""
+"Zobraziť verziu v zdieľanom používateľskom rozhraní, ako je pätička, a "
+"vystaviť ju v :http:get:`/api/metrics/`."
 
 #: admin/config.rst:1151
 msgid ""
 "Hide the version from prominent shared UI, while keeping it discoverable on "
 "the :guilabel:`About` page and in :http:get:`/api/metrics/`."
 msgstr ""
+"Skryť verziu z výrazného zdieľaného používateľského rozhrania, pričom ju "
+"ponechá objaviteľnú na stránke :guilabel:`O nás` a v :http:get:`/api/metrics/"
+"`."
 
 #: admin/config.rst:1155
 msgid ""
@@ -5065,6 +5175,10 @@ msgid ""
 "makes anonymous documentation links point to the latest documentation "
 "instead of the version matching the installed release."
 msgstr ""
+"Skryť verziu zo zdieľaného používateľského rozhrania a :http:get:`/api/"
+"metrics/`. Toto tiež spôsobí, že anonymné odkazy na dokumentáciu budú "
+"ukazovať na najnovšiu dokumentáciu namiesto verzie zodpovedajúcej "
+"inštalovanému vydaniu."
 
 #: admin/config.rst:1159
 msgid ""
@@ -5072,56 +5186,69 @@ msgid ""
 "but it does not prevent an attacker from inferring the version by probing "
 "behavior."
 msgstr ""
+"Skrývanie verzie je odporúčaná bezpečnostná praktika v niektorých "
+"korporáciách, ale nezabraňuje útočníkovi odvodiť verziu skúmaním správania."
 
 #: admin/config.rst:1165
 msgid "The default is ``show``."
-msgstr ""
+msgstr "Predvolené je ``show``."
 
 #: admin/config.rst:1175
 msgid ""
 "Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to "
 "get the same behavior as ``VERSION_DISPLAY = \"hide\"``."
 msgstr ""
+"Kompatibilný alias pre :setting:`VERSION_DISPLAY`. Nastavte toto na "
+"``True``, aby ste získali rovnaké správanie ako ``VERSION_DISPLAY = "
+"\"hide\"``."
 
 #: admin/config.rst:1183
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Indikuje, či Weblate beží za reverzným proxy serverom."
 
 #: admin/config.rst:1185
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined "
 "by :setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Ak je nastavené na ``True``, Weblate získava IP adresu z hlavičky "
+"definovanej :setting:`IP_PROXY_HEADER`."
 
 #: admin/config.rst:1190
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Uistite sa, že skutočne používate reverzný proxy server a že nastavuje túto "
+"hlavičku, inak budú môcť používatelia falšovať IP adresu."
 
 #: admin/config.rst:1195
 msgid "This is not on by default."
-msgstr ""
+msgstr "Toto nie je predvolene zapnuté."
 
 #: admin/config.rst:1209
 msgid ""
 "Indicates which header Weblate should obtain the IP address from "
 "when :setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+"Indikuje, z ktorej hlavičky by mal Weblate získať IP adresu, keď je "
+":setting:`IP_BEHIND_REVERSE_PROXY` zapnuté."
 
 #: admin/config.rst:1212
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Predvolene je ``HTTP_X_FORWARDED_FOR``."
 
 #: admin/config.rst:1229
 msgid "The default changed from 1 to -1."
-msgstr ""
+msgstr "Predvolená hodnota sa zmenila z 1 na -1."
 
 #: admin/config.rst:1231
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
+"Indikuje, ktorá časť :setting:`IP_PROXY_HEADER` sa používa ako IP adresa "
+"klienta."
 
 #: admin/config.rst:1234
 msgid ""
@@ -5129,6 +5256,10 @@ msgid ""
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
+"V závislosti od vášho nastavenia môže táto hlavička pozostávať z niekoľkých "
+"IP adries, (napríklad ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) a "
+"môžete nakonfigurovať, ktorá adresa z hlavičky sa používa ako IP adresa "
+"klienta tu."
 
 #: admin/config.rst:1240
 msgid ""
@@ -5137,91 +5268,109 @@ msgid ""
 "check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-"
 "Forwarded-For#security_and_privacy_concerns> for more details."
 msgstr ""
+"Nastavenie tohto ovplyvňuje bezpečnosť vašej inštalácie. Mali by ste to "
+"konfigurovať iba na používanie dôveryhodných proxy serverov na určenie IP "
+"adresy. Prosím, skontrolujte <https://developer.mozilla.org/en-US/docs/Web/"
+"HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> pre "
+"viac podrobností."
 
 #: admin/config.rst:1244
 msgid "Defaults to -1."
-msgstr ""
+msgstr "Predvolene je -1."
 
 #: admin/config.rst:1263
 msgid "You need :ref:`legal` installed to make this work."
-msgstr ""
+msgstr "Potrebujete mať nainštalované :ref:`legal`, aby to fungovalo."
 
 #: admin/config.rst:1265
 msgid ""
 "Date of last update of terms of service documents. Whenever the date "
 "changes, users are required to agree with the updated terms of service."
 msgstr ""
+"Dátum poslednej aktualizácie dokumentov podmienok služby. Kedykoľvek sa "
+"dátum zmení, používatelia musia súhlasiť s aktualizovanými podmienkami "
+"služby."
 
 #: admin/config.rst:1279
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "URL, kde vaša inštancia Weblate zobrazuje svoje právne dokumenty."
 
 #: admin/config.rst:1283
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
 msgstr ""
+"Užitočné, ak hosťujete svoje právne dokumenty mimo Weblate na ich vloženie "
+"do Weblate. Prosím, skontrolujte :ref:`legal` pre podrobnosti."
 
 #: admin/config.rst:1301
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Dodatočné licencie na zahrnutie do výberu licencií."
 
 #: admin/config.rst:1305
 msgid ""
 "Each license definition should be tuple of its short name, a long name, a "
 "URL and a boolean, indication with it is a libre license."
 msgstr ""
+"Každá definícia licencie by mala byť tuplou jej krátkeho názvu, dlhého "
+"názvu, URL a booleanu, indikujúceho, či je to slobodná licencia."
 
 #: admin/config.rst:1307 admin/config.rst:1336 admin/config.rst:1427
 #: admin/projects.rst:537 formats/xliff.rst:79
 msgid "For example:"
-msgstr ""
+msgstr "Napríklad:"
 
 #: admin/config.rst:1327
 msgid "Setting this to blank value now disables license alert."
-msgstr ""
+msgstr "Nastavenie na prázdnu hodnotu teraz deaktivuje upozornenie na licenciu."
 
 #: admin/config.rst:1329
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr ""
+"Filtrovať zoznam licencií na zobrazenie. Toto tiež deaktivuje upozornenie na "
+"licenciu, keď je nastavené na prázdne."
 
 #: admin/config.rst:1334
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Tento filter používa krátke názvy licencií."
 
 #: admin/config.rst:1342
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "Nasledujúce deaktivuje upozornenie na licenciu:"
 
 #: admin/config.rst:1357
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr "Definuje, či je atribút licencie v :ref:`component` povinný."
 
 #: admin/config.rst:1361
 msgid "This is off by default."
-msgstr ""
+msgstr "Toto je predvolene vypnuté."
 
 #: admin/config.rst:1368
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
+"Či by mala byť dĺžka daného prekladu obmedzená. Obmedzenie je dĺžka "
+"zdrojového reťazca × 10 znakov."
 
 #: admin/config.rst:1373
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
 msgstr ""
+"Nastavte toto na ``False``, aby ste povolili dlhšie preklady (až 10 000 "
+"znakov) bez ohľadu na dĺžku zdrojového reťazca."
 
 #: admin/config.rst:1377
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "Predvolene je ``True``."
 
 #: admin/config.rst:1383
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL a LOCALIZE_CDN_PATH"
 
 #: admin/config.rst:1385
 msgid ""
@@ -5231,20 +5380,27 @@ msgid ""
 "should store generated files which will be served at "
 "the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"Tieto nastavenia konfigurujú doplnok :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` definuje koreňovú URL, kde je dostupná CDN "
+"lokalizácie a :setting:`LOCALIZE_CDN_PATH` definuje cestu, kde by mal "
+"Weblate ukladať vygenerované súbory, ktoré sa budú servírovať na "
+":setting:`LOCALIZE_CDN_URL`."
 
 #: admin/config.rst:1392
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Na Hosted Weblate toto používa ``https://weblate-cdn.com/``."
 
 #: admin/config.rst:1404
 msgid ""
 "ID of the site in Matomo (formerly Piwik) you want to use for tracking "
 "Weblate."
 msgstr ""
+"ID stránky v Matomo (predtým Piwik), ktorú chcete použiť na sledovanie "
+"Weblate."
 
 #: admin/config.rst:1408 admin/config.rst:1425
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "Táto integrácia nepodporuje Matomo Tag Manager."
 
 #: admin/config.rst:1420
 msgid ""
@@ -5252,6 +5408,9 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"Úplná URL (vrátane koncovej lomky) inštalácie Matomo (predtým Piwik), ktorú "
+"chcete použiť na sledovanie používania Weblate. Prosím, skontrolujte "
+"<https://matomo.org/> pre viac podrobností."
 
 #: admin/config.rst:1443
 msgid "Number of nearby strings to show in each direction in the full editor."
@@ -5261,78 +5420,98 @@ msgstr "Počet blízkych reťazcov na zobrazenie v každom smere v plnom editore
 msgid ""
 "This is just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
+"Toto je len predvolená hodnota, používatelia si to môžu upraviť v :ref:`user-"
+"profile`."
 
 #: admin/config.rst:1454
 msgid "Default number of elements to display when pagination is active."
-msgstr ""
+msgstr "Predvolený počet prvkov na zobrazenie, keď je aktívna stránkovanie."
 
 #: admin/config.rst:1463
 msgid "List for credentials for Pagure servers."
-msgstr ""
+msgstr "Zoznam poverení pre servery Pagure."
 
 #: admin/config.rst:1479
 msgid "`Pagure API <https://pagure.io/api/0/>`_"
-msgstr ""
+msgstr "`Pagure API <https://pagure.io/api/0/>`_"
 
 #: admin/config.rst:1488
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator."
 msgstr ""
+"Minimálne skóre hesla podľa hodnotenia odhadovača sily hesla `zxcvbn "
+"<https://github.com/dwolfhub/zxcvbn-python>`_."
 
 #: admin/config.rst:1491
 msgid "Defaults to 0, which means strength checking is disabled."
-msgstr ""
+msgstr "Predvolene je 0, čo znamená, že kontrola sily je deaktivovaná."
 
 #: admin/config.rst:1505
 msgid ""
 "URL for password reset when authentication is handled by an external "
 "identity provider, such as LDAP, SAML, or OAuth."
 msgstr ""
+"URL na obnovu hesla, keď je autentifikácia spravovaná externým "
+"poskytovateľom identít, ako je LDAP, SAML alebo OAuth."
 
 #: admin/config.rst:1507
 msgid ""
 "When set, :guilabel:`Forgot your password?` on the sign-in page links to "
 "this URL instead of Weblate's built-in password reset page."
 msgstr ""
+"Keď je nastavené, :guilabel:`Zabudli ste heslo?` na prihlasovacej stránke "
+"odkazuje na túto URL namiesto vstavanej stránky na obnovu hesla Weblate."
 
 #: admin/config.rst:1517
 msgid "URL where your Weblate instance shows its privacy policy."
 msgstr ""
+"URL, kde vaša inštancia Weblate zobrazuje svoje zásady ochrany osobných "
+"údajov."
 
 #: admin/config.rst:1521
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Užitočné, ak hosťujete svoje právne dokumenty mimo Weblate na ich vloženie "
+"do Weblate, prosím, skontrolujte :ref:`legal` pre podrobnosti."
 
 #: admin/config.rst:1541
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
+"Konfiguruje, či je súkromný e-mail commitu opt-in alebo opt-out (predvolene "
+"je opt-in)."
 
 #: admin/config.rst:1545
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
 msgstr ""
+"Toto nastavenie sa vzťahuje iba na používateľov, ktorí si explicitne "
+"nevybrali e-mail commitu."
 
 #: admin/config.rst:1559
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"Šablóna na generovanie súkromného e-mailu commitu pre používateľa. "
+"Predvolene je ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: admin/config.rst:1561 admin/config.rst:1598
 msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Môže obsahovať ``{user_id}``, ``{username}``, ``{site_title}`` a ``"
+"{site_domain}``."
 
 #: admin/config.rst:1563 admin/config.rst:1600
 msgid "Set to blank string to disable."
-msgstr ""
+msgstr "Nastavte na prázdny reťazec na deaktiváciu."
 
 #: admin/config.rst:1567
 msgid ""
@@ -5340,24 +5519,33 @@ msgid ""
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
 "e-mail in the :ref:`profile`."
 msgstr ""
+"Používanie iného e-mailu commitu je pre používateľov opt-in, pokiaľ nie je "
+"konfigurované pomocou :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Používatelia "
+"si môžu nakonfigurovať svoj e-mail commitu v :ref:`profile`."
 
 #: admin/config.rst:1578
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
+"Konfiguruje, či je súkromné meno commitu opt-in alebo opt-out (predvolene je "
+"opt-in)."
 
 #: admin/config.rst:1582
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
 msgstr ""
+"Toto nastavenie sa vzťahuje iba na používateľov, ktorí si explicitne "
+"nevybrali meno commitu."
 
 #: admin/config.rst:1596
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
+"Šablóna na generovanie súkromného mena commitu pre používateľa. Predvolene "
+"je ``\"{site_title} user {user_id}\"``."
 
 #: admin/config.rst:1604
 msgid ""
@@ -5365,35 +5553,46 @@ msgid ""
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
+"Používanie iného mena commitu je pre používateľov opt-in, pokiaľ nie je "
+"konfigurované pomocou :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Používatelia si "
+"môžu nakonfigurovať svoje meno commitu v :ref:`profile`."
 
 #: admin/config.rst:1615
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
+"Definuje, koľko záloh na projekt sa uchováva na serveri. Predvolene je 3."
 
 #: admin/config.rst:1628
 msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
+"Definuje, ako dlho sa budú zálohy projektu uchovávať na serveri. Predvolene "
+"je 30 dní."
 
 #: admin/config.rst:1641
 msgid ""
 "Defines the maximum number of ZIP entries allowed when importing a project "
 "backup."
 msgstr ""
+"Definuje maximálny počet položiek ZIP povolených pri importe zálohy projektu."
 
 #: admin/config.rst:1644
 msgid ""
 "This is a safeguard against malformed or intentionally fragmented archives. "
 "Defaults to 100000 entries."
 msgstr ""
+"Toto je ochrana proti poškodeným alebo zámerne fragmentovaným archívom. "
+"Predvolene je 100000 položiek."
 
 #: admin/config.rst:1658
 msgid ""
 "Defines the maximum uncompressed size, in bytes, for a single highly "
 "compressed ZIP entry in an imported project backup."
 msgstr ""
+"Definuje maximálnu dekomprimovanú veľkosť v bajtoch pre jednu vysoko "
+"komprimovanú položku ZIP v importovanej zálohe projektu."
 
 #: admin/config.rst:1661
 msgid ""
@@ -5402,12 +5601,18 @@ msgid ""
 "allowed here and are expected to be constrained by the HTTP upload limit. "
 "Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
+"Tento limit sa aplikuje iba na položky, ktoré sú dostatočne veľké a "
+"komprimujú sa dostatočne, aby vyzerali podozrivo. Veľké súbory s nízkou "
+"komprimáciou sú tu zámerne povolené a očakáva sa, že budú obmedzené limitom "
+"HTTP nahrávania. Predvolene je 262144000 bajtov (250 MiB)."
 
 #: admin/config.rst:1677
 msgid ""
 "Defines the minimum uncompressed size, in bytes, at which Weblate starts "
 "considering the ZIP compression ratio during project backup import."
 msgstr ""
+"Definuje minimálnu dekomprimovanú veľkosť v bajtoch, pri ktorej začína "
+"Weblate zvažovať pomer kompresie ZIP počas importu zálohy projektu."
 
 #: admin/config.rst:1680
 msgid ""
@@ -5415,12 +5620,17 @@ msgid ""
 "avoid rejecting reasonably sized files that compress well. Defaults to "
 "1048576 bytes (1 MiB)."
 msgstr ""
+"Menšie súbory sa ignorujú pre validáciu založenú na pomere kompresie, aby sa "
+"zabránilo zamietnutiu primerane veľkých súborov, ktoré sa dobre komprimujú. "
+"Predvolene je 1048576 bajtov (1 MiB)."
 
 #: admin/config.rst:1695
 msgid ""
 "Defines the maximum allowed ratio between the uncompressed and compressed "
 "size for a large ZIP entry during project backup import."
 msgstr ""
+"Definuje maximálny povolený pomer medzi dekomprimovanou a komprimovanou "
+"veľkosťou pre veľkú položku ZIP počas importu zálohy projektu."
 
 #: admin/config.rst:1698
 msgid ""
@@ -5430,12 +5640,19 @@ msgid ""
 "compressed entries while still allowing large repository pack files and "
 "other low-compression content. Defaults to 250."
 msgstr ""
+"Toto sa používa spolu s "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE` a "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` na detekciu podozrivo "
+"komprimovaných položiek, pričom stále umožňuje veľké balíkové súbory "
+"repozitára a iný obsah s nízkou komprimáciou. Predvolene je 250."
 
 #: admin/config.rst:1715
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
+"Definuje regulárny výraz na obmedzenie pomenovania projektov. Akékoľvek "
+"zodpovedajúce názvy budú zamietnuté."
 
 #: admin/config.rst:1728
 msgid ""
@@ -5444,10 +5661,14 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
+"Zakáže používanie určitých hostiteľov webovej stránky projektu. Porovnáva sa "
+"každá subdoména, takže zahrnutie ``example.com`` zablokuje aj "
+"``test.example.com``. Zoznam by mal obsahovať iba reťazce malými písmenami, "
+"pred porovnaním sa analyzovaná doména prevedie na malé písmená."
 
 #: admin/config.rst:1733 admin/config.rst:1767 admin/config.rst:1844
 msgid "Default configuration:"
-msgstr ""
+msgstr "Predvolená konfigurácia:"
 
 #: admin/config.rst:1754
 msgid ""
@@ -5456,6 +5677,12 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
+"Definuje množinu slugov projektov oslobodených od "
+":setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` a :setting:`PROJECT_WEB_RESTRICT_RE` "
+"pri overovaní webovej stránky projektu. Slugy projektov sa porovnávajú bez "
+"rozlišovania veľkosti písmen."
 
 #: admin/config.rst:1762
 msgid ""
@@ -5464,22 +5691,33 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
+"Toto oslobodenie oslabuje ochranu odchádzajúcich adries URL pre "
+"zodpovedajúce projekty vrátane obmedzenia súkromných cieľov vynúteného "
+"nastavením :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Používajte ho len pre "
+"dôveryhodné projekty spravované administrátorom, kde je obídenie týchto "
+"kontrol úmyselné."
 
 #: admin/config.rst:1789
 msgid "Reject using numeric IP address in project website. On by default."
 msgstr ""
+"Zakáže používanie číselnej IP adresy vo webovej stránke projektu. Predvolene "
+"zapnuté."
 
 #: admin/config.rst:1805
 msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
 msgstr ""
+"Zakáže používanie adries URL webovej stránky projektu a prehliadača "
+"repozitára smerujúcich na interné alebo neverejné adresy. Predvolene zapnuté."
 
 #: admin/config.rst:1823
 msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
+"Definuje regulárny výraz na obmedzenie toho, čo môže byť zadané ako "
+":ref:`project-web`. Akékoľvek zodpovedajúce adresy URL budú zamietnuté."
 
 #: admin/config.rst:1839
 msgid ""
@@ -5488,6 +5726,11 @@ msgid ""
 "semantics, so values such as ``hooks.internal.example`` or "
 "``.internal.example`` can be used."
 msgstr ""
+"Definuje názvy hostiteľov alebo domény oslobodené od "
+":setting:`WEBHOOK_RESTRICT_PRIVATE` pre doručovanie odchádzajúcich "
+"webhookov. Položky sa riadia sémantikou porovnávania hostiteľov v Djangu, "
+"takže je možné použiť hodnoty ako ``hooks.internal.example`` alebo "
+"``.internal.example``."
 
 #: admin/config.rst:1861
 msgid ""
@@ -5495,6 +5738,9 @@ msgid ""
 "target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Zamietne adresy URL webhookov smerujúce na interné alebo neverejné adresy, "
+"pokiaľ cieľový hostiteľ nie je zahrnutý v "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`. Predvolene zapnuté."
 
 #: admin/config.rst:1864
 msgid ""
@@ -5502,43 +5748,51 @@ msgid ""
 "rejected unless they are explicitly included "
 "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr ""
+"Ak je povolené, názvy hostiteľov, ktoré nie je možné počas overovania "
+"preložiť, budú zamietnuté, pokiaľ nie sú explicitne zahrnuté v "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/config.rst:1879
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Povolí verejnú stránku zapojenia aj pri nastavení :setting:`REQUIRE_LOGIN`."
 
 #: admin/config.rst:1892
 msgid "Limits how many notifications for a single user will be sent out."
-msgstr ""
+msgstr "Obmedzuje počet odoslaných upozornení pre jedného používateľa."
 
 #: admin/config.rst:1894
 msgid "The default setting is:"
-msgstr ""
+msgstr "Predvolené nastavenie je:"
 
 #: admin/config.rst:1915
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
+"Maximálny počet pokusov o autentifikáciu pred aplikovaním obmedzenia "
+"rýchlosti."
 
 #: admin/config.rst:1917
 msgid "Defaults to 5."
-msgstr ""
+msgstr "Predvolená hodnota je 5."
 
 #: admin/config.rst:1930
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
+"Ako dlho je autentifikácia akceptovaná po aplikovaní obmedzenia rýchlosti."
 
 #: admin/config.rst:1932
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
-msgstr ""
+msgstr "Počet sekúnd, predvolene 300 (5 minút)."
 
 #: admin/config.rst:1945
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
+"Ako dlho je autentifikácia uzamknutá po aplikovaní obmedzenia rýchlosti."
 
 #: admin/config.rst:1947
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr ""
+msgstr "Počet sekúnd, predvolene 600 (10 minút)."
 
 #: admin/config.rst:1962
 msgid ""
@@ -5546,6 +5800,10 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"Zoznam backendov autentifikácie, z ktorých je povolená registrácia. Toto "
+"obmedzuje iba nové registrácie, používatelia sa môžu stále autentifikovať a "
+"pridať autentifikáciu pomocou všetkých nakonfigurovaných backendov "
+"autentifikácie."
 
 #: admin/config.rst:1966
 msgid ""
@@ -5553,76 +5811,89 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"Odporúča sa ponechať zapnuté nastavenie :setting:`REGISTRATION_OPEN` aj pri "
+"obmedzení backendov registrácie, inak sa budú môcť používatelia registrovať, "
+"ale Weblate nezobrazí odkazy na registráciu v používateľskom rozhraní."
 
 #: admin/config.rst:1978
 msgid "The backend names match names used in the URL for authentication."
 msgstr ""
+"Názvy backendov zodpovedajú názvom použitým v adrese URL pre autentifikáciu."
 
 #: admin/config.rst:1990
 msgid ""
 "Whether registration of new accounts is protected by a CAPTCHA. Defaults to "
 "enabled."
-msgstr ""
+msgstr "Či je registrácia nových účtov chránená CAPTCHOU. Predvolene zapnuté."
 
 #: admin/config.rst:1992
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
+"Ak je zapnuté, CAPTCHA sa pridá na všetky stránky, kde používateľ zadáva "
+"svoju e-mailovú adresu:"
 
 #: admin/config.rst:1994
 msgid "New account registration."
-msgstr ""
+msgstr "Registrácia nového účtu."
 
 #: admin/config.rst:1995
 msgid "Password recovery."
-msgstr ""
+msgstr "Obnova hesla."
 
 #: admin/config.rst:1996
 msgid "Adding e-mail to an account."
-msgstr ""
+msgstr "Pridanie e-mailu k účtu."
 
 #: admin/config.rst:1997
 msgid "Contact form for users that are not signed in."
-msgstr ""
+msgstr "Kontaktný formulár pre neprihlásených používateľov."
 
 #: admin/config.rst:1999
 msgid "The protection currently consists of following steps:"
-msgstr ""
+msgstr "Ochrana v súčasnosti pozostáva z nasledujúcich krokov:"
 
 #: admin/config.rst:2001
 msgid "Mathematical captcha to be solved by the user."
-msgstr ""
+msgstr "Matematická captcha, ktorú musí používateľ vyriešiť."
 
 #: admin/config.rst:2002
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgstr ""
+"Výzva proof-of-work vypočítaná prehliadačom. Obtiažnosť je možné upraviť "
+"pomocou :setting:`ALTCHA_MAX_NUMBER`."
 
 #: admin/config.rst:2009
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr ""
+msgstr "Umožňuje filtrovať, ktoré e-mailové adresy sa môžu registrovať."
 
 #: admin/config.rst:2011
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
+"Predvolená hodnota je ``.*``, čo umožňuje registráciu akejkoľvek e-mailovej "
+"adresy."
 
 #: admin/config.rst:2013
 msgid "You can use it to restrict registration to a single e-mail domain:"
-msgstr ""
+msgstr "Môžete ju použiť na obmedzenie registrácie na jednu e-mailovú doménu:"
 
 #: admin/config.rst:2026
 msgid ""
 "Allow registration with disposable e-mail domains. When enabled, the "
 "disposable domain blocklist is bypassed. Default is ``False``."
 msgstr ""
+"Povoliť registráciu s dočasnými e-mailovými doménami. Ak je povolené, "
+"blokovací zoznam dočasných domén sa obíde. Predvolená hodnota je ``False``."
 
 #: admin/config.rst:2039
 msgid ""
 "Whether registration of new accounts is currently permitted. Defaults to "
 "enabled."
 msgstr ""
+"Či je registrácia nových účtov v súčasnosti povolená. Predvolene zapnuté."
 
 #: admin/config.rst:2042
 msgid ""
@@ -5630,6 +5901,9 @@ msgid ""
 "the Python Social Auth (you can allow certain back-ends "
 "using :setting:`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"Toto nastavenie ovplyvňuje vstavanú autentifikáciu podľa e-mailovej adresy "
+"alebo prostredníctvom Python Social Auth (určité back-endy môžete povoliť "
+"pomocou :setting:`REGISTRATION_ALLOW_BACKENDS`)."
 
 #: admin/config.rst:2048
 msgid ""
@@ -5637,12 +5911,18 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
+"Ak používate metódy autentifikácie tretích strán, ako je :ref:`ldap-auth`, "
+"len skryje registračný formulár, ale noví používatelia sa môžu stále "
+"prihlásiť a vytvoriť si účty."
 
 #: admin/config.rst:2065
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
 msgstr ""
+"Povoliť opätovné viazanie backendov autentifikácie pre existujúcich "
+"používateľov. Zapnite toto nastavenie pri migrácii medzi poskytovateľmi "
+"autentifikácie."
 
 #: admin/config.rst:2070
 msgid ""
@@ -5650,12 +5930,18 @@ msgid ""
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
 msgstr ""
+"Predvolene vypnuté, aby sa neumožnilo pridávanie ďalších backendov "
+"autentifikácie k existujúcemu účtu. Opätovné viazanie môže viesť ku "
+"kompromitácii účtu pri používaní viacerých backendov autentifikácie tretích "
+"strán."
 
 #: admin/config.rst:2081
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
+"Prahová hodnota pre spustenie upozornenia na zastarané repozitáre alebo tie, "
+"ktoré obsahujú príliš veľa zmien. Predvolená hodnota je 25."
 
 #: admin/config.rst:2095
 msgid ""
@@ -5664,58 +5950,74 @@ msgid ""
 "and configures REST framework to require authentication for all API "
 "endpoints."
 msgstr ""
+"Toto povoľuje "
+":class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` a "
+"konfiguruje REST framework tak, aby vyžadoval autentifikáciu pre všetky "
+"koncové body API."
 
 #: admin/config.rst:2100
 msgid "Weblate now relies on Django built-in middleware."
-msgstr ""
+msgstr "Weblate teraz využíva vstavaný middleware Django."
 
 #: admin/config.rst:2104
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, "
 "use :envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Toto je implementované v :ref:`sample-configuration`. Pre Docker použite "
+":envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: admin/config.rst:2112
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
-msgstr ""
+msgstr "Sentry DSN na použitie pre :ref:`collecting-errors`."
 
 #: admin/config.rst:2116
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
+"`Integrácia Django pre Sentry <https://docs.sentry.io/platforms/python/"
+"integrations/django/>`_"
 
 #: admin/config.rst:2123
 msgid "Configures environment for Sentry. Defaults to ``devel``."
-msgstr ""
+msgstr "Konfiguruje prostredie pre Sentry. Predvolená hodnota je ``devel``."
 
 #: admin/config.rst:2132
 msgid ""
 "Configure whether to monitor Celery Beat tasks with Sentry. Defaults to "
 "``True``."
 msgstr ""
+"Konfigurujte, či monitorovať úlohy Celery Beat pomocou Sentry. Predvolená "
+"hodnota je ``True``."
 
 #: admin/config.rst:2139
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Konfigurujte mieru vzorkovania pre monitorovanie výkonu. Nastavte na 1 pre "
+"sledovanie všetkých udalostí, 0 (predvolené) vypína sledovanie."
 
 #: admin/config.rst:2143 admin/install.rst:1743
 msgid ""
 "`Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/"
 "performance-monitoring/>`_"
 msgstr ""
+"`Monitorovanie výkonu Sentry <https://docs.sentry.io/product/sentry-basics/"
+"performance-monitoring/>`_"
 
 #: admin/config.rst:2150
 msgid ""
 "Allow Sentry to collect certain personally identifiable information. Turned "
 "off by default."
 msgstr ""
+"Povoliť Sentry zbierať určité osobne identifikovateľné informácie. "
+"Predvolene vypnuté."
 
 #: admin/config.rst:2154
 msgid "This is turned off by default now, used to be turned on by default."
-msgstr ""
+msgstr "Toto je teraz predvolene vypnuté, kedysi bolo predvolene zapnuté."
 
 #: admin/config.rst:2161
 msgid ""
