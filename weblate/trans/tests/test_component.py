@@ -54,6 +54,13 @@ remote: Host key verification failed.
 class ComponentTest(RepoTestCase):
     """Component object testing."""
 
+    def test_select_for_update_uses_component_only_no_key_lock(self) -> None:
+        queryset = Component.objects.select_for_update()
+
+        self.assertTrue(queryset.query.select_for_update)
+        self.assertEqual(queryset.query.select_for_update_of, ("self",))
+        self.assertTrue(queryset.query.select_for_no_key_update)
+
     def verify_component(
         self,
         component: Component,

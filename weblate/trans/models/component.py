@@ -317,6 +317,11 @@ def prefetch_glossary_terms(components) -> None:
 
 
 class ComponentQuerySet(models.QuerySet):
+    # pylint: disable-next=arguments-differ
+    def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
+        # Use weaker locking and limit locking to the Component table only.
+        return super().select_for_update(no_key=True, of=("self",))
+
     def get_for_update(self, *args, **kwargs) -> Component:
         return self.select_for_update().get(*args, **kwargs)
 
