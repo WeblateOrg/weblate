@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-03 10:44+0000\n"
+"PO-Revision-Date: 2026-05-04 06:43+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -36,6 +36,10 @@ msgid ""
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
+"Weblate disponuje podrobným systémom oprávnení na priraďovanie "
+"používateľských práv pre celú inštanciu pomocou preddefinovaných rolí alebo "
+"priradením jednej alebo viacerých skupín oprávnení používateľom pre všetko, "
+"alebo pre jednotlivé projekty, komponenty, slovníky a podobne."
 
 #: admin/access.rst:14
 msgid "Project access control"
@@ -47,16 +51,21 @@ msgid ""
 "always :guilabel:`Public`. You can switch to the paid plan if you want to "
 "restrict access to your project."
 msgstr ""
+"Projekty bežiace na bezplatnom pláne Libre v službe Hosted Weblate sú vždy "
+":guilabel:`Verejné`. Ak chcete obmedziť prístup k svojmu projektu, môžete "
+"prejsť na platený plán."
 
 #: admin/access.rst:22
 msgid ""
 "Limit user access to individual projects by selecting a "
 "different :ref:`project-access_control` setting. The available options are:"
 msgstr ""
+"Obmedzte prístup používateľov k jednotlivým projektom výberom iného "
+"nastavenia :ref:`project-access_control`. Dostupné možnosti sú:"
 
 #: admin/access.rst:25 admin/config.rst:592
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Verejné`"
 
 #: admin/access.rst:26 admin/access.rst:34
 msgid "Visible to everybody."
@@ -68,7 +77,7 @@ msgstr "Prispievať môže každý prihlásený používateľ."
 
 #: admin/access.rst:30
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "Repozitár VCS môže byť sprístupnený všetkým."
 
 #: admin/access.rst:32
 msgid ""
@@ -80,7 +89,7 @@ msgstr ""
 
 #: admin/access.rst:33 admin/config.rst:594
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Chránené`"
 
 #: admin/access.rst:36 admin/access.rst:44 admin/access.rst:52
 msgid "Only chosen users can contribute."
@@ -100,7 +109,7 @@ msgstr ""
 
 #: admin/access.rst:41 admin/config.rst:596
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Súkromné`"
 
 #: admin/access.rst:42 admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -115,7 +124,7 @@ msgstr ""
 
 #: admin/access.rst:49 admin/config.rst:598
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Osobné`"
 
 #: admin/access.rst:56
 msgid "Not available on Hosted Weblate."
@@ -139,17 +148,25 @@ msgid ""
 "the configuration (:guilabel:`Operations` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`Riadenie prístupu` môžete zmeniť na karte :guilabel:`Prístup` v "
+"konfigurácii (:guilabel:`Operácie` ↓ :guilabel:`Nastavenia`) každého "
+"príslušného projektu."
 
 #: admin/access.rst:68
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Predvolenú hodnotu môžete tiež zmeniť nastavením "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
+"Štatistiky aj `Súkromných` projektov sa započítavajú do celosieťových "
+"štatistík a súhrnu jazykov. Nezverejňuje to názvy projektov ani žiadne iné "
+"informácie."
 
 #: admin/access.rst:78
 msgid ""
@@ -157,6 +174,9 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
+"Administrátori inštancie môžu upraviť predvolené sady oprávnení dostupné "
+"používateľom v projektoch `Verejné`, `Chránené` a `Súkromné` pomocou "
+":ref:`vlastných nastavení <custom-acl>`."
 
 #: admin/access.rst:88
 msgid "Managing per-project access control"
@@ -164,7 +184,7 @@ msgstr "Správa riadenia prístupu pre jednotlivé projekty"
 
 #: admin/access.rst:93
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Pre projekty `Verejné`, `Chránené` a `Súkromné`:"
 
 #: admin/access.rst:95
 msgid ""
@@ -172,6 +192,10 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
+"Udelenie oprávnenia :guilabel:`Spravovať prístup k projektu` (pozri "
+":ref:`privileges`) umožňuje používateľom priraďovať ďalších používateľov v "
+"projektoch `Verejné`, `Chránené` a `Súkromné` (ale nie `Vlastné`) pridaním "
+"do tímov."
 
 #: admin/access.rst:99
 msgid ""
@@ -204,49 +228,51 @@ msgstr ""
 
 #: admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Len pre projekty `Chránené` a `Súkromné`:"
 
 #: admin/access.rst:112 snippets/roles.rst:156
 msgid "`Translate`"
-msgstr ""
+msgstr "`Prekladať`"
 
 #: admin/access.rst:113
 msgid "Translate the project and upload translations made offline."
-msgstr ""
+msgstr "Prekladať projekt a nahrávať preklady vytvorené offline."
 
 #: admin/access.rst:115
 msgid "`Sources`"
-msgstr ""
+msgstr "`Zdroje`"
 
 #: admin/access.rst:116
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
+"Upravovať zdrojové reťazce (ak je to povolené v :ref:`nastaveniach projektu "
+"<component-manage_units>`) a informácie o zdrojových reťazcoch."
 
 #: admin/access.rst:119
 msgid "`Languages`"
-msgstr ""
+msgstr "`Jazyky`"
 
 #: admin/access.rst:120
 msgid "Manage translated languages (add or remove translations)."
-msgstr ""
+msgstr "Spravovať preložené jazyky (pridať alebo odstrániť preklady)."
 
 #: admin/access.rst:122
 msgid "`Glossary`"
-msgstr ""
+msgstr "`Slovník`"
 
 #: admin/access.rst:123
 msgid "Manage glossary (add, remove, and upload entries)."
-msgstr ""
+msgstr "Spravovať slovník (pridať, odstrániť a nahrať položky)."
 
 #: admin/access.rst:125
 msgid "`Memory`"
-msgstr ""
+msgstr "`Pamäť`"
 
 #: admin/access.rst:126
 msgid "Manage translation memory."
-msgstr ""
+msgstr "Spravovať prekladovú pamäť."
 
 #: admin/access.rst:128
 msgid "`Screenshots`"
@@ -260,39 +286,43 @@ msgstr ""
 
 #: admin/access.rst:132 snippets/roles.rst:177
 msgid "`Automatic translation`"
-msgstr ""
+msgstr "`Automatický preklad`"
 
 #: admin/access.rst:133
 msgid "Can use automatic translation."
-msgstr ""
+msgstr "Môže používať automatický preklad."
 
 #: admin/access.rst:135
 msgid "`VCS`"
-msgstr ""
+msgstr "`VCS`"
 
 #: admin/access.rst:136
 msgid "Manage VCS and access the exported repository."
-msgstr ""
+msgstr "Spravovať VCS a pristupovať k exportovanému repozitáru."
 
 #: admin/access.rst:138
 msgid "`Billing`"
-msgstr ""
+msgstr "`Fakturácia`"
 
 #: admin/access.rst:139
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr ""
+msgstr "Prístup k fakturačným informáciám a nastaveniam (pozri :ref:`billing`)."
 
 #: admin/access.rst:143
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 msgstr ""
+"Tieto funkcie sú dostupné na stránke :guilabel:`Riadenie prístupu` v ponuke "
+"projektu :guilabel:`Operácie` ↓ :guilabel:`Používatelia`."
 
 #: admin/access.rst:148
 msgid ""
 "You can limit teams to languages or components, and assign them designated "
 "access roles (see :ref:`privileges`)."
 msgstr ""
+"Môžete obmedziť tímy na jazyky alebo komponenty a priradiť im určené "
+"prístupové role (pozri :ref:`privileges`)."
 
 #: admin/access.rst:154
 msgid "Team administrators"
@@ -431,6 +461,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"V predvolenom nastavení to bráni Weblate udeľovať prístup poskytovaný "
+"predvolenými tímami `Používatelia` a `Diváci` :ref:`default teams <default-"
+"teams>` kvôli vlastnej konfigurácii týchto tímov. Nebráni vám to však "
+"udeľovať oprávnenia týmto projektom v rámci celej stránky úpravou "
+"predvolených tímov, vytvorením nového tímu alebo vytvorením ďalších "
+"vlastných nastavení pre jednotlivé komponenty, ako je opísané nižšie v "
+":ref:`custom-acl`."
 
 #: admin/access.rst:226
 msgid ""
@@ -439,6 +476,10 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "team of the project."
 msgstr ""
+"Jednou z hlavných výhod správy oprávnení prostredníctvom používateľského "
+"rozhrania Weblate je, že ju môžete delegovať na iných používateľov bez toho, "
+"aby ste im udelili oprávnenie superpoužívateľa. Aby ste to dosiahli, "
+"pridajte ich do tímu `Administrácia` daného projektu."
 
 #: admin/access.rst:231
 msgid ""
@@ -448,6 +489,11 @@ msgid ""
 "management in the Weblate UI and API and should be assigned only to fully "
 "trusted site administrators."
 msgstr ""
+"Táto delegácia v rozsahu projektu je oddelená od oprávnenia ``user.edit`` "
+"pre celú stránku. Členstvo v tíme `Administrácia` projektu umožňuje "
+"spravovať prístup iba pre daný projekt, zatiaľ čo ``user.edit`` udeľuje "
+"správu používateľov pre celú stránku v používateľskom rozhraní a API Weblate "
+"a malo by byť priradené iba plne dôveryhodným administrátorom stránky."
 
 #: admin/access.rst:240
 msgid "Per-project access tokens"
@@ -486,6 +532,11 @@ msgid ""
 "to :guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
+"Najvýkonnejšie funkcie systému riadenia prístupu Weblate môžete konfigurovať "
+"v :ref:`management-interface`. Môžete ho použiť na správu oprávnení "
+"akéhokoľvek projektu. Na jeho využitie nemusíte nutne prepínať na "
+":guilabel:`Vlastné` :ref:`riadenie prístupu <acl>`. Na jeho použitie však "
+"musíte mať oprávnenia superpoužívateľa."
 
 #: admin/access.rst:270
 msgid ""
@@ -495,34 +546,46 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
+"Ak vás nezaujímajú podrobnosti implementácie a chcete len vytvoriť "
+"dostatočne jednoduchú konfiguráciu založenú na predvolených hodnotách, alebo "
+"nemáte prístup k celej inštalácii Weblate v rámci celej stránky (ako napr. "
+"na `Hosted Weblate <https://hosted.weblate.org/>`_), obráťte sa na časť "
+":ref:`manage-acl`."
 
 #: admin/access.rst:276
 msgid "Site-wide permission management"
-msgstr ""
+msgstr "Správa oprávnení pre celú stránku"
 
 #: admin/access.rst:278
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
+"Ak chcete spravovať oprávnenia pre celú inštanciu naraz, pridajte "
+"používateľov do vhodných :ref:`predvolených tímov <default-teams>`:"
 
 #: admin/access.rst:281
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
+"`Používatelia` (toto sa vykonáva automaticky pomocou :ref:`automatického "
+"priraďovania tímov <autoteam>`)."
 
 #: admin/access.rst:283
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Recenzenti` (ak používate :ref:`revízny pracovný postup <reviews>` s "
+"vyhradenými recenzentmi)."
 
 #: admin/access.rst:285
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Správcovia` (ak chcete delegovať väčšinu operácií správy na niekoho iného)."
 
 #: admin/access.rst:288
 msgid ""
@@ -530,6 +593,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
+"Mali by ste mať všetky projekty nakonfigurované ako `Verejné` (pozri "
+":ref:`acl`), inak oprávnenia pre celú stránku poskytnuté členstvom v tímoch "
+"`Používatelia` a `Recenzenti` nebudú mať žiadny účinok."
 
 #: admin/access.rst:292
 msgid ""
@@ -537,6 +603,9 @@ msgid ""
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Predvoleným tímom môžete tiež udeliť niektoré ďalšie oprávnenia podľa vášho "
+"výberu. Napríklad môžete chcieť udeliť oprávnenie na správu snímok obrazovky "
+"všetkým `Používateľom`."
 
 #: admin/access.rst:296
 msgid ""
@@ -545,10 +614,14 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` "
 "or :guilabel:`All public projects`)."
 msgstr ""
+"Môžete tiež definovať niektoré nové vlastné tímy. Ak chcete pokračovať v "
+"správe oprávnení pre tieto tímy v rámci celej stránky, vyberte vhodnú "
+"hodnotu pre :guilabel:`Výber projektu` (napr. :guilabel:`Všetky projekty` "
+"alebo :guilabel:`Všetky verejné projekty`)."
 
 #: admin/access.rst:302
 msgid "Custom permissions for languages, components or projects"
-msgstr ""
+msgstr "Vlastné oprávnenia pre jazyky, komponenty alebo projekty"
 
 #: admin/access.rst:304
 msgid ""
@@ -557,6 +630,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
+"Môžete vytvoriť vlastné špecializované tímy na správu oprávnení pre rôzne "
+"objekty, ako sú jazyky, komponenty a projekty. Hoci tieto tímy môžu iba "
+"udeľovať ďalšie oprávnenia, nemôžete odobrať žiadne oprávnenie udelené "
+"tímami pre celú stránku alebo pre jednotlivé projekty pridaním ďalšieho "
+"vlastného tímu."
 
 #: admin/access.rst:309 admin/access.rst:437 admin/config.rst:321
 #: admin/config.rst:340 admin/config.rst:399 admin/install/docker.rst:490
@@ -572,13 +650,15 @@ msgstr ""
 #: admin/install/docker.rst:2092 admin/install/docker.rst:2138
 #: admin/install/docker.rst:2171
 msgid "**Example:**"
-msgstr ""
+msgstr "**Príklad:**"
 
 #: admin/access.rst:311
 msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
+"Obmedzenie prekladu do `češtiny` na vybranú skupinu prekladateľov (pri "
+"zachovaní verejnosti prekladov do iných jazykov):"
 
 #: admin/access.rst:314
 msgid ""
@@ -586,10 +666,13 @@ msgid ""
 "configuration this can be done by altering the `Users` :ref:`default team "
 "<default-teams>`."
 msgstr ""
+"Odstráňte oprávnenie prekladať `češtinu` všetkým používateľom. V predvolenej "
+"konfigurácii to môžete urobiť úpravou predvoleného tímu `Používatelia` "
+":ref:`default team <default-teams>`."
 
 #: admin/access.rst:318
 msgid "Group `Users`"
-msgstr ""
+msgstr "Skupina `Používatelia`"
 
 #: admin/access.rst:321 admin/access.rst:335
 msgid "Language selection"
@@ -597,7 +680,7 @@ msgstr "Výber jazyka"
 
 #: admin/access.rst:322 admin/access.rst:336
 msgid "`As defined`"
-msgstr ""
+msgstr "`Podľa definície`"
 
 #: admin/access.rst:323 admin/access.rst:337 admin/access.rst:450 api.rst:789
 #: user/profile.rst:76
@@ -606,15 +689,15 @@ msgstr "Jazyky"
 
 #: admin/access.rst:324
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Všetky okrem `češtiny`"
 
 #: admin/access.rst:326
 msgid "Add a dedicated team for `Czech` translators."
-msgstr ""
+msgstr "Pridajte špecializovaný tím pre prekladateľov `češtiny`."
 
 #: admin/access.rst:328
 msgid "Group `Czech translators`"
-msgstr ""
+msgstr "Skupina `Prekladatelia češtiny`"
 
 #: admin/access.rst:331 admin/access.rst:446 api.rst:720
 msgid "Roles"
@@ -622,7 +705,7 @@ msgstr "Role"
 
 #: admin/access.rst:332
 msgid "`Power users`"
-msgstr ""
+msgstr "`Pokročilí používatelia`"
 
 #: admin/access.rst:333
 msgid "Project selection"
@@ -630,60 +713,67 @@ msgstr "Výber projektu"
 
 #: admin/access.rst:334
 msgid "`All public projects`"
-msgstr ""
+msgstr "`Všetky verejné projekty`"
 
 #: admin/access.rst:338
 msgid "`Czech`"
-msgstr ""
+msgstr "`Čeština`"
 
 #: admin/access.rst:341
 msgid "Add users you wish to give the permissions to into this team."
-msgstr ""
+msgstr "Pridajte do tohto tímu používateľov, ktorým chcete udeliť oprávnenia."
 
 #: admin/access.rst:343
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
+"Správa oprávnení týmto spôsobom je mocná, ale môže to byť dosť zdĺhavá "
+"práca. Môžete ju delegovať iba na iných používateľov udelením stavu "
+"Superpoužívateľa."
 
 #: admin/access.rst:349
 msgid "Users, roles, teams, and permissions"
-msgstr ""
+msgstr "Používatelia, role, tímy a oprávnenia"
 
 #: admin/access.rst:351
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Modely autentifikácie pozostávajú z niekoľkých objektov:"
 
 #: admin/access.rst:353
 msgid "`Permission`"
-msgstr ""
+msgstr "`Oprávnenie`"
 
 #: admin/access.rst:354
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users, only through assignment of roles."
 msgstr ""
+"Individuálne oprávnenie definované Weblate. Oprávnenia nie je možné "
+"priraďovať používateľom priamo, iba prostredníctvom priradenia rolí."
 
 #: admin/access.rst:356
 msgid "`Role`"
-msgstr ""
+msgstr "`Rola`"
 
 #: admin/access.rst:357
 msgid ""
 "A role defines a set of permissions (and can be reused in several places)."
 msgstr ""
+"Rola definuje sadu oprávnení (a môže byť znovu použitá na viacerých miestach)"
+"."
 
 #: admin/access.rst:359
 msgid "`User`"
-msgstr ""
+msgstr "`Používateľ`"
 
 #: admin/access.rst:360
 msgid "A user can belong to several teams."
-msgstr ""
+msgstr "Používateľ môže patriť do viacerých tímov."
 
 #: admin/access.rst:361
 msgid "`Group`"
-msgstr "Skupina"
+msgstr "`Skupina`"
 
 #: admin/access.rst:362
 msgid ""
@@ -698,10 +788,12 @@ msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Tím nemusí mať priradené žiadne role, v takom prípade sa predpokladá prístup "
+"na prehliadanie projektu ktokoľvek (pozri nižšie)."
 
 #: admin/access.rst:384
 msgid "Project-browsing access"
-msgstr ""
+msgstr "Prístup na prehliadanie projektu"
 
 #: admin/access.rst:386
 msgid ""
@@ -710,10 +802,14 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
+"Používateľ musí byť členom tímu prepojeného s projektom alebo s ktorýmkoľvek "
+"komponentom vnútri tohto projektu. Členstvo stačí, na prehliadanie projektu "
+"nie sú potrebné žiadne špecifické oprávnenia (toto sa používa v predvolenom "
+"tíme `Diváci`, pozri :ref:`default-teams`)."
 
 #: admin/access.rst:392
 msgid "Component-browsing access"
-msgstr ""
+msgstr "Prístup na prehliadanie komponentov"
 
 #: admin/access.rst:394
 msgid ""
@@ -722,16 +818,22 @@ msgid ""
 "restricted` on, access to components (or component lists) are granted "
 "explicitly."
 msgstr ""
+"Udelenie prístupu na prehliadanie používateľovi v jednom projekte mu dáva "
+"prístup ku každému komponentu s odvodenými oprávneniami na prehliadanie. Pri "
+"zapnutom :ref:`component-restricted` sa prístup ku komponentom (alebo "
+"zoznamom komponentov) udeľuje explicitne."
 
 #: admin/access.rst:402
 msgid "Scope of teams"
-msgstr ""
+msgstr "Rozsah tímov"
 
 #: admin/access.rst:404
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
+"Rozsah oprávnení priradených rolami v tímoch sa uplatňuje podľa "
+"nasledujúcich pravidiel:"
 
 #: admin/access.rst:407
 msgid ""
@@ -741,12 +843,19 @@ msgid ""
 "permissions is granted for all the projects these components are "
 "in. :guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Ak tím špecifikuje akýkoľvek :guilabel:`Zoznam komponentov`, všetky "
+"oprávnenia udelené členom tohto tímu sa udeľujú pre všetky komponenty v "
+"zoznamoch komponentov pripojených k tímu a prístup bez ďalších oprávnení sa "
+"udeľuje pre všetky projekty, v ktorých sa tieto komponenty nachádzajú. "
+":guilabel:`Komponenty` a :guilabel:`Projekty` sa ignorujú."
 
 #: admin/access.rst:413
 msgid ""
 "Using huge component lists might have a performance impact, please consider "
 "giving access via projects instead."
 msgstr ""
+"Používanie veľkých zoznamov komponentov môže mať vplyv na výkon, zvážte "
+"udelenie prístupu cez projekty."
 
 #: admin/access.rst:416
 msgid ""
@@ -755,8 +864,13 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Ak tím špecifikuje akékoľvek :guilabel:`Komponenty`, všetky oprávnenia "
+"udelené členom tohto tímu sa udeľujú pre všetky komponenty pripojené k tímu "
+"a prístup bez ďalších oprávnení sa udeľuje pre všetky projekty, v ktorých sa "
+"tieto komponenty nachádzajú. :guilabel:`Projekty` sa ignorujú."
 
 #: admin/access.rst:421
+#, fuzzy
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -764,6 +878,10 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"Ak tím špecifikuje akékoľvek :guilabel:`Komponenty`, všetky oprávnenia "
+"udelené členom tohto tímu sa udeľujú pre všetky komponenty pripojené k tímu "
+"a prístup bez ďalších oprávnení sa udeľuje pre všetky projekty, v ktorých sa "
+"tieto komponenty nachádzajú. :guilabel:`Projekty` sa ignorujú."
 
 #: admin/access.rst:427
 msgid ""
@@ -773,26 +891,34 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"Obmedzenia uložené :guilabel:`Jazykmi` tímu sa uplatňujú samostatne, keď sa "
+"overuje, či má používateľ prístup na vykonanie určitých akcií. Konkrétne sa "
+"uplatňujú iba na akcie priamo súvisiace s samotným procesom prekladu, ako je "
+"kontrola, ukladanie prekladov, pridávanie návrhov atď."
 
 #: admin/access.rst:434
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
+"Použite :guilabel:`Výber jazyka` alebo :guilabel:`Výber projektu` na "
+"automatizáciu zahrnutia všetkých jazykov alebo projektov."
 
 #: admin/access.rst:439
 msgid ""
 "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with "
 "reviewing and management rights, in the following team:"
 msgstr ""
+"Projekt ``foo`` s komponentmi: ``foo/bar`` a ``foo/baz``, s právami na "
+"kontrolu a správu, v nasledujúcom tíme:"
 
 #: admin/access.rst:443
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr ""
+msgstr "Skupina `Španielski Administrátori-Recenzenti`"
 
 #: admin/access.rst:447
 msgid "`Review Strings`, `Manage repository`"
-msgstr ""
+msgstr "`Kontrolovať reťazce`, `Spravovať repozitár`"
 
 #: admin/access.rst:448 api.rst:1415
 msgid "Components"
@@ -800,37 +926,43 @@ msgstr "Komponenty"
 
 #: admin/access.rst:449
 msgid "foo/bar"
-msgstr ""
+msgstr "foo/bar"
 
 #: admin/access.rst:451
 msgid "`Spanish`"
-msgstr ""
+msgstr "`Španielčina`"
 
 #: admin/access.rst:454
 msgid ""
 "Members of that team will have these permissions (assuming the default role "
 "settings):"
 msgstr ""
+"Členovia tohto tímu budú mať tieto oprávnenia (za predpokladu predvolených "
+"nastavení rolí):"
 
 #: admin/access.rst:456
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Všeobecný prístup (prehliadanie) k celému projektu ``foo`` vrátane oboch "
+"komponentov v ňom: ``foo/bar`` a ``foo/baz``."
 
 #: admin/access.rst:458
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
-msgstr ""
+msgstr "Kontrolovať reťazce v španielskom preklade ``foo/bar`` (nikde inde)."
 
 #: admin/access.rst:459
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Spravovať VCS pre celý repozitár ``foo/bar``, napr. zapisovať čakajúce zmeny "
+"vykonané prekladateľmi pre všetky jazyky."
 
 #: admin/access.rst:465
 msgid "Automatic team assignments"
-msgstr ""
+msgstr "Automatické priraďovanie tímov"
 
 #: admin/access.rst:467
 msgid ""
@@ -840,6 +972,10 @@ msgid ""
 "on their e-mail addresses. This assignment only happens upon account "
 "creation."
 msgstr ""
+"Pri úprave :guilabel:`Tímu` môžete špecifikovať :guilabel:`Automatické "
+"priradenia`, čo je zoznam regulárnych výrazov používaných na automatické "
+"priradenie novo vytvorených používateľov do tímu na základe ich e-mailových "
+"adries. Toto priradenie sa vykoná iba pri vytvorení účtu."
 
 #: admin/access.rst:472
 msgid ""
@@ -848,6 +984,10 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
+"Najbežnejším prípadom použitia tejto funkcie je priradenie všetkých nových "
+"používateľov do niektorého predvoleného tímu. Toto správanie sa používa pre "
+"predvolené tímy `Používatelia` a `Hostia` (pozri :ref:`default-teams`). Na "
+"zhodu so všetkými používateľmi použite regulárny výraz ``^.*$``."
 
 #: admin/access.rst:476
 msgid ""
@@ -856,6 +996,10 @@ msgid ""
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
+"Ďalším prípadom použitia tejto možnosti môže byť predvolené udelenie "
+"niektorých ďalších oprávnení zamestnancom vašej spoločnosti. Za predpokladu, "
+"že všetci používajú firemné e-mailové adresy na vašej doméne, toto sa dá "
+"dosiahnuť výrazom ako ``^.*@mycompany.com``."
 
 #: admin/access.rst:483
 msgid ""
@@ -863,22 +1007,29 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Automatické priraďovanie tímov do `Používateľov` a `Divákov` sa vždy znovu "
+"vytvorí pri aktualizácii z jednej verzie Weblate na druhú. Ak to chcete "
+"vypnúť, nastavte regulárny výraz na ``^$`` (čo nebude zodpovedať ničomu)."
 
 #: admin/access.rst:489
 msgid ""
 "Bulk inviting through the user interface creates invitations. Existing users "
 "still have to confirm the invitation before they become team members."
 msgstr ""
+"Hromadné pozývanie prostredníctvom používateľského rozhrania vytvára "
+"pozvánky. Existujúci používatelia musia stále potvrdiť pozvánku, než sa "
+"stanú členmi tímu."
 
 #: admin/access.rst:493
 msgid "Default teams and roles"
-msgstr ""
+msgstr "Predvolené tímy a role"
 
 #: admin/access.rst:495
 msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
+"Po inštalácii sa vytvorí predvolená sada tímov (pozri :ref:`default-teams`)."
 
 #: admin/access.rst:497
 msgid ""
@@ -887,6 +1038,10 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"Tieto role a tímy sa vytvárajú pri inštalácii. Vstavané role sú vždy "
+"aktualizované migráciou databázy pri aktualizácii. Nemôžete ich skutočne "
+"zmeniť, prosím, definujte novú rolu, ak chcete definovať vlastnú sadu "
+"oprávnení."
 
 #: admin/access.rst:508
 msgid ""
@@ -894,10 +1049,13 @@ msgid ""
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Oprávnenia pre celú stránku nie sú udelené žiadnej predvolenej role. Sú "
+"mocné a veľmi blízke stavu Superpoužívateľa. Väčšina z nich ovplyvňuje "
+"všetky projekty vo vašej inštalácii Weblate."
 
 #: admin/access.rst:517
 msgid "List of teams"
-msgstr ""
+msgstr "Zoznam tímov"
 
 #: admin/access.rst:519
 msgid ""
@@ -905,96 +1063,107 @@ msgid ""
 "executing :wladmin:`setupgroups`) and you are free to modify them. The "
 "migration will, however, re-create them if you delete or rename them."
 msgstr ""
+"Nasledujúce tímy sa vytvárajú pri inštalácii (alebo po vykonaní "
+":wladmin:`setupgroups`) a môžete ich voľne upravovať. Migrácia ich však "
+"znovu vytvorí, ak ich odstránite alebo premenujete."
 
 #: admin/access.rst:523
 msgid "`Guests`"
-msgstr ""
+msgstr "`Hostia`"
 
 #: admin/access.rst:524
 msgid "Defines permissions for non-authenticated users."
-msgstr ""
+msgstr "Definuje oprávnenia pre neautentifikovaných používateľov."
 
 #: admin/access.rst:526
 msgid ""
 "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Tento tím obsahuje iba anonymných používateľov (pozri "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: admin/access.rst:528
 msgid ""
 "Remove roles from this team to limit permissions for non-authenticated users."
 msgstr ""
+"Odstráňte role z tohto tímu, aby ste obmedzili oprávnenia pre "
+"neautentifikovaných používateľov."
 
 #: admin/access.rst:531
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "Predvolené role: `Pridať návrh`, `Prístup k repozitáru`"
 
 #: admin/access.rst:533
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Diváci`"
 
 #: admin/access.rst:534
 msgid ""
 "This role ensures the visibility of public projects to all users. By "
 "default, all users are members of this team."
 msgstr ""
+"Táto rola zabezpečuje viditeľnosť verejných projektov pre všetkých "
+"používateľov. Predvolene sú všetci používatelia členmi tohto tímu."
 
 #: admin/access.rst:537 admin/access.rst:545
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
+"Predvolene :ref:`automatické priraďovanie tímov <autoteam>` robí všetky nové "
+"účty členmi tohto tímu, keď sa pripoja."
 
 #: admin/access.rst:540
 msgid "Default roles: none"
-msgstr ""
+msgstr "Predvolené role: žiadne"
 
 #: admin/access.rst:542 workflows.rst:130 workflows.rst:162 workflows.rst:195
 msgid "`Users`"
-msgstr ""
+msgstr "`Používatelia`"
 
 #: admin/access.rst:543
 msgid "Default team for all users."
-msgstr ""
+msgstr "Predvolený tím pre všetkých používateľov."
 
 #: admin/access.rst:548
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "Predvolené role: `Pokročilý používateľ`"
 
 #: admin/access.rst:550 workflows.rst:199
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Recenzenti`"
 
 #: admin/access.rst:551
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "Skupina pre recenzentov (pozri :ref:`workflows`)."
 
 #: admin/access.rst:553
 msgid "Default roles: `Review strings`"
-msgstr ""
+msgstr "Predvolené role: `Kontrolovať reťazce`"
 
 #: admin/access.rst:555
 msgid "`Managers`"
-msgstr ""
+msgstr "`Správcovia`"
 
 #: admin/access.rst:556
 msgid "Group for administrators."
-msgstr ""
+msgstr "Skupina pre administrátorov."
 
 #: admin/access.rst:558
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "Predvolené role: `Administrácia`"
 
 #: admin/access.rst:560
 msgid "`Project creators`"
-msgstr ""
+msgstr "`Tvorcovia projektov`"
 
 #: admin/access.rst:563
 msgid "Users who can create new projects."
-msgstr ""
+msgstr "Používatelia, ktorí môžu vytvárať nové projekty."
 
 #: admin/access.rst:565
 msgid "Default roles: `Add new projects`"
-msgstr ""
+msgstr "Predvolené role: `Pridať nové projekty`"
 
 #: admin/access.rst:569
 msgid ""
@@ -1002,10 +1171,13 @@ msgid ""
 "unexpected problems! If you have no use for them, simply remove all their "
 "privileges instead."
 msgstr ""
+"Nikdy neodstraňujte preddefinované tímy a používateľov Weblate, pretože to "
+"môže viesť k neočakávaným problémom! Ak ich nepotrebujete, jednoducho im "
+"odoberte všetky ich oprávnenia."
 
 #: admin/access.rst:574
 msgid "Additional access restrictions"
-msgstr ""
+msgstr "Dodatočné obmedzenia prístupu"
 
 #: admin/access.rst:576
 msgid ""
@@ -1017,6 +1189,14 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Ak chcete používať svoju inštaláciu Weblate menej verejne, t.j. povoliť "
+"nových používateľov iba na pozvánky, môžete to urobiť konfiguráciou Weblate "
+"tak, aby k nemu mali prístup iba známi používatelia. Aby ste to dosiahli, "
+"môžete nastaviť :setting:`REGISTRATION_OPEN` na ``False``, čím zabránite "
+"registrácii akýchkoľvek nových používateľov, a nastaviť "
+":setting:`REQUIRE_LOGIN` na ``True``, čím vyžadujete prihlásenie na prístup "
+"ku všetkým stránkam webu. Toto je v podstate spôsob, ako uzamknúť vašu "
+"inštaláciu Weblate."
 
 #: admin/access.rst:583
 msgid ""
@@ -1024,14 +1204,18 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Okrem toho, zmena :setting:`DEFAULT_ACCESS_CONTROL` na ``100`` spôsobí, že "
+"všetky novo vytvorené projekty budú súkromné a bude vyžadované explicitné "
+"udelenie prístupu."
 
 #: admin/access.rst:588
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
+"Na pridanie nových používateľov môžete použiť vstavané :ref:`invite-user`."
 
 #: admin/access.rst:593
 msgid "Expiration of user accounts"
-msgstr ""
+msgstr "Expirácia používateľských účtov"
 
 #: admin/access.rst:595
 msgid ""
@@ -1039,6 +1223,9 @@ msgid ""
 "be automatically disabled. This is used for :ref:`project-api`, but can be "
 "utilized for regular users as well."
 msgstr ""
+"Každý účet môže mať nastavenú expiráciu. Po uplynutí platnosti bude účet "
+"automaticky deaktivovaný. Toto sa používa pre :ref:`project-api`, ale môže "
+"sa využiť aj pre bežných používateľov."
 
 #: admin/addons.rst:7 api.rst:2741
 msgid "Add-ons"
@@ -1052,12 +1239,19 @@ msgid ""
 "component. Add-ons can be also installed site-wide in :ref:`management-"
 "interface`."
 msgstr ""
+"Doplnky poskytujú spôsoby prispôsobenia a automatizácie pracovného postupu "
+"prekladu. Administrátori môžu pridávať a spravovať doplnky z ponuky "
+":guilabel:`Operácie` ↓ :guilabel:`Doplnky` každého príslušného prekladového "
+"projektu alebo komponentu. Doplnky je možné inštalovať aj v rámci celej "
+"stránky v :ref:`management-interface`."
 
 #: admin/addons.rst:15
 msgid ""
 "You can also configure add-ons using :ref:`API <addons-"
 "api>`, :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`."
 msgstr ""
+"Doplnky môžete konfigurovať aj pomocou :ref:`API <addons-api>`, "
+":setting:`DEFAULT_ADDONS` alebo :wladmin:`install_addon`."
 
 #: admin/addons.rst:18
 msgid ""
@@ -1065,37 +1259,43 @@ msgid ""
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"Doplnky, ktoré sú nastavené na manuálne spúšťanie, je možné spustiť zo "
+"správy doplnkov alebo pomocou :ref:`API <addons-api>`. Výsledky sa "
+"zaznamenávajú do denníka aktivít doplnku."
 
 #: admin/addons.rst:28
 msgid "Obsolete add-ons"
-msgstr ""
+msgstr "Zastarané doplnky"
 
 #: admin/addons.rst:33
 msgid "Customize XML output"
-msgstr ""
+msgstr "Prispôsobiť výstup XML"
 
 #: admin/addons.rst:37 admin/addons.rst:44
 #: snippets/addons-autogenerated.rst:976 snippets/addons-autogenerated.rst:1353
 msgid "Replaced by :ref:`file_format_params`."
-msgstr ""
+msgstr "Nahradené :ref:`file_format_params`."
 
 #: admin/addons.rst:42
 msgid "Customize YAML output"
-msgstr ""
+msgstr "Prispôsobiť výstup YAML"
 
 #: admin/addons.rst:50
 msgid "Customizing list of add-ons"
-msgstr ""
+msgstr "Prispôsobenie zoznamu doplnkov"
 
 #: admin/addons.rst:52
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
 msgstr ""
+"Zoznam doplnkov je konfigurovaný pomocou :setting:`WEBLATE_ADDONS`. Ak "
+"chcete pridať ďalší doplnok, jednoducho zahrňte absolútny názov triedy do "
+"tohto nastavenia."
 
 #: admin/addons.rst:59
 msgid "Writing add-on"
-msgstr ""
+msgstr "Písanie doplnku"
 
 #: admin/addons.rst:61
 msgid ""
@@ -1103,10 +1303,13 @@ msgid ""
 "of :class:`weblate.addons.base.BaseAddon` to define the add-on metadata, and "
 "then implement a callback to do the processing."
 msgstr ""
+"Môžete písať aj vlastné doplnky, vytvorte podtriedu "
+":class:`weblate.addons.base.BaseAddon` na definovanie metadát doplnku a "
+"potom implementujte spätné volanie na vykonanie spracovania."
 
 #: admin/addons.rst:72
 msgid "Executing scripts from add-on"
-msgstr ""
+msgstr "Spúšťanie skriptov z doplnku"
 
 #: admin/addons.rst:74
 msgid ""
@@ -1114,92 +1317,102 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
 msgstr ""
+"Doplnky sa dajú použiť aj na spúšťanie externých skriptov. Toto bolo predtým "
+"integrované vo Weblate, ale teraz musíte napísať nejaký kód, ktorý obalí váš "
+"skript doplnkom."
 
 #: admin/addons.rst:81
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr ""
+msgstr "Pokyny na inštaláciu nájdete v :ref:`custom-addon-modules`."
 
 #: admin/addons.rst:83
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Skript sa vykonáva s aktuálnym adresárom nastaveným na koreň repozitára VCS "
+"pre daný komponent."
 
 #: admin/addons.rst:86
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "Okrem toho sú k dispozícii nasledujúce premenné prostredia:"
 
 #: admin/addons.rst:90
 msgid "Version control system used."
-msgstr ""
+msgstr "Použitý systém správy verzií."
 
 #: admin/addons.rst:94
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "URL upstreamového repozitára."
 
 #: admin/addons.rst:98
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Absolútna cesta k repozitáru VCS."
 
 #: admin/addons.rst:102
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Vetva repozitára nakonfigurovaná v aktuálnom komponente."
 
 #: admin/addons.rst:106
 msgid "File mask for current component."
-msgstr ""
+msgstr "Maska súboru pre aktuálny komponent."
 
 #: admin/addons.rst:110
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "Názov súboru šablóny pre jednojazyčné preklady (môže byť prázdny)."
 
 #: admin/addons.rst:114
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
+"Názov súboru používaného na vytváranie nových prekladov (môže byť prázdny)."
 
 #: admin/addons.rst:119
 msgid "File format used in current component."
-msgstr ""
+msgstr "Formát súboru použitý v aktuálnom komponente."
 
 #: admin/addons.rst:123
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
+"Jazyk práve spracovávaného prekladu (nie je k dispozícii pre háky na úrovni "
+"komponentu)."
 
 #: admin/addons.rst:128
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
+"Predchádzajúci HEAD po aktualizácii (dostupné iba po spustení háku po "
+"aktualizácii)."
 
 #: admin/addons.rst:132
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "Slug komponentu použitý na zostavenie URL."
 
 #: admin/addons.rst:136
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "Slug projektu použitý na zostavenie URL."
 
 #: admin/addons.rst:140
 msgid "Component name."
-msgstr ""
+msgstr "Názov komponentu."
 
 #: admin/addons.rst:144
 msgid "Project name."
-msgstr ""
+msgstr "Názov projektu."
 
 #: admin/addons.rst:148
 msgid "Component URL."
-msgstr ""
+msgstr "URL komponentu."
 
 #: admin/addons.rst:152
 msgid "Project engage URL."
-msgstr ""
+msgstr "URL zapojenia projektu."
 
 #: admin/addons.rst:159
 msgid "Post-update repository processing"
-msgstr ""
+msgstr "Spracovanie repozitára po aktualizácii"
 
 #: admin/addons.rst:161
 msgid ""
@@ -1207,46 +1420,57 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
+"Dá sa použiť na aktualizáciu prekladových súborov, keď sa zmení upstreamový "
+"zdroj VCS. Aby ste to dosiahli, nezabudnite, že Weblate vidí iba súbory "
+"zapísané do VCS, takže musíte zmeny zapísať ako súčasť skriptu."
 
 #: admin/addons.rst:165
 msgid "For example with Gulp you can do it using following code:"
-msgstr ""
+msgstr "Napríklad s Gulpom to môžete urobiť pomocou nasledujúceho kódu:"
 
 #: admin/addons.rst:175
 msgid "Pre-commit processing of translations"
-msgstr ""
+msgstr "Spracovanie prekladov pred zápisom"
 
 #: admin/addons.rst:177
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr ""
+"Použite skript pred zápisom na automatickú zmenu prekladu predtým, než sa "
+"zapíše do repozitára."
 
 #: admin/addons.rst:180
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
 msgstr ""
+"Odovzdáva sa ako jeden parameter pozostávajúci z názvu súboru aktuálneho "
+"prekladu."
 
 #: admin/addons.rst:184
 msgid "Add-on activity logging"
-msgstr ""
+msgstr "Protokolovanie aktivít doplnku"
 
 #: admin/addons.rst:186
 msgid ""
 "Add-on activity log keeps track of the add-on execution and can be used to "
 "keep track of add-on activity."
 msgstr ""
+"Denník aktivít doplnku sleduje vykonávanie doplnku a dá sa použiť na "
+"sledovanie aktivity doplnku."
 
 #: admin/addons.rst:189
 msgid ""
 "The logs can be pruned after a certain time interval by configuring "
 "the :setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 msgstr ""
+"Logy je možné po určitom časovom intervale orezať konfiguráciou "
+":setting:`ADDON_ACTIVITY_LOG_EXPIRY`."
 
 #: admin/admin.rst:4 admin/memory.rst:190
 msgid "Management interface"
-msgstr ""
+msgstr "Rozhranie na správu"
 
 #: admin/admin.rst:6
 msgid ""
@@ -1254,52 +1478,56 @@ msgid ""
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
+"Rozhranie na správu ponúka administrátorské nastavenia pod URL :file:`/"
+"manage/`. Je dostupné pre používateľov prihlásených s administrátorskými "
+"oprávneniami, prístupné pomocou ikony kľúča v pravom hornom rohu:"
 
 #: admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr ""
+msgstr "Zahŕňa základný prehľad vášho Weblate:"
 
 #: admin/admin.rst:14
 msgid "Support status, see :doc:`support`."
-msgstr ""
+msgstr "Stav podpory, pozri :doc:`support`."
 
 #: admin/admin.rst:15
 msgid "Backups, see :doc:`backup`."
-msgstr ""
+msgstr "Zálohy, pozri :doc:`backup`."
 
 #: admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`."
-msgstr ""
+msgstr "Zdieľaná prekladová pamäť, pozri :doc:`memory`."
 
 #: admin/admin.rst:17
 msgid ""
 ":ref:`manage-performance` to review Weblate health and length of Celery "
 "queues."
 msgstr ""
+":ref:`manage-performance` na kontrolu stavu Weblate a dĺžky frontov Celery."
 
 #: admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`."
-msgstr ""
+msgstr "Správa SSH kľúčov, pozri :ref:`ssh-repos`."
 
 #: admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`."
-msgstr ""
+msgstr "Prehľad upozornení pre všetky komponenty, pozri :ref:`alerts`."
 
 #: admin/admin.rst:20
 msgid "Users and teams, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Používatelia a tímy, pozri :ref:`custom-acl`."
 
 #: admin/admin.rst:21
 msgid ":ref:`manage-appearance`."
-msgstr ""
+msgstr ":ref:`manage-appearance`."
 
 #: admin/admin.rst:22
 msgid "Configure :ref:`machine-translation-setup`."
-msgstr ""
+msgstr "Konfigurovať :ref:`machine-translation-setup`."
 
 #: admin/admin.rst:23
 msgid "Configure site-wide addons, see :ref:`addons`."
-msgstr ""
+msgstr "Konfigurovať doplnky pre celú stránku, pozri :ref:`addons`."
 
 #: admin/admin.rst:28
 msgid "Performance report"
@@ -1309,7 +1537,7 @@ msgstr "Výkonnostná správa"
 msgid ""
 "This page provides an overview of Weblate configuration and performance "
 "status."
-msgstr ""
+msgstr "Táto stránka poskytuje prehľad konfigurácie Weblate a stavu výkonu."
 
 #: admin/admin.rst:32
 msgid ""
@@ -1318,6 +1546,10 @@ msgid ""
 "deps`), configuration issues or delayed processing of background tasks "
 "(see :ref:`celery`)."
 msgstr ""
+":guilabel:`Chyby konfigurácie` indikujú problémy prítomné vo vašom "
+"prostredí. Pokrýva chýbajúce voliteľné závislosti (pozri :ref:`python-deps`)"
+", problémy s konfiguráciou alebo oneskorené spracovanie úloh na pozadí "
+"(pozri :ref:`celery`)."
 
 #: admin/admin.rst:36
 msgid ""
@@ -1325,6 +1557,9 @@ msgid ""
 "silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see "
 "also :doc:`django:howto/deployment/checklist`."
 msgstr ""
+":guilabel:`Kontroly systému` uvádza možné problémy s konfiguráciou. Tieto "
+"môžu byť utíšené pomocou :setting:`django:SILENCED_SYSTEM_CHECKS`, pozri "
+"tiež :doc:`django:howto/deployment/checklist`."
 
 #: admin/admin.rst:40
 msgid ""
@@ -1332,6 +1567,9 @@ msgid ""
 "typically should be close to zero. The same can be obtained on the command "
 "line using :wladmin:`celery_queues`."
 msgstr ""
+":guilabel:`Fronty Celery` poskytuje prehľad frontov Celery. Tieto by mali "
+"byť zvyčajne blízke nule. To isté je možné získať na príkazovom riadku "
+"pomocou :wladmin:`celery_queues`."
 
 #: admin/admin.rst:44
 msgid ""
@@ -1340,40 +1578,51 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP prostredie` vám umožňuje vidieť HTTP prostredie pozorované "
+"Weblate. Toto je užitočné pri ladení konfigurácie reverzného proxy servera, "
+"pozri :ref:`reverse-proxy`. :guilabel:`HTTP hlavičky` zobrazuje kompletné "
+"hlavičky HTTP požiadaviek na poskytnutie dodatočných informácií."
 
 #: admin/admin.rst:48
 msgid ""
 ":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
 "This needs to be configured in your system, see :ref:`production-encoding`."
 msgstr ""
+":guilabel:`Kódovanie systému` by malo uvádzať kódovanie ``UTF-8`` vo "
+"všetkých procesoch. Toto je potrebné nakonfigurovať vo vašom systéme, pozri "
+":ref:`production-encoding`."
 
 #: admin/admin.rst:51
 msgid ""
 ":guilabel:`Connectivity` shows latencies to the database, cache, and Celery. "
 "This might be useful to diagnose connectivity issues."
 msgstr ""
+":guilabel:`Pripojenie` zobrazuje oneskorenia k databáze, vyrovnávacej pamäti "
+"a Celery. Toto môže byť užitočné na diagnostiku problémov s pripojením."
 
 #: admin/admin.rst:59
 msgid "Appearance customization"
-msgstr ""
+msgstr "Prispôsobenie vzhľadu"
 
 #: admin/admin.rst:65
 msgid ""
 "The colors are currently used in both dark and light theme, so be careful "
 "when choosing them."
 msgstr ""
+"Farby sa v súčasnosti používajú v tmavom aj svetlom motíve, preto buďte pri "
+"ich výbere opatrní."
 
 #: admin/admin.rst:68
 msgid "Colors, fonts, and page appearance can be customized here."
-msgstr ""
+msgstr "Farby, písma a vzhľad stránky je možné tu prispôsobiť."
 
 #: admin/admin.rst:72
 msgid "If you are looking for more customization, see :doc:`/admin/customize`."
-msgstr ""
+msgstr "Ak hľadáte viac možností prispôsobenia, pozri :doc:`/admin/customize`."
 
 #: admin/admin.rst:77
 msgid "The Django admin interface"
-msgstr ""
+msgstr "Administrátorské rozhranie Django"
 
 #: admin/admin.rst:81
 msgid ""
@@ -1381,12 +1630,17 @@ msgid ""
 "most cases as most things are comfortably approachable through Weblate UI or "
 "API."
 msgstr ""
+"Používajte opatrne, pretože ide o nízkoúrovňové rozhranie. Vo väčšine "
+"prípadov by ste ho nemali potrebovať, pretože väčšina vecí je pohodlne "
+"dostupná prostredníctvom používateľského rozhrania alebo API Weblate."
 
 #: admin/admin.rst:84
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
 msgstr ""
+"Tu môžete spravovať objekty uložené v databáze, ako sú používatelia, "
+"preklady a iné nastavenia:"
 
 #: admin/admin.rst:89
 msgid ""
@@ -1394,6 +1648,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"V sekcii :guilabel:`Hlásenia` môžete skontrolovať stav vašej stránky, "
+"upraviť ju pre :ref:`production` alebo spravovať SSH kľúče používané na "
+"prístup k :ref:`vcs-repos`."
 
 #: admin/admin.rst:92
 msgid ""
@@ -1401,16 +1658,21 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"Spravujte objekty databázy v ktorejkoľvek sekcii. Najzaujímavejšia je "
+"pravdepodobne :guilabel:`Weblate translations`, kde môžete spravovať "
+"preložiteľné projekty, pozri :ref:`project` a :ref:`component`."
 
 #: admin/admin.rst:96
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+":guilabel:`Weblate languages` obsahuje definície jazykov, vysvetlené ďalej v "
+":ref:`languages`."
 
 #: admin/admin.rst:100
 msgid "Adding a project"
-msgstr ""
+msgstr "Pridanie projektu"
 
 #: admin/admin.rst:102
 msgid ""
@@ -1418,20 +1680,25 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
+"Pridanie projektu slúži ako kontajner pre všetky komponenty. Zvyčajne "
+"vytvoríte jeden projekt pre jeden kus softvéru alebo knihu (pozri "
+":ref:`project` pre informácie o jednotlivých parametroch):"
 
 #: admin/admin.rst:115
 msgid "Bilingual components"
-msgstr ""
+msgstr "Dvojjazyčné komponenty"
 
 #: admin/admin.rst:117
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Po pridaní projektu je možné doň pridať prekladové komponenty. (Pozri "
+":ref:`component` pre informácie týkajúce sa jednotlivých parametrov):"
 
 #: admin/admin.rst:130
 msgid "Monolingual components"
-msgstr ""
+msgstr "Jednojazyčné komponenty"
 
 #: admin/admin.rst:132
 msgid ""
@@ -1439,6 +1706,9 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Pre jednoduchší preklad týchto poskytnite súbor šablóny obsahujúci mapovanie "
+"ID správ na ich príslušný zdrojový jazyk (zvyčajne angličtina). (Pozri "
+":ref:`component` pre informácie týkajúce sa jednotlivých parametrov):"
 
 #: admin/announcements.rst:2 snippets/permissions.rst:319
 msgid "Announcements"
@@ -1447,92 +1717,106 @@ msgstr "Oznámenia"
 #: admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
 msgstr ""
+"V predchádzajúcich vydaniach sa táto funkcia nazývala odkazy na nástenke."
 
 #: admin/announcements.rst:8
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
 msgstr ""
+"Poskytujte informácie svojim prekladateľom zverejňovaním oznámení, pre celú "
+"stránku, pre projekt, komponent alebo jazyk."
 
 #: admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
-msgstr ""
+msgstr "Oznamujte účel, termíny, stav alebo špecifikujte ciele pre preklad."
 
 #: admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
 msgstr ""
+"Používatelia dostanú upozornenie na oznámenia pre sledované projekty (pokiaľ "
+"sa neodhlásia)."
 
 #: admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
 msgstr ""
+"Toto môže byť užitočné pre rôzne veci, od oznamovania účelu webovej stránky "
+"až po špecifikáciu cieľov pre preklady."
 
 #: admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Operations` "
 "menu, using :guilabel:`Post announcement`:"
 msgstr ""
+"Oznámenia je možné zverejniť na každej úrovni v ponuke :guilabel:`Operácie` "
+"pomocou :guilabel:`Zverejniť oznámenie`:"
 
 #: admin/announcements.rst:21
 msgid ""
 "Image showing an announcement that reads: \"Translations will be used only "
 "if they reach 60%\" atop the dashboard view."
 msgstr ""
+"Obrázok zobrazujúci oznámenie, ktoré znie: \"Preklady budú použité iba, ak "
+"dosiahnu 60 %\" nad pohľadom na nástenku."
 
 #: admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "Dá sa pridať aj pomocou administrátorského rozhrania:"
 
 #: admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "Oznámenia sa potom zobrazujú na základe ich špecifikovaného kontextu:"
 
 #: admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Nie je špecifikovaný žiadny kontext"
 
 #: admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Zobrazené na nástenke (vstupná stránka)."
 
 #: admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Špecifikovaný projekt"
 
 #: admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
 msgstr ""
+"Zobrazené v rámci projektu, vrátane všetkých jeho komponentov a prekladov."
 
 #: admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Špecifikovaný komponent"
 
 #: admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr ""
+msgstr "Zobrazené pre daný komponent a všetky jeho preklady."
 
 #: admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Špecifikovaný jazyk"
 
 #: admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
-msgstr ""
+msgstr "Zobrazené v prehľade jazyka a všetkých prekladoch v tomto jazyku."
 
 #: admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "Takto to vyzerá na stránke prehľadu jazyka:"
 
 #: admin/announcements.rst:49
 msgid ""
 "Image showing an announcement that reads: \"Czech translators rock!\" atop "
 "the Czech language overview."
 msgstr ""
+"Obrázok zobrazujúci oznámenie, ktoré znie: \"Českí prekladatelia sú super!\" "
+"nad prehľadom českého jazyka."
 
 #: admin/auth.rst:2
 msgid "Authentication"
@@ -1549,20 +1833,26 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"Predvolené nastavenie pre Weblate je používať python-social-auth, formulár "
+"na webovej stránke na spracovanie registrácie nových používateľov. Po "
+"potvrdení ich e-mailu môže nový používateľ prispievať alebo sa "
+"autentifikovať pomocou jednej zo služieb tretích strán."
 
 #: admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users "
 "using :setting:`REGISTRATION_OPEN`."
 msgstr ""
+"Registráciu nových používateľov môžete tiež vypnúť pomocou "
+":setting:`REGISTRATION_OPEN`."
 
 #: admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr ""
+msgstr "Pokusu o autentifikáciu podliehajú :ref:`rate-limit`."
 
 #: admin/auth.rst:18
 msgid "Authentication backends"
-msgstr ""
+msgstr "Backendy autentifikácie"
 
 #: admin/auth.rst:20
 msgid ""
@@ -1570,34 +1860,46 @@ msgid ""
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
 msgstr ""
+"Weblate sa spolieha na Django pre autentifikáciu. To zahŕňa vstavanú "
+"autentifikáciu založenú na hesle, sociálnu autentifikáciu a backendy "
+"autentifikácie tretích strán pre Django."
 
 #: admin/auth.rst:24
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"Použitie vstavanej autentifikácie Django znamená, že môžete importovať "
+"databázu používateľov z iných projektov založených na Django (pozri "
+":ref:`pootle-migration`)."
 
 #: admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+":ref:`docker-auth` popisuje, ako konfigurovať autentifikáciu v oficiálnom "
+"obraze Docker."
 
 #: admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Sociálna autentifikácia"
 
 #: admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"Vďaka :doc:`psa:index` podporuje Weblate autentifikáciu pomocou mnohých "
+"služieb tretích strán, ako sú GitLab, Ubuntu, Fedora atď."
 
 #: admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions "
 "in :doc:`psa:configuration/django`."
 msgstr ""
+"Prosím, skontrolujte ich dokumentáciu pre všeobecné pokyny na konfiguráciu v "
+":doc:`psa:configuration/django`."
 
 #: admin/auth.rst:43
 msgid ""
@@ -1606,6 +1908,10 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Predvolene sa Weblate spolieha na služby autentifikácie tretích strán, aby "
+"poskytli overenú e-mailovú adresu. Ak niektoré zo služieb, ktoré chcete "
+"použiť, toto nepodporujú, vynúťte overenie e-mailu na strane Weblate "
+"konfiguráciou FORCE_EMAIL_VALIDATION pre ne. Napríklad:"
 
 #: admin/auth.rst:56
 msgid ""
@@ -1616,6 +1922,12 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
+"Povoľovanie jednotlivých backendov je celkom jednoduché, ide len o pridanie "
+"položky do nastavenia :setting:`django:AUTHENTICATION_BACKENDS` a prípadne "
+"pridanie kľúčov potrebných pre danú metódu autentifikácie. Upozorňujeme, že "
+"niektoré backendy neposkytujú e-mail používateľa predvolene, musíte ho "
+"vyžiadať explicitne, inak Weblate nebude môcť správne pripísať príspevky, "
+"ktoré používatelia vykonajú."
 
 #: admin/auth.rst:64
 msgid ""
@@ -1624,14 +1936,18 @@ msgid ""
 "using :setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the "
 "Docker container."
 msgstr ""
+"Väčšina backendov autentifikácie vyžaduje HTTPS. Keď je HTTPS povolené na "
+"vašom webovom serveri, nakonfigurujte Weblate, aby to správne hlásil pomocou "
+":setting:`ENABLE_HTTPS` alebo pomocou :envvar:`WEBLATE_ENABLE_HTTPS` v "
+"kontajneri Docker."
 
 #: admin/auth.rst:70
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Backend Python Social Auth <psa:backends/index>`"
 
 #: admin/auth.rst:73
 msgid "OpenID authentication"
-msgstr ""
+msgstr "Autentifikácia OpenID"
 
 #: admin/auth.rst:75
 msgid ""
@@ -1639,22 +1955,29 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"Pre služby založené na OpenID je to zvyčajne len otázka ich povolenia. "
+"Nasledujúca sekcia povoľuje autentifikáciu OpenID pre OpenSUSE, Fedoru a "
+"Ubuntu:"
 
 #: admin/auth.rst:96
 msgid "GitHub authentication"
-msgstr ""
+msgstr "Autentifikácia GitHub"
 
 #: admin/auth.rst:98
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
+"Musíte zaregistrovať aplikáciu OAuth na GitHube a potom povedať Weblate "
+"všetky jej tajomstvá:"
 
 #: admin/auth.rst:114
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://WEBLATE "
 "SERVER/accounts/complete/github/``."
 msgstr ""
+"GitHub by mal byť nakonfigurovaný tak, aby mal spätnú URL ako ``https://"
+"WEBLATE SERVER/accounts/complete/github/``."
 
 #: admin/auth.rst:117
 msgid ""
@@ -1665,22 +1988,32 @@ msgid ""
 "Their callback URLs are ``https://WEBLATE SERVER/accounts/complete/github-"
 "org/`` and ``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 msgstr ""
+"Existujú podobné backendy autentifikácie pre GitHub pre Organizácie a GitHub "
+"pre Tímy. Ich nastavenia sa nazývajú ``SOCIAL_AUTH_GITHUB_ORG_*`` a "
+"``SOCIAL_AUTH_GITHUB_TEAM_*`` a vyžadujú si dodatočné nastavenie rozsahu - "
+"``SOCIAL_AUTH_GITHUB_ORG_NAME`` alebo ``SOCIAL_AUTH_GITHUB_TEAM_ID``. Ich "
+"spätné URL sú ``https://WEBLATE SERVER/accounts/complete/github-org/`` a "
+"``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 
 #: admin/auth.rst:133
 msgid "GitHub EE authentication"
-msgstr ""
+msgstr "Autentifikácia GitHub EE"
 
 #: admin/auth.rst:135
 msgid ""
 "You need to register an OAuth App on GitHub EE and then tell Weblate all its "
 "secrets:"
 msgstr ""
+"Musíte zaregistrovať aplikáciu OAuth na GitHub EE a potom povedať Weblate "
+"všetky jej tajomstvá:"
 
 #: admin/auth.rst:153
 msgid ""
 "The GitHub OAuth App should be configured to have callback URL as ``https://"
 "WEBLATE SERVER/accounts/complete/github-enterprise/``."
 msgstr ""
+"Aplikácia GitHub OAuth by mala byť nakonfigurovaná tak, aby mala spätnú URL "
+"ako ``https://WEBLATE SERVER/accounts/complete/github-enterprise/``."
 
 #: admin/auth.rst:156
 msgid ""
@@ -1689,78 +2022,99 @@ msgid ""
 "If you decide to use GitHub App, you need to enable `Access: Read-only` "
 "permission for Users - <Email addresses> and Organisation - <Members>."
 msgstr ""
+"Namiesto aplikácie GitHub OAuth je možné použiť aj aplikáciu GitHub App. S "
+"aplikáciou GitHub App je možné udeľovať oprávnenia na úrovni repozitárov, "
+"organizácie a/alebo používateľa. Ak sa rozhodnete použiť aplikáciu GitHub "
+"App, musíte povoliť oprávnenie `Prístup: Iba na čítanie` pre Používateľov - "
+"<E-mailové adresy> a Organizáciu - <Členovia>."
 
 #: admin/auth.rst:170
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Autentifikácia Bitbucket"
 
 #: admin/auth.rst:172
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"Musíte zaregistrovať aplikáciu na Bitbucket a potom povedať Weblate všetky "
+"jej tajomstvá:"
 
 #: admin/auth.rst:197
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "Google OAuth 2"
 
 #: admin/auth.rst:199
 msgid ""
 "To use Google OAuth 2, you need to register an OAuth application at <https://"
 "console.developers.google.com/>."
 msgstr ""
+"Ak chcete používať Google OAuth 2, musíte zaregistrovať aplikáciu OAuth na "
+"<https://console.developers.google.com/>."
 
 #: admin/auth.rst:202
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``."
 msgstr ""
+"Presmerovacia URL je ``https://WEBLATE SERVER/accounts/complete/google-"
+"oauth2/``."
 
 #: admin/auth.rst:226
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "Facebook OAuth 2"
 
 #: admin/auth.rst:228
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Ako je zvykom pri službách OAuth 2, musíte zaregistrovať svoju aplikáciu na "
+"Facebooku. Keď to urobíte, môžete nastaviť Weblate, aby ju používal:"
 
 #: admin/auth.rst:231
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``."
 msgstr ""
+"Presmerovacia URL je ``https://WEBLATE SERVER/accounts/complete/facebook/``."
 
 #: admin/auth.rst:257
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "GitLab OAuth 2"
 
 #: admin/auth.rst:259
 msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Ak chcete používať GitLab OAuth 2, musíte zaregistrovať aplikáciu na "
+"<https://gitlab.com/profile/applications>."
 
 #: admin/auth.rst:262
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"Presmerovacia URL je ``https://WEBLATE SERVER/accounts/complete/gitlab/`` a "
+"uistite sa, že označíte rozsah `read_user`."
 
 #: admin/auth.rst:291
 msgid "Gitea OAuth 2"
-msgstr ""
+msgstr "Gitea OAuth 2"
 
 #: admin/auth.rst:293
 msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
+"Ak chcete používať Gitea OAuth 2, musíte zaregistrovať aplikáciu na "
+"``https://GITEA SERVER/user/settings/applications``."
 
 #: admin/auth.rst:296
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 msgstr ""
+"Presmerovacia URL je ``https://WEBLATE SERVER/accounts/complete/gitea/``."
 
 #: admin/auth.rst:318
 msgid ""
@@ -1768,10 +2122,13 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <https://"
 "translate.codeberg.org>`_."
 msgstr ""
+"Vyššie uvedená konfigurácia funguje aj s Forgejo; príklad produkčného "
+"nasadenia s Forgejo nájdete na `Codeberg Translate <https://"
+"translate.codeberg.org>`_."
 
 #: admin/auth.rst:330 admin/install/docker.rst:1527
 msgid "Microsoft Entra ID"
-msgstr ""
+msgstr "Microsoft Entra ID"
 
 #: admin/auth.rst:332
 msgid ""
@@ -1780,12 +2137,18 @@ msgid ""
 "compatibility with the underlying Python Social Auth backends and existing "
 "deployments."
 msgstr ""
+"Azure Active Directory (Azure AD) je teraz Microsoft Entra ID. Weblate "
+"ponecháva názvy backendov ``azuread-oauth2`` a ``azuread-tenant-oauth2`` pre "
+"kompatibilitu s podkladovými backendmi Python Social Auth a existujúcimi "
+"nasadeniami."
 
 #: admin/auth.rst:337
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
 msgstr ""
+"Weblate je možné nakonfigurovať na používanie spoločných alebo špecifických "
+"tenantov pre autentifikáciu."
 
 #: admin/auth.rst:339
 msgid ""
@@ -1793,47 +2156,59 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
+"Presmerovacia URL je ``https://WEBLATE SERVER/accounts/complete/azuread-"
+"oauth2/`` pre spoločné a ``https://WEBLATE SERVER/accounts/complete/azuread-"
+"tenant-oauth2/`` pre autentifikáciu špecifickú pre tenanta."
 
 #: admin/auth.rst:343
 msgid "You will need following:"
-msgstr ""
+msgstr "Budete potrebovať nasledujúce:"
 
 #: admin/auth.rst:345
 msgid ""
 "*Application (client) ID* is available on the app registration overview in "
 "the Microsoft Entra admin center. *Object ID* is not used in Weblate."
 msgstr ""
+"*ID aplikácie (klienta)* je k dispozícii v prehľade registrácie aplikácie v "
+"administračnom centre Microsoft Entra. *ID objektu* sa vo Weblate nepoužíva."
 
 #: admin/auth.rst:347
 msgid ""
 "*Directory (tenant) ID* is needed for tenant scoped authentication, what is "
 "usually desired."
 msgstr ""
+"*ID adresára (tenanta)* je potrebné pre autentifikáciu v rozsahu tenanta, čo "
+"je zvyčajne žiaduce."
 
 #: admin/auth.rst:348
 msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
+"*Tajná hodnota* sa zobrazí, keď vytvoríte tajomstvo klienta pre registráciu "
+"aplikácie. *ID tajomstva* sa vo Weblate nepoužíva."
 
 #: admin/auth.rst:393 admin/install/docker.rst:1590
 msgid "Slack"
-msgstr ""
+msgstr "Slack"
 
 #: admin/auth.rst:395
 msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://"
 "api.slack.com/apps>."
 msgstr ""
+"Ak chcete používať Slack OAuth 2, musíte zaregistrovať aplikáciu na <https://"
+"api.slack.com/apps>."
 
 #: admin/auth.rst:398
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgstr ""
+"Presmerovacia URL je ``https://WEBLATE SERVER/accounts/complete/slack/``."
 
 #: admin/auth.rst:421
 msgid "Overriding authentication method names and icons"
-msgstr ""
+msgstr "Prepísanie názvov a ikon metód autentifikácie"
 
 #: admin/auth.rst:423
 msgid ""
@@ -1841,10 +2216,13 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Môžete prepísať zobrazovaný názov a ikonu metódy autentifikácie pomocou "
+"nastavení ako ``SOCIAL_AUTH_<NAME>_IMAGE`` a ``SOCIAL_AUTH_<NAME>_TITLE``. "
+"Napríklad prepísanie pomenovania pre Auth0 by vyzeralo takto:"
 
 #: admin/auth.rst:435
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "Vypnutie autentifikácie heslom"
 
 #: admin/auth.rst:437
 msgid ""
@@ -1854,28 +2232,40 @@ msgid ""
 "``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core "
 "Weblate functionality."
 msgstr ""
+"Autentifikáciu e-mailom a heslom je možné vypnúť odstránením "
+"``social_core.backends.email.EmailAuth`` z "
+":setting:`django:AUTHENTICATION_BACKENDS`. Vždy tam ponechajte "
+"``weblate.accounts.auth.WeblateUserBackend``, je potrebný pre základnú "
+"funkčnosť Weblate."
 
 #: admin/auth.rst:443
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
 msgstr ""
+"Deaktivácia autentifikácie e-mailom deaktivuje všetku funkcionalitu "
+"súvisiacu s e-mailom – pozývanie používateľov alebo funkciu obnovy hesla."
 
 #: admin/auth.rst:448
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
 msgstr ""
+"Stále môžete používať autentifikáciu heslom pre administrátorské rozhranie, "
+"pre používateľov, ktorých tam ručne vytvoríte. Stačí prejsť na ``/admin/"
+"login/``."
 
 #: admin/auth.rst:451
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"Napríklad autentifikáciu iba pomocou poskytovateľa openSUSE Open ID je možné "
+"dosiahnuť pomocou nasledujúceho:"
 
 #: admin/auth.rst:465
 msgid "Password authentication"
-msgstr ""
+msgstr "Autentifikácia heslom"
 
 #: admin/auth.rst:467
 msgid ""
@@ -1884,6 +2274,10 @@ msgid ""
 "passwords are not allowed. You can customize this setting to match your "
 "password policy."
 msgstr ""
+"Predvolený :file:`settings.py` prichádza s rozumnou sadou "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`, ktorá zabezpečuje, že slabé "
+"heslá nie sú povolené. Toto nastavenie môžete prispôsobiť tak, aby "
+"zodpovedalo vašej politike hesiel."
 
 #: admin/auth.rst:471
 msgid ""
@@ -1892,10 +2286,14 @@ msgid ""
 "quite realistic estimates of password difficulty and allows rejecting "
 "passwords below a certain threshold."
 msgstr ""
+"Okrem toho môžete nainštalovať aj `django-zxcvbn-password-validator <https://"
+"github.com/Pierre-Sassoulas/django-zxcvbn-password-validator>`_, ktorý "
+"poskytuje celkom realistické odhady obtiažnosti hesla a umožňuje zamietnuť "
+"heslá pod určitým prahom."
 
 #: admin/auth.rst:486
 msgid "SAML authentication"
-msgstr ""
+msgstr "Autentifikácia SAML"
 
 #: admin/auth.rst:492
 msgid ""
@@ -1903,29 +2301,37 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Závislosti pre autentifikáciu SAML už nie sú súčasťou predvolených extra "
+"balíčkov ``all``. Musíte zahrnúť ``saml`` pri inštalácii balíka Weblate "
+"pomocou pip (``uv pip install Weblate[all,saml]``)."
 
 #: admin/auth.rst:496
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Prosím, dodržte pokyny Python Social Auth pre konfiguráciu. Pozoruhodné "
+"rozdiely:"
 
 #: admin/auth.rst:498
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate podporuje jediný IDP, ktorý sa musí volať ``weblate`` v "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: admin/auth.rst:500
 msgid ""
 "The SAML XML metadata URL is ``/accounts/metadata/saml/``, which is also an "
 "entity ID."
 msgstr ""
+"URL metadát SAML XML je ``/accounts/metadata/saml/``, čo je tiež ID entity."
 
 #: admin/auth.rst:501
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
-msgstr ""
+msgstr "URL prihlásenia je ``/accounts/complete/saml/`` (známe aj ako ACS URL)."
 
 #: admin/auth.rst:502
 msgid ""
@@ -1933,29 +2339,34 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"Nasledujúce nastavenia sa vyplnia automaticky: "
+"``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: admin/auth.rst:506 admin/install/docker.rst:1739
 #: admin/install/docker.rst:1758
 msgid "Example configuration:"
-msgstr ""
+msgstr "Príklad konfigurácie:"
 
 #: admin/auth.rst:544
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Nový pár kľúčov môžete vygenerovať pomocou:"
 
 #: admin/auth.rst:550
 msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IdP to provide them:"
 msgstr ""
+"Predvolená konfigurácia extrahuje podrobnosti o používateľovi z "
+"nasledujúcich atribútov, nakonfigurujte svoj IdP, aby ich poskytoval:"
 
 #: admin/auth.rst:554
 msgid "Attribute"
-msgstr ""
+msgstr "Atribút"
 
 #: admin/auth.rst:554
 msgid "SAML URI reference"
-msgstr ""
+msgstr "Referencia SAML URI"
 
 #: admin/auth.rst:556
 msgid "Full name"
@@ -1963,11 +2374,11 @@ msgstr "Celé meno"
 
 #: admin/auth.rst:558
 msgid "First name"
-msgstr ""
+msgstr "Meno"
 
 #: admin/auth.rst:560
 msgid "Last name"
-msgstr ""
+msgstr "Priezvisko"
 
 #: admin/auth.rst:562 admin/install.rst:1715
 msgid "E-mail"
@@ -1982,12 +2393,17 @@ msgid ""
 "When configuring Weblate SP in your IdP, it is recommended to choose "
 "persistent :guilabel:`Name ID format`."
 msgstr ""
+"Pri konfigurácii Weblate SP vo vašom IdP sa odporúča zvoliť trvalý "
+":guilabel:`Formát ID mena`."
 
 #: admin/auth.rst:572
 msgid ""
 "The example above and the Docker image define an IdP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IdP."
 msgstr ""
+"Vyššie uvedený príklad a obraz Docker definujú IdP s názvom ``weblate``. "
+"Tento reťazec možno budete musieť nakonfigurovať ako :guilabel:`Relay` vo "
+"vašom IdP."
 
 #: admin/auth.rst:577
 msgid ""
@@ -1995,30 +2411,37 @@ msgid ""
 "through the authentication process. This needs to be configured with some "
 "identity providers:"
 msgstr ""
+"Autentifikácia Weblate sa spolieha na parameter ``RelayState``, ktorý sa "
+"prenáša počas procesu autentifikácie. Toto je potrebné nakonfigurovať s "
+"niektorými poskytovateľmi identít:"
 
 #: admin/auth.rst:581
 msgid "`How to Send a Custom RelayState with Okta`_"
-msgstr ""
+msgstr "`Ako odoslať vlastný RelayState s Okta`_"
 
 #: admin/auth.rst:587
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
-msgstr ""
+msgstr ":ref:`Konfigurácia SAML v Dockeri <docker-saml>`"
 
 #: admin/auth.rst:593
 msgid "LDAP authentication"
-msgstr ""
+msgstr "Autentifikácia LDAP"
 
 #: admin/auth.rst:595
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"Autentifikáciu LDAP je najlepšie dosiahnuť pomocou balíka `django-auth-"
+"ldap`. Môžete ho nainštalovať obvyklými spôsobmi:"
 
 #: admin/auth.rst:608
 msgid ""
 "This package is included in the Docker container, see :doc:`/admin/install/"
 "docker`."
 msgstr ""
+"Tento balík je zahrnutý v kontajneri Docker, pozri :doc:`/admin/install/"
+"docker`."
 
 #: admin/auth.rst:612
 msgid ""
@@ -2027,12 +2450,17 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"V module Python LDAP 3.1.0 existujú určité nekompatibility, ktoré vám môžu "
+"brániť v používaní tejto verzie. Ak dostanete chybu `AttributeError: "
+"'module' object has no attribute '_trace_level' <https://github.com/python-"
+"ldap/python-ldap/issues/226>`_, môže pomôcť downgrade python-ldap na 3.0.0."
 
 #: admin/auth.rst:618
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"Keď máte balík nainštalovaný, môžete ho pripojiť k autentifikácii Django:"
 
 #: admin/auth.rst:658
 msgid ""
@@ -2044,29 +2472,40 @@ msgid ""
 "you to sign in using a local admin account, if you have created it (e.g. by "
 "using :wladmin:`createadmin`)."
 msgstr ""
+"Mali by ste odstrániť ``'social_core.backends.email.EmailAuth'`` z "
+"nastavenia :setting:`django:AUTHENTICATION_BACKENDS`, inak budú používatelia "
+"môcť nastaviť svoje heslo vo Weblate a autentifikovať sa pomocou neho. "
+"Ponechanie ``'weblate.accounts.auth.WeblateUserBackend'`` je stále potrebné "
+"na zabezpečenie oprávnení a uľahčenie práce anonymným používateľom. Umožní "
+"vám tiež prihlásiť sa pomocou lokálneho administrátorského účtu, ak ste ho "
+"vytvorili (napr. pomocou :wladmin:`createadmin`)."
 
 #: admin/auth.rst:667
 msgid "Using bind password"
-msgstr ""
+msgstr "Použitie bind hesla"
 
 #: admin/auth.rst:669
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Ak nemôžete použiť priame bind pre autentifikáciu, budete musieť použiť "
+"vyhľadávanie a poskytnúť používateľa na bind pre vyhľadávanie. Napríklad:"
 
 #: admin/auth.rst:684
 msgid "Active Directory integration"
-msgstr ""
+msgstr "Integrácia Active Directory"
 
 #: admin/auth.rst:725
 msgid "CAS authentication"
-msgstr ""
+msgstr "Autentifikácia CAS"
 
 #: admin/auth.rst:727
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
 msgstr ""
+"Autentifikáciu CAS je možné dosiahnuť pomocou balíka, ako je `Django CAS "
+"NG`_."
 
 #: admin/auth.rst:729
 msgid ""
@@ -2074,20 +2513,27 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"Prvým krokom je zverejnenie poľa e-mailu používateľa prostredníctvom CAS. "
+"Toto je potrebné nakonfigurovať na samotnom serveri CAS a vyžaduje, aby ste "
+"používali aspoň CAS v2, pretože CAS v1 vôbec nepodporuje atribúty."
 
 #: admin/auth.rst:733
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"Druhým krokom je aktualizácia Weblate na používanie vášho servera CAS a "
+"atribútov."
 
 #: admin/auth.rst:735
 msgid "To install `Django CAS NG`_:"
-msgstr ""
+msgstr "Na inštaláciu `Django CAS NG`_:"
 
 #: admin/auth.rst:741
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"Keď máte balík nainštalovaný, môžete ho pripojiť k systému autentifikácie "
+"Django úpravou súboru :file:`settings.py`:"
 
 #: admin/auth.rst:759
 msgid ""
@@ -2096,19 +2542,25 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"Nakoniec, na mapovanie poľa e-mailu na objekt používateľa je možné použiť "
+"signál. Aby to fungovalo, musíte importovať signál z balíka `django-cas-ng` "
+"a pripojiť svoj kód k tomuto signálu. Robenie toho v súbore nastavení môže "
+"spôsobiť problémy, preto sa odporúča umiestniť ho:"
 
 #: admin/auth.rst:764
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"Do metódy :py:meth:`django:django.apps.AppConfig.ready` konfigurácie vašej "
+"aplikácie"
 
 #: admin/auth.rst:765
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr ""
+msgstr "Do súboru :file:`urls.py` projektu (keď neexistujú žiadne modely)"
 
 #: admin/auth.rst:783
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "Konfigurácia autentifikácie Django tretích strán"
 
 #: admin/auth.rst:785
 msgid ""
@@ -2116,6 +2568,9 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Všeobecne by mal každý plugin autentifikácie Django fungovať s Weblate. "
+"Stačí dodržiavať pokyny pre plugin, nezabudnite však ponechať nainštalovaný "
+"backend používateľa Weblate."
 
 #: admin/auth.rst:794
 msgid ""
@@ -2123,6 +2578,9 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Inštalácia zvyčajne pozostáva z pridania backendu autentifikácie do "
+":setting:`django:AUTHENTICATION_BACKENDS` a inštalácie aplikácie "
+"autentifikácie (ak nejaká existuje) do :setting:`django:INSTALLED_APPS`:"
 
 #: admin/auth.rst:813
 msgid "Two-factor authentication"
@@ -2138,7 +2596,7 @@ msgstr ""
 
 #: admin/auth.rst:821
 msgid "Weblate supports the following second factors:"
-msgstr ""
+msgstr "Weblate podporuje nasledujúce druhé faktory:"
 
 #: admin/auth.rst:823
 msgid "Security keys (WebAuthn)"
@@ -2146,19 +2604,23 @@ msgstr "Bezpečnostné kľúče (WebAuthn)"
 
 #: admin/auth.rst:824
 msgid "Both, Passkeys and security keys are supported."
-msgstr ""
+msgstr "Podporované sú Passkeys aj bezpečnostné kľúče."
 
 #: admin/auth.rst:826
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Passkeys overujú vašu identitu pomocou dotyku, rozpoznávania tváre, hesla "
+"zariadenia alebo PINu, pretože zahŕňajú overenie používateľa."
 
 #: admin/auth.rst:828
 msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
+"Bezpečnostné kľúče sú poverenia WebAuthn, ktoré sa dajú použiť iba ako druhý "
+"faktor autentifikácie, a tieto iba overujú prítomnosť používateľa."
 
 #: admin/auth.rst:830
 msgid "Authenticator apps (TOTP)"
@@ -2171,6 +2633,10 @@ msgid ""
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
+"Autentifikačné aplikácie a rozšírenia prehliadača, ako sú Aegis, Bitwarden, "
+"Google Authenticator, 1Password, Authy, Microsoft Authenticator atď., "
+"generujú jednorazové heslá založené na čase, ktoré sa používajú ako druhý "
+"faktor na overenie vašej identity, keď ste vyzvaní počas prihlasovania."
 
 #: admin/auth.rst:836
 msgid "Recovery codes"
@@ -2190,12 +2656,18 @@ msgid ""
 "Keep your recovery codes as safe as your password. We recommend saving them "
 "with a password manager such as Bitwarden, 1Password, Authy, or Keeper."
 msgstr ""
+"Svoje obnovovacie kódy uchovávajte rovnako bezpečne ako svoje heslo. "
+"Odporúčame ich ukladať pomocou správcu hesiel, ako je Bitwarden, 1Password, "
+"Authy alebo Keeper."
 
 #: admin/auth.rst:841
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
+"Každý používateľ si to môže nakonfigurovať v :ref:`profile-account` a druhý "
+"faktor bude vyžadovaný na prihlásenie navyše k existujúcej metóde "
+"autentifikácie."
 
 #: admin/auth.rst:844
 msgid ""
@@ -2205,20 +2677,28 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"Toto je možné vynútiť pre používateľov na úrovni projektu (pozri "
+":ref:`project-enforced_2fa`) alebo tímu. Pri nasadeniach pre celú stránku sa "
+"to dá tiež použiť na vynútenie dvojfaktorovej autentifikácie pre všetkých "
+"používateľov povolením v predvolenom tíme :guilabel:`Používatelia`, ktorý je "
+"automaticky priradený novým používateľom pomocou :ref:`automatického "
+"priraďovania tímov <autoteam>`."
 
 #: admin/auth.rst:850
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
 msgstr ""
+"Oprávnenia tímu s vynútenou dvojfaktorovou autentifikáciou sa neuplatnia na "
+"používateľov, ktorí ju nemajú nakonfigurovanú."
 
 #: admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Zálohovanie a presun Weblate"
 
 #: admin/backup.rst:9
 msgid "Project level backups"
-msgstr ""
+msgstr "Zálohy na úrovni projektu"
 
 #: admin/backup.rst:13
 msgid ""
@@ -2226,6 +2706,9 @@ msgid ""
 "components, translations, string comments, suggestions or checks). It is "
 "suitable for transferring a project to another Weblate instance."
 msgstr ""
+"Zálohy projektu zálohujú všetok prekladový obsah z Weblate (projekt, "
+"komponenty, preklady, komentáre k reťazcom, návrhy alebo kontroly). Je "
+"vhodné na prenos projektu do inej inštancie Weblate."
 
 #: admin/backup.rst:17
 msgid ""
@@ -2233,11 +2716,15 @@ msgid ""
 "↓ :guilabel:`Backups`. The backup can be restored when creating a project "
 "(see :ref:`adding-projects`)."
 msgstr ""
+"Zálohu projektu môžete vykonať v :guilabel:`Operácie` ↓ :guilabel:`Zálohy`. "
+"Zálohu je možné obnoviť pri vytváraní projektu (pozri :ref:`adding-projects`)"
+"."
 
 #: admin/backup.rst:21
 msgid ""
 "The backups currently do not include access control information and history."
 msgstr ""
+"Zálohy v súčasnosti nezahŕňajú informácie o riadení prístupu a históriu."
 
 #: admin/backup.rst:23
 msgid ""
@@ -2245,6 +2732,10 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
+"Komentáre a návrhy sú zálohované s používateľským menom používateľa, ktorý "
+"ich vytvoril. Pri importe sa priradia zodpovedajúcemu používateľovi. Ak "
+"neexistuje žiadny používateľ s takým používateľským menom, priradia sa "
+"anonymnému používateľovi."
 
 #: admin/backup.rst:27
 msgid ""
@@ -2253,6 +2744,9 @@ msgid ""
 "and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it defaults to keep at most 3 "
 "backups for 30 days)."
 msgstr ""
+"Vygenerované zálohy sa uchovávajú na serveri podľa konfigurácie "
+":setting:`PROJECT_BACKUP_KEEP_DAYS` a :setting:`PROJECT_BACKUP_KEEP_COUNT` "
+"(predvolene sa uchovávajú najviac 3 zálohy po dobu 30 dní)."
 
 #: admin/backup.rst:31
 msgid ""
@@ -2260,12 +2754,19 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Validácia importu nahraných záloh projektu je možné doladiť pomocou "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, a "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:37
 msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or "
 "in :wladmin:`import_projectbackup`."
 msgstr ""
+"Použite vygenerovaný súbor na import projektu pri :ref:`adding-projects` "
+"alebo v :wladmin:`import_projectbackup`."
 
 #: admin/backup.rst:41
 msgid ""
@@ -2275,10 +2776,14 @@ msgid ""
 "codes could not be processed and you can then add missing language "
 "definitions manually."
 msgstr ""
+"Obnova zálohy môže zlyhať, ak má obnovovací server inú sadu :ref:`languages` "
+"alebo inú konfiguráciu :setting:`SIMPLIFY_LANGUAGES`. Obnova vám povie, "
+"ktoré jazykové kódy nebolo možné spracovať, a potom môžete manuálne pridať "
+"chýbajúce definície jazykov."
 
 #: admin/backup.rst:50
 msgid "Automated backup using BorgBackup"
-msgstr ""
+msgstr "Automatizovaná záloha pomocou BorgBackup"
 
 #: admin/backup.rst:52
 msgid ""
@@ -2287,32 +2792,38 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate má vstavanú podporu pre vytváranie záloh služieb pomocou "
+"`BorgBackup`_. Borg vytvára priestorovo efektívne šifrované zálohy, ktoré je "
+"možné bezpečne ukladať v cloude. Zálohy je možné ovládať v rozhraní na "
+"správu z karty :guilabel:`Zálohy`."
 
 #: admin/backup.rst:59
 msgid "PostgreSQL databases are included in the automated backups."
-msgstr ""
+msgstr "Databázy PostgreSQL sú zahrnuté v automatizovaných zálohách."
 
 #: admin/backup.rst:61
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"Zálohy pomocou Borg sú prírastkové a Weblate je nakonfigurovaný tak, aby "
+"uchovával nasledujúce zálohy:"
 
 #: admin/backup.rst:63
 msgid "Daily backups for 14 days back"
-msgstr ""
+msgstr "Denné zálohy za posledných 14 dní"
 
 #: admin/backup.rst:64
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Týždenné zálohy za posledných 8 týždňov"
 
 #: admin/backup.rst:65
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Mesačné zálohy za posledných 6 mesiacov"
 
 #: admin/backup.rst:72
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Šifrovací kľúč Borg"
 
 #: admin/backup.rst:74
 msgid ""
@@ -2320,28 +2831,36 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ vytvára šifrované zálohy a bez prístupovej frázy by ste ich "
+"nedokázali obnoviť. Prístupová fráza sa generuje pri pridávaní novej "
+"zálohovacej služby a mali by ste ju skopírovať a uchovávať na bezpečnom "
+"mieste."
 
 #: admin/backup.rst:78
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+"Ak používate :ref:`cloudbackup`, zálohujte si aj svoj súkromný SSH kľúč, "
+"pretože sa používa na prístup k vašim zálohám."
 
 #: admin/backup.rst:86
 msgid "Customizing backup"
-msgstr ""
+msgstr "Prispôsobenie zálohy"
 
 #: admin/backup.rst:88
 msgid "The database backup can be configured via :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Záloha databázy je možné nakonfigurovať pomocou :setting:`DATABASE_BACKUP`."
 
 #: admin/backup.rst:89
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
+"Vytváranie zálohy je možné prispôsobiť pomocou :setting:`BORG_EXTRA_ARGS`."
 
 #: admin/backup.rst:94
 msgid "Weblate provisioned backup storage"
-msgstr ""
+msgstr "Úložisko záloh poskytované Weblate"
 
 #: admin/backup.rst:96
 msgid ""
@@ -2349,32 +2868,40 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"Najjednoduchší spôsob zálohovania vašej inštancie Weblate je zakúpenie "
+"`zálohovacej služby na weblate.org <https://weblate.org/support/#backup>`_. "
+"Takto ju spustíte:"
 
 #: admin/backup.rst:100
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
-msgstr ""
+msgstr "Zakúpte si `Zálohovaciu službu` na https://weblate.org/support/#backup."
 
 #: admin/backup.rst:101
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
+"Zadajte získaný kľúč v rozhraní na správu, pozri :ref:`activate-support`."
 
 #: admin/backup.rst:102
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
+"Weblate sa pripojí ku cloudovej službe a získa prístupové informácie pre "
+"zálohy."
 
 #: admin/backup.rst:103
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
-msgstr ""
+msgstr "Zapnite novú konfiguráciu záloh z karty :guilabel:`Zálohy`."
 
 #: admin/backup.rst:104
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, "
 "see :ref:`borg-keys`."
 msgstr ""
+"Zálohujte si poverenia Borg, aby ste mohli obnoviť zálohy, pozri :ref:`borg-"
+"keys`."
 
 #: admin/backup.rst:108
 msgid ""
@@ -2382,10 +2909,13 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"Manuálny krok zapnutia všetkého je tam pre vašu bezpečnosť. Bez vášho "
+"súhlasu sa žiadne údaje neodosielajú do zálohovacieho repozitára získaného "
+"prostredníctvom registračného procesu."
 
 #: admin/backup.rst:115
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Použitie vlastného úložiska záloh"
 
 #: admin/backup.rst:117
 msgid ""
@@ -2393,14 +2923,17 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"Môžete tiež použiť vlastné úložisko pre zálohy. SSH sa dá použiť na "
+"uchovávanie záloh vo vzdialenom cieľovom umiestnení, cieľový server musí mať "
+"nainštalovaný `BorgBackup`_."
 
 #: admin/backup.rst:123
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` v dokumentácii Borg"
 
 #: admin/backup.rst:126
 msgid "Local filesystem"
-msgstr ""
+msgstr "Lokálny súborový systém"
 
 #: admin/backup.rst:128
 msgid ""
@@ -2409,6 +2942,10 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
+"Odporúča sa špecifikovať absolútnu cestu pre lokálnu zálohu, napríklad `/"
+"cesta/k/zálohe`. Adresár musí byť zapisovateľný používateľom, ktorý spúšťa "
+"Weblate (pozri :ref:`file-permissions`). Ak neexistuje, Weblate sa pokúsi ho "
+"vytvoriť, ale potrebuje na to vhodné oprávnenia."
 
 #: admin/backup.rst:135
 msgid ""
@@ -2416,28 +2953,37 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
+"Pri spúšťaní Weblate v Dockeri sa uistite, že umiestnenie zálohy je "
+"exponované ako zväzok z kontajnera Weblate. Inak budú zálohy zahodené "
+"Dockerom po reštartovaní kontajnera, v ktorom sa nachádzajú."
 
 #: admin/backup.rst:139
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
+"Jednou z možností je umiestniť zálohy do existujúceho zväzku, napríklad "
+":file:`/app/data/borgbackup`. Toto je existujúci zväzok v kontajneri."
 
 #: admin/backup.rst:142
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
+"Môžete tiež pridať nový kontajner pre zálohy v súbore Docker Compose, "
+"napríklad pomocou :file:`/borgbackup`:"
 
 #: admin/backup.rst:153
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"Adresár, kde sa budú uchovávať zálohy, musí byť vo vlastníctve UID 1000, "
+"inak Weblate nebude môcť tam zapisovať zálohy."
 
 #: admin/backup.rst:157
 msgid "Remote backups"
-msgstr ""
+msgstr "Vzdialené zálohy"
 
 #: admin/backup.rst:159
 msgid ""
@@ -2445,28 +2991,37 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"Pre vytváranie vzdialených záloh budete musieť nainštalovať `BorgBackup`_ na "
+"iný server, ktorý je dostupný pre vaše nasadenie Weblate cez SSH pomocou SSH "
+"kľúča Weblate:"
 
 #: admin/backup.rst:163
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Pripravte server, kde sa budú uchovávať vaše zálohy."
 
 #: admin/backup.rst:164
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Nainštalujte naň SSH server (získate ho predvolene s väčšinou distribúcií "
+"Linuxu)."
 
 #: admin/backup.rst:165
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Nainštalujte `BorgBackup`_ na tento server; väčšina distribúcií Linuxu má "
+"dostupné balíky (pozri :doc:`borg:installation`)."
 
 #: admin/backup.rst:166
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Vyberte existujúceho používateľa alebo vytvorte nového používateľa, ktorý sa "
+"bude používať na zálohovanie."
 
 #: admin/backup.rst:167
 msgid ""
@@ -2474,6 +3029,9 @@ msgid ""
 "Weblate can SSH to the server without a password (see :ref:`weblate-ssh-"
 "key`)."
 msgstr ""
+"Pridajte SSH kľúč Weblate do súboru `.ssh/authorized_keys` používateľa, aby "
+"sa Weblate mohol pripojiť k serveru cez SSH bez hesla (pozri :ref:`weblate-"
+"ssh-key`)."
 
 #: admin/backup.rst:168
 msgid ""
@@ -2481,54 +3039,71 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Vytvorte adresár zapisovateľný používateľom, kde môže Weblate vzdialene "
+"nastaviť zálohovací repozitár Borg, napríklad v domovskom adresári (t.j. ``/"
+"home/borg/backups``)."
 
 #: admin/backup.rst:169
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/home/borg/backups`` "
 "or ``ssh://user@host:port/home/borg/backups``."
 msgstr ""
+"Nakonfigurujte umiestnenie zálohy vo Weblate ako ``user@host:/home/borg/"
+"backups`` alebo ``ssh://user@host:port/home/borg/backups``."
 
 #: admin/backup.rst:170
 msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI."
 msgstr ""
+"Po povolení sa zálohy budú spúšťať automaticky denne. Zálohu môžete tiež "
+"manuálne spustiť z používateľského rozhrania Weblate."
 
 #: admin/backup.rst:174
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
+":ref:`cloudbackup` vám poskytuje automatizované vzdialené zálohy bez "
+"akejkoľvek námahy."
 
 #: admin/backup.rst:184
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Obnova z BorgBackup"
 
 #: admin/backup.rst:186
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Obnovte prístup k vášmu zálohovaciemu repozitáru a pripravte si prístupovú "
+"frázu zálohy."
 
 #: admin/backup.rst:188
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
-msgstr ""
+msgstr "Vypíšte všetky zálohy na serveri pomocou ``borg list REPOSITORY``."
 
 #: admin/backup.rst:190
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Obnovte požadovanú zálohu do aktuálneho adresára pomocou ``borg extract "
+"REPOSITORY::ARCHIVE``."
 
 #: admin/backup.rst:192
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Obnovte databázu zo SQL dumpu umiestneného v adresári ``backup`` v dátovom "
+"adresári Weblate (pozri :ref:`backup-dumps`)."
 
 #: admin/backup.rst:194
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, "
 "see :ref:`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Skopírujte konfiguráciu Weblate (:file:`backups/settings.py`, pozri "
+":ref:`backup-dumps`) na správne miesto, pozri :ref:`configuration`."
 
 #: admin/backup.rst:197
 msgid ""
@@ -2537,32 +3112,41 @@ msgid ""
 "The :file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Pri použití kontajnera Docker je súbor nastavení už zahrnutý v kontajneri a "
+"mali by ste obnoviť pôvodné premenné prostredia. Súbor "
+":file:`environment.yml` vám s tým môže pomôcť (pozri :ref:`backup-dumps`)."
 
 #: admin/backup.rst:201
 msgid ""
 "Copy the whole restored data dir to the location configured "
 "by :setting:`DATA_DIR`."
 msgstr ""
+"Skopírujte celý obnovený dátový adresár na miesto nakonfigurované pomocou "
+":setting:`DATA_DIR`."
 
 #: admin/backup.rst:204
 msgid ""
 "When using Docker container place the data into the data volume, "
 "see :ref:`docker-volume`."
 msgstr ""
+"Pri použití kontajnera Docker umiestnite dáta do dátového zväzku, pozri "
+":ref:`docker-volume`."
 
 #: admin/backup.rst:207
 msgid ""
 "Please ensure the files have correct ownership and permissions, "
 "see :ref:`file-permissions`."
 msgstr ""
+"Prosím, uistite sa, že súbory majú správne vlastníctvo a oprávnenia, pozri "
+":ref:`file-permissions`."
 
 #: admin/backup.rst:209
 msgid "The Borg session might look like this:"
-msgstr ""
+msgstr "Relácia Borg môže vyzerať takto:"
 
 #: admin/backup.rst:228
 msgid "Restoring Docker based setup"
-msgstr ""
+msgstr "Obnova nastavenia založeného na Dockeri"
 
 #: admin/backup.rst:230
 msgid ""
@@ -2571,6 +3155,10 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Nasledujúce kroky predpokladajú oficiálne nastavenie Docker Compose "
+"používajúce pribalené služby PostgreSQL a Valkey, pozri :doc:`install/"
+"docker`. Ak vaše nasadenie používa externú databázu alebo prispôsobený súbor "
+"Compose, prispôsobte kroky databázy a zväzku tomuto prostrediu."
 
 #: admin/backup.rst:235
 msgid ""
@@ -2579,6 +3167,10 @@ msgid ""
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Začnite s checkoutom Docker Compose zodpovedajúcim obnovenému nasadeniu. "
+"Obnovte svoje pôvodné prepisy Compose, tajomstvá a premenné prostredia. "
+"Súbor :file:`environment.yml` z :ref:`backup-dumps` vám s tým môže pomôcť, "
+"ale neimportuje sa automaticky."
 
 #: admin/backup.rst:240
 msgid ""
@@ -2586,14 +3178,18 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Obnovte archív zálohy pomocou :ref:`restore-borg` alebo rozbaľte svoju "
+"manuálnu zálohu tak, aby boli dostupné dátový adresár Weblate a "
+":file:`backups/database.sql`."
 
 #: admin/backup.rst:244
 msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
+"Zastavte služby, ktoré môžu zapisovať do databázy alebo dátového zväzku:"
 
 #: admin/backup.rst:250
 msgid "Recreate the PostgreSQL volume."
-msgstr ""
+msgstr "Znovu vytvorte zväzok PostgreSQL."
 
 #: admin/backup.rst:258
 msgid ""
@@ -2601,20 +3197,25 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"Názov zväzku závisí od názvu projektu Docker Compose a môže sa líšiť od "
+":file:`weblate-docker_postgres-data`. Skontrolujte svoje nastavenie pred "
+"odstránením akéhokoľvek zväzku."
 
 #: admin/backup.rst:262
 msgid "Start the database service:"
-msgstr ""
+msgstr "Spustite službu databázy:"
 
 #: admin/backup.rst:268
 msgid "Restore the database dump:"
-msgstr ""
+msgstr "Obnovte dump databázy:"
 
 #: admin/backup.rst:274
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Skontrolujte, či názov databázy zodpovedá :envvar:`POSTGRES_DB` a používateľ "
+"zodpovedá :envvar:`POSTGRES_USER` vo vašej konfigurácii Compose."
 
 #: admin/backup.rst:277
 msgid ""
@@ -2622,30 +3223,37 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Obnovte dátový adresár Weblate do dátového zväzku Docker namontovaného ako "
+":file:`/app/data`, pozri :ref:`docker-volume`. Súbory v tomto zväzku musia "
+"byť vo vlastníctve UID 1000, pozri :ref:`file-permissions`."
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Spustite zostávajúce služby a sledujte logy:"
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"Kontajner Weblate vykonáva migrácie databázy pri štarte. Ak tiež "
+"aktualizujete Weblate, postupujte podľa :ref:`upgrading-docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "Obnovte repozitáre po obnove:"
 
 #: admin/backup.rst:308
 msgid "Manual backup"
-msgstr ""
+msgstr "Manuálna záloha"
 
 #: admin/backup.rst:310
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"V závislosti od toho, čo chcete uložiť, zálohujte typ dát, ktoré Weblate "
+"uchováva na každom príslušnom mieste."
 
 #: admin/backup.rst:314
 msgid ""
@@ -2654,24 +3262,30 @@ msgid ""
 "to :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` "
 "or :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Ak vykonávate manuálne zálohy, možno budete chcieť utíšiť varovanie Weblate "
+"o nedostatku záloh pridaním ``weblate.I028`` do "
+":setting:`django:SILENCED_SYSTEM_CHECKS` v :file:`settings.py` alebo "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` pre Docker."
 
 #: admin/backup.rst:324 admin/install.rst:142
 msgid "Database"
-msgstr ""
+msgstr "Databáza"
 
 #: admin/backup.rst:326
 msgid "The actual storage location depends on your database setup."
-msgstr ""
+msgstr "Skutočné umiestnenie úložiska závisí od vášho nastavenia databázy."
 
 #: admin/backup.rst:330
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
+"Databáza je najdôležitejšie úložisko. Nastavte pravidelné zálohy vašej "
+"databázy. Bez databázy sú všetky preklady preč."
 
 #: admin/backup.rst:334
 msgid "Native database backup"
-msgstr ""
+msgstr "Natívna záloha databázy"
 
 #: admin/backup.rst:336
 msgid ""
@@ -2679,6 +3293,9 @@ msgid ""
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
+"Odporúčaný prístup je uložiť dump databázy pomocou natívnych nástrojov "
+"databázy, ako je :program:`pg_dump`. Zvyčajne funguje lepšie ako záloha "
+"Django a obnovuje kompletné tabuľky so všetkými ich dátami."
 
 #: admin/backup.rst:340
 msgid ""
@@ -2687,10 +3304,13 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"Túto zálohu môžete obnoviť v novšej verzii Weblate, vykoná všetky potrebné "
+"migrácie pri spustení :wladmin:`migrate`. Prosím, konzultujte :doc:`upgrade` "
+"pre podrobnejšie informácie o tom, ako aktualizovať medzi verziami."
 
 #: admin/backup.rst:345
 msgid "Django database backup"
-msgstr ""
+msgstr "Záloha databázy Django"
 
 #: admin/backup.rst:347
 msgid ""
@@ -2698,6 +3318,9 @@ msgid ""
 "Django's :djadmin:`django:dumpdata` command. That way the backup is database "
 "agnostic and can be used in case you want to change the database backend."
 msgstr ""
+"Alternatívne môžete zálohovať svoju databázu pomocou príkazu Django "
+":djadmin:`django:dumpdata`. Týmto spôsobom je záloha agnostická voči "
+"databáze a dá sa použiť v prípade, že chcete zmeniť backend databázy."
 
 #: admin/backup.rst:351
 msgid ""
@@ -2707,6 +3330,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
+"Pred obnovou databázy musíte mať spustenú presne tú istú verziu Weblate, na "
+"ktorej bola záloha vytvorená. Je to nevyhnutné, pretože štruktúra databázy "
+"sa medzi vydaniami mení a skončili by ste s poškodením dát nejakým spôsobom. "
+"Po inštalácii tej istej verzie spustite všetky migrácie databázy pomocou "
+":wladmin:`migrate`."
 
 #: admin/backup.rst:357
 msgid ""
@@ -2715,6 +3343,9 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Potom budú niektoré položky už vytvorené v databáze a budete ich mať aj v "
+"zálohe databázy. Odporúčaný prístup je vymazať takéto položky manuálne "
+"pomocou správcovskej konzoly (pozri :ref:`invoke-manage`):"
 
 #: admin/backup.rst:368
 msgid "Files"
@@ -2727,20 +3358,26 @@ msgid ""
 "you don't want. The following sections describe what you should back up and "
 "what you can skip in detail."
 msgstr ""
+"Ak máte dostatok miesta na zálohu, jednoducho zálohujte celý "
+":setting:`DATA_DIR`. Je to bezpečná stávka, aj keď obsahuje niektoré súbory, "
+"ktoré nechcete. Nasledujúce sekcie podrobne opisujú, čo by ste mali "
+"zálohovať a čo môžete vynechať."
 
 #: admin/backup.rst:378
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Dumpované dáta pre zálohy"
 
 #: admin/backup.rst:382
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"Dump prostredia bol pridaný ako :file:`environment.yml`, aby pomohol pri "
+"obnove v prostrediach Docker."
 
 #: admin/backup.rst:385
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "Uložené v :setting:`DATA_DIR` ``/backups``."
 
 #: admin/backup.rst:387
 msgid ""
@@ -2748,39 +3385,48 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate sem dumpuje rôzne dáta a môžete zahrnúť tieto súbory pre "
+"kompletnejšie zálohy. Súbory sa aktualizujú denne (vyžaduje bežiaci server "
+"Celery beats, pozri :ref:`celery`). Momentálne to zahŕňa:"
 
 #: admin/backup.rst:391
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version "
 "in :file:`settings-expanded.py`)."
 msgstr ""
+"Nastavenia Weblate ako :file:`settings.py` (existuje aj rozšírená verzia v "
+":file:`settings-expanded.py`)."
 
 #: admin/backup.rst:392
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr ""
+msgstr "Záloha databázy PostgreSQL ako :file:`database.sql`."
 
 #: admin/backup.rst:393
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Dump prostredia ako :file:`environment.yml`."
 
 #: admin/backup.rst:395
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Zálohy databázy sa predvolene ukladajú ako obyčajný text, ale môžu byť aj "
+"komprimované alebo úplne preskočené pomocou :setting:`DATABASE_BACKUP`."
 
 #: admin/backup.rst:398
 msgid ""
 "To restore the database backup, load it using database tools, for example:"
 msgstr ""
+"Na obnovu zálohy databázy ju načítajte pomocou databázových nástrojov, "
+"napríklad:"
 
 #: admin/backup.rst:405
 msgid "Version control repositories"
-msgstr ""
+msgstr "Repozitáre správy verzií"
 
 #: admin/backup.rst:407
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Uložené v :setting:`DATA_DIR` ``/vcs``."
 
 #: admin/backup.rst:409
 msgid ""
@@ -2791,15 +3437,20 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location with no "
 "data loss."
 msgstr ""
+"Repozitáre správy verzií obsahujú kópiu vašich upstreamových repozitárov so "
+"zmenami Weblate. Ak máte :ref:`component-push_on_commit` povolené pre všetky "
+"vaše prekladové komponenty, všetky zmeny Weblate sú zahrnuté upstream. Nie "
+"je potrebné zálohovať repozitáre na strane Weblate, pretože ich možno znovu "
+"naklonovať z upstreamového umiestnenia bez straty dát."
 
 #: admin/backup.rst:416
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "SSH a GPG kľúče"
 
 #: admin/backup.rst:418
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
-msgstr ""
+msgstr "Uložené v :setting:`DATA_DIR` ``/ssh`` a :setting:`DATA_DIR` ``/home``."
 
 #: admin/backup.rst:420
 msgid ""
@@ -2807,28 +3458,35 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Ak používate SSH alebo GPG kľúče generované Weblate, mali by ste zálohovať "
+"tieto umiestnenia. Inak stratíte súkromné kľúče a budete musieť vygenerovať "
+"nové."
 
 #: admin/backup.rst:424
 msgid ""
 "Generated SSH wrapper scripts are stored in :setting:`CACHE_DIR` and do not "
 "need to be backed up."
 msgstr ""
+"Vygenerované obalové skripty SSH sú uložené v :setting:`CACHE_DIR` a nie je "
+"potrebné ich zálohovať."
 
 #: admin/backup.rst:428
 msgid "User uploaded files"
-msgstr ""
+msgstr "Súbory nahrané používateľom"
 
 #: admin/backup.rst:430
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Uložené v :setting:`DATA_DIR` ``/media``."
 
 #: admin/backup.rst:432
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Mali by ste zálohovať všetky súbory nahrané používateľom (napr. "
+":ref:`screenshots`)."
 
 #: admin/backup.rst:435
 msgid "Celery tasks"
-msgstr ""
+msgstr "Úlohy Celery"
 
 #: admin/backup.rst:437
 msgid ""
@@ -2837,38 +3495,47 @@ msgid ""
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
+"Fronta úloh Celery môže obsahovať niektoré informácie, ale zvyčajne nie je "
+"potrebná pre zálohu. V najhoršom prípade stratíte aktualizácie, ktoré ešte "
+"neboli spracované do prekladovej pamäte. Aj tak sa odporúča vykonať "
+"aktualizáciu fulltextu alebo repozitára po obnove, takže strata týchto "
+"informácií nie je problémom."
 
 #: admin/backup.rst:447
 msgid "Command-line for manual backup"
-msgstr ""
+msgstr "Príkazový riadok pre manuálnu zálohu"
 
 #: admin/backup.rst:449
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
+"Pomocou úlohy cron môžete nastaviť príkaz Bash, ktorý sa bude vykonávať "
+"denne, napríklad:"
 
 #: admin/backup.rst:455
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
 msgstr ""
+"Zoznam priečinkov a súborov môžete upraviť podľa svojich potrieb. Aby ste sa "
+"vyhli ukladaniu prekladovej pamäte (v priečinku záloh), môžete použiť:"
 
 #: admin/backup.rst:462
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Obnova manuálnej zálohy"
 
 #: admin/backup.rst:464
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Obnovte všetky dáta, ktoré ste zálohovali."
 
 #: admin/backup.rst:466
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr ""
+msgstr "Aktualizujte všetky repozitáre pomocou :wladmin:`updategit`."
 
 #: admin/backup.rst:473
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Presun inštalácie Weblate"
 
 #: admin/backup.rst:475
 msgid ""
@@ -2885,29 +3552,35 @@ msgstr ""
 
 #: admin/checks.rst:2 user/checks.rst:2
 msgid "Checks and fixups"
-msgstr ""
+msgstr "Kontroly a opravy"
 
 #: admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Vlastné automatické opravy"
 
 #: admin/checks.rst:9
 msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"Môžete tiež implementovať vlastnú automatickú opravu navyše k štandardným a "
+"zahrnúť ich do :setting:`AUTOFIX_LIST`."
 
 #: admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage; be careful when "
 "writing one."
 msgstr ""
+"Automatické opravy sú mocné, ale môžu tiež spôsobiť škody; buďte opatrní pri "
+"ich písaní."
 
 #: admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"Napríklad nasledujúca automatická oprava by nahradila každý výskyt reťazca "
+"``foo`` v preklade reťazcom ``bar``:"
 
 #: admin/checks.rst:21
 msgid ""
@@ -2917,7 +3590,7 @@ msgstr ""
 
 #: admin/checks.rst:27
 msgid "Customizing behavior using flags"
-msgstr ""
+msgstr "Prispôsobenie správania pomocou príznakov"
 
 #: admin/checks.rst:29
 msgid ""
@@ -2925,44 +3598,52 @@ msgid ""
 "visual feedback to the translators and help them to improve their "
 "translation. The flags are merged from following sources:"
 msgstr ""
+"Správanie Weblate môžete jemne doladiť pomocou príznakov. Príznaky poskytujú "
+"vizuálnu spätnú väzbu prekladateľom a pomáhajú im zlepšiť ich preklad. "
+"Príznaky sa spájajú z nasledujúcich zdrojov:"
 
 #: admin/checks.rst:33
 msgid "Source string additional flags:"
-msgstr ""
+msgstr "Dodatočné príznaky zdrojového reťazca:"
 
 #: admin/checks.rst:35
 msgid ":ref:`additional` describes manual editing."
-msgstr ""
+msgstr ":ref:`additional` opisuje manuálne úpravy."
 
 #: admin/checks.rst:36
 msgid ":ref:`bulk-edit` can be used to apply flags in batch."
-msgstr ""
+msgstr ":ref:`bulk-edit` sa dá použiť na hromadné aplikovanie príznakov."
 
 #: admin/checks.rst:37
 msgid ":ref:`addon-weblate.flags.bulk` add-on can apply flags automatically."
 msgstr ""
+"Doplnok :ref:`addon-weblate.flags.bulk` môže aplikovať príznaky automaticky."
 
 #: admin/checks.rst:39
 msgid "Per-string flags extracted from the file format, see :ref:`formats`."
 msgstr ""
+"Príznaky pre každý reťazec extrahované z formátu súboru, pozri "
+":ref:`formats`."
 
 #: admin/checks.rst:40
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string or when monolingual template editing is turned off)."
 msgstr ""
+"Príznaky prekladu (momentálne iba príznak ``read-only`` pre dvojjazyčný "
+"zdrojový reťazec alebo keď je vypnutá úprava jednojazyčnej šablóny)."
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
-msgstr ""
+msgstr "Príznaky špecifické pre formát súboru."
 
 #: admin/checks.rst:42
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ""
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: admin/checks.rst:43
 msgid ":ref:`project` (:ref:`project-check_flags`)."
-msgstr ""
+msgstr ":ref:`project` (:ref:`project-check_flags`)."
 
 #: admin/checks.rst:45
 msgid ""
@@ -2970,12 +3651,17 @@ msgid ""
 "with colon. You can use quotes to include whitespaces or special characters "
 "in the string. For example:"
 msgstr ""
+"Príznaky sú oddelené čiarkami; ak majú parametre, sú oddelené dvojbodkou. "
+"Môžete použiť úvodzovky na zahrnutie medzier alebo špeciálnych znakov v "
+"reťazci. Napríklad:"
 
 #: admin/checks.rst:53
 msgid ""
 "Both single and double quotes are accepted, special characters are being "
 "escaped using backslash:"
 msgstr ""
+"Akceptujú sa jednoduché aj dvojité úvodzovky, špeciálne znaky sa escapujú "
+"pomocou spätnej lomky:"
 
 #: admin/checks.rst:63
 msgid ""
@@ -2983,12 +3669,16 @@ msgid ""
 "A failing check will be triggered if the string ``### Index`` is translated "
 "as ``# Indice``."
 msgstr ""
+"Na overenie, že prekladatelia nemenia nadpis dokumentu Markdown. Neúspešná "
+"kontrola sa spustí, ak sa reťazec ``### Index`` preloží ako ``# Indice``."
 
 #: admin/checks.rst:70
 msgid ""
 "To ensure that internal links are not being translated (i.e. `[test](../"
 "checks)` does not become `[test](../chequeos)`."
 msgstr ""
+"Na zabezpečenie, že interné odkazy sa neprekladajú (t.j. `[test](../checks)` "
+"sa nestane `[test](../chequeos)`."
 
 #: admin/checks.rst:73
 msgid ""
@@ -2997,16 +3687,22 @@ msgid ""
 "html``, you can add ``discard:safe-html`` to the string flags to skip it for "
 "this particular string."
 msgstr ""
+"Príznaky definované na vyššej úrovni je možné zahodiť pomocou syntaxe "
+"``discard:NAME``. Napríklad, ak je komponent nakonfigurovaný na ``safe-"
+"html``, môžete pridať ``discard:safe-html`` do príznakov reťazca, aby ste ho "
+"preskočili pre tento konkrétny reťazec."
 
 #: admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Tu je zoznam momentálne akceptovaných príznakov:"
 
 #: admin/checks.rst:84
 msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
+"Všeobecne sa pravidlo nazýva ``ignore-*`` pre akúkoľvek kontrolu, používajúc "
+"jej identifikátor, takže to môžete použiť aj pre vaše vlastné kontroly."
 
 #: admin/checks.rst:87
 msgid ""
@@ -3014,10 +3710,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Tieto príznaky sú chápané v nastaveniach :ref:`component`, v nastaveniach "
+"pre každý zdrojový reťazec a v samotnom prekladovom súbore (napríklad v GNU "
+"gettext)."
 
 #: admin/checks.rst:93
 msgid "Location-based flags"
-msgstr ""
+msgstr "Príznaky založené na umiestnení"
 
 #: admin/checks.rst:95
 msgid ""
@@ -3025,22 +3724,29 @@ msgid ""
 "means that certain checks will be automatically enabled depending on where "
 "the string is used."
 msgstr ""
+"Niektoré príznaky sa pridávajú k reťazcom predvolene, na základe ich "
+"umiestnenia. To znamená, že určité kontroly sa automaticky povolia v "
+"závislosti od toho, kde sa reťazec používa."
 
 #: admin/checks.rst:98
 msgid ""
 "``rst-text``: This flag is automatically added to strings in "
 "reStructuredText files, if location extension is ``.rst``."
 msgstr ""
+"``rst-text``: Tento príznak sa automaticky pridáva k reťazcom v súboroch "
+"reStructuredText, ak je prípona umiestnenia ``.rst``."
 
 #: admin/checks.rst:99
 msgid ""
 "``md-text``: This flag is automatically added to strings in Markdown files, "
 "if location extension is ``.md`` or ``.markdown``."
 msgstr ""
+"``md-text``: Tento príznak sa automaticky pridáva k reťazcom v súboroch "
+"Markdown, ak je prípona umiestnenia ``.md`` alebo ``.markdown``."
 
 #: admin/checks.rst:104
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Vynucovanie kontrol"
 
 #: admin/checks.rst:106
 msgid ""
@@ -3048,6 +3754,9 @@ msgid ""
 "editing` (see :ref:`states`). This prevents translators from hiding such "
 "checks."
 msgstr ""
+"Vynútené kontroly nemožno zamietnuť a označia reťazec ako "
+":guilabel:`Potrebuje úpravu` (pozri :ref:`states`). Toto bráni prekladateľom "
+"skrývať takéto kontroly."
 
 #: admin/checks.rst:112
 msgid ""
@@ -3055,6 +3764,9 @@ msgid ""
 "to be turned on by adding the corresponding flag to the string or component "
 "flags."
 msgstr ""
+"Zapnutie vynucovania kontrol ho nezapne automaticky. Niektoré kontroly je "
+"potrebné zapnúť pridaním zodpovedajúceho príznaku k príznakom reťazca alebo "
+"komponentu."
 
 #: admin/checks.rst:116
 msgid ""
@@ -3063,22 +3775,30 @@ msgid ""
 "same` is not recommended because dismissal is sometimes a reasonable "
 "approach in these."
 msgstr ""
+"Najlepšie sa to používa s kontrolami, ktoré môžu spôsobiť vážne problémy, "
+"ako sú kontroly pre :ref:`check-formats`. Použitie pre štýlové kontroly ako "
+":ref:`check-same` sa neodporúča, pretože zamietnutie je niekedy rozumný "
+"prístup v týchto prípadoch."
 
 #: admin/checks.rst:120
 msgid ""
 "The :ref:`project-commit_policy` can then be used to exclude strings needing "
 "editing from being committed to the version control."
 msgstr ""
+":ref:`project-commit_policy` sa potom dá použiť na vylúčenie reťazcov "
+"potrebujúcich úpravu zo zapísania do správy verzií."
 
 #: admin/checks.rst:135
 msgid "Managing fonts"
-msgstr ""
+msgstr "Správa písiem"
 
 #: admin/checks.rst:139
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"Písma nahrané do Weblate sa používajú výlučne na účely kontroly :ref:`check-"
+"max-size`, nemajú vplyv na používateľské rozhranie Weblate."
 
 #: admin/checks.rst:143
 msgid ""
@@ -3086,6 +3806,9 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
+"Kontrola :ref:`check-max-size` používaná na výpočet rozmerov vykresleného "
+"textu potrebuje, aby bolo písmo načítané do Weblate a vybrané pomocou "
+"prekladového príznaku (pozri :ref:`custom-checks`)."
 
 #: admin/checks.rst:147
 msgid ""
@@ -3094,54 +3817,66 @@ msgid ""
 "interface to upload and manage fonts. TrueType or OpenType fonts can be "
 "uploaded, set up font-groups and use those in the check."
 msgstr ""
+"Nástroj na správu písiem Weblate v :guilabel:`Písma` pod ponukou "
+":guilabel:`Operácie` vášho prekladového projektu poskytuje rozhranie na "
+"nahrávanie a správu písiem. Je možné nahrať písma TrueType alebo OpenType, "
+"nastaviť skupiny písiem a použiť ich v kontrole."
 
 #: admin/checks.rst:152
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
+"Skupiny písiem vám umožňujú definovať rôzne písma pre rôzne jazyky, čo je "
+"typicky potrebné pre nelatinské jazyky:"
 
 #: admin/checks.rst:157
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
+"Skupiny písiem sú identifikované podľa názvu, ktorý nemôže obsahovať medzery "
+"alebo špeciálne znaky, aby sa dali ľahko použiť v definícii kontroly:"
 
 #: admin/checks.rst:162
 msgid "Font-family and style is automatically recognized after uploading them:"
-msgstr ""
+msgstr "Rodina písiem a štýl sa automaticky rozpoznajú po ich nahraní:"
 
 #: admin/checks.rst:166
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "Môžete mať načítaných niekoľko písiem do Weblate:"
 
 #: admin/checks.rst:170
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Na použitie písiem na kontrolu dĺžky reťazca mu odovzdajte vhodné príznaky "
+"(pozri :ref:`custom-checks`). Pravdepodobne budete potrebovať nasledujúce:"
 
 #: admin/checks.rst:173
 msgid "``max-size:500`` / ``max-size:300:5``"
-msgstr ""
+msgstr "``max-size:500`` / ``max-size:300:5``"
 
 #: admin/checks.rst:174
 msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of lines "
 "(word wrapping is applied)."
 msgstr ""
+"Definuje maximálnu šírku v pixeloch a voliteľne maximálny počet riadkov "
+"(aplikuje sa zalamovanie slov)."
 
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "Definuje skupinu písiem na použitie špecifikovaním jej identifikátora."
 
 #: admin/checks.rst:178
 msgid "Defines font size in pixels."
-msgstr ""
+msgstr "Definuje veľkosť písma v pixeloch."
 
 #: admin/checks.rst:184
 msgid "Writing own checks"
-msgstr ""
+msgstr "Písanie vlastných kontrol"
 
 #: admin/checks.rst:186
 msgid ""
@@ -3150,24 +3885,30 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Je vstavaný široký rozsah kontrol kvality (pozri :ref:`checks`), hoci "
+"nemusia pokrývať všetko, čo chcete kontrolovať. Zoznam vykonávaných kontrol "
+"je možné upraviť pomocou :setting:`CHECK_LIST` a môžete tiež pridať vlastné "
+"kontroly."
 
 #: admin/checks.rst:190
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "Podtrieda `weblate.checks.Check`"
 
 #: admin/checks.rst:191
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Nastavte niekoľko atribútov."
 
 #: admin/checks.rst:192
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
+"Implementujte buď metódu ``check`` (ak chcete riešiť množné čísla vo svojom "
+"kóde) alebo metódu ``check_single`` (ktorá to urobí za vás)."
 
 #: admin/checks.rst:195
 msgid "Some examples:"
-msgstr ""
+msgstr "Niektoré príklady:"
 
 #: admin/checks.rst:197
 msgid ""
@@ -3177,27 +3918,31 @@ msgstr ""
 
 #: admin/checks.rst:201
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Kontrola, že prekladový text neobsahuje \"foo\""
 
 #: admin/checks.rst:203
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
 msgstr ""
+"Toto je celkom jednoduchá kontrola, ktorá len kontroluje, či v preklade "
+"nechýba reťazec \"foo\"."
 
 #: admin/checks.rst:210
 msgid "Checking that Czech translation text plurals differ"
-msgstr ""
+msgstr "Kontrola, že plurály v českom prekladovom texte sa líšia"
 
 #: admin/checks.rst:212
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
 msgstr ""
+"Kontrola pomocou informácií o jazyku na overenie, že dve formy množného "
+"čísla v češtine nie sú rovnaké."
 
 #: admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr ""
+msgstr "Zoznamy komponentov"
 
 #: admin/componentlists.rst:6
 msgid ""
@@ -3205,12 +3950,15 @@ msgid ""
 "dashboard, from which users can pick one as their default view. "
 "See :ref:`dashboard` to learn more."
 msgstr ""
+"Špecifikujte viacero zoznamov komponentov, ktoré sa objavia ako možnosti na "
+"používateľskej nástenke, z ktorých si používatelia môžu vybrať jeden ako "
+"svoj predvolený pohľad. Viac sa dozviete v :ref:`dashboard`."
 
 #: admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr ""
+msgstr "Pre každý zoznam komponentov prezentovaný na nástenke sa zobrazí stav."
 
 #: admin/componentlists.rst:14
 msgid ""
@@ -3219,22 +3967,31 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"Názvy a obsah zoznamov komponentov je možné špecifikovať v administrátorskom "
+"rozhraní, v sekcii :guilabel:`Zoznamy komponentov`. Každý zoznam komponentov "
+"musí mať názov, ktorý sa zobrazí používateľovi, a slug, ktorý ho "
+"reprezentuje v URL."
 
 #: admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Zmeňte nastavenia nástenky pre anonymných používateľov z administrátorského "
+"rozhrania, čím upravíte, aká nástenka sa zobrazí neautentifikovaným "
+"používateľom."
 
 #: admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Automatické zoznamy komponentov"
 
 #: admin/componentlists.rst:28
 msgid ""
 "Add components to the list automatically based on their slug by "
 "creating :guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Pridávajte komponenty do zoznamu automaticky na základe ich slugu vytvorením "
+"pravidiel :guilabel:`Automatické priradenie zoznamu komponentov`."
 
 #: admin/componentlists.rst:31
 msgid ""
@@ -3242,12 +3999,17 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"Užitočné pre udržiavanie zoznamov komponentov pre veľké inštalácie alebo v "
+"prípade, že chcete mať jeden zoznam komponentov so všetkými komponentmi vo "
+"vašej inštalácii Weblate."
 
 #: admin/componentlists.rst:36
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
+"Vytvorte zoznam komponentov obsahujúci všetky komponenty vašej inštalácie "
+"Weblate."
 
 #: admin/componentlists.rst:38
 msgid ""
@@ -3255,55 +4017,70 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Definujte :guilabel:`Automatické priradenie zoznamu komponentov` s "
+"``^.*$`` ako regulárnym výrazom v poliach projektu aj komponentu, ako je "
+"zobrazené na tomto obrázku:"
 
 #: admin/componentlists.rst:41
 msgid ""
 "Image showing the Weblate administration panel with the above configuration "
 "filled in."
 msgstr ""
+"Obrázok zobrazujúci administračný panel Weblate s vyplnenou vyššie uvedenou "
+"konfiguráciou."
 
 #: admin/config.rst:4 admin/install/kubernetes.rst:26
 #: admin/install/openshift.rst:102 faq.rst:5
 #: snippets/addons-autogenerated.rst:0 snippets/machines-autogenerated.rst:0
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurácia"
 
 #: admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Všetky nastavenia sú uložené v :file:`settings.py` (ako je zvykom pre Django)"
+"."
 
 #: admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
 "WSGI and Celery processes."
 msgstr ""
+"Po zmene ktoréhokoľvek z týchto nastavení musíte reštartovať Weblate — "
+"procesy WSGI aj Celery."
 
 #: admin/config.rst:13
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"V prípade, že je spustený ako ``mod_wsgi``, musíte reštartovať Apache na "
+"znovunačítanie konfigurácie."
 
 #: admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Prosím, skontrolujte aj :doc:`Dokumentáciu Django <django:ref/settings>` pre "
+"parametre konfigurujúce samotné Django."
 
 #: admin/config.rst:26
 msgid ""
 "Configures where contact form sends e-mails. If not configured, e-mail "
 "addresses from :setting:`ADMINS` are used."
 msgstr ""
+"Konfiguruje, kam kontaktný formulár odosiela e-maily. Ak nie je "
+"konfigurovaný, používajú sa e-mailové adresy z :setting:`ADMINS`."
 
 #: admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
-msgstr ""
+msgstr "Nakonfigurujte toto ako zoznam e-mailových adries:"
 
 #: admin/config.rst:48
 msgid "Configures which domains are allowed for fetching assets in Weblate."
-msgstr ""
+msgstr "Konfiguruje, ktoré domény sú povolené na načítanie assetov vo Weblate."
 
 #: admin/config.rst:50
 msgid ""
@@ -3311,6 +4088,10 @@ msgid ""
 "Assets are downloaded once by the Weblate server and stored locally, rather "
 "than being served directly from external domains to users."
 msgstr ""
+"Toto zvyšuje bezpečnosť tým, že zabraňuje načítaniu assetov z "
+"nedôveryhodných zdrojov. Assety sa stiahnu raz serverom Weblate a uložia sa "
+"lokálne, namiesto toho, aby sa servírovali priamo z externých domén "
+"používateľom."
 
 #: admin/config.rst:54
 msgid ""
@@ -3318,6 +4099,9 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
+"Zoznam povolených sa aplikuje na počiatočnú URL a na každý cieľ HTTP "
+"presmerovania predtým, než ho Weblate nasleduje. Presmerovania na hostiteľov "
+"mimo tohto zoznamu povolených sú zamietnuté."
 
 #: admin/config.rst:58
 msgid ""
@@ -3326,48 +4110,59 @@ msgid ""
 "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
 "``static.example.com``)."
 msgstr ""
+"Očakáva sa zoznam názvov hostiteľov/domén. Môžete použiť plne kvalifikované "
+"názvy (napr. ``www.example.com``) alebo predponu s bodkou ako zástupný znak "
+"na zhodu so všetkými subdoménami (napr. ``.example.com`` bude zodpovedať "
+"``cdn.example.com`` alebo ``static.example.com``)."
 
 #: admin/config.rst:62
 msgid "Defaults to ``[\"*\"]``, which allows all domains."
-msgstr ""
+msgstr "Predvolene je ``[\"*\"]``, čo umožňuje všetky domény."
 
 #: admin/config.rst:64
 msgid "**Example**"
-msgstr ""
+msgstr "**Príklad**"
 
 #: admin/config.rst:75
 msgid "This is currently used in the following places:"
-msgstr ""
+msgstr "Momentálne sa to používa na nasledujúcich miestach:"
 
 #: admin/config.rst:77
 msgid "Screenshot uploads, see :ref:`screenshots`"
-msgstr ""
+msgstr "Nahrávania snímok obrazovky, pozri :ref:`screenshots`"
 
 #: admin/config.rst:78
 msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
-msgstr ""
+msgstr "Vzdialené sťahovania HTML pre doplnok :ref:`addon-weblate.cdn.cdnjs`"
 
 #: admin/config.rst:89
 msgid ""
 "Configures which custom machinery domains are explicitly allowed in project-"
 "level machine translation configuration."
 msgstr ""
+"Konfiguruje, ktoré vlastné domény strojového prekladu sú explicitne povolené "
+"v konfigurácii strojového prekladu na úrovni projektu."
 
 #: admin/config.rst:92
 msgid ""
 "This setting applies only to machinery services and does not "
 "affect :setting:`ALLOWED_ASSET_DOMAINS`."
 msgstr ""
+"Toto nastavenie sa vzťahuje iba na služby strojového prekladu a neovplyvňuje "
+":setting:`ALLOWED_ASSET_DOMAINS`."
 
 #: admin/config.rst:95
 msgid ""
 "It expects a list of host/domain names. You can use fully qualified names or "
 "prepend with a period as a wildcard to match all subdomains."
 msgstr ""
+"Očakáva sa zoznam názvov hostiteľov/domén. Môžete použiť plne kvalifikované "
+"názvy alebo predponu s bodkou ako zástupný znak na zhodu so všetkými "
+"subdoménami."
 
 #: admin/config.rst:98
 msgid "Defaults to ``[]``."
-msgstr ""
+msgstr "Predvolene je ``[]``."
 
 #: admin/config.rst:100
 msgid ""
@@ -3380,120 +4175,146 @@ msgid ""
 "hostname validation and does not perform the same local DNS or peer-IP "
 "checks."
 msgstr ""
+"Zoznam povolených ovplyvňuje strojový preklad spravovaný projektom dvoma "
+"spôsobmi: povoľuje nakonfigurovaný koncový bod počas odchádzajúcej validácie "
+"a označuje zodpovedajúce hostiteľov ako dôveryhodných pri rozhodovaní, či sa "
+"môžu používateľovi zobraziť podrobnosti o chybe vzdialeného poskytovateľa "
+"alebo telá odpovedí. Pre priame pripojenia runtime kontroly stále odmietajú "
+"destinácie, ktoré sa prekladajú na súkromné alebo inak neverejné adresy. Keď "
+"sa používa HTTP(S) proxy, runtime validácia sa vráti k validácii názvu "
+"hostiteľa a nevykonáva rovnaké kontroly lokálneho DNS alebo peer-IP."
 
 #: admin/config.rst:115
 msgid ""
 "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgstr ""
+"Konfiguruje limit veľkosti pre načítanie assetov vo Weblate. Predvolene je "
+"10 MB."
 
 #: admin/config.rst:128
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
-msgstr ""
+msgstr "Konfiguruje maximálny počet pre mechanizmus proof-of-work ALTCHA."
 
 #: admin/config.rst:132
 msgid ""
 "`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 msgstr ""
+"`Mechanizmus ALTCHA Proof of Work <https://altcha.org/docs/proof-of-work/>`_"
 
 #: admin/config.rst:139
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "Používateľské meno používateľov, ktorí nie sú prihlásení."
 
 #: admin/config.rst:150
 msgid ""
 "The maximum number of days Weblate will keep audit logs containing "
 "information about the account activity."
 msgstr ""
+"Maximálny počet dní, počas ktorých bude Weblate uchovávať audítorské logy "
+"obsahujúce informácie o aktivite účtu."
 
 #: admin/config.rst:153 admin/config.rst:244
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "Predvolene je 180 dní."
 
 #: admin/config.rst:160
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Maximálny počet neúspešných pokusov o autentifikáciu pred aplikovaním "
+"obmedzenia rýchlosti."
 
 #: admin/config.rst:162
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Momentálne sa to aplikuje na nasledujúcich miestach:"
 
 #: admin/config.rst:164
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Prihlásenie. Vymaže heslo účtu, čím zabráni používateľovi prihlásiť sa bez "
+"vyžiadania nového hesla."
 
 #: admin/config.rst:166
 msgid ""
 "Password reset. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password-reset attempts."
 msgstr ""
+"Obnova hesla. Zabraňuje odoslaniu nových e-mailov, čím sa vyhne spamovaniu "
+"používateľov príliš veľkým počtom pokusov o obnovu hesla."
 
 #: admin/config.rst:169
 msgid "Defaults to 10."
-msgstr ""
+msgstr "Predvolene je 10."
 
 #: admin/config.rst:180
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Aktualizuje všetky repozitáre denne."
 
 #: admin/config.rst:184
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Užitočné, ak nepoužívate :ref:`hooks` na automatickú aktualizáciu "
+"repozitárov Weblate."
 
 #: admin/config.rst:188
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Možnosti zap/vyp existujú navyše k výberu reťazca pre spätnú kompatibilitu."
 
 #: admin/config.rst:190
 msgid "The options are:"
-msgstr ""
+msgstr "Možnosti sú:"
 
 #: admin/config.rst:193
 msgid "No daily updates."
-msgstr ""
+msgstr "Žiadne denné aktualizácie."
 
 #: admin/config.rst:194
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` tiež ``False``"
 
 #: admin/config.rst:195
 msgid "Only update remotes."
-msgstr ""
+msgstr "Aktualizovať iba vzdialené repozitáre."
 
 #: admin/config.rst:196
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` tiež ``True``"
 
 #: admin/config.rst:197
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Aktualizovať vzdialené repozitáre a zlúčiť pracovnú kópiu."
 
 #: admin/config.rst:201
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Toto vyžaduje, aby :ref:`celery` fungoval, a nadobudne účinnosť po jeho "
+"reštartovaní."
 
 #: admin/config.rst:208
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/$"
 "{MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Prefix pre konštrukciu URL avatarov ako: ``${AVATAR_URL_PREFIX}/avatar/$"
+"{MAIL_HASH}?${PARAMS}``. Nasledujúce služby sú známe tým, že fungujú:"
 
 #: admin/config.rst:212
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (predvolené), podľa https://gravatar.com/"
 
 #: admin/config.rst:214
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, podľa https://www.libravatar.org/"
 
 #: admin/config.rst:228
 msgid ""
@@ -3501,73 +4322,83 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
+"Ako dlho je platný autentifikačný token a dočasné heslo z e-mailov na obnovu "
+"hesla. Nastavte v počte sekúnd, predvolene 172800 (2 dni)."
 
 #: admin/config.rst:235
 msgid ""
 "How many days Weblate rejects reusing a previously used password for a user."
 msgstr ""
+"Koľko dní Weblate odmieta opätovné použitie predtým použitého hesla pre "
+"používateľa."
 
 #: admin/config.rst:237
 msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
+"Kontrola je založená na audítorskom logu, :setting:`AUDITLOG_EXPIRY` musí "
+"byť aspoň rovnaké ako toto."
 
 #: admin/config.rst:242
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
-msgstr ""
+msgstr "Zmeny hesla vykonané pred Weblate 2.15 sa v tejto politike nezohľadnia."
 
 #: admin/config.rst:251
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "Zoznam automatických opráv na aplikovanie pri ukladaní reťazca."
 
 #: admin/config.rst:255
 msgid ""
 "Provide a fully-qualified path to the Python class that implements the "
 "autofixer interface."
 msgstr ""
+"Poskytnite plne kvalifikovanú cestu k triede Python, ktorá implementuje "
+"rozhranie autofixera."
 
 #: admin/config.rst:258
 msgid "Available fixes are described at :ref:`autofix`."
-msgstr ""
+msgstr "Dostupné opravy sú opísané v :ref:`autofix`."
 
 #: admin/config.rst:260
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Môžete vybrať, ktoré z nich použiť:"
 
 #: admin/config.rst:282
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Definuje, ako často by sa mali spúšťať zdĺhavé úlohy údržby pre komponent."
 
 #: admin/config.rst:285
 msgid "Right now this controls:"
-msgstr ""
+msgstr "Momentálne to riadi:"
 
 #: admin/config.rst:287
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
-msgstr ""
+msgstr "Doplnok :ref:`addon-weblate.autotranslate.autotranslate`"
 
 #: admin/config.rst:288
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr "Prepočet :doc:`checks`"
 
 #: admin/config.rst:290
 msgid "Possible choices:"
-msgstr ""
+msgstr "Možné voľby:"
 
 #: admin/config.rst:292
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` (toto je predvolené)"
 
 #: admin/config.rst:299
 msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"Zvyšovanie frekvencie sa neodporúča, keď Weblate obsahuje tisíce komponentov."
 
 #: admin/config.rst:309
 msgid ""
@@ -3575,6 +4406,9 @@ msgid ""
 "specified, a built-in list is used (which includes all commonly used "
 "languages, but without country specific variants)."
 msgstr ""
+"Zoznam jazykov, ktoré sa majú ponúknuť používateľom na začatie nového "
+"prekladu. Ak nie je špecifikovaný, používa sa vstavaný zoznam (ktorý zahŕňa "
+"všetky bežne používané jazyky, ale bez variantov špecifických pre krajinu)."
 
 #: admin/config.rst:313
 msgid ""
@@ -3582,30 +4416,40 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
+"Toto obmedzuje iba neprivilegovaných používateľov v pridávaní neželaných "
+"jazykov. Administrátori projektu sú stále prezentovaní s úplným výberom "
+"jazykov definovaných vo Weblate."
 
 #: admin/config.rst:318
 msgid ""
 "This does not define new languages for Weblate — it only filters existing "
 "ones in the database."
 msgstr ""
+"Toto nedefinuje nové jazyky pre Weblate — iba filtruje existujúce v databáze."
 
 #: admin/config.rst:338
 msgid ""
 "You can pass additional arguments to :command:`borg create` when built-in "
 "backups are triggered."
 msgstr ""
+"Môžete odovzdať dodatočné argumenty príkazu :command:`borg create`, keď sa "
+"spustia vstavané zálohy."
 
 #: admin/config.rst:358
 msgid ""
 "Directory where Weblate stores cache files. Defaults to :file:`cache` "
 "subfolder in :setting:`DATA_DIR`."
 msgstr ""
+"Adresár, kde Weblate ukladá súbory vyrovnávacej pamäte. Predvolene je to "
+"priečinok :file:`cache` v :setting:`DATA_DIR`."
 
 #: admin/config.rst:361
 msgid ""
 "Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a "
 "network filesystem."
 msgstr ""
+"Zmeňte toto na lokálny alebo dočasný súborový systém, ak je "
+":setting:`DATA_DIR` na sieťovom súborovom systéme."
 
 #: admin/config.rst:364
 msgid ""
@@ -3613,44 +4457,53 @@ msgid ""
 "so :setting:`CACHE_DIR` needs to be on an executable filesystem "
 "if :setting:`DATA_DIR` is mounted with ``noexec``."
 msgstr ""
+"Weblate tu tiež ukladá vygenerované obalové skripty SSH, takže "
+":setting:`CACHE_DIR` musí byť na spustiteľnom súborovom systéme, ak je "
+":setting:`DATA_DIR` namontovaný s ``noexec``."
 
 #: admin/config.rst:368 admin/config.rst:547
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
+"Kontajner Docker používa na toto samostatný zväzok, pozri :ref:`docker-"
+"volume`."
 
 #: admin/config.rst:370 admin/config.rst:530
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Nasledujúce podadresáre zvyčajne existujú:"
 
 #: admin/config.rst:373
 msgid "Generated SSH wrapper scripts used for VCS access."
-msgstr ""
+msgstr "Vygenerované obalové skripty SSH používané na prístup k VCS."
 
 #: admin/config.rst:375
 msgid ":program:`font-config` cache for :ref:`fonts`."
-msgstr ""
+msgstr "Vyrovnávacia pamäť :program:`font-config` pre :ref:`fonts`."
 
 #: admin/config.rst:377
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr ""
+msgstr "Uložené avatary používateľov, pozri :ref:`avatars`."
 
 #: admin/config.rst:379
 msgid ""
 "Default location for static Django files, specified "
 "by :setting:`django:STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
+"Predvolené umiestnenie pre statické súbory Django, špecifikované pomocou "
+":setting:`django:STATIC_ROOT`. Pozri :ref:`static-files`."
 
 #: admin/config.rst:381
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ""
+msgstr "Trénovacie dáta OCR pre :ref:`screenshots`."
 
 #: admin/config.rst:391
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
 "CSP_FORM_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
+"CSP_FORM_SRC"
 
 #: admin/config.rst:393
 msgid ""
@@ -3658,30 +4511,38 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
+"Prispôsobte hlavičku :http:header:`Content-Security-Policy` pre Weblate. "
+"Hlavička sa generuje automaticky na základe povolených integrácií so "
+"službami tretích strán (Matomo, Google Analytics, Sentry, …)."
 
 #: admin/config.rst:397
 msgid "All these default to an empty list."
-msgstr ""
+msgstr "Všetky tieto majú predvolene prázdny zoznam."
 
 #: admin/config.rst:409
 msgid ""
 "`Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/"
 "HTTP/Guides/CSP>`_"
 msgstr ""
+"`Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/"
+"HTTP/Guides/CSP>`_"
 
 #: admin/config.rst:416
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Zoznam kontrol kvality na vykonanie na preklade."
 
 #: admin/config.rst:420
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Poskytnite plne kvalifikovanú cestu k triede Python implementujúcej "
+"rozhranie kontroly."
 
 #: admin/config.rst:423
 msgid "Adjust the list of checks to include ones relevant to you."
 msgstr ""
+"Upravte zoznam kontrol tak, aby zahŕňal tie, ktoré sú pre vás relevantné."
 
 #: admin/config.rst:425
 msgid ""
@@ -3690,14 +4551,18 @@ msgid ""
 "configuration` so that default values are used. New checks are then carried "
 "out for each new Weblate version."
 msgstr ""
+"Všetky vstavané :ref:`checks` sú predvolene zapnuté, odkiaľ môžete tieto "
+"nastavenia zmeniť. Predvolene sú zakomentované v :ref:`sample-"
+"configuration`, aby sa používali predvolené hodnoty. Nové kontroly sa potom "
+"vykonávajú pre každú novú verziu Weblate."
 
 #: admin/config.rst:429
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Môžete vypnúť všetky kontroly:"
 
 #: admin/config.rst:435
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Môžete zapnúť iba niekoľko:"
 
 #: admin/config.rst:447
 msgid ""
@@ -3705,18 +4570,25 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :wladmin:`updatechecks`."
 msgstr ""
+"Zmena tohto nastavenia ovplyvňuje iba novo zmenené preklady. Existujúce "
+"kontroly budú stále uložené v databáze. Na aplikovanie zmien aj na uložené "
+"preklady spustite :wladmin:`updatechecks`."
 
 #: admin/config.rst:462
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Vymazať komentáre po danom počte dní. Predvolene je ``None``, čo znamená "
+"žiadne mazanie vôbec."
 
 #: admin/config.rst:470
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
+"Počet hodín medzi zapisovaním čakajúcich zmien prostredníctvom úlohy na "
+"pozadí."
 
 #: admin/config.rst:487
 msgid ""
