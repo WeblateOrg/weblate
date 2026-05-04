@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 10:20+0000\n"
+"PO-Revision-Date: 2026-05-04 12:57+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim2005ukr@protonmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -5299,68 +5299,62 @@ msgstr "Типово увімкнено."
 #: admin/config.rst:1142
 msgid "Controls how prominently Weblate exposes its own version."
 msgstr ""
+"Визначає, наскільки помітно Weblate відображає інформацію про свою версію."
 
 #: admin/config.rst:1144 admin/install/docker.rst:779
 #: admin/install/docker.rst:873
-#, fuzzy
-#| msgid "Supported features"
 msgid "Supported values are:"
-msgstr "Підтримувані можливості"
+msgstr "Підтримувані значення:"
 
 #: admin/config.rst:1147
 msgid ""
 "Show the version in shared UI such as the footer and expose it "
 "in :http:get:`/api/metrics/`."
 msgstr ""
+"Відобразити версію в загальному інтерфейсі користувача, наприклад у нижньому "
+"колонтитулі, та надати доступ до неї за адресою :http:get:`/api/metrics/`."
 
 #: admin/config.rst:1151
 msgid ""
 "Hide the version from prominent shared UI, while keeping it discoverable on "
 "the :guilabel:`About` page and in :http:get:`/api/metrics/`."
 msgstr ""
+"Приховати версію з головного інтерфейсу, але залишити її доступною на "
+"сторінці :guilabel:`Про програму` та за адресою :http:get:`/api/metrics/`."
 
 #: admin/config.rst:1155
-#, fuzzy
-#| msgid ""
-#| "Hides version info from unauthenticated users. This also makes all "
-#| "documentation links point to the latest version instead of the "
-#| "documentation matching the currently installed version."
 msgid ""
 "Hide the version from shared UI and :http:get:`/api/metrics/`. This also "
 "makes anonymous documentation links point to the latest documentation "
 "instead of the version matching the installed release."
 msgstr ""
-"Ховає відомості щодо версії від користувачів, які не пройшли розпізнавання. "
-"Це також призведе до того, що усі посилання на документацію вказуватимуть на "
-"документацію із найсвіжішої версії, замість документації відповідної "
-"встановленої версії."
+"Приховати версію у спільному інтерфейсі користувача та за адресою "
+":http:get:`/api/metrics/`. Це також призведе до того, що анонімні посилання "
+"на документацію будуть вести на найновішу версію документації, а не на ту, "
+"що відповідає встановленому випуску."
 
 #: admin/config.rst:1159
-#, fuzzy
-#| msgid ""
-#| "Hiding the version is a recommended security practice in some "
-#| "corporations, does not prevent an attacker from figuring out version by "
-#| "probing behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "but it does not prevent an attacker from inferring the version by probing "
 "behavior."
 msgstr ""
-"Приховування версії є рекомендованим для посилення захисту у деяких "
-"корпораціях, але воно не захистить вас від спроб нападника визначити версію "
-"за зондуванням її поведінки."
+"Приховування версії є рекомендованою практикою безпеки в деяких компаніях, "
+"але це не заважає зловмиснику визначити версію шляхом аналізу поведінки "
+"програми."
 
 #: admin/config.rst:1165
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default is ``show``."
-msgstr "Типове значення: 10."
+msgstr "За замовчуванням встановлено значення ``show``."
 
 #: admin/config.rst:1175
 msgid ""
 "Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to "
 "get the same behavior as ``VERSION_DISPLAY = \"hide\"``."
 msgstr ""
+"Псевдонім сумісності для :setting:`VERSION_DISPLAY`. Встановіть для цього "
+"параметра значення ``True``, щоб отримати ту саму поведінку, що й при "
+"``VERSION_DISPLAY = \"hide\"``."
 
 #: admin/config.rst:1183
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -5621,12 +5615,17 @@ msgid ""
 "URL for password reset when authentication is handled by an external "
 "identity provider, such as LDAP, SAML, or OAuth."
 msgstr ""
+"URL-адреса для скидання пароля, коли автентифікація здійснюється зовнішнім "
+"постачальником ідентифікації, таким як LDAP, SAML або OAuth."
 
 #: admin/config.rst:1507
 msgid ""
 "When set, :guilabel:`Forgot your password?` on the sign-in page links to "
 "this URL instead of Weblate's built-in password reset page."
 msgstr ""
+"Якщо встановити :guilabel:`Забули пароль?` на сторінці входу, посилання буде "
+"вести на цю URL-адресу замість вбудованої сторінки Weblate для скидання "
+"пароля."
 
 #: admin/config.rst:1517
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -5875,16 +5874,12 @@ msgstr ""
 "ввімкнено."
 
 #: admin/config.rst:1805
-#, fuzzy
-#| msgid ""
-#| "Reject using project website and repository browser URLs pointing to non-"
-#| "global IP ranges. On by default."
 msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
 msgstr ""
 "Відхиляти URL-адреси веб-сайтів проєктів та браузерів репозиторіїв, що "
-"вказують на неглобальні діапазони IP-адрес. Увімкнено за замовчуванням."
+"вказують на внутрішні або непублічні адреси. Увімкнено за замовчуванням."
 
 #: admin/config.rst:1823
 msgid ""
@@ -5901,6 +5896,11 @@ msgid ""
 "semantics, so values such as ``hooks.internal.example`` or "
 "``.internal.example`` can be used."
 msgstr ""
+"Визначає імена хостів або домени, на які не поширюється дія параметра "
+":setting:`WEBHOOK_RESTRICT_PRIVATE` при відправленні вихідних веб-хуків. "
+"Записи відповідають семантиці зіставлення хостів у Django, тому можна "
+"використовувати такі значення, як ``hooks.internal.example`` або "
+"``.internal.example``."
 
 #: admin/config.rst:1861
 msgid ""
@@ -5908,6 +5908,9 @@ msgid ""
 "target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Відхиляти URL-адреси веб-хуків, що вказують на внутрішні або непублічні "
+"адреси, якщо цільовий хост не вказано у "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`. Увімкнено за замовчуванням."
 
 #: admin/config.rst:1864
 msgid ""
@@ -5915,6 +5918,9 @@ msgid ""
 "rejected unless they are explicitly included "
 "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr ""
+"Якщо ця опція увімкнена, імена хостів, які не вдається розпізнати під час "
+"перевірки, відхиляються, якщо вони явно не вказані у "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/config.rst:1879
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
@@ -6397,21 +6403,20 @@ msgstr ""
 "прискорюючи прогрес Weblate замість того, щоб вимкнути її."
 
 #: admin/config.rst:2354
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded translation files. "
 "Defaults to 50 MB."
 msgstr ""
-"Налаштовує обмеження розміру для отримання ресурсів у Weblate. За "
-"замовчуванням – 10 МБ."
+"Встановлює максимальний розмір завантажуваних файлів перекладу в байтах. За "
+"замовчуванням — 50 МБ."
 
 #: admin/config.rst:2357
 msgid ""
 "In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`` "
 "environment variable."
 msgstr ""
+"У Docker налаштуйте це за допомогою змінної середовища "
+"``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:2367
 msgid ""
@@ -6475,35 +6480,29 @@ msgstr ""
 "скоригувати :file:`urls.py` так, щоб у ньому містився цей префікс."
 
 #: admin/config.rst:2427
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Defaults to an empty "
-#| "set what does no filtering at all."
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set, "
 "which does no filtering at all."
 msgstr ""
-"Набір хостів, які потрібно дозволити під час налаштування URL-адреси VCS. За "
-"замовчуванням використовується порожній набір, що взагалі не виконує "
-"фільтрацію."
+"Набір хостів, які слід дозволити під час налаштування URL-адреси VCS. За "
+"замовчуванням використовується порожній набір, що означає відсутність будь-"
+"якої фільтрації."
 
 #: admin/config.rst:2430
 msgid ""
 "When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also "
 "exempt from the private-target restriction."
 msgstr ""
+"Якщо встановлено параметр :setting:`VCS_RESTRICT_PRIVATE`, відповідні хости "
+"також звільняються від обмеження щодо приватних цілей."
 
 #: admin/config.rst:2440
-#, fuzzy
-#| msgid ""
-#| "A set of hosts to allow when configuring VCS URL. Only ``https`` and "
-#| "``ssh`` are allowed by default."
 msgid ""
 "A set of URL schemes to allow when configuring VCS URL. Only ``https`` and "
 "``ssh`` are allowed by default."
 msgstr ""
-"Набір хостів, які потрібно дозволити під час налаштування URL-адреси VCS. За "
-"замовчуванням дозволено лише ``https`` та ``ssh``."
+"Набір схем URL-адрес, які слід дозволити під час налаштування URL-адреси "
+"VCS. За замовчуванням дозволено лише ``https`` та ``ssh``."
 
 #: admin/config.rst:2450
 msgid ""
@@ -6511,12 +6510,18 @@ msgid ""
 "unless the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by "
 "default."
 msgstr ""
+"Відхиляти URL-адреси репозиторіїв VCS, що вказують на внутрішні або "
+"непублічні адреси, якщо цільовий хост не вказано у "
+":setting:`VCS_ALLOW_HOSTS`. Увімкнено за замовчуванням."
 
 #: admin/config.rst:2453
 msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Якщо ця опція увімкнена, імена хостів, які не вдається розпізнати під час "
+"перевірки, відхиляються, якщо вони явно не вказані в "
+":setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/config.rst:2463
 msgid ""
@@ -6994,12 +6999,18 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+"У вікні :guilabel:`Обслуговування репозиторію` відображається стан "
+"репозиторію для проекту, компонента або перекладу, а також надається "
+"можливість користувачам із відповідними правами виконувати операції з "
+"обслуговування через інтерфейс користувача."
 
 #: admin/continuous.rst:187
 msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
+"Ці самі дії також можна запустити за допомогою :ref:`api` або, для "
+"підтримуваної підмножини, :ref:`wlc`."
 
 #: admin/continuous.rst:190
 msgid ""
@@ -7007,6 +7018,9 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"Доступність окремих дій залежить від прав доступу, налаштованої системи "
+"контролю версій, наявності налаштування відправки змін, а також від того, чи "
+"можна заблокувати вибраний об’єкт."
 
 #: admin/continuous.rst:197
 msgid "Action"
@@ -7014,221 +7028,227 @@ msgstr "Дія"
 
 #: admin/continuous.rst:198
 msgid "What it does"
-msgstr ""
+msgstr "Що це робить"
 
 #: admin/continuous.rst:199
 msgid "Typical use"
-msgstr ""
+msgstr "Типове застосування"
 
 #: admin/continuous.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Commit`"
-msgstr ":guilabel:`Нетиповий`"
+msgstr ":guilabel:`Коміт`"
 
 #: admin/continuous.rst:202
-#, fuzzy
-#| msgid ""
-#| "Commit any pending changes and merge them into the upstream repository."
 msgid "Commits pending changes stored in Weblate to the local repository."
 msgstr ""
-"Внесіть усі зміни з черги і об'єднайте їх зі змінами в основному сховищі."
+"Записує зміни, що очікують на затвердження та зберігаються у Weblate, до "
+"локального репозиторію."
 
 #: admin/continuous.rst:203
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
+"Перед тим, як виконувати будь-які дії з репозиторієм в інших місцях, слід "
+"застосувати зміни, що очікують на затвердження в Weblate."
 
 #: admin/continuous.rst:205
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Push`"
-msgstr ":guilabel:`Відкритий`"
+msgstr ":guilabel:`Push`"
 
 #: admin/continuous.rst:206
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid "Pushes committed local repository changes to the configured upstream."
-msgstr "Записує внесені зміни до основного сховища системи керування версіями."
+msgstr ""
+"Відправляє зміни, зафіксовані в локальному репозиторії, до налаштованого "
+"вищого репозиторію."
 
 #: admin/continuous.rst:207
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
+"Надсилайте затверджені переклади до основного репозиторію, якщо автоматичне "
+"оновлення вимкнено або затримується."
 
 #: admin/continuous.rst:209
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Update`"
-msgstr ":guilabel:`Приватний`"
+msgstr ":guilabel:`Оновлення`"
 
 #: admin/continuous.rst:210
 msgid ""
 "Fetches upstream changes and integrates them using the component's "
 "configured :ref:`component-merge_style`."
 msgstr ""
+"Завантажує зміни з верхнього рівня та інтегрує їх, використовуючи "
+"налаштований для компонента параметр :ref:`component-merge_style`."
 
 #: admin/continuous.rst:211
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
 msgstr ""
+"Синхронізуйте Weblate з основним репозиторієм за допомогою стандартної "
+"стратегії інтеграції."
 
 #: admin/continuous.rst:213
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with merge`"
-msgstr ":guilabel:`Update the internal repository`"
+msgstr ":guilabel:`Оновлення з об'єднанням`"
 
 #: admin/continuous.rst:214
 msgid "Fetches upstream changes and integrates them with an explicit merge."
 msgstr ""
+"Завантажує зміни з вищих гілок та інтегрує їх за допомогою явного злиття."
 
 #: admin/continuous.rst:215
 msgid "Override the default merge style for a single update."
-msgstr ""
+msgstr "Замінити стиль об'єднання за замовчуванням для одного оновлення."
 
 #: admin/continuous.rst:217
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with rebase`"
-msgstr ":guilabel:`Update the internal repository`"
+msgstr ":guilabel:`Оновити з перебазуванням`"
 
 #: admin/continuous.rst:218
 msgid ""
 "Fetches upstream changes and rebases local Weblate commits on top of "
 "upstream."
 msgstr ""
+"Завантажує зміни з основного репозиторію та перебазує локальні коміти "
+"Weblate на основі цих змін."
 
 #: admin/continuous.rst:219
 msgid "Keep history linear when that matches your workflow."
 msgstr ""
+"Зберігайте лінійну структуру історії, якщо це відповідає вашому робочому "
+"процесу."
 
 #: admin/continuous.rst:221
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr "Об'єднати без швидкого переспрямовування"
+msgstr ":guilabel:`Оновлення з об'єднанням без переходу вперед`"
 
 #: admin/continuous.rst:222
 msgid ""
 "Fetches upstream changes and creates an explicit merge commit even when a "
 "fast-forward would be possible."
 msgstr ""
+"Завантажує зміни з сервера та створює явну коміт злиття, навіть якщо можливе "
+"виконання операції fast-forward."
 
 #: admin/continuous.rst:223
 msgid "Preserve merge commits for auditing or branch-management reasons."
-msgstr ""
+msgstr "Зберігайте коміти злиття для цілей аудиту або управління гілками."
 
 #: admin/continuous.rst:225
-#, fuzzy
-#| msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
 msgid ":guilabel:`Lock` / :guilabel:`Unlock`"
-msgstr ":guilabel:`Скинути` у :guilabel:`Супровід`"
+msgstr ":guilabel:`Заблокувати` / :guilabel:`Розблокувати`"
 
 #: admin/continuous.rst:226
 msgid "Prevents or allows translators to make further changes in Weblate."
-msgstr ""
+msgstr "Забороняє або дозволяє перекладачам вносити подальші зміни в Weblate."
 
 #: admin/continuous.rst:227
-#, fuzzy
-#| msgid "Test pulling changes from your repository into Weblate"
 msgid ""
 "Freeze translation changes while doing repository maintenance outside "
 "Weblate."
-msgstr "Тестування завантаження змін з вашого репозиторію до Weblate"
+msgstr ""
+"Заблокувати зміни перекладу під час обслуговування репозиторію поза Weblate."
 
 #: admin/continuous.rst:229
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and discard`"
-msgstr ":guilabel:`Remove a string`"
+msgstr ":guilabel:`Скинути та видалити`"
 
 #: admin/continuous.rst:230
 msgid ""
 "Resets Weblate's local repository to upstream and discards pending Weblate "
 "changes."
 msgstr ""
+"Скидає локальний репозиторій Weblate до стану вихідного коду та відкидає "
+"зміни Weblate, що знаходяться на розгляді."
 
 #: admin/continuous.rst:231
 msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr ""
+"Використовуйте, коли джерело має замінити стан локального репозиторію "
+"Weblate."
 
 #: admin/continuous.rst:233
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and reapply`"
-msgstr ":guilabel:`Remove a string`"
+msgstr ":guilabel:`Скинути налаштування та застосувати їх знову`"
 
 #: admin/continuous.rst:234
 msgid ""
 "Resets Weblate's local repository to upstream while preserving pending "
 "translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
+"Скидає локальний репозиторій Weblate до стану вихідного коду, зберігаючи при "
+"цьому переклади, що знаходяться в процесі обробки. Див. :ref:`manage-vcs-"
+"reset-reapply`."
 
 #: admin/continuous.rst:235
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
 msgstr ""
+"Відновити дані з розбіжностей в історії, зберігши незавершені переклади "
+"Weblate."
 
 #: admin/continuous.rst:237
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Cleanup`"
-msgstr ":guilabel:`Нетиповий`"
+msgstr ":guilabel:`Очищення`"
 
 #: admin/continuous.rst:238
 msgid ""
 "Removes untracked files and stale branches from the local repository "
 "checkout."
 msgstr ""
+"Видаляє файли, що не відстежуються, та застарілі гілки з локальної копії "
+"репозиторію."
 
 #: admin/continuous.rst:239
 msgid ""
 "Clean up leftover files or stale repository state in Weblate's checkout."
 msgstr ""
+"Очистити залишки файлів або застарілі дані репозиторію у робочій копії "
+"Weblate."
 
 #: admin/continuous.rst:241
-#, fuzzy
-#| msgid ":guilabel:`Private`"
 msgid ":guilabel:`Synchronize`"
-msgstr ":guilabel:`Приватний`"
+msgstr ":guilabel:`Синхронізувати`"
 
 #: admin/continuous.rst:242
 msgid ""
 "Forces Weblate to write all known translations back to the repository files."
-msgstr ""
+msgstr "Змушує Weblate записати всі відомі переклади назад у файли репозиторію."
 
 #: admin/continuous.rst:243
 msgid ""
 "Repair cases where repository files became out of sync with the database "
 "state."
 msgstr ""
+"Виправлення випадків, коли файли репозиторію втратили синхронізацію зі "
+"станом бази даних."
 
 #: admin/continuous.rst:245
-#, fuzzy
-#| msgid ":guilabel:`Resolve comment`"
 msgid ":guilabel:`Rescan`"
-msgstr ":guilabel:`Resolve comment`"
+msgstr ":guilabel:`Повторне сканування`"
 
 #: admin/continuous.rst:246
-#, fuzzy
-#| msgid "Test pulling changes from your repository into Weblate"
 msgid "Re-reads translation files from the local repository into Weblate."
-msgstr "Тестування завантаження змін з вашого репозиторію до Weblate"
+msgstr "Знову завантажує файли перекладу з локального репозиторію в Weblate"
 
 #: admin/continuous.rst:247
 msgid "Import file changes after manual repository work or file creation."
 msgstr ""
+"Імпортувати зміни у файлах після ручної роботи з репозиторієм або створення "
+"файлів."
 
 #: admin/continuous.rst:252
 msgid "Reset and reapply recovery behavior"
-msgstr ""
+msgstr "Скинути та повторно застосувати параметри відновлення"
 
 #: admin/continuous.rst:254
 msgid ""
 "The :guilabel:`Reset and reapply` operation keeps pending translations from "
 "Weblate while resetting the local repository state to match upstream."
 msgstr ""
+"Операція :guilabel:`Скинути та застосувати знову` зберігає переклади з "
+"Weblate, що знаходяться в черзі, та одночасно скидає стан локального "
+"репозиторію, щоб він відповідав стану вихідного коду."
 
 #: admin/continuous.rst:257
 msgid ""
@@ -7236,6 +7256,10 @@ msgid ""
 "files still exist after the reset or when Weblate can create them for the "
 "component, for example using a valid :ref:`component-new_base`."
 msgstr ""
+"Ця операція може відновити переклади, що знаходяться в процесі обробки, лише "
+"в тому випадку, якщо файли мови перекладу все ще існують після скидання "
+"налаштувань або якщо Weblate може створити їх для компонента, наприклад, "
+"використовуючи дійсний параметр :ref:`component-new_base`."
 
 #: admin/continuous.rst:261
 msgid ""
@@ -7243,6 +7267,9 @@ msgid ""
 "its database and reports a recovery error instead of failing later with a "
 "generic parse error."
 msgstr ""
+"Якщо жодна з цих умов не виконується, Weblate зберігає зміни, що очікують на "
+"затвердження, у своїй базі даних і повідомляє про помилку відновлення, "
+"замість того щоб пізніше видавати загальну помилку аналізу."
 
 #: admin/continuous.rst:268
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -7344,21 +7371,23 @@ msgid ""
 "still need to add the Hosted Weblate :guilabel:`weblate` GitHub user as a "
 "collaborator with write access, see :ref:`hosted-push`."
 msgstr ""
+"Якщо ви користуєтеся Hosted Weblate, рекомендується встановити додаток "
+"`Weblate <https://github.com/apps/weblate>`_. Цей додаток надсилає "
+"сповіщення з GitHub до Hosted Weblate, тому вам не потрібно налаштовувати "
+"окремий :guilabel:`Webhook` у GitHub. Однак сам по собі він не надає Hosted "
+"Weblate права на запис у репозиторій. Щоб відправити зміни назад, вам все "
+"одно потрібно додати користувача Hosted Weblate :guilabel:`weblate` у GitHub "
+"як співпрацівника з доступом на запис, див. :ref:`hosted-push`."
 
 #: admin/continuous.rst:311
-#, fuzzy
-#| msgid ""
-#| "To receive notifications on every push to a GitHub repository, add the "
-#| "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as "
-#| "shown on the image below:"
 msgid ""
 "If you are not using the app, add the Weblate Webhook in the repository "
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
-"Щоб отримувати сповіщення щодо кожного запису до сховища GitHub, додайте "
-"вебскрипт Weblate до параметрів сховища (:guilabel:`Webhooks`), як це "
-"показано на наведеному нижче зображенні:"
+"Якщо ви не користуєтеся додатком, додайте веб-хук Weblate в налаштуваннях "
+"репозиторію (:guilabel:`Webhooks`), щоб отримувати сповіщення про кожне "
+"оновлення репозиторію GitHub, як показано на зображенні нижче:"
 
 #: admin/continuous.rst:317
 msgid ""
@@ -7511,19 +7540,10 @@ msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/continuous.rst:421
-#, fuzzy
-#| msgid "Automatically receiving changes from Azure Repos"
 msgid "Automatically receiving changes from Forgejo Repos"
-msgstr "Автоматичне отримання змін зі сховищ Azure"
+msgstr "Автоматичне отримання змін із репозиторіїв Forgejo"
 
 #: admin/continuous.rst:423
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` "
-#| "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/gitea/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/forgejo/`` "
@@ -7531,25 +7551,23 @@ msgid ""
 "hooks/forgejo/``). This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"У Weblate передбачено підтримку вебскриптів Gitea. Додайте :guilabel:`Gitea "
-"Webhook` для події :guilabel:`Push events` із адресою призначення ``/hooks/"
-"gitea/`` у встановленому вами Weblate (наприклад, ``https://"
-"hosted.weblate.org/hooks/gitea/``). Зробити це можна за допомогою "
-"пункту :guilabel:`Webhooks` у розділі :guilabel:`Settings` сховища."
+"Weblate підтримує веб-хуки Forgejo. Додайте :guilabel:`Forgejo Webhook` для "
+"події :guilabel:`Push events` із призначенням на URL-адресу ``/hooks/forgejo/"
+"`` у вашій інсталяції Weblate (наприклад, ``https://hosted.weblate.org/hooks/"
+"forgejo/``). Це можна зробити в :guilabel:`Веб-хуки` у розділі "
+":guilabel:`Налаштування` репозиторію."
 
 #: admin/continuous.rst:430
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/"
 "webhooks/>`_"
-msgstr "`Вебхуки в інструкції Gitea <https://docs.gitea.io/en-us/webhooks/>`_"
+msgstr ""
+"`Веб-хуки в документації Forgejo <https://forgejo.org/docs/latest/user/"
+"webhooks/>`_"
 
 #: admin/continuous.rst:431
-#, fuzzy
-#| msgid ":http:post:`/hooks/azure/`"
 msgid ":http:post:`/hooks/forgejo/`"
-msgstr ":http:post:`/hooks/azure/`"
+msgstr ":http:post:`/hooks/forgejo/`"
 
 #: admin/continuous.rst:437
 msgid "Automatically receiving changes from Gitee Repos"
@@ -10778,10 +10796,8 @@ msgid "Development version Weblate from Git"
 msgstr "Версії Weblate у розробці з Git"
 
 #: admin/install/docker.rst:92
-#, fuzzy
-#| msgid "Rollling updates to test upcoming Weblate features"
 msgid "Rolling updates to test upcoming Weblate features"
-msgstr "Оновлення-накладки для тестування новітніх можливостей Weblate"
+msgstr "Поступові оновлення для тестування майбутніх функцій Weblate"
 
 #: admin/install/docker.rst:94
 msgid "Well defined deploy to test upcoming Weblate features"
@@ -10995,6 +11011,10 @@ msgid ""
 "common older setup mounted the database volume at ``/var/lib/postgresql/"
 "data``, while PostgreSQL 18 now uses ``/var/lib/postgresql`` by default."
 msgstr ""
+"У PostgreSQL 18 було змінено каталог даних за замовчуванням усередині "
+"контейнера. У типовій старій конфігурації том бази даних підключався до "
+"каталогу ``/var/lib/postgresql/data``, тоді як у PostgreSQL 18 за "
+"замовчуванням тепер використовується каталог ``/var/lib/postgresql``."
 
 #: admin/install/docker.rst:272
 msgid ""
@@ -11002,18 +11022,26 @@ msgid ""
 "in your Docker configuration to the new path, or keep the old mount target "
 "and set ``PGDATA`` accordingly."
 msgstr ""
+"Якщо ви оновлюєте систему з попередньої версії, або змініть у конфігурації "
+"Docker цільовий каталог монтування на новий шлях, або залиште старий "
+"цільовий каталог монтування та відповідно налаштуйте змінну ``PGDATA``."
 
 #: admin/install/docker.rst:276
 msgid ""
 "Leaving the old mount target unchanged without setting ``PGDATA`` can cause "
 "PostgreSQL to write its data outside the persisted volume."
 msgstr ""
+"Якщо залишити стару цільову точку монтування без змін, не встановивши "
+"параметр ``PGDATA``, це може призвести до того, що PostgreSQL записуватиме "
+"свої дані за межами постійного тома."
 
 #: admin/install/docker.rst:279
 msgid ""
 "See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for "
 "more information."
 msgstr ""
+"Докладнішу інформацію див. у документації до `PGDATA <https://hub.docker.com/"
+"_/postgres#pgdata>`_."
 
 #: admin/install/docker.rst:282
 msgid ""
@@ -11343,14 +11371,11 @@ msgstr ""
 "пароля."
 
 #: admin/install/docker.rst:596
-#, fuzzy
-#| msgid ""
-#| "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgid ""
 "Whether to send e-mail to admins upon server error. Turned on by default."
 msgstr ""
-"Чи надсилати електронного листа адміністраторам при помилці сервера. "
-"Увімкнено за замовчуванням."
+"Чи надсилати адміністраторам повідомлення електронною поштою у разі помилки "
+"сервера. Увімкнено за замовчуванням."
 
 #: admin/install/docker.rst:598
 msgid ""
@@ -11426,16 +11451,12 @@ msgid "Defaults to enabled."
 msgstr "За замовчуванням увімкнено."
 
 #: admin/install/docker.rst:720
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
-msgstr "Налаштовує :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Налаштовує :setting:`WEBHOOK_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:728
-#, fuzzy
-#| msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
 msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
-msgstr "Налаштовує :setting:`VCS_ALLOW_HOSTS`."
+msgstr "Налаштовує :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:732
 msgid ""
@@ -11480,20 +11501,24 @@ msgstr ""
 #: admin/install/docker.rst:777
 msgid "Controls whether the bundled NGINX listens on IPv6 addresses."
 msgstr ""
+"Визначає, чи буде вбудований сервер NGINX слухати запити на IPv6-адресах."
 
 #: admin/install/docker.rst:781
 msgid ""
 "``auto`` to enable IPv6 listeners only when IPv6 is available in the "
 "container runtime. This is the default."
 msgstr ""
+"``auto``, щоб увімкнути IPv6-приймачі лише в тому випадку, якщо IPv6 "
+"доступний у середовищі виконання контейнера. Це значення встановлено за "
+"замовчуванням."
 
 #: admin/install/docker.rst:783
 msgid "``on`` to always enable IPv6 listeners."
-msgstr ""
+msgstr "``on``, щоб завжди вмикати IPv6-приймачі."
 
 #: admin/install/docker.rst:784
 msgid "``off`` to disable IPv6 listeners."
-msgstr ""
+msgstr "``off``, щоб вимкнути IPv6-приймачі."
 
 #: admin/install/docker.rst:795
 msgid ""
@@ -11580,12 +11605,18 @@ msgid ""
 "Enables the :ref:`legal` module in Docker deployments. By default, the "
 "integration is disabled; leave this variable unset or empty to disable it."
 msgstr ""
+"Увімкнення модуля :ref:`legal` у розгортаннях Docker. За замовчуванням "
+"інтеграція вимкнена; щоб вимкнути її, залиште цю змінну невизначеною або "
+"порожньою."
 
 #: admin/install/docker.rst:875
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce terms of service "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
+"``tos-confirm`` — для увімкнення модуля юридичних питань та забезпечення "
+"підтвердження згоди з умовами надання послуг під час аутентифікації через "
+"соціальні мережі та для зареєстрованих користувачів."
 
 #: admin/install/docker.rst:877
 msgid ""
@@ -11593,6 +11624,10 @@ msgid ""
 "legal document templates from ``wllegal``. These templates are used by "
 "services operated by Weblate s.r.o. and are not intended for general use."
 msgstr ""
+"``wllegal``, щоб увімкнути цю інтеграцію та додатково завантажити розміщені "
+"шаблони юридичних документів із ``wllegal``. Ці шаблони використовуються "
+"сервісами, що належать компанії Weblate s.r.o., і не призначені для "
+"загального користування."
 
 #: admin/install/docker.rst:882
 msgid ""
@@ -11600,6 +11635,9 @@ msgid ""
 "in :file:`/app/data/python/customize/templates/legal/documents`, "
 "see :ref:`docker-static-override`."
 msgstr ""
+"Щоб використовувати власні юридичні документи в Docker, перезапишіть шаблони "
+"в каталозі :file:`/app/data/python/customize/templates/legal/documents`; "
+"див. :ref:`docker-static-override`."
 
 #: admin/install/docker.rst:900
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -11698,14 +11736,11 @@ msgstr ""
 "див. :setting:`URL_PREFIX`."
 
 #: admin/install/docker.rst:981
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
 msgid ""
 "Configures URL prefix for static files served from :setting:`CACHE_DIR`."
 msgstr ""
-"Налаштовує префікс URL-адреси для сервера статичних файлів "
-"з :setting:`CACHE_DIR`."
+"Налаштовує префікс URL-адреси для статичних файлів, що подаються з "
+":setting:`CACHE_DIR`."
 
 #: admin/install/docker.rst:985
 msgid ""
@@ -11733,10 +11768,8 @@ msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgstr "Налаштовує :setting:`WEBSITE_REQUIRED`."
 
 #: admin/install/docker.rst:1021
-#, fuzzy
-#| msgid "Configures :setting:`VCS_API_DELAY`."
 msgid "Configures :setting:`VERSION_DISPLAY`."
-msgstr "Налаштовує :setting:`VCS_API_DELAY`."
+msgstr "Налаштовує :setting:`VERSION_DISPLAY`."
 
 #: admin/install/docker.rst:1025
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -11844,10 +11877,8 @@ msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
 msgstr "Налаштовує :setting:`VCS_ALLOW_SCHEMES`."
 
 #: admin/install/docker.rst:1181
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
-msgstr "Налаштовує :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Налаштовує :setting:`VCS_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:1187
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
@@ -12097,28 +12128,22 @@ msgid "Enables Gitea authentication."
 msgstr "Вмикає розпізнавання за допомогою Gitea."
 
 #: admin/install/docker.rst:1532
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Microsoft Entra ID authentication, see :ref:`entra-auth`."
-msgstr "Вмикає розпізнавання за допомогою Slack, див. :ref:`slack-auth`."
+msgstr ""
+"Увімкнути аутентифікацію за допомогою Microsoft Entra ID, див.: :ref:`entra-"
+"auth`."
 
 #: admin/install/docker.rst:1535
-#, fuzzy
-#| msgid "Azure Active Directory with Tenant support"
 msgid "Microsoft Entra ID with Tenant support"
-msgstr "Azure Active Directory із підтримкою Tenant"
+msgstr "Microsoft Entra ID з підтримкою орендарів"
 
 #: admin/install/docker.rst:1541
-#, fuzzy
-#| msgid ""
-#| "Enables Azure Active Directory authentication with Tenant support, "
-#| "see :ref:`azure-auth`."
 msgid ""
 "Enables Microsoft Entra ID authentication with Tenant support, "
 "see :ref:`entra-auth`."
 msgstr ""
-"Вмикає розпізнавання за даними Active Directory в Azure із підтримкою "
-"Tenant, див. :ref:`azure-auth`."
+"Увімкнути аутентифікацію Microsoft Entra ID із підтримкою орендарів, див.: "
+":ref:`entra-auth`."
 
 #: admin/install/docker.rst:1545
 msgid "Keycloak"
@@ -12133,6 +12158,8 @@ msgid ""
 "Configures which claim is used as the unique user identifier from Keycloak. "
 "Defaults to ``email``."
 msgstr ""
+"Визначає, яке поле використовується як унікальний ідентифікатор користувача "
+"з Keycloak. За замовчуванням встановлено значення ``email``."
 
 #: admin/install/docker.rst:1567
 msgid ""
@@ -12495,10 +12522,8 @@ msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Налаштовує :setting:`PRIVACY_URL`."
 
 #: admin/install/docker.rst:1979
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`PASSWORD_RESET_URL`."
-msgstr "Налаштовує :setting:`STATUS_URL`."
+msgstr "Налаштовує :setting:`PASSWORD_RESET_URL`."
 
 #: admin/install/docker.rst:1984
 msgid ""
@@ -15092,6 +15117,10 @@ msgid ""
 "contributing/documentation` workflow and the ``make -C docs update-docs`` "
 "targets."
 msgstr ""
+"Для використання опції ``--output`` необхідно вказати саме одне значення в "
+"параметрі ``--sections``, щоб кожен згенерований фрагмент записувався в "
+"окремий файл. Це відповідає робочому процесу, описаному в :doc:`/"
+"contributing/documentation`, та цілям ``make -C docs update-docs``."
 
 #: admin/management.rst:770
 msgid ""
@@ -15470,24 +15499,17 @@ msgid "Translation memory status"
 msgstr "Стан памʼяті перекладу"
 
 #: admin/memory.rst:79
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, stale and "
-#| "obsolete entries with pending status are automatically removed when a "
-#| "translation is approved."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
 "penalty applied. If :ref:`autoclean-tm` is enabled, matching pending entries "
 "are removed when a translation becomes active."
 msgstr ""
-"Записи в пам’яті перекладів можуть мати два різні статуси: **активний** та "
-"**очікує**. Записи, що очікують на розгляд, включаються до пропозицій, але "
-"із застосуванням штрафу за якість. Якщо увімкнено :ref:`autoclean-tm`, "
-"застарілі та неактуальні записи зі статусом очікування автоматично "
-"видаляються після затвердження перекладу."
+"Записи в пам'яті перекладів можуть мати два різних статуси: **активний** та "
+"**у стані очікування**. Записи у стані очікування включаються до списку "
+"пропозицій, але з пониженням оцінки якості. Якщо увімкнено :ref:`autoclean-"
+"tm`, відповідні записи у стані очікування видаляються, коли переклад стає "
+"активним."
 
 #: admin/memory.rst:87 admin/projects.rst:199
 msgid "Autoclean translation memory"
@@ -15498,18 +15520,24 @@ msgid ""
 "When enabled for a project, Weblate replaces older automatically created "
 "translation memory entries when a translation becomes active:"
 msgstr ""
+"Якщо для проекту ввімкнено цю функцію, Weblate замінює старі записи в "
+"пам’яті перекладів, створені автоматично, коли переклад стає активним:"
 
 #: admin/memory.rst:94
 msgid ""
 "With :ref:`project-translation_review` enabled, cleanup happens when the "
 "translation is approved."
 msgstr ""
+"Якщо увімкнено :ref:`project-translation_review`, очищення відбувається "
+"після затвердження перекладу."
 
 #: admin/memory.rst:96
 msgid ""
 "Without review, cleanup happens as soon as the translation reaches the "
 "translated state."
 msgstr ""
+"Без перевірки очищення відбувається, щойно переклад набуває статусу «"
+"перекладений»."
 
 #: admin/memory.rst:99
 msgid ""
@@ -15520,12 +15548,20 @@ msgid ""
 "translation is then stored again as an active entry in the scopes that are "
 "enabled for that change."
 msgstr ""
+"Для одного й того самого вихідного рядка, компонента, контексту та пари «"
+"джерельна/цільова мова» Weblate видаляє з пам’яті перекладів збіжні записи, "
+"що не є файлами, включаючи записи з іншим цільовим текстом. Це стосується "
+"особистих, проектних та спільних областей пам’яті перекладів. Потім поточний "
+"переклад знову зберігається як активний запис в областях, увімкнених для "
+"цієї зміни."
 
 #: admin/memory.rst:105
 msgid ""
 "Entries imported from external translation memory files are not cleaned up "
 "automatically. Entries with a different context are kept."
 msgstr ""
+"Записи, імпортовані із зовнішніх файлів пам’яті перекладів, не видаляються "
+"автоматично. Записи з іншим контекстом зберігаються."
 
 #: admin/memory.rst:108
 msgid ""
@@ -15558,24 +15594,33 @@ msgstr "Інтерфейс користувача"
 msgid ""
 "Translation memory can be managed from several places in the Weblate UI:"
 msgstr ""
+"Управління пам'яттю перекладів можна здійснювати з кількох місць у "
+"інтерфейсі Weblate:"
 
 #: admin/memory.rst:130
 msgid ""
 "Open the user menu and choose :guilabel:`Translation memory` to manage your "
 "personal translation memory."
 msgstr ""
+"Відкрийте меню користувача та виберіть :guilabel:`Пам'ять перекладів`, щоб "
+"керувати своєю особистою пам'яттю перекладів."
 
 #: admin/memory.rst:132
 msgid ""
 "Open a project and choose :guilabel:`Translation memory` from the project "
 "menu to manage translation memory for that project."
 msgstr ""
+"Відкрийте проект і виберіть у меню проекту пункт :guilabel:`Пам'ять "
+"перекладів`, щоб керувати пам'яттю перекладів для цього проекту."
 
 #: admin/memory.rst:134
 msgid ""
 "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` to "
 "manage uploaded translation memory for the whole Weblate instance."
 msgstr ""
+"Відкрийте :guilabel:`Адміністрування` та виберіть :guilabel:`Пам'ять "
+"перекладів`, щоб керувати завантаженою пам'яттю перекладів для всього "
+"екземпляра Weblate."
 
 #: admin/memory.rst:137
 msgid ""
@@ -15586,6 +15631,12 @@ msgid ""
 "rebuild translation memory for the whole project or for individual "
 "components from the current translations."
 msgstr ""
+"На сторінці пам'яті перекладів відображається кількість записів для вибраної "
+"області. Залежно від області, записи також сортуються за джерелом, "
+"компонентом або мовною парою. Записи зі списку можна завантажити у форматі "
+"JSON або TMX. Користувачі з відповідними правами можуть видаляти записи, а в "
+"режимі перегляду проекту можна перекомпілювати пам'ять перекладів для всього "
+"проекту або окремих компонентів на основі наявних перекладів."
 
 #: admin/memory.rst:144
 msgid ""
@@ -15593,31 +15644,36 @@ msgid ""
 "translation memory are enabled for the project, with a link to the project "
 "workflow settings when the user can edit the project."
 msgstr ""
+"У вікні проекту також відображається інформація про те, чи ввімкнено для "
+"проекту спільну пам'ять перекладів та функцію автоматичного очищення пам'яті "
+"перекладів, а також посилання на налаштування робочого процесу проекту, якщо "
+"користувач має право на редагування проекту."
 
 #: admin/memory.rst:148
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are stored in the selected scope:"
 msgstr ""
+"Файли пам'яті перекладів можна імпортувати на цій же сторінці. Завантажені "
+"файли зберігаються у вибраній області:"
 
 #: admin/memory.rst:151
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid "Personal uploads are available in your personal translation memory."
-msgstr "Імпортує файл до пам’яті перекладів Weblate."
+msgstr "Особисті завантаження доступні у вашій особистій пам'яті перекладів."
 
 #: admin/memory.rst:152
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid ""
 "Project uploads are available in the selected project's translation memory."
-msgstr "Імпортує файл до пам’яті перекладів Weblate."
+msgstr ""
+"Завантажені матеріали проекту доступні в пам'яті перекладів обраного проекту."
 
 #: admin/memory.rst:153
 msgid ""
 "Administration uploads are available as uploaded shared entries for the "
 "whole Weblate instance."
 msgstr ""
+"Administration uploads are available as uploaded shared entries for the "
+"whole Weblate instance."
 
 #: admin/memory.rst:157
 #, fuzzy
