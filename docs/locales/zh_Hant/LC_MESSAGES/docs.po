@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 11:08+0000\n"
+"PO-Revision-Date: 2026-05-04 12:57+0000\n"
 "Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -1252,10 +1252,13 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"如果要以不太公開的方式使用Web2，即僅允許新使用者才能以邀請函式為基礎，可以通"
-"過配置Weblate以這樣的方式來完成，即只有已知使用者可以存取它。為此，您可以設"
-"定：設定：`registration_open`到`false``以防止任何新使用者的註冊，並設定："
-"`carect_login`以要求登入存取所有網站頁面。這基本上是鎖定Web2安裝的方法。"
+"If you want to use your Weblate installation in a less public manner, i.e. "
+"allow new users on an invitational basis only, it can be done by configuring "
+"Weblate in such a way that only known users have an access to it. In order "
+"to do so, you can set :setting:`REGISTRATION_OPEN` to ``False`` to prevent "
+"registrations of any new users, and set :setting:`REQUIRE_LOGIN` to ``True`` "
+"to require signing in to access all the site pages. This is basically the "
+"way to lock your Weblate installation."
 
 #: admin/access.rst:583
 msgid ""
@@ -17869,8 +17872,9 @@ msgid ""
 "other Weblate instances and communities. Users can browse registered sites "
 "and find projects to contribute to on https://weblate.org/discover/."
 msgstr ""
-"Discover Web2Rate是一個選項服務，使使用者更容易尋找WebLate伺服器和社群。使用"
-"者可以在<https://weblate.org/discover/>上瀏覽註冊服務，並尋找有專案貢獻。"
+"*Discover* is an opt-in service making it easier for translators to find "
+"other Weblate instances and communities. Users can browse registered sites "
+"and find projects to contribute to on https://weblate.org/discover/."
 
 #: admin/support.rst:96
 msgid "Getting listed"
@@ -21679,7 +21683,7 @@ msgstr ""
 #, fuzzy
 #| msgid "The Weblate Client is also available as a Docker image."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Web2用戶端也可作為Docker Image提供。"
+msgstr "Weblate用戶端也可作為Docker Image提供。"
 
 #: changes.rst:857
 #, fuzzy
@@ -23987,7 +23991,7 @@ msgstr ""
 #, fuzzy
 #| msgid "The Weblate Client is also available as a Docker image."
 msgid "Weblate is now available in Tamil."
-msgstr "Web2用戶端也可作為Docker Image提供。"
+msgstr "Weblate用戶端也可作為Docker Image提供。"
 
 #: changes.rst:1870
 #, fuzzy
@@ -37654,8 +37658,8 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
 "and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
-"此功能在託管的Weblate上配置。它需要在安裝時進行額外的配置，"
-"見 :setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。"
+"此功能在Hosted Weblate上配置。它需要在安裝時進行額外的配置，見 "
+":setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。"
 
 #: devel/html.rst:15
 msgid ""
@@ -41627,10 +41631,13 @@ msgstr ""
 "All_About_Descriptions_Graphics_and_Screenshots/>`_"
 
 #: formats/appstore.rst:13
+#, fuzzy
 msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
-msgstr "詮釋資料由多個TextFile組成，Web2將作為單獨的字串呈現要轉換。"
+msgstr ""
+"The metadata consists of several textfiles, which Weblate will present as "
+"separate strings to translate."
 
 #: formats/appstore.rst:18
 #, fuzzy
@@ -46143,7 +46150,7 @@ msgstr ""
 
 #: security/threat-model.rst:242
 msgid "**Secure development practices:**"
-msgstr ""
+msgstr "**安全開發實踐：**"
 
 #: security/threat-model.rst:243
 msgid "Code reviews with a security focus."
@@ -46165,7 +46172,7 @@ msgstr ""
 
 #: security/threat-model.rst:247
 msgid "**Error handling:**"
-msgstr ""
+msgstr "**錯誤處理：**"
 
 #: security/threat-model.rst:248
 msgid ""
@@ -46173,14 +46180,12 @@ msgid ""
 msgstr ""
 
 #: security/us-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "US controls compliance"
-msgstr "翻譯合規性"
+msgstr "美國出口管制遵守"
 
 #: security/us-compliance.rst:7
 msgid "ITAR and other export controls"
-msgstr "itar和其他出口管制"
+msgstr "ITAR 與其他出口管制"
 
 #: security/us-compliance.rst:9
 msgid ""
@@ -46197,26 +46202,21 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
-"託管的Weblate服務尚未遵守符合ITAR或其他出口管制，目前尚未提供限制國家/地區存"
-"取權限的能力。"
+"Hosted Weblate 服務尚未遵守符合 ITAR 或其他出口管制，目前尚未提供限制國家/地"
+"區存取權限的能力。"
 
 #: security/us-compliance.rst:18
 msgid "US encryption controls"
 msgstr "美國加密技術管制"
 
 #: security/us-compliance.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate does not contain any cryptographic code, but might be subject "
-#| "export controls as it uses third party components utilizing cryptography "
-#| "for authentication, data-integrity and -confidentiality."
 msgid ""
 "Weblate does not contain any cryptographic code, but might be subject to "
 "export controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
-"Web2Rate不包含任何加密代碼，但可能是使用使用加密，資料Integrity和-"
-"Confidentiality使用加密的第三方組件的主題匯出控件。"
+"Weblate 不包含任何加密程式碼，但由於它使用了第三方元件，而這些元件在驗證、資"
+"料完整性與機密性方面運用了加密技術，因此可能會受到出口管制的影響。"
 
 #: security/us-compliance.rst:24
 msgid ""
@@ -46283,7 +46283,7 @@ msgstr ""
 msgid ""
 "Software components used by Weblate (listing only components related to "
 "cryptographic function):"
-msgstr "Web2使用的軟體組件（僅列出與加密功能相關的組件）："
+msgstr "Weblate 使用的軟體組件（僅列出與加密功能相關的組件）："
 
 #: security/us-compliance.rst:60
 msgid "`Python <https://www.python.org/>`_"
@@ -56410,8 +56410,8 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, "
 "see :ref:`componentlists`."
 msgstr ""
-"此外，DROP-DOWN還可以顯示Web2管理員預先配置的任何數量的*組件清單*，請參"
-"閱 :ref:`componentlists`。"
+"此外，DROP-DOWN還可以顯示Weblate管理員預先配置的任何數量的*組件清單*，請參閱 "
+":ref:`componentlists`。"
 
 #: user/profile.rst:47
 #, fuzzy
@@ -58197,7 +58197,7 @@ msgstr "兩種操作模式是可能的："
 
 #: user/translating.rst:391
 msgid "Using other Weblate components as a source for translations."
-msgstr "使用其他Web2個組件作為翻譯的來源。"
+msgstr "使用其他 Weblate 組件作為翻譯來源。"
 
 #: user/translating.rst:392
 msgid ""
@@ -58844,9 +58844,10 @@ msgid ""
 "This way linked components use the VCS repository configuration of the main "
 "(referenced) component."
 msgstr ""
-"通過引用其放置在不同組件之間共享一個儲存庫設定，作為其他（連結）組件"
-"的“Web2：// Project / Component``”這種方式連結組件使用 Main（參考）組件的 "
-"VCS 儲存庫配置。"
+"Share one repository setup between different components by referring to its "
+"placement as ``weblate://project/component`` in other (linked) components. "
+"This way linked components use the VCS repository configuration of the main "
+"(referenced) component."
 
 #: vcs.rst:277
 msgid "Removing main component also removes linked components."
