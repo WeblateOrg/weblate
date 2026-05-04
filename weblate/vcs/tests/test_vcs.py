@@ -1450,6 +1450,27 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
     @responses.activate
+    def test_push_reconfigures_stale_fork_remote(self) -> None:
+        self.repo.config_update(
+            ('remote "test"', "pushurl", "git@github.com:test/test.git")
+        )
+
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+            )
+
+            super().test_push("")
+
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
+        )
+        self.assertEqual(
+            self.repo.get_config("remote.test.pushURL"), "git@gitea.io:test/test.git"
+        )
+
+    @responses.activate
     def test_pull_request_error(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request

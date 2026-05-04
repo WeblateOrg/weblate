@@ -9,6 +9,8 @@ Weblate 2026.5
 
 .. rubric:: Bug fixes
 
+* Merge request pushes now refresh stale fork remotes after changing repository hosting.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
