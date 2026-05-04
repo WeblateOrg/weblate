@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-04 14:07+0000\n"
+"PO-Revision-Date: 2026-05-04 19:26+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -744,7 +744,7 @@ msgstr "Jazyk rozhrania"
 
 #: weblate/accounts/models.py:682
 msgid "Translated languages"
-msgstr "Preložené jazyky"
+msgstr "Prekladané jazyky"
 
 #: weblate/accounts/models.py:685
 msgid ""
@@ -1690,7 +1690,7 @@ msgstr "Obnoviť repozitár na upstream"
 
 #: weblate/addons/cleanup.py:132
 msgid "Discards all changes in the Weblate repository each night."
-msgstr "Zahodí všetky zmeny v repozitári Weblate každú noc."
+msgstr "Každú noc zahodí všetky zmeny v repozitári Weblate."
 
 #: weblate/addons/consistency.py:91
 msgid "Add missing languages"
@@ -1781,11 +1781,12 @@ msgstr "Fedora Messaging"
 
 #: weblate/addons/fedora_messaging.py:34
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
-msgstr "Odosiela notifikácie do AMQP výmeny kompatibilnej s Fedorou Messaging."
+msgstr ""
+"Odosielanie notifikácií do výmeny AMQP kompatibilnej s Fedora Messaging."
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Označiť nové zdrojové reťazce ako \"Vyžaduje kontrolu\""
+msgstr "Označiť nové zdrojové reťazce ako „Vyžaduje kontrolu“"
 
 #: weblate/addons/flags.py:53
 msgid ""
@@ -1793,13 +1794,13 @@ msgid ""
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Vždy, keď je nový zdrojový reťazec importovaný z VCS, je označený ako "
-"vyžadujúci kontrolu v Weblate. Týmto spôsobom môžete ľahko filtrovať a "
-"upravovať zdrojové reťazce napísané vývojármi."
+"Vždy, keď je nový zdrojový reťazec importovaný zo systému správy verzií (VCS)"
+", je vo Weblate označený ako vyžadujúci kontrolu. Týmto spôsobom môžete "
+"ľahko filtrovať a upravovať zdrojové reťazce napísané vývojármi."
 
 #: weblate/addons/flags.py:72
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Označiť nové preklady ako \"Vyžaduje prepísanie\""
+msgstr "Označiť nové preklady ako „Vyžaduje prepísanie“"
 
 #: weblate/addons/flags.py:74
 msgid ""
@@ -1807,13 +1808,13 @@ msgid ""
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Vždy, keď je nový prekladateľný reťazec importovaný z VCS, je označený ako "
-"vyžadujúci prepísanie v Weblate. Týmto spôsobom môžete ľahko filtrovať a "
-"upravovať preklady vytvorené vývojármi."
+"Vždy, keď je nový prekladateľný reťazec importovaný zo systému správy verzií "
+"(VCS), je vo Weblate označený ako vyžadujúci prepísanie. Týmto spôsobom "
+"môžete ľahko filtrovať a upravovať preklady vytvorené vývojármi."
 
 #: weblate/addons/flags.py:90
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Označiť nezmenené preklady ako \"Vyžaduje prepísanie\""
+msgstr "Označiť nezmenené preklady ako „Vyžaduje prepísanie“"
 
 #: weblate/addons/flags.py:92
 msgid ""
@@ -1821,10 +1822,10 @@ msgid ""
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Vždy, keď je nový prekladateľný reťazec importovaný z VCS a zhoduje sa so "
-"zdrojovým reťazcom, je označený ako vyžadujúci prepísanie v Weblate. "
-"Obzvlášť užitočné pre formáty súborov, ktoré obsahujú zdrojové reťazce pre "
-"nepreložené reťazce."
+"Vždy, keď je nový prekladateľný reťazec importovaný zo systému správy verzií "
+"(VCS) a zhoduje sa so zdrojovým reťazcom, je vo Weblate označený ako "
+"vyžadujúci prepísanie. Obzvlášť užitočné pre formáty súborov, ktoré obsahujú "
+"zdrojové reťazce pre nepreložené reťazce."
 
 #: weblate/addons/flags.py:113 weblate/templates/category-language.html:53
 #: weblate/templates/category-language.html:136
@@ -1843,8 +1844,7 @@ msgstr "Hromadná úprava príznakov, štítkov alebo stavov reťazcov."
 
 #: weblate/addons/flags.py:145
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr ""
-"Označiť aktualizované preklady z repozitára ako \"Vyžaduje prepísanie\""
+msgstr "Označiť aktualizované preklady z repozitára ako „Vyžaduje prepísanie“"
 
 #: weblate/addons/flags.py:148
 msgid ""
@@ -1852,17 +1852,17 @@ msgid ""
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"Vždy, keď je preklad reťazca zmenený z VCS, je označený ako vyžadujúci "
-"prepísanie v Weblate. Obzvlášť užitočné, ak sa súbory prekladov často "
-"aktualizujú manuálne alebo externou službou."
+"Vždy, keď je preklad reťazca zmenený zo systému správy verzií (VCS), je vo "
+"Weblate označený ako vyžadujúci prepísanie. Obzvlášť užitočné, ak sa súbory "
+"prekladov často aktualizujú manuálne alebo externou službou."
 
 #: weblate/addons/forms.py:100
 msgid "Path of generated MO file"
-msgstr "Cesta vygenerovaného MO súboru"
+msgstr "Cesta vygenerovaného súboru MO"
 
 #: weblate/addons/forms.py:104
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Ak nie je špecifikované, použije sa umiestnenie PO súboru."
+msgstr "Ak nie je špecifikovaná, použije sa umiestnenie súboru PO."
 
 #: weblate/addons/forms.py:108
 msgid "Include strings needing editing"
@@ -1882,11 +1882,11 @@ msgstr "Frekvencia aktualizácie"
 
 #: weblate/addons/forms.py:139
 msgid "Daily"
-msgstr "Denná"
+msgstr "Denne"
 
 #: weblate/addons/forms.py:140
 msgid "Weekly"
-msgstr "Týždenná"
+msgstr "Týždenne"
 
 #: weblate/addons/forms.py:141
 msgid "Monthly"
@@ -1896,7 +1896,8 @@ msgstr "Mesačne"
 msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
-msgstr "Často by mal doplnok aktualizovať POT súbor, keď sa komponent obnoví."
+msgstr ""
+"Ako často by mal doplnok aktualizovať súbor POT pri obnovení komponentu."
 
 #: weblate/addons/forms.py:150
 msgid "Normalize POT header"
@@ -1904,7 +1905,7 @@ msgstr "Normalizovať hlavičku POT"
 
 #: weblate/addons/forms.py:154
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr "Aktualizuje hlavičky gettext a nahrádza zástupné komentáre POT."
+msgstr "Aktualizuje hlavičky gettextu a nahrádza zástupné komentáre POT."
 
 #: weblate/addons/forms.py:158
 msgid "Update PO files using msgmerge"
@@ -1939,8 +1940,8 @@ msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
-"Vyberte, či by xgettext nemal extrahovať žiadne komentáre, všetky komentáre, "
-"alebo iba komentáre označené konkrétnym tagom."
+"Vyberte, či má xgettext extrahovať žiadne komentáre, všetky komentáre alebo "
+"iba komentáre označené konkrétnym tagom."
 
 #: weblate/addons/forms.py:209
 msgid "Comment tag"
@@ -1950,7 +1951,8 @@ msgstr "Tag komentára"
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
-"Tag odovzdaný xgettext pre extrakciu komentárov pri použití režimu s tagmi."
+"Tag odovzdaný xgettextu na extrakciu komentárov pri použití režimu "
+"komentárov s tagmi."
 
 #: weblate/addons/forms.py:217
 msgid "xgettext checks"
@@ -1958,8 +1960,7 @@ msgstr "Kontroly xgettext"
 
 #: weblate/addons/forms.py:222
 msgid "Additional xgettext validation checks to enable for extracted messages."
-msgstr ""
-"Ďalšie kontrolné overenie xgettext na povolenie pre extrahované správy."
+msgstr "Ďalšie validačné kontroly xgettext na povolenie pre extrahované správy."
 
 #: weblate/addons/forms.py:226
 msgid "Additional keyword"
@@ -1967,7 +1968,7 @@ msgstr "Ďalšie kľúčové slovo"
 
 #: weblate/addons/forms.py:229
 msgid "Optional extra keyword passed to xgettext using --keyword."
-msgstr "Voliteľné extra kľúčové slovo odovzdané xgettext pomocou --keyword."
+msgstr "Voliteľné extra kľúčové slovo odovzdané xgettextu pomocou --keyword."
 
 #: weblate/addons/forms.py:258 weblate/addons/forms.py:349
 #: weblate/addons/forms.py:356
@@ -1976,7 +1977,7 @@ msgstr "Toto pole je povinné."
 
 #: weblate/addons/forms.py:268
 msgid "Input source"
-msgstr "Zdroj vstupu"
+msgstr "Vstupný zdroj"
 
 #: weblate/addons/forms.py:270 weblate/addons/forms.py:289
 msgid "Source file patterns"
@@ -1991,8 +1992,8 @@ msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
-"Vyberte, či by xgettext mal čítať zdrojové súbory z globálnych vzorov alebo "
-"z manifestu POTFILES/POTFILES.in."
+"Vyberte, či má xgettext čítať zdrojové súbory z globálnych vzorov alebo z "
+"manifestu POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:281
 msgid "xgettext language"
@@ -2000,15 +2001,15 @@ msgstr "Jazyk xgettext"
 
 #: weblate/addons/forms.py:285
 msgid "Programming language passed to xgettext, for example Python or C."
-msgstr "Programovací jazyk odovzdaný xgettext, napríklad Python alebo C."
+msgstr "Programovací jazyk odovzdaný xgettextu, napríklad Python alebo C."
 
 #: weblate/addons/forms.py:293
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
-"Novými riadkami oddelené globálne vzory relatívne k repozitáru pre súbory na "
-"extrakciu s xgettext."
+"Globálne vzory relatívne k repozitáru oddelené novými riadkami pre súbory na "
+"extrakciu pomocou xgettext."
 
 #: weblate/addons/forms.py:298
 msgid "POTFILES path"
@@ -2020,9 +2021,9 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"Repozitárne relatívna cesta k POTFILES alebo POTFILES.in. Položky sa riešia "
-"relatívne k koreňu repozitára. Ak je prítomný vedľa manifestu, POTFILES.skip "
-"vylučuje uvedené súbory z extrakcie."
+"Cesta relatívna k repozitáru k POTFILES alebo POTFILES.in. Položky sa riešia "
+"relatívne ku koreňu repozitára. Ak je prítomný vedľa manifestu, "
+"POTFILES.skip vylučuje uvedené súbory z extrakcie."
 
 #: weblate/addons/forms.py:370
 msgid "POTFILES path has to point to a file."
@@ -2042,9 +2043,9 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
-"Vstavaná predvoľba argumentov xgettext zodpovedajúca integrácii gettext "
-"Meson. Predvoľba GLib pridáva kľúčové slovo a možnosti formátového vlajky "
-"používané pomocníkom gettext Meson."
+"Vstavaná predvoľba argumentov xgettext zodpovedajúca integrácii gettextu v "
+"Mesone. Predvoľba GLib pridáva možnosti kľúčového slova a formátového "
+"príznaku používané pomocníkom gettextu v Mesone."
 
 #: weblate/addons/forms.py:414
 msgid ""
@@ -2115,27 +2116,27 @@ msgstr "Obsah vygenerovaného súboru"
 
 #: weblate/addons/forms.py:561
 msgid "Commit squashing"
-msgstr "Zlučovanie zápisov"
+msgstr "Zlučovanie commitov"
 
 #: weblate/addons/forms.py:564
 msgid "All commits into one"
-msgstr "Všetky zápisy do jedného"
+msgstr "Všetky commity do jedného"
 
 #: weblate/addons/forms.py:565
 msgid "Per language"
-msgstr "Na jazyk"
+msgstr "Podľa jazyka"
 
 #: weblate/addons/forms.py:566
 msgid "Per file"
-msgstr "Na súbor"
+msgstr "Podľa súboru"
 
 #: weblate/addons/forms.py:567
 msgid "Per author"
-msgstr "Na autora"
+msgstr "Podľa autora"
 
 #: weblate/addons/forms.py:573
 msgid "Append trailers to squashed commit message"
-msgstr "Pripojiť trailer ku zlúčenému zápisu"
+msgstr "Pripojiť trailery k správe zlúčeného commitu"
 
 #: weblate/addons/forms.py:577
 msgid ""
@@ -2143,19 +2144,20 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"Trailer riadky sú riadky, ktoré vyzerajú podobne ako hlavičky e-mailov RFC "
-"822, na konci inak voľnej časti správy commitu, ako 'Co-authored-by: …'."
+"Riadky trailerov sú riadky, ktoré vyzerajú podobne ako hlavičky e-mailov "
+"podľa RFC 822, na konci inak voľnej časti správy commitu, napríklad 'Co-"
+"authored-by: …'."
 
 #: weblate/addons/forms.py:583
 msgid "Commit message"
-msgstr "Správa zápisu"
+msgstr "Správa commitu"
 
 #: weblate/addons/forms.py:587
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Táto správa zápisu sa použije namiesto kombinovaných správ zápisov zo "
+"Táto správa commitu sa použije namiesto kombinovaných správ commitov zo "
 "zlúčených commitov."
 
 #: weblate/addons/forms.py:612
@@ -2447,30 +2449,31 @@ msgstr "Všetky reťazce v tomto preklade budú prepísané"
 
 #: weblate/addons/forms.py:1360 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
-msgstr "Predpísaný statický text"
+msgstr "Predradený statický text"
 
 #: weblate/addons/forms.py:1365 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr "Predpísaný premenný text"
+msgstr "Predradený premenný text"
 
 #: weblate/addons/forms.py:1370 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr "Pripísaný statický text"
+msgstr "Pripojený statický text"
 
 #: weblate/addons/forms.py:1375 weblate/templates/addons/pseudolocale.html:12
 msgid "Appended variable text"
-msgstr "Pripísaný premenný text"
+msgstr "Pripojený premenný text"
 
 #: weblate/addons/forms.py:1380
 msgid "Variable text multiplier"
-msgstr "Násobník premenného textu"
+msgstr "Násobiteľ premenného textu"
 
 #: weblate/addons/forms.py:1384
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Koľkokrát opakovať premenný text v závislosti od dĺžky zdrojového reťazca."
+"Koľkokrát sa má opakovať premenný text v závislosti od dĺžky zdrojového "
+"reťazca."
 
 #: weblate/addons/forms.py:1389
 msgid "Include read-only strings"
@@ -2482,7 +2485,7 @@ msgstr "Zdroj a cieľ musia byť rôzne jazyky."
 
 #: weblate/addons/forms.py:1437
 msgid "Enable case-sensitive key sorting"
-msgstr "Povoliť citlivé triedenie kľúčov podľa veľkosti písmen"
+msgstr "Povoliť triedenie kľúčov s rozlišovaním veľkosti písmen"
 
 #: weblate/addons/forms.py:1450
 msgid "Change events"
@@ -2498,15 +2501,15 @@ msgstr "Tajomstvo webhooku"
 
 #: weblate/addons/forms.py:1486
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr "Tajomstvo Štandardných webhookov je reťazec zakódovaný v base64."
+msgstr "Tajomstvo štandardných webhookov je reťazec kódovaný v base64."
 
 #: weblate/addons/forms.py:1499
 msgid "AMQP broker host"
-msgstr "Hostiteľ AMQP brokeru"
+msgstr "Hostiteľ AMQP brokera"
 
 #: weblate/addons/forms.py:1500
 msgid "The AMQP broker to connect to."
-msgstr "AMQP broker, ku ktorému sa pripojiť."
+msgstr "AMQP broker, ku ktorému sa má pripojiť."
 
 #: weblate/addons/forms.py:1504
 msgid "Use SSL for AMQP connection"
@@ -2521,24 +2524,24 @@ msgid ""
 "Bundle of PEM encoded CA certificates used to validate the certificate "
 "presented by the server."
 msgstr ""
-"Balík PEM zakódovaných certifikátov CA používaných na overenie certifikátu "
-"predstaveného serverom."
+"Balík certifikátov CA kódovaných vo formáte PEM používaných na overenie "
+"certifikátu predloženého serverom."
 
 #: weblate/addons/forms.py:1517
 msgid "Client SSL key"
-msgstr "Klient SSL kľúč"
+msgstr "Klientsky kľúč SSL"
 
 #: weblate/addons/forms.py:1518
 msgid "PEM encoded client private SSL key."
-msgstr "PEM zakódovaný súkromný SSL kľúč klienta."
+msgstr "Súkromný klientsky kľúč SSL kódovaný vo formáte PEM."
 
 #: weblate/addons/forms.py:1524
 msgid "Client SSL certificates"
-msgstr "Klient SSL certifikáty"
+msgstr "Klientske certifikáty SSL"
 
 #: weblate/addons/forms.py:1525
 msgid "PEM encoded client SSL certificate."
-msgstr "PEM zakódovaný SSL certifikát klienta."
+msgstr "Klientsky certifikát SSL kódovaný vo formáte PEM."
 
 #: weblate/addons/forms.py:1543
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -2558,14 +2561,15 @@ msgstr "Generuje súbor obsahujúci podrobné informácie o stave prekladu."
 
 #: weblate/addons/generate.py:186
 msgid "Pseudolocale generation"
-msgstr "Generovanie pseudo lokálu"
+msgstr "Generovanie pseudolokálu"
 
 #: weblate/addons/generate.py:188
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Generuje preklad pridaním prefixu a suffixu k zdrojovým reťazcom automaticky."
+"Generuje preklad automatickým pridaním prefixu a suffixu k zdrojovým "
+"reťazcom."
 
 #: weblate/addons/generate.py:275
 msgid "Prefill translation with source"
@@ -2585,11 +2589,11 @@ msgstr "Vyplňuje preklad reťazcov iba na čítanie zdrojovým reťazcom."
 
 #: weblate/addons/gettext.py:93
 msgid "Generate MO files"
-msgstr "Vygenerovať MO súbory"
+msgstr "Generovať súbory MO"
 
 #: weblate/addons/gettext.py:95
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr "Automaticky generuje MO súbor pre každý zmenený PO súbor."
+msgstr "Automaticky generuje súbor MO pre každý zmenený súbor PO."
 
 #: weblate/addons/gettext.py:135
 msgid "Update LINGUAS file"
@@ -2601,68 +2605,69 @@ msgstr "Aktualizuje súbor LINGUAS, keď sa pridá alebo odstráni preklad."
 
 #: weblate/addons/gettext.py:271
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Aktualizovať premennú ALL_LINGUAS v súbore \"configure\""
+msgstr "Aktualizovať premennú ALL_LINGUAS v súbore „configure“"
 
 #: weblate/addons/gettext.py:273
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Aktualizuje premennú ALL_LINGUAS v súboroch \"configure\", \"configure.in\" "
-"alebo \"configure.ac\", keď sa pridá alebo odstráni preklad."
+"Aktualizuje premennú ALL_LINGUAS v súboroch „configure“, „configure.in“ "
+"alebo „configure.ac“, keď sa pridá alebo odstráni preklad."
 
 #: weblate/addons/gettext.py:367
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Aktualizovať PO súbory tak, aby zodpovedali POT (msgmerge)"
+msgstr "Aktualizovať súbory PO tak, aby zodpovedali POT (msgmerge)"
 
 #: weblate/addons/gettext.py:369
 msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Aktualizuje všetky PO súbory (ako nakonfigurované \"Maskou súboru\") tak, "
-"aby zodpovedali POT súboru (ako nakonfigurované \"Šablónou pre nové "
-"preklady\") pomocou msgmerge."
+"Aktualizuje všetky súbory PO (ako nakonfigurované „Maskou súboru“) tak, aby "
+"zodpovedali súboru POT (ako nakonfigurované „Šablónou pre nové preklady“) "
+"pomocou msgmerge."
 
 #: weblate/addons/gettext.py:949
 msgid "Update POT file (xgettext)"
-msgstr "Aktualizovať POT súbor (xgettext)"
+msgstr "Aktualizovať súbor POT (xgettext)"
 
 #: weblate/addons/gettext.py:951
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
-"Aktualizuje šablónu gettext pomocou xgettext na vybraných zdrojových "
+"Aktualizuje šablónu gettextu pomocou xgettext na vybraných zdrojových "
 "súboroch."
 
 #: weblate/addons/gettext.py:1349
 msgid "Update POT file (Meson)"
-msgstr "Aktualizovať POT súbor (Meson)"
+msgstr "Aktualizovať súbor POT (Meson)"
 
 #: weblate/addons/gettext.py:1351
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr "Aktualizuje šablónu gettext pomocou konvencií gettext Meson."
+msgstr "Aktualizuje šablónu gettextu pomocou konvencií gettextu v Mesone."
 
 #: weblate/addons/gettext.py:1499
 msgid "Update POT file (Django)"
-msgstr "Aktualizovať POT súbor (Django)"
+msgstr "Aktualizovať súbor POT (Django)"
 
 #: weblate/addons/gettext.py:1501
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
-"Aktualizuje šablónu gettext pomocou vstavaného príkazu makemessages Django."
+"Aktualizuje šablónu gettextu pomocou vstavaného príkazu makemessages v "
+"Django."
 
 #: weblate/addons/gettext.py:1668
 msgid "Update POT file (Sphinx)"
-msgstr "Aktualizovať POT súbor (Sphinx)"
+msgstr "Aktualizovať súbor POT (Sphinx)"
 
 #: weblate/addons/gettext.py:1670
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
-"Aktualizuje šablónu gettext pomocou gettext buildera Sphinx bez načítania "
-"konfigurácie projektu."
+"Aktualizuje šablónu gettextu pomocou nástroja na zostavovanie gettextu v "
+"Sphinxe bez načítania konfigurácie projektu."
 
 #: weblate/addons/gettext.py:1900
 msgid "Contributors in comment"
@@ -2673,16 +2678,16 @@ msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Aktualizuje časť komentára hlavičky PO súboru tak, aby zahŕňala mená "
-"prispievateľov a roky príspevkov."
+"Aktualizuje časť komentára v hlavičke súboru PO tak, aby zahŕňala mená "
+"prispievateľov a roky ich príspevkov."
 
 #: weblate/addons/git.py:41
 msgid "Squash Git commits"
-msgstr "Zlúčiť Git zápisy"
+msgstr "Zlúčiť Git commity"
 
 #: weblate/addons/git.py:42
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Zlúčiť Git zápisy pred odoslaním zmien."
+msgstr "Zlúčiť Git commity pred odoslaním zmien."
 
 #: weblate/addons/models.py:298 weblate/addons/views.py:257
 #: weblate/api/views.py:3728
@@ -2699,7 +2704,7 @@ msgstr "Formátuje a triedi súbor Java properties."
 
 #: weblate/addons/removal.py:60
 msgid "Stale comment removal"
-msgstr "Odstránenie zastaraného komentára"
+msgstr "Odstránenie zastaraných komentárov"
 
 #: weblate/addons/removal.py:61
 msgid "Set a timeframe for removal of comments."
@@ -2707,7 +2712,7 @@ msgstr "Nastaviť časový rámec pre odstránenie komentárov."
 
 #: weblate/addons/removal.py:87
 msgid "Stale suggestion removal"
-msgstr "Odstránenie zastaraného návrhu"
+msgstr "Odstránenie zastaraných návrhov"
 
 #: weblate/addons/removal.py:88
 msgid "Set a timeframe for removal of suggestions."
@@ -2715,7 +2720,7 @@ msgstr "Nastaviť časový rámec pre odstránenie návrhov."
 
 #: weblate/addons/resx.py:24
 msgid "Update RESX files"
-msgstr "Aktualizovať RESX súbory"
+msgstr "Aktualizovať súbory RESX"
 
 #: weblate/addons/resx.py:26
 msgid ""
@@ -2724,8 +2729,8 @@ msgid ""
 "string."
 msgstr ""
 "Aktualizovať všetky súbory prekladov tak, aby zodpovedali jednojazyčnému "
-"upstreamovému základnému súboru. Nepoužité reťazce sú odstránené a nové "
-"pridané ako kópie zdrojového reťazca."
+"základnému súboru upstreamu. Nepoužité reťazce sa odstránia a nové sa "
+"pridajú ako kópie zdrojového reťazca."
 
 #: weblate/addons/views.py:143 weblate/addons/views.py:146
 #: weblate/addons/views.py:277
@@ -2755,8 +2760,8 @@ msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
-"Odosiela notifikácie externým službám na základe vybraných udalostí, "
-"postupujúc podľa špecifikácie Štandardných webhookov."
+"Odosielanie notifikácií externým službám na základe vybraných udalostí v "
+"súlade so špecifikáciou štandardných webhookov."
 
 #: weblate/addons/webhooks.py:211
 msgid "Slack Webhooks"
@@ -2764,7 +2769,7 @@ msgstr "Slack Webhooky"
 
 #: weblate/addons/webhooks.py:213
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "Odosiela notifikáciu do kanála Slack na základe vybraných udalostí."
+msgstr "Odosielanie notifikácií do kanála Slack na základe vybraných udalostí."
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
@@ -4184,7 +4189,7 @@ msgstr "Nepodarilo sa spracovať príznak {}: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
-msgstr "Začiatočný nový riadok"
+msgstr "Počiatočný nový riadok"
 
 #: weblate/checks/chars.py:50
 msgid "Source and translation do not both start with a newline."
@@ -4192,7 +4197,7 @@ msgstr "Zdroj a preklad nezačínajú oba novým riadkom."
 
 #: weblate/checks/chars.py:61
 msgid "Trailing newline"
-msgstr "Záverečný nový riadok"
+msgstr "Koncový nový riadok"
 
 #: weblate/checks/chars.py:62
 msgid "Source and translation do not both end with a newline."
@@ -4200,7 +4205,7 @@ msgstr "Zdroj a preklad nekončia oba novým riadkom."
 
 #: weblate/checks/chars.py:72
 msgid "Starting spaces"
-msgstr "Začiatočné medzery"
+msgstr "Počiatočné medzery"
 
 #: weblate/checks/chars.py:74
 msgid "Source and translation do not both start with same number of spaces."
@@ -4208,19 +4213,19 @@ msgstr "Zdroj a preklad nezačínajú oba rovnakým počtom medzier."
 
 #: weblate/checks/chars.py:108
 msgid "Non‑standard characters in Kabyle"
-msgstr "Neštandardné znaky v Kabyle"
+msgstr "Neštandardné znaky v kabylčine"
 
 #: weblate/checks/chars.py:110
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
-"Používajte štandardizované latinské znaky Kabyle (napr. ɣ namiesto gréckeho "
-"γ; ɛ namiesto ε)."
+"Používajte štandardizované latinské znaky kabylčiny (napr. ɣ namiesto "
+"gréckeho γ; ɛ namiesto ε)."
 
 #: weblate/checks/chars.py:144
 msgid "Trailing space"
-msgstr "Záverečná medzera"
+msgstr "Koncová medzera"
 
 #: weblate/checks/chars.py:145
 msgid "Source and translation do not both end with a space."
@@ -4236,7 +4241,7 @@ msgstr "Preklad obsahuje dvojitú medzeru."
 
 #: weblate/checks/chars.py:202
 msgid "Mismatched full stop"
-msgstr "Nesprávna bodka"
+msgstr "Nesúlad bodky"
 
 #: weblate/checks/chars.py:204
 msgid "Source and translation do not both end with a full stop."
@@ -4244,7 +4249,7 @@ msgstr "Zdroj a preklad nekončia oba bodkou."
 
 #: weblate/checks/chars.py:258
 msgid "Mismatched colon"
-msgstr "Nesprávna dvojbodka"
+msgstr "Nesúlad dvojbodky"
 
 #: weblate/checks/chars.py:259
 msgid "Source and translation do not both end with a colon."
@@ -4252,7 +4257,7 @@ msgstr "Zdroj a preklad nekončia oba dvojbodkou."
 
 #: weblate/checks/chars.py:293
 msgid "Mismatched question mark"
-msgstr "Nesprávny otáznik"
+msgstr "Nesúlad otáznika"
 
 #: weblate/checks/chars.py:295
 msgid "Source and translation do not both end with a question mark."
@@ -4260,7 +4265,7 @@ msgstr "Zdroj a preklad nekončia oba otáznikom."
 
 #: weblate/checks/chars.py:339
 msgid "Mismatched exclamation mark"
-msgstr "Nesprávny výkričník"
+msgstr "Nesúlad výkričníka"
 
 #: weblate/checks/chars.py:341
 msgid "Source and translation do not both end with an exclamation mark."
@@ -4268,7 +4273,7 @@ msgstr "Zdroj a preklad nekončia oba výkričníkom."
 
 #: weblate/checks/chars.py:373
 msgid "Mismatched interrobang"
-msgstr "Nesprávny interrobang"
+msgstr "Nesúlad interrobangu"
 
 #: weblate/checks/chars.py:375
 msgid "Source and translation do not both end with an interrobang expression."
@@ -4276,11 +4281,11 @@ msgstr "Zdroj a preklad nekončia oba výrazom interrobangu."
 
 #: weblate/checks/chars.py:389
 msgid "Mismatched ellipsis"
-msgstr "Nesprávne tri bodky"
+msgstr "Nesúlad trojbodky"
 
 #: weblate/checks/chars.py:391
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "Zdroj a preklad nekončia oba trojbodkami."
+msgstr "Zdroj a preklad nekončia oba trojbodkou."
 
 #: weblate/checks/chars.py:414
 msgid "Mismatched \\n"
@@ -4292,7 +4297,7 @@ msgstr "Počet literálov \\n v preklade sa nezhoduje so zdrojom."
 
 #: weblate/checks/chars.py:435
 msgid "Mismatching line breaks"
-msgstr "Nesprávne zalomenia riadkov"
+msgstr "Nesúlad zalomenia riadkov"
 
 #: weblate/checks/chars.py:437
 msgid "Number of new lines in translation does not match source."
@@ -4316,11 +4321,11 @@ msgstr "Preklad by nemal presiahnuť danú dĺžku."
 
 #: weblate/checks/chars.py:480
 msgid "Mismatched semicolon"
-msgstr "Nesprávny bodkočiarka"
+msgstr "Nesúlad bodkočiarky"
 
 #: weblate/checks/chars.py:482
 msgid "Source and translation do not both end with a semicolon."
-msgstr "Zdroj a preklad nekončia oba bodkočiarou."
+msgstr "Zdroj a preklad nekončia oba bodkočiarkou."
 
 #: weblate/checks/chars.py:496
 msgid "Kashida letter used"
@@ -4349,7 +4354,7 @@ msgstr ""
 
 #: weblate/checks/consistency.py:34
 msgid "Missing plurals"
-msgstr "Chýbajúce množné číslo"
+msgstr "Chýbajúce množné čísla"
 
 #: weblate/checks/consistency.py:35
 msgid "Some plural forms are untranslated."
@@ -4357,7 +4362,7 @@ msgstr "Niektoré tvary množného čísla sú nepreložené."
 
 #: weblate/checks/consistency.py:61
 msgid "Same plurals"
-msgstr "Rovnaké množné číslo"
+msgstr "Rovnaké množné čísla"
 
 #: weblate/checks/consistency.py:62
 msgid "Some plural forms are translated in the same way."
@@ -4674,11 +4679,11 @@ msgstr "Sekvencia {sequence} nie je platný HTML znakový odkaz."
 
 #: weblate/checks/fluent/inner_html.py:950
 msgid "Fluent source inner HTML"
-msgstr "Fluent zdrojové vnútorné HTML"
+msgstr "Vnútorné HTML zdroja Fluent"
 
 #: weblate/checks/fluent/inner_html.py:951
 msgid "Fluent source should be valid inner HTML."
-msgstr "Fluent zdroj by mal byť platné vnútorné HTML."
+msgstr "Zdroj Fluent by mal byť platným vnútorným HTML."
 
 #: weblate/checks/fluent/inner_html.py:1023
 #, python-brace-format
@@ -4737,11 +4742,11 @@ msgstr ""
 
 #: weblate/checks/fluent/inner_html.py:1229
 msgid "Fluent translation inner HTML"
-msgstr "Fluent prekladové vnútorné HTML"
+msgstr "Vnútorné HTML prekladu Fluent"
 
 #: weblate/checks/fluent/inner_html.py:1230
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr "Fluent cieľ by mal byť platné vnútorné HTML, ktoré zodpovedá."
+msgstr "Cieľ Fluent by mal byť platné vnútorné HTML, ktoré sa zhoduje."
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -4767,7 +4772,7 @@ msgstr "Časti Fluent"
 
 #: weblate/checks/fluent/parts.py:113
 msgid "Fluent parts should match."
-msgstr "Časti Fluent by mali zodpovedať."
+msgstr "Časti Fluent by sa mali zhodovať."
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -4890,11 +4895,11 @@ msgstr ""
 
 #: weblate/checks/fluent/references.py:673
 msgid "Fluent references"
-msgstr "Odkazy Fluent"
+msgstr "Referencie Fluent"
 
 #: weblate/checks/fluent/references.py:674
 msgid "Fluent references should match."
-msgstr "Odkazy Fluent by mali zodpovedať."
+msgstr "Referencie Fluent by sa mali zhodovať."
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -4903,7 +4908,7 @@ msgstr "Chyba syntaxe Fluent: {error}."
 
 #: weblate/checks/fluent/syntax.py:46
 msgid "Fluent source syntax"
-msgstr "Syntaxe zdrojového Fluent"
+msgstr "Syntax zdroja Fluent"
 
 #: weblate/checks/fluent/syntax.py:47
 msgid "Fluent syntax error in the source."
@@ -4911,7 +4916,7 @@ msgstr "Chyba syntaxe Fluent v zdroji."
 
 #: weblate/checks/fluent/syntax.py:64
 msgid "Fluent translation syntax"
-msgstr "Syntaxe prekladu Fluent"
+msgstr "Syntax prekladu Fluent"
 
 #: weblate/checks/fluent/syntax.py:65
 msgid "Fluent syntax error in the translation."
@@ -4923,7 +4928,7 @@ msgstr "Nasledujúce formátovacie reťazce sú v nesprávnom poradí:"
 
 #: weblate/checks/format.py:618
 msgid "Python format"
-msgstr "Python formát"
+msgstr "Formát Python"
 
 #: weblate/checks/format.py:619
 msgid "Python format string does not match source."
@@ -4931,7 +4936,7 @@ msgstr "Formátovací reťazec Python sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:627
 msgid "PHP format"
-msgstr "PHP formát"
+msgstr "Formát PHP"
 
 #: weblate/checks/format.py:628
 msgid "PHP format string does not match source."
@@ -4939,7 +4944,7 @@ msgstr "Formátovací reťazec PHP sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:635
 msgid "C format"
-msgstr "C formát"
+msgstr "Formát C"
 
 #: weblate/checks/format.py:636
 msgid "C format string does not match source."
@@ -4947,7 +4952,7 @@ msgstr "Formátovací reťazec C sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:643
 msgid "Objective-C format"
-msgstr "Objective-C formát"
+msgstr "Formát Objective-C"
 
 #: weblate/checks/format.py:644
 msgid "Objective-C format string does not match source."
@@ -4955,15 +4960,15 @@ msgstr "Formátovací reťazec Objective-C sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
-msgstr "Perl zátvorkový formát"
+msgstr "Formát zátvoriek Perl"
 
 #: weblate/checks/format.py:653
 msgid "Perl brace format string does not match source."
-msgstr "Formátovací reťazec Perl zátvorky sa nezhoduje so zdrojom."
+msgstr "Formátovací reťazec zátvoriek Perl sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:665
 msgid "Perl format"
-msgstr "Perl formát"
+msgstr "Formát Perl"
 
 #: weblate/checks/format.py:666
 msgid "Perl format string does not match source."
@@ -4971,7 +4976,7 @@ msgstr "Formátovací reťazec Perl sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:673
 msgid "JavaScript format"
-msgstr "JavaScript formát"
+msgstr "Formát JavaScript"
 
 #: weblate/checks/format.py:674
 msgid "JavaScript format string does not match source."
@@ -4979,7 +4984,7 @@ msgstr "Formátovací reťazec JavaScript sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:681
 msgid "Lua format"
-msgstr "Lua formát"
+msgstr "Formát Lua"
 
 #: weblate/checks/format.py:682
 msgid "Lua format string does not match source."
@@ -4987,7 +4992,7 @@ msgstr "Formátovací reťazec Lua sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:689
 msgid "Object Pascal format"
-msgstr "Object Pascal formát"
+msgstr "Formát Object Pascal"
 
 #: weblate/checks/format.py:690
 msgid "Object Pascal format string does not match source."
@@ -4995,7 +5000,7 @@ msgstr "Formátovací reťazec Object Pascal sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:698
 msgid "Scheme format"
-msgstr "Scheme formát"
+msgstr "Formát Scheme"
 
 #: weblate/checks/format.py:699
 msgid "Scheme format string does not match source."
@@ -5003,11 +5008,11 @@ msgstr "Formátovací reťazec Scheme sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:710
 msgid "Python brace format"
-msgstr "Python zátvorkový formát"
+msgstr "Formát zátvoriek Python"
 
 #: weblate/checks/format.py:711
 msgid "Python brace format string does not match source."
-msgstr "Formátovací reťazec Python zátvorky sa nezhoduje so zdrojom."
+msgstr "Formátovací reťazec zátvoriek Python sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:730
 msgid "Single {} encountered in the format string."
@@ -5015,7 +5020,7 @@ msgstr "Jednotlivá {} sa vyskytla v formátovacom reťazci."
 
 #: weblate/checks/format.py:757
 msgid "C# format"
-msgstr "C# formát"
+msgstr "Formát C#"
 
 #: weblate/checks/format.py:758
 msgid "C# format string does not match source."
@@ -5023,7 +5028,7 @@ msgstr "Formátovací reťazec C# sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:773
 msgid "Laravel format"
-msgstr "Laravel formát"
+msgstr "Formát Laravel"
 
 #: weblate/checks/format.py:774
 msgid "Laravel format string does not match source."
@@ -5031,7 +5036,7 @@ msgstr "Formátovací reťazec Laravel sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:784
 msgid "Java format"
-msgstr "Java formát"
+msgstr "Formát Java"
 
 #: weblate/checks/format.py:785
 msgid "Java format string does not match source."
@@ -5043,7 +5048,7 @@ msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:793
 msgid "Java MessageFormat string does not match source."
-msgstr "Formátovací reťazec Java MessageFormat sa nezhoduje so zdrojom."
+msgstr "Reťazec Java MessageFormat sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:830
 msgid "You need to pair up an apostrophe with another one."
@@ -5051,7 +5056,7 @@ msgstr "Musíte spárovať apostrof s ďalším."
 
 #: weblate/checks/format.py:836
 msgid "i18next interpolation"
-msgstr "i18next interpolácia"
+msgstr "Interpolácia i18next"
 
 #: weblate/checks/format.py:837
 msgid "The i18next interpolation does not match source."
@@ -5059,31 +5064,31 @@ msgstr "Interpolácia i18next sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:851
 msgid "ECMAScript template literals"
-msgstr "ECMAScript šablónové literály"
+msgstr "Šablónové literály ECMAScript"
 
 #: weblate/checks/format.py:852
 msgid "ECMAScript template literals do not match source."
-msgstr "ECMAScript šablónové literály sa nezhodujú so zdrojom."
+msgstr "Šablónové literály ECMAScript sa nezhodujú so zdrojom."
 
 #: weblate/checks/format.py:865
 msgid "Percent placeholders"
-msgstr "Percentové zástupné symboly"
+msgstr "Percentuálne zástupné symboly"
 
 #: weblate/checks/format.py:866
 msgid "The percent placeholders do not match source."
-msgstr "Percentové zástupné symboly sa nezhodujú so zdrojom."
+msgstr "Percentuálne zástupné symboly sa nezhodujú so zdrojom."
 
 #: weblate/checks/format.py:874
 msgid "Vue I18n formatting"
-msgstr "Vue I18n formátovanie"
+msgstr "Formátovanie Vue I18n"
 
 #: weblate/checks/format.py:875
 msgid "The Vue I18n formatting does not match source."
-msgstr "Vue I18n formátovanie sa nezhoduje so zdrojom."
+msgstr "Formátovanie Vue I18n sa nezhoduje so zdrojom."
 
 #: weblate/checks/format.py:883
 msgid "Automattic components formatting"
-msgstr "Automattic komponenty formátovanie"
+msgstr "Formátovanie komponentov Automattic"
 
 #: weblate/checks/format.py:885
 msgid "The Automattic components' placeholders do not match the source."
@@ -5143,7 +5148,7 @@ msgstr "ICU MessageFormat"
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
-"Chyby syntaxe a/alebo nesprávne zástupné symboly v reťazcoch ICU "
+"Chyby syntaxe a/alebo nezhody zástupných symbolov v reťazcoch ICU "
 "MessageFormat."
 
 #: weblate/checks/icu.py:466
@@ -5197,7 +5202,7 @@ msgstr "Jeden alebo viac XML tagov chýba obsah v preklade:"
 
 #: weblate/checks/markup.py:156
 msgid "BBCode markup"
-msgstr "BBCode značkovanie"
+msgstr "Značkovanie BBCode"
 
 #: weblate/checks/markup.py:157
 msgid "BBCode in translation does not match source."
@@ -5205,52 +5210,52 @@ msgstr "BBCode v preklade sa nezhoduje so zdrojom."
 
 #: weblate/checks/markup.py:246
 msgid "XML syntax"
-msgstr "XML syntax"
+msgstr "Syntax XML"
 
 #: weblate/checks/markup.py:247
 msgid "The translation is not valid XML."
-msgstr "Preklad nie je platný XML."
+msgstr "Preklad nie je platným XML."
 
 #: weblate/checks/markup.py:271
 msgid "XML markup"
-msgstr "XML značkovanie"
+msgstr "Značkovanie XML"
 
 #: weblate/checks/markup.py:272
 msgid "XML tags in translation do not match source."
-msgstr "XML tagy v preklade sa nezhodujú so zdrojom."
+msgstr "Značky XML v preklade sa nezhodujú so zdrojom."
 
 #: weblate/checks/markup.py:324
 msgid "Chars around XML tags"
-msgstr "Znaky okolo XML tagov"
+msgstr "Znaky okolo značiek XML"
 
 #: weblate/checks/markup.py:326
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "Znaky obklopujúce XML tagy v preklade sa nezhodujú so zdrojom."
+msgstr "Znaky obklopujúce značky XML v preklade sa nezhodujú so zdrojom."
 
 #: weblate/checks/markup.py:393
 msgid "Markdown references"
-msgstr "Markdown odkazy"
+msgstr "Referencie Markdown"
 
 #: weblate/checks/markup.py:394
 msgid "Markdown link references do not match source."
-msgstr "Markdown odkazy na odkazy sa nezhodujú so zdrojom."
+msgstr "Referencie odkazov Markdown sa nezhodujú so zdrojom."
 
 #: weblate/checks/markup.py:410
 msgid "Markdown links"
-msgstr "Markdown odkazy"
+msgstr "Odkazy Markdown"
 
 #: weblate/checks/markup.py:411
 msgid "Markdown links do not match source."
-msgstr "Markdown odkazy sa nezhodujú so zdrojom."
+msgstr "Odkazy Markdown sa nezhodujú so zdrojom."
 
 #: weblate/checks/markup.py:439
 msgid "Markdown syntax"
-msgstr "Markdown syntax"
+msgstr "Syntax Markdown"
 
 #: weblate/checks/markup.py:440
 msgid "Markdown syntax does not match source."
-msgstr "Markdown syntax sa nezhoduje so zdrojom."
+msgstr "Syntax Markdown sa nezhoduje so zdrojom."
 
 #: weblate/checks/markup.py:473
 msgid "The translation does not contain an URL."
@@ -5262,7 +5267,7 @@ msgstr "Nebezpečné HTML"
 
 #: weblate/checks/markup.py:493
 msgid "The translation uses unsafe HTML markup."
-msgstr "Preklad používa nebezpečné HTML značkovanie."
+msgstr "Preklad používa nebezpečné značky HTML."
 
 #: weblate/checks/markup.py:718
 msgid "Inconsistent reStructuredText"
@@ -5270,7 +5275,7 @@ msgstr "Nekonzistentné reStructuredText"
 
 #: weblate/checks/markup.py:720
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr "Nekonzistentné reStructuredText značkovanie v preloženej správe."
+msgstr "Nekonzistentné značkovanie reStructuredText v preloženej správe."
 
 #: weblate/checks/markup.py:726
 msgid "The following reStructuredText markup is missing: {}"
@@ -5298,7 +5303,7 @@ msgstr "Zástupné symboly"
 
 #: weblate/checks/placeholders.py:32
 msgid "Translation is missing some placeholders."
-msgstr "Preklad chýba niektoré zástupné symboly."
+msgstr "V preklade chýbajú niektoré zástupné symboly."
 
 #: weblate/checks/placeholders.py:146
 msgid "Regular expression"
@@ -5314,7 +5319,7 @@ msgstr "Nezhoduje sa s regulárnym výrazom {}."
 
 #: weblate/checks/qt.py:34
 msgid "Qt format"
-msgstr "Qt formát"
+msgstr "Formát Qt"
 
 #: weblate/checks/qt.py:35
 msgid "Qt format string does not match source."
@@ -5322,11 +5327,11 @@ msgstr "Formátovací reťazec Qt sa nezhoduje so zdrojom."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
-msgstr "Qt formát množného čísla"
+msgstr "Formát množného čísla Qt"
 
 #: weblate/checks/qt.py:48
 msgid "Qt plural format string does not match source."
-msgstr "Formátovací reťazec Qt množného čísla sa nezhoduje so zdrojom."
+msgstr "Formátovací reťazec množného čísla Qt sa nezhoduje so zdrojom."
 
 #: weblate/checks/render.py:33
 msgid "Maximum size of translation"
@@ -5334,7 +5339,7 @@ msgstr "Maximálna veľkosť prekladu"
 
 #: weblate/checks/render.py:35
 msgid "Translation rendered text should not exceed given size."
-msgstr "Renderovaný text prekladu by nemal presiahnuť danú veľkosť."
+msgstr "Vykreslený text prekladu by nemal presiahnuť danú veľkosť."
 
 #: weblate/checks/render.py:111
 msgid ""
@@ -5344,7 +5349,7 @@ msgstr ""
 
 #: weblate/checks/ruby.py:54
 msgid "Ruby format"
-msgstr "Ruby formát"
+msgstr "Formát Ruby"
 
 #: weblate/checks/ruby.py:55
 msgid "Ruby format string does not match source."
@@ -5526,27 +5531,27 @@ msgstr "Nepodarilo sa načítať reťazce zo súboru, skúste vybrať iný form�
 #. Translators: File format name
 #: weblate/formats/convert.py:323
 msgid "HTML file"
-msgstr "HTML súbor"
+msgstr "Súbor HTML"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:369
 msgid "Markdown file"
-msgstr "Markdown súbor"
+msgstr "Súbor Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:435
 msgid "OpenDocument file"
-msgstr "OpenDocument súbor"
+msgstr "Súbor OpenDocument"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:504
 msgid "IDML file"
-msgstr "IDML súbor"
+msgstr "Súbor IDML"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:567
 msgid "RC file"
-msgstr "RC súbor"
+msgstr "Súbor RC"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:643
@@ -5566,7 +5571,7 @@ msgstr "MediaWiki textový súbor"
 #. Translators: File format name
 #: weblate/formats/convert.py:709
 msgid "AsciiDoc file"
-msgstr "AsciiDoc súbor"
+msgstr "Súbor AsciiDoc"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:757
@@ -5616,7 +5621,7 @@ msgstr "JSON"
 #. Translators: File format name
 #: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1885
 msgid "JSON nested structure file"
-msgstr "JSON súbor s vnorenou štruktúrou"
+msgstr "Súbor s vnorenou štruktúrou JSON"
 
 #. Translators: File format name
 #: weblate/formats/exporters.py:375 weblate/formats/ttkit.py:1740
@@ -5634,7 +5639,7 @@ msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:181
 msgid "Multivalue CSV file"
-msgstr "Multivalue CSV súbor"
+msgstr "Viachodnotový súbor CSV"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1390
@@ -5649,12 +5654,12 @@ msgstr "gettext PO súbor (jednojazyčný)"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1487
 msgid "Qt Linguist translation file"
-msgstr "Qt Linguist prekladový súbor"
+msgstr "Prekladový súbor Qt Linguist"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1503
 msgid "XLIFF 1.2 translation file"
-msgstr "XLIFF 1.2 prekladový súbor"
+msgstr "Prekladový súbor XLIFF 1.2"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1555
@@ -5674,12 +5679,12 @@ msgstr "XLIFF 1.2 s rozšíreniami Apple"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1580
 msgid "XLIFF 2.0 translation file"
-msgstr "XLIFF 2.0 prekladový súbor"
+msgstr "Prekladový súbor XLIFF 2.0"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1595
 msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF 2.0 prekladový súbor s podporou placeables"
+msgstr "Prekladový súbor XLIFF 2.0 s podporou placeables"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1648
@@ -5689,12 +5694,12 @@ msgstr "Java Properties"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
 msgid "Joomla language file"
-msgstr "Joomla jazykový súbor"
+msgstr "Jazykový súbor Joomla"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1676
 msgid "GWT properties"
-msgstr "GWT properties"
+msgstr "Vlastnosti GWT"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1694
@@ -5733,12 +5738,12 @@ msgstr "Tento kľúč je v konflikte s existujúcim hierarchickým kľúčom."
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
 msgid "JSON file"
-msgstr "JSON súbor"
+msgstr "Súbor JSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1894
 msgid "WebExtension JSON file"
-msgstr "WebExtension JSON súbor"
+msgstr "Súbor WebExtension JSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1906
@@ -5763,7 +5768,7 @@ msgstr "go-i18n v2 JSON súbor"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1946
 msgid "ARB file"
-msgstr "ARB súbor"
+msgstr "Súbor ARB"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1958
@@ -5773,7 +5778,7 @@ msgstr "gotext JSON súbor"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1970
 msgid "Format.JS JSON file"
-msgstr "Format.JS JSON súbor"
+msgstr "Súbor Format.JS JSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1979
@@ -5783,12 +5788,12 @@ msgstr "Nextcloud JSON súbor"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1990
 msgid "RESJSON file"
-msgstr "RESJSON súbor"
+msgstr "Súbor RESJSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2000
 msgid "TOML file"
-msgstr "TOML súbor"
+msgstr "Súbor TOML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2021
@@ -5798,17 +5803,17 @@ msgstr "go-i18n TOML súbor"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2031
 msgid "CSV file"
-msgstr "CSV súbor"
+msgstr "Súbor CSV"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2145
 msgid "Simple CSV file"
-msgstr "Jednoduchý CSV súbor"
+msgstr "Jednoduchý súbor CSV"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2164
 msgid "YAML file"
-msgstr "YAML súbor"
+msgstr "Súbor YAML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2185
@@ -5818,42 +5823,42 @@ msgstr "Ruby YAML súbor"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2195
 msgid "DTD file"
-msgstr "DTD súbor"
+msgstr "Súbor DTD"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2241
 msgid "SubRip subtitle file"
-msgstr "SubRip titulkový súbor"
+msgstr "Titulkový súbor SubRip"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2258
 msgid "MicroDVD subtitle file"
-msgstr "MicroDVD titulkový súbor"
+msgstr "Titulkový súbor MicroDVD"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2266
 msgid "Advanced SubStation Alpha subtitle file"
-msgstr "Advanced SubStation Alpha titulkový súbor"
+msgstr "Titulkový súbor Advanced SubStation Alpha"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2274
 msgid "SubStation Alpha subtitle file"
-msgstr "SubStation Alpha titulkový súbor"
+msgstr "Titulkový súbor SubStation Alpha"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2282
 msgid "Flat XML file"
-msgstr "Flat XML súbor"
+msgstr "Plochý súbor XML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2306
 msgid "ResourceDictionary file"
-msgstr "ResourceDictionary súbor"
+msgstr "Súbor ResourceDictionary"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2320
 msgid "INI file"
-msgstr "INI súbor"
+msgstr "Súbor INI"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2364
@@ -5863,7 +5868,7 @@ msgstr "Inno Setup INI súbor"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2558
 msgid "TermBase eXchange file"
-msgstr "TermBase eXchange súbor"
+msgstr "Súbor TermBase eXchange"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2613
@@ -5878,12 +5883,12 @@ msgstr "Haiku catkeys"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2644
 msgid "Stringsdict file"
-msgstr "Stringsdict súbor"
+msgstr "Súbor Stringsdict"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2699
 msgid "Fluent file"
-msgstr "Fluent súbor"
+msgstr "Súbor Fluent"
 
 #: weblate/formats/txt.py:95
 msgid "Should be a directory with metadata files!"
@@ -9141,7 +9146,7 @@ msgstr "Vygenerované reťazce"
 
 #: weblate/templates/addons/pseudolocale.html:6
 msgid "The strings will be generated using following pattern:"
-msgstr "Reťazce budú vygenerované pomocou nasledujúceho vzoru:"
+msgstr "Reťazce budú generované pomocou nasledujúceho vzoru:"
 
 #: weblate/templates/addons/pseudolocale.html:11
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -16096,7 +16101,7 @@ msgstr "MAC (\\r)"
 
 #: weblate/trans/file_format_params.py:418
 msgid "Include closing tag for blank XML tags"
-msgstr "Zahrnúť zatváraciu značku pre prázdne XML značky"
+msgstr "Zahrnúť zatváraciu značku pre prázdne značky XML"
 
 #: weblate/trans/file_format_params.py:450
 msgid "FlatXML Root name"
@@ -16162,15 +16167,15 @@ msgstr "Kódovanie používané pre súbory Java Properties"
 #: weblate/trans/file_format_params.py:524
 #: weblate/trans/file_format_params.py:538
 msgid "Auto-detect"
-msgstr "Automaticky detekovať"
+msgstr "Automatická detekcia"
 
 #: weblate/trans/file_format_params.py:528
 msgid "Encoding used for CSV files"
-msgstr "Kódovanie používané pre CSV súbory"
+msgstr "Kódovanie používané pre súbory CSV"
 
 #: weblate/trans/file_format_params.py:543
 msgid "Encoding used for simple CSV files"
-msgstr "Kódovanie používané pre jednoduché CSV súbory"
+msgstr "Kódovanie používané pre jednoduché súbory CSV"
 
 #: weblate/trans/file_format_params.py:557
 msgid "Encoding used for GWT Properties files"
@@ -16403,7 +16408,7 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Prosím, majte na pamäti, že preklad všetkých reťazcov zahodí všetky "
+"Prosím, majte na pamäti, že prekladom všetkých reťazcov sa zahodia všetky "
 "existujúce preklady."
 
 #: weblate/trans/forms.py:1002
@@ -16420,7 +16425,7 @@ msgstr "Strojový preklad"
 
 #: weblate/trans/forms.py:1017
 msgid "Machine translation engines"
-msgstr "Nástroje strojového prekladu"
+msgstr "Stroje strojového prekladu"
 
 #: weblate/trans/forms.py:1020
 msgid "Score threshold"
@@ -16751,7 +16756,7 @@ msgstr "Stav na nastavenie"
 
 #: weblate/trans/forms.py:3089
 msgid "Do not change"
-msgstr "Nezmeniť"
+msgstr "Nemeniť"
 
 #: weblate/trans/forms.py:3093
 msgid "Translation flags to add"
