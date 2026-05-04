@@ -5,8 +5,6 @@ Weblate 2026.5
 
 .. rubric:: New features
 
-* Add-ons that opt in to manual triggering can now be run from add-on management and the :ref:`addons-api`.
-* :ref:`mt-ltengine` machine translation service.
 * Added :ref:`file_format_params` for :ref:`markdown`, including ``line_max_length``, ``md_extract_code_blocks``, ``md_extract_frontmatter``, and ``md_no_placeholders``.
 
 .. rubric:: Improvements
