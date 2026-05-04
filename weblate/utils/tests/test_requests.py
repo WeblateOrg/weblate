@@ -569,26 +569,21 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(len(responses.calls), 0)
 
-    @patch("weblate.utils.requests.LOGGER.warning")
     @patch("weblate.utils.requests._get_response_peer_ip", return_value=None)
-    def test_http_request_logs_when_peer_ip_is_unavailable(
-        self, mocked_get_peer, mocked_warning
+    def test_http_request_fails_when_peer_ip_is_unavailable(
+        self, mocked_get_peer
     ) -> None:
         response = Mock()
         response.url = "https://public.example.com/source"
 
-        _validate_response_peer(
-            response,
-            allow_private_targets=False,
-            used_proxy=False,
-        )
+        with self.assertRaises(ValidationError):
+            _validate_response_peer(
+                response,
+                allow_private_targets=False,
+                used_proxy=False,
+            )
 
         mocked_get_peer.assert_called_once_with(response)
-        mocked_warning.assert_called_once_with(
-            "Skipping peer IP validation for direct request to %s because the "
-            "connected peer address could not be determined.",
-            "https://public.example.com/source",
-        )
 
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
     def test_validate_response_peer_skips_allowlisted_hostname(

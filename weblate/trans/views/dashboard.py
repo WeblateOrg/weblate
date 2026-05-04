@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
-from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -60,9 +59,7 @@ def get_suggestions(
 ) -> list[Translation]:
     """Return suggested translations for user."""
     if not filtered:
-        non_alerts = base.annotate(alert_count=Count("component__alert__pk")).filter(
-            alert_count=0
-        )
+        non_alerts = base.filter(component__alert__isnull=True)
         result = get_suggestions(user, user_has_languages, non_alerts, True)
         if result:
             return result

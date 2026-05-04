@@ -2427,6 +2427,16 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 {"name": f"Add-on already installed: {name}"}
             )
 
+    @staticmethod
+    def serialize_submitted_configuration(form, configuration):
+        submitted = set(configuration) if isinstance(configuration, dict) else set()
+        fields = set(form.fields)
+        return {
+            key: value
+            for key, value in form.serialize_form().items()
+            if key in submitted or key not in fields
+        }
+
     def validate(self, attrs):
         instance = self.instance
         try:
@@ -2453,7 +2463,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             ) from error
 
         # Don't allow duplicate add-ons
-        addon = addon_class(Addon())
+        addon = instance.addon if instance else addon_class(Addon())
         if not component and addon_class.needs_component:
             raise serializers.ValidationError(
                 {"component": "This add-on can only be installed on the component."}
@@ -2468,18 +2478,29 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             if project:
                 self.check_addon(name, Addon.objects.filter_project(project))
 
-        if addon.has_settings() and "configuration" in attrs:
-            form = addon.get_add_form(
-                None,
-                component=component,
-                project=project,
-                data=attrs["configuration"],
-            )
-            form.is_valid()
+        if addon.has_settings() and (not instance or "configuration" in attrs):
+            if instance:
+                form = addon.get_settings_form(
+                    None, data=attrs.get("configuration", {})
+                )
+            else:
+                form = addon.get_add_form(
+                    None,
+                    component=component,
+                    project=project,
+                    data=attrs.get("configuration", {}),
+                )
+            if form is None:
+                raise serializers.ValidationError(
+                    {"configuration": "Can not configure add-on"}
+                )
             if not form.is_valid():
                 raise serializers.ValidationError(
                     {"configuration": list(get_form_errors(form))}
                 )
+            attrs["configuration"] = self.serialize_submitted_configuration(
+                form, attrs.get("configuration", {})
+            )
         return attrs
 
     def create(self, validated_data):

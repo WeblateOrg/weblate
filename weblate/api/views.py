@@ -16,7 +16,12 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.postgres.search import TrigramSimilarity
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import (
+    PermissionDenied,
+)
+from django.core.exceptions import (
+    ValidationError as DjangoValidationError,
+)
 from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.forms.utils import from_current_timezone
@@ -2758,22 +2763,30 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            with transaction.atomic():
-                if not (can_add := request.user.has_perm("unit.add", obj)):
-                    self.permission_denied(request, can_add.reason)
-                serializer = serializer_class(
-                    data=request.data, context={"translation": obj}
+            if not (can_add := request.user.has_perm("unit.add", obj)):
+                self.permission_denied(
+                    request,
+                    (
+                        can_add.reason
+                        if isinstance(can_add, PermissionResult)
+                        else "Can not add unit"
+                    ),
                 )
-                serializer.is_valid(raise_exception=True)
+            input_serializer = serializer_class(
+                data=request.data, context={"translation": obj}
+            )
+            input_serializer.is_valid(raise_exception=True)
 
-                try:
-                    unit = obj.add_unit(request, **serializer.as_kwargs())
-                except IntegrityError as error:
-                    raise ValidationError(
-                        gettext("This string seems to already exist.")
-                    ) from error
-                outserializer = UnitSerializer(unit, context={"request": request})
-                return Response(outserializer.data, status=HTTP_200_OK)
+            try:
+                unit = obj.add_unit(request, **input_serializer.as_kwargs())
+            except DjangoValidationError as error:
+                raise ValidationError(error.messages) from error
+            except IntegrityError as error:
+                raise ValidationError(
+                    gettext("This string seems to already exist.")
+                ) from error
+            output_serializer = UnitSerializer(unit, context={"request": request})
+            return Response(output_serializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
         try:

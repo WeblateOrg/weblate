@@ -602,6 +602,39 @@ class BackupsTest(ViewTestCase):
         finally:
             os.unlink(temp_name)
 
+    def test_restore_zip_bomb_too_much_uncompressed_data(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                total_size = sum(
+                    item.file_size
+                    for item in source_zip.infolist()
+                    if not item.is_dir()
+                )
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr(
+                    "payload.bin", b"12345678901", compress_type=ZIP_STORED
+                )
+
+            restore = ProjectBackup(temp_name)
+            with (
+                override_settings(
+                    PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE=total_size
+                ),
+                self.assertRaisesRegex(
+                    ValueError, "contains too much uncompressed data"
+                ),
+            ):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
     def test_restore_rejects_unsafe_vcs_path_after_prefix_strip(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -797,6 +830,18 @@ class BackupsTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Could not load project backup")
+
+        with override_settings(PROJECT_BACKUP_UPLOAD_MAX_SIZE=1):
+            response = self.client.post(
+                reverse("create-project-import"),
+                {
+                    "zipfile": SimpleUploadedFile(
+                        "backup.zip", b"xx", content_type="application/zip"
+                    )
+                },
+                follow=True,
+            )
+        self.assertContains(response, "Uploaded ZIP file is too big.")
 
         with open(TEST_BACKUP, "rb") as handle:
             response = self.client.post(

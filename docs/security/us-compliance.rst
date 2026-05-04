@@ -49,7 +49,7 @@ deployments should be evaluated as a whole by the exporting party.
    * `BIS mass market guidance
      <https://www.bis.gov/learn-support/encryption-controls/mass-market>`_
    * `15 CFR 742.15
-     <https://www.ecfr.gov/current/title-15/part-742/section-742.15>`_
+     <https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/subchapter-C/part-742/section-742.15>`_
 
 Cryptographic functionality
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -33,6 +33,22 @@ class DbTest(TestCase):
 
         cursor.execute.assert_called_once_with("SELECT set_limit(%s)", [0.92])
 
+    @patch("weblate.utils.db.connections")
+    def test_adjust_similarity_threshold_applies_nearby_updates(
+        self, connections_mock
+    ) -> None:
+        cursor = MagicMock()
+        cursor.__enter__.return_value = cursor
+        connection = MagicMock()
+        connection.cursor.return_value = cursor
+        connection.weblate_similarity = 0.98
+        connections_mock.__contains__.return_value = False
+        connections_mock.__getitem__.return_value = connection
+
+        adjust_similarity_threshold(0.966)
+
+        cursor.execute.assert_called_once_with("SELECT set_limit(%s)", [0.966])
+
 
 class PostgreSQLOperatorTest(TestCase):
     def test_search(self) -> None:

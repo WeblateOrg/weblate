@@ -17,6 +17,8 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -45,6 +47,17 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
     from weblate.utils.state import StringState
+
+
+class PaginatorTemplateTest(TestCase):
+    def test_anchor_in_page_form_action(self) -> None:
+        page_obj = Paginator(range(11), 10).page(1)
+
+        rendered = render_to_string(
+            "paginator.html", {"page_obj": page_obj, "anchor": "components"}
+        )
+
+        self.assertIn('<form method="get" action="#components">', rendered)
 
 
 class RegistrationTestMixin(TestCase):

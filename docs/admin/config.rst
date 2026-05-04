@@ -1631,6 +1631,25 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 
    :ref:`projectbackup`
 
+.. setting:: PROJECT_BACKUP_UPLOAD_MAX_SIZE
+
+PROJECT_BACKUP_UPLOAD_MAX_SIZE
+------------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded project backup ZIP files.
+Defaults to 262144000 bytes (250 MiB).
+
+In Docker, configure this using the ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``
+environment variable. Docker setups can also be constrained by
+:envvar:`CLIENT_MAX_BODY_SIZE`; other deployments can be constrained by their
+reverse proxy request body-size limit.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
 .. setting:: PROJECT_BACKUP_IMPORT_MAX_MEMBERS
 
 PROJECT_BACKUP_IMPORT_MAX_MEMBERS
@@ -1643,6 +1662,23 @@ backup.
 
 This is a safeguard against malformed or intentionally fragmented archives.
 Defaults to 100000 entries.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+
+PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+-------------------------------------------------
+
+.. versionadded:: 5.17.1
+
+Defines the maximum total uncompressed size, in bytes, for ZIP entries in an
+imported project backup. Defaults to 262144000 bytes (250 MiB).
+
+This limits archives that are small when uploaded but expand to much more data
+during validation or restore.
 
 .. seealso::
 

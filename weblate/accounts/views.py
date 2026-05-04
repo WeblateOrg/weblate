@@ -210,6 +210,7 @@ HANDLED_AUTH_PARAMETERS = frozenset(
         "RelayState",
         "RelayState.idp",
         "disabled",
+        "invitation",
     }
 )
 HANDLED_AUTH_FAILED_MARKERS = (
@@ -1117,9 +1118,13 @@ def register(request: AuthenticatedHttpRequest):
         except Invitation.DoesNotExist:
             del request.session["invitation_link"]
         else:
-            initial["email"] = invitation.email
-            initial["username"] = invitation.username
-            initial["fullname"] = invitation.full_name
+            if invitation.is_expired():
+                del request.session["invitation_link"]
+                invitation = None
+            else:
+                initial["email"] = invitation.email
+                initial["username"] = invitation.username
+                initial["fullname"] = invitation.full_name
 
     # Allow registration at all?
     registration_open = settings.REGISTRATION_OPEN or bool(invitation)
@@ -1139,13 +1144,22 @@ def register(request: AuthenticatedHttpRequest):
             request=request, data=request.POST, hide_captcha=hide_captcha
         )
         if form.is_valid():
-            if form.cleaned_data["email_user"]:
+            if invitation and not invitation.matches_email(form.cleaned_data["email"]):
+                form.add_error(
+                    "email",
+                    gettext(
+                        "This invitation can be accepted only by the e-mail address "
+                        "chosen by the inviter; it can't be used by your account."
+                    ),
+                )
+            elif form.cleaned_data["email_user"]:
                 AuditLog.objects.create(
                     form.cleaned_data["email_user"], request, "connect"
                 )
                 return fake_email_sent(request)
-            store_userid(request)
-            return social_complete(request, "email")
+            else:
+                store_userid(request)
+                return social_complete(request, "email")
     else:
         form = RegistrationForm(
             request=request, initial=initial, hide_captcha=hide_captcha
@@ -1611,7 +1625,7 @@ def handle_missing_parameter(
             # Show only if e-mail authentication is turned on
             error_messages.append(gettext("Please register using e-mail instead."))
         return auth_fail(request, " ".join(error_messages))
-    if error.parameter in {"email", "user", "expires"}:
+    if error.parameter in {"email", "user", "expires", "invitation"}:
         return auth_redirect_token(request)
     if error.parameter == "RelayState.idp":
         return auth_fail(

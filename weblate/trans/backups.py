@@ -116,12 +116,12 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
     MAX_ARCHIVE_MEMBERS = 100_000
-    # Large low-compression files are intentionally allowed here and are expected
-    # to be constrained by the HTTP upload limit. This validation only rejects
-    # oversized entries when ZIP compression meaningfully amplifies them.
+    # Per-entry limits reject suspiciously high compression ratios, while the
+    # total uncompressed limit constrains low-compression archives as a whole.
     MAX_COMPRESSED_ENTRY_SIZE = 250 * 1024 * 1024
     MIN_COMPRESSED_RATIO_SIZE = 1 * 1024 * 1024
     MAX_COMPRESSED_ENTRY_RATIO = 250
+    MAX_TOTAL_UNCOMPRESSED_SIZE = 250 * 1024 * 1024
 
     def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}
@@ -572,6 +572,10 @@ class ProjectBackup:
                 max_compressed_entry_ratio=self.get_limit(
                     "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO",
                     self.MAX_COMPRESSED_ENTRY_RATIO,
+                ),
+                max_total_uncompressed_size=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE",
+                    self.MAX_TOTAL_UNCOMPRESSED_SIZE,
                 ),
             ),
             validate_member=self.validate_backup_zip_member,
