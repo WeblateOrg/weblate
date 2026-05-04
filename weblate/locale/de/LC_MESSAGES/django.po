@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-04-25 18:12+0000\n"
+"PO-Revision-Date: 2026-05-04 07:56+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1316,19 +1316,15 @@ msgid "The registration link has been invalidated."
 msgstr "Der Registrierungslink wurde invalidiert."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Der Registrierungslink wurde invalidiert."
+msgstr "Der Einladungslink ist nicht mehr gültig."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "Benutzereinladung wurde entfernt."
+msgstr "Diese Einladung ist abgelaufen."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1480,20 +1476,16 @@ msgstr "Kostenlos testen"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
-"Bearbeitungen durch %(user)s plattformweit rückgängig machen wurde geplant."
+"Bearbeitungen von %(user)s plattformweit rückgängig machen wurde geplant."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr ""
-"Bearbeitungen durch %(user)s plattformweit rückgängig machen wurde geplant."
+msgstr "Beiträge von %(user)s plattformweit bereinigen wurde geplant."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "Es wurden keine Einladungen erstellt."
+msgstr "Es wurde kein Bereinigungsvorgang ausgewählt."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -5914,6 +5906,8 @@ msgstr "Der Schlüssel konnte nicht analysiert werden: %s"
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
 msgstr ""
+"Dieser Schlüssel steht im Widerspruch zu einem bestehenden hierarchischen "
+"Schlüssel."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -6136,15 +6130,11 @@ msgid "Glossary"
 msgstr "Glossar"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Die Zeichenkette konnte nicht entfernt werden, da ein anderer "
+"Der Glossarbegriff konnte nicht hinzugefügt werden, da ein anderer "
 "Hintergrundvorgang läuft. Bitte später erneut versuchen."
 
 #: weblate/lang/apps.py:13
@@ -8796,29 +8786,23 @@ msgid "Disable password"
 msgstr "Passwort deaktivieren"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "Mitwirkende im Kommentar"
+msgstr "Bereinigungsvorgang der Beiträge"
 
 #: weblate/templates/accounts/user.html:446
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
 msgstr ""
-"Macht die zuletzt bearbeiteten Übersetzungen von %(user)s in allen Projekten "
-"rückgängig."
+"Bereinigung von Übersetzungen, Vorschlägen und Kommentaren von %(user)s in "
+"allen Projekten."
 
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
-msgstr "Bereinigung"
+msgstr "Bereinigen"
 
 #: weblate/templates/accounts/user.html:464
 #: weblate/templates/accounts/user.html:504
@@ -8861,16 +8845,13 @@ msgid "Close"
 msgstr "Schließen"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
 msgstr ""
-"Damit werden die zuletzt bearbeiteten Übersetzungen von <b>%(user)s</b> in "
-"allen Projekten rückgängig gemacht."
+"Wählen Sie aus, welche Beiträge von <b>%(user)s</b> in allen Projekten "
+"bereinigt werden sollen."
 
 #: weblate/templates/accounts/user.html:487
 msgid "Account removal deletes all user private data."
@@ -13987,78 +13968,56 @@ msgid "Revert user edits"
 msgstr "Benutzerbearbeitungen rückgängig machen"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
 msgstr ""
-"Macht die zuletzt bearbeiteten Übersetzungen von %(user)s in allen Projekten "
-"rückgängig."
+"Die zuletzt bearbeiteten Übersetzungen von <b>%(user)s </b> in allen "
+"Projekten rückgängig machen."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
 msgstr ""
-"Damit werden die letzten bearbeiteten Übersetzungen von <b>%(user)s</b> in "
-"diesem Projekt rückgängig gemacht."
+"Die zuletzt bearbeiteten Übersetzungen von <b>%(user)s </b> in diesem "
+"Projekt rückgängig machen."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "Vorschlag ablehnen"
+msgstr "Benutzervorschläge ablehnen"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
 msgstr ""
-"Damit werden die zuletzt bearbeiteten Übersetzungen von <b>%(user)s</b> in "
-"allen Projekten rückgängig gemacht."
+"Alle ausstehenden Übersetzungsvorschläge von <b>%(user)s</b> in allen "
+"Projekten ablehnen."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
 msgstr ""
-"Damit werden die letzten bearbeiteten Übersetzungen von <b>%(user)s</b> in "
-"diesem Projekt rückgängig gemacht."
+"Alle ausstehenden Übersetzungsvorschläge von <b>%(user)s</b> in diesem "
+"Projekt ablehnen."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "Kommentar löschen"
+msgstr "Benutzerkommentare löschen"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr ""
-"Damit werden die zuletzt bearbeiteten Übersetzungen von <b>%(user)s</b> in "
-"allen Projekten rückgängig gemacht."
+msgstr "Alle Kommentare von <b>%(user)s</b> in allen Projekten löschen."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr ""
-"Dadurch wird für <b>%(user)s</b> der Zugriff auf dieses Projekt entfernt."
+msgstr "Alle Kommentare von <b>%(user)s</b> in diesem Projekt löschen."
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -19206,12 +19165,9 @@ msgid "Weblate statistics"
 msgstr "Weblate-Statistiken"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s in this project was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr ""
-"Bearbeitungen durch %(user)s in diesem Projekt rückgängig machen wurde "
-"geplant."
+msgstr "Beiträge von %(user)s in diesem Projekt bereinigen wurde geplant."
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
