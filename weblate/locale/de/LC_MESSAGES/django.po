@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-04 07:57+0000\n"
+"PO-Revision-Date: 2026-05-04 08:45+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -16828,26 +16828,18 @@ msgstr "Bitte auswählen"
 msgid ""
 "Revert the latest translation edits from this user in the current project."
 msgstr ""
-"Macht die letzten bearbeiteten Übersetzungen dieses Benutzers im aktuellen "
-"Projekt rückgängig."
+"Die letzten Übersetzungsänderungen dieses Benutzers im aktuellen Projekt "
+"rückgängig machen."
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Reject all pending suggestions from this user in the current project."
 msgstr ""
-"Macht die letzten bearbeiteten Übersetzungen dieses Benutzers im aktuellen "
-"Projekt rückgängig."
+"Alle ausstehenden Übersetzungsvorschläge dieses Benutzers im aktuellen "
+"Projekt ablehnen."
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Delete all comments from this user in the current project."
-msgstr ""
-"Macht die letzten bearbeiteten Übersetzungen dieses Benutzers im aktuellen "
-"Projekt rückgängig."
+msgstr "Alle Kommentare dieses Benutzers im aktuellen Projekt löschen."
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -18684,7 +18676,7 @@ msgstr ""
 #: weblate/trans/models/translation.py:362
 #, python-format
 msgid "Could not parse file %(file)s: %(error)s"
-msgstr "Datei %(file)s konnte nicht analysiert werden: %(error)s"
+msgstr "Die Datei %(file)s konnte nicht analysiert werden: %(error)s"
 
 #: weblate/trans/models/translation.py:1312
 msgid "“{}”"
@@ -18698,8 +18690,8 @@ msgstr "…"
 #, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
-msgstr[0] "Konnte Zeichenkette %d nicht finden:"
-msgstr[1] "Konnte Zeichenketten %d nicht finden:"
+msgstr[0] "%d Zeichenkette konnte nicht gefunden werden:"
+msgstr[1] "%d Zeichenketten konnten nicht gefunden werden:"
 
 #: weblate/trans/models/translation.py:1516
 #: weblate/trans/models/translation.py:1577
@@ -18721,10 +18713,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "Die hochgeladene Datei konnte nicht analysiert werden: %s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Die Übersetzungsdateien konnten nicht analysiert werden."
+msgstr "Die Übersetzungsdatei konnte nicht analysiert werden: %s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -18734,7 +18725,7 @@ msgstr "Pluralformen werden vom Dateiformat nicht unterstützt."
 #: weblate/utils/forms.py:133
 #, python-format
 msgid "String contains control character: %s"
-msgstr "Zeichenkette enthält Steuerzeichen: %s"
+msgstr "Die Zeichenkette enthält Steuerzeichen: %s"
 
 #: weblate/trans/models/translation.py:2421
 msgid "Empty state is supported for blank strings only."
@@ -18752,8 +18743,7 @@ msgstr ""
 
 #: weblate/trans/models/translation.py:2444
 msgid "Failed adding string, no translation found."
-msgstr ""
-"Hinzufügen der Zeichenkette fehlgeschlagen, keine Übersetzung gefunden."
+msgstr "Fehler beim Hinzufügen der Zeichenkette, keine Übersetzung gefunden."
 
 #: weblate/trans/models/unit.py:484
 msgid "Indicates whether this string was translated automatically."
@@ -19469,15 +19459,11 @@ msgid "Comment has been resolved."
 msgstr "Kommentar wurde geklärt."
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Die Zeichenkette konnte nicht entfernt werden, da ein anderer "
+"Die Zeichenkette konnte nicht hinzugefügt werden, da ein anderer "
 "Hintergrundvorgang läuft. Bitte später erneut versuchen."
 
 #: weblate/trans/views/edit.py:1138
@@ -19921,13 +19907,12 @@ msgstr ""
 "stattdessen die Vorlagensprache."
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
 msgstr ""
-"Diese URL ist unzulässig, da sie einem eingeschränkten Muster entspricht."
+"Diese URL ist unzulässig, da die Adresse der verbundenen Gegenstelle nicht "
+"ermittelt werden konnte."
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -20070,11 +20055,11 @@ msgstr ""
 
 #: weblate/utils/validators.py:218
 msgid "Name consists only of disallowed characters."
-msgstr "Name besteht nur aus nicht zulässigen Zeichen."
+msgstr "Der Name besteht nur aus unzulässigen Zeichen."
 
 #: weblate/utils/validators.py:221
 msgid "Name contains disallowed characters."
-msgstr "Name enthält unzulässige Zeichen."
+msgstr "Der Name enthält unzulässige Zeichen."
 
 #: weblate/utils/validators.py:236
 msgid "The username can not start with a full stop."
@@ -20128,17 +20113,17 @@ msgstr "Der Dateiname enthält einen unzulässigen Ordner."
 
 #: weblate/utils/validators.py:320
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "Im Sicherungsort kann kein Archiv angegeben werden."
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "Der Dateiname kann kein absoluter Pfad sein."
+msgstr "Der Sicherungsort muss ein absoluter Pfad sein."
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
 msgstr ""
+"Der Sicherungsort sollte außerhalb der Weblate-Sicherungen in DATA_DIR "
+"liegen."
 
 #: weblate/utils/validators.py:350 weblate/utils/validators.py:367
 msgid "This name is prohibited"
