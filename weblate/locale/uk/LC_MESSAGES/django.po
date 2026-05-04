@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-04 06:43+0000\n"
+"PO-Revision-Date: 2026-05-04 07:56+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim2005ukr@protonmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -34,8 +34,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.17.1\n"
 
 #: weblate/accounts/avatar.py:89
@@ -1308,19 +1308,15 @@ msgid "The registration link has been invalidated."
 msgstr "Посилання на реєстрацію визнане недійсним."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Посилання на реєстрацію визнане недійсним."
+msgstr "Посилання на запрошення більше не діє."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "Запрошення користувача вилучено."
+msgstr "Термін дії цього запрошення закінчився."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1470,18 +1466,14 @@ msgstr ""
 "всьому сайті."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
 msgstr ""
-"Було заплановано скасування редагувань, зроблених користувачем %(user)s на "
-"всьому сайті."
+"Було заплановано видалення дописів користувача %(user)s на всьому сайті."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "Запрошення не було створено."
+msgstr "Не було обрано жодної дії з очищення."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -5811,7 +5803,7 @@ msgstr "Не вдалося обробити ключ: %s"
 
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "Цей ключ суперечить існуючому ієрархічному ключу."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -6034,16 +6026,12 @@ msgid "Glossary"
 msgstr "Глосарій"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Не вдалося вилучити рядок, оскільки виконується інша фонова операція. "
-"Спробуйте ще раз пізніше."
+"Не вдалося додати термін до глосарію, оскільки виконується інша фонова "
+"операція. Спробуйте ще раз пізніше."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -8672,29 +8660,22 @@ msgid "Disable password"
 msgstr "Відключити пароль"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "Перекладачі в коментарі"
+msgstr "Очищення внесків"
 
 #: weblate/templates/accounts/user.html:446
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
 msgstr ""
-"Скасувати останні редагування перекладів, зроблені користувачем %(user)s у "
-"всіх проектах."
+"Виправити переклади, пропозиції та коментарі від %(user)s у всіх проектах."
 
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
-msgstr "Очистити"
+msgstr "Прибрати"
 
 #: weblate/templates/accounts/user.html:464
 #: weblate/templates/accounts/user.html:504
@@ -8737,16 +8718,13 @@ msgid "Close"
 msgstr "Закрити"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
 msgstr ""
-"Це призведе до скасування останніх редагувань перекладів, внесених "
-"<b>%(user)s</b> у всіх проектах."
+"Виберіть, які внески користувачів <b>%(user)s</b> потрібно видалити у всіх "
+"проектах."
 
 #: weblate/templates/accounts/user.html:487
 msgid "Account removal deletes all user private data."
@@ -9144,19 +9122,23 @@ msgid_plural ""
 "  "
 msgstr[0] ""
 "\n"
-"    The preview below shows %(action_count)s translation file.\n"
+"    У попередньому перегляді нижче показано %(action_count)s файл "
+"перекладу.\n"
 "  "
 msgstr[1] ""
 "\n"
-"    The preview below shows %(action_count)s translation files.\n"
+"    У попередньому перегляді нижче показано %(action_count)s файли "
+"перекладу.\n"
 "  "
 msgstr[2] ""
 "\n"
-"    The preview below shows %(action_count)s translation files.\n"
+"    У попередньому перегляді нижче показано %(action_count)s файлів "
+"перекладу.\n"
 "  "
 msgstr[3] ""
 "\n"
-"    The preview below shows %(action_count)s translation files.\n"
+"    У попередньому перегляді нижче показано %(action_count)s файл "
+"перекладу.\n"
 "  "
 
 #: weblate/templates/addons/language_consistency_preview.html:14
@@ -13905,77 +13887,54 @@ msgid "Revert user edits"
 msgstr "Скасувати редагування користувача"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
 msgstr ""
-"Скасувати останні редагування перекладів, зроблені користувачем %(user)s у "
-"всіх проектах."
+"Скасувати останні редагування перекладів, зроблені <b>%(user)s</b> у всіх "
+"проектах."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
 msgstr ""
-"Це дозволить відновити останні редаговані переклади, зроблені <b>%(user)s</"
-"b> у цьому проєкті."
+"Скасувати останні редагування перекладів, зроблені <b>%(user)s</b> у цьому "
+"проєкті."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "Відкинути пропозицію"
+msgstr "Відхилити пропозиції користувачів"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
-msgstr ""
-"Це призведе до скасування останніх редагувань перекладів, внесених "
-"<b>%(user)s</b> у всіх проектах."
+msgstr "Відхилити всі очікувані пропозиції від <b>%(user)s</b> у всіх проектах."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
 msgstr ""
-"Це дозволить відновити останні редаговані переклади, зроблені <b>%(user)s</"
-"b> у цьому проєкті."
+"Відхилити всі пропозиції, що знаходяться на розгляді, від <b>%(user)s</b> у "
+"цьому проєкті."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "Вилучити коментар"
+msgstr "Видалити коментарі користувачів"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr ""
-"Це призведе до скасування останніх редагувань перекладів, внесених "
-"<b>%(user)s</b> у всіх проектах."
+msgstr "Видалити всі коментарі від <b>%(user)s</b> у всіх проектах."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr "У результаті доступ <b>%(user)s</b> до цього проєкту буде вилучено."
+msgstr "Видалити всі коментарі від <b>%(user)s</b> у цьому проєкті."
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -14853,17 +14812,15 @@ msgid "Edit team membership for %(username)s"
 msgstr "Редагувати членство у командах %(username)s"
 
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Clean up user contributions"
-msgstr "Тільки обрані користувачі можуть брати участь."
+msgstr "Очистити матеріали, додані користувачами"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
-msgstr "У результаті доступ <b>%(user)s</b> до цього проєкту буде вилучено."
+msgstr ""
+"Виберіть, які внески від <b>%(user)s</b> потрібно видалити в цьому проєкті."
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -16754,22 +16711,14 @@ msgstr ""
 "проєкті."
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Reject all pending suggestions from this user in the current project."
 msgstr ""
-"Скасувати останні зміни в перекладі, внесені цим користувачем у поточному "
-"проєкті."
+"Відхилити всі пропозиції цього користувача, що знаходяться на розгляді, у "
+"поточному проєкті."
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Delete all comments from this user in the current project."
-msgstr ""
-"Скасувати останні зміни в перекладі, внесені цим користувачем у поточному "
-"проєкті."
+msgstr "Видалити всі коментарі цього користувача в поточному проєкті."
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -18047,21 +17996,29 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
-"Reset the repository, but could not reapply pending translations because "
-"%(files)s is missing. Pending changes were kept. To recover, add the file "
-"upstream and rescan, or configure the component so Weblate can create the "
-"translation file."
+"Репозиторій було скинуто, але не вдалося повторно застосувати очікувані "
+"переклади, оскільки відсутні %(files)s. Очікувані зміни збережено. Щоб "
+"відновити дані, додайте файл до вихідного коду та виконайте повторне "
+"сканування, або налаштуйте компонент так, щоб Weblate міг створити файл "
+"перекладу."
 msgstr[1] ""
-"Reset the repository, but could not reapply pending translations because "
-"these files are missing: %(files)s. Pending changes were kept. To recover, "
-"add the files upstream and rescan, or configure the component so Weblate can "
-"create the translation files."
+"Репозиторій було скинуто, але не вдалося повторно застосувати очікувані "
+"переклади, оскільки відсутні такі файли: %(files)s. Очікувані зміни "
+"збережено. Щоб відновити дані, додайте файли до вихідного коду та виконайте "
+"повторне сканування, або налаштуйте компонент так, щоб Weblate міг створити "
+"файли перекладу."
 msgstr[2] ""
-"Reset the repository, but could not reapply pending translations because "
-"these files are missing: %(files)s. Pending changes were kept. To recover, "
-"add the files upstream and rescan, or configure the component so Weblate can "
-"create the translation files."
+"Репозиторій було скинуто, але не вдалося повторно застосувати очікувані "
+"переклади, оскільки відсутні такі файлів: %(files)s. Очікувані зміни "
+"збережено. Щоб відновити дані, додайте файли до вихідного коду та виконайте "
+"повторне сканування, або налаштуйте компонент так, щоб Weblate міг створити "
+"файли перекладу."
 msgstr[3] ""
+"Репозиторій було скинуто, але не вдалося повторно застосувати очікувані "
+"переклади, оскільки відсутні такі файл: %(files)s. Очікувані зміни "
+"збережено. Щоб відновити дані, додайте файли до вихідного коду та виконайте "
+"повторне сканування, або налаштуйте компонент так, щоб Weblate міг створити "
+"файли перекладу."
 
 #: weblate/trans/models/component.py:2592
 #, python-format
@@ -18595,10 +18552,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "Не вдалося проаналізувати завантажений файл: %s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Не вдалося розібрати файли перекладу."
+msgstr "Не вдалося проаналізувати файл перекладу: %s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -19035,12 +18991,9 @@ msgid "Weblate statistics"
 msgstr "Статистика Weblate"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s in this project was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr ""
-"Було заплановано скасування редагувань, зроблених користувачем %(user)s у "
-"цьому проєкті."
+msgstr "Було заплановано очищення внесків %(user)s у цьому проєкті."
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
@@ -19359,15 +19312,11 @@ msgid "Comment has been resolved."
 msgstr "Описану в коментарі проблему усунуто."
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Не вдалося вилучити рядок, оскільки виконується інша фонова операція. "
+"Не вдалося додати рядок, оскільки виконується інша фонова операція. "
 "Спробуйте ще раз пізніше."
 
 #: weblate/trans/views/edit.py:1138
@@ -19810,14 +19759,12 @@ msgstr ""
 "мову шаблонів."
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
 msgstr ""
-"Цей URL-адресу заборонено, оскільки вона відповідає шаблону, на який "
-"накладено обмеження."
+"Цей URL-адресу заборонено, оскільки не вдалося визначити адресу підключеного "
+"вузла."
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -20012,17 +19959,18 @@ msgstr "Ім'я файлу містить заборонену папку."
 
 #: weblate/utils/validators.py:320
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "У місці збереження резервної копії не можна вказати архів."
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "Назва файла не може бути абсолютним шляхом."
+msgstr ""
+"Розташування резервної копії має бути вказано у вигляді абсолютного шляху."
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
 msgstr ""
+"Місце збереження резервних копій має бути поза межами папки резервних копій "
+"Weblate у DATA_DIR."
 
 #: weblate/utils/validators.py:350 weblate/utils/validators.py:367
 msgid "This name is prohibited"
