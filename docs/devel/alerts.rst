@@ -44,9 +44,10 @@ A component with both duplicated strings and languages looks like this:
 Conflicting repository setup
 ----------------------------
 
-This alert is shown when multiple components using pull or merge request
-workflows are configured to push to the same repository and push branch.
-Such a setup can overwrite the shared branch.
+This alert is shown when multiple Git components are configured to push to the
+same repository and push branch. This includes pull or merge request workflows,
+and direct pushes to Git repositories. Such a setup can overwrite the shared
+branch.
 
 To resolve this, either configure a different :guilabel:`Push branch` for each
 component or share the repository between components using a

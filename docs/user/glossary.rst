@@ -101,6 +101,14 @@ or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` adds entries f
 to all languages in the glossary. Use this for important terms that should
 be well thought out, and retain a consistent meaning across all languages.
 
+While the flag remains on the term, Weblate treats it as terminology and keeps
+an entry for it in every glossary language. If a language entry is removed, the
+next glossary synchronization creates it again.
+
+Removing the ``terminology`` flag stops this automatic maintenance, but it does
+not remove or otherwise revert entries that were already created. They remain
+regular glossary entries.
+
 .. seealso::
 
    :ref:`custom-checks`

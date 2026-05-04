@@ -30,8 +30,9 @@ from django.core.management.commands.makemessages import (
     Command as DjangoMakemessagesCommand,
 )
 from django.core.management.utils import find_command
+from django.db import connection
 from django.test import SimpleTestCase, TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
@@ -85,7 +86,13 @@ from .flags import (
     TargetEditAddon,
     TargetRepoUpdateAddon,
 )
-from .forms import BaseAddonForm, DiscoveryForm
+from .forms import (
+    BaseAddonForm,
+    DiscoveryForm,
+    GenerateForm,
+    GitSquashForm,
+    PropertiesSortAddonForm,
+)
 from .generate import (
     FillReadOnlyAddon,
     GenerateFileAddon,
@@ -106,7 +113,7 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
+from .models import ADDONS, Addon, AddonActivityLog, Event, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -116,6 +123,7 @@ from .tasks import (
     daily_addons,
     language_consistency,
     run_addon_manually,
+    update_addon_activity_log,
 )
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
@@ -231,6 +239,22 @@ class TestAddonMixin:
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
+    def create_change_addon(self, **kwargs) -> Addon:
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+            addon = Addon.objects.create(name=NoOpAddon.name, **kwargs)
+        Event.objects.create(addon=addon, event=AddonEvent.EVENT_CHANGE)
+        return addon
+
+    def create_addon_change(self, component: Component | None = None) -> Change:
+        component = component or self.component
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit"):
+            return Change.objects.create(
+                action=ActionEvents.CHANGE,
+                category=component.category,
+                component=component,
+                project=component.project,
+            )
+
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
@@ -278,6 +302,50 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         addon_object = Addon.objects.filter(name="weblate.base.test")
         self.assertEqual(addon_object.count(), 1)
         self.assertEqual("Test add-on: site-wide", str(addon.instance))
+
+    def test_addon_change_does_not_prefetch_all_addon_components(self) -> None:
+        other_component = self.create_po_new_base(
+            name="Other component",
+            slug="other-component",
+            project=self.project,
+        )
+        skipped_addon = self.create_change_addon(component=other_component)
+        project_addon = self.create_change_addon(project=self.project)
+        change = self.create_addon_change()
+        AddonActivityLog.objects.all().delete()
+
+        with CaptureQueriesContext(connection) as queries:
+            addon_change.run([change.pk])
+
+        self.assertEqual(12, len(queries), [query["sql"] for query in queries])
+        component_queries = [
+            query["sql"]
+            for query in queries
+            if 'FROM "trans_component"' in query["sql"]
+        ]
+        self.assertEqual(1, len(component_queries), component_queries)
+        self.assertFalse(AddonActivityLog.objects.filter(addon=skipped_addon).exists())
+        self.assertTrue(AddonActivityLog.objects.filter(addon=project_addon).exists())
+
+    def test_addon_change_matches_ancestor_category_addon(self) -> None:
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            category=parent,
+            name="Child category",
+            project=self.project,
+            slug="child-category",
+        )
+        self.component.category = child
+        self.component.save()
+        addon = self.create_change_addon(category=parent)
+        change = self.create_addon_change()
+        AddonActivityLog.objects.all().delete()
+
+        with CaptureQueriesContext(connection) as queries:
+            addon_change.run([change.pk])
+
+        self.assertEqual(15, len(queries), [query["sql"] for query in queries])
+        self.assertTrue(AddonActivityLog.objects.filter(addon=addon).exists())
 
     def test_manual_returns_component_result(self) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
@@ -5587,6 +5655,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
             component=self.component,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5609,11 +5678,74 @@ class AutoTranslateAddonTest(ComponentTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+            user_id=None,
+            activity_log_id=None,
+        )
+
+    def test_auto_passes_activity_log_id(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "mt",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component, activity_log_id=123)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=None,
+            activity_log_id=123,
+        )
+
+    def test_auto_others_component_uses_addon_user(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        with patch(
+            "weblate.addons.autotranslate.auto_translate_component.delay_on_commit"
+        ) as mocked:
+            addon.component_update(self.component)
+
+        mocked.assert_called_once_with(
+            self.component.pk,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=80,
+            source_component_id=None,
+            user_id=addon.user.id,
+            activity_log_id=None,
         )
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
         addon = AutoTranslateAddon.create(
             project=self.project,
+            run=False,
             configuration={
                 "component": "",
                 "q": "state:<translated",
@@ -5643,7 +5775,92 @@ class AutoTranslateAddonTest(ComponentTestCase):
             user_id=self.user.id,
             unit_ids=[1, 2],
             translation_id=self.translation.id,
+            activity_log_id=None,
         )
+
+    def test_render_activity_log_formats_task_result(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        activity = AddonActivityLog(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            details={
+                "result": {
+                    "message": "Automatic translation completed.",
+                    "warnings": ["<unsafe warning>"],
+                }
+            },
+        )
+
+        rendered = str(addon.render_activity_log(activity))
+
+        self.assertIn("Automatic translation completed.", rendered)
+        self.assertIn('class="text-warning mt-2"', rendered)
+        self.assertIn("&lt;unsafe warning&gt;", rendered)
+
+    def test_activity_log_keeps_repeated_task_results_structured(self) -> None:
+        addon = AutoTranslateAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "component": "",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+        activity = AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=self.component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            pending=True,
+        )
+
+        update_addon_activity_log(
+            activity.id,
+            {"message": "First automatic translation completed.", "warnings": []},
+        )
+        update_addon_activity_log(
+            activity.id,
+            {
+                "message": "Second automatic translation completed.",
+                "warnings": ["<unsafe warning>"],
+            },
+            pending=False,
+        )
+
+        activity.refresh_from_db()
+        result = activity.details["result"]
+        self.assertIsInstance(result, dict)
+        self.assertEqual(len(result["results"]), 2)
+        self.assertEqual(
+            result["results"][0]["message"],
+            "First automatic translation completed.",
+        )
+        self.assertEqual(
+            result["results"][1]["message"],
+            "Second automatic translation completed.",
+        )
+        self.assertFalse(activity.pending)
+
+        rendered = str(addon.render_activity_log(activity))
+
+        self.assertIn("First automatic translation completed.", rendered)
+        self.assertIn("Second automatic translation completed.", rendered)
+        self.assertIn("&lt;unsafe warning&gt;", rendered)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
     def test_auto_change_event(self) -> None:
@@ -5653,7 +5870,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         component_2 = self.create_po_new_base(name="Component 2", project=self.project)
         component_2.allow_translation_propagation = False
         component_2.save()
-        AutoTranslateAddon.create(
+        addon = AutoTranslateAddon.create(
             project=self.project,
             configuration={
                 "component": None,
@@ -5677,14 +5894,28 @@ class AutoTranslateAddonTest(ComponentTestCase):
         unit_2 = translation_2.unit_set.get(source="one")
         Comment.objects.create(unit=unit_2, comment="Foo")
         change = unit_2.change_set.latest("timestamp")
+        change.user = None
+        change.author = None
+        change.save(update_fields=["user", "author"])
 
         addon_change.run([change.pk])
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+        self.assertEqual(
+            unit_2.change_set.get(action=ActionEvents.AUTO).author,
+            addon.user,
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=unit_2,
+                author=addon.user,
+                automatically_translated=True,
+            ).exists()
+        )
 
 
-class AutoTranslateAddonUnitTest(SimpleTestCase):
+class AddonConfigurationUnitTest(SimpleTestCase):
     def test_base_addon_configuration_normalizes_stored_values(self) -> None:
         addon = TypedConfigAddon.__new__(TypedConfigAddon)
         addon.instance = SimpleNamespace(configuration={"count": "5"})
@@ -5729,6 +5960,7 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
             user_id=1,
             unit_ids=[3, 4],
             translation_id=2,
+            activity_log_id=None,
         )
 
     def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
@@ -5759,6 +5991,8 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
             engines=[],
             threshold=80,
             source_component_id=None,
+            user_id=None,
+            activity_log_id=None,
         )
 
     def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:
@@ -5853,6 +6087,98 @@ class AutoTranslateAddonUnitTest(SimpleTestCase):
                 "mode": "translate",
                 "q": "state:<translated",
                 "threshold": DEFAULT_AUTO_TRANSLATE_THRESHOLD,
+            },
+        )
+
+    def test_generate_file_form_serializes_configuration(self) -> None:
+        addon = GenerateFileAddon.__new__(GenerateFileAddon)
+        addon.instance = SimpleNamespace(component=None, project=None)
+        form = GenerateForm(
+            None,
+            addon,
+            data={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form(),
+            {
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+    def test_generate_file_runtime_configuration_is_normalized(self) -> None:
+        addon = GenerateFileAddon.__new__(GenerateFileAddon)
+        addon.instance = SimpleNamespace(
+            configuration={
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            }
+        )
+
+        self.assertEqual(
+            addon.configuration,
+            {
+                "filename": "stats-{{ language_code }}.txt",
+                "template": "{{ language_code }}",
+            },
+        )
+
+    def test_properties_sort_form_serializes_configuration(self) -> None:
+        addon = PropertiesSortAddon.__new__(PropertiesSortAddon)
+        addon.instance = SimpleNamespace()
+        form = PropertiesSortAddonForm(
+            None,
+            addon,
+            data={"case_sensitive": "on"},
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form(), {"case_sensitive": True})
+
+    def test_properties_sort_configuration_defaults_missing_values(self) -> None:
+        addon = PropertiesSortAddon.__new__(PropertiesSortAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(addon.get_configuration(), {"case_sensitive": False})
+
+    def test_git_squash_form_serializes_configuration(self) -> None:
+        addon = GitSquashAddon.__new__(GitSquashAddon)
+        addon.instance = SimpleNamespace()
+        form = GitSquashForm(
+            None,
+            addon,
+            data={
+                "squash": "language",
+                "append_trailers": "",
+                "commit_message": "Squashed translations",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.serialize_form(),
+            {
+                "squash": "language",
+                "append_trailers": False,
+                "commit_message": "Squashed translations",
+            },
+        )
+
+    def test_git_squash_configuration_defaults_missing_values(self) -> None:
+        addon = GitSquashAddon.__new__(GitSquashAddon)
+        addon.instance = SimpleNamespace(configuration={})
+
+        self.assertEqual(
+            addon.get_configuration(),
+            {
+                "squash": "all",
+                "append_trailers": True,
+                "commit_message": "",
             },
         )
 

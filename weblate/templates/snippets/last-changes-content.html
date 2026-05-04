@@ -21,7 +21,7 @@
             <div class="btn-float">
               {% if item.permissions.can_revert %}
                 <a class="btn btn-link"
-                   href="{{ item.change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ item.change.unit.checksum }}&amp;revert={{ item.change.id }}"
+                   href="{{ translate_url|default:item.change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ item.change.unit.checksum }}&amp;revert={{ item.change.id }}"
                    title="{% translate "Revert" %}">{% icon "undo.svg" %}</a>
               {% endif %}
               {% if item.permissions.can_block_user %}

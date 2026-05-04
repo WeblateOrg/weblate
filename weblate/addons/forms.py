@@ -52,8 +52,20 @@ if TYPE_CHECKING:
     )
     from weblate.addons.cdn import CDNJSAddon  # noqa: F401
     from weblate.addons.consistency import LanguageConsistencyAddon  # noqa: F401
+    from weblate.addons.generate import (
+        GenerateFileAddon,  # noqa: F401
+        GenerateFileAddonConfiguration,
+    )
     from weblate.addons.gettext import MesonAddon
+    from weblate.addons.git import (
+        GitSquashAddon,  # noqa: F401
+        GitSquashAddonStoredConfiguration,
+    )
     from weblate.addons.models import Addon
+    from weblate.addons.properties import (
+        PropertiesSortAddon,  # noqa: F401
+        PropertiesSortAddonStoredConfiguration,
+    )
     from weblate.auth.models import User
     from weblate.trans.discovery import (
         DetectedDiscoveryPreset,
@@ -500,7 +512,9 @@ class SphinxExtractPotForm(BaseExtractPotForm):
         return cleaned_data
 
 
-class GenerateForm(BaseAddonForm):
+class GenerateForm(
+    BaseAddonForm["GenerateFileAddonConfiguration", "GenerateFileAddon"]
+):
     filename = forms.CharField(
         label=gettext_lazy("Name of generated file"), required=True
     )
@@ -533,8 +547,16 @@ class GenerateForm(BaseAddonForm):
         self.test_render(self.cleaned_data["template"])
         return self.cleaned_data["template"]
 
+    def serialize_form(self) -> GenerateFileAddonConfiguration:
+        return {
+            "filename": self.cleaned_data["filename"],
+            "template": self.cleaned_data["template"],
+        }
 
-class GitSquashForm(BaseAddonForm):
+
+class GitSquashForm(
+    BaseAddonForm["GitSquashAddonStoredConfiguration", "GitSquashAddon"]
+):
     squash = forms.ChoiceField(
         label=gettext_lazy("Commit squashing"),
         widget=forms.RadioSelect,
@@ -576,6 +598,13 @@ class GitSquashForm(BaseAddonForm):
             Field("commit_message"),
             ContextDiv(template="addons/squash_help.html", context={"user": self.user}),
         )
+
+    def serialize_form(self) -> GitSquashAddonStoredConfiguration:
+        return {
+            "squash": self.cleaned_data["squash"],
+            "append_trailers": self.cleaned_data["append_trailers"],
+            "commit_message": self.cleaned_data["commit_message"],
+        }
 
 
 class RemoveForm(BaseAddonForm):
@@ -1398,12 +1427,20 @@ class PseudolocaleAddonForm(BaseAddonForm):
         return result
 
 
-class PropertiesSortAddonForm(BaseAddonForm):
+class PropertiesSortAddonForm(
+    BaseAddonForm[
+        "PropertiesSortAddonStoredConfiguration",
+        "PropertiesSortAddon",
+    ]
+):
     case_sensitive = forms.BooleanField(
         label=gettext_lazy("Enable case-sensitive key sorting"),
         required=False,
         initial=False,
     )
+
+    def serialize_form(self) -> PropertiesSortAddonStoredConfiguration:
+        return {"case_sensitive": self.cleaned_data["case_sensitive"]}
 
 
 class ChangeBaseAddonForm(BaseAddonForm):

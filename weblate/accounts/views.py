@@ -144,18 +144,31 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
-from weblate.trans.tasks import revert_user_edits as revert_user_edits_task
+from weblate.trans.tasks import (
+    cleanup_user_contributions as cleanup_user_contributions_task,
+)
+from weblate.trans.tasks import (
+    revert_user_edits as revert_user_edits_task,
+)
 from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.errors import add_breadcrumb, log_handled_exception, report_error
 from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.validators import (
+    WeblateURLValidator,
+    validate_code_site_url,
+    validate_contact_url,
+    validate_profile_url,
+)
 from weblate.utils.version import USER_AGENT
 from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.forms import Form
 
     from weblate.accounts.forms import ProfileBaseForm
@@ -197,6 +210,7 @@ HANDLED_AUTH_PARAMETERS = frozenset(
         "RelayState",
         "RelayState.idp",
         "disabled",
+        "invitation",
     }
 )
 HANDLED_AUTH_FAILED_MARKERS = (
@@ -719,19 +733,48 @@ class UserPage(UpdateView):
             if form.is_valid():
                 user.remove_team(request, form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(f"{self.get_success_url()}#groups")
-        if "revert_user_edits" in request.POST:
-            revert_user_edits_task.delay(
-                target_user_id=user.id,
-                acting_user_id=request.user.id,
-                sitewide=True,
+        if (
+            "cleanup_user_contributions" in request.POST
+            or "revert_user_edits" in request.POST
+        ):
+            cleanup_form_submitted = "cleanup_user_contributions" in request.POST
+            revert_edits = "revert_edits" in request.POST or (
+                "revert_user_edits" in request.POST and not cleanup_form_submitted
             )
-            messages.success(
-                request,
-                gettext("Reverting edits by %(user)s site-wide was scheduled.")
-                % {
-                    "user": user.username,
-                },
-            )
+            reject_suggestions = "reject_suggestions" in request.POST
+            delete_comments = "delete_comments" in request.POST
+            if revert_edits:
+                revert_user_edits_task.delay(
+                    target_user_id=user.id,
+                    acting_user_id=request.user.id,
+                    sitewide=True,
+                )
+                messages.success(
+                    request,
+                    gettext("Reverting edits by %(user)s site-wide was scheduled.")
+                    % {
+                        "user": user.username,
+                    },
+                )
+            if reject_suggestions or delete_comments:
+                cleanup_user_contributions_task.delay(
+                    target_user_id=user.id,
+                    acting_user_id=request.user.id,
+                    sitewide=True,
+                    reject_suggestions=reject_suggestions,
+                    delete_comments=delete_comments,
+                )
+                messages.success(
+                    request,
+                    gettext(
+                        "Cleaning up contributions by %(user)s site-wide was scheduled."
+                    )
+                    % {
+                        "user": user.username,
+                    },
+                )
+            if not revert_edits and not reject_suggestions and not delete_comments:
+                messages.error(request, gettext("No cleanup action was selected."))
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
         if "remove_user" in request.POST:
             remove_user(user, request, skip_notify=True)
@@ -845,6 +888,50 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
             ),
         },
     )
+
+
+PROFILE_EXTERNAL_LINKS: dict[str, tuple[Any, Callable[[str | None], None]]] = {
+    "website": (gettext_lazy("Website"), validate_profile_url),
+    "contact": (gettext_lazy("Contact"), validate_contact_url),
+    "codesite": (gettext_lazy("Code site"), validate_code_site_url),
+}
+
+
+@login_not_required
+def user_profile_link(request: AuthenticatedHttpRequest, user: str, link: str):
+    page_user = get_object_or_404(User.objects.select_related("profile"), username=user)
+    page_profile = page_user.profile
+    try:
+        link_label, link_validator = PROFILE_EXTERNAL_LINKS[link]
+    except KeyError as error:
+        raise Http404 from error
+    link_url = getattr(page_profile, link)
+    if not link_url:
+        raise Http404
+    try:
+        WeblateURLValidator()(link_url)
+        link_validator(link_url)
+    except ValidationError:
+        messages.warning(request, gettext("This profile link is no longer available."))
+        return redirect(page_profile.get_absolute_url())
+
+    return render(
+        request,
+        "accounts/user_profile_link.html",
+        {
+            "link_field": link,
+            "link_label": link_label,
+            "link_url": link_url,
+            "page_user": page_user,
+            "page_profile": page_profile,
+            "title": gettext("External profile link"),
+        },
+    )
+
+
+@login_not_required
+def user_contact(request: AuthenticatedHttpRequest, user: str):
+    return user_profile_link(request, user, "contact")
 
 
 def validate_avatar_size(size: int | str) -> int:
@@ -1019,6 +1106,9 @@ def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
 @login_not_required
 def register(request: AuthenticatedHttpRequest):
     """Registration form."""
+    if request.user.is_authenticated:
+        return redirect_profile("#account")
+
     # Fetch invitation
     invitation: Invitation | None = None
     initial = {}
@@ -1028,9 +1118,13 @@ def register(request: AuthenticatedHttpRequest):
         except Invitation.DoesNotExist:
             del request.session["invitation_link"]
         else:
-            initial["email"] = invitation.email
-            initial["username"] = invitation.username
-            initial["fullname"] = invitation.full_name
+            if invitation.is_expired():
+                del request.session["invitation_link"]
+                invitation = None
+            else:
+                initial["email"] = invitation.email
+                initial["username"] = invitation.username
+                initial["fullname"] = invitation.full_name
 
     # Allow registration at all?
     registration_open = settings.REGISTRATION_OPEN or bool(invitation)
@@ -1050,13 +1144,22 @@ def register(request: AuthenticatedHttpRequest):
             request=request, data=request.POST, hide_captcha=hide_captcha
         )
         if form.is_valid():
-            if form.cleaned_data["email_user"]:
+            if invitation and not invitation.matches_email(form.cleaned_data["email"]):
+                form.add_error(
+                    "email",
+                    gettext(
+                        "This invitation can be accepted only by the e-mail address "
+                        "chosen by the inviter; it can't be used by your account."
+                    ),
+                )
+            elif form.cleaned_data["email_user"]:
                 AuditLog.objects.create(
                     form.cleaned_data["email_user"], request, "connect"
                 )
                 return fake_email_sent(request)
-            store_userid(request)
-            return social_complete(request, "email")
+            else:
+                store_userid(request)
+                return social_complete(request, "email")
     else:
         form = RegistrationForm(
             request=request, initial=initial, hide_captcha=hide_captcha
@@ -1522,7 +1625,7 @@ def handle_missing_parameter(
             # Show only if e-mail authentication is turned on
             error_messages.append(gettext("Please register using e-mail instead."))
         return auth_fail(request, " ".join(error_messages))
-    if error.parameter in {"email", "user", "expires"}:
+    if error.parameter in {"email", "user", "expires", "invitation"}:
         return auth_redirect_token(request)
     if error.parameter == "RelayState.idp":
         return auth_fail(

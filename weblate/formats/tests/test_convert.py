@@ -206,6 +206,26 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
             ("auto-safe-html", "strict-same", "md-text"),
         )
 
+    def test_missing_converted_unit_is_untranslated(self) -> None:
+        template = Path(self.tempdir) / "template.md"
+        translation = Path(self.tempdir) / "translation.md"
+        template.write_text(self.CONVERT_TEMPLATE, encoding="utf-8")
+        translation.write_text(self.CONVERT_TRANSLATION, encoding="utf-8")
+
+        storage = self.format_class(
+            str(translation),
+            template_store=self.format_class(str(template), is_template=True),
+        )
+        storage.store.units.pop()
+
+        unit1, unit2 = storage.content_units
+        self.assertEqual(unit1.source, "Hello")
+        self.assertEqual(unit2.source, "Bye")
+        self.assertTrue(unit1.has_unit())
+        self.assertFalse(unit2.has_unit())
+        self.assertEqual(unit2.target, "")
+        self.assertFalse(unit2.is_translated())
+
 
 class OpenDocumentFormatTest(ConvertFormatTest):
     format_class = OpenDocumentFormat

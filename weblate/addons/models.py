@@ -851,11 +851,29 @@ class AddonActivityLog(models.Model):
     def get_details_display(self) -> str:
         return self.addon.addon.render_activity_log(self)
 
-    def update_result(self, result: str) -> None:
+    def update_result(self, result: object) -> None:
         """Update the result field in the details JSON."""
         details = self.details or {}
         if current_result := details.get("result"):
-            result = f"{current_result}\n{result}"
+            if isinstance(current_result, str) and isinstance(result, str):
+                result = f"{current_result}\n{result}"
+            else:
+                current_results = (
+                    current_result.get("results")
+                    if isinstance(current_result, dict)
+                    else None
+                )
+                existing_results = (
+                    current_results
+                    if isinstance(current_results, list)
+                    else [current_result]
+                )
+                result = {
+                    "results": [
+                        *existing_results,
+                        result,
+                    ]
+                }
 
         details["result"] = result
         self.details = details

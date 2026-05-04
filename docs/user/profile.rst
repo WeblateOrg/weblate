@@ -223,6 +223,21 @@ All of the fields on this page are optional and can be deleted at any time, and
 by filling them out, you're giving us consent to share this data wherever your
 user profile appears.
 
+Public profile URLs, such as :guilabel:`Website URL`, :guilabel:`Contact URL`,
+:guilabel:`Fediverse URL`, and :guilabel:`Code site URL`, should point to a
+website, contact, or profile page. Obvious direct file download links can be
+rejected, and public profile links show a warning before leaving Weblate where
+possible.
+
+The :guilabel:`Code site URL` should use common code hosting profile paths,
+such as ``/username`` or ``/~username``; existing repository-style links such
+as ``/username/project`` or ``/group/subgroup/project`` are also accepted. The
+:guilabel:`Fediverse URL`
+should use common profile paths, such as ``/username``, ``/@username``,
+``/web/@username``, ``/users/username``, ``/accounts/username``,
+``/channel/username``, ``/profile/username``, ``/u/username``, or
+``/people/identifier``.
+
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.
 

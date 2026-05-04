@@ -125,21 +125,41 @@ Managing the Translation Memory
 User interface
 ++++++++++++++
 
-Personal translation memory management is available by clicking the
-user avatar in the top-right corner of the UI and selecting
-"Translation memory" from the dropdown menu.
-Entries attributed to the user are listed in scopes – total, for each respective
-project, component, or language contributed to, with options to download
-(as JSON, or TMX) or delete them.
+Translation memory can be managed from several places in the Weblate UI:
 
-In the basic user interface you can manage per-user and per-project translation
-memories. It can be used to download, wipe or import translation memory.
+* Open the user menu and choose :guilabel:`Translation memory` to manage your
+  personal translation memory.
+* Open a project and choose :guilabel:`Translation memory` from the project menu
+  to manage translation memory for that project.
+* Open :guilabel:`Administration` and choose :guilabel:`Translation memory` to
+  manage uploaded translation memory for the whole Weblate instance.
 
-There are multiple options to download the translation memory of the whole instance.
+The translation memory page shows entry counts for the selected scope. Depending
+on the scope, it also lists entries by origin, component, or language pair. The
+listed entries can be downloaded as JSON or TMX. Users with the required
+permissions can delete entries, and the project view can rebuild translation
+memory for the whole project or for individual components from the current
+translations.
+
+The project view also shows whether shared translation memory and autoclean
+translation memory are enabled for the project, with a link to the project
+workflow settings when the user can edit the project.
+
+Translation memory files can be imported on the same page. Uploaded files are
+stored in the selected scope:
+
+* Personal uploads are available in your personal translation memory.
+* Project uploads are available in the selected project's translation memory.
+* Administration uploads are available as uploaded shared entries for the whole
+  Weblate instance.
 
 .. hint::
-    Translation memories in various formats can be imported into Weblate, the TMX format
-    is provided for interoperability with other tools. All supported formats are TMX, JSON, XLIFF, PO, CSV.
+    Translation memories in various formats can be imported into Weblate. The TMX
+    format is provided for interoperability with other tools. All supported
+    formats are TMX, JSON, XLIFF, PO, and CSV.
+
+    Source and target languages must be selected when uploading XLIFF, PO, or
+    CSV files if the language information is not provided by the file itself.
 
 .. seealso::
 
@@ -147,20 +167,24 @@ There are multiple options to download the translation memory of the whole insta
 
 .. image:: /screenshots/memory.webp
 
-You can search for translations in the view built for this.
+You can search translation memory while editing strings from the
+:ref:`machine-translation` tab.
 
 Admin interface
 +++++++++++++++
 
-There is a platform-wide interface to manage the translation memory.
+Administrative users have additional translation memory management controls.
+In :guilabel:`Administration` > :guilabel:`Translation memory`, the page lists
+uploaded shared entries, shared entries, and total entries for the Weblate
+instance. Depending on permissions, it can import uploaded shared memory, delete
+uploaded entries, and download uploaded, shared, or all entries as JSON or TMX.
 
 .. versionadded:: 4.12
 
-It has the same options as the user interface, but also allows
-rebuilding parts of or the entire translation memory.
-All old entries can be flushed and re-created from a component or project by
-selecting "Administration" from amidst the different tabs
-at the top of the screen, and then "Translation memory".
+The project translation memory view also allows rebuilding parts of or the
+entire project translation memory. Existing entries for the selected component
+or project are deleted, and the memory is populated again from the current
+translations in the background.
 
 Management interface
 ++++++++++++++++++++

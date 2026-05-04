@@ -68,7 +68,8 @@ def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> No
         raise ValidationError(
             gettext(
                 "This URL is prohibited because it points to an internal or non-public address."
-            )
+            ),
+            code="private_target",
         )
 
 
@@ -90,7 +91,8 @@ def validate_untrusted_hostname(
         raise ValidationError(
             gettext(
                 "This URL is prohibited because it points to an internal or non-public address."
-            )
+            ),
+            code="private_target",
         )
 
     if is_allowlisted_hostname(normalized, allowed_domains):
@@ -101,7 +103,8 @@ def validate_untrusted_hostname(
             raise ValidationError(
                 gettext(
                     "This URL is prohibited because it points to an internal or non-public address."
-                )
+                ),
+                code="private_target",
             )
         return
 
@@ -110,13 +113,15 @@ def validate_untrusted_hostname(
         raise ValidationError(
             gettext(
                 "This URL is prohibited because it points to an internal or non-public address."
-            )
+            ),
+            code="private_target",
         )
     if "." not in normalized:
         raise ValidationError(
             gettext(
                 "This URL is prohibited because it points to an internal or non-public address."
-            )
+            ),
+            code="private_target",
         )
 
 

@@ -32,6 +32,19 @@ CI_DB_HOST=127.0.0.1 CI_DB_USER=weblate CI_DB_PASSWORD=weblate \
 
 Replace `translation_formats` with any target name listed above.
 
+## Sentry reporting
+
+Batch fuzzing can report findings to Sentry when the `SENTRY_FUZZING_DSN`
+GitHub Actions secret is configured. The fuzzing runner captures unexpected
+Python exceptions directly so Sentry keeps the original traceback and target
+metadata. The batch workflow also reports ClusterFuzzLite SARIF and crash
+summaries as a fallback for failures that do not raise a Python exception, such
+as sanitizer aborts, OOMs, and timeouts.
+
+PR fuzzing does not report to Sentry because secrets are not available for
+untrusted fork pull requests. It continues to expose SARIF and crash summary
+artifacts in GitHub Actions.
+
 ## Seed Corpora
 
 `fuzzing/corpus/<target>/` contains small seed inputs intended to get each

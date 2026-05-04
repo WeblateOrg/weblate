@@ -15,7 +15,7 @@ from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import regex
 from confusable_homoglyphs import confusables
@@ -128,6 +128,21 @@ def validate_upload_size(value: DjangoFile) -> None:
         raise ValidationError(gettext("Uploaded file is too big."))
 
 
+def validate_translation_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.TRANSLATION_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+
+
+def validate_component_zip_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.COMPONENT_ZIP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
+
+
+def validate_project_backup_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.PROJECT_BACKUP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
+
+
 def validate_bitmap(
     value: FieldFile | File | None,
 ) -> None:
@@ -202,7 +217,7 @@ def validate_fullname(val):
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
 
-    if FULL_NAME_RESTRICT.match(val):
+    if FULL_NAME_RESTRICT.search(val):
         raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
@@ -302,13 +317,13 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(str(err)) from err
 
     if loc.archive:
-        msg = "No archive can be specified in backup location."
+        msg = gettext("No archive can be specified in backup location.")
         raise ValidationError(msg)
 
     if loc.proto == "file":
         # Missing path
         if not loc.path:
-            msg = "Backup location has to be an absolute path."
+            msg = gettext("Backup location has to be an absolute path.")
             raise ValidationError(msg)
 
         # The path is already normalized here
@@ -316,13 +331,15 @@ def validate_backup_path(value: str) -> None:
 
         # Restrict relative paths as the cwd might change
         if not path.is_absolute():
-            msg = "Backup location has to be an absolute path."
+            msg = gettext("Backup location has to be an absolute path.")
             raise ValidationError(msg)
 
         # Restrict placing under Weblate backups as that will produce mess
         data_backups = Path(data_dir("backups"))
         if data_backups == path or data_backups in path.parents:
-            msg = "Backup location should be outside Weblate backups in DATA_DIR."
+            msg = gettext(
+                "Backup location should be outside Weblate backups in DATA_DIR."
+            )
             raise ValidationError(msg)
 
 
@@ -354,6 +371,7 @@ def _validate_runtime_public_url(
     value: str,
     *,
     allow_private_targets: bool,
+    allow_unresolved_hostname: bool = True,
     allowed_domains: list[str] | tuple[str, ...] = (),
 ) -> None:
     hostname = urlparse(value).hostname or ""
@@ -363,7 +381,7 @@ def _validate_runtime_public_url(
     try:
         validate_runtime_url(value, allow_private_targets=False)
     except ValidationError as error:
-        if not isinstance(error.__cause__, OSError):
+        if not allow_unresolved_hostname or not isinstance(error.__cause__, OSError):
             raise
 
 
@@ -450,6 +468,242 @@ class WeblateURLValidator(URLValidator):
             )
 
 
+PROFILE_URL_BLOCKED_EXTENSIONS = (
+    ".7z",
+    ".apk",
+    ".appimage",
+    ".bat",
+    ".bin",
+    ".bz2",
+    ".cmd",
+    ".deb",
+    ".dmg",
+    ".exe",
+    ".gz",
+    ".hta",
+    ".iso",
+    ".jar",
+    ".js",
+    ".lnk",
+    ".msi",
+    ".pkg",
+    ".ps1",
+    ".rar",
+    ".reg",
+    ".rpm",
+    ".scr",
+    ".sh",
+    ".tar",
+    ".vbs",
+    ".wsf",
+    ".xz",
+    ".zip",
+)
+
+CODE_SITE_PROFILE_SEGMENT = re.compile(r"^~?[A-Za-z0-9][A-Za-z0-9_.-]{0,254}$")
+CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS = {
+    "-",
+    "about",
+    "admin",
+    "api",
+    "explore",
+    "help",
+    "login",
+    "oauth",
+    "org",
+    "organizations",
+    "projects",
+    "session",
+    "settings",
+    "signup",
+    "users",
+}
+FEDIVERSE_PROFILE_PREFIXES = {"accounts", "channel", "profile", "u", "users"}
+FEDIVERSE_REJECTED_TOP_LEVEL_SEGMENTS = {
+    "about",
+    "admin",
+    "api",
+    "auth",
+    "directory",
+    "explore",
+    "featured",
+    "groups",
+    "home",
+    "interact",
+    "login",
+    "media",
+    "notifications",
+    "oauth",
+    "objects",
+    "posts",
+    "public",
+    "search",
+    "settings",
+    "share",
+    "tags",
+    "users",
+    "webfinger",
+}
+FEDIVERSE_PROFILE_SEGMENT = re.compile(r"^@?[A-Za-z0-9][A-Za-z0-9_.-]{0,254}$")
+FEDIVERSE_HANDLE_SEGMENT = re.compile(
+    r"^@[A-Za-z0-9][A-Za-z0-9_.-]{0,254}(?:@[A-Za-z0-9.-]+)?$"
+)
+FEDIVERSE_PROFILE_ID = re.compile(r"^[A-Za-z0-9_-]+$")
+
+
+def _validate_public_profile_url(
+    value: str | None,
+    *,
+    credentials_message: str,
+) -> None:
+    """Reject unsafe public profile URLs before path-shape checks."""
+    if not value:
+        return
+
+    parsed = urlparse(value)
+    if parsed.username or parsed.password:
+        raise ValidationError(credentials_message)
+
+    validate_outbound_url(value, allow_private_targets=False)
+
+
+def _has_blocked_profile_url_extension(value: str) -> bool:
+    path = unquote(urlparse(value).path).lower().rstrip("/")
+    return path.endswith(PROFILE_URL_BLOCKED_EXTENSIONS)
+
+
+def _validate_profile_like_url(
+    value: str | None,
+    *,
+    credentials_message: str,
+    blocked_extension_message: str,
+) -> None:
+    """Validate common profile/contact URL safety checks."""
+    _validate_public_profile_url(value, credentials_message=credentials_message)
+    if value and _has_blocked_profile_url_extension(value):
+        raise ValidationError(blocked_extension_message)
+
+
+def _get_profile_path_segments(value: str) -> list[str]:
+    parsed = urlparse(value)
+    if parsed.query or parsed.fragment:
+        return []
+    return [
+        segment for segment in unquote(parsed.path).strip("/").split("/") if segment
+    ]
+
+
+def validate_profile_url(value: str | None) -> None:
+    """Reject unsafe public profile URLs."""
+    _validate_profile_like_url(
+        value,
+        credentials_message=gettext(
+            "Profile URL cannot include username or password credentials."
+        ),
+        blocked_extension_message=gettext(
+            "Profile URL should link to a profile page, "
+            "not directly to a file download."
+        ),
+    )
+
+
+def validate_code_site_url(value: str | None) -> None:
+    """Reject URLs not matching common code hosting profile shapes."""
+    _validate_profile_like_url(
+        value,
+        credentials_message=gettext(
+            "Profile URL cannot include username or password credentials."
+        ),
+        blocked_extension_message=gettext(
+            "Profile URL should link to a profile page, "
+            "not directly to a file download."
+        ),
+    )
+    if not value:
+        return
+
+    segments = _get_profile_path_segments(value)
+    is_profile_like = (
+        len(segments) == 1
+        and segments[0] not in CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS
+        and CODE_SITE_PROFILE_SEGMENT.match(segments[0])
+    )
+    is_repository_like = (
+        len(segments) >= 2
+        and segments[0] not in CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS
+        and all(segment != "-" for segment in segments)
+        and all(CODE_SITE_PROFILE_SEGMENT.match(segment) for segment in segments)
+    )
+    if is_profile_like:
+        return
+    if is_repository_like:
+        return
+    if len(segments) == 3 and segments[:2] == ["-", "u"] and segments[2].isdigit():
+        return
+
+    raise ValidationError(
+        gettext(
+            "Code site URL should link to a user profile or repository page on a "
+            "code hosting site."
+        )
+    )
+
+
+def validate_contact_url(value: str | None) -> None:
+    """Reject unsafe public contact URLs."""
+    _validate_profile_like_url(
+        value,
+        credentials_message=gettext(
+            "Contact URL cannot include username or password credentials."
+        ),
+        blocked_extension_message=gettext(
+            "Contact URL should link to a contact or profile page, "
+            "not directly to a file download."
+        ),
+    )
+
+
+def validate_fediverse_url(value: str | None) -> None:
+    """Reject URLs not matching common Fediverse profile shapes."""
+    validate_profile_url(value)
+    if not value:
+        return
+
+    segments = _get_profile_path_segments(value)
+    if len(segments) == 1 and FEDIVERSE_HANDLE_SEGMENT.match(segments[0]):
+        return
+    if (
+        len(segments) == 1
+        and segments[0] not in FEDIVERSE_REJECTED_TOP_LEVEL_SEGMENTS
+        and "." not in segments[0]
+        and FEDIVERSE_PROFILE_SEGMENT.match(segments[0])
+    ):
+        return
+    if (
+        len(segments) == 2
+        and segments[0] in FEDIVERSE_PROFILE_PREFIXES
+        and (segments[0] != "profile" or "." not in segments[1])
+        and FEDIVERSE_PROFILE_SEGMENT.match(segments[1])
+    ):
+        return
+    if (
+        len(segments) == 2
+        and segments[0] == "web"
+        and FEDIVERSE_HANDLE_SEGMENT.match(segments[1])
+    ):
+        return
+    if (
+        len(segments) == 2
+        and segments[0] == "people"
+        and FEDIVERSE_PROFILE_ID.match(segments[1])
+    ):
+        return
+
+    raise ValidationError(
+        gettext("Fediverse URL should link to a Fediverse user profile.")
+    )
+
+
 def validate_asset_url(value: str) -> None:
     WeblateURLValidator()(value)
     if not validate_host(
@@ -487,6 +741,7 @@ def validate_webhook_url(value: str) -> None:
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
         allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
@@ -596,6 +851,7 @@ def validate_repo_url(url: str) -> None:
     _validate_runtime_public_url(
         normalized_url,
         allow_private_targets=allow_private_targets,
+        allow_unresolved_hostname=False,
     )
 
 

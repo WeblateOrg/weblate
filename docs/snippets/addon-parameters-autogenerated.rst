@@ -37,6 +37,8 @@ Machine translation engines
      - Google Cloud Translation Advanced
    * - ``google-translate``
      - Google Cloud Translation Basic
+   * - ``ltengine``
+     - LTEngine
    * - ``libretranslate``
      - LibreTranslate
    * - ``modernmt``

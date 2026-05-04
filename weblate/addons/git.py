@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from itertools import chain
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django.utils.translation import gettext_lazy
 
@@ -22,7 +22,21 @@ if TYPE_CHECKING:
     from weblate.vcs.git import GitRepository
 
 
-class GitSquashAddon(BaseAddon):
+class GitSquashAddonStoredConfiguration(TypedDict, total=False):
+    squash: str
+    append_trailers: bool
+    commit_message: str
+
+
+class GitSquashAddonConfiguration(TypedDict):
+    squash: str
+    append_trailers: bool
+    commit_message: str
+
+
+class GitSquashAddon(
+    BaseAddon[GitSquashAddonStoredConfiguration, GitSquashAddonConfiguration]
+):
     name = "weblate.git.squash"
     verbose = gettext_lazy("Squash Git commits")
     description = gettext_lazy("Squash Git commits prior to pushing changes.")
@@ -87,9 +101,10 @@ class GitSquashAddon(BaseAddon):
         remote: str,
         filenames: list[str] | None = None,
     ) -> str:
-        commit_message = self.instance.configuration.get("commit_message")
+        configuration = self.configuration
+        commit_message = configuration["commit_message"]
 
-        if self.instance.configuration.get("append_trailers", True):
+        if configuration["append_trailers"]:
             command = [
                 "log",
                 "--format=%(trailers)%nCo-authored-by: %an <%ae>",
@@ -283,7 +298,8 @@ class GitSquashAddon(BaseAddon):
                     return
             if not repository.needs_push():
                 return
-            match self.instance.configuration["squash"]:
+            squash = self.configuration["squash"]
+            match squash:
                 case "all":
                     self.squash_all(component, repository)
                 case "language":
@@ -293,7 +309,7 @@ class GitSquashAddon(BaseAddon):
                 case "author":
                     self.squash_author(component, repository)
                 case _:
-                    msg = f"Unsupported squash style: {self.instance.configuration['squash']}"
+                    msg = f"Unsupported squash style: {squash}"
                     raise ValueError(msg)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
@@ -306,3 +322,12 @@ class GitSquashAddon(BaseAddon):
             # Parse translation files to process any updates fetched by update_branch
             if branch_updated:
                 component.create_translations()
+
+    def normalize_configuration(
+        self, configuration: GitSquashAddonStoredConfiguration
+    ) -> GitSquashAddonConfiguration:
+        return {
+            "squash": configuration.get("squash", "all"),
+            "append_trailers": configuration.get("append_trailers", True),
+            "commit_message": configuration.get("commit_message", ""),
+        }

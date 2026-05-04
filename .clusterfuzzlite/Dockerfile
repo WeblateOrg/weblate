@@ -1,7 +1,7 @@
 # Copyright © Weblate contributors
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-FROM gcr.io/oss-fuzz-base/base-builder-python:ubuntu-24-04@sha256:cfb88b973f006cfec7e721c65e393cb0631c3e43283aa77e213ad1c953854f7b
+FROM gcr.io/oss-fuzz-base/base-builder-python:ubuntu-24-04@sha256:1f20728dd1fe96e5e39c33abf153cf1e82aa4915336f5962423fc3e3e21c1198
 
 ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv-python
@@ -10,7 +10,7 @@ ENV UV_MANAGED_PYTHON=1
 ENV UV_PYTHON=3.12.13
 ENV DEBIAN_FRONTEND=noninteractive
 # renovate: datasource=github-releases depName=astral-sh/uv versioning=pep440
-ENV UV_VERSION=0.11.7
+ENV UV_VERSION=0.11.8
 
 RUN curl -fsSL -o /tmp/uv.tar.gz \
     "https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-x86_64-unknown-linux-gnu.tar.gz" \

@@ -60,9 +60,10 @@ Example:
 
     docker run --rm weblate/wlc --url https://hosted.weblate.org/api/ list-projects
 
-You might want to pass your :ref:`wlc-config` to the Docker container, the
-easiest approach is to add your current directory as :file:`/home/weblate`
-volume:
+You might want to pass your :ref:`wlc-config` to the Docker container. When
+your repository contains a project configuration such as :file:`.weblate`, the
+easiest approach is to add your current directory as the
+:file:`/home/weblate` volume:
 
 .. code-block:: sh
 
@@ -72,8 +73,9 @@ volume:
 Getting started
 +++++++++++++++
 
-The :program:`wlc` configuration is stored in :file:`~/.config/weblate` (see :ref:`wlc-config`
-for other locations), please create it to match your environment:
+The easiest way to get started is to create a personal
+:program:`wlc` configuration in :file:`~/.config/weblate` (see
+:ref:`wlc-config` for the full discovery rules and other locations):
 
 .. code-block:: ini
 
@@ -160,7 +162,8 @@ Weblate instance to use. These must be entered before any command.
 
 .. option:: --config PATH
 
-    Overrides the configuration file path, see :ref:`wlc-config`.
+    Load configuration only from ``PATH`` instead of the discovered global and
+    project configuration files, see :ref:`wlc-config`.
 
 .. option:: --config-section SECTION
 
@@ -295,16 +298,19 @@ The following commands are available:
 Configuration files
 +++++++++++++++++++
 
-:file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
-    Configuration file placed in the project directory.
+When :option:`--config` is provided, :program:`wlc` loads only that file.
+
+Without :option:`--config`, :program:`wlc` first loads the discovered global
+configuration file from the standard platform-specific locations:
+
 :file:`C:\\Users\\NAME\\AppData\\Roaming\\weblate.ini`
-    User configuration file on Windows in the roamed profile.
+    Global configuration file on Windows in the roamed profile.
 :file:`C:\\Users\\NAME\\AppData\\Local\\weblate.ini`
-    User configuration file on Windows in the local profile.
+    Global configuration file on Windows in the local profile.
 :file:`~/.config/weblate`
-    User configuration file.
+    Global configuration file on Unix-like systems.
 :file:`/etc/xdg/weblate`
-    System wide configuration file.
+    System-wide fallback configuration file.
 
 The program follows the XDG specification, so you can adjust the placement of
 config files by environment variables ``XDG_CONFIG_HOME`` or
@@ -312,6 +318,15 @@ config files by environment variables ``XDG_CONFIG_HOME`` or
 
 On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred
 locations for the configuration file.
+
+After loading the global configuration, :program:`wlc` loads the nearest
+project configuration file from the current directory or its parents:
+
+:file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
+    Project configuration file placed in the repository.
+
+Only the closest project configuration file is loaded. Configuration files in
+farther parent directories are ignored.
 
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
@@ -330,6 +345,13 @@ customize this by :option:`--config-section`):
 
     Path to the default translation - component or project.
 
+.. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
+
+    Optional HTTP retry and timeout settings passed to ``urllib3``.
+    Use ``allowed_methods`` to list the request methods that may be retried.
+    Current :program:`wlc` releases use this setting name in place of the
+    older ``method_whitelist`` option.
+
 The configuration file is an INI file, for example:
 
 .. code-block:: ini
@@ -337,6 +359,11 @@ The configuration file is an INI file, for example:
     [weblate]
     url = https://hosted.weblate.org/api/
     translation = weblate/application
+    retries = 3
+    allowed_methods = PUT,POST,GET
+    backoff_factor = 0.2
+    status_forcelist = 429,500,502,503,504
+    timeout = 30
 
 The API keys are stored in the ``[keys]`` section:
 
@@ -347,7 +374,8 @@ The API keys are stored in the ``[keys]`` section:
 
 This allows you to store keys in your personal settings, while using the
 :file:`.weblate` configuration in the VCS repository so that :program:`wlc` knows which
-server it should talk to.
+server it should talk to. In CI, keep only the repository configuration in
+version control and inject the API key using :envvar:`WLC_KEY`.
 
 
 Environment variables
@@ -356,7 +384,8 @@ Environment variables
 .. versionadded:: 1.18.0
 
 The API URL and key can also be configured using environment variables. This is
-especially useful for CI workflows:
+especially useful for CI workflows where the repository provides the project
+configuration and :envvar:`WLC_KEY` is injected as a secret:
 
 .. envvar:: WLC_URL
 
@@ -370,7 +399,9 @@ The configuration precedence (highest to lowest) is:
 
 1. Command-line arguments (:option:`--url`, :option:`--key`).
 2. Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`).
-3. Configuration file (see :ref:`wlc-config`).
+3. Configuration loaded from :option:`--config`, or from the discovered global
+   configuration plus the nearest project configuration when
+   :option:`--config` is not used.
 
 Examples
 ++++++++

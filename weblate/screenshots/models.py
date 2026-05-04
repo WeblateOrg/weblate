@@ -30,6 +30,7 @@ from weblate.trans.signals import vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
+from weblate.vcs.base import RepositorySymlinkError
 
 if TYPE_CHECKING:
     from weblate.trans.models import Component
@@ -142,20 +143,36 @@ def update_alerts_on_screenshot_delete(sender, instance: Screenshot, **kwargs) -
         update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
 
 
-def validate_screenshot_image(component: Component, filename: str) -> bool:
-    """Validate a screenshot image."""
-    full_name = os.path.join(component.full_path, filename)
-    if os.path.islink(full_name):
-        return False
+def validate_screenshot_image(component: Component, filename: str) -> str | None:
+    """Validate a screenshot image and return its resolved path."""
+    try:
+        resolved = component.repository.resolve_symlinks(filename)
+    except RepositorySymlinkError:
+        component.log_info("ignoring screenshot %s, invalid symlink", filename)
+        return None
+    if not resolved:
+        component.log_info("ignoring screenshot %s, invalid symlink", filename)
+        return None
+
+    full_name = os.path.join(component.repository.path, resolved)
+    if not os.path.isfile(full_name):
+        component.log_info("ignoring screenshot %s, not a file", filename)
+        return None
+
     try:
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
             validate_bitmap(image_file)
+    except OSError as error:
+        component.log_info(
+            "ignoring screenshot %s, could not open: %s", filename, error
+        )
+        return None
     except ValidationError as error:
         component.log_error("failed to validate screenshot %s: %s", filename, error)
         report_error("Could not validate image from repository")
-        return False
-    return True
+        return None
+    return full_name
 
 
 @receiver(vcs_post_update)
@@ -179,9 +196,7 @@ def sync_screenshots_from_repo(
         component.log_debug("detected screenshot change in repository: %s", filename)
         changed_files.remove(filename)
 
-        if validate_screenshot_image(component, filename):
-            full_name = os.path.join(component.full_path, filename)
-
+        if full_name := validate_screenshot_image(component, filename):
             with open(full_name, "rb") as f:
                 screenshot.image = File(
                     f,
@@ -197,10 +212,9 @@ def sync_screenshots_from_repo(
 
     # Add new screenshots matching screenshot filemask
     for filename in changed_files:
-        if fnmatch.fnmatch(
-            filename, component.screenshot_filemask
-        ) and validate_screenshot_image(component, filename):
-            full_name = os.path.join(component.full_path, filename)
+        if fnmatch.fnmatch(filename, component.screenshot_filemask) and (
+            full_name := validate_screenshot_image(component, filename)
+        ):
             with open(full_name, "rb") as f:
                 screenshot = Screenshot.objects.create(
                     name=filename,

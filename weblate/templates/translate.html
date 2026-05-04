@@ -499,7 +499,7 @@
           </div>
 
           <div class="tab-pane" id="history">
-            {% format_last_changes_content last_changes=last_changes user=user %}
+            {% format_last_changes_content last_changes=last_changes user=user translate_url=object.get_translate_url %}
 
             <a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
           </div>
@@ -831,6 +831,7 @@
             {% if screenshots or user_can_add_screenshot %}
               <div class="list-group-item">
                 <h5>
+                  {% documentation_icon 'admin/translating' 'screenshots' right=True %}
                   {% if user_can_add_screenshot %}
                     <a class="btn btn-link btn-xs float-end"
                        id="edit-screenshot"

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM gcr.io/oss-fuzz-base/clusterfuzzlite-run-fuzzers:v1@sha256:2b49f2fb12e796d0b34239efeb3dda2959808c3f943baf4c3104020418766716
+FROM gcr.io/oss-fuzz-base/clusterfuzzlite-run-fuzzers:v1@sha256:5ba129f4a3d2eb80f8d492eab5e65397151863d044452bbd72216e8f773d862f
 
 # Upstream ClusterFuzzLite retries GitHub artifact listing requests but does not
 # set an HTTP timeout, and it scans every artifact page in the repository when
@@ -118,4 +118,29 @@ if list_old not in filestore_text:
     raise SystemExit("ClusterFuzzLite filestore _list_artifacts helper changed upstream")
 filestore_text = filestore_text.replace(list_old, list_new, 1)
 filestore_path.write_text(filestore_text)
+
+upload_path = Path("/opt/oss-fuzz/infra/cifuzz/filestore/github_actions/upload.js")
+upload_text = upload_path.read_text()
+
+upload_old = """        const uploadResult = await artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
+        console.log(uploadResult);
+        if (uploadResult.failedItems.length > 0) {
+            return 1;
+        }
+"""
+upload_new = """        const uploadResult = await artifactClient.uploadArtifact(artifactName, files, rootDirectory, options);
+        console.log(uploadResult);
+        if (!uploadResult) {
+            return 0;
+        }
+        const failedItems = Array.isArray(uploadResult.failedItems) ? uploadResult.failedItems : [];
+        if (failedItems.length > 0) {
+            console.error('Artifact upload reported failed items:', failedItems);
+            return 1;
+        }
+"""
+if upload_old not in upload_text:
+    raise SystemExit("ClusterFuzzLite upload.js uploadArtifact helper changed upstream")
+upload_text = upload_text.replace(upload_old, upload_new, 1)
+upload_path.write_text(upload_text)
 PY

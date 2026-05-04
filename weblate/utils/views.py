@@ -66,7 +66,11 @@ def key_translated(instance):
 
 
 def key_unreviewed(instance):
-    return instance.stats.waiting_review
+    stats = instance.stats
+    # Mixed listings can include objects without review workflow enabled.
+    if stats.has_review:
+        return stats.waiting_review
+    return 0
 
 
 def key_untranslated(instance):

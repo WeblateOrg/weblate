@@ -143,6 +143,9 @@ class SSHTest(TestCase):
         self.assertEqual((None, None), extract_url_host_port(""))
         self.assertEqual((None, None), extract_url_host_port("http://"))
         self.assertEqual((None, None), extract_url_host_port("http:// invalid/url"))
+        self.assertEqual((None, None), extract_url_host_port("ssh://["))
+        self.assertEqual((None, None), extract_url_host_port("git@[::1:repo"))
+        self.assertEqual((None, None), extract_url_host_port("netlo[cbGF0ZSLmiBzZWV"))
         self.assertEqual(
             ("github.com", None), extract_url_host_port("git@github.com:repo")
         )

@@ -19,7 +19,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Count, Exists, F, OuterRef
+from django.db.models import Exists, F, OuterRef
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -43,6 +43,7 @@ from weblate.trans.models import (
     Project,
     Suggestion,
     Translation,
+    Unit,
 )
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.removal import RemovalBatch, removal_batch_context
@@ -212,6 +213,53 @@ def revert_user_edits(
 
 
 @app.task(trail=False)
+@transaction.atomic
+def cleanup_user_contributions(
+    target_user_id: int,
+    acting_user_id: int,
+    *,
+    project_id: int | None = None,
+    sitewide: bool = False,
+    reject_suggestions: bool = False,
+    delete_comments: bool = False,
+) -> dict[str, int]:
+    if project_id is None and not sitewide:
+        msg = "Either project_id or sitewide must be provided"
+        raise ValueError(msg)
+
+    target_user = User.objects.get(pk=target_user_id)
+    acting_user = User.objects.get(pk=acting_user_id)
+
+    rejected_suggestions = 0
+    deleted_comments = 0
+
+    if reject_suggestions:
+        suggestions = Suggestion.objects.filter(user=target_user).select_related("unit")
+        if project_id is not None:
+            suggestions = suggestions.filter(
+                unit__translation__component__project_id=project_id
+            )
+        for suggestion in suggestions.iterator(chunk_size=100):
+            suggestion.delete_log(acting_user, old=suggestion.unit.target)
+            rejected_suggestions += 1
+
+    if delete_comments:
+        comments = Comment.objects.filter(user=target_user).select_related("unit")
+        if project_id is not None:
+            comments = comments.filter(
+                unit__translation__component__project_id=project_id
+            )
+        for comment in comments.iterator(chunk_size=100):
+            comment.delete(user=acting_user)
+            deleted_comments += 1
+
+    return {
+        "comments": deleted_comments,
+        "suggestions": rejected_suggestions,
+    }
+
+
+@app.task(trail=False)
 def cleanup_component(pk: int) -> None:
     """
     Perform cleanup of component models.
@@ -239,9 +287,12 @@ def cleanup_component(pk: int) -> None:
 
     # Remove all units where there is just one referenced unit (self)
     with transaction.atomic():
+        referenced_units = Unit.objects.filter(source_unit=OuterRef("pk")).exclude(
+            pk=OuterRef("pk")
+        )
         deleted, details = (
-            translation.unit_set.annotate(Count("unit"))
-            .filter(unit__count__lte=1)
+            translation.unit_set.alias(has_references=Exists(referenced_units))
+            .filter(has_references=False)
             .delete()
         )
         if deleted:
@@ -631,6 +682,18 @@ def project_removal(pk: int, uid: int | None) -> None:
     actual_project_removal.delay(pk, uid)
 
 
+def store_auto_translate_activity_log(
+    activity_log_id: int | None, result: dict[str, Any]
+) -> dict[str, Any]:
+    if activity_log_id is None:
+        return result
+
+    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
+
+    update_addon_activity_log(activity_log_id, result, pending=False)
+    return result
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -653,6 +716,7 @@ def auto_translate(  # noqa: PLR0913
     category_id: int | None = None,
     project_id: int | None = None,
     language_id: int | None = None,
+    activity_log_id: int | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
     obj: Translation | Component | Category | ProjectLanguage
@@ -685,7 +749,7 @@ def auto_translate(  # noqa: PLR0913
             result["message"] = gettext(
                 "Automatic translation skipped because the target no longer exists."
             )
-            return result
+            return store_auto_translate_activity_log(activity_log_id, result)
         auto = BatchAutoTranslate(
             obj,
             user=user,
@@ -707,7 +771,7 @@ def auto_translate(  # noqa: PLR0913
             result.update({"message": str(error), "warnings": auto.get_warnings()})
         else:
             result.update({"message": message, "warnings": auto.get_warnings()})
-        return result
+        return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(
@@ -718,22 +782,26 @@ def auto_translate(  # noqa: PLR0913
 )
 def auto_translate_component(
     component_id: int,
+    *,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
     source_component_id: int | None = None,
-):
+    user_id: int | None = None,
+    activity_log_id: int | None = None,
+) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
+    user = User.objects.get(pk=user_id) if user_id else None
     auto = BatchAutoTranslate(
         component_obj,
-        user=None,
+        user=user,
         q=q,
         mode=mode,
         component_wide=True,
     )
-    auto.perform(
+    message = auto.perform(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
@@ -742,7 +810,12 @@ def auto_translate_component(
         ),
     )
     component_obj.run_batched_checks()
-    return {"component": component_obj.id}
+    result = {
+        "component": component_obj.id,
+        "message": message,
+        "warnings": auto.get_warnings(),
+    }
+    return store_auto_translate_activity_log(activity_log_id, result)
 
 
 @app.task(trail=False)

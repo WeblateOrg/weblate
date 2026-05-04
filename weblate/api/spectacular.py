@@ -82,6 +82,9 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
+            "StringStateEnum": "weblate.utils.state.StringState.choices",
+            "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
+            "ErrorResponse400TypeEnum": "weblate.api.serializers.ErrorResponse400TypeEnum.choices",
             "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
             "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
             "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
@@ -98,6 +101,8 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         "POSTPROCESSING_HOOKS": [
             "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
+            "weblate.api.docs.simplify_license_schema",
+            "weblate.api.docs.simplify_media_types",
         ],
         "EXTERNAL_DOCS": {
             "url": lazy(get_doc_url_wrapper, str)("index"),
@@ -216,6 +221,7 @@ def get_drf_standardized_errors_settings() -> dict[str, Any]:
             "500",
         ],
         "ERROR_SCHEMAS": {
+            "400": "weblate.api.serializers.ErrorResponse400Serializer",
             "423": "weblate.api.serializers.ErrorResponse423Serializer",
         },
         "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",

@@ -9,12 +9,15 @@ from django.core.management.base import CommandError
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.addons.autotranslate import AutoTranslateAddon
+from weblate.addons.events import AddonEvent
+from weblate.addons.models import AddonActivityLog
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, PendingUnitChange, Project
-from weblate.trans.tasks import auto_translate
+from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
+from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 
 
@@ -45,6 +48,30 @@ class AutoTranslationTest(ViewTestCase):
                 new_base="",
                 allow_translation_propagation=False,
             )
+
+    def create_autotranslate_activity_log(
+        self, component: Component | None = None
+    ) -> AddonActivityLog:
+        if component is None:
+            component = self.component2
+        addon = AutoTranslateAddon.create(
+            component=component,
+            run=False,
+            configuration={
+                "component": self.component.id,
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 100,
+                "mode": "translate",
+            },
+        )
+        return AddonActivityLog.objects.create(
+            addon=addon.instance,
+            component=component,
+            event=AddonEvent.EVENT_COMPONENT_UPDATE,
+            pending=True,
+        )
 
     def test_none(self) -> None:
         """Test for automatic translation with no content."""
@@ -123,6 +150,40 @@ class AutoTranslationTest(ViewTestCase):
         """Test for automatic translation with different content."""
         self.perform_auto()
 
+    def test_readonly_empty_target_source_candidate(self) -> None:
+        """Skip source candidates with empty targets even when read-only."""
+        source_unit = self.get_unit("Hello, world!\n")
+        Unit.objects.filter(pk=source_unit.pk).update(
+            state=STATE_READONLY,
+            target="",
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        target_unit = self.get_unit("Hello, world!\n", translation=translation)
+        initial_pending = PendingUnitChange.objects.filter(unit=target_unit).count()
+
+        result = auto_translate(
+            translation_id=translation.id,
+            user_id=self.user.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+        self.assertFalse(target_unit.automatically_translated)
+        self.assertEqual(
+            PendingUnitChange.objects.filter(unit=target_unit).count(),
+            initial_pending,
+        )
+
     def test_plural_mismatch_warning(self) -> None:
         self.set_mismatched_plural()
         self.edit_unit("Thank you for using Weblate.", "Diky za pouzivani Weblate.")
@@ -162,6 +223,7 @@ class AutoTranslationTest(ViewTestCase):
         self.set_mismatched_plural()
         self.edit_unit("Thank you for using Weblate.", "Diky za pouzivani Weblate.")
         self.translate_plural_source()
+        activity_log = self.create_autotranslate_activity_log()
 
         result = auto_translate(
             translation_id=self.component2.translation_set.get(language_code="cs").id,
@@ -172,6 +234,7 @@ class AutoTranslationTest(ViewTestCase):
             source_component_id=self.component.id,
             engines=[],
             threshold=100,
+            activity_log_id=activity_log.id,
         )
 
         self.assertEqual(
@@ -180,6 +243,17 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.assertEqual(len(result["warnings"]), 1)
         self.assertIn("do not match the target translation", result["warnings"][0])
+        activity_log.refresh_from_db()
+        self.assertFalse(activity_log.pending)
+        self.assertEqual(
+            activity_log.details["result"]["message"],
+            "Automatic translation completed, 1 string was updated.",
+        )
+        self.assertEqual(len(activity_log.details["result"]["warnings"]), 1)
+        self.assertIn(
+            "do not match the target translation",
+            activity_log.details["result"]["warnings"][0],
+        )
 
     def test_autotranslate_missing_target_returns_result_dict(self) -> None:
         translation = self.component2.translation_set.get(language_code="cs")
@@ -391,6 +465,59 @@ class AutoTranslationTest(ViewTestCase):
             PendingUnitChange.objects.filter(unit=auto_translated_unit).exists()
         )
 
+    def test_autotranslate_component_uses_supplied_user(self) -> None:
+        self.make_different()
+        translation = self.component2.translation_set.get(language_code="cs")
+
+        auto_translate_component(
+            self.component2.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=100,
+            source_component_id=self.component.id,
+            user_id=self.user.id,
+        )
+
+        auto_translated_unit = translation.unit_set.get(automatically_translated=True)
+        self.assertEqual(
+            auto_translated_unit.change_set.get(action=ActionEvents.AUTO).author,
+            self.user,
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=auto_translated_unit,
+                author=self.user,
+                automatically_translated=True,
+            ).exists()
+        )
+
+    def test_autotranslate_component_stores_activity_log_result(self) -> None:
+        self.make_different()
+        activity_log = self.create_autotranslate_activity_log()
+
+        result = auto_translate_component(
+            self.component2.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            engines=[],
+            threshold=100,
+            source_component_id=self.component.id,
+            user_id=self.user.id,
+            activity_log_id=activity_log.id,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, 1 string was updated.",
+        )
+        self.assertEqual(result["warnings"], [])
+        activity_log.refresh_from_db()
+        self.assertFalse(activity_log.pending)
+        self.assertEqual(activity_log.details["result"], result)
+
     def test_command(self) -> None:
         call_command("auto_translate", "test", "test", "cs")
 
@@ -511,6 +638,17 @@ class AutoTranslationMtTest(ViewTestCase):
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto(engines=["weblate"], threshold=80)
+
+    def test_mt_origin_uses_mt_user(self) -> None:
+        self.perform_auto(engines=["weblate"], threshold=80)
+
+        translation = self.component3.translation_set.get(language_code="cs")
+        auto_translated_unit = translation.unit_set.get(automatically_translated=True)
+        author = auto_translated_unit.change_set.get(action=ActionEvents.AUTO).author
+
+        self.assertIsNotNone(author)
+        self.assertEqual(getattr(author, "username", None), "mt:weblate")
+        self.assertTrue(getattr(author, "is_bot", False))
 
     def test_multi(self) -> None:
         """Test for automatic translation with more providers."""

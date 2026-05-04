@@ -273,6 +273,28 @@ class AlertTest(ViewTestCase):
         self.assertEqual(alert.details["files"], ["alert-base.pot"])
 
 
+class NoMaskMatchesAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_rescan_adds_alert_when_mask_and_new_base_missing(self) -> None:
+        self.assertFalse(self.component.alert_set.filter(name="NoMaskMatches").exists())
+
+        for filename in Path(self.component.full_path, "po").glob("*.po"):
+            filename.unlink(missing_ok=True)
+        Path(cast("str", self.component.get_new_base_filename())).unlink(
+            missing_ok=True
+        )
+
+        self.component.create_translations_immediate(force=True)
+
+        translations = list(
+            self.component.translation_set.values_list("language_code", "filename")
+        )
+        self.assertEqual(translations, [("en", "po/hello.pot")])
+        self.assertTrue(self.component.alert_set.filter(name="NoMaskMatches").exists())
+
+
 class AlertQueryPrefetchTest(ViewTestCase):
     def test_project_repo_components_prefetch_all_alerts(self) -> None:
         self._create_component(
@@ -356,6 +378,92 @@ class ConflictingRepositorySetupAlertTest(ViewTestCase):
         defaults.update(kwargs)
         Component.objects.filter(pk=component.pk).update(**defaults)
         component.refresh_from_db()
+
+    def test_conflicting_repository_setup_for_git_push_branch(self) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+        Component.objects.filter(pk__in=(self.component.pk, other.pk)).update(
+            push_branch="weblate-test"
+        )
+        self.component.refresh_from_db()
+        other.refresh_from_db()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        self.assertEqual(alert.details["component_ids"], [other.pk])
+        self.assertTrue(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_for_git_default_push_branch(self) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        alert = self.component.alert_set.get(name="ConflictingRepositorySetup")
+        self.assertEqual(alert.details["component_ids"], [other.pk])
+        self.assertTrue(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_ignored_for_different_git_branch(
+        self,
+    ) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+        Component.objects.filter(pk=other.pk).update(branch="weblate-test-2")
+        other.refresh_from_db()
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+        self.assertFalse(
+            other.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+    def test_conflicting_repository_setup_removed_from_peer_on_git_branch_save(
+        self,
+    ) -> None:
+        other = self._create_component(
+            "po",
+            "po/*.po",
+            project=self.project,
+            name="Test2",
+        )
+
+        update_alerts(self.component, {"ConflictingRepositorySetup"})
+        update_alerts(other, {"ConflictingRepositorySetup"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
+
+        other.branch = "translations"
+        other.filemask = "translations/*.po"
+        with patch.object(Component, "queue_background_task", return_value=None):
+            other.save()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ConflictingRepositorySetup").exists()
+        )
 
     def test_conflicting_repository_setup(self) -> None:
         self.configure_merge_request_component(self.component)

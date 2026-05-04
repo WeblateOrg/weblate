@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
 
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from weblate.trans.models import Category, Project
@@ -142,6 +144,17 @@ class ComponentLinkTestCase(ViewTestCase):
 
         self.assertEqual({language.pk for language in languages}, shared_language_ids)
         self.assertIn("UNION", str(languages.query))
+
+    def test_has_language_with_shared_components(self) -> None:
+        """Project language membership should not load the full language listing."""
+        other = Project.objects.get(pk=self.other.pk)
+        language = self.translation.language
+
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(other.has_language(language))
+
+        sql = " ".join(query["sql"] for query in queries)
+        self.assertNotIn("lang_language", sql)
 
     def test_labels(self) -> None:
         self.other.label_set.create(name="test other", color="navy")

@@ -5,10 +5,11 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, cast
 
 from django.conf import settings
 from django.utils import timezone
+from django.utils.html import format_html_join
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
@@ -20,9 +21,13 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate, auto_translate_component
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
 
+    from weblate.addons.base import AddonConfigurationValue
+    from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
 
 SKIP_ACTIONS = {ActionEvents.AUTO, ActionEvents.ENFORCED_CHECK}
@@ -70,16 +75,18 @@ class AutoTranslateAddon(
     settings_form = AutoAddonForm
     multiple = True
     icon = "language.svg"
+    user_name = "autotranslate"
+    user_verbose = "Automatic translation add-on"
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> None:
-        self.trigger_autotranslate(component=component)
+        self.trigger_autotranslate(component=component, activity_log_id=activity_log_id)
 
     def get_settings_form_data(
         self,
-    ) -> AutoTranslateAddonStoredConfiguration | AutoTranslateAddonConfiguration:
-        return self.get_configuration()
+    ) -> Mapping[str, AddonConfigurationValue]:
+        return cast("Mapping[str, AddonConfigurationValue]", self.get_configuration())
 
     def normalize_configuration(
         self, configuration: AutoTranslateAddonStoredConfiguration
@@ -123,9 +130,11 @@ class AutoTranslateAddon(
         user_id: int | None = None,
         translation_id: int | None = None,
         unit_ids: list[int] | None = None,
+        activity_log_id: int | None = None,
     ) -> None:
         conf = self.get_configuration()
         source_component_id = conf["component"]
+        task_user_id = self.get_task_user_id(conf["auto_source"], user_id)
         if component is None:
             auto_translate.delay_on_commit(
                 mode=conf["mode"],
@@ -134,9 +143,10 @@ class AutoTranslateAddon(
                 engines=conf["engines"],
                 threshold=conf["threshold"],
                 source_component_id=source_component_id,
-                user_id=user_id,
+                user_id=task_user_id,
                 unit_ids=unit_ids,
                 translation_id=translation_id,
+                activity_log_id=activity_log_id,
             )
         else:
             auto_translate_component.delay_on_commit(
@@ -147,7 +157,16 @@ class AutoTranslateAddon(
                 engines=conf["engines"],
                 threshold=conf["threshold"],
                 source_component_id=source_component_id,
+                user_id=task_user_id,
+                activity_log_id=activity_log_id,
             )
+
+    def get_task_user_id(
+        self, auto_source: Literal["mt", "others"], user_id: int | None
+    ) -> int | None:
+        if user_id is not None or auto_source == "mt":
+            return user_id
+        return self.user.id
 
     def daily_component(
         self,
@@ -168,7 +187,7 @@ class AutoTranslateAddon(
         ):
             return
 
-        self.trigger_autotranslate(component=component)
+        self.trigger_autotranslate(component=component, activity_log_id=activity_log_id)
 
     def check_change_action(self, change: Change) -> bool:
         return (
@@ -228,7 +247,48 @@ class AutoTranslateAddon(
                 user_id=change.user_id,
                 translation_id=translation_id,
                 unit_ids=unit_ids,
+                activity_log_id=activity_log_id,
             )
+
+    def render_activity_log(self, activity: AddonActivityLog) -> str:
+        result = activity.details.get("result")
+        if not isinstance(result, dict):
+            return super().render_activity_log(activity)
+
+        raw_results = result.get("results")
+        if isinstance(raw_results, list):
+            results = [item for item in raw_results if isinstance(item, dict)]
+        else:
+            results = [result]
+
+        messages = []
+        for item in results:
+            message = item.get("message")
+            warnings = item.get("warnings")
+            if not isinstance(message, str):
+                message = ""
+            if not isinstance(warnings, list):
+                warnings = []
+            if message or warnings:
+                messages.append(
+                    (
+                        message,
+                        format_html_join(
+                            "",
+                            '<div class="text-warning mt-2">{}</div>',
+                            ((warning,) for warning in warnings),
+                        ),
+                    )
+                )
+
+        if not messages:
+            return super().render_activity_log(activity)
+
+        return format_html_join(
+            "",
+            '<div class="task-message">{}{}</div>',
+            messages,
+        )
 
     def show_setting_field(self, field: BoundField) -> bool:
         form = getattr(field, "form", None)

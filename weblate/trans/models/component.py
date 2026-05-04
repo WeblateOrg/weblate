@@ -29,7 +29,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, F, Q, Value
+from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -446,6 +446,7 @@ class OldComponentSettings(TypedDict):
     vcs: str
     push: str
     push_branch: str
+    branch: str
     repo: str
 
 
@@ -1211,6 +1212,7 @@ class Component(  # noqa: PLR0904
             "vcs": self.get_old_component_setting("vcs", current),
             "push": self.get_old_component_setting("push", current),
             "push_branch": self.get_old_component_setting("push_branch", current),
+            "branch": self.get_old_component_setting("branch", current),
             "repo": self.get_old_component_setting("repo", current),
         }
 
@@ -2654,9 +2656,10 @@ class Component(  # noqa: PLR0904
         *,
         do_commit: bool = True,
         store_disk_state: bool = True,
-    ) -> None:
+    ) -> bool:
         from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
+        pending: list[PendingUnitChange] = []
         for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
@@ -2664,7 +2667,18 @@ class Component(  # noqa: PLR0904
             Q(translation__language_id=F("translation__component__source_language_id"))
             | Q(translation__filename="")
         ):
-            PendingUnitChange.store_unit_change(unit, store_disk_state=store_disk_state)
+            pending.append(
+                PendingUnitChange.store_unit_change(
+                    unit, store_disk_state=store_disk_state, save=False
+                )
+            )
+            if len(pending) > 1000:
+                PendingUnitChange.objects.bulk_create(pending)
+                pending.clear()
+
+        if pending:
+            PendingUnitChange.objects.bulk_create(pending)
+            pending.clear()
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,
@@ -2678,6 +2692,8 @@ class Component(  # noqa: PLR0904
                 "file-sync",
                 user_id=request.user.id if request else None,
             )
+
+        return True
 
     @perform_on_link
     @transaction.atomic
@@ -3485,9 +3501,7 @@ class Component(  # noqa: PLR0904
 
         # Update import alerts
         self.update_import_alerts()
-        # Clean no matches alert if there are translations:
-        if translations:
-            self.delete_alert("NoMaskMatches")
+        update_alerts(self, {"NoMaskMatches"})
 
         # Process linked repos
         for pos, component in enumerate(self.linked_children):
@@ -4390,9 +4404,7 @@ class Component(  # noqa: PLR0904
             ).update(variant=variant)
 
         # Delete stale variant links
-        self.variant_set.annotate(unit_count=Count("defining_units")).filter(
-            variant_regex="", unit_count=0
-        ).delete()
+        self.variant_set.filter(variant_regex="", defining_units__isnull=True).delete()
 
     def _update_alerts(self) -> None:
         self._alerts_scheduled = False
@@ -5024,18 +5036,22 @@ class Component(  # noqa: PLR0904
             return None
 
     def get_conflicting_setup_components(self) -> ComponentQuerySet:
-        if self.is_repo_link or not self.push or not self.push_branch:
+        config = self.get_conflicting_repository_setup_config()
+        if config is None:
             return Component.objects.none()
 
-        if self.vcs not in VCS_REGISTRY.merge_request_based:
-            return Component.objects.none()
+        push, push_branch = config
 
-        return Component.objects.filter(
-            push=self.push,
-            push_branch=self.push_branch,
-            vcs__in=VCS_REGISTRY.merge_request_based,
-            linked_component__isnull=True,
-        ).exclude(pk=self.pk)
+        return (
+            Component.objects.filter(
+                push=push,
+                vcs__in=VCS_REGISTRY.git_based,
+                linked_component__isnull=True,
+            )
+            .exclude(pk=self.pk)
+            .exclude(vcs="local")
+            .filter(Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch))
+        )
 
     def get_conflicting_repository_setup_config(
         self, old_settings: OldComponentSettings | None = None
@@ -5043,20 +5059,25 @@ class Component(  # noqa: PLR0904
         if old_settings is None:
             push = self.push
             push_branch = self.push_branch
+            branch = self.branch
             repo = self.repo
             vcs = self.vcs
         else:
             push = old_settings["push"]
             push_branch = old_settings["push_branch"]
+            branch = old_settings["branch"]
             repo = old_settings["repo"]
             vcs = old_settings["vcs"]
 
         if (
-            vcs not in VCS_REGISTRY.merge_request_based
+            vcs not in VCS_REGISTRY.git_based
+            or vcs == "local"
             or not push
-            or not push_branch
             or is_repo_link(repo)
         ):
+            return None
+        push_branch = push_branch or branch
+        if not push_branch:
             return None
         return (push, push_branch)
 
@@ -5089,12 +5110,18 @@ class Component(  # noqa: PLR0904
             cleanup_configs = self.get_conflicting_repository_setup_configs()
 
         for push, push_branch in cleanup_configs:
-            matching = Component.objects.filter(
-                push=push,
-                push_branch=push_branch,
-                vcs__in=VCS_REGISTRY.merge_request_based,
-                linked_component__isnull=True,
-            ).exclude(pk=self.pk)
+            matching = (
+                Component.objects.filter(
+                    push=push,
+                    vcs__in=VCS_REGISTRY.git_based,
+                    linked_component__isnull=True,
+                )
+                .exclude(pk=self.pk)
+                .exclude(vcs="local")
+                .filter(
+                    Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch)
+                )
+            )
             if matching.count() == 1:
                 Alert.objects.filter(
                     name="ConflictingRepositorySetup", component__in=matching

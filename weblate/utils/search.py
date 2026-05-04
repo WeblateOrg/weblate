@@ -417,7 +417,12 @@ class BaseTermExpr:
         try:
             return Change.ACTION_NAMES[text]
         except KeyError:
-            return Change.ACTION_STRINGS[text]
+            try:
+                return Change.ACTION_STRINGS[text]
+            except KeyError:
+                raise SearchQueryError(
+                    gettext("Unknown change action: {}").format(text)
+                ) from None
 
     def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)

@@ -4,26 +4,117 @@
 from __future__ import annotations
 
 import contextlib
+import csv
 import json
+import warnings
 from base64 import b64encode
 from binascii import Error as BinasciiError
 from html import escape
+from html.parser import HTMLParser
 from io import BytesIO
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
+from django.core.exceptions import ValidationError
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
 from lxml.etree import XMLSyntaxError
 from pyparsing import ParseException
 from rest_framework.exceptions import ParseError
+from translate.storage.base import ParseError as TranslateToolkitParseError
 
 from fuzzing.atheris_compat import FuzzedDataProvider
 from fuzzing.bootstrap import bootstrap_django
 
 _MARKDOWN_STATE = {"patched": False}
+_MARKDOWN_DANGEROUS_TAGS = frozenset(
+    {
+        "base",
+        "embed",
+        "form",
+        "iframe",
+        "link",
+        "math",
+        "meta",
+        "object",
+        "script",
+        "style",
+        "svg",
+        "template",
+    }
+)
+_MARKDOWN_DANGEROUS_ATTRS = frozenset({"srcdoc", "style"})
+_MARKDOWN_URL_ATTRS = frozenset(
+    {"action", "background", "formaction", "href", "poster", "src", "xlink:href"}
+)
+_MARKDOWN_DANGEROUS_URL_SCHEMES = frozenset({"data", "javascript", "vbscript"})
+_MARKDOWN_XSS_PROBE_TEMPLATES = (
+    "<script>{payload}</script>",
+    '<img src=x onerror="{payload}">',
+    "<svg><script>{payload}</script></svg>",
+    "[link](javascript:{payload})",
+    "[link](data:text/html,{payload})",
+    "![image](javascript:{payload})",
+    "<javascript:{payload}>",
+    '[link](<https://example.com/" onclick="{payload}>)',
+    '![image](<https://example.com/" onerror="{payload}>)',
+)
 
 
 def _no_mentions(_text: str) -> list[object]:
     return []
+
+
+class MarkdownXSSAssertionParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.issues: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._check_tag(tag, attrs)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._check_tag(tag, attrs)
+
+    def _check_tag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        normalized_tag = tag.lower()
+        if normalized_tag in _MARKDOWN_DANGEROUS_TAGS:
+            self.issues.append(f"dangerous <{normalized_tag}> tag")
+
+        for raw_name, value in attrs:
+            attr = raw_name.lower()
+            if attr.startswith("on"):
+                self.issues.append(f"event handler attribute {raw_name!r}")
+            if attr in _MARKDOWN_DANGEROUS_ATTRS:
+                self.issues.append(f"dangerous attribute {raw_name!r}")
+            if value is not None and attr in _MARKDOWN_URL_ATTRS:
+                scheme = _compact_url_for_xss_check(value).partition(":")[0]
+                if scheme in _MARKDOWN_DANGEROUS_URL_SCHEMES:
+                    self.issues.append(f"dangerous {raw_name!r} URL scheme")
+
+
+def _compact_url_for_xss_check(value: str) -> str:
+    return "".join(
+        char
+        for char in value.lower()
+        if not char.isspace() and char > "\x1f" and char != "\x7f"
+    ).lstrip()
+
+
+def _assert_markdown_output_has_no_xss(rendered: str) -> None:
+    parser = MarkdownXSSAssertionParser()
+    parser.feed(rendered)
+    parser.close()
+    if parser.issues:
+        issues = "; ".join(parser.issues[:3])
+        msg = f"Unsafe markdown renderer output: {issues}"
+        raise AssertionError(msg)
+
+
+def _build_markdown_xss_probe(payload: str) -> str:
+    cleaned_payload = payload.replace("\x00", "")[:128] or "alert(1)"
+    return "\n\n".join(
+        template.format(payload=cleaned_payload)
+        for template in _MARKDOWN_XSS_PROBE_TEMPLATES
+    )
 
 
 def _bootstrap_targets() -> None:
@@ -275,35 +366,48 @@ def _build_backup_archive(data: bytes) -> bytes:
     compression = ZIP_DEFLATED if fdp.consume_bool() else ZIP_STORED
     member_names: list[str] = []
 
-    with ZipFile(buffer, "w", compression=compression) as archive:
-        if fdp.consume_bool():
-            archive.writestr(
-                "weblate-backup.json",
-                VALID_BACKUP_JSON if fdp.consume_bool() else _consume_bytes(fdp, 2048),
-            )
-            member_names.append("weblate-backup.json")
-        if fdp.consume_bool():
-            archive.writestr(
-                "weblate-memory.json",
-                VALID_MEMORY_JSON if fdp.consume_bool() else _consume_bytes(fdp, 2048),
-            )
-            member_names.append("weblate-memory.json")
-
-        for _unused in range(fdp.consume_int_in_range(0, 4)):
-            if member_names and fdp.consume_bool():
-                filename = fdp.pick_value_in_list(member_names)
-            else:
-                filename = fdp.pick_value_in_list(
-                    [
-                        "components/test.json",
-                        "components/../test.json",
-                        "vcs/test/.git/config",
-                        "vcs/test/.git/hooks/post-checkout",
-                        f"{_consume_name(fdp, 'entry')}.txt",
-                    ]
+    # The backup module promotes zipfile warnings to errors, but for fuzzing we
+    # intentionally want to synthesize duplicate members and let validation code
+    # reject them later.
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=r"Duplicate name: .*",
+            category=UserWarning,
+        )
+        with ZipFile(buffer, "w", compression=compression) as archive:
+            if fdp.consume_bool():
+                archive.writestr(
+                    "weblate-backup.json",
+                    VALID_BACKUP_JSON
+                    if fdp.consume_bool()
+                    else _consume_bytes(fdp, 2048),
                 )
-                member_names.append(filename)
-            archive.writestr(filename, _consume_bytes(fdp, 4096))
+                member_names.append("weblate-backup.json")
+            if fdp.consume_bool():
+                archive.writestr(
+                    "weblate-memory.json",
+                    VALID_MEMORY_JSON
+                    if fdp.consume_bool()
+                    else _consume_bytes(fdp, 2048),
+                )
+                member_names.append("weblate-memory.json")
+
+            for _unused in range(fdp.consume_int_in_range(0, 4)):
+                if member_names and fdp.consume_bool():
+                    filename = fdp.pick_value_in_list(member_names)
+                else:
+                    filename = fdp.pick_value_in_list(
+                        [
+                            "components/test.json",
+                            "components/../test.json",
+                            "vcs/test/.git/config",
+                            "vcs/test/.git/hooks/post-checkout",
+                            f"{_consume_name(fdp, 'entry')}.txt",
+                        ]
+                    )
+                    member_names.append(filename)
+                archive.writestr(filename, _consume_bytes(fdp, 4096))
 
     return buffer.getvalue()
 
@@ -329,6 +433,10 @@ def _build_tmx_payload(fdp: FuzzedDataProvider) -> bytes:
     ).encode()
 
 
+def _is_invalid_iso_timestamp(error: ValueError) -> bool:
+    return any(isinstance(arg, str) and "isoformat" in arg for arg in error.args)
+
+
 def fuzz_translation_formats(data: bytes) -> None:
     _bootstrap_targets()
 
@@ -351,8 +459,11 @@ def fuzz_translation_formats(data: bytes) -> None:
         LookupError,
         OSError,
         ParseException,
+        csv.Error,
+        StopIteration,
         SyntaxError,
         TypeError,
+        TranslateToolkitParseError,
         UnicodeDecodeError,
         ValueError,
         XMLSyntaxError,
@@ -398,18 +509,23 @@ def fuzz_backups(data: bytes) -> None:
     backup = ProjectBackup(fileio=BytesIO(archive_bytes))
 
     with ZipFile(BytesIO(archive_bytes), "r") as archive:
-        with contextlib.suppress(ValueError):
+        with contextlib.suppress(ValueError, ValidationError):
             backup.validate_zip_members(archive)
 
-        with contextlib.suppress(
-            json.JSONDecodeError,
-            JSONSchemaValidationError,
-            KeyError,
-            TypeError,
-            UnicodeDecodeError,
-            ValueError,
-        ):
-            backup.load_data(archive)
+        try:
+            with contextlib.suppress(
+                json.JSONDecodeError,
+                JSONSchemaValidationError,
+                KeyError,
+                TypeError,
+                UnicodeDecodeError,
+            ):
+                backup.load_data(archive)
+        # Invalid timestamps in fuzzed backup metadata are expected malformed input.
+        # Keep other ValueError cases visible so the harness still catches real bugs.
+        except ValueError as error:
+            if not _is_invalid_iso_timestamp(error):
+                raise
 
         with contextlib.suppress(
             json.JSONDecodeError,
@@ -417,7 +533,6 @@ def fuzz_backups(data: bytes) -> None:
             KeyError,
             TypeError,
             UnicodeDecodeError,
-            ValueError,
         ):
             backup.load_memory(archive)
 
@@ -441,7 +556,10 @@ def fuzz_markup(data: bytes) -> None:
         with contextlib.suppress(SyntaxError, ValueError, XMLSyntaxError):
             check.check_single(source, target, None)  # type: ignore[arg-type]
 
-    render_markdown(target)
+    _assert_markdown_output_has_no_xss(render_markdown(target))
+    _assert_markdown_output_has_no_xss(
+        render_markdown(_build_markdown_xss_probe(target))
+    )
 
 
 def fuzz_memory_import(data: bytes) -> None:

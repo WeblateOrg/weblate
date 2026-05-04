@@ -477,6 +477,23 @@ Number of hours between committing pending changes by way of the background task
    * :wladmin:`commit_pending`
 
 
+.. setting:: COMPONENT_ZIP_UPLOAD_MAX_SIZE
+
+COMPONENT_ZIP_UPLOAD_MAX_SIZE
+-----------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded component ZIP files.
+Defaults to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``
+environment variable.
+
+.. seealso::
+
+   * :ref:`component`
+
 .. setting:: CONTACT_FORM
 
 CONTACT_FORM
@@ -1614,6 +1631,25 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 
    :ref:`projectbackup`
 
+.. setting:: PROJECT_BACKUP_UPLOAD_MAX_SIZE
+
+PROJECT_BACKUP_UPLOAD_MAX_SIZE
+------------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded project backup ZIP files.
+Defaults to 262144000 bytes (250 MiB).
+
+In Docker, configure this using the ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``
+environment variable. Docker setups can also be constrained by
+:envvar:`CLIENT_MAX_BODY_SIZE`; other deployments can be constrained by their
+reverse proxy request body-size limit.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
 .. setting:: PROJECT_BACKUP_IMPORT_MAX_MEMBERS
 
 PROJECT_BACKUP_IMPORT_MAX_MEMBERS
@@ -1626,6 +1662,23 @@ backup.
 
 This is a safeguard against malformed or intentionally fragmented archives.
 Defaults to 100000 entries.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+
+PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+-------------------------------------------------
+
+.. versionadded:: 5.17.1
+
+Defines the maximum total uncompressed size, in bytes, for ZIP entries in an
+imported project backup. Defaults to 262144000 bytes (250 MiB).
+
+This limits archives that are small when uploaded but expand to much more data
+during validation or restore.
 
 .. seealso::
 
@@ -1843,6 +1896,9 @@ WEBHOOK_RESTRICT_PRIVATE
 
 Reject webhook URLs pointing to internal or non-public addresses unless the
 target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
 
 .. seealso::
 
@@ -2324,6 +2380,19 @@ to the donation page in case there is no active support subscription.
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
+.. setting:: TRANSLATION_UPLOAD_MAX_SIZE
+
+TRANSLATION_UPLOAD_MAX_SIZE
+---------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded translation files. Defaults
+to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
+environment variable.
+
 .. setting:: UNUSED_ALERT_DAYS
 
 UNUSED_ALERT_DAYS
@@ -2416,6 +2485,9 @@ VCS_RESTRICT_PRIVATE
 
 Reject VCS repository URLs pointing to internal or non-public addresses unless
 the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
 
 .. setting:: VCS_API_DELAY
 

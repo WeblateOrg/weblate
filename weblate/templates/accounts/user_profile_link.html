@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'user_profile_link' user=page_user.username link=link_field %}">{{ link_label }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "External profile link" %}</h4>
+      </div>
+      <div class="card-body">
+        <p>
+          {% blocktranslate with user=page_profile.get_user_name %}You are leaving Weblate to open a profile link provided by {{ user }}.{% endblocktranslate %}
+        </p>
+        <p>
+          {% blocktranslate with link=link_url %}Destination: {{ link }}{% endblocktranslate %}
+        </p>
+        <p>{% translate "Only continue if you trust this destination." %}</p>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-primary"
+           href="{{ link_url }}"
+           rel="ugc nofollow"
+           referrerpolicy="no-referrer">{% translate "Continue" %}</a>
+        <a class="btn btn-link" href="{{ page_profile.get_absolute_url }}">{% translate "Back" %}</a>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

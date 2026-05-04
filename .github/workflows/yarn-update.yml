@@ -58,7 +58,7 @@ jobs:
       with:
         enable-cache: false
 
-        version: 0.11.7
+        version: 0.11.8
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -84,7 +84,7 @@ jobs:
     - name: Merge SBOM
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.30.0
+        CYCLONEDX_CLI_VERSION: v0.31.0
       run: |
         curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
         chmod +x /tmp/cyclonedx-linux-x64

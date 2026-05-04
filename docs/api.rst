@@ -2625,7 +2625,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/
 
-    Returns a list of screenshot string information.
+    Returns a list of screenshots.
 
     .. seealso::
 
@@ -2638,7 +2638,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2696,8 +2697,10 @@ Screenshots
     :form string project_slug: Project slug
     :form string component_slug: Component slug
     :form string language_code: Language code
+    :form string repository_filename: Optional repository path used to associate later repository updates
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2708,7 +2711,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2719,7 +2723,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -3045,6 +3050,7 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
 
 .. http:patch:: /api/categories/(int:id)/
 
@@ -3081,12 +3087,50 @@ Categories
 
     Returns statistics for a category.
 
-    :param project: Category ID
-    :type project: int
+    :param id: Category ID
+    :type id: int
 
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/categories/(int:id)/announcements/
+
+   .. versionadded:: 5.17.1
+
+    Returns announcements for a category.
+
+    :param id: Category ID
+    :type id: int
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/categories/(int:id)/announcements/
+
+   .. versionadded:: 5.17.1
+
+    Creates an announcement for a category.
+
+    :param id: Category ID
+    :type id: int
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/categories/(int:id)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17.1
+
+    Deletes an announcement from a category.
+
+    :param id: Category ID
+    :type id: int
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
 
 .. _hooks:
 

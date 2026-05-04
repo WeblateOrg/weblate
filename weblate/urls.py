@@ -874,6 +874,16 @@ real_patterns = [
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
     ),
     path(
+        "user/<name:user>/contact/",
+        weblate.accounts.views.user_contact,
+        name="user_contact",
+    ),
+    path(
+        "user/<name:user>/link/<slug:link>/",
+        weblate.accounts.views.user_profile_link,
+        name="user_profile_link",
+    ),
+    path(
         "user/<name:user>/contributions/",
         weblate.accounts.views.user_contributions,
         name="user_contributions",

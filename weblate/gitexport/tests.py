@@ -486,13 +486,19 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
             )
         )
 
+    def git_command(self, *args: str) -> list[str]:
+        # Disable auto-maintenance so temporary clone cleanup does not race
+        # detached git housekeeping subprocesses.
+        return ["git", "-c", "maintenance.auto=0", "-c", "gc.auto=0", *args]
+
     def clone_export(self, testdir: str) -> tuple[int, str]:
         with subprocess.Popen(  # noqa: S603
-            ["git", "clone", self.get_export_url()],  # noqa: S607
+            self.git_command("clone", self.get_export_url()),
             cwd=testdir,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             stdin=subprocess.PIPE,
+            shell=False,
             text=True,
         ) as process:
             output = process.communicate()[0]
@@ -544,17 +550,20 @@ class GitCloneShallowTest(GitCloneTest):
     def advance_upstream_history(self, commit_count: int = 40) -> None:
         with tempfile.TemporaryDirectory() as testdir:
             subprocess.check_call(  # noqa: S603
-                ["git", "clone", self.component.repo, "upstream"],  # noqa: S607
+                self.git_command("clone", self.component.repo, "upstream"),
                 cwd=testdir,
+                shell=False,
             )
             upstream_dir = os.path.join(testdir, "upstream")
-            subprocess.check_call(
-                ["git", "config", "user.name", "Test"],  # noqa: S607
+            subprocess.check_call(  # noqa: S603
+                self.git_command("config", "user.name", "Test"),
                 cwd=upstream_dir,
+                shell=False,
             )
-            subprocess.check_call(
-                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+            subprocess.check_call(  # noqa: S603
+                self.git_command("config", "user.email", "test@example.com"),
                 cwd=upstream_dir,
+                shell=False,
             )
 
             history_path = pathlib.Path(upstream_dir, "upstream-history.txt")
@@ -569,17 +578,20 @@ class GitCloneShallowTest(GitCloneTest):
                     encoding="utf-8",
                 )
                 subprocess.check_call(  # noqa: S603
-                    ["git", "add", history_path.name],  # noqa: S607
+                    self.git_command("add", history_path.name),
                     cwd=upstream_dir,
+                    shell=False,
                 )
                 subprocess.check_call(  # noqa: S603
-                    ["git", "commit", "-m", f"upstream {number}"],  # noqa: S607
+                    self.git_command("commit", "-m", f"upstream {number}"),
                     cwd=upstream_dir,
+                    shell=False,
                 )
 
             subprocess.check_call(  # noqa: S603
-                ["git", "push", "origin", self.component.branch],  # noqa: S607
+                self.git_command("push", "origin", self.component.branch),
                 cwd=upstream_dir,
+                shell=False,
             )
 
     def test_fetch_from_upstream_clone_with_newer_local_history(self) -> None:
@@ -589,27 +601,31 @@ class GitCloneShallowTest(GitCloneTest):
 
         with tempfile.TemporaryDirectory() as testdir:
             subprocess.check_call(  # noqa: S603
-                ["git", "clone", self.component.repo, "existing"],  # noqa: S607
+                self.git_command("clone", self.component.repo, "existing"),
                 cwd=testdir,
+                shell=False,
             )
             existing_dir = os.path.join(testdir, "existing")
             subprocess.check_call(  # noqa: S603
-                ["git", "remote", "add", "weblate", self.get_export_url()],  # noqa: S607
+                self.git_command("remote", "add", "weblate", self.get_export_url()),
                 cwd=existing_dir,
+                shell=False,
             )
-            with subprocess.Popen(
-                ["git", "fetch", "weblate"],  # noqa: S607
+            with subprocess.Popen(  # noqa: S603
+                self.git_command("fetch", "weblate"),
                 cwd=existing_dir,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 stdin=subprocess.PIPE,
+                shell=False,
                 text=True,
             ) as process:
                 output = process.communicate()[0]
                 retcode = process.poll()
-            fetched_revision = subprocess.check_output(
-                ["git", "rev-parse", "FETCH_HEAD"],  # noqa: S607
+            fetched_revision = subprocess.check_output(  # noqa: S603
+                self.git_command("rev-parse", "FETCH_HEAD"),
                 cwd=existing_dir,
+                shell=False,
                 text=True,
             ).strip()
 

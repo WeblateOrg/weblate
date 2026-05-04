@@ -6,14 +6,17 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.trans.models import Unit
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import get_form_errors
 
@@ -33,13 +36,34 @@ def add_glossary_term(request: AuthenticatedHttpRequest, unit_id):
     code = 403
     results = ""
     details = ""
-    terms = []
+    terms: list[int] = []
 
     if user.has_perm("glossary.add", component.project):
         form = TermForm(unit, user, request.POST)
         if form.is_valid():
             translation = form.cleaned_data["translation"]
-            added = translation.add_unit(request, **form.as_kwargs())
+            try:
+                added = translation.add_unit(request, **form.as_kwargs())
+            except WeblateLockTimeoutError:
+                code = 423
+                details = gettext(
+                    "Could not add the glossary term because another background "
+                    "operation is in progress. Please try again later."
+                )
+                added = None
+            except ValidationError as error:
+                code = 400
+                details = "\n".join(error.messages)
+                added = None
+            if added is None:
+                return JsonResponse(
+                    data={
+                        "responseCode": code,
+                        "responseDetails": details,
+                        "results": results,
+                        "terms": ",".join(str(x) for x in terms),
+                    }
+                )
             terms = form.cleaned_data["terms"]
             # Only append the new term if it's not already in the list
             if added.pk not in terms:
