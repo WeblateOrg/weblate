@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 06:43+0000\n"
+"PO-Revision-Date: 2026-05-04 10:20+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim2005ukr@protonmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -426,6 +426,12 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"Управління користувачами на рівні всього сайту регулюється глобальним "
+"дозволом ``user.edit``. На відміну від управління доступом до проектів, це "
+"дозвіл адміністратора з високим рівнем довіри, який дозволяє редагувати "
+"облікові записи користувачів у всій інстанції, зокрема призначати команди на "
+"рівні всього сайту та надавати статус суперкористувача керованому обліковому "
+"запису, навіть власному обліковому запису користувача, що виконує виклик."
 
 #: admin/access.rst:194
 msgid ""
@@ -509,6 +515,12 @@ msgid ""
 "management in the Weblate UI and API and should be assigned only to fully "
 "trusted site administrators."
 msgstr ""
+"Ця делегація повноважень, що діє в межах проекту, відрізняється від "
+"загального для всього сайту дозволу ``user.edit``. Членство в команді «"
+"Адміністрація» проекту дозволяє керувати доступом лише для цього проекту, "
+"тоді як дозвіл ``user.edit`` надає можливість керувати користувачами на "
+"всьому сайті за допомогою інтерфейсу Weblate та API і повинен надаватися "
+"лише повністю довіреним адміністраторам сайту."
 
 #: admin/access.rst:240
 msgid "Per-project access tokens"
@@ -1289,6 +1301,9 @@ msgid ""
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"Додатки, для яких увімкнено ручне запускання, можна запускати через панель "
+"керування додатками або за допомогою :ref:`API <addons-api>`. Результати "
+"записуються в журнал активності додатка."
 
 #: admin/addons.rst:28
 msgid "Obsolete add-ons"
@@ -2224,16 +2239,13 @@ msgstr ""
 "орендованого простору, що, зазвичай, є бажаним."
 
 #: admin/auth.rst:348
-#, fuzzy
-#| msgid ""
-#| "*Secret value* is displayed once you generate a secret for an "
-#| "application. *Secret ID* is not used in Weblate."
 msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
-"*Значення ключа* буде показано одразу після створення ключа для програми. "
-"*Ідентифікатор ключа* у Weblate не використовують."
+"*Значення секретного ключа* відображається після створення секретного ключа "
+"клієнта під час реєстрації додатка. *Ідентифікатор секретного ключа* у "
+"Weblate не використовується."
 
 #: admin/auth.rst:393 admin/install/docker.rst:1590
 msgid "Slack"
@@ -2739,6 +2751,12 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"Це можна застосувати для користувачів на рівні проєкту (див.: :ref:`project-"
+"enforced_2fa`) або команди. У разі розгортання на всьому сайті цю функцію "
+"також можна використовувати для обов’язкового застосування двофакторної "
+"автентифікації для всіх користувачів, увімкнувши її для команди за "
+"замовчуванням :guilabel:`Users`, яка автоматично призначається новим "
+"користувачам за допомогою :ref:`automatic team assignment <autoteam>`."
 
 #: admin/auth.rst:850
 msgid ""
@@ -3217,10 +3235,8 @@ msgid "The Borg session might look like this:"
 msgstr "Сеанс Borg може виглядати ось так:"
 
 #: admin/backup.rst:228
-#, fuzzy
-#| msgid "Choosing Docker image tag"
 msgid "Restoring Docker based setup"
-msgstr "Вибір образу концентратора Docker"
+msgstr "Відновлення конфігурації на базі Docker"
 
 #: admin/backup.rst:230
 msgid ""
@@ -3229,6 +3245,11 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Наступні кроки передбачають використання офіційної конфігурації Docker "
+"Compose із вбудованими службами PostgreSQL та Valkey; див. :doc:`install/"
+"docker`. Якщо у вашому розгортанні використовується зовнішня база даних або "
+"налаштований файл Compose, адаптуйте кроки щодо бази даних та томів до цього "
+"середовища."
 
 #: admin/backup.rst:235
 msgid ""
@@ -3237,6 +3258,10 @@ msgid ""
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Почніть із завантаження версії Docker Compose, що відповідає відновленому "
+"розгортанню. Відновіть свої початкові налаштування Compose, секретні дані та "
+"змінні середовища. У цьому може допомогти файл :file:`environment.yml` із "
+":ref:`backup-dumps`, але він не імпортується автоматично."
 
 #: admin/backup.rst:240
 msgid ""
@@ -3244,16 +3269,17 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Відновіть архів резервної копії за допомогою :ref:`restore-borg` або "
+"розпакуйте створену вручну резервну копію, щоб забезпечити доступ до "
+"каталогу даних Weblate та файлу :file:`backups/database.sql`."
 
 #: admin/backup.rst:244
 msgid "Stop the services which can write to the database or data volume:"
-msgstr ""
+msgstr "Зупиніть служби, які можуть записувати дані в базу даних або на том:"
 
 #: admin/backup.rst:250
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "Вилучення тому PostgreSQL:"
+msgstr "Створіть том PostgreSQL заново."
 
 #: admin/backup.rst:258
 msgid ""
@@ -3261,24 +3287,26 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"Назва тома залежить від назви проєкту Compose і може відрізнятися від "
+":file:`weblate-docker_postgres-data`. Перед видаленням будь-якого тома "
+"перевірте налаштування."
 
 #: admin/backup.rst:262
-#, fuzzy
-#| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "Запуск контейнера бази даних:"
+msgstr "Запустіть службу бази даних:"
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Відновлення бази даних з резервної копії:"
+msgstr "Відновити дамп бази даних:"
 
 #: admin/backup.rst:274
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Перевірте, чи ім’я бази даних відповідає значенню :envvar:`POSTGRES_DB`, а "
+"ім’я користувача — значенню :envvar:`POSTGRES_USER` у вашій конфігурації "
+"Compose."
 
 #: admin/backup.rst:277
 msgid ""
@@ -3286,20 +3314,26 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Відновіть каталог даних Weblate у том даних Docker, підключений як :file:`/"
+"app/data`; див. :ref:`docker-volume`. Власником файлів у цьому томі має бути "
+"користувач з UID 1000; див. :ref:`file-permissions`."
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Запустіть решту служб і стежте за журналами:"
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"Контейнер Weblate виконує міграцію бази даних під час запуску. Якщо ви також "
+"оновлюєте Weblate, дотримуйтесь інструкцій, наведених у розділі "
+":ref:`upgrading-docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "Оновіть репозиторії після відновлення:"
 
 #: admin/backup.rst:308
 msgid "Manual backup"
@@ -3537,6 +3571,8 @@ msgid ""
 "Generated SSH wrapper scripts are stored in :setting:`CACHE_DIR` and do not "
 "need to be backed up."
 msgstr ""
+"Створені скрипти-обгортки SSH зберігаються в :setting:`CACHE_DIR`, і їх не "
+"потрібно резервувати."
 
 #: admin/backup.rst:428
 msgid "User uploaded files"
@@ -4559,6 +4595,9 @@ msgid ""
 "so :setting:`CACHE_DIR` needs to be on an executable filesystem "
 "if :setting:`DATA_DIR` is mounted with ``noexec``."
 msgstr ""
+"Weblate також зберігає тут згенеровані скрипти-обгортки SSH, тому "
+":setting:`CACHE_DIR` має знаходитися у файловій системі з правами на "
+"виконання, якщо :setting:`DATA_DIR` змонтовано з параметром ``noexec``."
 
 #: admin/config.rst:368 admin/config.rst:547
 msgid ""
@@ -4575,6 +4614,8 @@ msgstr "Зазвичай, існують такі підкаталоги:"
 #: admin/config.rst:373
 msgid "Generated SSH wrapper scripts used for VCS access."
 msgstr ""
+"Створені скрипти-обгортки SSH, що використовуються для доступу до системи "
+"контролю версій."
 
 #: admin/config.rst:375
 msgid ":program:`font-config` cache for :ref:`fonts`."
@@ -4688,21 +4729,20 @@ msgstr ""
 "із фоновим завданням."
 
 #: admin/config.rst:487
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded component ZIP files. "
 "Defaults to 50 MB."
 msgstr ""
-"Налаштовує обмеження розміру для отримання ресурсів у Weblate. За "
-"замовчуванням – 10 МБ."
+"Встановлює максимальний розмір (у байтах) для завантажуваних ZIP-файлів "
+"компонентів. За замовчуванням — 50 МБ."
 
 #: admin/config.rst:490
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgstr ""
+"In Docker, configure this using the "
+"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 
 #: admin/config.rst:504
 msgid ""
