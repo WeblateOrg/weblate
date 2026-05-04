@@ -50,7 +50,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 06:43+0000\n"
+"PO-Revision-Date: 2026-05-04 19:27+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -20092,7 +20092,6 @@ msgstr ""
 "ссылок."
 
 #: changes.rst:44
-#, fuzzy
 msgid ""
 "Component updates no longer time out waiting on their own repository lock "
 "during validation."
@@ -20109,7 +20108,6 @@ msgstr ""
 "срабатываний для заполнителей."
 
 #: changes.rst:46
-#, fuzzy
 msgid ""
 "Client-side popup notifications triggered by JavaScript now use Bootstrap "
 "toasts."
@@ -20118,7 +20116,6 @@ msgstr ""
 "используют всплывающие уведомления Bootstrap."
 
 #: changes.rst:47
-#, fuzzy
 msgid ""
 "Dark theme Bootstrap subtle and emphasis colors now use higher-contrast "
 "values, improving popup toasts and other semantic UI elements."
@@ -20128,7 +20125,6 @@ msgstr ""
 "элементы пользовательского интерфейса."
 
 #: changes.rst:48
-#, fuzzy
 msgid ""
 "Repository alerts, history entries, and task messages now preserve multiline "
 "Git and SSH backend error output."
@@ -20137,7 +20133,6 @@ msgstr ""
 "сохраняют многострочный вывод ошибок Git и бэкенда SSH."
 
 #: changes.rst:49
-#, fuzzy
 msgid ""
 "Interrupted Git rebases now recover more reliably after worker restarts, and "
 "signal-terminated backend commands are reported more clearly."
@@ -20147,7 +20142,6 @@ msgstr ""
 "сообщаются более чётко."
 
 #: changes.rst:50
-#, fuzzy
 msgid ""
 "Borg backups that finish with warnings are no longer shown as failed in the "
 "management UI, and backup logs now show ``C`` entries for files that changed "
@@ -20159,7 +20153,6 @@ msgstr ""
 "время резервного копирования."
 
 #: changes.rst:51
-#, fuzzy
 msgid ""
 "Git exporter no longer rejects shared-history fetches just because the first "
 "negotiated ``have`` revisions are newer than Weblate's local history."
@@ -20169,7 +20162,6 @@ msgstr ""
 "Weblate."
 
 #: changes.rst:52
-#, fuzzy
 msgid ""
 ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
 "PostgreSQL searches."
@@ -20178,7 +20170,6 @@ msgstr ""
 "поисков в PostgreSQL."
 
 #: changes.rst:53
-#, fuzzy
 msgid ""
 "Project backup import now revalidates component repository URLs before "
 "restore."
@@ -20191,10 +20182,14 @@ msgid ""
 "The :guilabel:`SSH keys` management page can now remove stored host keys so "
 "changed host keys can be replaced there."
 msgstr ""
+"Страница управления :guilabel:`SSH-ключи` теперь может удалять сохранённые "
+"ключи хостов, чтобы изменённые ключи хостов можно было там заменить."
 
 #: changes.rst:55
 msgid "Malformed IPv6 repository URLs no longer crash SSH host key detection."
 msgstr ""
+"Неправильно сформированные URL-адреса репозиториев IPv6 больше не вызывают "
+"сбой при обнаружении SSH-ключей хоста."
 
 #: changes.rst:56
 msgid ""
@@ -20202,6 +20197,9 @@ msgid ""
 "replace the standard descriptive-title placeholder in normalized POT headers "
 "again."
 msgstr ""
+":ref:`addon-weblate.gettext.xgettext` и связанные с ним дополнения для "
+"обновления POT теперь снова заменяют стандартный заполнитель описательного "
+"заголовка в нормализованных заголовках POT."
 
 #: changes.rst:57
 msgid ""
@@ -20209,24 +20207,35 @@ msgid ""
 "during preflight validation, fixing components that store ``django.pot`` in "
 "a top-level ``locale`` directory."
 msgstr ""
+":ref:`addon-weblate.gettext.django` теперь пропускает деревья ``locale`` "
+"репозитория во время предварительной проверки, исправляя компоненты, которые "
+"хранят ``django.pot`` в каталоге верхнего уровня ``locale``."
 
 #: changes.rst:58
 msgid ""
 "Screenshot OCR now skips corrupted or truncated image files instead of "
 "failing the request."
 msgstr ""
+"OCR снимков экрана теперь пропускает повреждённые или усечённые файлы "
+"изображений вместо того, чтобы завершать запрос ошибкой."
 
 #: changes.rst:59
 msgid ""
 "Monolingual component validation now honors :ref:`component-source_language` "
 "when checking duplicate files alongside a separate :ref:`component-template`."
 msgstr ""
+"Проверка одноязычных компонентов теперь учитывает :ref:`component-"
+"source_language` при проверке дублирования файлов вместе с отдельным "
+":ref:`component-template`."
 
 #: changes.rst:60
 msgid ""
 "The OpenAPI schema now describes action endpoints with their actual list, "
 "statistics, status, upload, and download response payloads."
 msgstr ""
+"Схема OpenAPI теперь описывает конечные точки действий с их фактическими "
+"полезными нагрузками ответов для списков, статистики, статуса, загрузки и "
+"скачивания."
 
 #: changes.rst:61
 msgid ""
@@ -20234,34 +20243,46 @@ msgid ""
 "now report a validation error for TMX files missing the required header "
 "instead of failing the request."
 msgstr ""
+":ref:`Загрузка памяти переводов <memory-user>` и :wladmin:`import_memory` "
+"теперь сообщают об ошибке проверки для файлов TMX, в которых отсутствует "
+"обязательный заголовок, вместо того чтобы завершать запрос ошибкой."
 
 #: changes.rst:62
 msgid ""
 "Project listings now show review progress columns when any listed project "
 "has reviews enabled."
 msgstr ""
+"Списки проектов теперь показывают столбцы прогресса рецензирования, когда в "
+"любом из перечисленных проектов включены рецензии."
 
 #: changes.rst:63
 msgid ""
 "The missing file-mask matches :ref:`alert <alerts>` is now restored after "
 "rescans that leave only the source translation."
 msgstr ""
+"Предупреждение :ref:`alert <alerts>` о несовпадении маски файла теперь "
+"восстанавливается после повторных сканирований, которые оставляют только "
+"исходный перевод."
 
 #: changes.rst:64
 msgid ""
 "Automatic translation from other components now ignores read-only source "
 "candidates with empty translations."
 msgstr ""
+"Автоматический перевод из других компонентов теперь игнорирует исходные "
+"кандидаты только для чтения с пустыми переводами."
 
 #: changes.rst:65
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the Markdown "
 "parser fails."
 msgstr ""
+"Отрисовка Markdown теперь возвращается к экранированному обычному тексту, "
+"когда парсер Markdown терпит неудачу."
 
 #: changes.rst:66
 msgid "Markdown image URLs are now escaped before rendering."
-msgstr ""
+msgstr "URL-адреса изображений в Markdown теперь экранируются перед отрисовкой."
 
 #: changes.rst:69 changes.rst:174 changes.rst:309 changes.rst:352
 #: changes.rst:449 changes.rst:592 changes.rst:687 changes.rst:742
@@ -20357,12 +20378,16 @@ msgid ""
 "Added :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST` to exempt selected project "
 "slugs from project website restriction settings."
 msgstr ""
+"Добавлен :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, чтобы исключить "
+"выбранные идентификаторы проектов из настроек ограничений веб-сайта проекта."
 
 #: changes.rst:88
 msgid ""
 "Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project "
 "website availability checks and alerts."
 msgstr ""
+"Добавлен параметр :setting:`WEBSITE_ALERTS_ENABLED`, чтобы разрешить "
+"отключение проверок доступности веб-сайта проекта и предупреждений."
 
 #: changes.rst:89
 msgid ""
@@ -20370,12 +20395,17 @@ msgid ""
 "generates RST documentation snippets describing the supported features for "
 "every file format."
 msgstr ""
+"Добавлена новая команда управления :wladmin:`list_format_features`, которая "
+"генерирует фрагменты документации RST, описывающие поддерживаемые функции "
+"для каждого формата файла."
 
 #: changes.rst:90
 msgid ""
 "Shared components can now be categorized within the target project, "
 "including through the :ref:`api` using the ``category_id`` parameter."
 msgstr ""
+"Общие компоненты теперь могут быть категоризированы в целевом проекте, в том "
+"числе через :ref:`api` с использованием параметра ``category_id``."
 
 #: changes.rst:91
 msgid ""
@@ -20394,10 +20424,13 @@ msgid ""
 "reset link, useful for external identity providers (Docker "
 "env: :envvar:`WEBLATE_PASSWORD_RESET_URL`)."
 msgstr ""
+"Добавлен :setting:`PASSWORD_RESET_URL` для настройки ссылки сброса пароля на "
+"странице входа, полезно для внешних поставщиков удостоверений (в Docker: "
+":envvar:`WEBLATE_PASSWORD_RESET_URL`)."
 
 #: changes.rst:93
 msgid "Added :ref:`bulk user invitations <invite-user>`."
-msgstr ""
+msgstr "Добавлены :ref:`массовые приглашения пользователей <invite-user>`."
 
 #: changes.rst:94
 msgid "Added :ref:`check-objc-format`."
@@ -20405,13 +20438,15 @@ msgstr "Добавлен :ref:`check-objc-format`."
 
 #: changes.rst:95
 msgid "Added Forgejo notification webhook, see :ref:`forgejo-setup`."
-msgstr ""
+msgstr "Добавлен веб-обработчик уведомлений Forgejo, см. :ref:`forgejo-setup`."
 
 #: changes.rst:96
 msgid ""
 "Added translation memory API filtering, scoped access, and bulk lookup "
 "support."
 msgstr ""
+"Добавлена фильтрация API памяти переводов, доступ с областью действия и "
+"поддержка массового поиска."
 
 #: changes.rst:97
 msgid ""
@@ -20419,6 +20454,9 @@ msgid ""
 "from existing component content and for seeding new translations by "
 "automatic translation from existing components."
 msgstr ""
+"Добавлена поддержка ``from_component`` в REST API для создания компонентов "
+"из содержимого существующего компонента и для начального заполнения новых "
+"переводов с помощью автоматического перевода из существующих компонентов."
 
 #: changes.rst:98
 msgid ""
@@ -20434,6 +20472,9 @@ msgid ""
 "version from prominent UI while keeping it available on "
 "the :guilabel:`About` page and :http:get:`/api/metrics/`."
 msgstr ""
+"Добавлен ``soft``-режим в :setting:`VERSION_DISPLAY`, чтобы скрыть версию "
+"Weblate из заметного интерфейса, оставив её доступной на странице "
+":guilabel:`О программе` и :http:get:`/api/metrics/`."
 
 #: changes.rst:103
 msgid "Track origin of newly added source strings."
@@ -20445,6 +20486,10 @@ msgid ""
 "html` and :ref:`autofix-html` only to plain text and source strings that "
 "contain standard HTML markup or valid custom elements."
 msgstr ""
+"Markdown теперь по умолчанию использует ``auto-safe-html``, применяя "
+":ref:`check-safe-html` и :ref:`autofix-html` только к обычному тексту и "
+"исходным строкам, которые содержат стандартную HTML-разметку или допустимые "
+"пользовательские элементы."
 
 #: changes.rst:105
 msgid "Improved LLM interfaces for better reliability."
@@ -20454,6 +20499,8 @@ msgstr "Улучшены интерфейсы LLM для повышения на
 msgid ""
 "Improved logic for adding monolingual plurals in :doc:`/formats/gettext`."
 msgstr ""
+"Улучшена логика добавления одноязычных множественных чисел в :doc:`/formats/"
+"gettext`."
 
 #: changes.rst:107
 msgid ""
@@ -20477,6 +20524,9 @@ msgid ""
 "branding while keeping legacy Azure AD backend identifiers and documentation "
 "anchors for compatibility."
 msgstr ""
+"Обновлена документация по аутентификации Microsoft Entra ID и брендинг входа "
+"Microsoft, при этом сохранены устаревшие идентификаторы бэкенда Azure AD и "
+"якоря документации для совместимости."
 
 #: changes.rst:111
 msgid ""
@@ -20494,12 +20544,19 @@ msgid ""
 "and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the "
 "bundled NGINX."
 msgstr ""
+"Docker теперь предоставляет :envvar:`WEBLATE_COMMIT_PENDING_HOURS`, "
+":envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` для настройки запроса "
+"уникального идентификатора пользователя Keycloak, и "
+":envvar:`WEBLATE_NGINX_IPV6` для управления прослушивателями IPv6 во "
+"встроенном NGINX."
 
 #: changes.rst:113
 msgid ""
 "Project history now records project backups and project/component restore "
 "events."
 msgstr ""
+"История проектов теперь записывает резервные копии проектов и события "
+"восстановления проектов/компонентов."
 
 #: changes.rst:114
 msgid ""
@@ -20508,6 +20565,10 @@ msgid ""
 "translation` machines, and clarified merge-conflict behavior for exported "
 "repositories using shallow clones by default."
 msgstr ""
+"Улучшена документация с автоматически генерируемыми фрагментами для "
+":ref:`addons`, :ref:`fmt_capabs`, :ref:`checks` и машин :ref:`machine-"
+"translation`, а также уточнено поведение при конфликтах слияния для "
+"экспортируемых репозиториев, использующих неглубокие клоны по умолчанию."
 
 #: changes.rst:115
 msgid ""
@@ -20520,6 +20581,15 @@ msgid ""
 "as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, "
 "and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 msgstr ""
+"Добавлен :setting:`PROJECT_WEB_RESTRICT_PRIVATE` для отклонения URL-адресов "
+"веб-сайта проекта и браузера репозитория, указывающих на внутренние или "
+"непубличные адреса, :setting:`WEBHOOK_RESTRICT_PRIVATE` для отклонения URL-"
+"адресов веб-обработчиков, указывающих на внутренние или непубличные адреса, "
+"и :setting:`VCS_RESTRICT_PRIVATE` для отклонения URL-адресов репозиториев и "
+"отправки, указывающих на внутренние или непубличные адреса. Они представлены "
+"в Docker как :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, "
+":envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE` и "
+":envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 
 #: changes.rst:116
 msgid "Improved performance of :ref:`mt-weblate` lookups."
@@ -20530,6 +20600,8 @@ msgid ""
 "Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` "
 "which now defaults to 10 MB."
 msgstr ""
+"Формы загрузки снимков экрана и шрифтов теперь учитывают "
+":setting:`ALLOWED_ASSET_SIZE`, который теперь по умолчанию равен 10 МБ."
 
 #: changes.rst:118
 msgid ""
@@ -20537,6 +20609,9 @@ msgid ""
 "delegated authorization boundaries, and clarified the instance-wide 2FA "
 "enforcement path in :doc:`/admin/auth`."
 msgstr ""
+"Расширена :doc:`/security/threat-model` для охвата границ доверия веб-"
+"обработчиков и границ делегированной авторизации, а также уточнён путь "
+"общеэкземплярного принудительного использования 2FA в :doc:`/admin/auth`."
 
 #: changes.rst:119
 msgid ""
@@ -20544,12 +20619,18 @@ msgid ""
 "possible and otherwise reports a clearer recovery error instead of failing "
 "later with a generic parse error."
 msgstr ""
+":ref:`manage-vcs-reset-reapply` теперь воссоздаёт отсутствующие файлы "
+"переводов, когда это возможно, и в противном случае сообщает о более чёткой "
+"ошибке восстановления, вместо того чтобы позже завершаться ошибкой с общей "
+"ошибкой разбора."
 
 #: changes.rst:120
 msgid ""
 "Updated :doc:`/contributing/documentation` to describe the current ``make -C "
 "docs update-docs`` workflow for generated snippets."
 msgstr ""
+"Обновлена :doc:`/contributing/documentation`, чтобы описать текущий рабочий "
+"процесс ``make -C docs update-docs`` для созданный фрагментов."
 
 #: changes.rst:121
 msgid ""
@@ -20557,12 +20638,17 @@ msgid ""
 "push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-"
 "auto_lock_error` from the linked component that owns the repository."
 msgstr ""
+"Связанные компоненты репозитория теперь наследуют :ref:`component-"
+"push_on_commit`, :ref:`component-commit_pending_age` и :ref:`component-"
+"auto_lock_error` от связанного компонента, которому принадлежит репозиторий."
 
 #: changes.rst:122
 msgid ""
 "Git exporter now provides clearer push and missing-revision errors to "
 "authorized users."
 msgstr ""
+"Git-экспортёр теперь предоставляет более чёткие ошибки отправки и "
+"отсутствующих ревизий авторизованным пользователям."
 
 #: changes.rst:123
 msgid ""
@@ -20576,12 +20662,16 @@ msgstr ""
 #: changes.rst:124
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
 msgstr ""
+"Уточнены ограничения Git LFS для :ref:`git-exporter` в пользовательском "
+"интерфейсе и документации."
 
 #: changes.rst:125
 msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
+"Улучшена отчётность о состоянии :ref:`backup` при сохранении обслуживания "
+"после неудачных попыток резервного копирования."
 
 #: changes.rst:126
 msgid ""
@@ -20589,6 +20679,9 @@ msgid ""
 "repeated metric queries when rendering activity charts on overview pages "
 "with cold caches."
 msgstr ""
+"Улучшена скорость загрузки комментариев на странице перевода и уменьшены "
+"повторяющиеся запросы метрик при отображении графиков активности на "
+"страницах обзора с холодными кэшами."
 
 #: changes.rst:129
 msgid "Security fixes"
@@ -20599,54 +20692,72 @@ msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
 msgstr ""
+"Усилены проверки границ репозитория для целей символических ссылок "
+"(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
 
 #: changes.rst:131
 msgid ""
 "Hardened component file handling for repository symlinks "
 "(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 msgstr ""
+"Усилена обработка файлов компонентов для символических ссылок репозитория "
+"(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 
 #: changes.rst:132
 msgid ""
 "Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-"
 "gw9x-477v`)."
 msgstr ""
+"Ужесточено применение разрешений :ref:`api` (:cve:`2026-34393` / :ghsa:`3382-"
+"gw9x-477v`)."
 
 #: changes.rst:133
 msgid ""
 "Hardened project-level :ref:`machine-translation` against SSRF "
 "(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 msgstr ""
+"Усилен :ref:`machine-translation` на уровне проекта против SSRF (:cve:`2026-"
+"34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 
 #: changes.rst:134
 msgid ""
 "Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` "
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 msgstr ""
+"Ужесточена проверка расположения в :ref:`addon-weblate.cdn.cdnjs` "
+"(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 
 #: changes.rst:135
 msgid ""
 "Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset "
 "downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 msgstr ""
+"Принудительно применён :setting:`ALLOWED_ASSET_DOMAINS` при перенаправлениях "
+"для загрузки ресурсов (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 
 #: changes.rst:136
 msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
 msgstr ""
+"Усилен :ref:`addon-weblate.webhook.webhook` (:cve:`2026-39845` / :ghsa:`f8hv-"
+"g549-hwg2`)."
 
 #: changes.rst:137
 msgid ""
 "Removed unintended :ref:`translation-memory` API endpoints "
 "(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 msgstr ""
+"Удалены непреднамеренные конечные точки API :ref:`translation-memory` "
+"(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 
 #: changes.rst:138
 msgid ""
 "Tightened API access control for pending tasks "
 "(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 msgstr ""
+"Ужесточён контроль доступа API для ожидающих задач (:cve:`2026-33212` / "
+":ghsa:`vj45-x3pj-f4w4`)."
 
 #: changes.rst:139
 msgid ""
@@ -20654,6 +20765,9 @@ msgid ""
 "configuration and hooks from uploaded archives "
 "(:cve:`2026-33435` / :ghsa:`558g-h753-6m33`)."
 msgstr ""
+"Усилено восстановление :ref:`projectbackup` против локальной для репозитория "
+"конфигурации VCS и обработчиков из загруженных архивов (:cve:`2026-33435` / "
+":ghsa:`558g-h753-6m33`)."
 
 #: changes.rst:143
 msgid ""
@@ -20661,6 +20775,10 @@ msgid ""
 "only handling, and source-side pending commits without files are discarded "
 "to avoid repeated parse failures."
 msgstr ""
+":ref:`Резервное копирование проекта <projectbackup>` теперь сохраняет "
+"обработку исходных переводов только для чтения, а ожидающие коммиты на "
+"стороне источника без файлов отбрасываются, чтобы избежать повторных ошибок "
+"разбора."
 
 #: changes.rst:144
 msgid ""
@@ -20675,18 +20793,25 @@ msgid ""
 "of persistent SSH storage, and obsolete or stale wrappers are cleaned up "
 "during upgrade."
 msgstr ""
+"Сгенерированные скрипты-обёртки SSH теперь хранятся в :setting:`CACHE_DIR` "
+"вместо постоянного хранилища SSH, а устаревшие или неактуальные обёртки "
+"очищаются во время обновления."
 
 #: changes.rst:146
 msgid ""
 "Hardened Git branch handling to reject invalid branch names before "
 "repository operations."
 msgstr ""
+"Усилена обработка веток Git для отклонения недопустимых имён веток перед "
+"операциями с репозиторием."
 
 #: changes.rst:147
 msgid ""
 "Sanitized repository and upload backend errors before exposing them in UI "
 "and API responses."
 msgstr ""
+"Очищены ошибки репозитория и бэкенда загрузки перед их отображением в "
+"ответах пользовательского интерфейса и API."
 
 #: changes.rst:148
 msgid "Matching exporters now honor component file format parameters."
@@ -20700,22 +20825,29 @@ msgid ""
 "upgrade, and prevent removing the last assigned team to avoid orphaning the "
 "token."
 msgstr ""
+":ref:`project-api` теперь удаляет устаревших пользователей-ботов при "
+"удалении и обновлении проекта и предотвращает удаление последней назначенной "
+"команды, чтобы избежать потери токена."
 
 #: changes.rst:150
 msgid ""
 "Batch automatic translation now uses project-level machinery configuration "
 "instead of only site-wide settings."
 msgstr ""
+"Пакетный автоматический перевод теперь использует конфигурацию механизмов на "
+"уровне проекта вместо только общесайтовых настроек."
 
 #: changes.rst:151
 msgid "Fixed sorting by the **Unreviewed** column in listings."
-msgstr ""
+msgstr "Исправлена сортировка по столбцу **Не проверено** в списках."
 
 #: changes.rst:152
 msgid ""
 "Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter "
 "Waw (\"و\") adjacent to XML tags."
 msgstr ""
+"Исправлено ложное срабатывание в :ref:`check-xml-chars-around-tags` для "
+"арабской буквы Вав (\"و\"), примыкающей к XML-тегам."
 
 #: changes.rst:153
 msgid ":ref:`addon-weblate.git.squash` better handle commits applied upstream."
@@ -20728,46 +20860,62 @@ msgid ""
 ":wladmin:`list_checks` now requires exactly one ``--sections`` value when "
 "writing generated documentation to a file using ``--output``."
 msgstr ""
+":wladmin:`list_checks` теперь требует ровно одного значения ``--sections`` "
+"при записи созданной документации в файл с помощью ``--output``."
 
 #: changes.rst:155
 msgid ""
 "Watched translations on the dashboard now use a stable language-aware "
 "ordering."
 msgstr ""
+"Отслеживаемые переводы на панели управления теперь используют стабильный "
+"порядок с учётом языка."
 
 #: changes.rst:156
 msgid ""
 "Reduced error-reporting noise for handled authentication callback failures "
 "and clarified password reset confirmation messages."
 msgstr ""
+"Уменьшен шум в отчётах об ошибках для обработанных сбоев обратных вызовов "
+"аутентификации и уточнены сообщения подтверждения сброса пароля."
 
 #: changes.rst:157
 msgid ""
 ":doc:`/admin/machine` now falls back to the default API URL when base URL is "
 "empty."
 msgstr ""
+":doc:`/admin/machine` теперь возвращается к URL-адресу API по умолчанию, "
+"когда базовый URL-адрес пуст."
 
 #: changes.rst:158
 msgid ":ref:`mt-deepl` maps plain Portuguese to European Portuguese."
 msgstr ""
+":ref:`mt-deepl` сопоставляет обычный португальский с европейским "
+"португальским."
 
 #: changes.rst:159
 msgid ""
 ":ref:`mt-mymemory` now falls back to HTTP status handling when the service "
 "returns a non-JSON error response."
 msgstr ""
+":ref:`mt-mymemory` теперь возвращается к обработке HTTP-статуса, когда "
+"сервис возвращает ответ об ошибке в формате, отличном от JSON."
 
 #: changes.rst:160
 msgid ""
 "Push branches are no longer updated with upstream-only commits in multi-"
 "branch workflows."
 msgstr ""
+"Ветки отправки больше не обновляются с помощью коммитов, существующих только "
+"в вышестоящем репозитории, в многоветочных рабочих процессах."
 
 #: changes.rst:161
 msgid ""
 "POT update add-ons now fall back to the component URL for the ``Report-Msgid-"
 "Bugs-To`` header when the component setting is empty."
 msgstr ""
+"Дополнения для обновления POT теперь возвращаются к URL-адресу компонента "
+"для заголовка ``Report-Msgid-Bugs-To``, когда настройка компонента пуста."
 
 #: changes.rst:162
 msgid "Improved repository lock error handling when deleting units."
@@ -20778,18 +20926,26 @@ msgid ""
 "Adding new languages now rescans only the newly added languages instead of "
 "forcing a full component scan."
 msgstr ""
+"Добавление новых языков теперь повторно сканирует только недавно добавленные "
+"языки вместо того, чтобы заставлять полное сканирование компонента."
 
 #: changes.rst:164
 msgid ""
 ":ref:`check-max-size` previews now keep the configured text box visible and "
 "render overflowing text in red."
 msgstr ""
+"Предварительные просмотры :ref:`check-max-size` теперь сохраняют настроенное "
+"текстовое поле видимым и отображают выходящий за пределы текст красным "
+"цветом."
 
 #: changes.rst:165
 msgid ""
 "Restored documented default encoding fallback for :doc:`/formats/apple` "
 "and :doc:`/formats/java` when file format parameters are not explicitly set."
 msgstr ""
+"Восстановлен задокументированный возврат к кодировке по умолчанию для :doc:`/"
+"formats/apple` и :doc:`/formats/java`, когда параметры формата файла не "
+"заданы явно."
 
 #: changes.rst:166
 msgid ""
@@ -20798,12 +20954,18 @@ msgid ""
 "auto-translation progress updates when the queued target disappears before "
 "execution."
 msgstr ""
+"Уменьшены повторяющиеся запросы к базе данных в :ref:`addon-"
+"weblate.generate.fill_read_only` во время ежедневной задачи дополнения, и "
+"исправлены обновления прогресса автоматического перевода, когда целевой "
+"объект в очереди исчезает перед выполнением."
 
 #: changes.rst:167
 msgid ""
 ":doc:`/formats/android` now preserves template-defined escaped markup "
 "formatting when saving translations."
 msgstr ""
+":doc:`/formats/android` теперь сохраняет определённое в шаблоне "
+"форматирование экранированной разметки при сохранении переводов."
 
 #: changes.rst:168
 msgid ""
@@ -20818,18 +20980,25 @@ msgid ""
 "SSH repository errors now distinguish changed host keys from missing host "
 "keys and avoid automatically trusting host key replacements."
 msgstr ""
+"Ошибки SSH-репозитория теперь различают изменённые ключи хоста и "
+"отсутствующие ключи хоста, избегая автоматического доверия к заменам ключей "
+"хоста."
 
 #: changes.rst:170
 msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
+":ref:`machine-translation` больше не обрабатывает переводимое содержимое "
+"ролей reStructuredText как :ref:`placeables-mt`."
 
 #: changes.rst:171
 msgid ""
 ":ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation "
 "such as ``؟!`` and ``!؟``."
 msgstr ""
+":ref:`check-end-interrobang` теперь распознаёт арабские пунктуационные знаки "
+"интерробанга, такие как ``؟!`` и ``!؟``."
 
 #: changes.rst:175
 msgid ""
@@ -20837,6 +21006,10 @@ msgid ""
 "party add-ons that used ``project_scope = True`` should override "
 "``can_install()`` to return ``False`` when ``component`` is not ``None``."
 msgstr ""
+"Атрибут класса ``project_scope`` в дополнениях был удалён. Сторонние "
+"дополнения, которые использовали ``project_scope = True``, должны "
+"переопределять ``can_install()``, чтобы возвращать ``False``, когда "
+"``component`` не ``None``."
 
 #: changes.rst:176
 msgid ""
@@ -20848,6 +21021,13 @@ msgid ""
 "project scope should override ``daily(component, project)`` directly to "
 "implement project-level logic."
 msgstr ""
+"Сигнатура метода ``daily()`` в дополнениях изменилась. Дополнения, которые "
+"ранее переопределяли ``daily(component)`` для выполнения работы для каждого "
+"компонента, теперь должны переопределять ``daily_component(component)``. "
+"Базовый метод ``daily()`` автоматически перебирает компоненты и вызывает "
+"``daily_component()`` для каждого. Дополнения, которые могут быть "
+"оптимизированы для работы в масштабе проекта, должны напрямую переопределять "
+"``daily(component, project)`` для реализации логики на уровне проекта."
 
 #: changes.rst:177
 msgid "Dropped support for MySQL and MariaDB as the database engine."
@@ -20866,6 +21046,9 @@ msgid ""
 "Uploaded project backups are now validated more strictly during import and "
 "suspicious ZIP archives can be rejected; see :ref:`projectbackup`."
 msgstr ""
+"Загруженные резервные копии проектов теперь проверяются более строго во "
+"время импорта, и подозрительные ZIP-архивы могут быть отклонены; см. "
+":ref:`projectbackup`."
 
 #: changes.rst:186
 msgid ""
@@ -20886,6 +21069,11 @@ msgid ""
 "listeners only when IPv6 is available in the container runtime; use ``on`` "
 "to always enable them or ``off`` to disable them."
 msgstr ""
+"Если вы запускаете Weblate в Docker и полагаетесь на прослушиватели IPv6, "
+"проверьте :envvar:`WEBLATE_NGINX_IPV6`. Значение по умолчанию ``auto`` "
+"включает прослушиватели IPv6, только когда IPv6 доступен в среде выполнения "
+"контейнера; используйте ``on`` для постоянного включения или ``off`` для их "
+"отключения."
 
 #: changes.rst:188
 msgid ""
@@ -20897,6 +21085,13 @@ msgid ""
 "or :setting:`VCS_RESTRICT_PRIVATE`, and the related allowlists such "
 "as :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Исходящие ссылки проектов, URL-адреса веб-обработчиков и URL-адреса "
+"репозиториев или отправки, указывающие на внутренние или непубличные адреса, "
+"теперь по умолчанию отклоняются. Если ваша установка намеренно использует "
+"внутренние адреса, настройте соответствующие параметры ограничений, такие "
+"как :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE` или :setting:`VCS_RESTRICT_PRIVATE`, а "
+"также связанные списки разрешённых, такие как :setting:`VCS_ALLOW_HOSTS`."
 
 #: changes.rst:194
 msgid ""
@@ -20919,6 +21114,8 @@ msgid ""
 "New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even "
 "with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Новый параметр :setting:`PUBLIC_ENGAGE` для того, чтобы сделать страницу "
+"вовлечения публичной, даже если установлен :setting:`REQUIRE_LOGIN`."
 
 #: changes.rst:207
 msgid "Improved matching in :doc:`/admin/memory`."
@@ -20933,6 +21130,8 @@ msgid ""
 "Avoid displaying confusing status icons for ghost languages on project or "
 "category level."
 msgstr ""
+"Избегайте отображения запутанных значков состояния для языков-призраков на "
+"уровне проекта или категории."
 
 #: changes.rst:213
 msgid ""
@@ -20951,7 +21150,7 @@ msgstr "Улучшена проверка API при добавлении стр
 
 #: changes.rst:216
 msgid "Disabled throttling for incoming webhooks."
-msgstr ""
+msgstr "Отключено ограничение частоты для входящих веб-обработчиков."
 
 #: changes.rst:217
 msgid "Avoid displaying non-actionable ghost languages."
@@ -20982,6 +21181,8 @@ msgid ""
 ":doc:`/formats/asciidoc`, :doc:`/formats/xliff` with Apple extensions, "
 "and :doc:`/formats/wxl` are now supported file formats."
 msgstr ""
+":doc:`/formats/asciidoc`, :doc:`/formats/xliff` с расширениями Apple и "
+":doc:`/formats/wxl` теперь поддерживаются как форматы файлов."
 
 #: changes.rst:238
 msgid ""
@@ -20989,6 +21190,9 @@ msgid ""
 "disposable e-mail domains during registration (Docker "
 "env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 msgstr ""
+"Добавлен :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` для возможности "
+"разрешить одноразовые домены электронной почты при регистрации (в Docker: "
+":envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 
 #: changes.rst:242
 msgid ""
@@ -20996,6 +21200,9 @@ msgid ""
 "between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, "
 "and :guilabel:`Needs checking` states."
 msgstr ""
+"Улучшена документация по состояниям перевода, чтобы прояснить разницу между "
+"состояниями :guilabel:`Требует правки`, :guilabel:`Требует переписывания` и "
+":guilabel:`Требует проверки`."
 
 #: changes.rst:243
 msgid ""
@@ -21030,24 +21237,31 @@ msgstr "Исправлен контроль доступа API."
 #: changes.rst:253
 msgid "Users can manage their own notification subscriptions via the API."
 msgstr ""
+"Пользователи могут управлять своими подписками на уведомления через API."
 
 #: changes.rst:254
 msgid ""
 "Project administrators can manage teams in their projects via the API, "
 "according to access control rules."
 msgstr ""
+"Администраторы проектов могут управлять командами в своих проектах через API "
+"в соответствии с правилами контроля доступа."
 
 #: changes.rst:255
 msgid ""
 "The add-ons listing in the API now correctly honors user permissions "
 "(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 msgstr ""
+"Список дополнений в API теперь правильно учитывает разрешения пользователей "
+"(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 
 #: changes.rst:257
 msgid ""
 "Fixed source column being cleared when translating monolingual :doc:`/"
 "formats/csv`."
 msgstr ""
+"Исправлена очистка столбца источника при переводе одноязычного :doc:`/"
+"formats/csv`."
 
 #: changes.rst:267
 msgid ""
@@ -21080,6 +21294,8 @@ msgstr ""
 #: changes.rst:278
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
 msgstr ""
+"Массовое принятие предложений от конкретного пользователя в "
+":ref:`suggestions`."
 
 #: changes.rst:279
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
@@ -21090,12 +21306,16 @@ msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
 msgstr ""
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` для скрытия словарей, "
+"используемых совместно в других проектах."
 
 #: changes.rst:281
 msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"Добавлена новая команда управления :wladmin:`list_change_events`, которая "
+"перечисляет все возможные события изменений, :ref:`addon-choice-events`."
 
 #: changes.rst:282
 msgid "Added Anthropic machinery integration, see :ref:`mt-anthropic`."
@@ -21107,6 +21327,9 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+"Кодировка для :ref:`formats` теперь может быть настроена с помощью "
+":ref:`file_format_params` (например, ``csv_encoding``, "
+"``properties_encoding``)."
 
 #: changes.rst:284
 msgid ""
@@ -21122,32 +21345,41 @@ msgid ""
 "and :ref:`txt` files using ``*merge_duplicates`` parameters "
 "in :ref:`file_format_params`."
 msgstr ""
+"Объединение идентичных строк в файлах :ref:`markdown`, :ref:`html` и "
+":ref:`txt` с использованием параметров ``*merge_duplicates`` в "
+":ref:`file_format_params`."
 
 #: changes.rst:289
 msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Разрешение на удаление объявлений может быть назначено командам, см. "
+":ref:`privileges`."
 
 #: changes.rst:290
 msgid ":doc:`/user/search` better reports errors in the query strings."
-msgstr ""
+msgstr ":doc:`/user/search` лучше сообщает об ошибках в строках запроса."
 
 #: changes.rst:291
 msgid "Regular repository maintenance is now performed in the background."
 msgstr ""
+"Регулярное обслуживание репозитория теперь выполняется в фоновом режиме."
 
 #: changes.rst:292
 msgid "Repository cleanup now recovers failed merges or rebases."
 msgstr ""
+"Очистка репозитория теперь восстанавливает неудачные слияния или "
+"перебазирования."
 
 #: changes.rst:293
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Улучшена видимость :ref:`project-commit_policy` для переводчиков."
 
 #: changes.rst:294
+#, fuzzy
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
-msgstr ""
+msgstr "Расширена проверка настроек VCS :ref:`push-changes`."
 
 #: changes.rst:295
 msgid ""
@@ -21158,38 +21390,57 @@ msgstr ""
 "source_review` можно настроить в параметрах."
 
 #: changes.rst:296
+#, fuzzy
 msgid ""
 "The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` "
 "and ``{site_title}`` variables."
 msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` теперь поддерживает переменные ``"
+"{user_id}`` и ``{site_title}``."
 
 #: changes.rst:297
+#, fuzzy
 msgid ""
 "The default value for personal translation memory contribution is now based "
 "on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration."
 msgstr ""
+"Значение по умолчанию для вклада в личную память переводов теперь основано "
+"на конфигурации :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: changes.rst:301
+#, fuzzy
 msgid ""
 "Argument injection in the management console "
 "(:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)."
 msgstr ""
+"Внедрение аргументов в консоль управления (:cve:`2026-24126` / :ghsa:`33fm-"
+"6gp7-4p47`)."
 
 #: changes.rst:302
+#, fuzzy
 msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Добавление строк множественного числа с единственным числом, совпадающим с "
+"существующей строкой, теперь запрещено для двуязычных переводов (см. "
+":ref:`bimono`)."
 
 #: changes.rst:303
+#, fuzzy
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
 msgstr ""
+"Автоматический :ref:`component-repoweb` URL-адрес для распространённых "
+"сайтов хостинга кода."
 
 #: changes.rst:304
+#, fuzzy
 msgid ""
 "Improved cache isolation for suggestion checks to avoid interference with "
 "the parent unit checks."
 msgstr ""
+"Улучшена изоляция кэша для проверок предложений, чтобы избежать "
+"вмешательства в проверки родительских единиц."
 
 #: changes.rst:305
 msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
@@ -21201,31 +21452,45 @@ msgid ":doc:`/formats/appstore` no longer rewrites unchanged files."
 msgstr ":doc:`/formats/appstore` больше не перезаписывает неизменённые файлы."
 
 #: changes.rst:310
+#, fuzzy
 msgid ""
 ":ref:`check-regex` no longer marks matched portions as non-translatable to "
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` больше не помечает сопоставленные части как "
+"непереводимые, чтобы разрешить общую проверку строк на основе регулярных "
+"выражений. Используйте :ref:`check-placeholders` для проверки заполнителей, "
+"сопоставленных с регулярным выражением."
 
 #: changes.rst:311
+#, fuzzy
 msgid ""
 "The default value for :setting:`WEBLATE_FORMATS` changed because of the "
 "removal of encoding-specific formats."
 msgstr ""
+"Значение по умолчанию для :setting:`WEBLATE_FORMATS` изменилось из-за "
+"удаления форматов, зависящих от кодировки."
 
 #: changes.rst:312
+#, fuzzy
 msgid ""
 "File formats that only differed in encoding (CSV, GWT Properties, Java "
 "Properties, iOS Strings) have been merged into single formats."
 msgstr ""
+"Форматы файлов, которые различались только кодировкой (CSV, GWT Properties, "
+"Java Properties, iOS Strings), были объединены в единые форматы."
 
 #: changes.rst:313
+#, fuzzy
 msgid "Fonts used by Weblate are now shipped in a standalone package."
-msgstr ""
+msgstr "Шрифты, используемые Weblate, теперь поставляются в отдельном пакете."
 
 #: changes.rst:314
+#, fuzzy
 msgid "Dropped deprecated compatibility wrappers some classes with typos."
 msgstr ""
+"Удалены устаревшие обёртки совместимости для некоторых классов с опечатками."
 
 #: changes.rst:324
 msgid ""
@@ -21250,22 +21515,29 @@ msgstr ""
 ":ref:`addon-weblate.generate.generate` теперь запускается при установке."
 
 #: changes.rst:334
+#, fuzzy
 msgid "Screenshots updated from the repository have proper history."
-msgstr ""
+msgstr "Снимки экрана, обновлённые из репозитория, имеют правильную историю."
 
 #: changes.rst:335
+#, fuzzy
 msgid ":ref:`check-rst-syntax` now reports unintended list conversion."
 msgstr ""
+":ref:`check-rst-syntax` теперь сообщает о непреднамеренном преобразовании "
+"списка."
 
 #: changes.rst:336
 msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
 msgstr "Проверка :ref:`check-same` игнорирует блоки исходного кода AsciiDoc."
 
 #: changes.rst:340
+#, fuzzy
 msgid ""
 "Information leak via screenshots "
 "(:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)."
 msgstr ""
+"Утечка информации через снимки экрана (:cve:`2026-21889` / :ghsa:`3g2f-4rjg-"
+"9385`)."
 
 #: changes.rst:341
 msgid "Explanation sync in :doc:`/formats/tbx`."
@@ -21276,46 +21548,62 @@ msgid "User interface fixes."
 msgstr "Исправления пользовательского интерфейса."
 
 #: changes.rst:343
+#, fuzzy
 msgid "Clarified needs editing/checking/rewriting states."
 msgstr ""
+"Уточнены состояния «требует правки»/«требует проверки»/«требует переписывания"
+"»."
 
 #: changes.rst:344
 msgid "Automatically translated flag with bulk approvals."
 msgstr "Флаг автоматического перевода с массовыми утверждениями."
 
 #: changes.rst:345
+#, fuzzy
 msgid "GitHub forks no longer trigger actions."
-msgstr ""
+msgstr "Форки GitHub больше не запускают действия."
 
 #: changes.rst:346
+#, fuzzy
 msgid ""
 "Tighter validation of user provided websites to avoid confusing homoglyphs."
 msgstr ""
+"Ужесточена проверка предоставленных пользователем веб-сайтов, чтобы избежать "
+"путаницы с глифами-омографами."
 
 #: changes.rst:347
 msgid "Glossary support in :ref:`mt-google-translate-api-v3`."
 msgstr "Поддержка словаря в :ref:`mt-google-translate-api-v3`."
 
 #: changes.rst:348
+#, fuzzy
 msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
-msgstr ""
+msgstr "Принятие приглашений, когда :setting:`REQUIRE_LOGIN` включён."
 
 #: changes.rst:349
 msgid ":ref:`mt-cyrtranslit` installation."
 msgstr "Установка :ref:`mt-cyrtranslit`."
 
 #: changes.rst:353
+#, fuzzy
 msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
+"Изображения снимков экрана больше не обслуживаются непосредственно HTTP-"
+"сервером; пожалуйста, настройте ваш HTTP-сервер, удалив обслуживание :file:`/"
+"media/`."
 
 #: changes.rst:359
+#, fuzzy
 msgid ""
 "To make the fix for :cve:`2026-21889` effective, the serving of :file:`/"
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Чтобы исправление для :cve:`2026-21889` вступило в силу, обслуживание пути "
+":file:`/media/` должно быть удалено из конфигурации HTTP-сервера; см. "
+":ref:`static-files`."
 
 #: changes.rst:365
 msgid ""
@@ -21334,21 +21622,29 @@ msgid "*Released on December 18th 2025.*"
 msgstr "*Выпущено 18 декабря 2025 года.*"
 
 #: changes.rst:374
+#, fuzzy
 msgid ""
 "Added :http:get:`/api/projects/(string:project)/languages/"
 "(string:language_code)/file/` to download a ZIP file of all component "
 "translations of a project for a specified language."
 msgstr ""
+"Добавлен :http:get:`/api/projects/(string:project)/languages/"
+"(string:language_code)/file/` для загрузки ZIP-файла со всеми переводами "
+"компонентов проекта для указанного языка."
 
 #: changes.rst:378
+#, fuzzy
 msgid "Updated list of OpenAI models."
-msgstr ""
+msgstr "Обновлён список моделей OpenAI."
 
 #: changes.rst:379
+#, fuzzy
 msgid ""
 "Added :doc:`/devel/migration` guide to help users migrate from other "
 "localization platforms."
 msgstr ""
+"Добавлено руководство :doc:`/devel/migration`, чтобы помочь пользователям "
+"мигрировать с других платформ локализации."
 
 #: changes.rst:380
 msgid "Gracefully handle unreachable authentication providers."
@@ -21359,16 +21655,22 @@ msgid "Update language definitions to CLDR 48."
 msgstr "Обновление определений языков до CLDR 48."
 
 #: changes.rst:385
+#, fuzzy
 msgid ""
 "Git config file overwrite remote code execution "
 "(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 msgstr ""
+"Перезапись файла конфигурации Git приводит к удалённому выполнению кода "
+"(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 
 #: changes.rst:386
+#, fuzzy
 msgid ""
 "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
 "f788-4jh7`)."
 msgstr ""
+"Произвольное чтение файлов через символические ссылки (:cve:`2025-68279` / "
+":ghsa:`g925-f788-4jh7`)."
 
 #: changes.rst:387
 msgid "Locking error that prevented updating linked components."
@@ -21400,22 +21702,31 @@ msgid "*Released on December 15th 2025.*"
 msgstr "*Выпущено 15 декабря 2025 года.*"
 
 #: changes.rst:408
+#, fuzzy
 msgid ""
 "Batch automatic translation can now be manually triggered at project "
 "language, category or component level, see :ref:`auto-translation`."
 msgstr ""
+"Пакетный автоматический перевод теперь может быть запущен вручную на уровне "
+"языка проекта, категории или компонента, см. :ref:`auto-translation`."
 
 #: changes.rst:409
+#, fuzzy
 msgid ""
 "Added ability to completely disable the admin contact form by "
 "setting :setting:`CONTACT_FORM` to ``\"disabled\"``."
 msgstr ""
+"Добавлена возможность полностью отключить контактную форму администратора, "
+"установив :setting:`CONTACT_FORM` в ``\"disabled\"``."
 
 #: changes.rst:410
+#, fuzzy
 msgid ""
 "Added new Ollama machinery tool for local Ollama AI model integration, "
 "see :ref:`mt-ollama`."
 msgstr ""
+"Добавлен новый инструмент механизма Ollama для локальной интеграции AI-"
+"моделей Ollama, см. :ref:`mt-ollama`."
 
 #: changes.rst:411
 msgid ""
@@ -21426,14 +21737,19 @@ msgstr ""
 "комментариев для данной единицы перевода."
 
 #: changes.rst:412
+#, fuzzy
 msgid "Memory contents imported from TMX files include string context."
 msgstr ""
+"Содержимое памяти, импортированное из файлов TMX, включает контекст строки."
 
 #: changes.rst:413
+#, fuzzy
 msgid ""
 ":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
 "resjson`, and :doc:`/formats/toml` are now supported file formats."
 msgstr ""
+":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
+"resjson` и :doc:`/formats/toml` теперь поддерживаются как форматы файлов."
 
 #: changes.rst:414
 msgid ""
@@ -21460,10 +21776,13 @@ msgid ":ref:`mt-modernmt` better supports language variants."
 msgstr ":ref:`mt-modernmt` лучше поддерживает языковые варианты."
 
 #: changes.rst:422
+#, fuzzy
 msgid ""
 "Automatically translated strings are now identified by a dedicated flag "
 "instead of a label."
 msgstr ""
+"Автоматически переведённые строки теперь определяются специальным флагом "
+"вместо метки."
 
 #: changes.rst:423
 msgid ""
@@ -21476,10 +21795,13 @@ msgid ":ref:`mt-cyrtranslit` now supports Belarusian and Greek."
 msgstr ":ref:`mt-cyrtranslit` теперь поддерживает белорусский и греческий."
 
 #: changes.rst:425
+#, fuzzy
 msgid ""
 ":ref:`block-user` now accepts internal notes that are not visible to the "
 "user."
 msgstr ""
+":ref:`block-user` теперь принимает внутренние заметки, невидимые для "
+"пользователя."
 
 #: changes.rst:426
 msgid ""
@@ -21494,57 +21816,84 @@ msgid "Compatibility with Git SHA256 repositories."
 msgstr "Совместимость с репозиториями Git SHA256."
 
 #: changes.rst:428
+#, fuzzy
 msgid ""
 "The allowed version control URLs can now be configured "
 "using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Разрешённые URL-адреса систем контроля версий теперь можно настроить с "
+"помощью :setting:`VCS_ALLOW_SCHEMES` и :setting:`VCS_ALLOW_HOSTS`."
 
 #: changes.rst:429
+#, fuzzy
 msgid ""
 "The API timeout for creating pull requests or forking can now be configured "
 "via :setting:`VCS_API_TIMEOUT`."
 msgstr ""
+"Тайм-аут API для создания запросов на извлечение или форков теперь можно "
+"настроить через :setting:`VCS_API_TIMEOUT`."
 
 #: changes.rst:430
+#, fuzzy
 msgid ""
 "Improved VCS integration documentation to clarify Docker environment "
 "variables, commit authorship, hosted vs. self-hosted setup, and "
 "authentication options."
 msgstr ""
+"Улучшена документация по интеграции VCS для разъяснения переменных окружения "
+"Docker, авторства коммитов, размещённой и самостоятельной установки, а также "
+"параметров аутентификации."
 
 #: changes.rst:431
+#, fuzzy
 msgid "Timestamps from past are now shown with more detail."
-msgstr ""
+msgstr "Временные метки из прошлого теперь отображаются с большей детализацией."
 
 #: changes.rst:432
+#, fuzzy
 msgid ""
 "Added two new :ref:`states` to provide more detailed tracking of work-in-"
 "progress translations."
 msgstr ""
+"Добавлено два новых :ref:`states` для более детального отслеживания "
+"переводов в процессе работы."
 
 #: changes.rst:436
+#, fuzzy
 msgid ""
 "Improper invitation validation upon accepting "
 "(:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`)."
 msgstr ""
+"Неправильная проверка приглашения при принятии (:cve:`2025-64725` / "
+":ghsa:`m6hq-f4w9-qrjj`)."
 
 #: changes.rst:437
+#, fuzzy
 msgid ""
 "Server-Side Request Forgery while cloning repository "
 "(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 msgstr ""
+"Подделка запроса на стороне сервера при клонировании репозитория (:cve:`2025-"
+"66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 
 #: changes.rst:438
+#, fuzzy
 msgid ""
 "Over‑permissive webhook endpoint enabling mass repository updates plus "
 "component enumeration (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`)."
 msgstr ""
+"Чрезмерно разрешённая конечная точка веб-обработчика, позволяющая выполнять "
+"массовые обновления репозиториев и перечисление компонентов (:cve:`2025-"
+"67492` / :ghsa:`pj86-258h-qrvf`)."
 
 #: changes.rst:439
+#, fuzzy
 msgid ""
 "Notification settings disclosure via Weblate API "
 "(:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`)."
 msgstr ""
+"Раскрытие настроек уведомлений через API Weblate (:cve:`2025-67715` / "
+":ghsa:`3pmh-24wp-xpf4`)."
 
 #: changes.rst:440
 msgid ""
@@ -21555,15 +21904,21 @@ msgstr ""
 "китайские варианты."
 
 #: changes.rst:441
+#, fuzzy
 msgid ""
 ":doc:`/formats/csv` format saving translations with empty source fields when "
 "using monolingual base files."
 msgstr ""
+"Формат :doc:`/formats/csv` сохраняет переводы с пустыми исходными полями при "
+"использовании одноязычных базовых файлов."
 
 #: changes.rst:442
+#, fuzzy
 msgid ""
 "Tighter validation of user and full names to avoid confusing homoglyphs."
 msgstr ""
+"Ужесточена проверка имён пользователей и полных имён, чтобы избежать "
+"путаницы с глифами-омографами."
 
 #: changes.rst:443
 msgid "Avoid false positive checks upon committing pending changes."
@@ -21578,16 +21933,23 @@ msgid "Show glossary matches for the source language."
 msgstr "Показывать совпадения из словаря для исходного языка."
 
 #: changes.rst:446
+#, fuzzy
 msgid "Pull/merge requests are now only created when necessary."
 msgstr ""
+"Запросы на извлечение/слияние теперь создаются только при необходимости."
 
 #: changes.rst:450
+#, fuzzy
 msgid ""
 "Replaced custom ``RequireLoginMiddleware`` with Django 5.1's "
 "``LoginRequiredMiddleware``. This makes settings ``LOGIN_REQUIRED_URLS`` and "
 "``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their "
 "Docker environment variable counterparts."
 msgstr ""
+"Заменён пользовательский ``RequireLoginMiddleware`` на "
+"``LoginRequiredMiddleware`` из Django 5.1. Это делает настройки "
+"``LOGIN_REQUIRED_URLS`` и ``LOGIN_REQUIRED_URLS_EXCEPTIONS``, включая их "
+"аналоги в переменных окружения Docker, более не поддерживаемыми."
 
 #: changes.rst:451
 msgid ""
