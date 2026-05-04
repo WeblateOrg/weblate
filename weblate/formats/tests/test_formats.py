@@ -18,6 +18,7 @@ from types import SimpleNamespace
 from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import Mock, patch
 
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from lxml import etree
 from translate.storage.pypo import pofile
@@ -40,6 +41,8 @@ from weblate.formats.ttkit import (
     GoI18nTOMLFormat,
     GoI18V2JSONFormat,
     GWTFormat,
+    I18NextFormat,
+    I18NextV4Format,
     INIFormat,
     InnoSetupINIFormat,
     JoomlaFormat,
@@ -232,6 +235,140 @@ TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
 TEST_STRINGS = get_test_file("cs.strings")
 TEST_FLUENT = get_test_file("cs.ftl")
+
+
+class HierarchicalContextValidationTest(SimpleTestCase):
+    def get_storage(self, format_class: type[TranslationFormat], content: bytes):
+        return format_class(BytesIO(content), None)
+
+    def assert_context_conflict(
+        self,
+        storage: TranslationFormat,
+        context: str,
+    ) -> None:
+        with self.assertRaisesRegex(ValidationError, "conflicts"):
+            storage.validate_new_context(context)
+
+    def test_dot_separated_formats_reject_parent_child_conflicts(self) -> None:
+        formats = (
+            (JSONNestedFormat, b'{"test": {"key": "value"}}', b'{"test": "value"}'),
+            (I18NextFormat, b'{"test": {"key": "value"}}', b'{"test": "value"}'),
+            (I18NextV4Format, b'{"test": {"key": "value"}}', b'{"test": "value"}'),
+            (TOMLFormat, b'[test]\nkey = "value"\n', b'test = "value"\n'),
+            (
+                GoI18nTOMLFormat,
+                b'[test.key]\nother = "value"\n',
+                b'[test]\nother = "value"\n',
+            ),
+        )
+
+        for format_class, child_content, parent_content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                child_storage = self.get_storage(format_class, child_content)
+                parent_storage = self.get_storage(format_class, parent_content)
+
+                self.assert_context_conflict(parent_storage, "test.key")
+                self.assert_context_conflict(child_storage, "test")
+                self.assert_context_conflict(child_storage, "test[0]")
+                child_storage.validate_new_context("test.title")
+                child_storage.validate_new_context("apple_negative")
+                child_storage.validate_new_context("test.key")
+
+    def test_arrow_separated_formats_reject_parent_child_conflicts(self) -> None:
+        formats = (
+            (YAMLFormat, b"test:\n  key: value\n", b"test: value\n"),
+            (
+                RubyYAMLFormat,
+                b"cs:\n  test:\n    key: value\n",
+                b"cs:\n  test: value\n",
+            ),
+        )
+
+        for format_class, child_content, parent_content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                child_storage = self.get_storage(format_class, child_content)
+                parent_storage = self.get_storage(format_class, parent_content)
+
+                self.assert_context_conflict(parent_storage, "test->key")
+                self.assert_context_conflict(child_storage, "test")
+                self.assert_context_conflict(child_storage, "test->[0]")
+                child_storage.validate_new_context("test->title")
+                child_storage.validate_new_context("apple_negative")
+                child_storage.validate_new_context("test->key")
+
+    def test_dot_separated_formats_reject_array_object_conflicts(self) -> None:
+        formats = (
+            (JSONNestedFormat, b'{"test": ["value"]}'),
+            (I18NextFormat, b'{"test": ["value"]}'),
+            (I18NextV4Format, b'{"test": ["value"]}'),
+            (TOMLFormat, b'test = ["value"]\n'),
+            (GoI18nTOMLFormat, b'test = ["value"]\n'),
+        )
+
+        for format_class, content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                storage = self.get_storage(format_class, content)
+
+                self.assert_context_conflict(storage, "test.key")
+                storage.validate_new_context("test[0]")
+                storage.validate_new_context("other.key")
+
+    def test_arrow_separated_formats_reject_array_object_conflicts(self) -> None:
+        formats = (
+            (YAMLFormat, b"test:\n  - value\n"),
+            (RubyYAMLFormat, b"cs:\n  test:\n    - value\n"),
+        )
+
+        for format_class, content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                storage = self.get_storage(format_class, content)
+
+                self.assert_context_conflict(storage, "test->key")
+                storage.validate_new_context("test->[0]")
+                storage.validate_new_context("other->key")
+
+    def test_json_nested_uses_parsed_existing_ids(self) -> None:
+        literal_storage = self.get_storage(JSONNestedFormat, b'{"foo.bar": "literal"}')
+        literal_storage.validate_new_context("foo")
+        literal_storage.validate_new_context("foo.bar.baz")
+
+        nested_storage = self.get_storage(
+            JSONNestedFormat, b'{"foo": {"bar": "nested"}}'
+        )
+        self.assert_context_conflict(nested_storage, "foo")
+        self.assert_context_conflict(nested_storage, "foo.bar.baz")
+
+    def test_yaml_uses_parsed_existing_ids(self) -> None:
+        literal_storage = self.get_storage(YAMLFormat, b"foo->bar: literal\n")
+        literal_storage.validate_new_context("foo")
+        literal_storage.validate_new_context("foo->bar->baz")
+
+        nested_storage = self.get_storage(YAMLFormat, b"foo:\n  bar: nested\n")
+        self.assert_context_conflict(nested_storage, "foo")
+        self.assert_context_conflict(nested_storage, "foo->bar->baz")
+
+    def test_toml_uses_parsed_existing_ids(self) -> None:
+        literal_storage = self.get_storage(TOMLFormat, b'"foo.bar" = "literal"\n')
+        literal_storage.validate_new_context("foo")
+        literal_storage.validate_new_context("foo.bar.baz")
+
+        nested_storage = self.get_storage(TOMLFormat, b'[foo]\nbar = "nested"\n')
+        self.assert_context_conflict(nested_storage, "foo")
+        self.assert_context_conflict(nested_storage, "foo.bar.baz")
+
+    def test_pending_contexts_are_validated(self) -> None:
+        storage = self.get_storage(JSONNestedFormat, b"{}\n")
+
+        with self.assertRaisesRegex(ValidationError, "conflicts"):
+            storage.validate_new_context("test", pending_contexts=["test.key"])
+        with self.assertRaisesRegex(ValidationError, "conflicts"):
+            storage.validate_new_context(
+                "test.key.title", pending_contexts=["test.key"]
+            )
+        storage.validate_new_context("test.title", pending_contexts=["test.key"])
+
+    def test_flat_json_keeps_dotted_keys_literal(self) -> None:
+        JSONFormat.validate_context("test.key")
 
 
 class AutoLoadTest(SimpleTestCase):

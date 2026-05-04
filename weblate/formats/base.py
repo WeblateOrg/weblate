@@ -31,7 +31,7 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator, Iterator, Sequence
+    from collections.abc import Callable, Generator, Iterable, Iterator, Sequence
 
     from django_stubs_ext import StrOrPromise
     from lxml import etree
@@ -401,6 +401,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_location: bool = False
     supports_flags: bool = False
     supports_read_only: bool = False
+    has_hierarchical_contexts: ClassVar[bool] = False
     additional_states: tuple[StringState, ...] = ()
     can_edit_base: bool = True
     strict_format_plurals: bool = False
@@ -961,6 +962,13 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     @staticmethod
     def validate_context(context: str) -> None:  # noqa: ARG004
         return
+
+    def validate_new_context(
+        self,
+        context: str,
+        pending_contexts: Iterable[str] | None = None,
+    ) -> None:
+        self.validate_context(context)
 
 
 class EmptyFormat(TranslationFormat):

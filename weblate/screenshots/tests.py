@@ -7,7 +7,7 @@ import tempfile
 from difflib import get_close_matches
 from itertools import chain
 from pathlib import Path
-from shutil import copyfile
+from shutil import copyfile, rmtree
 from unittest.mock import MagicMock, patch
 
 import requests
@@ -631,6 +631,32 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             temp_file.seek(0)
             shot.image.save("test-update", File(temp_file))
 
+    def add_symlinked_outside_screenshot(self, filename: str) -> str:
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(rmtree, outside_dir)
+        copyfile(TEST_SCREENSHOT, os.path.join(outside_dir, filename))
+
+        link_path = os.path.join(self.component.repository.path, "linked-screenshots")
+        os.symlink(outside_dir, link_path)
+
+        def cleanup_link() -> None:
+            if os.path.lexists(link_path):
+                os.unlink(link_path)
+
+        self.addCleanup(cleanup_link)
+        return f"linked-screenshots/{filename}"
+
+    def add_root_symlinked_screenshot(self, filename: str) -> str:
+        link_path = os.path.join(self.component.repository.path, filename)
+        os.symlink(".", link_path)
+
+        def cleanup_link() -> None:
+            if os.path.lexists(link_path):
+                os.unlink(link_path)
+
+        self.addCleanup(cleanup_link)
+        return filename
+
     def test_update_screenshots_from_repo(self) -> None:
         repository = self.component.repository
         last_revision = repository.last_revision
@@ -665,6 +691,66 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             repository_filename="test-update.png",
         )[0].image.size
         self.assertNotEqual(existing_ss_size, updated_ss_size)
+
+    def test_update_screenshots_from_repo_rejects_symlinked_directory(self) -> None:
+        repository = self.component.repository
+        filename = self.add_symlinked_outside_screenshot("test-update.png")
+        screenshot = Screenshot.objects.get(repository_filename="test-update.png")
+        screenshot.repository_filename = filename
+        screenshot.save(update_fields=["repository_filename"])
+        existing_ss_size = screenshot.image.size
+
+        with patch.object(repository, "get_changed_files", return_value=[filename]):
+            self.component.trigger_post_update(
+                previous_head=repository.last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.size, existing_ss_size)
+
+    def test_update_screenshots_from_repo_rejects_root_symlink(self) -> None:
+        repository = self.component.repository
+        filename = self.add_root_symlinked_screenshot("root-linked.png")
+        screenshot = Screenshot.objects.get(repository_filename="test-update.png")
+        screenshot.repository_filename = filename
+        screenshot.save(update_fields=["repository_filename"])
+        existing_ss_size = screenshot.image.size
+
+        with patch.object(repository, "get_changed_files", return_value=[filename]):
+            self.component.trigger_post_update(
+                previous_head=repository.last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.size, existing_ss_size)
+
+    def test_update_screenshots_from_repo_ignores_open_error(self) -> None:
+        repository = self.component.repository
+        filename = "test-update.png"
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, filename))
+        screenshot = Screenshot.objects.get(repository_filename=filename)
+        existing_ss_size = screenshot.image.size
+
+        with (
+            patch.object(repository, "get_changed_files", return_value=[filename]),
+            patch(
+                "weblate.screenshots.models.open",
+                side_effect=FileNotFoundError("deleted"),
+                create=True,
+            ),
+        ):
+            self.component.trigger_post_update(
+                previous_head=repository.last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.size, existing_ss_size)
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_update_screenshots_from_repo_too_big(self) -> None:
@@ -722,6 +808,60 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
                 repository_filename="test.png",
             ).count(),
             1,
+        )
+
+    def test_add_screenshots_from_repo_rejects_symlinked_directory(self) -> None:
+        repository = self.component.repository
+        filename = self.add_symlinked_outside_screenshot("test.png")
+        self.component.screenshot_filemask = "linked-screenshots/*.png"
+
+        with patch.object(repository, "get_changed_files", return_value=[filename]):
+            self.component.trigger_post_update(
+                previous_head=repository.last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertFalse(
+            Screenshot.objects.filter(repository_filename=filename).exists()
+        )
+
+    def test_add_screenshots_from_repo_rejects_root_symlink(self) -> None:
+        repository = self.component.repository
+        filename = self.add_root_symlinked_screenshot("root-linked.png")
+
+        with patch.object(repository, "get_changed_files", return_value=[filename]):
+            self.component.trigger_post_update(
+                previous_head=repository.last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertFalse(
+            Screenshot.objects.filter(repository_filename=filename).exists()
+        )
+
+    def test_add_screenshots_from_repo_ignores_open_error(self) -> None:
+        repository = self.component.repository
+        filename = "test-open-error.png"
+        copyfile(TEST_SCREENSHOT, os.path.join(repository.path, filename))
+
+        with (
+            patch.object(repository, "get_changed_files", return_value=[filename]),
+            patch(
+                "weblate.screenshots.models.open",
+                side_effect=FileNotFoundError("deleted"),
+                create=True,
+            ),
+        ):
+            self.component.trigger_post_update(
+                previous_head=repository.last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        self.assertFalse(
+            Screenshot.objects.filter(repository_filename=filename).exists()
         )
 
     @override_settings(ALLOWED_ASSET_SIZE=1)

@@ -138,6 +138,11 @@ def validate_component_zip_upload_size(value: DjangoFile) -> None:
         raise ValidationError(gettext("Uploaded ZIP file is too big."))
 
 
+def validate_project_backup_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.PROJECT_BACKUP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
+
+
 def validate_bitmap(
     value: FieldFile | File | None,
 ) -> None:
@@ -312,13 +317,13 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(str(err)) from err
 
     if loc.archive:
-        msg = "No archive can be specified in backup location."
+        msg = gettext("No archive can be specified in backup location.")
         raise ValidationError(msg)
 
     if loc.proto == "file":
         # Missing path
         if not loc.path:
-            msg = "Backup location has to be an absolute path."
+            msg = gettext("Backup location has to be an absolute path.")
             raise ValidationError(msg)
 
         # The path is already normalized here
@@ -326,13 +331,15 @@ def validate_backup_path(value: str) -> None:
 
         # Restrict relative paths as the cwd might change
         if not path.is_absolute():
-            msg = "Backup location has to be an absolute path."
+            msg = gettext("Backup location has to be an absolute path.")
             raise ValidationError(msg)
 
         # Restrict placing under Weblate backups as that will produce mess
         data_backups = Path(data_dir("backups"))
         if data_backups == path or data_backups in path.parents:
-            msg = "Backup location should be outside Weblate backups in DATA_DIR."
+            msg = gettext(
+                "Backup location should be outside Weblate backups in DATA_DIR."
+            )
             raise ValidationError(msg)
 
 

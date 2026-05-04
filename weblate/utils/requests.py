@@ -271,12 +271,12 @@ def _validate_response_peer(
         return
 
     if (peer_ip := _get_response_peer_ip(response)) is None:
-        LOGGER.warning(
-            "Skipping peer IP validation for direct request to %s because the "
-            "connected peer address could not be determined.",
-            response.url,
+        raise ValidationError(
+            gettext(
+                "This URL is prohibited because the connected peer address could not be determined."
+            ),
+            code="private_target",
         )
-        return
 
     validate_runtime_ip(peer_ip, allow_private_targets=allow_private_targets)
 

@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-29 04:10+0000\n"
+"PO-Revision-Date: 2026-04-29 21:57+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -517,7 +517,7 @@ msgstr ""
 "``user.edit`` para todo el sitio. La pertenencia al equipo de "
 "`Administración` de un proyecto permite gestionar el acceso únicamente para "
 "ese proyecto, mientras que ``user.edit`` otorga la gestión de usuarios para "
-"todo el sitio en la interfaz de usuario y la API de Weblate, y solo debe "
+"todo el sitio en la interfaz de usuario y el API de Weblate, y solo debe "
 "asignarse a administradores del sitio de plena confianza."
 
 #: admin/access.rst:240
@@ -872,12 +872,12 @@ msgid ""
 "permissions is granted for all the projects these components are "
 "in. :guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
-"Si el equipo especifica cualquier :guilabel:`Lista de componentes`, todos "
-"los permisos otorgados a los miembros de ese equipo se conceden para todos "
-"los componentes de las listas de componentes adjuntas al equipo, y se "
-"concede un acceso sin permisos adicionales para todos los proyectos en los "
-"que estén estos componentes. Los :guilabel:`Componentes` "
-"y :guilabel:`Proyectos` se ignoran."
+"Si el equipo especifica cualquier :guilabel:`Listado componentes`, todos los "
+"permisos otorgados a los miembros de ese equipo se conceden para todos los "
+"componentes de las listas de componentes adjuntas al equipo, y se concede un "
+"acceso sin permisos adicionales para todos los proyectos en los que estén "
+"estos componentes. Los :guilabel:`Componentes` y :guilabel:`Proyectos` se "
+"hacen caso omiso."
 
 #: admin/access.rst:413
 msgid ""
@@ -3322,6 +3322,9 @@ msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Compruebe que el nombre de la base de datos coincide con "
+":envvar:`POSTGRES_DB` y el usuario coincide con :envvar:`POSTGRES_USER` en "
+"su configuración de Compose."
 
 #: admin/backup.rst:277
 msgid ""
@@ -3329,6 +3332,10 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Restaura el directorio de datos de Weblate al volumen de datos Docker "
+"montado como :file:`/app/data`, consulte :ref:`docker-volume`. Los archivos "
+"en este volumen tienen que ser propiedad de UID 1000, consulte :ref:`file-"
+"permissions`."
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
@@ -3339,6 +3346,8 @@ msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"El contenedor de Weblate realiza migraciones de base de datos al arranque. "
+"Si también mejora Weblate, siga :ref:`upgrading-docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
@@ -5244,7 +5253,7 @@ msgid ""
 "`Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-api-token/>`_"
 msgstr ""
-"`Crea un vale de API <https://support.atlassian.com/bitbucket-cloud/docs/"
+"`Crea un vale del API <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-api-token/>`_"
 
 #: admin/config.rst:1062
@@ -5252,8 +5261,8 @@ msgid ""
 "`API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
 "api-token-permissions/>`_"
 msgstr ""
-"`Permisos del vale API <https://support.atlassian.com/bitbucket-cloud/docs/"
-"api-token-permissions/>`_"
+"`Permisos del vale del API <https://support.atlassian.com/bitbucket-cloud/"
+"docs/api-token-permissions/>`_"
 
 #: admin/config.rst:1071
 msgid "List for credentials for Azure DevOps servers."
@@ -6158,10 +6167,10 @@ msgid ""
 "and configures REST framework to require authentication for all API "
 "endpoints."
 msgstr ""
-"Esto "
-"habilita :class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` "
-"y configura marco de trabajo REST para requerir autenticación para todos los "
-"puntos finales de API."
+"Esto habilita "
+":class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` y "
+"configura marco de trabajo REST para requerir autenticación para todos los "
+"puntos finales del API."
 
 #: admin/config.rst:2100
 msgid "Weblate now relies on Django built-in middleware."
@@ -6930,14 +6939,14 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
-"El conflicto de unión desde Weblate surge cuando el mismo archivo fue "
+"El conflicto de fusión desde Weblate surge cuando el mismo archivo fue "
 "cambiado a la vez en Weblate y fuera de esto. Dependiendo de la situación, "
 "hay varias aproximaciones que quizá le ayude aquí:"
 
 #: admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr ""
-"Evitar conflictos de unión por cambio de archivos de traducción en Weblate "
+"Evitar conflictos de fusión por cambio de archivos de traducción en Weblate "
 "solamente"
 
 #: admin/continuous.rst:121
@@ -7308,7 +7317,7 @@ msgstr ""
 
 #: admin/continuous.rst:268
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr "Evitar conflictos de unión enfocando en operaciones Git"
+msgstr "Evitar conflictos de fusión enfocando en operaciones Git"
 
 #: admin/continuous.rst:270
 msgid ""
@@ -7390,7 +7399,7 @@ msgstr ""
 
 #: admin/continuous.rst:299
 msgid "Automatically receiving changes from GitHub"
-msgstr "Recibir cambios automáticamente de GitHub"
+msgstr "Recibir cambios automáticamente desde GitHub"
 
 #: admin/continuous.rst:301
 msgid "Weblate comes with native support for GitHub."
@@ -7450,7 +7459,7 @@ msgstr ":http:post:`/hooks/github/`"
 
 #: admin/continuous.rst:332
 msgid "Automatically receiving changes from Bitbucket"
-msgstr "Recibir cambios automáticamente de Bitbucket"
+msgstr "Recibir cambios automáticamente desde Bitbucket"
 
 #: admin/continuous.rst:334
 msgid ""
@@ -7470,7 +7479,7 @@ msgstr ":http:post:`/hooks/bitbucket/`"
 
 #: admin/continuous.rst:349
 msgid "Automatically receiving changes from GitLab"
-msgstr "Recibiendo cambios automáticamente desde GitLab"
+msgstr "Recibir cambios automáticamente desde GitLab"
 
 #: admin/continuous.rst:351
 msgid ""
@@ -7504,7 +7513,7 @@ msgstr ":http:post:`/hooks/gitlab/`"
 
 #: admin/continuous.rst:370
 msgid "Automatically receiving changes from Pagure"
-msgstr "Recibir cambios automáticamente de Pagure"
+msgstr "Recibir cambios automáticamente desde Pagure"
 
 #: admin/continuous.rst:372
 msgid ""
@@ -7524,7 +7533,7 @@ msgstr ":http:post:`/hooks/pagure/`"
 
 #: admin/continuous.rst:387
 msgid "Automatically receiving changes from Azure Repos"
-msgstr "Recibir cambios automáticamente de Azure Repos"
+msgstr "Recibir cambios automáticamente desde Azure Repos"
 
 #: admin/continuous.rst:389
 msgid ""
@@ -7555,7 +7564,7 @@ msgstr ":http:post:`/hooks/azure/`"
 
 #: admin/continuous.rst:405
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr "Recibir cambios automáticamente desde Repos de Gitea"
+msgstr "Recibir cambios automáticamente desde Repos Gitea"
 
 #: admin/continuous.rst:407
 msgid ""
@@ -10479,8 +10488,8 @@ msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
-"Para monitorear las métricas de Weblate, puede usar :http:get:`/api/metrics/"
-"` punto final del API."
+"Para monitoreo las métricas de Weblate, puede usar :http:get:`/api/metrics/` "
+"punto final del API."
 
 #: admin/install.rst:1701
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
@@ -12131,7 +12140,7 @@ msgstr "**Ejemplo para búsqueda y vínculo:**"
 
 #: admin/install/docker.rst:1427
 msgid "**Example for union search and bind:**"
-msgstr "**Ejemplo para búsqueda de unión y vínculo:**"
+msgstr "**Ejemplo para búsqueda de fusión y vínculo:**"
 
 #: admin/install/docker.rst:1439
 msgid "**Example with search and bind against Active Directory:**"
@@ -14965,7 +14974,7 @@ msgid ""
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
 "La estructura del archivo JSON importado corresponde prácticamente al objeto "
-"componente (ver :http:get:`/api/components/(string:project)/"
+"componente (consulte :http:get:`/api/components/(string:project)/"
 "(string:component)/`). Ha de incluir los campos ``name`` y ``filemask``."
 
 #: admin/management.rst:405
@@ -15711,6 +15720,13 @@ msgid ""
 "rebuild translation memory for the whole project or for individual "
 "components from the current translations."
 msgstr ""
+"La página de memoria de traducción muestra contadores de apunte para el "
+"ámbito seleccionado. Dependiendo del ámbito, además enumera apuntes por "
+"origen, componente, o parejas de idioma. Los apuntes listados pueden ser "
+"descargados como JSON o TMX. Los usuarios con los permisos requeridos pueden "
+"eliminar apuntes, y la vista del proyecto pueden reconstruir la memoria de "
+"traducción para el proyecto completo o para componentes individuales desde "
+"las traducciones actuales."
 
 #: admin/memory.rst:144
 msgid ""
@@ -15718,6 +15734,10 @@ msgid ""
 "translation memory are enabled for the project, with a link to the project "
 "workflow settings when the user can edit the project."
 msgstr ""
+"La vista del proyecto muestran además si la compartía la memoria de "
+"traducción y la memoria de traducción auto‐limpiada esté activada para el "
+"proyecto, con un enlace a los ajustes del flujo de trabajo del proyecto "
+"cuando el usuario puede editar el proyecto."
 
 #: admin/memory.rst:148
 msgid ""
@@ -15786,6 +15806,13 @@ msgid ""
 "memory, delete uploaded entries, and download uploaded, shared, or all "
 "entries as JSON or TMX."
 msgstr ""
+"Los usuarios administradores disponen de controles adicionales para la "
+"gestión de la memoria de traducción. En :guilabel:`Administración`> "
+":guilabel:`Memoria de traducción`, la página muestra las entradas "
+"compartidas cargadas, los apuntes compartidos y el total de apuntes para la "
+"instancia de Weblate. Según los permisos, puede importar la memoria "
+"compartida cargada, eliminar los apuntes cargados y descargar los apuntes "
+"cargados, compartidos o todos los apuntes en formato JSON o TMX."
 
 #: admin/memory.rst:184
 msgid ""
@@ -19057,6 +19084,17 @@ msgid ""
 "character recognition (OCR) by pressing the :guilabel:`Automatically "
 "recognize` button."
 msgstr ""
+"Cada captura de pantalla se guarda para un idioma de traducción específico. "
+"En la página de traducción, las capturas de pantalla asociadas al idioma de "
+"origen se muestran para cada traducción de la cadena, mientras que las "
+"asociadas a cualquier otro idioma solo se muestran para ese idioma. Puede "
+"agregar una captura de pantalla directamente desde la página de traducción "
+"usando :guilabel:`Agregar captura de pantalla` en el panel "
+":guilabel:`Contexto de captura de pantalla`, o abrir la interfaz de "
+"administración independiente en el menú :guilabel:`Operaciones`. Allí puede "
+"cargar capturas de pantalla, asignarlas manualmente a las cadenas de origen "
+"o usar el reconocimiento óptico de caracteres (OCR) presionando el botón "
+":guilabel:`Reconocer automáticamente`."
 
 #: admin/translating.rst:150
 msgid ""
@@ -19067,14 +19105,6 @@ msgstr ""
 "manipulaciones de gestión y origen:"
 
 #: admin/translating.rst:155
-#, fuzzy
-#| msgid ""
-#| "You can upload a screenshot from a local file or provide a URL to "
-#| "download an image from an external source. URL-based uploads may be "
-#| "restricted based on the :setting:`ALLOWED_ASSET_DOMAINS` setting, which "
-#| "controls which domains are trusted for downloading external assets, "
-#| "including any redirects followed while fetching the image, "
-#| "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgid ""
 "You can upload a screenshot from a local file, paste it from the clipboard, "
 "or provide a URL to download an image from an external source. URL-based "
@@ -19083,14 +19113,13 @@ msgid ""
 "assets, including any redirects followed while fetching the image, "
 "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgstr ""
-"Puede subir una captura de un archivo local o proporcionar una URL para "
-"descargar una imagen desde un origen externo. Las subidas basadas en URL "
-"pueden estar restringidas según los "
-"ajustes :setting:`ALLOWED_ASSET_DOMAINS`, los cuales controlan cuáles "
-"dominios están confiados para descargar activos externos, incluyendo "
-"cualquier redurección seguida mientras obtenga la imagen "
-"y :setting:`ALLOWED_ASSET_SIZE`, el cual limita el tamaño máximo para el "
-"activo."
+"Puede subir una subida de un archivo local, pegarlo desde el portapapeles, o "
+"proporcionar una URL para descargar una imagen desde un origen externo. Las "
+"subidas basadas en URL pueden estar restringidas según los ajustes "
+":setting:`ALLOWED_ASSET_DOMAINS`, los cuales controlan cuáles dominios están "
+"confiados para descargar activos externos, incluyendo cualquier redirección "
+"seguida mientras obtenga la imagen y :setting:`ALLOWED_ASSET_SIZE`, el cual "
+"limita el tamaño máximo para el activo."
 
 #: admin/translating.rst:163
 msgid "Managing screenshots from the repository"
@@ -19153,6 +19182,17 @@ msgid ""
 "delete screenshots. Screenshot API objects include the related translation "
 "and the optional repository path used for repository-based updates."
 msgstr ""
+"Los flujos de trabajo para capturas de pantalla también están disponibles a "
+"través del API REST. Utilice :http:get:`/api/components/(string:project)/"
+"(string:component)/screenshots/` para capturas de pantalla del listado para "
+"un comonente, :http:post:`/api/screenshots/` para crear capturas de "
+"pantalla, :http:post:`/api/screenshots/(int:id)/file/` para remplazar la "
+"imagen, :http:post:`/api/screenshots/(int:id)/units/` y :http:delete:`/api/"
+"screenshots/(int:id)/units/(int:unit_id)` para gestionar asociaciones de "
+"cadenas origen, y :http:delete:`/api/screenshots/(int:id)/` para eliminar "
+"capturas. Los objetos del API de captura de pantalla incluye la traducción "
+"relacionada y la ruta del repositorio opcional utilizado para "
+"actualizaciones basadas en repositorio."
 
 #: admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -19876,6 +19916,8 @@ msgid ""
 "Clarified how :ref:`glossary-terminology` creates and maintains glossary "
 "language entries."
 msgstr ""
+"Clarifica como crea :ref:`glossary-terminology` y mantiene apuntes del "
+"idioma del glosario."
 
 #: changes.rst:17
 msgid ""
@@ -19894,6 +19936,8 @@ msgstr ""
 #: changes.rst:19
 msgid "The OpenAPI schema is cleaner and provides tighter API description."
 msgstr ""
+"El esquema OpenAPI es más limpio y proporciona una descripción del API más "
+"precisa."
 
 #: changes.rst:20
 msgid "Password updates now regenerate your personal API key by default."
@@ -19967,6 +20011,8 @@ msgid ""
 "Admins can now reject pending suggestions and delete comments when cleaning "
 "up blocked or abusive users."
 msgstr ""
+"Ahora, los administradores pueden rechazar sugerencias pendientes y eliminar "
+"comentarios al limpiar la lista de usuarios bloqueados o abusivos."
 
 #: changes.rst:29
 msgid ""
@@ -19982,6 +20028,9 @@ msgid ""
 "endpoints now better explain the allowed setup on hosted and self-managed "
 "sites."
 msgstr ""
+"Los errores de validación de traducción automática a nivel de proyecto para "
+"puntos finales privados o locales ahora explican mejor la configuración "
+"permitida en sitios alojados y auto‐gestionados."
 
 #: changes.rst:31
 msgid ""
@@ -19996,6 +20045,8 @@ msgid ""
 "Documented restoring Docker based setups from backups, see :ref:`restore-"
 "docker`."
 msgstr ""
+"Restauración documentada de Docker basada en configuración desde respaldos, "
+"consulte :ref:`restore-docker`."
 
 #: changes.rst:33
 msgid ""
@@ -20003,6 +20054,9 @@ msgid ""
 "reject URLs whose hostnames cannot be resolved during validation unless the "
 "host is explicitly allowed."
 msgstr ""
+":setting:`VCS_RESTRICT_PRIVATE` y :setting:`WEBHOOK_RESTRICT_PRIVATE` ahora "
+"rechazan las URL cuyos nombres de huéspedes no pueden ser resueltos durante "
+"la validación a no ser que el host está permitido explícitamente."
 
 #: changes.rst:34
 msgid ""
@@ -20051,6 +20105,9 @@ msgid ""
 "Component ZIP imports and project backup restores now share stricter ZIP "
 "archive safety checks."
 msgstr ""
+"Importación de componente ZIP y restauración del respaldo del proyecto ahora "
+"comparte compartición estricta de comprobantes de seguridad del archivador "
+"ZIP."
 
 #: changes.rst:42 changes.rst:142 changes.rst:211 changes.rst:246
 #: changes.rst:300 changes.rst:339 changes.rst:384 changes.rst:435
@@ -20441,7 +20498,7 @@ msgid ""
 "Added translation memory API filtering, scoped access, and bulk lookup "
 "support."
 msgstr ""
-"Se ha añadido filtrado de la API de memoria de traducción, acceso con ámbito "
+"Se ha agregado filtrado del API de memoria de traducción, acceso con ámbito "
 "restringido y compatibilidad con búsquedas masivas."
 
 #: changes.rst:97
@@ -20450,7 +20507,7 @@ msgid ""
 "from existing component content and for seeding new translations by "
 "automatic translation from existing components."
 msgstr ""
-"Se ha añadido compatibilidad con ``from_component`` al API REST para crear "
+"Se ha agregado compatibilidad con ``from_component`` al API REST para crear "
 "componentes a partir del contenido del componente existente y para anidar "
 "traducciones nuevas mediante traducción automática a partir de componentes "
 "existentes."
@@ -20503,7 +20560,7 @@ msgid ""
 "Added a component alert for conflicting merge request repository setup, "
 "see :ref:`alerts`."
 msgstr ""
-"Se ha añadido una alerta de componente para conflicto con unión de la "
+"Se ha añadido una alerta de componente para conflicto con fusión de la "
 "configuración del repositorio, consulte :ref:`alerts`."
 
 #: changes.rst:108
@@ -25966,7 +26023,7 @@ msgstr ""
 #: changes.rst:2145
 msgid "GitLab merge requests when using a customized SSH port."
 msgstr ""
-"Solicitudes de unión en GitLab cuando utilicen un puerto personalizado de "
+"Solicitudes de fusión en GitLab cuando utilicen un puerto personalizado de "
 "SSH."
 
 #: changes.rst:2149
@@ -27556,7 +27613,7 @@ msgstr "Varias traducciones nuevas."
 
 #: changes/v0.rst:79
 msgid "Improved merging of upstream changes."
-msgstr "Unión mejorada de cambios en desarrollo."
+msgstr "Fusión mejorada de cambios en desarrollo."
 
 #: changes/v0.rst:80
 msgid "Better handle concurrent git pull and translation."
@@ -36166,7 +36223,6 @@ msgstr ""
 "``BaseAddonForm``."
 
 #: contributing/addons.rst:29
-#, fuzzy
 msgid ""
 "Use two ``TypedDict`` classes when the stored JSON can differ from the "
 "runtime shape: a permissive, usually ``total=False``, stored configuration "
@@ -36177,15 +36233,14 @@ msgid ""
 msgstr ""
 "Utilice dos clases ``TypedDict`` cuando el JSON almacenado pueda diferir de "
 "la estructura en tiempo de ejecución: una configuración almacenada "
-"permisiva, generalmente ``total=False``, para valores heredados o faltantes, "
+"permisiva, generalmente ``total=False``, para valores heredados o ausentes, "
 "y una configuración total en tiempo de ejecución devuelta por "
 "``normalize_configuration()``. El código del complemento en tiempo de "
 "ejecución debe leer ``self.configuration`` o ``self.get_configuration()`` "
-"para que vea valores predeterminados normalizados en lugar del JSON "
+"tales que vea valores predeterminados normalizados en lugar del JSON "
 "persistente sin procesar."
 
 #: contributing/addons.rst:36
-#, fuzzy
 msgid ""
 "For simple add-ons where the stored and runtime shapes are identical, define "
 "a single ``TypedDict`` and use it for both ``BaseAddon`` type parameters. "
@@ -36196,7 +36251,7 @@ msgstr ""
 "ejecución son idénticas, defina un único ``TypedDict`` y úselo para ambos "
 "parámetros de tipo ``BaseAddon``. Mantenga el tipo de retorno "
 "``serialize_form()`` del formulario alineado con el tipo de configuración "
-"almacenada."
+"almacenado."
 
 #: contributing/code.rst:2
 msgid "Weblate source code"
@@ -39407,8 +39462,7 @@ msgstr "Máscara del archivo duplicado utilizada para los componentes enlazados"
 
 #: devel/alerts.rst:26
 msgid "Conflicting merge request repository setup"
-msgstr ""
-"Conflicto al unir solicitud de unión de la configuración del repositorio"
+msgstr "Conflicto al fusionar solicitud de configuración del repositorio"
 
 #: devel/alerts.rst:27
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
@@ -39454,11 +39508,6 @@ msgid "Conflicting repository setup"
 msgstr "Conflicto al configurar repositorio"
 
 #: devel/alerts.rst:47
-#, fuzzy
-#| msgid ""
-#| "This alert is shown when multiple components using pull or merge request "
-#| "workflows are configured to push to the same repository and push branch. "
-#| "Such a setup can overwrite the shared branch."
 msgid ""
 "This alert is shown when multiple Git components are configured to push to "
 "the same repository and push branch. This includes pull or merge request "
@@ -41481,7 +41530,7 @@ msgstr "Cantidad de caracteres de la cadena traducida."
 
 #: devel/reporting.rst:110
 msgid "The translator's join date is also included in the report."
-msgstr "La fecha de unión del traductor además está incluida en el informe."
+msgstr "La fecha de fusión del traductor además está incluida en el informe."
 
 #: devel/reporting-example.rst:2
 msgid "Email"
@@ -49380,25 +49429,16 @@ msgid "US encryption controls"
 msgstr "Controles de cifrado de EE. UU."
 
 #: security/us-compliance.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate does not contain any cryptographic code, but might be subject "
-#| "export controls as it uses third party components utilizing cryptography "
-#| "for authentication, data-integrity and -confidentiality."
 msgid ""
 "Weblate does not contain any cryptographic code, but might be subject to "
 "export controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
-"Weblate no contiene ningún código criptográfico, pero podría estar sujeto a "
+"Weblate no contiene ningún código criptográfico, pero estaría sujeto a "
 "controles de exportación ya que utiliza componentes de terceros que utilizan "
 "criptografía para autenticación, integridad de datos y confidencialidad."
 
 #: security/us-compliance.rst:24
-#, fuzzy
-#| msgid ""
-#| "Weblate and all it's dependencies have publicly available source code "
-#| "meaning it can usually be exported and reexported without restriction."
 msgid ""
 "Weblate and all its dependencies have publicly available source code meaning "
 "it can usually be exported and reexported without restriction."
@@ -49412,7 +49452,6 @@ msgid "Export control classification number"
 msgstr "Número de clasificación de control de exportaciones"
 
 #: security/us-compliance.rst:30
-#, fuzzy
 msgid ""
 "Weblate has not received a Commodity Classification Automated Tracking "
 "System (CCATS) determination from the Bureau of Industry and Security (BIS). "
@@ -49428,10 +49467,9 @@ msgstr ""
 "utilizada a través de sus dependencias, Weblate debería considerarse, en "
 "general, un software de cifrado bajo el código ECCN ``5D002.c.1``. Una "
 "distribución masiva podría clasificarse como ECCN ``5D992.c`` tras el "
-"proceso de clasificación o autoclasificación aplicable de la BIS."
+"proceso de clasificación o auto‐clasificación aplicable de la BIS."
 
 #: security/us-compliance.rst:37
-#, fuzzy
 msgid ""
 "Weblate source code and release artifacts are publicly available. Under BIS "
 "guidance and 15 CFR 742.15(b), publicly available encryption source code "
@@ -49450,16 +49488,14 @@ msgstr ""
 "deben ser evaluadas en su conjunto por la parte exportadora."
 
 #: security/us-compliance.rst:46
-#, fuzzy
 msgid ""
 "`BIS encryption controls <https://www.bis.gov/learn-support/encryption-"
 "controls>`_"
 msgstr ""
-"`Controles de cifrado de BIS <https://www.bis.gov/learn-support/encryption-"
-"controls>`"
+"`Controles de cifrado BIS <https://www.bis.gov/learn-support/encryption-"
+"controls>`_"
 
 #: security/us-compliance.rst:47
-#, fuzzy
 msgid ""
 "`Encryption items not subject to the EAR <https://www.bis.gov/learn-support/"
 "encryption-controls/encryption-items-not-subject-to-ear>`_"
@@ -49857,7 +49893,7 @@ msgstr "Google Cloud Translation Basic"
 #: snippets/addon-parameters-autogenerated.rst:41
 #: snippets/machines-autogenerated.rst:568
 msgid "LTEngine"
-msgstr ""
+msgstr "LTEngine"
 
 #: snippets/addon-parameters-autogenerated.rst:45
 #: snippets/machines-autogenerated.rst:692
@@ -57939,7 +57975,6 @@ msgstr ""
 "LibreTranslate>`_"
 
 #: snippets/machines-autogenerated.rst:591
-#, fuzzy
 msgid ""
 "LTEngine provides a local LibreTranslate-compatible API backed by large "
 "language models. For many Weblate installations, native LLM services such "
@@ -57947,7 +57982,7 @@ msgid ""
 "context directly to the model. Use LTEngine when you specifically want its "
 "local translation engine or future LTEngine translation improvements."
 msgstr ""
-"LTEngine proporciona una API local compatible con LibreTranslate, respaldada "
+"LTEngine proporciona un API local compatible con LibreTranslate, respaldada "
 "por modelos de lenguaje extensos. Para muchas instalaciones de Weblate, los "
 "servicios LLM nativos, como :ref:`mt-ollama`, pueden ser una mejor opción, "
 "ya que Weblate puede enviar el contexto de traducción directamente al "
@@ -59961,27 +59996,25 @@ msgstr ""
 "idiomas."
 
 #: user/glossary.rst:104
-#, fuzzy
 msgid ""
 "While the flag remains on the term, Weblate treats it as terminology and "
 "keeps an entry for it in every glossary language. If a language entry is "
 "removed, the next glossary synchronization creates it again."
 msgstr ""
-"Mientras el término permanezca marcado, Weblate lo trata como terminología y "
-"mantiene una entrada para él en cada idioma del glosario. Si se elimina una "
-"entrada de idioma, la siguiente sincronización del glosario la vuelve a "
+"Mientras el indicador permanezca marcado, Weblate lo trata como terminología "
+"y mantiene una apunte para esto en cada idioma del glosario. Si se elimina "
+"un apunte de idioma, la siguiente sincronización del glosario la vuelve a "
 "crear."
 
 #: user/glossary.rst:108
-#, fuzzy
 msgid ""
 "Removing the ``terminology`` flag stops this automatic maintenance, but it "
 "does not remove or otherwise revert entries that were already created. They "
 "remain regular glossary entries."
 msgstr ""
-"Al desactivar la opción \"terminología\", se detiene este mantenimiento "
-"automático, pero no se eliminan ni se revierten las entradas que ya se hayan "
-"creado. Estas siguen siendo entradas normales del glosario."
+"Retira el indicador ``terminology`` detiene este mantenimiento automático, "
+"pero no se eliminan ni se revierten los apuntes que ya se hayan creado. "
+"Permanecen los apuntes del glosario normal."
 
 #: user/glossary.rst:119 user/translating.rst:95
 msgid "Variants"
@@ -60463,7 +60496,6 @@ msgstr ""
 "allá donde aparezca su perfil de usuario."
 
 #: user/profile.rst:226
-#, fuzzy
 msgid ""
 "Public profile URLs, such as :guilabel:`Website URL`, :guilabel:`Contact "
 "URL`, :guilabel:`Fediverse URL`, and :guilabel:`Code site URL`, should point "
@@ -60471,15 +60503,14 @@ msgid ""
 "can be rejected, and public profile links show a warning before leaving "
 "Weblate where possible."
 msgstr ""
-"Las URL de perfil público, como :guilabel:`URL del sitio web`, "
+"Las URL de perfil público, tal como :guilabel:`URL se sitio web`, "
 ":guilabel:`URL de contacto`, :guilabel:`URL de Fediverse` y :guilabel:`URL "
-"del sitio de código`, deben dirigir a un sitio web, una página de contacto o "
-"un perfil. Se pueden rechazar los enlaces de descarga directa de archivos "
+"del sitio de código`, dirigirían a un sitio web, una página de contacto o un "
+"perfil. Se pueden rechazar los enlaces de descarga directa de archivos "
 "obvios y, siempre que sea posible, los enlaces de perfil público muestran "
 "una advertencia antes de salir de Weblate."
 
 #: user/profile.rst:232
-#, fuzzy
 msgid ""
 "The :guilabel:`Code site URL` should use common code hosting profile paths, "
 "such as ``/username`` or ``/~username``; existing repository-style links "
@@ -60489,13 +60520,13 @@ msgid ""
 "username``, ``/accounts/username``, ``/channel/username``, ``/profile/"
 "username``, ``/u/username``, or ``/people/identifier``."
 msgstr ""
-"La URL del sitio de código debe usar rutas de perfil de alojamiento de "
-"código comunes, como `/username` o `/~username`; también se aceptan enlaces "
-"de estilo repositorio existentes como `/username/project` o `/group/subgroup/"
-"project`. La URL de Fediverse debe usar rutas de perfil comunes, como `/"
-"username`, `/@username`, `/web/@username`, `/users/username`, `/accounts/"
-"username`, `/channel/username`, `/profile/username`, `/u/username` o `/"
-"people/identifier`."
+"La :guilabel:`URL del sitio de código` debe usar rutas de perfil de "
+"alojamiento de código comunes, como ``/username`` o ``/~username``; también "
+"se aceptan enlaces de estilo repositorio existentes como ``/username/"
+"project`` o ``/group/subgroup/project``. La :guilabel:`URL de Fediverse` "
+"usaría rutas de perfil comunes, como ``/username``, ``/@username``, ``/web/"
+"@username``, ``/users/username``, ``/accounts/username``, ``/channel/"
+"username``, ``/profile/username``, ``/u/username`` o ``/people/identifier``."
 
 #: user/profile.rst:241
 msgid ""
@@ -61758,7 +61789,6 @@ msgstr ""
 "de :ref:`additional-explanation`."
 
 #: user/translating.rst:311
-#, fuzzy
 msgid ""
 "Screenshots can be uploaded directly from this panel using :guilabel:`Add "
 "screenshot`, or managed elsewhere in Weblate to better inform translators of "
@@ -61772,7 +61802,7 @@ msgstr ""
 "se usa la cadena. Las capturas de pantalla en el idioma original se muestran "
 "para cada traducción de la cadena, mientras que las capturas de pantalla "
 "específicas de la traducción se muestran solo para esa traducción; consulte "
-":ref:`capturas de pantalla`."
+":ref:`screenshots`."
 
 #: user/translating.rst:317
 msgid "Nearby strings"

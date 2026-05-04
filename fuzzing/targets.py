@@ -10,6 +10,7 @@ import warnings
 from base64 import b64encode
 from binascii import Error as BinasciiError
 from html import escape
+from html.parser import HTMLParser
 from io import BytesIO
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
@@ -24,10 +25,96 @@ from fuzzing.atheris_compat import FuzzedDataProvider
 from fuzzing.bootstrap import bootstrap_django
 
 _MARKDOWN_STATE = {"patched": False}
+_MARKDOWN_DANGEROUS_TAGS = frozenset(
+    {
+        "base",
+        "embed",
+        "form",
+        "iframe",
+        "link",
+        "math",
+        "meta",
+        "object",
+        "script",
+        "style",
+        "svg",
+        "template",
+    }
+)
+_MARKDOWN_DANGEROUS_ATTRS = frozenset({"srcdoc", "style"})
+_MARKDOWN_URL_ATTRS = frozenset(
+    {"action", "background", "formaction", "href", "poster", "src", "xlink:href"}
+)
+_MARKDOWN_DANGEROUS_URL_SCHEMES = frozenset({"data", "javascript", "vbscript"})
+_MARKDOWN_XSS_PROBE_TEMPLATES = (
+    "<script>{payload}</script>",
+    '<img src=x onerror="{payload}">',
+    "<svg><script>{payload}</script></svg>",
+    "[link](javascript:{payload})",
+    "[link](data:text/html,{payload})",
+    "![image](javascript:{payload})",
+    "<javascript:{payload}>",
+    '[link](<https://example.com/" onclick="{payload}>)',
+    '![image](<https://example.com/" onerror="{payload}>)',
+)
 
 
 def _no_mentions(_text: str) -> list[object]:
     return []
+
+
+class MarkdownXSSAssertionParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.issues: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._check_tag(tag, attrs)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._check_tag(tag, attrs)
+
+    def _check_tag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        normalized_tag = tag.lower()
+        if normalized_tag in _MARKDOWN_DANGEROUS_TAGS:
+            self.issues.append(f"dangerous <{normalized_tag}> tag")
+
+        for raw_name, value in attrs:
+            attr = raw_name.lower()
+            if attr.startswith("on"):
+                self.issues.append(f"event handler attribute {raw_name!r}")
+            if attr in _MARKDOWN_DANGEROUS_ATTRS:
+                self.issues.append(f"dangerous attribute {raw_name!r}")
+            if value is not None and attr in _MARKDOWN_URL_ATTRS:
+                scheme = _compact_url_for_xss_check(value).partition(":")[0]
+                if scheme in _MARKDOWN_DANGEROUS_URL_SCHEMES:
+                    self.issues.append(f"dangerous {raw_name!r} URL scheme")
+
+
+def _compact_url_for_xss_check(value: str) -> str:
+    return "".join(
+        char
+        for char in value.lower()
+        if not char.isspace() and char > "\x1f" and char != "\x7f"
+    ).lstrip()
+
+
+def _assert_markdown_output_has_no_xss(rendered: str) -> None:
+    parser = MarkdownXSSAssertionParser()
+    parser.feed(rendered)
+    parser.close()
+    if parser.issues:
+        issues = "; ".join(parser.issues[:3])
+        msg = f"Unsafe markdown renderer output: {issues}"
+        raise AssertionError(msg)
+
+
+def _build_markdown_xss_probe(payload: str) -> str:
+    cleaned_payload = payload.replace("\x00", "")[:128] or "alert(1)"
+    return "\n\n".join(
+        template.format(payload=cleaned_payload)
+        for template in _MARKDOWN_XSS_PROBE_TEMPLATES
+    )
 
 
 def _bootstrap_targets() -> None:
@@ -469,7 +556,10 @@ def fuzz_markup(data: bytes) -> None:
         with contextlib.suppress(SyntaxError, ValueError, XMLSyntaxError):
             check.check_single(source, target, None)  # type: ignore[arg-type]
 
-    render_markdown(target)
+    _assert_markdown_output_has_no_xss(render_markdown(target))
+    _assert_markdown_output_has_no_xss(
+        render_markdown(_build_markdown_xss_probe(target))
+    )
 
 
 def fuzz_memory_import(data: bytes) -> None:

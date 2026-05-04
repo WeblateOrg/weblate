@@ -1040,6 +1040,10 @@ TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
     "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE", 50000000
 )
+# Maximum allowed uploaded project backup ZIP file size
+PROJECT_BACKUP_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE", 250 * 1024 * 1024
+)
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 

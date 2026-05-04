@@ -85,7 +85,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator
+    from collections.abc import Callable, Generator, Iterable
 
     from translate.storage.aresource import AndroidResourceUnit
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
@@ -1775,19 +1775,88 @@ class CMPFormat(AndroidFormat):
     loader = ("aresource", "CMPResourceFile")
 
 
-class DictStoreFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
-    TTKitFormat[S, U, T]
-):
-    @classmethod
-    def validate_context(cls, context: str) -> None:
-        id_class = cls.get_class().UnitClass.IdClass
+class ContextIdValidationMixin:
+    has_hierarchical_contexts: ClassVar[bool] = False
 
+    @classmethod
+    def parse_new_context_id(cls, context: str):
+        id_class = cls.get_class().UnitClass.IdClass  # type: ignore[attr-defined]
         try:
-            id_class.from_string(context)
+            return id_class.from_string(context)
         except Exception as error:
             raise ValidationError(
                 gettext("Could not parse the key: %s") % error
             ) from error
+
+    @staticmethod
+    def is_context_conflict(
+        context_parts: list[tuple[str, str | int]],
+        existing_parts: list[tuple[str, str | int]],
+    ) -> bool:
+        if context_parts == existing_parts:
+            return False
+        if (
+            context_parts == existing_parts[: len(context_parts)]
+            or existing_parts == context_parts[: len(existing_parts)]
+        ):
+            return True
+        for context_part, existing_part in zip(
+            context_parts, existing_parts, strict=False
+        ):
+            if context_part == existing_part:
+                continue
+            return context_part[0] != existing_part[0]
+        return False
+
+    @classmethod
+    def validate_context(cls, context: str) -> None:
+        cls.parse_new_context_id(context)
+
+    def validate_new_context(
+        self, context: str, pending_contexts: Iterable[str] | None = None
+    ) -> None:
+        # Validate against parsed file UnitIds first. Database contexts are used
+        # only for pending additions which are not yet present in the file.
+        context_parts = self.parse_new_context_id(context).parts
+
+        if not self.has_hierarchical_contexts:
+            return
+
+        ttkit_format = cast("BaseTTKitFormat[Any, Any, Any]", self)
+        parsed_store_contexts: set[str] | None = (
+            set() if pending_contexts is not None else None
+        )
+        for existing_unit in ttkit_format.all_store_units:
+            if parsed_store_contexts is not None:
+                parsed_store_contexts.add(
+                    ttkit_format.unit_class(ttkit_format, None, existing_unit).context
+                )
+            existing_parts = existing_unit.get_unitid().parts
+            if self.is_context_conflict(context_parts, existing_parts):
+                raise ValidationError(
+                    gettext("This key conflicts with an existing hierarchical key.")
+                )
+
+        if pending_contexts is None:
+            return
+
+        for existing_context in pending_contexts:
+            if existing_context == context or (
+                parsed_store_contexts is not None
+                and existing_context in parsed_store_contexts
+            ):
+                continue
+            existing_parts = self.parse_new_context_id(existing_context).parts
+            if self.is_context_conflict(context_parts, existing_parts):
+                raise ValidationError(
+                    gettext("This key conflicts with an existing hierarchical key.")
+                )
+
+
+class DictStoreFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
+    ContextIdValidationMixin, TTKitFormat[S, U, T]
+):
+    pass
 
 
 class JSONFormat[S: JsonFile, U: BaseJsonUnit, T: JSONUnit](DictStoreFormat[S, U, T]):
@@ -1817,6 +1886,7 @@ class JSONNestedFormat(JSONFormat):
     format_id = "json-nested"
     loader = JsonNestedFile
     autoload: tuple[str, ...] = ()
+    has_hierarchical_contexts = True
 
 
 class WebExtensionJSONFormat(JSONFormat):
@@ -1840,6 +1910,7 @@ class I18NextFormat(JSONFormat):
     check_flags = ("i18next-interpolation",)
     language_format: str = "bcp"
     supports_plural: bool = True
+    has_hierarchical_contexts = True
 
 
 class I18NextV4Format(I18NextFormat):
@@ -1924,7 +1995,7 @@ class RESJSONFormat(JSONFormat):
     unit_class = TTKitUnit  # type: ignore[assignment]
 
 
-class TOMLFormat(TTKitFormat):
+class TOMLFormat(ContextIdValidationMixin, TTKitFormat):
     # Translators: File format name
     name = gettext_lazy("TOML file")
     format_id = "toml"
@@ -1932,6 +2003,7 @@ class TOMLFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("*.toml",)
     monolingual = True
     empty_file_template = "\n"
+    has_hierarchical_contexts = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2095,6 +2167,7 @@ class YAMLFormat(DictStoreFormat):
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.pyml",)
     empty_file_template = "{}\n"
+    has_hierarchical_contexts = True
 
     @staticmethod
     def mimetype() -> str:

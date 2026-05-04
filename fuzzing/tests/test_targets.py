@@ -8,7 +8,12 @@ from unittest.mock import patch
 
 from django.test import SimpleTestCase
 
-from fuzzing.targets import fuzz_backups, fuzz_translation_formats
+from fuzzing.targets import (
+    _assert_markdown_output_has_no_xss,
+    fuzz_backups,
+    fuzz_markup,
+    fuzz_translation_formats,
+)
 
 
 class BackupFuzzTargetTest(SimpleTestCase):
@@ -60,3 +65,28 @@ class TranslationFormatFuzzTargetTest(SimpleTestCase):
         fuzz_translation_formats(
             b"input" + b"\0" * 19 + b"\x05" + b"\0" * 7 + b"\xff\xfe"
         )
+
+
+class MarkupFuzzTargetTest(SimpleTestCase):
+    def test_markdown_xss_payloads_are_safe(self) -> None:
+        fuzz_markup(b'<img src=x onerror="alert(1)">')
+        fuzz_markup(b"[link](javascript:alert(1))")
+        fuzz_markup(b'![image](<https://example.com/" onerror="alert(1)>)')
+
+    def test_markdown_xss_assertion_rejects_event_handlers(self) -> None:
+        with self.assertRaisesRegex(AssertionError, "Unsafe markdown renderer output"):
+            _assert_markdown_output_has_no_xss('<img src="x" onerror="alert(1)">')
+
+    def test_markdown_xss_assertion_rejects_dangerous_urls(self) -> None:
+        with self.assertRaisesRegex(AssertionError, "Unsafe markdown renderer output"):
+            _assert_markdown_output_has_no_xss('<a href="javascript:alert(1)">link</a>')
+
+    def test_markdown_fuzzer_rejects_unsafe_renderer_output(self) -> None:
+        with (
+            patch(
+                "weblate.utils.markdown.render_markdown",
+                return_value='<img src="x" onerror="alert(1)">',
+            ),
+            self.assertRaisesRegex(AssertionError, "Unsafe markdown renderer output"),
+        ):
+            fuzz_markup(b"input")

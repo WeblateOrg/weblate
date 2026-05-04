@@ -487,9 +487,7 @@ def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
         "alerts": Alert.objects.order_by(
             "name", "component__project__name", "component__name"
         ).select_related("component", "component__project"),
-        "no_components": Project.objects.annotate(Count("component")).filter(
-            component__count=0
-        ),
+        "no_components": Project.objects.filter(component__isnull=True),
         "menu_items": MENU,
         "menu_page": "alerts",
     }

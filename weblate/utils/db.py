@@ -38,8 +38,10 @@ def adjust_similarity_threshold(value: float, *, alias: str | None = None) -> No
         connection = connections["default"]
 
     current_similarity = getattr(connection, "weblate_similarity", -1)
-    # Ignore small differences
-    if round(abs(current_similarity - value), 3) < 0.05:
+    # Ignore only values that are effectively identical at the precision used
+    # by callers. Nearby values can affect whether boundary matches pass the
+    # pg_trgm % operator.
+    if round(current_similarity, 3) == round(value, 3):
         return
 
     with connection.cursor() as cursor:

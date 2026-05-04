@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.17.1"
+release = "2026.5"
 
 # -- General configuration ---------------------------------------------------
 
@@ -411,6 +411,7 @@ linkcheck_ignore = [
     "https://www.gnu.org/",
     "https://www.contributor-covenant.org/",
     "https://mymemory.translated.net/",
+    "https://docs.oasis-open.org/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]

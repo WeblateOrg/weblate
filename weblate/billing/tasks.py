@@ -7,7 +7,7 @@ from datetime import timedelta
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import Exists, OuterRef, Q
 from django.utils import timezone
 from django.utils.translation import gettext
 
@@ -32,8 +32,11 @@ def billing_notify() -> None:
     limit = Billing.objects.get_out_of_limits()
     due = Billing.objects.get_unpaid()
 
-    with_project = Billing.objects.annotate(Count("projects")).filter(
-        projects__count__gt=0
+    billing_projects = Billing.projects.through.objects.filter(
+        billing_id=OuterRef("pk")
+    )
+    with_project = Billing.objects.alias(has_projects=Exists(billing_projects)).filter(
+        has_projects=True
     )
     toremove = with_project.exclude(removal=None).order_by("removal")
     trial = with_project.filter(removal=None, state=Billing.STATE_TRIAL).order_by(
@@ -57,14 +60,20 @@ def billing_notify() -> None:
 @app.task(trail=False)
 def notify_expired() -> None:
     # Notify about expired billings
-    possible_billings = Billing.objects.filter(
+    billing_projects = Billing.projects.through.objects.filter(
+        billing_id=OuterRef("pk")
+    )
+    possible_billings = Billing.objects.alias(
+        has_projects=Exists(billing_projects)
+    ).filter(
         # Active without payment (checked later)
         Q(state=Billing.STATE_ACTIVE)
         # Scheduled removal
         | Q(removal__isnull=False)
         # Trials expiring soon
-        | Q(state=Billing.STATE_TRIAL, expiry__lte=timezone.now() + timedelta(days=7))
-    ).exclude(projects__isnull=True)
+        | Q(state=Billing.STATE_TRIAL, expiry__lte=timezone.now() + timedelta(days=7)),
+        has_projects=True,
+    )
     for bill in possible_billings:
         if bill.state == Billing.STATE_ACTIVE and bill.check_payment_status(now=True):
             continue
