@@ -581,6 +581,13 @@ class GWTEncoding(BaseFileFormatParam):
 
 
 @register_file_format_param
+class DOSLineEndings(BaseFileFormatParam):
+    file_formats = ("*",)
+    name = "dos_eol"
+    label = gettext_lazy("DOS line endings")
+
+
+@register_file_format_param
 class LineMaxLength(BaseFileFormatParam):
     name = "line_max_length"
     file_formats = ("markdown",)
