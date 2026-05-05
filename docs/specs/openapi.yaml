@@ -2573,6 +2573,8 @@ paths:
             - 92
             - 93
             - 94
+            - 95
+            - 96
         description: |-
           * `0` - Resource updated
           * `1` - Translation completed
@@ -2663,6 +2665,8 @@ paths:
           * `92` - Project restored
           * `93` - Component restored
           * `94` - User edit reverted
+          * `95` - Project setting changed
+          * `96` - Component setting changed
         explode: true
         style: form
       - name: page
@@ -27921,6 +27925,8 @@ components:
       - 92
       - 93
       - 94
+      - 95
+      - 96
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28012,6 +28018,8 @@ components:
         * `92` - Project restored
         * `93` - Component restored
         * `94` - User edit reverted
+        * `95` - Project setting changed
+        * `96` - Component setting changed
     Addon:
       type: object
       properties:
