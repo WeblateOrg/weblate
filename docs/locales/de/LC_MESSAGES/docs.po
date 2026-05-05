@@ -23,9 +23,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-05 11:53+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-05-05 20:34+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -5814,6 +5813,11 @@ msgid ""
 "deployments can be constrained by their reverse proxy request body-size "
 "limit."
 msgstr ""
+"In Docker konfigurieren Sie dies mit der Umgebungsvariable "
+"``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``. Docker-Setups können auch durch "
+":envvar:`CLIENT_MAX_BODY_SIZE` eingeschränkt werden; andere Bereitstellungen "
+"können durch die Größenbeschränkung der Reverse-Proxy-Anfrage eingeschränkt "
+"werden."
 
 #: admin/config.rst:1660
 msgid ""
@@ -20091,6 +20095,9 @@ msgid ""
 ":ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now "
 "export plural strings as separate plural-form rows that can be imported back."
 msgstr ""
+":ref:`CSV <csv>`- und :ref:`XLSX <xlsx>`-Downloads in :ref:`download` "
+"exportieren nun Zeichenketten mit Pluralformen als separate Pluralform-"
+"Zeilen, die wieder importiert werden können."
 
 #: changes.rst:11 changes.rst:46 changes.rst:132 changes.rst:236
 #: changes.rst:271 changes.rst:318 changes.rst:362 changes.rst:407
@@ -20108,16 +20115,12 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "The wrapping width can be configured using the ``po_line_wrap`` "
-#| "parameter, see :ref:`file_format_params`."
 msgid ""
 "Using DOS line endings can now be configured using the "
 "``dos_eol`` :ref:`file_format_params`."
 msgstr ""
-"Die Umbruchbreite kann mit dem Parameter ``po_line_wrap`` konfiguriert "
-"werden, siehe :ref:`file_format_params`."
+"Das Verwenden von DOS-Zeilenumbrüchen kann jetzt mit dem "
+":ref:`file_format_params` ``dos_eol`` konfiguriert werden."
 
 #: changes.rst:15 changes.rst:64 changes.rst:172 changes.rst:241
 #: changes.rst:276 changes.rst:330 changes.rst:369 changes.rst:414
@@ -20143,6 +20146,8 @@ msgid ""
 "Merge request pushes now refresh stale fork remotes after changing "
 "repository hosting."
 msgstr ""
+"Das Pushen von Merge Requests aktualisiert nun Remote-Repositorys von Forks "
+"nach dem Wechseln des Repository-Hostings."
 
 #: changes.rst:19 changes.rst:94 changes.rst:204 changes.rst:339
 #: changes.rst:382 changes.rst:479 changes.rst:622 changes.rst:717
@@ -20158,6 +20163,8 @@ msgid ""
 "The ``dos-eol`` flag is no longer supported. Use the "
 "``dos_eol`` :ref:`file_format_params` instead."
 msgstr ""
+"Die Markierung ``dos-eol`` wird nicht mehr unterstützt. Verwenden Sie "
+"stattdessen den :ref:`file_format_params` ``dos_eol``."
 
 #: changes.rst:23 changes.rst:101 changes.rst:213 changes.rst:251
 #: changes.rst:290 changes.rst:347 changes.rst:386 changes.rst:422
@@ -20225,26 +20232,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"62?closed=1>`__."
+"162?closed=1>`__."
 
 #: changes.rst:33
 msgid "Weblate 5.17.1"
 msgstr "Weblate 5.17.1"
 
 #: changes.rst:35
-#, fuzzy
-#| msgid "*Released on April 15th 2026.*"
 msgid "*Released on April 30th 2026.*"
-msgstr "*Veröffentlicht am 15. April 2026.*"
+msgstr "*Veröffentlicht am 30. April 2026.*"
 
 #: changes.rst:39
 msgid ""
@@ -20260,26 +20261,28 @@ msgid ""
 "rejecting pending suggestions, and deleting comments across project or site-"
 "wide scopes."
 msgstr ""
+"Administratoren können nun gesperrte oder missbräuchliche Benutzer "
+"entfernen, indem sie Bearbeitungen rückgängig machen, ausstehende "
+"Übersetzungsvorschläge ablehnen und Kommentare projekt- oder plattformweit "
+"löschen."
 
 #: changes.rst:41
 msgid "Admin user management can now find users by audit log IP address."
 msgstr ""
+"Die Administrator-Benutzerverwaltung kann Benutzer nun anhand der IP-Adresse "
+"im Audit-Protokoll finden."
 
 #: changes.rst:42
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "categories."
 msgstr ""
-":doc:`/admin/announcements` können im Projekt-/Sprachbereich veröffentlicht "
-"werden."
+":doc:`/admin/announcements` können nun auch über :ref:`api` für Kategorien "
+"verwaltet werden."
 
 #: changes.rst:43
-#, fuzzy
-#| msgid ":ref:`mt-ltengine` machine translation service."
 msgid "Added :ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-ltengine` maschineller Übersetzungsdienst."
+msgstr ":ref:`mt-ltengine` maschineller Übersetzungsdienst hinzugefügt."
 
 #: changes.rst:47
 msgid ""
@@ -20576,14 +20579,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:95
-#, fuzzy
-#| msgid "Password updates now regenerate your personal API key by default."
 msgid ""
 "Password changes now regenerate personal API keys by default "
 "(:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
 msgstr ""
-"Bei einer Passwortänderung wird der persönliche API-Schlüssel nun "
-"standardmäßig neu generiert."
+"Bei Passwortänderungen werden persönliche API-Schlüssel nun standardmäßig "
+"neu generiert (:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
 
 #: changes.rst:96
 msgid ""
@@ -20706,14 +20707,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:128
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 ":doc:`/admin/announcements` can now be managed via the :ref:`api` for "
 "projects, components and translations."
 msgstr ""
-":doc:`/admin/announcements` können im Projekt-/Sprachbereich veröffentlicht "
-"werden."
+":doc:`/admin/announcements` können nun über :ref:`api` für Projekte, "
+"Komponenten und Übersetzungen verwaltet werden."
 
 #: changes.rst:129
 msgid ""
@@ -20908,16 +20907,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:161
-#, fuzzy
-#| msgid ""
-#| "Server-Side Request Forgery while cloning repository "
-#| "(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 msgid ""
 "Hardened component file handling for repository symlinks "
 "(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 msgstr ""
-"Server-Side-Request-Fälschung beim Klonen von Repositorys "
-"(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
+"Gehärtete Komponenten-Dateiverarbeitung für symbolische Links im Repository "
+"(:cve:`2026-34242` / :ghsa:`hv99-mxm5-q397`)."
 
 #: changes.rst:162
 msgid ""
@@ -27329,10 +27324,8 @@ msgstr ""
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
-msgstr "Michal Čihař, Karen Konou, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
 
 #: changes/contributors/5.17.1.rst:10
 msgid ""
@@ -27348,12 +27341,21 @@ msgid ""
 "Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
 "Ivir"
 msgstr ""
+"Michal Čihař, Besnik Bleta, Kristoffer Grundström, Francisco Serrador, "
+"ButterflyOfFire, anas agha, Zahid Rizky Fakhri, pan93412, Hyeonjeong Lee, "
+"VfBFan, 大王叫我来巡山, Yuri Chornoivan, LucasMZ, Átila França, Rafael "
+"Fontenelle, Aindriú Mac Giolla Eoin, UDP, Blueberry, Hotripak, Matthaiks, "
+"Agnieszka C, Priit Jõerüüt, Martin Srebotnjak, Fjuro, Andrei Stepanov, "
+"Mickaël Binos, IEEE-754, Adrian Reyes, bovirus, Max Kleinehelleforth, "
+"justcontributor, Yago Raña Gayoso, Horus68, Любомир Василев, CYAXXX, Andi "
+"Chandler, Adam Havránek, Kyotaro Iijima, Arif Budiman, ovl-1, Laitei, Jim "
+"Kats, Omer I.S., Fulup Jakez, ojppe, Julien Humbert, Jim Spentzos, "
+"Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
+"Ivir"
 
 #: changes/contributors/5.17.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, michael-smt"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -36498,6 +36500,11 @@ msgid ""
 "``Project``, ``Unit``, ``Change``, and ``User``. Add-on configuration forms "
 "should subclass ``weblate.addons.forms.BaseAddonForm``."
 msgstr ""
+"Erweiterungshooks erhalten ORM-Objekte aus den Modulen ``weblate.*.models``, "
+"darunter ``Addon``, ``Component``, ``Translation``, ``Category``, "
+"``Project``, ``Unit``, ``Change``, und ``User``. Erweiterungs-"
+"Konfigurationsformulare sollten eine Unterklasse von "
+"``weblate.addons.forms.BaseAddonForm`` bilden."
 
 #: contributing/addons.rst:16
 msgid "Here is an example add-on:"
@@ -56409,21 +56416,20 @@ msgstr "ISO-8859-1"
 
 #: snippets/file-format-parameters.rst:30
 msgid "dos_eol"
-msgstr ""
+msgstr "dos_eol"
 
 #: snippets/file-format-parameters.rst:30
-#, fuzzy
-#| msgid "File formats"
 msgid "All file formats"
-msgstr "Dateiformate"
+msgstr "Alle Dateiformate"
 
 #: snippets/file-format-parameters.rst:30
 msgid "DOS line endings"
-msgstr "DOS-Linienenden"
+msgstr "DOS-Zeilenumbrüche"
 
 #: snippets/file-format-parameters.rst:30
 msgid "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
 msgstr ""
+"DOS-Zeilenumbrüche (\\r\\n) anstelle von UNIX-Zeilenumbrüche (\\n) verwenden"
 
 #: snippets/file-format-parameters.rst:32
 msgid "flatxml_key_name"
@@ -57987,16 +57993,12 @@ msgid "`DeepL pricing <https://www.deepl.com/pro>`_"
 msgstr "`DeepL-Preisgestaltung <https://www.deepl.com/pro>`_"
 
 #: snippets/machines-autogenerated.rst:369
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`DeepL API documentation <https://developers.deepl.com/docs/getting-started/"
 "quickstart>`_"
 msgstr ""
 "`DeepL-API-Dokumentation <https://developers.deepl.com/docs/getting-started/"
-"intro>`_"
+"quickstart>`_"
 
 #: snippets/machines-autogenerated.rst:394
 msgid ""
