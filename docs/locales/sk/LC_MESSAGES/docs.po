@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-05 10:12+0000\n"
+"PO-Revision-Date: 2026-05-05 11:53+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -11047,36 +11047,42 @@ msgid ""
 "Defaults to ``INFO`` when :envvar:`WEBLATE_DEBUG` is turned off, ``DEBUG`` "
 "is used when debug mode is turned on."
 msgstr ""
+"Predvolená hodnota je ``INFO`` pri vypnutom :envvar:`WEBLATE_DEBUG`, "
+"a ``DEBUG`` sa použije, keď je zapnutý režim ladenia."
 
 #: admin/install/docker.rst:507
 msgid "For more silent logging use ``ERROR`` or ``WARNING``."
-msgstr ""
+msgstr "Pre tichšie logovanie použite ``ERROR`` alebo ``WARNING``."
 
 #: admin/install/docker.rst:511
 msgid "Configures the logging of the database queries verbosity."
-msgstr ""
+msgstr "Nastavuje úroveň podrobnosti logovania databázových dopytov."
 
 #: admin/install/docker.rst:517
 msgid ""
 "Configures remote logging using GELF TCP connection. Can be used to "
 "integrate with Graylog."
 msgstr ""
+"Nastavuje vzdialené logovanie pomocou GELF pripojenia cez TCP. Dá sa použiť "
+"na integráciu s Graylogom."
 
 #: admin/install/docker.rst:523
 msgid "Use custom port for :envvar:`WEBLATE_LOG_GELF_HOST`, defaults to 12201."
 msgstr ""
+"Použije vlastný port pre :envvar:`WEBLATE_LOG_GELF_HOST`, predvolená hodnota "
+"je 12201."
 
 #: admin/install/docker.rst:527
 msgid "Changes the site-title shown in the header of all pages."
-msgstr ""
+msgstr "Mení názov stránky zobrazovaný v hlavičke všetkých stránok."
 
 #: admin/install/docker.rst:531
 msgid "Configures the site domain. This parameter is required."
-msgstr ""
+msgstr "Nastavuje doménu stránky. Tento parameter je povinný."
 
 #: admin/install/docker.rst:533
 msgid "Include port if using a non-standard one."
-msgstr ""
+msgstr "Uveďte port, ak používate neštandardný."
 
 #: admin/install/docker.rst:550
 msgid ""
@@ -11084,20 +11090,26 @@ msgid ""
 "both :setting:`ADMINS` setting and creating `admin` user "
 "(see :envvar:`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"Nastavuje meno a e‑mail správcu stránky. Používa sa pre nastavenie "
+":setting:`ADMINS` aj pri vytváraní používateľa `admin` (pozri "
+":envvar:`WEBLATE_ADMIN_PASSWORD` pre viac informácií)."
 
 #: admin/install/docker.rst:570
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Nastaví heslo pre používateľa `admin`."
 
 #: admin/install/docker.rst:572
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Ak nie je nastavené a používateľ `admin` neexistuje, vytvorí sa s náhodným "
+"heslom zobrazeným pri prvom spustení kontajnera."
 
 #: admin/install/docker.rst:574
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Ak nie je nastavené a používateľ `admin` existuje, nevykoná sa žiadna akcia."
 
 #: admin/install/docker.rst:575
 msgid ""
@@ -11105,6 +11117,9 @@ msgid ""
 "match :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` "
 "and :envvar:`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Ak je nastavené, používateľ `admin` sa pri každom spustení kontajnera upraví "
+"tak, aby zodpovedal hodnotám :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME` a :envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: admin/install/docker.rst:581
 msgid ""
@@ -11112,6 +11127,10 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"Môže predstavovať bezpečnostné riziko ukladať heslo v konfiguračnom súbore. "
+"Zvážte použitie tejto premennej iba pri počiatočnom nastavení (alebo "
+"nechajte Weblate vygenerovať náhodné heslo pri prvom spustení) alebo na "
+"obnovu hesla."
 
 #: admin/install/docker.rst:596
 msgid ""
@@ -11282,26 +11301,29 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/"
 "#django.http.HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
+"Formát musí zodpovedať očakávaniam Django. Django transformuje<https://"
+"docs.djangoproject.com/en/2.2/ref/request-response/"
+"#django.http.HttpRequest.META> _názvy surových HTTP hlavičiek nasledovne:"
 
 #: admin/install/docker.rst:806
 msgid "converts all characters to uppercase"
-msgstr ""
+msgstr "konvertuje všetky znaky na veľké písmená"
 
 #: admin/install/docker.rst:807
 msgid "replaces any hyphens with underscores"
-msgstr ""
+msgstr "nahrádza všetky spojovníky podčiarkovníkmi"
 
 #: admin/install/docker.rst:808
 msgid "prepends ``HTTP_`` prefix"
-msgstr ""
+msgstr "pridáva ``HTTP_`` prefix"
 
 #: admin/install/docker.rst:810
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "„Takže ``X-Forwarded-For`` sa premietne na ``HTTP_X_FORWARDED_FOR``."
 
 #: admin/install/docker.rst:823
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
-msgstr ""
+msgstr "Nastavuje :setting:`IP_PROXY_OFFSET`."
 
 #: admin/install/docker.rst:829
 msgid ""
@@ -11309,10 +11331,14 @@ msgid ""
 "header in preference to the SERVER_PORT META variable. This should only be "
 "enabled if a proxy which sets this header is in use."
 msgstr ""
+"Boolean hodnota určujúca, či sa má hlavička :http:header:`X-Forwarded-Port` "
+"uprednostniť pred premennou SERVER_PORT v META údajoch. Toto by malo byť "
+"povolené len v prípade, že používate proxy server, ktorý túto hlavičku "
+"nastavuje."
 
 #: admin/install/docker.rst:837
 msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
-msgstr ""
+msgstr "Ide o boolean nastavenie (použite ``\"true\"`` alebo ``\"false\"``)."
 
 #: admin/install/docker.rst:841
 msgid ""
@@ -11320,23 +11346,34 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"N-tica predstavujúca kombináciu HTTP hlavičky a jej hodnoty, ktorá označuje, "
+"že požiadavka je zabezpečená. Toto je potrebné v prípade, keď Weblate beží "
+"za reverse proxy, ktorá vykonáva SSL termináciu a neposiela štandardné HTTPS "
+"hlavičky."
 
 #: admin/install/docker.rst:859
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr ""
+"Povolí :setting:`REQUIRE_LOGIN`, aby sa v celom Weblate vyžadovalo "
+"prihlásenie."
 
 #: admin/install/docker.rst:870
 msgid ""
 "Enables the :ref:`legal` module in Docker deployments. By default, the "
 "integration is disabled; leave this variable unset or empty to disable it."
 msgstr ""
+"Povolí modul :ref:`legal` v Docker nasadeniach. Predvolene je integrácia "
+"vypnutá; ponechajte túto premennú nenastavenú alebo prázdnu, ak ju chcete "
+"deaktivovať."
 
 #: admin/install/docker.rst:875
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce terms of service "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
+"``tos-confirm`` povolí právny modul a vynúti potvrdenie podmienok používania "
+"počas sociálnej autentifikácie aj u už prihlásených používateľov."
 
 #: admin/install/docker.rst:877
 msgid ""
@@ -11344,6 +11381,9 @@ msgid ""
 "legal document templates from ``wllegal``. These templates are used by "
 "services operated by Weblate s.r.o. and are not intended for general use."
 msgstr ""
+"``wllegal`` povolí rovnakú integráciu a zároveň načíta hostované šablóny "
+"právnych dokumentov z ``wllegal``. Tieto šablóny používa spoločnosť Weblate "
+"s.r.o. a nie sú určené na všeobecné použitie."
 
 #: admin/install/docker.rst:882
 msgid ""
@@ -11351,46 +11391,61 @@ msgid ""
 "in :file:`/app/data/python/customize/templates/legal/documents`, "
 "see :ref:`docker-static-override`."
 msgstr ""
+"Ak chcete v Docker nasadení použiť vlastné právne dokumenty, prepisujte "
+"šablóny v :file:`/app/data/python/customize/templates/legal/documents`. "
+"Pozrite si aj :ref:`docker-static-override`."
 
 #: admin/install/docker.rst:900
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
-msgstr ""
+msgstr "Povolí :setting:`PUBLIC_ENGAGE`."
 
 #: admin/install/docker.rst:904
 msgid ""
 "Configures ID for Google Analytics by "
 "changing :setting:`GOOGLE_ANALYTICS_ID`."
 msgstr ""
+"Nastaví ID pre Google Analytics zmenou hodnoty "
+":setting:`GOOGLE_ANALYTICS_ID`."
 
 #: admin/install/docker.rst:908
 msgid ""
 "Configures the default title and message for pull requests via API by "
 "changing :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
+"Nakonfiguruje predvolený názov a správu pre pull requesty cez API zmenou "
+"hodnoty :setting:`DEFAULT_PULL_MESSAGE`."
 
 #: admin/install/docker.rst:917
 msgid ""
 "Configures the language simplification policy, "
 "see :setting:`SIMPLIFY_LANGUAGES`."
 msgstr ""
+"Nakonfiguruje politiku zjednodušovania jazykov, pozri "
+":setting:`SIMPLIFY_LANGUAGES`."
 
 #: admin/install/docker.rst:921
 msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"Skryje slovníkové komponenty pri zdieľaní do iných projektov, pozri "
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 
 #: admin/install/docker.rst:925
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, "
 "see :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Nakonfiguruje predvolený :ref:`project-access_control` pre nové projekty, "
+"pozri :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: admin/install/docker.rst:941
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Nakonfiguruje predvolenú hodnotu pre :ref:`component-restricted` pri nových "
+"komponentoch, pozri :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: admin/install/docker.rst:945
 msgid ""
@@ -11398,193 +11453,211 @@ msgid ""
 "allow_translation_propagation` for new components, "
 "see :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"Nakonfiguruje predvolenú hodnotu pre :ref:`component-"
+"allow_translation_propagation` pri nových komponentoch, pozri "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: admin/install/docker.rst:949
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ""
+msgstr "Nastavuje :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: admin/install/docker.rst:953
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
+msgstr "Nastaví :setting:`DEFAULT_COMMITER_NAME`."
 
 #: admin/install/docker.rst:957
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
+msgstr "Nastaví :setting:`DEFAULT_SHARED_TM`."
 
 #: admin/install/docker.rst:961
 msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
-msgstr ""
+msgstr "Nastaví :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: admin/install/docker.rst:965
 msgid ""
 "Configures the default value for :ref:`component-commit_pending_age` for new "
 "components, see :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
+"Nakonfiguruje predvolenú hodnotu pre :ref:`component-commit_pending_age` pri "
+"nových komponentoch, pozri :setting:`COMMIT_PENDING_HOURS`."
 
 #: admin/install/docker.rst:969
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Nakonfiguruje podpisovanie commitov pomocou GPG, pozri "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: admin/install/docker.rst:977
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
+"Nakonfiguruje URL prefix, pod ktorým Weblate beží, pozri "
+":setting:`URL_PREFIX`."
 
 #: admin/install/docker.rst:981
 msgid ""
 "Configures URL prefix for static files served from :setting:`CACHE_DIR`."
 msgstr ""
+"Nakonfiguruje URL prefix pre statické súbory poskytované z "
+":setting:`CACHE_DIR`."
 
 #: admin/install/docker.rst:985
 msgid ""
 "Configures checks which you do not want to be displayed, "
 "see :setting:`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"Nakonfiguruje kontroly, ktoré nechcete zobrazovať, pozri "
+":setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: admin/install/docker.rst:995
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
-msgstr ""
+msgstr "Umožňuje upraviť HTTP hlavičku :http:header:`Content-Security-Policy`."
 
 #: admin/install/docker.rst:1009
 msgid "Configures :setting:`LICENSE_FILTER`."
-msgstr ""
+msgstr "Nastavuje :setting:`LICENSE_FILTER`."
 
 #: admin/install/docker.rst:1013
 msgid "Configures :setting:`LICENSE_REQUIRED`."
-msgstr ""
+msgstr "Nastavuje :setting:`LICENSE_REQUIRED`."
 
 #: admin/install/docker.rst:1017
 msgid "Configures :setting:`WEBSITE_REQUIRED`."
-msgstr ""
+msgstr "Nastavuje :setting:`WEBSITE_REQUIRED`."
 
 #: admin/install/docker.rst:1021
 msgid "Configures :setting:`VERSION_DISPLAY`."
-msgstr ""
+msgstr "Nastavuje :setting:`VERSION_DISPLAY`."
 
 #: admin/install/docker.rst:1025
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr ""
+msgstr "Nastavuje :setting:`HIDE_VERSION`."
 
 #: admin/install/docker.rst:1029
 msgid "Configures :setting:`BASIC_LANGUAGES`."
-msgstr ""
+msgstr "Nastavuje :setting:`BASIC_LANGUAGES`."
 
 #: admin/install/docker.rst:1033
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr ""
+msgstr "Nastavuje :setting:`DEFAULT_AUTO_WATCH`."
 
 #: admin/install/docker.rst:1041
 msgid "Configures rate limiter."
-msgstr ""
+msgstr "Konfiguruje obmedzovač rýchlosti (rate limiter)."
 
 #: admin/install/docker.rst:1045
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"Môžete nastaviť konfiguráciu pre akýkoľvek rate‑limiter rozsah. Stačí pridať "
+"prefix ``WEBLATE_`` ku ktorejkoľvek hodnote opísanej v :ref:`rate-limit`."
 
 #: admin/install/docker.rst:1061
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
+"Nakonfiguruje obmedzovanie API požiadaviek. Predvolene je to ``100/deň`` pre "
+"anonymných a ``5000/hodinu`` pre autentifikovaných používateľov."
 
 #: admin/install/docker.rst:1072
 msgid "Configures :setting:`ENABLE_HOOKS`."
-msgstr ""
+msgstr "Nastavuje :setting:`ENABLE_HOOKS`."
 
 #: admin/install/docker.rst:1078
 msgid "Configures :setting:`ENABLE_AVATARS`."
-msgstr ""
+msgstr "Nastavuje :setting:`ENABLE_AVATARS`."
 
 #: admin/install/docker.rst:1084
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
-msgstr ""
+msgstr "Nastavuje :setting:`AVATAR_URL_PREFIX`."
 
 #: admin/install/docker.rst:1090
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
-msgstr ""
+msgstr "Nastavuje :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 
 #: admin/install/docker.rst:1096
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
-msgstr ""
+msgstr "Nastavuje :setting:`SSH_EXTRA_ARGS`."
 
 #: admin/install/docker.rst:1102
 msgid ""
 "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgstr ""
+"Nastavuje :setting:`BORG_EXTRA_ARGS` ako čiarkou oddelený zoznam argumentov."
 
 #: admin/install/docker.rst:1115
 msgid "Configures :setting:`ENABLE_SHARING`."
-msgstr ""
+msgstr "Nastavuje :setting:`ENABLE_SHARING`."
 
 #: admin/install/docker.rst:1121
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
-msgstr ""
+msgstr "Nastavuje :setting:`SUPPORT_STATUS_CHECK`."
 
 #: admin/install/docker.rst:1127
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
-msgstr ""
+msgstr "Nastavuje :setting:`EXTRA_HTML_HEAD`."
 
 #: admin/install/docker.rst:1133
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
-msgstr ""
+msgstr "Nastavuje :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
 #: admin/install/docker.rst:1139
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
-msgstr ""
+msgstr "Nastavuje :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: admin/install/docker.rst:1145
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr ""
+msgstr "Nastavuje :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: admin/install/docker.rst:1151
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr ""
+msgstr "Nastavuje :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 
 #: admin/install/docker.rst:1157
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
-msgstr ""
+msgstr "Nastavuje :setting:`UNUSED_ALERT_DAYS`."
 
 #: admin/install/docker.rst:1163
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
-msgstr ""
+msgstr "Nastavuje :setting:`UPDATE_LANGUAGES`."
 
 #: admin/install/docker.rst:1169
 msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
-msgstr ""
+msgstr "Nastavuje :setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/install/docker.rst:1175
 msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
-msgstr ""
+msgstr "Nastavuje :setting:`VCS_ALLOW_SCHEMES`."
 
 #: admin/install/docker.rst:1181
 msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
-msgstr ""
+msgstr "Nastavuje :setting:`VCS_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:1187
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
-msgstr ""
+msgstr "Nastavuje :setting:`VCS_CLONE_DEPTH`."
 
 #: admin/install/docker.rst:1193
 msgid "Configures :setting:`VCS_API_DELAY`."
-msgstr ""
+msgstr "Nastavuje :setting:`VCS_API_DELAY`."
 
 #: admin/install/docker.rst:1199
 msgid "Configures :setting:`VCS_API_TIMEOUT`."
-msgstr ""
+msgstr "Nastavuje :setting:`VCS_API_TIMEOUT`."
 
 #: admin/install/docker.rst:1205
 msgid "Allow CORS requests to API from given origins."
-msgstr ""
+msgstr "Umožňuje API spracovať CORS požiadavky z určených domén."
 
 #: admin/install/docker.rst:1218
 msgid "Allows CORS requests to API from all origins."
-msgstr ""
+msgstr "Umožňuje API spracovať CORS požiadavky zo všetkých domén."
 
 #: admin/install/docker.rst:1224
 msgid "Configures :setting:`WEBSITE_ALERTS_ENABLED`."
-msgstr ""
+msgstr "Nastavuje :setting:`WEBSITE_ALERTS_ENABLED`."
 
 #: admin/install/docker.rst:1230
 msgid "Configures maximal body size accepted by the built-in web server."
@@ -13269,6 +13342,11 @@ msgid ""
 "every time it is changed. For further configuration options, "
 "see :ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Spracovaním tejto šablóny sa vytvorí príslušný ``ConfigMap``, ktorý možno "
+"použiť na prispôsobenie Weblate image. ``ConfigMap`` sa priamo pripojí ako "
+"premenné prostredia a pri každej zmene vyvolá nové nasadenie. Ďalšie "
+"možnosti konfigurácie nájdeš v :ref:`docker-environment`, kde je uvedený "
+"úplný zoznam premenných prostredia."
 
 #: admin/install/source.rst:2
 msgid "Installing from sources"
@@ -15901,6 +15979,8 @@ msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
+"Stredná úroveň sa voliteľne vytvára pomocou :ref:`category`. Kategórie je "
+"možné vnorovať, aby sa dosiahla zložitejšia štruktúra."
 
 #: admin/projects.rst:18
 msgid ""
@@ -18073,6 +18153,10 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
+"Zakúpené balíky podpory je možné voliteľne integrovať do rozhrania Weblate "
+"pre subscription management <https://weblate.org/user/> _odkiaľ k nim "
+"získate prístup. Základné informácie o vašej inštalácii sa týmto spôsobom "
+"zároveň odošlú späť do Weblate."
 
 #: admin/support.rst:24
 msgid "Info sent to the Weblate"
@@ -35831,6 +35915,10 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"Mnohé úlohy sa presúvajú do Celery na spracovanie na pozadí. Zlyhania sa "
+"nezobrazujú v používateľskom rozhraní, ale objavia sa v logoch Celery. "
+"Nastavenie :ref:`collecting-errors` vám pomôže tieto zlyhania jednoduchšie "
+"odhaliť."
 
 #: contributing/debugging.rst:91
 msgid "Performance issues"
@@ -37900,6 +37988,8 @@ msgid ""
 "Describe a social media account, page, or community in accordance with "
 "the Social Media Guidelines."
 msgstr ""
+"Opíše účet, stránku alebo komunitu na sociálnych sieťach v súlade so "
+"zásadami používania sociálnych médií."
 
 #: contributing/trademark.rst:23
 msgid ""
@@ -42652,6 +42742,8 @@ msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"Zalomenia riadkov sú escapované ako ``\\\\n``, ale skutočné zalomenie riadku "
+"sa ponecháva aj kvôli čitateľnosti."
 
 #: formats/android.rst:29
 msgid ""
@@ -53366,11 +53458,11 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:1435
 msgid "Mismatched \\\\n"
-msgstr ""
+msgstr "Nezhodné \\\\n"
 
 #: snippets/checks-autogenerated.rst:1437
 msgid "Number of \\\\n literals in translation does not match source."
-msgstr ""
+msgstr "Počet literálov \\\\n v preklade sa nezhoduje so zdrojom."
 
 #: snippets/checks-autogenerated.rst:1446
 msgid ""
@@ -53378,6 +53470,9 @@ msgid ""
 "fails if the number of ``\\n`` literals in translation does not match the "
 "source."
 msgstr ""
+"Escapované zalomenia riadkov sú zvyčajne dôležité pre formátovanie výstupu "
+"programu. Kontrola zlyhá, ak počet literálov ``\\n`` v preklade nezodpovedá "
+"zdroju."
 
 #: snippets/checks-autogenerated.rst:1455
 msgid "Mismatched colon"
@@ -54744,11 +54839,11 @@ msgstr "Zlomy riadkov"
 
 #: snippets/file-format-parameters.rst:160
 msgid "DOS (\\\\r\\\\n)"
-msgstr ""
+msgstr "DOS (\\\\r\\\\n)"
 
 #: snippets/file-format-parameters.rst:163
 msgid "UNIX (\\\\n)"
-msgstr ""
+msgstr "UNIX (\\\\n)"
 
 #: snippets/file-format-parameters.rst:166
 msgid "MAC (\\\\r)"
@@ -55475,6 +55570,9 @@ msgid ""
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`).,"
 msgstr ""
+"Termíny s administratívnym statusom ``forbidden`` alebo ``obsolete`` "
+"v ``<termNote type=\"administrativeStatus>`` sú označené príznakom "
+"``forbidden`` (:ref:`glossary-forbidden`).,"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Translation needed"
@@ -55485,6 +55583,8 @@ msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`).,"
 msgstr ""
+"Termíny s ``<termNote type=\"translationNote\">``, ktoré obsahujú ``no``, sú "
+"označené ako len na čítanie (:ref:`glossary-untranslatable`).,"
 
 #: snippets/format-features/tbx-features.rst:0
 msgid "Usage notes"
@@ -55495,6 +55595,8 @@ msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary.,"
 msgstr ""
+"Poznámky k použitiu z tagov ``<descrip type=\"Usage note\">`` sa zobrazujú "
+"v glosári.,"
 
 #: snippets/format-features/tbx-features.rst:36
 msgid ""
