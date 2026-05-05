@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-05-04 19:27+0000\n"
+"PO-Revision-Date: 2026-05-05 10:12+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -390,7 +390,7 @@ msgstr ""
 "viacerých používateľov naraz vložením e-mailových adries oddelených "
 "medzerami. Všetky pozvánky vytvorené v jednej hromadnej akcii používajú "
 "vybraný tím a hromadné pozvánky pre celú stránku tiež aplikujú vybraný "
-"príznak superpoužívateľa."
+"príznak super používateľa."
 
 #: admin/access.rst:188
 msgid ""
@@ -404,7 +404,7 @@ msgstr ""
 "``user.edit``. Na rozdiel od správy prístupu k projektu ide o dôveryhodné "
 "administrátorské oprávnenie, ktoré umožňuje upravovať používateľské účty v "
 "celej inštancii, vrátane priraďovania tímov pre celú stránku a udeľovania "
-"stavu superpoužívateľa spravovanému účtu, dokonca aj vlastnému účtu "
+"stavu super používateľa spravovanému účtu, dokonca aj vlastnému účtu "
 "volajúceho."
 
 #: admin/access.rst:194
@@ -478,7 +478,7 @@ msgid ""
 msgstr ""
 "Jednou z hlavných výhod správy oprávnení prostredníctvom používateľského "
 "rozhrania Weblate je, že ju môžete delegovať na iných používateľov bez toho, "
-"aby ste im udelili oprávnenie superpoužívateľa. Aby ste to dosiahli, "
+"aby ste im udelili oprávnenie super používateľa. Aby ste to dosiahli, "
 "pridajte ich do tímu `Administrácia` daného projektu."
 
 #: admin/access.rst:231
@@ -536,7 +536,7 @@ msgstr ""
 "v :ref:`management-interface`. Môžete ho použiť na správu oprávnení "
 "akéhokoľvek projektu. Na jeho využitie nemusíte nutne prepínať na "
 ":guilabel:`Vlastné` :ref:`riadenie prístupu <acl>`. Na jeho použitie však "
-"musíte mať oprávnenia superpoužívateľa."
+"musíte mať oprávnenia super používateľa."
 
 #: admin/access.rst:270
 msgid ""
@@ -729,8 +729,8 @@ msgid ""
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
 "Správa oprávnení týmto spôsobom je mocná, ale môže to byť dosť zdĺhavá "
-"práca. Môžete ju delegovať iba na iných používateľov udelením stavu "
-"Superpoužívateľa."
+"práca. Môžete ju delegovať iba na iných používateľov udelením stavu Super "
+"používateľa."
 
 #: admin/access.rst:349
 msgid "Users, roles, teams, and permissions"
@@ -877,6 +877,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"V takom prípade, ak tím uvedie akékoľvek položky v :guilabel:`Projects` — či "
+"už ich vypíše priamo, alebo nastaví položku :guilabel:`Projects selection` "
+"na hodnotu ako :guilabel:`All public projects` — všetky tieto oprávnenia sa "
+"aplikujú na všetky projekty. Tým sa v praxi udelia rovnaké oprávnenia na "
+"prístup ku všetkým projektom s :ref:`neobmedzenými komponentmi <component-"
+"restricted>`."
 
 #: admin/access.rst:427
 msgid ""
@@ -1045,7 +1051,7 @@ msgid ""
 "your Weblate installation."
 msgstr ""
 "Oprávnenia pre celú stránku nie sú udelené žiadnej predvolenej role. Sú "
-"mocné a veľmi blízke stavu Superpoužívateľa. Väčšina z nich ovplyvňuje "
+"mocné a veľmi blízke stavu Super používateľa. Väčšina z nich ovplyvňuje "
 "všetky projekty vo vašej inštalácii Weblate."
 
 #: admin/access.rst:517
@@ -6207,7 +6213,7 @@ msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
-"Vypína polročné kontroly stavu podpory a presmerovanie superpoužívateľov po "
+"Vypína polročné kontroly stavu podpory a presmerovanie super používateľov po "
 "prihlásení na stránku darovania, ak nie je aktívne predplatné podpory."
 
 #: admin/config.rst:2345
@@ -8699,9 +8705,9 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
-"Ak nechcete, aby bol používateľ Weblate superpoužívateľom v PostgreSQL, "
+"Ak nechcete, aby bol používateľ Weblate super používateľom v PostgreSQL, "
 "môžete to vynechať. V takom prípade budete musieť vykonať niektoré kroky "
-"migrácie manuálne ako superpoužívateľ PostgreSQL v schéme, ktorú bude "
+"migrácie manuálne ako super používateľ PostgreSQL v schéme, ktorú bude "
 "Weblate používať:"
 
 #: admin/install.rst:514
@@ -9108,7 +9114,7 @@ msgid ""
 msgstr ""
 "Pre produkčné nastavenie by ste mali vykonať úpravy opísané v nasledujúcich "
 "sekciách. Najkritičnejšie nastavenia spustia varovanie, ktoré je indikované "
-"vykričníkom v hornom paneli, ak ste prihlásení ako superpoužívateľ:"
+"výkričníkom v hornom paneli, ak ste prihlásení ako super používateľ:"
 
 #: admin/install.rst:859
 msgid ""
@@ -10406,6 +10412,9 @@ msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"„Ak nie je nastavená premenná :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+"administrátorský účet sa vytvorí s náhodným heslom, ktoré sa zobrazí pri "
+"prvom spustení."
 
 #: admin/install/docker.rst:44
 msgid ""
@@ -10638,6 +10647,8 @@ msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Nahraďte hodnoty ``<SITE_URL>``, ``<SITE>`` a ``<EXPOSED_DOCKER_PORT>`` "
+"skutočnými údajmi z vášho prostredia."
 
 #: admin/install/docker.rst:192
 msgid "Automatic SSL certificates using Let’s Encrypt"
@@ -10652,12 +10663,20 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file. Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"„Ak chcete na verejnej inštalácii automaticky používať SSL certifikáty "
+"generované službou Let’s Encrypt <https://letsencrypt.org/>, _ musíte pridať "
+"reverzný HTTPS proxy server ako ďalší Docker kontajner. Na tento účel sa "
+"používa https-portal <https://hub.docker.com/r/steveltn/https-portal/>. _ "
+"Toto je využité v súbore :file:`docker-compose-https.yml`. Následne vytvorte "
+"súbor :file:`docker-compose-https.override.yml` so svojimi nastaveniami:"
 
 #: admin/install/docker.rst:216
 msgid ""
 "Whenever invoking :program:`docker compose` you need to pass both files to "
 "it, and then do:"
 msgstr ""
+"Pri každom použití príkazu :program:`docker compose` musíte odovzdať oba "
+"súbory, a potom vykonať:"
 
 #: admin/install/docker.rst:227
 msgid "Upgrading the Docker container"
@@ -10696,6 +10715,10 @@ msgid ""
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
+"Weblate nepodporuje aktualizácie naprieč hlavnými verziami. Ak napríklad "
+"používate sériu 3.x a chcete prejsť na 4.x, najskôr aktualizujte na najnovší "
+"obraz 4.0.x‑y (v čase písania to bol ``4.0.4-5``), ktorý vykoná migráciu, "
+"a až potom pokračujte v aktualizácii na novšie verzie."
 
 #: admin/install/docker.rst:257
 msgid ""
@@ -10703,6 +10726,9 @@ msgid ""
 "not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading "
 "the PostgreSQL server."
 msgstr ""
+"Možno budete chcieť aktualizovať aj repozitár ``docker-compose``, hoci vo "
+"väčšine prípadov to nie je potrebné. Na aktualizáciu PostgreSQL servera "
+"pozrite :ref:`docker-postgres-upgrade`."
 
 #: admin/install/docker.rst:263
 msgid "Upgrading PostgreSQL container"
@@ -10714,6 +10740,10 @@ msgid ""
 "common older setup mounted the database volume at ``/var/lib/postgresql/"
 "data``, while PostgreSQL 18 now uses ``/var/lib/postgresql`` by default."
 msgstr ""
+"PostgreSQL 18 zmenil predvolený adresár s dátami vo vnútri kontajnera. "
+"Staršie bežné nastavenie pripájalo dátový zväzok na ``/var/lib/postgresql/"
+"data``, zatiaľ čo PostgreSQL 18 teraz predvolene používa ``/var/lib/"
+"postgresql``."
 
 #: admin/install/docker.rst:272
 msgid ""
@@ -10721,18 +10751,25 @@ msgid ""
 "in your Docker configuration to the new path, or keep the old mount target "
 "and set ``PGDATA`` accordingly."
 msgstr ""
+"Ak aktualizujete z staršej verzie, buď upravte cieľ pripojenia (mount "
+"target) vo svojej Docker konfigurácii na novú cestu, alebo ponechajte "
+"pôvodnú cestu a nastavte premennú ``PGDATA`` podľa nej."
 
 #: admin/install/docker.rst:276
 msgid ""
 "Leaving the old mount target unchanged without setting ``PGDATA`` can cause "
 "PostgreSQL to write its data outside the persisted volume."
 msgstr ""
+"Ak ponecháte pôvodný cieľ pripojenia nezmenený a nenastavíte premennú "
+"``PGDATA``, môže PostgreSQL zapisovať svoje dáta mimo perzistentného zväzku."
 
 #: admin/install/docker.rst:279
 msgid ""
 "See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for "
 "more information."
 msgstr ""
+"Ďalšie informácie `PGDATA <https://hub.docker.com/_/postgres#pgdata>`_ "
+"nájdete v dokumentácii k premennej."
 
 #: admin/install/docker.rst:282
 msgid ""
@@ -10769,10 +10806,14 @@ msgid ""
 "The volume name contains name of the Docker Compose project, which is by "
 "default the directory name what is ``weblate-docker`` in this documentation."
 msgstr ""
+"Názov zväzku obsahuje názov projektu Docker Compose, ktorý je predvolene "
+"rovnaký ako názov adresára — v tejto dokumentácii je to ``weblate-docker``."
 
 #: admin/install/docker.rst:320
 msgid "Adjust :file:`docker-compose.yml` to use new PostgreSQL version."
 msgstr ""
+"Upravte súbor :file:`docker-compose.yml` tak, aby používal novú verziu "
+"PostgreSQL."
 
 #: admin/install/docker.rst:322
 msgid "Start the database container:"
@@ -10785,6 +10826,8 @@ msgstr "Obnoviť databázu zo zálohy:"
 #: admin/install/docker.rst:336 admin/install/docker.rst:346
 msgid "Please check that the database name matches :envvar:`POSTGRES_DB`."
 msgstr ""
+"Skontrolujte, či sa názov databázy zhoduje s hodnotou premennej "
+":envvar:`POSTGRES_DB`."
 
 #: admin/install/docker.rst:338
 msgid ""
@@ -10792,6 +10835,9 @@ msgid ""
 "migrating to PostgreSQL 14 or 15 as way of storing passwords has been "
 "changed:"
 msgstr ""
+"(Voliteľné) Aktualizujte heslo používateľa Weblate. Toto môže byť potrebné "
+"pri prechode na PostgreSQL 14 alebo 15, keďže spôsob ukladania hesiel sa "
+"zmenil:"
 
 #: admin/install/docker.rst:348
 msgid "Start all remaining containers:"
@@ -10807,12 +10853,18 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"Po dokončení nastavenia kontajnera sa môžete prihlásiť ako používateľ "
+"`admin` s heslom uvedeným v premennej :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+"alebo s náhodne vygenerovaným heslom pri prvom spustení, ak táto premenná "
+"nebola nastavená."
 
 #: admin/install/docker.rst:363
 msgid ""
 "To reset `admin` password, restart the container "
 "with :envvar:`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Ak chcete resetovať heslo používateľa `admin`, reštartujte kontajner "
+"s premennou :envvar:`WEBLATE_ADMIN_PASSWORD` nastavenou na nové heslo."
 
 #: admin/install/docker.rst:373
 msgid "Number of processes and memory consumption"
@@ -10857,6 +10909,10 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. "
 "The :file:`/app/cache` volume should be separate for each container."
 msgstr ""
+"Môžete spustiť viacero kontajnerov Weblate a škálovať službu horizontálne. "
+"Zväzok :file:`/app/data` musia zdieľať všetky kontajnery — na tento účel sa "
+"odporúča použiť klastrový súborový systém, napríklad GlusterFS. Zväzok "
+":file:`/app/cache` by mal byť pre každý kontajner samostatný."
 
 #: admin/install/docker.rst:428
 msgid ""
@@ -10865,6 +10921,10 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
+"Každý kontajner Weblate má definovanú svoju úlohu pomocou premennej "
+"prostredia :envvar:`WEBLATE_SERVICE`. Postupujte podľa dokumentácie veľmi "
+"pozorne, keďže niektoré služby majú byť v klastri spustené len raz a zároveň "
+"záleží aj na poradí, v akom sa jednotlivé služby spúšťajú."
 
 #: admin/install/docker.rst:433
 msgid ""
@@ -10872,6 +10932,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Ukážkové nastavenie nájdete v repozitári ``docker-compose`` ako súbor docker-"
+"compose-split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/"
+"docker-compose-split.yml>__."
 
 #: admin/install/docker.rst:440
 msgid "Docker environment variables"
@@ -10882,12 +10945,16 @@ msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
+"Mnohé z konfigurácií Weblate uvedených v :ref:`config` je možné nastaviť "
+"v Docker kontajneri pomocou nižšie popísaných premenných prostredia."
 
 #: admin/install/docker.rst:445
 msgid ""
 "If you need to define a setting not exposed through Docker environment "
 "variables, see :ref:`docker-custom-config`."
 msgstr ""
+"Ak potrebujete nastaviť konfiguráciu, ktorá nie je sprístupnená cez premenné "
+"prostredia Dockeru, pozrite si časť :ref:`docker-custom-config`."
 
 #: admin/install/docker.rst:451
 msgid "Passing secrets"
@@ -10898,30 +10965,38 @@ msgid ""
 "Weblate container supports passing secrets as files. To utilize that, append "
 "``_FILE`` suffix to the environment variable and pass secret file via Docker."
 msgstr ""
+"Kontajner Weblate podporuje odovzdávanie citlivých údajov (secrets) vo forme "
+"súborov. Na využitie tejto možnosti pridajte k názvu premennej prostredia "
+"príponu ``_FILE`` a odovzdajte súbor so secretom cez Docker."
 
 #: admin/install/docker.rst:458
 msgid "Related :file:`docker-compose.yml` might look like:"
 msgstr ""
+"Súvisiaci súbor :file:`docker-compose.yml` môže vyzerať napríklad takto:"
 
 #: admin/install/docker.rst:481
 msgid ""
 "`How to use secrets in Docker Compose <https://docs.docker.com/compose/how-"
 "tos/use-secrets/>`_"
 msgstr ""
+"`Ako používať secrets v Docker Compose <https://docs.docker.com/compose/how-"
+"tos/use-secrets/>`_"
 
 #: admin/install/docker.rst:484
 msgid "Generic settings"
-msgstr ""
+msgstr "Všeobecné nastavenia"
 
 #: admin/install/docker.rst:488
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr "Nastavuje debug režim Django pomocou :setting:`DEBUG`."
 
 #: admin/install/docker.rst:503
 msgid ""
 "Configures the logging verbosity. Set this to ``DEBUG`` to get more detailed "
 "logs."
 msgstr ""
+"Nastavuje podrobnosť logovania. Pre získanie detailnejších záznamov nastavte "
+"hodnotu na ``DEBUG``."
 
 #: admin/install/docker.rst:505
 msgid ""
@@ -10998,136 +11073,164 @@ msgstr ""
 msgid ""
 "Whether to send e-mail to admins upon server error. Turned on by default."
 msgstr ""
+"Či sa má pri chybe servera odoslať e‑mail administrátorom. Predvolene je "
+"táto voľba zapnutá."
 
 #: admin/install/docker.rst:598
 msgid ""
 "You might want to use other error collection like Sentry or Rollbar and turn "
 "this off."
 msgstr ""
+"Možno budete chcieť používať iný systém na zber chýb, napríklad Sentry alebo "
+"Rollbar, a túto voľbu vypnúť."
 
 #: admin/install/docker.rst:608
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "E‑mailová adresa, z ktorej sa odosielajú chybové hlásenia."
 
 #: admin/install/docker.rst:617
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Nastavuje adresu používanú pre odchádzajúce e‑maily."
 
 #: admin/install/docker.rst:626
 msgid "Configures :setting:`ADMINS_CONTACT`."
-msgstr ""
+msgstr "Nastavuje :setting:`ADMINS_CONTACT`."
 
 #: admin/install/docker.rst:630
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
+"Nastavuje správanie kontaktného formulára, pozri :setting:`CONTACT_FORM`."
 
 #: admin/install/docker.rst:634
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
-msgstr ""
+msgstr "Nastavuje povolené HTTP hostnames pomocou :setting:`ALLOWED_HOSTS`."
 
 #: admin/install/docker.rst:636
 msgid "Defaults to ``*`` which allows all hostnames."
-msgstr ""
+msgstr "Predvolená hodnota je ``*``, čo povoľuje všetky hostnames."
 
 #: admin/install/docker.rst:653
 msgid ""
 "Configures whether registrations are open by "
 "toggling :std:setting:`REGISTRATION_OPEN`."
 msgstr ""
+"Nastavuje, či sú registrácie otvorené, prepnutím hodnoty "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: admin/install/docker.rst:666
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
 msgstr ""
+"Nastavuje, či sa má používať captcha pri registrácii a ďalších "
+"neautentifikovaných akciách, pozri :std:setting:`REGISTRATION_CAPTCHA`."
 
 #: admin/install/docker.rst:677
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Nastavuje, ktoré autentifikačné metódy možno použiť na vytvorenie nového "
+"účtu pomocou :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: admin/install/docker.rst:693
 msgid "Configures :std:setting:`REGISTRATION_REBIND`."
-msgstr ""
+msgstr "Nastavuje :std:setting:`REGISTRATION_REBIND`."
 
 #: admin/install/docker.rst:699
 msgid "Configures :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
-msgstr ""
+msgstr "Nastavuje :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`."
 
 #: admin/install/docker.rst:712
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
-msgstr ""
+msgstr "Nastavuje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:714 admin/install/docker.rst:722
 msgid "Defaults to enabled."
-msgstr ""
+msgstr "Predvolene je táto voľba zapnutá."
 
 #: admin/install/docker.rst:720
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
-msgstr ""
+msgstr "Nastavuje :setting:`WEBHOOK_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:728
 msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
-msgstr ""
+msgstr "Nastavuje :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:732
 msgid ""
 "Configures the used time zone in Weblate, "
 "see :std:setting:`django:TIME_ZONE`."
 msgstr ""
+"Nastavuje časové pásmo používané vo Weblate, pozri "
+":std:setting:`django:TIME_ZONE`."
 
 #: admin/install/docker.rst:736
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
+"Ak chcete zmeniť časové pásmo samotného Docker kontajnera, použite premennú "
+"prostredia ``TZ``."
 
 #: admin/install/docker.rst:748
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Nastaví, aby Weblate predpokladal, že beží za reverzným HTTPS proxy. "
+"V dôsledku toho Weblate používa HTTPS v e‑mailových a API odkazoch "
+"a nastavuje bezpečnostné príznaky na cookies."
 
 #: admin/install/docker.rst:753
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
+"Prosím, pozrite si dokumentáciu :setting:`ENABLE_HTTPS` pre možné "
+"upozornenia."
 
 #: admin/install/docker.rst:757
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
+"Toto nenastaví Weblate kontajner tak, aby prijímal HTTPS pripojenia. Je "
+"potrebné ich nakonfigurovať samostatne; pozri :ref:`docker-ssl` pre príklady."
 
 #: admin/install/docker.rst:777
 msgid "Controls whether the bundled NGINX listens on IPv6 addresses."
-msgstr ""
+msgstr "Či má zabudovaný NGINX počúvať aj na IPv6 adresách."
 
 #: admin/install/docker.rst:781
 msgid ""
 "``auto`` to enable IPv6 listeners only when IPv6 is available in the "
 "container runtime. This is the default."
 msgstr ""
+"Hodnota ``auto`` zapne IPv6 len vtedy, keď je v runtime kontajnera dostupné "
+"IPv6. Toto je predvolené nastavenie."
 
 #: admin/install/docker.rst:783
 msgid "``on`` to always enable IPv6 listeners."
-msgstr ""
+msgstr "Hodnota ``on`` vždy zapne počúvanie na IPv6."
 
 #: admin/install/docker.rst:784
 msgid "``off`` to disable IPv6 listeners."
-msgstr ""
+msgstr "Hodnota ``off`` vypne počúvanie na IPv6."
 
 #: admin/install/docker.rst:795
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
+"Umožňuje Weblate získať IP adresu z ľubovoľného HTTP headera. Použite to "
+"v prípade, že pred Weblate kontajnerom beží reverzné proxy."
 
 #: admin/install/docker.rst:798
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and "
 "sets :setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Zapína :setting:`IP_BEHIND_REVERSE_PROXY` a nastavuje "
+":setting:`IP_PROXY_HEADER`."
 
 #: admin/install/docker.rst:802
 msgid ""
@@ -13265,7 +13368,7 @@ msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words."
 msgstr ""
-"Typické využitie úložiska databázy je okolo 300 MB na 1 milión hostovaných "
+"Typické využitie úložiska databázy je okolo 300 MB na 1 milión hosťovaných "
 "slov."
 
 #: admin/install/steps/hw.rst:39
@@ -13285,7 +13388,7 @@ msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
-"Pre malé a stredne veľké stránky (milióny hostovaných slov) môžu byť všetky "
+"Pre malé a stredne veľké stránky (milióny hosťovaných slov) môžu byť všetky "
 "komponenty Weblate (pozrite :ref:`architecture`) spustené na jednom uzle."
 
 #: admin/install/steps/hw.rst:48
@@ -13293,7 +13396,7 @@ msgid ""
 "When you grow to hundreds of millions of hosted words, it is recommended to "
 "have a dedicated node for database (see :ref:`database-setup`)."
 msgstr ""
-"Keď narastiete na stovky miliónov hostovaných slov, odporúča sa mať "
+"Keď narastiete na stovky miliónov hosťovaných slov, odporúča sa mať "
 "vyhradený uzol pre databázu (pozrite :ref:`database-setup`)."
 
 #: admin/install/steps/install-after.rst:2
@@ -15376,7 +15479,7 @@ msgid ""
 "is possible when following conditions are met:"
 msgstr ""
 "Fakturačný modul navyše umožňuje administrátorom projektov vytvárať nové "
-"projekty a komponenty bez toho, aby boli superpoužívatelia (pozri "
+"projekty a komponenty bez toho, aby boli super používatelia (pozri "
 ":ref:`adding-projects`). Je to možné, keď sú splnené nasledujúce podmienky:"
 
 #: admin/optionals.rst:114
@@ -15494,7 +15597,7 @@ msgstr ""
 ":envvar:`WEBLATE_LEGAL_INTEGRATION` namiesto úpravy :file:`settings.py`. "
 "Použite ``tos-confirm`` na povolenie právneho modulu a vynucovania "
 "potvrdenia podmienok poskytovania služby, alebo ``wllegal`` na dodatočné "
-"načítanie hostovaných šablón právnych dokumentov používaných službami "
+"načítanie hosťovaných šablón právnych dokumentov používaných službami "
 "prevádzkovanými spoločnosťou Weblate s.r.o. Tieto šablóny nie sú určené na "
 "všeobecné použitie. Ak chcete poskytnúť vlastné šablóny v Dockeri, "
 "umiestnite ich do :file:`/app/data/python/customize/templates/legal/"
@@ -15602,7 +15705,7 @@ msgstr "Obmedzovanie rýchlosti"
 #: admin/optionals.rst:263
 msgid "The rate limiting no longer applies to signed in superusers."
 msgstr ""
-"Obmedzovanie rýchlosti sa už nevzťahuje na prihlásených superpoužívateľov."
+"Obmedzovanie rýchlosti sa už nevzťahuje na prihlásených super používateľov."
 
 #: admin/optionals.rst:265
 msgid ""
@@ -19221,7 +19324,8 @@ msgstr ""
 #: changes.rst:26
 msgid "Track superuser and site-wide team changes in :ref:`audit-log`."
 msgstr ""
-"Sledovanie zmien superpoužívateľa a celostránkových tímov v :ref:`audit-log`."
+"Sledovanie zmien super používateľa a celostránkových tímov v :ref:`audit-"
+"log`."
 
 #: changes.rst:27
 msgid ""
@@ -19256,7 +19360,7 @@ msgid ""
 msgstr ""
 "Chyby overovania strojového prekladu na úrovni projektu pre súkromné alebo "
 "lokálne koncové body teraz lepšie vysvetľujú povolené nastavenie na "
-"hostovaných a samoobslužných stránkach."
+"hosťovaných a samoobslužných stránkach."
 
 #: changes.rst:31
 msgid ""
@@ -24240,7 +24344,7 @@ msgstr "*Vydané 26. marca 2024.*"
 
 #: changes.rst:1807
 msgid "Superuser access to components with :ref:`component-restricted`."
-msgstr "Prístup superužívateľa ku komponentom s :ref:`component-restricted`."
+msgstr "Prístup super používateľa ku komponentom s :ref:`component-restricted`."
 
 #: changes.rst:1808
 msgid ""
@@ -30513,7 +30617,7 @@ msgstr "Umožnenie prepísania predvolených správ commitov z nastavení."
 
 #: changes/v3.rst:465
 msgid "Improve webhooks compatibility with self hosted environments."
-msgstr "Vylepšená kompatibilita webhookov s vlastne hostovanými prostrediami."
+msgstr "Vylepšená kompatibilita webhookov s vlastne hosťovanými prostrediami."
 
 #: changes/v3.rst:466
 msgid "Added support for Amazon Translate."
@@ -32966,7 +33070,7 @@ msgstr "Vylepšená validácia parametrov v API vytvárania komponentov."
 
 #: changes/v4.rst:753
 msgid "The rate limiting no longer applies to superusers."
-msgstr "Obmedzenie rýchlosti sa už nevzťahuje na superpoužívateľov."
+msgstr "Obmedzenie rýchlosti sa už nevzťahuje na super používateľov."
 
 #: changes/v4.rst:754
 msgid "Improved automatic translation add-on performance and reliability."
@@ -34476,7 +34580,7 @@ msgstr ""
 
 #: changes/v4.rst:1202
 msgid "Fixed PostgreSQL migration for non superusers."
-msgstr "Opravená migrácia PostgreSQL pre nesuperpoužívateľov."
+msgstr "Opravená migrácia PostgreSQL pre nie super používateľov."
 
 #: changes/v4.rst:1203
 msgid "Fixed changing the repository URL while creating component."
@@ -36065,7 +36169,7 @@ msgid ""
 "rewards you get as a proud funder."
 msgstr ""
 "Môžete podporiť vývoj Weblate darovaním. Prostriedky získané z darov sa "
-"používajú na umožnenie bezplatného hostovania pre projekty slobodného "
+"používajú na umožnenie bezplatného hosťovania pre projekty slobodného "
 "softvéru a na financovanie ekosystému, na ktorom Weblate závisí. Pozrite si "
 "`stránku darovania <https://weblate.org/donate/>`_ pre možnosti, ako sú "
 "ciele financovania a odmeny, ktoré získate ako hrdý sponzor."
@@ -36291,7 +36395,7 @@ msgid ""
 "hosted at GitHub."
 msgstr ""
 "Weblate `sledovač problémov <https://github.com/WeblateOrg/weblate/issues>`_ "
-"je hostovaný na GitHube."
+"je hosťovaný na GitHube."
 
 #: contributing/issues.rst:8
 msgid ""
@@ -37533,7 +37637,7 @@ msgid ""
 "necessary to receive permission directly from Weblate (or its affiliates) to:"
 msgstr ""
 "Keďže Weblate je poskytovateľom softvéru, ktorý môže byť použitý v mnohých "
-"verziách – hostovaný, dedikovaný cloud a self-hosted (platený aj bezplatný), "
+"verziách – hosťovaný, dedikovaný cloud a self-hosted (platený aj bezplatný), "
 "je dôležité rozlišovať medzi týmito prípadmi. Každá verzia má špecifický "
 "spôsob používania ochrannej známky Weblate. Avšak, vo všetkých prípadoch nie "
 "je potrebné získať povolenie priamo od Weblate (alebo jeho pridružených "
@@ -37564,7 +37668,7 @@ msgid ""
 msgstr ""
 "Používať logá Weblate vo vizuáloch na pravdivé odkazovanie na a/alebo "
 "prepojenie s príslušnými programami, produktmi, službami a technológiami "
-"hostovanými na serveroch Weblate."
+"hosťovanými na serveroch Weblate."
 
 #: contributing/trademark.rst:20
 msgid ""
@@ -44478,7 +44582,7 @@ msgid ""
 "our :doc:`admin/install`."
 msgstr ""
 "Pre spustenie vlastného projektu na našej cloudovej službe Hosted Weblate sa "
-"obráťte na :doc:`admin/projects`. Pre samoobslužné hostovanie vlastnej kópie "
+"obráťte na :doc:`admin/projects`. Pre samoobslužné hosťovanie vlastnej kópie "
 "Weblate si prečítajte našu :doc:`admin/install`."
 
 #: index.rst:45
@@ -44641,7 +44745,7 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
-"Všetky služby **Weblate Cloud** a **Hosted Weblate** sú hostované výhradne v "
+"Všetky služby **Weblate Cloud** a **Hosted Weblate** sú hosťované výhradne v "
 "rámci **Európskej únie**. To zabezpečuje silnú ochranu údajov, jasné "
 "právomoci a súlad s európskymi štandardmi ochrany súkromia."
 
@@ -46468,7 +46572,7 @@ msgid ""
 "Organizations may host Weblate within specific jurisdictions (e.g., EU, "
 "India, China) to ensure compliance with data localization laws."
 msgstr ""
-"Organizácie môžu hostovať Weblate v rámci špecifických jurisdikcií (napr. "
+"Organizácie môžu hosťovať Weblate v rámci špecifických jurisdikcií (napr. "
 "EÚ, India, Čína), aby zabezpečili súlad so zákonmi o lokalizácii údajov."
 
 #: security/privacy-compliance.rst:80
@@ -47659,7 +47763,7 @@ msgstr ""
 "usmernení BIS a 15 CFR 742.15(b) verejne dostupný šifrovací zdrojový kód "
 "klasifikovaný pod ECCN ``5D002`` nepodlieha EAR, keď sú splnené príslušné "
 "podmienky, a zodpovedajúci objektový kód môže byť tiež mimo EAR. Vlastné "
-"zostavenia, hostované služby, balíkové distribúcie a downstream nasadenia by "
+"zostavenia, hosťované služby, balíkové distribúcie a downstream nasadenia by "
 "mala vyhodnocovať ako celok exportujúca strana."
 
 #: security/us-compliance.rst:46
@@ -55570,7 +55674,7 @@ msgstr "Jedinečný názov nasadenia modelu."
 
 #: snippets/machines-autogenerated.rst:225
 msgid "Performs translation using `OpenAI`_ hosted on Azure."
-msgstr "Vykonáva preklad pomocou `OpenAI`_ hostovaného na Azure."
+msgstr "Vykonáva preklad pomocou `OpenAI`_ hosťovaného na Azure."
 
 #: snippets/machines-autogenerated.rst:250
 #: snippets/machines-autogenerated.rst:785
@@ -60158,7 +60262,7 @@ msgid ""
 "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
 msgstr ""
-"Prístup k repozitárom na stránkach na hostovanie kódu (GitHub, GitLab, "
+"Prístup k repozitárom na stránkach na hosťovanie kódu (GitHub, GitLab, "
 "Bitbucket, Azure DevOps, ...)"
 
 #: vcs.rst:67
@@ -60179,7 +60283,7 @@ msgid ""
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
 "Pre vlastné inštancie Weblate sa prístup k repozitárom na stránkach na "
-"hostovanie kódu zvyčajne realizuje vytvorením špecializovaného používateľa, "
+"hosťovanie kódu zvyčajne realizuje vytvorením špecializovaného používateľa, "
 "ktorý je spojený s SSH kľúčom Weblate (pozri :ref:`weblate-ssh-key`). Týmto "
 "spôsobom spojíte SSH kľúč Weblate s jediným používateľom (platformy často "
 "vynucujú jednorazové použitie SSH kľúča) a udelíte tomuto používateľovi "
