@@ -42,7 +42,7 @@ class FileFormatParams(TypedDict, total=False):
     line_max_length: int
     md_extract_code_blocks: bool
     md_extract_frontmatter: bool
-    md_no_placeholders: bool      
+    md_no_placeholders: bool
     merge_duplicates: bool
     po_fuzzy_matching: bool
     po_keep_previous: bool
@@ -54,6 +54,7 @@ class FileFormatParams(TypedDict, total=False):
     yaml_indent: int
     yaml_line_break: str
     yaml_line_wrap: int
+
 
 FileFormatParamKey = Literal[
     "json_sort_keys",
@@ -73,10 +74,6 @@ FileFormatParamKey = Literal[
     "flatxml_key_name",
     "strings_encoding",
     "properties_encoding",
-    "po_fuzzy_matching",
-    "po_keep_previous",
-    "po_line_wrap",
-    "po_no_location",
     "csv_encoding",
     "csv_simple_encoding",
     "gwt_encoding",

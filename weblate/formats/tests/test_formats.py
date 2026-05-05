@@ -94,7 +94,6 @@ if TYPE_CHECKING:
         FileFormatParamKey,
         FileFormatParams,
     )
-    from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
 
