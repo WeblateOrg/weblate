@@ -585,7 +585,11 @@ class DOSLineEndings(BaseFileFormatParam):
     file_formats = ("*",)
     name = "dos_eol"
     label = gettext_lazy("DOS line endings")
-
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
+    )
 
 @register_file_format_param
 class LineMaxLength(BaseFileFormatParam):
