@@ -17,7 +17,7 @@ import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import IntegrityError, models, transaction
+from django.db import DatabaseError, IntegrityError, models, transaction
 from django.db.models import F, Q
 from django.urls import reverse
 from django.utils import timezone
@@ -1550,6 +1550,11 @@ class Translation(
             # Commit pending changes
             try:
                 component.commit_pending("source update", author)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1611,6 +1616,11 @@ class Translation(
                     self.component.commit_pending("replace file", author)
                 else:
                     self.commit_pending("replace file", author)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1740,6 +1750,11 @@ class Translation(
         if component.has_template() and component.source_translation.needs_commit():
             try:
                 component.commit_pending("upload", request.user)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")

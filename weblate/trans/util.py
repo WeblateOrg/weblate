@@ -15,6 +15,7 @@ from urllib.parse import urlparse
 
 import django.shortcuts
 from django.core.cache import cache
+from django.db import DatabaseError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -25,6 +26,7 @@ from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.auth.results import Denied
+from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.utils.files import cleanup_error_message
 
 if TYPE_CHECKING:
@@ -228,6 +230,25 @@ def sanitize_backend_error_message(
             lines.append(stripped)
 
     return "\n".join(lines).strip()
+
+
+def get_upload_error_message(
+    error: BaseException,
+    *,
+    repo_urls: Iterable[str | None] = (),
+    extra_paths: Iterable[os.PathLike[str] | str | None] = (),
+) -> str:
+    """Return a user-facing message for upload failures."""
+    if isinstance(error, DatabaseError):
+        message = gettext("Please try again later.")
+    else:
+        message = sanitize_backend_error_message(
+            str(error), repo_urls=repo_urls, extra_paths=extra_paths
+        )
+
+    if isinstance(error, FileParseError | FailedCommitError):
+        return message
+    return gettext("File upload has failed: %s") % message
 
 
 def redirect_param(location, params, *args, **kwargs):

@@ -22,7 +22,7 @@ from django.core.exceptions import (
 from django.core.exceptions import (
     ValidationError as DjangoValidationError,
 )
-from django.db import IntegrityError, transaction
+from django.db import DatabaseError, IntegrityError, transaction
 from django.db.models import Q
 from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
@@ -148,7 +148,7 @@ from weblate.trans.models import (
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.tasks import category_removal, component_removal, project_removal
-from weblate.trans.util import sanitize_backend_error_message
+from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
 from weblate.utils.celery import get_task_metadata, get_task_progress
@@ -2661,8 +2661,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         except FileParseError as error:
             raise ValidationError(
                 {
-                    "file": sanitize_backend_error_message(
-                        str(error),
+                    "file": get_upload_error_message(
+                        error,
                         repo_urls=(obj.component.repo, obj.component.push),
                         extra_paths=(obj.component.full_path,),
                     )
@@ -2672,8 +2672,19 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             report_error("Upload error", project=obj.component.project)
             raise ValidationError(
                 {
-                    "file": sanitize_backend_error_message(
-                        str(error),
+                    "file": get_upload_error_message(
+                        error,
+                        repo_urls=(obj.component.repo, obj.component.push),
+                        extra_paths=(obj.component.full_path,),
+                    )
+                }
+            ) from error
+        except DatabaseError as error:
+            report_error("Upload error", print_tb=True, project=obj.component.project)
+            raise ValidationError(
+                {
+                    "file": get_upload_error_message(
+                        error,
                         repo_urls=(obj.component.repo, obj.component.push),
                         extra_paths=(obj.component.full_path,),
                     )
@@ -2683,9 +2694,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             report_error("Upload error", print_tb=True, project=obj.component.project)
             raise ValidationError(
                 {
-                    "file": gettext("File upload has failed: %s")
-                    % sanitize_backend_error_message(
-                        str(error),
+                    "file": get_upload_error_message(
+                        error,
                         repo_urls=(obj.component.repo, obj.component.push),
                         extra_paths=(obj.component.full_path,),
                     )

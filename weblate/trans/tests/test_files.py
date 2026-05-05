@@ -17,6 +17,7 @@ from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
 from django.core.exceptions import ValidationError
+from django.db import DatabaseError
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
@@ -187,6 +188,52 @@ class ImportTest(ImportBaseTest):
         self.assertNotIn("ssh://", messages[0])
         self.assertNotIn(self.component.full_path, messages[0])
         self.assertIn(".../secret", messages[0])
+
+    def test_import_database_error_is_hidden(self) -> None:
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=DatabaseError(
+                    "invalid page in block 876338 of relation base/16386/17990"
+                ),
+            ),
+            patch("weblate.trans.views.files.report_error") as mocked_report_error,
+        ):
+            response = self.do_import(follow=True)
+
+        self.assertRedirects(response, self.translation_url)
+        messages = [message.message for message in response.context["messages"]]
+        self.assertIn("File upload has failed", messages[0])
+        self.assertIn("Please try again later.", messages[0])
+        self.assertNotIn("invalid page", messages[0])
+        self.assertNotIn("base/16386/17990", messages[0])
+        mocked_report_error.assert_called_once_with(
+            "Upload error", project=self.component.project
+        )
+
+    def test_direct_import_commit_database_error_is_hidden(self) -> None:
+        translation = self.get_translation()
+        request = self.get_request()
+        handle = NamedBytesIO("test.po", Path(TEST_PO).read_bytes())
+
+        with (
+            patch.object(
+                Translation,
+                "commit_pending",
+                side_effect=DatabaseError(
+                    "invalid page in block 876338 of relation base/16386/17990"
+                ),
+            ),
+            self.assertRaises(FailedCommitError) as context,
+        ):
+            translation.handle_upload(request, handle, "", method="replace")
+
+        message = str(context.exception)
+        self.assertIn("Could not commit pending changes", message)
+        self.assertIn("Please try again later.", message)
+        self.assertNotIn("invalid page", message)
+        self.assertNotIn("base/16386/17990", message)
 
     def test_import_overwrite(self) -> None:
         """Test importing with overwriting."""

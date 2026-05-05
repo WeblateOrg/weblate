@@ -13,6 +13,7 @@ Weblate 2026.5
 
 .. rubric:: Bug fixes
 
+* Database error details are no longer exposed in upload failure messages.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
 
 .. rubric:: Compatibility
