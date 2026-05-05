@@ -591,6 +591,7 @@ class DOSLineEndings(BaseFileFormatParam):
         "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
     )
 
+
 @register_file_format_param
 class LineMaxLength(BaseFileFormatParam):
     name = "line_max_length"
