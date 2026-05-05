@@ -2592,15 +2592,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 }
             )
 
-    def save(self, commit: bool = True) -> None:
-        super().save(commit=commit)
-        if self.changed_access:
-            self.instance.change_set.create(
-                action=ActionEvents.ACCESS_EDIT,
-                user=self.user,
-                details={"access_control": self.instance.access_control},
-            )
-
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         self.user = request.user

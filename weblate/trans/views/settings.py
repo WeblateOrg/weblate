@@ -78,6 +78,7 @@ def change(request: AuthenticatedHttpRequest, path):
 
 def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
+        obj.acting_user = request.user
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()

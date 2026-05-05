@@ -121,6 +121,45 @@ class SettingsTest(ViewTestCase):
         # Check change details display
         self.assertEqual(change.get_details_display(), "Protected")
 
+    def test_project_audit_settings(self) -> None:
+        self.project.acting_user = self.user
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.enforced_2fa = True
+        self.project.translation_review = True
+        self.project.source_review = True
+        self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        self.project.enable_hooks = False
+        self.project.use_shared_tm = False
+        self.project.contribute_shared_tm = False
+        self.project.check_flags = "strict-same"
+        self.project.save()
+
+        access_change = self.project.change_set.get(action=ActionEvents.ACCESS_EDIT)
+        self.assertEqual(access_change.user, self.user)
+        self.assertEqual(
+            access_change.details["access_control"], Project.ACCESS_PRIVATE
+        )
+
+        setting_changes = self.project.change_set.filter(
+            action=ActionEvents.PROJECT_SETTING_CHANGE
+        )
+        self.assertEqual(
+            {change.details["field"] for change in setting_changes},
+            set(Project.AUDIT_SETTINGS),
+        )
+        self.assertTrue(all(change.user == self.user for change in setting_changes))
+        review_change = setting_changes.get(details__field="translation_review")
+        policy_change = setting_changes.get(details__field="commit_policy")
+        self.assertEqual(
+            review_change.get_details_display(),
+            'Enable reviews changed from "disabled" to "enabled".',
+        )
+        self.assertEqual(
+            policy_change.get_details_display(),
+            'Translation quality filter changed from "Commit all translations '
+            'regardless of quality" to "Skip translations marked as needing editing".',
+        )
+
     def test_commit_policy(self) -> None:
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})
@@ -196,6 +235,40 @@ class SettingsTest(ViewTestCase):
             self.assertFalse(
                 unit.translated, f"{unit} should not be marked as translated"
             )
+
+    def test_component_audit_settings(self) -> None:
+        self.component.acting_user = self.user
+        self.component.restricted = True
+        self.component.enable_suggestions = False
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.new_lang = "none"
+        self.component.manage_units = True
+        self.component.allow_translation_propagation = False
+        self.component.contribute_project_tm = False
+        self.component.check_flags = "strict-same"
+        self.component.enforced_checks = ["same"]
+        self.component.save()
+
+        setting_changes = self.component.change_set.filter(
+            action=ActionEvents.COMPONENT_SETTING_CHANGE
+        )
+        self.assertEqual(
+            {change.details["field"] for change in setting_changes},
+            set(Component.AUDIT_SETTINGS),
+        )
+        self.assertTrue(all(change.user == self.user for change in setting_changes))
+        restricted_change = setting_changes.get(details__field="restricted")
+        new_lang_change = setting_changes.get(details__field="new_lang")
+        self.assertEqual(
+            restricted_change.get_details_display(),
+            'Restricted component changed from "disabled" to "enabled".',
+        )
+        self.assertEqual(
+            new_lang_change.get_details_display(),
+            'Adding new translation changed from "Contact maintainers" to '
+            '"Disable adding new translations".',
+        )
 
     def test_component_post_locks_component_before_binding_form(self) -> None:
         self.project.add_user(self.user, "Administration")
