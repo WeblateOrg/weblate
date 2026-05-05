@@ -6,12 +6,19 @@ Weblate 2026.5
 .. rubric:: New features
 
 * Added :ref:`file_format_params` for :ref:`markdown`, including ``line_max_length``, ``md_extract_code_blocks``, ``md_extract_frontmatter``, and ``md_no_placeholders``.
+* :ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now export plural strings as separate plural-form rows that can be imported back.
 
 .. rubric:: Improvements
 
+* Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
+
 .. rubric:: Bug fixes
 
+* Merge request pushes now refresh stale fork remotes after changing repository hosting.
+
 .. rubric:: Compatibility
+
+* The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
 
 .. rubric:: Upgrading
 

@@ -406,6 +406,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
+    needs_existing_units: ClassVar[bool] = False
     store: S
 
     @classmethod
@@ -419,7 +420,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
-        existing_units: list[Unit] | None = None,
+        existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
     ) -> None:
@@ -1127,6 +1128,10 @@ class BaseExporter:
 
     def add_unit(self, unit: Unit) -> None:
         output = self.build_unit(unit)
+        self.store_unit_metadata(output, unit)
+        self.storage.addunit(output)
+
+    def store_unit_metadata(self, output, unit: Unit) -> None:
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in self.string_filter(unit.location).split(","):
@@ -1172,8 +1177,6 @@ class BaseExporter:
 
         # Store fuzzy flag
         self.store_unit_state(output, unit)
-
-        self.storage.addunit(output)
 
     def store_unit_state(self, output, unit) -> None:
         if unit.fuzzy:

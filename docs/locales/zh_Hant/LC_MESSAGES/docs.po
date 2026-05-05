@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-29 21:57+0000\n"
+"PO-Revision-Date: 2026-05-04 12:57+0000\n"
 "Last-Translator: UDP <udp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -43,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:218
@@ -1252,10 +1252,13 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"如果要以不太公開的方式使用Web2，即僅允許新使用者才能以邀請函式為基礎，可以通"
-"過配置Weblate以這樣的方式來完成，即只有已知使用者可以存取它。為此，您可以設"
-"定：設定：`registration_open`到`false``以防止任何新使用者的註冊，並設定："
-"`carect_login`以要求登入存取所有網站頁面。這基本上是鎖定Web2安裝的方法。"
+"If you want to use your Weblate installation in a less public manner, i.e. "
+"allow new users on an invitational basis only, it can be done by configuring "
+"Weblate in such a way that only known users have an access to it. In order "
+"to do so, you can set :setting:`REGISTRATION_OPEN` to ``False`` to prevent "
+"registrations of any new users, and set :setting:`REQUIRE_LOGIN` to ``True`` "
+"to require signing in to access all the site pages. This is basically the "
+"way to lock your Weblate installation."
 
 #: admin/access.rst:583
 msgid ""
@@ -1398,7 +1401,7 @@ msgstr "使用的版本控制系統。"
 
 #: admin/addons.rst:94
 msgid "Upstream repository URL."
-msgstr "上游儲存庫的網址。"
+msgstr "上游儲存庫 URL。"
 
 #: admin/addons.rst:98
 msgid "Absolute path to VCS repository."
@@ -1568,10 +1571,8 @@ msgid "Alerts overview for all components, see :ref:`alerts`."
 msgstr "所有組件的警報概覽，請參見 :ref:`alerts`"
 
 #: admin/admin.rst:20
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid "Users and teams, see :ref:`custom-acl`."
-msgstr "調整翻譯標誌（參見:ref:“客製檢查”）"
+msgstr "使用者與團隊，請參閱 :ref:`custom-acl`。"
 
 #: admin/admin.rst:21
 msgid ":ref:`manage-appearance`."
@@ -2078,15 +2079,10 @@ msgstr ""
 "冊應用，並允許 Google+ API。"
 
 #: admin/auth.rst:202
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-"
-#| "oauth2/``"
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``."
-msgstr ""
-"重新導向 URL 為 ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``"
+msgstr "重新導向 URL 為 ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``。"
 
 #: admin/auth.rst:226
 msgid "Facebook OAuth 2"
@@ -2101,12 +2097,9 @@ msgstr ""
 "Weblate 來使用了："
 
 #: admin/auth.rst:231
-#, fuzzy
-#| msgid ""
-#| "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``."
-msgstr "重新導向 URL 為 ``https://WEBLATE SERVER/accounts/complete/facebook/``"
+msgstr "重新導向 URL 為 ``https://WEBLATE SERVER/accounts/complete/facebook/``。"
 
 #: admin/auth.rst:257
 msgid "GitLab OAuth 2"
@@ -2234,10 +2227,8 @@ msgid ""
 msgstr "重新導向 URL 為 ``https://WEBLATE SERVER/accounts/complete/slack/``。"
 
 #: admin/auth.rst:421
-#, fuzzy
-#| msgid "Password authentication"
 msgid "Overriding authentication method names and icons"
-msgstr "密碼驗證"
+msgstr "覆寫身份驗證方式名稱與圖示"
 
 #: admin/auth.rst:423
 msgid ""
@@ -4694,10 +4685,8 @@ msgid "Example:"
 msgstr "範例："
 
 #: admin/config.rst:695
-#, fuzzy
-#| msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
-msgstr "提交者電子郵件地址預設為 ``noreply@weblate.org``。"
+msgstr "提交者電子郵件地址，預設為 ``noreply@weblate.org``。"
 
 #: admin/config.rst:706
 #, fuzzy
@@ -7400,7 +7389,7 @@ msgstr "不推送"
 #: admin/continuous.rst:561 admin/continuous.rst:570 admin/continuous.rst:571
 #: admin/continuous.rst:580 admin/continuous.rst:581
 msgid "`empty`"
-msgstr "`空`"
+msgstr "`空白`"
 
 #: admin/continuous.rst:493 admin/continuous.rst:508
 msgid "Push directly"
@@ -10350,10 +10339,8 @@ msgid ""
 msgstr "享受您的 Weblate 部署，可以在 ``weblate`` 容器的連接埠 80 上進行存取。"
 
 #: admin/install/docker.rst:60
-#, fuzzy
-#| msgid "Choosing Docker hub tag"
 msgid "Choosing Docker image registry"
-msgstr "選擇 Docker hub 標籤"
+msgstr "選擇 Docker 映像註冊表"
 
 #: admin/install/docker.rst:62
 msgid "Weblate containers are published to following registries:"
@@ -10368,6 +10355,8 @@ msgid ""
 "GitHub Packages registry, see https://github.com/WeblateOrg/docker/pkgs/"
 "container/weblate"
 msgstr ""
+"GitHub 套件註冊表，請參閱 https://github.com/WeblateOrg/docker/pkgs/"
+"container/weblate"
 
 #: admin/install/docker.rst:69
 msgid ""
@@ -11736,10 +11725,8 @@ msgid "Keycloak"
 msgstr "Keycloak"
 
 #: admin/install/docker.rst:1556
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr "允許 Slack 身份驗證，請參見 :ref:`slack-auth`。"
+msgstr "啟用 Keycloak 身分驗證，請參閱 :doc:`psa:backends/keycloak`。"
 
 #: admin/install/docker.rst:1562
 msgid ""
@@ -14021,20 +14008,16 @@ msgid "Chooses the best source language automatically."
 msgstr ""
 
 #: admin/machine.rst:53
-#, fuzzy
-#| msgid "This is turned on by default."
 msgid "This is the default behavior."
-msgstr "預設這是打開的。"
+msgstr "這是預設行為。"
 
 #: admin/machine.rst:54
 msgid ":guilabel:`Component source language`"
 msgstr ":guilabel:`組件來源語言`"
 
 #: admin/machine.rst:55
-#, fuzzy
-#| msgid "Component renamed"
 msgid "Uses the component source language."
-msgstr "重新命名了組件"
+msgstr "使用組件來源語言。"
 
 #: admin/machine.rst:57
 msgid "This was the behavior before the 5.11 release."
@@ -17747,7 +17730,7 @@ msgstr "提交給 Weblate 的資訊"
 
 #: admin/support.rst:26
 msgid "Your Weblate instance URL"
-msgstr "您的 Weblate 實例網址"
+msgstr "您的 Weblate 實例 URL"
 
 #: admin/support.rst:27
 #, fuzzy
@@ -17889,8 +17872,9 @@ msgid ""
 "other Weblate instances and communities. Users can browse registered sites "
 "and find projects to contribute to on https://weblate.org/discover/."
 msgstr ""
-"Discover Web2Rate是一個選項服務，使使用者更容易尋找WebLate伺服器和社群。使用"
-"者可以在<https://weblate.org/discover/>上瀏覽註冊服務，並尋找有專案貢獻。"
+"*Discover* is an opt-in service making it easier for translators to find "
+"other Weblate instances and communities. Users can browse registered sites "
+"and find projects to contribute to on https://weblate.org/discover/."
 
 #: admin/support.rst:96
 msgid "Getting listed"
@@ -18232,10 +18216,8 @@ msgid ""
 msgstr ""
 
 #: admin/translating.rst:188
-#, fuzzy
-#| msgid "`Manage screenshots`"
 msgid "Managing screenshots through the API"
-msgstr "`管理螢幕擷圖`"
+msgstr "透過 API 管理螢幕擷圖"
 
 #: admin/translating.rst:190
 msgid ""
@@ -19400,26 +19382,20 @@ msgid "Contributors"
 msgstr "貢獻者"
 
 #: changes.rst:78
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "64?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/164?"
 "closed=1>`__."
 msgstr ""
-"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/64?"
-"closed=1>`__."
+"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/164?closed=1>"
+"`__."
 
 #: changes.rst:81
 msgid "Weblate 5.17"
 msgstr "Weblate 5.17"
 
 #: changes.rst:83
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 15th 2026.*"
-msgstr "*發佈於 2025 年 4 月 15 日。*"
+msgstr "*發佈於 2026 年 4 月 15 日。*"
 
 #: changes.rst:87
 msgid ""
@@ -21707,7 +21683,7 @@ msgstr ""
 #, fuzzy
 #| msgid "The Weblate Client is also available as a Docker image."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Web2用戶端也可作為Docker Image提供。"
+msgstr "Weblate用戶端也可作為Docker Image提供。"
 
 #: changes.rst:857
 #, fuzzy
@@ -22420,10 +22396,8 @@ msgid "OpenAPI schema for API includes more information."
 msgstr ""
 
 #: changes.rst:1171
-#, fuzzy
-#| msgid "Generic placeholders check now supports regular expressions."
 msgid ":ref:`check-regex` supports advanced regular expressions."
-msgstr "一般佔位符號的檢查現在支援了正規表達式。"
+msgstr ":ref:`check-regex` 支援進階正規表達式。"
 
 #: changes.rst:1172
 #, fuzzy
@@ -23482,10 +23456,8 @@ msgid ""
 msgstr "使用已經翻譯的字串來自動翻譯。"
 
 #: changes.rst:1625
-#, fuzzy
-#| msgid "Compatibility with Django 2.1."
 msgid "Compatibility with Django 5.1."
-msgstr "與 Django 2.1 相容。"
+msgstr "與 Django 5.1 相容。"
 
 #: changes.rst:1631
 msgid ""
@@ -24019,7 +23991,7 @@ msgstr ""
 #, fuzzy
 #| msgid "The Weblate Client is also available as a Docker image."
 msgid "Weblate is now available in Tamil."
-msgstr "Web2用戶端也可作為Docker Image提供。"
+msgstr "Weblate用戶端也可作為Docker Image提供。"
 
 #: changes.rst:1870
 #, fuzzy
@@ -34305,7 +34277,7 @@ msgstr ""
 
 #: contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
-msgstr "\"Weblate\" 由單詞\"web\"和\"translate\"融合而來。"
+msgstr "\"Weblate\" 是由單詞 \"web\" 與 \"translate\"融合而來。"
 
 #: contributing/about.rst:18
 #, fuzzy
@@ -35140,10 +35112,8 @@ msgid ""
 msgstr ""
 
 #: contributing/documentation.rst:33
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "The recommended local workflow is:"
-msgstr "Weblate 設定配置"
+msgstr "推薦的本地工作流程是："
 
 #: contributing/documentation.rst:40
 msgid ""
@@ -36596,7 +36566,7 @@ msgstr ""
 
 #: contributing/submodules.rst:2
 msgid "Subprojects and embedded code"
-msgstr ""
+msgstr "子專案與嵌入程式碼"
 
 #: contributing/submodules.rst:4
 msgid ""
@@ -37688,8 +37658,8 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
 "and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
-"此功能在託管的Weblate上配置。它需要在安裝時進行額外的配置，"
-"見 :setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。"
+"此功能在Hosted Weblate上配置。它需要在安裝時進行額外的配置，見 "
+":setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。"
 
 #: devel/html.rst:15
 msgid ""
@@ -40880,10 +40850,8 @@ msgid "To avoid that, perform renaming in following steps:"
 msgstr ""
 
 #: faq.rst:460
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Lock the translation component in :ref:`manage-vcs`."
-msgstr "其他翻譯組件"
+msgstr "在 :ref:`manage-vcs` 中鎖定翻譯組件。"
 
 #: faq.rst:461
 #, fuzzy
@@ -41559,11 +41527,11 @@ msgstr "典型的 Weblate :ref:`component`"
 #: formats/toml.rst:42 formats/webextension.rst:37 formats/xliff.rst:150
 #: formats/xliff2.rst:51 formats/yaml.rst:38
 msgid "`Empty`"
-msgstr "`空`"
+msgstr "`空白`"
 
 #: formats/android.rst:84
 msgid "`Android String Resource`"
-msgstr "`Android字串資源`"
+msgstr "`Android 字串資源`"
 
 #: formats/apple.rst:5
 msgid "Apple iOS strings"
@@ -41626,7 +41594,7 @@ msgstr "檔案編碼方式"
 
 #: formats/apple.rst:40
 msgid "`UTF-8`"
-msgstr ""
+msgstr "`UTF-8`"
 
 #: formats/appstore.rst:4 snippets/addon-parameters-autogenerated.rst:82
 msgid "App store metadata files"
@@ -41663,10 +41631,13 @@ msgstr ""
 "All_About_Descriptions_Graphics_and_Screenshots/>`_"
 
 #: formats/appstore.rst:13
+#, fuzzy
 msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
-msgstr "詮釋資料由多個TextFile組成，Web2將作為單獨的字串呈現要轉換。"
+msgstr ""
+"The metadata consists of several textfiles, which Weblate will present as "
+"separate strings to translate."
 
 #: formats/appstore.rst:18
 #, fuzzy
@@ -41685,7 +41656,7 @@ msgstr ""
 
 #: formats/appstore.rst:37
 msgid "`App store metadata files`"
-msgstr ""
+msgstr "`App store 詮釋資料檔案`"
 
 #: formats/arb.rst:4
 msgid "ARB File"
@@ -41740,10 +41711,8 @@ msgstr "`AsciiDoc 檔案`"
 
 #: formats/asciidoc.rst:42 formats/html.rst:43 formats/markdown.rst:52
 #: formats/txt.rst:51
-#, fuzzy
-#| msgid "Drops duplicate strings."
 msgid "Handling duplicate strings"
-msgstr "移除重複字串。"
+msgstr "處理重複字串"
 
 #: formats/asciidoc.rst:44
 msgid ""
@@ -41784,27 +41753,23 @@ msgstr "`Catkeys 檔案`"
 
 #: formats/compose-multiplatform-resources.rst:4
 msgid "Compose Multiplatform resources"
-msgstr "Compose 多平臺資源"
+msgstr "Compose Multiplatform 資源"
 
 #: formats/compose-multiplatform-resources.rst:11
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr ""
 
 #: formats/compose-multiplatform-resources.rst:16
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgid ""
 "`Kotlin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`Android字串資源文件 <https://developer.android.com/guide/topics/resources/"
-"string-resource>`_, :doc:`tt:formats/android`"
+"`Kotlin Compose Multiplatform 資源 <https://kotlinlang.org/docs/"
+"multiplatform/compose-multiplatform-resources.html>`_"
 
 #: formats/compose-multiplatform-resources.rst:34
 msgid "`Compose Multiplatform Resource`"
-msgstr ""
+msgstr "`Compose Multiplatform 資源`"
 
 #: formats/csv.rst:4
 msgid "CSV files"
@@ -42723,10 +42688,8 @@ msgid "Weblate currently supports several variants of PHP translations:"
 msgstr "Weblate 目前支援 PHP 翻譯的幾個變體："
 
 #: formats/php.rst:15
-#, fuzzy
-#| msgid "Monolingual translations"
 msgid "Monolingual PHP strings in various syntax"
-msgstr "單語翻譯"
+msgstr "多種句法中的單語言 PHP 字串"
 
 #: formats/php.rst:37
 msgid "`PHP strings`"
@@ -43436,7 +43399,7 @@ msgstr ""
 
 #: index.rst:52
 msgid "User docs"
-msgstr "使用者文件"
+msgstr "使用者說明文件"
 
 #: index.rst:71
 msgid "Application developer guide"
@@ -43444,11 +43407,11 @@ msgstr "應用程式開發人員指南"
 
 #: index.rst:93
 msgid "Administrator docs"
-msgstr "管理員文件"
+msgstr "管理員說明文件"
 
 #: index.rst:123
 msgid "Contributor docs"
-msgstr "貢獻者文件"
+msgstr "貢獻者說明文件"
 
 #: index.rst:148
 msgid "Secure Weblate"
@@ -43497,6 +43460,8 @@ msgid ""
 "Welcome to the official documentation of `Weblate <https://weblate.org>`_, "
 "the libre software web-based continuous localization system."
 msgstr ""
+"歡迎來到 `Weblate <https://weblate.org>`_ 的官方說明文件，基於 web 並且是自由"
+"軟體的持續在地化系統。"
 
 #: index.rst:28
 msgid ""
@@ -43626,9 +43591,8 @@ msgid "Return type"
 msgstr ""
 
 #: python.rst:63 python.rst:71
-#, fuzzy
 msgid "Performs a single API GET call."
-msgstr "執行單個API呼叫。"
+msgstr "執行單個 API GET 呼叫。"
 
 #: python.rst:81
 msgid ":class:`WeblateConfig`"
@@ -43708,7 +43672,7 @@ msgstr ""
 
 #: security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "資料儲存在哪裡"
 
 #: security/data-residency.rst:13
 msgid ""
@@ -43718,7 +43682,7 @@ msgstr ""
 
 #: security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "主要資料中心位於 **德國**。"
 
 #: security/data-residency.rst:15
 msgid ""
@@ -43727,10 +43691,8 @@ msgid ""
 msgstr ""
 
 #: security/data-residency.rst:18
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "翻譯合規性"
+msgstr "隱私與法規遵循"
 
 #: security/data-residency.rst:20
 msgid ""
@@ -43740,7 +43702,7 @@ msgstr ""
 
 #: security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "永續性"
 
 #: security/data-residency.rst:25
 msgid ""
@@ -45249,10 +45211,8 @@ msgid ""
 msgstr ""
 
 #: security/privacy-compliance.rst:58
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Data retention and deletion"
-msgstr "驗證失敗，請重試一次。"
+msgstr "資料駐留與刪除"
 
 #: security/privacy-compliance.rst:60
 msgid "No automatic data persistence beyond system necessity."
@@ -45928,10 +45888,8 @@ msgid "Accountability issues."
 msgstr "當責問題。"
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "**Outbound integrations / VCS configuration**"
-msgstr "不良的配置"
+msgstr "**傳出整合 / VCS 配置**"
 
 #: security/threat-model.rst:183
 msgid ""
@@ -46192,7 +46150,7 @@ msgstr ""
 
 #: security/threat-model.rst:242
 msgid "**Secure development practices:**"
-msgstr ""
+msgstr "**安全開發實踐：**"
 
 #: security/threat-model.rst:243
 msgid "Code reviews with a security focus."
@@ -46214,7 +46172,7 @@ msgstr ""
 
 #: security/threat-model.rst:247
 msgid "**Error handling:**"
-msgstr ""
+msgstr "**錯誤處理：**"
 
 #: security/threat-model.rst:248
 msgid ""
@@ -46222,14 +46180,12 @@ msgid ""
 msgstr ""
 
 #: security/us-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "US controls compliance"
-msgstr "翻譯合規性"
+msgstr "美國出口管制遵守"
 
 #: security/us-compliance.rst:7
 msgid "ITAR and other export controls"
-msgstr "itar和其他出口管制"
+msgstr "ITAR 與其他出口管制"
 
 #: security/us-compliance.rst:9
 msgid ""
@@ -46246,26 +46202,21 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
-"託管的Weblate服務尚未遵守符合ITAR或其他出口管制，目前尚未提供限制國家/地區存"
-"取權限的能力。"
+"Hosted Weblate 服務尚未遵守符合 ITAR 或其他出口管制，目前尚未提供限制國家/地"
+"區存取權限的能力。"
 
 #: security/us-compliance.rst:18
 msgid "US encryption controls"
 msgstr "美國加密技術管制"
 
 #: security/us-compliance.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate does not contain any cryptographic code, but might be subject "
-#| "export controls as it uses third party components utilizing cryptography "
-#| "for authentication, data-integrity and -confidentiality."
 msgid ""
 "Weblate does not contain any cryptographic code, but might be subject to "
 "export controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
-"Web2Rate不包含任何加密代碼，但可能是使用使用加密，資料Integrity和-"
-"Confidentiality使用加密的第三方組件的主題匯出控件。"
+"Weblate 不包含任何加密程式碼，但由於它使用了第三方元件，而這些元件在驗證、資"
+"料完整性與機密性方面運用了加密技術，因此可能會受到出口管制的影響。"
 
 #: security/us-compliance.rst:24
 msgid ""
@@ -46332,7 +46283,7 @@ msgstr ""
 msgid ""
 "Software components used by Weblate (listing only components related to "
 "cryptographic function):"
-msgstr "Web2使用的軟體組件（僅列出與加密功能相關的組件）："
+msgstr "Weblate 使用的軟體組件（僅列出與加密功能相關的組件）："
 
 #: security/us-compliance.rst:60
 msgid "`Python <https://www.python.org/>`_"
@@ -47461,10 +47412,13 @@ msgid "Name of cookie which stores language preference."
 msgstr "儲存語言偏好設定的 Cookie 名稱。"
 
 #: snippets/addons-autogenerated.rst:79
+#, fuzzy
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
-msgstr "在目前儲存庫或遠端網址中，要解析其可翻譯字串的檔案名稱清單。"
+msgstr ""
+"List of filenames in current repository or remote URLs to parse for "
+"translatable strings."
 
 #: snippets/addons-autogenerated.rst:82
 msgid ""
@@ -48059,10 +48013,8 @@ msgid "Source string."
 msgstr "來源字串。"
 
 #: snippets/addons-autogenerated.rst:458
-#, fuzzy
-#| msgid "URL of a related unit object"
 msgid "Absolute URL to view the related object."
-msgstr "相關單元物件的網址"
+msgstr "檢視相關物件的絕對 URL。"
 
 #: snippets/addons-autogenerated.rst:460
 msgid ""
@@ -48506,19 +48458,14 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "更新「configure」檔案中的 ALL_LINGUAS 變數"
 
 #: snippets/addons-autogenerated.rst:961 snippets/addons-autogenerated.rst:1020
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-"
 "post-remove`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, "
+":ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-post-"
+"remove`"
 
 #: snippets/addons-autogenerated.rst:963
 msgid ""
@@ -49139,7 +49086,7 @@ msgstr "Slack Webhooks"
 #: snippets/addons-autogenerated.rst:1483
 #: snippets/addons-autogenerated.rst:1518
 msgid "Webhook URL"
-msgstr "Webhook 網址"
+msgstr "Webhook URL"
 
 #: snippets/addons-autogenerated.rst:1490
 msgid "Sends notification to a Slack channel based on selected events."
@@ -49550,10 +49497,8 @@ msgid "Enables the :ref:`check-object-pascal-format` quality check."
 msgstr "啟用 :ref:`check-object-pascal-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:97
-#, fuzzy
-#| msgid "Enables the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-objc-format` quality check."
-msgstr "啟用 :ref:`check-c-format` 品質檢查。"
+msgstr "啟用 :ref:`check-objc-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:99
 msgid "Enables the :ref:`check-percent-placeholders` quality check."
@@ -49762,10 +49707,8 @@ msgid "Skip the :ref:`check-object-pascal-format` quality check."
 msgstr "略過 :ref:`check-object-pascal-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:200
-#, fuzzy
-#| msgid "Skip the :ref:`check-c-format` quality check."
 msgid "Skip the :ref:`check-objc-format` quality check."
-msgstr "略過 :ref:`check-c-format` 品質檢查。"
+msgstr "略過 :ref:`check-objc-format` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:202
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
@@ -52062,11 +52005,11 @@ msgstr "HTML檢查由“Mozilla開發的”裸照<https://blach.readthedocs.io/>
 
 #: snippets/checks-autogenerated.rst:2111
 msgid "URL"
-msgstr "網址"
+msgstr "URL"
 
 #: snippets/checks-autogenerated.rst:2113
 msgid "The translation does not contain an URL."
-msgstr "此譯文未包含網址。"
+msgstr "此翻譯不包含 URL。"
 
 #: snippets/checks-autogenerated.rst:2123
 msgid ""
@@ -52883,7 +52826,7 @@ msgstr "支持的功能"
 #: snippets/format-features/xlsx-features.rst:7
 #: snippets/format-features/yaml-features.rst:7
 msgid "File extensions"
-msgstr "檔案擴充"
+msgstr "副檔名"
 
 #: snippets/format-features/appstore-features.rst:9
 #: snippets/format-features/arb-features.rst:9
@@ -54491,8 +54434,6 @@ msgid "`MyMemory website <https://mymemory.translated.net/>`_"
 msgstr "`MyMemory 網站 <https://mymemory.translated.net/>`_"
 
 #: snippets/machines-autogenerated.rst:793
-#, fuzzy
-#| msgid "Machine translation service provided by Netease."
 msgid "Machine translation service provided by NetEase."
 msgstr "網易提供的機器翻譯服務。"
 
@@ -55556,22 +55497,16 @@ msgid ":guilabel:`Access the internal repository`"
 msgstr ":guilabel:`存取內部儲存庫`"
 
 #: snippets/roles.rst:55 snippets/roles.rst:192
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid ":guilabel:`Commit changes to the internal repository`"
-msgstr "將變更提交到內部儲存庫"
+msgstr ":guilabel:`提交變更至內部儲存庫`"
 
 #: snippets/roles.rst:56 snippets/roles.rst:193
-#, fuzzy
-#| msgid "Push change from the internal repository"
 msgid ":guilabel:`Push change from the internal repository`"
-msgstr "從內部儲存庫推送變更"
+msgstr ":guilabel:`從內部儲存庫推送變更`"
 
 #: snippets/roles.rst:57 snippets/roles.rst:194
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid ":guilabel:`Reset changes in the internal repository`"
-msgstr "重設內部儲存庫中的變更"
+msgstr ":guilabel:`在內部儲存庫中重設變更`"
 
 #: snippets/roles.rst:58 snippets/roles.rst:195
 msgid ":guilabel:`Update the internal repository`"
@@ -56475,8 +56410,8 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, "
 "see :ref:`componentlists`."
 msgstr ""
-"此外，DROP-DOWN還可以顯示Web2管理員預先配置的任何數量的*組件清單*，請參"
-"閱 :ref:`componentlists`。"
+"此外，DROP-DOWN還可以顯示Weblate管理員預先配置的任何數量的*組件清單*，請參閱 "
+":ref:`componentlists`。"
 
 #: user/profile.rst:47
 #, fuzzy
@@ -58262,7 +58197,7 @@ msgstr "兩種操作模式是可能的："
 
 #: user/translating.rst:391
 msgid "Using other Weblate components as a source for translations."
-msgstr "使用其他Web2個組件作為翻譯的來源。"
+msgstr "使用其他 Weblate 組件作為翻譯來源。"
 
 #: user/translating.rst:392
 msgid ""
@@ -58894,7 +58829,7 @@ msgstr ""
 
 #: vcs.rst:268
 msgid "Weblate internal URLs"
-msgstr "Weblate 內部網址"
+msgstr "Weblate 內部 URL"
 
 #: vcs.rst:270
 #, fuzzy
@@ -58909,9 +58844,10 @@ msgid ""
 "This way linked components use the VCS repository configuration of the main "
 "(referenced) component."
 msgstr ""
-"通過引用其放置在不同組件之間共享一個儲存庫設定，作為其他（連結）組件"
-"的“Web2：// Project / Component``”這種方式連結組件使用 Main（參考）組件的 "
-"VCS 儲存庫配置。"
+"Share one repository setup between different components by referring to its "
+"placement as ``weblate://project/component`` in other (linked) components. "
+"This way linked components use the VCS repository configuration of the main "
+"(referenced) component."
 
 #: vcs.rst:277
 msgid "Removing main component also removes linked components."
@@ -59826,10 +59762,8 @@ msgid "Global configuration file on Unix-like systems."
 msgstr "變更了檔案系統路徑的配置。"
 
 #: wlc.rst:313
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
-msgstr "系統範圍配置檔案。"
+msgstr "系統範圍回退配置檔案。"
 
 #: wlc.rst:315
 #, fuzzy

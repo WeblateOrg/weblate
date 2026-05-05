@@ -4,6 +4,8 @@
 
 from io import BytesIO
 
+from weblate.utils.hash import hash_to_checksum
+
 CONTROLCHARS = {
     "\x00",
     "\x01",
@@ -38,6 +40,20 @@ CONTROLCHARS = {
     "\uffff",
 }
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
+
+CSV_SOURCE_PLURAL_FORM = "source_plural_form"
+CSV_TARGET_PLURAL_FORM = "target_plural_form"
+CSV_ID_HASH = "id_hash"
+CSV_ID_HASH_PREFIX = "0x"
+CSV_PLURAL_FIELDNAMES = (
+    CSV_SOURCE_PLURAL_FORM,
+    CSV_TARGET_PLURAL_FORM,
+    CSV_ID_HASH,
+)
+
+
+def format_csv_id_hash(id_hash: int) -> str:
+    return f"{CSV_ID_HASH_PREFIX}{hash_to_checksum(id_hash)}"
 
 
 class NamedBytesIO(BytesIO):

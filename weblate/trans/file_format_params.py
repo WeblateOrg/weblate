@@ -28,32 +28,30 @@ class FieldKwargsDict(TypedDict, total=False):
 
 
 class FileFormatParams(TypedDict, total=False):
-    json_sort_keys: bool
-    json_indent: int
-    json_indent_style: Literal["spaces", "tabs"]
-    json_use_compact_separators: bool
-    po_line_wrap: int
-    po_keep_previous: bool
-    po_no_location: bool
-    po_fuzzy_matching: bool
-    yaml_indent: int
-    yaml_line_wrap: int
-    yaml_line_break: str
-    xml_closing_tags: bool
-    flatxml_root_name: str
-    flatxml_value_name: str
-    flatxml_key_name: str
-    strings_encoding: str
-    properties_encoding: str
     csv_encoding: str
     csv_simple_encoding: str
+    dos_eol: bool
+    flatxml_key_name: str
+    flatxml_root_name: str
+    flatxml_value_name: str
     gwt_encoding: str
-    merge_duplicates: bool
-    line_max_length: int
+    json_indent: int
+    json_indent_style: Literal["spaces", "tabs"]
+    json_sort_keys: bool
+    json_use_compact_separators: bool
     md_extract_code_blocks: bool
     md_extract_frontmatter: bool
-    md_no_placeholders: bool
-
+    md_no_placeholders: bool      
+    merge_duplicates: bool
+    po_fuzzy_matching: bool
+    po_keep_previous: bool
+    po_line_wrap: int
+    po_no_location: bool
+    properties_encoding: str
+    strings_encoding: str
+    xml_closing_tags: bool
+    yaml_indent: int
+    yaml_line_break: str
 
 FileFormatParamKey = Literal[
     "json_sort_keys",
@@ -73,6 +71,10 @@ FileFormatParamKey = Literal[
     "flatxml_key_name",
     "strings_encoding",
     "properties_encoding",
+    "po_fuzzy_matching",
+    "po_keep_previous",
+    "po_line_wrap",
+    "po_no_location",
     "csv_encoding",
     "csv_simple_encoding",
     "gwt_encoding",
@@ -150,6 +152,14 @@ class BaseFileFormatParam:
     def is_encoding(cls):
         return cls.name.endswith("_encoding")
 
+    @classmethod
+    def supports_all_formats(cls) -> bool:
+        return "*" in cls.file_formats
+
+    @classmethod
+    def supports_format(cls, file_format: str) -> bool:
+        return cls.supports_all_formats() or file_format in cls.file_formats
+
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
 
@@ -164,7 +174,9 @@ def register_file_format_param(
 
 def get_params_for_file_format(file_format: str) -> list[type[BaseFileFormatParam]]:
     """Get all registered file format parameters for a given file format."""
-    return [param for param in FILE_FORMATS_PARAMS if file_format in param.file_formats]
+    return [
+        param for param in FILE_FORMATS_PARAMS if param.supports_format(file_format)
+    ]
 
 
 def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
@@ -178,7 +190,7 @@ def strip_unused_file_format_params(
 ) -> FileFormatParams:
     """Clean file format parameters, removing those not applicable to the given file format."""
     for param in FILE_FORMATS_PARAMS:
-        if file_format not in param.file_formats:
+        if not param.supports_format(file_format):
             file_format_params.pop(param.name, None)
     return file_format_params
 

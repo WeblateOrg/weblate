@@ -601,7 +601,9 @@ def contact(request: AuthenticatedHttpRequest):
         msg = "Contact form is disabled."
         raise Http404(msg)
 
+    show_form = False
     if request.method == "POST":
+        show_form = True
         form = ContactForm(
             request=request,
             hide_captcha=request.user.is_authenticated,
@@ -626,6 +628,9 @@ def contact(request: AuthenticatedHttpRequest):
         initial = get_initial_contact(request)
         if request.GET.get("t") in CONTACT_SUBJECTS:
             initial["subject"] = CONTACT_SUBJECTS[request.GET["t"]]
+            show_form = True
+        if request.GET.get("topic") == "server":
+            show_form = True
         form = ContactForm(
             request=request, hide_captcha=request.user.is_authenticated, initial=initial
         )
@@ -633,7 +638,7 @@ def contact(request: AuthenticatedHttpRequest):
     return render(
         request,
         "accounts/contact.html",
-        {"form": form, "title": gettext("Contact")},
+        {"form": form, "title": gettext("Contact"), "show_form": show_form},
     )
 
 

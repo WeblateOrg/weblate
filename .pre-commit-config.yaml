@@ -73,12 +73,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.4.13
+  rev: v2.4.14
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.4.13'
+    - '@biomejs/biome@2.4.14'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
@@ -178,12 +178,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.97.0
+  rev: v1.98.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.1.84
+  rev: v0.1.88
   hooks:
   - id: rumdl
   - id: rumdl-fmt

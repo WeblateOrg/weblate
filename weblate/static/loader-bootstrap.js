@@ -166,7 +166,9 @@ function submitForm(evt, _combo, selector) {
   }
   return false;
 }
-Mousetrap.bindGlobal("mod+enter", submitForm);
+hotkeys("ctrl+enter,command+enter", (e) => {
+  return submitForm(e);
+});
 
 function screenshotStart() {
   $("#search-results tbody.unit-listing-body").empty();
@@ -1681,7 +1683,11 @@ $(function () {
           .find(".file-format-param-field")
           .attr("fileformats")
           ?.split(" ");
-        if (fileFormats.includes(selectedFileFormat)) {
+        if (
+          fileFormats &&
+          (fileFormats.includes(selectedFileFormat) ||
+            fileFormats.includes("*"))
+        ) {
           $(this).show();
           displayFieldLabel = true;
         } else {
