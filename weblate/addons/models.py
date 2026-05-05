@@ -492,8 +492,6 @@ def execute_addon_event(
     args: tuple | None = None,
     kwargs: dict | None = None,
 ) -> None:
-    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
-
     # Trigger repository scoped add-ons only on the main component
     if (
         addon.repo_scope
@@ -576,12 +574,19 @@ def execute_addon_event(
         finally:
             # Check if add-on is still installed and log activity
             if event not in NO_LOG_EVENTS and addon.pk is not None:
-                update_addon_activity_log(
-                    activity_log.pk,
-                    log_result,
-                    pending=False,
-                    error_occurred=error_occurred,
-                )
+                if log_result or error_occurred:
+                    activity_log.update_activity(
+                        log_result,
+                        pending=False,
+                        error_occurred=error_occurred,
+                    )
+                    activity_log.save(update_fields=["details", "pending"])
+                else:
+                    # Async handlers can write details using this log id before
+                    # this finalizer runs in eager execution.
+                    AddonActivityLog.objects.filter(pk=activity_log.pk).update(
+                        pending=False
+                    )
 
 
 @transaction.atomic
@@ -850,6 +855,22 @@ class AddonActivityLog(models.Model):
 
     def get_details_display(self) -> str:
         return self.addon.addon.render_activity_log(self)
+
+    def update_activity(
+        self,
+        result: object | None = None,
+        *,
+        error_occurred: bool = False,
+        pending: bool | None = None,
+    ) -> None:
+        """Update activity details without saving the instance."""
+        details = self.details or {}
+        details["error"] = error_occurred
+        self.details = details
+        if result:
+            self.update_result(result)
+        if pending is not None:
+            self.pending = pending
 
     def update_result(self, result: object) -> None:
         """Update the result field in the details JSON."""

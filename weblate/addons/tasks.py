@@ -236,11 +236,9 @@ def update_addon_activity_log(
             # retrying, for example when the triggering component or add-on is
             # deleted and cascades the activity row away.
             return
-        addon_activity_log.details["error"] = error_occurred
-        if result:
-            addon_activity_log.update_result(result)
-        if pending is not None:
-            addon_activity_log.pending = pending
+        addon_activity_log.update_activity(
+            result, error_occurred=error_occurred, pending=pending
+        )
         addon_activity_log.save(update_fields=["details", "pending"])
 
 

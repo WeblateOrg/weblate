@@ -317,13 +317,19 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         with CaptureQueriesContext(connection) as queries:
             addon_change.run([change.pk])
 
-        self.assertEqual(12, len(queries), [query["sql"] for query in queries])
+        self.assertEqual(11, len(queries), [query["sql"] for query in queries])
         component_queries = [
             query["sql"]
             for query in queries
             if 'FROM "trans_component"' in query["sql"]
         ]
         self.assertEqual(1, len(component_queries), component_queries)
+        activity_log_select_queries = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('SELECT "addons_addonactivitylog"')
+        ]
+        self.assertEqual([], activity_log_select_queries)
         self.assertFalse(AddonActivityLog.objects.filter(addon=skipped_addon).exists())
         self.assertTrue(AddonActivityLog.objects.filter(addon=project_addon).exists())
 
@@ -344,7 +350,13 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         with CaptureQueriesContext(connection) as queries:
             addon_change.run([change.pk])
 
-        self.assertEqual(15, len(queries), [query["sql"] for query in queries])
+        self.assertEqual(14, len(queries), [query["sql"] for query in queries])
+        activity_log_select_queries = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('SELECT "addons_addonactivitylog"')
+        ]
+        self.assertEqual([], activity_log_select_queries)
         self.assertTrue(AddonActivityLog.objects.filter(addon=addon).exists())
 
     def test_manual_returns_component_result(self) -> None:
