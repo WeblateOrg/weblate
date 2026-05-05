@@ -57,6 +57,7 @@ class FileFormatParams(TypedDict, total=False):
 
 
 FileFormatParamKey = Literal[
+    "dos_eol",
     "json_sort_keys",
     "json_indent",
     "json_indent_style",
