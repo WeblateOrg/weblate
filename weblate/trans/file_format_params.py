@@ -39,6 +39,7 @@ class FileFormatParams(TypedDict, total=False):
     json_indent_style: Literal["spaces", "tabs"]
     json_sort_keys: bool
     json_use_compact_separators: bool
+    line_max_length: int
     md_extract_code_blocks: bool
     md_extract_frontmatter: bool
     md_no_placeholders: bool      
@@ -52,6 +53,7 @@ class FileFormatParams(TypedDict, total=False):
     xml_closing_tags: bool
     yaml_indent: int
     yaml_line_break: str
+    yaml_line_wrap: int
 
 FileFormatParamKey = Literal[
     "json_sort_keys",
