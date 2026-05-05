@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-05 11:52+0000\n"
+"PO-Revision-Date: 2026-05-05 12:54+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -18726,7 +18726,7 @@ msgstr "操作面板上已关注翻译现在使用稳定且支持语言识别的
 msgid ""
 "Reduced error-reporting noise for handled authentication callback failures "
 "and clarified password reset confirmation messages."
-msgstr ""
+msgstr "降低了已处理的身份认证调用失败的错误报告噪音并使密码重置确认消息更为清晰。"
 
 #: changes.rst:187
 msgid ""
@@ -18742,7 +18742,7 @@ msgstr ":ref:`mt-deepl` 将普通葡萄牙语映射为欧洲葡萄牙语。"
 msgid ""
 ":ref:`mt-mymemory` now falls back to HTTP status handling when the service "
 "returns a non-JSON error response."
-msgstr ""
+msgstr ":ref:`mt-mymemory` 现在在服务返回非 JSON 错误响应时退回 HTTP 状态处理。"
 
 #: changes.rst:190
 msgid ""
@@ -18766,7 +18766,7 @@ msgstr "改进了删除单元时的仓库锁定错误处理。"
 msgid ""
 "Adding new languages now rescans only the newly added languages instead of "
 "forcing a full component scan."
-msgstr ""
+msgstr "添加新语言现在只重新扫描新添加的语言而不是强制完整的部件扫描。"
 
 #: changes.rst:194
 msgid ""
@@ -18781,6 +18781,8 @@ msgid ""
 "Restored documented default encoding fallback for :doc:`/formats/apple` "
 "and :doc:`/formats/java` when file format parameters are not explicitly set."
 msgstr ""
+"未明确设置文件格式参数时恢复文档中记载的 :doc:`/formats/apple` 和 :doc:`/"
+"formats/java` 备用默认编码。"
 
 #: changes.rst:196
 msgid ""
@@ -18789,12 +18791,14 @@ msgid ""
 "auto-translation progress updates when the queued target disappears before "
 "execution."
 msgstr ""
+"在执行每日附加组件任务时减少 :ref:`addon-weblate.generate.fill_read_only` 中"
+"重复的数据库查询，并修复了当所查询目标在执行前消失时的自动翻译进度更新问题。"
 
 #: changes.rst:197
 msgid ""
 ":doc:`/formats/android` now preserves template-defined escaped markup "
 "formatting when saving translations."
-msgstr ""
+msgstr ":doc:`/formats/android` 现在保留在保存译文时保留模板定义的转义标记格式。"
 
 #: changes.rst:198
 msgid ""
@@ -18808,18 +18812,24 @@ msgid ""
 "SSH repository errors now distinguish changed host keys from missing host "
 "keys and avoid automatically trusting host key replacements."
 msgstr ""
+"SSH 仓库错误现在区分更改的主机密钥和缺失的主机密钥并避免自动信任主机密钥替换"
+"。"
 
 #: changes.rst:200
 msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
+":ref:`machine-translation` 不再将可翻译的 reStructuredText 角色内容视为 "
+":ref:`placeables-mt`。"
 
 #: changes.rst:201
 msgid ""
 ":ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation "
 "such as ``؟!`` and ``!؟``."
 msgstr ""
+":ref:`check-end-interrobang` 现在识别 ``؟!`` 和 ``!؟`` 等阿拉伯语问叹号标点符"
+"号。"
 
 #: changes.rst:205
 msgid ""
@@ -18885,6 +18895,10 @@ msgid ""
 "listeners only when IPv6 is available in the container runtime; use ``on`` "
 "to always enable them or ``off`` to disable them."
 msgstr ""
+"如果你在 Docker 中运行 Weblate 并依赖 IPv6 监听器，请查看 "
+":envvar:`WEBLATE_NGINX_IPV6`。默认的 ``auto`` 值只在 IPv6 在容器运行时中可用"
+"时才允许 IPv6 监听器；使用 ``on`` 来始终允许 IPv6 监听器或者用 ``off`` 禁用 "
+"IPv6 监听器。"
 
 #: changes.rst:218
 msgid ""
@@ -24326,6 +24340,9 @@ msgid ""
 "Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
 "Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
+"Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
+"Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.rst:10
 msgid ""
@@ -24347,12 +24364,31 @@ msgid ""
 "jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
 "Gayoso, anas agha, Ettore Atalan"
 msgstr ""
+"PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
+"Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
+"Zahid Rizky Fakhri, symegac, Francesco Marinucci, Michal Čihař, Hyeonjeong "
+"Lee, ovl-1, Tarás Lavrentiev, Edson Wolf, Yuri Chornoivan, Omer I.S., "
+"Arantxa, Tuomas Hietala, Milo Ivir, justcontributor, Kristoffer Grundström, "
+"Andi Chandler, Andrei Stepanov, ButterflyOfFire, Átila França, Мария "
+"Рангелова, EESF-2, CzaroGame, Agnieszka C, Manuela Silva, پرویز قادر, "
+"JiZPaper, Fjuro, Alexis Launay, tfr tint, Candied-Ecard, Kyotaro Iijima, "
+"Priit Jõerüüt, Matthaiks, Besnik Bleta, delvani, Mickaël Binos, VfBFan, UDP, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, mohammadA, 大王叫我来巡山, "
+"Sketch6580, Dick Groskamp, Heimen Stoffels, Yaron Shahrabani, Любомир "
+"Василев, Максим Горпиніч, Emin Tufan Çetin, Horus68, Sjur N Moshagen, Peter "
+"Vančo, Romhányi-Kakucska Viktor, ZayedRashid, Julien Lepiller, Massimo "
+"Pissarello, Jeff Huang, ojppe, தமிழ்நேரம், ibragimov, Sylvestre Ledru, Ldm "
+"Public, pan93412, Jernej Pangerc, Luciana Waldbaur, username-generic, "
+"jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
+"Gayoso, anas agha, Ettore Atalan"
 
 #: changes/contributors/5.17.rst:15
 msgid ""
 "Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
+"smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
 #, fuzzy
@@ -32563,6 +32599,10 @@ msgid ""
 "``Project``, ``Unit``, ``Change``, and ``User``. Add-on configuration forms "
 "should subclass ``weblate.addons.forms.BaseAddonForm``."
 msgstr ""
+"附加组件钩子从 ``weblate.*.models`` 模块接收 ORM 对象，包括 ``Addon``, "
+"``Component``, ``Translation``, ``Category``, ``Project``, ``Unit``, "
+"``Change`` 和 ``User`` 。附加组件配置表单应把 "
+"``weblate.addons.forms.BaseAddonForm`` 作为子类。"
 
 #: contributing/addons.rst:16
 msgid "Here is an example add-on:"
@@ -32579,6 +32619,9 @@ msgid ""
 "type their own configuration by parameterizing ``BaseAddon`` and "
 "``BaseAddonForm``."
 msgstr ""
+"附加组件配置保存在 ``Addon.configuration`` JSON 字段中，因此模型以原始 JSON "
+"形式保留持久化数据。附加组件实现可以通过参数化 ``BaseAddon`` 和 "
+"``BaseAddonForm`` 输入自己的配置。"
 
 #: contributing/addons.rst:29
 msgid ""
@@ -32589,6 +32632,11 @@ msgid ""
 "``self.configuration`` or ``self.get_configuration()`` so it sees normalized "
 "defaults instead of raw persisted JSON."
 msgstr ""
+"当存储的 JSON 可能和运行时状况不一样时使用两个 ``TypedDict`` 类：一个被动，通"
+"常 ``total=False`` ，存储旧的或缺失值的配置，以及一个 "
+"``normalize_configuration()`` 返回的总运行时配置。运行时附加组件代码应读取 "
+"``self.configuration`` 或 ``self.get_configuration()`` 以便看到正常值而不是原"
+"始的持久化 JSON。"
 
 #: contributing/addons.rst:36
 msgid ""
@@ -32597,6 +32645,9 @@ msgid ""
 "Keep the form's ``serialize_form()`` return type aligned with the stored "
 "configuration type."
 msgstr ""
+"对于存储状况和运行时状况相同的简单附加组件，定义单一的 ``TypedDict`` 并将它用"
+"于两个 ``BaseAddon`` 类型参数。让表单的 ``serialize_form()`` 返回类型和存储的"
+"配置类型保持一致。"
 
 #: contributing/code.rst:2
 msgid "Weblate source code"
@@ -32645,7 +32696,7 @@ msgstr ""
 
 #: contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
-msgstr "受鼓励行为"
+msgstr "鼓励的行为"
 
 #: contributing/code_of_conduct.rst:14
 msgid ""
@@ -33345,7 +33396,7 @@ msgstr "推荐的本地工作流是："
 msgid ""
 "The :program:`ci/run-docs` wrapper builds the documentation with warnings "
 "treated as errors."
-msgstr ""
+msgstr ":program:`ci/run-docs` 包装器构建文档会将警告视为错误。"
 
 #: contributing/documentation.rst:45
 msgid ""
