@@ -28,52 +28,54 @@ class FieldKwargsDict(TypedDict, total=False):
 
 
 class FileFormatParams(TypedDict, total=False):
-    json_sort_keys: bool
-    json_indent: int
-    json_indent_style: Literal["spaces", "tabs"]
-    json_use_compact_separators: bool
-    po_line_wrap: int
-    po_keep_previous: bool
-    po_no_location: bool
-    po_fuzzy_matching: bool
-    yaml_indent: int
-    yaml_line_wrap: int
-    yaml_line_break: str
-    xml_closing_tags: bool
-    flatxml_root_name: str
-    flatxml_value_name: str
-    flatxml_key_name: str
-    strings_encoding: str
-    properties_encoding: str
     csv_encoding: str
     csv_simple_encoding: str
+    dos_eol: bool
+    flatxml_key_name: str
+    flatxml_root_name: str
+    flatxml_value_name: str
     gwt_encoding: str
+    json_indent: int
+    json_indent_style: Literal["spaces", "tabs"]
+    json_sort_keys: bool
+    json_use_compact_separators: bool
     merge_duplicates: bool
+    po_fuzzy_matching: bool
+    po_keep_previous: bool
+    po_line_wrap: int
+    po_no_location: bool
+    properties_encoding: str
+    strings_encoding: str
+    xml_closing_tags: bool
+    yaml_indent: int
+    yaml_line_break: str
+    yaml_line_wrap: int
 
 
 class BaseFileFormatParam:
     name: Literal[
-        "json_sort_keys",
-        "json_indent",
-        "json_indent_style",
-        "json_use_compact_separators",
-        "po_line_wrap",
-        "po_keep_previous",
-        "po_no_location",
-        "po_fuzzy_matching",
-        "yaml_indent",
-        "yaml_line_wrap",
-        "yaml_line_break",
-        "xml_closing_tags",
-        "flatxml_root_name",
-        "flatxml_value_name",
-        "flatxml_key_name",
-        "strings_encoding",
-        "properties_encoding",
         "csv_encoding",
         "csv_simple_encoding",
+        "dos_eol",
+        "flatxml_key_name",
+        "flatxml_root_name",
+        "flatxml_value_name",
         "gwt_encoding",
+        "json_indent",
+        "json_indent_style",
+        "json_sort_keys",
+        "json_use_compact_separators",
         "merge_duplicates",
+        "po_fuzzy_matching",
+        "po_keep_previous",
+        "po_line_wrap",
+        "po_no_location",
+        "properties_encoding",
+        "strings_encoding",
+        "xml_closing_tags",
+        "yaml_indent",
+        "yaml_line_break",
+        "yaml_line_wrap",
     ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
@@ -139,6 +141,14 @@ class BaseFileFormatParam:
     def is_encoding(cls):
         return cls.name.endswith("_encoding")
 
+    @classmethod
+    def supports_all_formats(cls) -> bool:
+        return "*" in cls.file_formats
+
+    @classmethod
+    def supports_format(cls, file_format: str) -> bool:
+        return cls.supports_all_formats() or file_format in cls.file_formats
+
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
 
@@ -153,7 +163,9 @@ def register_file_format_param(
 
 def get_params_for_file_format(file_format: str) -> list[type[BaseFileFormatParam]]:
     """Get all registered file format parameters for a given file format."""
-    return [param for param in FILE_FORMATS_PARAMS if file_format in param.file_formats]
+    return [
+        param for param in FILE_FORMATS_PARAMS if param.supports_format(file_format)
+    ]
 
 
 def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
@@ -167,7 +179,7 @@ def strip_unused_file_format_params(
 ) -> FileFormatParams:
     """Clean file format parameters, removing those not applicable to the given file format."""
     for param in FILE_FORMATS_PARAMS:
-        if file_format not in param.file_formats:
+        if not param.supports_format(file_format):
             file_format_params.pop(param.name, None)
     return file_format_params
 
@@ -555,3 +567,15 @@ class GWTEncoding(BaseFileFormatParam):
     ]
     default = "utf-8"
     help_text = gettext_lazy("Encoding used for GWT Properties files")
+
+
+@register_file_format_param
+class DOSLineEndings(BaseFileFormatParam):
+    file_formats = ("*",)
+    name = "dos_eol"
+    label = gettext_lazy("DOS line endings")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
+    )

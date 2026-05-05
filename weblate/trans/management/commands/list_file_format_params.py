@@ -18,6 +18,8 @@ class Command(BaseCommand):
     help = "List file format parameters"
 
     def format_file_formats(self, file_formats: Sequence[str]) -> str:
+        if "*" in file_formats:
+            return "All file formats"
         return "\n".join(f"* ``{f}``" for f in file_formats)
 
     def get_help_text(self, param) -> str:

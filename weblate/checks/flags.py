@@ -117,7 +117,6 @@ TYPED_FLAGS_ARGS: dict[str, FlagValueParser] = {
 PLAIN_FLAGS["rst-text"] = gettext_lazy("RST text")
 PLAIN_FLAGS["md-text"] = gettext_lazy("Markdown text")
 PLAIN_FLAGS["xml-text"] = gettext_lazy("XML text")
-PLAIN_FLAGS["dos-eol"] = gettext_lazy("DOS line endings")
 PLAIN_FLAGS["url"] = gettext_lazy("URL")
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read-only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")

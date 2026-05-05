@@ -384,8 +384,10 @@ class RepoTestMixin:
             "csv", "csv/*.txt", file_format_params={"csv_encoding": "auto"}
         )
 
-    def create_csv_mono(self) -> Component:
-        return self._create_component("csv", "csv-mono/*.csv", "csv-mono/en.csv")
+    def create_csv_mono(self, **kwargs) -> Component:
+        return self._create_component(
+            "csv", "csv-mono/*.csv", "csv-mono/en.csv", **kwargs
+        )
 
     def create_php_mono(self) -> Component:
         return self._create_component("php", "php-mono/*.php", "php-mono/en.php")

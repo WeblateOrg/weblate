@@ -1,5 +1,3 @@
-``dos-eol``
-    Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
 ``read-only``
     The string is read-only and should not be edited in Weblate, see :ref:`read-only-strings`.
 ``terminology``

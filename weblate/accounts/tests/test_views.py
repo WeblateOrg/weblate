@@ -116,8 +116,17 @@ class ViewTest(RepoTestCase):
     )
     def test_contact(self) -> None:
         """Test for contact form."""
-        # Basic get
+        # Topic chooser is shown by default
         response = self.client.get(reverse("contact"))
+        self.assertNotContains(response, 'id="id_message"')
+        self.assertContains(response, "?topic=server")
+
+        # Form is shown after picking the server topic
+        response = self.client.get(reverse("contact"), {"topic": "server"})
+        self.assertContains(response, 'id="id_message"')
+
+        # Form is also shown for known subject deep-links
+        response = self.client.get(reverse("contact"), {"t": "trial"})
         self.assertContains(response, 'id="id_message"')
 
         # Sending message
@@ -237,7 +246,7 @@ class ViewTest(RepoTestCase):
         user = self.get_user()
         # Login
         self.client.login(username=user.username, password="testpassword")
-        response = self.client.get(reverse("contact"))
+        response = self.client.get(reverse("contact"), {"topic": "server"})
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 

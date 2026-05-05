@@ -34,13 +34,15 @@ class BaseFileFormatsTest(ViewTestCase):
         self.user.save()
 
     def update_component_file_params(
-        self, **new_file_param_kwargs: Unpack[FileFormatParams]
+        self,
+        component: Component | None = None,
+        **new_file_param_kwargs: Unpack[FileFormatParams],
     ) -> None:
-        file_param_kwargs = get_default_params_for_file_format(
-            self.component.file_format
-        )
+        if component is None:
+            component = self.component
+        file_param_kwargs = get_default_params_for_file_format(component.file_format)
         file_param_kwargs.update(new_file_param_kwargs)
-        url = reverse("settings", kwargs={"path": self.component.get_url_path()})
+        url = reverse("settings", kwargs={"path": component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
         data.update(
@@ -48,7 +50,7 @@ class BaseFileFormatsTest(ViewTestCase):
         )
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Settings saved")
-        self.component.refresh_from_db()
+        component.refresh_from_db()
 
     def client_create_component(self, result: bool, **kwargs):
         params = {
@@ -176,6 +178,24 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         self.assertEqual(new_component.file_format_params["po_line_wrap"], "-1")
         self.assertEqual(new_component.file_format_params["po_keep_previous"], False)
         self.assertEqual(new_component.file_format_params["po_fuzzy_matching"], False)
+
+    def test_universal_file_format_parameters(self) -> None:
+        # test dos_eol file format params
+        component1 = self.component
+        component2 = self.create_json_mono(name="component2", project=self.project)
+        component3 = self.create_csv_mono(name="component3", project=self.project)
+
+        self.assertIsNone(component1.file_format_params.get("dos_eol", None))
+        self.assertIsNone(component2.file_format_params.get("dos_eol", None))
+        self.assertIsNone(component3.file_format_params.get("dos_eol", None))
+
+        self.update_component_file_params(component=component1, dos_eol=True)
+        self.update_component_file_params(component=component2, dos_eol=False)
+        self.update_component_file_params(component=component3, dos_eol=True)
+
+        self.assertTrue(component1.file_format_params["dos_eol"])
+        self.assertFalse(component2.file_format_params["dos_eol"])
+        self.assertTrue(component3.file_format_params["dos_eol"])
 
 
 class JsonParamsTest(BaseFileFormatsTest):

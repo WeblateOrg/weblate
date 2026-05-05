@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-04-28 00:14+0000\n"
-"PO-Revision-Date: 2026-04-29 21:58+0000\n"
+"PO-Revision-Date: 2026-05-04 06:43+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:218
@@ -16943,6 +16943,8 @@ msgid ""
 "In addition to :ref:`additional`, screenshots can be managed in the Weblate "
 "UI, kept in sync from the repository, or handled through the :ref:`api`."
 msgstr ""
+"除 :ref:`additional`，也可以在 Weblate 用户界面管理屏幕截图，从仓库保持同步，"
+"或通过 :ref:`api` 进行处理。"
 
 #: admin/translating.rst:138
 msgid "Managing screenshots in the UI"
@@ -16961,6 +16963,12 @@ msgid ""
 "character recognition (OCR) by pressing the :guilabel:`Automatically "
 "recognize` button."
 msgstr ""
+"一种翻译语言存储一张屏幕截图。在翻译页面中，源语言字符串每种语言的翻译都显示"
+"附加到源语言的屏幕截图，而附加到任何其他语言的屏幕截图均只在那种语言中显示。"
+"可以用 :guilabel:`屏幕截图上下文` 中 :guilabel:`添加屏幕截图` 直接从翻译页面"
+"添加屏幕截图，或者在 :guilabel:`操作` 菜单下打开单独的管理界面。你可以在那里"
+"上传屏幕截图，手动将它们分配给源字符串，或按 :guilabel:`自动识别` 按钮使用光"
+"学字符识别（OCR）。"
 
 #: admin/translating.rst:150
 msgid ""
@@ -17007,6 +17015,8 @@ msgid ""
 "fill in :guilabel:`Repository path to screenshot` with the path tracked in "
 "the repository."
 msgstr ""
+"要将手动上传的屏幕截图和之后的仓库更新连接起来，用仓库中跟踪的路径填充 "
+":guilabel:`仓库的屏幕截图路径`。"
 
 #: admin/translating.rst:176
 msgid ""
@@ -17034,6 +17044,13 @@ msgid ""
 "delete screenshots. Screenshot API objects include the related translation "
 "and the optional repository path used for repository-based updates."
 msgstr ""
+"也可通过 REST API 获得屏幕截图工作流。用 :http:get:`/api/components/"
+"(string:project)/(string:component)/screenshots/` 列出一个部件的屏幕截图"
+"，:http:post:`/api/screenshots/` 创建屏幕截图，:http:post:`/api/screenshots/"
+"(int:id)/file/` 替换图片，:http:post:`/api/screenshots/(int:id)/units/` 和 "
+":http:delete:`/api/screenshots/(int:id)/units/(int:unit_id)` 管理源字符串关联"
+"，:http:delete:`/api/screenshots/(int:id)/` 来删除屏幕截图。屏幕截图 API 对象"
+"包括相关翻译和用于基于仓库的更新的可选仓库路径。"
 
 #: admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -17105,6 +17122,9 @@ msgid ""
 "can monitor queue length in the :ref:`management-interface` or by "
 "using :wladmin:`celery_queues`."
 msgstr ""
+"Celery 任务队列不是跨版本的稳定接口，因此不保证来自旧版本的队列任务在升级后能"
+"正常工作。可以在 :ref:`management-interface` 中监控队列长度或使用 "
+":wladmin:`celery_queues` 来监控队列长度。"
 
 #: admin/upgrade.rst:45
 msgid "Upgrade Weblate"
@@ -17561,7 +17581,7 @@ msgstr "变化"
 
 #: api.rst:2624 snippets/permissions.rst:103 user/translating.rst:310
 msgid "Screenshots"
-msgstr "截图"
+msgstr "屏幕截图"
 
 #: api.rst:2812
 msgid "Component lists"
@@ -17689,7 +17709,7 @@ msgstr "澄清了 :ref:`autoclean-tm`。"
 msgid ""
 "Clarified how :ref:`glossary-terminology` creates and maintains glossary "
 "language entries."
-msgstr ""
+msgstr "阐明 :ref:`glossary-terminology` 如何创建并维护术语表语言条目。"
 
 #: changes.rst:17
 msgid ""
@@ -17700,11 +17720,11 @@ msgstr "提供了用户界面中当前 :ref:`translation-memory` 管理选项的
 msgid ""
 "Improved :ref:`screenshots` documentation and linked it from the screenshots "
 "UI."
-msgstr ""
+msgstr "改进 :ref:`screenshots` 文档并从屏幕截图用户界面链接它。"
 
 #: changes.rst:19
 msgid "The OpenAPI schema is cleaner and provides tighter API description."
-msgstr ""
+msgstr "OpenAPI 方案更为清晰，提供更严密的 API 描述。"
 
 #: changes.rst:20
 msgid "Password updates now regenerate your personal API key by default."
@@ -17716,6 +17736,8 @@ msgid ""
 "shows a preview and requires confirmation before creating missing language "
 "files across projects, categories, or site-wide scopes."
 msgstr ""
+":ref:`addon-weblate.consistency.languages` 的 web 安装流程现在提供预览并在项"
+"目、类别、或全站范围创建缺失的语言文件前要求确认。"
 
 #: changes.rst:22
 msgid ""
@@ -17723,12 +17745,14 @@ msgid ""
 "client-side presets, clearer ``{{ component }}`` validation, and a worked "
 "discovery-template example in the docs."
 msgstr ""
+"用有向导的客户端预设、更清晰的 ``{{ component }}`` 验证、文档中有效的发现模板"
+"示例改进 :ref:`addon-weblate.discovery.discovery` 指南。"
 
 #: changes.rst:23
 msgid ""
 "Admins can now revert edits from blocked users in a project or from any user "
 "site-wide."
-msgstr "管理员现在可以还原项目中被阻止用户或站点范围内任何用户的编辑。"
+msgstr "管理员现在可在全站还原项目中被封禁用户或任何用户的编辑。"
 
 #: changes.rst:24
 msgid ""
@@ -17759,7 +17783,7 @@ msgstr ""
 msgid ""
 "Admins can now reject pending suggestions and delete comments when cleaning "
 "up blocked or abusive users."
-msgstr ""
+msgstr "管理员现在可以在清理被封禁或有滥用行为的用户时拒绝未提交的建议并删除评论。"
 
 #: changes.rst:29
 msgid ""
@@ -17773,6 +17797,8 @@ msgid ""
 "endpoints now better explain the allowed setup on hosted and self-managed "
 "sites."
 msgstr ""
+"私密或本地端点的项目级机器翻译验证错误现在更好地解释托管的和自管站点上允许的"
+"设置。"
 
 #: changes.rst:31
 msgid ""
@@ -17786,7 +17812,7 @@ msgstr ""
 msgid ""
 "Documented restoring Docker based setups from backups, see :ref:`restore-"
 "docker`."
-msgstr ""
+msgstr "提供了从备份恢复基于 Docker 设置的文档信息，见 :ref:`restore-docker`。"
 
 #: changes.rst:33
 msgid ""
@@ -17794,6 +17820,8 @@ msgid ""
 "reject URLs whose hostnames cannot be resolved during validation unless the "
 "host is explicitly allowed."
 msgstr ""
+":setting:`VCS_RESTRICT_PRIVATE` 和 :setting:`WEBHOOK_RESTRICT_PRIVATE` 现在拒"
+"绝验证期间无法解析主机名的 URL，除非该主机被明确允许。"
 
 #: changes.rst:34
 msgid ""
@@ -17821,18 +17849,22 @@ msgid ""
 "obvious direct file download URLs and invalid code site or Fediverse profile "
 "links are rejected."
 msgstr ""
+":ref:`profile` 链接现在如有可能会显示外链警告；明显的直接文件下载 URL 和无效"
+"的代码站或 Fediverse 个人资料链接将被拒绝。"
 
 #: changes.rst:38
 msgid ""
 "Uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE` "
 "and :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` before parsing."
 msgstr ""
+"上传现在在解析前强制 :setting:`TRANSLATION_UPLOAD_MAX_SIZE` 和 "
+":setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` 检查。"
 
 #: changes.rst:39
 msgid ""
 "Component ZIP imports and project backup restores now share stricter ZIP "
 "archive safety checks."
-msgstr ""
+msgstr "部件 ZIP 导入和项目备份恢复现在共享更严格的 ZIP 压缩包安全检查。"
 
 #: changes.rst:42 changes.rst:142 changes.rst:211 changes.rst:246
 #: changes.rst:300 changes.rst:339 changes.rst:384 changes.rst:435
@@ -17920,7 +17952,7 @@ msgstr ""
 msgid ""
 ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
 "PostgreSQL searches."
-msgstr ""
+msgstr ":ref:`mt-weblate-translation-memory` 自动翻译避免大范围的 PostgreSQL 搜索。"
 
 #: changes.rst:53
 msgid ""
@@ -17938,7 +17970,7 @@ msgstr ""
 
 #: changes.rst:55
 msgid "Malformed IPv6 repository URLs no longer crash SSH host key detection."
-msgstr ""
+msgstr "畸形的 IPv6 仓库 URL 不再让 SSH 主机密钥检测崩溃。"
 
 #: changes.rst:56
 msgid ""
@@ -17946,6 +17978,8 @@ msgid ""
 "replace the standard descriptive-title placeholder in normalized POT headers "
 "again."
 msgstr ""
+":ref:`addon-weblate.gettext.xgettext` 和相关的 POT 更新附加组件现在又替换正常"
+"的 POT 标头中标准的描述性标题占位符了。"
 
 #: changes.rst:57
 msgid ""
@@ -17953,24 +17987,30 @@ msgid ""
 "during preflight validation, fixing components that store ``django.pot`` in "
 "a top-level ``locale`` directory."
 msgstr ""
+":ref:`addon-weblate.gettext.django` 现在在飞行前验证期间跳过仓库 ``locale`` "
+"树，修复在顶层 ``locale`` 目录中存储 ``django.pot`` 的部件。"
 
 #: changes.rst:58
 msgid ""
 "Screenshot OCR now skips corrupted or truncated image files instead of "
 "failing the request."
-msgstr ""
+msgstr "屏幕截图 OCR 现在跳过损坏的或截短的图像文件，而不是让 OCR 请求失败。"
 
 #: changes.rst:59
 msgid ""
 "Monolingual component validation now honors :ref:`component-source_language` "
 "when checking duplicate files alongside a separate :ref:`component-template`."
 msgstr ""
+"单语言部件验证检查重复文件时现在除了单独的 :ref:`component-template` 还遵循 "
+":ref:`component-source_language`。"
 
 #: changes.rst:60
 msgid ""
 "The OpenAPI schema now describes action endpoints with their actual list, "
 "statistics, status, upload, and download response payloads."
 msgstr ""
+"OpenAPI 方案现在用操作端点的实际列表、统计数字、状态、上传和下载响应载荷描述"
+"操作端点。"
 
 #: changes.rst:61
 msgid ""
@@ -17978,34 +18018,36 @@ msgid ""
 "now report a validation error for TMX files missing the required header "
 "instead of failing the request."
 msgstr ""
+":ref:`翻译记忆库上传 <memory-user>` 和 :wladmin:`import_memory` 现在报告缺少"
+"必需标头的 TMX 文件的验证错误，而不是让验证请求失败。"
 
 #: changes.rst:62
 msgid ""
 "Project listings now show review progress columns when any listed project "
 "has reviews enabled."
-msgstr ""
+msgstr "项目列举现在在任何所列的项目启用了审校时显示审校进度列。"
 
 #: changes.rst:63
 msgid ""
 "The missing file-mask matches :ref:`alert <alerts>` is now restored after "
 "rescans that leave only the source translation."
-msgstr ""
+msgstr "现在在只留下原文翻译的重新扫描后恢复缺少的文件掩码匹配 :ref:`警告 <alerts>`。"
 
 #: changes.rst:64
 msgid ""
 "Automatic translation from other components now ignores read-only source "
 "candidates with empty translations."
-msgstr ""
+msgstr "来自其他部件的自动翻译现在忽略有空白翻译的只读原文候选。"
 
 #: changes.rst:65
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the Markdown "
 "parser fails."
-msgstr ""
+msgstr "Markdown 渲染现在在 Markdown 解析器故障时退回到转义的纯文本。"
 
 #: changes.rst:66
 msgid "Markdown image URLs are now escaped before rendering."
-msgstr ""
+msgstr "Markdown图像链接现在在渲染前已转义。"
 
 #: changes.rst:69 changes.rst:174 changes.rst:309 changes.rst:352
 #: changes.rst:449 changes.rst:592 changes.rst:687 changes.rst:742
@@ -18143,6 +18185,8 @@ msgid ""
 "reset link, useful for external identity providers (Docker "
 "env: :envvar:`WEBLATE_PASSWORD_RESET_URL`)."
 msgstr ""
+"新增 :setting:`PASSWORD_RESET_URL` 来自定义登录页密码重置链接，对外部身份提供"
+"商有用（Docker env: :envvar:`WEBLATE_PASSWORD_RESET_URL`）。"
 
 #: changes.rst:93
 msgid "Added :ref:`bulk user invitations <invite-user>`."
@@ -18154,13 +18198,13 @@ msgstr "新增了 :ref:`check-objc-format`."
 
 #: changes.rst:95
 msgid "Added Forgejo notification webhook, see :ref:`forgejo-setup`."
-msgstr ""
+msgstr "新增 Forgejo 通知 webhook，见 :ref:`forgejo-setup`。"
 
 #: changes.rst:96
 msgid ""
 "Added translation memory API filtering, scoped access, and bulk lookup "
 "support."
-msgstr ""
+msgstr "添加翻译记忆库API过滤，限制性访问和bulk查询支持。"
 
 #: changes.rst:97
 msgid ""
@@ -18168,6 +18212,8 @@ msgid ""
 "from existing component content and for seeding new translations by "
 "automatic translation from existing components."
 msgstr ""
+"REST API 新增支持 ``from_component`` 用于从现有部件内容创建部件并通过来自现有"
+"部件的自动翻译播种新翻译。"
 
 #: changes.rst:98
 msgid ""
@@ -18182,6 +18228,8 @@ msgid ""
 "version from prominent UI while keeping it available on "
 "the :guilabel:`About` page and :http:get:`/api/metrics/`."
 msgstr ""
+":setting:`VERSION_DISPLAY` 新增 ``soft`` 模式在显眼的用户界面中隐藏 Weblate "
+"版本同时在 :guilabel:`关于` 页面和 :http:get:`/api/metrics/` 显示版本号。"
 
 #: changes.rst:103
 msgid "Track origin of newly added source strings."
@@ -18193,10 +18241,12 @@ msgid ""
 "html` and :ref:`autofix-html` only to plain text and source strings that "
 "contain standard HTML markup or valid custom elements."
 msgstr ""
+"Markdown 现在默认使用 ``auto-safe-html`` ，只对纯文本和包含标准 HTML 标记或有"
+"效的自定义元素的源字符串应用 :ref:`check-safe-html` 和 :ref:`autofix-html`。"
 
 #: changes.rst:105
 msgid "Improved LLM interfaces for better reliability."
-msgstr "改进了大预言模型界面提升可靠性。"
+msgstr "改进了大语言模型界面提升可靠性。"
 
 #: changes.rst:106
 msgid ""
@@ -18223,6 +18273,8 @@ msgid ""
 "branding while keeping legacy Azure AD backend identifiers and documentation "
 "anchors for compatibility."
 msgstr ""
+"更新 Microsoft Entra ID 身份认证文档和 Microsoft 登录名同时为了兼容性保留 "
+"Azure AD 后端标识符和文档锚。"
 
 #: changes.rst:111
 msgid ""
@@ -18238,12 +18290,16 @@ msgid ""
 "and :envvar:`WEBLATE_NGINX_IPV6` for controlling IPv6 listeners in the "
 "bundled NGINX."
 msgstr ""
+"Docker 现在暴露 "
+":envvar:`WEBLATE_COMMIT_PENDING_HOURS`、:envvar:`WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY` "
+"用于自定义 Keycloak 唯一用户标识符，暴露 :envvar:`WEBLATE_NGINX_IPV6` 用于在"
+"捆绑的 NGINX 中控制 IPv6 监听器。"
 
 #: changes.rst:113
 msgid ""
 "Project history now records project backups and project/component restore "
 "events."
-msgstr ""
+msgstr "项目历史记录现在记录项目备份和项目/部件恢复事件。"
 
 #: changes.rst:114
 msgid ""
@@ -18267,6 +18323,12 @@ msgid ""
 "as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, "
 "and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 msgstr ""
+"新增 :setting:`PROJECT_WEB_RESTRICT_PRIVATE` 拒绝指向内部或非公开地址的项目网"
+"站和仓库浏览器 URL，:setting:`WEBHOOK_RESTRICT_PRIVATE` 拒绝指向内部或非公开"
+"地址的 webhook URL， :setting:`VCS_RESTRICT_PRIVATE` 拒绝指向内部或非公开地址"
+"的仓库和推送 URL。这些在 Docker 中暴露为 "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`、:envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`、 "
+":envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`。"
 
 #: changes.rst:116
 msgid "Improved performance of :ref:`mt-weblate` lookups."
@@ -18285,6 +18347,8 @@ msgid ""
 "delegated authorization boundaries, and clarified the instance-wide 2FA "
 "enforcement path in :doc:`/admin/auth`."
 msgstr ""
+"扩展了 :doc:`/security/threat-model` 涵盖 webhook 信任边界和的委托的授权边界"
+"，并在 :doc:`/admin/auth` 中表明整个示例的 2FA 身份认证路径。"
 
 #: changes.rst:119
 msgid ""
@@ -18292,12 +18356,16 @@ msgid ""
 "possible and otherwise reports a clearer recovery error instead of failing "
 "later with a generic parse error."
 msgstr ""
+":ref:`manage-vcs-reset-reapply` 现在如有可能会重新创建缺失的翻译文件，如不可"
+"能则报告更清晰的恢复错误而不是之后以一般性解析错误出错。"
 
 #: changes.rst:120
 msgid ""
 "Updated :doc:`/contributing/documentation` to describe the current ``make -C "
 "docs update-docs`` workflow for generated snippets."
 msgstr ""
+"更新了 :doc:`/contributing/documentation` 描述已生成片段的当前 ``make -C "
+"docs update-docs`` 工作流。"
 
 #: changes.rst:121
 msgid ""
@@ -18305,12 +18373,15 @@ msgid ""
 "push_on_commit`, :ref:`component-commit_pending_age`, and :ref:`component-"
 "auto_lock_error` from the linked component that owns the repository."
 msgstr ""
+"链接的仓库部件现在从拥有仓库的已链接部件继承 :ref:`component-"
+"push_on_commit`、:ref:`component-commit_pending_age`、:ref:`component-"
+"auto_lock_error`。"
 
 #: changes.rst:122
 msgid ""
 "Git exporter now provides clearer push and missing-revision errors to "
 "authorized users."
-msgstr ""
+msgstr "Git 导出工具现在向已授权用户提供更清晰的推送和修改缺失错误。"
 
 #: changes.rst:123
 msgid ""
@@ -18321,7 +18392,7 @@ msgstr ""
 
 #: changes.rst:124
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
-msgstr ""
+msgstr "在用户界面和文档中阐明 :ref:`git-exporter` 的 Git LFS 限制。"
 
 #: changes.rst:125
 msgid ""
@@ -18335,6 +18406,8 @@ msgid ""
 "repeated metric queries when rendering activity charts on overview pages "
 "with cold caches."
 msgstr ""
+"改进了翻译页面的评论加载速度，减少了在有冷缓存的概览页面上渲染活动图表时的重"
+"复指标查询。"
 
 #: changes.rst:129
 msgid "Security fixes"
@@ -18344,7 +18417,7 @@ msgstr "安全修复"
 msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
-msgstr ""
+msgstr "强化了符号链接目标的仓库边界检查（:cve:`2026-40256`/:ghsa:`ffgh-3jrf-8wvh`)。"
 
 #: changes.rst:131
 msgid ""
@@ -18358,43 +18431,55 @@ msgstr ""
 msgid ""
 "Tightened :ref:`api` permission enforcement (:cve:`2026-34393` / :ghsa:`3382-"
 "gw9x-477v`)."
-msgstr ""
+msgstr "收紧了 :ref:`api` 权限强制（:cve:`2026-34393`/:ghsa:`3382-gw9x-477v`）。"
 
 #: changes.rst:133
 msgid ""
 "Hardened project-level :ref:`machine-translation` against SSRF "
 "(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 msgstr ""
+"强化了项目级 :ref:`machine-translation` 对 SSRF 的防御（:cve:`2026-34244`/"
+":ghsa:`xrwr-fcw6-fmq8`）。"
 
 #: changes.rst:134
 msgid ""
 "Tightened location validation in :ref:`addon-weblate.cdn.cdnjs` "
 "(:cve:`2026-33220` / :ghsa:`mqph-7h49-hqfm`)."
 msgstr ""
+"收紧了 :ref:`addon-weblate.cdn.cdnjs` 中的位置验证（:cve:`2026-33220` / "
+":ghsa:`mqph-7h49-hqfm`）。"
 
 #: changes.rst:135
 msgid ""
 "Enforced :setting:`ALLOWED_ASSET_DOMAINS` across redirects for asset "
 "downloads (:cve:`2026-33440` / :ghsa:`5fhx-9jwj-867m`)."
 msgstr ""
+"对资产下载重定向强制 :setting:`ALLOWED_ASSET_DOMAINS` （:cve:`2026-33440` / "
+":ghsa:`5fhx-9jwj-867m`）。"
 
 #: changes.rst:136
 msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
 msgstr ""
+"强化了 :ref:`addon-weblate.webhook.webhook` （:cve:`2026-39845` / "
+":ghsa:`f8hv-g549-hwg2`）。"
 
 #: changes.rst:137
 msgid ""
 "Removed unintended :ref:`translation-memory` API endpoints "
 "(:cve:`2026-33214` / :ghsa:`mpf5-3vph-q75r`)."
 msgstr ""
+"删除了非预期的 :ref:`translation-memory` API 端点（:cve:`2026-33214` / "
+":ghsa:`mpf5-3vph-q75r`）。"
 
 #: changes.rst:138
 msgid ""
 "Tightened API access control for pending tasks "
 "(:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`)."
 msgstr ""
+"收紧了未完成任务的 API 访问控制（:cve:`2026-33212` / :ghsa:`vj45-x3pj-f4w4`）"
+"。"
 
 #: changes.rst:139
 msgid ""
@@ -18411,6 +18496,8 @@ msgid ""
 "only handling, and source-side pending commits without files are discarded "
 "to avoid repeated parse failures."
 msgstr ""
+":ref:`项目备份 <projectbackup>` 现在保留原文翻译只读处理，没有文件的原文侧待"
+"完成提交将被丢弃避免重复的解析失败。"
 
 #: changes.rst:144
 msgid ""
@@ -18424,12 +18511,14 @@ msgid ""
 "of persistent SSH storage, and obsolete or stale wrappers are cleaned up "
 "during upgrade."
 msgstr ""
+"生成的 SSH 包装器脚本现在存储在 :setting:`CACHE_DIR` 中而不是持久化的 SSH 存"
+"储中，废弃的或陈旧的包装器将在升级期间被清理。"
 
 #: changes.rst:146
 msgid ""
 "Hardened Git branch handling to reject invalid branch names before "
 "repository operations."
-msgstr ""
+msgstr "强化 Git 分支处理在仓库操作前拒绝无效的分支名。"
 
 #: changes.rst:147
 msgid ""
@@ -41250,11 +41339,11 @@ msgstr "HTTP 重试的总数。"
 
 #: python.rst:46
 msgid "HTTP status codes that should trigger retries."
-msgstr ""
+msgstr "能触发重试的HTTP状态码。"
 
 #: python.rst:48
 msgid "HTTP methods that may be retried."
-msgstr ""
+msgstr "可以重试的HTTP请求方法。"
 
 #: python.rst:50
 msgid "Retry backoff factor passed to urllib3."
@@ -41262,7 +41351,7 @@ msgstr ""
 
 #: python.rst:52
 msgid "HTTP request timeout in seconds."
-msgstr ""
+msgstr "以秒为单位的HTTP请求超时时间。"
 
 #: python.rst:55
 msgid "Access class to the API, define API key and optionally API URL."

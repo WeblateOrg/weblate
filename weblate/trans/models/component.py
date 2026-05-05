@@ -57,7 +57,10 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.file_format_params import FILE_FORMATS_PARAMS, get_encoding_param
+from weblate.trans.file_format_params import (
+    FILE_FORMATS_PARAMS,
+    get_encoding_param,
+)
 from weblate.trans.mixins import (
     CacheKeyMixin,
     ComponentCategoryMixin,
@@ -317,6 +320,11 @@ def prefetch_glossary_terms(components) -> None:
 
 
 class ComponentQuerySet(models.QuerySet):
+    # pylint: disable-next=arguments-differ
+    def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
+        # Use weaker locking and limit locking to the Component table only.
+        return super().select_for_update(no_key=True, of=("self",))
+
     def get_for_update(self, *args, **kwargs) -> Component:
         return self.select_for_update().get(*args, **kwargs)
 
@@ -4027,7 +4035,7 @@ class Component(  # noqa: PLR0904
         for param in [
             p for p in FILE_FORMATS_PARAMS if p.name in self.file_format_params
         ]:
-            if self.file_format not in param.file_formats:
+            if not param.supports_format(self.file_format):
                 message = gettext(
                     "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
                 ) % {"param": param.name, "format": self.file_format}

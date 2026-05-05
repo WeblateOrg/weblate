@@ -45,9 +45,15 @@ print_step() {
 
 print_version() {
     for cmd in "$@"; do
-        if command -v "$cmd"; then
-            $cmd --version
-            return
+        # Split command candidates with arguments, for example "git svn".
+        # shellcheck disable=SC2086
+        set -- $cmd
+        if command_path=$(command -v "$1" 2> /dev/null); then
+            # shellcheck disable=SC2086
+            if version=$($cmd --version 2>&1); then
+                printf '%s\n%s\n' "$command_path" "$version"
+                return
+            fi
         fi
     done
     echo "not found..."

@@ -1353,7 +1353,28 @@ class GitMergeRequestBase(GitForcePushRepository):
         self.config_update(
             # Push url
             (f'remote "{remote_name}"', "pushurl", push_url),
+            (
+                f'remote "{remote_name}"',
+                "weblate-url",
+                self.get_fork_remote_marker(credentials),
+            ),
         )
+
+    def get_fork_remote_marker(self, credentials: GitCredentials) -> str:
+        """Return marker identifying a Weblate-managed fork remote."""
+        return f"{self.identifier}:{credentials['url']}:{credentials['push_scheme']}"
+
+    def has_current_fork_remote(self, credentials: GitCredentials) -> bool:
+        """Check whether the configured fork remote matches current settings."""
+        remote_name = credentials["username"]
+        remotes = self.execute(["remote"], remote_op="none").splitlines()
+        if remote_name not in remotes:
+            return False
+        try:
+            marker = self.get_config(f"remote.{remote_name}.weblate-url")
+        except RepositoryError:
+            return False
+        return marker == self.get_fork_remote_marker(credentials)
 
     def should_use_fork(self, branch: str | None = None) -> bool:
         return not branch or branch == self.branch
@@ -1371,8 +1392,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def fork(self, credentials: GitCredentials) -> None:
         """Create fork of original repository if one doesn't exist yet."""
-        remotes = self.execute(["remote"], remote_op="none").splitlines()
-        if credentials["username"] not in remotes:
+        if not self.has_current_fork_remote(credentials):
             self.create_fork(credentials)
 
     def push(self, branch: str) -> None:
@@ -1660,8 +1680,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             raise RepositoryError(0, "Invalid token")
 
     def fork(self, credentials: GitCredentials) -> None:
-        remotes = self.execute(["remote"], remote_op="none").splitlines()
-        if credentials["username"] not in remotes:
+        if not self.has_current_fork_remote(credentials):
             self.create_fork(credentials)
             return
 

@@ -119,6 +119,7 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     can_delete_unit = False
     can_edit_base: bool = False
     unit_class: type[TranslationUnit] = ConvertPoUnit  # type: ignore[assignment]
+    needs_existing_units = True
     autoaddon: ClassVar[dict[str, dict[str, Any]]] = {
         "weblate.flags.same_edit": {},
         "weblate.cleanup.generic": {},
