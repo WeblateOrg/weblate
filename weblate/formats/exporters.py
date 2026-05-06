@@ -25,14 +25,19 @@ from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
-from weblate.formats.helpers import (CSV_ID_HASH, CSV_PLURAL_FIELDNAMES,
-                                     CSV_SOURCE_PLURAL_FORM,
-                                     CSV_TARGET_PLURAL_FORM,
-                                     format_csv_id_hash)
+from weblate.formats.helpers import (
+    CSV_ID_HASH,
+    CSV_PLURAL_FIELDNAMES,
+    CSV_SOURCE_PLURAL_FORM,
+    CSV_TARGET_PLURAL_FORM,
+    format_csv_id_hash,
+)
 from weblate.formats.ttkit import WeblateCSVFile
 from weblate.lang.models import PluralMapper
-from weblate.trans.file_format_params import (GettextSetLanguageTeamHeader,
-                                              GettextXGenerator)
+from weblate.trans.file_format_params import (
+    GettextSetLanguageTeamHeader,
+    GettextXGenerator,
+)
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
