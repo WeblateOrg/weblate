@@ -1,34 +1,33 @@
-.. _markdown:
+.. _mdx:
 
-Markdown files
---------------
+MDX files
+---------
 
-.. versionadded:: 5.0
+.. versionadded:: 2026.5
 
 .. include:: /snippets/format-in-development.rst
 
-The translatable content is extracted from the Markdown files and offered for the translation.
-For Markdown files with JSX syntax, use :ref:`mdx`.
+MDX files are Markdown files with JSX syntax. Weblate extracts translatable
+Markdown text and preserves imports, exports, JSX components, and expressions.
 
-Markdown units automatically get the ``md-text`` and ``auto-safe-html`` flags.
+MDX units automatically get the ``md-text`` and ``auto-safe-html`` flags.
 This keeps the unsafe HTML check active for plain text, standard HTML, and
-custom elements while avoiding HTML cleanup on non-HTML angle-bracket syntax
-such as MDX or JSX-like components. Use the explicit ``safe-html`` flag for
-strings that are known to contain HTML and should always be sanitized,
-including SVG or MathML snippets.
+custom elements while avoiding HTML cleanup on MDX and JSX-like syntax.
+Use the explicit ``safe-html`` flag for strings that are known to contain HTML
+and should always be sanitized, including SVG or MathML snippets.
 
 .. include:: /snippets/format-database-backed.rst
 
 .. seealso::
 
-   :doc:`tt:formats/md`
+   :doc:`tt:formats/mdx`
 
 Example file:
 
-.. literalinclude:: ../../weblate/trans/tests/data/cs.md
+.. literalinclude:: ../../weblate/trans/tests/data/cs.mdx
     :language: md
 
-.. include:: /snippets/format-features/markdown-features.rst
+.. include:: /snippets/format-features/mdx-features.rst
 
 Weblate configuration
 +++++++++++++++++++++
@@ -36,26 +35,26 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
-| File mask                      | ``path/*.md``                       |
+| File mask                      | ``path/*.mdx``                      |
 +--------------------------------+-------------------------------------+
-| Monolingual base language file | ``path/en.md``                      |
+| Monolingual base language file | ``path/en.mdx``                     |
 +--------------------------------+-------------------------------------+
-| Template for new translations  | ``path/en.md``                      |
+| Template for new translations  | ``path/en.mdx``                     |
 +--------------------------------+-------------------------------------+
-| File format                    | `Markdown file`                     |
+| File format                    | `MDX file`                          |
 +--------------------------------+-------------------------------------+
-| File format parameters         | ``markdown_merge_duplicates=True``  |
+| File format parameters         | ``mdx_merge_duplicates=True``       |
 +--------------------------------+-------------------------------------+
 
-.. _markdown-duplicates:
+.. _mdx-duplicates:
 
 Handling duplicate strings
 ++++++++++++++++++++++++++
 
 By default, Weblate treats each occurrence of a string as a separate
 translation unit to provide line-based context. This can be problematic
-in Markdown tables, where reordering rows changes the context and can
-lead to translation loss.
+in MDX tables or repeated component content, where reordering changes the
+context and can lead to translation loss.
 
 To consolidate identical strings into a single translation unit, enable
 :guilabel:`Deduplicate identical strings` in the

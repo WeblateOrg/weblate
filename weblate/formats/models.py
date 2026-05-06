@@ -128,6 +128,7 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.PlainTextFormat",
         "weblate.formats.convert.DokuWikiFormat",
         "weblate.formats.convert.MarkdownFormat",
+        "weblate.formats.convert.MDXFormat",
         "weblate.formats.convert.MediaWikiFormat",
         "weblate.formats.convert.WindowsRCFormat",
         "weblate.formats.convert.AsciiDocFormat",

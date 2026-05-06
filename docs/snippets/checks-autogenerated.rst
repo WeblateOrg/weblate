@@ -1278,7 +1278,7 @@ Markdown links
 :Check class: ``weblate.checks.markup.MarkdownLinkCheck``
 :Check identifier: ``md-link``
 :Trigger: This check needs to be enabled using a flag.
-:File formats automatically enabling this check: :ref:`markdown`
+:File formats automatically enabling this check: :ref:`markdown`, :ref:`mdx`
 :Flag to enable: ``md-text``
 :Flag to ignore: ``ignore-md-link``
 
@@ -1303,7 +1303,7 @@ Markdown references
 :Check class: ``weblate.checks.markup.MarkdownRefLinkCheck``
 :Check identifier: ``md-reflink``
 :Trigger: This check needs to be enabled using a flag.
-:File formats automatically enabling this check: :ref:`markdown`
+:File formats automatically enabling this check: :ref:`markdown`, :ref:`mdx`
 :Flag to enable: ``md-text``
 :Flag to ignore: ``ignore-md-reflink``
 
@@ -1328,7 +1328,7 @@ Markdown syntax
 :Check class: ``weblate.checks.markup.MarkdownSyntaxCheck``
 :Check identifier: ``md-syntax``
 :Trigger: This check needs to be enabled using a flag.
-:File formats automatically enabling this check: :ref:`markdown`
+:File formats automatically enabling this check: :ref:`markdown`, :ref:`mdx`
 :Flag to enable: ``md-text``
 :Flag to ignore: ``ignore-md-syntax``
 
@@ -2081,7 +2081,7 @@ Unsafe HTML
 :Check class: ``weblate.checks.markup.SafeHTMLCheck``
 :Check identifier: ``safe-html``
 :Trigger: This check needs to be enabled using a flag.
-:File formats automatically enabling this check: :ref:`html`, :ref:`markdown`, :ref:`asciidoc`
+:File formats automatically enabling this check: :ref:`html`, :ref:`markdown`, :ref:`mdx`, :ref:`asciidoc`
 :Flag to enable: ``auto-safe-html``, ``safe-html``
 :Automatic flag behavior:
     ``auto-safe-html``: Treat a text as conditional HTML, enabling :ref:`check-safe-html` only for plain text or source strings that contain standard HTML markup or valid custom elements. This is useful for extended Markdown variants such as MDX, where angle-bracket syntax may not be HTML.

@@ -9,7 +9,7 @@ from __future__ import annotations
 import codecs
 import os
 import shutil
-from collections import defaultdict
+from collections import defaultdict, deque
 from io import BytesIO
 from operator import attrgetter
 from typing import IO, TYPE_CHECKING, Any, ClassVar, NoReturn, cast
@@ -376,21 +376,38 @@ class HTMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
 class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("Markdown file")
-    autoload = ("*.md", "*.markdown")
+    autoload: tuple[str, ...] = ("*.md", "*.markdown")
     format_id = "markdown"
     check_flags = ("auto-safe-html", "strict-same", "md-text")
+
+    @staticmethod
+    def get_parser_class() -> type[Any]:
+        """Return parser class."""
+        # Lazy import as mistletoe is expensive
+        from translate.storage.markdown import MarkdownFile  # noqa: PLC0415
+
+        return MarkdownFile
+
+    @staticmethod
+    def get_translator_class() -> type[Any]:
+        """Return translator class."""
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2md import MarkdownTranslator  # noqa: PLC0415
+
+        return MarkdownTranslator
+
+    def get_save_translator_class(self) -> type[Any]:
+        """Return translator class for saving."""
+        return self.get_translator_class()
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
     ) -> S:
-        # Lazy import as mistletoe is expensive
-        from translate.storage.markdown import MarkdownFile  # noqa: PLC0415
-
         # Hold Markdown lock because this is not thread-safe, see
         # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
             # Fake input file with a blank filename
-            mdparser = MarkdownFile(
+            mdparser = self.get_parser_class()(
                 inputfile=NamedBytesIO("", storefile.read()),
                 max_line_length=LineMaxLength.get_value(self.file_format_params),
                 extract_code_blocks=MdExtractCodeBlocks.get_value(
@@ -414,13 +431,10 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        # Lazy import as mistletoe is expensive
-        from translate.convert.po2md import MarkdownTranslator  # noqa: PLC0415
-
         # Hold Markdown lock because this is not thread-safe, see
         # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
-            converter = MarkdownTranslator(
+            converter = self.get_save_translator_class()(
                 inputstore=self.store,
                 includefuzzy=True,
                 outputthreshold=None,
@@ -451,6 +465,85 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     def extension() -> str:
         """Return most common file extension for format."""
         return "md"
+
+
+class MDXFormat(MarkdownFormat):
+    # Translators: File format name
+    name = gettext_lazy("MDX file")
+    autoload: tuple[str, ...] = ("*.mdx",)
+    format_id = "mdx"
+
+    @staticmethod
+    def get_parser_class() -> type[Any]:
+        """Return parser class."""
+        # Lazy import as mistletoe is expensive
+        from translate.storage.mdxfile import MDXFile  # noqa: PLC0415
+
+        return MDXFile
+
+    @staticmethod
+    def get_translator_class() -> type[Any]:
+        """Return translator class."""
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2mdx import MDXTranslator  # noqa: PLC0415
+
+        return MDXTranslator
+
+    def get_save_translator_class(self) -> type[Any]:
+        """Return translator class for saving."""
+        if MergeDuplicates.get_value(self.file_format_params):
+            return self.get_translator_class()
+
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2mdx import MDXTranslator  # noqa: PLC0415
+
+        class ContextMDXTranslator(MDXTranslator):
+            def __init__(
+                self,
+                inputstore: TranslationStore,
+                includefuzzy: bool,
+                outputthreshold: int | None,
+                maxlength: int,
+                extract_code_blocks: bool = True,
+                extract_frontmatter: bool = True,
+                no_placeholders: bool = False,
+            ) -> None:
+                super().__init__(
+                    inputstore,
+                    includefuzzy,
+                    outputthreshold,
+                    maxlength,
+                    extract_code_blocks,
+                    extract_frontmatter,
+                    no_placeholders,
+                )
+                self._source_units: dict[str, deque[pounit]] = defaultdict(deque)
+                for unit in self.inputstore.units:
+                    if not unit.isheader():
+                        self._source_units[get_string(unit.source)].append(unit)
+
+            def _lookup(self, string: str) -> str:
+                units = self._source_units.get(string)
+                if not units:
+                    return string
+                unit = units.popleft()
+                if unit.istranslated():
+                    return get_string(unit.target)
+                if self.includefuzzy and unit.isfuzzy():
+                    return get_string(unit.target)
+                return get_string(unit.source)
+
+        return ContextMDXTranslator
+
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common mime type for format."""
+        return "text/mdx"
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "mdx"
 
 
 class OpenDocumentFormat[S: Xliff1File, U: Xliff1Unit, T: ConvertXliffUnit](

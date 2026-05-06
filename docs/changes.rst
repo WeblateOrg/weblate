@@ -6,6 +6,7 @@ Weblate 2026.5
 .. rubric:: New features
 
 * Added :ref:`file_format_params` for :ref:`markdown`, including ``line_max_length``, ``md_extract_code_blocks``, ``md_extract_frontmatter``, and ``md_no_placeholders``.
+* Added :ref:`mdx` support for translating Markdown text while preserving JSX syntax.
 * :ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now export plural strings as separate plural-form rows that can be imported back.
 * :ref:`file_format_params` now include ``po_set_language_team``, ``po_set_last_translator``, ``po_set_x_generator``, and ``po_report_msgid_bugs_to`` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers in Gettext PO and POT files.
 
