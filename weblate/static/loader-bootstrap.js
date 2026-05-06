@@ -1126,6 +1126,7 @@ $(function () {
   const $positionInputEditable = $(".position-input-editable");
   const $positionInputEditableInput = $("#position-input-editable-input");
   $positionInput.on("click", function (event) {
+    event.preventDefault();
     const $form = $(this).closest("form");
     $positionInput.hide();
     $form.find("input[name=offset]").prop("disabled", false);
