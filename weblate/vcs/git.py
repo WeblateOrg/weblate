@@ -889,11 +889,26 @@ class GitWithGerritRepository(GitRepository):
             return ""
         return ""
 
+    def get_gerrit_fetch_refspec(self, branch: str) -> str:
+        branch = self.validate_branch_name(branch)
+        return dumps(
+            f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}",
+            ensure_ascii=False,
+        )
+
+    def configure_gerrit_target_branch(self, branch: str) -> None:
+        self.config_update(
+            ('remote "gerrit"', "fetch", self.get_gerrit_fetch_refspec(branch)),
+            ('remote "gerrit"', "tagOpt", "--no-tags"),
+        )
+
     def push(self, branch) -> None:
-        if self.needs_push():
+        target_branch = self.validate_branch_name(branch or self.branch)
+        if self.needs_push(branch):
+            self.configure_gerrit_target_branch(target_branch)
             try:
                 self.execute(
-                    ["review", "--yes", self.validate_branch_name(self.branch)],
+                    ["review", "--remote", "gerrit", "--yes", target_branch],
                     remote_op="push",
                 )
             except RepositoryError as error:
@@ -908,9 +923,15 @@ class GitWithGerritRepository(GitRepository):
             gerrit_user = self.get_username_from_url(push_url)
             return (
                 ('remote "gerrit"', "url", push_url),
+                ('remote "gerrit"', "fetch", self.get_gerrit_fetch_refspec(branch)),
+                ('remote "gerrit"', "tagOpt", "--no-tags"),
                 ("gitreview", "username", gerrit_user),
             )
-        return (('remote "gerrit"', "url", None),)
+        return (
+            ('remote "gerrit"', "url", None),
+            ('remote "gerrit"', "fetch", None),
+            ('remote "gerrit"', "tagOpt", None),
+        )
 
 
 class SubversionRepository(GitRepository):

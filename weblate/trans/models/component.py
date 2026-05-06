@@ -153,7 +153,12 @@ from weblate.vcs.base import (
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
 )
-from weblate.vcs.git import GitMergeRequestBase, GitRepository, LocalRepository
+from weblate.vcs.git import (
+    GitMergeRequestBase,
+    GitRepository,
+    GitWithGerritRepository,
+    LocalRepository,
+)
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
@@ -4042,7 +4047,8 @@ class Component(  # noqa: PLR0904
 
     def clean_branches(self) -> None:
         """Validate VCS branch names."""
-        if not issubclass(self.repository_class, GitRepository):
+        repository_class = self.repository_class
+        if not issubclass(repository_class, GitRepository):
             return
 
         for field, message in (
@@ -4053,9 +4059,20 @@ class Component(  # noqa: PLR0904
             if not branch:
                 continue
             try:
-                self.repository_class.validate_branch_name(branch)
+                repository_class.validate_branch_name(branch)
             except RepositoryError as error:
-                raise ValidationError({field: message % error.get_message()}) from error
+                error_message = error.get_message()
+                if issubclass(repository_class, GitWithGerritRepository):
+                    for prefix in ("refs/heads/", "refs/for/"):
+                        if branch.startswith(prefix):
+                            short_branch = branch.removeprefix(prefix)
+                            hint = gettext(
+                                "Use %(branch)s instead of %(ref)s; Weblate "
+                                "and git-review add the Gerrit refs automatically."
+                            ) % {"branch": short_branch, "ref": branch}
+                            error_message = f"{error_message} {hint}"
+                            break
+                raise ValidationError({field: message % error_message}) from error
 
     def clean_file_format_params(self) -> None:
         for param in [

@@ -603,6 +603,40 @@ class ComponentTest(RepoTestCase):
 
         self.assertIn("Invalid push branch", str(cm.exception))
 
+    def test_invalid_gerrit_branch_full_ref_validation(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po()
+        component.vcs = "gerrit"
+        component.branch = "refs/heads/main"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        error = str(cm.exception)
+        self.assertIn("Invalid repository branch", error)
+        self.assertIn("Use main instead of refs/heads/main", error)
+
+    def test_invalid_gerrit_push_branch_full_ref_validation(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po_push()
+        component.vcs = "gerrit"
+        component.push_branch = "refs/for/main"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        error = str(cm.exception)
+        self.assertIn("Invalid push branch", error)
+        self.assertIn("Use main instead of refs/for/main", error)
+
     def _test_maintenance(self, component: Component) -> None:
         self.verify_component(component, 4, "cs", 4)
         with component.repository.lock:

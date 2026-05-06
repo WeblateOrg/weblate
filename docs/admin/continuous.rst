@@ -475,7 +475,7 @@ choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`G
 :guilabel:`Azure DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, Mercurial, GitHub, GitLab,
-Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
+Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and Bitbucket Cloud:
 
 .. list-table::
    :header-rows: 1
@@ -509,11 +509,6 @@ Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
      - :ref:`vcs-mercurial`
      - SSH URL
      - `empty`
-
-   * - Push to separate branch
-     - :ref:`vcs-mercurial`
-     - SSH URL
-     - Branch name
 
    * - GitHub pull request from fork
      - :ref:`vcs-github`
@@ -564,6 +559,11 @@ Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket Cloud:
      - :ref:`vcs-azure-devops`
      - SSH URL [#empty]_
      - Branch name
+
+   * - Gerrit review
+     - :ref:`vcs-gerrit`
+     - SSH URL
+     - Target branch name (optional)
 
    * - Bitbucket Data Center pull request from fork
      - :ref:`vcs-bitbucket-data-center`

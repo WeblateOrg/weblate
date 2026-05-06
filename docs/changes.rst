@@ -14,11 +14,14 @@ Weblate 2026.5
 * Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
 * Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
 * Audited project and component setting changes are now recorded in history.
+* :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 
 .. rubric:: Bug fixes
 
 * Database error details are no longer exposed in upload failure messages.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
+* :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
+* :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
 
 .. rubric:: Compatibility
 
