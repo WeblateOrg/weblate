@@ -2657,6 +2657,54 @@ class VCSGerritTest(VCSGitUpstreamTest):
         hook = os.path.join(repo.path, ".git", "hooks", "commit-msg")
         Path(hook).write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
         os.chmod(hook, 0o755)  # noqa: S103, nosec
+        if isinstance(repo, GitWithGerritRepository):
+            repo.config_update(('remote "gerrit"', "url", self.get_remote_repo_url()))
+
+    def test_configure_remote_sets_gerrit_fetch(self) -> None:
+        with self.repo.lock:
+            self.repo.configure_remote(
+                "pullurl", "ssh://sshuser@domain.com:29418/repo.git", "branch"
+            )
+            self.assertEqual(
+                self.repo.get_config("remote.gerrit.fetch"),
+                "+refs/heads/branch:refs/remotes/gerrit/branch",
+            )
+            self.assertEqual(self.repo.get_config("remote.gerrit.tagOpt"), "--no-tags")
+
+    def test_configure_remote_removes_gerrit_fetch_without_push(self) -> None:
+        with self.repo.lock:
+            self.repo.configure_remote(
+                "pullurl", "ssh://sshuser@domain.com:29418/repo.git", "branch"
+            )
+            self.repo.configure_remote("pullurl", "", "branch")
+            with self.assertRaises(RepositoryError):
+                self.repo.get_config("remote.gerrit.url")
+            with self.assertRaises(RepositoryError):
+                self.repo.get_config("remote.gerrit.fetch")
+            with self.assertRaises(RepositoryError):
+                self.repo.get_config("remote.gerrit.tagOpt")
+
+    def test_push_branch_targets_gerrit_review_branch(self) -> None:
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "needs_push", return_value=True) as needs_push,
+            patch.object(self.repo, "execute") as execute,
+        ):
+            self.repo.push("review-branch")
+
+        needs_push.assert_called_once_with("review-branch")
+        execute.assert_called_once_with(
+            ["review", "--remote", "gerrit", "--yes", "review-branch"],
+            remote_op="push",
+        )
+        self.assertEqual(
+            self.repo.get_config("remote.gerrit.fetch"),
+            "+refs/heads/review-branch:refs/remotes/gerrit/review-branch",
+        )
+
+    def test_push_branch(self) -> None:
+        self.test_commit()
+        self.test_push("translations")
 
     def test_set_gitreview_username_git(self) -> None:
         with self.repo.lock:

@@ -14,23 +14,28 @@ Weblate 2026.5
 * Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
 * Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
 * Audited project and component setting changes are now recorded in history.
+* :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 
 .. rubric:: Bug fixes
 
 * Database error details are no longer exposed in upload failure messages.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
+* :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
+* :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
 
 .. rubric:: Compatibility
 
 * The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
 * The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work.
 * The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team`` file format parameter at the component level; see :ref:`file_format_params`.
+* Weblate now uses stricter dependency version constraints to better control runtime environment.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
+* The upgrading policy was changed, and upgrades are only supported from the last year's releases.
 
 .. rubric:: Contributors
 
@@ -71,8 +76,8 @@ Weblate 5.17.1
 
 .. rubric:: Bug fixes
 
-* Image URLs in Markdown are now escaped before rendering (:ghsa:`5cmv-3rc4-7279`).
-* Tightened :ref:`api` input validation to prevent translation enumeration (:ghsa:`gcg5-86jr-f7jg`).
+* Image URLs in Markdown are now escaped before rendering (:cve:`2026-44264` / :ghsa:`5cmv-3rc4-7279`).
+* Tightened :ref:`api` input validation to prevent translation enumeration (:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`).
 * Project backup imports now revalidate component repository URLs before restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`).
 * Fixed revert links in the translate-view history tab after moving a component to another project.
 * Invitation acceptance now verifies the invited e-mail address and invitation expiry before granting team membership.
@@ -787,7 +792,6 @@ Weblate 5.13
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`, most notably ``BACKEND`` in ``CACHES`` needs to be changed.
-* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 * The Docker container is now using :program:`granian`. This now requires explicit configuration of proxy trusted headers, including client protocol.
   :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to avoid redirect loop, for example:
 
@@ -1399,7 +1403,6 @@ Weblate 5.8.2
 * Reduced number of database queries when updating multiple strings.
 * Leading problematic characters in :ref:`glossary` terms are now properly stripped in uploaded files.
 * Improved :ref:`workflow-customization` performance.
-* Fixed XML escaped output in some machine translation integrations.
 
 .. rubric:: Upgrading
 
@@ -1883,7 +1886,6 @@ Weblate 5.4.1
 .. rubric:: Bug fixes
 
 * Possible crash on Weblate upgrade check when cached from the previous versions.
-* Gracefully handle migration with duplicate built-in teams.
 
 .. rubric:: Upgrading
 

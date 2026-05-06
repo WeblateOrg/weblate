@@ -565,6 +565,11 @@ Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
 pushing translation changes as Gerrit review requests, instead of
 pushing them directly to the repository.
 
+The optional :ref:`component-push_branch` setting selects the target branch for
+the Gerrit review. Leave it empty to use :ref:`component-branch`. Use the short
+branch name, such as ``main``; Weblate and ``git-review`` push the review to
+``refs/for/<branch>`` automatically.
+
 The Gerrit documentation has the details on the configuration necessary to set up
 such repositories.
 

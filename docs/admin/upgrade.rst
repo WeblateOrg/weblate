@@ -127,13 +127,15 @@ Version-specific instructions
 Upgrade from an older major version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Upgrades across major versions are not supported. Always upgrade to the latest
-patch level for the initial major release. Upgrades skipping this step are not
-supported and will break.
+Direct upgrades are only supported for releases from the previous year. If you
+need to upgrade across this boundary, upgrade first to an intermediate version
+as listed below. Upgrades skipping this step are not supported and will break.
 
 * If you are upgrading from the 2.x release, always first upgrade to 3.0.1.
 * If you are upgrading from the 3.x release, always first upgrade to 4.0.4.
 * If you are upgrading from the 4.x release, always first upgrade to 5.0.2.
+* If you are upgrading from 5.0.x-5.9.x, always first upgrade to 5.10.4.
+* Upgrades from 5.10.x and newer are currently directly supported.
 
 .. seealso::
 

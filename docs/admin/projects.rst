@@ -483,8 +483,11 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
 .. note::
 
-   This is currently only supported for Git, GitLab and GitHub, it is ignored
-   for other VCS integrations.
+   This setting is ignored for Mercurial and Subversion.
+
+   For Gerrit, this selects the target branch for the review request. Leave it
+   empty to review against :ref:`component-branch`. Use the short branch name,
+   not ``refs/heads/<branch>`` or ``refs/for/<branch>``.
 
 .. seealso::
 
