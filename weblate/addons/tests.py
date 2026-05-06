@@ -6449,6 +6449,55 @@ class SiteWideAddonsTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
 
+    def test_history_filters_sitewide_changes(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        category = self.create_category(self.project)
+
+        sitewide_target = "sitewide.addon.visible"
+        project_target = "project.addon.hidden"
+        category_target = "category.addon.hidden"
+        component_target = "component.addon.hidden"
+
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            target=sitewide_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            project=self.project,
+            target=project_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            category=category,
+            target=category_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            component=self.component,
+            target=component_target,
+            user=self.user,
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("manage-addons"))
+
+        self.assertEqual(response.status_code, 200)
+        targets = {change.target for change in response.context["last_changes"]}
+        self.assertIn(sitewide_target, targets)
+        self.assertNotIn(project_target, targets)
+        self.assertNotIn(category_target, targets)
+        self.assertNotIn(component_target, targets)
+        self.assertContains(response, sitewide_target)
+        self.assertNotContains(response, project_target)
+        self.assertNotContains(response, category_target)
+        self.assertNotContains(response, component_target)
+        self.assertLessEqual(len(queries), 50, [query["sql"] for query in queries])
+
     def test_gettext(self) -> None:
         MsgmergeAddon.create()
         # This is not needed in real life as installation will happen
