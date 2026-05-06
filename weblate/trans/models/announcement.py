@@ -15,43 +15,84 @@ from weblate.trans.actions import ActionEvents
 
 
 class AnnouncementManager(models.Manager["Announcement"]):
-    def context_filter(self, project=None, component=None, language=None):
+    @staticmethod
+    def _category_filter(category):
+        category_ids = []
+        while category is not None:
+            category_ids.append(category.pk)
+            category = category.category
+        if not category_ids:
+            return Q(pk__in=[])
+        return Q(category_id__in=category_ids)
+
+    def context_filter(
+        self, project=None, component=None, language=None, category=None
+    ):
         """Filter announcements by context."""
         base = self.filter(
             Q(expiry__isnull=True) | Q(expiry__gte=timezone.now())
         ).order()
 
-        if language and project is None and component is None:
-            return base.filter(project=None, component=None, language=language)
+        if language and project is None and component is None and category is None:
+            return base.filter(
+                project=None, category=None, component=None, language=language
+            )
 
         if component:
+            category_filter = self._category_filter(component.category)
             if language:
                 return base.filter(
                     (Q(component=component) & Q(language=language))
-                    | (Q(project=None) & Q(component=None) & Q(language=language))
+                    | (
+                        Q(project=None)
+                        & Q(category=None)
+                        & Q(component=None)
+                        & Q(language=language)
+                    )
                     | (Q(component=component) & Q(language=None))
-                    | (Q(project=component.project) & Q(component=None))
+                    | (category_filter & Q(component=None))
+                    | (
+                        Q(project=component.project)
+                        & Q(category=None)
+                        & Q(component=None)
+                    )
                 )
 
             return base.filter(
                 (Q(component=component) & Q(language=None))
-                | (Q(project=component.project) & Q(component=None))
+                | (category_filter & Q(component=None))
+                | (Q(project=component.project) & Q(category=None) & Q(component=None))
+            )
+
+        if category:
+            category_filter = self._category_filter(category)
+            return base.filter(
+                (category_filter & Q(component=None))
+                | (Q(project=category.project) & Q(category=None) & Q(component=None))
             )
 
         if project:
-            return base.filter(Q(project=project) & Q(component=None))
+            return base.filter(
+                Q(project=project) & Q(category=None) & Q(component=None)
+            )
 
         # All are None
-        return base.filter(project=None, component=None, language=None)
+        return base.filter(project=None, category=None, component=None, language=None)
 
     def create(self, user=None, **kwargs):
         from weblate.trans.models.change import Change  # noqa: PLC0415
 
+        if kwargs.get("category") is not None and kwargs.get("component") is None:
+            kwargs["project"] = None
+
         result = super().create(**kwargs)
+        project = result.project
+        if project is None and result.category is not None:
+            project = result.category.project
 
         Change.objects.create(
             action=ActionEvents.ANNOUNCEMENT,
-            project=result.project,
+            project=project,
             category=result.category,
             component=result.component,
             language=result.language,
@@ -141,6 +182,16 @@ class Announcement(models.Model):
         return self.message
 
     def clean(self) -> None:
+        if self.category and self.component:
+            raise ValidationError(
+                gettext("Do not specify both component and category!")
+            )
+        if self.category:
+            if self.project and self.category.project != self.project:
+                raise ValidationError(
+                    gettext("The category does not belong to the selected project.")
+                )
+            self.project = None
         if self.project and self.component and self.component.project != self.project:
             raise ValidationError(gettext("Do not specify both component and project!"))
         if not self.project and self.component:

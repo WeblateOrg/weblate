@@ -10323,7 +10323,6 @@ class AnnouncementAPITest(APIBaseTest):
             project=self.component.project, message="Test project announcement"
         )
         self.category_announcement = Announcement.objects.create(
-            project=self.component.project,
             category=self.category,
             message="Test category announcement",
         )
@@ -10585,7 +10584,7 @@ class AnnouncementAPITest(APIBaseTest):
             id=response.data["id"]
         )
         self.assertIsNotNone(announcement)
-        self.assertEqual(announcement.project, category.project)
+        self.assertIsNone(announcement.project)
         self.assertEqual(announcement.category, category)
         self.assertIsNone(announcement.component)
         self.assertIsNone(announcement.language)

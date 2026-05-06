@@ -1281,7 +1281,6 @@ class AnnouncementsMixin:
         if isinstance(obj, Project):
             project = obj
         if isinstance(obj, Category):
-            project = obj.project
             category = obj
         if isinstance(obj, Component):
             project = obj.project
@@ -1295,6 +1294,12 @@ class AnnouncementsMixin:
 
     def get_announcements(self, obj):
         project, category, component, language = self.get_context(obj)
+        if category is not None:
+            return Announcement.objects.filter(
+                category=category,
+                component=component,
+                language=language,
+            )
 
         return Announcement.objects.filter(
             project=project,
@@ -1372,7 +1377,7 @@ class AnnouncementsMixin:
             msg = f"Announcement with ID {announcement_id} was not found"
             raise Http404(msg) from error
 
-        if not request.user.has_perm("announcement.delete", obj):
+        if not request.user.has_perm("announcement.delete", announcement):
             self.permission_denied(request, "Can not delete announcement")
 
         announcement.delete()

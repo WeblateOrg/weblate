@@ -19,6 +19,7 @@ Weblate 2026.5
 .. rubric:: Bug fixes
 
 * Database error details are no longer exposed in upload failure messages.
+* Category :doc:`/admin/announcements` no longer appear across the whole project.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
 * :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
