@@ -176,4 +176,5 @@ fi
 if [ "$gettext_header_settings_migrate" -eq 0 ]; then
     # check that the gettext file format header settings have been migrated
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-gettext-header-settings.py"
+    check
 fi

@@ -27,7 +27,7 @@ def migrate_gettext_header_settings(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0073_alter_change_action"),
+        ("trans", "0074_migrate_dos_eol_flags_to_file_format_params"),
     ]
 
     operations = [
