@@ -978,6 +978,42 @@ class EditPropagateTest(EditTest):
         )
         return result
 
+    def test_edit_restricted_component(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        response = self.edit_unit(self.source, self.target)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(self.get_unit(source=self.source).target, "")
+
+    def test_edit_skips_restricted_propagated_component(self) -> None:
+        second_translation = Translation.objects.get(
+            component__slug="second", language_code="cs"
+        )
+        second_component = second_translation.component
+        self.component.allow_translation_propagation = True
+        self.component.save(update_fields=["allow_translation_propagation"])
+        second_component.allow_translation_propagation = True
+        second_component.restricted = True
+        second_component.save(
+            update_fields=["allow_translation_propagation", "restricted"]
+        )
+
+        self.assertFalse(self.user.has_perm("unit.edit", second_translation))
+
+        self.edit_unit(self.source, self.target)
+
+        self.assertEqual(self.get_unit(source=self.source).target, self.target)
+        self.assertEqual(
+            self.get_unit(source=self.source, translation=second_translation).target, ""
+        )
+        self.assertFalse(
+            Change.objects.filter(
+                component=second_component, action=ActionEvents.PROPAGATED_EDIT
+            ).exists()
+        )
+
     def test_edit(self) -> None:
         def get_targets() -> list[str]:
             return list(

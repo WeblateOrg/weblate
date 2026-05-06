@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-04-25 18:12+0000\n"
+"PO-Revision-Date: 2026-05-05 10:12+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1272,19 +1272,15 @@ msgid "The registration link has been invalidated."
 msgstr "Odkaz pro registraci byl zneplatněn."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Odkaz pro registraci byl zneplatněn."
+msgstr "Odkaz pozvánky již není platný."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "Pozvánka uživatele byla odstraněna."
+msgstr "Tato pozvánka vypršela."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1432,18 +1428,15 @@ msgstr ""
 "celého webu."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
 msgstr ""
-"Bylo naplánováno vrácení úprav provedených uživatelem %(user)s v rámci "
-"celého webu."
+"Bylo naplánováno pročištění příspěvků provedených uživatelem %(user)s v "
+"rámci celého webu."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "Nebyly vytvořeny žádné pozvánky."
+msgstr "Nebyla vybrána žádná akce pročištění."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -5719,7 +5712,7 @@ msgstr "Nepodařilo se zpracovat klíč: %s"
 
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "Tento klíč je v konfliktu s existujícím hierarchickým klíčem."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -5942,16 +5935,12 @@ msgid "Glossary"
 msgstr "Glosář"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Nepodařilo se odstranit řetězec, protože na pozadí probíhá jiná operace. "
-"Zkuste to prosím znovu později."
+"Nepodařilo se přidat slovo do glosáře, protože na pozadí probíhá jiná "
+"operace. Zkuste to prosím znovu později."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -8535,29 +8524,23 @@ msgid "Disable password"
 msgstr "Zakázat heslo"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "Přispěvatelé v komentáři"
+msgstr "Pročištění příspěvků"
 
 #: weblate/templates/accounts/user.html:446
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
 msgstr ""
-"Vrátit poslední upravitelné překlady od uživatele %(user)s napříč všemi "
+"Pročistit překlady, návrhy a komentáře od uživatele %(user)s napříč všemi "
 "projekty."
 
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
-msgstr "Úklid"
+msgstr "Pročištění"
 
 #: weblate/templates/accounts/user.html:464
 #: weblate/templates/accounts/user.html:504
@@ -8600,16 +8583,13 @@ msgid "Close"
 msgstr "Zavřít"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
 msgstr ""
-"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> "
-"napříč všemi projekty."
+"Vyberte, které příspěvky uživatele <b>%(user)s</b> chcete pročistit napříč "
+"všemi projekty."
 
 #: weblate/templates/accounts/user.html:487
 msgid "Account removal deletes all user private data."
@@ -13671,77 +13651,57 @@ msgid "Revert user edits"
 msgstr "Vrátit změny uživatele"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
 msgstr ""
-"Vrátit poslední upravitelné překlady od uživatele %(user)s napříč všemi "
-"projekty."
+"Vrátit poslední upravitelné překlady od uživatele <b>%(user)s</b> napříč "
+"všemi projekty."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
 msgstr ""
-"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> v "
-"tomto projektu."
+"Vrátit poslední upravitelné překlady od uživatele <b>%(user)s</b> v tomto "
+"projektu."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "Zamítnout návrh"
+msgstr "Zamítnout návrhy uživatele"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
 msgstr ""
-"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> "
-"napříč všemi projekty."
+"Zamítnout všechny čekající návrhy od uživatele <b>%(user)s</b> napříč všemi "
+"projekty."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
 msgstr ""
-"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> v "
-"tomto projektu."
+"Zamítnout všechny čekající návrhy od uživatele <b>%(user)s</b> v tomto "
+"projektu."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "Smazat komentář"
+msgstr "Smazat komentáře uživatele"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
 msgstr ""
-"Tímto vrátíte poslední upravitelné překlady od uživatele <b>%(user)s</b> "
-"napříč všemi projekty."
+"Smazat všechny komentáře od uživatele <b>%(user)s</b> napříč všemi projekty."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr "Tímto odstraníte přístup uživatele <b>%(user)s</b> k tomuto projektu."
+msgstr "Smazat všechny komentáře od uživatele <b>%(user)s</b> v tomto projektu."
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -14609,17 +14569,16 @@ msgid "Edit team membership for %(username)s"
 msgstr "Upravit členství v týmu pro %(username)s"
 
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Clean up user contributions"
-msgstr "Přispívat mohou pouze zvolení uživatelé."
+msgstr "Pročistit příspěvky od uživatele"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
-msgstr "Tímto odstraníte přístup uživatele <b>%(user)s</b> k tomuto projektu."
+msgstr ""
+"Vyberte, které příspěvky od uživatele <b>%(user)s</b> chcete v tomto "
+"projektu pročistit."
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -16488,20 +16447,13 @@ msgstr ""
 "Vrátit poslední úpravy překladů od tohoto uživatele v aktuálním projektu."
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Reject all pending suggestions from this user in the current project."
 msgstr ""
-"Vrátit poslední úpravy překladů od tohoto uživatele v aktuálním projektu."
+"Zamítnout všechny čekající návhy od tohoto uživatele v aktuálním projektu."
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Delete all comments from this user in the current project."
-msgstr ""
-"Vrátit poslední úpravy překladů od tohoto uživatele v aktuálním projektu."
+msgstr "Smazat všechny komentáře od tohoto uživatele v aktuálním projektu."
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -18283,10 +18235,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "Nepodařilo ze zpracovat nahraný soubor: %s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Nepodařilo se zpracovat soubor překladu."
+msgstr "Nepodařilo se zpracovat soubor překladu: %s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -18715,10 +18666,10 @@ msgid "Weblate statistics"
 msgstr "Statistiky Weblate"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s in this project was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr "Bylo naplánováno vrácení změn od uživatele %(user)s v tomto projektu."
+msgstr ""
+"Bylo naplánováno promazání příspěvků od uživatele %(user)s v tomto projektu."
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
@@ -19023,16 +18974,12 @@ msgid "Comment has been resolved."
 msgstr "Komentář byl označen jako vyřešený."
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Nepodařilo se odstranit řetězec, protože na pozadí probíhá jiná operace. "
-"Zkuste to prosím znovu později."
+"Nepodařilo se přidat řetězec, protože na pozadí probíhá jiná operace. Zkuste "
+"to prosím znovu později."
 
 #: weblate/trans/views/edit.py:1138
 msgid "New string has been added."
@@ -19465,12 +19412,12 @@ msgstr ""
 "šablony."
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr "Tato adresa je zakázaná, protože odpovídá zakázanému vzorci."
+msgstr ""
+"Tato adresa je zakázaná, protože se nepodařilo zjistit adresu připojeného "
+"peeru."
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -19663,17 +19610,15 @@ msgstr "Název souboru obsahuje zakázanou složku."
 
 #: weblate/utils/validators.py:320
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "Do umístění zálohy nelze určit žádný archiv."
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "Název souboru nemůže být úplný popis umístění."
+msgstr "Umístění zálohy musí být absolutní cesta."
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
-msgstr ""
+msgstr "Umístění zálohy by mělo být mimo zálohy Weblate v DATA_DIR."
 
 #: weblate/utils/validators.py:350 weblate/utils/validators.py:367
 msgid "This name is prohibited"

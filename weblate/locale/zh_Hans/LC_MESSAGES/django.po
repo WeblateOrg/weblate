@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-03 05:12+0000\n"
+"PO-Revision-Date: 2026-05-05 11:53+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1233,19 +1233,15 @@ msgid "The registration link has been invalidated."
 msgstr "注册链接已失效。"
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "注册链接已失效。"
+msgstr "邀请链接不再有效。"
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "用户邀请已删除。"
+msgstr "邀请已过期。"
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1387,16 +1383,13 @@ msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr "已计划好在全站范围内撤销 %(user)s 编辑的时间。"
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr "已计划好在全站范围内撤销 %(user)s 编辑的时间。"
+msgstr "已安排好在全站范围内清理 %(user)s 所贡献翻译的时间。"
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "未创建邀请。"
+msgstr "未选中清理操作。"
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -5519,7 +5512,7 @@ msgstr "无法解析密钥：%s"
 
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "此键和现有的层级键冲突。"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -5737,14 +5730,10 @@ msgid "Glossary"
 msgstr "术语表"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
-msgstr "无法删除字符串，因为正在进行另一个后台操作。请稍后再试。"
+msgstr "无法添加术语表术语，因为正在进行另一个后台操作。请稍后再试。"
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -8211,25 +8200,19 @@ msgid "Disable password"
 msgstr "禁用密码"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "在注释中添加贡献信息"
+msgstr "贡献清理"
 
 #: weblate/templates/accounts/user.html:446
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
-msgstr "撤销所有项目中 %(user)s 的最新的可编辑翻译。"
+msgstr "清理所有项目中来自 %(user)s 的翻译、建议和评论。"
 
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
 msgstr "清理"
 
@@ -8274,14 +8257,11 @@ msgid "Close"
 msgstr "关闭"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
-msgstr "这会撤销所有项目中 <b>%(user)s</b> 的最新的可编辑的翻译。"
+msgstr "选择要从所有项目中清理哪些 <b>%(user)s</b> 所作贡献。"
 
 #: weblate/templates/accounts/user.html:487
 msgid "Account removal deletes all user private data."
@@ -13051,67 +13031,48 @@ msgid "Revert user edits"
 msgstr "撤销用户编辑"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
-msgstr "撤销所有项目中 %(user)s 的最新的可编辑翻译。"
+msgstr "撤销所有项目中 <b>%(user)s</b> 的最新的可编辑翻译。"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
-msgstr "这会撤销 <b>%(user)s</b> 在此项目中最新的可编辑的翻译。"
+msgstr "撤销此项目中 <b>%(user)s</b> 最新的可编辑的翻译。"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "拒绝建议"
+msgstr "拒绝用户建议"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
-msgstr "这会撤销所有项目中 <b>%(user)s</b> 的最新的可编辑的翻译。"
+msgstr "拒绝所有项目中来自 <b>%(user)s</b> 的待采纳建议。"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
-msgstr "这会撤销 <b>%(user)s</b> 在此项目中最新的可编辑的翻译。"
+msgstr "拒绝此项目中所有来自 <b>%(user)s</b> 的待采纳建议。"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "删除评论"
+msgstr "删除用户评论"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr "这会撤销所有项目中 <b>%(user)s</b> 的最新的可编辑的翻译。"
+msgstr "删除所有项目中来自 <b>%(user)s</b> 的全部评论。"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr "这会使 <b>%(user)s</b> 无法访问这个项目。"
+msgstr "删除此项目中来自 <b>%(user)s</b> 的所有评论。"
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -13893,17 +13854,14 @@ msgid "Edit team membership for %(username)s"
 msgstr "编辑 %(username)s 的团队成员身份"
 
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Clean up user contributions"
-msgstr "只允许指定的用户贡献。"
+msgstr "清理用户贡献"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
-msgstr "这会使 <b>%(user)s</b> 无法访问这个项目。"
+msgstr "选择此项目中要清理哪些 <b>%(user)s</b> 的贡献。"
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -15703,18 +15661,12 @@ msgid ""
 msgstr "撤销此用户在当前项目中最新的翻译编辑。"
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Reject all pending suggestions from this user in the current project."
-msgstr "撤销此用户在当前项目中最新的翻译编辑。"
+msgstr "拒绝当前项目中来自此用户的所有待采纳建议。"
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Delete all comments from this user in the current project."
-msgstr "撤销此用户在当前项目中最新的翻译编辑。"
+msgstr "删除当前项目中来自此用户的所有评论。"
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -17393,10 +17345,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "无法解析上传的文件：%s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "无法解析翻译文件。"
+msgstr "无法解析翻译文件：%s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -17799,10 +17750,9 @@ msgid "Weblate statistics"
 msgstr "Weblate 统计信息"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s in this project was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr "已计划好撤销此项目中 %(user)s 所做编辑的时间。"
+msgstr "已安排好清理此项目中 %(user)s 所作贡献的时间。"
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
@@ -18072,14 +18022,10 @@ msgid "Comment has been resolved."
 msgstr "评论已解决。"
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
-msgstr "无法删除字符串，因为正在进行另一个后台操作。请稍后再试。"
+msgstr "无法添加字符串，因为正在进行另一个后台操作。请稍后再试。"
 
 #: weblate/trans/views/edit.py:1138
 msgid "New string has been added."
@@ -18490,12 +18436,10 @@ msgid ""
 msgstr "格式化字符串已不再支持，请改用模板语言。"
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr "此 URL 被禁止，因它匹配受限制的模式。"
+msgstr "此 URL 被禁止，因无法确定所连接的对端地址。"
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -18683,17 +18627,15 @@ msgstr "文件名包含禁止的文件夹。"
 
 #: weblate/utils/validators.py:320
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "在备份位置中无法明确压缩包。"
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "文件名不能是绝对路径。"
+msgstr "备份位置须为绝对路径。"
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
-msgstr ""
+msgstr "备份位置应在 DATA_DIR 中的 Weblate 备份文件之外。"
 
 #: weblate/utils/validators.py:350 weblate/utils/validators.py:367
 msgid "This name is prohibited"
@@ -18721,7 +18663,7 @@ msgstr "无效的 base64 编码字符串"
 
 #: weblate/utils/validators.py:450
 msgid "The provided secret is too short."
-msgstr "所提供的 secret 太短。"
+msgstr "提供的 secret 太短。"
 
 #: weblate/utils/validators.py:452
 msgid "The provided secret is too long."
