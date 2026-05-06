@@ -640,7 +640,7 @@ class DOSLineEndings(BaseFileFormatParam):
     field_class = forms.BooleanField
     default = False
     help_text = gettext_lazy(
-        "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
+        "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
     )
 
 
