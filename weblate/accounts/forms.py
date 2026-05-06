@@ -4,15 +4,13 @@
 
 from __future__ import annotations
 
-import base64
 import json
 from binascii import unhexlify
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from altcha import create_challenge_v1 as create_challenge
-from altcha import verify_solution_v1 as verify_solution
+from altcha import Payload, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -59,7 +57,7 @@ from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_ra
 from weblate.utils.validators import validate_fullname
 
 if TYPE_CHECKING:
-    from altcha import ChallengeV1 as Challenge
+    from altcha import Challenge
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
 
@@ -538,15 +536,13 @@ class CaptchaForm(forms.Form):
                 self.store_challenge()
 
     def generate_challenge(self) -> Challenge:
-        # The expires timestamp needs to be in the local time and not
-        # timezone aware because it is converted using time.mktime(expires.timetuple())
-        # and then compared to time.time()
-        expires = datetime.now(tz=None) + timedelta(hours=1)  # noqa: DTZ005
-
         self.challenge = create_challenge(
-            hmac_key=settings.SECRET_KEY,
-            max_number=settings.ALTCHA_MAX_NUMBER,
-            expires=expires,
+            algorithm="ARGON2ID",
+            cost=settings.ALTCHA_COST,
+            memory_cost=settings.ALTCHA_MEMORY_COST,
+            parallelism=settings.ALTCHA_PARALLELISM,
+            hmac_secret=settings.SECRET_KEY,
+            expires_at=datetime.now(tz=UTC) + timedelta(hours=1),
         )
         return self.challenge
 
@@ -569,7 +565,7 @@ class CaptchaForm(forms.Form):
             self["captcha"].label = cast("str", self.fields["captcha"].label)
 
     def store_challenge(self) -> None:
-        self.request.session["captcha_challenge"] = self.challenge.challenge
+        self.request.session["captcha_challenge"] = self.challenge.signature
 
     def clean_captcha(self) -> None:
         """Validate math captcha."""
@@ -590,15 +586,21 @@ class CaptchaForm(forms.Form):
         payload = self.data.get("altcha", "")
 
         # Validate payload
-        result = verify_solution(payload, settings.SECRET_KEY, check_expires=True)
-        if not result[0]:
-            LOGGER.error("Invalid altcha solution: %s", result[1:])
+        result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        if not result.verified:
+            LOGGER.error(
+                "Invalid altcha solution: expired=%s invalid_signature=%s invalid_solution=%s error=%s",
+                result.expired,
+                result.invalid_signature,
+                result.invalid_solution,
+                result.error,
+            )
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 
         # Manually guard against replay attacks
-        payload = json.loads(base64.b64decode(payload).decode())
+        payload = Payload.from_base64(payload)
         # Use get to gracefully handle already solved challenges
-        if payload["challenge"] != self.request.session.get("captcha_challenge"):
+        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
             LOGGER.error("Outdated altcha solution")
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 

@@ -121,6 +121,14 @@ if [ "$dos_eol_migrate" -eq 0 ]; then
     check
 fi
 
+# Migrate gettext file format header settings
+semver_compare "$1" "<" "5.17"
+gettext_header_settings_migrate=$?
+if [ "$gettext_header_settings_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-gettext-header-settings.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -162,5 +170,11 @@ fi
 if [ "$dos_eol_migrate" -eq 0 ]; then
     # check that the dos-eol flag has been migrated to the file format params
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-dos-eol-param.py"
+    check
+fi
+
+if [ "$gettext_header_settings_migrate" -eq 0 ]; then
+    # check that the gettext file format header settings have been migrated
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-gettext-header-settings.py"
     check
 fi

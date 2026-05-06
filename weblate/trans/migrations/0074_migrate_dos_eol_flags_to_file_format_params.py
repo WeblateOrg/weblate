@@ -8,7 +8,7 @@ from django.db import migrations
 from django.db.models import Q
 
 
-def remove_dos_eos_flag(flags: str) -> str:
+def remove_dos_eol_flag(flags: str) -> str:
     parts = [item.strip() for item in flags.split(",")]
     return ",".join(item for item in parts if item and item != "dos-eol")
 
@@ -32,23 +32,23 @@ def migrate_dos_eol_flags_to_file_format_params(apps, schema_editor):
 
         # remove stale flag from components
         if "dos-eol" in component.check_flags:
-            component.check_flags = remove_dos_eos_flag(component.check_flags)
+            component.check_flags = remove_dos_eol_flag(component.check_flags)
 
         components_to_update.append(component)
 
     # remove stale flag from units
     for unit in Unit.objects.filter(extra_flags__icontains="dos-eol"):
-        unit.extra_flags = remove_dos_eos_flag(unit.extra_flags)
+        unit.extra_flags = remove_dos_eol_flag(unit.extra_flags)
         units_to_update.append(unit)
 
     # remove stale flag from translations
     for translation in Translation.objects.filter(check_flags__icontains="dos-eol"):
-        translation.check_flags = remove_dos_eos_flag(translation.check_flags)
+        translation.check_flags = remove_dos_eol_flag(translation.check_flags)
         translations_to_update.append(translation)
 
     # remove stale flag from projects
     for project in Project.objects.filter(Q(check_flags__icontains="dos-eol")):
-        project.check_flags = remove_dos_eos_flag(project.check_flags)
+        project.check_flags = remove_dos_eol_flag(project.check_flags)
         projects_to_update.append(project)
 
     Unit.objects.bulk_update(units_to_update, ["extra_flags"])

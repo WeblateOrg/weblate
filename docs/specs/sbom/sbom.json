@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.7",
-  "serialNumber": "urn:uuid:5493b6ca-6314-5ee2-b4df-8cf4ce3505f1",
+  "serialNumber": "urn:uuid:8ba8cfb7-6db9-58cb-a595-b23682e9c050",
   "version": 1,
   "metadata": {
     "tools": [
@@ -13,7 +13,7 @@
       {
         "vendor": "Astral Software Inc.",
         "name": "uv",
-        "version": "0.11.8"
+        "version": "0.11.10"
       }
     ],
     "component": {
@@ -41,134 +41,6 @@
     }
   },
   "components": [
-    {
-      "type": "library",
-      "bom-ref": "@altcha/crypto@0.0.1",
-      "author": "Daniel Regeci",
-      "name": "@altcha/crypto",
-      "version": "0.0.1",
-      "description": "A lightweight library simplifying asymmetric data encryption using Web Crypto",
-      "scope": "required",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "a9931d9e80f7940caf7d250c36d0b669d462ebae8fc5d730f73a9f314e6a04e6895aaa4df4af9ea90196a9e88a0cca8bd1217e132b4d1b8911fcfafff7d189ea"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40altcha/crypto@0.0.1",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/@altcha/crypto/-/crypto-0.0.1.tgz",
-          "type": "distribution"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@altcha/crypto"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "bom-ref": "@orchidjs/sifter@1.1.0",
-      "author": "Brian Reavis",
-      "name": "@orchidjs/sifter",
-      "version": "1.1.0",
-      "description": "A library for textually searching arrays and hashes of objects by property (or multiple properties). Designed specifically for autocomplete.",
-      "scope": "required",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "998c0709fafbdfa70859676185266f0db7fdd002addb1cab26ca4a142deac88246d4bb6b25e26e9d812a0861b802ada28c435b7385a43a3b3372f35a2004bfa5"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40orchidjs/sifter@1.1.0",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/@orchidjs/sifter/-/sifter-1.1.0.tgz",
-          "type": "distribution"
-        },
-        {
-          "url": "git+https://github.com/orchidjs/sifter.js.git",
-          "type": "vcs"
-        },
-        {
-          "url": "https://github.com/orchidjs/sifter.js#readme",
-          "type": "website"
-        },
-        {
-          "url": "https://github.com/orchidjs/sifter.js/issues",
-          "type": "issue-tracker"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@orchidjs/sifter"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "bom-ref": "@orchidjs/unicode-variants@1.1.2",
-      "name": "@orchidjs/unicode-variants",
-      "version": "1.1.2",
-      "description": "Unicode variant string matching",
-      "scope": "required",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "e43a1b5b508782705138e129165117cad103e4ea2c11611216f83f558987d35e37a177228d84e9ad16094ecfb9e47cc633822ac622c54aea84ceef663cdc15b0"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40orchidjs/unicode-variants@1.1.2",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/@orchidjs/unicode-variants/-/unicode-variants-1.1.2.tgz",
-          "type": "distribution"
-        },
-        {
-          "url": "git+https://github.com/orchidjs/unicode-variants.git",
-          "type": "vcs"
-        },
-        {
-          "url": "https://github.com/orchidjs/unicode-variants#readme",
-          "type": "website"
-        },
-        {
-          "url": "https://github.com/orchidjs/unicode-variants/issues",
-          "type": "issue-tracker"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@orchidjs/unicode-variants"
-        }
-      ]
-    },
     {
       "type": "library",
       "bom-ref": "@popperjs/core@2.11.8",
@@ -213,53 +85,6 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@popperjs/core"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
-      "author": "Lukas Taegert-Atkinson",
-      "name": "@rollup/rollup-linux-x64-gnu",
-      "version": "4.18.0",
-      "description": "Native bindings for Rollup",
-      "scope": "optional",
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "c6e825476ac154703952c23c87c51b5f8549e3bd0fb4609fe55a6cc21ee9dae91aa811854e7b1fcf15017ada16056ca61ccc5b206d029b1ed8f6a0d9cebeb8f3"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.18.0",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.18.0.tgz",
-          "type": "distribution"
-        },
-        {
-          "url": "git+https://github.com/rollup/rollup.git",
-          "type": "vcs"
-        },
-        {
-          "url": "https://rollupjs.org/",
-          "type": "website"
-        },
-        {
-          "url": "https://github.com/rollup/rollup/issues",
-          "type": "issue-tracker"
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@rollup/rollup-linux-x64-gnu"
         }
       ]
     },
@@ -594,16 +419,16 @@
     },
     {
       "type": "library",
-      "bom-ref": "altcha@2.3.0",
+      "bom-ref": "altcha@3.0.5",
       "author": "Daniel Regeci",
       "name": "altcha",
-      "version": "2.3.0",
+      "version": "3.0.5",
       "description": "Privacy-first CAPTCHA widget, compliant with global regulations (GDPR/HIPAA/CCPA/LGDP/DPDPA/PIPL) and WCAG accessible. No tracking, self-verifying.",
       "scope": "required",
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "be5f08d1d42f49007bfccc74f57b96675f8b7523fbbc475ae8e2db83d91443664ed8b4fb333814c8b2bb222a6cf86015e9cd27b55712d5758eaa110fa706c385"
+          "content": "089815f25f7f1a852e8afe2a82ed15e87528d4f41515de9e3595ff303b0bfbc77e6a577ec5ab140a57305d9c2935dfe5335f3d5b8dfa853be5f018cbf32df2c6"
         }
       ],
       "licenses": [
@@ -613,10 +438,10 @@
           }
         }
       ],
-      "purl": "pkg:npm/altcha@2.3.0",
+      "purl": "pkg:npm/altcha@3.0.5",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/altcha/-/altcha-2.3.0.tgz",
+          "url": "https://registry.npmjs.org/altcha/-/altcha-3.0.5.tgz",
           "type": "distribution"
         },
         {
@@ -730,6 +555,53 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/bootstrap"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "hash-wasm@4.12.0",
+      "author": "Dani Biró",
+      "name": "hash-wasm",
+      "version": "4.12.0",
+      "description": "Lightning fast hash functions for browsers and Node.js using hand-tuned WebAssembly binaries (MD4, MD5, SHA-1, SHA-2, SHA-3, Keccak, BLAKE2, BLAKE3, PBKDF2, Argon2, bcrypt, scrypt, Adler-32, CRC32, CRC32C, RIPEMD-160, HMAC, xxHash, SM3, Whirlpool)",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "fbfd81dab60b6f8f08fdebdd38884ff8afc30f671ad9f8018e9e8ef860449c20e4d9ee2ba5e5c82bc1af23244f8d37b38265a7f6098ac244238f1e81b6a0c755"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/hash-wasm@4.12.0",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/hash-wasm/-/hash-wasm-4.12.0.tgz",
+          "type": "distribution"
+        },
+        {
+          "url": "git+https://github.com/Daninet/hash-wasm.git",
+          "type": "vcs"
+        },
+        {
+          "url": "https://github.com/Daninet/hash-wasm#readme",
+          "type": "website"
+        },
+        {
+          "url": "https://github.com/Daninet/hash-wasm/issues",
+          "type": "issue-tracker"
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/hash-wasm"
         }
       ]
     },
@@ -1152,10 +1024,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "backports-zstd-18@1.3.0",
+      "bom-ref": "backports-zstd-18@1.4.0",
       "name": "backports-zstd",
-      "version": "1.3.0",
-      "purl": "pkg:pypi/backports-zstd@1.3.0",
+      "version": "1.4.0",
+      "purl": "pkg:pypi/backports-zstd@1.4.0",
       "properties": [
         {
           "name": "uv:package:marker",
@@ -1186,17 +1058,17 @@
     },
     {
       "type": "library",
-      "bom-ref": "boto3-22@1.43.0",
+      "bom-ref": "boto3-22@1.43.2",
       "name": "boto3",
-      "version": "1.43.0",
-      "purl": "pkg:pypi/boto3@1.43.0"
+      "version": "1.43.2",
+      "purl": "pkg:pypi/boto3@1.43.2"
     },
     {
       "type": "library",
-      "bom-ref": "botocore-23@1.43.0",
+      "bom-ref": "botocore-23@1.43.2",
       "name": "botocore",
-      "version": "1.43.0",
-      "purl": "pkg:pypi/botocore@1.43.0"
+      "version": "1.43.2",
+      "purl": "pkg:pypi/botocore@1.43.2"
     },
     {
       "type": "library",
@@ -1393,10 +1265,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "disposable-email-domains-49@0.0.177",
+      "bom-ref": "disposable-email-domains-49@0.0.178",
       "name": "disposable-email-domains",
-      "version": "0.0.177",
-      "purl": "pkg:pypi/disposable-email-domains@0.0.177"
+      "version": "0.0.178",
+      "purl": "pkg:pypi/disposable-email-domains@0.0.178"
     },
     {
       "type": "library",
@@ -1533,10 +1405,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "drf-spectacular-sidecar-69@2026.4.14",
+      "bom-ref": "drf-spectacular-sidecar-69@2026.5.1",
       "name": "drf-spectacular-sidecar",
-      "version": "2026.4.14",
-      "purl": "pkg:pypi/drf-spectacular-sidecar@2026.4.14"
+      "version": "2026.5.1",
+      "purl": "pkg:pypi/drf-spectacular-sidecar@2026.5.1"
     },
     {
       "type": "library",
@@ -1617,10 +1489,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "google-auth-81@2.49.2",
+      "bom-ref": "google-auth-81@2.50.0",
       "name": "google-auth",
-      "version": "2.49.2",
-      "purl": "pkg:pypi/google-auth@2.49.2"
+      "version": "2.50.0",
+      "purl": "pkg:pypi/google-auth@2.50.0"
     },
     {
       "type": "library",
@@ -1967,17 +1839,17 @@
     },
     {
       "type": "library",
-      "bom-ref": "psycopg-131@3.3.3",
+      "bom-ref": "psycopg-131@3.3.4",
       "name": "psycopg",
-      "version": "3.3.3",
-      "purl": "pkg:pypi/psycopg@3.3.3"
+      "version": "3.3.4",
+      "purl": "pkg:pypi/psycopg@3.3.4"
     },
     {
       "type": "library",
-      "bom-ref": "psycopg-binary-132@3.3.3",
+      "bom-ref": "psycopg-binary-132@3.3.4",
       "name": "psycopg-binary",
-      "version": "3.3.3",
-      "purl": "pkg:pypi/psycopg-binary@3.3.3",
+      "version": "3.3.4",
+      "purl": "pkg:pypi/psycopg-binary@3.3.4",
       "properties": [
         {
           "name": "uv:package:marker",
@@ -2126,10 +1998,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "pytz-152@2026.1.post1",
+      "bom-ref": "pytz-152@2026.2",
       "name": "pytz",
-      "version": "2026.1.post1",
-      "purl": "pkg:pypi/pytz@2026.1.post1"
+      "version": "2026.2",
+      "purl": "pkg:pypi/pytz@2026.2"
     },
     {
       "type": "library",
@@ -2462,10 +2334,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "ua-parser-builtins-200@202603",
+      "bom-ref": "ua-parser-builtins-200@202605",
       "name": "ua-parser-builtins",
-      "version": "202603",
-      "purl": "pkg:pypi/ua-parser-builtins@202603"
+      "version": "202605",
+      "purl": "pkg:pypi/ua-parser-builtins@202605"
     },
     {
       "type": "library",
@@ -2518,10 +2390,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "wcwidth-208@0.6.0",
+      "bom-ref": "wcwidth-208@0.7.0",
       "name": "wcwidth",
-      "version": "0.6.0",
-      "purl": "pkg:pypi/wcwidth@0.6.0"
+      "version": "0.7.0",
+      "purl": "pkg:pypi/wcwidth@0.7.0"
     },
     {
       "type": "library",
@@ -2620,7 +2492,7 @@
         "@popperjs/core@2.11.8",
         "@sentry/browser@10.51.0",
         "@tarekraafat/autocomplete.js@10.2.10",
-        "altcha@2.3.0",
+        "altcha@3.0.5",
         "autosize@6.0.1",
         "bootstrap@5.3.8",
         "hotkeys-js@4.0.4",
@@ -2630,10 +2502,6 @@
         "tom-select@2.6.0",
         "tributejs@5.1.3"
       ]
-    },
-    {
-      "ref": "@altcha/crypto@0.0.1",
-      "dependsOn": []
     },
     {
       "ref": "@orchidjs/sifter@1.1.0",
@@ -2647,10 +2515,6 @@
     },
     {
       "ref": "@popperjs/core@2.11.8",
-      "dependsOn": []
-    },
-    {
-      "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
       "dependsOn": []
     },
     {
@@ -2698,10 +2562,9 @@
       "dependsOn": []
     },
     {
-      "ref": "altcha@2.3.0",
+      "ref": "altcha@3.0.5",
       "dependsOn": [
-        "@altcha/crypto@0.0.1",
-        "@rollup/rollup-linux-x64-gnu@4.18.0"
+        "hash-wasm@4.12.0"
       ]
     },
     {
@@ -2713,6 +2576,10 @@
       "dependsOn": [
         "@popperjs/core@2.11.8"
       ]
+    },
+    {
+      "ref": "hash-wasm@4.12.0",
+      "dependsOn": []
     },
     {
       "ref": "hotkeys-js@4.0.4",
@@ -2825,7 +2692,7 @@
       "dependsOn": []
     },
     {
-      "ref": "backports-zstd-18@1.3.0",
+      "ref": "backports-zstd-18@1.4.0",
       "dependsOn": []
     },
     {
@@ -2844,15 +2711,15 @@
       ]
     },
     {
-      "ref": "boto3-22@1.43.0",
+      "ref": "boto3-22@1.43.2",
       "dependsOn": [
-        "botocore-23@1.43.0",
+        "botocore-23@1.43.2",
         "jmespath-107@0.10.0",
         "s3transfer-169@0.17.0"
       ]
     },
     {
-      "ref": "botocore-23@1.43.0",
+      "ref": "botocore-23@1.43.2",
       "dependsOn": [
         "jmespath-107@0.10.0",
         "python-dateutil-148@2.9.0.post0",
@@ -2982,7 +2849,7 @@
       "ref": "dateparser-46@1.4.0",
       "dependsOn": [
         "python-dateutil-148@2.9.0.post0",
-        "pytz-152@2026.1.post1",
+        "pytz-152@2026.2",
         "regex-159@2026.4.4",
         "tzlocal-198@5.3.1"
       ]
@@ -2996,7 +2863,7 @@
       "dependsOn": []
     },
     {
-      "ref": "disposable-email-domains-49@0.0.177",
+      "ref": "disposable-email-domains-49@0.0.178",
       "dependsOn": []
     },
     {
@@ -3117,7 +2984,7 @@
         "arrow-13@1.4.0",
         "django-51@6.0.4",
         "pysaml2-146@7.5.0",
-        "pytz-152@2026.1.post1"
+        "pytz-152@2026.2"
       ]
     },
     {
@@ -3129,7 +2996,7 @@
       "dependsOn": [
         "django-51@6.0.4",
         "djangorestframework-64@3.17.1",
-        "drf-spectacular-sidecar-69@2026.4.14",
+        "drf-spectacular-sidecar-69@2026.5.1",
         "inflection-101@0.5.1",
         "jsonschema-109@4.26.0",
         "pyyaml-153@6.0.3",
@@ -3137,7 +3004,7 @@
       ]
     },
     {
-      "ref": "drf-spectacular-sidecar-69@2026.4.14",
+      "ref": "drf-spectacular-sidecar-69@2026.5.1",
       "dependsOn": [
         "django-51@6.0.4"
       ]
@@ -3209,7 +3076,7 @@
     {
       "ref": "google-api-core-80@2.30.3",
       "dependsOn": [
-        "google-auth-81@2.49.2",
+        "google-auth-81@2.50.0",
         "googleapis-common-protos-87@1.74.0",
         "grpcio-90@1.80.0",
         "grpcio-status-91@1.80.0",
@@ -3219,7 +3086,7 @@
       ]
     },
     {
-      "ref": "google-auth-81@2.49.2",
+      "ref": "google-auth-81@2.50.0",
       "dependsOn": [
         "cryptography-41@47.0.0",
         "pyasn1-modules-135@0.4.2"
@@ -3229,14 +3096,14 @@
       "ref": "google-cloud-core-82@2.5.1",
       "dependsOn": [
         "google-api-core-80@2.30.3",
-        "google-auth-81@2.49.2"
+        "google-auth-81@2.50.0"
       ]
     },
     {
       "ref": "google-cloud-storage-83@3.10.1",
       "dependsOn": [
         "google-api-core-80@2.30.3",
-        "google-auth-81@2.49.2",
+        "google-auth-81@2.50.0",
         "google-cloud-core-82@2.5.1",
         "google-crc32c-85@1.8.0",
         "google-resumable-media-86@2.8.2",
@@ -3247,7 +3114,7 @@
       "ref": "google-cloud-translate-84@3.26.0",
       "dependsOn": [
         "google-api-core-80@2.30.3",
-        "google-auth-81@2.49.2",
+        "google-auth-81@2.50.0",
         "google-cloud-core-82@2.5.1",
         "grpc-google-iam-v1-89@0.14.4",
         "grpcio-90@1.80.0",
@@ -3502,7 +3369,7 @@
     {
       "ref": "prompt-toolkit-128@3.0.52",
       "dependsOn": [
-        "wcwidth-208@0.6.0"
+        "wcwidth-208@0.7.0"
       ]
     },
     {
@@ -3516,15 +3383,15 @@
       "dependsOn": []
     },
     {
-      "ref": "psycopg-131@3.3.3",
+      "ref": "psycopg-131@3.3.4",
       "dependsOn": [
-        "psycopg-binary-132@3.3.3",
+        "psycopg-binary-132@3.3.4",
         "typing-extensions-195@4.15.0",
         "tzdata-197@2026.2"
       ]
     },
     {
-      "ref": "psycopg-binary-132@3.3.3",
+      "ref": "psycopg-binary-132@3.3.4",
       "dependsOn": []
     },
     {
@@ -3602,7 +3469,7 @@
         "defusedxml-47@0.7.1",
         "pyopenssl-144@26.1.0",
         "python-dateutil-148@2.9.0.post0",
-        "pytz-152@2026.1.post1",
+        "pytz-152@2026.2",
         "requests-160@2.33.1",
         "xmlschema-216@2.5.1"
       ]
@@ -3639,7 +3506,7 @@
       ]
     },
     {
-      "ref": "pytz-152@2026.1.post1",
+      "ref": "pytz-152@2026.2",
       "dependsOn": []
     },
     {
@@ -3727,7 +3594,7 @@
     {
       "ref": "s3transfer-169@0.17.0",
       "dependsOn": [
-        "botocore-23@1.43.0"
+        "botocore-23@1.43.2"
       ]
     },
     {
@@ -3919,11 +3786,11 @@
     {
       "ref": "ua-parser-199@1.0.2",
       "dependsOn": [
-        "ua-parser-builtins-200@202603"
+        "ua-parser-builtins-200@202605"
       ]
     },
     {
-      "ref": "ua-parser-builtins-200@202603",
+      "ref": "ua-parser-builtins-200@202605",
       "dependsOn": []
     },
     {
@@ -3945,7 +3812,7 @@
     {
       "ref": "urllib3-205@2.6.3",
       "dependsOn": [
-        "backports-zstd-18@1.3.0",
+        "backports-zstd-18@1.4.0",
         "brotli-24@1.2.0",
         "brotlicffi-25@1.2.0.1"
       ]
@@ -3961,7 +3828,7 @@
       "dependsOn": []
     },
     {
-      "ref": "wcwidth-208@0.6.0",
+      "ref": "wcwidth-208@0.7.0",
       "dependsOn": []
     },
     {
@@ -3985,7 +3852,7 @@
         "aliyun-python-sdk-core-6@2.16.0",
         "altcha-7@2.0.0",
         "borgbackup-21@1.4.4",
-        "boto3-22@1.43.0",
+        "boto3-22@1.43.2",
         "celery-27@5.6.3",
         "certifi-28@2026.4.22",
         "charset-normalizer-30@3.4.7",
@@ -3997,7 +3864,7 @@
         "cython-45@3.2.4",
         "dateparser-46@1.4.0",
         "diff-match-patch-48@20241021",
-        "disposable-email-domains-49@0.0.177",
+        "disposable-email-domains-49@0.0.178",
         "django-51@6.0.4",
         "django-appconf-52@1.2.0",
         "django-auth-ldap-53@5.3.0",
@@ -4036,7 +3903,7 @@
         "openpyxl-122@3.1.5",
         "packaging-123@26.2",
         "pillow-126@12.2.0",
-        "psycopg-131@3.3.3",
+        "psycopg-131@3.3.4",
         "pyaskalono-133@0.2.0",
         "pycairo-136@1.29.0",
         "pygments-140@2.20.0",

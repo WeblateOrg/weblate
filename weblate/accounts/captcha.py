@@ -9,20 +9,17 @@ from __future__ import annotations
 import ast
 import operator
 import time
-import urllib.parse
 from functools import cache
 from random import SystemRandom
 from typing import TYPE_CHECKING, Literal
 
-from altcha import PayloadV1 as Payload
-from altcha import solve_challenge_v1 as solve_challenge
+from altcha import Payload, solve_challenge
 from django.utils.html import format_html
 
 from weblate.utils.templatetags.icons import icon
 
 if TYPE_CHECKING:
-    from altcha import ChallengeV1 as Challenge
-    from altcha import SolutionV1 as Solution
+    from altcha import Challenge, Solution
 
 TIMEDELTA = 600
 
@@ -126,21 +123,20 @@ def eval_node(node):
     raise ValueError(node)
 
 
-def solve_altcha(challenge: Challenge, number: int | None = None) -> str:
-    solution: Solution | None = solve_challenge(challenge=challenge, start=0)
+def solve_altcha(challenge: Challenge, *, invalid: bool = False) -> str:
+    solution: Solution | None = solve_challenge(challenge)
     if solution is None:
         msg = "Unable to solve ALTCHA challenge"
         raise ValueError(msg)
     # Make sure the challenge expiry is in past
-    split_salt = challenge.salt.split("?")
-    params = urllib.parse.parse_qs(split_salt[1])
-    expires = int(params["expires"][0])
+    expires = challenge.parameters.expires_at
     while time.time() == expires:
         time.sleep(0.1)
+    if invalid:
+        # Tampering with counter would raise struct.error (packed as uint32),
+        # so corrupt the derived key instead to force a verification failure.
+        solution.derived_key = "0" * len(solution.derived_key)
     return Payload(
-        algorithm=challenge.algorithm,
-        challenge=challenge.challenge,
-        number=solution.number if number is None else number,
-        salt=challenge.salt,
-        signature=challenge.signature,
+        challenge=challenge,
+        solution=solution,
     ).to_base64()

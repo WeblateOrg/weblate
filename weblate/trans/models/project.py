@@ -24,6 +24,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
+from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.lock import WeblateLock
 from weblate.utils.site import get_site_url
@@ -37,7 +38,7 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable, Collection, Iterable
 
     from ahocorasick_rs import AhoCorasick
 
@@ -168,6 +169,17 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
 
 
 class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
+    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "enforced_2fa",
+        "translation_review",
+        "source_review",
+        "commit_policy",
+        "enable_hooks",
+        "use_shared_tm",
+        "contribute_shared_tm",
+        "check_flags",
+    )
+
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -206,13 +218,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
 
-    set_language_team = models.BooleanField(
-        verbose_name=gettext_lazy('Set "Language-Team" header'),
-        default=True,
-        help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header of your project.'
-        ),
-    )
     use_shared_tm = models.BooleanField(
         verbose_name=gettext_lazy("Use shared translation memory"),
         default=settings.DEFAULT_SHARED_TM,
@@ -350,10 +355,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         # Renaming detection
         old = None
+        update_fields = kwargs.get("update_fields")
         if self.id:
             old = Project.objects.get(pk=self.id)
             # Generate change entries for changes
-            self.generate_changes(old)
+            self.generate_changes(old, update_fields=update_fields)
             # Detect slug changes and rename directory
             self.check_rename(old)
             # Rename linked repos
@@ -405,9 +411,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             origin=self.full_slug,
         )
 
-    def generate_changes(self, old: Project) -> None:
+    def generate_changes(
+        self, old: Project, update_fields: Collection[str] | None = None
+    ) -> None:
         tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
+            if not should_track_field(self, attribute, update_fields):
+                continue
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
             if old_value != current_value:
@@ -417,6 +427,26 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     target=current_value,
                     user=self.acting_user,
                 )
+        if (
+            should_track_field(self, "access_control", update_fields)
+            and old.access_control != self.access_control
+        ):
+            self.change_set.create(
+                action=ActionEvents.ACCESS_EDIT,
+                user=self.acting_user,
+                details={
+                    "access_control": self.access_control,
+                    "old_access_control": old.access_control,
+                },
+            )
+        log_setting_changes(
+            self,
+            old,
+            self.AUDIT_SETTINGS,
+            ActionEvents.PROJECT_SETTING_CHANGE,
+            self.acting_user,
+            update_fields,
+        )
 
     @cached_property
     def language_aliases_dict(self) -> dict[str, str]:

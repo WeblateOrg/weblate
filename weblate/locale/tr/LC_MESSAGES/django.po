@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-03 05:12+0000\n"
+"PO-Revision-Date: 2026-05-05 20:34+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1282,19 +1282,15 @@ msgid "The registration link has been invalidated."
 msgstr "Kayıt bağlantısı geçersiz kılındı."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Kayıt bağlantısı geçersiz kılındı."
+msgstr "Davet bağlantısı artık geçerli değil."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "Kullanıcı daveti kaldırıldı."
+msgstr "Bu davetin geçerlilik süresi dolmuş."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1445,18 +1441,13 @@ msgstr ""
 "zamanlandı."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr ""
-"%(user)s tarafından yapılan düzenlemelerin site genelinde geri alınması "
-"zamanlandı."
+msgstr "%(user)s tarafından site genelinde yapılan katkılar temizleniyor."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "Herhangi bir davet oluşturulmamış."
+msgstr "Herhangi bir temizleme işlemi seçilmemiş."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -1711,7 +1702,7 @@ msgstr "Depoyu yukarı akışa sıfırla"
 
 #: weblate/addons/cleanup.py:132
 msgid "Discards all changes in the Weblate repository each night."
-msgstr "Weblate deposunda her gece yapılan tüm değişiklikleri yok sayar."
+msgstr "Her gece Weblate deposundaki tüm değişiklikleri yok sayar."
 
 #: weblate/addons/consistency.py:91
 msgid "Add missing languages"
@@ -1803,11 +1794,11 @@ msgstr "Fedora Messaging"
 
 #: weblate/addons/fedora_messaging.py:34
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
-msgstr "Bir Fedora Messaging uyumlu AMQP hizmetine bildirimler gönderir."
+msgstr "Fedora Messaging uyumlu bir AMQP değişimine bildirimler gönderir."
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Yeni kaynak dizgeleri \"Denetlenmesi gerekli\" olarak imlensin"
+msgstr "Yeni kaynak dizgeleri \"Denetlenmesi gerekli\" olarak imleme"
 
 #: weblate/addons/flags.py:53
 msgid ""
@@ -1815,13 +1806,13 @@ msgid ""
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Sürüm denetimi sisteminden içe aktarılan her yeni kaynak dizge, Weblate "
-"üzerinde düzenlenmesi gerekli olarak imlenir. Böylece geliştiriciler "
+"Sürüm denetimi sisteminden yeni bir kaynak dizge içe her aktarıldığında, "
+"Weblate üzerinde denetlenmesi gerekli olarak imlenir. Böylece geliştiriciler "
 "tarafından yazılan kaynak dizgeleri kolayca süzebilir ve düzenleyebilirsiniz."
 
 #: weblate/addons/flags.py:72
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Yeni çeviriler \"Yeniden yazılmalı\" olarak imlenmesin"
+msgstr "Yeni çevirileri \"Yeniden yazılmalı\" olarak imleme"
 
 #: weblate/addons/flags.py:74
 msgid ""
@@ -1829,14 +1820,14 @@ msgid ""
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Sürüm denetimi sisteminden içe aktarılan her yeni çevrilebilir dizge, "
-"Weblate üzerinde yeniden yazılması gerekli olarak imlenir. Böylece "
+"Sürüm denetimi sisteminden yeni bir çevrilebilir dizge içeri her "
+"aktarıldığında, Weblate üzerinde yeniden yazılmalı olarak imlenir. Böylece "
 "geliştiricilerin oluşturduğu çevirileri kolayca süzebilir ve "
 "düzenleyebilirsiniz."
 
 #: weblate/addons/flags.py:90
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Değiştirilmemiş çeviriler \"Yeniden yazılmalı\" olarak imlenmesin"
+msgstr "Değiştirilmemiş çevirileri \"Yeniden yazılmalı\" olarak imleme"
 
 #: weblate/addons/flags.py:92
 msgid ""
@@ -1844,8 +1835,8 @@ msgid ""
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Sürüm denetimi sisteminden içe aktarılan her yeni çevrilebilir dizge bir "
-"kaynak dizgeyle eşleştiğinde, Weblate üzerinde düzenlenmesi gerekli olarak "
+"Sürüm denetimi sisteminden yeni bir çevrilebilir dizge içe aktarıldığında ve "
+"bir kaynak dizgeyle eşleştiğinde, Weblate üzerinde yeniden yazılmalı olarak "
 "imlenir. Özellikle çevrilmemiş dizgeler için kaynak dizgeleri içeren dosya "
 "biçimleri için kullanışlıdır."
 
@@ -1866,7 +1857,7 @@ msgstr "Dizgelerin imlerini, etiketlerini veya durumlarını toplu düzenleyin."
 
 #: weblate/addons/flags.py:145
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "Depodaki güncellenmiş çeviriler \"Yeniden yazılmalı\" olarak imlensin"
+msgstr "Depodan güncellenmiş çevirileri \"Yeniden yazılmalı\" olarak imle"
 
 #: weblate/addons/flags.py:148
 msgid ""
@@ -1874,8 +1865,8 @@ msgid ""
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"Sürüm denetimi sisteminde bir dizge çevirisi değiştirildiğinde, Weblate "
-"üzerinde düzenlenmesi gerekli olarak imlenir. Özellikle çeviri dosyaları sık "
+"Sürüm denetimi sisteminden bir dizge çevirisi değiştirildiğinde, Weblate "
+"üzerinde yeniden yazılmalı olarak imlenir. Özellikle çeviri dosyaları sık "
 "sık el ile veya bir dış hizmet tarafından güncelleniyorsa kullanışlıdır."
 
 #: weblate/addons/forms.py:100
@@ -1919,12 +1910,12 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
-"Bileşen yenilendiğinde eklentinin POT dosyasını ne sıklıkta güncellemesinin "
+"Bileşen yenilendiğinde eklentinin POT dosyasının ne sıklıkta güncellemesi "
 "gerektiği."
 
 #: weblate/addons/forms.py:150
 msgid "Normalize POT header"
-msgstr "POT üst bilgisi normalleştirilsin"
+msgstr "POT üst bilgisini normalleştirme"
 
 #: weblate/addons/forms.py:154
 msgid "Updates gettext headers and replaces placeholder POT comments."
@@ -1954,7 +1945,7 @@ msgstr "Tüm yorumlar ayıklansın"
 
 #: weblate/addons/forms.py:190
 msgid "Extract comments with tag"
-msgstr "Etiketlenmiş yorumlar ayıklansın"
+msgstr "Belirli bir etiketteki yorumlar ayıklansın"
 
 #: weblate/addons/forms.py:199
 msgid "Code comments"
@@ -1965,8 +1956,8 @@ msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
-"xgettext tarafından ayıklama için yorumların hiçbirini, tümünü ya da "
-"yalnızca belirli bir etiketle imlenmişlerini seçin."
+"Hiç bir xgettext yorumu ayıklanmayacak, tüm yorumlar ayıklanacak veya "
+"yalnızca belirli bir etiketle imlenmiş yorumlar ayıklanacak olarak seçin."
 
 #: weblate/addons/forms.py:209
 msgid "Comment tag"
@@ -1976,8 +1967,8 @@ msgstr "Yorum etiketi"
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
-"Etiketlenmiş yorum kipi kullanılırken yorumların ayıklanması için xgettext "
-"tarafına aktarılacak etiket."
+"Etiketli yorum kipini kullanırken yorum ayıklaması için xgettext üzerine "
+"aktarılan etiket."
 
 #: weblate/addons/forms.py:217
 msgid "xgettext checks"
@@ -1986,7 +1977,7 @@ msgstr "xgettext denetimleri"
 #: weblate/addons/forms.py:222
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
-"Ayıklanmış iletileri etkinleştirmek için ek xgettext doğrulama denetimleri."
+"Ayıklanan iletileri etkinleştirmek için ek xgettext doğrulama denetimleri."
 
 #: weblate/addons/forms.py:226
 msgid "Additional keyword"
@@ -1995,7 +1986,7 @@ msgstr "Ek anahtar sözcük"
 #: weblate/addons/forms.py:229
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
-"xgettext tarafına --keyword ile aktarılacak isteğe bağlı ek anahtar sözcük."
+"İsteğe bağlı ek anahtar sözcük --keyword ile xgettext üzerine aktarıldı."
 
 #: weblate/addons/forms.py:258 weblate/addons/forms.py:349
 #: weblate/addons/forms.py:356
@@ -2019,8 +2010,8 @@ msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
-"xgettext tarafından kaynak dosyaların glob modellerinden mi yoksa bir "
-"POTFILES/POTFILES.in envanterinden mi okunacağını seçin."
+"xgettext tarafından kaynak dosyalarının glob modellerinden mi yoksa bir "
+"POTFILES/POTFILES.in bildiriminden mi okunacağını seçin."
 
 #: weblate/addons/forms.py:281
 msgid "xgettext language"
@@ -2028,14 +2019,14 @@ msgstr "xgettext dili"
 
 #: weblate/addons/forms.py:285
 msgid "Programming language passed to xgettext, for example Python or C."
-msgstr "xgettext tarafına aktarılacak programlama dili, örneğin Python veya C."
+msgstr "Programlama dili xgettext üzerine aktarıldı, örneğin Python veya C."
 
 #: weblate/addons/forms.py:293
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
-"xgettext ile ayıklanacak dosyalar için yeni satır ile ayrılmış depoya göreli "
+"xgettext ile ayıklanacak dosyalar için yeni satır ile ayrılmış depoya göre "
 "glob modelleri."
 
 #: weblate/addons/forms.py:298
@@ -2048,9 +2039,9 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
-"POTFILES ya da POTFILES.in için depoya göreli yol. Girişler depo köküne göre "
-"çözülür. Manifest'in yanında varsa, POTFILES.skip listelenen dosyaları "
-"çıkarmadan hariç tutar."
+"POTFILES veya POTFILES.in dosyasına depoya göre yol. Kayıtlar depo kök "
+"klasörüne göre çözümlenir. Envanterin yanında varsa, POTFILES.skip "
+"listelenen dosyaları ayıklamaya katmaz."
 
 #: weblate/addons/forms.py:370
 msgid "POTFILES path has to point to a file."
@@ -2070,7 +2061,7 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
-"Meson gettext bütünleştirmesi ile eşleşen yerleşik xgettext değişkeni hazır "
+"Meson gettext bütünleştirmesiyle eşleşen hazır xgettext değişkeni hazır "
 "ayarı. GLib hazır ayarı, Meson gettext yardımcısı tarafından kullanılan "
 "anahtar sözcük ve biçim-im seçeneklerini ekler."
 
@@ -2105,15 +2096,15 @@ msgstr "Yok"
 
 #: weblate/addons/forms.py:450
 msgid "Weblate documentation"
-msgstr "Weblate belgelendirmesi"
+msgstr "Weblate belgeleri"
 
 #: weblate/addons/forms.py:455
 msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
-"İsteğe bağlı olarak, Sfinks ayıklamasından sonra çeviri için kullanışlı "
-"olmayan dizgeleri kaldırır."
+"İsteğe bağlı olarak Sphinx ayıklamasından sonra çevrilmeye uygun olmayan "
+"dizgeleri kaldırır."
 
 #: weblate/addons/forms.py:478
 msgid ""
@@ -2218,7 +2209,7 @@ msgstr "Çeviri dosyalarıyla eşleştirilecek kurallı ifade"
 msgid ""
 "The regular expression must define named groups for component and language."
 msgstr ""
-"Kurallı ifadede, bileşen ve dil için adlandırılmış gruplar tanımlanmalıdır."
+"Kurallı ifade de, bileşen ve dil için adlandırılmış gruplar tanımlanmalıdır."
 
 #: weblate/addons/forms.py:760
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2234,20 +2225,19 @@ msgstr "Bileşen adını özelleştirme"
 #: weblate/addons/forms.py:770
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
-"Django kalıbı söz dizimini kullanılsın. Bu kalıpta {{ component }} "
-"bulunmalıdır."
+"Django kalıbı sözdizimini kullanın. Bu kalıpta {{ bileşen }} bulunmalıdır."
 
 #: weblate/addons/forms.py:774
 msgid "Define the monolingual base filename"
-msgstr "Tek dil temel dosya adını tanımlama"
+msgstr "Tek dil temel dosyası adını tanımlayın"
 
 #: weblate/addons/forms.py:778
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
 msgstr ""
-"İki dilli çeviri dosyaları için boş bırakın. Ayarlandığında, bu kalıpta "
-"{{ component }} bulunmalıdır."
+"İki dilli çeviri dosyaları için boş bırakın. Ayarlandığında, bu kalıpta {{ "
+"bileşen }} bulunmalıdır."
 
 #: weblate/addons/forms.py:782
 msgid "Define the base file for new translations"
@@ -2258,8 +2248,8 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Yeni çevirileri oluşturmak için kullanılan dosyanın adı. Gettext için .pot "
-"dosyası olarak seçin. Bu kalıpta {{ component }} bulunmalıdır."
+"Yeni çeviriler oluşturmak için kullanılan dosyanın adı. Gettext için .pot "
+"dosyasını seçin. Bu kalıpta {{ bileşen }} bulunmalıdır."
 
 #: weblate/addons/forms.py:791
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2273,9 +2263,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"Ara çeviri dosyasının adı. Çoğu durumda bu dosya geliştiriciler tarafından "
-"sunulan bir çeviri dosyasıdır ve gerçek kaynak dizgeler oluşturulurken "
-"kullanılır. Bu kalıpta {{ component }} bulunmalıdır."
+"Ara çeviri dosyasının dosya adı. Çoğu durumda bu, geliştiriciler tarafından "
+"sağlanan bir çeviri dosyasıdır ve gerçek kaynak dizgeleri oluştururken "
+"kullanılır. Bu kalıpta {{ bileşen }} bulunmalıdır."
 
 #: weblate/addons/forms.py:802 weblate/trans/models/component.py:859
 msgid "Language filter"
@@ -2366,7 +2356,7 @@ msgstr "locale/cs/application/cs.po gibi dosyalar ile eşleşir."
 
 #: weblate/addons/forms.py:969
 msgid "Split Android strings"
-msgstr "Ayrık Android dizgeleri"
+msgstr "Android dizgeleri ayrılsın"
 
 #: weblate/addons/forms.py:970
 msgid "Matches files like res/values-cs/strings-about.xml."
@@ -2530,8 +2520,7 @@ msgstr "İnternet kancası parolası"
 
 #: weblate/addons/forms.py:1486
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
-"Standart internet kancalarının parolası base64 ile kodlanmış bir dizgedir."
+msgstr "Standart internet kancaları parolası base64 kodlu bir dizgedir."
 
 #: weblate/addons/forms.py:1499
 msgid "AMQP broker host"
@@ -2539,15 +2528,15 @@ msgstr "AMQP işleyici sunucusu"
 
 #: weblate/addons/forms.py:1500
 msgid "The AMQP broker to connect to."
-msgstr "Bağlantı kurulacak AMQP işleyicisi."
+msgstr "Bağlantı kurulacak AMQP işleyici."
 
 #: weblate/addons/forms.py:1504
 msgid "Use SSL for AMQP connection"
-msgstr "AMQP bağlantısı için SSL kullanır"
+msgstr "AMQP bağlantısı için SSL kullanılsın"
 
 #: weblate/addons/forms.py:1509
 msgid "CA certificates"
-msgstr "CA sertifikaları"
+msgstr "Sertifika yetkilisi sertifikaları"
 
 #: weblate/addons/forms.py:1511
 msgid ""
@@ -2559,7 +2548,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:1517
 msgid "Client SSL key"
-msgstr "İstemci SSL anahtarı"
+msgstr "İstemci SSH anahtarı"
 
 #: weblate/addons/forms.py:1518
 msgid "PEM encoded client private SSL key."
@@ -2571,7 +2560,7 @@ msgstr "İstemci SSL sertifikaları"
 
 #: weblate/addons/forms.py:1525
 msgid "PEM encoded client SSL certificate."
-msgstr "PEM ile kodlanmış istemci SSL anahtarı."
+msgstr "PEM ile kodlanmış istemci SSL sertifikası."
 
 #: weblate/addons/forms.py:1543
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -2644,9 +2633,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Yeni bir çeviri eklendiğinde ya da kaldırıldığında, \"configure\", "
-"\"configure.in\" veya \"configure.ac\" dosyalarındaki ALL_LINGUAS değişkeni "
-"güncellenir."
+"Bir çeviri eklendiğinde veya kaldırıldığında \"configure\", \"configure.in\" "
+"veya \"configure.ac\" dosyalarındaki ALL_LINGUAS değişkenini günceller."
 
 #: weblate/addons/gettext.py:367
 msgid "Update PO files to match POT (msgmerge)"
@@ -2657,48 +2645,48 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Tüm PO dosyalarını (\"File mask\" ile yapılandırıldığı şekliyle), msgmerge "
-"kullanarak POT dosyasıyla (\"Yeni çeviriler kalıbı\" ile yapılandırıldığı "
-"şekilde) eşleşecek şekilde günceller."
+"Tüm PO dosyalarını (\"Dosya maskesi\" tarafından yapılandırıldığı gibi) "
+"msgmerge kullanarak POT dosyasıyla eşleşecek şekilde günceller (\"Yeni "
+"çeviriler kalıbı\" tarafından yapılandırıldığı gibi)."
 
 #: weblate/addons/gettext.py:949
 msgid "Update POT file (xgettext)"
-msgstr "POT dosyası güncelleme (xgettext)"
+msgstr "POT dosyasını güncelle (xgettext)"
 
 #: weblate/addons/gettext.py:951
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
-"Seçilmiş kaynak dosyalarda xgettext kullanılarak gettext kalıbı güncellenir."
+"Seçilmiş kaynak dosyalarda xgettext kullanarak gettext kalıbını günceller."
 
 #: weblate/addons/gettext.py:1349
 msgid "Update POT file (Meson)"
-msgstr "POT dosyası güncelleme (Meson)"
+msgstr "POT dosyasını güncelle (Meson)"
 
 #: weblate/addons/gettext.py:1351
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr "Meson gettext kurallarını kullanılarak gettext kalıbı güncellenir."
+msgstr "Meson gettext kurallarını kullanarak gettext kalıbını günceller."
 
 #: weblate/addons/gettext.py:1499
 msgid "Update POT file (Django)"
-msgstr "POT dosyası güncelleme (Django)"
+msgstr "POT dosyasını güncelle (Django)"
 
 #: weblate/addons/gettext.py:1501
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
 msgstr ""
-"Django içindeki makemessages komutu kullanılarak gettext kalıbı güncellenir."
+"Hazır Django makemessages komutunu kullanarak gettext kalıbını günceller."
 
 #: weblate/addons/gettext.py:1668
 msgid "Update POT file (Sphinx)"
-msgstr "POT dosyası güncelleme (Sphinx)"
+msgstr "POT dosyasını güncelle (Sphinx)"
 
 #: weblate/addons/gettext.py:1670
 msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
-"Proje yapılandırmasını yüklenmeden Sphinx içindeki gettext oluşturucusu "
-"kullanılarak gettext kalıbı güncellenir."
+"Proje yapılandırmasını yüklemeden Sphinx gettext oluşturucusunu kullanarak "
+"gettext kalıbını günceller."
 
 #: weblate/addons/gettext.py:1900
 msgid "Contributors in comment"
@@ -3312,7 +3300,7 @@ msgstr "Duyuru gönderme"
 #. Translators: Permission name
 #: weblate/auth/data.py:117
 msgid "Delete announcements"
-msgstr "Duyuruları sil"
+msgstr "Duyuru silme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:125
@@ -3342,7 +3330,7 @@ msgstr "Takımları yönetme"
 #. Translators: Permission name
 #: weblate/auth/data.py:135
 msgid "View team info"
-msgstr "Takım bilgilerini görüntüleme"
+msgstr "Fatura bilgilerini görüntüleme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -4181,11 +4169,11 @@ msgstr "%s kullanıcısı fatura yöneticiliğinden kaldırıldı."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
-msgstr "AngularJS değer ekleme dizgesi"
+msgstr "AngularJS araya ekleme dizgesi"
 
 #: weblate/checks/angularjs.py:33
 msgid "AngularJS interpolation strings do not match source."
-msgstr "AngularJS değer ekleme dizgeleri kaynak ile aynı değil."
+msgstr "AngularJS araya ekleme dizgeleri kaynaktaki ile aynı değil."
 
 #: weblate/checks/base.py:329
 msgid "The following format strings are missing: {}"
@@ -4229,15 +4217,15 @@ msgstr "Kaynağın ve çevirinin ikisi de aynı sayıda boşlukla başlamıyor."
 
 #: weblate/checks/chars.py:108
 msgid "Non‑standard characters in Kabyle"
-msgstr "Kabyle dilinde standart olmayan karakterler"
+msgstr "Kabyle dilinde standart olmayan karakterler var"
 
 #: weblate/checks/chars.py:110
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
-"Standartlaştırılmış Latin Kabyle karakterleri kullanın (örneğin Yunanca γ "
-"yerine ɣ; ε yerine ɛ)."
+"Standartlaştırılmış Latin Kabyle karakterlerini kullanın (Yunanca γ yerine "
+"ɣ; ε yerine ɛ gibi)."
 
 #: weblate/checks/chars.py:144
 msgid "Trailing space"
@@ -4361,11 +4349,11 @@ msgstr "Çift noktalama işaretinin önündeki birleşik boşluk eksik."
 
 #: weblate/checks/chars.py:623
 msgid "Multiple capitals"
-msgstr "Birden fazla büyük harf var"
+msgstr "Birden çok büyük harf kullanılmış"
 
 #: weblate/checks/chars.py:625
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Çeviride, birden fazla yanlış büyük harf bulunan sözcükler var."
+msgstr "Çeviride, birden fazla farklı büyük harf bulunan sözcükler var."
 
 #: weblate/checks/consistency.py:34
 msgid "Missing plurals"
@@ -4940,7 +4928,7 @@ msgstr "Fluent çevirisi söz dizimi"
 
 #: weblate/checks/fluent/syntax.py:65
 msgid "Fluent syntax error in the translation."
-msgstr "Çeviride Fluent söz dizimi sorunu var."
+msgstr "Çeviride Fluent söz dizimi sorunu."
 
 #: weblate/checks/format.py:529
 msgid "The following format strings are in the wrong order:"
@@ -4980,11 +4968,11 @@ msgstr "Objective-C biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:652
 msgid "Perl brace format"
-msgstr "Perl çengelli parantez biçimi"
+msgstr "Perl süslü parantez biçimi"
 
 #: weblate/checks/format.py:653
 msgid "Perl brace format string does not match source."
-msgstr "Perl çengelli parantez biçim dizgesi kaynaktaki ile aynı değil."
+msgstr "Perl süslü parantez biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:665
 msgid "Perl format"
@@ -5028,11 +5016,11 @@ msgstr "Şema biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:710
 msgid "Python brace format"
-msgstr "Python parantez biçimi"
+msgstr "Python süslü parantez biçimi"
 
 #: weblate/checks/format.py:711
 msgid "Python brace format string does not match source."
-msgstr "Python ayracı biçim dizgesi kaynaktaki ile aynı değil."
+msgstr "Python süslü parantez biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:730
 msgid "Single {} encountered in the format string."
@@ -5076,11 +5064,11 @@ msgstr "Bir kesme karakterini başka bir tanesiyle eşleştirmelisiniz."
 
 #: weblate/checks/format.py:836
 msgid "i18next interpolation"
-msgstr "i18next değer eklemesi"
+msgstr "i18next araya ekleme"
 
 #: weblate/checks/format.py:837
 msgid "The i18next interpolation does not match source."
-msgstr "I18next değer eklemesi kaynaktaki ile aynı değil."
+msgstr "I18next araya eklemesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:851
 msgid "ECMAScript template literals"
@@ -5088,7 +5076,7 @@ msgstr "ECMAScript kalıbı sabitleri"
 
 #: weblate/checks/format.py:852
 msgid "ECMAScript template literals do not match source."
-msgstr "ECMAScript kalıbı sabitleri kaynak ile aynı değil."
+msgstr "ECMAScript kalıbı sabitleri kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:865
 msgid "Percent placeholders"
@@ -5096,7 +5084,7 @@ msgstr "Yüzde yer belirticileri"
 
 #: weblate/checks/format.py:866
 msgid "The percent placeholders do not match source."
-msgstr "Yüzde yer belirticileri kaynak ile aynı değil."
+msgstr "Yüzde yer belirticileri kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:874
 msgid "Vue I18n formatting"
@@ -5112,7 +5100,7 @@ msgstr "Automattic bileşenleri biçimlendirmesi"
 
 #: weblate/checks/format.py:885
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Automattic bileşenlerinin yer belirticileri kaynak ile aynı değil."
+msgstr "Automattic bileşenlerinin yer belirticileri kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:903
 msgid "Multiple unnamed variables"
@@ -5241,7 +5229,7 @@ msgstr "XML kodlaması"
 
 #: weblate/checks/markup.py:272
 msgid "XML tags in translation do not match source."
-msgstr "Çevirideki XML kod imleri kaynak ile aynı değil."
+msgstr "Çevirideki XML kod imleri kaynakla aynı değil."
 
 #: weblate/checks/markup.py:324
 msgid "Chars around XML tags"
@@ -5251,7 +5239,8 @@ msgstr "XML kod imleri etrafındaki karakterler"
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
 msgstr ""
-"Çeviride XML kod imlerinin etrafındaki karakterler kaynak ile aynı değil."
+"Çevirideki XML kod imlerinin etrafındaki karakterler kaynaktaki ile aynı "
+"değil."
 
 #: weblate/checks/markup.py:393
 msgid "Markdown references"
@@ -5259,7 +5248,7 @@ msgstr "Markdown başvuruları"
 
 #: weblate/checks/markup.py:394
 msgid "Markdown link references do not match source."
-msgstr "Markdown bağlantı başvuruları kaynak ile aynı değil."
+msgstr "Markdown bağlantı başvuruları kaynakla aynı değil."
 
 #: weblate/checks/markup.py:410
 msgid "Markdown links"
@@ -5267,7 +5256,7 @@ msgstr "Markdown bağlantıları"
 
 #: weblate/checks/markup.py:411
 msgid "Markdown links do not match source."
-msgstr "Markdown bağlantıları kaynak ile aynı değil."
+msgstr "Markdown bağlantıları kaynaktaki ile aynı değil."
 
 #: weblate/checks/markup.py:439
 msgid "Markdown syntax"
@@ -5275,7 +5264,7 @@ msgstr "Markdown söz dizimi"
 
 #: weblate/checks/markup.py:440
 msgid "Markdown syntax does not match source."
-msgstr "Markdown söz dizimi kaynak ile aynı değil."
+msgstr "Markdown söz dizimi kaynaktaki ile aynı değil."
 
 #: weblate/checks/markup.py:473
 msgid "The translation does not contain an URL."
@@ -5311,7 +5300,7 @@ msgstr "reStructuredText söz dizimi sorunu"
 
 #: weblate/checks/markup.py:877
 msgid "reStructuredText syntax error in the translation."
-msgstr "Çeviride reStructuredText söz dizimi sorunu var."
+msgstr "Çeviride reStructuredText söz dizimi sorunu."
 
 #: weblate/checks/markup.py:890
 msgid "The translation should not start with a list marker."
@@ -5343,7 +5332,7 @@ msgstr "Qt biçimi"
 
 #: weblate/checks/qt.py:35
 msgid "Qt format string does not match source."
-msgstr "Qt biçim dizgesi kaynak ile aynı değil."
+msgstr "Qt biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
@@ -5351,7 +5340,7 @@ msgstr "Qt çoğul biçimi"
 
 #: weblate/checks/qt.py:48
 msgid "Qt plural format string does not match source."
-msgstr "Qt çoğul biçim dizgesi kaynak ile aynı değil."
+msgstr "Qt çoğul biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/render.py:33
 msgid "Maximum size of translation"
@@ -5372,7 +5361,7 @@ msgstr "Ruby biçimi"
 
 #: weblate/checks/ruby.py:55
 msgid "Ruby format string does not match source."
-msgstr "Ruby biçim dizgesi kaynak ile aynı değil."
+msgstr "Ruby biçim dizgesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/same.py:99
 msgid "Unchanged translation"
@@ -5388,7 +5377,7 @@ msgstr "Çoğul değil"
 
 #: weblate/checks/source.py:36
 msgid "The string is used as plural, but not using plural forms."
-msgstr "Dizge çoğul olarak kullanılmış, ancak çoğul biçimleri kullanmıyor."
+msgstr "Dizge çoğul olarak kullanılmış. Ancak çoğul biçimler kullanılmamış."
 
 #: weblate/checks/source.py:49
 msgid "Ellipsis"
@@ -5399,7 +5388,7 @@ msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
 msgstr ""
-"Dizgede, üç nokta karakteri ``(…)`` yerine üç ayrı nokta ``(...)`` var."
+"Dizge, üç nokta karakteri ``(…)`` yerine üç ayrı nokta ``(...)`` kullanıyor."
 
 #: weblate/checks/source.py:62
 msgid "Multiple failing checks"
@@ -5641,7 +5630,7 @@ msgstr "JSON"
 #. Translators: File format name
 #: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1885
 msgid "JSON nested structure file"
-msgstr "JSON iç içe yapı dosyası"
+msgstr "JSON iç içe geçmiş yapı dosyası"
 
 #. Translators: File format name
 #: weblate/formats/exporters.py:375 weblate/formats/ttkit.py:1740
@@ -5664,12 +5653,12 @@ msgstr "Çok değerli CSV dosyası"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1390
 msgid "gettext PO file"
-msgstr "Gettext PO dosyası"
+msgstr "gettext PO dosyası"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1460
 msgid "gettext PO file (monolingual)"
-msgstr "Gettext PO dosyası (tek dilli)"
+msgstr "gettext PO dosyası (tek dilli)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1487
@@ -5684,12 +5673,12 @@ msgstr "XLIFF 1.2 çeviri dosyası"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1555
 msgid "XLIFF 1.2 with placeables support"
-msgstr "Yerleştirilebilir desteği olan XLIFF 1.2"
+msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 1.2"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1563
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "Gettext eklentileriyle XLIFF 1.2"
+msgstr "gettext eklentileriyle XLIFF 1.2"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1572
@@ -5704,7 +5693,7 @@ msgstr "XLIFF 2.0 çeviri dosyası"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1595
 msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Yerleştirilebilir desteği olan XLIFF 2.0"
+msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 2.0"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1648
@@ -5714,7 +5703,7 @@ msgstr "Java özellikleri"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
 msgid "Joomla language file"
-msgstr "Joomla! dil dosyası"
+msgstr "Joomla dil dosyası"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1676
@@ -5739,12 +5728,12 @@ msgstr ".NET kaynak dosyası"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1766
 msgid "Mobile Kotlin Resource"
-msgstr "Mobil Kotlin kaynağı"
+msgstr "Mobile Kotlin kaynağı"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1773
 msgid "Compose Multiplatform Resource"
-msgstr "Çok platformlu kaynak oluştur"
+msgstr "Çok platform kaynağı oluşturma"
 
 #: weblate/formats/ttkit.py:1788
 #, python-format
@@ -5753,7 +5742,7 @@ msgstr "Anahtar işlenemedi: %s"
 
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "Bu anahtar var olan bir hiyerarşik anahtar ile çelişiyor."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -5858,7 +5847,7 @@ msgstr "MicroDVD alt yazı dosyası"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2266
 msgid "Advanced SubStation Alpha subtitle file"
-msgstr "Advanced SubStation Alpha alt yazı dosyası"
+msgstr "Advanced Substation Alpha alt yazı dosyası"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2274
@@ -5976,16 +5965,12 @@ msgid "Glossary"
 msgstr "Sözlük"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Başka bir arka plan işlemi sürdüğünden dizge kaldırılamadı. Lütfen bir süre "
-"sonra yeniden deneyin."
+"Başka bir arka plan işlemi sürdüğünden sözlük terimi eklenemedi. Lütfen bir "
+"süre sonra yeniden deneyin."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -6807,8 +6792,8 @@ msgstr "Modelin benzersiz dağıtım adı."
 #: weblate/machinery/forms.py:540
 msgid "Base URL of the Ollama API, localhost and port 11434 by default."
 msgstr ""
-"Ollama API temel adresi. Varsayılan değer: localhost ve bağlantı noktası "
-"11434."
+"Ollama API temel adresi. Varsayılan olarak, localhost ve 11434 bağlantı "
+"numarasını kullanır."
 
 #: weblate/machinery/forms.py:547
 msgctxt "Automatic suggestion service configuration"
@@ -6817,7 +6802,7 @@ msgstr "Ollama modeli"
 
 #: weblate/machinery/forms.py:549
 msgid "Name of the model described in Ollama catalogue."
-msgstr "Ollama kataloğunda belirtilen model adı."
+msgstr "Ollama kataloğunda açıklanan modelin adı."
 
 #: weblate/machinery/forms.py:559
 msgctxt "Anthropic model selection"
@@ -6866,7 +6851,7 @@ msgstr "En fazla kod sayısı"
 
 #: weblate/machinery/forms.py:604
 msgid "Maximum number of tokens to generate in the response."
-msgstr "Yanıtta üretilecek en fazla kod sayısı."
+msgstr "Yanıtta oluşturulabilecek en fazla kod sayısı."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -8564,27 +8549,21 @@ msgid "Disable password"
 msgstr "Parolayı kullanımdan kaldır"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "Katılımcıları yorum bölümünde görüntüleme"
+msgstr "Katkı temizleme"
 
 #: weblate/templates/accounts/user.html:446
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
 msgstr ""
-"Tüm projelerde %(user)s tarafından yapılmış son düzenlenebilir çevirileri "
-"geri alır."
+"Tüm projelerde %(user)s tarafından yapılmış çevirileri, önerileri ve "
+"yorumları temizler."
 
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
 msgstr "Temizle"
 
@@ -8629,16 +8608,13 @@ msgid "Close"
 msgstr "Kapat"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
 msgstr ""
-"Bu işlem, tüm projelerde <b>%(user)s</b> tarafından yapılmış son "
-"düzenlenebilir çevirileri geri alacak."
+"Tüm projelerde <b>%(user)s</b> tarafından yapılmış hangi katkıların "
+"temizleneceğini seçin."
 
 #: weblate/templates/accounts/user.html:487
 msgid "Account removal deletes all user private data."
@@ -9458,7 +9434,7 @@ msgstr "Profesyonel destek alın"
 #: weblate/wladmin/templates/admin/trans/change_form.html:25
 #: weblate/wladmin/templates/admin/trans/change_form.html:29
 msgid "Documentation"
-msgstr "Belgeler"
+msgstr "Belgeleme"
 
 #: weblate/templates/base.html:438 weblate/templates/keyboard-shortcuts.html:12
 msgid "Keyboard shortcuts"
@@ -11943,7 +11919,7 @@ msgstr "Yapılandırılmış değer"
 
 #: weblate/templates/manage/performance.html:258
 msgid "Client IP address"
-msgstr "İstemcinin IP adresi"
+msgstr "İstemci IP adresi"
 
 #: weblate/templates/manage/performance.html:265
 msgid "HTTP host"
@@ -12253,7 +12229,7 @@ msgstr "kapalı"
 
 #: weblate/templates/memory/index.html:251 weblate/trans/models/project.py:231
 msgid "Autoclean translation memory"
-msgstr "Çeviri belleğini kendiliğinden temizle"
+msgstr "Çeviri belleğini kendiliğinden temizleme"
 
 #: weblate/templates/memory/index.html:273
 msgid "Number of shared entries in this Weblate instance"
@@ -13562,7 +13538,7 @@ msgstr "IP adresi panoya kopyalandı."
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:8 weblate/trans/actions.py:20
 msgid "Suggestion added"
-msgstr "Öneri ekledi"
+msgstr "Öneri eklendi"
 
 #: weblate/templates/snippets/suggestions.html:11
 #, python-format
@@ -13667,78 +13643,55 @@ msgid "Revert user edits"
 msgstr "Kullanıcının düzenlemelerini geri al"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
 msgstr ""
-"Tüm projelerde %(user)s tarafından yapılmış son düzenlenebilir çevirileri "
-"geri alır."
+"Tüm projelerde <b>%(user)s</b> tarafından yapılmış son düzenlenebilir "
+"çevirileri geri alır."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
 msgstr ""
-"Bu işlem, bu projede <b>%(user)s</b> tarafından yapılmış son düzenlenebilir "
-"çevirileri geri alır."
+"Bu projede <b>%(user)s</b> tarafından yapılmış son düzenlenebilir çevirileri "
+"geri alır."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "Öneriyi reddet"
+msgstr "Kullanıcının önerilerini reddet"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
 msgstr ""
-"Bu işlem, tüm projelerde <b>%(user)s</b> tarafından yapılmış son "
-"düzenlenebilir çevirileri geri alacak."
+"Tüm projelerde <b>%(user)s</b> tarafından yapılmış bekleyen çevirileri "
+"reddeder."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
 msgstr ""
-"Bu işlem, bu projede <b>%(user)s</b> tarafından yapılmış son düzenlenebilir "
-"çevirileri geri alır."
+"Bu projede <b>%(user)s</b> tarafından yapılmış bekleyen önerileri reddeder."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "Yorum silme"
+msgstr "Kullanıcı yorumlarını sil"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr ""
-"Bu işlem, tüm projelerde <b>%(user)s</b> tarafından yapılmış son "
-"düzenlenebilir çevirileri geri alacak."
+msgstr "Tüm projelerde <b>%(user)s</b> tarafından yapılmış tüm yorumları siler."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr ""
-"Bu işlem, <b>%(user)s</b> kullanıcısının bu projeye erişimini kaldıracak."
+msgstr "Bu projede <b>%(user)s</b> tarafından yapılmış tüm yorumları siler."
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -14611,18 +14564,16 @@ msgid "Edit team membership for %(username)s"
 msgstr "%(username)s kullanıcısının takım üyeliğini düzenle"
 
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Clean up user contributions"
-msgstr "Yalnızca seçilmiş kullanıcılar katkıda bulunabilir."
+msgstr "Kullanıcı katkılarını temizle"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
 msgstr ""
-"Bu işlem, <b>%(user)s</b> kullanıcısının bu projeye erişimini kaldıracak."
+"Bu projede <b>%(user)s</b> tarafından yapılmış hangi katkıların "
+"temizleneceğini seçin."
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -14980,7 +14931,7 @@ msgstr[1] "Bu dizgenin %(count)s çeşidi var."
 #: weblate/templates/translate.html:733 weblate/trans/actions.py:24
 #: weblate/trans/models/unit.py:482
 msgid "Automatically translated"
-msgstr "Kendiliğinden çevrilmiş"
+msgstr "Kendiliğinden çevrildi"
 
 #: weblate/templates/translate.html:738
 msgid "This string was translated automatically."
@@ -15385,12 +15336,12 @@ msgstr "Bileşen kilitlendi"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:36
 msgid "Component unlocked"
-msgstr "Bileşen kilidi açıldı"
+msgstr "Bileşenin kilidi açıldı"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:39
 msgid "Changes committed"
-msgstr "Değişiklikler gönderildi"
+msgstr "Değişiklikler işlendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:41
@@ -15425,7 +15376,7 @@ msgstr "Depo yeniden yerleştirilemedi"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:53
 msgid "Parsing failed"
-msgstr "İşlem yapılamadı"
+msgstr "İşlenemedi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:55
@@ -15490,7 +15441,7 @@ msgstr "Çeviri onaylandı"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:79
 msgid "Marked for edit"
-msgstr "Düzenlenecek olarak imlendi"
+msgstr "Düzenlenmek üzere imlendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:81
@@ -15525,7 +15476,7 @@ msgstr "Katkıda bulunan katıldı"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:95
 msgid "Announcement posted"
-msgstr "Duyuru yayınlandı"
+msgstr "Duyuru gönderildi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:97
@@ -15565,7 +15516,7 @@ msgstr "Depo bildirimi alındı"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:111
 msgid "Translation replaced file by upload"
-msgstr "Çeviri ile yüklenen dosya ile değiştirildi"
+msgstr "Çeviri dosya yüklemesi ile değiştirildi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:113
@@ -15590,7 +15541,7 @@ msgstr "Ekran görüntüsü yüklendi"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:121
 msgid "String updated in the repository"
-msgstr "Depodaki dizge güncellendi"
+msgstr "Depodaki dizge değiştirildi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:123
@@ -15610,7 +15561,7 @@ msgstr "Eklenti kaldırıldı"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:129
 msgid "String removed"
-msgstr "Dizge silindi"
+msgstr "Dizge kaldırıldı"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:131
@@ -15675,12 +15626,12 @@ msgstr "Bileşen çevirisi tamamlandı"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:158
 msgid "Applied enforced check"
-msgstr "Uygulanan zorunlu denetim"
+msgstr "Zorunlu denetim uygulandı"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:160
 msgid "Propagated change"
-msgstr "Yayılmış değişiklik"
+msgstr "Değişiklik yayıldı"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:162
@@ -15735,17 +15686,17 @@ msgstr "Etiket kaldırıldı"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:182
 msgid "Repository cleanup"
-msgstr "Depo temizliği"
+msgstr "Depo temizlendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:184
 msgid "Source string added in the upload"
-msgstr "Yüklemeye eklenen kaynak dizge"
+msgstr "Yüklemeye kaynak dizge eklendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:186
 msgid "Source string added in the repository"
-msgstr "Depoya eklenen kaynak dizge"
+msgstr "Depoya kaynak dizge eklendi"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:188
@@ -16033,8 +15984,8 @@ msgstr "Uzun satırları kaydırma"
 #: weblate/trans/file_format_params.py:297
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr ""
-"Satırlar, 77 karakterden sonra ve yeni satırlar noktalarında kaydırılsın "
-"(xgettext default)"
+"Satırlar, 77 karakterden sonra ve yeni satırlarda kaydırılır (xgettext "
+"varsayılanı)"
 
 #: weblate/trans/file_format_params.py:302
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
@@ -16073,19 +16024,19 @@ msgstr "YAML girintisi"
 
 #: weblate/trans/file_format_params.py:380
 msgid "Wrap lines at 80 chars"
-msgstr "Satırlar 80 karakterde kaydırılsın"
+msgstr "Satırlar 80. karakterde kaydırılır"
 
 #: weblate/trans/file_format_params.py:381
 msgid "Wrap lines at 100 chars"
-msgstr "Satırlar 100 karakterde kaydırılsın"
+msgstr "Satırlar 100. karakterde kaydırılır"
 
 #: weblate/trans/file_format_params.py:382
 msgid "Wrap lines at 120 chars"
-msgstr "Satırlar 120 karakterde kaydırılsın"
+msgstr "Satırlar 120. karakterde kaydırılır"
 
 #: weblate/trans/file_format_params.py:383
 msgid "Wrap lines at 180 chars"
-msgstr "Satırlar 180 karakterde kaydırılsın"
+msgstr "Satırlar 180. karakterde kaydırılır"
 
 #: weblate/trans/file_format_params.py:398
 msgid "Line breaks"
@@ -16121,7 +16072,7 @@ msgstr "FlatXML anahtar adı"
 
 #: weblate/trans/file_format_params.py:478
 msgid "Deduplicate identical strings"
-msgstr "Aynı dizge çiftlerini birleştir"
+msgstr "Yinelenen dizgeler birleştirilsin"
 
 #: weblate/trans/file_format_params.py:482
 msgid ""
@@ -16129,9 +16080,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
-"Aynı kaynak dizgelerini tek bir çeviri biriminde birleştirir. Konum ile "
-"ilişkili bağlamı kaldırarak dosyanın yeniden yapılandırması veya tablonun "
-"yeniden sıralanması sırasında çevirilerin kaybolmasını önler."
+"Aynı kaynak dizgelerini tek bir çeviri biriminde birleştirir. Konuma göre "
+"bağlamı kaldırarak dosya yeniden yapılandırması veya tablo yeniden "
+"sıralaması sırasında çeviri kaybını önler."
 
 #: weblate/trans/file_format_params.py:492
 #: weblate/trans/file_format_params.py:506
@@ -16156,7 +16107,7 @@ msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:499
 msgid "Encoding used for iOS strings files"
-msgstr "iOS dizge dosyalarında kullanılan kodlama"
+msgstr "iOS dizgeleri dosyaları için kullanılan kodlama"
 
 #: weblate/trans/file_format_params.py:509
 #: weblate/trans/file_format_params.py:540
@@ -16166,24 +16117,24 @@ msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:514
 msgid "Encoding used for Java Properties files"
-msgstr "Java özellikleri dosyalarında kullanılan kodlama"
+msgstr "Java özellikleri dosyası için kullanılan kodlama"
 
 #: weblate/trans/file_format_params.py:524
 #: weblate/trans/file_format_params.py:538
 msgid "Auto-detect"
-msgstr "Kendiliğinden algılama"
+msgstr "Kendiliğinden algılansın"
 
 #: weblate/trans/file_format_params.py:528
 msgid "Encoding used for CSV files"
-msgstr "CSV dosyalarında kullanılan kodlama"
+msgstr "CSV dosyaları için kullanılan kodlama"
 
 #: weblate/trans/file_format_params.py:543
 msgid "Encoding used for simple CSV files"
-msgstr "Basit CSV dosyalarında kullanılan kodlama"
+msgstr "Basit CSV dosyaları için kullanılan kodlama"
 
 #: weblate/trans/file_format_params.py:557
 msgid "Encoding used for GWT Properties files"
-msgstr "GWT özellikleri dosyalarında kullanılan kodlama"
+msgstr "GWT özellikleri dosyaları için kullanılan kodlama"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16392,7 +16343,7 @@ msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
 msgstr ""
-"Kaynak olarak kullanılacak bir bileşenin kısaltmasını yazın. Geçerli "
+"Kaynak olarak kullanılacak bir bileşenin adres son ekini yazın. Geçerli "
 "projedeki tüm bileşenlerin kullanılması için boş bırakın."
 
 #: weblate/trans/forms.py:985
@@ -16441,11 +16392,11 @@ msgstr "Geçerli projedeki tüm bileşenler"
 
 #: weblate/trans/forms.py:1096 weblate/utils/files.py:42
 msgid "Add as suggestion"
-msgstr "Öneri olarak eklensin"
+msgstr "Öneri olarak ekle"
 
 #: weblate/trans/forms.py:1097 weblate/utils/files.py:40
 msgid "Add as translation"
-msgstr "Çeviri olarak eklensin"
+msgstr "Çeviri olarak ekle"
 
 #: weblate/trans/forms.py:1098
 msgid "Add as \"Needing edit\""
@@ -16483,20 +16434,13 @@ msgstr ""
 "Geçerli projede bu kullanıcıdan gelen son çeviri düzenlemelerini geri alır."
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Reject all pending suggestions from this user in the current project."
 msgstr ""
-"Geçerli projede bu kullanıcıdan gelen son çeviri düzenlemelerini geri alır."
+"Geçerli projede bu kullanıcının yaptığı tüm bekleyen önerileri reddeder."
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Delete all comments from this user in the current project."
-msgstr ""
-"Geçerli projede bu kullanıcıdan gelen son çeviri düzenlemelerini geri alır."
+msgstr "Geçerli projede bu kullanıcının yaptığı tüm yorumları siler."
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -16770,7 +16714,7 @@ msgstr "Ayarlanacak durum"
 
 #: weblate/trans/forms.py:3089
 msgid "Do not change"
-msgstr "Durum değiştirilmesin"
+msgstr "Değiştirilmesin"
 
 #: weblate/trans/forms.py:3093
 msgid "Translation flags to add"
@@ -17127,7 +17071,7 @@ msgstr "Görüntülenecek ad"
 #: weblate/trans/models/category.py:63 weblate/trans/models/component.py:471
 #: weblate/trans/models/componentlist.py:43 weblate/trans/models/project.py:191
 msgid "URL slug"
-msgstr "Adres kısaltması"
+msgstr "Adres son eki"
 
 #: weblate/trans/models/category.py:65 weblate/trans/models/component.py:473
 #: weblate/trans/models/componentlist.py:47 weblate/trans/models/project.py:194
@@ -17513,7 +17457,7 @@ msgstr "Zorunlu denetimler"
 
 #: weblate/trans/models/component.py:709
 msgid "List of checks which can not be dismissed."
-msgstr "Yok sayılamayacak denetimler hataları listesi."
+msgstr "Yok sayılamayacak denetimlerin listesi."
 
 #: weblate/trans/models/component.py:727
 msgid ""
@@ -18297,10 +18241,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "Yüklenen dosya işlenemedi: %s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Çeviri dosyaları işlenemedi."
+msgstr "Çeviri dosyası işlenemedi: %s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -18577,46 +18520,46 @@ msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
 msgstr ""
-"İçe aktarılan dizgeler, var olan dizgelere çeviri olarak eklenir. Bu en "
-"yaygın kullanım durumudur ve varsayılan davranıştır."
+"İçe aktarılan dizgeler, var olan dizgelere çeviri olarak eklenir. En yaygın "
+"kullanım örneği ve varsayılan davranış budur."
 
 #: weblate/trans/templatetags/upload_methods.py:27
 msgid ""
 "Imported strings are added as approved translations. Do this when you "
 "already reviewed your translations before uploading them."
 msgstr ""
-"İçe aktarılan dizgeler, onaylanmış çeviriler olarak eklenir. Çevirilerinizi "
-"yüklemeden önce zaten onayladıysanız bunu yapın."
+"İçe aktarılan dizgeler onaylanmış çeviriler olarak eklenir. Yüklenen "
+"dizgeleri daha önce onayladıysanız bunu kullanın."
 
 #: weblate/trans/templatetags/upload_methods.py:31
 msgid ""
 "Imported strings are added as suggestions. Do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
-"İçe aktarılan dizgeler, öneri olarak eklenir. Yüklediğiniz dizgelerin "
-"onaylanmasını istediğinizde bunu seçin."
+"İçe aktarılan dizgeler öneri olarak eklenir. Yüklenen dizgelerinizin "
+"onaylanmasını istediğinizde bunu kullanın."
 
 #: weblate/trans/templatetags/upload_methods.py:35
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
-"İçe aktarılan dizgeler, Düzenlenmesi gerekli çeviriler olarak eklenir. "
-"Çevirilerin hem kullanılmasını hem de onaylanmasını istediğinizde yararlı "
-"olabilir."
+"İçe aktarılan dizgeler, düzenlenmesi gerekli çeviriler olarak eklenir. Bu "
+"seçenek, çevirilerin kullanılmasını ve aynı zamanda onaylanmasını "
+"istediğinizde yararlı olabilir."
 
 #: weblate/trans/templatetags/upload_methods.py:39
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
-"Var olan dosya yeni içerikle değiştirilir. Var olan çevirilerin kaybolmasına "
-"neden olabileceğinden dikkatli kullanın."
+"Var olan dosya yeni içerikle değiştirilir. Bu seçenek var olan çevirilerin "
+"kaybına neden olabileceğinden dikkatli kullanın."
 
 #: weblate/trans/templatetags/upload_methods.py:43
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr "Yeni dizgeleri çeviriye ekler. Zaten var olan çevirileri atlar."
+msgstr "Çeviriye yeni dizgeler ekler. Zaten var olanları atlar."
 
 #: weblate/trans/templatetags/upload_methods.py:46
 msgid "Updates source strings in bilingual translation file."
@@ -18724,12 +18667,10 @@ msgid "Weblate statistics"
 msgstr "Weblate istatistikleri"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s in this project was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
 msgstr ""
-"Bu projede %(user)s tarafından yapılan düzenlemelerin geri alınması "
-"zamanlandı."
+"Bu projede %(user)s tarafından yapılmış katkıların temizlenmesi zamanlandı."
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
@@ -19020,15 +18961,11 @@ msgid "Comment has been resolved."
 msgstr "Yorum çözümlendi."
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Başka bir arka plan işlemi sürdüğünden dizge kaldırılamadı. Lütfen bir süre "
+"Başka bir arka plan işlemi sürdüğünden dizge eklenemedi. Lütfen bir süre "
 "sonra yeniden deneyin."
 
 #: weblate/trans/views/edit.py:1138
@@ -19454,12 +19391,10 @@ msgstr ""
 "kullanın."
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr "Bu adres, engellenmiş bir model ile eşleştiği için kullanılamaz."
+msgstr "Bu adres, bağlandığı eş adresi belirlenemediği için kullanılamaz."
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -19650,17 +19585,16 @@ msgstr "Dosya adında izin verilmeyen bir klasör var."
 
 #: weblate/utils/validators.py:320
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "Yedekleme konumunda hiçbir arşiv belirtilemez."
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "Dosya adı mutlak bir yol olamaz."
+msgstr "Yedek konumu mutlak bir yol olmalıdır."
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
 msgstr ""
+"Yedekleme konumu, DATA_DIR içindeki Weblate yedeklerinin dışında olmalıdır."
 
 #: weblate/utils/validators.py:350 weblate/utils/validators.py:367
 msgid "This name is prohibited"

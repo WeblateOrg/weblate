@@ -28,55 +28,74 @@ class FieldKwargsDict(TypedDict, total=False):
 
 
 class FileFormatParams(TypedDict, total=False):
+    json_sort_keys: bool
+    json_indent: int
+    json_indent_style: Literal["spaces", "tabs"]
+    json_use_compact_separators: bool
+    po_line_wrap: int
+    po_keep_previous: bool
+    po_no_location: bool
+    po_fuzzy_matching: bool
+    po_set_language_team: bool
+    po_set_last_translator: bool
+    po_set_x_generator: bool
+    po_report_msgid_bugs_to: bool
+    yaml_indent: int
+    yaml_line_wrap: int
+    yaml_line_break: str
+    xml_closing_tags: bool
+    flatxml_root_name: str
+    flatxml_value_name: str
+    flatxml_key_name: str
+    strings_encoding: str
+    properties_encoding: str
     csv_encoding: str
     csv_simple_encoding: str
     dos_eol: bool
-    flatxml_key_name: str
-    flatxml_root_name: str
-    flatxml_value_name: str
     gwt_encoding: str
-    json_indent: int
-    json_indent_style: Literal["spaces", "tabs"]
-    json_sort_keys: bool
-    json_use_compact_separators: bool
+    line_max_length: int
+    md_extract_code_blocks: bool
+    md_extract_frontmatter: bool
+    md_no_placeholders: bool
     merge_duplicates: bool
-    po_fuzzy_matching: bool
-    po_keep_previous: bool
-    po_line_wrap: int
-    po_no_location: bool
-    properties_encoding: str
-    strings_encoding: str
-    xml_closing_tags: bool
-    yaml_indent: int
-    yaml_line_break: str
-    yaml_line_wrap: int
+
+
+FileFormatParamKey = Literal[
+    "dos_eol",
+    "json_sort_keys",
+    "json_indent",
+    "json_indent_style",
+    "json_use_compact_separators",
+    "po_line_wrap",
+    "po_keep_previous",
+    "po_no_location",
+    "po_fuzzy_matching",
+    "po_set_language_team",
+    "po_set_last_translator",
+    "po_set_x_generator",
+    "po_report_msgid_bugs_to",
+    "yaml_indent",
+    "yaml_line_wrap",
+    "yaml_line_break",
+    "xml_closing_tags",
+    "flatxml_root_name",
+    "flatxml_value_name",
+    "flatxml_key_name",
+    "strings_encoding",
+    "properties_encoding",
+    "csv_encoding",
+    "csv_simple_encoding",
+    "gwt_encoding",
+    "merge_duplicates",
+    "line_max_length",
+    "md_extract_code_blocks",
+    "md_extract_frontmatter",
+    "md_no_placeholders",
+]
 
 
 class BaseFileFormatParam:
-    name: Literal[
-        "csv_encoding",
-        "csv_simple_encoding",
-        "dos_eol",
-        "flatxml_key_name",
-        "flatxml_root_name",
-        "flatxml_value_name",
-        "gwt_encoding",
-        "json_indent",
-        "json_indent_style",
-        "json_sort_keys",
-        "json_use_compact_separators",
-        "merge_duplicates",
-        "po_fuzzy_matching",
-        "po_keep_previous",
-        "po_line_wrap",
-        "po_no_location",
-        "properties_encoding",
-        "strings_encoding",
-        "xml_closing_tags",
-        "yaml_indent",
-        "yaml_line_break",
-        "yaml_line_wrap",
-    ]
+    name: FileFormatParamKey
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
@@ -127,7 +146,9 @@ class BaseFileFormatParam:
         """Configure store with this file format parameters."""
 
     @classmethod
-    def get_value(cls, file_format_params: FileFormatParams):
+    def get_value(cls, file_format_params: FileFormatParams | None):
+        if file_format_params is None:
+            return cls.default
         value = file_format_params.get(cls.name, cls.default)
         if value is None:
             return cls.default
@@ -332,7 +353,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
-    file_formats = ("po",)
+    file_formats: Sequence[str] = ("po",)
 
 
 @register_file_format_param
@@ -357,6 +378,48 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     label = gettext_lazy("Use fuzzy matching")
     field_class = forms.BooleanField
     default = True
+
+
+@register_file_format_param
+class GettextSetLanguageTeamHeader(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_set_language_team"
+    label = gettext_lazy("Update language team header")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy('Lets Weblate update the "Language-Team" file header.')
+
+
+@register_file_format_param
+class GettextLastTranslator(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_set_last_translator"
+    label = gettext_lazy("Update last translator header")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy('Lets Weblate update the "Last-Translator" file header.')
+
+
+@register_file_format_param
+class GettextXGenerator(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_set_x_generator"
+    label = gettext_lazy("Update X-Generator header")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy('Lets Weblate update the "X-Generator" file header.')
+
+
+@register_file_format_param
+class GettextReportMsgidBugsTo(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_report_msgid_bugs_to"
+    label = gettext_lazy("Report msgid bugs to")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy(
+        'Lets Weblate update the "Report-Msgid-Bugs-To" file header if Source string bug reporting address is set.'
+    )
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
@@ -577,5 +640,54 @@ class DOSLineEndings(BaseFileFormatParam):
     field_class = forms.BooleanField
     default = False
     help_text = gettext_lazy(
-        "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
+        "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
+    )
+
+
+@register_file_format_param
+class LineMaxLength(BaseFileFormatParam):
+    name = "line_max_length"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Maximum line length")
+    field_class = forms.IntegerField
+    default = 80
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 20, "max_value": 1000}
+    help_text = gettext_lazy(
+        "The maximum number of characters for each line in the output file."
+    )
+
+
+@register_file_format_param
+class MdExtractCodeBlocks(BaseFileFormatParam):
+    name = "md_extract_code_blocks"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Extract code blocks")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy(
+        "Whether to extract translatable content from code blocks in Markdown files."
+    )
+
+
+@register_file_format_param
+class MdExtractFrontmatter(BaseFileFormatParam):
+    name = "md_extract_frontmatter"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Extract front matter")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy(
+        "Whether to extract and translate YAML front matter blocks in Markdown files."
+    )
+
+
+@register_file_format_param
+class MdNoPlaceholders(BaseFileFormatParam):
+    name = "md_no_placeholders"
+    file_formats = ("markdown",)
+    label = gettext_lazy("Disable placeholders")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Disables detection and processing of placeholders in Markdown files."
     )

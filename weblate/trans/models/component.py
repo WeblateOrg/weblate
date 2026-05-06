@@ -68,6 +68,7 @@ from weblate.trans.mixins import (
     PathMixin,
 )
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
+from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.translation import Translation
@@ -157,7 +158,7 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+    from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
 
     from django_stubs_ext import StrOrPromise
@@ -461,6 +462,18 @@ class OldComponentSettings(TypedDict):
 class Component(  # noqa: PLR0904
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "restricted",
+        "enable_suggestions",
+        "suggestion_voting",
+        "suggestion_autoaccept",
+        "new_lang",
+        "manage_units",
+        "allow_translation_propagation",
+        "contribute_project_tm",
+        "check_flags",
+        "enforced_checks",
+    )
     LINKED_REPOSITORY_SETTINGS: ClassVar[tuple[str, ...]] = (
         "push_on_commit",
         "commit_pending_age",
@@ -1031,6 +1044,7 @@ class Component(  # noqa: PLR0904
         # Repository links change both the effective repository object and
         # the delegated filesystem path.
         self.refresh_linked_component()
+        update_fields = kwargs.get("update_fields")
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
@@ -1072,7 +1086,7 @@ class Component(  # noqa: PLR0904
 
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
-            self.generate_changes(old)
+            self.generate_changes(old, update_fields=update_fields)
             # Detect slug changes and rename Git repo
             was_renamed = self.check_rename(old)
             # Rename linked repos
@@ -1258,7 +1272,9 @@ class Component(  # noqa: PLR0904
     def cached_links(self) -> models.QuerySet[Project]:
         return self.links.all()
 
-    def generate_changes(self, old) -> None:
+    def generate_changes(
+        self, old: Component, update_fields: Collection[str] | None = None
+    ) -> None:
         def getvalue(base, attribute):
             result = getattr(base, attribute)
             if result is None:
@@ -1274,6 +1290,8 @@ class Component(  # noqa: PLR0904
             ("project", ActionEvents.MOVE_COMPONENT),
         )
         for attribute, action in tracked:
+            if not should_track_field(self, attribute, update_fields):
+                continue
             old_value = getvalue(old, attribute)
             current_value = getvalue(self, attribute)
 
@@ -1284,6 +1302,14 @@ class Component(  # noqa: PLR0904
                     target=current_value,
                     user=self.acting_user,
                 )
+        log_setting_changes(
+            self,
+            old,
+            self.AUDIT_SETTINGS,
+            ActionEvents.COMPONENT_SETTING_CHANGE,
+            self.acting_user,
+            update_fields,
+        )
 
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""

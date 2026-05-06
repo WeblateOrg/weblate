@@ -17,7 +17,7 @@ import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import IntegrityError, models, transaction
+from django.db import DatabaseError, IntegrityError, models, transaction
 from django.db.models import F, Q
 from django.urls import reverse
 from django.utils import timezone
@@ -38,6 +38,11 @@ from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
     PluralFormsMismatchError,
+)
+from weblate.trans.file_format_params import (
+    GettextLastTranslator,
+    GettextReportMsgidBugsTo,
+    GettextSetLanguageTeamHeader,
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
@@ -1237,25 +1242,27 @@ class Translation(
 
         # Prepare headers to update
         headers = {
-            "last_translator": author_name,
             "plural_forms": self.plural.plural_form,
             "language": self.language_code,
             "PO_Revision_Date": now.strftime("%Y-%m-%d %H:%M%z"),
         }
 
         # Optionally store language team with link to website
-        if self.component.project.set_language_team:
+        if GettextSetLanguageTeamHeader.get_value(self.component.file_format_params):
             headers["language_team"] = (
                 f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
             )
+        if GettextLastTranslator.get_value(self.component.file_format_params):
+            headers["last_translator"] = author_name
 
         # Optionally store email for reporting bugs in source
-        report_source_bugs = self.component.report_source_bugs
-        if report_source_bugs:
+        if (
+            report_source_bugs := self.component.report_source_bugs
+        ) and GettextReportMsgidBugsTo.get_value(self.component.file_format_params):
             headers["report_msgid_bugs_to"] = report_source_bugs
 
         # Update generic headers
-        store.update_header(**headers)
+        store.update_header(self.component.file_format_params, **headers)
 
         # save translation changes
         store.save()
@@ -1550,6 +1557,11 @@ class Translation(
             # Commit pending changes
             try:
                 component.commit_pending("source update", author)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1611,6 +1623,11 @@ class Translation(
                     self.component.commit_pending("replace file", author)
                 else:
                     self.commit_pending("replace file", author)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1740,6 +1757,11 @@ class Translation(
         if component.has_template() and component.source_translation.needs_commit():
             try:
                 component.commit_pending("upload", request.user)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")

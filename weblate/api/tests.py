@@ -18,6 +18,7 @@ import yaml
 from django.conf import settings
 from django.core.cache import cache
 from django.core.files import File
+from django.db import DatabaseError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
@@ -7229,6 +7230,34 @@ class TranslationAPITest(APIBaseTest):
         self.assertNotIn("ssh://", detail)
         self.assertNotIn(self.component.full_path, detail)
         self.assertIn(".../secret", detail)
+
+    def test_upload_database_error_is_hidden(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=DatabaseError(
+                    "invalid page in block 876338 of relation base/16386/17990"
+                ),
+            ),
+            patch("weblate.api.views.report_error") as mocked_report_error,
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        detail = response.data["errors"][0]["detail"]
+        self.assertIn("File upload has failed", detail)
+        self.assertIn("Please try again later.", detail)
+        self.assertNotIn("invalid page", detail)
+        self.assertNotIn("base/16386/17990", detail)
+        mocked_report_error.assert_called_once_with(
+            "Upload error", print_tb=True, project=self.component.project
+        )
 
     def test_upload_internal_error_is_sanitized(self) -> None:
         self.authenticate()

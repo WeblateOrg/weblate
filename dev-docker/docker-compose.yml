@@ -13,7 +13,7 @@
 
 services:
   cache:
-    image: redis:8.6.2-alpine@sha256:c5e375abb885e6b2021c0377879e4890bf76f9065b8922ffc113f2b226b9fc17
+    image: redis:8.6.3-alpine@sha256:69f2c586c8a7e9cce4ae1ee9bbaf60bc4bb5f4bb3880e4ed022b1fd758a7cab9
     volumes:
     - redis-data:/data
     command: [redis-server, --save, '60', '1']

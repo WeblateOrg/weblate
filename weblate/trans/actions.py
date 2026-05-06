@@ -192,6 +192,10 @@ class ActionEvents(IntegerChoices):
     COMPONENT_RESTORE = 93, gettext_lazy("Component restored")
     # Translators: Name of event in the history
     USER_REVERT = 94, gettext_lazy("User edit reverted")
+    # Translators: Name of event in the history
+    PROJECT_SETTING_CHANGE = 95, gettext_lazy("Project setting changed")
+    # Translators: Name of event in the history
+    COMPONENT_SETTING_CHANGE = 96, gettext_lazy("Component setting changed")
 
 
 # Actions which are logged
@@ -215,6 +219,8 @@ ACTIONS_LOG = {
     ActionEvents.PROJECT_BACKUP,
     ActionEvents.PROJECT_RESTORE,
     ActionEvents.COMPONENT_RESTORE,
+    ActionEvents.PROJECT_SETTING_CHANGE,
+    ActionEvents.COMPONENT_SETTING_CHANGE,
 }
 
 

@@ -20,6 +20,7 @@ from weblate.formats.ttkit import CSVFormat
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
 
 CSV_DIALECT = "unix"
@@ -147,19 +148,19 @@ class XlsxFormat(CSVFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
             msg = "Not supported"
             raise ValueError(msg)
         # Parse file
-        store = cls(base)
+        store = cls(base, file_format_params=file_format_params)
         if callback:
             callback(store)
-        store.untranslate_store(language)
+        store.untranslate_store(language, file_format_params=file_format_params)
         with open(filename, "wb") as handle:
             XlsxFormat(store.store).save_content(handle)
