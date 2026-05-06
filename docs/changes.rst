@@ -31,6 +31,7 @@ Weblate 2026.5
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
+* The upgrading policy was changed, and upgrades are only supported from the last year's releases.
 
 .. rubric:: Contributors
 
