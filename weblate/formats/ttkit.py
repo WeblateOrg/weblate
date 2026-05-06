@@ -774,10 +774,9 @@ class BasePoUnit[U: pounit, F: BaseTTKitFormat](TTKitUnit[U, F]):
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         super().set_state(state)
+        self.__dict__.pop("previous_source", None)
         if state not in FUZZY_STATES:
-            self.unit.prev_msgid = []
-            self.unit.prev_msgid_plural = []
-            self.unit.prev_msgctxt = []
+            self.unit.clear_previous()
 
     def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         """
