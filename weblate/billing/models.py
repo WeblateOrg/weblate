@@ -718,6 +718,10 @@ def record_project_bill(
     if isinstance(instance, Project):
         users = User.objects.having_perm("project.edit", instance)
         for billing in instance.billing_set.all():
+            # Do the owners sync only for the last project
+            if billing.projects.exclude(pk=instance.pk).exists():
+                continue
+            # Add project admins to the billing
             existing_owners = set(billing.owners.values_list("id", flat=True))
             for user in users:
                 if user.id in existing_owners:
