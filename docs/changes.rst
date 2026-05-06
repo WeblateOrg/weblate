@@ -1398,6 +1398,7 @@ Weblate 5.8.2
 * Reduced number of database queries when updating multiple strings.
 * Leading problematic characters in :ref:`glossary` terms are now properly stripped in uploaded files.
 * Improved :ref:`workflow-customization` performance.
+* Fixed XML escaped output in some machine translation integrations.
 
 .. rubric:: Upgrading
 
@@ -1881,6 +1882,7 @@ Weblate 5.4.1
 .. rubric:: Bug fixes
 
 * Possible crash on Weblate upgrade check when cached from the previous versions.
+* Gracefully handle migration with duplicate built-in teams.
 
 .. rubric:: Upgrading
 
