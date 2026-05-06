@@ -71,8 +71,8 @@ Weblate 5.17.1
 
 .. rubric:: Bug fixes
 
-* Image URLs in Markdown are now escaped before rendering (:ghsa:`5cmv-3rc4-7279`).
-* Tightened :ref:`api` input validation to prevent translation enumeration (:ghsa:`gcg5-86jr-f7jg`).
+* Image URLs in Markdown are now escaped before rendering (:cve:`2026-44264` / :ghsa:`5cmv-3rc4-7279`).
+* Tightened :ref:`api` input validation to prevent translation enumeration (:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`).
 * Project backup imports now revalidate component repository URLs before restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`).
 * Fixed revert links in the translate-view history tab after moving a component to another project.
 * Invitation acceptance now verifies the invited e-mail address and invitation expiry before granting team membership.
