@@ -13,11 +13,22 @@ import os.path
 import signal
 import subprocess  # noqa: S404
 from contextlib import suppress
+from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Literal, Self, TypedDict
+from typing import (
+    TYPE_CHECKING,
+    ClassVar,
+    Literal,
+    NotRequired,
+    Required,
+    Self,
+    TypedDict,
+)
 
 from dateutil import parser
+from django.conf import settings
 from django.core.cache import cache
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
@@ -37,7 +48,6 @@ from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
-    from datetime import datetime
 
     import requests
     from django_stubs_ext import StrOrPromise
@@ -69,7 +79,53 @@ class SubprocessArgs(TypedDict, total=False):
     input: str
 
 
+class RawCommitInfo(TypedDict):
+    """Detailed revision information returned by VCS implementations."""
+
+    revision: Required[str]
+    shortrevision: Required[str]
+    author: Required[str]
+    authordate: Required[str]
+    commit: Required[str]
+    commitdate: Required[str]
+    message: Required[str]
+    summary: Required[str]
+    author_name: NotRequired[str]
+    author_email: NotRequired[str]
+    commit_name: NotRequired[str]
+    commit_email: NotRequired[str]
+    committerdate: NotRequired[str]
+    date: NotRequired[str]
+
+
+class CommitInfo(TypedDict):
+    """Detailed revision information exposed to callers."""
+
+    revision: Required[str]
+    shortrevision: Required[str]
+    author: Required[str]
+    authordate: Required[datetime]
+    commit: Required[str]
+    commitdate: Required[datetime]
+    message: Required[str]
+    summary: Required[str]
+    author_name: NotRequired[str]
+    author_email: NotRequired[str]
+    commit_name: NotRequired[str]
+    commit_email: NotRequired[str]
+    committerdate: NotRequired[datetime]
+    date: NotRequired[datetime]
+
+
 type RemoteOperation = Literal["none", "pull", "push"]
+
+
+def parse_commit_date(value: str | datetime) -> datetime:
+    """Parse a commit date string into a datetime object."""
+    result = value if isinstance(value, datetime) else parser.parse(value)
+    if settings.USE_TZ and timezone.is_naive(result):
+        return timezone.make_aware(result)
+    return result
 
 
 class RepositoryLock:
@@ -710,25 +766,43 @@ class Repository:
         """Check whether repository needs push."""
         return bool(self.get_push_revisions(branch))
 
-    def _get_revision_info(self, revision: str) -> dict[str, str]:
+    def _get_revision_info(self, revision: str) -> RawCommitInfo:
         """Return dictionary with detailed revision information."""
         raise NotImplementedError
 
-    def get_revision_info(self, revision: str) -> dict[str, str]:
+    def get_revision_info(self, revision: str) -> CommitInfo:
         """Return dictionary with detailed revision information."""
         key = f"rev-info-{self.get_identifier()}-{revision}"
-        result = cache.get(key)
+        result: RawCommitInfo | None = cache.get(key)
         if not result:
             result = self._get_revision_info(revision)
             # Keep the cache for one day
             cache.set(key, result, 86400)
 
-        # Parse timestamps into datetime objects
-        for name, value in result.items():
-            if "date" in name:
-                result[name] = parser.parse(value)
+        commit_info: CommitInfo = {
+            "revision": result["revision"],
+            "shortrevision": result["shortrevision"],
+            "author": result["author"],
+            "authordate": parse_commit_date(result["authordate"]),
+            "commit": result["commit"],
+            "commitdate": parse_commit_date(result["commitdate"]),
+            "message": result["message"],
+            "summary": result["summary"],
+        }
+        if "author_name" in result:
+            commit_info["author_name"] = result["author_name"]
+        if "author_email" in result:
+            commit_info["author_email"] = result["author_email"]
+        if "commit_name" in result:
+            commit_info["commit_name"] = result["commit_name"]
+        if "commit_email" in result:
+            commit_info["commit_email"] = result["commit_email"]
+        if "committerdate" in result:
+            commit_info["committerdate"] = parse_commit_date(result["committerdate"])
+        if "date" in result:
+            commit_info["date"] = parse_commit_date(result["date"])
 
-        return result
+        return commit_info
 
     @classmethod
     def is_configured(cls) -> bool:

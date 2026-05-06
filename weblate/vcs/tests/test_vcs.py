@@ -10,6 +10,7 @@ import re
 import shutil
 import tempfile
 from contextlib import ExitStack
+from datetime import datetime
 from io import BytesIO
 from os import utime
 from pathlib import Path
@@ -38,6 +39,7 @@ from weblate.vcs.base import (
     get_config_check_cache_key,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
+    parse_commit_date,
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
@@ -226,6 +228,14 @@ class RepositoryTest(SimpleTestCase):
 
     def test_is_supported_no_version(self) -> None:
         self.assertTrue(GitNoVersionRepository.is_supported())
+
+    def test_parse_commit_date_normalizes_naive_datetime(self) -> None:
+        parsed = parse_commit_date(datetime(2026, 5, 7, 12, 30))  # noqa: DTZ001
+        self.assertTrue(timezone.is_aware(parsed))
+
+    def test_parse_commit_date_normalizes_naive_string(self) -> None:
+        parsed = parse_commit_date("2026-05-07 12:30:00")
+        self.assertTrue(timezone.is_aware(parsed))
 
     def test_is_supported_cache(self) -> None:
         GitTestRepository.is_supported()

@@ -176,7 +176,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.trans.removal import RemovalBatch
-    from weblate.vcs.base import Repository, RepositoryLock
+    from weblate.vcs.base import CommitInfo, Repository, RepositoryLock
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -1805,7 +1805,7 @@ class Component(  # noqa: PLR0904
         return self.build_repository()
 
     @perform_on_link
-    def get_last_remote_commit(self):
+    def get_last_remote_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
         if self.is_repo_local or not self.remote_revision:
             return None
@@ -1814,7 +1814,7 @@ class Component(  # noqa: PLR0904
         except RepositoryError:
             return None
 
-    def get_last_commit(self):
+    def get_last_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
         if self.is_repo_local or not self.local_revision:
             return None

@@ -6,10 +6,10 @@ from __future__ import annotations
 
 import os.path
 from contextlib import suppress
-from datetime import timedelta
+from datetime import datetime, timedelta
 from functools import partial
 from pathlib import Path
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from appconf import AppConf
 from django.conf import settings
@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models, transaction
-from django.db.models import Prefetch, Q
+from django.db.models import Min, Prefetch, Q
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 from django.urls import reverse
@@ -27,10 +27,21 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.models import User
-from weblate.trans.models import Alert, Component, Project, Translation
+from weblate.trans.models import (
+    Alert,
+    Component,
+    PendingUnitChange,
+    Project,
+    Translation,
+)
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.stats import prefetch_stats
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
+    from weblate.vcs.base import CommitInfo
 
 
 class LibreCheck:
@@ -201,12 +212,58 @@ class Billing(models.Model):
     # Payment detailed information, used for integration
     # with payment processor
     payment = models.JSONField(editable=False, default=dict, encoder=DjangoJSONEncoder)
+    inactive_recurring_notification = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=gettext_lazy("Inactive recurring payment notification"),
+    )
+    inactive_recurring_latest_commit = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=gettext_lazy("Latest upstream commit"),
+    )
+    inactive_recurring_oldest_pending_change = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=gettext_lazy("Oldest pending Weblate change"),
+    )
+    inactive_recurring_repository_changes = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=gettext_lazy("Repository changes alert"),
+    )
+    inactive_recurring_push_failure = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=gettext_lazy("Push failure alert"),
+    )
+    inactive_recurring_disable = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=gettext_lazy("Scheduled recurring payment disablement"),
+    )
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
     class Meta:
         verbose_name = "Customer billing"
         verbose_name_plural = "Customer billings"
+
+    INACTIVE_RECURRING_FIELDS: ClassVar[tuple[str, ...]] = (
+        "inactive_recurring_notification",
+        "inactive_recurring_latest_commit",
+        "inactive_recurring_oldest_pending_change",
+        "inactive_recurring_repository_changes",
+        "inactive_recurring_push_failure",
+        "inactive_recurring_disable",
+    )
+    INACTIVE_RECURRING_STATUS_FIELDS: ClassVar[dict[str, str]] = {
+        "latest_commit": "inactive_recurring_latest_commit",
+        "oldest_pending_change": "inactive_recurring_oldest_pending_change",
+        "repository_changes": "inactive_recurring_repository_changes",
+        "push_failure": "inactive_recurring_push_failure",
+        "planned_disable": "inactive_recurring_disable",
+    }
 
     def __str__(self) -> str:
         projects = self.projects_display
@@ -469,6 +526,225 @@ class Billing(models.Model):
     def get_notify_users(self):
         return self.owners.all()
 
+    @staticmethod
+    def _get_commit_date(commit: CommitInfo | None) -> datetime | None:
+        if not commit:
+            return None
+        dates = []
+        for value in (
+            commit.get("committerdate"),
+            commit.get("commitdate"),
+            commit.get("authordate"),
+            commit.get("date"),
+        ):
+            if isinstance(value, datetime):
+                if timezone.is_naive(value):
+                    value = timezone.make_aware(value)
+                dates.append(value)
+        return max(dates, default=None)
+
+    @staticmethod
+    def _get_project_repo_components(project: Project) -> list[Component]:
+        components = list(project.component_set.with_repo().exclude(vcs="local"))
+        included = {component.id for component in components}
+
+        linked = (
+            project.component_set.filter(
+                repo__startswith="weblate:",
+                linked_component__isnull=False,
+            )
+            .exclude(vcs="local")
+            .exclude(linked_component__vcs="local")
+            .select_related("linked_component")
+        )
+        for component in linked:
+            linked_component = component.linked_component
+            if linked_component is None:
+                continue
+            linked_component_id = linked_component.id
+            if linked_component_id in included:
+                continue
+            included.add(linked_component_id)
+            components.append(linked_component)
+
+        return components
+
+    def get_latest_upstream_commit(self) -> datetime | None:
+        """Return latest known upstream commit timestamp for billed projects."""
+        latest_commit = None
+        has_upstream_component = False
+
+        for project in self.projects.all():
+            project_latest = None
+            for component in self._get_project_repo_components(project):
+                has_upstream_component = True
+                commit_date = self._get_commit_date(component.get_last_remote_commit())
+                if commit_date is None:
+                    return None
+                if project_latest is None or commit_date > project_latest:
+                    project_latest = commit_date
+
+            if project_latest is None:
+                return None
+            if latest_commit is None or project_latest > latest_commit:
+                latest_commit = project_latest
+
+        if not has_upstream_component:
+            return None
+        return latest_commit
+
+    def _get_project_ids(self) -> list[int]:
+        return [project.id for project in self.projects.all()]
+
+    def get_oldest_pending_weblate_change(self) -> datetime | None:
+        """Return oldest pending Weblate change in billed projects."""
+        project_ids = self._get_project_ids()
+        if not project_ids:
+            return None
+        return (
+            PendingUnitChange.objects.filter(
+                unit__translation__component__project_id__in=project_ids,
+            )
+            .exclude(unit__translation__component__vcs="local")
+            .aggregate(oldest=Min("timestamp"))["oldest"]
+        )
+
+    def get_oldest_active_alert(self, name: str) -> datetime | None:
+        """Return timestamp of the oldest active alert in billed projects."""
+        project_ids = self._get_project_ids()
+        if not project_ids:
+            return None
+        return (
+            Alert.objects.filter(
+                component__project_id__in=project_ids,
+                dismissed=False,
+                name=name,
+            )
+            .exclude(component__vcs="local")
+            .aggregate(oldest=Min("timestamp"))["oldest"]
+        )
+
+    @classmethod
+    def serialize_inactive_recurring_status(
+        cls, status: Mapping[str, datetime | None]
+    ) -> dict[str, str | bool | None]:
+        details: dict[str, str | bool | None] = {"automatic": True}
+        for key in cls.INACTIVE_RECURRING_STATUS_FIELDS:
+            value = status.get(key)
+            details[key] = value.isoformat() if value else None
+        return details
+
+    def get_inactive_recurring_status(
+        self, now: datetime | None = None
+    ) -> dict[str, datetime] | None:
+        """Return inactivity details for recurring payments, or None when active."""
+        if now is None:
+            now = timezone.now()
+        if (
+            settings.BILLING_INACTIVE_RECURRING_DAYS <= 0
+            or "recurring" not in self.payment
+            or self.plan.yearly_price == 0
+            or self.state != Billing.STATE_ACTIVE
+            or self.count_projects == 0
+        ):
+            return None
+
+        cutoff = now - timedelta(days=settings.BILLING_INACTIVE_RECURRING_DAYS)
+        status = {"cutoff": cutoff}
+
+        latest_commit = self.get_latest_upstream_commit()
+        if latest_commit is not None and latest_commit <= cutoff:
+            status["latest_commit"] = latest_commit
+
+        oldest_pending_change = self.get_oldest_pending_weblate_change()
+        if oldest_pending_change is not None and oldest_pending_change <= cutoff:
+            status["oldest_pending_change"] = oldest_pending_change
+
+        repository_changes = self.get_oldest_active_alert("RepositoryChanges")
+        if repository_changes is not None and repository_changes <= cutoff:
+            status["repository_changes"] = repository_changes
+
+        push_failure = self.get_oldest_active_alert("PushFailure")
+        if push_failure is not None and push_failure <= cutoff:
+            status["push_failure"] = push_failure
+
+        if len(status) == 1:
+            return None
+
+        planned_disable = now + timedelta(
+            days=settings.BILLING_INACTIVE_RECURRING_NOTICE_DAYS
+        )
+        if self.inactive_recurring_disable is not None:
+            planned_disable = self.inactive_recurring_disable
+
+        return {
+            **status,
+            "planned_disable": planned_disable,
+        }
+
+    def clear_inactive_recurring_status(
+        self, *, save: bool = True, log: bool = True
+    ) -> bool:
+        if all(
+            getattr(self, field) is None for field in self.INACTIVE_RECURRING_FIELDS
+        ):
+            return False
+        details = {
+            "notification": (
+                self.inactive_recurring_notification.isoformat()
+                if self.inactive_recurring_notification
+                else None
+            ),
+            **self.serialize_inactive_recurring_status(
+                {
+                    key: getattr(self, field)
+                    for key, field in self.INACTIVE_RECURRING_STATUS_FIELDS.items()
+                }
+            ),
+        }
+        for field in self.INACTIVE_RECURRING_FIELDS:
+            setattr(self, field, None)
+        if save:
+            self.save(update_fields=self.INACTIVE_RECURRING_FIELDS)
+        if log:
+            self.billinglog_set.create(
+                event=BillingEvent.INACTIVE_RECURRING_CLEARED,
+                summary="Cleared recurring payment disablement",
+                details=details,
+            )
+        return True
+
+    def mark_inactive_recurring(
+        self,
+        status: dict[str, datetime],
+        *,
+        now: datetime | None = None,
+    ) -> None:
+        if now is None:
+            now = timezone.now()
+        self.inactive_recurring_notification = now
+        for key, field in self.INACTIVE_RECURRING_STATUS_FIELDS.items():
+            setattr(self, field, status.get(key))
+        self.save(update_fields=self.INACTIVE_RECURRING_FIELDS)
+        self.billinglog_set.create(
+            event=BillingEvent.INACTIVE_RECURRING_SCHEDULED,
+            summary="Scheduled recurring payment disablement",
+            details=self.serialize_inactive_recurring_status(status),
+        )
+
+    def disable_inactive_recurring(self, status: dict[str, datetime]) -> None:
+        payment = self.payment.copy()
+        payment.pop("recurring", None)
+        self.payment = payment
+        for field in self.INACTIVE_RECURRING_FIELDS:
+            setattr(self, field, None)
+        self.save(update_fields=["payment", *self.INACTIVE_RECURRING_FIELDS])
+        self.billinglog_set.create(
+            event=BillingEvent.DISABLED_RECURRING,
+            summary="Disabled recurring payment for inactive projects",
+            details=self.serialize_inactive_recurring_status(status),
+        )
+
     def _get_libre_checklist(self):
         message = ngettext(
             "Contains %d project", "Contains %d projects", self.count_projects
@@ -656,6 +932,8 @@ class BillingEvent(models.IntegerChoices):
     ADMIN_ADDED = 13, "Admin added"
     ADMIN_ADDED_PROJECT = 14, "Admin added on project removal"
     ADMIN_REMOVED = 15, "Admin removed"
+    INACTIVE_RECURRING_SCHEDULED = 16, "Scheduled recurring payment disablement"
+    INACTIVE_RECURRING_CLEARED = 17, "Cleared recurring payment disablement"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog"]):
@@ -778,6 +1056,8 @@ def change_billing_projects(sender, instance, action, **kwargs) -> None:
 class WeblateConf(AppConf):
     GRACE_PERIOD = 15
     REMOVAL_PERIOD = 15
+    INACTIVE_RECURRING_DAYS = 180
+    INACTIVE_RECURRING_NOTICE_DAYS = 30
 
     class Meta:
         prefix = "BILLING"

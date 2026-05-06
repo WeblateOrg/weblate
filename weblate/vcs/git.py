@@ -56,7 +56,11 @@ from weblate.utils.zip import (
     iter_safe_zip_members,
     validate_zip_members,
 )
-from weblate.vcs.base import Repository, RepositoryCommandError, RepositoryError
+from weblate.vcs.base import (
+    Repository,
+    RepositoryCommandError,
+    RepositoryError,
+)
 from weblate.vcs.gpg import get_gpg_sign_key
 
 if TYPE_CHECKING:
@@ -68,6 +72,9 @@ if TYPE_CHECKING:
     from requests.auth import AuthBase
 
     from weblate.trans.models import Component
+    from weblate.vcs.base import (
+        RawCommitInfo,
+    )
 
 LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
@@ -519,7 +526,7 @@ class GitRepository(Repository):
             return [f"--gpg-sign={sign_key}"]
         return []
 
-    def _get_revision_info(self, revision):
+    def _get_revision_info(self, revision: str) -> RawCommitInfo:
         """Return dictionary with detailed revision info."""
         text = self.execute(
             ["log", "-1", "--format=fuller", "--date=rfc", "--abbrev-commit", revision],
@@ -555,7 +562,7 @@ class GitRepository(Repository):
         result["message"] = "\n".join(message)
         result["summary"] = message[0] if message else ""
 
-        return result
+        return cast("RawCommitInfo", result)
 
     def log_revisions(self, refspec):
         """Return revision log for given refspec."""
