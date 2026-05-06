@@ -421,8 +421,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
             converter = MarkdownTranslator(
-                # TODO: remove type override with translate-toolkit 3.19.4
-                inputstore=self.store,  # type: ignore[arg-type]
+                inputstore=self.store,
                 includefuzzy=True,
                 outputthreshold=None,
                 maxlength=LineMaxLength.get_value(self.file_format_params),

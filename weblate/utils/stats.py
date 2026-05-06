@@ -101,17 +101,6 @@ SOURCE_KEYS = frozenset(
     )
 )
 
-# TODO: Drop in Weblate 6
-LEGACY_KEYS = {
-    "unapproved",
-    "unapproved_chars",
-    "unapproved_words",
-    "recent_changes",
-    "monthly_changes",
-    "total_changes",
-    "stats_timestamp",
-}
-
 SOURCE_MAP = {
     "source_chars": "all_chars",
     "source_words": "all_words",
@@ -331,12 +320,6 @@ class BaseStats:
             # Handle source_* keys as virtual on translation level for easier aggregation
             if name.startswith("source_"):
                 return self._data[SOURCE_MAP[name]]
-            # Legacy keys were calculated on demand before and are precalculated
-            # since Weblate 5.2, so they are missing on stats calculated before.
-            # Using zero here is most likely a wrong value, but safe and cheap.
-            # TODO: Drop in Weblate 6
-            if name in LEGACY_KEYS:
-                return 0
             raise
 
     def __getattr__(self, name: str):
@@ -351,8 +334,8 @@ class BaseStats:
             return self.calculate_percent(name)
 
         if name == "stats_timestamp":
-            # TODO: Drop in Weblate 6
-            # Migration path for legacy stat data
+            # Missing timestamp means stale stats; do not rebuild while comparing
+            # child and parent freshness during invalidation.
             return self._data.get(name, 0)
 
         # Virtual fields

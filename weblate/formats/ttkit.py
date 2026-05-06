@@ -455,8 +455,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        # TODO: remove type override with translate-toolkit 3.19.4
-        self.store.serialize(handle)  # type: ignore[arg-type]
+        self.store.serialize(handle)
 
     def save(self) -> None:
         """Save underlying store to disk."""
@@ -948,8 +947,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
 
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
-        # TODO: remove type override with translate-toolkit 3.19.4
-        self.unit.markapproved(state == STATE_APPROVED)  # type: ignore[attr-defined]
+        self.unit.markapproved(state == STATE_APPROVED)
         target_state = None
         if state in FUZZY_STATES:
             # Always set state for fuzzy

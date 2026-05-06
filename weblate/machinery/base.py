@@ -1008,7 +1008,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             alternate_units = plural_mapper.get_other_units(units, source_language)
         plural_mapper.map_units(units, alternate_units)
 
-        # TODO: fetch source from other units
+        # Fetch source from other units
         sources: list[tuple[str, Unit | None]] = [
             (text, unit) for unit in units for text in unit.plural_map
         ]

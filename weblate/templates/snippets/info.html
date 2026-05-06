@@ -484,14 +484,7 @@
           <div class="col-sm-3">
             <div class="metric">
               <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
-                {# TODO: show contributors_total only in Weblate 6.0 #}
-                <div class="metric-number">
-                  {% if metrics.contributors_total %}
-                    {{ metrics.contributors_total|number_format }}
-                  {% else %}
-                    {{ metrics.contributors|number_format }}
-                  {% endif %}
-                </div>
+                <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
                 <div class="metric-text">{% translate "Contributors" %}</div>
               </a>
             </div>
