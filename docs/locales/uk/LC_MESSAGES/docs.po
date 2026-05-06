@@ -29,7 +29,7 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
 "PO-Revision-Date: 2026-05-06 15:16+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Last-Translator: Максим Горпиніч <gorpinicmaksim2005ukr@protonmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -5739,16 +5739,13 @@ msgstr ""
 "Типовим значенням є 30 днів."
 
 #: admin/config.rst:1641
-#, fuzzy
-#| msgid ""
-#| "Configures the maximum size, in bytes, for uploaded component ZIP files. "
-#| "Defaults to 50 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded project backup ZIP "
 "files. Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
-"Встановлює максимальний розмір (у байтах) для завантажуваних ZIP-файлів "
-"компонентів. За замовчуванням — 50 МБ."
+"Встановлює максимальний розмір у байтах для завантажуваних ZIP-файлів "
+"резервних копій проєкту. За замовчуванням встановлено 262 144 000 байтів "
+"(250 Мб)."
 
 #: admin/config.rst:1644
 msgid ""
@@ -5758,6 +5755,10 @@ msgid ""
 "deployments can be constrained by their reverse proxy request body-size "
 "limit."
 msgstr ""
+"У Docker це налаштовується за допомогою змінної середовища "
+"``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``. Налаштування Docker також можуть "
+"обмежуватися змінною :envvar:`CLIENT_MAX_BODY_SIZE`; інші розгортання можуть "
+"обмежуватися обмеженням розміру тіла запиту зворотного проксі-сервера."
 
 #: admin/config.rst:1660
 msgid ""
@@ -5776,22 +5777,22 @@ msgstr ""
 "роздроблених архівів. За замовчуванням встановлено 100 000 записів."
 
 #: admin/config.rst:1677
-#, fuzzy
-#| msgid ""
-#| "Defines the maximum uncompressed size, in bytes, for a single highly "
-#| "compressed ZIP entry in an imported project backup."
 msgid ""
 "Defines the maximum total uncompressed size, in bytes, for ZIP entries in an "
 "imported project backup. Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
-"Визначає максимальний розмір у байтах одного сильно стисненого ZIP-елемента "
-"в імпортованій резервній копії проєкту."
+"Визначає максимальний загальний розмір у байтах (у нестисненому вигляді) для "
+"ZIP-файлів у імпортованій резервній копії проєкту. За замовчуванням "
+"встановлено 262144000 байтів (250 Мб)."
 
 #: admin/config.rst:1680
 msgid ""
 "This limits archives that are small when uploaded but expand to much more "
 "data during validation or restore."
 msgstr ""
+"Це обмежує архівні файли, які під час завантаження мають невеликий розмір, "
+"але під час перевірки або відновлення збільшуються до значно більшого обсягу "
+"даних."
 
 #: admin/config.rst:1694
 msgid ""
@@ -7269,7 +7270,7 @@ msgstr ":guilabel:`Повторне сканування`"
 
 #: admin/continuous.rst:246
 msgid "Re-reads translation files from the local repository into Weblate."
-msgstr "Знову завантажує файли перекладу з локального репозиторію в Weblate"
+msgstr "Знову завантажує файли перекладу з локального репозиторію в Weblate."
 
 #: admin/continuous.rst:247
 msgid "Import file changes after manual repository work or file creation."
@@ -19771,10 +19772,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.5"
-msgstr "Weblate 2.5"
+msgstr "Weblate 2026.5"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19795,6 +19794,9 @@ msgid ""
 ":ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now "
 "export plural strings as separate plural-form rows that can be imported back."
 msgstr ""
+":ref:`CSV <csv>` та :ref:`XLSX <xlsx>` у розділі :ref:`download` тепер "
+"експортують рядки у множині як окремі рядки у формі множини, які можна "
+"імпортувати назад."
 
 #: changes.rst:11 changes.rst:46 changes.rst:132 changes.rst:236
 #: changes.rst:271 changes.rst:318 changes.rst:362 changes.rst:407
@@ -19812,16 +19814,12 @@ msgid "Improvements"
 msgstr "Покращення"
 
 #: changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "The wrapping width can be configured using the ``po_line_wrap`` "
-#| "parameter, see :ref:`file_format_params`."
 msgid ""
 "Using DOS line endings can now be configured using the "
 "``dos_eol`` :ref:`file_format_params`."
 msgstr ""
-"Ширину обтікання можна налаштувати за допомогою параметра ``po_line_wrap``, "
-"див. :ref:`file_format_params`."
+"Тепер використання символів кінця рядка DOS можна налаштувати за допомогою "
+"параметра ``dos_eol`` :ref:`file_format_params`."
 
 #: changes.rst:15 changes.rst:64 changes.rst:172 changes.rst:241
 #: changes.rst:276 changes.rst:330 changes.rst:369 changes.rst:414
@@ -19847,6 +19845,8 @@ msgid ""
 "Merge request pushes now refresh stale fork remotes after changing "
 "repository hosting."
 msgstr ""
+"Тепер оновлення запитів на злиття оновлюють застарілі віддалені репозиторії "
+"форків після зміни хостингу репозиторію."
 
 #: changes.rst:19 changes.rst:94 changes.rst:204 changes.rst:339
 #: changes.rst:382 changes.rst:479 changes.rst:622 changes.rst:717
@@ -19862,6 +19862,8 @@ msgid ""
 "The ``dos-eol`` flag is no longer supported. Use the "
 "``dos_eol`` :ref:`file_format_params` instead."
 msgstr ""
+"Прапорець ``dos-eol`` більше не підтримується. Замість нього використовуйте "
+"``dos_eol`` :ref:`file_format_params`."
 
 #: changes.rst:23 changes.rst:101 changes.rst:213 changes.rst:251
 #: changes.rst:290 changes.rst:347 changes.rst:386 changes.rst:422
@@ -19929,26 +19931,20 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
-"62?closed=1>`__."
+"`Детальний перелік усіх змін <https://github.com/WeblateOrg/weblate/"
+"milestone/162?closed=1>`__."
 
 #: changes.rst:33
 msgid "Weblate 5.17.1"
 msgstr "Weblate 5.17.1"
 
 #: changes.rst:35
-#, fuzzy
-#| msgid "*Released on April 15th 2026.*"
 msgid "*Released on April 30th 2026.*"
-msgstr "*Випущено 15 квітня 2026 року.*"
+msgstr "*Випущено 30 квітня 2026 року.*"
 
 #: changes.rst:39
 msgid ""
@@ -19964,15 +19960,16 @@ msgid ""
 "rejecting pending suggestions, and deleting comments across project or site-"
 "wide scopes."
 msgstr ""
+"Адміністратори тепер можуть очищати список заблокованих або недобросовісних "
+"користувачів, скасовуючи редагування, відхиляючи пропозиції, що очікують на "
+"затвердження, та видаляючи коментарі в межах окремого проєкту або всього "
+"сайту."
 
 #: changes.rst:41
-#, fuzzy
-#| msgid ""
-#| "Admin user management search can now find users by audit log IP address."
 msgid "Admin user management can now find users by audit log IP address."
 msgstr ""
-"У пошуку користувачів з правами адміністратора тепер можна знаходити "
-"користувачів за IP-адресою з журналу аудиту."
+"Адміністратор тепер може знаходити користувачів за IP-адресою в журналі "
+"аудиту."
 
 #: changes.rst:42
 msgid ""
@@ -19983,10 +19980,8 @@ msgstr ""
 "categories."
 
 #: changes.rst:43
-#, fuzzy
-#| msgid ":ref:`mt-ltengine` machine translation service."
 msgid "Added :ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-ltengine` — сервіс машинного перекладу."
+msgstr "Додано сервіс машинного перекладу :ref:`mt-ltengine`."
 
 #: changes.rst:47
 msgid ""
@@ -19994,6 +19989,9 @@ msgid ""
 "permission, :ref:`autoclean-tm`, :ref:`glossary-terminology`, and "
 "current :ref:`translation-memory` management options in the UI."
 msgstr ""
+"Покращено документацію щодо глобального дозволу ``user.edit``, "
+":ref:`autoclean-tm`, :ref:`glossary-terminology` та поточних опцій "
+"управління :ref:`translation-memory` в інтерфейсі користувача."
 
 #: changes.rst:48
 msgid ""
@@ -20004,10 +20002,6 @@ msgstr ""
 "в інтерфейсі скріншотів."
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Documented restoring Docker based setups from backups, see :ref:`restore-"
-#| "docker`."
 msgid ""
 "Documented restoring Docker-based setups from backups, see :ref:`restore-"
 "docker`."
@@ -20024,17 +20018,13 @@ msgstr ""
 "мають бути порожніми перед оновленням."
 
 #: changes.rst:51
-#, fuzzy
-#| msgid ""
-#| "The OpenAPI schema now describes action endpoints with their actual list, "
-#| "statistics, status, upload, and download response payloads."
 msgid ""
 "The OpenAPI schema is cleaner and now describes action endpoints with their "
 "actual list, statistics, status, upload, and download response payloads."
 msgstr ""
-"Схема OpenAPI тепер описує кінцеві точки дій із зазначенням їхнього "
-"фактичного списку, статистичних даних, статусу, а також корисних даних "
-"відповідей на запити завантаження та вивантаження."
+"Схема OpenAPI стала більш чіткою і тепер описує кінцеві точки дій із "
+"зазначенням їхнього фактичного списку, статистичних даних, статусу, а також "
+"даних відповідей на запити завантаження та вивантаження."
 
 #: changes.rst:52
 msgid ""
@@ -20047,29 +20037,24 @@ msgstr ""
 "відсутніх мовних файлів у проектах, категоріях або на рівні всього сайту."
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "Improved :ref:`addon-weblate.discovery.discovery` guidance with guided "
-#| "client-side presets, clearer ``{{ component }}`` validation, and a worked "
-#| "discovery-template example in the docs."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now offers guided client-side "
 "presets, suggests presets detected from component repository layouts, "
 "validates ``{{ component }}`` more clearly, and includes a worked discovery-"
 "template example in the docs."
 msgstr ""
-"Вдосконалено інструкцію щодо :ref:`addon-weblate.discovery.discovery`: "
-"додано покрокові налаштування на стороні клієнта, чіткішу перевірку "
-"``{{ component }}`` та готовий приклад шаблону виявлення в документації."
+":ref:`addon-weblate.discovery.discovery` тепер пропонує покрокові "
+"налаштування на стороні клієнта, пропонує пресети, виявлені на основі "
+"макетів із репозиторію компонентів, забезпечує більш чітку перевірку "
+"синтаксису ``{{ component }}`` та містить готовий приклад шаблону виявлення "
+"в документації."
 
 #: changes.rst:54
-#, fuzzy
-#| msgid "Track superuser and site-wide team changes in :ref:`audit-log`."
 msgid ""
 "Superuser and site-wide team changes are now tracked in :ref:`audit-log`."
 msgstr ""
-"Відстежуйте зміни, внесені суперкористувачем та командою на всьому сайті, "
-"у :ref:`audit-log`."
+"Зміни, внесені суперкористувачем та командою на рівні всього сайту, тепер "
+"фіксуються в :ref:`audit-log`."
 
 #: changes.rst:55
 msgid ""
@@ -20078,19 +20063,20 @@ msgid ""
 "better explains private or local endpoint restrictions on hosted and self-"
 "managed sites."
 msgstr ""
+"Повідомлення про перевірку URL-адрес тепер містять більш чіткі описи помилок "
+"для URL-адрес веб-сайтів проектів та браузерів репозиторіїв, а перевірка "
+"машинного перекладу на рівні проекту краще пояснює обмеження щодо приватних "
+"або локальних кінцевих точок на хостованих та самостійно керованих сайтах."
 
 #: changes.rst:56
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` now records automatic "
-#| "translation results in the add-on activity log."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now attributes copied "
 "translations to the add-on user and records automatic translation results in "
 "the add-on activity log."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` тепер записує результати "
-"автоматичного перекладу в журнал активності доповнення."
+":ref:`addon-weblate.autotranslate.autotranslate` тепер приписує скопійовані "
+"переклади користувачеві доповнення та фіксує результати автоматичного "
+"перекладу в журналі активності доповнення."
 
 #: changes.rst:57
 msgid ""
@@ -20103,19 +20089,19 @@ msgstr ""
 #: changes.rst:58
 msgid ":ref:`profile` links now show an external-link warning where possible."
 msgstr ""
+"Посилання на :ref:`profile` тепер, де це можливо, супроводжуються "
+"попередженням про зовнішнє посилання."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Client-side popup notifications triggered by JavaScript now use Bootstrap "
-#| "toasts."
 msgid ""
 "Client-side popup notifications triggered by JavaScript now use Bootstrap "
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
 msgstr ""
-"Спливаючі повідомлення на стороні клієнта, що запускаються за допомогою "
-"JavaScript, тепер використовують спливаючі вікна Bootstrap."
+"Спливаючі сповіщення на стороні клієнта, що запускаються за допомогою "
+"JavaScript, тепер використовують спливаючі вікна Bootstrap із кольорами "
+"темної теми з підвищеним контрастом для варіантів «subtle» та «emphasis» у "
+"Bootstrap."
 
 #: changes.rst:60
 msgid ""
@@ -20135,32 +20121,29 @@ msgstr ""
 "відгуків."
 
 #: changes.rst:65
-#, fuzzy
-#| msgid "Markdown image URLs are now escaped before rendering."
 msgid ""
 "Image URLs in Markdown are now escaped before rendering "
 "(:ghsa:`5cmv-3rc4-7279`)."
 msgstr ""
-"URL-адреси зображень у форматі Markdown тепер піддаються екрануванню перед "
-"відображенням."
+"URL-адреси зображень у Markdown тепер піддаються екрануванню перед "
+"відображенням (:ghsa:`5cmv-3rc4-7279`)."
 
 #: changes.rst:66
 msgid ""
 "Tightened :ref:`api` input validation to prevent translation enumeration "
 "(:ghsa:`gcg5-86jr-f7jg`)."
 msgstr ""
+"Посилено перевірку вхідних даних :ref:`api` для запобігання переліку "
+"перекладів (:ghsa:`gcg5-86jr-f7jg`)."
 
 #: changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Project backup import now revalidates component repository URLs before "
-#| "restore."
 msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
-"Під час імпорту резервної копії проєкту тепер перед відновленням "
-"відбувається повторна перевірка URL-адрес репозиторіїв компонентів."
+"Під час імпорту резервної копії проєкту тепер перед відновленням з резервної "
+"копії проводиться повторна перевірка URL-адрес репозиторіїв компонентів "
+"(:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 
 #: changes.rst:68
 msgid ""
@@ -20175,6 +20158,8 @@ msgid ""
 "Invitation acceptance now verifies the invited e-mail address and invitation "
 "expiry before granting team membership."
 msgstr ""
+"Тепер перед наданням статусу члена команди система перевіряє адресу "
+"електронної пошти запрошеного та термін дії запрошення."
 
 #: changes.rst:70
 msgid ""
@@ -20189,6 +20174,8 @@ msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
 msgstr ""
+"Тепер :ref:`addons-api` перевіряє наявність необхідних налаштувань під час "
+"встановлення доповнень."
 
 #: changes.rst:72
 msgid ""
@@ -20306,16 +20293,12 @@ msgstr ""
 "відхиляти запит."
 
 #: changes.rst:85
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
-#| "PostgreSQL searches."
 msgid ""
 ":ref:`mt-weblate-translation-memory` no longer misses boundary similarity "
 "matches after stricter lookups."
 msgstr ""
-":ref:`mt-weblate-translation-memory` автоматичний переклад дозволяє уникнути "
-"масштабних пошуків у PostgreSQL."
+":ref:`mt-weblate-translation-memory` більше не пропускає збіги за межами "
+"фрагментів після більш ретельного пошуку."
 
 #: changes.rst:86
 msgid ""
@@ -20332,6 +20315,9 @@ msgid ""
 "management for discovered formats that do not support adding or removing "
 "strings."
 msgstr ""
+":ref:`addon-weblate.discovery.discovery` тепер вимикає успадковане "
+"управління рядками для виявлених форматів, які не підтримують додавання або "
+"видалення рядків."
 
 #: changes.rst:88
 msgid ""
@@ -20346,34 +20332,34 @@ msgid ""
 "Project component pagination now keeps the :guilabel:`Components` tab active "
 "when jumping to a typed page number."
 msgstr ""
+"Функція нумерації сторінок компонентів проекту тепер залишає вкладку "
+":guilabel:`Компоненти` активною під час переходу до вказаного номера "
+"сторінки."
 
 #: changes.rst:90
-#, fuzzy
-#| msgid ""
-#| "Markdown rendering now falls back to escaped plain text when the Markdown "
-#| "parser fails."
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the parser "
 "fails."
 msgstr ""
-"Тепер у разі збою парсера Markdown відбувається перехід на звичайний текст з "
-"екранованими символами."
+"Тепер у разі збою парсера при візуалізації Markdown використовується "
+"звичайний текст з екранованими символами."
 
 #: changes.rst:91
 msgid ""
 "Forgejo and Gitea test deliveries with sample loopback repository URLs no "
 "longer trigger slow suffix matching against all components."
 msgstr ""
+"Тестові операції доставки Forgejo та Gitea із зразковими URL-адресами "
+"репозиторіїв із зворотним зв'язком більше не спричиняють повільного "
+"зіставлення суфіксів із усіма компонентами."
 
 #: changes.rst:95
-#, fuzzy
-#| msgid "Password updates now regenerate your personal API key by default."
 msgid ""
 "Password changes now regenerate personal API keys by default "
 "(:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
 msgstr ""
-"Тепер під час оновлення пароля ваш особистий ключ API за замовчуванням "
-"генерується заново."
+"Зараз при зміні пароля особисті API-ключі генеруються за замовчуванням "
+"(:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
 
 #: changes.rst:96
 msgid ""
@@ -20386,19 +20372,13 @@ msgstr ""
 "перевірки, якщо цей хост не вказано явно у списку дозволених."
 
 #: changes.rst:97
-#, fuzzy
-#| msgid ""
-#| ":ref:`profile` links now show an external-link warning where possible; "
-#| "obvious direct file download URLs and invalid code site or Fediverse "
-#| "profile links are rejected."
 msgid ""
 ":ref:`profile` URL validation now rejects obvious direct file download URLs "
 "and invalid code site or Fediverse profile links."
 msgstr ""
-":ref:Посилання на :ref:`profile` тепер, де це можливо, супроводжуються "
-"попередженням про зовнішнє посилання; явні URL-адреси для прямого "
-"завантаження файлів, а також посилання на сайти з недійсним кодом або "
-"профілі у Fediverse відхиляються."
+":Перевірка URL-адреси :ref:`profile` тепер відхиляє явні URL-адреси, що "
+"ведуть до прямого завантаження файлів, а також недійсні посилання на сайти з "
+"кодом або профілі у Fediverse."
 
 #: changes.rst:98
 msgid ""
@@ -20408,6 +20388,13 @@ msgid ""
 "imports and project backup restores now share stricter ZIP archive safety "
 "checks, including total uncompressed data limits for project backup imports."
 msgstr ""
+"Під час завантаження файлів тепер перед їхнім аналізом перевіряються "
+"значення параметрів :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, "
+":setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` та "
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`. Імпорт ZIP-файлів компонентів та "
+"відновлення резервних копій проектів тепер підлягають більш суворим "
+"перевіркам безпеки ZIP-архівів, включаючи обмеження загального обсягу "
+"нестиснених даних для імпорту резервних копій проектів."
 
 #: changes.rst:108
 msgid ""
@@ -27079,10 +27066,8 @@ msgstr ""
 "smt, matilde-gillia,, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
-msgstr "Michal Čihař, Karen Konou,, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou,, michael-smt"
 
 #: changes/contributors/5.17.1.rst:10
 msgid ""
@@ -27098,12 +27083,21 @@ msgid ""
 "Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
 "Ivir"
 msgstr ""
+"Michal Čihař,, Besnik Bleta, Kristoffer Grundström, Francisco Serrador, "
+"ButterflyOfFire, anas agha, Zahid Rizky Fakhri, pan93412, Hyeonjeong Lee, "
+"VfBFan, 大王叫我来巡山, Yuri Chornoivan, LucasMZ, Átila França, Rafael "
+"Fontenelle, Aindriú Mac Giolla Eoin, UDP, Blueberry, Hotripak, Matthaiks, "
+"Agnieszka C, Priit Jõerüüt, Martin Srebotnjak, Fjuro, Andrei Stepanov, "
+"Mickaël Binos, IEEE-754, Adrian Reyes, bovirus, Max Kleinehelleforth, "
+"justcontributor, Yago Raña Gayoso, Horus68, Любомир Василев, CYAXXX, Andi "
+"Chandler, Adam Havránek, Kyotaro Iijima, Arif Budiman, ovl-1, Laitei, Jim "
+"Kats, Omer I.S., Fulup Jakez, ojppe, Julien Humbert, Jim Spentzos, "
+"Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
+"Ivir"
 
 #: changes/contributors/5.17.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, michael-smt"
-msgstr "Michal Čihař,, Gersona"
+msgstr "Michal Čihař,, Gersona, michael-smt"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -49237,16 +49231,12 @@ msgstr ""
 "encryption-controls/mass-market>`_"
 
 #: security/us-compliance.rst:51
-#, fuzzy
-#| msgid ""
-#| "`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/part-742/"
-#| "section-742.15>`_"
 msgid ""
 "`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/"
 "subchapter-C/part-742/section-742.15>`_"
 msgstr ""
-"`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/part-742/"
-"section-742.15>`_"
+"`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/"
+"subchapter-C/part-742/section-742.15>`_"
 
 #: security/us-compliance.rst:55
 msgid "Cryptographic functionality"
@@ -55817,13 +55807,11 @@ msgstr "ISO-8859-1"
 
 #: snippets/file-format-parameters.rst:30
 msgid "dos_eol"
-msgstr ""
+msgstr "'dos_eol"
 
 #: snippets/file-format-parameters.rst:30
-#, fuzzy
-#| msgid "File formats"
 msgid "All file formats"
-msgstr "Формати файлів"
+msgstr "Усі формати файлів"
 
 #: snippets/file-format-parameters.rst:30
 msgid "DOS line endings"
@@ -55832,6 +55820,8 @@ msgstr "Кінець рядка як у DOS"
 #: snippets/file-format-parameters.rst:30
 msgid "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
 msgstr ""
+"Використовуйте символи кінця рядка DOS (\\r\\n) замість символів кінця рядка "
+"UNIX (\\n)"
 
 #: snippets/file-format-parameters.rst:32
 msgid "flatxml_key_name"
@@ -57370,21 +57360,16 @@ msgstr ""
 "відповідник на основі мови (наприклад, є ``de@formal`` і ``de@informal``)."
 
 #: snippets/machines-autogenerated.rst:360
-#, fuzzy
-#| msgid ""
-#| "The translation context can optionally be specified to improve "
-#| "translations quality. Read more on that in `DeepL translation context "
-#| "documentation <https://developers.deepl.com/docs/best-practices/working-"
-#| "with-context>`_."
 msgid ""
 "The translation context can optionally be specified to improve translations "
 "quality. Read more on that in `DeepL translation context documentation "
 "<https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/how-"
 "to-use-context-parameter>`_."
 msgstr ""
-"Для покращення якості перекладу можна додатково вказати контекст перекладу. "
-"Докладніше про це читайте у статті `DeepL контекст перекладу документації "
-"<https://developers.deepl.com/docs/best-practices/working-with-context>`_."
+"Для підвищення якості перекладу можна вказати контекст перекладу (за "
+"бажанням). Детальніше про це читайте в документації DeepL щодо контексту "
+"перекладу <https://developers.deepl.com/docs/learning-how-tos/examples-and-"
+"guides/how-to-use-context-parameter>_."
 
 #: snippets/machines-autogenerated.rst:367
 msgid "`DeepL translator <https://www.deepl.com/translator>`_"
