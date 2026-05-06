@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-05 12:54+0000\n"
+"PO-Revision-Date: 2026-05-06 15:16+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -33429,11 +33429,11 @@ msgstr "几个文档部分使用从代码生成的模板。刷新它们的首选
 msgid ""
 "This target regenerates the snippets currently used by the documentation, "
 "including:"
-msgstr ""
+msgstr "此目标重新生成文档当前使用的文本片段，包括："
 
 #: contributing/documentation.rst:65
 msgid "add-on events, built-in add-ons, and common add-on parameters"
-msgstr ""
+msgstr "附加组件事件、内置附加组件、常见附加组件参数"
 
 #: contributing/documentation.rst:66
 msgid "machine translation services"
@@ -33441,7 +33441,7 @@ msgstr "机器翻译服务"
 
 #: contributing/documentation.rst:67
 msgid "file format parameters and file format feature tables"
-msgstr ""
+msgstr "文件格式参数和文件格式特性表"
 
 #: contributing/documentation.rst:68
 msgid "permissions and built-in roles"
@@ -33458,6 +33458,9 @@ msgid ""
 "includes three generated files for events, built-in add-ons, and common add-"
 "on parameters, while obsolete add-ons are maintained directly in the page."
 msgstr ""
+"在文档总页面保留手动维护的文本，而非将其添加到自动生成的文本片段中。例如"
+"，:doc:`/admin/addons` 包括事件的三个生成文件、内置附加组件和常见附加组件参数"
+"，而废弃的附加组件直接在该页面中维护。"
 
 #: contributing/documentation.rst:76
 msgid ""
@@ -33465,6 +33468,8 @@ msgid ""
 "are documented in :doc:`/admin/management`, and the exact commands used by "
 "``update-docs`` are listed in :file:`docs/Makefile`."
 msgstr ""
+"如果你需要只重新生成一个部分，在 :doc:`/admin/management` 中记录了单独的管理"
+"命令，在 :file:`docs/Makefile` 中列出了 ``update-docs`` 所用的准确命令。"
 
 #: contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -38441,6 +38446,12 @@ msgid ""
 "conflicting changes. Administrators who want to make this workflow more "
 "reliable can adjust :setting:`VCS_CLONE_DEPTH`."
 msgstr ""
+"Weblate 默认使用浅克隆降低克隆时间和磁盘使用。因此下方的工作流在你从上游仓库"
+"的最新 checkout 开始时效果最好。如果你直接从导出的 Weblate 仓库克隆，或者如果"
+"你的上游 checkout 缺少近期的提交， ``git remote update weblate`` 可能因 "
+"``warning: no common commits`` 、 ``bad revision`` 等错误或缺失对象而出故障。"
+"这未必表示 Weblate 和上游仓库有相冲突的更改。想让这个工作流更可靠的管理员可以"
+"调整 :setting:`VCS_CLONE_DEPTH`。"
 
 #: faq.rst:67
 msgid ""
@@ -38455,7 +38466,7 @@ msgstr ""
 msgid ""
 "The workflow usually looks like this when you start from an up-to-date "
 "checkout of the upstream repository:"
-msgstr ""
+msgstr "该工作流在你从上游仓库的最新 checkout 开始时通常看起来像这样："
 
 #: faq.rst:112
 msgid ""
@@ -40627,6 +40638,10 @@ msgid ""
 "html`` flag for strings that are known to contain HTML and should always be "
 "sanitized, including SVG or MathML snippets."
 msgstr ""
+"Markdown 单元自动获得 ``md-text`` 和 ``auto-safe-html`` 标记。这使不安全 "
+"HTML 勾选对纯文本、标准 HTML 和自定义元素生效，同时避免对 MDX 或类 JSX 部件等"
+"非 HTML 尖括号语法的 HTML 清理。对已知包含 HTML 和应当始终被净化的字符串使用"
+"显式 ``safe-html`` 标记，包括 SVG 或 MathML 片段。"
 
 #: formats/markdown.rst:44
 msgid "`Markdown file`"
@@ -41622,6 +41637,9 @@ msgid ""
 "configuration file (:file:`.weblate`, :file:`.weblate.ini`, "
 "or :file:`weblate.ini`) from the current directory or its parents."
 msgstr ""
+"指定路径时从 ``path`` 加载配置。否则它从当前目录或其父目录加载发现的全局配置"
+"文件，然后是最靠近的项目配置文件（:file:`.weblate`、:file:`.weblate.ini` 或 "
+":file:`weblate.ini`）。"
 
 #: python.rst:111
 msgid "Settings to override as list of tuples"
@@ -42107,23 +42125,27 @@ msgid ""
 "affect the confidentiality, integrity, or availability of the service beyond "
 "routine operational noise."
 msgstr ""
+"当确认事件或强烈怀疑事件会给服务带来超出日常运营噪音的机密性、完整性或可用性"
+"影响时宣布事故。"
 
 #: security/incident-response-plan.rst:46
 msgid ""
 "The **Security Officer** declares the incident, assigns the initial "
 "severity, and appoints the **Incident Response Lead (IRL)**."
-msgstr ""
+msgstr "**安全官** 宣布事件，指定初始严重程度并任命 **事件响应负责人 (IRL)**。"
 
 #: security/incident-response-plan.rst:48
 msgid ""
 "If the Security Officer is unavailable, any available senior operator may "
 "declare the incident and hand over ownership as soon as practical."
 msgstr ""
+"如果没有安全官，任何可用的资深运营者均可宣布事件，并以可行的最快速度移交所有"
+"权。"
 
 #: security/incident-response-plan.rst:50
 msgid ""
 "Reclassify the incident if the scope or impact changes during investigation."
-msgstr ""
+msgstr "如果事件范围或影响在调查期间改变重新分类事件。"
 
 #: security/incident-response-plan.rst:53
 msgid "Incident categories"
@@ -42297,13 +42319,13 @@ msgstr "抑制"
 msgid ""
 "Create an incident record with a case ID and record timeline updates as "
 "actions are taken."
-msgstr ""
+msgstr "创建有案件 ID 的事件记录并在采取行动时记录时间线更新。"
 
 #: security/incident-response-plan.rst:100
 msgid ""
 "Coordinate human response in **Signal** and keep technical alerting in the "
 "existing monitoring systems."
-msgstr ""
+msgstr "在 **Signal** 中协调人员响应并在现有监控系统中保留技术警告信息。"
 
 #: security/incident-response-plan.rst:102
 msgid ""
@@ -42343,7 +42365,7 @@ msgstr "立即暂停受影响的用户账户。"
 msgid ""
 "Revoke or rotate affected administrative, API, VCS, and webhook credentials "
 "as applicable."
-msgstr ""
+msgstr "如果适用，撤销或轮换受影响的管理、API、VCS 和 webhook 凭据。"
 
 #: security/incident-response-plan.rst:116
 msgid ""
@@ -42351,6 +42373,8 @@ msgid ""
 "Weblate application and audit logs, affected configuration state, and the "
 "list of impacted credentials or integrations."
 msgstr ""
+"保留相关证据，包括系统日志、反向代理日志、Weblate 程序和审计日志，受影响的配"
+"置状态、受影响的凭证或集成的列表。"
 
 #: security/incident-response-plan.rst:121
 msgid "Eradication"
@@ -42392,17 +42416,17 @@ msgstr "分阶段重新引入服务。"
 msgid ""
 "Confirm the root cause has been removed or a compensating control is in "
 "place before restoring normal traffic."
-msgstr ""
+msgstr "恢复正常流量前确认根本原因已解决或存在补偿性控制措施。"
 
 #: security/incident-response-plan.rst:135
 msgid ""
 "Rotate affected credentials and verify integrity of the restored system, "
 "repositories, and configuration."
-msgstr ""
+msgstr "轮换受影响的凭证并验证已恢复系统、仓库和配置的完整性。"
 
 #: security/incident-response-plan.rst:137
 msgid "The Security Officer and IRL approve returning to normal operations."
-msgstr ""
+msgstr "安全官和事件响应负责人批准回到正常运营。"
 
 #: security/incident-response-plan.rst:138
 msgid ""
@@ -42442,7 +42466,7 @@ msgstr "审核检测和抑制机制的有效性。"
 msgid ""
 "Verify whether escalation, alerting, and external communication "
 "followed :doc:`/security/issues` as expected."
-msgstr ""
+msgstr "验证提升、警报和外部沟通是否如预期遵照 :doc:`/security/issues` 规范。"
 
 #: security/index.rst:2
 msgid "Security, privacy and compliance"
