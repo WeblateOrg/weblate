@@ -25,6 +25,7 @@ Weblate 2026.5
 * The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
 * The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work.
 * The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team`` file format parameter at the component level; see :ref:`file_format_params`.
+* Weblate now uses stricter dependency version constraints to better control runtime environment.
 
 .. rubric:: Upgrading
 
