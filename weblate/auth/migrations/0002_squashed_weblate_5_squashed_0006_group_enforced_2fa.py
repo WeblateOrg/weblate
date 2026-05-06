@@ -124,7 +124,7 @@ class Migration(migrations.Migration):
                 (
                     "internal",
                     models.BooleanField(
-                        default=False, verbose_name="Internal Weblate group"
+                        default=False, verbose_name="Internal Weblate team"
                     ),
                 ),
                 (
@@ -143,7 +143,7 @@ class Migration(migrations.Migration):
                     "roles",
                     models.ManyToManyField(
                         blank=True,
-                        help_text="Choose roles granted to this group.",
+                        help_text="Choose roles granted to this team.",
                         to="weblate_auth.role",
                         verbose_name="Roles",
                     ),
@@ -151,7 +151,10 @@ class Migration(migrations.Migration):
                 (
                     "components",
                     models.ManyToManyField(
-                        blank=True, to="trans.component", verbose_name="Components"
+                        blank=True,
+                        help_text="Empty selection grants access to all components in project scope.",
+                        to="trans.component",
+                        verbose_name="Components",
                     ),
                 ),
                 (
@@ -183,20 +186,9 @@ class Migration(migrations.Migration):
             name="groups",
             field=weblate.auth.models.GroupManyToManyField(
                 blank=True,
-                help_text="The user is granted all permissions included in membership of these groups.",
+                help_text="The user is granted all permissions included in membership of these teams.",
                 to="weblate_auth.group",
-                verbose_name="Groups",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="user",
-            name="email",
-            field=weblate.utils.fields.EmailField(
-                max_length=190,
-                null=True,
-                unique=True,
-                validators=[weblate.utils.validators.EmailValidator()],
-                verbose_name="E-mail",
+                verbose_name="Teams",
             ),
         ),
         migrations.AlterField(
@@ -251,16 +243,6 @@ class Migration(migrations.Migration):
                 verbose_name="Team administrators",
             ),
         ),
-        migrations.AlterField(
-            model_name="group",
-            name="components",
-            field=models.ManyToManyField(
-                blank=True,
-                help_text="Empty selection grants access to all components in project scope.",
-                to="trans.component",
-                verbose_name="Components",
-            ),
-        ),
         migrations.CreateModel(
             name="AutoGroup",
             fields=[
@@ -277,7 +259,7 @@ class Migration(migrations.Migration):
                     "match",
                     weblate.trans.fields.RegexField(
                         default="^$",
-                        help_text="Users with e-mail addresses found to match will be added to this group.",
+                        help_text="Users with e-mail addresses found to match will be added to this team.",
                         max_length=200,
                         verbose_name="Regular expression for e-mail address",
                     ),
@@ -287,13 +269,13 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         to="weblate_auth.group",
-                        verbose_name="Group to assign",
+                        verbose_name="Team to assign",
                     ),
                 ),
             ],
             options={
-                "verbose_name": "Automatic group assignment",
-                "verbose_name_plural": "Automatic group assignments",
+                "verbose_name": "Automatic team assignment",
+                "verbose_name_plural": "Automatic team assignments",
             },
         ),
         migrations.CreateModel(
@@ -352,16 +334,6 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        migrations.AlterField(
-            model_name="user",
-            name="groups",
-            field=weblate.auth.models.GroupManyToManyField(
-                blank=True,
-                help_text="The user is granted all permissions included in membership of these teams.",
-                to="weblate_auth.group",
-                verbose_name="Teams",
-            ),
-        ),
         migrations.CreateModel(
             name="UserBlock",
             fields=[
@@ -414,49 +386,6 @@ class Migration(migrations.Migration):
             constraint=models.UniqueConstraint(
                 django.db.models.functions.text.Upper("email"),
                 name="weblate_auth_user_email_ci",
-            ),
-        ),
-        migrations.AlterModelOptions(
-            name="autogroup",
-            options={
-                "verbose_name": "Automatic team assignment",
-                "verbose_name_plural": "Automatic team assignments",
-            },
-        ),
-        migrations.AlterField(
-            model_name="autogroup",
-            name="group",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                to="weblate_auth.group",
-                verbose_name="Team to assign",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="autogroup",
-            name="match",
-            field=weblate.trans.fields.RegexField(
-                default="^$",
-                help_text="Users with e-mail addresses found to match will be added to this team.",
-                max_length=200,
-                verbose_name="Regular expression for e-mail address",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="group",
-            name="internal",
-            field=models.BooleanField(
-                default=False, verbose_name="Internal Weblate team"
-            ),
-        ),
-        migrations.AlterField(
-            model_name="group",
-            name="roles",
-            field=models.ManyToManyField(
-                blank=True,
-                help_text="Choose roles granted to this team.",
-                to="weblate_auth.role",
-                verbose_name="Roles",
             ),
         ),
         migrations.AddField(
