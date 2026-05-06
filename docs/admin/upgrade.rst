@@ -124,12 +124,13 @@ Version-specific instructions
    Version specific instructions are now included in the release notes, see :doc:`/changes`.
 
 
-Upgrade from an older major version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgrade from an older unsupported release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Direct upgrades are only supported for releases from the previous year. If you
-need to upgrade across this boundary, upgrade first to an intermediate version
-as listed below. Upgrades skipping this step are not supported and will break.
+Direct upgrades are only supported for releases from the current or previous
+calendar year. If you need to upgrade across this boundary, upgrade first to an
+intermediate version as listed below. Upgrades skipping this step are not
+supported and will break.
 
 * If you are upgrading from the 2.x release, always first upgrade to 3.0.1.
 * If you are upgrading from the 3.x release, always first upgrade to 4.0.4.
