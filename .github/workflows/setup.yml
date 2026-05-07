@@ -24,11 +24,6 @@ jobs:
     env:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
-    permissions:
-      # Needed for Sigstore
-      id-token: write
-      # Needed for attestations
-      attestations: write
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
@@ -40,7 +35,6 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
-        # Avoid 3.14 until https://github.com/sigstore/gh-action-sigstore-python/issues/215 is addressed
         python-version: '3.14'
     - name: build
       run: |
@@ -48,31 +42,50 @@ jobs:
         uv build
         echo "::remove-matcher owner=setuptools::"
         rm -f dist/.gitignore
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        path: dist/*
+        name: dist
+
+  sign_dist:
+    runs-on: ubuntu-24.04
+    name: Sign packages
+    if: github.event_name == 'push'
+    needs:
+    - dist
+    permissions:
+      contents: read
+      # Needed for Sigstore
+      id-token: write
+      # Needed for attestations
+      attestations: write
+    steps:
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: dist
+        path: dist
+    - name: Setup Python
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      with:
+        python-version: '3.14'
     - name: Sign the dists with Sigstore
-      if: github.event_name == 'push'
       uses: sigstore/gh-action-sigstore-python@04cffa1d795717b140764e8b640de88853c92acc # v3.3.0
       with:
         inputs: dist/*
     - name: Attest
-      if: github.event_name == 'push'
       uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
       with:
         subject-path: dist/*
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         path: dist/*
-        name: dist
+        name: dist-signed
 
   sbom:
     runs-on: ubuntu-24.04
     name: Build SBOM
     needs:
     - dist
-    permissions:
-      # Needed for attestations
-      attestations: write
-      contents: read
-      id-token: write
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
@@ -112,15 +125,42 @@ jobs:
         /tmp/cyclonedx-linux-x64 merge --input-files build/sbom/*.json --output-file "$sbom"
         ./scripts/reproducible-sbom.py "$sbom"
         echo "path=$sbom" >> "$GITHUB_OUTPUT"
-    - uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
-      if: github.event_name == 'push'
-      with:
-        subject-path: dist/*
-        sbom-path: ${{ steps.generate-sbom.outputs.path }}
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         path: ${{ steps.generate-sbom.outputs.path }}
         name: sbom
+
+  attest_sbom:
+    runs-on: ubuntu-24.04
+    name: Attest SBOM
+    if: github.event_name == 'push'
+    needs:
+    - sign_dist
+    - sbom
+    permissions:
+      # Needed for attestations
+      attestations: write
+      contents: read
+      id-token: write
+    steps:
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: dist-signed
+        path: dist
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: sbom
+        path: sbom
+    - name: Locate SBOM
+      id: locate-sbom
+      run: |
+        path=$(find sbom -type f -name '*-sbom.cdx.json' -print -quit)
+        test -n "$path"
+        echo "path=$path" >> "$GITHUB_OUTPUT"
+    - uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
+      with:
+        subject-path: dist/*
+        sbom-path: ${{ steps.locate-sbom.outputs.path }}
 
   lint:
     runs-on: ubuntu-24.04
@@ -212,19 +252,20 @@ jobs:
   publish_pypi:
     name: Publish to PyPI
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
+    environment: pypi
     permissions:
       # this permission is mandatory for trusted publishing
       id-token: write
     needs:
     - notes
-    - dist
-    - sbom
+    - sign_dist
+    - attest_sbom
     - lint
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: dist
+        name: dist-signed
         path: dist
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
@@ -243,8 +284,8 @@ jobs:
       contents: write
     needs:
     - notes
-    - dist
-    - sbom
+    - sign_dist
+    - attest_sbom
     - lint
     runs-on: ubuntu-24.04
     steps:
@@ -252,6 +293,17 @@ jobs:
       with:
         persist-credentials: false
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: dist-signed
+        path: dist
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: sbom
+        path: sbom
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: notes
+        path: notes
     - name: Extract notes body
       run: tail -n+3 notes/Weblate-*.md > notes.md
     - name: Extract notes title
