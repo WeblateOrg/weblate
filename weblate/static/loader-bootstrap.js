@@ -598,18 +598,15 @@ $(function () {
   $document.on("shown.bs.tab", adjustColspan);
 
   /* Color theme management */
-  const theme = document.documentElement.getAttribute("data-theme");
-  if (theme === "auto") {
+  const theme = document.documentElement.getAttribute("data-bs-theme");
+  if (!theme || theme === "auto") {
     document.documentElement.setAttribute(
       "data-bs-theme",
       window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light",
     );
-  } else {
-    document.documentElement.setAttribute("data-bs-theme", theme);
   }
-  setTheme(theme);
 
   /* AJAX loading of tabs/pills */
   $document.on(
