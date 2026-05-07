@@ -176,7 +176,6 @@ select:-webkit-autofill {
   color: #fffdfa !important;
 }
 
-/* Dark-only structural overrides for elements not driven by --wl-* tokens */
 mark,
 .mark {
   background-color: #342c06;
@@ -287,25 +286,52 @@ fieldset[disabled] .form-control {
   color: #fffdfa;
 }
 
-/* Vendor: multi.css multi-select widget */
-.multi-wrapper {
-  border-color: #444b4d;
+/* Vendor: tom-select multi-select widget */
+.ts-control,
+.ts-control input,
+.ts-dropdown {
+  color: #dcd7cf;
 }
-.multi-wrapper .non-selected-wrapper {
-  background-color: #1e2021;
-  border-right-color: #444b4d;
+.ts-wrapper.multi .ts-control > div {
+  background-color: var(--wl-color-row-hover);
+  border-color: var(--wl-color-border-strong);
+  color: #dcd7cf;
 }
-.multi-wrapper .selected-wrapper {
-  background-color: #1a1d1e;
+.ts-wrapper.multi .ts-control > div.active {
+  background-color: var(--wl-color-primary-strong);
+  color: var(--wl-color-text-strong);
 }
-.multi-wrapper .header {
-  color: #c8c2b7;
+.ts-wrapper.multi.disabled .ts-control > div,
+.ts-wrapper.multi.disabled .ts-control > div.active {
+  background-color: var(--wl-color-translate-bg);
+  border-color: var(--wl-color-translate-bg);
+  color: #ada396;
 }
-.multi-wrapper .item:hover {
-  background-color: #272a2b;
+.ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
+  border-left-color: var(--wl-color-border-strong);
 }
-.multi-wrapper .search-input {
-  border-bottom-color: #444b4d;
+.ts-wrapper.plugin-remove_button.rtl .item .remove {
+  border-right-color: var(--wl-color-border-strong);
+}
+.ts-wrapper.plugin-remove_button .item .remove:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.ts-dropdown {
+  background-color: var(--wl-color-bg);
+  border-color: rgba(154, 143, 127, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 12px;
+}
+.ts-dropdown .active {
+  background-color: var(--wl-color-row-hover);
+  color: #e5e0da;
+}
+.ts-dropdown .optgroup-header {
+  background-color: var(--wl-color-bg);
+  color: #ada396;
+}
+.ts-dropdown [data-selectable] .highlight {
+  background-color: rgba(255, 237, 40, 0.25);
+  color: var(--wl-color-text-strong);
 }
 
 /* Card colored-header variants (Bootstrap 5 .text-bg-*) */

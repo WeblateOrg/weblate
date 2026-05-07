@@ -44,7 +44,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "category",
-                    models.IntegerField(choices=[(1, "UI"), (2, "MT")], db_index=True),
+                    models.IntegerField(
+                        choices=[(1, "User Interface"), (2, "Machine Translation")]
+                    ),
                 ),
                 ("name", models.CharField(max_length=100)),
                 ("value", models.JSONField()),
@@ -58,12 +60,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             code=migrate_machinery,
             reverse_code=django.db.migrations.operations.special.RunPython.noop,
-        ),
-        migrations.AlterField(
-            model_name="setting",
-            name="category",
-            field=models.IntegerField(
-                choices=[(1, "User Interface"), (2, "Machine Translation")]
-            ),
         ),
     ]

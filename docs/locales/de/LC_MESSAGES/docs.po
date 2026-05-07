@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-05 20:34+0000\n"
+"PO-Revision-Date: 2026-05-07 09:23+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -528,8 +528,8 @@ msgid ""
 msgstr ""
 "Unter dem Reiter :guilabel:`API-Zugang` können Sie projektspezifische "
 "Zugangstoken definieren. Für die API-Tokens kann ein Ablaufdatum festgelegt "
-"werden, und ihre Berechtigungen können wie bei Benutzern durch Team-"
-"Mitgliedschaften angepasst werden."
+"werden, und ihre Berechtigungen können wie bei Benutzern durch "
+"Teammitgliedschaften angepasst werden."
 
 #: admin/access.rst:256
 msgid "Site-wide access control"
@@ -5814,10 +5814,10 @@ msgid ""
 "limit."
 msgstr ""
 "In Docker konfigurieren Sie dies mit der Umgebungsvariable "
-"``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``. Docker-Setups können auch durch "
-":envvar:`CLIENT_MAX_BODY_SIZE` eingeschränkt werden; andere Bereitstellungen "
-"können durch die Größenbeschränkung der Reverse-Proxy-Anfrage eingeschränkt "
-"werden."
+"``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``. Docker-Einrichtungen können auch "
+"durch :envvar:`CLIENT_MAX_BODY_SIZE` eingeschränkt werden; andere "
+"Bereitstellungen können durch die Größenbeschränkung der Reverse-Proxy-"
+"Anfrage eingeschränkt werden."
 
 #: admin/config.rst:1660
 msgid ""
@@ -10555,9 +10555,9 @@ msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgstr ""
-"Eine Installation, die Docker verwendet, kann "
-"durch :envvar:`CELERY_SINGLE_PROCESS` so konfiguriert werden, dass sie ein "
-"Celery-Setup mit nur einem Prozess verwendet."
+"Eine Installation, die Docker verwendet, kann durch "
+":envvar:`CELERY_SINGLE_PROCESS` so konfiguriert werden, dass sie eine Celery-"
+"Einrichtung mit nur einem Prozess verwendet."
 
 #: admin/install.rst:1685
 msgid "This will have a noticeable performance impact on Weblate."
@@ -20290,6 +20290,9 @@ msgid ""
 "permission, :ref:`autoclean-tm`, :ref:`glossary-terminology`, and "
 "current :ref:`translation-memory` management options in the UI."
 msgstr ""
+"Verbesserte Dokumentation für globale ``user.edit``-Berechtigung, "
+":ref:`autoclean-tm`, :ref:`glossary-terminology`, und aktuelle "
+":ref:`translation-memory`-Verwaltungsoptionen in der Bedienoberfläche."
 
 #: changes.rst:48
 msgid ""
@@ -20304,24 +20307,25 @@ msgid ""
 "Documented restoring Docker-based setups from backups, see :ref:`restore-"
 "docker`."
 msgstr ""
+"Das Wiederherstellen von Docker-basierten Einrichtungen aus Sicherungen "
+"dokumentiert, siehe :ref:`restore-docker`."
 
 #: changes.rst:50
-#, fuzzy
-#| msgid ""
-#| "Please follow :ref:`generic-upgrade-instructions` in order to perform "
-#| "update."
 msgid ""
 "Clarified :ref:`generic-upgrade-instructions` to state that Celery queues "
 "should be empty before upgrading."
 msgstr ""
-"Bitte :ref:`generic-upgrade-instructions` befolgen, um die Aktualisierung "
-"durchzuführen."
+":ref:`generic-upgrade-instructions` verdeutlicht, dass die Celery-"
+"Warteschlangen vor dem Upgrade leer sein sollten."
 
 #: changes.rst:51
 msgid ""
 "The OpenAPI schema is cleaner and now describes action endpoints with their "
 "actual list, statistics, status, upload, and download response payloads."
 msgstr ""
+"Das OpenAPI-Schema ist übersichtlicher und beschreibt nun die "
+"Aktionsendpunkte mit ihren aktuellen Listen, Statistiken, Statusangaben "
+"sowie den Nutzdaten der Upload- und Download-Antworten."
 
 #: changes.rst:52
 msgid ""
@@ -20340,15 +20344,18 @@ msgid ""
 "validates ``{{ component }}`` more clearly, and includes a worked discovery-"
 "template example in the docs."
 msgstr ""
+"Die :ref:`addon-weblate.discovery.discovery` bietet jetzt geführte "
+"clientseitige Voreinstellungen, schlägt Voreinstellungen vor, die aus den "
+"Layouts von Komponenten-Repositorys erkannt werden, prüft ``{{ component }}"
+"`` deutlicher und enthält ein Beispiel für eine funktionierende "
+"Erkennungsvorlage in der Dokumentation."
 
 #: changes.rst:54
-#, fuzzy
-#| msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgid ""
 "Superuser and site-wide team changes are now tracked in :ref:`audit-log`."
 msgstr ""
-"Änderungen an der Teamzugehörigkeit sind nun im :ref:`audit-log` "
-"nachverfolgbar."
+"Superuser- und plattformweite Teamänderungen werden jetzt im :ref:`audit-"
+"log` nachverfolgt."
 
 #: changes.rst:55
 msgid ""
@@ -20357,36 +20364,35 @@ msgid ""
 "better explains private or local endpoint restrictions on hosted and self-"
 "managed sites."
 msgstr ""
+"Warnungen zur URL-Validierung zeigen jetzt klarere Fehler für "
+"Projektwebsite- und Repository-Browser-URLs an, und die Validierung "
+"maschineller Übersetzungen auf Projektebene erklärt besser die "
+"Einschränkungen für private oder lokale Endpunkte auf gehosteten und selbst "
+"verwalteten Plattformen."
 
 #: changes.rst:56
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-"
-#| "translation` are now stored with a dedicated user as an author."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now attributes copied "
 "translations to the add-on user and records automatic translation results in "
 "the add-on activity log."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` und :ref:`auto-translation` "
-"werden nun mit einem speziell dafür vorgesehenen Benutzer als Autor "
-"gespeichert."
+":ref:`addon-weblate.autotranslate.autotranslate` ordnet nun die kopierten "
+"Übersetzungen dem Benutzer der Erweiterung zu und zeichnet die Ergebnisse "
+"der automatischen Übersetzungen im Aktivitätsprotokoll auf."
 
 #: changes.rst:57
-#, fuzzy
-#| msgid ""
-#| "Added a component alert for conflicting merge request repository setup, "
-#| "see :ref:`alerts`."
 msgid ""
 "Extended the conflicting repository setup alert to direct Git pushes, "
 "see :ref:`alerts`."
 msgstr ""
-"Eine Komponentenwarnung für widersprüchliche Repository-Einstellungen bei "
-"Merge Requests hinzugefügt, siehe :ref:`alerts`."
+"Die Warnung vor Konflikten beim Einrichten von Repositorys wurde auf direkte "
+"Git-Pushes erweitert, siehe :ref:`alerts`."
 
 #: changes.rst:58
 msgid ":ref:`profile` links now show an external-link warning where possible."
 msgstr ""
+":ref:`profile`-Links zeigen jetzt, wenn möglich, eine Warnung vor externen "
+"Links an."
 
 #: changes.rst:59
 msgid ""
@@ -20394,36 +20400,51 @@ msgid ""
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
 msgstr ""
+"Clientseitige Popup-Benachrichtigungen, die über JavaScript ausgelöst "
+"werden, verwenden nun Bootstrap-Toasts mit kontrastreicheren Farben im "
+"dunklen Design für die Bootstrap-Varianten „subtle“ und „emphasis“."
 
 #: changes.rst:60
 msgid ""
 "The :guilabel:`SSH keys` management page can now remove stored host keys so "
 "changed host keys can be replaced there."
 msgstr ""
+"Auf der :guilabel:`SSH-Schlüssel`-Verwaltungsseite können nun gespeicherte "
+"Hostschlüssel entfernt werden, so dass geänderte Hostschlüssel dort ersetzt "
+"werden können."
 
 #: changes.rst:61
 msgid ""
 "Project listings now show review progress columns when any listed project "
 "has reviews enabled."
 msgstr ""
+"In den Projektlisten werden jetzt Spalten zum Überprüfungsfortschritt "
+"angezeigt, wenn für ein aufgelistetes Projekt Überprüfungen aktiviert sind."
 
 #: changes.rst:65
 msgid ""
 "Image URLs in Markdown are now escaped before rendering "
 "(:ghsa:`5cmv-3rc4-7279`)."
 msgstr ""
+"Bild-URLs in Markdown werden jetzt vor dem Rendering maskiert (:ghsa:`5cmv-"
+"3rc4-7279`)."
 
 #: changes.rst:66
 msgid ""
 "Tightened :ref:`api` input validation to prevent translation enumeration "
 "(:ghsa:`gcg5-86jr-f7jg`)."
 msgstr ""
+"Verschärfte Eingabevalidierung für :ref:`api` , um das Aufzählen von "
+"Übersetzungen zu verhindern (:ghsa:`gcg5-86jr-f7jg`)."
 
 #: changes.rst:67
 msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
+"Der Projektsicherungsimport überprüft jetzt die URLs der Komponenten-"
+"Repositorys vor dem Wiederherstellen einer Sicherung (:cve:`2026-41654` / "
+":ghsa:`cwcx-382v-8m9g`)."
 
 #: changes.rst:68
 msgid ""
@@ -20438,46 +20459,58 @@ msgid ""
 "Invitation acceptance now verifies the invited e-mail address and invitation "
 "expiry before granting team membership."
 msgstr ""
+"Beim Annehmen von Einladungen wird nun die E-Mail-Adresse der eingeladenen "
+"Person und das Ablaufdatum überprüft, bevor die Teammitgliedschaft gewährt "
+"wird."
 
 #: changes.rst:70
-#, fuzzy
-#| msgid ":ref:`check-rst-references` allows translatable reference names."
 msgid ""
 ":ref:`check-rst-references` no longer crashes on repeated explicit-link "
 "targets."
-msgstr ":ref:`check-rst-references` erlaubt übersetzbare Referenznamen."
+msgstr ""
+":ref:`check-rst-references` stürzt nicht mehr bei wiederholten expliziten "
+"Verknüpfungszielen ab."
 
 #: changes.rst:71
 msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
 msgstr ""
+"Die :ref:`addons-api` überprüfen nun bei der Installation von Erweiterungen "
+"die erforderliche Konfiguration."
 
 #: changes.rst:72
 msgid ""
 "Component updates no longer time out waiting on their own repository lock "
 "during validation."
 msgstr ""
+"Komponentenaktualisierungen warten während der Validierung nicht mehr auf "
+"ihre eigene Repository-Sperre."
 
 #: changes.rst:73
-#, fuzzy
-#| msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgid ""
 ":ref:`check-punctuation-spacing` check no longer triggers false positives "
 "for placeholders."
-msgstr ":ref:`check-punctuation-spacing` gilt nicht mehr für Bretonisch."
+msgstr ""
+":ref:`check-punctuation-spacing`-Prüfung löst bei Platzhaltern keine "
+"Fehlalarme mehr aus."
 
 #: changes.rst:74
 msgid ""
 "Repository alerts, history entries, and task messages now preserve multiline "
 "Git and SSH backend error output."
 msgstr ""
+"Warnungen, Verlaufseinträge und Aufgabenmeldungen von Repositorys behalten "
+"jetzt mehrzeilige Git- und SSH-Backend-Ausgabefehler bei."
 
 #: changes.rst:75
 msgid ""
 "Interrupted Git rebases now recover more reliably after worker restarts, and "
 "signal-terminated backend commands are reported more clearly."
 msgstr ""
+"Unterbrochene Git-Umbasierungen werden jetzt nach Neustarts der Worker "
+"zuverlässiger wiederhergestellt, und durch Signale abgebrochene Backend-"
+"Befehle werden deutlicher gemeldet."
 
 #: changes.rst:76
 msgid ""
@@ -20485,22 +20518,33 @@ msgid ""
 "management UI, and backup logs now show ``C`` entries for files that changed "
 "during the backup."
 msgstr ""
+"Borg-Sicherungen, die mit einer Warnung abgeschlossen werden, werden in der "
+"Bedienoberfläche nicht mehr als fehlgeschlagen angezeigt, und in den "
+"Sicherungsprotkollen werden jetzt ``C``-Einträge für Dateien angezeigt, die "
+"während der Sicherung geändert wurden."
 
 #: changes.rst:77
 msgid ""
 "Git exporter no longer rejects shared-history fetches just because the first "
 "negotiated ``have`` revisions are newer than Weblate's local history."
 msgstr ""
+"Der Git-Exporter lehnt das Abrufen gemeinsamer Verläufe nicht mehr ab, nur "
+"weil die ersten ausgehandelten ``have``-Revisionen neuer sind als der lokale "
+"Verlauf von Weblate."
 
 #: changes.rst:78
 msgid ""
 ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
 "PostgreSQL searches."
 msgstr ""
+"Die automatische Übersetzung durch den :ref:`mt-weblate-translation-memory` "
+"vermeidet umfangreiche PostgreSQL-Abfragen."
 
 #: changes.rst:79
 msgid "Malformed IPv6 repository URLs no longer crash SSH host key detection."
 msgstr ""
+"Fehlerhafte IPv6-Repository-URLs führen nicht mehr zum Absturz der SSH-"
+"Hostschlüssel-Erkennung."
 
 #: changes.rst:80
 msgid ""
@@ -51170,7 +51214,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:251
 msgid "Worked example: ``news_<lang>.md``"
-msgstr ""
+msgstr "Funktionsbeispiel: ``news_<lang>.md``"
 
 #: snippets/addons-autogenerated.rst:253
 msgid "This is a common filename-based language variant layout:"
@@ -62854,10 +62898,10 @@ msgid ""
 "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
 "key can only be used once per platform."
 msgstr ""
-"Für Setups mit mehreren Repositorys ist es empfehlenswert, einen dedizierten "
-"Benutzer für Weblate zu erstellen. Dadurch wird die Einschränkung von GitHub "
-"umgangen, dass jeder SSH-Schlüssel nur einmal pro Plattform verwendet werden "
-"kann."
+"Für Einrichtungen mit mehreren Repositorys ist es empfehlenswert, einen "
+"dedizierten Benutzer für Weblate zu erstellen. Dadurch wird die "
+"Einschränkung von GitHub umgangen, dass jeder SSH-Schlüssel nur einmal pro "
+"Plattform verwendet werden kann."
 
 #: vcs.rst:207
 msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
@@ -62996,9 +63040,9 @@ msgid ""
 "this in the last step of the component configuration."
 msgstr ""
 "Weblate passt die Repository-URL beim Erstellen einer Komponente automatisch "
-"an, wenn es eine Komponente mit einem passenden Repository-Setup findet. Sie "
-"können dies im letzten Schritt der Konfiguration der Komponente außer Kraft "
-"setzen."
+"an, wenn es eine Komponente mit einer passenden Repository-Einrichtung "
+"findet. Sie können dies im letzten Schritt der Konfiguration der Komponente "
+"außer Kraft setzen."
 
 #: vcs.rst:283
 msgid "Reasons to use this:"

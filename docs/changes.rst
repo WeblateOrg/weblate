@@ -15,6 +15,7 @@ Weblate 2026.5
 * Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
 * Audited project and component setting changes are now recorded in history.
 * :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
+* The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
 
 .. rubric:: Bug fixes
 
@@ -29,6 +30,7 @@ Weblate 2026.5
 * The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
 * The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work.
 * The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team`` file format parameter at the component level; see :ref:`file_format_params`.
+* Weblate now uses calendar versioning for releases, see :ref:`release-cycle`.
 * Weblate now uses stricter dependency version constraints to better control runtime environment.
 
 .. rubric:: Upgrading
@@ -36,7 +38,7 @@ Weblate 2026.5
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
-* The upgrading policy was changed, and upgrades are only supported from the last year's releases.
+* The upgrading policy was changed, and upgrades are only supported from the current or previous calendar year.
 
 .. rubric:: Contributors
 

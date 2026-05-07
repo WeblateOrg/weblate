@@ -79,11 +79,11 @@ Please choose a tag that matches your environment and expectations:
 +=========================================+============================================================================================================+=============================================================================+
 |``latest``                               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>``                              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
+|``<YEAR>``                               | Weblate stable release                                                                                     | Rolling updates within a calendar year in a production environment          |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>.<MINOR>``                      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
+|``<YEAR>.<MONTH>``                       | Weblate stable release                                                                                     | Rolling updates within a monthly release in a production environment        |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>.<MINOR>.<PATCH>.<BUILD>``      | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
+|``<YEAR>.<MONTH>.<PATCH>.<BUILD>``       | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
 |``edge``                                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
@@ -249,10 +249,9 @@ should be no need for additional manual actions.
 
 .. note::
 
-    Upgrades across major versions are not supported by Weblate. For example,
-    if you are on 3.x series and want to upgrade to 4.x, first upgrade to the
-    latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which
-    will do the migration and then continue upgrading to newer versions.
+    Direct upgrades are only supported for releases from the current or previous
+    calendar year. If you need to upgrade from an older release, upgrade first
+    to an intermediate version listed in :ref:`version-specific-instructions`.
 
 You might also want to update the ``docker-compose`` repository, though it's
 not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
