@@ -37,6 +37,14 @@ class BasicViewTest(FixtureTestCase):
         response = self.client.get(reverse("stats"))
         self.assertContains(response, "Weblate statistics")
 
+    def test_stats_without_active_users(self) -> None:
+        self.client.logout()
+        User.objects.update(is_active=False)
+
+        response = self.client.get(reverse("stats"))
+
+        self.assertContains(response, "Weblate statistics")
+
     def test_donate(self) -> None:
         response = self.client.get(reverse("donate"))
         self.assertContains(response, "Support Weblate")
