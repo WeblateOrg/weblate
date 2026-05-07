@@ -4369,6 +4369,14 @@ class ComponentAPITest(APIBaseTest):
         self.component.save()
         self.do_request("api:component-new-template", self.component_kwargs)
 
+    def test_new_template_download_prohibited(self) -> None:
+        self.component.new_base = "po/cs.po"
+        self.component.save()
+        project = self.component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request("api:component-new-template", self.component_kwargs, code=403)
+
     def test_monolingual_404(self) -> None:
         self.do_request(
             "api:component-monolingual-base", self.component_kwargs, code=404
@@ -4379,6 +4387,17 @@ class ComponentAPITest(APIBaseTest):
         self.do_request(
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
+        )
+
+    def test_monolingual_download_prohibited(self) -> None:
+        component = self.create_po_mono(name="mono", project=self.component.project)
+        project = component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:component-monolingual-base",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            code=403,
         )
 
     def test_translations(self) -> None:

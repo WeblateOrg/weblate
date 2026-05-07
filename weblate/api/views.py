@@ -2004,6 +2004,9 @@ class ComponentViewSet(
     def monolingual_base(self, request: Request, **kwargs):
         obj = self.get_object()
 
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
+
         if not obj.has_template():
             msg = "No template found!"
             raise Http404(msg)
@@ -2022,6 +2025,9 @@ class ComponentViewSet(
     @action(detail=True, methods=["get"])
     def new_template(self, request: Request, **kwargs):
         obj = self.get_object()
+
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
 
         if not obj.new_base:
             msg = "No file found!"
