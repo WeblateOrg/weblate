@@ -3378,8 +3378,10 @@ class ProjectTokenCreateForm(forms.ModelForm):
         )
         return result
 
-    def clean_expires(self):
-        expires = self.cleaned_data["expires"]
+    def clean_date_expires(self):
+        expires = self.cleaned_data["date_expires"]
+        if expires is None:
+            return expires
         expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
         if expires < timezone.now():
             raise forms.ValidationError(gettext("Expiry cannot be in the past."))
