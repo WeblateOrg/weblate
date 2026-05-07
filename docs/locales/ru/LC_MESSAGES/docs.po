@@ -50,7 +50,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-06 20:41+0000\n"
+"PO-Revision-Date: 2026-05-07 05:43+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -37567,12 +37567,16 @@ msgid ""
 "This section describes Celery task internals. :ref:`celery` describes how to "
 "configure Celery to run the tasks."
 msgstr ""
+"В этом разделе описываются внутренности задач Celery. :ref:`celery` "
+"описывает, как настроить Celery для выполнения задач."
 
 #: contributing/internals.rst:117
 msgid ""
 "Weblate uses Celery to execute tasks in the background. Some tasks are event-"
 "triggered, and some tasks are schedule-triggered."
 msgstr ""
+"Weblate использует Celery для выполнения задач в фоновом режиме. Некоторые "
+"задачи запускаются по событиям, а некоторые — по расписанию."
 
 #: contributing/internals.rst:120
 msgid ""
@@ -37580,6 +37584,10 @@ msgid ""
 "used to store the periodic task schedule in the database. The tasks schedule "
 "is configured in :file:`tasks.py` in each of the Django apps."
 msgstr ""
+"Celery Beat используется для планирования задач, а `django-celery-beat` "
+"используется для хранения расписания периодических задач в базе данных. "
+"Расписание задач настраивается в :file:`tasks.py` в каждом из приложений "
+"Django."
 
 #: contributing/internals.rst:124
 msgid ""
@@ -37587,10 +37595,13 @@ msgid ""
 "in :file:`settings.py`. The queues were designed to separate different types "
 "of workload:"
 msgstr ""
+"Задачи обрабатываются с использованием нескольких очередей; маршрутизация "
+"настраивается в :file:`settings.py`. Очереди были спроектированы для "
+"разделения различных типов рабочей нагрузки:"
 
 #: contributing/internals.rst:129
 msgid "The default queue where background tasks are processed."
-msgstr ""
+msgstr "Очередь по умолчанию, в которой обрабатываются фоновые задачи."
 
 #: contributing/internals.rst:131
 msgid ""
@@ -37598,6 +37609,10 @@ msgid ""
 "authentication or registration. This is a separate queue to make e-mail "
 "delivery smooth even if there is a backlog of other tasks."
 msgstr ""
+"Доставляет уведомления по электронной почте как для событий внутри Weblate, "
+"так и для аутентификации или регистрации. Это отдельная очередь для "
+"обеспечения бесперебойной доставки электронной почты, даже если есть "
+"отставание по другим задачам."
 
 #: contributing/internals.rst:133
 msgid ""
@@ -37605,18 +37620,26 @@ msgid ""
 "importing new strings, and long processing does not matter much here, so "
 "having a separate queue avoids blocking other tasks."
 msgstr ""
+"Обновляет записи памяти переводов. Очередь обновления может быть длинной при "
+"импорте новых строк, и длительная обработка здесь не имеет большого "
+"значения, поэтому использование отдельной очереди позволяет избежать "
+"блокировки других задач."
 
 #: contributing/internals.rst:135
 msgid ""
 "The backup tasks cannot be executed in parallel, and a single dedicated "
 "worker makes this easier."
 msgstr ""
+"Задачи резервного копирования не могут выполняться параллельно, и один "
+"выделенный обработчик упрощает это."
 
 #: contributing/internals.rst:137
 msgid ""
 "Automatic translation tasks are known to take long because they hit external "
 "services."
 msgstr ""
+"Известно, что задачи автоматического перевода выполняются долго, поскольку "
+"они обращаются к внешним службам."
 
 #: contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -37658,13 +37681,15 @@ msgstr ""
 
 #: contributing/issues.rst:20
 msgid "Using AI to create issues"
-msgstr ""
+msgstr "Использование ИИ для создания вопросов/проблем"
 
 #: contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
 msgstr ""
+"Если вы попросили инструмент ИИ найти проблемы в Weblate или его модулях, вы "
+"**должны** раскрыть этот факт в своём сообщении."
 
 #: contributing/issues.rst:25
 msgid ""
@@ -37673,6 +37698,10 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"Вы также должны тщательно перепроверить результаты, прежде чем сообщать их "
+"нам, чтобы убедиться, что проблемы действительно существуют и работают "
+"именно так, как говорит ИИ. Инструменты на основе ИИ часто генерируют "
+"неточные или сфабрикованные результаты."
 
 #: contributing/issues.rst:29
 msgid ""
@@ -37684,6 +37713,13 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"*Редко* бывает хорошей идеей просто скопировать и вставить сгенерированный "
+"ИИ отчёт в проект. Эти сгенерированные отчёты обычно слишком многословны и "
+"редко соответствуют сути (в дополнение к обычным сфабрикованным деталям). "
+"Если вы действительно обнаружили проблему с помощью ИИ и сами проверили её "
+"истинность, напишите отчёт самостоятельно и объясните проблему так, как вы "
+"её поняли. Это гарантирует, что неточности и выдуманные проблемы ИИ будут "
+"отфильтрованы на раннем этапе, прежде чем они отнимут время у других людей."
 
 #: contributing/issues.rst:37
 msgid ""
@@ -37693,11 +37729,19 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
+"Поскольку мы серьёзно относимся к отчётам о безопасности, мы расследуем "
+"каждый отчёт в приоритетном порядке. Эта работа требует много времени и "
+"энергии и отвлекает нас от другой полезной работы. Поддельные и "
+"сфабрикованные проблемы безопасности фактически мешают нам выполнять "
+"реальную работу над проектом и заставляют нас тратить время и ресурсы "
+"впустую."
 
 #: contributing/issues.rst:43
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
 msgstr ""
+"Мы немедленно блокируем пользователей, которые отправляют в проект "
+"сфабрикованные поддельные отчёты."
 
 #: contributing/issues.rst:46
 msgid "Issues lifecycle"
@@ -37722,6 +37766,8 @@ msgstr ""
 #: contributing/license.rst:10
 msgid "To review licensing of Weblate dependencies please see :ref:`sbom`."
 msgstr ""
+"Чтобы ознакомиться с лицензированием зависимостей Weblate, пожалуйста, "
+"обратитесь к :ref:`sbom`."
 
 #: contributing/license.rst:13
 msgid "License terms"
@@ -37773,6 +37819,8 @@ msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
 msgstr ""
+"Некоторые модули Weblate используют лицензии MIT или ISC. Пожалуйста, "
+"проверьте соответствующие репозитории на предмет фактической лицензии."
 
 #: contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -37816,6 +37864,8 @@ msgid ""
 "`translate-toolkit`_, the library to manipulate the translation files, "
 "originally third-party library but now maintained by Weblate."
 msgstr ""
+"`translate-toolkit`_, библиотека для управления файлами переводов, "
+"изначально сторонняя библиотека, но теперь поддерживаемая Weblate."
 
 #: contributing/modules.rst:20
 msgid "Extending built-in language definitions"
@@ -37870,6 +37920,9 @@ msgid ""
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
 msgstr ""
+"Docker-контейнер включает дополнительную цифру в версионировании для "
+"отслеживания изменений в самом контейнере, таких как зависимости. Эти "
+"обновления могут включать обновления безопасности."
 
 #: contributing/release.rst:27
 msgid "Release planning"
@@ -38004,10 +38057,13 @@ msgid ""
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
 msgstr ""
+"При внесении кода вы соглашаетесь разместить свои изменения и новый код под "
+"той же лицензией, которую уже использует репозиторий, если не указано иное и "
+"не согласовано иначе."
 
 #: contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr ":doc:`/contributing/license` объясняет лицензирование более подробно."
 
 #: contributing/snippets/code-guide.rst:14
 msgid "Writing a good patch"
@@ -38025,6 +38081,11 @@ msgid ""
 "needs to extract the single interesting patch from somewhere within the "
 "massive pile of sources, and that creates a lot of extra work."
 msgstr ""
+"Раздражает, когда вы получаете массивный патч, который, как говорят, "
+"исправляет 11 разных проблем, но обсуждения и мнения не согласуются с 10 из "
+"них, или 9 из них уже были исправлены иначе. Тогда человеку, объединяющему "
+"это изменение, нужно извлечь единственный интересный патч откуда-то из "
+"огромной кучи исходных кодов, и это создаёт много лишней работы."
 
 #: contributing/snippets/code-guide.rst:25
 msgid ""
@@ -38033,12 +38094,18 @@ msgid ""
 "correct so that all changes can be selectively applied by the maintainer or "
 "other interested parties."
 msgstr ""
+"Желательно, чтобы каждое исправление, устраняющее проблему, было в своём "
+"собственном патче/коммите со своим собственным описанием/сообщением коммита, "
+"в котором точно указано, что они исправляют, чтобы все изменения могли быть "
+"выборочно применены мейнтейнером или другими заинтересованными сторонами."
 
 #: contributing/snippets/code-guide.rst:30
 msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
 msgstr ""
+"Кроме того, раздельные изменения позволяют гораздо лучше использовать "
+"биссекцию для отслеживания проблем и регрессов в будущем."
 
 #: contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -38051,6 +38118,10 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"Документация может быть утомительной задачей; тем не менее, кому-то "
+"необходимо её завершить. Это значительно упрощает задачу, если вы "
+"отправляете документацию вместе с изменениями кода. Пожалуйста, не забывайте "
+"документировать методы, сложные блоки кода или видимые пользователю функции."
 
 #: contributing/snippets/code-guide.rst:47
 msgid "Test cases"
@@ -38064,6 +38135,11 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"Тесты позволяют нам быстро убедиться, что функции работают так, как должны. "
+"Чтобы поддерживать и улучшать эту ситуацию, все новые функции, которые "
+"добавляются, должны быть протестированы в наборе тестов. Каждая добавляемая "
+"функция должна иметь по крайней мере один действительный тестовый пример, "
+"который подтверждает, что она работает так, как задокументировано."
 
 #: contributing/snippets/code-guide.rst:60
 msgid "Commit messages"
@@ -38074,6 +38150,8 @@ msgid ""
 "Git commits should follow `Conventional Commits <https://"
 "www.conventionalcommits.org/>`_ specification."
 msgstr ""
+"Коммиты Git должны следовать спецификации `Conventional Commits <https://"
+"www.conventionalcommits.org/>`_."
 
 #: contributing/snippets/code-guide.rst:66
 msgid "Type checking"
@@ -38094,6 +38172,8 @@ msgid ""
 "The code base is not yet completely covered by type annotations, but some "
 "modules are already enforced for type checking in the CI."
 msgstr ""
+"База кода ещё не полностью покрыта аннотациями типов, но для некоторых "
+"модулей уже принудительно включена проверка типов в CI."
 
 #: contributing/snippets/code-guide.rst:76
 msgid "Coding standard and linting the code"
@@ -38123,16 +38203,22 @@ msgid ""
 "in :file:`pyproject.toml`, so installing those dependencies "
 "makes :program:`prek` available."
 msgstr ""
+"Самый простой способ обеспечить всё это — установить :program:`prek`. Это "
+"сторонняя реализация инструмента `pre-commit`_, используемого Weblate. Он "
+"включён в зависимости разработки, объявленные в :file:`pyproject.toml`, "
+"поэтому установка этих зависимостей делает :program:`prek` доступным."
 
 #: contributing/snippets/code-guide.rst:89
 msgid "To check all files manually, run:"
-msgstr ""
+msgstr "Чтобы проверить все файлы вручную, выполните:"
 
 #: contributing/snippets/code-guide.rst:95
 msgid ""
 "If you prefer the original :program:`pre-commit` client, it uses the same "
 "configuration from :file:`.pre-commit-config.yaml`."
 msgstr ""
+"Если вы предпочитаете оригинальный клиент :program:`pre-commit`, он "
+"использует ту же конфигурацию из :file:`.pre-commit-config.yaml`."
 
 #: contributing/snippets/code-guide.rst:101
 msgid "Coding securely"
@@ -38159,6 +38245,12 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"При внесении контента в проект вы даёте нам разрешение использовать его как "
+"есть, и вы должны убедиться, что имеете право распространять его нам. "
+"Отправляя нам изменение, вы соглашаетесь, что изменения могут и должны быть "
+"приняты проектом и перераспределены под лицензией проекта. Авторы должны "
+"явно осознавать, что на них лежит ответственность за то, чтобы в проект не "
+"был отправлен нелицензионный код."
 
 #: contributing/snippets/code-guide.rst:118
 msgid "This is independent of whether AI is used or not."
