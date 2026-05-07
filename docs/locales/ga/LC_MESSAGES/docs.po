@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-05 12:54+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-05-06 15:16+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -5758,16 +5758,12 @@ msgstr ""
 "an bhfreastalaí. Réamhshocrú go dtí 30 lá."
 
 #: admin/config.rst:1641
-#, fuzzy
-#| msgid ""
-#| "Configures the maximum size, in bytes, for uploaded component ZIP files. "
-#| "Defaults to 50 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded project backup ZIP "
 "files. Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
-"Cumraíonn sé an méid uasta, i mbéiteanna, do chomhaid ZIP comhpháirte "
-"uaslódáilte. Is é 50 MB an réamhshocrú."
+"Cumraíonn sé an uasmhéid, i mbéiteanna, do chomhaid ZIP chúltaca tionscadail "
+"uaslódáilte. Is é 262144000 beart (250 MiB) an réamhshocrú."
 
 #: admin/config.rst:1644
 msgid ""
@@ -5777,6 +5773,11 @@ msgid ""
 "deployments can be constrained by their reverse proxy request body-size "
 "limit."
 msgstr ""
+"I Docker, cumraigh é seo ag baint úsáide as an athróg timpeallachta "
+"``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``. Is féidir socruithe Docker a "
+"shrianadh freisin ag :envvar:`CLIENT_MAX_BODY_SIZE`; is féidir imscaradh "
+"eile a shrianadh ag a dteorainn méide coirp iarrata seachfhreastalaí droim "
+"ar ais."
 
 #: admin/config.rst:1660
 msgid ""
@@ -5795,23 +5796,22 @@ msgstr ""
 "d'aon ghnó. Is é 100,000 iontráil an réamhshocrú."
 
 #: admin/config.rst:1677
-#, fuzzy
-#| msgid ""
-#| "Defines the maximum uncompressed size, in bytes, for a single highly "
-#| "compressed ZIP entry in an imported project backup."
 msgid ""
 "Defines the maximum total uncompressed size, in bytes, for ZIP entries in an "
 "imported project backup. Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
-"Sainmhíníonn sé seo an uasmhéid neamh-chomhbhrúite, i mbéiteanna, le "
-"haghaidh iontráil ZIP aonair atá comhbhrúite go mór i gcúltaca tionscadail "
-"allmhairithe."
+"Sainmhíníonn sé seo an uasmhéid iomlán neamh-chomhbhrúite, i mbéiteanna, le "
+"haghaidh iontrálacha ZIP i gcúltaca tionscadail allmhairithe. Is é 262144000 "
+"beart (250 MiB) an réamhshocrú."
 
 #: admin/config.rst:1680
 msgid ""
 "This limits archives that are small when uploaded but expand to much more "
 "data during validation or restore."
 msgstr ""
+"Cuireann sé seo teorainn le cartlanna atá beag nuair a uaslódálfar iad ach a "
+"leathnaíonn chuig i bhfad níos mó sonraí le linn bailíochtaithe nó "
+"athchóirithe."
 
 #: admin/config.rst:1694
 msgid ""
@@ -19927,10 +19927,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.5"
-msgstr "Gréasán 2.5"
+msgstr "Weblate 2026.5"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19951,6 +19949,9 @@ msgid ""
 ":ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now "
 "export plural strings as separate plural-form rows that can be imported back."
 msgstr ""
+"Déanann íoslódálacha :ref:`CSV <csv>` agus :ref:`XLSX <xlsx>` i "
+":ref:`download` teaghráin iolra a onnmhairiú anois mar shraitheanna iolra ar "
+"leithligh is féidir a allmhairiú ar ais."
 
 #: changes.rst:11 changes.rst:46 changes.rst:132 changes.rst:236
 #: changes.rst:271 changes.rst:318 changes.rst:362 changes.rst:407
@@ -19968,16 +19969,12 @@ msgid "Improvements"
 msgstr "Feabhsuithe"
 
 #: changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "The wrapping width can be configured using the ``po_line_wrap`` "
-#| "parameter, see :ref:`file_format_params`."
 msgid ""
 "Using DOS line endings can now be configured using the "
 "``dos_eol`` :ref:`file_format_params`."
 msgstr ""
-"Is féidir leithead an fillte a chumrú ag baint úsáide as an bparaiméadar "
-"``po_line_wrap``, féach :ref:`file_format_params`."
+"Is féidir críochlínte DOS a chumrú anois ag baint úsáide as ``dos_eol`` "
+":ref:`file_format_params`."
 
 #: changes.rst:15 changes.rst:64 changes.rst:172 changes.rst:241
 #: changes.rst:276 changes.rst:330 changes.rst:369 changes.rst:414
@@ -20003,6 +20000,8 @@ msgid ""
 "Merge request pushes now refresh stale fork remotes after changing "
 "repository hosting."
 msgstr ""
+"Athnuachanaítear iargúlta forc seanchaite anois le brúnna iarratais chumasc "
+"tar éis athrú a dhéanamh ar óstáil an stórais."
 
 #: changes.rst:19 changes.rst:94 changes.rst:204 changes.rst:339
 #: changes.rst:382 changes.rst:479 changes.rst:622 changes.rst:717
@@ -20018,6 +20017,8 @@ msgid ""
 "The ``dos-eol`` flag is no longer supported. Use the "
 "``dos_eol`` :ref:`file_format_params` instead."
 msgstr ""
+"Ní thacaítear leis an mbratach ``dos-eol`` a thuilleadh. Bain úsáid as an "
+"``dos_eol`` :ref:`file_format_params` ina ionad."
 
 #: changes.rst:23 changes.rst:101 changes.rst:213 changes.rst:251
 #: changes.rst:290 changes.rst:347 changes.rst:386 changes.rst:422
@@ -20085,26 +20086,20 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/62?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"162?closed=1>`__."
 
 #: changes.rst:33
 msgid "Weblate 5.17.1"
 msgstr "Weblate 5.17.1"
 
 #: changes.rst:35
-#, fuzzy
-#| msgid "*Released on April 15th 2026.*"
 msgid "*Released on April 30th 2026.*"
-msgstr "*Scaoilte ar an 15 Aibreán 2026.*"
+msgstr "*Scaoilte ar an 30 Aibreán 2026.*"
 
 #: changes.rst:39
 msgid ""
@@ -20120,15 +20115,15 @@ msgid ""
 "rejecting pending suggestions, and deleting comments across project or site-"
 "wide scopes."
 msgstr ""
+"Is féidir le riarthóirí úsáideoirí blocáilte nó mí-úsáideacha a ghlanadh "
+"anois trí eagarthóireachtaí a aisiompú, moltaí atá ar feitheamh a dhiúltú, "
+"agus tuairimí a scriosadh ar fud raon feidhme tionscadail nó suímh."
 
 #: changes.rst:41
-#, fuzzy
-#| msgid ""
-#| "Admin user management search can now find users by audit log IP address."
 msgid "Admin user management can now find users by audit log IP address."
 msgstr ""
-"Is féidir le cuardach bainistíochta úsáideoirí riarthóra úsáideoirí a aimsiú "
-"anois de réir seoladh IP loga iniúchóireachta."
+"Is féidir le bainistíocht úsáideoirí riarthóra úsáideoirí a aimsiú anois de "
+"réir seoladh IP loga iniúchóireachta."
 
 #: changes.rst:42
 msgid ""
@@ -20139,10 +20134,8 @@ msgstr ""
 "do chatagóirí freisin."
 
 #: changes.rst:43
-#, fuzzy
-#| msgid ":ref:`mt-ltengine` machine translation service."
 msgid "Added :ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-ltengine` seirbhís aistriúcháin meaisín."
+msgstr "Cuireadh seirbhís aistriúcháin meaisín :ref:`mt-ltengine` leis."
 
 #: changes.rst:47
 msgid ""
@@ -20150,6 +20143,9 @@ msgid ""
 "permission, :ref:`autoclean-tm`, :ref:`glossary-terminology`, and "
 "current :ref:`translation-memory` management options in the UI."
 msgstr ""
+"Doiciméadú feabhsaithe don chead domhanda ``user.edit``, :ref:`autoclean-"
+"tm`, :ref:`glossary-terminology`, agus na roghanna bainistíochta reatha "
+":ref:`translation-memory` sa Chomhéadan Úsáideora."
 
 #: changes.rst:48
 msgid ""
@@ -20160,16 +20156,12 @@ msgstr ""
 "úsáideora screenshots."
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Documented restoring Docker based setups from backups, see :ref:`restore-"
-#| "docker`."
 msgid ""
 "Documented restoring Docker-based setups from backups, see :ref:`restore-"
 "docker`."
 msgstr ""
-"Doiciméadú ar athchóiriú socruithe bunaithe ar Docker ó chúltacaí, "
-"féach :ref:`restore-docker`."
+"Doiciméadú ar athchóiriú socruithe bunaithe ar Docker ó chúltacaí, féach "
+":ref:`restore-docker`."
 
 #: changes.rst:50
 msgid ""
@@ -20180,17 +20172,13 @@ msgstr ""
 "mbeadh scuainí Celery folamh roimh uasghrádú."
 
 #: changes.rst:51
-#, fuzzy
-#| msgid ""
-#| "The OpenAPI schema now describes action endpoints with their actual list, "
-#| "statistics, status, upload, and download response payloads."
 msgid ""
 "The OpenAPI schema is cleaner and now describes action endpoints with their "
 "actual list, statistics, status, upload, and download response payloads."
 msgstr ""
-"Déanann scéim OpenAPI cur síos anois ar chríochphointí gníomhaíochta lena "
-"liosta iarbhír, staitisticí, stádas, uaslódálacha agus ualaí freagartha "
-"íoslódála."
+"Tá scéim OpenAPI níos glaine agus anois déantar cur síos inti ar "
+"chríochphointí gníomhaíochta lena liosta iarbhír, staitisticí, stádas, "
+"uaslódálacha agus ualaí freagartha íoslódála."
 
 #: changes.rst:52
 msgid ""
@@ -20204,30 +20192,24 @@ msgstr ""
 "gcatagóirí, nó i raon feidhme an tsuímh."
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "Improved :ref:`addon-weblate.discovery.discovery` guidance with guided "
-#| "client-side presets, clearer ``{{ component }}`` validation, and a worked "
-#| "discovery-template example in the docs."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now offers guided client-side "
 "presets, suggests presets detected from component repository layouts, "
 "validates ``{{ component }}`` more clearly, and includes a worked discovery-"
 "template example in the docs."
 msgstr ""
-"Treoir fheabhsaithe :ref:`addon-weblate.discovery.discovery` le "
-"réamhshocruithe treoraithe taobh an chliaint, bailíochtú níos soiléire ar "
-"``{{ component }}``, agus sampla teimpléid fionnachtana oibrithe sna "
-"doiciméid."
+"Cuireann :ref:`addon-weblate.discovery.discovery` réamhshocruithe treoraithe "
+"taobh an chliaint ar fáil anois, molann sé réamhshocruithe a braitheadh ó "
+"leagan amach stórtha comhpháirteanna, déanann sé ``{{ component }}`` a "
+"bhailíochtú ar bhealach níos soiléire, agus áirítear sampla teimpléid "
+"fionnachtana oibrithe sna doiciméid."
 
 #: changes.rst:54
-#, fuzzy
-#| msgid "Track superuser and site-wide team changes in :ref:`audit-log`."
 msgid ""
 "Superuser and site-wide team changes are now tracked in :ref:`audit-log`."
 msgstr ""
-"Rianaigh athruithe ar an sárúsáideoir agus ar an bhfoireann ar fud an tsuímh "
-"i :ref:`audit-log`."
+"Déantar athruithe ar fhorúsáideoirí agus ar fhoireann an tsuímh uile a rianú "
+"anois i :ref:`audit-log`."
 
 #: changes.rst:55
 msgid ""
@@ -20236,19 +20218,21 @@ msgid ""
 "better explains private or local endpoint restrictions on hosted and self-"
 "managed sites."
 msgstr ""
+"Taispeánann foláirimh bailíochtaithe URL earráidí níos soiléire anois le "
+"haghaidh URLanna brabhsálaí láithreáin ghréasáin tionscadail agus stórtha, "
+"agus míníonn bailíochtú aistriúcháin meaisín ar leibhéal an tionscadail "
+"srianta críochphointe príobháideacha nó áitiúla ar shuíomhanna óstáilte agus "
+"féinbhainistithe níos fearr."
 
 #: changes.rst:56
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` now records automatic "
-#| "translation results in the add-on activity log."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now attributes copied "
 "translations to the add-on user and records automatic translation results in "
 "the add-on activity log."
 msgstr ""
-"Taifeadann :ref:`addon-weblate.autotranslate.autotranslate` torthaí "
-"aistriúcháin uathoibríocha i log gníomhaíochta na mbreiseán anois."
+"Cuireann :ref:`addon-weblate.autotranslate.autotranslate` aistriúcháin "
+"chóipeáilte i leith úsáideoir an bhreiseáin anois agus taifeadann sé torthaí "
+"aistriúcháin uathoibríocha i log gníomhaíochta an bhreiseáin."
 
 #: changes.rst:57
 msgid ""
@@ -20261,19 +20245,18 @@ msgstr ""
 #: changes.rst:58
 msgid ":ref:`profile` links now show an external-link warning where possible."
 msgstr ""
+"Taispeánann naisc :ref:`profile` rabhadh maidir le nasc seachtrach anois "
+"nuair is féidir."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Client-side popup notifications triggered by JavaScript now use Bootstrap "
-#| "toasts."
 msgid ""
 "Client-side popup notifications triggered by JavaScript now use Bootstrap "
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
 msgstr ""
-"Úsáideann fógraí aníos taobh an chliaint a spreagtar ag JavaScript toasts "
-"Bootstrap anois."
+"Úsáideann fógraí aníos taobh an chliaint a spreagann JavaScript tóstaí "
+"Bootstrap anois, le dathanna téama dorcha níos airde codarsnachta le "
+"haghaidh malairtí caolchúiseacha agus béime Bootstrap."
 
 #: changes.rst:60
 msgid ""
@@ -20293,30 +20276,29 @@ msgstr ""
 "nuair a bhíonn athbhreithnithe cumasaithe ar aon tionscadal atá liostaithe."
 
 #: changes.rst:65
-#, fuzzy
-#| msgid "Markdown image URLs are now escaped before rendering."
 msgid ""
 "Image URLs in Markdown are now escaped before rendering "
 "(:ghsa:`5cmv-3rc4-7279`)."
-msgstr "Déantar URLanna íomhá markdown a éalú anois sula ndéantar rindreáil."
+msgstr ""
+"Déantar URLanna íomhá i Markdown a éalú anois roimh rindreáil (:ghsa:`5cmv-"
+"3rc4-7279`)."
 
 #: changes.rst:66
 msgid ""
 "Tightened :ref:`api` input validation to prevent translation enumeration "
 "(:ghsa:`gcg5-86jr-f7jg`)."
 msgstr ""
+"Rinneadh bailíochtú ionchuir :ref:`api` a dhéanamh níos doichte chun cosc a "
+"chur ar áireamh aistriúcháin (:ghsa:`gcg5-86jr-f7jg`)."
 
 #: changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Project backup import now revalidates component repository URLs before "
-#| "restore."
 msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
-"Athbhailíochtú anois déantar URLanna stórtha comhpháirteanna a úsáid le "
-"haghaidh allmhairiú cúltaca tionscadail roimh athchóiriú."
+"Déanann allmhairí cúltaca tionscadal URLanna stórtha comhpháirteanna a "
+"athbhailíochtú anois sula ndéantar athchóiriú ón gcúltaca (:cve:`2026-"
+"41654` / :ghsa:`cwcx-382v-8m9g`)."
 
 #: changes.rst:68
 msgid ""
@@ -20331,6 +20313,8 @@ msgid ""
 "Invitation acceptance now verifies the invited e-mail address and invitation "
 "expiry before granting team membership."
 msgstr ""
+"Fíoraíonn glacadh leis an gcuireadh anois an seoladh ríomhphoist agus éaga "
+"an chuireadh sula ndeonaítear ballraíocht foirne."
 
 #: changes.rst:70
 msgid ""
@@ -20345,6 +20329,8 @@ msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
 msgstr ""
+"Déanann an :ref:`addons-api` cumraíocht bhreiseán riachtanach a bhailíochtú "
+"anois agus breiseáin á suiteáil."
 
 #: changes.rst:72
 msgid ""
@@ -20460,16 +20446,12 @@ msgstr ""
 "TMX nach bhfuil an ceanntásc riachtanach iontu seachas an t-iarratas a theip."
 
 #: changes.rst:85
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
-#| "PostgreSQL searches."
 msgid ""
 ":ref:`mt-weblate-translation-memory` no longer misses boundary similarity "
 "matches after stricter lookups."
 msgstr ""
-"Seachnaíonn aistriúchán uathoibríoch :ref:`mt-weblate-translation-memory` "
-"cuardaigh leathana PostgreSQL."
+"Ní chailleann :ref:`mt-weblate-translation-memory` meaitseálacha cosúlachta "
+"teorann a thuilleadh i ndiaidh cuardaigh níos déine."
 
 #: changes.rst:86
 msgid ""
@@ -20486,6 +20468,9 @@ msgid ""
 "management for discovered formats that do not support adding or removing "
 "strings."
 msgstr ""
+"Díchumasaíonn :ref:`addon-weblate.discovery.discovery` bainistíocht teaghrán "
+"oidhreachta anois i gcás formáidí a aimsítear nach dtacaíonn le teaghráin a "
+"chur leis nó a bhaint."
 
 #: changes.rst:88
 msgid ""
@@ -20500,34 +20485,35 @@ msgid ""
 "Project component pagination now keeps the :guilabel:`Components` tab active "
 "when jumping to a typed page number."
 msgstr ""
+"Coinníonn leathanaigh chomhpháirteanna tionscadail an cluaisín "
+":guilabel:`Components` gníomhach anois agus uimhir leathanaigh clóscríofa á "
+"léim."
 
 #: changes.rst:90
-#, fuzzy
-#| msgid ""
-#| "Markdown rendering now falls back to escaped plain text when the Markdown "
-#| "parser fails."
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the parser "
 "fails."
 msgstr ""
-"Titeann rindreáil Markdown ar ais go téacs simplí éalaithe anois nuair a "
-"theipeann ar an bparsálaí Markdown."
+"Titeann rindreáil marcála síos ar ais go téacs simplí éalaithe anois nuair a "
+"theipeann ar an parsálaí."
 
 #: changes.rst:91
 msgid ""
 "Forgejo and Gitea test deliveries with sample loopback repository URLs no "
 "longer trigger slow suffix matching against all components."
 msgstr ""
+"Ní spreagann seachadtaí tástála Forgejo agus Gitea le URLanna stórtha lúbtha "
+"samplacha meaitseáil iarmhíreanna mall i gcoinne gach comhpháirte a "
+"thuilleadh."
 
 #: changes.rst:95
-#, fuzzy
-#| msgid "Password updates now regenerate your personal API key by default."
 msgid ""
 "Password changes now regenerate personal API keys by default "
 "(:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
 msgstr ""
-"Athghinfidh nuashonruithe pasfhocail d’eochair API phearsanta de réir "
-"réamhshocraithe anois."
+"Athghintear eochracha pearsanta API anois de réir réamhshocraithe nuair a "
+"dhéantar athruithe ar phasfhocail (:cve:`2026-41519` / :ghsa:`6j8j-4qp3-"
+"36p2`)."
 
 #: changes.rst:96
 msgid ""
@@ -20541,18 +20527,13 @@ msgstr ""
 "sainráite ag an óstach."
 
 #: changes.rst:97
-#, fuzzy
-#| msgid ""
-#| ":ref:`profile` links now show an external-link warning where possible; "
-#| "obvious direct file download URLs and invalid code site or Fediverse "
-#| "profile links are rejected."
 msgid ""
 ":ref:`profile` URL validation now rejects obvious direct file download URLs "
 "and invalid code site or Fediverse profile links."
 msgstr ""
-"Taispeánann naisc :ref:`profile` rabhadh nasc seachtrach anois nuair is "
-"féidir; diúltaítear do URLanna íoslódála comhad díreacha soiléire agus do "
-"naisc shuíomh cóid neamhbhailí nó do phróifílí Fediverse."
+"Diúltaíonn bailíochtú URL :ref:`profile` anois do URLanna íoslódála comhad "
+"díreacha soiléire agus do naisc shuíomh cóid neamhbhailí nó próifílí "
+"Fediverse."
 
 #: changes.rst:98
 msgid ""
@@ -20562,6 +20543,13 @@ msgid ""
 "imports and project backup restores now share stricter ZIP archive safety "
 "checks, including total uncompressed data limits for project backup imports."
 msgstr ""
+"Forfheidhmíonn uaslódálacha anois :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, "
+":setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`, agus "
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE` roimh pharsáil. Roinneann "
+"allmhairí ZIP comhpháirteanna agus athchóirithe cúltaca tionscadail "
+"seiceálacha sábháilteachta cartlainne ZIP níos déine anois, lena n-áirítear "
+"teorainneacha sonraí neamh-chomhbhrúite iomlána le haghaidh allmhairí "
+"cúltaca tionscadail."
 
 #: changes.rst:108
 msgid ""
@@ -27281,10 +27269,8 @@ msgstr ""
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
-msgstr "Michal Čihař, Karen Konou, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
 
 #: changes/contributors/5.17.1.rst:10
 msgid ""
@@ -27300,12 +27286,21 @@ msgid ""
 "Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
 "Ivir"
 msgstr ""
+"Michal Čihař, Besnik Bleta, Kristoffer Grundström, Francisco Serrador, "
+"ButterflyOfFire, anas agha, Zahid Rizky Fakhri, pan93412, Hyeonjeong Lee, "
+"VfBFan, 大王叫我来巡山, Yuri Chornoivan, LucasMZ, Átila França, Rafael "
+"Fontenelle, Aindriú Mac Giolla Eoin, UDP, Blueberry, Hotripak, Matthaiks, "
+"Agnieszka C, Priit Jõerüüt, Martin Srebotnjak, Fjuro, Andrei Stepanov, "
+"Mickaël Binos, IEEE-754, Adrian Reyes, bovirus, Max Kleinehelleforth, "
+"justcontributor, Yago Raña Gayoso, Horus68, Любомир Василев, CYAXXX, Andi "
+"Chandler, Adam Havránek, Kyotaro Iijima, Arif Budiman, ovl-1, Laitei, Jim "
+"Kats, Omer I.S., Fulup Jakez, ojppe, Julien Humbert, Jim Spentzos, "
+"Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
+"Ivir"
 
 #: changes/contributors/5.17.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, michael-smt"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -49489,16 +49484,12 @@ msgstr ""
 "encryption-controls/mass-market>`_"
 
 #: security/us-compliance.rst:51
-#, fuzzy
-#| msgid ""
-#| "`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/part-742/"
-#| "section-742.15>`_"
 msgid ""
 "`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/"
 "subchapter-C/part-742/section-742.15>`_"
 msgstr ""
-"`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/part-742/"
-"section-742.15>`_"
+"`15 CFR 742.15 <https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/"
+"subchapter-C/part-742/section-742.15>`_"
 
 #: security/us-compliance.rst:55
 msgid "Cryptographic functionality"
@@ -56175,13 +56166,11 @@ msgstr "ISO-8859-1"
 
 #: snippets/file-format-parameters.rst:30
 msgid "dos_eol"
-msgstr ""
+msgstr "dos_eol"
 
 #: snippets/file-format-parameters.rst:30
-#, fuzzy
-#| msgid "File formats"
 msgid "All file formats"
-msgstr "Formáidí comhaid"
+msgstr "Gach formáid comhaid"
 
 #: snippets/file-format-parameters.rst:30
 msgid "DOS line endings"
@@ -56189,7 +56178,7 @@ msgstr "Críochnaíonn líne DOS"
 
 #: snippets/file-format-parameters.rst:30
 msgid "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n)"
-msgstr ""
+msgstr "Bain úsáid as deirí líne DOS (\\r\\n) in ionad deirí líne UNIX (\\n)"
 
 #: snippets/file-format-parameters.rst:32
 msgid "flatxml_key_name"
@@ -57732,22 +57721,16 @@ msgstr ""
 "bunaithe ar an teanga (mar shampla, tá ``de@formal`` agus ``de@informal``)."
 
 #: snippets/machines-autogenerated.rst:360
-#, fuzzy
-#| msgid ""
-#| "The translation context can optionally be specified to improve "
-#| "translations quality. Read more on that in `DeepL translation context "
-#| "documentation <https://developers.deepl.com/docs/best-practices/working-"
-#| "with-context>`_."
 msgid ""
 "The translation context can optionally be specified to improve translations "
 "quality. Read more on that in `DeepL translation context documentation "
 "<https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/how-"
 "to-use-context-parameter>`_."
 msgstr ""
-"Is féidir comhthéacs an aistriúcháin a shonrú go roghnach chun cáilíocht an "
-"aistriúcháin a fheabhsú. Léigh tuilleadh faoi sin i `Doiciméad maidir le "
-"comhthéacs aistriúcháin DeepL <https://developers.deepl.com/docs/best-"
-"practices/working-with-context>`_."
+"Is féidir comhthéacs an aistriúcháin a shonrú más mian leat chun feabhas a "
+"chur ar cháilíocht na n-aistriúchán. Léigh tuilleadh faoi sin i `Doiciméadú "
+"comhthéacs aistriúcháin DeepL <https://developers.deepl.com/docs/learning-"
+"how-tos/examples-and-guides/how-to-use-context-parameter>`_."
 
 #: snippets/machines-autogenerated.rst:367
 msgid "`DeepL translator <https://www.deepl.com/translator>`_"
@@ -57758,16 +57741,12 @@ msgid "`DeepL pricing <https://www.deepl.com/pro>`_"
 msgstr "`Praghsáil DeepL <https://www.deepl.com/pro>`_"
 
 #: snippets/machines-autogenerated.rst:369
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`DeepL API documentation <https://developers.deepl.com/docs/getting-started/"
 "quickstart>`_"
 msgstr ""
 "`Doiciméadacht API DeepL <https://developers.deepl.com/docs/getting-started/"
-"intro>`_"
+"quickstart>`_"
 
 #: snippets/machines-autogenerated.rst:394
 msgid ""

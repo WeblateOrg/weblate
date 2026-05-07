@@ -69,22 +69,39 @@ class AddonList(PathViewMixin, ListView):
         result["object"] = target
         result["change_actions"] = Change.ACTIONS_ADDON
         if target is None:
-            result["last_changes"] = Change.objects.filter(
-                action__in=Change.ACTIONS_ADDON
-            ).order()[:10]
+            result["last_changes"] = (
+                Change.objects.filter(
+                    action__in=Change.ACTIONS_ADDON,
+                    project__isnull=True,
+                    category__isnull=True,
+                    component__isnull=True,
+                )
+                .prefetch_for_render()
+                .recent()
+            )
         elif isinstance(target, Component):
-            result["last_changes"] = target.change_set.filter(
-                action__in=Change.ACTIONS_ADDON
-            ).order()[:10]
+            result["last_changes"] = (
+                target.change_set.filter(action__in=Change.ACTIONS_ADDON)
+                .prefetch_for_render()
+                .recent(skip_preload="component")
+            )
         elif isinstance(target, Category):
-            result["last_changes"] = Change.objects.filter(
-                action__in=Change.ACTIONS_ADDON,
-                category=target,
-            ).order()[:10]
+            result["last_changes"] = (
+                Change.objects.filter(
+                    action__in=Change.ACTIONS_ADDON,
+                    category=target,
+                )
+                .prefetch_for_render()
+                .recent(skip_preload="category")
+            )
         else:
-            result["last_changes"] = target.change_set.filter(
-                action__in=Change.ACTIONS_ADDON, component=None
-            ).order()[:10]
+            result["last_changes"] = (
+                target.change_set.filter(
+                    action__in=Change.ACTIONS_ADDON, component=None
+                )
+                .prefetch_for_render()
+                .recent(skip_preload="project")
+            )
         installed = {x.addon_name for x in result["object_list"]}
 
         component: Component | None = None

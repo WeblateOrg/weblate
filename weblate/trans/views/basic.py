@@ -613,7 +613,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
                 obj=obj,
             ),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "announcement.add", obj.project
+                AnnouncementForm, user, "announcement.add", obj
             ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj

@@ -47,7 +47,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
-    from weblate.trans.models.component import Component, ComponentQuerySet
+    from weblate.trans.models.component import Component
     from weblate.trans.models.translation import Translation, TranslationQuerySet
 
 
@@ -295,13 +295,7 @@ class DuplicateFilemask(BaseAlert):
             return {"duplicates": sorted(translations)}
         return False
 
-    def resolve_filename(
-        self, filename: str
-    ) -> ComponentQuerySet | TranslationQuerySet:
-        if "*" in filename:
-            # Legacy path for old alerts
-            # TODO: Remove in Weblate 6.0
-            return self.instance.component.component_set.filter(filemask=filename)
+    def resolve_filename(self, filename: str) -> TranslationQuerySet:
         return self.get_translations(self.instance.component).filter(filename=filename)
 
     def get_analysis(self) -> dict[str, Any]:

@@ -1167,6 +1167,53 @@ class AnnouncementTest(ModelTestCase):
             "test project",
         )
 
+    def test_contextfilter_category(self) -> None:
+        category = self.create_category(self.component.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        other_component = self.create_po(project=self.component.project, name="Other")
+        Announcement.objects.create(
+            category=category,
+            message="test category",
+        )
+
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    project=self.component.project
+                )
+            ],
+            ["test project"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    category=category
+                )
+            ],
+            ["test project", "test category"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component
+                )
+            ],
+            ["test project", "test component", "test category"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=other_component
+                )
+            ],
+            ["test project"],
+        )
+
     def test_contextfilter_component(self) -> None:
         self.verify_filter(
             Announcement.objects.context_filter(component=self.component), 2

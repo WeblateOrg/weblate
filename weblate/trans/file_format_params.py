@@ -259,7 +259,6 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     def setup_store(
         self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
     ) -> None:
-        # TODO: Type annotation will be fixed upstream via https://github.com/translate/translate/pull/5999
         cast("JsonFile", store).dump_args["sort_keys"] = self.get_value(
             file_format_params
         )

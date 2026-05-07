@@ -824,6 +824,29 @@ class XMLMixin(SimpleTestCase):
         self.assertXMLEqual(newdata.decode(), testdata.decode())
 
 
+class PoFormatPreviousSourceTest(SimpleTestCase):
+    def test_translated_state_clears_cached_previous_metadata(self) -> None:
+        storage = PoFormat(
+            NamedBytesIO(
+                "test.po",
+                b"#, fuzzy\n"
+                b'#| msgctxt "old context"\n'
+                b'#| msgid "old source"\n'
+                b'msgctxt "new context"\n'
+                b'msgid "new source"\n'
+                b'msgstr "target"\n',
+            )
+        )
+        unit = storage.content_units[0]
+
+        self.assertEqual(unit.previous_source, "old source")
+
+        unit.set_state(STATE_TRANSLATED)
+
+        self.assertEqual(unit.previous_source, "")
+        self.assertNotIn("#|", str(unit.unit))
+
+
 class PoFormatTest(BaseFormatTest):
     format_class = PoFormat
     EDIT_OFFSET = 1
