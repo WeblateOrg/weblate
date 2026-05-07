@@ -481,8 +481,14 @@ def _probe_validated_url(
         response.raise_for_status()
 
 
-def _uri_error_cache_key(uri: str) -> str:
-    return f"uri-check-{sha256(uri.encode()).hexdigest()}"
+def _uri_error_cache_key(
+    uri: str,
+    *,
+    allow_private_targets: bool,
+    allowed_domains: list[str] | tuple[str, ...],
+) -> str:
+    policy = f"{allow_private_targets}:{tuple(sorted(allowed_domains))}:{uri}"
+    return f"uri-check-{sha256(policy.encode()).hexdigest()}"
 
 
 def format_validation_error(error: ValidationError) -> str:
@@ -493,11 +499,20 @@ def format_validation_error(error: ValidationError) -> str:
     return " ".join(error.messages)
 
 
-def get_uri_error(uri: str) -> str | None:
+def get_uri_error(
+    uri: str,
+    *,
+    allow_private_targets: bool = True,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+) -> str | None:
     """Return error for fetching the URL or None if it works."""
     if uri.startswith("https://nonexisting.weblate.org/"):
         return "Non existing test URL"
-    cache_key = _uri_error_cache_key(uri)
+    cache_key = _uri_error_cache_key(
+        uri,
+        allow_private_targets=allow_private_targets,
+        allowed_domains=allowed_domains,
+    )
     cached = cache.get(cache_key)
     if cached is True:
         LOGGER.debug("URL check for %s, cached success", uri)
@@ -509,7 +524,10 @@ def get_uri_error(uri: str) -> str | None:
     try:
         _probe_validated_url(
             uri,
-            validators=RedirectValidators(),
+            validators=RuntimeRedirectValidators(
+                allow_private_targets=allow_private_targets,
+                allowed_domains=allowed_domains,
+            ),
             timeout=5,
             max_redirects=5,
         )

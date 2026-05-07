@@ -54,7 +54,9 @@ class WebsiteAlertSettingTest(ViewTestCase):
         self.assertTrue(
             self.component.alert_set.filter(name="BrokenProjectURL").exists()
         )
-        mocked_get_uri_error.assert_called_once_with("https://example.com/project")
+        mocked_get_uri_error.assert_called_once_with(
+            "https://example.com/project", allow_private_targets=False
+        )
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.models.alert.get_uri_error")
@@ -118,7 +120,9 @@ class WebsiteAlertSettingTest(ViewTestCase):
         mocked_validate_request_url.assert_called_once_with(
             "https://localhost/project", allow_private_targets=True
         )
-        mocked_get_uri_error.assert_called_once_with("https://localhost/project")
+        mocked_get_uri_error.assert_called_once_with(
+            "https://localhost/project", allow_private_targets=True
+        )
 
 
 class AlertTest(ViewTestCase):
