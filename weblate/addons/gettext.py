@@ -122,7 +122,7 @@ class GenerateMoAddon(GettextBaseAddon):
         if not output:
             return
 
-        Path(output).write_bytes(exporter.serialize())
+        self.write_repo_file(output, exporter.serialize())
         translation.addon_commit_files.append(output)
 
 
