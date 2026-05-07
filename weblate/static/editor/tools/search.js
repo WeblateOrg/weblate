@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-$(document).ready(() => {
+document.addEventListener("DOMContentLoaded", () => {
   searchPreview("#replace", "#id_replace_q");
   searchPreview("#bulk-edit", "#id_bulk_q");
   searchPreview("#addon-form", "#id_bulk_q");
@@ -15,20 +15,27 @@ $(document).ready(() => {
    *
    */
   function searchPreview(searchForm, searchElement) {
-    const $searchForm = $(searchForm);
-    const $searchElement = $searchForm.find(searchElement);
+    const form = document.querySelector(searchForm);
+    const searchInput = form?.querySelector(searchElement);
+
+    if (!form || !searchInput) {
+      return;
+    }
 
     // Create the preview element
-    const $searchPreview = $('<div id="search-preview"></div>');
-    $searchElement.parent().parent().parent().after($searchPreview);
+    const searchPreview = document.createElement("div");
+    searchPreview.id = "search-preview";
+    searchInput.parentElement?.parentElement?.parentElement?.after(
+      searchPreview,
+    );
 
     let debounceTimeout = null;
 
     // Update the preview while typing with a debounce of 300ms
-    $searchElement.on("input", () => {
-      $searchPreview.show();
-      const userSearchInput = $searchElement.val();
-      const searchQuery = buildSearchQuery($searchElement);
+    searchInput.addEventListener("input", () => {
+      searchPreview.style.display = "block";
+      const userSearchInput = searchInput.value;
+      const searchQuery = buildSearchQuery(searchInput);
 
       // Clear the previous timeout to prevent the previous
       // request since the user is still typing
@@ -37,56 +44,72 @@ $(document).ready(() => {
       // fetch search results but not too often
       debounceTimeout = setTimeout(() => {
         if (userSearchInput) {
-          $.ajax({
-            url: "/api/units/",
-            method: "GET",
-            data: { q: searchQuery },
-            success: (response) => {
+          const url = `/api/units/?${new URLSearchParams({
+            q: searchQuery,
+          }).toString()}`;
+          fetch(url, {
+            headers: {
+              Accept: "application/json",
+              "X-Requested-With": "XMLHttpRequest",
+            },
+          })
+            .then((response) => {
+              if (!response.ok) {
+                return null;
+              }
+              return response.json();
+            })
+            .then((response) => {
+              if (response === null) {
+                return;
+              }
               // Clear previous search results
-              $searchPreview.html("");
-              $("#results-num").remove();
+              searchPreview.replaceChildren();
+              searchPreview.querySelector("#results-num")?.remove();
               const results = response.results;
               if (!results || results.length === 0) {
-                $searchPreview.text(gettext("No results found"));
+                searchPreview.textContent = gettext("No results found");
               } else {
                 showResults(results, response.count, searchQuery);
               }
-            },
-          });
+            });
         }
       }, 300); // If the user stops typing for 300ms, the search results will be fetched
     });
 
     // Show the preview on focus
-    $searchElement.on("focus", () => {
-      if ($searchElement.val() !== "" && $searchPreview.html() !== "") {
-        $searchPreview.show();
-        $("#results-num").show();
+    searchInput.addEventListener("focus", () => {
+      if (searchInput.value !== "" && searchPreview.innerHTML !== "") {
+        searchPreview.style.display = "block";
+        const resultsNumber = searchPreview.querySelector("#results-num");
+        if (resultsNumber) {
+          resultsNumber.style.display = "";
+        }
       }
     });
 
     // Close the preview on form submit, form reset, and form clear
     // or if there is no search query
-    $searchForm.on("input", () => {
-      if ($searchElement.val() === "") {
-        $searchPreview.hide();
-        $("#results-num").remove();
+    form.addEventListener("input", () => {
+      if (searchInput.value === "") {
+        searchPreview.style.display = "none";
+        searchPreview.querySelector("#results-num")?.remove();
       }
     });
-    $searchForm.on("submit", () => {
-      $searchPreview.html("");
-      $searchPreview.hide();
-      $("#results-num").remove();
+    form.addEventListener("submit", () => {
+      searchPreview.replaceChildren();
+      searchPreview.style.display = "none";
+      searchPreview.querySelector("#results-num")?.remove();
     });
-    $searchForm.on("reset", () => {
-      $searchPreview.html("");
-      $searchPreview.hide();
-      $("#results-num").remove();
+    form.addEventListener("reset", () => {
+      searchPreview.replaceChildren();
+      searchPreview.style.display = "none";
+      searchPreview.querySelector("#results-num")?.remove();
     });
-    $searchForm.on("clear", () => {
-      $searchPreview.html("");
-      $("#results-num").remove();
-      $searchPreview.hide();
+    form.addEventListener("clear", () => {
+      searchPreview.replaceChildren();
+      searchPreview.querySelector("#results-num")?.remove();
+      searchPreview.style.display = "none";
     });
 
     /**
@@ -103,30 +126,44 @@ $(document).ready(() => {
           ngettext("%s matching string", "%s matching strings", count),
           [count],
         );
-        const searchUrl = `/search/?q=${encodeURI(searchQuery)}`;
-        const resultsNumber = `<a href="${searchUrl}" target="_blank" rel="noopener noreferrer" id="results-num">${t}</a>`;
-        $searchPreview.append(resultsNumber);
+        const searchUrl = `/search/?${new URLSearchParams({
+          q: searchQuery,
+        }).toString()}`;
+        const resultsNumber = document.createElement("a");
+        resultsNumber.setAttribute("href", searchUrl);
+        resultsNumber.target = "_blank";
+        resultsNumber.rel = "noopener noreferrer";
+        resultsNumber.id = "results-num";
+        resultsNumber.textContent = t;
+        searchPreview.append(resultsNumber);
       } else {
-        $("#results-num").remove();
+        searchPreview.querySelector("#results-num")?.remove();
       }
 
       for (const result of results) {
         const key = result.context;
         const source = result.source;
+        const url = WLT.URLs.getLocalPath(result.web_url);
 
-        // Make the URL relative
-        // TODO: is this regexp really needed?
-        const url = result.web_url.replace(/^[a-zA-Z]+:\/\/[^/]+\//, "/");
-        const resultHtml = `
-          <a href="${url}" target="_blank" id="search-result" rel="noopener noreferrer">
-            <small>${key}</small>
-            <div>
-              ${source.toString()}
-            </div>
-          </a>
-        `;
+        if (url === null) {
+          continue;
+        }
 
-        $searchPreview.append(resultHtml);
+        const resultElement = document.createElement("a");
+        resultElement.setAttribute("href", url);
+        resultElement.target = "_blank";
+        resultElement.className = "search-result";
+        resultElement.rel = "noopener noreferrer";
+
+        const keyElement = document.createElement("small");
+        keyElement.textContent = String(key);
+        resultElement.append(keyElement);
+
+        const sourceElement = document.createElement("div");
+        sourceElement.textContent = String(source);
+        resultElement.append(sourceElement);
+
+        searchPreview.append(resultElement);
       }
     }
   }
@@ -137,24 +174,23 @@ $(document).ready(() => {
    * The path lookup is also added to the search query.
    * Built in the following format: `path:proj/comp filters`.
    *
-   * @param {jQuery} $searchElement - The user input.
+   * @param {HTMLInputElement|HTMLTextAreaElement} searchElement - The user input.
    * @returns {string} - The built search query string.
    *
    * */
-  function buildSearchQuery($searchElement) {
+  function buildSearchQuery(searchElement) {
     let builtSearchQuery = "";
 
     // Add path lookup to the search query
-    const projectPath = $searchElement
+    const projectPath = searchElement
       .closest("form")
-      .find("input[name=path]")
-      .val();
+      ?.querySelector("input[name=path]")?.value;
     if (projectPath) {
       builtSearchQuery = `path:${projectPath}`;
     }
 
     // Add filters to the search query
-    const filters = $searchElement.val();
+    const filters = searchElement.value;
     if (filters) {
       builtSearchQuery = `${builtSearchQuery} ${filters}`;
     }

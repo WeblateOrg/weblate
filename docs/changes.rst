@@ -19,6 +19,7 @@ Weblate 2026.5
 
 .. rubric:: Bug fixes
 
+* Hardened search previews and :ref:`machine-translation` suggestion origins against XSS.
 * Database error details are no longer exposed in upload failure messages.
 * Category :doc:`/admin/announcements` no longer appear across the whole project.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
