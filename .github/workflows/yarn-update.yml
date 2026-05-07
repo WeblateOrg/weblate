@@ -75,22 +75,6 @@ jobs:
         yarn install
         yarn build
 
-    - name: Update SBOM
-      working-directory: ./client
-      run: |
-        npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../docs/specs/sbom/partial/javascript.json
-        ../scripts/reproducible-sbom.py ../docs/specs/sbom/partial/javascript.json
-
-    - name: Merge SBOM
-      env:
-        # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.31.0
-      run: |
-        curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
-        chmod +x /tmp/cyclonedx-linux-x64
-        /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
-        ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
-
     - name: Commit or create pull request (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
