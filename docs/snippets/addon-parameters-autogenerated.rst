@@ -140,6 +140,8 @@ File format
      - Laravel PHP strings
    * - ``markdown``
      - Markdown file
+   * - ``mdx``
+     - MDX file
    * - ``mediawiki``
      - MediaWiki text file
    * - ``mi18n-lang``
