@@ -139,7 +139,11 @@ from weblate.accounts.utils import (
 )
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_anonymous
-from weblate.auth.utils import format_address, get_auth_keys
+from weblate.auth.utils import (
+    format_address,
+    get_auth_keys,
+    validate_team_assignable_user,
+)
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
@@ -724,15 +728,29 @@ class UserPage(UpdateView):
     group_form = None
     request: AuthenticatedHttpRequest
 
+    def handle_add_group(
+        self, request: AuthenticatedHttpRequest, user: User
+    ) -> HttpResponseRedirect | None:
+        self.group_form = GroupAddForm(request.POST)
+        if not self.group_form.is_valid():
+            return None
+        try:
+            validate_team_assignable_user(user)
+        except ValidationError as error:
+            for message in error.messages:
+                messages.error(request, message)
+            return HttpResponseRedirect(f"{self.get_success_url()}#groups")
+        user.add_team(request, self.group_form.cleaned_data["add_group"])
+        return HttpResponseRedirect(f"{self.get_success_url()}#groups")
+
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not request.user.has_perm("user.edit"):
             raise PermissionDenied
         user = self.object = self.get_object()
         if "add_group" in request.POST:
-            self.group_form = GroupAddForm(request.POST)
-            if self.group_form.is_valid():
-                user.add_team(request, self.group_form.cleaned_data["add_group"])
-                return HttpResponseRedirect(f"{self.get_success_url()}#groups")
+            response = self.handle_add_group(request, user)
+            if response is not None:
+                return response
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():

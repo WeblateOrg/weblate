@@ -178,7 +178,7 @@ class ProjectTokenTest(FixtureTestCase):
         second_project.save()
         if not second_project.defined_groups.exists():
             setup_project_groups(sender=Project, instance=second_project, created=False)
-        second_project.add_user(token_user, "Administration")
+        second_project.add_user(token_user, "Administration", allow_bot=True)
 
         actual_project_removal(self.project.pk, self.user.pk)
 

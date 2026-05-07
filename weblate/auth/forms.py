@@ -24,6 +24,7 @@ from weblate.auth.models import (
     Role,
     User,
 )
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
@@ -248,6 +249,12 @@ class InviteUserForm(BaseInviteForm, forms.ModelForm):
         for field in ("user", "email"):
             if field in self.fields:
                 self.fields[field].required = True
+
+    def clean_user(self) -> User | None:
+        user = self.cleaned_data.get("user")
+        if user is not None:
+            validate_team_assignable_user(user)
+        return user
 
     # pylint: disable-next=arguments-renamed
     def save(self, request: AuthenticatedHttpRequest, commit: bool = True) -> None:

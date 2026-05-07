@@ -8,8 +8,10 @@ from typing import TYPE_CHECKING
 
 from django.contrib import admin
 from django.contrib.admin import RelatedOnlyFieldListFilter
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
 
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.wladmin.models import WeblateModelAdmin
 
 from .models import Billing, Invoice, Plan
@@ -99,6 +101,10 @@ class BillingAdmin(WeblateModelAdmin):
             group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
                 for user in obj.owners.all():
+                    try:
+                        validate_team_assignable_user(user)
+                    except ValidationError:
+                        continue
                     user.add_team(request, group)
 
 
