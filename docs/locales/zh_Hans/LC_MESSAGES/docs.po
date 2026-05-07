@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-07 12:12+0000\n"
+"PO-Revision-Date: 2026-05-07 15:34+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -43771,7 +43771,7 @@ msgstr ""
 msgid ""
 "Reduced forensic confidence when investigating malicious or disputed hook "
 "activity."
-msgstr ""
+msgstr "调查恶意或有争议的 hook 活动时数字取证可信度下降。"
 
 #: security/threat-model.rst:117
 msgid "**Weblate application**"
@@ -43892,7 +43892,7 @@ msgstr "系统贡献、数据渗出。"
 
 #: security/threat-model.rst:153
 msgid "**Backup import / restore**"
-msgstr ""
+msgstr "**备份导入/恢复**"
 
 #: security/threat-model.rst:155
 msgid ""
@@ -43900,12 +43900,14 @@ msgid ""
 "members or a large aggregate uncompressed size, exhausting disk, memory, "
 "worker time, or inode capacity."
 msgstr ""
+"**恢复期间存档变大：** 刻意制作的备份存档包含许多部分或解压后总大小非常大，耗"
+"尽磁盘、内存、worker 时间或 inode 容量。"
 
 #: security/threat-model.rst:156
 msgid ""
 "Restore-time denial of service and possible service degradation for the "
 "instance."
-msgstr ""
+msgstr "恢复时间拒绝服务和可能的实例服务降级。"
 
 #: security/threat-model.rst:159
 msgid ""
@@ -43913,12 +43915,14 @@ msgid ""
 "misleading project metadata or unsafe repository state despite path "
 "validation and schema checks."
 msgstr ""
+"**恶意的备份元数据或 VCS 状态：** 尽管有路径验证和方案检查，但刻意制作的备份"
+"存档恢复误导性的项目元数据或不安全的仓库状态。"
 
 #: security/threat-model.rst:160
 msgid ""
 "Corrupted restored projects, unsafe repository state, or administrative "
 "confusion."
-msgstr ""
+msgstr "损坏的已恢复项目、不安全的仓库状态或管理困惑。"
 
 #: security/threat-model.rst:161
 msgid "**Database/Datastore**"
@@ -43993,12 +43997,14 @@ msgid ""
 "privileged user configures repository or integration endpoints that cause "
 "Weblate to connect to internal or otherwise restricted hosts."
 msgstr ""
+"**服务器端请求伪造或意外的内部可达性：** 特权用户配置仓库或造成 Weblate 连接"
+"到内部或受限主机的集成端点。"
 
 #: security/threat-model.rst:184
 msgid ""
 "Exposure of internal services, metadata endpoints, or restricted network "
 "paths."
-msgstr ""
+msgstr "暴露内部服务、元数据端点或受限的网络路径。"
 
 #: security/threat-model.rst:185
 msgid "**User interaction**"
@@ -44057,7 +44063,7 @@ msgstr "隐私泄露。"
 
 #: security/threat-model.rst:203
 msgid "Mitigation strategies"
-msgstr "迁移策略"
+msgstr "缓解策略"
 
 #: security/threat-model.rst:205
 msgid "**Authentication & authorization:**"
@@ -44098,13 +44104,15 @@ msgstr "**Webhook 安全：**"
 msgid ""
 "Current product limitation: webhook authenticity is not uniformly enforced "
 "in-app for all supported forge integrations."
-msgstr ""
+msgstr "当前产品限制：未在应用内对所有支持的 forge 集成统一强制 webhook 真实性。"
 
 #: security/threat-model.rst:213
 msgid ""
 "Treat webhook endpoints as deployment-hardened interfaces and enable them "
 "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgstr ""
+"将 webhook 端点视作为部署强化的接口并只在必要的地方启用它们，见 :ref:`hooks` "
+"和 :ref:`project-enable_hooks`。"
 
 #: security/threat-model.rst:214
 msgid ""
@@ -44112,12 +44120,14 @@ msgid ""
 "request size limits, optional source-IP filtering, minimizing public "
 "exposure, and alerting on webhook spikes."
 msgstr ""
+"目前要求的部署控制包括反向代理速率限制、请求大小限制、可选的源 IP 过滤、最小"
+"化公开暴露和 webhook 数量激增警报。"
 
 #: security/threat-model.rst:215
 msgid ""
 "Validate webhook event type and payload before triggering repository updates "
 "or tasks."
-msgstr ""
+msgstr "在触发仓库更新或任务前验证 webhook 事件类型和载荷。"
 
 #: security/threat-model.rst:216
 msgid ""
@@ -44125,6 +44135,8 @@ msgid ""
 "authenticated integrations that validate source authenticity before "
 "scheduling repository updates."
 msgstr ""
+"未来产品方向是用在安排仓库更新时间前验证来源真实性的有身份认证的集成替换兼容"
+"性 webhook。"
 
 #: security/threat-model.rst:217
 msgid "**Input validation and output encoding:**"
@@ -44180,6 +44192,8 @@ msgid ""
 "for outbound integrations where deployments need to constrain server-"
 "initiated connections."
 msgstr ""
+"记录和审核针对需要限制服务器发起连接的外联集成部署的主机名加白和私有网络限制"
+"。"
 
 #: security/threat-model.rst:226
 msgid "**Backup import security:**"
@@ -44189,19 +44203,19 @@ msgstr "**备份导入安全：**"
 msgid ""
 "Treat backup archives as untrusted input and validate both metadata and "
 "extracted paths."
-msgstr ""
+msgstr "将备份存档视作不信任的输入并验证元数据和提取路径。"
 
 #: security/threat-model.rst:228
 msgid ""
 "Enforce aggregate archive-size and extraction-budget limits, not only per-"
 "entry checks."
-msgstr ""
+msgstr "强制存档文件总大小和提取预算限制，不只是检查每个项目。"
 
 #: security/threat-model.rst:229
 msgid ""
 "Monitor restore failures and unusually large imports as potential abuse "
 "indicators."
-msgstr ""
+msgstr "监控恢复失败和异常大的导入项，将它们视为潜在的滥用指示器。"
 
 #: security/threat-model.rst:230
 msgid "**Data protection:**"
@@ -44343,7 +44357,7 @@ msgstr ""
 
 #: security/us-compliance.rst:28
 msgid "Export control classification number"
-msgstr ""
+msgstr "出口控制分类号"
 
 #: security/us-compliance.rst:30
 msgid ""
