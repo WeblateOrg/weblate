@@ -1170,7 +1170,7 @@ def sync_create_groups(sender, **kwargs) -> None:
 
 def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
-    if user.username == settings.ANONYMOUS_USER_NAME:
+    if user.is_anonymous:
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.prefetch_related("group"):

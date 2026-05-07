@@ -72,6 +72,9 @@ class TeamUpdateView(UpdateView):
         result = super().get_object(queryset=queryset)
         user = self.request.user
 
+        if user.is_anonymous:
+            raise PermissionDenied
+
         if (
             not user.has_perm("meta:team.edit", result)
             and not user.has_perm("meta:team.users", result)
