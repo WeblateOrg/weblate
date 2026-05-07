@@ -712,6 +712,21 @@ def validate_asset_url(value: str) -> None:
         raise ValidationError(gettext("URL domain is not allowed."))
 
 
+def validate_restricted_asset_url(value: str) -> None:
+    validate_asset_url(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
+        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+    )
+
+
 def validate_machinery_url(value: str, *, allow_private_targets: bool = True) -> None:
     WeblateServiceURLValidator()(value)
     validate_outbound_url(

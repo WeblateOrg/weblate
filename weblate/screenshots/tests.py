@@ -32,6 +32,10 @@ from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.docs import get_doc_url
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+PUBLIC_TEST_ADDRESS = "93.184.216.34"
+PRIVATE_TEST_ADDRESS = "127.0.0.1"
+PUBLIC_GETADDRINFO = [(0, 0, 0, "", (PUBLIC_TEST_ADDRESS, 443))]
+PRIVATE_GETADDRINFO = [(0, 0, 0, "", (PRIVATE_TEST_ADDRESS, 443))]
 
 
 class ViewTest(FixtureTestCase):
@@ -405,7 +409,15 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(screenshot.units.count(), 0)
 
     @responses.activate
-    def test_upload_with_image_url(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_upload_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         data = Path(TEST_SCREENSHOT).read_bytes()
         responses.add(
             responses.GET,
@@ -422,7 +434,15 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(Screenshot.objects.count(), 1)
 
     @responses.activate
-    def test_edit_with_image_url(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_edit_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
@@ -450,7 +470,17 @@ class ViewTest(FixtureTestCase):
         self.assertNotEqual(screenshot.image.file.name, old_filename)
 
     @responses.activate
-    def test_image_url_download_failure(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_image_url_download_failure(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         """Test handling of image download failures."""
         self.make_manager()
         responses.add(
@@ -494,7 +524,17 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(Screenshot.objects.count(), 1)
 
     @responses.activate
-    def test_invalid_image_url_content_type(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_invalid_image_url_content_type(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         self.make_manager()
         # Mock a non-image content type
         responses.add(
@@ -509,7 +549,17 @@ class ViewTest(FixtureTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_SIZE=1)
-    def test_invalid_image_url_size(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_invalid_image_url_size(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         self.make_manager()
         # Mock a too big image
         responses.add(
@@ -524,7 +574,17 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "Image is too big")
 
     @responses.activate
-    def test_invalid_image_url_content(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_invalid_image_url_content(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         self.make_manager()
         # Mock a non-image content
         responses.add(
@@ -550,7 +610,17 @@ class ViewTest(FixtureTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_disallowed_image_url_redirect_domain(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_disallowed_image_url_redirect_domain(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         """Reject redirects leaving the allowed asset domains."""
         self.make_manager()
         responses.add(
@@ -575,7 +645,17 @@ class ViewTest(FixtureTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_allowed_image_url_redirect_domain(self) -> None:
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_allowed_image_url_redirect_domain(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         """Allow redirects that stay within the allowed asset domains."""
         self.make_manager()
         responses.add(
@@ -598,6 +678,170 @@ class ViewTest(FixtureTestCase):
         screenshot = Screenshot.objects.get()
         self.assertContains(response, screenshot.name)
         self.assertEqual(screenshot.image.size, Path(TEST_SCREENSHOT).stat().st_size)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PRIVATE_GETADDRINFO,
+    )
+    def test_image_url_private_target(self, mocked_getaddrinfo) -> None:
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://private.example.com/test-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://private.example.com/test-image.png"
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertEqual(Screenshot.objects.count(), 0)
+        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch("weblate.utils.outbound.socket.getaddrinfo")
+    def test_image_url_private_redirect(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        def getaddrinfo(hostname, *_args, **_kwargs):
+            address = (
+                PRIVATE_TEST_ADDRESS
+                if hostname == "private.example.com"
+                else PUBLIC_TEST_ADDRESS
+            )
+            return [(0, 0, 0, "", (address, 443))]
+
+        mocked_getaddrinfo.side_effect = getaddrinfo
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://public.example.com/redirect-image.png",
+            status=302,
+            headers={"Location": "https://private.example.com/final-image.png"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/final-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://public.example.com/redirect-image.png"
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertEqual(Screenshot.objects.count(), 0)
+        self.assertGreaterEqual(mocked_getaddrinfo.call_count, 2)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(
+            ["https://public.example.com/redirect-image.png"],
+            [call.request.url for call in responses.calls],
+        )
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PRIVATE_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_image_url_private_peer(self, mocked_getaddrinfo, mocked_get_peer) -> None:
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://public.example.com/test-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://public.example.com/test-image.png"
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertEqual(Screenshot.objects.count(), 0)
+        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @override_settings(
+        ALLOWED_ASSET_DOMAINS=["*"], ASSET_PRIVATE_ALLOWLIST=["private.example.com"]
+    )
+    @patch("weblate.utils.requests._get_response_peer_ip")
+    @patch("weblate.utils.outbound.socket.getaddrinfo")
+    def test_image_url_allowlisted_private_target(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://private.example.com/test-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://private.example.com/test-image.png"
+        )
+
+        screenshot = Screenshot.objects.get()
+        self.assertContains(response, screenshot.name)
+        mocked_getaddrinfo.assert_not_called()
+        mocked_get_peer.assert_not_called()
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PRIVATE_GETADDRINFO,
+    )
+    def test_edit_image_url_private_target_keeps_existing_image(
+        self, mocked_getaddrinfo
+    ) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get()
+        old_name = screenshot.name
+        old_image_name = screenshot.image.name
+        old_filename = screenshot.image.file.name
+        responses.add(
+            responses.GET,
+            "https://private.example.com/test-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.client.post(
+            screenshot.get_absolute_url(),
+            {
+                "image_url": "https://private.example.com/test-image.png",
+                "name": "Updated screenshot",
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.name, old_name)
+        self.assertEqual(screenshot.image.name, old_image_name)
+        self.assertEqual(screenshot.image.file.name, old_filename)
+        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        self.assertEqual(len(responses.calls), 0)
 
 
 class ScreenshotVCSTest(APITestCase, RepoTestCase):

@@ -726,6 +726,20 @@ Generic settings
 
    Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
 
+.. envvar:: WEBLATE_ASSET_RESTRICT_PRIVATE
+
+   .. versionadded:: 2025.5
+
+   Configures :setting:`ASSET_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
+.. envvar:: WEBLATE_ASSET_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 2025.5
+
+   Configures :setting:`ASSET_PRIVATE_ALLOWLIST`.
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.

@@ -80,6 +80,8 @@ This is currently used in the following places:
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_SIZE`
+   * :setting:`ASSET_RESTRICT_PRIVATE`
+   * :setting:`ASSET_PRIVATE_ALLOWLIST`
 
 .. setting:: ALLOWED_MACHINERY_DOMAINS
 
@@ -117,6 +119,55 @@ Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_DOMAINS`
+
+.. setting:: ASSET_PRIVATE_ALLOWLIST
+
+ASSET_PRIVATE_ALLOWLIST
+-----------------------
+
+.. versionadded:: 2025.5
+
+Defines hostnames or domains exempt from :setting:`ASSET_RESTRICT_PRIVATE`
+for remote asset downloads that enforce private-target checks. Entries follow
+Django host matching semantics, so values such as ``assets.internal.example``
+or ``.internal.example`` can be used.
+
+This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must
+still match the asset domain allowlist.
+
+Default configuration:
+
+.. code-block:: python
+
+   ASSET_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+   * :setting:`ASSET_RESTRICT_PRIVATE`
+
+.. setting:: ASSET_RESTRICT_PRIVATE
+
+ASSET_RESTRICT_PRIVATE
+----------------------
+
+.. versionadded:: 2025.5
+
+Reject remote asset URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by
+default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`ASSET_PRIVATE_ALLOWLIST`.
+This currently applies to screenshot URL uploads and remote HTML downloads for
+the :ref:`addon-weblate.cdn.cdnjs` add-on.
+
+.. seealso::
+
+   * :ref:`screenshots`
+   * :ref:`addon-weblate.cdn.cdnjs`
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+   * :setting:`ASSET_PRIVATE_ALLOWLIST`
 
 .. setting:: ALTCHA_COST
 

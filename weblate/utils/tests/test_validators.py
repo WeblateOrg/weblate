@@ -31,6 +31,7 @@ from weblate.utils.validators import (
     validate_project_web,
     validate_re,
     validate_repo_url,
+    validate_restricted_asset_url,
     validate_username,
     validate_webhook_secret_string,
     validate_webhook_url,
@@ -457,6 +458,34 @@ class WebsiteTest(SimpleTestCase):
         validate_asset_url("https://cdn.allowed.com/image.png")
         with self.assertRaises(ValidationError):
             validate_asset_url("https://blocked.example.com/image.png")
+
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_restricted_asset_url_validator_rejects_private(
+        self, mocked_getaddrinfo
+    ) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_restricted_asset_url("https://private.example/messages.html")
+
+        self.assertIn("internal or non-public address", str(error.exception))
+        mocked_getaddrinfo.assert_called_once_with("private.example", None, type=1)
+
+    @override_settings(
+        ALLOWED_ASSET_DOMAINS=["*"], ASSET_PRIVATE_ALLOWLIST=["private.example"]
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_restricted_asset_url_validator_allows_private_allowlist(
+        self, mocked_getaddrinfo
+    ) -> None:
+        validate_restricted_asset_url("https://private.example/messages.html")
+
+        mocked_getaddrinfo.assert_not_called()
 
     def test_machinery_url_validator(self) -> None:
         validate_machinery_url("http://127.0.0.1:11434", allow_private_targets=True)

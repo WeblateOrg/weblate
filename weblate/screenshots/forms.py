@@ -17,7 +17,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import AssetImageField, SortedSelect
-from weblate.utils.requests import open_asset_url
+from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 
@@ -50,7 +50,12 @@ class ScreenshotImageValidationMixin(BaseForm):
     def download_image(self, url: str) -> InMemoryUploadedFile:
         """Download image from the provided URL."""
         try:
-            with open_asset_url("get", url) as response:
+            with open_restricted_asset_url(
+                "get",
+                url,
+                allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+                allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+            ) as response:
                 content = b""
                 for chunk in response.iter_content(
                     chunk_size=settings.ALLOWED_ASSET_SIZE + 1

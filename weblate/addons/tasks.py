@@ -32,7 +32,7 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import open_asset_url
+from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
@@ -69,7 +69,12 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with open_asset_url("get", filename) as handle:
+                with open_restricted_asset_url(
+                    "get",
+                    filename,
+                    allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+                    allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+                ) as handle:
                     content = handle.text
             else:
                 content = read_component_file(component, filename)
