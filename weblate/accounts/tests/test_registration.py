@@ -15,6 +15,7 @@ from urllib.parse import parse_qs, urlparse
 
 import responses
 from django.conf import settings
+from django.contrib.auth import SESSION_KEY
 from django.core import mail
 from django.test import Client, TestCase
 from django.test.utils import modify_settings, override_settings
@@ -819,6 +820,43 @@ class RegistrationTest(BaseRegistrationTest):
         )
         notification = mail.outbox.pop()
         self.assert_notify_mailbox(notification)
+
+    def test_remove_mail_invalidates_other_sessions_without_password(self) -> None:
+        """Removing a social identity rotates sessions for social-only accounts."""
+        user = User.objects.create_user("username", "primary@example.org")
+        user.set_unusable_password()
+        user.save(update_fields=["password"])
+        first_social = user.social_auth.create(provider="github", uid="1")
+        second_social = user.social_auth.create(provider="email", uid="second")
+        VerifiedEmail.objects.create(social=first_social, email="primary@example.org")
+        VerifiedEmail.objects.create(social=second_social, email="second@example.org")
+
+        self.client.force_login(user)
+        session = self.client.session
+        session.pop("show_set_password", None)
+        session.save()
+        other_client = Client()
+        other_client.force_login(user)
+        session = other_client.session
+        session.pop("show_set_password", None)
+        session.save()
+
+        response = self.client.post(
+            reverse(
+                "social:disconnect_individual",
+                kwargs={
+                    "backend": first_social.provider,
+                    "association_id": first_social.pk,
+                },
+            ),
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(user.social_auth.filter(pk=first_social.pk).exists())
+        self.assertIn(SESSION_KEY, self.client.session)
+
+        other_client.get(reverse("profile"))
+        self.assertNotIn(SESSION_KEY, other_client.session)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_remove_mail_verified(self) -> None:

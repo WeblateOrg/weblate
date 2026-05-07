@@ -175,6 +175,7 @@ def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:
     # Change unusable password hash to be able to invalidate other sessions
     if not user.has_usable_password():
         user.set_unusable_password()
+        user.save(update_fields=["password"])
     # Cycle session key
     update_session_auth_hash(request, user)
 
