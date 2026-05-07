@@ -121,6 +121,7 @@ if TYPE_CHECKING:
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLMixin
     from weblate.trans.models import (
         Translation,
@@ -2020,16 +2021,25 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         ) and "file_format" in kwargs["initial"]:
             source_component = Component.objects.get(pk=int(source_component_text))
             if source_component.file_format_params:
-                kwargs["initial"]["file_format_params"] = {
+                supported_params = {
+                    param.get_identifier()
+                    for param in get_params_for_file_format(
+                        kwargs["initial"]["file_format"]
+                    )
+                }
+                source_file_format_params = {
                     k: v
                     for k, v in source_component.file_format_params.items()
-                    if k
-                    in [
-                        param.get_identifier()
-                        for param in get_params_for_file_format(
-                            kwargs["initial"]["file_format"]
-                        )
-                    ]
+                    if k in supported_params
+                }
+                initial_file_format_params = kwargs["initial"].get(
+                    "file_format_params", {}
+                )
+                if not isinstance(initial_file_format_params, dict):
+                    initial_file_format_params = {}
+                kwargs["initial"]["file_format_params"] = {
+                    **source_file_format_params,
+                    **initial_file_format_params,
                 }
         super().__init__(request, *args, **kwargs)
 
@@ -2361,11 +2371,29 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             hint=self.instance.filemask,
         )
 
+    @staticmethod
+    def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
+        data = cast("dict[str, Any]", value.match)
+        file_format = data.get("file_format")
+        file_format_params = data.get("file_format_params")
+        if file_format_params is None:
+            return data
+        if not isinstance(file_format, str) or not isinstance(file_format_params, dict):
+            data.pop("file_format_params", None)
+            return data
+        data["file_format_params"] = strip_unused_file_format_params(
+            file_format,
+            cast("FileFormatParams", file_format_params.copy()),
+        )
+        return data
+
     def clean(self) -> None:
         super().clean()
         discovery = self.cleaned_data.get("discovery")
         if discovery and discovery != "manual":
-            self.cleaned_data.update(self.discovered[int(discovery)])
+            self.cleaned_data.update(
+                self.get_discovery_data(self.discovered[int(discovery)])
+            )
 
 
 class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
