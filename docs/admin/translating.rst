@@ -157,7 +157,9 @@ provide a URL to download an image from an external source. URL-based uploads
 may be restricted based on the :setting:`ALLOWED_ASSET_DOMAINS` setting, which
 controls which domains are trusted for downloading external assets, including
 any redirects followed while fetching the image, and
-:setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset.
+:setting:`ASSET_RESTRICT_PRIVATE`, which rejects internal or non-public targets
+unless they are included in :setting:`ASSET_PRIVATE_ALLOWLIST`. The
+:setting:`ALLOWED_ASSET_SIZE` setting limits maximal size for the asset.
 
 Managing screenshots from the repository
 ++++++++++++++++++++++++++++++++++++++++

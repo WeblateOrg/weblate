@@ -6474,7 +6474,14 @@ class CDNJSAddonTest(ViewTestCase):
     @override_settings(
         LOCALIZE_CDN_URL="http://localhost/", ALLOWED_ASSET_DOMAINS=[".allowed.com"]
     )
-    def test_extract_refuses_disallowed_remote_redirect_domain(self) -> None:
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_extract_refuses_disallowed_remote_redirect_domain(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
         self.make_manager()
         self.assertTrue(CDNJSAddon.can_install(component=self.component))
         self.assertEqual(
@@ -6513,6 +6520,145 @@ class CDNJSAddonTest(ViewTestCase):
             "https://blocked.example.com/messages.html",
             [call.request.url for call in responses.calls],
         )
+
+    @responses.activate
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_extract_refuses_private_remote_url(self, mocked_getaddrinfo) -> None:
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/messages.html",
+            status=200,
+            body="<html><body><div class='l10n'>Private</div></body></html>",
+        )
+
+        CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://private.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+        )
+
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        self.assertGreaterEqual(mocked_getaddrinfo.call_count, 1)
+        self.assertEqual(len(responses.calls), 0)
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertIn(
+            "internal or non-public address", alert.details["occurrences"][0]["error"]
+        )
+
+    @responses.activate
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
+    @patch("weblate.utils.outbound.socket.getaddrinfo")
+    def test_extract_refuses_private_remote_redirect(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        def getaddrinfo(hostname, *_args, **_kwargs):
+            address = (
+                "127.0.0.1" if hostname == "private.example.com" else "93.184.216.34"
+            )
+            return [(0, 0, 0, "", (address, 443))]
+
+        mocked_getaddrinfo.side_effect = getaddrinfo
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        responses.add(
+            responses.GET,
+            "https://public.example.com/messages.html",
+            status=302,
+            headers={"Location": "https://private.example.com/messages.html"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/messages.html",
+            status=200,
+            body="<html><body><div class='l10n'>Private</div></body></html>",
+        )
+
+        CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://public.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+        )
+
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        self.assertGreaterEqual(mocked_getaddrinfo.call_count, 2)
+        self.assertGreaterEqual(mocked_get_peer.call_count, 1)
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertIn(
+            "internal or non-public address", alert.details["occurrences"][0]["error"]
+        )
+        self.assertNotIn(
+            "https://private.example.com/messages.html",
+            [call.request.url for call in responses.calls],
+        )
+
+    @responses.activate
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(
+        LOCALIZE_CDN_URL="http://localhost/",
+        ASSET_PRIVATE_ALLOWLIST=["private.example.com"],
+    )
+    @patch("weblate.utils.requests._get_response_peer_ip")
+    @patch("weblate.utils.outbound.socket.getaddrinfo")
+    def test_extract_allows_allowlisted_private_remote_url(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/messages.html",
+            status=200,
+            body="<html><body><div class='l10n'>Allowed private</div></body></html>",
+        )
+
+        CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://private.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+        )
+
+        self.assertTrue(
+            Unit.objects.filter(
+                translation__component=self.component, source="Allowed private"
+            ).exists()
+        )
+        mocked_getaddrinfo.assert_not_called()
+        mocked_get_peer.assert_not_called()
+        self.assertFalse(self.component.alert_set.filter(name="CDNAddonError").exists())
 
 
 class SiteWideAddonsTest(ViewTestCase):

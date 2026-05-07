@@ -37,10 +37,10 @@ from weblate.utils.regex import compile_regex, regex_match, regex_sub
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
     DomainOrIPValidator,
-    validate_asset_url,
     validate_filename,
     validate_re,
     validate_re_nonempty,
+    validate_restricted_asset_url,
     validate_webhook_secret_string,
     validate_webhook_url,
 )
@@ -1326,7 +1326,7 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
                 continue
             try:
                 if filename.startswith(("http://", "https://")):
-                    validate_asset_url(filename)
+                    validate_restricted_asset_url(filename)
                 else:
                     validate_filename(filename)
             except forms.ValidationError as error:
