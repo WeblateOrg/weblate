@@ -414,10 +414,10 @@
     /* Clicking links (e.g. comments, suggestions)
      * This is inside things to checks, but not a check-item */
     this.$editor.on("click", '.check [data-bs-toggle="tab"]', function (e) {
-      const href = $(this).attr("href");
+      const target = $(this).attr("data-bs-target");
 
       e.preventDefault();
-      $(`.nav [href="${href}"]`).click();
+      $(`.nav [data-bs-target="${target}"]`).click();
       $window.scrollTop($(".translation-tabs").offset().top);
     });
 
