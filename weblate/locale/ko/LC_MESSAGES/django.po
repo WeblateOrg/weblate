@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-06 15:16+0000\n"
-"Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
+"PO-Revision-Date: 2026-05-07 08:11+0000\n"
+"Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -1243,19 +1243,15 @@ msgid "The registration link has been invalidated."
 msgstr "등록 링크가 무효화되었습니다."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "등록 링크가 무효화되었습니다."
+msgstr "초대 링크가 더 이상 유효하지 않습니다."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "사용자 초대가 제거되었습니다."
+msgstr "초대가 만료되었습니다."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1402,16 +1398,13 @@ msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr "%(user)s의 사이트 전체 편집 복원이 예약되었습니다."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr "%(user)s의 사이트 전체 편집 복원이 예약되었습니다."
+msgstr "사이트 전역에서 %(user)s 님의 기여 지우기가 예약되었습니다."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "생성된 초대가 없습니다."
+msgstr "지우기 동작을 선택하지 않았습니다."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -5627,7 +5620,7 @@ msgstr "키를 파싱할 수 없습니다: %s"
 
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "이 키는 기존의 계층형 키와 충돌합니다."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -5850,16 +5843,12 @@ msgid "Glossary"
 msgstr "용어집"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"다른 백그라운드 작업이 진행 중이므로 문자열을 제거할 수 없습니다. 나중에 다"
-"시 시도해 주세요."
+"다른 백그라운드 작업이 진행 중이므로 용어집에 단어를 추가할 수 없습니다. "
+"나중에 다시 시도해 주세요."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -8362,27 +8351,21 @@ msgid "Disable password"
 msgstr "비밀번호 비활성화"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "주석에 기여자 표시"
+msgstr "기여 지우기"
 
 #: weblate/templates/accounts/user.html:446
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
-msgstr "%(user)s 님이 모든 프로젝트에서 최근에 편집한 번역을 되돌립니다."
+msgstr "모든 프로젝트에서 %(user)s 님의 번역, 제안, 댓글을 지웁니다."
 
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
-msgstr "정리"
+msgstr "지우기"
 
 #: weblate/templates/accounts/user.html:464
 #: weblate/templates/accounts/user.html:504
@@ -8425,15 +8408,11 @@ msgid "Close"
 msgstr "닫기"
 
 #: weblate/templates/accounts/user.html:471
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
-msgstr ""
-"<b>%(user)s</b> 님이 모든 프로젝트에서 최근에 편집한 번역이 되돌려집니다."
+msgstr "모든 프로젝트에서 지울 <b>%(user)s</b> 님의 기여를 선택합니다."
 
 #: weblate/templates/accounts/user.html:487
 msgid "Account removal deletes all user private data."
@@ -13304,69 +13283,48 @@ msgid "Revert user edits"
 msgstr "사용자 편집 내용 되돌리기"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
-msgstr "%(user)s 님이 모든 프로젝트에서 최근에 편집한 번역을 되돌립니다."
+msgstr "<b>%(user)s</b> 님이 모든 프로젝트에서 최근에 편집한 번역을 되돌립니다."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
-msgstr "이 프로젝트에서 <b>%(user)s</b> 님이 편집한 최신 번역이 되돌려집니다."
+msgstr "<b>%(user)s</b> 님이 이 프로젝트에서 최근에 편집한 번역을 되돌립니다."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "제안 거부"
+msgstr "사용자 제안 거부"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Reject all pending suggestions from <b>%(user)s</b> across all projects."
-msgstr ""
-"<b>%(user)s</b> 님이 모든 프로젝트에서 최근에 편집한 번역이 되돌려집니다."
+msgstr "모든 프로젝트에서 <b>%(user)s</b> 님의 보류 중인 제안을 모두 거부합니다."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> in "
-#| "this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
-msgstr "이 프로젝트에서 <b>%(user)s</b> 님이 편집한 최신 번역이 되돌려집니다."
+msgstr "이 프로젝트에서 <b>%(user)s</b> 님의 보류 중인 제안을 모두 거부합니다."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "의견 삭제"
+msgstr "사용자 의견 삭제"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr ""
-"<b>%(user)s</b> 님이 모든 프로젝트에서 최근에 편집한 번역이 되돌려집니다."
+msgstr "모든 프로젝트에서 <b>%(user)s</b> 님의 의견을 모두 삭제합니다."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr "프로젝트에서 <b>%(user)s</b>의 접근 권한을 제거합니다."
+msgstr "이 프로젝트에서 <b>%(user)s</b> 님의 의견을 모두 삭제합니다."
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -14209,17 +14167,14 @@ msgid "Edit team membership for %(username)s"
 msgstr "%(username)s의 팀 구성원 편집"
 
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Clean up user contributions"
-msgstr "선택된 사용자만 기여할 수 있습니다."
+msgstr "사용자 기여 지우기"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
-msgstr "프로젝트에서 <b>%(user)s</b>의 접근 권한을 제거합니다."
+msgstr "이 프로젝트에서 지울 <b>%(user)s</b> 님의 기여를 선택합니다."
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -16041,18 +15996,12 @@ msgid ""
 msgstr "현재 프로젝트에서 이 사용자의 최신 번역 편집 내용을 되돌립니다."
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Reject all pending suggestions from this user in the current project."
-msgstr "현재 프로젝트에서 이 사용자의 최신 번역 편집 내용을 되돌립니다."
+msgstr "현재 프로젝트에서 이 사용자의 보류 중인 제안을 모두 거부합니다."
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Delete all comments from this user in the current project."
-msgstr "현재 프로젝트에서 이 사용자의 최신 번역 편집 내용을 되돌립니다."
+msgstr "현재 프로젝트에서 이 사용자의 의견을 모두 삭제합니다."
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -17785,10 +17734,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "업로드된 파일을 파싱할 수 없습니다: %s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "번역 파일을 파싱할 수 없습니다."
+msgstr "번역 파일을 파싱할 수 없습니다: %s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -18203,10 +18151,9 @@ msgid "Weblate statistics"
 msgstr "Weblate 통계"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s in this project was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr "이 프로젝트에서 %(user)s 님의 편집 되돌리기가 예약되었습니다."
+msgstr "이 프로젝트에서 %(user)s 님의 기여 지우기가 예약되었습니다."
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
@@ -18482,16 +18429,12 @@ msgid "Comment has been resolved."
 msgstr "의견이 해결되었습니다."
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"다른 백그라운드 작업이 진행 중이므로 문자열을 제거할 수 없습니다. 나중에 다"
-"시 시도해 주세요."
+"다른 백그라운드 작업이 진행 중이므로 문자열을 추가할 수 없습니다. 나중에 "
+"다시 시도해 주세요."
 
 #: weblate/trans/views/edit.py:1138
 msgid "New string has been added."
@@ -18905,12 +18848,10 @@ msgid ""
 msgstr "포맷 문자열은 더 이상 지원되지 않습니다. 템플릿 언어를 사용하세요."
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr "이 URL은 제한된 패턴과 일치하므로 금지됩니다."
+msgstr "이 URL은 연결된 피어 주소를 확인할 수 없으므로 금지됩니다."
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -19101,17 +19042,15 @@ msgstr "파일 이름에 금지된 폴더가 포함되어 있습니다."
 
 #: weblate/utils/validators.py:320
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "백업 위치에서 압축 파일을 찾을 수 없습니다."
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "파일 이름은 절대 경로일 수 없습니다."
+msgstr "백업 위치는 절대 경로로 지정해야 합니다."
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
-msgstr ""
+msgstr "백업 위치는 DATA_DIR 내 Weblate 백업의 바깥에 지정해야 합니다."
 
 #: weblate/utils/validators.py:350 weblate/utils/validators.py:367
 msgid "This name is prohibited"
