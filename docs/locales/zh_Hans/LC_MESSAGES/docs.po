@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-07 09:23+0000\n"
+"PO-Revision-Date: 2026-05-07 11:25+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -43460,6 +43460,8 @@ msgid ""
 "proxy rate limiting, request size limits, minimizing public exposure, and "
 "monitoring."
 msgstr ""
+"在这些平台有原生的需身份认证的集成前，webhook 抵抗滥用依赖补偿性的控制措施，"
+"如反向代理速率限制、请求尺寸限制、最小化公开暴露和监控。"
 
 #: security/threat-model.rst:19
 msgid "System description and scope"
@@ -43483,6 +43485,10 @@ msgid ""
 "permissions. Project-scoped API tokens can also be granted team memberships "
 "and permissions similar to users."
 msgstr ""
+"Weblate 中的身份认证不限于整个实例范围内的管理员和普通用户权限。权限分派也可"
+"以按站点、项目、部件、预压、术语表或其他范围，包括专用 VCS、翻译记忆库、屏幕"
+"截图、审核和项目访问管理权限来进行。项目级 API 令牌也可以被授予类似用户的团队"
+"成员身份和权限。"
 
 #: security/threat-model.rst:32
 msgid "Assets:"
@@ -43539,6 +43545,8 @@ msgid ""
 "callers invoking repository hooks, sometimes with unauthenticated endpoints "
 "enabled per project."
 msgstr ""
+"**Webhook 源 ↔ Web 服务器：** 外部代码托管服务或其他调用仓库钩子的调用方（有"
+"时是通过每一项目启用的无身份认证的端点）。"
 
 #: security/threat-model.rst:65
 msgid ""
@@ -43577,12 +43585,16 @@ msgid ""
 "integration settings can cause Weblate to initiate connections to external "
 "VCS hosts or other services."
 msgstr ""
+"**特权用户配置 ↔ 外联网络：** 项目和集成设置可能导致 Weblate 发起到外部 VCS "
+"主机或其他服务的连接。"
 
 #: security/threat-model.rst:71
 msgid ""
 "**Imported backup archive ↔ Weblate application/filesystem:** Backup restore "
 "processes attacker-controlled archive contents, metadata, and VCS state."
 msgstr ""
+"**导入的备份存档 ↔ Weblate 程序/文件系统：** 备份恢复处理攻击者控制的存档内容"
+"、元数据、VCS 状态。"
 
 #: security/threat-model.rst:72
 msgid ""
@@ -43598,6 +43610,8 @@ msgid ""
 "Delegated project- and component-scoped permissions create additional "
 "privilege boundaries inside the application."
 msgstr ""
+"**已认证的用户/令牌 ↔ 项目管理者/审核者/VCS 管理者：** 适用于分派项目和部件的"
+"权限在程序内创建额外的特权边界。"
 
 #: security/threat-model.rst:76
 msgid "Threat identification"
@@ -43621,7 +43635,7 @@ msgstr "潜在影响"
 
 #: security/threat-model.rst:85
 msgid "**Web server** (nginx/Apache)"
-msgstr "**Web服务器** (nginx/Apache)"
+msgstr "**Web 服务器** (nginx/Apache)"
 
 #: security/threat-model.rst:86 security/threat-model.rst:106
 #: security/threat-model.rst:142 security/threat-model.rst:154
@@ -43691,12 +43705,14 @@ msgid ""
 "trigger repository updates or other automation, especially when "
 "unauthenticated hooks are enabled."
 msgstr ""
+"**伪造的 webhook 传输：** 攻击者提交虚假的 webhook 载荷触发仓库更新或其他自动"
+"化，尤其是当启用了无身份认证的钩子时。"
 
 #: security/threat-model.rst:100
 msgid ""
 "Unauthorized repository synchronization, noisy task execution, or follow-on "
 "abuse of automation paths."
-msgstr ""
+msgstr "未经授权的仓库同步、嘈杂的任务执行或之后的自动路径滥用。"
 
 #: security/threat-model.rst:103
 msgid ""
@@ -43704,12 +43720,14 @@ msgid ""
 "payloads so Weblate processes repository states or branches different from "
 "the legitimate event."
 msgstr ""
+"**载荷操纵或重放：** 攻击者重放或修改 webhook 载荷造成 Weblate 处理与合法事件"
+"不同的仓库状态或分支。"
 
 #: security/threat-model.rst:104
 msgid ""
 "Unexpected updates, repository confusion, or misuse of privileged VCS "
 "credentials."
-msgstr ""
+msgstr "意外的更新、仓库困惑或特权 VCS 凭证的误用。"
 
 #: security/threat-model.rst:107
 msgid ""
