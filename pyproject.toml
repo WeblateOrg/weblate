@@ -295,7 +295,6 @@ ignore = [
   ".gitmodules",
   ".imgbotconfig",
   ".reuse/dep5",
-  ".stylelintrc",
   ".weblate",
   ".well-known/*",
   ".yamllint.yml",
@@ -592,13 +591,13 @@ ignore = [
   "DOC402",  # CONFIG: `yield` is not documented in docstring
   "DOC501",  # TODO: Raised exception missing from docstring
   "E203",  # CONFIG: formatter
-  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
+  "E501",  # WONTFIX: we accept long strings (rest is formatted by Ruff)
   "FBT",  # TODO: Boolean in function definition
   "FIX002",  # CONFIG: we use TODO
   "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
   "PLR6301",  # TODO: Method could be a function, class method, or static method
   "PLW2901",  # TODO: overwriting variables inside loop
-  "PT",  # CONFIG: Not using pytest
+  "PT",  # CONFIG: pytest-style rules are not enforced
   "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
   "TD002",  # CONFIG: no detailed TODO documentation is required

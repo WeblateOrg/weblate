@@ -27,37 +27,30 @@ sources.
       git clone https://github.com/WeblateOrg/weblate.git
       cd weblate
 
-2. Create a Python environment:
+2. Install Weblate and all dependencies useful for development:
 
    .. code-block:: sh
 
-      uv venv .venv
-      source .venv/bin/activate
-
-3. Install Weblate (for this you need some system dependencies, see :doc:`../admin/install/source`) and all dependencies useful for development:
-
-   .. code-block:: sh
-
-      uv pip install -e '.[dev]'
+      uv sync --all-extras --dev
 
 3. Start a development server:
 
    .. code-block:: sh
 
-      weblate runserver
+      uv run weblate runserver
 
 4. Depending on your configuration, you might also want to start Celery workers:
 
    .. code-block:: sh
 
-      ./weblate/examples/celery start
+      uv run ./weblate/examples/celery start
 
-5. To run a test (see :ref:`local-tests` for more details):
+5. To run tests (see :ref:`local-tests` for more details):
 
    .. code-block:: sh
 
       . scripts/test-database.sh
-      pytest
+      uv run pytest
 
 .. seealso::
 
@@ -143,15 +136,15 @@ to use:
 
 .. image:: /images/pycharm-1.png
 
-You can either choose to let PyCharm create the Python environment for you, or select an already
-existing one:
+Select the :file:`.venv` environment created by ``uv sync --all-extras --dev``
+to match the command-line development setup. You can also let PyCharm create a
+Python environment for you, but the uv-managed environment is preferred:
 
 .. image:: /images/pycharm-2.png
 
-Don't forget to install the dependencies once the interpreter is set:
-Either through the console (the console from the IDE will directly use your
-Python environment by default), or through the interface when you get a warning about missing
-dependencies.
+Don't forget to install the dependencies once the interpreter is set. When
+using the preferred uv-managed environment, run ``uv sync --all-extras --dev``
+from the console.
 
 The second step is to set the right info to use Django natively inside PyCharm:
 The idea is to be able to immediately trigger the unit tests in the IDE.
