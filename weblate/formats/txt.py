@@ -10,7 +10,7 @@ import os
 from glob import glob
 from itertools import chain
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, NoReturn
+from typing import IO, TYPE_CHECKING, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -29,6 +29,7 @@ if TYPE_CHECKING:
     from lxml import etree
 
     from weblate.checks.flags import Flags
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
 
 
@@ -172,7 +173,7 @@ class TextUnit(TranslationUnit):
     @cached_property
     def target(self):
         """Return target string from a ttkit unit."""
-        if self.unit is None:
+        if not self.has_unit():
             return ""
         return self.unit.text
 
@@ -212,7 +213,7 @@ class AppStoreFormat(TranslationFormat):
 
     def load(
         self,
-        storefile: str | BinaryIO,
+        storefile: str | IO[bytes],
         template_store: TranslationFormat | None,
     ) -> AppStoreParser:
         return AppStoreParser(storefile)
@@ -230,7 +231,7 @@ class AppStoreFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,  # noqa: ARG003
+        language: Language,  # noqa: ARG003
         base: str,  # noqa: ARG003
         callback: Callable | None = None,  # noqa: ARG003
         file_format_params: FileFormatParams | None = None,  # noqa: ARG003
@@ -255,14 +256,11 @@ class AppStoreFormat(TranslationFormat):
             self.save_atomic(
                 filename,
                 TextSerializer(unit.filename, self.store.units),
+                repo_temp_dir=self.repo_temp_dir,
             )
 
     def get_filenames(self):
         return [self.store.get_filename(unit.filename) for unit in self.store.units]
-
-    @classmethod
-    def get_class(cls) -> None:
-        return None
 
     @classmethod
     def is_valid_base_for_new(

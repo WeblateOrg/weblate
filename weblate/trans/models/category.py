@@ -27,8 +27,11 @@ from weblate.utils.validators import validate_slug
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.db.models import QuerySet
+
     from weblate.auth.models import User
     from weblate.trans.models import Component
+    from weblate.trans.models.component import ComponentQuerySet
 
 
 class CategoryQuerySet(models.QuerySet):
@@ -193,23 +196,48 @@ class Category(
             self.check_rename(old, validate=True)
 
     def get_child_components_access(self, user: User):
-        """List child components."""
-        return self.component_set.filter_access(user).prefetch().order()
+        """List child components, including shared components linked to this category."""
+        from weblate.trans.models.component import (  # noqa: PLC0415
+            Component,
+            ComponentLink,
+        )
+
+        shared_ids = ComponentLink.objects.filter(category=self).values_list(
+            "component_id", flat=True
+        )
+        qs = Component.objects.filter(Q(category=self) | Q(pk__in=shared_ids))
+        return qs.filter_access(user).prefetch().order()
+
+    def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
+        """Return a queryset of components within the category that the given user can add new languages to."""
+        filter_ = Q(is_glossary=True)
+        if not user.has_perm("project.edit", self.project):
+            filter_ |= Q(new_lang="none") | Q(new_lang="url")
+
+        return self.all_components.filter_access(user).exclude(filter_)
 
     @cached_property
     def languages(self):
-        """Return list of all languages used in project."""
+        """Return list of all languages used in category, including shared components."""
+        from weblate.trans.models.component import ComponentLink  # noqa: PLC0415
+
+        shared_ids = ComponentLink.objects.filter(
+            Q(category=self)
+            | Q(category__category=self)
+            | Q(category__category__category=self)
+        ).values_list("component_id", flat=True)
         return (
             Language.objects.filter(
-                translation__component_id__in=self.all_component_ids
+                Q(translation__component_id__in=self.all_component_ids)
+                | Q(translation__component_id__in=shared_ids)
             )
             .distinct()
             .order()
         )
 
     @cached_property
-    def all_components(self) -> Iterable[Component]:
-        from weblate.trans.models import Component
+    def all_components(self) -> QuerySet[Component]:
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         return Component.objects.filter(
             Q(category=self)

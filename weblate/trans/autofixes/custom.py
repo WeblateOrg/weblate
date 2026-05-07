@@ -32,9 +32,7 @@ class DoubleApostrophes(AutoFix):
 
     def fix_single_target(self, target, source, unit):
         flags = unit.all_flags
-        if ("auto-java-messageformat" not in flags or "{0" not in source) and (
-            "java-format" not in flags
-        ):
+        if not flags.is_active("java-format", source):
             return target, False
         # Split on apostrophe
         new = SINGLE_APO.sub(

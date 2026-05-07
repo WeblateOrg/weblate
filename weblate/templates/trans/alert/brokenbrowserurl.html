@@ -1,13 +1,11 @@
 {% load i18n %}
 
-<p>{% translate "This component is set up incorrectly." %}</p>
-
-<p>{% translate "The repository browser URL points to non-existing locations:" %}</p>
+<p>{% translate "Weblate could not validate the repository browser URL:" %}</p>
 
 <ul>
   <li>
     <a href="{{ link }}">{{ link }}</a>
-    {% if error %}({{ error }}){% endif %}
+    {% if error %}: {{ error }}{% endif %}
   </li>
 </ul>
 

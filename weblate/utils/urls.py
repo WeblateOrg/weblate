@@ -15,7 +15,7 @@ class WeblateSlugConverter(StringConverter):
 
 
 class GitPathConverter(StringConverter):
-    regex = "(info/|git-upload-pack)[a-z0-9_/-]*"
+    regex = "(info/|git-upload-pack|git-receive-pack)[a-z0-9_/-]*"
 
 
 class WordConverter(StringConverter):

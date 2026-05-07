@@ -20,16 +20,28 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
+from weblate.auth.forms import (
+    BulkInviteForm,
+    InviteEmailForm,
+    InviteUserForm,
+    ProjectTeamForm,
+)
 from weblate.auth.models import Invitation, User
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,
+    UserContributionCleanupForm,
     UserManageForm,
 )
 from weblate.trans.models import Project
+from weblate.trans.tasks import (
+    cleanup_user_contributions as cleanup_user_contributions_task,
+)
+from weblate.trans.tasks import (
+    revert_user_edits as revert_user_edits_task,
+)
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
@@ -64,6 +76,36 @@ def check_user_form(
     return obj, None
 
 
+def is_contribution_cleanup_requested(form: UserContributionCleanupForm) -> bool:
+    return bool(
+        form.cleaned_data.get("reject_suggestions")
+        or form.cleaned_data.get("delete_comments")
+    )
+
+
+def schedule_contribution_cleanup(
+    request: AuthenticatedHttpRequest,
+    user: User,
+    project: Project,
+    form: UserContributionCleanupForm,
+) -> None:
+    cleanup_user_contributions_task.delay(
+        target_user_id=user.id,
+        acting_user_id=request.user.id,
+        project_id=project.id,
+        sitewide=False,
+        reject_suggestions=form.cleaned_data["reject_suggestions"],
+        delete_comments=form.cleaned_data["delete_comments"],
+    )
+    messages.success(
+        request,
+        gettext("Cleaning up contributions by %(user)s in this project was scheduled.")
+        % {
+            "user": user.username,
+        },
+    )
+
+
 @require_POST
 @login_required
 def set_groups(request: AuthenticatedHttpRequest, project):
@@ -71,6 +113,9 @@ def set_groups(request: AuthenticatedHttpRequest, project):
     obj, form = check_user_form(
         request, project, form_class=ProjectUserGroupForm, pass_project=True
     )
+
+    if form is None:
+        return redirect_param("manage-access", "", project=obj.slug)
 
     user = form.cleaned_data["user"]
     desired_groups = {group.id for group in form.cleaned_data["groups"]}
@@ -128,6 +173,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
         messages.error(request, gettext("You can not block yourself on this project."))
     elif form is not None:
         user = form.cleaned_data["user"]
+        cleanup_requested = is_contribution_cleanup_requested(form)
 
         if form.cleaned_data.get("expiry"):
             expiry = timezone.now() + timedelta(days=int(form.cleaned_data["expiry"]))
@@ -147,8 +193,26 @@ def block_user(request: AuthenticatedHttpRequest, project):
                 expiry=expiry.isoformat() if expiry else None,
             )
             messages.success(request, gettext("User has been blocked on this project."))
-        else:
+        elif not form.cleaned_data["revert_edits"] and not cleanup_requested:
             messages.error(request, gettext("User is already blocked on this project."))
+
+        if form.cleaned_data["revert_edits"]:
+            revert_user_edits_task.delay(
+                target_user_id=user.id,
+                acting_user_id=request.user.id,
+                project_id=obj.id,
+                sitewide=False,
+            )
+            messages.success(
+                request,
+                gettext("Reverting edits by %(user)s in this project was scheduled.")
+                % {
+                    "user": user.username,
+                },
+            )
+
+        if cleanup_requested:
+            schedule_contribution_cleanup(request, user, obj, form)
 
     return redirect("manage-access", project=obj.slug)
 
@@ -156,7 +220,7 @@ def block_user(request: AuthenticatedHttpRequest, project):
 @require_POST
 @login_required
 def unblock_user(request: AuthenticatedHttpRequest, project):
-    """Block user from a project."""
+    """Unblock user from a project."""
     obj, form = check_user_form(
         request,
         project,
@@ -169,8 +233,53 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
     return redirect("manage-access", project=obj.slug)
 
 
+@require_POST
+@login_required
+def revert_blocked_user_edits(request: AuthenticatedHttpRequest, project):
+    """Revert edits for an already blocked user in a project."""
+    obj, form = check_user_form(
+        request,
+        project,
+        form_class=UserContributionCleanupForm,
+    )
+
+    if form is not None:
+        user = form.cleaned_data["user"]
+        if not user.userblock_set.filter(project=obj).exists():
+            messages.error(request, gettext("User is not blocked on this project."))
+        else:
+            cleanup_form_submitted = "cleanup_user_contributions" in request.POST
+            revert_edits = (
+                form.cleaned_data["revert_edits"] or not cleanup_form_submitted
+            )
+            cleanup_requested = is_contribution_cleanup_requested(form)
+
+            if revert_edits:
+                revert_user_edits_task.delay(
+                    target_user_id=user.id,
+                    acting_user_id=request.user.id,
+                    project_id=obj.id,
+                    sitewide=False,
+                )
+                messages.success(
+                    request,
+                    gettext(
+                        "Reverting edits by %(user)s in this project was scheduled."
+                    )
+                    % {
+                        "user": user.username,
+                    },
+                )
+            if cleanup_requested:
+                schedule_contribution_cleanup(request, user, obj, form)
+            if not revert_edits and not cleanup_requested:
+                messages.error(request, gettext("No cleanup action was selected."))
+
+    return redirect("manage-access", project=obj.slug)
+
+
 def can_invite_users(request: AuthenticatedHttpRequest) -> bool:
-    return settings.REGISTRATION_OPEN or request.user.has_perm("user.edit")
+    return settings.REGISTRATION_OPEN or bool(request.user.has_perm("user.edit"))
 
 
 @require_POST
@@ -179,12 +288,13 @@ def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
     if not can_invite_users(request):
         raise PermissionDenied
+    form_class = BulkInviteForm if "emails" in request.POST else InviteEmailForm
     obj, form = check_user_form(
-        request, project, form_class=InviteEmailForm, pass_project=True
+        request, project, form_class=form_class, pass_project=True
     )
 
     if form is not None:
-        form.save(request, obj)
+        form.save(request)
 
     return redirect("manage-access", project=obj.slug)
 
@@ -206,7 +316,13 @@ def delete_user(request: AuthenticatedHttpRequest, project):
         else:
             if user.is_bot:
                 redirect_url = "#api"
-                remove_user(user, request)
+                remove_user(
+                    user,
+                    request,
+                    activity="token-removed",
+                    project=obj.name,
+                    username=request.user.username,
+                )
             else:
                 obj.remove_user(user)
             obj.change_set.create(
@@ -284,15 +400,29 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             "invitations": Invitation.objects.filter(
                 group__defining_project=obj
             ).select_related("user"),
-            "create_project_token_form": ProjectTokenCreateForm(obj),
+            "create_project_token_form": ProjectTokenCreateForm(
+                obj, auto_id="id_project_token_%s"
+            ),
             "create_team_form": ProjectTeamForm(
-                project=obj, initial={"language_selection": SELECTION_ALL}
+                project=obj,
+                initial={"language_selection": SELECTION_ALL},
+                auto_id="id_project_team_%s",
             ),
             "block_user_form": UserBlockForm(
-                initial={"user": request.GET.get("block_user")}
+                initial={"user": request.GET.get("block_user")},
+                auto_id="id_project_block_%s",
             ),
-            "invite_user_form": InviteUserForm(project=obj),
-            "invite_email_form": InviteEmailForm(project=obj)
+            "invite_user_form": InviteUserForm(
+                project=obj, auto_id="id_project_add_user_%s"
+            ),
+            "invite_email_form": InviteEmailForm(
+                project=obj, auto_id="id_project_invite_%s"
+            )
+            if can_invite_users(request)
+            else None,
+            "bulk_invite_form": BulkInviteForm(
+                project=obj, auto_id="id_project_bulk_invite_%s"
+            )
             if can_invite_users(request)
             else None,
             "public_ssh_keys": get_all_key_data(),
@@ -312,7 +442,7 @@ def create_token(request: AuthenticatedHttpRequest, project):
     form = ProjectTokenCreateForm(obj, request.POST)
 
     if form.is_valid():
-        token = form.save()
+        token = form.save(acting_user=request.user)
         messages.info(
             request,
             render_to_string(
@@ -328,7 +458,7 @@ def create_token(request: AuthenticatedHttpRequest, project):
 @require_POST
 @login_required
 def create_group(request: AuthenticatedHttpRequest, project):
-    """Delete project group."""
+    """Create project group."""
     obj = parse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.permissions", obj):

@@ -6,9 +6,6 @@
 
 # shellcheck shell=sh
 
-# Database backend to use postgresql / mysql / mariadb
-export CI_DATABASE="${1:-postgresql}"
-
 # Database server configuration
 export CI_DB_USER=weblate
 export CI_DB_PASSWORD=weblate

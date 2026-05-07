@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from contextlib import nullcontext
 from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 import sentry_sdk
@@ -16,7 +17,7 @@ from lxml import etree
 from siphashc import siphash
 
 from weblate.utils.classloader import ClassLoaderProtocol
-from weblate.utils.docs import get_doc_url
+from weblate.utils.docs import DocVersionsMixin, get_doc_url
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.xml import parse_xml
 
@@ -42,7 +43,7 @@ class MissingExtraDict(TypedDict, total=False):
     errors: list[str]
 
 
-class BaseCheck(ClassLoaderProtocol):
+class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     """Basic class for checks."""
 
     check_id = ""
@@ -122,7 +123,7 @@ class BaseCheck(ClassLoaderProtocol):
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Generator[bool | MissingExtraDict]:
         """Check single unit, handling plurals."""
-        from weblate.lang.models import PluralMapper
+        from weblate.lang.models import PluralMapper  # noqa: PLC0415
 
         source_plural = unit.translation.component.source_language.plural
         target_plural = unit.translation.plural
@@ -235,12 +236,15 @@ class BatchCheckMixin(BaseCheck):
         raise NotImplementedError
 
     def perform_batch(self, component: Component) -> None:
-        with sentry_sdk.start_span(op="check.perform_batch", name=self.check_id):
+        lock = nullcontext()
+        if self.batch_project_wide and component.allow_translation_propagation:
+            lock = component.project.checks_lock
+        with lock, sentry_sdk.start_span(op="check.perform_batch", name=self.check_id):
             self._perform_batch(component)
 
     def _perform_batch(self, component: Component) -> None:
-        from weblate.checks.models import Check
-        from weblate.trans.models import Component
+        from weblate.checks.models import Check  # noqa: PLC0415
+        from weblate.trans.models import Component  # noqa: PLC0415
 
         handled = set()
         create = []
@@ -258,6 +262,7 @@ class BatchCheckMixin(BaseCheck):
             create.append(Check(unit=unit, dismissed=False, name=self.check_id))
             components[unit.translation.component.id] = unit.translation.component
 
+        create.sort(key=lambda check: (check.unit_id, check.name))
         Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
         # Delete stale checks
@@ -302,7 +307,7 @@ class TargetCheck(BaseCheck):
         raise NotImplementedError
 
     def format_value(self, value: str) -> StrOrPromise:
-        from weblate.trans.templatetags.translations import Formatter
+        from weblate.trans.templatetags.translations import Formatter  # noqa: PLC0415
 
         fmt = Formatter(0, value, None, None, None, None, None)
         fmt.parse()
@@ -366,9 +371,7 @@ class SourceCheck(BaseCheck):
         raise NotImplementedError
 
 
-class TargetCheckParametrized(TargetCheck):
-    """Basic class for target checks with flag value."""
-
+class ParametrizedCheck(BaseCheck):
     default_disabled = True
 
     def get_value(self, unit: Unit) -> Any:  # noqa: ANN401
@@ -376,6 +379,19 @@ class TargetCheckParametrized(TargetCheck):
 
     def has_value(self, unit: Unit) -> bool:
         return unit.all_flags.has_value(self.enable_string)
+
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        try:
+            self.get_value(check_obj.unit)
+        except ValueError as error:
+            return format_html(
+                gettext("Could not parse {} flag: {}"), self.enable_string, error
+            )
+        return super().get_description(check_obj)
+
+
+class TargetCheckParametrized(ParametrizedCheck, TargetCheck):
+    """Basic class for target checks with flag value."""
 
     def check_target_unit(
         self, sources: list[str], targets: list[str], unit: Unit
@@ -402,15 +418,6 @@ class TargetCheckParametrized(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """We don't check single phrase here."""
         return False
-
-    def get_description(self, check_obj: Check) -> StrOrPromise:
-        try:
-            self.get_value(check_obj.unit)
-        except ValueError as error:
-            return format_html(
-                gettext("Could not parse {} flag: {}"), self.enable_string, error
-            )
-        return super().get_description(check_obj)
 
 
 class CountingCheck(TargetCheck):

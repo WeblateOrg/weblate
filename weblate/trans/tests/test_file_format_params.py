@@ -10,11 +10,14 @@ from __future__ import annotations
 import os.path
 from pathlib import Path
 from typing import TYPE_CHECKING, Unpack
+from unittest.mock import patch
 
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon
+from weblate.formats.base import BilingualUpdateMixin
+from weblate.formats.ttkit import StringsFormat
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import Component
@@ -32,13 +35,15 @@ class BaseFileFormatsTest(ViewTestCase):
         self.user.save()
 
     def update_component_file_params(
-        self, **new_file_param_kwargs: Unpack[FileFormatParams]
+        self,
+        component: Component | None = None,
+        **new_file_param_kwargs: Unpack[FileFormatParams],
     ) -> None:
-        file_param_kwargs = get_default_params_for_file_format(
-            self.component.file_format
-        )
+        if component is None:
+            component = self.component
+        file_param_kwargs = get_default_params_for_file_format(component.file_format)
         file_param_kwargs.update(new_file_param_kwargs)
-        url = reverse("settings", kwargs={"path": self.component.get_url_path()})
+        url = reverse("settings", kwargs={"path": component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
         data.update(
@@ -46,7 +51,7 @@ class BaseFileFormatsTest(ViewTestCase):
         )
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Settings saved")
-        self.component.refresh_from_db()
+        component.refresh_from_db()
 
     def client_create_component(self, result: bool, **kwargs):
         params = {
@@ -174,6 +179,24 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         self.assertEqual(new_component.file_format_params["po_line_wrap"], "-1")
         self.assertEqual(new_component.file_format_params["po_keep_previous"], False)
         self.assertEqual(new_component.file_format_params["po_fuzzy_matching"], False)
+
+    def test_universal_file_format_parameters(self) -> None:
+        # test dos_eol file format params
+        component1 = self.component
+        component2 = self.create_json_mono(name="component2", project=self.project)
+        component3 = self.create_csv_mono(name="component3", project=self.project)
+
+        self.assertIsNone(component1.file_format_params.get("dos_eol", None))
+        self.assertIsNone(component2.file_format_params.get("dos_eol", None))
+        self.assertIsNone(component3.file_format_params.get("dos_eol", None))
+
+        self.update_component_file_params(component=component1, dos_eol=True)
+        self.update_component_file_params(component=component2, dos_eol=False)
+        self.update_component_file_params(component=component3, dos_eol=True)
+
+        self.assertTrue(component1.file_format_params["dos_eol"])
+        self.assertFalse(component2.file_format_params["dos_eol"])
+        self.assertTrue(component3.file_format_params["dos_eol"])
 
 
 class JsonParamsTest(BaseFileFormatsTest):
@@ -409,7 +432,6 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertNotIn("#: main.c:", commit)
 
     def test_msgmerge_args(self) -> None:
-        from weblate.formats.base import BilingualUpdateMixin
 
         # default parameters
         self.assertEqual(
@@ -449,6 +471,104 @@ class GettextParamsTest(BaseFileFormatsTest):
             {"--no-fuzzy-matching", "--no-location", "--no-wrap"},
         )
 
+    def edit_unit_and_commit_changes(self, suffix: str) -> tuple[str, str]:
+        self.edit_unit("Hello, world!\n", f"Nazdar svete {suffix}!\n")
+        self.get_translation().commit_pending(f"commit message {suffix}", None)
+        rev = self.component.repository.last_revision
+        return rev, self.component.repository.show(rev)
+
+    def test_update_language_team_header(self):
+        commit0 = self.component.repository.show(
+            self.component.repository.last_revision
+        )
+        self.assertNotIn(
+            "Language-Team: Czech <http://example.com/projects/test/test/cs/>", commit0
+        )
+
+        # header remains unchanged when the parameter is set to False
+        self.update_component_file_params(po_set_language_team=False)
+        rev1, commit1 = self.edit_unit_and_commit_changes("one")
+        self.assertNotIn(
+            '+"Language-Team: Czech <http://example.com/projects/test/test/cs/>',
+            commit1,
+        )
+
+        self.update_component_file_params(po_set_language_team=True)
+        rev2, commit2 = self.edit_unit_and_commit_changes("two")
+        self.assertNotEqual(rev1, rev2)
+        self.assertIn(
+            '+"Language-Team: Czech <http://example.com/projects/test/test/cs/>',
+            commit2,
+        )
+
+    def test_last_translator_header(self):
+        commit0 = self.component.repository.show(
+            self.component.repository.last_revision
+        )
+        self.assertNotIn("Last-Translator: Weblate Test <weblate@example.org>", commit0)
+
+        # check header remains unchanged when the parameter is set to False
+        self.update_component_file_params(po_set_last_translator=False)
+        rev1, commit1 = self.edit_unit_and_commit_changes("one")
+        self.assertNotIn("Last-Translator: Weblate Test <weblate@example.org>", commit1)
+
+        # check header is updated when the parameter is set to True
+        self.update_component_file_params(po_set_last_translator=True)
+        rev2, commit2 = self.edit_unit_and_commit_changes("two")
+        self.assertNotEqual(rev1, rev2)
+        self.assertIn('+"Last-Translator: Weblate Test <weblate@example.org>', commit2)
+
+        # check header is absent when a new language is added and parameter set to False
+        self.update_component_file_params(po_set_last_translator=False)
+        self.component.add_new_language(Language.objects.get(code="pl"), None)
+        rev3 = self.component.repository.last_revision
+        commit3 = self.component.repository.show(rev3)
+        self.assertNotEqual(rev2, rev3)
+        self.assertIn("Added translation using Weblate (Polish)", commit3)
+        self.assertNotIn("Last-Translator: Automatically generated", commit3)
+
+        # check header is present when a new language is added and parameter set to True
+        self.update_component_file_params(po_set_last_translator=True)
+        self.component.add_new_language(Language.objects.get(code="fr"), None)
+        rev4 = self.component.repository.last_revision
+        self.assertNotEqual(rev3, rev4)
+        commit4 = self.component.repository.show(rev4)
+        self.assertIn("Added translation using Weblate (French)", commit4)
+        self.assertIn("Last-Translator: Automatically generated", commit4)
+
+    def test_x_generator_header(self):
+        with patch("weblate.utils.version.VERSION", new="X.XX"):
+            commit0 = self.component.repository.show(
+                self.component.repository.last_revision
+            )
+            self.assertNotIn("X-Generator: Weblate X.XX", commit0)
+            self.update_component_file_params(po_set_x_generator=False)
+
+            rev1, commit1 = self.edit_unit_and_commit_changes("one")
+            self.assertNotIn("X-Generator: Weblate X.XX", commit1)
+
+            self.update_component_file_params(po_set_x_generator=True)
+            rev2, commit2 = self.edit_unit_and_commit_changes("two")
+            self.assertNotEqual(rev1, rev2)
+            self.assertIn("X-Generator: Weblate X.XX", commit2)
+
+    def test_report_msgid_bugs_to_header(self):
+        self.component.report_source_bugs = "weblate@example.org"
+        self.component.save()
+        commit0 = self.component.repository.show(
+            self.component.repository.last_revision
+        )
+        self.assertNotIn("Report-Msgid-Bugs-To: weblate@example.org", commit0)
+
+        self.update_component_file_params(po_report_msgid_bugs_to=False)
+        rev1, commit1 = self.edit_unit_and_commit_changes("one")
+        self.assertNotIn("Report-Msgid-Bugs-To: weblate@example.org", commit1)
+
+        self.update_component_file_params(po_report_msgid_bugs_to=True)
+        rev2, commit2 = self.edit_unit_and_commit_changes("two")
+        self.assertNotEqual(rev1, rev2)
+        self.assertIn("Report-Msgid-Bugs-To: weblate@example.org", commit2)
+
 
 class StringsParamsTest(BaseFileFormatsTest):
     def create_component(self):
@@ -459,7 +579,6 @@ class StringsParamsTest(BaseFileFormatsTest):
         self.do_create_with_encoding_test("strings_encoding", "utf-16", success=True)
 
     def test_new_file_content(self):
-        from weblate.formats.ttkit import StringsFormat
 
         self.assertNotEqual(
             StringsFormat.get_new_file_content("utf-8"),

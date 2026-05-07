@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from email.utils import formataddr
 from html import escape
 from logging.handlers import SysLogHandler
 from pathlib import Path
@@ -32,6 +33,10 @@ from weblate.utils.environment import (
     get_saml_idp,
     modify_env_list,
 )
+from weblate.utils.version_display import (
+    VERSION_DISPLAY_HIDE,
+    normalize_version_display,
+)
 
 # Title of site to use
 SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", "Weblate")
@@ -42,6 +47,9 @@ SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
+# Project website availability checks
+WEBSITE_ALERTS_ENABLED = get_env_bool("WEBLATE_WEBSITE_ALERTS_ENABLED", True)
+
 # Site URL
 SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
@@ -51,19 +59,15 @@ SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 DEBUG = get_env_bool("WEBLATE_DEBUG", False)
 
-ADMINS = (
-    (
-        get_env_str("WEBLATE_ADMIN_NAME", "Weblate Admin"),
-        get_env_str("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
-    ),
-)
+ADMIN_NAME = get_env_str("WEBLATE_ADMIN_NAME", "Weblate Admin")
+ADMIN_EMAIL = get_env_str("WEBLATE_ADMIN_EMAIL", "weblate@example.com")
+ADMINS = (formataddr((ADMIN_NAME, ADMIN_EMAIL)),)
 
 MANAGERS = ADMINS
 
 if get_env_bool("WEBLATE_DATABASES", True):
     DATABASES = {
         "default": {
-            # Use 'postgresql' or 'mysql'.
             "ENGINE": "django.db.backends.postgresql",
             # Database name.
             "NAME": get_env_str(
@@ -156,6 +160,7 @@ LANGUAGES = (
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
+    ("vi", "Tiếng việt"),
     ("zh-hans", "简体中文"),
     ("zh-hant", "正體中文"),
 )
@@ -423,8 +428,8 @@ if WEBLATE_SAML_IDP:
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
     SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
-        "givenName": ADMINS[0][0],
-        "emailAddress": ADMINS[0][1],
+        "givenName": ADMIN_NAME,
+        "emailAddress": ADMIN_EMAIL,
     }
     SOCIAL_AUTH_SAML_ORG_INFO = {
         "en-US": {
@@ -436,7 +441,7 @@ if WEBLATE_SAML_IDP:
     SOCIAL_AUTH_SAML_IMAGE = get_env_str("WEBLATE_SAML_IDP_IMAGE")
     SOCIAL_AUTH_SAML_TITLE = get_env_str("WEBLATE_SAML_IDP_TITLE")
 
-# Azure
+# Microsoft Entra ID
 SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY")
 if SOCIAL_AUTH_AZUREAD_OAUTH2_KEY:
     SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = get_env_str(
@@ -444,7 +449,7 @@ if SOCIAL_AUTH_AZUREAD_OAUTH2_KEY:
     )
     AUTHENTICATION_BACKENDS += ("social_core.backends.azuread.AzureADOAuth2",)
 
-# Azure AD Tenant
+# Microsoft Entra ID with Tenant
 SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = get_env_str(
     "WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY"
 )
@@ -479,7 +484,9 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     )
     SOCIAL_AUTH_KEYCLOAK_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_IMAGE")
     SOCIAL_AUTH_KEYCLOAK_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_KEYCLOAK_TITLE")
-    SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
+    SOCIAL_AUTH_KEYCLOAK_ID_KEY = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_KEYCLOAK_ID_KEY", "email"
+    )
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
 # Fedora OpenIDConnect
@@ -606,13 +613,13 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
+    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
-    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.password_reset",
 ]
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -701,9 +708,21 @@ VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
 VCS_API_TIMEOUT = get_env_int("WEBLATE_VCS_API_TIMEOUT", 10)
 VCS_ALLOW_HOSTS = set(get_env_list("WEBLATE_VCS_ALLOW_HOSTS", []))
 VCS_ALLOW_SCHEMES = set(get_env_list("WEBLATE_VCS_ALLOW_SCHEMES", ["https", "ssh"]))
+VCS_RESTRICT_PRIVATE = get_env_bool("WEBLATE_VCS_RESTRICT_PRIVATE", True)
 
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
+REGISTRATION_ALLOW_DISPOSABLE_EMAILS = get_env_bool(
+    "WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS", False
+)
+PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
+    "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE", True
+)
+PROJECT_WEB_RESTRICT_ALLOWLIST = set(
+    get_env_list("WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST", [])
+)
+WEBHOOK_RESTRICT_PRIVATE = get_env_bool("WEBLATE_WEBHOOK_RESTRICT_PRIVATE", True)
+WEBHOOK_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST", [])
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:
@@ -719,6 +738,8 @@ PRIVATE_COMMIT_NAME_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN", 
 
 # Shortcut for login required setting
 REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN")
+
+PUBLIC_ENGAGE = get_env_bool("WEBLATE_PUBLIC_ENGAGE")
 
 # Middleware
 MIDDLEWARE = [
@@ -797,6 +818,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
     # Third party Django modules
@@ -965,7 +987,7 @@ if HAVE_SYSLOG:
         "facility": SysLogHandler.LOG_LOCAL2,
     }
 
-# Configure GELF integration if presetn
+# Configure GELF integration if present
 if WEBLATE_LOG_GELF_HOST:
     LOGGING["formatters"]["gelf"] = {
         "()": "logging_gelf.formatters.GELFFormatter",
@@ -1010,10 +1032,22 @@ SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+# Maximum allowed uploaded translation file size
+TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE", 50000000
+)
+# Maximum allowed uploaded component ZIP file size
+COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE", 50000000
+)
+# Maximum allowed uploaded project backup ZIP file size
+PROJECT_BACKUP_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE", 250 * 1024 * 1024
+)
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Apply session coookie settings to language cookie as well with exception
+# Apply session cookie settings to language cookie as well with exception
 # of SameSite as we want language to be honored in CSRF error messages.
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
@@ -1044,9 +1078,6 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
 
-# Opt-in for Django 6.0 default
-FORMS_URLFIELD_ASSUME_HTTPS = True
-
 # Anonymous user name
 ANONYMOUS_USER_NAME = "anonymous"
 
@@ -1064,8 +1095,11 @@ EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 # Enable remote hooks
 ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
 
-# Version hiding
+# Version visibility
+VERSION_DISPLAY = get_env_str("WEBLATE_VERSION_DISPLAY")
 HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
+VERSION_DISPLAY = normalize_version_display(VERSION_DISPLAY, HIDE_VERSION)
+HIDE_VERSION = VERSION_DISPLAY == VERSION_DISPLAY_HIDE
 
 # Licensing filter
 license_filter_list = get_env_list_or_none("WEBLATE_LICENSE_FILTER")
@@ -1136,6 +1170,7 @@ CHECK_LIST = [
     "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
+    "weblate.checks.format.LaravelFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",
     "weblate.checks.format.PercentPlaceholdersCheck",
@@ -1195,6 +1230,7 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
     "weblate.trans.autofixes.chars.DevanagariDanda",
+    "weblate.trans.autofixes.chars.PunctuationSpacing",
     "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
@@ -1205,9 +1241,14 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.UpdateLinguasAddon",
     "weblate.addons.gettext.UpdateConfigureAddon",
     "weblate.addons.gettext.MsgmergeAddon",
+    "weblate.addons.gettext.XgettextAddon",
+    "weblate.addons.gettext.MesonAddon",
+    "weblate.addons.gettext.DjangoAddon",
+    "weblate.addons.gettext.SphinxAddon",
     "weblate.addons.gettext.GettextAuthorComments",
     "weblate.addons.cleanup.CleanupAddon",
     "weblate.addons.cleanup.RemoveBlankAddon",
+    "weblate.addons.cleanup.ResetAddon",
     "weblate.addons.consistency.LanguageConsistencyAddon",
     "weblate.addons.discovery.DiscoveryAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
@@ -1243,6 +1284,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.glosbe.GlosbeTranslation",
     "weblate.machinery.google.GoogleTranslation",
     "weblate.machinery.googlev3.GoogleV3Translation",
+    "weblate.machinery.libretranslate.LTEngineTranslation",
     "weblate.machinery.libretranslate.LibreTranslateTranslation",
     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
     "weblate.machinery.modernmt.ModernMTTranslation",
@@ -1440,6 +1482,8 @@ DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 DEFAULT_AUTOCLEAN_TM = get_env_bool("WEBLATE_AUTOCLEAN_TM", False)
 
+COMMIT_PENDING_HOURS = get_env_int("WEBLATE_COMMIT_PENDING_HOURS", 24)
+
 CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
 ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")
 
@@ -1476,7 +1520,7 @@ GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
 STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
 LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
 PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
-
+PASSWORD_RESET_URL = get_env_str("WEBLATE_PASSWORD_RESET_URL")
 # Third party services integration
 MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
 MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")

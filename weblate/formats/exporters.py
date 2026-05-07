@@ -8,13 +8,12 @@ from __future__ import annotations
 
 import re
 from itertools import chain
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.utils.translation import gettext_lazy
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
-from translate.storage.csvl10n import csvfile
 from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
 from translate.storage.poxliff import PoXliffFile
@@ -26,6 +25,19 @@ from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
 from weblate.formats.external import XlsxFormat
+from weblate.formats.helpers import (
+    CSV_ID_HASH,
+    CSV_PLURAL_FIELDNAMES,
+    CSV_SOURCE_PLURAL_FORM,
+    CSV_TARGET_PLURAL_FORM,
+    format_csv_id_hash,
+)
+from weblate.formats.ttkit import WeblateCSVFile
+from weblate.lang.models import PluralMapper
+from weblate.trans.file_format_params import (
+    GettextSetLanguageTeamHeader,
+    GettextXGenerator,
+)
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 
@@ -34,6 +46,7 @@ from .base import BaseExporter
 if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.lisa import LISAfile
+    from translate.storage.poxliff import PoXliffUnit
 
     from weblate.trans.models import Translation
 
@@ -54,6 +67,7 @@ class PoExporter(BaseExporter):
     name = "po"
     content_type = "text/x-po"
     extension = "po"
+    file_format = "po"
     verbose = gettext_lazy("gettext PO")
     storage_class: ClassVar[type[TranslationStore]] = pofile
 
@@ -65,14 +79,20 @@ class PoExporter(BaseExporter):
         store = super().get_storage()
         plural = self.plural
 
+        headers_kwargs = {}
+        if GettextSetLanguageTeamHeader.get_value(self.file_format_params):
+            headers_kwargs["language_team"] = f"{self.language.name} <{self.url}>"
+
+        if GettextXGenerator.get_value(self.file_format_params):
+            headers_kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
+
         # Set po file header
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator=f"Weblate {weblate.utils.version.VERSION}",
             project_id_version=f"{self.language.name} ({self.project.name})",
             plural_forms=plural.plural_form,
-            language_team=f"{self.language.name} <{self.url}>",
+            **headers_kwargs,
         )
         return store
 
@@ -117,7 +137,7 @@ class PoXliffExporter(XMLExporter):
         return multistring([self.string_filter(plural) for plural in plurals])
 
     def build_unit(self, unit):
-        output = super().build_unit(unit)
+        output = cast("PoXliffUnit", super().build_unit(unit))
         try:
             converted_source = xliff_string_to_rich(unit.get_source_plurals())
             converted_target = xliff_string_to_rich(unit.get_target_plurals())
@@ -193,6 +213,9 @@ class MoExporter(PoExporter):
     def store_flags(self, output, flags) -> None:
         return
 
+    def setup_storage(self, storage) -> None:
+        return
+
     def add_unit(self, unit) -> None:
         # Parse properties from unit
         if self.monolingual:
@@ -219,7 +242,7 @@ class MoExporter(PoExporter):
 
 
 class CVSBaseExporter(BaseExporter):
-    storage_class = csvfile
+    storage_class = WeblateCSVFile
 
     def get_storage(self):
         storage = self.storage_class(fieldnames=self.fieldnames)
@@ -230,10 +253,59 @@ class CVSBaseExporter(BaseExporter):
         return storage
 
 
-class CSVExporter(CVSBaseExporter):
+class PluralCSVExportMixin(BaseExporter):
+    def add_unit(self, unit) -> None:
+        if unit.is_plural and not unit.translation.component.is_multivalue:
+            self.add_plural_unit(unit)
+            return
+        super().add_unit(unit)
+
+    def add_plural_fieldnames(self) -> None:
+        for field in CSV_PLURAL_FIELDNAMES:
+            if field not in self.storage.fieldnames:
+                self.storage.fieldnames.append(field)
+
+    def get_source_plural_index(
+        self, unit, target_index: int, sources: list[str]
+    ) -> int:
+        if not sources:
+            return 0
+
+        source_plural = unit.translation.component.source_language.plural
+        target_plural = unit.translation.plural
+        if len(sources) == source_plural.number and target_index < target_plural.number:
+            mapper = PluralMapper(source_plural, target_plural)
+            if mapper.same_plurals and target_index < len(sources):
+                return target_index
+            if target_plural.number == 1:
+                return len(sources) - 1
+            source_index = mapper.target_map[target_index][0]
+            if source_index is not None and 0 <= source_index < len(sources):
+                return source_index
+            return len(sources) - 1
+
+        return min(target_index, len(sources) - 1)
+
+    def add_plural_unit(self, unit) -> None:
+        self.add_plural_fieldnames()
+        sources = unit.get_source_plurals()
+
+        for target_index, target in enumerate(unit.get_target_plurals()):
+            source_index = self.get_source_plural_index(unit, target_index, sources)
+            output = self.create_unit(self.string_filter(sources[source_index]))
+            self.add(output, self.string_filter(target))
+            setattr(output, CSV_SOURCE_PLURAL_FORM, str(source_index))
+            setattr(output, CSV_TARGET_PLURAL_FORM, str(target_index))
+            setattr(output, CSV_ID_HASH, format_csv_id_hash(unit.id_hash))
+            self.store_unit_metadata(output, unit)
+            self.storage.addunit(output)
+
+
+class CSVExporter(PluralCSVExportMixin, CVSBaseExporter):
     name = "csv"
     content_type = "text/csv"
     extension = "csv"
+    file_format = "csv"
     verbose = gettext_lazy("CSV")
 
     def string_filter(self, text):
@@ -256,6 +328,7 @@ class MultiCSVExporter(CVSBaseExporter):
     name = "csv-multi"
     content_type = "text/csv"
     extension = "csv"
+    file_format = "csv-multi"
     verbose = gettext_lazy("Multivalue CSV")
 
     @staticmethod
@@ -319,7 +392,7 @@ class MultiCSVExporter(CVSBaseExporter):
                 self.add_unit(unit)
 
 
-class XlsxExporter(XMLFilterMixin, CVSBaseExporter):
+class XlsxExporter(PluralCSVExportMixin, XMLFilterMixin, CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"
@@ -349,11 +422,13 @@ class JSONExporter(MonolingualExporter):
     name = "json"
     content_type = "application/json"
     extension = "json"
+    file_format = "json"
     verbose = gettext_lazy("JSON")
 
 
 class JSONNestedExporter(JSONExporter):
     name = "json-nested"
+    file_format = "json-nested"
     verbose = gettext_lazy("JSON nested structure file")
     storage_class = JsonNestedFile
 
@@ -384,6 +459,7 @@ class StringsExporter(MonolingualExporter):
     name = "strings"
     content_type = "text/plain"
     extension = "strings"
+    file_format = "strings"
     verbose = gettext_lazy("iOS strings")
 
     def create_unit(self, source):

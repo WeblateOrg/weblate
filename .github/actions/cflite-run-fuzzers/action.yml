@@ -1,0 +1,92 @@
+#
+# Copyright © Weblate contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: run-fuzzers
+description: Runs ClusterFuzzLite fuzzers with bounded GitHub API timeouts.
+inputs:
+  language:
+    description: Programming language project is written in.
+    required: false
+    default: python
+  fuzz-seconds:
+    description: The total time allotted for fuzzing in seconds.
+    required: true
+    default: '600'
+  dry-run:
+    description: If set, run the action without actually reporting a failure.
+    required: false
+    default: 'false'
+  sanitizer:
+    description: The sanitizer to run the fuzzers with.
+    required: false
+    default: address
+  mode:
+    description: >
+      The mode to run the fuzzers with ("code-change", "batch", "coverage", or
+      "prune").
+    required: false
+    default: code-change
+  github-token:
+    description: Token for GitHub API access.
+    required: true
+  storage-repo:
+    description: The git repo to use for storing certain artifacts from fuzzing.
+    required: false
+  storage-repo-branch:
+    description: The branch of the git repo to use for storing fuzzing artifacts.
+    required: false
+    default: main
+  storage-repo-branch-coverage:
+    description: The branch of the git repo to use for storing coverage reports.
+    required: false
+    default: gh-pages
+  report-unreproducible-crashes:
+    description: If true, then unreproducible crashes will be reported.
+    required: false
+    default: 'false'
+  minimize-crashes:
+    description: If true, reportable crashes will be minimized.
+    required: false
+    default: 'false'
+  parallel-fuzzing:
+    description: >
+      How many cores to use for fuzzing. A specific number, true for all
+      available cores, or false to run single-threaded.
+    required: false
+    default: 'false'
+  output-sarif:
+    description: Whether to output fuzzing results to SARIF.
+    required: false
+    default: 'false'
+  report-timeouts:
+    description: Whether to report failures due to timeout.
+    required: false
+    default: 'true'
+  report-ooms:
+    description: Whether to report failures due to OOM.
+    required: false
+    default: 'true'
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    LANGUAGE: ${{ inputs.language }}
+    FUZZ_SECONDS: ${{ inputs.fuzz-seconds }}
+    DRY_RUN: ${{ inputs.dry-run }}
+    SANITIZER: ${{ inputs.sanitizer }}
+    MODE: ${{ inputs.mode }}
+    GITHUB_TOKEN: ${{ inputs.github-token }}
+    LOW_DISK_SPACE: 'True'
+    GIT_STORE_REPO: ${{ inputs.storage-repo }}
+    GIT_STORE_BRANCH: ${{ inputs.storage-repo-branch }}
+    GIT_STORE_BRANCH_COVERAGE: ${{ inputs.storage-repo-branch-coverage }}
+    REPORT_UNREPRODUCIBLE_CRASHES: ${{ inputs.report-unreproducible-crashes }}
+    MINIMIZE_CRASHES: ${{ inputs.minimize-crashes }}
+    CIFUZZ_DEBUG: 'True'
+    CFL_PLATFORM: github
+    PARALLEL_FUZZING: ${{ inputs.parallel-fuzzing }}
+    OUTPUT_SARIF: ${{ inputs.output-sarif }}
+    REPORT_TIMEOUTS: ${{ inputs.report-timeouts }}
+    REPORT_OOMS: ${{ inputs.report-ooms }}

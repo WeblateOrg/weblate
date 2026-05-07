@@ -51,11 +51,15 @@ This enhances security by preventing loading assets from untrusted sources.
 Assets are downloaded once by the Weblate server and stored locally, rather than
 being served directly from external domains to users.
 
+The allowlist is applied to the initial URL and to every HTTP redirect target
+before Weblate follows it. Redirects to hosts outside of this allowlist are
+rejected.
+
 It expects a list of host/domain names. You can use fully qualified names
 (e.g ``www.example.com``) or prepend with a period as a wildcard to match
 all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or ``static.example.com``).
 
-Defaults to `[*]` which will allow all domains.
+Defaults to ``["*"]``, which allows all domains.
 
 **Example**
 
@@ -71,10 +75,35 @@ Defaults to `[*]` which will allow all domains.
 This is currently used in the following places:
 
 * Screenshot uploads, see :ref:`screenshots`
+* Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on
 
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_SIZE`
+
+.. setting:: ALLOWED_MACHINERY_DOMAINS
+
+ALLOWED_MACHINERY_DOMAINS
+-------------------------
+
+Configures which custom machinery domains are explicitly allowed in project-level
+machine translation configuration.
+
+This setting applies only to machinery services and does not affect
+:setting:`ALLOWED_ASSET_DOMAINS`.
+
+It expects a list of host/domain names. You can use fully qualified names or
+prepend with a period as a wildcard to match all subdomains.
+
+Defaults to ``[]``.
+
+The allowlist affects project-managed machinery in two ways: it permits the
+configured endpoint during outbound validation, and it marks matching hosts as
+trusted when deciding whether remote provider error details or response bodies
+can be shown to the user. For direct connections, runtime checks still reject
+destinations that resolve to private or otherwise non-public addresses. When an
+HTTP(S) proxy is used, runtime validation falls back to hostname validation and
+does not perform the same local DNS or peer-IP checks.
 
 .. setting:: ALLOWED_ASSET_SIZE
 
@@ -83,20 +112,40 @@ ALLOWED_ASSET_SIZE
 
 .. versionadded:: 5.14
 
-Configures size limit for fetching assets in Weblate. Defaults to 4 MB.
+Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
 
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_DOMAINS`
 
-.. setting:: ALTCHA_MAX_NUMBER
+.. setting:: ALTCHA_COST
 
-ALTCHA_MAX_NUMBER
------------------
+ALTCHA_COST
+-----------
 
-.. versionadded:: 5.9
+.. versionadded:: 5.18
 
-Configures a maximal number for ALTCHA proof-of-work mechanism.
+Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``.
+
+Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget v2.
+
+.. setting:: ALTCHA_MEMORY_COST
+
+ALTCHA_MEMORY_COST
+------------------
+
+.. versionadded:: 5.18
+
+Argon2id memory cost in KiB. Defaults to ``65536``.
+
+.. setting:: ALTCHA_PARALLELISM
+
+ALTCHA_PARALLELISM
+------------------
+
+.. versionadded:: 5.18
+
+Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
@@ -332,10 +381,16 @@ in :setting:`DATA_DIR`.
 Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
 network filesystem.
 
+Weblate also stores generated SSH wrapper scripts here, so :setting:`CACHE_DIR`
+needs to be on an executable filesystem if :setting:`DATA_DIR` is mounted with
+``noexec``.
+
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 The following subdirectories usually exist:
 
+:file:`ssh`
+   Generated SSH wrapper scripts used for VCS access.
 :file:`fonts`
    :program:`font-config` cache for :ref:`fonts`.
 :file:`avatar`
@@ -441,6 +496,23 @@ Number of hours between committing pending changes by way of the background task
    * :ref:`production-cron`
    * :wladmin:`commit_pending`
 
+
+.. setting:: COMPONENT_ZIP_UPLOAD_MAX_SIZE
+
+COMPONENT_ZIP_UPLOAD_MAX_SIZE
+-----------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded component ZIP files.
+Defaults to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``
+environment variable.
+
+.. seealso::
+
+   * :ref:`component`
 
 .. setting:: CONTACT_FORM
 
@@ -1080,23 +1152,48 @@ error messages too in a similar manner.
 
     On by default.
 
+.. setting:: VERSION_DISPLAY
+
+VERSION_DISPLAY
+---------------
+
+.. versionadded:: 5.17
+
+Controls how prominently Weblate exposes its own version.
+
+Supported values are:
+
+``show``
+    Show the version in shared UI such as the footer and expose it in
+    :http:get:`/api/metrics/`.
+
+``soft``
+    Hide the version from prominent shared UI, while keeping it discoverable on
+    the :guilabel:`About` page and in :http:get:`/api/metrics/`.
+
+``hide``
+    Hide the version from shared UI and :http:get:`/api/metrics/`. This also
+    makes anonymous documentation links point to the latest documentation
+    instead of the version matching the installed release.
+
+Hiding the version is a recommended security practice in some corporations,
+but it does not prevent an attacker from inferring the version by probing
+behavior.
+
+.. note::
+
+    The default is ``show``.
+
 .. setting:: HIDE_VERSION
 
 HIDE_VERSION
 ------------
 
 .. versionadded:: 4.3.1
+.. deprecated:: 5.17
 
-Hides version info from unauthenticated users. This also makes all
-documentation links point to the latest version instead of the documentation
-matching the currently installed version.
-
-Hiding the version is a recommended security practice in some corporations,
-does not prevent an attacker from figuring out version by probing behavior.
-
-.. note::
-
-    This is turned off by default.
+Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to
+get the same behavior as ``VERSION_DISPLAY = "hide"``.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
@@ -1418,6 +1515,17 @@ Defaults to 0, which means strength checking is disabled.
    * :ref:`password-authentication`
    * :envvar:`WEBLATE_MIN_PASSWORD_SCORE`
 
+.. setting:: PASSWORD_RESET_URL
+
+PASSWORD_RESET_URL
+------------------
+
+.. versionadded:: 5.17
+
+URL for password reset when authentication is handled by an external identity provider, such as LDAP, SAML, or OAuth.
+
+When set, :guilabel:`Forgot your password?` on the sign-in page links to this URL
+instead of Weblate's built-in password reset page.
 
 .. setting:: PRIVACY_URL
 
@@ -1543,6 +1651,116 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 
    :ref:`projectbackup`
 
+.. setting:: PROJECT_BACKUP_UPLOAD_MAX_SIZE
+
+PROJECT_BACKUP_UPLOAD_MAX_SIZE
+------------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded project backup ZIP files.
+Defaults to 262144000 bytes (250 MiB).
+
+In Docker, configure this using the ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``
+environment variable. Docker setups can also be constrained by
+:envvar:`CLIENT_MAX_BODY_SIZE`; other deployments can be constrained by their
+reverse proxy request body-size limit.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_MEMBERS
+
+PROJECT_BACKUP_IMPORT_MAX_MEMBERS
+---------------------------------
+
+.. versionadded:: 5.17
+
+Defines the maximum number of ZIP entries allowed when importing a project
+backup.
+
+This is a safeguard against malformed or intentionally fragmented archives.
+Defaults to 100000 entries.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+
+PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+-------------------------------------------------
+
+.. versionadded:: 5.17.1
+
+Defines the maximum total uncompressed size, in bytes, for ZIP entries in an
+imported project backup. Defaults to 262144000 bytes (250 MiB).
+
+This limits archives that are small when uploaded but expand to much more data
+during validation or restore.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+
+PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+-----------------------------------------------
+
+.. versionadded:: 5.17
+
+Defines the maximum uncompressed size, in bytes, for a single highly
+compressed ZIP entry in an imported project backup.
+
+This limit is only applied to entries that are large enough and compress
+enough to look suspicious. Large low-compression files are intentionally
+allowed here and are expected to be constrained by the HTTP upload limit.
+Defaults to 262144000 bytes (250 MiB).
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+
+PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+------------------------------------
+
+.. versionadded:: 5.17
+
+Defines the minimum uncompressed size, in bytes, at which Weblate starts
+considering the ZIP compression ratio during project backup import.
+
+Smaller files are ignored for the compression-ratio-based validation to avoid
+rejecting reasonably sized files that compress well. Defaults to 1048576 bytes
+(1 MiB).
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+
+PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+------------------------------------------------
+
+.. versionadded:: 5.17
+
+Defines the maximum allowed ratio between the uncompressed and compressed size
+for a large ZIP entry during project backup import.
+
+This is used together with
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE` and
+:setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` to detect suspiciously
+compressed entries while still allowing large repository pack files and other
+low-compression content. Defaults to 250.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
 .. setting:: PROJECT_NAME_RESTRICT_RE
 
 PROJECT_NAME_RESTRICT_RE
@@ -1578,6 +1796,42 @@ Default configuration:
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+   * :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`
+
+.. setting:: PROJECT_WEB_RESTRICT_ALLOWLIST
+
+PROJECT_WEB_RESTRICT_ALLOWLIST
+------------------------------
+
+.. versionadded:: 5.17
+
+Defines a set of project slugs exempt from
+:setting:`PROJECT_WEB_RESTRICT_HOST`, :setting:`PROJECT_WEB_RESTRICT_NUMERIC`,
+:setting:`PROJECT_WEB_RESTRICT_PRIVATE`, and
+:setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website.
+Project slugs are matched case-insensitively.
+
+.. caution::
+
+   This exemption weakens outbound URL protections for matching projects,
+   including the private-target restriction enforced by
+   :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted,
+   administrator-managed projects where bypassing these checks is intentional.
+
+Default configuration:
+
+.. code-block:: python
+
+   PROJECT_WEB_RESTRICT_ALLOWLIST = set()
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 
@@ -1594,6 +1848,25 @@ Reject using numeric IP address in project website. On by default.
 
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+   * :setting:`PROJECT_WEB_RESTRICT_RE`
+
+.. setting:: PROJECT_WEB_RESTRICT_PRIVATE
+
+PROJECT_WEB_RESTRICT_PRIVATE
+----------------------------
+
+.. versionadded:: 5.17
+
+Reject using project website and repository browser URLs pointing to internal or
+non-public addresses. On by default.
+
+.. seealso::
+
+   * :ref:`project-web`
+   * :ref:`component-repoweb`
+   * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. setting:: PROJECT_WEB_RESTRICT_RE
@@ -1610,6 +1883,60 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :ref:`project-web`
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_PRIVATE_ALLOWLIST
+
+WEBHOOK_PRIVATE_ALLOWLIST
+-------------------------
+
+.. versionadded:: 5.17
+
+Defines hostnames or domains exempt from :setting:`WEBHOOK_RESTRICT_PRIVATE`
+for outbound webhook delivery. Entries follow Django host matching semantics,
+so values such as ``hooks.internal.example`` or ``.internal.example`` can be
+used.
+
+Default configuration:
+
+.. code-block:: python
+
+   WEBHOOK_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`WEBHOOK_RESTRICT_PRIVATE`
+
+.. setting:: WEBHOOK_RESTRICT_PRIVATE
+
+WEBHOOK_RESTRICT_PRIVATE
+------------------------
+
+.. versionadded:: 5.17
+
+Reject webhook URLs pointing to internal or non-public addresses unless the
+target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
+
+.. seealso::
+
+   * :ref:`addon-weblate.webhook.webhook`
+   * :setting:`WEBHOOK_PRIVATE_ALLOWLIST`
+
+.. setting:: PUBLIC_ENGAGE
+
+PUBLIC_ENGAGE
+-------------
+
+.. versionadded:: 5.16.2
+
+Allows public engage page even with :setting:`REQUIRE_LOGIN`.
+
+.. seealso::
+
+   * :ref:`promotion`
 
 .. setting:: RATELIMIT_NOTIFICATION_LIMITS
 
@@ -1728,7 +2055,7 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 The protection currently consists of following steps:
 
 * Mathematical captcha to be solved by the user.
-* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_MAX_NUMBER`.
+* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 
@@ -1744,6 +2071,21 @@ You can use it to restrict registration to a single e-mail domain:
 .. code-block:: python
 
     REGISTRATION_EMAIL_MATCH = r"^.*@weblate\.org$"
+
+.. setting:: REGISTRATION_ALLOW_DISPOSABLE_EMAILS
+
+REGISTRATION_ALLOW_DISPOSABLE_EMAILS
+-------------------------------------
+
+.. versionadded:: 5.16.1
+
+Allow registration with disposable e-mail domains. When enabled, the
+disposable domain blocklist is bypassed. Default is ``False``.
+
+.. seealso::
+
+   - :setting:`REGISTRATION_EMAIL_MATCH`
+   - :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`
 
 .. setting:: REGISTRATION_OPEN
 
@@ -2058,6 +2400,19 @@ to the donation page in case there is no active support subscription.
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
 
+.. setting:: TRANSLATION_UPLOAD_MAX_SIZE
+
+TRANSLATION_UPLOAD_MAX_SIZE
+---------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded translation files. Defaults
+to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
+environment variable.
+
 .. setting:: UNUSED_ALERT_DAYS
 
 UNUSED_ALERT_DAYS
@@ -2125,7 +2480,11 @@ VCS_ALLOW_HOSTS
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
+which does no filtering at all.
+
+When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
+from the private-target restriction.
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2134,7 +2493,21 @@ VCS_ALLOW_SCHEMES
 
 .. versionadded:: 5.15
 
-A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+A set of URL schemes to allow when configuring VCS URL. Only ``https`` and
+``ssh`` are allowed by default.
+
+.. setting:: VCS_RESTRICT_PRIVATE
+
+VCS_RESTRICT_PRIVATE
+--------------------
+
+.. versionadded:: 5.17
+
+Reject VCS repository URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
 
 .. setting:: VCS_API_DELAY
 
@@ -2345,6 +2718,28 @@ WEBSITE_REQUIRED
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
 
+.. setting:: WEBSITE_ALERTS_ENABLED
+
+WEBSITE_ALERTS_ENABLED
+----------------------
+
+.. versionadded:: 5.17
+
+Default: ``True``
+
+Defines whether Weblate should check project website availability and show
+alerts for unreachable project websites.
+
+When set to ``False``, Weblate will skip website availability checks and
+will not generate project website alerts. This is useful when:
+
+- Your websites are behind firewalls that block Weblate's requests
+- You want to avoid 403/503-type errors from bot protection
+- Project website availability is not a concern for your installation
+
+.. seealso::
+
+   :setting:`WEBSITE_REQUIRED`
 
 .. _settings-credentials:
 

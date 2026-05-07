@@ -18,15 +18,12 @@ from django.db.models import (
     OuterRef,
     Q,
     Subquery,
-    TextField,
     When,
 )
 from django.db.models.fields.json import KT
-from django.db.models.functions import Cast, Now
+from django.db.models.functions import Now
 from django.utils import timezone
 
-from weblate.trans.functions import MySQLTimestampAdd
-from weblate.utils.db import using_postgresql
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -48,7 +45,7 @@ if TYPE_CHECKING:
 class PendingChangeQuerySet(models.QuerySet):
     def find_committable_components(
         self, pks: list[int] | None = None, hours: int | None = None
-    ) -> models.QuerySet[PendingUnitChange]:
+    ) -> models.QuerySet[Component]:
         """
         Find components with committable pending changes.
 
@@ -60,8 +57,8 @@ class PendingChangeQuerySet(models.QuerySet):
             hours: Optional fixed hours threshold (overrides per-component commit_pending_age)
 
         """
-        from weblate.trans.models import Component
-        from weblate.trans.models.project import CommitPolicyChoices
+        from weblate.trans.models import Component  # noqa: PLC0415
+        from weblate.trans.models.project import CommitPolicyChoices  # noqa: PLC0415
 
         pending_changes = self.all()
 
@@ -70,19 +67,33 @@ class PendingChangeQuerySet(models.QuerySet):
                 unit__translation__component__pk__in=pks
             )
 
+        repo_owner_id = Case(
+            When(
+                unit__translation__component__linked_component__isnull=False,
+                then=F("unit__translation__component__linked_component_id"),
+            ),
+            default=F("unit__translation__component_id"),
+            output_field=models.IntegerField(),
+        )
+
+        age_cutoff: Any
         if hours is not None:
             age_cutoff = timezone.now() - timedelta(hours=hours)
         # Use per-component commit_pending_age setting to calculate age cutoff.
-        elif using_postgresql():
-            age_cutoff = ExpressionWrapper(
-                Now()
-                - F("unit__translation__component__commit_pending_age")
-                * timedelta(hours=1),
-                output_field=DateTimeField(),
-            )
         else:
-            age_cutoff = MySQLTimestampAdd(
-                "HOUR", -F("unit__translation__component__commit_pending_age"), Now()
+            commit_pending_age = Case(
+                When(
+                    unit__translation__component__linked_component__isnull=False,
+                    then=F(
+                        "unit__translation__component__linked_component__commit_pending_age"
+                    ),
+                ),
+                default=F("unit__translation__component__commit_pending_age"),
+                output_field=models.IntegerField(),
+            )
+            age_cutoff = ExpressionWrapper(
+                Now() - commit_pending_age * timedelta(hours=1),
+                output_field=DateTimeField(),
             )
 
         pending_changes = pending_changes.filter(timestamp__lt=age_cutoff)
@@ -116,9 +127,9 @@ class PendingChangeQuerySet(models.QuerySet):
         pending_changes = pending_changes.filter(policy_filter)
 
         component_pks = list(
-            pending_changes.values_list(
-                "unit__translation__component_id", flat=True
-            ).distinct()
+            pending_changes.annotate(repo_owner_id=repo_owner_id)
+            .values_list("repo_owner_id", flat=True)
+            .distinct()
         )
         return Component.objects.filter(pk__in=component_pks)
 
@@ -182,27 +193,22 @@ class PendingChangeQuerySet(models.QuerySet):
         one_week_ago = timezone.now() - timedelta(days=7)
 
         annotations_: dict[str, Any] = {
-            # use KT and explicitly cast key value to string to avoid
-            # django from treating string comparison values for RHS as JSON
-            # on mariadb and mysql.
-            "failed_revision": Cast(KT("metadata__failed_revision"), TextField()),
-            "weblate_version": Cast(KT("metadata__weblate_version"), TextField()),
-            "last_failed": Cast(KT("metadata__last_failed"), TextField()),
+            "failed_revision": KT("metadata__failed_revision"),
+            "weblate_version": KT("metadata__weblate_version"),
+            "last_failed": KT("metadata__last_failed"),
         }
 
         # Component-level queries require joining unit.translation for revision;
         # translation-level queries use the provided revision directly
         if revision is None:
-            annotations_["translation_revision"] = Cast(
-                "unit__translation__revision", TextField()
-            )
+            annotations_["translation_revision"] = F("unit__translation__revision")
             revision_comparison = ~Q(failed_revision=F("translation_revision"))
         else:
             revision_comparison = ~Q(failed_revision=revision)
 
         # filter changes that are new or eligible for retry
         eligible_for_attempt_filter = (
-            Q(metadata__last_failed__isnull=True)
+            Q(last_failed__isnull=True)
             | revision_comparison
             | ~Q(weblate_version=GIT_VERSION)
             | Q(last_failed__lt=one_week_ago.isoformat())
@@ -254,7 +260,7 @@ class PendingChangeQuerySet(models.QuerySet):
         and includes all changes up to that point. This ensures we commit changes in
         chronological order and don't skip intermediate changes.
         """
-        from weblate.trans.models.project import CommitPolicyChoices
+        from weblate.trans.models.project import CommitPolicyChoices  # noqa: PLC0415
 
         if commit_policy == CommitPolicyChoices.ALL:
             return qs
@@ -277,21 +283,20 @@ class PendingChangeQuerySet(models.QuerySet):
 
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> PendingChangeQuerySet:  # type: ignore[override]
-        if using_postgresql():
-            # Use weaker locking and limit locking to this table only
-            return super().select_for_update(no_key=True, of=("self",))
-        # Discard any select_related to avoid locking additional tables
-        return super().select_for_update().select_related(None)
+        # Use weaker locking and limit locking to this table only
+        return super().select_for_update(no_key=True, of=("self",))
 
     def _count_units_helper(self, qs: QuerySet) -> int:
         """Count distinct units in a PendingUnitChange queryset."""
-        if using_postgresql():
-            return qs.distinct("unit_id").count()
-        return qs.values("unit_id").distinct().count()
+        return qs.distinct("unit_id").count()
 
     def detailed_count(self, obj: Project | Component | Translation) -> dict[str, int]:
         """Count total, skipped and eligible units pending and eligible for commit for the given object."""
-        from weblate.trans.models import Component, Project, Translation
+        from weblate.trans.models import (  # noqa: PLC0415
+            Component,
+            Project,
+            Translation,
+        )
 
         if isinstance(obj, Project):
             base_filter = Q(unit__translation__component__project=obj)
@@ -376,6 +381,7 @@ class PendingUnitChange(models.Model):
         automatically_translated: bool | None = None,
         timestamp: datetime | None = None,
         store_disk_state: bool = True,
+        save: bool = True,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
         # update current fields in disk_state details for comparison of
@@ -410,5 +416,6 @@ class PendingUnitChange(models.Model):
             kwargs["timestamp"] = timestamp
 
         pending_unit_change = PendingUnitChange(**kwargs)
-        pending_unit_change.save()
+        if save:
+            pending_unit_change.save()
         return pending_unit_change

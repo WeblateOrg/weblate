@@ -35,7 +35,8 @@ def backup_service(pk: int) -> None:
     except BackupService.DoesNotExist:
         # The service was removed meanwhile
         return
-    service.ensure_init()
+    if not service.ensure_init():
+        return
     service.backup()
     service.prune()
     today = timezone.now().date()

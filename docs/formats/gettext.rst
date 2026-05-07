@@ -43,9 +43,9 @@ the resulting PO file then contains lines such as:
 PO file header
 ++++++++++++++
 
-The header of the PO file is automatically maintained by Weblate. Optionally it
-can include :ref:`component-report_source_bugs` and
-:ref:`project-set_language_team`.
+The header of the PO file is automatically maintained by Weblate.
+It can be configured to include the ``Language-Team``, ``Last-Translator``,
+``X-Generator`` and ``Report-Msgid-Bugs-To`` headers using the :ref:`file_format_params`.
 
 The header comments also can be updated to contain author names using :ref:`addon-weblate.gettext.authors`.
 
@@ -133,6 +133,10 @@ While the base language file will be:
     msgid "none-user"
     msgstr "None"
 
+
+.. include:: /snippets/format-features/po-mono-features.rst
+
+.. include:: /snippets/format-features/po-features.rst
 
 Weblate configuration
 +++++++++++++++++++++

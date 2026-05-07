@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from weblate.checks.glossary import GlossaryCheck, ProhibitedInitialCharacterCheck
 from weblate.checks.models import Check
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ComponentTestCase
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-class GlossaryCheckTest(ViewTestCase):
+class GlossaryCheckTest(ComponentTestCase):
     check = GlossaryCheck()
     CREATE_GLOSSARIES = True
 
@@ -106,7 +106,7 @@ class GlossaryCheckTest(ViewTestCase):
         )
 
 
-class ProhibitedInitialCharacterCheckTest(ViewTestCase):
+class ProhibitedInitialCharacterCheckTest(ComponentTestCase):
     check = ProhibitedInitialCharacterCheck()
     CREATE_GLOSSARIES = True
 

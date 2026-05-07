@@ -7,7 +7,7 @@ from __future__ import annotations
 import gzip
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import time
 from importlib import import_module
 from pathlib import Path
@@ -25,11 +25,10 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Component, Project, Translation
-from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
+from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
-from weblate.utils.db import using_postgresql
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.vcs.models import VCS_REGISTRY
@@ -84,19 +83,28 @@ def settings_backup() -> None:
 
 @app.task(trail=False)
 def update_translation_stats_parents(pk: int) -> None:
-    translation = Translation.objects.get(pk=pk)
+    try:
+        translation = Translation.objects.get(pk=pk)
+    except Translation.DoesNotExist:
+        return
     translation.stats.update_parents()
 
 
 @app.task(trail=False)
 def update_language_stats_parents(pk: int) -> None:
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        return
     component.stats.update_language_stats_parents()
 
 
 @app.task(trail=False)
 def update_project_stats_link(pk: int) -> None:
-    project = Project.objects.get(pk=pk)
+    try:
+        project = Project.objects.get(pk=pk)
+    except Project.DoesNotExist:
+        return
     for language in project.stats.get_language_stats():
         language.update_stats(update_parents=False)
     project.stats.update_stats()
@@ -114,53 +122,33 @@ def database_backup() -> None:
         out_compressed = data_dir("backups", "database.sql.gz")
         out_text = data_dir("backups", "database.sql")
 
-        if using_postgresql():
-            cmd = [
-                "pg_dump",
-                # Superuser only, crashes on Alibaba Cloud Database PolarDB
-                "--no-subscriptions",
-                "--clean",
-                "--if-exists",
-                "--dbname",
-                database["NAME"],
-            ]
+        cmd = [
+            "pg_dump",
+            # Superuser only, crashes on Alibaba Cloud Database PolarDB
+            "--no-subscriptions",
+            "--clean",
+            "--if-exists",
+            "--dbname",
+            database["NAME"],
+        ]
 
-            if database["HOST"]:
-                cmd.extend(["--host", database["HOST"]])
-            if database["PORT"]:
-                cmd.extend(["--port", database["PORT"]])
-            if database["USER"]:
-                cmd.extend(["--username", database["USER"]])
-            if settings.DATABASE_BACKUP == "compressed":
-                cmd.extend(["--file", out_compressed])
-                cmd.extend(["--compress", "6"])
-                compress = False
-            else:
-                cmd.extend(["--file", out_text])
-
-            env["PGPASSWORD"] = cast("str", database["PASSWORD"])
+        if database["HOST"]:
+            cmd.extend(["--host", database["HOST"]])
+        if database["PORT"]:
+            cmd.extend(["--port", database["PORT"]])
+        if database["USER"]:
+            cmd.extend(["--username", database["USER"]])
+        if settings.DATABASE_BACKUP == "compressed":
+            cmd.extend(["--file", out_compressed])
+            cmd.extend(["--compress", "6"])
+            compress = False
         else:
-            cmd = [
-                "mysqldump",
-                "--result-file",
-                out_text,
-                "--single-transaction",
-                "--skip-lock-tables",
-            ]
+            cmd.extend(["--file", out_text])
 
-            if database["HOST"]:
-                cmd.extend(["--host", database["HOST"]])
-            if database["PORT"]:
-                cmd.extend(["--port", database["PORT"]])
-            if database["USER"]:
-                cmd.extend(["--user", database["USER"]])
-
-            cmd.extend(["--databases", database["NAME"]])
-
-            env["MYSQL_PWD"] = cast("str", database["PASSWORD"])
+        env["PGPASSWORD"] = cast("str", database["PASSWORD"])
 
         try:
-            subprocess.run(
+            subprocess.run(  # noqa: S603
                 cmd,  # type: ignore[arg-type]
                 env=env,
                 capture_output=True,

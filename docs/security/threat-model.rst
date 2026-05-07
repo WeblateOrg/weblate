@@ -3,7 +3,17 @@ Weblate threat model
 
 **Scope:** Core Weblate web application, its interactions with user browsers, backend components (web server, WSGI, database, datastore, Celery), and integration with external VCS.
 
-**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
+**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (unauthenticated user, authenticated user, reviewer, project manager, administrator, project-scoped API token).
+
+Webhook endpoints for some VCS integrations are intentionally
+compatibility-oriented and can accept unauthenticated deliveries from
+supported forges. Weblate therefore treats webhook-triggered repository
+updates as a deployment-hardened interface rather than a cryptographically
+authenticated one by default.
+
+Until native authenticated integrations are available for these platforms,
+webhook abuse resistance depends on compensating controls such as reverse-proxy
+rate limiting, request size limits, minimizing public exposure, and monitoring.
 
 System description and scope
 ----------------------------
@@ -11,6 +21,13 @@ System description and scope
 Weblate is an open-source web-based localization platform built on Django. It
 integrates tightly with Git repositories to manage translations and offers
 CI/CD-style features for automation, hooks, and VCS synchronization.
+
+Authorization in Weblate is not limited to instance-wide administrator versus
+regular user access. Permissions can be delegated per site, project,
+component, language, glossary, or other scope, including dedicated VCS,
+translation memory, screenshot, review, and project access management
+permissions. Project-scoped API tokens can also be granted team memberships and
+permissions similar to users.
 
 Assets:
 
@@ -30,6 +47,7 @@ Conceptual data flow diagram
       edge [fontname = "sans-serif", fontsize=10, dir=both];
 
       "External user (browser)" -> "Web server (nginx/Apache)" [label="HTTPS"];
+      "External webhook source" -> "Web server (nginx/Apache)" [label="HTTPS webhook"];
       "Web server (nginx/Apache)" -> "Weblate application (WSGI, Celery)" [label="Internal API"];
       "Weblate application (WSGI, Celery)" -> "Database (PostgreSQL)" [label="Database access"];
       "Weblate application (WSGI, Celery)" -> "Datastore (Valkey/Redis)" [label="Key/value access"];
@@ -43,12 +61,16 @@ Trust boundaries
 ----------------
 
 * **Internet ↔ Web server:** Public internet traffic interacting with the first line of defense.
+* **Webhook source ↔ Web server:** External code hosting services or other callers invoking repository hooks, sometimes with unauthenticated endpoints enabled per project.
 * **Web server ↔ Weblate application:** Communication between the reverse proxy/web server and the application logic.
-* **Weblate application ↔ Database** Application logic accessing persistent and cached data.
+* **Weblate application ↔ Database:** Application logic accessing persistent and cached data.
 * **Weblate application ↔ Logging:** Application logic creating logs.
 * **Weblate application ↔ Internal VCS repository:** Application logic interacting with its local copy of the VCS repository.
 * **Weblate application ↔ External VCS repository:** Weblate reaching out to external code hosting platforms.
-* **Authenticated User ↔ Unauthenticated User:** Different privilege levels within the web application.
+* **Privileged user configuration ↔ Outbound network:** Project and integration settings can cause Weblate to initiate connections to external VCS hosts or other services.
+* **Imported backup archive ↔ Weblate application/filesystem:** Backup restore processes attacker-controlled archive contents, metadata, and VCS state.
+* **Unauthenticated caller ↔ Authenticated user/token:** Different privilege levels for browser, API, and webhook access.
+* **Authenticated user/token ↔ Project manager/reviewer/VCS manager:** Delegated project- and component-scoped permissions create additional privilege boundaries inside the application.
 
 Threat identification
 ---------------------
@@ -72,6 +94,26 @@ Threat identification
      - **Tampering**
      - **Malicious request injection:** Attacker injects malicious data into HTTP headers or request bodies.
      - Potential for SQL injection, XSS, or other injections if not properly handled by the backend.
+   * - **Webhook handling**
+     - **Spoofing**
+     - **Forged webhook delivery:** An attacker submits a fake webhook payload to trigger repository updates or other automation, especially when unauthenticated hooks are enabled.
+     - Unauthorized repository synchronization, noisy task execution, or follow-on abuse of automation paths.
+   * -
+     - **Tampering**
+     - **Payload manipulation or replay:** An attacker replays or modifies webhook payloads so Weblate processes repository states or branches different from the legitimate event.
+     - Unexpected updates, repository confusion, or misuse of privileged VCS credentials.
+   * -
+     - **DoS**
+     - **Hook flooding:** An attacker sends excessive webhook requests or oversized payloads, overwhelming request handling or background workers.
+     - Weblate slowdown or unavailability.
+   * -
+     - **Information disclosure**
+     - **Repository enumeration via webhook responses:** An attacker probes webhook payloads and learns whether repositories, branches, or components exist based on response metadata.
+     - Disclosure of private project structure, enabled hooks, or component identifiers.
+   * -
+     - **Repudiation**
+     - **Limited webhook attribution:** Hook-triggered updates are recorded as coming from a service bot rather than a forge-authenticated principal.
+     - Reduced forensic confidence when investigating malicious or disputed hook activity.
    * - **Weblate application**
      - **Spoofing**
      - **User impersonation:** Attacker gains access to a legitimate user's session (e.g., via session hijacking, compromised credentials).
@@ -108,6 +150,14 @@ Threat identification
      - **Elevation of privilege**
      - **Command injection:** Arbitrary code execution due to improper input validation in repository URLs or add-ons.
      - System compromise, data exfiltration.
+   * - **Backup import / restore**
+     - **DoS**
+     - **Archive amplification during restore:** A crafted backup contains many members or a large aggregate uncompressed size, exhausting disk, memory, worker time, or inode capacity.
+     - Restore-time denial of service and possible service degradation for the instance.
+   * -
+     - **Tampering**
+     - **Malicious backup metadata or VCS state:** A crafted backup restores misleading project metadata or unsafe repository state despite path validation and schema checks.
+     - Corrupted restored projects, unsafe repository state, or administrative confusion.
    * - **Database/Datastore**
      - **Tampering**
      - **Data corruption:** Direct access to the database allows altering translation strings, user data, or configuration.
@@ -128,6 +178,10 @@ Threat identification
      - **Repudiation**
      - **Fake commit attribution:** Weblate commits changes attributed to a wrong user (e.g., an admin forcing a commit in a translator's name without their consent).
      - Accountability issues.
+   * - **Outbound integrations / VCS configuration**
+     - **Information disclosure**
+     - **Server-side request forgery or unintended internal reachability:** A privileged user configures repository or integration endpoints that cause Weblate to connect to internal or otherwise restricted hosts.
+     - Exposure of internal services, metadata endpoints, or restricted network paths.
    * - **User interaction**
      - **Spoofing**
      - **Phishing/social engineering:** Attacker tricks users into revealing credentials for Weblate or linked VCS accounts.
@@ -152,8 +206,14 @@ Mitigation strategies
     * Strong password policies, see :doc:`/security/passwords`.
     * Enforced 2FA, see :ref:`2fa`.
     * Robust session management.
-    * Role-based access control (RBAC) to enforce the least privilege (e.g., translators can only edit translations, not change project configs), see :doc:`/admin/access`.
+    * Role-based access control (RBAC) to enforce the least privilege (for example separating translation, review, VCS, translation memory, screenshot, and project access management permissions), see :doc:`/admin/access`.
     * Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/admin/auth`.
+* **Webhook security:**
+    * Current product limitation: webhook authenticity is not uniformly enforced in-app for all supported forge integrations.
+    * Treat webhook endpoints as deployment-hardened interfaces and enable them only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`.
+    * Deployment controls required today include reverse-proxy rate limiting, request size limits, optional source-IP filtering, minimizing public exposure, and alerting on webhook spikes.
+    * Validate webhook event type and payload before triggering repository updates or tasks.
+    * Future product direction is to replace compatibility webhooks with native authenticated integrations that validate source authenticity before scheduling repository updates.
 * **Input validation and output encoding:**
     * Strict validation of all user inputs (forms, API requests, VCS URLs) to prevent injection attacks (SQL injection, command injection, XSS).
     * Context-aware output encoding for all user-supplied data displayed on the web UI to prevent XSS.
@@ -162,6 +222,11 @@ Mitigation strategies
     * Secure storage of VCS credentials.
     * Strict sanitization and validation of all data coming from VCS (e.g., filenames, branch names, commit messages that might be displayed).
     * Secure execution of Git/Mercurial commands (avoiding shell execution with user-controlled input).
+    * Document and review hostname allowlisting and private-network restrictions for outbound integrations where deployments need to constrain server-initiated connections.
+* **Backup import security:**
+    * Treat backup archives as untrusted input and validate both metadata and extracted paths.
+    * Enforce aggregate archive-size and extraction-budget limits, not only per-entry checks.
+    * Monitor restore failures and unusually large imports as potential abuse indicators.
 * **Data protection:**
     * Encryption of sensitive data at rest.
     * Encryption of data in transit (TLS/SSL for all HTTP/S and VCS communication).

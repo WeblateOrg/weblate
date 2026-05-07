@@ -27,6 +27,8 @@ Example Windows RC file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs-CZ.rc
     :language: c
 
+.. include:: /snippets/format-features/rc-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

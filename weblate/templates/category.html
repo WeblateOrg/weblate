@@ -90,6 +90,11 @@
           </li>
         {% endif %}
         <li role="separator" class="divider"></li>
+        {% if user_can_add_translation %}
+          <li>
+            <a class="dropdown-item" href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+          </li>
+        {% endif %}
         {% if user_can_edit_project %}
           {% if add_form %}
             <li>
@@ -110,6 +115,11 @@
                data-bs-target="#announcement"
                data-bs-toggle="tab"
                href="#">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if user_can_edit_project %}
+          <li>
+            <a class="dropdown-item" href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
           </li>
         {% endif %}
         {% if delete_form or rename_form %}
@@ -135,7 +145,7 @@
 
 {% block content %}
 
-  {% announcements project=object.project %}
+  {% announcements category=object %}
 
   {% include "snippets/project/state.html" with object=object.project %}
 

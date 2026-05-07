@@ -8,6 +8,7 @@ import errno
 import os
 import time
 from datetime import timedelta
+from email.utils import parseaddr
 from itertools import chain
 from pathlib import Path
 from shutil import disk_usage
@@ -20,10 +21,9 @@ from django.core.cache import cache
 from django.core.checks import Error, Info, register
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
-from django.db import DatabaseError
+from django.db import DatabaseError, connections
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
-from django.db.models.lookups import Regex
 from django.utils import timezone
 from packaging.version import Version
 
@@ -35,12 +35,10 @@ from .classloader import ClassLoader
 from .const import HEARTBEAT_FREQUENCY
 from .data import data_path
 from .db import (
-    MySQLSearchLookup,
     PostgreSQLRegexLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
     measure_database_latency,
-    using_postgresql,
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
@@ -94,7 +92,7 @@ def check_celery(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
-    from weblate.utils.tasks import ping
+    from weblate.utils.tasks import ping  # noqa: PLC0415
 
     errors: list[CheckMessage] = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -186,12 +184,12 @@ def check_database(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
-    if not using_postgresql():
+    if connections["default"].vendor != "postgresql":
         errors.append(
             weblate_check(
                 "weblate.E006",
-                "Weblate performs best with PostgreSQL, consider migrating to it.",
-                Info,
+                "Weblate now requires PostgreSQL. Support for other databases has been removed.",
+                Error,
             )
         )
 
@@ -231,7 +229,7 @@ def check_cache(
         errors.append(
             weblate_check(
                 "weblate.E007",
-                "The configured cache back-end will lead to serious "
+                "The configured cache backend will lead to serious "
                 "performance or consistency issues.",
             )
         )
@@ -259,11 +257,21 @@ def check_settings(
     """Check for sane settings."""
     errors: list[CheckMessage] = []
 
-    if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
+    def is_default_admin_email(admin: str | tuple[str, str]) -> bool:
+        if isinstance(admin, tuple):
+            admin_mail = admin[1]
+        else:
+            admin_mail = parseaddr(admin)[1] or admin
+
+        return any(email in admin_mail for email in DEFAULT_MAILS)
+
+    if not settings.ADMINS or any(
+        is_default_admin_email(admin) for admin in settings.ADMINS
+    ):
         errors.append(
             weblate_check(
                 "weblate.E011",
-                "E-mail addresses for site admins is misconfigured",
+                "E-mail addresses for site admins are misconfigured",
                 Error,
             )
         )
@@ -331,14 +339,16 @@ def check_data_writable(
         ]
     dirs: list[Path] = [
         Path(settings.DATA_DIR),
+        data_path("locks"),
         data_path("home"),
         data_path("ssh"),
         data_path("vcs"),
         data_path("backups"),
         data_path("fonts"),
+        data_path("cache") / "ssh",
         data_path("cache") / "fonts",
     ]
-    message = "Path {} is not writable, check your DATA_DIR settings."
+    message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."
     for path in dirs:
         path.mkdir(parents=True, exist_ok=True)
         if not os.access(path, os.W_OK):
@@ -378,7 +388,7 @@ def check_perms(
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
             # on filesystem toplevel directory. Also skip settings-override.py
-            # used in the Docker container as that one is typically bind mouted
+            # used in the Docker container as that one is typically bind mounted
             # with different permissions (and Weblate is not expected to write
             # to it).
             if dirpath == settings.DATA_DIR and name in {
@@ -487,7 +497,7 @@ def check_version(
             return [
                 weblate_check(
                     "weblate.C031",
-                    f"You Weblate version is outdated, please upgrade to {latest.version}.",
+                    f"Your Weblate version is outdated, please upgrade to {latest.version}.",
                 )
             ]
         return [
@@ -509,22 +519,13 @@ class UtilsConfig(AppConfig):
         super().ready()
         init_error_collection()
 
-        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]]
-        if using_postgresql():
-            lookups = [
-                (PostgreSQLSearchLookup,),
-                (PostgreSQLSubstringLookup,),
-                (PostgreSQLRegexLookup, "trgm_regex"),
-            ]
-        else:
-            lookups = [
-                (MySQLSearchLookup,),
-                (MySQLSearchLookup, "substring"),
-                (Regex, "trgm_regex"),
-            ]
-
-        lookups.append((cast("type[Lookup]", MD5),))
-        lookups.append((cast("type[Lookup]", Lower),))
+        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]] = [
+            (PostgreSQLSearchLookup,),
+            (PostgreSQLSubstringLookup,),
+            (PostgreSQLRegexLookup, "trgm_regex"),
+            (cast("type[Lookup]", MD5),),
+            (cast("type[Lookup]", Lower),),
+        ]
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

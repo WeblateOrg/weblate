@@ -148,7 +148,9 @@ This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 .. seealso::
 
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
+   * :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
    * :setting:`PROJECT_WEB_RESTRICT_RE`
 
 .. _project-instructions:
@@ -158,14 +160,6 @@ Translation instructions
 
 Text describing localization process in the project, and any other information
 useful for translators. Markdown can be used for text formatting or inserting links.
-
-.. _project-set_language_team:
-
-Set "Language-Team" header
-++++++++++++++++++++++++++
-
-Whether Weblate should manage the ``Language-Team`` header (this is a
-:ref:`gettext` only feature right now).
 
 .. _project-use_shared_tm:
 
@@ -198,11 +192,12 @@ Autoclean translation memory
 
 .. versionadded:: 5.13
 
-Whether to automatically remove outdated and obsolete entries from translation memory.
+Whether to replace older automatically created translation memory entries when a
+translation becomes active.
 
-.. note::
-
-   This does not affect manually uploaded memory entries.
+Matching is based on the same source string, component, context, and
+source/target language pair. Uploaded translation memory files are not
+affected.
 
 .. seealso::
 
@@ -454,6 +449,10 @@ might want to strip leading directory by ``parentdir`` filter (see
 :ref:`markup`):
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
 
+.. seealso::
+
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
 .. _component-git_export:
 
 Exported repository URL
@@ -471,7 +470,7 @@ Repository branch
 
 Which branch to checkout from the VCS, and where to look for translations.
 
-For linked repositories, this is not used and setting from linked component applies.
+.. include:: /snippets/linked-repository-setting.rst
 
 .. _component-push_branch:
 
@@ -480,12 +479,15 @@ Push branch
 
 Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
-For linked repositories, this is not used and setting from linked component applies.
+.. include:: /snippets/linked-repository-setting.rst
 
 .. note::
 
-   This is currently only supported for Git, GitLab and GitHub, it is ignored
-   for other VCS integrations.
+   This setting is ignored for Mercurial and Subversion.
+
+   For Gerrit, this selects the target branch for the review request. Leave it
+   empty to review against :ref:`component-branch`. Use the short branch name,
+   not ``refs/heads/<branch>`` or ``refs/for/<branch>``.
 
 .. seealso::
 
@@ -925,6 +927,8 @@ changes to its underlying repository (see :ref:`lazy-commit`). To actually
 enable pushing :guilabel:`Repository push URL` has to be configured as
 well.
 
+.. include:: /snippets/linked-repository-setting.rst
+
 .. _component-commit_pending_age:
 
 Age of changes to commit
@@ -934,6 +938,8 @@ Sets how old (in hours) changes have to be before they are committed by
 background task or the :wladmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one change
 older than this period.
+
+.. include:: /snippets/linked-repository-setting.rst
 
 The default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
@@ -953,6 +959,8 @@ This avoids adding another conflicts, which would have to be resolved manually.
 
 The component will be automatically unlocked once there are no repository
 errors left.
+
+.. include:: /snippets/linked-repository-setting.rst
 
 .. _component-source_language:
 

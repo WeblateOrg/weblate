@@ -202,6 +202,22 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         for obj in queryset.iterator():
             self.delete_model(request, obj)
 
+    def save_model(self, request: AuthenticatedHttpRequest, obj, form, change) -> None:
+        if change:
+            original = User.objects.get(pk=obj.pk)
+            form.instance.store_audit_state(
+                group_ids=set(original.groups.values_list("id", flat=True)),
+                is_superuser=original.is_superuser,
+            )
+
+        super().save_model(request, obj, form, change)
+
+    def save_related(
+        self, request: AuthenticatedHttpRequest, form, formsets, change
+    ) -> None:
+        super().save_related(request, form, formsets, change)
+        form.instance.log_audit_state(request)
+
 
 class GroupChangeForm(forms.ModelForm):
     class Meta:

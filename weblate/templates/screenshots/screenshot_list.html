@@ -22,6 +22,11 @@
   {% perm 'screenshot.delete' object as user_can_delete_screenshot %}
   {% perm 'screenshot.edit' object as user_can_edit_screenshot %}
 
+  <h4>
+    {% documentation_icon 'admin/translating' 'screenshots' right=True %}
+    {% translate "Screenshots" %}
+  </h4>
+
   {% if add_form %}
     <form action="{% url 'screenshots' path=object.get_url_path %}"
           method="post"

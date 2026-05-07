@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n permissions translations %}
+{% load crispy_forms_tags i18n permissions static translations %}
 
 {% block breadcrumbs %}
   {% if object %}
@@ -15,9 +15,19 @@
   {% endif %}
   <li class="breadcrumb-item">
     {% if instance %}
-      <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
+      <a href="{% url 'addon-detail' pk=instance.pk %}">
+        {% if addon %}
+          {{ addon.verbose }}
+        {% else %}
+          {{ addon_name }}
+        {% endif %}
+      </a>
     {% else %}
-      {{ addon.verbose }}
+      {% if addon %}
+        {{ addon.verbose }}
+      {% else %}
+        {{ addon_name }}
+      {% endif %}
     {% endif %}
   </li>
 {% endblock breadcrumbs %}
@@ -29,13 +39,17 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">
-            {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+            {% if addon %}
+              {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+            {% endif %}
             {% translate "Configure add-on" %}
           </h4>
         </div>
         <div class="card-body">
           <input type="hidden" name="form" value="1" />
-          <input type="hidden" name="name" value="{{ addon.name }}" />
+          <input type="hidden"
+                 name="name"
+                 value="{% if instance %}{{ instance.name }}{% else %}{{ addon.name }}{% endif %}" />
           {% crispy form %}
         </div>
         <div class="card-footer">
@@ -45,6 +59,24 @@
     </form>
   {% else %}
     <p class="help-block">{% translate "This add-on has no settings." %}</p>
+    {% if instance and instance.can_run_manually %}
+      <form method="post" class="inlineform">
+        {% csrf_token %}
+        <button type="submit" name="run" value="1" class="btn btn-primary">{% translate "Run now" %}</button>
+      </form>
+    {% endif %}
+    {% if instance %}
+      <a href="{% url 'addon-logs' instance.id %}" class="btn btn-primary">{% translate "View Logs" %}</a>
+    {% endif %}
   {% endif %}
 
 {% endblock content %}
+
+{% block extra_script %}
+  {{ block.super }}
+  {% if form.guided_presets %}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/addon-discovery.js' %}{{ cache_param }}"></script>
+  {% endif %}
+{% endblock extra_script %}

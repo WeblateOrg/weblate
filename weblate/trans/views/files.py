@@ -6,14 +6,19 @@ from __future__ import annotations
 import os
 from typing import TYPE_CHECKING
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import DatabaseError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.formats.models import EXPORTERS
-from weblate.trans.exceptions import FailedCommitError, PluralFormsMismatchError
+from weblate.trans.exceptions import (
+    FailedCommitError,
+    FileParseError,
+    PluralFormsMismatchError,
+)
 from weblate.trans.forms import DownloadForm, get_upload_form
 from weblate.trans.models import (
     Category,
@@ -22,6 +27,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.util import get_upload_error_message
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -85,15 +91,17 @@ def download_multi(
             if translation.component_id in components:
                 continue
             components.add(translation.component_id)
-            for filename in (
-                translation.component.template,
-                translation.component.new_base,
-                translation.component.intermediate,
+            for getter in (
+                translation.component.get_template_filename,
+                translation.component.get_new_base_filename,
+                translation.component.get_intermediate_filename,
             ):
-                if filename:
-                    fullname = os.path.join(translation.component.full_path, filename)
-                    if os.path.exists(fullname):
-                        filenames.add(fullname)
+                try:
+                    fullname = getter()
+                except ValidationError:
+                    continue
+                if fullname and os.path.exists(fullname):
+                    filenames.add(fullname)
 
     return zip_download(data_dir("vcs"), sorted(filenames), name, extra=extra)
 
@@ -248,14 +256,43 @@ def upload(request: AuthenticatedHttpRequest, path):
                 "Plural forms in the uploaded file do not match current translation."
             ),
         )
+    except FileParseError as error:
+        messages.error(
+            request,
+            get_upload_error_message(
+                error,
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
+        )
     except FailedCommitError as error:
-        messages.error(request, str(error))
+        messages.error(
+            request,
+            get_upload_error_message(
+                error,
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
+        )
+        report_error("Upload error", project=obj.component.project)
+    except DatabaseError as error:
+        messages.error(
+            request,
+            get_upload_error_message(
+                error,
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
+        )
         report_error("Upload error", project=obj.component.project)
     except Exception as error:
         messages.error(
             request,
-            gettext("File upload has failed: %s")
-            % str(error).replace(obj.component.full_path, ""),
+            get_upload_error_message(
+                error,
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
         )
         report_error("Upload error", project=obj.component.project)
 

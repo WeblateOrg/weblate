@@ -25,7 +25,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "5.16.1-dev"
+VERSION = "2026.5-dev"
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
@@ -79,9 +79,9 @@ class Release(NamedTuple):
 
 
 def download_version_info() -> list[Release]:
-    from weblate.utils.requests import http_request
+    from weblate.utils.requests import fetch_url  # noqa: PLC0415
 
-    response = http_request("get", PYPI)
+    response = fetch_url("get", PYPI)
     result = []
     for version, info in response.json()["releases"].items():
         if not info:
@@ -95,13 +95,7 @@ def flush_version_cache() -> None:
 
 
 def get_version_info() -> list[Release]:
-    try:
-        result = cache.get(CACHE_KEY)
-    except AttributeError:
-        # TODO: Remove try/except in Weblate 6
-        # Can happen on upgrade to 5.4 when unpickling fails because
-        # of the Release class was moved between modules
-        result = None
+    result = cache.get(CACHE_KEY)
     if not result:
         result = download_version_info()
         cache.set(CACHE_KEY, result, 86400)

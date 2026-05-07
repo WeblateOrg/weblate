@@ -17,7 +17,7 @@ Running Weblate locally
 -----------------------
 
 The most comfortable approach to get started with Weblate development is to
-follow :doc:`../admin/install/source`. It will get you a virtualenv with editable Weblate
+follow :doc:`../admin/install/source`. It will get you a Python environment with editable Weblate
 sources.
 
 1. Clone the Weblate source code:
@@ -27,7 +27,7 @@ sources.
       git clone https://github.com/WeblateOrg/weblate.git
       cd weblate
 
-2. Create a virtualenv:
+2. Create a Python environment:
 
    .. code-block:: sh
 
@@ -143,14 +143,14 @@ to use:
 
 .. image:: /images/pycharm-1.png
 
-You can either choose to let PyCharm create the virtualenv for you, or select an already
+You can either choose to let PyCharm create the Python environment for you, or select an already
 existing one:
 
 .. image:: /images/pycharm-2.png
 
 Don't forget to install the dependencies once the interpreter is set:
 Either through the console (the console from the IDE will directly use your
-virtualenv by default), or through the interface when you get a warning about missing
+Python environment by default), or through the interface when you get a warning about missing
 dependencies.
 
 The second step is to set the right info to use Django natively inside PyCharm:

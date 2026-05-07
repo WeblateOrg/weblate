@@ -4,11 +4,11 @@
 
 """Tests for review workflow."""
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.state import STATE_APPROVED
 
 
-class ReviewTest(ViewTestCase):
+class ReviewTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.project.translation_review = True

@@ -20,6 +20,7 @@ from weblate.formats.ttkit import CSVFormat
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
 
 CSV_DIALECT = "unix"
@@ -34,7 +35,7 @@ class XlsxFormat(CSVFormat):
         return "utf-8"
 
     def write_cell(self, worksheet, column: int, row: int, value: str):
-        from openpyxl.cell.cell import TYPE_STRING
+        from openpyxl.cell.cell import TYPE_STRING  # noqa: PLC0415
 
         cell = worksheet.cell(column=column, row=row)
         cell.value = value
@@ -43,7 +44,7 @@ class XlsxFormat(CSVFormat):
         return cell
 
     def get_title(self, fallback: str = "Weblate"):
-        from openpyxl.workbook.child import INVALID_TITLE_REGEX
+        from openpyxl.workbook.child import INVALID_TITLE_REGEX  # noqa: PLC0415
 
         title = self.store.targetlanguage
         if title is None:
@@ -55,10 +56,13 @@ class XlsxFormat(CSVFormat):
         return title
 
     def save_content(self, handle) -> None:
-        from openpyxl import Workbook
+        from openpyxl import Workbook  # noqa: PLC0415
 
         workbook = Workbook()
         worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook without an active sheet!"
+            raise TypeError(msg)
         worksheet.title = self.get_title()
         fieldnames = self.store.fieldnames
 
@@ -88,7 +92,7 @@ class XlsxFormat(CSVFormat):
 
     # pylint: disable-next=arguments-differ
     def parse_store(self, storefile):
-        from openpyxl import load_workbook
+        from openpyxl import load_workbook  # noqa: PLC0415
 
         # try to load the given file via openpyxl
         # catch at least the BadZipFile exception if an unsupported
@@ -98,6 +102,10 @@ class XlsxFormat(CSVFormat):
             worksheet = workbook.active
         except BadZipFile:
             return None, None
+
+        if worksheet is None:
+            msg = "Workbook without an active sheet!"
+            raise TypeError(msg)
 
         output = StringIO()
 
@@ -124,7 +132,7 @@ class XlsxFormat(CSVFormat):
         content = output.getvalue().encode("utf-8")
 
         # Load the file as CSV
-        return super().parse_store(NamedBytesIO(name, content), dialect=CSV_DIALECT)
+        return self.parse_csv(NamedBytesIO(name, content), dialect=CSV_DIALECT)
 
     @staticmethod
     def mimetype() -> str:
@@ -140,19 +148,19 @@ class XlsxFormat(CSVFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
             msg = "Not supported"
             raise ValueError(msg)
         # Parse file
-        store = cls(base)
+        store = cls(base, file_format_params=file_format_params)
         if callback:
             callback(store)
-        store.untranslate_store(language)
+        store.untranslate_store(language, file_format_params=file_format_params)
         with open(filename, "wb") as handle:
             XlsxFormat(store.store).save_content(handle)

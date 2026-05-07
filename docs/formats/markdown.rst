@@ -9,6 +9,13 @@ Markdown files
 
 The translatable content is extracted from the Markdown files and offered for the translation.
 
+Markdown units automatically get the ``md-text`` and ``auto-safe-html`` flags.
+This keeps the unsafe HTML check active for plain text, standard HTML, and
+custom elements while avoiding HTML cleanup on non-HTML angle-bracket syntax
+such as MDX or JSX-like components. Use the explicit ``safe-html`` flag for
+strings that are known to contain HTML and should always be sanitized,
+including SVG or MathML snippets.
+
 .. include:: /snippets/format-database-backed.rst
 
 .. seealso::
@@ -19,6 +26,8 @@ Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.md
     :language: md
+
+.. include:: /snippets/format-features/markdown-features.rst
 
 Weblate configuration
 +++++++++++++++++++++

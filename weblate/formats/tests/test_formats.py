@@ -10,21 +10,29 @@ from __future__ import annotations
 import csv
 import os.path
 import shutil
+import tempfile
 from abc import ABC, abstractmethod
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, NoReturn
-from unittest import TestCase
+from types import SimpleNamespace
+from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
+from unittest.mock import Mock, patch
 
+from django.core.exceptions import ValidationError
+from django.test import SimpleTestCase
 from lxml import etree
 from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
-from weblate.formats.base import UpdateError
+from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
+from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.models import FILE_FORMATS
+from weblate.formats.multi import MultiUnit
 from weblate.formats.ttkit import (
     AndroidFormat,
+    AppleXliffFormat,
     CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
@@ -35,6 +43,8 @@ from weblate.formats.ttkit import (
     GoI18nTOMLFormat,
     GoI18V2JSONFormat,
     GWTFormat,
+    I18NextFormat,
+    I18NextV4Format,
     INIFormat,
     InnoSetupINIFormat,
     JoomlaFormat,
@@ -44,6 +54,7 @@ from weblate.formats.ttkit import (
     NextcloudJSONFormat,
     PhpFormat,
     PoFormat,
+    PoMonoFormat,
     PoXliffFormat,
     PropertiesFormat,
     RESJSONFormat,
@@ -53,9 +64,11 @@ from weblate.formats.ttkit import (
     RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
+    StringsFormat,
     TBXFormat,
     TOMLFormat,
     TSFormat,
+    TTKitFormat,
     WebExtensionJSONFormat,
     Xliff2Format,
     XliffFormat,
@@ -66,19 +79,124 @@ from weblate.formats.ttkit import (
 )
 from weblate.lang.data import PLURAL_UNKNOWN
 from weblate.lang.models import Language, Plural
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.file_format_params import get_encoding_param
+from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from weblate.formats.base import TranslationFormat
-    from weblate.trans.file_format_params import FileFormatParams
+    from collections.abc import Iterable
+
+    from lxml.etree import _Element
+
+    from weblate.trans.file_format_params import (
+        FileFormatParamKey,
+        FileFormatParams,
+    )
+    from weblate.trans.models import Unit
+
+
+class DummyBilingualUpdate(BilingualUpdateMixin):
+    @classmethod
+    def do_bilingual_update(
+        cls,
+        in_file: str,  # noqa: ARG003
+        out_file: str,  # noqa: ARG003
+        template: str,  # noqa: ARG003
+        **kwargs,  # noqa: ARG003
+    ) -> None:
+        return
+
+
+class AtomicWriteTempDirTest(SimpleTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.temp_file = str(Path(tempfile.gettempdir()) / f"{REPO_TEMP_DIRNAME}-file")
+        self.context_manager = Mock()
+        self.context_manager.__enter__ = Mock(
+            return_value=SimpleNamespace(name=self.temp_file, write=Mock())
+        )
+        self.context_manager.__exit__ = Mock(return_value=False)
+
+    def temp_exists(self, path: str) -> bool:
+        if path == self.temp_file:
+            return False
+        try:
+            Path(path).stat()
+        except OSError:
+            return False
+        return True
+
+    @staticmethod
+    def write_empty(handle: IO[bytes]) -> None:
+        handle.write(b"")
+
+    def test_save_atomic_uses_git_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            filename = repo / "locale" / "cs.po"
+            (repo / ".git").mkdir(parents=True)
+            filename.parent.mkdir(parents=True)
+
+            with (
+                patch(
+                    "weblate.formats.base.tempfile.NamedTemporaryFile",
+                    return_value=self.context_manager,
+                ) as named_temp,
+                patch("weblate.formats.base.os.replace"),
+                patch(
+                    "weblate.formats.base.os.path.exists", side_effect=self.temp_exists
+                ),
+            ):
+                TranslationFormat.save_atomic(
+                    str(filename),
+                    self.write_empty,
+                    repo_temp_dir=repo / ".git" / REPO_TEMP_DIRNAME,
+                )
+
+            self.assertEqual(
+                Path(named_temp.call_args.kwargs["dir"]),
+                repo / ".git" / REPO_TEMP_DIRNAME,
+            )
+
+    def test_update_bilingual_uses_git_temp_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = Path(tempdir) / "repo"
+            filename = repo / "locale" / "cs.po"
+            template = repo / "messages.pot"
+            (repo / ".git").mkdir(parents=True)
+            filename.parent.mkdir(parents=True)
+
+            with (
+                patch(
+                    "weblate.formats.base.tempfile.NamedTemporaryFile",
+                    return_value=self.context_manager,
+                ) as named_temp,
+                patch("weblate.formats.base.os.replace"),
+                patch(
+                    "weblate.formats.base.os.path.exists", side_effect=self.temp_exists
+                ),
+            ):
+                DummyBilingualUpdate.update_bilingual(
+                    str(filename),
+                    str(template),
+                    repo_temp_dir=repo / ".git" / REPO_TEMP_DIRNAME,
+                )
+
+            self.assertEqual(
+                Path(named_temp.call_args.kwargs["dir"]),
+                repo / ".git" / REPO_TEMP_DIRNAME,
+            )
+
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_CSV_SIMPLE_EN = get_test_file("en-simple.csv")
 TEST_CSV_SIMPLE_PL = get_test_file("pl-simple.csv")
+TEST_CSV_3COL_EN = get_test_file("en-3col.csv")
+TEST_CSV_3COL_ZH = get_test_file("zh-3col.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
@@ -98,6 +216,7 @@ TEST_CATKEYS = get_test_file("cs.catkeys")
 TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
+TEST_XLIFF_APPLE = get_test_file("cs-apple.xliff")
 TEST_POXLIFF = get_test_file("cs.poxliff")
 TEST_XLIFF_ID = get_test_file("ids.xliff")
 TEST_XLIFF2 = get_test_file("cs.xliff2")
@@ -122,10 +241,150 @@ TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
+TEST_STRINGS = get_test_file("cs.strings")
 TEST_FLUENT = get_test_file("cs.ftl")
 
 
-class AutoLoadTest(TestCase):
+class HierarchicalContextValidationTest(SimpleTestCase):
+    def get_storage(self, format_class: type[TranslationFormat], content: bytes):
+        return format_class(BytesIO(content), None)
+
+    def assert_context_conflict(
+        self,
+        storage: TranslationFormat,
+        context: str,
+    ) -> None:
+        with self.assertRaisesRegex(ValidationError, "conflicts"):
+            storage.validate_new_context(context)
+
+    def test_dot_separated_formats_reject_parent_child_conflicts(self) -> None:
+        formats = (
+            (JSONNestedFormat, b'{"test": {"key": "value"}}', b'{"test": "value"}'),
+            (I18NextFormat, b'{"test": {"key": "value"}}', b'{"test": "value"}'),
+            (I18NextV4Format, b'{"test": {"key": "value"}}', b'{"test": "value"}'),
+            (TOMLFormat, b'[test]\nkey = "value"\n', b'test = "value"\n'),
+            (
+                GoI18nTOMLFormat,
+                b'[test.key]\nother = "value"\n',
+                b'[test]\nother = "value"\n',
+            ),
+        )
+
+        for format_class, child_content, parent_content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                child_storage = self.get_storage(format_class, child_content)
+                parent_storage = self.get_storage(format_class, parent_content)
+
+                self.assert_context_conflict(parent_storage, "test.key")
+                self.assert_context_conflict(child_storage, "test")
+                self.assert_context_conflict(child_storage, "test[0]")
+                child_storage.validate_new_context("test.title")
+                child_storage.validate_new_context("apple_negative")
+                child_storage.validate_new_context("test.key")
+
+    def test_arrow_separated_formats_reject_parent_child_conflicts(self) -> None:
+        formats = (
+            (YAMLFormat, b"test:\n  key: value\n", b"test: value\n"),
+            (
+                RubyYAMLFormat,
+                b"cs:\n  test:\n    key: value\n",
+                b"cs:\n  test: value\n",
+            ),
+        )
+
+        for format_class, child_content, parent_content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                child_storage = self.get_storage(format_class, child_content)
+                parent_storage = self.get_storage(format_class, parent_content)
+
+                self.assert_context_conflict(parent_storage, "test->key")
+                self.assert_context_conflict(child_storage, "test")
+                self.assert_context_conflict(child_storage, "test->[0]")
+                child_storage.validate_new_context("test->title")
+                child_storage.validate_new_context("apple_negative")
+                child_storage.validate_new_context("test->key")
+
+    def test_dot_separated_formats_reject_array_object_conflicts(self) -> None:
+        formats = (
+            (JSONNestedFormat, b'{"test": ["value"]}'),
+            (I18NextFormat, b'{"test": ["value"]}'),
+            (I18NextV4Format, b'{"test": ["value"]}'),
+            (TOMLFormat, b'test = ["value"]\n'),
+            (GoI18nTOMLFormat, b'test = ["value"]\n'),
+        )
+
+        for format_class, content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                storage = self.get_storage(format_class, content)
+
+                self.assert_context_conflict(storage, "test.key")
+                storage.validate_new_context("test[0]")
+                storage.validate_new_context("other.key")
+
+    def test_arrow_separated_formats_reject_array_object_conflicts(self) -> None:
+        formats = (
+            (YAMLFormat, b"test:\n  - value\n"),
+            (RubyYAMLFormat, b"cs:\n  test:\n    - value\n"),
+        )
+
+        for format_class, content in formats:
+            with self.subTest(format_class=format_class.format_id):
+                storage = self.get_storage(format_class, content)
+
+                self.assert_context_conflict(storage, "test->key")
+                storage.validate_new_context("test->[0]")
+                storage.validate_new_context("other->key")
+
+    def test_json_nested_uses_parsed_existing_ids(self) -> None:
+        literal_storage = self.get_storage(JSONNestedFormat, b'{"foo.bar": "literal"}')
+        literal_storage.validate_new_context("foo")
+        literal_storage.validate_new_context("foo.bar.baz")
+
+        nested_storage = self.get_storage(
+            JSONNestedFormat, b'{"foo": {"bar": "nested"}}'
+        )
+        self.assert_context_conflict(nested_storage, "foo")
+        self.assert_context_conflict(nested_storage, "foo.bar.baz")
+
+    def test_yaml_uses_parsed_existing_ids(self) -> None:
+        literal_storage = self.get_storage(YAMLFormat, b"foo->bar: literal\n")
+        literal_storage.validate_new_context("foo")
+        literal_storage.validate_new_context("foo->bar->baz")
+
+        nested_storage = self.get_storage(YAMLFormat, b"foo:\n  bar: nested\n")
+        self.assert_context_conflict(nested_storage, "foo")
+        self.assert_context_conflict(nested_storage, "foo->bar->baz")
+
+    def test_toml_uses_parsed_existing_ids(self) -> None:
+        literal_storage = self.get_storage(TOMLFormat, b'"foo.bar" = "literal"\n')
+        literal_storage.validate_new_context("foo")
+        literal_storage.validate_new_context("foo.bar.baz")
+
+        nested_storage = self.get_storage(TOMLFormat, b'[foo]\nbar = "nested"\n')
+        self.assert_context_conflict(nested_storage, "foo")
+        self.assert_context_conflict(nested_storage, "foo.bar.baz")
+
+    def test_pending_contexts_are_validated(self) -> None:
+        storage = self.get_storage(JSONNestedFormat, b"{}\n")
+
+        with self.assertRaisesRegex(ValidationError, "conflicts"):
+            storage.validate_new_context("test", pending_contexts=["test.key"])
+        with self.assertRaisesRegex(ValidationError, "conflicts"):
+            storage.validate_new_context(
+                "test.key.title", pending_contexts=["test.key"]
+            )
+        storage.validate_new_context("test.title", pending_contexts=["test.key"])
+
+    def test_flat_json_keeps_dotted_keys_literal(self) -> None:
+        JSONFormat.validate_context("test.key")
+
+
+class AutoLoadTest(SimpleTestCase):
+    @staticmethod
+    def get_existing_units_probe() -> Iterable[Unit]:
+        msg = "existing units should not be loaded"
+        raise AssertionError(msg)
+
     def single_test(self, filename, fileclass) -> None:
         store = try_load(
             filename,
@@ -136,6 +395,28 @@ class AutoLoadTest(TestCase):
         )
         self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
+
+    def test_existing_units_not_loaded_for_po(self) -> None:
+        store = try_load(
+            TEST_PO,
+            Path(TEST_PO).read_bytes(),
+            PoFormat,
+            None,
+            existing_units=self.get_existing_units_probe,
+        )
+
+        self.assertIsInstance(store, PoFormat)
+
+    def test_existing_units_not_loaded_for_csv(self) -> None:
+        store = try_load(
+            TEST_CSV,
+            Path(TEST_CSV).read_bytes(),
+            CSVFormat,
+            None,
+            existing_units=self.get_existing_units_probe,
+        )
+
+        self.assertIsInstance(store, CSVFormat)
 
     def test_detect_android(self) -> None:
         self.assertEqual(AndroidFormat, detect_filename("foo/bar/strings_baz.xml"))
@@ -176,20 +457,62 @@ class AutoLoadTest(TestCase):
         data = Path(TEST_PO).read_bytes()
 
         handle = BytesIO(data)
-        store = AutodetectFormat(handle)
+        store: AutodetectFormat = AutodetectFormat(handle)
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 
     def test_get_class(self) -> None:
         """Test that each format can properly load its store class."""
         for format_class in FILE_FORMATS.values():
-            format_class.get_class()
+            if issubclass(format_class, TTKitFormat):
+                format_class.get_class()
+
+    def test_encoding_loader_defaults(self) -> None:
+        """Encoding fallback should come from parameter defaults, not loader order."""
+        self.assertEqual(get_encoding_param("strings", {}), "utf-8")
+        self.assertEqual(get_encoding_param("properties", {}), "iso-8859-1")
+        self.assertEqual(get_encoding_param("gwt", {}), "utf-8")
+        self.assertEqual(
+            get_encoding_param("properties", {"strings_encoding": "utf-16"}),
+            "iso-8859-1",
+        )
+        self.assertIsNone(
+            get_encoding_param("xwiki-fullpage", {"strings_encoding": "utf-16"})
+        )
+
+    def test_encoding_null_uses_default(self) -> None:
+        """Explicit null encoding params should behave like unset values."""
+        self.assertEqual(
+            get_encoding_param(
+                "properties",
+                cast("FileFormatParams", {"properties_encoding": None}),
+            ),
+            "iso-8859-1",
+        )
+        self.assertEqual(
+            get_encoding_param("csv", cast("FileFormatParams", {"csv_encoding": None})),
+            "auto",
+        )
+        self.assertEqual(
+            get_encoding_param("properties", {"properties_encoding": "iso-8859-1"}),
+            "iso-8859-1",
+        )
 
 
-class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
+class FormatTestCase(BaseTestCase, TempDirMixin):
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        self.remove_temp()
+        super().tearDown()
+
+
+class BaseFormatTest(FormatTestCase, ABC):
     FILE = TEST_PO
     BASE = TEST_POT
-    TEMPLATE = None
+    TEMPLATE: str | None = None
     MIME = "text/x-gettext-catalog"
     EXT = "po"
     COUNT = 4
@@ -212,20 +535,31 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     MONOLINGUAL = False
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {}
 
-    def setUp(self) -> None:
-        super().setUp()
-        self.create_temp()
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        self.remove_temp()
-
     @property
     @abstractmethod
     def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
 
-    def parse_file(self, filename: str, template: str | None = None):
+    @contextmanager
+    def temporary_file_format_param(
+        self, key: FileFormatParamKey, value: str | int | bool
+    ):
+        """Temporarily set a file format parameter for the duration of the context."""
+        if key in self.FILE_FORMAT_PARAMS:
+            previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]
+            self.FILE_FORMAT_PARAMS[key] = value
+            try:
+                yield
+            finally:
+                self.FILE_FORMAT_PARAMS[key] = previous
+        else:
+            self.FILE_FORMAT_PARAMS[key] = value
+            try:
+                yield
+            finally:
+                self.FILE_FORMAT_PARAMS.pop(key, None)
+
+    def parse_file(self, filename: str | IO[bytes], template: str | None = None):
         if self.MONOLINGUAL:
             return self.format_class(
                 filename,
@@ -293,7 +627,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
     def assert_no_notes(self, unit) -> None:
         """Assert that the underlying unit(s) do not have any notes."""
-        if unit.unit:
+        if not isinstance(unit, MultiUnit):
             self.assertEqual(unit.unit.getnotes().strip(), "")
         else:
             # Assume this is a multi-unit. Will fail otherwise.
@@ -442,7 +776,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             self.BASE,
             file_format_params=self.FILE_FORMAT_PARAMS,
         )
-        target_storage = self.parse_file(main_file, template=template_file)
+        target_storage = self.parse_file(
+            main_file.as_posix(), template=template_file.as_posix()
+        )
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertTrue(add)
 
@@ -466,7 +802,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         self.assertEqual(template_file.read_text(), template_content)
 
         # Reload the storage to check notes were correctly written.
-        target_storage = self.parse_file(main_file, template=template_file)
+        target_storage = self.parse_file(
+            main_file.as_posix(), template=template_file.as_posix()
+        )
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertFalse(add)
         self.assertEqual(target_unit.target, "Translated string (CS)")
@@ -481,9 +819,32 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         self.assert_no_notes(target_unit)
 
 
-class XMLMixin:
+class XMLMixin(SimpleTestCase):
     def assert_same(self, newdata, testdata) -> None:
         self.assertXMLEqual(newdata.decode(), testdata.decode())
+
+
+class PoFormatPreviousSourceTest(SimpleTestCase):
+    def test_translated_state_clears_cached_previous_metadata(self) -> None:
+        storage = PoFormat(
+            NamedBytesIO(
+                "test.po",
+                b"#, fuzzy\n"
+                b'#| msgctxt "old context"\n'
+                b'#| msgid "old source"\n'
+                b'msgctxt "new context"\n'
+                b'msgid "new source"\n'
+                b'msgstr "target"\n',
+            )
+        )
+        unit = storage.content_units[0]
+
+        self.assertEqual(unit.previous_source, "old source")
+
+        unit.set_state(STATE_TRANSLATED)
+
+        self.assertEqual(unit.previous_source, "")
+        self.assertNotIn("#|", str(unit.unit))
 
 
 class PoFormatTest(BaseFormatTest):
@@ -498,10 +859,10 @@ class PoFormatTest(BaseFormatTest):
         data = Path(out).read_text(encoding="utf-8")
         self.assertIn("Michal Čihař", data)
 
-    def load_plural(self, filename):
+    def load_plural(self, filename: str) -> Plural:
         with open(filename, "rb") as handle:
             store = self.parse_file(handle)
-            return store.get_plural(Language.objects.get(code="he"), store)
+            return store.get_plural(Language.objects.get(code="he"))
 
     def test_plurals(self) -> None:
         self.assertEqual(
@@ -560,6 +921,102 @@ class PoFormatTest(BaseFormatTest):
         content = handle.getvalue().decode()
         self.assertIn('\nmsgid "Hello, world!\\n"', content)
         self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
+
+    def test_new_unit_plural(self) -> None:
+        # Read test content
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.parse_file(testfile)
+
+        # Add new unit
+        storage.new_unit(
+            "",
+            ["Source singular", "Source plural"],
+            ["Překlad 1", "Překlad 2", "Překlad 3"],
+        )
+        storage.new_unit("OTHER", ["Other singular", "Other plural"], ["", "", ""])
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        # Check if content matches
+        self.assertIn(
+            """msgid "Source singular"
+msgid_plural "Source plural"
+msgstr[0] "Překlad 1"
+msgstr[1] "Překlad 2"
+msgstr[2] "Překlad 3"
+""",
+            newdata,
+        )
+        self.assertIn(
+            """msgctxt "OTHER"
+msgid "Other singular"
+msgid_plural "Other plural"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+""",
+            newdata,
+        )
+
+
+class PoMonoFormatTest(BaseFormatTest):
+    format_class = PoMonoFormat
+    EDIT_OFFSET = 1
+    MONOLINGUAL = True
+    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[str, ...] | None = (
+        b'\nmsgid "key"\nmsgstr "Source string"\n'
+    )
+    FIND = "Hello, world!\n"
+    FIND_CONTEXT = "Hello, world!\n"
+
+    def test_new_unit_plural(self) -> None:
+        # Read test content
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.parse_file(testfile, template=testfile).template_store
+
+        # Add new unit
+        storage.new_unit("key", ["Source singular", "Source plural"])
+        storage.new_unit("OTHER_SINGULAR", ["Other singular", "Other plural"])
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        # Check if content matches
+        self.assertIn(
+            """msgid "key"
+msgid_plural "key_plural"
+msgstr[0] "Source singular"
+msgstr[1] "Source plural"
+""",
+            newdata,
+        )
+        self.assertIn(
+            """msgid "OTHER_SINGULAR"
+msgid_plural "OTHER_PLURAL"
+msgstr[0] "Other singular"
+msgstr[1] "Other plural"
+""",
+            newdata,
+        )
 
 
 class PropertiesFormatTest(BaseFormatTest):
@@ -701,7 +1158,7 @@ class JSONFormatTest(BaseFormatTest):
     MATCH = "{}\n"
     BASE = ""
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
-    EXPECTED_FLAGS: str | list[str] = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertJSONEqual(newdata.decode(), testdata.decode())
@@ -733,6 +1190,34 @@ class WebExtensionJSONFormatTest(JSONFormatTest):
         "placeholders:$COUNT$,case-insensitive",
     ]
     MONOLINGUAL = True
+
+    def test_multiple_placeholder_flags(self) -> None:
+        testfile = os.path.join(self.tempdir, "test-webext-multiple.json")
+        Path(testfile).write_text(
+            """{
+  "hello": {
+    "message": "Hello $URL$ and $COUNT$",
+    "description": "Description",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://example.com"
+      },
+      "count": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  }
+}
+""",
+            encoding="utf-8",
+        )
+
+        unit = self.parse_file(testfile).content_units[0]
+        self.assertEqual(
+            unit.flags, Flags("placeholders:$URL$:$COUNT$,case-insensitive")
+        )
 
 
 class GoI18NV1JSONFormatTest(JSONFormatTest):
@@ -816,6 +1301,375 @@ class AndroidFormatTest(XMLMixin, BaseFormatTest):
         )
 
 
+class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
+    source = (
+        "To manage the existing work profile, navigate to the <b>Work</b> tab in "
+        "the launcher"
+    )
+    empty_resources = """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+</resources>
+"""
+    template_content = """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help">To manage the existing work profile, navigate to the &lt;b&gt;Work&lt;/b&gt; tab in the launcher</string>
+</resources>
+"""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        self.remove_temp()
+        super().tearDown()
+
+    def create_storage(
+        self,
+        translated_content: str | None = None,
+        *,
+        template_content: str | None = None,
+    ) -> tuple[AndroidFormat, Path]:
+        template_file = Path(self.tempdir) / "template.xml"
+        translated_file = Path(self.tempdir) / "translated.xml"
+        template_file.write_text(
+            self.template_content if template_content is None else template_content,
+            encoding="utf-8",
+        )
+        translated_file.write_text(
+            self.empty_resources if translated_content is None else translated_content,
+            encoding="utf-8",
+        )
+
+        template_storage = AndroidFormat(template_file.as_posix(), is_template=True)
+        target_storage = AndroidFormat(
+            translated_file.as_posix(), template_store=template_storage
+        )
+        return target_storage, translated_file
+
+    def test_add_uses_template_target_markup(self) -> None:
+        target_storage, translated_file = self.create_storage()
+        target = (
+            "To manage the active work profile, open the <b>Work</b> tab from the "
+            "launcher"
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_ESCAPED
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+        self.assertIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target(target)
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;b&gt;Work&lt;/b&gt;", saved)
+        self.assertNotIn("<b>Work</b>", saved)
+
+    def test_edit_reapplies_template_target_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            """<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help">To manage the active work profile, open the <b>Work</b> tab from the launcher</string>
+</resources>
+"""
+        )
+        target = (
+            "To manage the active work profile, open the <b>Workspace</b> tab from "
+            "the launcher"
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_ESCAPED
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+        self.assertIn("safe-html", unit.flags)
+
+        unit.set_target(target)
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;b&gt;Workspace&lt;/b&gt;", saved)
+        self.assertNotIn("<b>Workspace</b>", saved)
+
+    def test_units_with_real_xml_use_xml_text_flag(self) -> None:
+        target_storage, _ = self.create_storage(
+            template_content=self.template_content.replace(
+                "&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"
+            ),
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_XML
+        )
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+    def test_discard_safe_html_override_is_honored(self) -> None:
+        target_storage, _ = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="existing_work_profile_help" weblate-flags="discard:safe-html">To manage the existing work profile, navigate to the &lt;b&gt;Work&lt;/b&gt; tab in the launcher</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_ESCAPED
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+        self.assertNotIn("safe-html", unit.flags)
+
+    def test_entity_escaped_plain_text_does_not_imply_html_markup(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">&lt;not set&gt;</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "pref_summary_http_proxy_missing", "<not set>"
+        )
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_PLAIN
+        )
+        self.assertEqual(unit.source, "<not set>")
+        self.assertNotIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target("<not set>")
+        target_storage.save()
+
+        self.assertIn("&lt;not set&gt;", translated_file.read_text(encoding="utf-8"))
+
+    def test_cdata_markup_uses_auto_safe_html_flag(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cdata_markup"><![CDATA[<b>%1$s</b> marker]]></string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit("cdata_markup", "<b>%1$s</b> marker")
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_CDATA
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_CDATA)
+        self.assertIn("auto-safe-html", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+        self.assertNotIn("xml-text", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target("<b>%1$s</b> changed")
+        target_storage.save()
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_CDATA)
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<![CDATA[<b>%1$s</b> changed]]>", saved)
+
+    def test_cdata_plain_text_uses_auto_safe_html_flag(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cdata_plain_text"><![CDATA[5 < 7]]></string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit("cdata_plain_text", "5 < 7")
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_CDATA
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_CDATA)
+        self.assertIn("auto-safe-html", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+        target_storage.add_unit(unit)
+        unit.set_target("6 < 8")
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<![CDATA[6 < 8]]>", saved)
+
+    def test_plain_entity_input_is_double_escaped(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">&lt;not set&gt;</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "pref_summary_http_proxy_missing", "<not set>"
+        )
+
+        self.assertTrue(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_PLAIN
+        )
+
+        target_storage.add_unit(unit)
+        unit.set_target("&lt;not set&gt;")
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&amp;lt;not set&amp;gt;", saved)
+
+    def test_edit_xml_markup_reapplies_template_mode(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            translated_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_markup_message">&lt;b&gt;%1$s&lt;/b&gt; marker</string>
+</resources>
+""",
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inline_markup_message"><b>%1$s</b> marker</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "inline_markup_message", "<b>%1$s</b> marker"
+        )
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_XML
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+        unit.set_target("<b>%1$s</b> marker")
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<b>%1$s</b> marker", saved)
+        self.assertNotIn("&lt;b&gt;%1$s&lt;/b&gt;", saved)
+
+    def test_edit_plain_markup_reapplies_template_mode(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            translated_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">Configured elsewhere</string>
+</resources>
+""",
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_summary_http_proxy_missing">&lt;not set&gt;</string>
+</resources>
+""",
+        )
+
+        unit, add = target_storage.find_unit(
+            "pref_summary_http_proxy_missing", "<not set>"
+        )
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_PLAIN
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+
+        unit.set_target("<not set>")
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_PLAIN)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("&lt;not set&gt;", saved)
+        self.assertNotIn("&amp;lt;not set&amp;gt;", saved)
+
+    def test_plural_edit_reapplies_template_xml_mode(self) -> None:
+        target_storage, translated_file = self.create_storage(
+            translated_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="item_count">
+        <item quantity="one">&lt;b&gt;%1$s&lt;/b&gt; item</item>
+        <item quantity="other">&lt;b&gt;%1$s&lt;/b&gt; items</item>
+    </plurals>
+</resources>
+""",
+            template_content="""<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="item_count">
+        <item quantity="one"><b>%1$s</b> item</item>
+        <item quantity="other"><b>%1$s</b> items</item>
+    </plurals>
+</resources>
+""",
+        )
+
+        template_unit = target_storage.all_units[0]
+        unit, add = target_storage.find_unit(
+            template_unit.context, template_unit.source
+        )
+
+        self.assertFalse(add)
+        self.assertEqual(
+            unit.template.target_markup_mode, unit.template.TARGET_MARKUP_XML
+        )
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_ESCAPED)
+        self.assertIn("xml-text", unit.flags)
+        self.assertNotIn("safe-html", unit.flags)
+
+        unit.set_target(["<b>%1$s</b> item", "<b>%1$s</b> items"])
+
+        self.assertEqual(unit.unit.target_markup_mode, unit.unit.TARGET_MARKUP_XML)
+
+        target_storage.save()
+
+        saved = translated_file.read_text(encoding="utf-8")
+        self.assertIn("<b>%1$s</b> item", saved)
+        self.assertIn("<b>%1$s</b> items", saved)
+        self.assertNotIn("&lt;b&gt;%1$s&lt;/b&gt;", saved)
+
+    def test_discard_xml_text_override_is_honored(self) -> None:
+        target_storage, _ = self.create_storage(
+            template_content=self.template_content.replace(
+                'name="existing_work_profile_help"',
+                'name="existing_work_profile_help" weblate-flags="discard:xml-text"',
+            ).replace("&lt;b&gt;Work&lt;/b&gt;", "<b>Work</b>"),
+        )
+
+        unit, add = target_storage.find_unit("existing_work_profile_help", self.source)
+
+        self.assertTrue(add)
+        self.assertNotIn("xml-text", unit.flags)
+
+
 class XliffFormatTest(XMLMixin, BaseFormatTest):
     format_class = XliffFormat
     FILE = TEST_XLIFF
@@ -878,6 +1732,16 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(units[1].is_automatically_translated())
         self.assertFalse(units[2].is_automatically_translated())
+
+
+class AppleXliffFormatTest(XliffFormatTest):
+    format_class = AppleXliffFormat
+    EXT = "xliff"
+    FILE = TEST_XLIFF_APPLE
+    BASE = TEST_XLIFF_APPLE
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    FIND_CONTEXT = "Localizable.strings///hello"
+    MATCH = 'target-language="cs"'
 
 
 class RichXliffFormatTest(XliffFormatTest):
@@ -965,8 +1829,26 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
     )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
 
+    def test_add_language_updates_plural_header(self) -> None:
+        out = Path(self.tempdir) / f"test.{self.EXT}"
+        language = Language.objects.get(code="pl")
 
-class PoXliffFormatTest2(PoXliffFormatTest):
+        self.format_class.add_language(out, language, self.BASE)
+
+        storage = self.parse_file(out.as_posix())
+        header = storage.store.parseheader()
+        self.assertEqual(header["Plural-Forms"], language.plural.plural_form)
+        self.assertIn('target-language="pl"', out.read_text(encoding="utf-8"))
+
+    def test_get_plural_without_header_uses_xliff_preference(self) -> None:
+        storage = self.parse_file(TEST_XLIFF)
+        plural = storage.get_plural(Language.objects.get(code="he"))
+
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.number, 3)
+
+
+class PoXliffPoHeaderFormatTest(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
     EXPECTED_FLAGS: ClassVar[str | list[str]] = (
@@ -976,6 +1858,30 @@ class PoXliffFormatTest2(PoXliffFormatTest):
     COUNT = 4
     MATCH = '<file original="cs.po"'
     FIND_MATCH = "Ahoj světe!\n"
+
+    def test_get_plural_uses_header(self) -> None:
+        plural_forms = (
+            "nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3));"
+        )
+        plural_formula = "(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))"
+        source_plural_forms = (
+            "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : "
+            "(n&gt;=2 &amp;&amp; n&lt;=4) ? 1 : 2;"
+        )
+        testfile = Path(self.tempdir) / "custom.poxliff"
+        testfile.write_text(
+            Path(self.FILE)
+            .read_text(encoding="utf-8")
+            .replace("Language: cs", "Language: he")
+            .replace(source_plural_forms, f"Plural-Forms: {plural_forms}"),
+            encoding="utf-8",
+        )
+
+        storage = self.parse_file(testfile.as_posix())
+        plural = storage.get_plural(Language.objects.get(code="he"))
+
+        self.assertEqual(plural.number, 4)
+        self.assertEqual(plural.formula, plural_formula)
 
 
 class RESXFormatTest(XMLMixin, BaseFormatTest):
@@ -1095,6 +2001,339 @@ class CSVFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
+    def test_plural_metadata_rows(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s file","","ctx","0","0","0x7fffffffffffff85"\n'
+                b'"%(count)s files","%(count)s soubory","ctx","1","1",'
+                b'"0x7fffffffffffff85"\n'
+                b'"%(count)s files","%(count)s souboru","ctx","1","2",'
+                b'"0x7fffffffffffff85"\n',
+            )
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertEqual(
+            units[0].source,
+            "%(count)s file\x1e\x1e%(count)s files",
+        )
+        self.assertEqual(
+            units[0].target,
+            "\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souboru",
+        )
+        self.assertEqual(units[0].context, "ctx")
+        self.assertEqual(units[0].import_id_hash, -123)
+        self.assertEqual(units[0].target_plural_forms, (0, 1, 2))
+
+        units[0].set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
+        units[0].set_state(STATE_FUZZY)
+        self.assertEqual(
+            [row.target for row in storage.store.units],
+            ["jeden soubor", "%(count)s soubory", "%(count)s souboru"],
+        )
+        self.assertTrue(all(row.isfuzzy() for row in storage.store.units))
+
+        storage.delete_unit(units[0].unit)
+        self.assertEqual(storage.store.units, [])
+
+    def test_plural_metadata_rows_with_template_store(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        template_store = self.format_class(
+            NamedBytesIO(
+                "template.csv",
+                b'"source","target","context"\n'
+                b'"","%(count)s file\x1e\x1e%(count)s files","ctx"\n',
+            ),
+            is_template=True,
+        )
+        import_id_hash = template_store.template_units[0].id_hash
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                (
+                    '"source","target","context","source_plural_form",'
+                    '"target_plural_form","id_hash"\n'
+                    f'"%(count)s file","","ctx","0","0",'
+                    f'"{format_csv_id_hash(import_id_hash)}"\n'
+                    f'"%(count)s files","%(count)s soubory","ctx","1","1",'
+                    f'"{format_csv_id_hash(import_id_hash)}"\n'
+                    f'"%(count)s files","%(count)s souboru","ctx","1","2",'
+                    f'"{format_csv_id_hash(import_id_hash)}"\n'
+                ).encode(),
+            ),
+            template_store=template_store,
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertEqual(
+            units[0].source,
+            "%(count)s file\x1e\x1e%(count)s files",
+        )
+        self.assertEqual(
+            units[0].target,
+            "\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souboru",
+        )
+        self.assertEqual(units[0].context, "ctx")
+        self.assertEqual(units[0].import_id_hash, import_id_hash)
+        self.assertEqual(units[0].target_plural_forms, (0, 1, 2))
+
+        units[0].set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
+        units[0].set_state(STATE_FUZZY)
+        self.assertEqual(
+            [row.target for row in storage.store.units],
+            ["jeden soubor", "%(count)s soubory", "%(count)s souboru"],
+        )
+        self.assertTrue(all(row.isfuzzy() for row in storage.store.units))
+
+    def test_plural_metadata_missing_template_rows_are_materialized(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        source = "%(count)s file\x1e\x1e%(count)s files"
+        import_id_hash = self.format_class.unit_class.calculate_id_hash(
+            True, source, "ctx"
+        )
+        template_store = self.format_class(
+            NamedBytesIO(
+                "template.csv",
+                (
+                    '"source","target","context","source_plural_form",'
+                    '"target_plural_form","id_hash"\n'
+                    f'"%(count)s file","%(count)s file","ctx","0","0",'
+                    f'"{format_csv_id_hash(import_id_hash)}"\n'
+                    f'"%(count)s files","%(count)s files","ctx","1","1",'
+                    f'"{format_csv_id_hash(import_id_hash)}"\n'
+                    f'"%(count)s files","%(count)s files","ctx","1","2",'
+                    f'"{format_csv_id_hash(import_id_hash)}"\n'
+                ).encode(),
+            ),
+            is_template=True,
+        )
+        storage = self.format_class(
+            NamedBytesIO(
+                "target.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n',
+            ),
+            template_store=template_store,
+        )
+
+        unit, add = storage.find_unit("ctx", source)
+        self.assertTrue(add)
+        storage.add_unit(unit)
+        unit.set_target(["jeden soubor", "%(count)s soubory", "%(count)s souboru"])
+
+        self.assertEqual(len(storage.store.units), 3)
+        self.assertEqual(
+            [row.target for row in storage.store.units],
+            ["jeden soubor", "%(count)s soubory", "%(count)s souboru"],
+        )
+        self.assertEqual(
+            [row.target_plural_form for row in storage.store.units],
+            ["0", "1", "2"],
+        )
+        self.assertEqual(
+            [row.id_hash for row in storage.store.units],
+            [format_csv_id_hash(import_id_hash)] * 3,
+        )
+        self.assertTrue(
+            all(
+                any(stored is row for stored in storage.store.units)
+                for row in unit.unit.plural_rows
+            )
+        )
+
+    def test_plural_metadata_rows_without_id_hash_is_rejected(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s file","","ctx","0","0",""\n'
+                b'"%(count)s files","%(count)s soubory","ctx","1","1",""\n'
+                b'"%(count)s files","%(count)s souboru","ctx","1","2",""\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "requires id_hash"):
+            _ = storage.content_units
+
+    def test_plural_metadata_decimal_id_hash_is_rejected(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","source_plural_form","target_plural_form",'
+                b'"id_hash"\n'
+                b'"%(count)s file","%(count)s soubor","0","0","-123"\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "Invalid id_hash metadata"):
+            _ = storage.content_units
+
+    def test_check_valid_validates_plural_metadata(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","source_plural_form","target_plural_form",'
+                b'"id_hash"\n'
+                b'"%(count)s file","%(count)s soubor","0","0",""\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "requires id_hash"):
+            storage.check_valid()
+
+    def test_non_plural_id_hash_column_is_not_metadata(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "id-hash.csv",
+                b'"source","target","id_hash"\n'
+                b'"External source","Imported target","external-id"\n',
+            )
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertIsNone(units[0].import_id_hash)
+
+    def test_blank_plural_metadata_target_is_untranslated(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","source_plural_form","target_plural_form",'
+                b'"id_hash"\n'
+                b'"%(count)s file","","0","0","0x7fffffffffffff85"\n'
+                b'"%(count)s files","","1","1","0x7fffffffffffff85"\n',
+            )
+        )
+
+        units = storage.content_units
+        self.assertEqual(len(units), 1)
+        self.assertEqual(units[0].target, "")
+        self.assertFalse(units[0].is_translated())
+
+    def test_plural_metadata_missing_target_form_is_rejected(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","source_plural_form","target_plural_form",'
+                b'"id_hash"\n'
+                b'"%(count)s files","%(count)s soubory","1","1",'
+                b'"0x7fffffffffffff85"\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "missing form 0"):
+            _ = storage.content_units
+
+    def test_source_plural_metadata_requires_target_form(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","source_plural_form","id_hash"\n'
+                b'"%(count)s files","%(count)s soubor","1","0x7fffffffffffff85"\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "requires target_plural_form"):
+            _ = storage.content_units
+
+    def test_target_plural_metadata_requires_source_form(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","target_plural_form","id_hash"\n'
+                b'"%(count)s files","%(count)s soubor","0","0x7fffffffffffff85"\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "requires source_plural_form"):
+            _ = storage.content_units
+
+    def test_plural_metadata_conflicting_source_form(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        storage = self.format_class(
+            NamedBytesIO(
+                "plural.csv",
+                b'"source","target","context","source_plural_form",'
+                b'"target_plural_form","id_hash"\n'
+                b'"%(count)s file","%(count)s soubor","ctx","0","0",'
+                b'"0x7fffffffffffff85"\n'
+                b'"%(count)s files","%(count)s soubory","ctx","0","1",'
+                b'"0x7fffffffffffff85"\n',
+            )
+        )
+
+        with self.assertRaisesRegex(ValueError, "Conflicting source plural form"):
+            _ = storage.content_units
+
+    def test_plural_metadata_index_limit(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV preserves plural metadata fields")
+
+        for field, metadata in (
+            (
+                b"source_plural_form",
+                (
+                    b'"source","target","source_plural_form","target_plural_form",'
+                    b'"id_hash"\n'
+                    b'"%(count)s files","%(count)s soubory","1000000","0",'
+                    b'"0x7fffffffffffff85"\n'
+                ),
+            ),
+            (
+                b"target_plural_form",
+                (
+                    b'"source","target","target_plural_form","id_hash"\n'
+                    b'"%(count)s files","%(count)s soubory","1000000",'
+                    b'"0x7fffffffffffff85"\n'
+                ),
+            ),
+        ):
+            with (
+                self.subTest(field=field),
+                self.assertRaisesRegex(ValueError, "out of range"),
+            ):
+                storage = self.format_class(NamedBytesIO("plural.csv", metadata))
+                _ = storage.content_units
+
 
 class CSVFormatNoHeadTest(CSVFormatTest):
     FILE = TEST_CSV_NOHEAD
@@ -1113,40 +2352,42 @@ class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
 
-class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
+class CSVUtf8SimpleFormatMonolingualTest(CSVFormatTest):
     """Test for CSV Simple UTF-8 format with monolingual base file."""
 
-    def setUp(self) -> None:
-        super().setUp()
-        self.create_temp()
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        self.remove_temp()
+    format_class = CSVSimpleFormat
+    FILE = TEST_CSV_SIMPLE_PL
+    BASE = TEST_CSV_SIMPLE_EN
+    TEMPLATE = TEST_CSV_SIMPLE_EN
+    MONOLINGUAL = True
+    COUNT = 5
+    MATCH = "objectAccessDenied"
+    FIND = "You do not have a permission to create a new object in '%s'"
+    FIND_CONTEXT = "createObjectInParentAccessDenied"
+    FIND_MATCH = "Nie masz uprawnien do tworzenia nowego obiektu w '%s'"
+    NEW_UNIT_MATCH = b'"key";"Source string"\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "Przetłumaczone"
+    # Edit unit at offset 2 (createObjectInParentAccessDenied) which is translated
+    # in pl-simple.csv and therefore has unit.unit not None
+    EDIT_OFFSET = 2
+    SUPPORTS_NOTES = False
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"csv_simple_encoding": "utf-8"}
 
     def test_save_preserves_source_field(self) -> None:
         """
-        Test that saving a CSV Simple file preserves source fields.
+        Regression test for https://github.com/WeblateOrg/weblate/issues/16835.
 
-        This reproduces the issue where translations are saved with empty source
-        fields instead of preserving the context/key from the base file.
-
-        Relies on translate-toolkit's monolingual CSV support (PR #5830).
-        See: https://github.com/WeblateOrg/weblate/issues/16835
+        Verify that the source/key column is preserved after translating units
+        that were not yet present in the translation file.
         """
-        # Create a temporary copy of the translation file
         translation_file = os.path.join(self.tempdir, "pl.csv")
-        content = Path(TEST_CSV_SIMPLE_PL).read_bytes()
-        Path(translation_file).write_bytes(content)
+        Path(translation_file).write_bytes(Path(TEST_CSV_SIMPLE_PL).read_bytes())
 
-        # Load the base file (template)
         template_store = CSVSimpleFormat(
             TEST_CSV_SIMPLE_EN,
             is_template=True,
             file_format_params={"csv_simple_encoding": "utf-8"},
         )
-
-        # Load the translation file with the template
         store = CSVSimpleFormat(
             translation_file,
             template_store=template_store,
@@ -1154,11 +2395,9 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
             file_format_params={"csv_simple_encoding": "utf-8"},
         )
 
-        # Verify we have the expected units
         units = list(store.content_units)
         self.assertEqual(len(units), 5)
 
-        # Find units and add translations
         for unit in units:
             if unit.context == "objectAccessDenied":
                 pounit, add = store.find_unit(unit.context, unit.source)
@@ -1178,10 +2417,8 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                 store.add_unit(pounit)
                 pounit.set_target("Nie masz uprawnien do odczytu obiektu '%s'")
 
-        # Save the file
         store.save()
 
-        # Verify the saved content
         with open(translation_file, encoding="utf-8") as handle:
             reader = csv.reader(handle, delimiter=";", quotechar='"')
             for row in reader:
@@ -1191,6 +2428,62 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                     "",
                     f"Source field is empty for target: {row[1]}",
                 )
+
+
+class CSVThreeColumnMonolingualTest(CSVFormatTest):
+    """
+    Test CSV format with three columns in monolingual mode.
+
+    The CSV columns: source, target, translator_comments
+
+    Regression test for https://github.com/WeblateOrg/weblate/issues/18157
+    where the "source" column becomes empty after translating a unit.
+
+    The en-3col.csv template has "source" as the key column and "target" as the
+    source text.  The zh-3col.csv translation starts with empty "target" columns.
+    """
+
+    FILE = TEST_CSV_3COL_ZH
+    BASE = TEST_CSV_3COL_EN
+    TEMPLATE = TEST_CSV_3COL_EN
+    COUNT = 3
+    MONOLINGUAL = True
+    MATCH = "test003_1"
+    FIND = "q123"
+    FIND_CONTEXT = "test003_1"
+    FIND_MATCH = ""
+    NEW_UNIT_MATCH = b'"key","Source string",""\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "中文翻译"
+    EDIT_OFFSET = 0
+    SUPPORTS_NOTES = False
+
+    def test_set_target_preserves_source_column(self) -> None:
+        """
+        Regression test for https://github.com/WeblateOrg/weblate/issues/18157.
+
+        Verify that the source column is preserved after set_target.  When the
+        CSV has a "source" column (no explicit "context"/"id"), the key value
+        must not be cleared when a translation is saved.
+        """
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+        Path(testfile).write_bytes(testdata)
+
+        storage = self.parse_file(testfile)
+        # Edit the first unit (test003_1)
+        storage.all_units[0].set_target("中文翻译")
+        storage.save()
+
+        with open(testfile, encoding="utf-8") as handle:
+            reader = csv.reader(handle)
+            next(reader)  # skip header
+            keys = [row[0] for row in reader]
+
+        # Ensure the key/source column values are preserved exactly
+        self.assertEqual(
+            ["test003_1", "test003_2", "test003_3"],
+            keys,
+        )
 
 
 class FlatXMLFormatTest(BaseFormatTest):
@@ -1354,7 +2647,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
-        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
@@ -1364,7 +2657,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         )
         self.assertFalse(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index].unit = unit_to_translate.unit
+        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -1473,7 +2766,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
-        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
@@ -1483,7 +2776,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index].unit = unit_to_translate.unit
+        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -1526,6 +2819,49 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
 
         # Check if content matches
         self.assert_same(newdata, testdata)
+
+    def test_save_partially_translated_file(self) -> None:
+        # Parse test file
+        storage = self.parse_file(self.SOURCE_FILE)
+        units = storage.all_units
+
+        # Create appropriate target file
+        translation_file = os.path.join(
+            self.tempdir, os.path.basename(self.EXPECTED_PATH)
+        )
+        self.format_class.add_language(
+            translation_file, Language.objects.get(code="it"), self.BASE
+        )
+        translation_data = self.format_class(
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
+        )
+
+        # Only materialize one translated unit so untouched content units still
+        # go through the XWiki save path.
+        self.translate_unit(
+            units,
+            translation_data,
+            0,
+            "L'area test o sandbox e una parte del wiki che si puo modificare.",
+        )
+
+        translation_data.save()
+
+        reloaded = self.format_class(
+            storefile=translation_file,
+            template_store=storage.template_store,
+            language_code="it",
+        )
+        reloaded_units = reloaded.all_units
+
+        self.assertEqual(self.COUNT, len(reloaded_units))
+        self.assertEqual(
+            "L'area test o sandbox e una parte del wiki che si puo modificare.",
+            reloaded_units[0].target,
+        )
+        self.assertEqual(units[1].source, reloaded_units[1].source)
 
 
 class TBXFormatTest(XMLMixin, BaseFormatTest):
@@ -1572,6 +2908,29 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(unit.is_readonly(), False)
 
 
+class StringsFormatTest(BaseFormatTest):
+    format_class = StringsFormat
+    FILE = TEST_STRINGS
+    MIME = "text/plain"
+    COUNT = 3
+    EXT = "strings"
+    MASK = "Resources/*.lproj/Localizable.strings"
+    EXPECTED_PATH = "Resources/cs-CZ.lproj/Localizable.strings"
+    FIND = "hello"
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = "Ahoj světe!"
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b'"key" = "Source string";'
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    MONOLINGUAL = True
+
+    def assert_same(self, newdata, testdata) -> None:
+        self.assertEqual(
+            (newdata).strip().splitlines(),
+            (testdata).strip().splitlines(),
+        )
+
+
 class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     format_class = StringsdictFormat
     FILE = TEST_STRINGSDICT
@@ -1600,7 +2959,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
 
         # Try getting plural with zero for all languages
         for language in Language.objects.iterator():
-            plural = storage.get_plural(language, storage)
+            plural = storage.get_plural(language)
             self.assertIsInstance(plural, Plural)
             self.assertNotEqual(
                 plural.type,

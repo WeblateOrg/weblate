@@ -53,6 +53,7 @@ class CyrTranslitTranslation(MachineTranslation):
 
     name = "CyrTranslit"
     max_score = 100
+    version_added = "5.7"
     cache_translations = False
     replacement_start = "[___"
     replacement_end = "___]"
@@ -99,7 +100,7 @@ class CyrTranslitTranslation(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
-        import cyrtranslit
+        import cyrtranslit  # noqa: PLC0415
 
         target_language, script = target_language.split("@")
 

@@ -20,6 +20,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.nextjson
     :language: json
 
+.. include:: /snippets/format-features/nextcloud-json-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

@@ -17,6 +17,8 @@ A variant of :doc:`/formats/android`. It differs in escaping.
    * :doc:`/formats/android`
    * :doc:`tt:formats/android`
 
+.. include:: /snippets/format-features/cmp-resource-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

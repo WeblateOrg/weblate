@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_not_required
 from django.urls import include, path, re_path
+from django.utils.module_loading import import_string
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
@@ -317,6 +318,11 @@ real_patterns = [
         name="unblock-user",
     ),
     path(
+        "access/<name:project>/revert-blocked/",
+        weblate.trans.views.acl.revert_blocked_user_edits,
+        name="revert-blocked-user-edits",
+    ),
+    path(
         "access/<name:project>/invite/",
         weblate.trans.views.acl.invite_user,
         name="invite-user",
@@ -431,6 +437,22 @@ real_patterns = [
         "category/add/<object_path:path>/",
         weblate.trans.views.settings.add_category,
         name="add-category",
+    ),
+    # Share component in projects
+    path(
+        "link-add/<object_path:path>/",
+        weblate.trans.views.settings.component_link_add,
+        name="component-link-add",
+    ),
+    path(
+        "link-delete/<object_path:path>/",
+        weblate.trans.views.settings.component_link_delete,
+        name="component-link-delete",
+    ),
+    path(
+        "link-categories/<object_path:path>/",
+        weblate.trans.views.settings.component_link_categories,
+        name="component-link-categories",
     ),
     # Alerts dismiss
     path(
@@ -852,6 +874,16 @@ real_patterns = [
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
     ),
     path(
+        "user/<name:user>/contact/",
+        weblate.accounts.views.user_contact,
+        name="user_contact",
+    ),
+    path(
+        "user/<name:user>/link/<slug:link>/",
+        weblate.accounts.views.user_profile_link,
+        name="user_profile_link",
+    ),
+    path(
         "user/<name:user>/contributions/",
         weblate.accounts.views.user_contributions,
         name="user_contributions",
@@ -1078,6 +1110,13 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
 
 # Django SAML2 Identity Provider
 if "djangosaml2idp" in settings.INSTALLED_APPS:
+    real_patterns.append(
+        path(
+            "idp/sso/<str:binding>/",
+            import_string("weblate.utils.djangosaml2idp_views.sso_entry"),
+            name="saml_login_binding",
+        ),
+    )
     real_patterns.append(
         path("idp/", include("djangosaml2idp.urls")),
     )

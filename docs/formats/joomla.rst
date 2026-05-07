@@ -21,6 +21,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.joomla.ini
     :language: ini
 
+.. include:: /snippets/format-features/joomla-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

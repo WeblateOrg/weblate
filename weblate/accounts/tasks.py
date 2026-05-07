@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import timedelta
-from email.mime.image import MIMEImage
+from email.message import MIMEPart
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TYPE_CHECKING, TypedDict
@@ -27,6 +27,8 @@ from weblate.utils.icons import load_icon
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+
+    from django.core.mail.backends.base import BaseEmailBackend
 
     from weblate.accounts.notifications import Notification
 
@@ -57,7 +59,7 @@ def cleanup_social_auth() -> None:
 @app.task(trail=False)
 def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
-    from weblate.accounts.models import AuditLog
+    from weblate.accounts.models import AuditLog  # noqa: PLC0415
 
     timestamp = now()
 
@@ -87,7 +89,9 @@ class NotificationFactory:
         self.instances: dict[str, Notification] = {}
 
     def for_action(self, action: int) -> Generator[Notification]:
-        from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+        from weblate.accounts.notifications import (  # noqa: PLC0415
+            NOTIFICATIONS_ACTIONS,
+        )
 
         if action not in NOTIFICATIONS_ACTIONS:
             return
@@ -108,7 +112,7 @@ class NotificationFactory:
 @app.task(trail=False)
 @transaction.atomic
 def notify_changes(change_ids: list[int]) -> None:
-    from weblate.trans.models import Change
+    from weblate.trans.models import Change  # noqa: PLC0415
 
     changes = Change.objects.prefetch_for_render().filter(pk__in=change_ids)
     factory = NotificationFactory()
@@ -121,8 +125,8 @@ def notify_changes(change_ids: list[int]) -> None:
 
 
 @transaction.atomic
-def notify_digest(method) -> None:
-    from weblate.accounts.notifications import NOTIFICATIONS
+def notify_digest(method: str) -> None:
+    from weblate.accounts.notifications import NOTIFICATIONS  # noqa: PLC0415
 
     outgoing: list[OutgoingEmail] = []
     for notification_cls in NOTIFICATIONS:
@@ -149,8 +153,8 @@ def notify_monthly() -> None:
 
 @app.task(trail=False)
 def notify_auditlog(log_id: int, email: str) -> None:
-    from weblate.accounts.models import AuditLog
-    from weblate.accounts.notifications import send_notification_email
+    from weblate.accounts.models import AuditLog  # noqa: PLC0415
+    from weblate.accounts.notifications import send_notification_email  # noqa: PLC0415
 
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(
@@ -164,13 +168,14 @@ def notify_auditlog(log_id: int, email: str) -> None:
             "user_agent": audit.user_agent,
         },
         info=f"{audit.activity} from {audit.address}",
+        user=audit.user,
     )
 
 
 SMTP_DATA_PATCH = "_weblate_patched_data"
 
 
-def weblate_logging_smtp_data(self, msg):
+def weblate_logging_smtp_data(self: SMTP, msg: bytes) -> tuple[int, bytes]:
     (code, msg) = getattr(self, SMTP_DATA_PATCH)(msg)
     if code == 250:
         LOGGER.debug("SMTP completed (%s): %s", code, msg.decode())
@@ -179,7 +184,7 @@ def weblate_logging_smtp_data(self, msg):
     return (code, msg)
 
 
-def monkey_patch_smtp_logging(connection):
+def monkey_patch_smtp_logging(connection: BaseEmailBackend) -> BaseEmailBackend:
     if isinstance(connection, DjangoSMTPEmailBackend):
         # Ensure the connection is open
         connection.open()
@@ -210,9 +215,15 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
     images = []
     with sentry_sdk.start_span(op="email.images"):
         for name in ("email-logo.png", "email-logo-footer.png"):
-            image = MIMEImage(load_icon(name, auto_prefix=False))
-            image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
-            image.add_header("Content-Disposition", "inline", filename=name)
+            image = MIMEPart()
+            image.set_content(
+                load_icon(name, auto_prefix=False),
+                maintype="image",
+                subtype="png",
+                disposition="inline",
+                filename=name,
+                cid=f"<{name}@cid.weblate.org>",
+            )
             images.append(image)
 
     with sentry_sdk.start_span(op="email.connect"):
@@ -239,7 +250,6 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
                 headers=mail["headers"],
                 connection=connection,
             )
-            email.mixed_subtype = "related"
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n %}
+{% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -12,43 +12,142 @@
 
   <div class="container">
 
-    <div class="alert alert-warning alert-contact-form">
-      <ul>
-        <li>
-          {% if site_title != "Weblate" %}
-            {% blocktranslate %}You can only contact administrators of {{ site_title }} server here.{% endblocktranslate %}
-          {% else %}
-            {% blocktranslate %}You can only contact administrators of the whole server here.{% endblocktranslate %}
-          {% endif %}
-        </li>
-        <li>
-          {% blocktranslate %}For questions about a specific translation project, don’t use this form. Refer to the project’s Info tab and contact its maintainers.{% endblocktranslate %}
-        </li>
-        {% if offer_hosting %}
-          <li>
-            {% blocktranslate %}If you seek support for any other Weblate deployment than {{ site_title }}, please check support offerings at {{ weblate_link }} or use this form on the correct server.{% endblocktranslate %}
-          </li>
-        {% endif %}
-        <li>
-          {% blocktranslate with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>' %}Weblate development ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktranslate %}
-        </li>
-      </ul>
-    </div>
+    {% if show_form %}
 
-    <form method="post" action="{% url 'contact' %}">
-      <div class="card">
+      <form method="post" action="{% url 'contact' %}">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Contact server administrators" %}</h4>
+          </div>
+          <div class="card-body">
+            <p class="text-body-secondary">
+              {% if site_title != "Weblate" %}
+                {% blocktranslate %}Use this form to reach the administrators of {{ site_title }}.{% endblocktranslate %}
+              {% else %}
+                {% blocktranslate %}Use this form to reach the administrators of this server.{% endblocktranslate %}
+              {% endif %}
+            </p>
+            {% csrf_token %}
+            {{ form|crispy }}
+          </div>
+          <div class="card-footer">
+            <a href="{% url 'contact' %}" class="btn btn-primary">{% translate "Back" %}</a>
+            <input type="submit" value="{% translate "Send" %}" class="btn btn-warning" />
+          </div>
+        </div>
+      </form>
+
+    {% else %}
+
+      <div class="card mb-3">
         <div class="card-header">
-          <h4 class="card-title">{% translate "Contact server administrators" %}</h4>
+          <h4 class="card-title">{% translate "How can we help?" %}</h4>
         </div>
         <div class="card-body">
-          {% csrf_token %}
-          {{ form|crispy }}
-        </div>
-        <div class="card-footer">
-          <input type="submit" value="{% translate "Send" %}" class="btn btn-primary" />
+          <p class="mb-0">{% translate "Select one of the options below to get help." %}</p>
         </div>
       </div>
-    </form>
+
+      <div class="row row-cols-1 row-cols-md-2 g-3">
+
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Question about a translation project" %}</h4>
+            </div>
+            <div class="card-body">
+              <p>
+                {% blocktranslate %}Find a specific translation project, refer to the project's Overview tab and contact its maintainers directly.{% endblocktranslate %}
+              </p>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary" href="{% url 'projects' %}">{% translate "Browse projects" %}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Weblate product feedback" %}</h4>
+            </div>
+            <div class="card-body">
+              <p>
+                {% blocktranslate %}Share Weblate development ideas, feature requests, or report bugs in the upstream issue tracker.{% endblocktranslate %}
+              </p>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary"
+                 href="https://github.com/WeblateOrg/weblate/issues/new/choose"
+                 rel="noopener noreferrer"
+                 target="_blank">{% translate "Open issue tracker" %}</a>
+            </div>
+          </div>
+        </div>
+
+        {% if offer_hosting %}
+          <div class="col">
+            <div class="card h-100">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Support for another Weblate server" %}</h4>
+              </div>
+              <div class="card-body">
+                <p>
+                  {% blocktranslate %}If you seek support for any other Weblate deployment than {{ site_title }}, check the available support offerings, or use the contact form on the correct server.{% endblocktranslate %}
+                </p>
+              </div>
+              <div class="card-footer">
+                <a class="btn btn-primary"
+                   href="https://weblate.org/support/"
+                   rel="noopener noreferrer"
+                   target="_blank">{% translate "View support offerings" %}</a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Documentation" %}</h4>
+            </div>
+            <div class="card-body">
+              <p>{% translate "Browse the Weblate documentation for guides on translating, administration, and configuration." %}</p>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary"
+                 href="{% documentation 'index' %}"
+                 rel="noopener noreferrer"
+                 target="_blank">{% translate "Read the docs" %}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card h-100 border-primary">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% if site_title != "Weblate" %}
+                  {% blocktranslate %}Question for {{ site_title }} administrators{% endblocktranslate %}
+                {% else %}
+                  {% translate "Question for the server administrators" %}
+                {% endif %}
+              </h4>
+            </div>
+            <div class="card-body">
+              <p>
+                {% blocktranslate %}Reach out to the administrators of this server about account, registration, or server-wide questions that don't fit the topics above.{% endblocktranslate %}
+              </p>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary" href="{% url 'contact' %}?topic=server">{% translate "Open contact form" %}</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    {% endif %}
 
   </div>
 

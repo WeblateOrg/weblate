@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
+from django.core.exceptions import FieldDoesNotExist
+from django.db import models
 from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy, npgettext, pgettext
@@ -28,6 +30,7 @@ from weblate.utils.pii import mask_email
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.trans.models.audit import AuditValue
     from weblate.trans.models.change import Change, Translation
 
 AUTO_ACTIONS = {
@@ -223,6 +226,56 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
 
 
 @register_details_display_strategy
+class RenderSettingChange(BaseDetailsRenderStrategy):
+    """Strategy for displaying details of project and component setting changes."""
+
+    details_required = True
+    actions: ClassVar[set[ActionEvents]] = {
+        ActionEvents.PROJECT_SETTING_CHANGE,
+        ActionEvents.COMPONENT_SETTING_CHANGE,
+    }
+
+    def render_details(self, change: Change) -> StrOrPromise:
+        obj = (
+            change.project
+            if change.action == ActionEvents.PROJECT_SETTING_CHANGE
+            else change.component
+        )
+        details = change.details
+        if obj is None or "field" not in details:
+            return change.get_action_display()
+
+        try:
+            field = cast(
+                "models.Field",
+                obj._meta.get_field(details["field"]),  # noqa: SLF001
+            )
+        except FieldDoesNotExist:
+            return change.get_action_display()
+
+        return gettext('%(setting)s changed from "%(old)s" to "%(target)s".') % {
+            "setting": field.verbose_name,
+            "old": self.format_setting_value(field, details.get("old")),
+            "target": self.format_setting_value(field, details.get("target")),
+        }
+
+    def format_setting_value(
+        self, field: models.Field, value: AuditValue
+    ) -> StrOrPromise:
+        if value in (None, "", []):
+            return pgettext("Setting value", "Not set")
+        if isinstance(field, models.BooleanField):
+            return gettext("enabled") if value else gettext("disabled")
+        if field.choices:
+            for choice_value, choice_label in field.flatchoices:
+                if choice_value == value:
+                    return choice_label
+        if isinstance(value, list):
+            return ", ".join(str(item) for item in value)
+        return str(value)
+
+
+@register_details_display_strategy
 class RenderUserActions(BaseDetailsRenderStrategy):
     """Strategy for displaying details of user actions."""
 
@@ -230,6 +283,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
         ActionEvents.ADD_USER,
         ActionEvents.INVITE_USER,
         ActionEvents.REMOVE_USER,
+        ActionEvents.USER_REVERT,
     }
     details_required = True
 
@@ -348,6 +402,12 @@ def get_change_history_context(change: Change) -> dict[str, Any]:
     """
     if details := change.get_details_display():
         return {"description": details, "change_details_fields": []}
+    if change.action in {
+        ActionEvents.PROJECT_BACKUP,
+        ActionEvents.PROJECT_RESTORE,
+        ActionEvents.COMPONENT_RESTORE,
+    }:
+        return ShowBackupRestoreEvent(change).get_context()
     if change.show_content() and change.unit:
         return ShowChangeContent(change).get_context()
     if change.show_source():
@@ -448,6 +508,46 @@ class ShowChangeAction(BaseChangeHistoryContext):
         return self.change.get_action_display()
 
 
+class ShowBackupRestoreEvent(BaseChangeHistoryContext):
+    """Display backup and restore event details in history."""
+
+    def get_description(self) -> str:
+        return self.change.get_action_display()
+
+    def get_change_details_fields(self) -> list[FieldDict]:
+        details = self.change.details
+        if self.change.action == ActionEvents.PROJECT_BACKUP:
+            return [
+                self.make_field(
+                    gettext("Backup file"),
+                    format_html("<code>{}</code>", details["backup_filename"]),
+                )
+            ]
+
+        if self.change.action == ActionEvents.PROJECT_RESTORE:
+            return [
+                self.make_field(
+                    gettext("Backup created"),
+                    details["backup_timestamp"],
+                ),
+                self.make_field(
+                    gettext("Backup server"),
+                    details["backup_server"],
+                ),
+                self.make_field(
+                    gettext("Backup domain"),
+                    details["backup_domain"],
+                ),
+            ]
+
+        return [
+            self.make_field(
+                gettext("Original component"),
+                format_html("<code>{}</code>", details["original_slug"]),
+            )
+        ]
+
+
 class ShowChangeContent(BaseChangeHistoryContext):
     """Display the content of a change in the history context."""
 
@@ -467,13 +567,13 @@ class ShowChangeContent(BaseChangeHistoryContext):
         unit = change.unit
 
         # rejection reason field
-        if "rejection_reason" in change.details:
+        if rejection_reason := change.details.get("rejection_reason"):
             self.fields.append(
                 self.make_field(
                     gettext("Rejection reason"),
                     format_html(
                         self.LIST_GROUP_ITEM_TEMPLATE,
-                        change.details["rejection_reason"],
+                        rejection_reason,
                     ),
                 )
             )

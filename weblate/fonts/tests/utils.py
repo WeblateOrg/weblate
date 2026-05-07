@@ -3,12 +3,19 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
+from __future__ import annotations
+
 from importlib import resources
+from typing import TYPE_CHECKING
 
 import weblate_fonts
 
 from weblate.fonts.models import FONT_STORAGE, Font
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase, FixtureTestCase
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Project
 
 PACKAGE_PATH = resources.files(weblate_fonts)
 FONT_DIR = PACKAGE_PATH / "static" / "weblate_fonts" / "kurinto" / "ttf"
@@ -26,8 +33,19 @@ FONT_SOURCE = (
 )
 
 
-class FontTestCase(FixtureTestCase):
+class FontTestMixin:
+    project: Project
+    user: User
+
     def add_font(self):
         with FONT.open("rb") as handle:
             fontfile = FONT_STORAGE.save(FONT_NAME, handle)
         return Font.objects.create(font=fontfile, project=self.project, user=self.user)
+
+
+class FontComponentTestCase(FontTestMixin, FixtureComponentTestCase):
+    pass
+
+
+class FontTestCase(FontTestMixin, FixtureTestCase):
+    pass

@@ -6,10 +6,10 @@
 
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class ChecksViewTest(ViewTestCase):
+class ChecksViewTest(FixtureTestCase):
     """Testing of check views."""
 
     def test_browse(self) -> None:

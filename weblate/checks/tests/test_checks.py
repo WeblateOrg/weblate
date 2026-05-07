@@ -16,6 +16,7 @@ from translate.lang.data import languages
 
 from weblate.checks.flags import Flags
 from weblate.checks.format import BaseFormatCheck
+from weblate.glossary.models import get_glossary_automaton
 from weblate.lang.models import Language, Plural
 
 if TYPE_CHECKING:
@@ -58,7 +59,6 @@ class MockProject:
 
     @property
     def glossary_automaton(self):
-        from weblate.glossary.models import get_glossary_automaton
 
         return get_glossary_automaton(self)
 
@@ -74,6 +74,8 @@ class MockComponent:
         self.file_format = "auto"
         self.is_multivalue = False
         self.hide_glossary_matches = False
+        self.allow_translation_propagation = True
+        self.batch_checks = False
 
 
 class MockTranslation:
@@ -98,7 +100,7 @@ class MockUnit:
     def __init__(
         self,
         id_hash: str | None = None,
-        flags: str | Flags = "",
+        flags: str | Flags | list[str] = "",
         code: str = "cs",
         source: str | list[str] = "",
         note: str = "",
@@ -109,7 +111,7 @@ class MockUnit:
         if id_hash is None:
             id_hash = random.randint(0, 65536)  # noqa: S311
         self.id_hash = id_hash
-        self.flags = Flags(flags)
+        self.flags: Flags = Flags(flags)
         self.translation = MockTranslation(code)
         if isinstance(source, str) or source is None:
             self.source = source
@@ -127,6 +129,7 @@ class MockUnit:
         else:
             self.target = target[0]
             self.targets = target
+        self.plural_map: list[str] = []
         self.note = note
         self.check_cache = {}
         self.machinery = {}

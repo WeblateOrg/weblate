@@ -27,3 +27,7 @@ class InvertRegexTest(TestCase):
 
     def test_question(self) -> None:
         self.assertEqual(list(invert_re("(?i)(^|\\W)via")), ["via", " via"])
+
+    def test_negative_range(self) -> None:
+        self.assertEqual(list(invert_re(r"[^\d]")), [])
+        self.assertEqual(list(invert_re(r"{[^}]+}")), [])

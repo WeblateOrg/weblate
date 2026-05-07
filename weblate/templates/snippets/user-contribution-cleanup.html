@@ -1,0 +1,51 @@
+{% load i18n %}
+
+{% if show_revert_edits %}
+  <div class="form-check">
+    <input class="form-check-input"
+           type="checkbox"
+           name="revert_edits"
+           id="revert_edits_{{ cleanup_id }}_{{ cleanup_user.id }}" />
+    <label class="form-check-label"
+           for="revert_edits_{{ cleanup_id }}_{{ cleanup_user.id }}">{% translate "Revert user edits" %}</label>
+    <p class="help-block">
+      {% if cleanup_sitewide %}
+        {% blocktranslate with user=cleanup_user.username %}Revert the latest editable translations by <b>{{ user }}</b> across all projects.{% endblocktranslate %}
+      {% else %}
+        {% blocktranslate with user=cleanup_user.username %}Revert the latest editable translations by <b>{{ user }}</b> in this project.{% endblocktranslate %}
+      {% endif %}
+    </p>
+  </div>
+{% endif %}
+<div class="form-check">
+  <input class="form-check-input"
+         type="checkbox"
+         name="reject_suggestions"
+         id="reject_suggestions_{{ cleanup_id }}_{{ cleanup_user.id }}" />
+  <label class="form-check-label"
+         for="reject_suggestions_{{ cleanup_id }}_{{ cleanup_user.id }}">
+    {% translate "Reject user suggestions" %}
+  </label>
+  <p class="help-block">
+    {% if cleanup_sitewide %}
+      {% blocktranslate with user=cleanup_user.username %}Reject all pending suggestions from <b>{{ user }}</b> across all projects.{% endblocktranslate %}
+    {% else %}
+      {% blocktranslate with user=cleanup_user.username %}Reject all pending suggestions from <b>{{ user }}</b> in this project.{% endblocktranslate %}
+    {% endif %}
+  </p>
+</div>
+<div class="form-check">
+  <input class="form-check-input"
+         type="checkbox"
+         name="delete_comments"
+         id="delete_comments_{{ cleanup_id }}_{{ cleanup_user.id }}" />
+  <label class="form-check-label"
+         for="delete_comments_{{ cleanup_id }}_{{ cleanup_user.id }}">{% translate "Delete user comments" %}</label>
+  <p class="help-block">
+    {% if cleanup_sitewide %}
+      {% blocktranslate with user=cleanup_user.username %}Delete all comments from <b>{{ user }}</b> across all projects.{% endblocktranslate %}
+    {% else %}
+      {% blocktranslate with user=cleanup_user.username %}Delete all comments from <b>{{ user }}</b> in this project.{% endblocktranslate %}
+    {% endif %}
+  </p>
+</div>

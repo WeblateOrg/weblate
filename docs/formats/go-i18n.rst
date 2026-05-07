@@ -42,6 +42,10 @@ Example file v2:
 .. literalinclude:: ../../weblate/trans/tests/data/cs-go18n-v2.json
     :language: json
 
+.. include:: /snippets/format-features/go-i18n-toml-features.rst
+
+.. include:: /snippets/format-features/go-i18n-json-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

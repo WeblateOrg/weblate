@@ -112,6 +112,7 @@ class FluentPartsCheck(TargetCheck):
     name = gettext_lazy("Fluent parts")
     description = gettext_lazy("Fluent parts should match.")
     default_disabled = True
+    version_added = "5.0"
 
     @classmethod
     def _compare_parts(

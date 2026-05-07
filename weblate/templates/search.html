@@ -23,7 +23,12 @@
     </form>
     {% if page_obj.object_list %}
       <div class="search-summary">
-        <p>{{ total_strings }} {% translate "strings" %} / {{ total_words }} {% translate "words" %}</p>
+        <p>
+          {{ total_strings }} {% translate "strings" %}
+          {% if total_words is not None %}
+            / {{ total_words }} {% translate "words" %}
+          {% endif %}
+        </p>
       </div>
       {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
       {% include "paginator.html" %}

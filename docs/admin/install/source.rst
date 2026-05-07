@@ -18,7 +18,7 @@ Installing from sources
    website <https://weblate.org/>. Those downloads are cryptographically
    signed, please see :ref:`verify`.
 
-#. Install current Weblate code into the virtualenv:
+#. Install current Weblate code into the Python environment:
 
    .. code-block:: sh
 

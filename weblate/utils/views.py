@@ -54,7 +54,7 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.templatetags.translations import get_breadcrumbs  # noqa: PLC0415
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -63,6 +63,14 @@ def key_name(instance):
 
 def key_translated(instance):
     return instance.stats.translated_percent
+
+
+def key_unreviewed(instance):
+    stats = instance.stats
+    # Mixed listings can include objects without review workflow enabled.
+    if stats.has_review:
+        return stats.waiting_review
+    return 0
 
 
 def key_untranslated(instance):
@@ -96,6 +104,7 @@ def key_comments(instance):
 SORT_KEYS = {
     "name": key_name,
     "translated": key_translated,
+    "unreviewed": key_unreviewed,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,
@@ -114,10 +123,10 @@ def optional_form(form, perm_user, perm, perm_obj, **kwargs):
 
 def get_percent_color(percent) -> str:
     if percent >= 85:
-        return "#2eccaa"
+        return "#158068"
     if percent >= 50:
-        return "#38f"
-    return "#f6664c"
+        return "#1565c0"
+    return "#cc3d20"
 
 
 def get_page_limit(request: AuthenticatedHttpRequest, default: int) -> tuple[int, int]:
@@ -156,10 +165,10 @@ def get_paginator(
     *,
     page_limit: int | None = None,
     stats: bool = False,
+    sort_by: str | None = None,
 ):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, page_limit or settings.DEFAULT_PAGE_LIMIT)
-    sort_by = request.GET.get("sort_by")
     stats_fetched = False
     if sort_by:
         # All but ordering by name needs stats
@@ -400,7 +409,7 @@ def parse_path_units(
         unit_set = access_units.filter(translation__language=obj).prefetch()
         context["language"] = obj
     elif obj is None:
-        unit_set = access_units
+        unit_set = access_units.prefetch()
     else:
         msg = f"Unsupported result: {obj}"
         raise TypeError(msg)
@@ -581,6 +590,7 @@ def download_translation_file(
                 raise Http404(msg)
             # Create response
             response = FileResponse(
+                # pylint: disable-next=consider-using-with
                 open(filename, "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )

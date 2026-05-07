@@ -67,8 +67,20 @@ def report_error(
         else:
             sentry_sdk.capture_exception()
 
-    log = getattr(LOGGER, level)
+    _log_error(cause, level=level, extra_log=extra_log, print_tb=print_tb)
 
+
+def _log_error(
+    cause: str,
+    *,
+    level: Literal[
+        "fatal", "critical", "error", "warning", "info", "debug"
+    ] = "warning",
+    extra_log: str | None = None,
+    print_tb: bool = False,
+) -> None:
+    """Log the current exception without reporting it to external services."""
+    log = getattr(LOGGER, level)
     error = sys.exc_info()[1]
 
     # Include JSON document if available. It might be missing
@@ -86,6 +98,18 @@ def report_error(
     if print_tb:
         # This is called from an exception handler
         LOGGER.exception(cause)  # noqa: LOG004
+
+
+def log_handled_exception(
+    cause: str,
+    *,
+    level: Literal[
+        "fatal", "critical", "error", "warning", "info", "debug"
+    ] = "warning",
+    extra_log: str | None = None,
+) -> None:
+    """Log a handled exception without reporting it to Sentry or Rollbar."""
+    _log_error(cause, level=level, extra_log=extra_log)
 
 
 def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
@@ -135,6 +159,9 @@ def init_sentry() -> None:
     # Ignore Weblate logging, those should trigger proper errors
     ignore_logger("weblate")
     ignore_logger("weblate.*")
+    # Python Social Auth logs provider failures before Weblate classifies them.
+    ignore_logger("social")
+    ignore_logger("social.*")
 
 
 def init_rollbar() -> None:

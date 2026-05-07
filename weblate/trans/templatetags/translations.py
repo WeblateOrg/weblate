@@ -53,8 +53,6 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import (
     BaseStats,
     CategoryLanguage,
-    GhostCategoryLanguageStats,
-    GhostProjectLanguageStats,
     ProjectLanguage,
 )
 from weblate.utils.templatetags.icons import icon
@@ -76,6 +74,8 @@ if TYPE_CHECKING:
         ComponentList,
     )
     from weblate.utils.stats import (
+        GhostCategoryLanguageStats,
+        GhostProjectLanguageStats,
         GhostStats,
     )
 
@@ -141,6 +141,16 @@ class Formatter:
         self.tags: dict[int, list[str]] = defaultdict(list)
         self.differ = Differ()
         self.whitespace = whitespace
+
+    def insert_before_opening_tags(self, position: int, tag: str) -> None:
+        """Insert a tag after closers and before any opening tags at a position."""
+        current = self.tags[position]
+        insert_at = len(current)
+        for index, current_tag in enumerate(current):
+            if not current_tag.startswith("</"):
+                insert_at = index
+                break
+        current.insert(insert_at, tag)
 
     def parse(self) -> None:
         if self.unit:
@@ -224,7 +234,7 @@ class Formatter:
                 if move_space:
                     self.tags[offset].append(SPACE_START)
                 if append_end:
-                    self.tags[end].append("</ins>")
+                    self.insert_before_opening_tags(end, "</ins>")
                 if start_space != -1:
                     self.tags[end].append(SPACE_START)
 
@@ -382,8 +392,8 @@ class Formatter:
         for match in re.finditer(
             re.escape(self.search_match), self.value, flags=re.IGNORECASE
         ):
-            self.tags[match.start()].append(start_tag)
-            self.tags[match.end()].insert(0, end_tag)
+            self.insert_before_opening_tags(match.start(), start_tag)
+            self.insert_before_opening_tags(match.end(), end_tag)
 
     def parse_whitespace(self) -> None:
         """Highlight whitespaces."""
@@ -488,6 +498,8 @@ class Formatter:
         yield from tags[len(value)]
 
     def format(self):
+        # Safe to mark because format_generator escapes raw string content inline
+        # and only emits formatter-controlled markup for diffs/highlights/tooltips.
         return mark_safe("".join(self.format_generator()))  # noqa: S308
 
 
@@ -952,7 +964,9 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(context: Context, project=None, component=None, language=None):
+def announcements(
+    context: Context, project=None, component=None, language=None, category=None
+):
     """Display announcement messages for given context."""
     user = context["user"]
 
@@ -968,16 +982,16 @@ def announcements(context: Context, project=None, component=None, language=None)
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
-                            "announcement.delete",
-                            announcement.component
-                            if announcement.component is not None
-                            else announcement.project,
+                            "announcement.delete", announcement
                         ),
                     },
                 ),
             )
             for announcement in Announcement.objects.context_filter(
-                project, component, language
+                project=project,
+                component=component,
+                language=language,
+                category=category,
             )
         ),
     )
@@ -1217,10 +1231,9 @@ def indicate_alerts(
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
         project_language = obj
-    elif isinstance(obj, GhostProjectLanguageStats):
-        project = obj.project
-    elif isinstance(obj, GhostCategoryLanguageStats):
-        project = obj.category.project
+    # There is intentionally no project-level alerts for
+    # GhostProjectLanguageStats and GhostCategoryLanguageStats as these would
+    # be confusing (showing alert or admin icon on ghost containers).
 
     icons = format_html_join(
         "\n",
@@ -1645,13 +1658,14 @@ def format_last_changes_content(
     debug: bool = False,
     search_url: str | None = None,
     offset: int | None = None,
+    translate_url: str | None = None,
 ):
     """
     Format last changes content for display.
 
     This is a simplified version of the prepare_last_changes_context function.
     """
-    from weblate.trans.change_display import get_change_history_context
+    from weblate.trans.change_display import get_change_history_context  # noqa: PLC0415
 
     if isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()
@@ -1685,6 +1699,7 @@ def format_last_changes_content(
         "debug": debug,
         "search_url": search_url,
         "offset": offset,
+        "translate_url": translate_url,
     }
 
 
@@ -1699,3 +1714,8 @@ def get_git_export_example_url() -> str:
     )
     # Strip trailing info/refs part:
     return url[:-9]
+
+
+@register.filter(is_safe=True)
+def object_link(obj) -> str:
+    return format_html('<a href="{}">{}</a>', obj.get_absolute_url(), str(obj))

@@ -351,6 +351,26 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Could not parse uploaded ZIP file.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(COMPONENT_ZIP_UPLOAD_MAX_SIZE=1)
+    def test_create_zip_too_big(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(
+                reverse("create-component-zip"),
+                {
+                    "zipfile": SimpleUploadedFile(
+                        "translations.zip", b"xx", content_type="application/zip"
+                    ),
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                },
+            )
+        self.assertContains(response, "Uploaded ZIP file is too big.")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_zip(self) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             self.user.is_superuser = True

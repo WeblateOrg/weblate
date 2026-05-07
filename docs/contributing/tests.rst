@@ -23,7 +23,10 @@ There are several jobs to verify different aspects:
 * Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
 * Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
 * Code security scanning using `CodeQL <https://codeql.github.com/>`_.
-* Code formatting using `pre-commit <https://pre-commit.com/>`_.
+* Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_.
+* Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster
+  third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_
+  framework.
 * Migration testing from all supported releases
 * Setup verification (ensures that generated dist files do not miss anything and can be tested)
 
@@ -86,7 +89,6 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 
 .. code-block:: sh
 
-   export CI_DATABASE=postgresql
    export CI_DB_USER=weblate
    export CI_DB_PASSWORD=weblate
    export CI_DB_HOST=127.0.0.1
@@ -118,6 +120,7 @@ You can then execute the testsuite in the repository checkout:
 
    py.test
 
+.. _test-data:
 
 Testing repository
 ------------------

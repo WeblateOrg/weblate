@@ -2,7 +2,7 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:121947d3-2cce-572e-93e7-3819d832f3be",
+  "serialNumber": "urn:uuid:aa2f2b18-e4fd-51b3-b769-766d9acd1804",
   "version": 1,
   "metadata": {
     "lifecycles": [
@@ -18,13 +18,13 @@
       }
     ],
     "component": {
-      "bom-ref": "weblate-client-libs@5.16.1",
+      "bom-ref": "weblate-client-libs@2026.5.0",
       "type": "application",
       "name": "client",
-      "version": "5.16.1",
+      "version": "2026.5.0",
       "scope": "required",
       "description": "Used to manage 3rd party libraries for the  client side.",
-      "purl": "pkg:npm/weblate-client-libs@5.16.1",
+      "purl": "pkg:npm/weblate-client-libs@2026.5.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -42,41 +42,6 @@
     }
   },
   "components": [
-    {
-      "bom-ref": "@altcha/crypto@0.0.1",
-      "type": "library",
-      "name": "@altcha/crypto",
-      "version": "0.0.1",
-      "scope": "required",
-      "author": "Daniel Regeci",
-      "description": "A lightweight library simplifying asymmetric data encryption using Web Crypto",
-      "purl": "pkg:npm/%40altcha/crypto@0.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@altcha/crypto"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/@altcha/crypto/-/crypto-0.0.1.tgz"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "a9931d9e80f7940caf7d250c36d0b669d462ebae8fc5d730f73a9f314e6a04e6895aaa4df4af9ea90196a9e88a0cca8bd1217e132b4d1b8911fcfafff7d189ea"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
     {
       "bom-ref": "@popperjs/core@2.11.8",
       "type": "library",
@@ -125,61 +90,14 @@
       ]
     },
     {
-      "bom-ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
-      "type": "library",
-      "name": "@rollup/rollup-linux-x64-gnu",
-      "version": "4.18.0",
-      "scope": "optional",
-      "author": "Lukas Taegert-Atkinson",
-      "description": "Native bindings for Rollup",
-      "purl": "pkg:npm/%40rollup/rollup-linux-x64-gnu@4.18.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@rollup/rollup-linux-x64-gnu"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.18.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/rollup/rollup.git"
-        },
-        {
-          "type": "website",
-          "url": "https://rollupjs.org/"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/rollup/rollup/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "c6e825476ac154703952c23c87c51b5f8549e3bd0fb4609fe55a6cc21ee9dae91aa811854e7b1fcf15017ada16056ca61ccc5b206d029b1ed8f6a0d9cebeb8f3"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "@sentry-internal/browser-utils@10.38.0",
+      "bom-ref": "@sentry-internal/browser-utils@10.51.0",
       "type": "library",
       "name": "@sentry-internal/browser-utils",
-      "version": "10.38.0",
+      "version": "10.51.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Browser Utilities for all Sentry JavaScript SDKs",
-      "purl": "pkg:npm/%40sentry-internal/browser-utils@10.38.0",
+      "purl": "pkg:npm/%40sentry-internal/browser-utils@10.51.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -189,7 +107,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-10.38.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/browser-utils/-/browser-utils-10.51.0.tgz"
         },
         {
           "type": "vcs",
@@ -207,7 +125,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "50e26d62675cc4709c57434f7d715f7ff6bde625e5fc4d0486e435cb4b84d01b990ccba9592179b760600b81da139030dd14e30c5dd79121d6a0817aa21cbb78"
+          "content": "94d2814b83fb454bdfd678a88d74167bd6d4de09c15026d24f80e3d294a2c9ab7537de9c5d5c8791e13eb86c68c03d11ad55a1b3e9061e2557dc572645617ab0"
         }
       ],
       "licenses": [
@@ -219,14 +137,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/feedback@10.38.0",
+      "bom-ref": "@sentry-internal/feedback@10.51.0",
       "type": "library",
       "name": "@sentry-internal/feedback",
-      "version": "10.38.0",
+      "version": "10.51.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Sentry SDK integration for user feedback",
-      "purl": "pkg:npm/%40sentry-internal/feedback@10.38.0",
+      "purl": "pkg:npm/%40sentry-internal/feedback@10.51.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -236,7 +154,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-10.38.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/feedback/-/feedback-10.51.0.tgz"
         },
         {
           "type": "vcs",
@@ -254,7 +172,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "2579de83dcd17edc9fcb51727dcdfd6c1945fd077c838503b9b94516456f75cd52e8940f94af8feaadb60cacf73dcf30df249bcbec6522afde4eef4fcea8b828"
+          "content": "6c233de5b729a61c76f1ee9a5346f044bc4e830a2c62c74dcdecccd6c334a553a46f44c1de10c545a9ab6a65432befc7a75a3caa64714b8739c3f03b60164690"
         }
       ],
       "licenses": [
@@ -266,14 +184,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/replay@10.38.0",
+      "bom-ref": "@sentry-internal/replay@10.51.0",
       "type": "library",
       "name": "@sentry-internal/replay",
-      "version": "10.38.0",
+      "version": "10.51.0",
       "scope": "required",
       "author": "Sentry",
       "description": "User replays for Sentry",
-      "purl": "pkg:npm/%40sentry-internal/replay@10.38.0",
+      "purl": "pkg:npm/%40sentry-internal/replay@10.51.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -283,7 +201,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-10.38.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/replay/-/replay-10.51.0.tgz"
         },
         {
           "type": "vcs",
@@ -301,7 +219,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "6162242fafdd9da890c858995c9fe737e3571afff5e73e3989af3a6c4fd332ad350ae6d7fc350e8a582c173d29936bffa60deda7f53632c90b3bd1f3d1c9ea7a"
+          "content": "8c2a48e475d2c0ae994f61d7ef4fa60d1722028707cd28839380d382fcd5ebd5af77e122e562e013e777f5e6843ec9bc9540b461d9ed6f9b09201eae1bd0f86f"
         }
       ],
       "licenses": [
@@ -313,14 +231,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry-internal/replay-canvas@10.38.0",
+      "bom-ref": "@sentry-internal/replay-canvas@10.51.0",
       "type": "library",
       "name": "@sentry-internal/replay-canvas",
-      "version": "10.38.0",
+      "version": "10.51.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Replay canvas integration",
-      "purl": "pkg:npm/%40sentry-internal/replay-canvas@10.38.0",
+      "purl": "pkg:npm/%40sentry-internal/replay-canvas@10.51.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -330,7 +248,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-10.38.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry-internal/replay-canvas/-/replay-canvas-10.51.0.tgz"
         },
         {
           "type": "vcs",
@@ -348,7 +266,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "39758cf6312a358878553beb32eeeffb3d5a9f3f90290fdf65721976c3bb2534f69463597b9f1450c7a8ab7f3a33e49ac5e9fc17d4941fbc93391cbff0a239ab"
+          "content": "f0f5b53e9f9897794fc18aa1042af94a092e8436a7bbd64bcd4a83d9b3ca2ff125a9b3367835485b1ab8cf867378fae665ae887028d3bfab15409ed9e1d2f22c"
         }
       ],
       "licenses": [
@@ -360,14 +278,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry/browser@10.38.0",
+      "bom-ref": "@sentry/browser@10.51.0",
       "type": "library",
       "name": "@sentry/browser",
-      "version": "10.38.0",
+      "version": "10.51.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Official Sentry SDK for browsers",
-      "purl": "pkg:npm/%40sentry/browser@10.38.0",
+      "purl": "pkg:npm/%40sentry/browser@10.51.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -377,7 +295,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-10.38.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry/browser/-/browser-10.51.0.tgz"
         },
         {
           "type": "vcs",
@@ -395,7 +313,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "de9873a75617e30710afd9a870658a6e3bf48f0b6ea0306fefe63a61faf2b3f930c9a2fce260cb8e342145fe202f9497ec9758921069e166a2365474502e244c"
+          "content": "65d734b0a7de9f152d5bf38686d27bc4714de386d747b62ac49d73043ce565f5b49d36de4d351906af73e4d530eaa752d15b3f8b7578ab300a4db44a59fa9210"
         }
       ],
       "licenses": [
@@ -407,14 +325,14 @@
       ]
     },
     {
-      "bom-ref": "@sentry/core@10.38.0",
+      "bom-ref": "@sentry/core@10.51.0",
       "type": "library",
       "name": "@sentry/core",
-      "version": "10.38.0",
+      "version": "10.51.0",
       "scope": "required",
       "author": "Sentry",
       "description": "Base implementation for all Sentry JavaScript SDKs",
-      "purl": "pkg:npm/%40sentry/core@10.38.0",
+      "purl": "pkg:npm/%40sentry/core@10.51.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -424,7 +342,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@sentry/core/-/core-10.38.0.tgz"
+          "url": "https://registry.npmjs.org/@sentry/core/-/core-10.51.0.tgz"
         },
         {
           "type": "vcs",
@@ -442,7 +360,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "d69b9b583644e72e476443cc0191113f87d5976347dc8869d40faf3285646f741ceba0e2aa3d5689eac09d2b6564feed0b1d1305ad1d2bce464d6fd9158c81f6"
+          "content": "638e55fd85ef54b11798e7646c3d681b5824456162f60b821068373e522522946301b654aef2c682344921cd44ed7a52ce63a759bb3905b53132fe0f0da3e3db"
         }
       ],
       "licenses": [
@@ -454,14 +372,14 @@
       ]
     },
     {
-      "bom-ref": "@tarekraafat/autocomplete.js@10.2.9",
+      "bom-ref": "@tarekraafat/autocomplete.js@10.2.10",
       "type": "library",
       "name": "@tarekraafat/autocomplete.js",
-      "version": "10.2.9",
+      "version": "10.2.10",
       "scope": "required",
       "author": "Tarek Raafat",
-      "description": "Simple autocomplete pure vanilla Javascript library.",
-      "purl": "pkg:npm/%40tarekraafat/autocomplete.js@10.2.9",
+      "description": "Simple autocomplete pure vanilla Javascript library. Zero dependencies. Designed for speed, high versatility, and seamless integration.",
+      "purl": "pkg:npm/%40tarekraafat/autocomplete.js@10.2.10",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -471,7 +389,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@tarekraafat/autocomplete.js/-/autocomplete.js-10.2.9.tgz"
+          "url": "https://registry.npmjs.org/@tarekraafat/autocomplete.js/-/autocomplete.js-10.2.10.tgz"
         },
         {
           "type": "vcs",
@@ -489,7 +407,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "03b38fde22434d678ef39337571bb7f7569cbbd4a60e0ba8ae61e9319d77921bb2335f3474a97d3b58005d20c0df6d97c2462e514d4077b59c856d5340d36e0f"
+          "content": "74d81e1d43c809a7be1de1bc02c6ca07f4f78dc0a2c1049bbf1cdfec42730b5f16004d78a055a125777fe183becc0e834d892e017ae39cddff5cad1d27789ee4"
         }
       ],
       "licenses": [
@@ -501,14 +419,14 @@
       ]
     },
     {
-      "bom-ref": "altcha@2.3.0",
+      "bom-ref": "altcha@3.0.5",
       "type": "library",
       "name": "altcha",
-      "version": "2.3.0",
+      "version": "3.0.5",
       "scope": "required",
       "author": "Daniel Regeci",
       "description": "Privacy-first CAPTCHA widget, compliant with global regulations (GDPR/HIPAA/CCPA/LGDP/DPDPA/PIPL) and WCAG accessible. No tracking, self-verifying.",
-      "purl": "pkg:npm/altcha@2.3.0",
+      "purl": "pkg:npm/altcha@3.0.5",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -518,7 +436,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/altcha/-/altcha-2.3.0.tgz"
+          "url": "https://registry.npmjs.org/altcha/-/altcha-3.0.5.tgz"
         },
         {
           "type": "vcs",
@@ -536,7 +454,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "be5f08d1d42f49007bfccc74f57b96675f8b7523fbbc475ae8e2db83d91443664ed8b4fb333814c8b2bb222a6cf86015e9cd27b55712d5758eaa110fa706c385"
+          "content": "089815f25f7f1a852e8afe2a82ed15e87528d4f41515de9e3595ff303b0bfbc77e6a577ec5ab140a57305d9c2935dfe5335f3d5b8dfa853be5f018cbf32df2c6"
         }
       ],
       "licenses": [
@@ -642,42 +560,89 @@
       ]
     },
     {
-      "bom-ref": "daterangepicker@3.1.0",
+      "bom-ref": "hash-wasm@4.12.0",
       "type": "library",
-      "name": "daterangepicker",
-      "version": "3.1.0",
+      "name": "hash-wasm",
+      "version": "4.12.0",
       "scope": "required",
-      "author": "Dan Grossman",
-      "description": "Date range picker component for Bootstrap",
-      "purl": "pkg:npm/daterangepicker@3.1.0",
+      "author": "Dani Biró",
+      "description": "Lightning fast hash functions for browsers and Node.js using hand-tuned WebAssembly binaries (MD4, MD5, SHA-1, SHA-2, SHA-3, Keccak, BLAKE2, BLAKE3, PBKDF2, Argon2, bcrypt, scrypt, Adler-32, CRC32, CRC32C, RIPEMD-160, HMAC, xxHash, SM3, Whirlpool)",
+      "purl": "pkg:npm/hash-wasm@4.12.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
-          "value": "node_modules/daterangepicker"
+          "value": "node_modules/hash-wasm"
         }
       ],
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/daterangepicker/-/daterangepicker-3.1.0.tgz"
+          "url": "https://registry.npmjs.org/hash-wasm/-/hash-wasm-4.12.0.tgz"
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/dangrossman/daterangepicker.git"
+          "url": "git+https://github.com/Daninet/hash-wasm.git"
         },
         {
           "type": "website",
-          "url": "https://github.com/dangrossman/daterangepicker"
+          "url": "https://github.com/Daninet/hash-wasm#readme"
         },
         {
           "type": "issue-tracker",
-          "url": "https://github.com/dangrossman/daterangepicker/issues"
+          "url": "https://github.com/Daninet/hash-wasm/issues"
         }
       ],
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "0f1597bef3eae2cad62c2a85ba0a9257ee8206dfc2bd0d1d9e95e1437825d1abad7080c0aee1b53ee186de00bbc8f44dcad003d6853501c50ecda62139ac214f"
+          "content": "fbfd81dab60b6f8f08fdebdd38884ff8afc30f671ad9f8018e9e8ef860449c20e4d9ee2ba5e5c82bc1af23244f8d37b38265a7f6098ac244238f1e81b6a0c755"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "hotkeys-js@4.0.4",
+      "type": "library",
+      "name": "hotkeys-js",
+      "version": "4.0.4",
+      "scope": "required",
+      "author": "kenny wong",
+      "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
+      "purl": "pkg:npm/hotkeys-js@4.0.4",
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/hotkeys-js"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/hotkeys-js/-/hotkeys-js-4.0.4.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/jaywcjlove/hotkeys-js.git"
+        },
+        {
+          "type": "website",
+          "url": "https://jaywcjlove.github.io/hotkeys-js"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/jaywcjlove/hotkeys-js/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "86c78d8aa6ac9314a7ba3b86a7c69130b25f723685893492d08d86421aabbbcd8dfecc7a086c947faa6f5395f58b272fc3612a9af20b90521be4ecd815763ef4"
         }
       ],
       "licenses": [
@@ -731,147 +696,6 @@
         {
           "license": {
             "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "moment@2.30.1",
-      "type": "library",
-      "name": "moment",
-      "version": "2.30.1",
-      "scope": "required",
-      "author": "Iskren Ivov Chernev",
-      "description": "Parse, validate, manipulate, and display dates",
-      "purl": "pkg:npm/moment@2.30.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/moment"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/moment/moment.git"
-        },
-        {
-          "type": "website",
-          "url": "https://momentjs.com"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/moment/moment/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "b849ad3616c33ab58f152fa176314205fcbd7f6628cb3469c1c97e0eaa42ead697db5173b132d055b315fd6ecfccd497eb1fdb842d73037736510e4dcc7ea1a3"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "mousetrap@1.6.5",
-      "type": "library",
-      "name": "mousetrap",
-      "version": "1.6.5",
-      "scope": "required",
-      "author": "Craig Campbell",
-      "description": "Simple library for handling keyboard shortcuts",
-      "purl": "pkg:npm/mousetrap@1.6.5",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mousetrap"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.6.5.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git://github.com/ccampbell/mousetrap.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/ccampbell/mousetrap#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/ccampbell/mousetrap/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "40da389047a9688070893f020e13fdf2e9937ada7e24d7d06015af0b5a5cebf38089bb97b51731679f10cfcb24bc41d8bd44677bfed1f13e55a0e23bac3b0450"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "mousetrap-global-bind@1.1.0",
-      "type": "library",
-      "name": "mousetrap-global-bind",
-      "version": "1.1.0",
-      "scope": "required",
-      "author": "Elvynia",
-      "description": "Mousetrap plugin for global bindings (works in input elements) with an additionnal unbindGlobal method.",
-      "purl": "pkg:npm/mousetrap-global-bind@1.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mousetrap-global-bind"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/mousetrap-global-bind/-/mousetrap-global-bind-1.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/Elvynia/mousetrap-global-bind.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/Elvynia/mousetrap-global-bind#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/Elvynia/mousetrap-global-bind/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "01fc4a07439873fc14eba1369f61d771998a1eb7793bfea611db52ad902ddedb0ca9ca5ca58028950763eb4d8bd1282b3f7f27726ffa88ea71afd4881a0c4ea5"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "Apache-2.0"
           }
         }
       ]
@@ -971,14 +795,14 @@
       ]
     },
     {
-      "bom-ref": "slugify@1.6.6",
+      "bom-ref": "slugify@1.6.9",
       "type": "library",
       "name": "slugify",
-      "version": "1.6.6",
+      "version": "1.6.9",
       "scope": "required",
       "author": "Simeon Velichkov",
       "description": "Slugifies a String",
-      "purl": "pkg:npm/slugify@1.6.6",
+      "purl": "pkg:npm/slugify@1.6.9",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -988,7 +812,7 @@
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/slugify/-/slugify-1.6.6.tgz"
+          "url": "https://registry.npmjs.org/slugify/-/slugify-1.6.9.tgz"
         },
         {
           "type": "vcs",
@@ -1006,7 +830,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "87ecfb1ca1d85e3eb0254f809d2ffe207f1487d7dd717d4bae1835fd531d7fd3f0a0141715c5e201db32dad48ad0fea02b024b5e9d36afdd1a8540aa1e4f6baf"
+          "content": "bd9eeb7de7a166e8bbc10b38dfc25705c9182e420875f1ce5ec6951143324b97c7a35e3cde5d5b31da3410349661c958d3264a14e8a90f2e0a1ee2aceacb2f76"
         }
       ],
       "licenses": [
@@ -1067,86 +891,74 @@
   ],
   "dependencies": [
     {
-      "ref": "weblate-client-libs@5.16.1",
+      "ref": "weblate-client-libs@2026.5.0",
       "dependsOn": [
         "@popperjs/core@2.11.8",
-        "@sentry/browser@10.38.0",
-        "@tarekraafat/autocomplete.js@10.2.9",
-        "altcha@2.3.0",
+        "@sentry/browser@10.51.0",
+        "@tarekraafat/autocomplete.js@10.2.10",
+        "altcha@3.0.5",
         "autosize@6.0.1",
         "bootstrap@5.3.8",
-        "daterangepicker@3.1.0",
+        "hotkeys-js@4.0.4",
         "jquery@3.7.1",
-        "moment@2.30.1",
-        "mousetrap@1.6.5",
-        "mousetrap-global-bind@1.1.0",
         "multi.js@0.5.3",
         "prismjs@1.30.0",
-        "slugify@1.6.6",
+        "slugify@1.6.9",
         "tributejs@5.1.3"
       ]
-    },
-    {
-      "ref": "@altcha/crypto@0.0.1",
-      "dependsOn": []
     },
     {
       "ref": "@popperjs/core@2.11.8",
       "dependsOn": []
     },
     {
-      "ref": "@rollup/rollup-linux-x64-gnu@4.18.0",
+      "ref": "@sentry-internal/browser-utils@10.51.0",
+      "dependsOn": [
+        "@sentry/core@10.51.0"
+      ]
+    },
+    {
+      "ref": "@sentry-internal/feedback@10.51.0",
+      "dependsOn": [
+        "@sentry/core@10.51.0"
+      ]
+    },
+    {
+      "ref": "@sentry-internal/replay@10.51.0",
+      "dependsOn": [
+        "@sentry-internal/browser-utils@10.51.0",
+        "@sentry/core@10.51.0"
+      ]
+    },
+    {
+      "ref": "@sentry-internal/replay-canvas@10.51.0",
+      "dependsOn": [
+        "@sentry-internal/replay@10.51.0",
+        "@sentry/core@10.51.0"
+      ]
+    },
+    {
+      "ref": "@sentry/browser@10.51.0",
+      "dependsOn": [
+        "@sentry-internal/browser-utils@10.51.0",
+        "@sentry-internal/feedback@10.51.0",
+        "@sentry-internal/replay@10.51.0",
+        "@sentry-internal/replay-canvas@10.51.0",
+        "@sentry/core@10.51.0"
+      ]
+    },
+    {
+      "ref": "@sentry/core@10.51.0",
       "dependsOn": []
     },
     {
-      "ref": "@sentry-internal/browser-utils@10.38.0",
-      "dependsOn": [
-        "@sentry/core@10.38.0"
-      ]
-    },
-    {
-      "ref": "@sentry-internal/feedback@10.38.0",
-      "dependsOn": [
-        "@sentry/core@10.38.0"
-      ]
-    },
-    {
-      "ref": "@sentry-internal/replay@10.38.0",
-      "dependsOn": [
-        "@sentry-internal/browser-utils@10.38.0",
-        "@sentry/core@10.38.0"
-      ]
-    },
-    {
-      "ref": "@sentry-internal/replay-canvas@10.38.0",
-      "dependsOn": [
-        "@sentry-internal/replay@10.38.0",
-        "@sentry/core@10.38.0"
-      ]
-    },
-    {
-      "ref": "@sentry/browser@10.38.0",
-      "dependsOn": [
-        "@sentry-internal/browser-utils@10.38.0",
-        "@sentry-internal/feedback@10.38.0",
-        "@sentry-internal/replay@10.38.0",
-        "@sentry-internal/replay-canvas@10.38.0",
-        "@sentry/core@10.38.0"
-      ]
-    },
-    {
-      "ref": "@sentry/core@10.38.0",
+      "ref": "@tarekraafat/autocomplete.js@10.2.10",
       "dependsOn": []
     },
     {
-      "ref": "@tarekraafat/autocomplete.js@10.2.9",
-      "dependsOn": []
-    },
-    {
-      "ref": "altcha@2.3.0",
+      "ref": "altcha@3.0.5",
       "dependsOn": [
-        "@altcha/crypto@0.0.1",
-        "@rollup/rollup-linux-x64-gnu@4.18.0"
+        "hash-wasm@4.12.0"
       ]
     },
     {
@@ -1160,29 +972,16 @@
       ]
     },
     {
-      "ref": "daterangepicker@3.1.0",
-      "dependsOn": [
-        "jquery@3.7.1",
-        "moment@2.30.1"
-      ]
+      "ref": "hash-wasm@4.12.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "hotkeys-js@4.0.4",
+      "dependsOn": []
     },
     {
       "ref": "jquery@3.7.1",
       "dependsOn": []
-    },
-    {
-      "ref": "moment@2.30.1",
-      "dependsOn": []
-    },
-    {
-      "ref": "mousetrap@1.6.5",
-      "dependsOn": []
-    },
-    {
-      "ref": "mousetrap-global-bind@1.1.0",
-      "dependsOn": [
-        "mousetrap@1.6.5"
-      ]
     },
     {
       "ref": "multi.js@0.5.3",
@@ -1193,7 +992,7 @@
       "dependsOn": []
     },
     {
-      "ref": "slugify@1.6.6",
+      "ref": "slugify@1.6.9",
       "dependsOn": []
     },
     {

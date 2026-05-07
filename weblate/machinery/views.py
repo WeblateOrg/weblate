@@ -231,7 +231,12 @@ class EditMachineryView(FormView):
     def get_form_kwargs(self):
         result = super().get_form_kwargs()
         result["machinery"] = self.machinery
+        result["allow_private_targets"] = self.allow_private_targets
         return result
+
+    @property
+    def allow_private_targets(self) -> bool:
+        return True
 
     @cached_property
     def settings_dict(self) -> dict[str, SettingsDict]:
@@ -326,6 +331,10 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
 
 
 class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
+    @property
+    def allow_private_targets(self) -> bool:
+        return False
+
     def save_settings(self, data: SettingsDict | None) -> None:
         self.project.machinery_settings[self.machinery_id] = data
         self.project.save(update_fields=["machinery_settings"])

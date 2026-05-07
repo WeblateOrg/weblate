@@ -36,19 +36,12 @@
 
 </div>
 {% if field.errors and inline_class %}
-  {# djlint:off #}
-  {% if field.errors.field_id %}
-    {# Django 5.2+ #}
-    <div id="{{ field.errors.field_id }}_error" class="invalid-feedback">
-  {% else %}
-    <div id="{{ field.auto_id }}_error" class="invalid-feedback">
-  {% endif %}
-  {% for error in field.errors %}
-    <p id="error_{{ forloop.counter }}_{{ field.auto_id }}">
-      <strong>{{ error }}</strong>
-    </p>
-  {% endfor %}
+  <div id="{{ field.errors.field_id }}_error" class="invalid-feedback">
+    {% for error in field.errors %}
+      <p id="error_{{ forloop.counter }}_{{ field.auto_id }}">
+        <strong>{{ error }}</strong>
+      </p>
+    {% endfor %}
   </div>
-  {# djlint:on #}
 {% endif %}
 {% include 'bootstrap5/layout/help_text.html' %}

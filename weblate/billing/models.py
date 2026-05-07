@@ -621,7 +621,7 @@ class Invoice(models.Model):
             return
 
         if self.end <= self.start:
-            msg = "Start has be to before end!"
+            msg = "Start has to be before end!"
             raise ValidationError(msg)
 
         if not self.billing_id:
@@ -718,7 +718,14 @@ def record_project_bill(
     if isinstance(instance, Project):
         users = User.objects.having_perm("project.edit", instance)
         for billing in instance.billing_set.all():
+            # Do the owners sync only for the last project
+            if billing.projects.exclude(pk=instance.pk).exists():
+                continue
+            # Add project admins to the billing
+            existing_owners = set(billing.owners.values_list("id", flat=True))
             for user in users:
+                if user.id in existing_owners:
+                    continue
                 billing.owners.add(user)
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
@@ -737,7 +744,7 @@ def record_project_bill(
 def delete_project_bill(
     sender, instance: Project | Component | Translation, **kwargs
 ) -> None:
-    from weblate.billing.tasks import billing_check
+    from weblate.billing.tasks import billing_check  # noqa: PLC0415
 
     if isinstance(instance, Translation):
         try:

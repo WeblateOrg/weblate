@@ -26,6 +26,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.txt
 
 
+.. include:: /snippets/format-features/txt-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

@@ -9,6 +9,36 @@
     </tr>
   </thead>
   <tbody>
+    {% if matches_errors %}
+      <tr>
+        <th colspan="3" class="danger">{% translate "The following errors were found" %}</th>
+      </tr>
+      {% for match in matches_errors %}
+        <tr>
+          <th>
+            {{ match.0.name }}
+            {% if match.0.slug %}(<code>{{ match.0.slug }}</code>){% endif %}
+          </th>
+          <td>
+            <strong>{{ match.1 }}</strong>
+          </td>
+          <td>
+            {% if match.0.base_file %}
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <br />
+            {% endif %}
+            {% if match.0.mask %}
+              <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+              <br />
+            {% endif %}
+            {% for file, lang in match.0.files_langs %}
+              <code>{{ file }}</code> ({{ lang }})
+              <br />
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
     {% if matches_deleted %}
       <tr>
         <th colspan="3" class="danger">{% translate "The following components would be deleted" %}</th>
@@ -78,7 +108,8 @@
       {% for match in matches_skipped %}
         <tr>
           <th>
-            {{ match.0.name }} (<code>{{ match.0.slug }}</code>)
+            {{ match.0.name }}
+            {% if match.0.slug %}(<code>{{ match.0.slug }}</code>){% endif %}
           </th>
           <td>
             <strong>{{ match.1 }}</strong>
@@ -88,8 +119,10 @@
               <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
               <br />
             {% endif %}
-            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
-            <br />
+            {% if match.0.mask %}
+              <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+              <br />
+            {% endif %}
             {% for file, lang in match.0.files_langs %}
               <code>{{ file }}</code> ({{ lang }})
               <br />
@@ -98,7 +131,7 @@
         </tr>
       {% endfor %}
     {% endif %}
-    {% if not matches_deleted and not matches_created and not matches_matched and not matches_skipped %}
+    {% if not matches_errors and not matches_deleted and not matches_created and not matches_matched and not matches_skipped %}
       <tr>
         <th colspan="3" class="danger">{% translate "No matching components were found!" %}</th>
       </tr>

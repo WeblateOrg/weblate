@@ -37,6 +37,12 @@ assert (
     == "utf-16"
 )
 assert (
+    "properties_encoding"
+    not in Component.objects.get(
+        slug="xwiki-page-properties-utf-8", file_format="xwiki-page-properties"
+    ).file_format_params
+)
+assert (
     Component.objects.get(slug="csv-auto", file_format="csv").file_format_params[
         "csv_encoding"
     ]

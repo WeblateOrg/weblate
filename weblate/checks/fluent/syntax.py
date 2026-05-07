@@ -46,6 +46,7 @@ class FluentSourceSyntaxCheck(_FluentSyntaxCheck, SourceCheck):
     name = gettext_lazy("Fluent source syntax")
     description = gettext_lazy("Fluent syntax error in the source.")
     default_disabled = True
+    version_added = "5.0"
 
     def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
         return self.check_fluent_syntax(sources[0], unit)
@@ -63,6 +64,7 @@ class FluentTargetSyntaxCheck(_FluentSyntaxCheck, TargetCheck):
     name = gettext_lazy("Fluent translation syntax")
     description = gettext_lazy("Fluent syntax error in the translation.")
     default_disabled = True
+    version_added = "5.0"
 
     def check_single(
         self,

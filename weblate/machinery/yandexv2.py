@@ -27,6 +27,7 @@ class YandexV2Translation(MachineTranslation):
     name = "Yandex v2"
     max_score = 90
     settings_form = KeyMachineryForm
+    version_added = "5.1"
 
     def check_failure(self, response: Response) -> None:
         super().check_failure(response)

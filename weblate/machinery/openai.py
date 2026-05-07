@@ -4,11 +4,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.core.cache import cache
-
-from weblate.utils.errors import add_breadcrumb
 
 from .base import (
     MachineryRateLimitError,
@@ -26,27 +24,40 @@ if TYPE_CHECKING:
 class BaseOpenAITranslation(BaseLLMTranslation):
     client: OpenAI
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
-        from openai import RateLimitError
-        from openai.types.chat import (
+    def get_runtime_base_url(self) -> str:
+        raise NotImplementedError
+
+    def fetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
+        from openai import RateLimitError  # noqa: PLC0415
+        from openai.types.chat import (  # noqa: PLC0415
+            ChatCompletionAssistantMessageParam,
             ChatCompletionSystemMessageParam,
             ChatCompletionUserMessageParam,
         )
 
-        add_breadcrumb("openai", "prompt", prompt=prompt)
-        add_breadcrumb("openai", "chat", content=content)
-
         messages: Iterable[
-            ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam
+            ChatCompletionSystemMessageParam
+            | ChatCompletionUserMessageParam
+            | ChatCompletionAssistantMessageParam
         ] = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
+            ChatCompletionUserMessageParam(
+                role="user",
+                content=previous_content,
+            ),
+            ChatCompletionAssistantMessageParam(
+                role="assistant",
+                content=previous_response,
+            ),
             ChatCompletionUserMessageParam(
                 role="user",
                 content=content,
             ),
         ]
-
         try:
+            self.validate_runtime_url(self.get_runtime_base_url())
             response = self.client.chat.completions.create(
                 model=self.get_model(),
                 messages=messages,
@@ -63,11 +74,14 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
+    trusted_error_hosts: ClassVar[set[str]] = {"api.openai.com"}
+
+    version_added = "5.3"
 
     settings_form = OpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
-        from openai import OpenAI
+        from openai import OpenAI  # noqa: PLC0415
 
         super().__init__(settings)
         self.client = OpenAI(
@@ -77,6 +91,9 @@ class OpenAITranslation(BaseOpenAITranslation):
         )
         self._models: set[str] | None = None
 
+    def get_runtime_base_url(self) -> str:
+        return self.settings.get("base_url") or "https://api.openai.com/v1"
+
     def get_model(self) -> str:
         if self._models is None:
             cache_key = self.get_cache_key("models")
@@ -85,6 +102,7 @@ class OpenAITranslation(BaseOpenAITranslation):
                 # hiredis-py 3 makes list from set
                 self._models = set(models_cache)
             else:
+                self.validate_runtime_url(self.get_runtime_base_url())
                 self._models = {model.id for model in self.client.models.list()}
                 cache.set(cache_key, self._models, 3600)
 
@@ -105,10 +123,11 @@ class OpenAITranslation(BaseOpenAITranslation):
 
 class AzureOpenAITranslation(BaseOpenAITranslation):
     name = "Azure OpenAI"
+    version_added = "5.8"
     settings_form = AzureOpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
-        from openai import AzureOpenAI
+        from openai import AzureOpenAI  # noqa: PLC0415
 
         super().__init__(settings)
         self.client = AzureOpenAI(
@@ -118,6 +137,9 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
             azure_endpoint=self.settings.get("azure_endpoint") or "",
             azure_deployment=self.settings["deployment"],
         )
+
+    def get_runtime_base_url(self) -> str:
+        return self.settings.get("azure_endpoint") or ""
 
     def get_model(self) -> str:
         return self.settings["deployment"]

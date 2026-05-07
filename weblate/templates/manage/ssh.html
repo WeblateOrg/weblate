@@ -59,14 +59,23 @@
             <th>{% translate "Hostname" %}</th>
             <th>{% translate "Key type" %}</th>
             <th>{% translate "Fingerprint" %}</th>
+            <th>{% translate "Actions" %}</th>
           </tr>
         </thead>
         <tbody>
           {% for key in host_keys %}
             <tr class="row{% cycle '1' '2' %}">
-              <td>{{ key.0 }}</td>
-              <td>{{ key.1 }}</td>
-              <td>{{ key.2 }}</td>
+              <td>{{ key.host }}</td>
+              <td>{{ key.key_type }}</td>
+              <td>{{ key.fingerprint }}</td>
+              <td>
+                <form method="post" class="inlineform">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="remove-host" />
+                  <input type="hidden" name="host_key" value="{{ key.id }}" />
+                  <input type="submit" class="btn btn-link btn-xs red" value="{% translate "Remove" %}" />
+                </form>
+              </td>
             </tr>
           {% endfor %}
         </tbody>

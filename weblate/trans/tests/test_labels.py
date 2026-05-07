@@ -4,13 +4,18 @@
 
 """Test for variants."""
 
+from typing import cast
+from unittest.mock import patch
+
+from django.core.cache import cache
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.actions import ActionEvents
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 
 
-class LabelTest(ViewTestCase):
+class LabelTest(FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.make_manager()
@@ -168,3 +173,72 @@ class LabelTest(ViewTestCase):
 
         changes = unit.change_set.filter(action=ActionEvents.LABEL_ADD)
         self.assertEqual(changes.count(), 2)
+
+
+class MonolingualLabelTest(ViewTestCase):
+    def create_component(self):
+        return self.create_ts_mono()
+
+    def test_source_change_recalculates_cached_label_stats(self) -> None:
+        label = self.project.label_set.create(
+            name="Test label",
+            description="Test description for Test Label",
+            color="orange",
+        )
+        target_translation = self.get_translation()
+        target_unit = self.get_unit(language="cs")
+        target_unit.source_unit.labels.add(label)
+
+        label_words = f"label:{label.name}_words"
+        self.assertEqual(
+            getattr(target_translation.stats, label_words),
+            target_unit.source_unit.num_words,
+        )
+
+        self.edit_unit("Hello, world!\n", "Hello, beautiful world!\n", language="en")
+
+        updated_unit = self.get_unit("Hello, beautiful world!\n", language="cs")
+        target_translation = self.get_translation()
+        self.assertEqual(
+            getattr(target_translation.stats, label_words),
+            updated_unit.source_unit.num_words,
+        )
+
+    def test_apply_source_delta_uses_latest_cached_stats(self) -> None:
+        stats = self.get_translation().stats
+        _ = stats.all_words
+        base_timestamp = cast("float", stats.stats_timestamp)
+        latest = stats.get_data_copy()
+        latest["all_words"] = cast("int", latest["all_words"]) + 3
+        cache.set(stats.cache_key, latest, 30 * 86400)
+
+        self.assertTrue(stats.apply_source_delta(base_timestamp, {"all_words": 2}))
+        self.assertEqual(
+            cache.get(stats.cache_key)["all_words"],
+            cast("int", latest["all_words"]) + 2,
+        )
+
+    def test_apply_source_delta_skips_newer_generation(self) -> None:
+        stats = self.get_translation().stats
+        _ = stats.all_words
+        base_timestamp = cast("float", stats.stats_timestamp)
+        latest = stats.get_data_copy()
+        latest["stats_timestamp"] = base_timestamp + 1
+        latest["all_words"] = cast("int", latest["all_words"]) + 7
+        cache.set(stats.cache_key, latest, 30 * 86400)
+
+        self.assertFalse(stats.apply_source_delta(base_timestamp, {"all_words": 2}))
+        self.assertEqual(cache.get(stats.cache_key), latest)
+
+    @override_settings(STATS_LAZY=False)
+    def test_save_holds_lock(self) -> None:
+        stats = self.get_translation().stats
+        original = cache.set
+
+        def wrapped(*args, **kwargs) -> None:
+            if args[0] == stats.cache_key:
+                self.assertTrue(stats.lock.is_locked)
+            original(*args, **kwargs)
+
+        with patch("weblate.utils.stats.cache.set", side_effect=wrapped):
+            stats.update_stats(update_parents=False)

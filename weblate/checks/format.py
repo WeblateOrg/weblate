@@ -92,6 +92,22 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
+OBJC_PRINTF_MATCH = re.compile(
+    r"""
+    %(                          # initial %
+          (?:(?P<ord>\d+)\$)?   # variable order, like %1$@
+    (?P<fullvar>
+        \#@[^@]+@              # Stringsdict token like %#@name@
+        |[ +#'-]*              # flags
+        (?:\d+)?               # width
+        (?:\.\d+)?             # precision
+        (hh|ll|h|l|z|t|j|q|L)?  # length formatting
+        (?P<type>[a-zA-Z@%])   # type (%s, %d, %@ etc.)
+        |)                     # incomplete format string
+    )""",
+    re.VERBOSE,
+)
+
 # index, width and precision can be '*', in which case their value
 # will be read from the next element in the Args array
 PASCAL_FORMAT_MATCH = re.compile(
@@ -246,6 +262,13 @@ def c_format_is_position_based(string: str):
     return "$" not in string and string != "%"
 
 
+def objc_format_is_position_based(string: str):
+    # Stringsdict tokens like %#@name@ are named references, not positional
+    if string.startswith("#@"):
+        return False
+    return "$" not in string and string != "%"
+
+
 def pascal_format_is_position_based(string: str):
     return ":" not in string and string != "%"
 
@@ -347,6 +370,11 @@ FLAG_RULES: dict[
     "laravel-format": (
         LARAVEL_MATCH,
         name_format_is_position_based,
+        extract_string_simple,
+    ),
+    "objc-format": (
+        OBJC_PRINTF_MATCH,
+        objc_format_is_position_based,
         extract_string_simple,
     ),
 }
@@ -496,12 +524,14 @@ class BaseFormatCheck(TargetCheck):
             and all(self.is_position_based(flag) for flag in result["missing"])
             and set(result["missing"]) == set(result["extra"])
         ):
-            yield gettext(
-                "The following format strings are in the wrong order: %s"
-            ) % format_html_join_comma(
-                "{}",
-                list_to_tuples(
-                    self.format_string(x) for x in sorted(set(result["missing"]))
+            yield format_html(
+                "{} {}",
+                gettext("The following format strings are in the wrong order:"),
+                format_html_join_comma(
+                    "{}",
+                    list_to_tuples(
+                        self.format_string(x) for x in sorted(set(result["missing"]))
+                    ),
                 ),
             )
         else:
@@ -515,12 +545,12 @@ class BaseFormatCheck(TargetCheck):
         errors: list[StrOrPromise] = []
 
         # Merge plurals
-        results: MissingExtraDict = defaultdict(list)
+        results = defaultdict(list)
         for result in checks:
             if result:
                 for key, value in result.items():
                     results[key].extend(value)
-        if results:
+        if any(results.values()):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
@@ -604,6 +634,15 @@ class CFormatCheck(BasePrintfCheck):
     check_id = "c_format"
     name = gettext_lazy("C format")
     description = gettext_lazy("C format string does not match source.")
+
+
+class ObjCFormatCheck(BasePrintfCheck):
+    """Check for Objective-C format string."""
+
+    check_id = "objc_format"
+    name = gettext_lazy("Objective-C format")
+    description = gettext_lazy("Objective-C format string does not match source.")
+    version_added = "5.17"
 
 
 class PerlBraceFormatCheck(BaseFormatCheck):
@@ -753,6 +792,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     name = gettext_lazy("Java MessageFormat")
     description = gettext_lazy("Java MessageFormat string does not match source.")
     regexp = JAVA_MESSAGE_MATCH
+    extra_enable_strings = ("auto-java-messageformat",)
 
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"
@@ -762,10 +802,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if self.is_ignored(all_flags):
             return True
 
-        if "auto-java-messageformat" in unit.all_flags and "{0" in unit.source:
-            return False
-
-        return super().should_skip(unit)
+        return not all_flags.is_active("java-format", unit.source)
 
     def check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit
@@ -801,6 +838,7 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     regexp = I18NEXT_MATCH
     # https://www.i18next.com/translation-function/plurals
     plural_parameter_regexp = re.compile(r"{{count}}")
+    version_added = "4.0"
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
@@ -828,6 +866,7 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     description = gettext_lazy("The percent placeholders do not match source.")
     regexp = PERCENT_MATCH
     plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
+    version_added = "4.0"
 
 
 class VueFormattingCheck(BaseFormatCheck):
@@ -866,6 +905,7 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         "There are multiple unnamed variables in the string, "
         "making it impossible for translators to reorder them."
     )
+    version_added = "4.1"
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""

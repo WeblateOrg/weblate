@@ -21,6 +21,7 @@ from weblate.checks.format import (
     LaravelFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
+    ObjCFormatCheck,
     ObjectPascalFormatCheck,
     PercentPlaceholdersCheck,
     PerlBraceFormatCheck,
@@ -37,7 +38,7 @@ from weblate.checks.ruby import RubyFormatCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.util import join_plural
 
 if TYPE_CHECKING:
@@ -1085,6 +1086,8 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.should_skip(unit))
         unit = MockUnit(source="{0}", flags="auto-java-messageformat")
         self.assertFalse(self.check.should_skip(unit))
+        unit = MockUnit(source="{0,number}", flags="auto-java-messageformat")
+        self.assertFalse(self.check.should_skip(unit))
         unit = MockUnit(
             source="{0}", flags="auto-java-messageformat,ignore-java-format"
         )
@@ -1351,7 +1354,7 @@ class RubyFormatCheckTest(CheckTestCase):
         )
 
 
-class PluralTest(FixtureTestCase):
+class PluralTest(FixtureComponentTestCase):
     check = PythonFormatCheck()
 
     def do_check(
@@ -1916,4 +1919,94 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
             self.check.check_source(
                 ["Recognition {}% ({}/{})"], MockUnit(flags="python-brace-format")
             )
+        )
+
+
+class ObjCFormatCheckTest(CFormatCheckTest):
+    check: BaseFormatCheck = ObjCFormatCheck()
+    flag = "objc-format"
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_highlight = (
+            self.flag,
+            "%@string%d",
+            [(0, 2, "%@"), (8, 10, "%d")],
+        )
+
+    def test_objc_at_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%@ string", "%@ string", False, Unit())
+        )
+
+    def test_objc_positional_at_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "%1$@ %2$d string", "%1$@ %2$d string", False, Unit()
+            )
+        )
+
+    def test_objc_reorder_at_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "%1$@ %2$@ string", "%2$@ %1$@ string", False, Unit()
+            )
+        )
+
+    def test_objc_missing_at_format(self) -> None:
+        self.assertTrue(self.check.check_format("%@ string", "string", False, Unit()))
+
+    def test_objc_added_at_format(self) -> None:
+        self.assertTrue(self.check.check_format("string", "%@ string", False, Unit()))
+
+    def test_objc_wrong_at_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("%@ string", "%d string", False, Unit())
+        )
+
+    def test_objc_stringsdict_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "%#@count@ string", "%#@count@ string", False, Unit()
+            )
+        )
+
+    def test_objc_stringsdict_wrong_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format(
+                "%#@count@ string", "%#@total@ string", False, Unit()
+            )
+        )
+
+    def test_objc_stringsdict_missing_format(self) -> None:
+        self.assertTrue(
+            self.check.check_format("%#@count@ string", "string", False, Unit())
+        )
+
+    def test_objc_stringsdict_reorder_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format(
+                "%#@apples@ and %#@oranges@",
+                "%#@oranges@ and %#@apples@",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_objc_zd_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%zd items", "%zd items", False, Unit())
+        )
+
+    def test_objc_zd_wrong_format(self) -> None:
+        self.assertTrue(self.check.check_format("%zd items", "%d items", False, Unit()))
+
+    def test_objc_tu_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%tu items", "%tu items", False, Unit())
+        )
+
+    def test_objc_lf_format(self) -> None:
+        self.assertFalse(
+            self.check.check_format("%Lf value", "%Lf value", False, Unit())
         )

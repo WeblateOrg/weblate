@@ -9,7 +9,7 @@ version = 1
 
 [[annotations]]
 path = [
-  ".github/copilot-instructions.md",
+  "AGENTS.md",
   "BACKERS.rst",
   "ci/README.rst",
   "CONTACT.md",
@@ -33,7 +33,22 @@ SPDX-FileCopyrightText = "Michal Čihař <michal@weblate.org>"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
-path = "docs/specs/schemas/**.json"
+path = [
+  "docs/specs/schemas/**.json"
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Michal Čihař <michal@weblate.org>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "docs/locales/*/LC_MESSAGES/docs.po",
+  "docs/locales/docs.pot",
+  "weblate/locale/*/LC_MESSAGES/django.po",
+  "weblate/locale/*/LC_MESSAGES/djangojs.po",
+  "weblate/locale/django.pot",
+  "weblate/locale/djangojs.pot"
+]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Michal Čihař <michal@weblate.org>"
 SPDX-License-Identifier = "MIT"
@@ -79,6 +94,7 @@ path = [
   "pyproject.toml",
   "redocly.yaml",
   "scripts/codespell.txt",
+  "security.yaml",
   "setup.cfg",
   "uv.lock",
   "weblate/examples/*"

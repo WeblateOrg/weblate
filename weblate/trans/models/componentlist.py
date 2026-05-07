@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-import re
+import logging
 from typing import TYPE_CHECKING
 
 from django.db import models
@@ -15,10 +15,15 @@ from django.utils.translation import gettext_lazy
 
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin
+from weblate.utils.errors import report_error
+from weblate.utils.regex import regex_match
 from weblate.utils.stats import ComponentListStats
 
 if TYPE_CHECKING:
     from weblate.trans.models.translation import Translation
+
+
+LOGGER = logging.getLogger("weblate.trans.componentlist")
 
 
 class ComponentListQuerySet(models.QuerySet):
@@ -106,8 +111,42 @@ class AutoComponentList(models.Model):
         return self.componentlist.name
 
     def check_match(self, component) -> None:
-        if not re.match(self.project_match, component.project.slug):
+        try:
+            project_match = regex_match(self.project_match, component.project.slug)
+        except TimeoutError:
+            report_error(
+                "Automatic component list project regex timed out",
+                project=component.project,
+            )
+            LOGGER.warning(
+                "Automatic component list regex timed out: list=%s project_match=%r "
+                "component_match=%r project=%s component=%s",
+                self.componentlist_id,
+                self.project_match,
+                self.component_match,
+                component.project.slug,
+                component.slug,
+            )
             return
-        if not re.match(self.component_match, component.slug):
+        if not project_match:
+            return
+        try:
+            component_match = regex_match(self.component_match, component.slug)
+        except TimeoutError:
+            report_error(
+                "Automatic component list component regex timed out",
+                project=component.project,
+            )
+            LOGGER.warning(
+                "Automatic component list regex timed out: list=%s project_match=%r "
+                "component_match=%r project=%s component=%s",
+                self.componentlist_id,
+                self.project_match,
+                self.component_match,
+                component.project.slug,
+                component.slug,
+            )
+            return
+        if not component_match:
             return
         self.componentlist.components.add(component)

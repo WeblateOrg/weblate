@@ -19,15 +19,15 @@ Invoking management commands
 
 As mentioned before, invocation depends on how you installed Weblate.
 
-If using virtualenv for Weblate, you can either specify the full path to
-:command:`weblate`, or activate the virtualenv prior to invoking it:
+If using a Python environment for Weblate, you can either specify the full path to
+:command:`weblate`, or activate the Python environment prior to invoking it:
 
 .. code-block:: sh
 
    # Direct invocation
    ~/weblate-env/bin/weblate
 
-   # Activating virtualenv adds it to search path
+   # Activating Python environment adds it to search path
    . ~/weblate-env/bin/activate
    weblate
 
@@ -40,7 +40,7 @@ To run it:
     python ./manage.py list_versions
 
 If you've installed Weblate using the pip installer, or by using the :file:`./setup.py`
-script, the :command:`weblate` is installed to your path (or virtualenv path),
+script, the :command:`weblate` is installed to your path (or Python environment path),
 from where you can use it to control Weblate:
 
 .. code-block:: sh
@@ -717,6 +717,12 @@ list_addons
 
 Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`.
 
+.. weblate-admin-option:: --sections {events,addons,parameters}
+
+   Filter the generated output to just the add-on event sections, the built-in
+   add-on sections, or the shared add-on parameter sections. If omitted, all
+   generated sections are shown.
+
 .. seealso::
 
    :doc:`/contributing/documentation`
@@ -738,6 +744,18 @@ list_checks
 .. weblate-admin:: list_checks
 
 Lists quality checks in reStructuredText as a template for :doc:`/admin/checks` and :doc:`/user/checks`.
+
+.. weblate-admin-option:: --sections {checks,flags}
+
+   Filter the generated output to just the quality check sections or the
+   shared check flag sections. If omitted, all generated sections are shown.
+
+.. note::
+
+   Using ``--output`` requires selecting exactly one value in ``--sections`` so
+   each generated snippet is written to its own file. This matches the
+   :doc:`/contributing/documentation` workflow and the ``make -C docs
+   update-docs`` targets.
 
 .. seealso::
 
@@ -807,6 +825,24 @@ list_change_events
 .. weblate-admin:: list_change_events
 
 Lists all possible change event types.
+
+list_format_features
+--------------------
+
+.. weblate-admin:: list_format_features
+
+Generates RST documentation snippets describing the supported features for every file format.
+
+The command generates one file for every format, that can be found in the specified output directory.
+
+.. weblate-admin-option:: --output PATH
+
+    Directory where the format feature snippets will be written.
+
+.. note::
+
+    The generated documentation files are meant to be included in documentation sources such as :doc:`/formats`. See also :file:`weblate/formats/management/commands/list_format_features.py` for customization and merging logic.
+
 
 loadpo
 ------

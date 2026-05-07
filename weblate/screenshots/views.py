@@ -6,7 +6,7 @@ from __future__ import annotations
 import difflib
 import os
 from contextlib import contextmanager
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import sentry_sdk
 from django.contrib.auth.decorators import login_required
@@ -17,6 +17,8 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
+from PIL import Image
+from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
@@ -26,7 +28,7 @@ from weblate.trans.models import Component, Unit
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
-from weblate.utils.requests import http_request
+from weblate.utils.requests import fetch_url
 from weblate.utils.search import parse_query
 from weblate.utils.validators import PIL_FORMATS
 from weblate.utils.views import PathViewMixin
@@ -34,9 +36,7 @@ from weblate.utils.views import PathViewMixin
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-    import PIL.Image
     from django.http import HttpResponse
-    from tesserocr import PyTessBaseAPI
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.lang.models import Language
@@ -161,10 +161,9 @@ def ensure_tesseract_language(lang: str) -> None:
     # Operate with a lock held to avoid concurrent downloads
     with (
         WeblateLock(
-            lock_path=data_dir("home"),
-            scope="screenshots:tesseract-download",
+            scope="screenshots:tesseract:download",
             key=0,
-            slug="screenshots:tesseract-download",
+            slug="screenshots:tesseract:download",
             timeout=600,
         ),
         sentry_sdk.start_span(op="ocr.models"),
@@ -183,7 +182,7 @@ def ensure_tesseract_language(lang: str) -> None:
             LOGGER.debug("downloading tesseract data %s", url)
 
             with sentry_sdk.start_span(op="ocr.download", name=url):
-                response = http_request("GET", url, allow_redirects=True)
+                response = fetch_url("GET", url, allow_redirects=True)
 
             with open(full_name, "xb") as handle:
                 handle.write(response.content)
@@ -400,10 +399,7 @@ def search_source(request: AuthenticatedHttpRequest, pk):
     )
 
 
-def ocr_get_strings(
-    api, *, image: PIL.Image.Image, filename: str, resolution: int = 72
-):
-    from tesserocr import RIL, iterate_level
+def ocr_get_strings(api, *, image: Image.Image, filename: str, resolution: int = 72):
 
     try:
         api.SetImage(image)
@@ -431,7 +427,7 @@ def ocr_get_strings(
 def ocr_extract(
     api,
     *,
-    image: PIL.Image.Image,
+    image: Image.Image,
     filename: str,
     strings: tuple[str, ...],
     resolution: int,
@@ -447,7 +443,6 @@ def ocr_extract(
 
 @contextmanager
 def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
-    from tesserocr import OEM, PSM, PyTessBaseAPI
 
     # Get matching language
     try:
@@ -472,7 +467,6 @@ def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
 @login_required
 @require_POST
 def ocr_search(request: AuthenticatedHttpRequest, pk):
-    from PIL import Image
 
     obj = get_screenshot(request, pk)
     translation = obj.translation
@@ -482,21 +476,32 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with (
-        Image.open(obj.image.path, formats=PIL_FORMATS) as image,
-        get_tesseract(translation.language) as api,
-    ):
-        results = {
-            sources[match]
-            for resolution in (72, 300)
-            for match in ocr_extract(
-                api,
-                image=image,
-                filename=obj.image.path,
-                strings=strings,
-                resolution=resolution,
-            )
-        }
+    try:
+        with Image.open(obj.image.path, formats=PIL_FORMATS) as image:
+            image.load()
+    except OSError as error:
+        LOGGER.warning(
+            "Skipping OCR for unreadable screenshot %s: %s", obj.image.path, error
+        )
+        return search_results(request, 200, obj)
+
+    ocr_image = cast("Image.Image", image)
+
+    try:
+        with get_tesseract(translation.language) as api:
+            results = {
+                sources[match]
+                for resolution in (72, 300)
+                for match in ocr_extract(
+                    api,
+                    image=ocr_image,
+                    filename=obj.image.path,
+                    strings=strings,
+                    resolution=resolution,
+                )
+            }
+    finally:
+        ocr_image.close()
 
     return search_results(
         request, 200, obj, translation.unit_set.filter(pk__in=results)

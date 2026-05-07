@@ -43,6 +43,13 @@ class DeepLTranslation(
         "pt@formal": "pt-pt@formal",
         "pt@informal": "pt-pt@informal",
     }
+    target_language_map: ClassVar[dict[str, str]] = {
+        "PT": "PT-PT",
+    }
+    trusted_error_hosts: ClassVar[set[str]] = {
+        "api.deepl.com",
+        "api-free.deepl.com",
+    }
     highlight_syntax = True
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
@@ -69,8 +76,26 @@ class DeepLTranslation(
             if "-" in value:
                 yield value.split("-", 1)[0]
 
+    def get_target_language_possibilities(self, language: Language) -> Iterator[str]:
+        seen: set[str] = set()
+        base_code = self.map_language_code(language.code)
+
+        for value in super().get_language_possibilities(language):
+            if value not in seen:
+                seen.add(value)
+                yield value
+
+        mapped_value = self.target_language_map.get(base_code)
+        if mapped_value and mapped_value not in seen:
+            yield mapped_value
+
     def get_headers(self) -> dict[str, str]:
         return {"Authorization": f"DeepL-Auth-Key {self.settings['key']}"}
+
+    def delete_cache(self) -> None:
+        """Delete general caches and DeepL-specific glossary support cache."""
+        super().delete_cache()
+        cache.delete(self.get_cache_key("glossary_languages"))
 
     def get_error_message(self, exc):
         if isinstance(exc, RequestException) and exc.response is not None:

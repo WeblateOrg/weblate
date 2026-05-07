@@ -673,6 +673,7 @@ class FluentReferencesCheck(TargetCheck):
     name = gettext_lazy("Fluent references")
     description = gettext_lazy("Fluent references should match.")
     default_disabled = True
+    version_added = "5.0"
 
     @classmethod
     def _compare_references(

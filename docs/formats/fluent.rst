@@ -21,6 +21,8 @@ Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.ftl
 
+.. include:: /snippets/format-features/fluent-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

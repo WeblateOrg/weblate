@@ -12,20 +12,23 @@ import warnings
 from collections import defaultdict
 from datetime import datetime
 from functools import partial
+from io import BytesIO
 from itertools import chain
 from operator import itemgetter
 from pathlib import Path
 from shutil import copyfileobj
-from typing import TYPE_CHECKING, Any, BinaryIO, TypedDict
+from typing import TYPE_CHECKING, Any, BinaryIO, Literal, TypedDict, overload
 from zipfile import ZipFile
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.files import File
-from django.db import connection, transaction
+from django.db import transaction
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.utils.timezone import make_aware
+from django.utils.translation import gettext
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
@@ -33,8 +36,10 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     Label,
@@ -47,12 +52,26 @@ from weblate.trans.models import (
 )
 from weblate.utils.data import data_path
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.validators import validate_filename
+from weblate.utils.validators import (
+    validate_bitmap,
+    validate_filename,
+    validate_repo_url,
+)
 from weblate.utils.version import VERSION
+from weblate.utils.zip import (
+    ZipSafetyLimits,
+    extract_zip_member,
+    iter_safe_zip_members,
+    validate_zip_member_path,
+)
+from weblate.utils.zip import (
+    validate_zip_members as validate_safe_zip_members,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from zipfile import ZipInfo
 
     from django.db.models import Model
 
@@ -96,12 +115,20 @@ class ProjectBackup:
     COMPONENTS_PREFIX = "components/"
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
+    MAX_ARCHIVE_MEMBERS = 100_000
+    # Per-entry limits reject suspiciously high compression ratios, while the
+    # total uncompressed limit constrains low-compression archives as a whole.
+    MAX_COMPRESSED_ENTRY_SIZE = 250 * 1024 * 1024
+    MIN_COMPRESSED_RATIO_SIZE = 1 * 1024 * 1024
+    MAX_COMPRESSED_ENTRY_RATIO = 250
+    MAX_TOTAL_UNCOMPRESSED_SIZE = 250 * 1024 * 1024
 
     def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}
         self.filename = filename
         self.fileio = fileio
         self.timestamp = timezone.now()
+        self.validated = False
         self.project: Project | None = None
         self.project_schema = load_schema("weblate-backup.schema.json")
         self.component_schema = load_schema("weblate-component.schema.json")
@@ -111,16 +138,14 @@ class ProjectBackup:
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
+        # Project.set_language_team field was migrated to file format parameters after 5.17
+        self.set_language_team_project: bool = False
 
     @staticmethod
     def full_slug_without_project(obj: Component | Category) -> str:
         """Return the full slug for a component or category without the project slug."""
         parts = obj.get_url_path()
         return "/".join(parts[1:])
-
-    @property
-    def supports_restore(self) -> bool:
-        return connection.features.can_return_rows_from_bulk_insert
 
     def validate_data(self) -> None:
         validate_schema(self.data, "weblate-backup.schema.json")
@@ -390,9 +415,12 @@ class ProjectBackup:
                     },
                 )
             )
+            image_name = screenshot.image.name
+            if image_name is None:
+                raise ValidationError(gettext("Screenshot image is missing."))
             backupzip.write(
                 os.path.join(settings.MEDIA_ROOT, screenshot.image.path),
-                os.path.join("screenshots", os.path.basename(screenshot.image.name)),
+                os.path.join("screenshots", os.path.basename(image_name)),
             )
 
         validate_schema(data, "weblate-component.schema.json")
@@ -418,7 +446,7 @@ class ProjectBackup:
         )
 
     @transaction.atomic
-    def backup_project(self, project: Project) -> None:
+    def backup_project(self, project: Project, user: User | None = None) -> None:
         """Backup whole project."""
         project.log_info("creating project backup")
         # Generate data
@@ -451,15 +479,21 @@ class ProjectBackup:
                 self.backup_component(backupzip, component)
 
         os.rename(part_name, self.filename)
-        self.log_backup(project)
+        self.log_backup(project, user)
 
-    def log_backup(self, project: Project) -> None:
+    def log_backup(self, project: Project, user: User | None = None) -> None:
         project.log_info("project backup completed")
+        project.change_set.create(
+            action=ActionEvents.PROJECT_BACKUP,
+            user=user,
+            author=user,
+            details={"backup_filename": self.relative_filename},
+        )
         for billing in project.billings:
             self.log_backup_billing(project, billing)
 
     def log_backup_billing(self, project: Project, billing: Billing) -> None:
-        from weblate.billing.models import BillingEvent
+        from weblate.billing.models import BillingEvent  # noqa: PLC0415
 
         billing.billinglog_set.create(
             event=BillingEvent.PROJECT_BACKUP,
@@ -470,12 +504,84 @@ class ProjectBackup:
             },
         )
 
+    def get_restore_history_details(self) -> dict[str, str]:
+        metadata = self.data["metadata"]
+        return {
+            "backup_timestamp": metadata["timestamp"],
+            "backup_server": metadata["server"],
+            "backup_domain": metadata["domain"],
+        }
+
+    @staticmethod
+    def get_component_backup_slug(data: dict[str, Any]) -> str:
+        slug = data["slug"]
+        if category := data.get("category"):
+            return f"{category}/{slug}"
+        return slug
+
     def list_components(self, zipfile: ZipFile) -> list[str]:
         return [
             name
             for name in zipfile.namelist()
             if name.startswith(self.COMPONENTS_PREFIX)
         ]
+
+    @staticmethod
+    def is_unsafe_vcs_path(path: str) -> bool:
+        normalized = path.replace("\\", "/")
+        return (
+            normalized.endswith(
+                (
+                    "/.git",
+                    "/.git/config",
+                    "/.git/config.worktree",
+                    "/.git/hooks",
+                    "/.git/modules",
+                    "/.hg/hgrc",
+                )
+            )
+            # Hooks are executable content; Gerrit's commit-msg hook is recreated
+            # by git-review when needed.
+            or "/.git/hooks/" in normalized
+            or "/.git/modules/" in normalized
+        )
+
+    @classmethod
+    def get_limit(cls, setting_name: str, default: int) -> int:
+        return int(getattr(settings, setting_name, default))
+
+    def validate_backup_zip_member(self, info: ZipInfo) -> None:
+        validate_filename(info.filename, check_prohibited=False)
+        if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
+            return
+        validate_zip_member_path(info.filename[self.VCS_PREFIX_LEN :])
+
+    def validate_zip_members(self, zipfile: ZipFile) -> None:
+        validate_safe_zip_members(
+            zipfile,
+            limits=ZipSafetyLimits(
+                max_members=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_MEMBERS", self.MAX_ARCHIVE_MEMBERS
+                ),
+                max_compressed_entry_size=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE",
+                    self.MAX_COMPRESSED_ENTRY_SIZE,
+                ),
+                min_compressed_ratio_size=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE",
+                    self.MIN_COMPRESSED_RATIO_SIZE,
+                ),
+                max_compressed_entry_ratio=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO",
+                    self.MAX_COMPRESSED_ENTRY_RATIO,
+                ),
+                max_total_uncompressed_size=self.get_limit(
+                    "PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE",
+                    self.MAX_TOTAL_UNCOMPRESSED_SIZE,
+                ),
+            ),
+            validate_member=self.validate_backup_zip_member,
+        )
 
     def load_data(self, zipfile: ZipFile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
@@ -489,6 +595,30 @@ class ProjectBackup:
         validate_schema(data, "weblate-memory.schema.json")
         return data
 
+    @overload
+    def load_component(
+        self,
+        zipfile: ZipFile,
+        filename: str,
+        *,
+        skip_linked: bool = False,
+        do_restore: Literal[False] = False,
+        actor: None = None,
+        changes: None = None,
+    ) -> bool: ...
+
+    @overload
+    def load_component(
+        self,
+        zipfile: ZipFile,
+        filename: str,
+        *,
+        skip_linked: bool = False,
+        do_restore: Literal[True],
+        actor: User,
+        changes: list[Change],
+    ) -> bool: ...
+
     def load_component(
         self,
         zipfile: ZipFile,
@@ -496,10 +626,13 @@ class ProjectBackup:
         *,
         skip_linked: bool = False,
         do_restore: bool = False,
+        actor: User | None = None,
+        changes: list[Change] | None = None,
     ) -> bool:
         with zipfile.open(filename) as handle:
             data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.validate_component_urls(data["component"])
             if skip_linked and data["component"]["repo"].startswith("weblate:"):
                 return False
             if data["component"]["vcs"] not in VCS_REGISTRY:
@@ -517,40 +650,113 @@ class ProjectBackup:
                     raise ValueError(msg)
 
             if do_restore:
-                self.restore_component(zipfile, data)
+                if actor is None:
+                    msg = "Need a restore actor."
+                    raise TypeError(msg)
+                if changes is None:
+                    msg = "Need a restore changes list."
+                    raise TypeError(msg)
+                self.restore_component(zipfile, data, actor, changes)
             return True
 
-    def load_components(self, zipfile: ZipFile, *, do_restore: bool = False) -> None:
+    @staticmethod
+    def validate_component_urls(component: dict[str, Any]) -> None:
+        for field in ("repo", "push"):
+            value = component.get(field)
+            if not value:
+                continue
+            try:
+                validate_repo_url(value)
+            except ValidationError as error:
+                raise ValidationError({field: error.messages}) from error
+
+    @overload
+    def load_components(
+        self,
+        zipfile: ZipFile,
+        *,
+        do_restore: Literal[False] = False,
+        actor: None = None,
+        changes: None = None,
+    ) -> None: ...
+
+    @overload
+    def load_components(
+        self,
+        zipfile: ZipFile,
+        *,
+        do_restore: Literal[True],
+        actor: User,
+        changes: list[Change],
+    ) -> None: ...
+
+    def load_components(
+        self,
+        zipfile: ZipFile,
+        *,
+        do_restore: bool = False,
+        actor: User | None = None,
+        changes: list[Change] | None = None,
+    ) -> None:
         pending: list[str] = []
+        if do_restore:
+            if actor is None:
+                msg = "Need a restore actor."
+                raise TypeError(msg)
+            if changes is None:
+                msg = "Need a restore changes list."
+                raise TypeError(msg)
+            for component in self.list_components(zipfile):
+                processed = self.load_component(
+                    zipfile,
+                    component,
+                    skip_linked=True,
+                    do_restore=True,
+                    actor=actor,
+                    changes=changes,
+                )
+                if not processed:
+                    pending.append(component)
+            for component in pending:
+                self.load_component(
+                    zipfile,
+                    component,
+                    skip_linked=False,
+                    do_restore=True,
+                    actor=actor,
+                    changes=changes,
+                )
+            return
+
         for component in self.list_components(zipfile):
             processed = self.load_component(
-                zipfile, component, skip_linked=True, do_restore=do_restore
+                zipfile,
+                component,
+                skip_linked=True,
+                do_restore=False,
             )
             if not processed:
                 pending.append(component)
         for component in pending:
             self.load_component(
-                zipfile, component, skip_linked=False, do_restore=do_restore
+                zipfile,
+                component,
+                skip_linked=False,
+                do_restore=False,
             )
 
     def validate(self) -> None:
-        if not self.supports_restore:
-            msg = "Restore is not supported on this database."
-            raise ValueError(msg)
         input_file = self.filename or self.fileio
         if input_file is None:
             msg = "Can not validate None file."
             raise TypeError(msg)
+        self.validated = False
         with ZipFile(input_file, "r") as zipfile:
-            names = zipfile.namelist()
-            if len(names) != len(set(names)):
-                msg = "The zip file contains duplicate files. Please generate a new backup with a newer version of Weblate."
-                raise ValueError(msg)
+            self.validate_zip_members(zipfile)
             self.load_data(zipfile)
             self.load_memory(zipfile)
             self.load_components(zipfile)
-            for name in zipfile.namelist():
-                validate_filename(name, check_prohibited=False)
+        self.validated = True
 
     def restore_unit(
         self,
@@ -683,9 +889,16 @@ class ProjectBackup:
         if pending_unit_changes:
             PendingUnitChange.objects.bulk_create(pending_unit_changes)
 
-    def restore_component(self, zipfile: ZipFile, data: dict) -> None:  # noqa: C901
+    def restore_component(  # noqa: C901
+        self,
+        zipfile: ZipFile,
+        data: dict,
+        actor: User,
+        changes: list[Change],
+    ) -> None:
         if self.project is None:
             raise TypeError
+        original_slug = self.get_component_backup_slug(data["component"])
         kwargs = data["component"].copy()
         source_language = kwargs["source_language"] = self.import_language(
             kwargs["source_language"]
@@ -714,6 +927,15 @@ class ProjectBackup:
             using=None,
             update_fields=None,
         )
+
+        if component.file_format in {"po", "po-mono"} and (
+            "file_format_params" not in kwargs
+            or kwargs["file_format_params"].get("po_set_language_team") is None
+        ):
+            # fallback to project setting if not set in backup
+            component.file_format_params["po_set_language_team"] = (
+                self.set_language_team_project
+            )
         # Use bulk create to avoid triggering save() and any post_save signals
         component = Component.objects.bulk_create([component])[0]
 
@@ -745,6 +967,7 @@ class ProjectBackup:
                 plural=plural,
                 revision=item["revision"],
             )
+            translation.sync_readonly_check_flag(save=False)
             translation.original_id = item["id"]
             if language == source_language:
                 source_translation_id = item["id"]
@@ -832,16 +1055,27 @@ class ProjectBackup:
         # Create screenshots
         screenshots = []
         for item in data["screenshots"]:
-            handle = zipfile.open(os.path.join("screenshots", item["image"]))
             screenshot = Screenshot(
                 name=item["name"],
-                image=File(handle),
                 translation=translation_lookup[item["translation_id"]],
                 user=self.restore_user(item["user"]),
                 timestamp=item["timestamp"],
             )
+            with zipfile.open(os.path.join("screenshots", item["image"])) as handle:
+                restored_image = File(
+                    BytesIO(handle.read()), name=os.path.basename(item["image"])
+                )
+                try:
+                    validate_bitmap(restored_image)
+                except ValidationError as error:
+                    raise ValidationError(
+                        gettext("Could not restore screenshot %(name)s: %(error)s")
+                        % {"name": item["image"], "error": error}
+                    ) from error
+                screenshot.image.save(
+                    os.path.basename(item["image"]), restored_image, save=False
+                )
             screenshot.import_data = item
-            screenshot.import_handle = handle
             screenshots.append(screenshot)
 
         screenshots = Screenshot.objects.bulk_create(screenshots)
@@ -855,10 +1089,22 @@ class ProjectBackup:
                         ]
                     )
                 )
-            screenshot.import_handle.close()  # type: ignore[union-attr]
 
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
+
+        if not component.is_repo_link:
+            component.configure_repo(pull=False)
+
+        changes.append(
+            Change(
+                component=component,
+                action=ActionEvents.COMPONENT_RESTORE,
+                user=actor,
+                author=actor,
+                details={"original_slug": original_slug},
+            )
+        )
 
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
@@ -905,13 +1151,20 @@ class ProjectBackup:
         if not self.filename:
             msg = "Need a filename string."
             raise ValueError(msg)
+        if not self.validated:
+            msg = "Project backup has to be validated before restore."
+            raise ValueError(msg)
         with ZipFile(self.filename, "r") as zipfile:
+            self.validate_zip_members(zipfile)
             self.load_data(zipfile)
+            restore_changes: list[Change] = []
 
             # Create project
             kwargs = self.data["project"].copy()
             kwargs["name"] = project_name
             kwargs["slug"] = project_slug
+            # the attribute `set_language_team` is present in legacy backups prior to 5.17.1
+            self.set_language_team_project = kwargs.pop("set_language_team", False)
             self.project = project = Project.objects.create(**kwargs)
 
             # Handle billing and ACL (creating user needs access)
@@ -945,28 +1198,51 @@ class ProjectBackup:
 
             # Extract VCS
             project_path = Path(project.full_path)
-            for name in zipfile.namelist():
-                if name.startswith(self.VCS_PREFIX):
-                    path = name[self.VCS_PREFIX_LEN :]
-                    # Skip potentially dangerous paths
-                    if path != os.path.normpath(path):
-                        continue
-                    targetpath = project_path / path
-                    # Make sure the directory exists
-                    targetpath.parent.mkdir(parents=True, exist_ok=True)
-                    with zipfile.open(name) as source, targetpath.open("wb") as target:
-                        copyfileobj(source, target)
-                    # Create possibly missing refs directory in .git, this is not restored as
-                    # all references are in packed_refs after `git gc`.
-                    if path.endswith(".git/packed-refs"):
-                        git_refs_dir = targetpath.parent / "refs"
-                        git_refs_dir.mkdir(parents=True, exist_ok=True)
+
+            def skip_vcs_member(info: ZipInfo) -> bool:
+                if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
+                    return True
+                path = info.filename[self.VCS_PREFIX_LEN :]
+                # Skip potentially dangerous paths
+                return path != os.path.normpath(path) or self.is_unsafe_vcs_path(path)
+
+            def vcs_member_name(info: ZipInfo) -> str:
+                return info.filename[self.VCS_PREFIX_LEN :]
+
+            for info, targetpath in iter_safe_zip_members(
+                zipfile,
+                project_path,
+                skip_member=skip_vcs_member,
+                member_name=vcs_member_name,
+            ):
+                extract_zip_member(zipfile, info, targetpath)
+                # Create possibly missing refs directory in .git, this is not restored as
+                # all references are in packed_refs after `git gc`.
+                if vcs_member_name(info).endswith(".git/packed-refs"):
+                    git_refs_dir = targetpath.parent / "refs"
+                    git_refs_dir.mkdir(parents=True, exist_ok=True)
 
             # Create components
-            self.load_components(zipfile, do_restore=True)
+            self.load_components(
+                zipfile,
+                do_restore=True,
+                actor=user,
+                changes=restore_changes,
+            )
 
             if "teams" in self.data:
                 self.restore_teams(self.data["teams"])
+
+        restore_changes.append(
+            Change(
+                project=project,
+                action=ActionEvents.PROJECT_RESTORE,
+                user=user,
+                author=user,
+                details=self.get_restore_history_details(),
+            )
+        )
+        Change.objects.bulk_create(restore_changes, batch_size=500)
 
         return self.project
 

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import subprocess
+import subprocess  # noqa: S404
 from contextlib import suppress
 from functools import cache as functools_cache
 
@@ -21,7 +21,7 @@ def find_git_http_backend():
     """Find Git HTTP back-end."""
     with suppress(OSError):
         path = subprocess.run(
-            ["git", "--exec-path"],
+            ["git", "--exec-path"],  # noqa: S607
             text=True,
             check=True,
             capture_output=True,

@@ -4,13 +4,14 @@
 
 """Captcha tests."""
 
+import json
 from unittest import TestCase
 
 from django.http import HttpRequest
 from django.test.utils import override_settings
 
 from weblate.accounts.captcha import MathCaptcha, solve_altcha
-from weblate.accounts.forms import CaptchaForm
+from weblate.accounts.forms import CaptchaForm, CaptchaWidget
 
 
 class CaptchaTest(TestCase):
@@ -32,7 +33,26 @@ class CaptchaTest(TestCase):
     @override_settings(
         REGISTRATION_CAPTCHA=True,
         ENABLE_HTTPS=True,
-        ALTCHA_MAX_NUMBER=100,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
+    def test_widget_challenge_serialization(self) -> None:
+        request = HttpRequest()
+        request.method = "GET"
+        request.session = {}
+        form = CaptchaForm(request=request)
+        serialized = json.loads(CaptchaWidget.serialize_challenge(form.challenge))
+        self.assertEqual(serialized["parameters"]["algorithm"], "ARGON2ID")
+        self.assertEqual(serialized["parameters"]["cost"], 1)
+        self.assertIn("signature", serialized)
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
     )
     def test_form(self) -> None:
         def create_request(session):
@@ -83,7 +103,7 @@ class CaptchaTest(TestCase):
             request=create_request(session_store),
             data={
                 "captcha": math.result,
-                "altcha": solve_altcha(form.challenge, number=-1),
+                "altcha": solve_altcha(form.challenge, invalid=True),
             },
         )
         self.assertFalse(form.is_valid())
@@ -103,7 +123,7 @@ class CaptchaTest(TestCase):
         self.assertIn("captcha", session_store)
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": -1, "altcha": solve_altcha(form.challenge, number=-1)},
+            data={"captcha": -1, "altcha": solve_altcha(form.challenge, invalid=True)},
         )
         self.assertFalse(form.is_valid())
         self.assertIn("captcha_challenge", session_store)

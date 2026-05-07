@@ -1,0 +1,30 @@
+# Copyright © Weblate contributors
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# ClusterFuzzLite clones the repository into storage/weblate and then builds
+# this Dockerfile with that clone as the context. Do not send VCS metadata or
+# local/generated build artifacts to Docker.
+.git
+.git/
+**/.git
+**/.git/
+.venv
+.venv/
+**/.venv
+**/.venv/
+build
+build/
+dist
+dist/
+htmlcov
+htmlcov/
+out
+out/
+cifuzz-sarif
+cifuzz-sarif/
+node_modules
+node_modules/
+__pycache__
+**/__pycache__
+*.py[cod]

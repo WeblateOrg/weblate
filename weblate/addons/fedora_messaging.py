@@ -22,7 +22,7 @@ from weblate.utils.site import get_site_url
 from .forms import FedoraMessagingAddonForm
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Change, Component, Project
+    from weblate.trans.models import Category, Change, Component, Project
 
 
 class FedoraMessagingAddon(ChangeBaseAddon):
@@ -34,22 +34,25 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         "Sends notifications to a Fedora Messaging compatible AMQP exchange."
     )
     multiple = False
+    version_added = "5.15"
 
     @classmethod
     def can_install(
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         # Can be installed only once site-wide
-        return project is None and component is None
+        return project is None and component is None and category is None
 
     @classmethod
     def can_process(
         cls,
         *,
         component: Component | None = None,  # noqa: ARG003
+        category: Category | None = None,  # noqa: ARG003
         project: Project | None = None,  # noqa: ARG003
     ) -> bool:
         return True
@@ -200,7 +203,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         messaging_config["client_properties"]["app"] = settings.SITE_TITLE
         messaging_config["client_properties"]["app_url"] = settings.SITE_URL
         messaging_config["client_properties"]["app_contacts_email"] = ", ".join(
-            admin[1] for admin in settings.ADMINS
+            settings.ADMINS
         )
 
         # Validate the configuration, there is currently no public API for this

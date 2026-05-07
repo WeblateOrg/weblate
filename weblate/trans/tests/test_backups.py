@@ -4,26 +4,33 @@
 
 """Tests for data exports."""
 
+import json
 import os
-from zipfile import ZipFile
+import tempfile
+from unittest.mock import patch
+from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
-from django.db import connection
-from django.test import skipIfDBFeature, skipUnlessDBFeature
+from django.test import override_settings
 from django.urls import reverse
 
+from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import AutoGroup, Group, Role
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, list_backups
+from weblate.trans.change_display import get_change_history_context
 from weblate.trans.models import (
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -44,6 +51,141 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def write_tampered_component_backup(
+        self, *, repo: str | None = None, push: str | None = None
+    ) -> str:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with (
+            ZipFile(backup.filename, "r") as source_zip,
+            ZipFile(temp_name, "w") as target_zip,
+        ):
+            for item in source_zip.infolist():
+                data = source_zip.read(item.filename)
+                if item.filename.endswith(
+                    f"{self.component.slug}.json"
+                ) and item.filename.startswith("components/"):
+                    component_data = json.loads(data.decode("utf-8"))
+                    if repo is not None:
+                        component_data["component"]["repo"] = repo
+                    if push is not None:
+                        component_data["component"]["push"] = push
+                    data = json.dumps(component_data).encode("utf-8")
+                target_zip.writestr(item, data)
+
+        return temp_name
+
+    def test_backup_creates_history_entry(self) -> None:
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertIsNone(change.user)
+        self.assertEqual(
+            change.details,
+            {"backup_filename": backup.relative_filename},
+        )
+        history_data = get_change_history_context(change)
+        self.assertEqual(history_data["description"], "Project backed up")
+        self.assertEqual(
+            history_data["change_details_fields"][0]["label"],
+            "Backup file",
+        )
+        self.assertIn(
+            backup.relative_filename,
+            history_data["change_details_fields"][0]["content"],
+        )
+
+    def test_backup_creates_history_entry_with_user(self) -> None:
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project, self.user)
+
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+    def test_restore_creates_history_entries(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        project_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(project_change.user, self.user)
+        self.assertEqual(project_change.author, self.user)
+        self.assertEqual(
+            project_change.details,
+            {
+                "backup_timestamp": restore.data["metadata"]["timestamp"],
+                "backup_server": restore.data["metadata"]["server"],
+                "backup_domain": restore.data["metadata"]["domain"],
+            },
+        )
+        history_data = get_change_history_context(project_change)
+        self.assertEqual(history_data["description"], "Project restored")
+        self.assertEqual(
+            [field["label"] for field in history_data["change_details_fields"]],
+            ["Backup created", "Backup server", "Backup domain"],
+        )
+
+        component_changes = Change.objects.filter(
+            project=restored, action=ActionEvents.COMPONENT_RESTORE
+        )
+        self.assertEqual(component_changes.count(), restored.component_set.count())
+        self.assertEqual(
+            {change.details["original_slug"] for change in component_changes},
+            {
+                ProjectBackup.full_slug_without_project(component)
+                for component in self.project.component_set.iterator()
+            },
+        )
+        for change in component_changes:
+            self.assertEqual(change.user, self.user)
+            self.assertEqual(change.author, self.user)
+            self.assertIsNotNone(change.component)
+            component_history_data = get_change_history_context(change)
+            self.assertEqual(
+                component_history_data["description"], "Component restored"
+            )
+            self.assertEqual(
+                component_history_data["change_details_fields"][0]["label"],
+                "Original component",
+            )
+
+    def test_restore_batches_change_addon_dispatch(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        WebhookAddon.create(
+            configuration={
+                "webhook_url": "https://example.com/hook",
+                "events": [ActionEvents.PROJECT_RESTORE],
+            },
+            run=False,
+        )
+
+        with patch("weblate.addons.tasks.addon_change.delay_on_commit") as mocked_delay:
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
+        self.assertEqual(mocked_delay.call_count, 2)
+        self.assertEqual(
+            sorted(len(call.args[0]) for call in mocked_delay.call_args_list),
+            [1, restored.component_set.count() + 1],
+        )
 
     def test_create_backup(self) -> None:
         # Create linked component
@@ -103,11 +245,6 @@ class BackupsTest(ViewTestCase):
 
         restore = ProjectBackup(backup.filename)
 
-        if not connection.features.can_return_rows_from_bulk_insert:
-            with self.assertRaises(ValueError):
-                restore.validate()
-            return
-
         restore.validate()
 
         restored = restore.restore(
@@ -166,6 +303,13 @@ class BackupsTest(ViewTestCase):
             self.project.count_pending_units,
             restored.count_pending_units,
         )
+        restored_screenshot = Screenshot.objects.get(
+            translation__component__project=restored
+        )
+        self.assertTrue(
+            restored_screenshot.image.storage.exists(restored_screenshot.image.name)
+        )
+        self.assertGreater(restored_screenshot.image.size, 0)
 
         restored_team = restored.defined_groups.filter(name=team.name).first()
         self.assertIsNotNone(restored_team)
@@ -205,6 +349,94 @@ class BackupsTest(ViewTestCase):
         # Verify that Git operations work on restored repos
         restored.do_reset()
 
+    def test_restore_synthesizes_source_translation_check_flags(self) -> None:
+        source = self.component.source_translation
+        source.check_flags = "strict-same"
+        source.save(update_fields=["check_flags"])
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_file = next(
+                path
+                for path in zipfile.namelist()
+                if path.startswith("components/")
+                and path.endswith(f"{self.component.slug}.json")
+            )
+            component_data = json.loads(zipfile.read(component_file).decode("utf-8"))
+        self.assertFalse(
+            any(
+                "check_flags" in translation
+                for translation in component_data["translations"]
+            )
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        restored_source = restored_component.source_translation
+
+        self.assertEqual(restored_source.check_flags, "read-only")
+
+    def test_restore_rejects_invalid_repo_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            repo="https://private.example/repo.git"
+        )
+
+        try:
+            restore = ProjectBackup(temp_name)
+            with (
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                ),
+                self.assertRaises(ValidationError) as error,
+            ):
+                restore.validate()
+
+            self.assertEqual(
+                error.exception.message_dict,
+                {
+                    "repo": [
+                        "This URL is prohibited because it points to an internal or non-public address."
+                    ]
+                },
+            )
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_invalid_push_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            push="https://private.example/push.git"
+        )
+
+        try:
+            restore = ProjectBackup(temp_name)
+            with (
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                ),
+                self.assertRaises(ValidationError) as error,
+            ):
+                restore.validate()
+
+            self.assertEqual(
+                error.exception.message_dict,
+                {
+                    "push": [
+                        "This URL is prohibited because it points to an internal or non-public address."
+                    ]
+                },
+            )
+        finally:
+            os.unlink(temp_name)
+
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
             return list(qs.order_by("name").values_list("name", flat=True))
@@ -219,9 +451,6 @@ class BackupsTest(ViewTestCase):
         self.assertTrue(os.path.exists(backup.filename))
 
         restore = ProjectBackup(backup.filename)
-
-        if not connection.features.can_return_rows_from_bulk_insert:
-            return
 
         restore.validate()
 
@@ -238,15 +467,6 @@ class BackupsTest(ViewTestCase):
             extract_names(Component.objects.filter(project=restored)),
         )
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
-    def test_restore_supported(self) -> None:
-        self.assertTrue(connection.features.can_return_rows_from_bulk_insert)
-
-    @skipIfDBFeature("can_return_rows_from_bulk_insert")
-    def test_restore_not_supported(self) -> None:
-        self.assertFalse(connection.features.can_return_rows_from_bulk_insert)
-
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
@@ -255,7 +475,13 @@ class BackupsTest(ViewTestCase):
         )
         self.verify_restored()
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_requires_validation(self) -> None:
+        restore = ProjectBackup(TEST_BACKUP)
+        with self.assertRaisesRegex(ValueError, "validated before restore"):
+            restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
     def test_restore_cli(self) -> None:
         call_command(
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
@@ -264,6 +490,8 @@ class BackupsTest(ViewTestCase):
 
     def verify_restored(self) -> None:
         restored = Project.objects.get(slug="restored")
+        component = restored.component_set.get(slug="test")
+        glossary = restored.component_set.get(slug="glossary")
         self.assertEqual(
             16,
             Unit.objects.filter(translation__component__project=restored).count(),
@@ -296,19 +524,253 @@ class BackupsTest(ViewTestCase):
             {("Label", "navy")},
             set(restored.label_set.values_list("name", "color")),
         )
+        # check that set_language_team is migrated to file format parameters
+        self.assertTrue(component.file_format_params["po_set_language_team"])
+        self.assertIsNone(glossary.file_format_params.get("po_set_language_team"))
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
             restore.validate()
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate_files(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE_FILES)
         with self.assertRaises(ValueError) as ex:
             restore.validate()
         self.assertIn("zip file contains duplicate files", str(ex.exception))
+
+    @override_settings(
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
+        PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE=10,
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=100,
+    )
+    def test_restore_zip_bomb_compressed_large_entry(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr("payload.bin", b"a" * 5000, compress_type=ZIP_DEFLATED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(
+                ValueError, "compressed entry that is too large"
+            ):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
+    def test_restore_low_compression_large_entry_allowed(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr(
+                    "payload.bin", b"12345678901", compress_type=ZIP_STORED
+                )
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(PROJECT_BACKUP_IMPORT_MAX_MEMBERS=5)
+    def test_restore_zip_bomb_too_many_members(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                for idx in range(5):
+                    zipfile.writestr(f"extra-{idx}.txt", b"x", compress_type=ZIP_STORED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(ValueError, "contains too many entries"):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_zip_bomb_too_much_uncompressed_data(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                total_size = sum(
+                    item.file_size
+                    for item in source_zip.infolist()
+                    if not item.is_dir()
+                )
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr(
+                    "payload.bin", b"12345678901", compress_type=ZIP_STORED
+                )
+
+            restore = ProjectBackup(temp_name)
+            with (
+                override_settings(
+                    PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE=total_size
+                ),
+                self.assertRaisesRegex(
+                    ValueError, "contains too much uncompressed data"
+                ),
+            ):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_unsafe_vcs_path_after_prefix_strip(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr("vcs/C:foo", b"blocked", compress_type=ZIP_STORED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
+        PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE=10,
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=100,
+    )
+    def test_restore_revalidates_zip_members(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    target_zip.writestr(item, source_zip.read(item.filename))
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+
+            with ZipFile(temp_name, "a") as zipfile:
+                zipfile.writestr("payload.bin", b"a" * 5000, compress_type=ZIP_DEFLATED)
+
+            with self.assertRaisesRegex(
+                ValueError, "compressed entry that is too large"
+            ):
+                restore.restore(
+                    project_name="Restored", project_slug="restored", user=self.user
+                )
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_skips_git_hooks(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    target_zip.writestr(item, source_zip.read(item.filename))
+                target_zip.writestr(
+                    "vcs/test/.git/hooks/post-checkout",
+                    b"#!/bin/sh\nexit 1\n",
+                )
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+            component = restored.component_set.get(slug="test")
+            self.assertFalse(
+                os.path.exists(
+                    os.path.join(component.full_path, ".git", "hooks", "post-checkout")
+                )
+            )
+            self.assertEqual(
+                component.repository.get_config("remote.origin.url"), component.repo
+            )
+            self.assertEqual(
+                component.repository.get_config(f"branch.{component.branch}.remote"),
+                "origin",
+            )
+            self.assertEqual(
+                component.repository.get_config(f"branch.{component.branch}.merge"),
+                f"refs/heads/{component.branch}",
+            )
+            restored.do_reset()
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_invalid_screenshot(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Tampered screenshot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("screenshot.png", File(handle))
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    data = source_zip.read(item.filename)
+                    if item.filename.startswith("screenshots/"):
+                        data = b"not an image"
+                    target_zip.writestr(item, data)
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            with self.assertRaises(ValidationError):
+                restore.restore(
+                    project_name="Restored", project_slug="restored", user=self.user
+                )
+        finally:
+            os.unlink(temp_name)
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()
@@ -338,6 +800,9 @@ class BackupsTest(ViewTestCase):
         response = self.client.post(url)
         self.assertRedirects(response, url)
         self.assertEqual(start + 1, len(list_backups(self.project)))
+        change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
         response = self.client.get(url)
         self.assertNotContains(response, " no backups")
 
@@ -357,7 +822,6 @@ class BackupsTest(ViewTestCase):
         with staticfiles_storage.open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_view_restore(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -371,6 +835,18 @@ class BackupsTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Could not load project backup")
+
+        with override_settings(PROJECT_BACKUP_UPLOAD_MAX_SIZE=1):
+            response = self.client.post(
+                reverse("create-project-import"),
+                {
+                    "zipfile": SimpleUploadedFile(
+                        "backup.zip", b"xx", content_type="application/zip"
+                    )
+                },
+                follow=True,
+            )
+        self.assertContains(response, "Uploaded ZIP file is too big.")
 
         with open(TEST_BACKUP, "rb") as handle:
             response = self.client.post(

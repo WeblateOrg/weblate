@@ -3,10 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import csv
 import os
 import shutil
-import subprocess
+import subprocess  # noqa: S404
 import tempfile
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -29,7 +31,11 @@ from weblate.formats.exporters import (
     XliffExporter,
     XlsxExporter,
 )
-from weblate.formats.helpers import NamedBytesIO
+from weblate.formats.helpers import (
+    CSV_PLURAL_FIELDNAMES,
+    NamedBytesIO,
+    format_csv_id_hash,
+)
 from weblate.formats.multi import MultiCSVFormat
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
@@ -76,7 +82,15 @@ class PoExporterTest(BaseTestCase):
         self.assertIn(b"msgid_plural", result)
         self.assertIn(b"msgstr[2]", result)
 
-    def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
+    def check_unit(
+        self,
+        nplurals=3,
+        template=None,
+        source_info=None,
+        file_format="xliff",
+        file_format_params=None,
+        **kwargs,
+    ):
         formula = "n==0 ? 0 : n==1 ? 1 : 2" if nplurals == 3 else "0"
         lang = Language.objects.create(code="zz")
         plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
@@ -84,7 +98,8 @@ class PoExporterTest(BaseTestCase):
         component = Component(
             slug="comp",
             project=project,
-            file_format="xliff",
+            file_format=file_format,
+            file_format_params=file_format_params or {},
             template=template,
             source_language=Language.objects.get(code="en"),
         )
@@ -149,6 +164,24 @@ class PoExporterTest(BaseTestCase):
             nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_TRANSLATED
         )
 
+    def test_matching_file_format_params(self) -> None:
+        if self._class is not PoExporter:
+            return
+        self.check_matching_file_format_params()
+
+    def check_matching_file_format_params(self) -> None:
+        long_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " * 3
+
+        result = self.check_unit(
+            nplurals=1,
+            source="source",
+            target=long_text,
+            state=STATE_TRANSLATED,
+            file_format_params={"po_line_wrap": -1},
+        ).decode()
+
+        self.assertIn(f'msgstr "{long_text}"', result)
+
     def test_unit_not_translated(self) -> None:
         self.check_unit(
             nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_EMPTY
@@ -202,6 +235,25 @@ class PoExporterTest(BaseTestCase):
 
     def test_has_addunit(self) -> None:
         self.assertTrue(hasattr(self.exporter.storage, "addunit"))
+
+    def test_headers_config(
+        self, language_team: bool = True, x_generator: bool = True
+    ) -> None:
+        if self._class is not PoExporter:
+            return
+        result = self.check_unit(
+            source="xxx",
+            target="yyy",
+            file_format_params={
+                "po_set_language_team": language_team,
+                "po_set_x_generator": x_generator,
+            },
+        ).decode()
+        self.assertEqual(language_team, "Language-Team: <http://example.com/" in result)
+        self.assertEqual(x_generator, "X-Generator: Weblate " in result)
+
+    def test_headers_config_off(self) -> None:
+        self.test_headers_config(language_team=False, x_generator=False)
 
 
 class PoXliffExporterTest(PoExporterTest):
@@ -273,6 +325,27 @@ class MoExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         self.assertIn(b"www", result)
 
+    def test_matching_file_format_params(self) -> None:
+        exporter = self.get_exporter(
+            translation=Translation(
+                language=Language.objects.create(code="zz-mo"),
+                component=Component(
+                    slug="comp",
+                    project=Project(slug="test"),
+                    file_format="po",
+                    file_format_params={"po_line_wrap": -1},
+                    source_language=Language.objects.get(code="en"),
+                ),
+                plural=Plural.objects.create(
+                    language=Language.objects.get(code="zz-mo"),
+                    number=1,
+                    formula="0",
+                ),
+            )
+        )
+
+        self.assertFalse(hasattr(exporter.storage, "wrapper"))
+
 
 class CSVExporterTest(PoExporterTest):
     _class = CSVExporter
@@ -281,6 +354,64 @@ class CSVExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_plural_rows(self) -> None:
+        output = self.check_unit(
+            source="%(count)s file\x1e\x1e%(count)s files",
+            target="\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souborů",
+            state=STATE_TRANSLATED,
+        ).decode()
+
+        self.assertNotIn("multistring", output)
+        self.assertNotIn("\x1e", output)
+
+        rows = list(csv.DictReader(StringIO(output)))
+        self.assertEqual(len(rows), 3)
+        self.assertEqual([row["target_plural_form"] for row in rows], ["0", "1", "2"])
+        self.assertEqual(
+            [row["target"] for row in rows],
+            ["", "'%(count)s soubory'", "'%(count)s souborů'"],
+        )
+        self.assertEqual(
+            [row["id_hash"] for row in rows],
+            [format_csv_id_hash(-1)] * 3,
+        )
+
+    def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
+        output = self.check_unit(
+            nplurals=1,
+            file_format="csv-multi",
+            source="Source A\x1e\x1eSource B",
+            target="Target A\x1e\x1eTarget B",
+            state=STATE_TRANSLATED,
+        ).decode()
+
+        rows = list(csv.DictReader(StringIO(output)))
+        self.assertEqual(len(rows), 1)
+        for field in CSV_PLURAL_FIELDNAMES:
+            self.assertNotIn(field, rows[0])
+        self.assertIn("Target A", rows[0]["target"])
+
+    def test_non_matching_encoding_params(self) -> None:
+        exporter = self.get_exporter(
+            translation=Translation(
+                language=Language.objects.create(code="zz-csv-other"),
+                component=Component(
+                    slug="comp",
+                    project=Project(slug="test"),
+                    file_format="csv",
+                    file_format_params={"properties_encoding": "utf-16"},
+                    source_language=Language.objects.get(code="en"),
+                ),
+                plural=Plural.objects.create(
+                    language=Language.objects.get(code="zz-csv-other"),
+                    number=1,
+                    formula="0",
+                ),
+            )
+        )
+
+        self.assertNotEqual(exporter.storage.encoding, "utf-16")
 
     def test_escaping(self) -> None:
         output = self.check_unit(
@@ -297,6 +428,61 @@ class XlsxExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_plural_rows(self) -> None:
+        from openpyxl import load_workbook  # noqa: PLC0415
+
+        output = self.check_unit(
+            source="%(count)s file\x1e\x1e%(count)s files",
+            target="\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souborů",
+            state=STATE_TRANSLATED,
+        )
+
+        workbook = load_workbook(BytesIO(output))
+        worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook has no active worksheet."
+            raise AssertionError(msg)
+        rows = list(worksheet.iter_rows(values_only=True))
+        headers = rows[0]
+        data = [dict(zip(headers, row, strict=True)) for row in rows[1:]]
+
+        self.assertEqual(len(data), 3)
+        self.assertEqual([row["target_plural_form"] for row in data], ["0", "1", "2"])
+        self.assertEqual(data[0]["target"], None)
+        self.assertEqual(
+            [row["id_hash"] for row in data],
+            [format_csv_id_hash(-1)] * 3,
+        )
+
+    def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
+        from openpyxl import load_workbook  # noqa: PLC0415
+
+        output = self.check_unit(
+            nplurals=1,
+            file_format="csv-multi",
+            source="Source A\x1e\x1eSource B",
+            target="Target A\x1e\x1eTarget B",
+            state=STATE_TRANSLATED,
+        )
+
+        workbook = load_workbook(BytesIO(output))
+        worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook has no active worksheet."
+            raise AssertionError(msg)
+        rows = list(worksheet.iter_rows(values_only=True))
+        headers = rows[0]
+        data = [dict(zip(headers, row, strict=True)) for row in rows[1:]]
+
+        self.assertEqual(len(data), 1)
+        for field in CSV_PLURAL_FIELDNAMES:
+            self.assertNotIn(field, data[0])
+        target = data[0]["target"]
+        if not isinstance(target, str):
+            msg = f"Unexpected target cell value: {target!r}"
+            raise TypeError(msg)
+        self.assertIn("Target A", target)
 
 
 class AndroidResourceExporterTest(PoExporterTest):
@@ -327,6 +513,27 @@ class StringsExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         pass
+
+    def test_matching_encoding_params(self) -> None:
+        exporter = self.get_exporter(
+            translation=Translation(
+                language=Language.objects.create(code="zz-strings"),
+                component=Component(
+                    slug="comp",
+                    project=Project(slug="test"),
+                    file_format="strings",
+                    file_format_params={"strings_encoding": "utf-16"},
+                    source_language=Language.objects.get(code="en"),
+                ),
+                plural=Plural.objects.create(
+                    language=Language.objects.get(code="zz-strings"),
+                    number=1,
+                    formula="0",
+                ),
+            )
+        )
+
+        self.assertEqual(exporter.storage.encoding, "utf-16")
 
 
 class MultiCSVExporterTest(PoExporterTest):
@@ -420,16 +627,18 @@ class MultiCSVExporterTest(PoExporterTest):
         try:
             # Initialize git repository
 
-            subprocess.run(["git", "init"], cwd=git_dir, check=True)
+            subprocess.run(["git", "init"], cwd=git_dir, check=True)  # noqa: S607
             subprocess.run(
-                ["git", "config", "user.name", "Test User"], cwd=git_dir, check=True
-            )
-            subprocess.run(
-                ["git", "config", "user.email", "test@example.com"],
+                ["git", "config", "user.name", "Test User"],  # noqa: S607
                 cwd=git_dir,
                 check=True,
             )
-            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+                cwd=git_dir,
+                check=True,
+            )
+            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)  # noqa: S607
 
             # Create the CSV file with real data
             csv_content = '''"source","target","context","developer_comments"
@@ -442,9 +651,11 @@ class MultiCSVExporterTest(PoExporterTest):
             Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
-            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
+            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)  # noqa: S607
             subprocess.run(
-                ["git", "commit", "-m", "Initial commit"], cwd=git_dir, check=True
+                ["git", "commit", "-m", "Initial commit"],  # noqa: S607
+                cwd=git_dir,
+                check=True,
             )
 
             # Create language

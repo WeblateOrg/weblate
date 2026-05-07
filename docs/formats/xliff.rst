@@ -23,6 +23,8 @@ Weblate supports XLIFF in several variants:
    Standard XLIFF supporting placeables and other XML elements.
 `XLIFF 1.2 with gettext extensions`
    XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
+`XLIFF 1.2 with Apple extensions`
+   XLIFF enriched by Apple to support plurals.
 
 
 .. seealso::
@@ -133,6 +135,8 @@ Example XLIFF file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.xliff
     :language: xml
+
+.. include:: /snippets/format-features/xliff-features.rst
 
 Weblate configuration
 +++++++++++++++++++++

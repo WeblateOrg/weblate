@@ -67,6 +67,8 @@ Nested files are supported as well (see above for requirements), such a file can
 .. literalinclude:: ../../weblate/trans/tests/data/cs-nested.json
     :language: json
 
+.. include:: /snippets/format-features/json-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

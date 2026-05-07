@@ -22,6 +22,8 @@
   <p>{% translate "The upstream repository could not be temporarily accessed. Please try it again later." %}</p>
 {% endif %}
 
+{% if analysis.host_key_message %}<p>{{ analysis.host_key_message }}</p>{% endif %}
+
 {% if analysis.terminal %}
   <p>
     {% translate "Your repository URL seems to miss credentials. Either provide them in the URL or use SSH with key based authentication." %}

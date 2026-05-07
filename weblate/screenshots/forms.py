@@ -4,32 +4,34 @@
 
 import io
 from typing import Any, cast
-from urllib.parse import urlparse
 
 import requests
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.forms.forms import BaseForm
-from django.http.request import validate_host
 from django.template.loader import render_to_string
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
-from weblate.utils.forms import SortedSelect
-from weblate.utils.requests import http_request
+from weblate.utils.forms import AssetImageField, SortedSelect
+from weblate.utils.requests import open_asset_url
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 
 class ScreenshotImageValidationMixin(BaseForm):
+    def raise_image_url_error(self, message) -> None:
+        raise forms.ValidationError({"image_url": message})
+
     def clean_images(
         self, cleaned_data: dict[str, Any], edit: bool = False
     ) -> dict[str, Any]:
         image = cleaned_data.get("image")
         image_url = cleaned_data.get("image_url")
-        if not image and not image_url:
+        image_submitted = "image" in self.files
+        if not image and not image_url and not image_submitted:
             raise forms.ValidationError(
                 gettext("You need to provide either image file or image URL.")
             )
@@ -47,23 +49,8 @@ class ScreenshotImageValidationMixin(BaseForm):
 
     def download_image(self, url: str) -> InMemoryUploadedFile:
         """Download image from the provided URL."""
-        if not validate_host(
-            urlparse(url).hostname or "", settings.ALLOWED_ASSET_DOMAINS
-        ):
-            raise forms.ValidationError(
-                {"image_url": gettext("Image URL domain is not allowed.")}
-            )
         try:
-            with http_request("get", url, stream=True) as response:
-                if response.status_code != 200:
-                    raise forms.ValidationError(
-                        {
-                            "image_url": gettext(
-                                "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-                            )
-                            % {"code": response.status_code}
-                        }
-                    )
+            with open_asset_url("get", url) as response:
                 content = b""
                 for chunk in response.iter_content(
                     chunk_size=settings.ALLOWED_ASSET_SIZE + 1
@@ -76,17 +63,23 @@ class ScreenshotImageValidationMixin(BaseForm):
                     if len(content) > settings.ALLOWED_ASSET_SIZE:
                         break
                 if len(content) > settings.ALLOWED_ASSET_SIZE:
-                    raise forms.ValidationError(
-                        {"image_url": gettext("Image is too big.")}
-                    )
+                    self.raise_image_url_error(gettext("Image is too big."))
                 content_type = response.headers.get("Content-Type")
                 if not content_type or content_type not in ALLOWED_IMAGES:
-                    raise forms.ValidationError(
-                        {
-                            "image_url": gettext("Unsupported image type: %s")
-                            % content_type
-                        }
+                    self.raise_image_url_error(
+                        gettext("Unsupported image type: %s") % content_type
                     )
+        except forms.ValidationError as error:
+            if hasattr(error, "error_dict"):
+                raise
+            if error.code == "download_failed" and error.params is not None:
+                self.raise_image_url_error(
+                    gettext(
+                        "Unable to download image from the provided URL (HTTP status code: %(code)s)."
+                    )
+                    % error.params
+                )
+            self.raise_image_url_error(error.messages[0])
         except requests.RequestException as e:
             raise forms.ValidationError(
                 {
@@ -129,6 +122,7 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
         widgets = {  # noqa: RUF012
             "image": ScreenshotInput,
         }
+        field_classes = {"image": AssetImageField}  # noqa: RUF012
 
     def clean(self):
         cleaned_data = super().clean()
@@ -158,6 +152,7 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
             "image": ScreenshotInput,
         }
         field_classes = {  # noqa: RUF012
+            "image": AssetImageField,
             "translation": LanguageChoiceField,
         }
 

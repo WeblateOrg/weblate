@@ -33,15 +33,14 @@ SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 DEBUG = True
 
-ADMINS: tuple[tuple[str, str], ...] = (
-    # ("Your Name", "your_email@example.com"),
+ADMINS: tuple[str, ...] = (
+    # "Your Name <your_email@example.com>",
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     "default": {
-        # Use "postgresql" or "mysql".
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
         "NAME": "weblate",
@@ -57,17 +56,7 @@ DATABASES = {
         # Set to empty string for default.
         "PORT": "",
         # Customizations for databases.
-        "OPTIONS": {
-            # In case of using an older MySQL server,
-            # which has MyISAM as a default storage
-            # "init_command": "SET storage_engine=INNODB",
-            # Uncomment for MySQL older than 5.7:
-            # "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            # Set emoji capable charset for MySQL:
-            # "charset": "utf8mb4",
-            # Change connection timeout in case you get MySQL gone away error:
-            # "connect_timeout": 28800,
-        },
+        "OPTIONS": {},
         # Persistent connections
         "CONN_MAX_AGE": None,
         "CONN_HEALTH_CHECKS": True,
@@ -139,6 +128,7 @@ LANGUAGES = (
     ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
+    ("vi", "Tiếng việt"),
     ("zh-hans", "简体中文"),
     ("zh-hant", "正體中文"),
 )
@@ -301,13 +291,13 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
+    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
-    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.password_reset",
 )
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -379,6 +369,21 @@ PASSWORD_HASHERS = [
 # Allow new user registrations
 REGISTRATION_OPEN = True
 
+# Allow registration with disposable e-mail domains
+REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
+
+# Project website restriction allowlist
+# PROJECT_WEB_RESTRICT_ALLOWLIST = {"trusted-project"}
+
+# Restrict private webhook targets
+# WEBHOOK_RESTRICT_PRIVATE = True
+
+# Restrict private VCS repository targets
+# VCS_RESTRICT_PRIVATE = True
+
+# Private webhook target allowlist
+# WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
 
@@ -441,6 +446,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
     # Third party Django modules
@@ -603,7 +609,7 @@ if HAVE_SYSLOG:
         "facility": SysLogHandler.LOG_LOCAL2,
     }
 
-# Configure GELF integration if presetn
+# Configure GELF integration if present
 if WEBLATE_LOG_GELF_HOST:
     LOGGING["formatters"]["gelf"] = {
         "()": "logging_gelf.formatters.GELFFormatter",
@@ -645,10 +651,16 @@ SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+# Maximum allowed uploaded translation file size
+TRANSLATION_UPLOAD_MAX_SIZE = 50000000
+# Maximum allowed uploaded component ZIP file size
+COMPONENT_ZIP_UPLOAD_MAX_SIZE = 50000000
+# Maximum allowed uploaded project backup ZIP file size
+PROJECT_BACKUP_UPLOAD_MAX_SIZE = 250 * 1024 * 1024
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Apply session coookie settings to language cookie as well with exception
+# Apply session cookie settings to language cookie as well with exception
 # of SameSite as we want language to be honored in CSRF error messages.
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
@@ -676,9 +688,6 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
-
-# Opt-in for Django 6.0 default
-FORMS_URLFIELD_ASSUME_HTTPS = True
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = "anonymous"
@@ -740,6 +749,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.checks.format.ObjectPascalFormatCheck",
 #     "weblate.checks.format.SchemeFormatCheck",
 #     "weblate.checks.format.CSharpFormatCheck",
+#     "weblate.checks.format.LaravelFormatCheck",
 #     "weblate.checks.format.JavaFormatCheck",
 #     "weblate.checks.format.JavaMessageFormatCheck",
 #     "weblate.checks.format.PercentPlaceholdersCheck",
@@ -765,6 +775,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.checks.render.MaxSizeCheck",
 #     "weblate.checks.markup.XMLValidityCheck",
 #     "weblate.checks.markup.XMLTagsCheck",
+#     "weblate.checks.markup.XMLCharsAroundTagsCheck",
 #     "weblate.checks.markup.MarkdownRefLinkCheck",
 #     "weblate.checks.markup.MarkdownLinkCheck",
 #     "weblate.checks.markup.MarkdownSyntaxCheck",
@@ -797,6 +808,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.trans.autofixes.chars.RemoveZeroSpace",
 #     "weblate.trans.autofixes.chars.RemoveControlChars",
 #     "weblate.trans.autofixes.chars.DevanagariDanda",
+#     "weblate.trans.autofixes.chars.PunctuationSpacing",
 #     "weblate.trans.autofixes.html.BleachHTML",
 # )
 
@@ -806,9 +818,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.gettext.UpdateLinguasAddon",
 #     "weblate.addons.gettext.UpdateConfigureAddon",
 #     "weblate.addons.gettext.MsgmergeAddon",
+#     "weblate.addons.gettext.XgettextAddon",
+#     "weblate.addons.gettext.MesonAddon",
+#     "weblate.addons.gettext.DjangoAddon",
+#     "weblate.addons.gettext.SphinxAddon",
 #     "weblate.addons.gettext.GettextAuthorComments",
 #     "weblate.addons.cleanup.CleanupAddon",
 #     "weblate.addons.cleanup.RemoveBlankAddon",
+#     "weblate.addons.cleanup.ResetAddon",
 #     "weblate.addons.consistency.LanguageConsistencyAddon",
 #     "weblate.addons.discovery.DiscoveryAddon",
 #     "weblate.addons.autotranslate.AutoTranslateAddon",
@@ -900,6 +917,8 @@ SILENCED_SYSTEM_CHECKS = [
     "admin.E408",
     # Using custom authentication middleware with LoginRequiredMiddleware
     "auth.E013",
+    # pytest overrides string_if_invalid with a non-string value
+    "templates.E002",
     # Silence drf_spectacular until these are addressed
     "drf_spectacular.W001",
     "drf_spectacular.W002",
@@ -944,9 +963,14 @@ AUTO_UPDATE = False
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = None
 
+# Website availability checks
+# Set to False to disable broken website alerts
+WEBSITE_ALERTS_ENABLED = True
+
 # Third party services integration
 MATOMO_SITE_ID = None
 MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 SENTRY_ENVIRONMENT = SITE_DOMAIN
+PASSWORD_RESET_URL = None

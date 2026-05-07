@@ -26,11 +26,9 @@ class WeblateSamlIDPErrorView(SamlIDPErrorView):
     ) -> HttpResponse:
         # Avoid raising HTTP 500 for client errors
 
-        # missing parameter
         if isinstance(exception, KeyError) and exception.args[0] == "SAMLRequest":
             return HttpResponseBadRequest("Missing SAMLRequest in session")
 
-        # wrong signature, missing parameter, or invalid base64 string
         if isinstance(exception, (IncorrectlySigned, ValidationError, Error)):
             return HttpResponseBadRequest(exception.args[0])
 

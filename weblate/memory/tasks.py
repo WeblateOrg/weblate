@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 @app.task(trail=False)
 def import_memory(project_id: int, component_id: int | None = None) -> None:
-    from weblate.trans.models import Project, Unit
+    from weblate.trans.models import Project, Unit  # noqa: PLC0415
 
     project = Project.objects.get(pk=project_id)
 
@@ -105,7 +105,7 @@ def update_memory(
     project_id: int,
     unit_state: int,
 ) -> None:
-    from weblate.trans.models import Project
+    from weblate.trans.models import Project  # noqa: PLC0415
 
     project = Project.objects.get(pk=project_id)
     check_matching = True

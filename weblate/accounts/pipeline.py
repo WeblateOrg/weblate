@@ -6,6 +6,8 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, NoReturn
 
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
@@ -29,11 +31,16 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import Invitation, User, get_anonymous
+from weblate.auth.models import (
+    Invitation,
+    InvitationError,
+    InvitationExpiredError,
+    User,
+    get_anonymous,
+)
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.requests import http_request
 from weblate.utils.validators import (
     CRUD_RE,
     USERNAME_MATCHER,
@@ -41,8 +48,13 @@ from weblate.utils.validators import (
     clean_fullname,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
+VerifiedEmailList = list[tuple[str, bool]]
+GitHubEmailData = Mapping[str, str | bool | None]
 
 
 class UsernameAlreadyAssociated(AuthAlreadyAssociated):
@@ -53,38 +65,64 @@ class EmailAlreadyAssociated(AuthAlreadyAssociated):
     pass
 
 
-def get_github_emails(access_token):
-    """Get real e-mail from GitHub."""
-    response = http_request(
-        "get",
-        "https://api.github.com/user/emails",
-        headers={"Authorization": f"token {access_token}"},
-        timeout=10.0,
+def invalid_invitation(
+    strategy, backend, message: str, error: Exception | None = None
+) -> NoReturn:
+    strategy.request.session.pop("invitation_link", None)
+    messages.warning(strategy.request, message)
+    messages.warning(
+        strategy.request, gettext("The registration link has been invalidated.")
     )
-    data = response.json()
-    email = None
-    primary = None
-    public = None
-    emails = []
+    raise AuthMissingParameter(backend, "invitation") from error
+
+
+def get_valid_invitation(
+    strategy, backend, invitation_pk: str | None
+) -> Invitation | None:
+    if not invitation_pk:
+        return None
+
+    invitation = Invitation.objects.filter(pk=invitation_pk).first()
+    if invitation is None:
+        invalid_invitation(
+            strategy, backend, gettext("The invitation link is no longer valid.")
+        )
+    if invitation.is_expired():
+        invalid_invitation(strategy, backend, gettext("This invitation has expired."))
+    return invitation
+
+
+def parse_github_emails(
+    data: Iterable[GitHubEmailData],
+) -> tuple[str | None, VerifiedEmailList]:
+    """Parse GitHub e-mails fetched by python-social-auth."""
+    email: str | None = None
+    primary: str | None = None
+    public: str | None = None
+    emails: VerifiedEmailList = []
     for entry in data:
+        address = entry.get("email")
+        if not isinstance(address, str):
+            continue
+
         # Skip noreply e-mail only if we need deliverable e-mails
-        if entry["email"].endswith("@users.noreply.github.com"):
+        if address.endswith("@users.noreply.github.com"):
             # Add E-Mail and set is_deliverable to false
-            emails.append((entry["email"], False))
+            emails.append((address, False))
             continue
         # Skip not verified ones
-        if not entry["verified"]:
+        if not entry.get("verified"):
             continue
 
         # Add E-Mail and set is_deliverable to true
-        emails.append((entry["email"], True))
+        emails.append((address, True))
         if entry.get("visibility") == "public":
             # There is just one public mail, prefer it
-            public = entry["email"]
+            public = address
             continue
-        email = entry["email"]
-        if entry["primary"]:
-            primary = entry["email"]
+        email = address
+        if entry.get("primary"):
+            primary = address
     return public or primary or email, emails
 
 
@@ -112,8 +150,8 @@ def reauthenticate(
 @partial
 def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
     """Force entering e-mail for backends which don't provide it."""
-    if backend.name == "github":
-        email, emails = get_github_emails(kwargs["response"]["access_token"])
+    if backend.name == "github" and "emails" in kwargs["response"]:
+        email, emails = parse_github_emails(kwargs["response"]["emails"])
         details["verified_emails"] = emails
         if email is not None:
             details["email"] = email
@@ -288,6 +326,11 @@ def store_params(strategy, user: User, **kwargs):
         except Invitation.DoesNotExist:
             del session["invitation_link"]
             invitation_pk = None
+        else:
+            if invitation.is_expired():
+                del session["invitation_link"]
+                invitation = None
+                invitation_pk = None
 
     return {
         "weblate_action": action,
@@ -329,7 +372,7 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
             pass
 
 
-def ensure_valid(
+def ensure_valid(  # noqa: PLR0917
     strategy,
     backend,
     user: User,
@@ -338,6 +381,8 @@ def ensure_valid(
     weblate_expires,
     new_association,
     details,
+    invitation_link: Invitation | None = None,
+    invitation_pk: str | None = None,
     **kwargs,
 ) -> None:
     """Ensure the activation link is still."""
@@ -378,6 +423,28 @@ def ensure_valid(
 
         raise AuthMissingParameter(backend, "user")
 
+    if user is None:
+        invitation = (
+            get_valid_invitation(strategy, backend, invitation_pk) or invitation_link
+        )
+        if invitation and invitation.is_expired():
+            invalid_invitation(
+                strategy, backend, gettext("This invitation has expired.")
+            )
+        if (
+            invitation
+            and invitation.email
+            and not invitation.matches_email(details.get("email", ""))
+        ):
+            invalid_invitation(
+                strategy,
+                backend,
+                gettext(
+                    "This invitation can be accepted only by the e-mail address "
+                    "chosen by the inviter; it can't be used by your account."
+                ),
+            )
+
     # Verify if this mail is not used on other accounts
     if new_association:
         if "email" not in details:
@@ -398,34 +465,78 @@ def ensure_valid(
 def store_email(strategy, backend, user: User, social, details, **kwargs) -> None:
     """Store verified e-mail."""
     # The email can be empty for some services
-    if details.get("verified_emails"):
+    if "verified_emails" in details:
         # For some reasons tuples get converted to lists inside python social auth
-        current = {tuple(verified) for verified in details["verified_emails"]}
-        existing = set(social.verifiedemail_set.values_list("email", "is_deliverable"))
-        for remove in existing - current:
-            social.verifiedemail_set.filter(
-                email=remove[0], is_deliverable=remove[1]
-            ).delete()
-        for add in current - existing:
-            social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
+        current: set[tuple[str, bool]] = set(map(tuple, details["verified_emails"]))
     elif details.get("email"):
-        verified, created = VerifiedEmail.objects.get_or_create(
-            social=social, defaults={"email": details["email"]}
-        )
-        if (
-            not created and verified.email != details["email"]
-        ) or not verified.is_deliverable:
-            verified.email = details["email"]
-            verified.is_deliverable = True
-            verified.save()
+        current = {(details["email"], True)}
+    else:
+        return
+
+    existing_emails = set()
+    for verified in social.verifiedemail_set.order_by("pk"):
+        entry = (verified.email, verified.is_deliverable)
+        if entry in current and entry not in existing_emails:
+            existing_emails.add(entry)
+        else:
+            verified.delete()
+
+    for add in current - existing_emails:
+        social.verifiedemail_set.create(email=add[0], is_deliverable=add[1])
 
 
 def handle_invite(
-    strategy, backend, user: User, social, invitation_pk: str, **kwargs
+    strategy,
+    backend,
+    user: User,
+    social,
+    invitation_pk: str | None,
+    is_new=False,
+    **kwargs,
 ) -> None:
     # Accept triggering invitation
     if invitation_pk:
-        Invitation.objects.get(pk=invitation_pk).accept(strategy.request, user)
+        invitation = Invitation.objects.filter(pk=invitation_pk).first()
+        if invitation is None:
+            strategy.request.session.pop("invitation_link", None)
+        elif invitation.is_expired():
+            strategy.request.session.pop("invitation_link", None)
+            if is_new:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext("This invitation has expired."),
+                )
+        elif invitation.matches_user(user):
+            try:
+                invitation.accept(strategy.request, user)
+            except InvitationExpiredError as error:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext("This invitation has expired."),
+                    error,
+                )
+            except InvitationError as error:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext("The invitation link is no longer valid."),
+                    error,
+                )
+            else:
+                strategy.request.session.pop("invitation_link", None)
+        else:
+            strategy.request.session.pop("invitation_link", None)
+            if is_new:
+                invalid_invitation(
+                    strategy,
+                    backend,
+                    gettext(
+                        "This invitation can be accepted only by the e-mail address "
+                        "chosen by the inviter; it can't be used by your account."
+                    ),
+                )
     # Merge possibly pending invitations for this e-mail address
     Invitation.objects.filter(email=user.email).update(user=user, email="")
 

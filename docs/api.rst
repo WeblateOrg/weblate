@@ -290,6 +290,7 @@ Users
 
     :query string username: Username to search for
     :query int id: User ID to search for
+    :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
     .. seealso::
 
@@ -298,6 +299,9 @@ Users
 .. http:post:: /api/users/
 
     Creates a new user.
+
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
 
     :param username: Username
     :type username: string
@@ -357,6 +361,10 @@ Users
 
     Changes the user parameters.
 
+    Requires the global ``user.edit`` permission unless a user is updating
+    their own basic profile fields. See :ref:`access-control` for the user
+    management permission model.
+
     :param username: User's username
     :type username: string
     :>json string username: username of a user
@@ -370,6 +378,10 @@ Users
 .. http:patch:: /api/users/(str:username)/
 
     Changes the user parameters.
+
+    Requires the global ``user.edit`` permission unless a user is updating
+    their own basic profile fields. See :ref:`access-control` for the user
+    management permission model.
 
     :param username: User's username
     :type username: string
@@ -385,12 +397,18 @@ Users
 
     Deletes all user information and marks the user inactive.
 
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
+
     :param username: User's username
     :type username: string
 
 .. http:post:: /api/users/(str:username)/groups/
 
     Associate groups with a user.
+
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
 
     :param username: User's username
     :type username: string
@@ -401,6 +419,9 @@ Users
     .. versionadded:: 4.13.1
 
     Remove user from a group.
+
+    Requires the global ``user.edit`` permission. See
+    :ref:`access-control` for the user management permission model.
 
     :param username: User's username
     :type username: string
@@ -908,10 +929,10 @@ Projects
     :>json string credits_url: URL to list contributor credits; see :http:get:`/api/projects/(string:project)/credits/`
     :>json boolean translation_review: :ref:`project-translation_review`
     :>json boolean source_review: :ref:`project-source_review`
-    :>json boolean set_language_team: :ref:`project-set_language_team`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
+    :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
 
     **Example JSON data:**
 
@@ -1078,6 +1099,7 @@ Projects
     :type project: string
     :form file zipfile: ZIP file to upload into Weblate for translations initialization
     :form file docfile: Document to translate
+    :form string from_component: Optional source component reference used to duplicate the new component. Accepts either a numeric component ID or a full Weblate component path. When provided, the new component inherits the source component configuration and translations into a new local repository. Repository fields such as ``repo``, ``vcs``, ``branch``, ``push``, and ``push_branch`` can not be combined with this option.
     :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
     :<json object: Component parameters, see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
@@ -1162,14 +1184,9 @@ Projects
         Content-Length: 20
 
         {
-            "file_format": "po",
-            "filemask": "po/*.po",
+            "from_component": "hello/weblate",
             "name": "Weblate",
-            "slug": "weblate",
-            "repo": "weblate://weblate/hello",
-            "template": "",
-            "new_base": "po/hello.pot",
-            "vcs": "git"
+            "slug": "weblate"
         }
 
     **JSON response example:**
@@ -1310,7 +1327,7 @@ Projects
     :>json string change_count: Number of changes done in the time range
 
 
-.. http:get:: /api/projects/{string:project}/machinery_settings/
+.. http:get:: /api/projects/(string:project)/machinery_settings/
 
     .. versionadded:: 5.9
 
@@ -1321,7 +1338,7 @@ Projects
     :>json object suggestion_settings: Configuration for all installed services.
 
 
-.. http:post:: /api/projects/{string:project}/machinery_settings/
+.. http:post:: /api/projects/(string:project)/machinery_settings/
 
     .. versionadded:: 5.9
 
@@ -1354,6 +1371,44 @@ Projects
         - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project. If no components have translations for the specified language, an empty ZIP file will be returned.
         - ``403 Forbidden`` if the user does not have permission to the project.
         - ``404 Not Found`` if the project slug does not exist.
+
+.. http:get:: /api/projects/(string:project)/announcements/
+
+   .. versionadded:: 5.17
+
+    Returns announcements for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/projects/(string:project)/announcements/
+
+   .. versionadded:: 5.17
+
+    Creates an announcement for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/projects/(string:project)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17
+
+    Deletes an announcement from a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
 
 Components
 ++++++++++
@@ -1417,10 +1472,10 @@ Components
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
-    :>json string push_on_commit: :ref:`component-push_on_commit`
+    :>json boolean push_on_commit: :ref:`component-push_on_commit`; linked repositories expose the effective value from the linked component
     :>json bool locked: Whether component is locked, this field is read-only; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
-    :>json string commit_pending_age: :ref:`component-commit_pending_age`
-    :>json string auto_lock_error: :ref:`component-auto_lock_error`
+    :>json integer commit_pending_age: :ref:`component-commit_pending_age`; linked repositories expose the effective value from the linked component
+    :>json boolean auto_lock_error: :ref:`component-auto_lock_error`; linked repositories expose the effective value from the linked component
     :>json string language_regex: :ref:`component-language_regex`
     :>json string variant_regex: :ref:`component-variant_regex`
     :>json bool is_glossary: :ref:`component-is_glossary`
@@ -1431,6 +1486,7 @@ Components
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
     :>json string credits_url: URL to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
+    :>json string announcements_url: URL to announcements; see :http:get:`/api/components/(string:project)/(string:component)/announcements/`
 
     **Example JSON data:**
 
@@ -1804,6 +1860,7 @@ Components
     :param component: Component URL slug
     :type component: string
     :<json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+    :<json array from_component: optional ordered list of source component references used for automatic translation. Accepts numeric component IDs or full Weblate component paths. For form submissions this field can be provided multiple times.
     :>json object result: new translation object created
 
     **CURL example:**
@@ -1826,7 +1883,10 @@ Components
         Authorization: Token TOKEN
         Content-Length: 20
 
-        {"language_code": "cs"}
+        {
+            "language_code": "cs",
+            "from_component": ["hello/weblate", 123]
+        }
 
     **JSON response example:**
 
@@ -1906,12 +1966,15 @@ Components
     Associate project with a component.
 
     .. versionadded:: 4.5
+    .. versionchanged:: 5.17
 
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
     :type component: string
     :form string project_slug: Project slug
+    :form int category_id: Category ID in the target project (optional).
+        The category must belong to the specified project.
 
 .. http:delete:: /api/components/(string:project)/(string:component)/links/(string:project_slug)/
 
@@ -1943,6 +2006,51 @@ Components
     :>json string email: Email of the contributor
     :>json string full_name: Full name of the contributor
     :>json string change_count: Number of changes done in the time range
+
+.. http:get:: /api/components/(string:project)/(string:component)/announcements/
+
+   .. versionadded:: 5.17
+
+    Returns announcements for a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/components/(string:project)/(string:component)/announcements/
+
+   .. versionadded:: 5.17
+
+    Creates an announcement for a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/components/(string:project)/(string:component)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17
+
+    Deletes an announcement from a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
+
 
 Translations
 ++++++++++++
@@ -1992,6 +2100,7 @@ Translations
     :>json string file_url: URL to file object; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
     :>json string units_list_url: URL to strings list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
+    :>json string announcements_url: URL to announcements; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/announcements/`
 
     **Example JSON data:**
 
@@ -2187,8 +2296,8 @@ Translations
     :type language: string
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file
-    :form string email: Author e-mail
-    :form string author: Author name
+    :form string author_email: Author e-mail
+    :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
 
@@ -2244,6 +2353,56 @@ Translations
 
        Returned attributes are described in :ref:`api-statistics`.
 
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/announcements/
+
+   .. versionadded:: 5.17
+
+    Returns announcements for a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/announcements/
+
+   .. versionadded:: 5.17
+
+    Creates an announcement for a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/translations/(string:project)/(string:component)/(string:language)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17
+
+    Deletes an announcement from a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
+
 
 Memory
 ++++++
@@ -2253,6 +2412,28 @@ Memory
 .. http:get:: /api/memory/
 
     Returns a list of memory results.
+
+    :query source: Case-insensitive substring filter on source text (optional)
+    :type source: string
+    :query source_language: Source language code filter (optional)
+    :type source_language: string
+    :query target_language: Target language code filter (optional)
+    :type target_language: string
+    :query project: Project slug filter (optional)
+    :type project: string
+
+.. http:post:: /api/memory/lookup/
+
+    Looks up translation memory matches for the provided source strings.
+
+    :query source_language: Source language code
+    :type source_language: string
+    :query target_language: Target language code
+    :type target_language: string
+    :query project: Project slug filter (optional)
+    :type project: string
+    :<json array strings: List of source strings to look up
+    :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
 
 .. http:delete:: /api/memory/(int:memory_object_id)/
 
@@ -2443,7 +2624,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/
 
-    Returns a list of screenshot string information.
+    Returns a list of screenshots.
 
     .. seealso::
 
@@ -2456,7 +2637,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2514,8 +2696,10 @@ Screenshots
     :form string project_slug: Project slug
     :form string component_slug: Component slug
     :form string language_code: Language code
+    :form string repository_filename: Optional repository path used to associate later repository updates
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2526,7 +2710,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2537,7 +2722,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string repository_filename: repository path used to match repository-based screenshot updates
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2605,6 +2791,15 @@ Add-ons
 .. http:delete:: /api/addons/(int:id)/
 
     Delete add-on.
+
+    :param id: Add-on ID
+    :type id: int
+
+.. http:post:: /api/addons/(int:id)/trigger/
+
+    Trigger a manual run of an add-on that supports manual triggering.
+
+    .. versionadded:: 5.17.1
 
     :param id: Add-on ID
     :type id: int
@@ -2801,6 +2996,10 @@ Metrics
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
+    :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
+
+    In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
+    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``.
 
 Search
 +++++++
@@ -2850,6 +3049,7 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
 
 .. http:patch:: /api/categories/(int:id)/
 
@@ -2886,12 +3086,50 @@ Categories
 
     Returns statistics for a category.
 
-    :param project: Category ID
-    :type project: int
+    :param id: Category ID
+    :type id: int
 
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/categories/(int:id)/announcements/
+
+   .. versionadded:: 5.17.1
+
+    Returns announcements for a category.
+
+    :param id: Category ID
+    :type id: int
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/categories/(int:id)/announcements/
+
+   .. versionadded:: 5.17.1
+
+    Creates an announcement for a category.
+
+    :param id: Category ID
+    :type id: int
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/categories/(int:id)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17.1
+
+    Deletes an announcement from a category.
+
+    :param id: Category ID
+    :type id: int
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
 
 .. _hooks:
 
@@ -3015,6 +3253,20 @@ update individual repositories; see
             For instruction on setting up Gitea integration
         https://docs.gitea.io/en-us/webhooks/
             Generic information about Gitea Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
+
+.. http:post:: /hooks/forgejo/
+
+    Special hook for handling Forgejo Webhook notifications and automatically
+    updating matching components.
+
+    .. seealso::
+
+        :ref:`forgejo-setup`
+            For instruction on setting up Forgejo integration
+        https://forgejo.org/docs/latest/user/webhooks/
+            Generic information about Forgejo Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 

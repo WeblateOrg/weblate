@@ -16,12 +16,11 @@ def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
     Wrap get_doc_url to delay get_doc_url import.
 
     It cannot be imported directly, because get_spectacular_settings is used
-    from settings and get_doc_url needs settings to determine if it should hide t
-    he version info.
+    from settings.
     """
-    from weblate.utils.docs import get_doc_url
+    from weblate.utils.docs import get_doc_url  # noqa: PLC0415
 
-    return get_doc_url(page, anchor)
+    return get_doc_url(page, anchor, doc_version="latest")
 
 
 def get_spectacular_settings(
@@ -83,6 +82,9 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
+            "StringStateEnum": "weblate.utils.state.StringState.choices",
+            "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
+            "ErrorResponse400TypeEnum": "weblate.api.serializers.ErrorResponse400TypeEnum.choices",
             "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
             "ClientErrorEnum": "drf_standardized_errors.openapi_serializers.ClientErrorEnum.choices",
             "ServerErrorEnum": "drf_standardized_errors.openapi_serializers.ServerErrorEnum.choices",
@@ -99,6 +101,8 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         "POSTPROCESSING_HOOKS": [
             "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
             "weblate.api.docs.add_middleware_headers",
+            "weblate.api.docs.simplify_license_schema",
+            "weblate.api.docs.simplify_media_types",
         ],
         "EXTERNAL_DOCS": {
             "url": lazy(get_doc_url_wrapper, str)("index"),
@@ -217,6 +221,7 @@ def get_drf_standardized_errors_settings() -> dict[str, Any]:
             "500",
         ],
         "ERROR_SCHEMAS": {
+            "400": "weblate.api.serializers.ErrorResponse400Serializer",
             "423": "weblate.api.serializers.ErrorResponse423Serializer",
         },
         "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",

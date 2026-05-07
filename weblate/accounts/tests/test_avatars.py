@@ -60,6 +60,14 @@ class AvatarTest(FixtureTestCase):
         )
         self.assert_png(response)
 
+    @responses.activate
+    def test_avatar_rejects_unsupported_size_before_fetch(self) -> None:
+        response = self.client.get(
+            reverse("user_avatar", kwargs={"user": self.user.username, "size": 999})
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(len(responses.calls), 0)
+
     def test_anonymous_avatar(self) -> None:
         anonymous = User.objects.get(username="anonymous")
         # Anonymous user

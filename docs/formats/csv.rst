@@ -58,6 +58,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.csv
     :language: text
 
+.. include:: /snippets/format-features/csv-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

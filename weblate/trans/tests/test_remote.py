@@ -6,17 +6,24 @@
 
 import os
 import pathlib
+from unittest.mock import patch
 
 from django.db import transaction
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_APPROVED, STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 EXTRA_PO = """
@@ -137,12 +144,10 @@ class MultiRepoTest(ViewTestCase):
 
     def test_failed_update(self) -> None:
         """Test failed remote update."""
-        if os.path.exists(self.git_repo_path):
-            remove_tree(self.git_repo_path)
-        if os.path.exists(self.mercurial_repo_path):
-            remove_tree(self.mercurial_repo_path)
-        if os.path.exists(self.subversion_repo_path):
-            remove_tree(self.subversion_repo_path)
+        for repo_name in ("test-repo.git", "test-repo.hg", "test-repo.svn"):
+            repo_path = self.get_repo_path(repo_name)
+            if os.path.exists(repo_path):
+                remove_tree(repo_path)
         translation = self.component.translation_set.get(language_code="cs")
         self.assertFalse(translation.do_update(self.request))
 
@@ -590,9 +595,10 @@ class MultiRepoTest(ViewTestCase):
             "# Test Project\n\nThis is a test README.\n", encoding="utf-8"
         )
         with self.component.repository.lock:
-            self.component.repository.execute(["add", "README.md"])
+            self.component.repository.execute(["add", "README.md"], remote_op="none")
             self.component.repository.execute(
-                ["commit", "-m", "Add README.md (non-translation file)"]
+                ["commit", "-m", "Add README.md (non-translation file)"],
+                remote_op="none",
             )
             self.component.repository.push(self.component.push_branch)
 
@@ -609,6 +615,39 @@ class MultiRepoTest(ViewTestCase):
         )
         unit.refresh_from_db()
         self.assertEqual(unit.target, new_target)
+
+    def test_push_branch_skips_upstream_only_commits(self) -> None:
+        """Push branch should stay untouched when only the tracked branch advanced."""
+        if self._vcs != "git":
+            self.skipTest("Push branch divergence is covered for Git only")
+
+        self.component.allow_translation_propagation = False
+        self.component.push_branch = "push-branch"
+        self.component.save(
+            update_fields=["allow_translation_propagation", "push_branch"]
+        )
+        self.component2.allow_translation_propagation = False
+        self.component2.save(update_fields=["allow_translation_propagation"])
+
+        with self.component.repository.lock:
+            self.component.repository.push(self.component.push_branch)
+
+        upstream_translation = self.component2.translation_set.get(language_code="cs")
+        upstream_unit = upstream_translation.unit_set.get(source="Hello, world!\n")
+        upstream_unit.translate(
+            self.user, "Upstream branch only change\n", STATE_TRANSLATED
+        )
+        self.assertTrue(self.component2.do_push(self.request))
+
+        self.assertTrue(self.component.do_update(self.request))
+        self.assertEqual(self.component.count_repo_outgoing, 0)
+        self.assertEqual(self.component.count_push_branch_outgoing, 0)
+        self.assertFalse(self.component.repo_needs_push())
+
+        with patch.object(self.component.repository, "push") as mock_push:
+            self.assertTrue(self.component.do_push(self.request))
+
+        mock_push.assert_not_called()
 
     def test_api(self):
         """Test the project repository API works for various VCS."""
@@ -808,6 +847,108 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit.explanation, disk_explanation)
 
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit).count(), 0)
+
+    def _test_fuzzy_state_commit_policy(self, component) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.save()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+
+        unit.translate(self.user, "Ahoj světe!\n", STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.details["disk_state"]["state"], STATE_EMPTY)
+
+        count = PendingUnitChange.objects.filter(unit=unit).count()
+        self.assertEqual(count, 1)
+
+        # trigger commit and check_sync to simulate repository rescan
+        translation.commit_pending("test", None)
+        translation.check_sync(force=True)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+        # pending changes for unit are not discarded
+        count = PendingUnitChange.objects.filter(unit=unit).count()
+        self.assertEqual(count, 1)
+        self.assertEqual(unit.details["disk_state"]["state"], STATE_EMPTY)
+
+    def test_fuzzy_state_commit_policy_json(self) -> None:
+        component = self.create_json(name="JSON component", project=self.project)
+        self._test_fuzzy_state_commit_policy(component)
+
+    def test_fuzzy_state_commit_policy_po(self) -> None:
+        component = self.create_po(name="Po component", project=self.project)
+        self._test_fuzzy_state_commit_policy(component)
+
+    def _test_auto_translated_cleared_on_state_change_from_repo(
+        self, component, expect_auto_translated: bool
+    ) -> None:
+        """Test that automatically_translated flag is cleared on any repo update."""
+        request = self.get_request()
+        translation = component.translation_set.get(language_code="cs")
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(
+            self.user,
+            "Nazdar svete!\n",
+            STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+        )
+        unit.refresh_from_db()
+        self.assertTrue(unit.automatically_translated)
+
+        component.commit_pending("test", None)
+
+        # Directly edit the file on disk to mark the string as fuzzy
+        # (state change without content change)
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        ttk_unit.unit.markfuzzy(True)
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(request.user, "TEST <test@example.net>")
+
+        component.do_file_scan(request)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.automatically_translated, expect_auto_translated)
+
+    def test_auto_translated_cleared_on_state_change_from_repo_po(self) -> None:
+        component = self.create_po(name="Po component", project=self.project)
+        self._test_auto_translated_cleared_on_state_change_from_repo(component, False)
+
+    def test_auto_translated_cleared_on_state_change_from_repo_xliff(self) -> None:
+        component = self.create_xliff_mono(name="Xliff component", project=self.project)
+        # XLIFF stores auto-translated state in state-qualifier attribute,
+        # which is not cleared by markfuzzy - the file state is trusted
+        self._test_auto_translated_cleared_on_state_change_from_repo(component, True)
+
+    def test_auto_translated_ignored_on_empty_target_xliff(self) -> None:
+        """Test that state-qualifier is ignored when the unit target is empty."""
+        component = self.create_xliff_mono(name="Xliff component", project=self.project)
+        request = self.get_request()
+        translation = component.translation_set.get(language_code="cs")
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        # Clear the target on disk while keeping state-qualifier="leveraged-mt"
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        ttk_unit.set_target("t")
+        ttk_unit.unit.markfuzzy(False)
+        for node in ttk_unit.get_xliff_nodes():
+            if node is not None:
+                node.set("state-qualifier", "leveraged-mt")
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(request.user, "TEST <test@example.net>")
+
+        component.do_file_scan(request)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_EMPTY)
+        self.assertFalse(unit.automatically_translated)
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 from typing import TYPE_CHECKING, ClassVar
+from urllib.parse import urlparse
 
 from django.utils import timezone
 
@@ -56,6 +57,12 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     @classmethod
     def get_identifier(cls) -> str:
         return "microsoft-translator"
+
+    @classmethod
+    def get_application_hosts(cls) -> set[str]:
+        return {
+            value for value, _label in cls.settings_form.base_fields["base_url"].choices
+        }
 
     def __init__(self, settings: SettingsDict) -> None:
         """Check configuration."""
@@ -108,10 +115,8 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         super().check_failure(response)
-        if (
-            response.url.startswith("https://api.cognitive.microsofttranslator.com/")
-            and response.status_code == 200
-        ):
+        hostname = urlparse(response.url).hostname
+        if response.status_code == 200 and hostname in self.get_application_hosts():
             payload = response.json()
 
             # We should get an object, string usually means an error

@@ -8,10 +8,10 @@ from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, Project
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
-class ModelTest(FixtureTestCase):
+class ModelTest(FixtureComponentTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -24,6 +24,50 @@ class ModelTest(FixtureTestCase):
         with self.assertNumQueries(8):
             self.assertEqual(len(self.user.component_permissions), 0)
             self.assertEqual(len(self.user.project_permissions), 2)
+
+    def test_num_queries_mixed_group_resolution(self) -> None:
+        self.group.projects.remove(self.project)
+
+        power_user = Role.objects.get(name="Power user")
+        cs = Language.objects.get(code="cs")
+        de = Language.objects.get(code="de")
+        other_component = self.create_link_existing(
+            slug="test-second", name="Test second"
+        )
+
+        component_group = Group.objects.create(
+            name="Components", language_selection=SELECTION_MANUAL
+        )
+        component_group.roles.add(power_user)
+        component_group.components.add(self.component)
+        component_group.languages.add(cs)
+
+        componentlist = ComponentList.objects.create(
+            name="Component list", slug="component-list"
+        )
+        componentlist.components.add(other_component)
+        componentlist_group = Group.objects.create(
+            name="Component lists", language_selection=SELECTION_MANUAL
+        )
+        componentlist_group.roles.add(power_user)
+        componentlist_group.componentlists.add(componentlist)
+        componentlist_group.languages.add(cs)
+
+        project_group = Group.objects.create(
+            name="Projects", language_selection=SELECTION_MANUAL
+        )
+        project_group.roles.add(power_user)
+        project_group.projects.add(self.project)
+        project_group.languages.add(cs, de)
+
+        self.user.groups.add(component_group, componentlist_group, project_group)
+        self.user.clear_cache()
+
+        with self.assertNumQueries(9):
+            self.assertEqual(len(self.user.component_permissions), 2)
+            self.assertIn(self.component.pk, self.user.component_permissions)
+            self.assertIn(other_component.pk, self.user.component_permissions)
+            self.assertIn(self.project.pk, self.user.project_permissions)
 
     def test_project(self) -> None:
         # No permissions
@@ -127,6 +171,36 @@ class ModelTest(FixtureTestCase):
         self.user.groups.set(DjangoGroup.objects.filter(name="Second"))
         self.assertEqual(self.user.groups.count(), 1)
 
+    def test_store_and_log_audit_state(self) -> None:
+        actor = User.objects.create_user("auditor", "auditor@example.com", "x")
+        audit_group = Group.objects.create(
+            name="Audit group",
+            defining_project=self.project,
+            language_selection=SELECTION_ALL,
+        )
+
+        self.user.store_audit_state()
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.groups.add(audit_group)
+        self.user.log_audit_state(None, actor=actor)
+
+        self.user.auditlog_set.get(
+            activity="superuser-granted", params__username=actor.username
+        )
+        self.user.auditlog_set.get(
+            activity="team-add",
+            params__team=audit_group.name,
+            params__username=actor.username,
+        )
+        self.user.store_audit_state()
+
+    def test_store_audit_state_requires_consumption(self) -> None:
+        self.user.store_audit_state()
+
+        with self.assertRaisesMessage(ValueError, "Audit state is already stored!"):
+            self.user.store_audit_state()
+
     def test_user(self) -> None:
         # Create user with Django User fields
         user = User.objects.create(
@@ -180,3 +254,38 @@ class ModelTest(FixtureTestCase):
             set(self.user.allowed_projects.values_list("slug", flat=True)),
             {public_project.slug, protected_project.slug, self.project.slug},
         )
+
+    def test_needs_project_filter(self) -> None:
+        Project.objects.create(
+            slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
+        )
+
+        self.user.clear_cache()
+        self.assertTrue(self.user.needs_project_filter)
+
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.assertFalse(self.user.needs_project_filter)
+
+    def test_needs_project_filter_all_projects_query(self) -> None:
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.assertIn(-SELECTION_ALL, self.user.project_permissions)
+        with self.assertNumQueries(0):
+            self.assertFalse(self.user.needs_project_filter)
+
+    def test_needs_project_filter_avoids_count_query(self) -> None:
+        self.assertNotIn(-SELECTION_ALL, self.user.project_permissions)
+
+        with self.assertNumQueries(1) as context:
+            self.assertTrue(self.user.needs_project_filter)
+
+        self.assertNotIn("COUNT(", context.captured_queries[0]["sql"].upper())

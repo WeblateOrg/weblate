@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import time
 
-from django.db import ProgrammingError, connections, models, transaction
-from django.db.models.lookups import PatternLookup, Regex
+from django.db import ProgrammingError, connections, transaction
+from django.db.models.lookups import Lookup, PatternLookup, Regex
 
 from .inv_regex import invert_re
 
@@ -18,48 +18,30 @@ ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops {2})"
 PG_DROP = "DROP INDEX {0}_{1}_fulltext"
 
-MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
-MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
-
 
 class MissingTransactionError(ProgrammingError):
     pass
 
 
-def using_postgresql():
-    return connections["default"].vendor == "postgresql"
-
-
-class TransactionsTestMixin:
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()  # type: ignore[misc]
-
-
-def adjust_similarity_threshold(value: float) -> None:
+def adjust_similarity_threshold(value: float, *, alias: str | None = None) -> None:
     """
     Adjust pg_trgm.similarity_threshold for the % operator.
 
     Ideally we would use directly similarity() in the search, but that doesn't seem
     to use index, while using % does.
     """
-    if not using_postgresql():
-        return
-
-    if "memory_db" in connections:
+    if alias is not None:
+        connection = connections[alias]
+    elif "memory_db" in connections:
         connection = connections["memory_db"]
     else:
         connection = connections["default"]
 
     current_similarity = getattr(connection, "weblate_similarity", -1)
-    # Ignore small differences
-    if abs(current_similarity - value) < 0.05:
+    # Ignore only values that are effectively identical at the precision used
+    # by callers. Nearby values can affect whether boundary matches pass the
+    # pg_trgm % operator.
+    if round(current_similarity, 3) == round(value, 3):
         return
 
     with connection.cursor() as cursor:
@@ -77,7 +59,11 @@ def count_alnum(string):
     return sum(map(str.isalnum, string))
 
 
-class PostgreSQLFallbackLookupMixin:
+def use_trgm_fallback(string: str) -> bool:
+    return count_alnum(string) <= 3
+
+
+class PostgreSQLFallbackLookupMixin(Lookup):
     """
     Mixin to block PostgreSQL from using trigram index.
 
@@ -88,12 +74,10 @@ class PostgreSQLFallbackLookupMixin:
     It is performed by concatenating empty string which will prevent index usage.
     """
 
-    lookup_name: str
-
     def process_lhs(self, compiler, connection, lhs=None):
         if self._needs_fallback:  # type: ignore[attr-defined]
             lhs_sql, params = super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]
-            if self.lookup_name in {"search", "substring"}:
+            if self.lookup_name in {"trgm_search", "substring"}:
                 # These are matched against UPPER, so convert them
                 return f"UPPER({lhs_sql})", params
             # This concatenation will prevent using trigram index
@@ -103,7 +87,7 @@ class PostgreSQLFallbackLookupMixin:
 
 class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
     def __init__(self, lhs, rhs) -> None:
-        self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
+        self._needs_fallback = isinstance(rhs, str) and use_trgm_fallback(rhs)
         super().__init__(lhs, rhs)
 
 
@@ -116,7 +100,7 @@ class PostgreSQLRegexLookup(PostgreSQLFallbackLookupMixin, Regex):
 
 
 class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
-    lookup_name = "search"
+    lookup_name = "trgm_search"
 
     def process_rhs(self, qn, connection):
         if not self._needs_fallback:
@@ -127,16 +111,6 @@ class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
         if self._needs_fallback:
             return connection.operators["icontains"] % rhs
         return f"%% {rhs} = true"
-
-
-class MySQLSearchLookup(models.Lookup):
-    lookup_name = "search"
-
-    def as_sql(self, compiler, connection):
-        lhs, lhs_params = self.process_lhs(compiler, connection)
-        rhs, rhs_params = self.process_rhs(compiler, connection)
-        params = lhs_params + rhs_params  # type: ignore[operator]
-        return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
 class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
@@ -171,7 +145,7 @@ def re_escape(pattern: str) -> str:
 
 
 def measure_database_latency() -> float:
-    from weblate.trans.models import Project
+    from weblate.trans.models import Project  # noqa: PLC0415
 
     start = time.monotonic()
     Project.objects.exists()

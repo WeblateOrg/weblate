@@ -12,6 +12,7 @@ from django.utils.translation import gettext
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
 from weblate.trans.models import (
+    Announcement,
     Category,
     Component,
     ComponentList,
@@ -569,7 +570,7 @@ def check_repository_status(
 
 @register_perm("meta:team.edit")
 def check_team_edit(user: User, permission: str, obj: Group) -> bool:
-    from weblate.auth.models import Group
+    from weblate.auth.models import Group  # noqa: PLC0415
 
     return (
         check_global_permission(user, "group.edit")
@@ -630,8 +631,18 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
 
 @register_perm("announcement.delete")
 def check_announcement_delete(
-    user: User, permission: str, obj: Project | Component | None
+    user: User,
+    permission: str,
+    obj: Announcement | Project | Category | Component | None,
 ) -> bool | PermissionResult:
+    if isinstance(obj, Announcement):
+        if obj.component_id is not None:
+            obj = obj.component
+        elif obj.category_id is not None:
+            obj = obj.category
+        else:
+            obj = obj.project
+
     if obj is None:
         return check_global_permission(user, permission)
     return check_permission(user, permission, obj)
@@ -654,7 +665,7 @@ def check_unit_flag(
 def check_memory_perms(
     user: User, permission: str, memory: Memory | Project
 ) -> bool | PermissionResult:
-    from weblate.memory.models import Memory
+    from weblate.memory.models import Memory  # noqa: PLC0415
 
     if isinstance(memory, Memory):
         if memory.user_id == user.id:

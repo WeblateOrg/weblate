@@ -100,10 +100,10 @@
           </button>
           <ul class="dropdown-menu shadow">
             <li>
-              <a class="dropdown-item" href="#" data-field="changed:>=">{% translate "String changed after" %}</a>
+              <a class="dropdown-item" href="#" data-field="changed:&gt;=">{% translate "String changed after" %}</a>
             </li>
             <li>
-              <a class="dropdown-item" href="#" data-field="changed:<=">{% translate "String changed before" %}</a>
+              <a class="dropdown-item" href="#" data-field="changed:&lt;=">{% translate "String changed before" %}</a>
             </li>
           </ul>
           <input type="date" class="form-control" placeholder="{% translate "Date" %}">
@@ -137,6 +137,15 @@
         <th>{% translate "Strings with comments" %}</th>
         <td>
           <code>has:comment</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Strings with comments mentioning you" %}</th>
+        <td>
+          <code>comment:@{{ user.username }}</code>
         </td>
         <td>
           <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>

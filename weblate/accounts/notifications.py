@@ -42,6 +42,7 @@ from weblate.utils.ratelimit import rate_limit_notify
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.version import USER_AGENT
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -78,14 +79,22 @@ class NotificationScope(IntegerChoices):
 
 NOTIFICATIONS: list[type[Notification]] = []
 NOTIFICATIONS_ACTIONS: dict[int, list[type[Notification]]] = {}
+RECIPIENT_USERNAME_HEADER = "X-Weblate-Recipient-Username"
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
     return {
-        "X-Mailer": "Weblate" if settings.HIDE_VERSION else USER_AGENT,
+        "X-Mailer": "Weblate"
+        if settings.VERSION_DISPLAY == VERSION_DISPLAY_HIDE
+        else USER_AGENT,
         "X-Weblate-Notification": notification,
         "Message-ID": f"{uuid4()}@{get_site_domain()}",
     }
+
+
+def add_recipient_headers(headers: dict[str, str], user: User | None) -> None:
+    if user is not None:
+        headers[RECIPIENT_USERNAME_HEADER] = user.username
 
 
 def register_notification(handler: type[Notification]) -> type[Notification]:
@@ -103,7 +112,7 @@ def is_notificable_action(action: int) -> bool:
 
 
 def dispatch_changes_notifications(changes: Iterable[Change]) -> None:
-    from weblate.accounts.tasks import notify_changes
+    from weblate.accounts.tasks import notify_changes  # noqa: PLC0415
 
     notifiable: list[int] = [
         change.pk for change in changes if is_notificable_action(change.action)
@@ -152,7 +161,7 @@ class Notification:
         return cls.__name__
 
     def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
-        from weblate.accounts.models import Subscription
+        from weblate.accounts.models import Subscription  # noqa: PLC0415
 
         result = Subscription.objects.filter(notification=self.get_name())
         scopes: set[NotificationScope] = {NotificationScope.SCOPE_ALL}
@@ -362,6 +371,7 @@ class Notification:
 
     def get_headers(self, context: dict[str, Any]) -> dict[str, str]:
         headers = get_email_headers(self.get_name())
+        add_recipient_headers(headers, context.get("subscription_user"))
 
         # Set From header to contain user full name
         if user := context.get("user"):
@@ -1034,12 +1044,15 @@ def get_notification_emails(
     notification: str,
     context: dict[str, Any] | None = None,
     info: str | None = None,
+    *,
+    user: User | None = None,
 ) -> list[OutgoingEmail]:
     """Render notification email."""
     context = context or {}
 
     # Define headers
     headers = get_email_headers(notification)
+    add_recipient_headers(headers, user)
 
     LOGGER.info(
         "sending notification %s on %s to %s", notification, info, ", ".join(recipients)
@@ -1075,8 +1088,12 @@ def send_notification_email(
     notification: str,
     context: dict[str, Any] | None = None,
     info: str | None = None,
+    *,
+    user: User | None = None,
 ) -> None:
     """Render and sends notification email."""
     queue_mails(
-        get_notification_emails(language, recipients, notification, context, info)
+        get_notification_emails(
+            language, recipients, notification, context, info, user=user
+        )
     )

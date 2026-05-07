@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.conf import settings
+from django.contrib.postgres import indexes as postgres_indexes
 from django.db import models
 from django.utils import timezone
 from weblate_language_data.utils import gettext_noop
@@ -20,7 +21,8 @@ from weblate.utils.state import STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from weblate.auth.models import AuthenticatedHttpRequest, Unit, User
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.trans.models.unit import Unit
 
 
 class CommentManager(models.Manager):
@@ -93,6 +95,9 @@ class CommentManager(models.Manager):
 
 
 class CommentQuerySet(models.QuerySet):
+    def prefetch(self):
+        return self.select_related("user")
+
     def order(self):
         return self.order_by("timestamp")
 
@@ -116,6 +121,13 @@ class Comment(models.Model, UserDisplayMixin):
         app_label = "trans"
         verbose_name = "string comment"
         verbose_name_plural = "string comments"
+        indexes = [  # noqa: RUF012
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("comment"), name="gin_trgm_ops"),
+                models.F("unit"),
+                name="comment_comment_fulltext",
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"comment for {self.unit} by {self.user.username if self.user else 'unknown'}"

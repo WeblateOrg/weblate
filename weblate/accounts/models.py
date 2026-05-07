@@ -31,7 +31,6 @@ from django.utils.translation import get_language, gettext, gettext_lazy
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
-from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
 from unidecode import unidecode
 
@@ -60,8 +59,14 @@ from weblate.utils.stats import (
     GhostProjectLanguageStats,
     ProjectLanguageStats,
 )
-from weblate.utils.token import get_token
-from weblate.utils.validators import EMAIL_BLACKLIST, WeblateURLValidator
+from weblate.utils.validators import (
+    EMAIL_BLACKLIST,
+    WeblateURLValidator,
+    validate_code_site_url,
+    validate_contact_url,
+    validate_fediverse_url,
+    validate_profile_url,
+)
 from weblate.wladmin.models import get_support_status
 
 from .types import ThemeChoices
@@ -103,11 +108,14 @@ class WeblateAccountsConf(AppConf):
 
     # Registration email filter
     REGISTRATION_EMAIL_MATCH = ".*"
+    REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
-    ALTCHA_MAX_NUMBER = 1_000_000
+    ALTCHA_COST = 3
+    ALTCHA_MEMORY_COST = 65536
+    ALTCHA_PARALLELISM = 1
 
     REGISTRATION_HINTS: ClassVar[dict[str, str]] = {}
 
@@ -132,6 +140,9 @@ class WeblateAccountsConf(AppConf):
     SOCIAL_AUTH_AUTH0_TITLE = "Auth0"
     SOCIAL_AUTH_SAML_IMAGE = "saml.svg"
     SOCIAL_AUTH_SAML_TITLE = "SAML"
+
+    # URL for password reset page when using external identity provider
+    PASSWORD_RESET_URL = None
 
     MAXIMAL_PASSWORD_LENGTH = 72
 
@@ -307,11 +318,27 @@ ACCOUNT_ACTIVITY = {
         "User was disabled because the access has expired."
     ),
     # Translators: Audit log entry
+    "sitewide-team-add": gettext_lazy(
+        "User was added to the site-wide {team} team by {username}."
+    ),
+    # Translators: Audit log entry
+    "sitewide-team-remove": gettext_lazy(
+        "User was removed from the site-wide {team} team by {username}."
+    ),
+    # Translators: Audit log entry
+    "superuser-granted": gettext_lazy("Superuser privileges granted."),
+    # Translators: Audit log entry
+    "superuser-revoked": gettext_lazy("Superuser privileges revoked."),
+    # Translators: Audit log entry
     "donate": gettext_lazy("Semiannual support status review was displayed."),
     # Translators: Audit log entry
     "team-add": gettext_lazy("User was added to the {team} team by {username}."),
     # Translators: Audit log entry
     "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
+    # Translators: Audit log entry
+    "token-created": gettext_lazy("Project token for {project} was created."),
+    # Translators: Audit log entry
+    "token-removed": gettext_lazy("Project token for {project} was removed."),
     # Translators: Audit log entry
     "recovery-generate": gettext_lazy(
         "Two-factor authentication recovery codes were generated"
@@ -331,7 +358,15 @@ ACCOUNT_ACTIVITY = {
         "Two-factor authentication failed using {device_type}"
     ),
 }
-AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked", "twofactor-failed"}
+AUDIT_WARNING = {
+    "admin-locked",
+    "failed-auth",
+    "locked",
+    "removed",
+    "superuser-granted",
+    "superuser-revoked",
+    "twofactor-failed",
+}
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
@@ -389,6 +424,8 @@ NOTIFY_ACTIVITY = {
     "blocked",
     "recovery-generate",
     "recovery-show",
+    "superuser-granted",
+    "superuser-revoked",
     "twofactor-add",
     "twofactor-remove",
     "twofactor-failed",
@@ -506,7 +543,9 @@ class AuditLog(models.Model):
         )
 
     def get_params(self) -> dict[str, Any]:
-        from weblate.accounts.templatetags.authnames import get_auth_name
+        from weblate.accounts.templatetags.authnames import (  # noqa: PLC0415
+            get_auth_name,
+        )
 
         result: dict[str, Any] = {
             "site_title": settings.SITE_TITLE,
@@ -536,6 +575,13 @@ class AuditLog(models.Model):
         return format_html(str(message), **self.get_params())
 
     def get_extra_message(self) -> str | None:
+        if self.activity in {
+            "superuser-granted",
+            "superuser-revoked",
+            "token-created",
+            "token-removed",
+        } and self.params.get("username"):
+            return gettext("Triggered by {username}.").format(**self.params)
         if self.activity in EXTRA_MESSAGES:
             return EXTRA_MESSAGES[self.activity].format(**self.params)
         return None
@@ -552,7 +598,7 @@ class AuditLog(models.Model):
 
     def check_rate_limit(self, request: AuthenticatedHttpRequest) -> bool:
         """Check whether the activity should be rate limited."""
-        from weblate.accounts.utils import lock_user
+        from weblate.accounts.utils import lock_user  # noqa: PLC0415
 
         if (
             self.activity == "failed-auth"
@@ -791,12 +837,12 @@ class Profile(models.Model):
     website = models.URLField(
         verbose_name=gettext_lazy("Website URL"),
         blank=True,
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_profile_url],
     )
     contact = models.URLField(
         verbose_name=gettext_lazy("Contact URL"),
         blank=True,
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_contact_url],
         help_text=gettext_lazy(
             "Link to contact you online using services like Signal, SimpleX or Telegram."
         ),
@@ -817,7 +863,7 @@ class Profile(models.Model):
             "Link to your Fediverse profile for federated services "
             "like Mastodon or diaspora*."
         ),
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_fediverse_url],
     )
     codesite = models.URLField(
         verbose_name=gettext_lazy("Code site URL"),
@@ -825,7 +871,7 @@ class Profile(models.Model):
         help_text=gettext_lazy(
             "Link to your code profile for services like Codeberg or GitLab."
         ),
-        validators=[WeblateURLValidator()],
+        validators=[WeblateURLValidator(), validate_code_site_url],
     )
     github = models.SlugField(
         verbose_name=gettext_lazy("GitHub username"),
@@ -1049,7 +1095,7 @@ class Profile(models.Model):
             | GhostCategoryLanguageStats
             | GhostTranslation,
         ) -> str:
-            from weblate.trans.models import Unit
+            from weblate.trans.models import Unit  # noqa: PLC0415
 
             language: Language
             is_source = False
@@ -1190,7 +1236,7 @@ class Profile(models.Model):
 
     @cached_property
     def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:
-        from weblate.accounts.utils import get_key_type
+        from weblate.accounts.utils import get_key_type  # noqa: PLC0415
 
         return {get_key_type(device) for device in self.second_factors}
 
@@ -1202,7 +1248,7 @@ class Profile(models.Model):
         )
 
     def log_2fa(self, request: AuthenticatedHttpRequest, device: Device) -> None:
-        from weblate.accounts.utils import get_key_name, get_key_type
+        from weblate.accounts.utils import get_key_name, get_key_type  # noqa: PLC0415
 
         # Audit log entry
         AuditLog.objects.create(
@@ -1306,10 +1352,10 @@ def post_login_handler(
 def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
     """Automatically create token and profile for user."""
     if created:
+        from weblate.accounts.utils import create_api_token  # noqa: PLC0415
+
         # Create API token
-        instance.auth_token = Token.objects.create(
-            user=instance, key=get_token("wlp" if instance.is_bot else "wlu")
-        )
+        instance.auth_token = create_api_token(instance)
         # Create profile
         instance.profile = Profile.objects.create(user=instance)
         # Create subscriptions

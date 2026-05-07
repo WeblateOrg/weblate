@@ -10,7 +10,7 @@ from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import Component, Project, Translation, Unit
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
 class PlaceholdersTest(CheckTestCase):
@@ -173,7 +173,7 @@ class PlaceholdersTest(CheckTestCase):
         )
 
 
-class PluralPlaceholdersTest(FixtureTestCase):
+class PluralPlaceholdersTest(FixtureComponentTestCase):
     def test_plural(self) -> None:
         check = PlaceholderCheck()
         lang = "cs"

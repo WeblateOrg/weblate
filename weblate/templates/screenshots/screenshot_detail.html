@@ -35,7 +35,10 @@
        id="sources-listing"
        data-href="{% url 'screenshot-js-get' pk=object.pk %}">
     <div class="card-header">
-      <h4 class="card-title">{% translate "Assigned source strings" %}</h4>
+      <h4 class="card-title">
+        {% documentation_icon 'admin/translating' 'screenshots' right=True %}
+        {% translate "Assigned source strings" %}
+      </h4>
     </div>
     <div id="strings-table-container">{% include "screenshots/screenshot_sources_body.html" %}</div>
     <div class="card-footer">

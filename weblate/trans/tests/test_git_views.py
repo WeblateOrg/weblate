@@ -175,7 +175,10 @@ class GitBrokenProjectTest(GitNoChangeProjectTest):
         super().setUp()
         repo = self.component.repository
         with repo.lock:
-            repo.execute(["branch", "--delete", "--remotes", "origin/main"])
+            repo.execute(
+                ["branch", "--delete", "--remotes", "origin/main"],
+                remote_op="none",
+            )
 
 
 class GitBrokenComponentTest(GitBrokenProjectTest):

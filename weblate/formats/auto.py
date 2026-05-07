@@ -11,16 +11,19 @@ from fnmatch import fnmatch
 from typing import TYPE_CHECKING, Any
 
 from translate.storage import factory
+from translate.storage.base import TranslationStore
+from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.ttkit import TTKitFormat
+from weblate.formats.ttkit import BaseTTKitFormat, CSVMetadataError, TTKitUnit
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator, Iterable
 
     from weblate.formats.base import TranslationFormat
     from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.models import Unit
 
 
 def detect_filename(filename: str) -> type[TranslationFormat] | None:
@@ -84,13 +87,23 @@ def try_load(
     content: bytes,
     original_format: type[TranslationFormat] | None,
     template_store: TranslationFormat | None,
+    *,
     language_code: str | None = None,
     source_language: str | None = None,
     is_template: bool = False,
+    existing_units: Callable[[], Iterable[Unit]] | Iterable[Unit] | None = None,
     file_format_params: FileFormatParams | None = None,
 ) -> TranslationFormat:
     """Try to load file by guessing type."""
     failure = None
+
+    def get_existing_units() -> Iterable[Unit] | None:
+        if existing_units is None:
+            return None
+        if callable(existing_units):
+            return existing_units()
+        return existing_units
+
     for file_format in formats_iter(filename, original_format):
         for kwargs, validate in params_iter(file_format, template_store, is_template):
             handle = NamedBytesIO(filename, content)
@@ -101,10 +114,15 @@ def try_load(
                     source_language=language_code
                     if kwargs.get("is_template", False)
                     else source_language,
+                    existing_units=get_existing_units()
+                    if file_format.needs_existing_units
+                    else None,
                     file_format_params=file_format_params,
                     **kwargs,
                 )
                 result.check_valid()
+            except CSVMetadataError:
+                raise
             except Exception as error:
                 if failure is None:
                     failure = error
@@ -121,22 +139,15 @@ def try_load(
     raise failure
 
 
-class AutodetectFormat(TTKitFormat):
+class AutodetectFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
+    BaseTTKitFormat[S, U, T]
+):
     """
     Automatic detection based on translate-toolkit logic.
 
     This is last fallback when uploaded file was not correctly parsed before.
     """
 
-    @classmethod
-    # pylint: disable-next=arguments-differ
-    def parse_store(cls, storefile):
+    def parse_store(self, storefile) -> S:
         """Directly loads using translate-toolkit."""
-        return factory.getobject(storefile)
-
-    @classmethod
-    def get_class(
-        cls,
-        encoding: str | None = None,  # noqa: ARG003
-    ) -> None:
-        return None
+        return factory.getobject(storefile)  # type: ignore[return-value]

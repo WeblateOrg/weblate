@@ -8,15 +8,19 @@ import json
 import re
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
 from weblate.utils.forms import WeblateServiceURLField
+from weblate.utils.validators import validate_machinery_hostname, validate_machinery_url
 
 from .types import SourceLanguageChoices
 
 
 class BaseMachineryForm(forms.Form):
+    network_host_fields = frozenset({"base_url", "endpoint_url"})
+
     source_language = forms.ChoiceField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration", "Source language selection"
@@ -26,22 +30,75 @@ class BaseMachineryForm(forms.Form):
         required=False,
     )
 
-    def __init__(self, machinery, *args, **kwargs) -> None:
+    def __init__(
+        self, machinery, *args, allow_private_targets: bool = True, **kwargs
+    ) -> None:
         self.machinery = machinery
+        self.allow_private_targets = allow_private_targets
         super().__init__(*args, **kwargs)
 
     def serialize_form(self):
         return self.cleaned_data
 
+    @staticmethod
+    def is_private_target_error(error: ValidationError | BaseException | None) -> bool:
+        """Check whether validation failed because the target is private."""
+        if error is None:
+            return False
+        if isinstance(error, ValidationError):
+            if hasattr(error, "error_dict"):
+                return any(
+                    item.code == "private_target"
+                    for errors in error.error_dict.values()
+                    for item in errors
+                ) or BaseMachineryForm.is_private_target_error(error.__cause__)
+            if any(item.code == "private_target" for item in error.error_list):
+                return True
+            return BaseMachineryForm.is_private_target_error(error.__cause__)
+        return BaseMachineryForm.is_private_target_error(error.__cause__)
+
+    @staticmethod
+    def get_private_target_error() -> ValidationError:
+        if settings.OFFER_HOSTING:
+            message = gettext(
+                "Project-level machine translation cannot use internal or non-public addresses."
+            )
+        else:
+            message = gettext(
+                "Project-level machine translation cannot use internal or non-public addresses. Contact the site administrator if this service should be configured site-wide or allowlisted."
+            )
+        return ValidationError(message)
+
     def clean(self) -> None:
-        settings = self.serialize_form()
-        for field, data in self.fields.items():
-            if not data.required:
+        try:
+            configuration = self.serialize_form()
+            for field, data in self.fields.items():
+                if not data.required:
+                    continue
+                if field not in configuration:
+                    return
+            self.validate_endpoint_fields(configuration)
+            if not self.allow_private_targets:
+                configuration = {**configuration, "_project": True}
+            machinery = self.machinery(configuration)
+            machinery.validate_settings()
+        except ValidationError as error:
+            if not self.allow_private_targets and self.is_private_target_error(error):
+                raise self.get_private_target_error() from error
+            raise
+
+    def validate_endpoint_fields(self, configuration) -> None:
+        for field_name, field in self.fields.items():
+            if (value := configuration.get(field_name)) in {"", None}:
                 continue
-            if field not in settings:
-                return
-        machinery = self.machinery(settings)
-        machinery.validate_settings()
+            if isinstance(field, WeblateServiceURLField):
+                validate_machinery_url(
+                    value, allow_private_targets=self.allow_private_targets
+                )
+            elif field_name in self.network_host_fields and isinstance(value, str):
+                validate_machinery_hostname(
+                    value, allow_private_targets=self.allow_private_targets
+                )
 
 
 class KeyMachineryForm(BaseMachineryForm):

@@ -21,44 +21,20 @@ run_coverage() {
     uv run --all-extras coverage run --source . --append "$@"
 }
 
-get_mysql_args() {
-    # shellcheck disable=SC2153
-    args="--host=$CI_DB_HOST --user=root"
-    if [ -n "$CI_DB_PORT" ]; then
-        args="$args --port=$CI_DB_PORT"
-    fi
-    echo "$args"
-}
-
 cleanup_database() {
     rm -f weblate.db
 
-    if [ "$CI_DATABASE" = "mysql" ] || [ "$CI_DATABASE" = 'mariadb' ]; then
-        if [ -n "$CI_DB_PASSWORD" ]; then
-            export MYSQL_PWD="$CI_DB_PASSWORD"
-        fi
-        # shellcheck disable=SC2046
-        mysql $(get_mysql_args) -e 'SET GLOBAL character_set_server=utf8mb4'
-        # shellcheck disable=SC2046
-        mysql $(get_mysql_args) -e 'SET GLOBAL collation_server=utf8mb4_general_ci'
-        # shellcheck disable=SC2046
-        mysql $(get_mysql_args) -e 'DROP DATABASE IF EXISTS weblate;'
-        # shellcheck disable=SC2046
-        mysql $(get_mysql_args) -e 'CREATE DATABASE weblate CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'
+    if [ -n "$CI_DB_PASSWORD" ]; then
+        export PGPASSWORD="$CI_DB_PASSWORD"
     fi
-
-    if [ "$CI_DATABASE" = "postgresql" ]; then
-        if [ -n "$CI_DB_PASSWORD" ]; then
-            export PGPASSWORD="$CI_DB_PASSWORD"
-        fi
-        if [ -n "$CI_DB_PORT" ]; then
-            export PGPORT="$CI_DB_PORT"
-        fi
-        psql --host="$CI_DB_HOST" -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
-        psql --host="$CI_DB_HOST" -c 'CREATE DATABASE weblate;' -U postgres
-        # Replaces weblate/utils/migrations/0001_alter_role.py
-        psql --host="$CI_DB_HOST" -c 'ALTER ROLE postgres SET timezone = UTC;' -U postgres
+    if [ -n "$CI_DB_PORT" ]; then
+        export PGPORT="$CI_DB_PORT"
     fi
+    # shellcheck disable=SC2153
+    psql --host="$CI_DB_HOST" -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
+    psql --host="$CI_DB_HOST" -c 'CREATE DATABASE weblate;' -U postgres
+    # Replaces weblate/utils/migrations/0001_alter_role.py
+    psql --host="$CI_DB_HOST" -c 'ALTER ROLE postgres SET timezone = UTC;' -U postgres
 }
 
 print_step() {
@@ -69,9 +45,15 @@ print_step() {
 
 print_version() {
     for cmd in "$@"; do
-        if command -v "$cmd"; then
-            $cmd --version
-            return
+        # Split command candidates with arguments, for example "git svn".
+        # shellcheck disable=SC2086
+        set -- $cmd
+        if command_path=$(command -v "$1" 2> /dev/null); then
+            # shellcheck disable=SC2086
+            if version=$($cmd --version 2>&1); then
+                printf '%s\n%s\n' "$command_path" "$version"
+                return
+            fi
         fi
     done
     echo "not found..."

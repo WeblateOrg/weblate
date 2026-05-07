@@ -7,26 +7,45 @@
 from __future__ import annotations
 
 import time
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
+from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Translation, Unit
+from weblate.trans.exceptions import FileParseError
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
+from weblate.trans.views.edit import format_newly_failing_checks_message
+from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
+    STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck
+
+
+class EditScreenshotContextTest(ViewTestCase):
+    def test_screenshot_context_has_documentation_link(self) -> None:
+        self.make_manager()
+        response = self.client.get(self.translation.get_translate_url())
+        self.assertContains(
+            response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
 
 
 class EditTest(ViewTestCase):
@@ -523,6 +542,90 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(4, "en")
 
+    def test_edit_does_not_rebuild_component_language_stats(self) -> None:
+        self.assertGreater(self.get_translation().stats.all, 0)
+        with patch(
+            "weblate.trans.models.component.Component.invalidate_cache",
+            autospec=True,
+        ) as invalidate_cache:
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
+        invalidate_cache.assert_not_called()
+
+    def test_suppress_cache_invalidation_is_reentrant(self) -> None:
+        translation = self.get_translation()
+        with patch(
+            "weblate.trans.models.translation.transaction.on_commit"
+        ) as on_commit:
+            with translation.suppress_cache_invalidation():
+                translation.invalidate_cache()
+                with translation.suppress_cache_invalidation():
+                    translation.invalidate_cache()
+                translation.invalidate_cache()
+                on_commit.assert_not_called()
+
+            translation.invalidate_cache()
+            translation.invalidate_cache()
+
+        on_commit.assert_called_once()
+
+    def test_source_edit_updates_translation_and_component_stats(self) -> None:
+        translation = self.get_translation()
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "cs")
+        translation = Translation.objects.get(pk=translation.pk)
+        component = Component.objects.get(pk=self.component.pk)
+        unit_before = translation.unit_set.get(context="hello")
+        all_chars_before = translation.stats.all_chars
+        all_words_before = translation.stats.all_words
+        translated_before = translation.stats.translated
+        component_all_chars_before = component.stats.all_chars
+
+        self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en")
+
+        translation = Translation.objects.get(pk=translation.pk)
+        component = Component.objects.get(pk=self.component.pk)
+        unit_after = translation.unit_set.get(context="hello")
+        all_chars_delta = len(unit_after.source) - len(unit_before.source)
+        all_words_delta = unit_after.num_words - unit_before.num_words
+
+        self.assertEqual(
+            translation.stats.all_chars,
+            all_chars_before + all_chars_delta,
+        )
+        self.assertEqual(
+            translation.stats.all_words,
+            all_words_before + all_words_delta,
+        )
+        self.assertEqual(translation.stats.translated, translated_before - 1)
+        self.assertNotEqual(component.stats.all_chars, component_all_chars_before)
+        self.assertEqual(
+            component.stats.all_chars,
+            sum(
+                child.stats.all_chars
+                for child in Component.objects.get(
+                    pk=self.component.pk
+                ).translation_set.all()
+            ),
+        )
+
+    def test_source_edit_falls_back_to_full_recompute_on_nonlocal_checks(self) -> None:
+        def fake_run_checks(unit, *args, **kwargs) -> None:
+            unit.translation.require_full_stats_rebuild()
+
+        with (
+            patch(
+                "weblate.trans.models.unit.Unit.run_checks",
+                autospec=True,
+                side_effect=fake_run_checks,
+            ),
+            patch(
+                "weblate.trans.models.component.Component.invalidate_cache",
+                autospec=True,
+            ) as invalidate_cache,
+        ):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
+
+        invalidate_cache.assert_called()
+
     def test_edit_revert(self) -> None:
         translation = self.get_translation()
         # Edit translation
@@ -616,6 +719,29 @@ class EditPoMonoTest(EditTest):
         self.assertEqual(component.stats.all, 12)
         self.assertEqual(unit_count - 4, Unit.objects.count())
 
+    def test_remove_unit_locked(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        unit = self.get_unit().source_unit
+
+        with patch(
+            "weblate.trans.models.translation.Translation.delete_unit",
+            side_effect=WeblateLockTimeoutError(
+                "repository locked",
+                lock=SimpleNamespace(scope="repository", origin="test/component"),
+            ),
+        ):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": unit.pk}),
+                follow=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Could not remove the string because another background operation is in progress. Please try again later.",
+        )
+
 
 class EditIphoneTest(EditTest):
     has_plurals = False
@@ -642,6 +768,21 @@ class EditRubyYAMLTest(EditTest):
     def create_component(self):
         return self.create_ruby_yaml()
 
+    def test_new_unit_hierarchical_context_validation(self) -> None:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+
+        response = self.add_unit("weblate")
+        self.assertContains(
+            response, "This key conflicts with an existing hierarchical key."
+        )
+
+        response = self.add_unit("weblate->hello->title")
+        self.assertContains(
+            response, "This key conflicts with an existing hierarchical key."
+        )
+
 
 class EditDTDTest(EditTest):
     has_plurals = False
@@ -652,17 +793,107 @@ class EditDTDTest(EditTest):
 
 class EditJSONMonoTest(EditTest):
     has_plurals = False
+    new_source_string = "Source string"
 
     def create_component(self):
         return self.create_json_mono()
 
-    def test_new_unit_validation(self) -> None:
-        self.make_manager()
+    def enable_nested_unit_management(self) -> None:
         self.component.manage_units = True
         self.component.file_format = "json-nested"
-        self.component.save()
+        self.component.drop_file_format_cache()
+        # These tests only need the changed settings to be visible to the view.
+        # Avoid Component.save(), which rescans the repository as a side effect.
+        Component.objects.filter(pk=self.component.pk).update(
+            file_format=self.component.file_format,
+            manage_units=self.component.manage_units,
+        )
+
+    def test_new_unit_validation(self) -> None:
+        self.make_manager()
+        self.enable_nested_unit_management()
         response = self.add_unit("key")
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New string has been added")
+
+    def test_new_unit_validation_flat_format_does_not_load_store(self) -> None:
+        self.translation.__dict__.pop("store", None)
+
+        with patch.object(
+            self.translation,
+            "load_store",
+            side_effect=AssertionError("store should not be loaded"),
+        ):
+            self.translation.validate_new_unit_data(
+                "flat.key",
+                ["Added source string"],
+                ["Added target string"],
+            )
+
+    def test_new_unit_validation_parse_error(self) -> None:
+        self.make_manager()
+        self.enable_nested_unit_management()
+
+        with patch.object(
+            Translation,
+            "load_store",
+            side_effect=FileParseError("Broken JSON"),
+        ):
+            response = self.add_unit("test.key")
+
+        self.assertContains(response, "Could not parse translation file: Broken JSON")
+
+    def test_new_unit_validation_materializes_pending_contexts(self) -> None:
+        self.enable_nested_unit_management()
+        store = self.translation.store
+
+        with patch.object(store, "validate_new_context") as validate_new_context:
+            self.translation.validate_new_unit_data(
+                "test.key",
+                ["Added source string"],
+                ["Added target string"],
+            )
+
+        self.assertIsInstance(
+            validate_new_context.call_args.kwargs["pending_contexts"], list
+        )
+
+    def test_add_unit_revalidates_hierarchical_context(self) -> None:
+        self.enable_nested_unit_management()
+        translation = self.component.source_translation
+
+        translation.add_unit(
+            None,
+            "test.key",
+            ["Added source string"],
+            "",
+            author=self.user,
+        )
+
+        with self.assertRaisesMessage(
+            ValidationError, "This key conflicts with an existing hierarchical key."
+        ):
+            translation.add_unit(
+                None,
+                "test.key.title",
+                ["Other source string"],
+                "",
+                author=self.user,
+            )
+
+    def test_new_unit_hierarchical_context_validation(self) -> None:
+        self.make_manager()
+        self.enable_nested_unit_management()
+
+        response = self.add_unit("test.key")
+        self.assertContains(response, "New string has been added")
+
+        response = self.add_unit("test.key.title")
+        self.assertContains(
+            response, "This key conflicts with an existing hierarchical key."
+        )
+
+        response = self.add_unit("other.key.title")
         self.assertContains(response, "New string has been added")
 
 
@@ -746,6 +977,42 @@ class EditPropagateTest(EditTest):
             "po", "second-po/*.po", name="Second", project=result.project
         )
         return result
+
+    def test_edit_restricted_component(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        response = self.edit_unit(self.source, self.target)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(self.get_unit(source=self.source).target, "")
+
+    def test_edit_skips_restricted_propagated_component(self) -> None:
+        second_translation = Translation.objects.get(
+            component__slug="second", language_code="cs"
+        )
+        second_component = second_translation.component
+        self.component.allow_translation_propagation = True
+        self.component.save(update_fields=["allow_translation_propagation"])
+        second_component.allow_translation_propagation = True
+        second_component.restricted = True
+        second_component.save(
+            update_fields=["allow_translation_propagation", "restricted"]
+        )
+
+        self.assertFalse(self.user.has_perm("unit.edit", second_translation))
+
+        self.edit_unit(self.source, self.target)
+
+        self.assertEqual(self.get_unit(source=self.source).target, self.target)
+        self.assertEqual(
+            self.get_unit(source=self.source, translation=second_translation).target, ""
+        )
+        self.assertFalse(
+            Change.objects.filter(
+                component=second_component, action=ActionEvents.PROPAGATED_EDIT
+            ).exists()
+        )
 
     def test_edit(self) -> None:
         def get_targets() -> list[str]:
@@ -892,8 +1159,7 @@ class ZenViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            "Following fixups were applied to translation: "
-            "Trailing and leading whitespace",
+            "The following fix-up was applied to the translation: Trailing and leading whitespace",
         )
 
     def test_save_zen_lock(self) -> None:
@@ -1045,7 +1311,8 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"checksum": unit.checksum, "revert": changes[1].id}
         )
         unit = self.get_unit()
-        self.assertEqual(unit.target, target_2)
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
         # check that we cannot revert to string from another translation
         self.edit_unit("Thank you for using Weblate.", "Kiitoksia Weblaten kaytosta.")
         unit2 = self.get_unit(source="Thank you for using Weblate.")
@@ -1054,7 +1321,38 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
         self.assertContains(response, "Could not find the reverted change.")
-        self.assert_backend(2)
+        self.assert_backend(1)
+
+    def test_revert_history_after_component_move_uses_current_translate_url(
+        self,
+    ) -> None:
+        second_project = Project.objects.create(
+            name="Second project",
+            slug="second-project",
+            web="https://weblate.org/",
+        )
+        setup_project_groups(Project, second_project, created=False)
+        second_project.add_user(self.user, "Administration")
+
+        self.component.project = second_project
+        self.component.save()
+        self.component.refresh_from_db()
+        self.translation.refresh_from_db()
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        unit = self.get_unit(translation=self.translation)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+        translate_url = ProjectLanguage(
+            second_project,
+            self.translation.language,
+        ).get_translate_url()
+
+        response = self.client.get(translate_url, {"checksum": unit.checksum})
+
+        self.assertContains(
+            response,
+            f'href="{translate_url}?checksum={unit.checksum}&amp;revert={change.id}"',
+        )
 
     def test_revert_plural(self) -> None:
         source = "Orangutan has %d banana.\n"
@@ -1083,6 +1381,38 @@ class EditComplexTest(ViewTestCase):
         )
         unit = self.get_unit(source)
         self.assertEqual(unit.get_target_plurals(), target)
+
+    def test_revert_empty(self) -> None:
+        source = "Hello, world!\n"
+        target = "Nazdar svete!\n"
+        self.edit_unit(source, target)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+
+        self.client.get(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
+        )
+
+        unit = self.get_unit(source)
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
+
+    def test_revert_restores_old_state(self) -> None:
+        source = "Hello, world!\n"
+        original = "Nazdar svete!\n"
+        updated = "Hei maailma!\n"
+        self.change_unit(original, source=source, state=STATE_NEEDS_REWRITING)
+        self.edit_unit(source, updated)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+
+        self.client.get(
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
+        )
+
+        unit = self.get_unit(source)
+        self.assertEqual(unit.target, original)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
     def test_edit_fixup(self) -> None:
         # Save with failing check
@@ -1161,6 +1491,18 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
+
+    def test_newly_failing_checks_message_pluralization_and_order(self) -> None:
+        self.assertEqual(
+            format_newly_failing_checks_message({"end_newline"}),
+            "The translation has been saved, however there is a newly failing "
+            "check: Trailing newline",
+        )
+        self.assertEqual(
+            format_newly_failing_checks_message({"end_newline", "same"}),
+            "The translation has been saved, however there are some newly "
+            "failing checks: Trailing newline, Unchanged translation",
+        )
 
     def test_enforced_check(self) -> None:
         # Enforce same check

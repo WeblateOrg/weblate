@@ -6,7 +6,11 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 from django.contrib.admindocs.utils import docutils_is_available
+from docutils.nodes import Text, substitution_reference
+from docutils.nodes import target as docutils_target
 
 from weblate.checks.markup import (
     BBCodeCheck,
@@ -20,6 +24,7 @@ from weblate.checks.markup import (
     XMLCharsAroundTagsCheck,
     XMLTagsCheck,
     XMLValidityCheck,
+    extract_rst_references,
 )
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
@@ -190,6 +195,29 @@ class XMLCharsAroundTagsCheckTest(CheckTestCase):
     def test_flags(self) -> None:
         self.do_test(False, ("<a> b</a>", "<a>b</a>", "safe-html"))
         self.do_test(True, ("<a> b</a>", "<a>b</a>", "xml-text"))
+
+    def test_arabic_waw(self) -> None:
+        # Arabic Waw "و" (and) is a conjunction that commonly attaches directly
+        # to the adjacent word without a space — should not be flagged
+        self.do_test(
+            False,
+            ("and <a>updates</a>", "و<a>التحديثات</a>", ""),
+        )
+        # Waw after a closing tag should also not flag
+        self.do_test(
+            False,
+            ("<a>updates</a> and", "<a>التحديثات</a>و", ""),
+        )
+        # Other Arabic letters adjacent to tags should still flag
+        self.do_test(
+            True,
+            ("text <a>word</a>", "نص<a>كلمة</a>", ""),
+        )
+        # Punctuation vs Waw should still flag
+        self.do_test(
+            True,
+            (".<a>word</a>", "و<a>كلمة</a>", ""),
+        )
 
 
 class MarkdownRefLinkCheckTest(CheckTestCase):
@@ -419,6 +447,95 @@ class SafeHTMLCheckTest(CheckTestCase):
             ),
         )
 
+    def test_auto_safe_html_plain_text(self) -> None:
+        self.do_test(True, ("Plain text", "<b>Plain text</b>", "auto-safe-html"))
+
+    def test_auto_safe_html_unmatched_tag_text(self) -> None:
+        self.do_test(
+            False,
+            ("Press <b to continue", "<script>alert(1)</script>", "auto-safe-html"),
+        )
+
+    def test_auto_safe_html_html(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a href="https://weblate.org/">link</a>',
+                '<a href="javascript:foo()">link</a>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_custom_element(self) -> None:
+        self.do_test(
+            True,
+            (
+                "<x-demo>link</x-demo>",
+                '<x-demo onclick="alert(1)">link</x-demo>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_html_with_quoted_gt(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a title="1 > 0">link</a>',
+                '<a title="1 > 0" href="javascript:foo()">link</a>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_html_with_quoted_lt(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a title="a<b">link</a>',
+                '<a title="a<b" href="javascript:foo()">link</a>',
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_normalized_html(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Line<br/>break",
+                "Line<script>alert(1)</script>break",
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_inferred_structure(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<option selected>",
+                "<script>alert(1)</script>",
+                "auto-safe-html",
+            ),
+        )
+
+    def test_auto_safe_html_markdown_component(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "auto-safe-html,md-text",
+            ),
+        )
+
+    def test_auto_safe_html_safe_html_wins(self) -> None:
+        self.do_test(
+            True,
+            (
+                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "<script>alert(1)</script>",
+                "auto-safe-html,md-text,safe-html",
+            ),
+        )
+
 
 class RSTReferencesCheckTest(CheckTestCase):
     check = RSTReferencesCheck()
@@ -435,7 +552,7 @@ class RSTReferencesCheckTest(CheckTestCase):
         self.test_highlight = (
             "rst-text",
             ":ref:`bar` is :doc:`foo <baz>`",
-            [(0, 10, ":ref:`bar`"), (14, 30, ":doc:`foo <baz>`")],
+            [(0, 10, ":ref:`bar`"), (14, 20, ":doc:`"), (23, 30, " <baz>`")],
         )
 
     def test_description(self) -> None:
@@ -497,6 +614,61 @@ class RSTReferencesCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+
+    def test_targets_advance_offset(self) -> None:
+        text = "Before _`|foo|`|foo|"
+
+        with patch(
+            "weblate.checks.markup.Inliner.parse",
+            return_value=(
+                [
+                    Text("Before "),
+                    docutils_target(rawsource="_`|foo|`"),
+                    substitution_reference(rawsource="|foo|"),
+                ],
+                [],
+            ),
+        ):
+            extract_rst_references.cache_clear()
+            self.addCleanup(extract_rst_references.cache_clear)
+            _references, _counter, highlights = extract_rst_references(text)
+
+        self.assertEqual(highlights, ((15, 20, "|foo|"),))
+
+    def test_repeated_explicit_link_targets_keep_offset(self) -> None:
+        text = (
+            "Installing Ubuntu Touch is easy, and a lot of work has gone in to "
+            "making the installation process less intimidating to the average "
+            "user. The UBports Installer is a nice graphical tool that you can "
+            "use to install Ubuntu Touch on a `supported device "
+            "<https://devices.ubuntu-touch.io/>`_ from your `Linux "
+            "<https://snapcraft.io/ubports-installer>`_, `Mac "
+            "<https://devices.ubuntu-touch.io/installer/?package=dmg>`_ or "
+            "`Windows "
+            "<https://devices.ubuntu-touch.io/installer/?package=exe>`_ "
+            "computer. For more experienced users, we also have manual "
+            "installation instructions for every device `on the devices page "
+            "<https://devices.ubuntu-touch.io/>`_."
+        )
+
+        _references, counter, highlights = extract_rst_references(text)
+
+        expected_targets = (
+            "<https://devices.ubuntu-touch.io/>",
+            "<https://snapcraft.io/ubports-installer>",
+            "<https://devices.ubuntu-touch.io/installer/?package=dmg>",
+            "<https://devices.ubuntu-touch.io/installer/?package=exe>",
+            "<https://devices.ubuntu-touch.io/>",
+        )
+        expected_highlights = []
+        offset = 0
+        for target in expected_targets:
+            start = text.index(target, offset)
+            expected_highlights.append((start, start + len(target), target))
+            offset = start + len(target)
+
+        self.assertEqual(counter["`... <...>`_"], len(expected_targets))
+        self.assertEqual(highlights, tuple(expected_highlights))
 
     def test_option_space(self) -> None:
         self.do_test(
@@ -591,6 +763,54 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 ":kbd:`Ctrl+Home`",
                 ":kbd:`Ctrl+Inicio `",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":code:`Save`",
+                ":code:`Ulozit`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                ":Code:`Save`",
+                ":Code:`Ulozit`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Save`:guilabel:",
+                "`Ulozit`:guilabel:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`review workflow <reviews>`:ref:",
+                "`pracovni postup kontroly <reviews>`:ref:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "`review workflow <reviews>`:ref:",
+                "`pracovni postup kontroly <other-reviews>`:ref:",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                ":code:`Save`",
+                "``Ulozit``",
                 "rst-text",
             ),
         )

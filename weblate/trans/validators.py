@@ -63,7 +63,7 @@ def validate_language_code(code: str | None, filename: str, required: bool = Fal
 
 
 def validate_file_format_parameters(value: dict | None) -> None:
-    from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
+    from weblate.trans.file_format_params import FILE_FORMATS_PARAMS  # noqa: PLC0415
 
     name_to_file_format_params = {param.name: param for param in FILE_FORMATS_PARAMS}
 

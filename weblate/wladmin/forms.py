@@ -31,7 +31,18 @@ class SSHAddForm(forms.Form):
         validators=[DomainOrIPValidator()],
     )
     port = forms.IntegerField(
-        label=gettext_lazy("Port"), required=False, min_value=1, max_value=65535
+        label=gettext_lazy("Port"),
+        required=False,
+        min_value=1,
+        max_value=65535,
+        help_text=gettext_lazy("Keep blank for using the default SSH port."),
+    )
+    fingerprint = forms.CharField(
+        label=gettext_lazy("Fingerprint"),
+        required=False,
+        help_text=gettext_lazy(
+            "Fingerprint of key to add. Keep blank to add all keys offered by the host."
+        ),
     )
 
     def __init__(self, *args, **kwargs) -> None:
@@ -106,10 +117,10 @@ class AppearanceForm(forms.Form):
         initial="#bfc3c7,#e0e3e7",
     )
     navi_color = ThemeColorField(
-        label=gettext_lazy("Navigation color (Light, Dark)"), initial="#1fa385,#0f9375"
+        label=gettext_lazy("Navigation color (Light, Dark)"), initial="#107a62,#0f9375"
     )
     focus_color = ThemeColorField(
-        label=gettext_lazy("Focus color (Light, Dark)"), initial="#2eccaa,#25303b"
+        label=gettext_lazy("Focus color (Light, Dark)"), initial="#158068,#25303b"
     )
     hover_color = ThemeColorField(
         label=gettext_lazy("Hover color (Light, Dark)"), initial="#144d3f,#0a3d2f"

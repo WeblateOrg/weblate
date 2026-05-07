@@ -13,13 +13,13 @@
 
 services:
   cache:
-    image: redis:8.6.0-alpine@sha256:fd83658b0e40e2164617d262f13c02ca9ee9e1e6b276fd2fa06617e09bd5c780
+    image: redis:8.6.3-alpine@sha256:69f2c586c8a7e9cce4ae1ee9bbaf60bc4bb5f4bb3880e4ed022b1fd758a7cab9
     volumes:
     - redis-data:/data
     command: [redis-server, --save, '60', '1']
     restart: always
   database:
-    image: postgres:18.2-alpine@sha256:88f300be8635fe8a9ed4c18a68ba497fb6df1215fd2b074895afd027bd3e1006
+    image: postgres:18.3-alpine@sha256:54451ecb8ab38c24c3ec123f2fd501303a3a1856a5c66e98cecf2460d5e1e9d7
     volumes:
     - postgres-data:/var/lib/postgresql
     - ./postgres-init:/docker-entrypoint-initdb.d
@@ -54,6 +54,8 @@ services:
       WEBLATE_EMAIL_PORT: 1025
       WEBLATE_EMAIL_USE_TLS: 0
       WEBLATE_EMAIL_USE_SSL: 0
+      WEB_WORKERS: 1
+      GRANIAN_ARGS: --reload --reload-paths /app/src/weblate
     env_file:
     - ./environment
     ports:

@@ -19,6 +19,8 @@ GWT properties are usually used as monolingual translations.
    * :ref:`addon-weblate.properties.sort`
    * :ref:`addon-weblate.cleanup.generic`
 
+.. include:: /snippets/format-features/gwt-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

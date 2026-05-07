@@ -19,6 +19,8 @@ Example file:
     :language: xml
 
 
+.. include:: /snippets/format-features/stringsdict-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

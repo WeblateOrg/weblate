@@ -400,6 +400,12 @@ LICENSES = (
         False,
     ),
     (
+        "Brian-Gladman-3-Clause-no-conversion",
+        "Brian Gladman 3-Clause License (no conversion clause)",
+        "https://spdx.org/licenses/Brian-Gladman-3-Clause-no-conversion.html",
+        False,
+    ),
+    (
         "BSD-1-Clause",
         "BSD 1-Clause License",
         "https://spdx.org/licenses/BSD-1-Clause.html",
@@ -601,6 +607,12 @@ LICENSES = (
         "Buddy",
         "Buddy License",
         "https://spdx.org/licenses/Buddy.html",
+        False,
+    ),
+    (
+        "BOLA-1.1",
+        "Buena Onda License Agreement v1.1",
+        "https://spdx.org/licenses/BOLA-1.1.html",
         False,
     ),
     (
@@ -2716,6 +2728,12 @@ LICENSES = (
         False,
     ),
     (
+        "MVT-1.1",
+        "MVT License 1.1",
+        "https://spdx.org/licenses/MVT-1.1.html",
+        False,
+    ),
+    (
         "NAIST-2003",
         "Nara Institute of Science and Technology License (2003)",
         "https://spdx.org/licenses/NAIST-2003.html",
@@ -3152,6 +3170,12 @@ LICENSES = (
         "OpenVision License",
         "https://spdx.org/licenses/OpenVision.html",
         False,
+    ),
+    (
+        "OSC-1.0",
+        "OSC License 1.0",
+        "https://spdx.org/licenses/OSC-1.0.html",
+        True,
     ),
     (
         "OSET-PL-2.1",

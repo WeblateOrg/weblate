@@ -5,14 +5,18 @@
 """Test for search views."""
 
 import re
+from types import SimpleNamespace
+from unittest.mock import ANY, patch
 
 from django.http import QueryDict
 from django.test.utils import override_settings
 from django.urls import reverse
 
-from weblate.trans.models import Component
+from weblate.checks.models import Check
+from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change, Component, PendingUnitChange
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -23,7 +27,7 @@ from weblate.utils.state import (
 from weblate.utils.views import get_form_data
 
 
-class SearchViewTest(TransactionsTestMixin, ViewTestCase):
+class SearchViewTest(ViewTestCase):
     CREATE_GLOSSARIES = True
 
     def setUp(self) -> None:
@@ -48,6 +52,33 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         else:
             self.assertContains(response, expected)
         return response
+
+    def make_fake_page(
+        self,
+        *,
+        count: int,
+        num_pages: int = 1,
+        per_page: int = 20,
+        has_previous: bool = False,
+        has_next: bool = False,
+    ):
+        class FakePage:
+            def __init__(self) -> None:
+                self.object_list = ()
+                self.number = 1
+                self.paginator = SimpleNamespace(
+                    count=count,
+                    num_pages=num_pages,
+                    per_page=per_page,
+                    sort_by=None,
+                )
+                self.has_previous = has_previous
+                self.has_next = has_next
+
+            def __iter__(self):
+                return iter(self.object_list)
+
+        return FakePage()
 
     def do_search_url(self, url) -> None:
         """Test search on given URL."""
@@ -107,6 +138,51 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.do_search_url(
             reverse("search", kwargs={"path": [self.project.slug, "-", "cs"]})
         )
+
+    def test_project_search_skips_large_word_summary(self) -> None:
+        with (
+            patch(
+                "weblate.trans.views.search.get_paginator",
+                return_value=self.make_fake_page(count=1_001),
+            ),
+            patch("weblate.trans.views.search.fill_in_source_translation"),
+            patch(
+                "weblate.trans.models.unit.UnitQuerySet.aggregate",
+                side_effect=AssertionError(
+                    "large search summary should not aggregate total words"
+                ),
+            ),
+        ):
+            response = self.client.get(
+                reverse("search", kwargs={"path": self.project.get_url_path()}),
+                {"q": "hello"},
+            )
+
+        self.assertEqual(response.context["total_strings"], 1_001)
+        self.assertIsNone(response.context["total_words"])
+
+    def test_project_search_word_summary_uses_full_queryset(self) -> None:
+        with (
+            patch(
+                "weblate.trans.views.search.get_paginator",
+                return_value=self.make_fake_page(
+                    count=10, num_pages=2, per_page=5, has_next=True
+                ),
+            ),
+            patch("weblate.trans.views.search.fill_in_source_translation"),
+            patch(
+                "weblate.trans.models.unit.UnitQuerySet.aggregate",
+                return_value={"total_words": 123},
+            ) as aggregate,
+        ):
+            response = self.client.get(
+                reverse("search", kwargs={"path": self.project.get_url_path()}),
+                {"q": "hello"},
+            )
+
+        aggregate.assert_called_once_with(total_words=ANY)
+        self.assertEqual(response.context["total_strings"], 10)
+        self.assertEqual(response.context["total_words"], 123)
 
     def test_translation_search(self) -> None:
         """Searching within translation."""
@@ -293,6 +369,61 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         unit.translation.stats.clear()
         self.do_search({"q": "label:ABC AND label:XYZ"}, None)
         self.do_search({"q": "label:ABC label:XYZ"}, None)
+
+    def test_search_multiple_checks(self) -> None:
+        """Test that searching with check:A AND check:B works correctly."""
+        unit = self.get_unit()
+        Check.objects.create(unit=unit, name="ellipsis", dismissed=False)
+        Check.objects.create(unit=unit, name="same", dismissed=False)
+
+        self.do_search({"q": "check:ellipsis"}, "Hello, world!")
+        self.do_search({"q": "check:same"}, "Hello, world!")
+        self.do_search({"q": "check:ellipsis AND check:same"}, "Hello, world!")
+        self.do_search({"q": "check:ellipsis check:same"}, "Hello, world!")
+
+        Check.objects.filter(unit=unit, name="same").update(dismissed=True)
+        self.do_search(
+            {"q": "check:ellipsis AND dismissed_check:same"}, "Hello, world!"
+        )
+        self.do_search({"q": "check:ellipsis dismissed_check:same"}, "Hello, world!")
+
+        Check.objects.filter(unit=unit, name="same").delete()
+        self.do_search({"q": "check:ellipsis AND check:same"}, None)
+        self.do_search({"q": "check:ellipsis check:same"}, None)
+
+    def test_search_multiple_screenshots(self) -> None:
+        """Test that searching with screenshot:A AND screenshot:B works correctly."""
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+        translation = self.component.source_translation
+
+        shot1 = Screenshot.objects.create(
+            name="ScreenshotAlpha", translation=translation
+        )
+        shot2 = Screenshot.objects.create(
+            name="ScreenshotBeta", translation=translation
+        )
+        shot1.units.add(source_unit)
+        shot2.units.add(unit)
+
+        self.do_search({"q": "screenshot:ScreenshotAlpha"}, "Hello, world!")
+        self.do_search({"q": "screenshot:ScreenshotBeta"}, "Hello, world!")
+        self.do_search(
+            {"q": "screenshot:ScreenshotAlpha AND screenshot:ScreenshotBeta"},
+            "Hello, world!",
+        )
+        self.do_search(
+            {"q": "screenshot:ScreenshotAlpha screenshot:ScreenshotBeta"},
+            "Hello, world!",
+        )
+
+        shot2.units.remove(unit)
+        self.do_search(
+            {"q": "screenshot:ScreenshotAlpha AND screenshot:ScreenshotBeta"}, None
+        )
+        self.do_search(
+            {"q": "screenshot:ScreenshotAlpha screenshot:ScreenshotBeta"}, None
+        )
 
 
 class ReplaceTest(ViewTestCase):
@@ -629,3 +760,23 @@ class BulkEditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_APPROVED)
         self.assertFalse(unit.automatically_translated)
+
+    def test_bulk_edit_creates_change_and_pending_unit_change(self) -> None:
+        """Bulk edit creates Change and PendingUnitChange records via bulk insert."""
+        PendingUnitChange.objects.filter(unit=self.unit).delete()
+        initial_change_count = Change.objects.filter(
+            action=ActionEvents.BULK_EDIT
+        ).count()
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"q": "state:needs-editing", "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+
+        self.assertEqual(
+            Change.objects.filter(action=ActionEvents.BULK_EDIT).count(),
+            initial_change_count + 1,
+        )
+        self.assertTrue(PendingUnitChange.objects.filter(unit=self.unit).exists())

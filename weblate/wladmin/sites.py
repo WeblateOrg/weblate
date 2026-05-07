@@ -29,12 +29,12 @@ class WeblateAdminSite(AdminSite):
 
     @property
     def login_form(self):  # type: ignore[override]
-        from weblate.accounts.forms import AdminLoginForm
+        from weblate.accounts.forms import AdminLoginForm  # noqa: PLC0415
 
         return AdminLoginForm
 
     def logout(self, request, extra_context=None):
-        from weblate.accounts.views import WeblateLogoutView
+        from weblate.accounts.views import WeblateLogoutView  # noqa: PLC0415
 
         return WeblateLogoutView.as_view()(request)
 
@@ -50,7 +50,7 @@ class WeblateAdminSite(AdminSite):
         # it cannot import models from other applications at the module level,
         # and django.contrib.admin.forms eventually imports User.
 
-        from weblate.accounts.views import BaseLoginView
+        from weblate.accounts.views import BaseLoginView  # noqa: PLC0415
 
         if request.method == "GET" and self.has_permission(request):
             # Already logged-in, redirect to admin index
@@ -86,7 +86,7 @@ class WeblateAdminSite(AdminSite):
         return "/"
 
     def each_context(self, request: AuthenticatedHttpRequest):  # type: ignore[override]
-        from weblate.wladmin.models import ConfigurationError
+        from weblate.wladmin.models import ConfigurationError  # noqa: PLC0415
 
         result = super().each_context(request)
         empty = [gettext("Object listing turned off")]

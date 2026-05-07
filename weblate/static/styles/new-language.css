@@ -6,7 +6,8 @@
 
 .multi-wrapper .non-selected-wrapper,
 .multi-wrapper .selected-wrapper {
-  height: 35vh;
+  height: auto;
+  max-height: 35vh;
   min-height: 200px;
 }
 
@@ -52,6 +53,6 @@ body[data-bs-theme="dark"] .multi-wrapper .item {
 @media (min-height: 1200px) {
   .multi-wrapper .non-selected-wrapper,
   .multi-wrapper .selected-wrapper {
-    height: 70vh;
+    max-height: 70vh;
   }
 }

@@ -15,7 +15,6 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import using_postgresql
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -130,11 +129,10 @@ class UnitQueryParserTest(SearchTestCase):
         with self.assertRaises(SearchQueryError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
         # Not supported regex on PostgreSQL
-        if using_postgresql():
-            with self.assertRaises(SearchQueryError):
-                self.assert_query(
-                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
-                )
+        with self.assertRaises(SearchQueryError):
+            self.assert_query(
+                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+            )
         self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
 
     def test_logic(self) -> None:
@@ -181,6 +179,8 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "change_time:2018 AND change_action:'Marked for edit'", expected
         )
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("NOT change_action:new-string", Q())
 
     def test_dates(self) -> None:
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
@@ -375,7 +375,7 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_has(self) -> None:
-        self.assert_query("has:plural", Q(source__search=PLURAL_SEPARATOR))
+        self.assert_query("has:plural", Q(source__trgm_search=PLURAL_SEPARATOR))
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
         self.assert_query("has:check", Q(check__dismissed=False))
         self.assert_query("has:comment", Q(comment__resolved=False))
@@ -426,23 +426,6 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("suggestion:text", Q(suggestion__target__substring="text"))
         self.assert_query(
             "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
-        )
-
-    def test_checks(self) -> None:
-        self.assert_query(
-            "check:ellipsis",
-            Q(check__name__iexact="ellipsis") & Q(check__dismissed=False),
-        )
-        self.assert_query(
-            "dismissed_check:ellipsis",
-            Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
-        )
-
-    def test_screenshot(self) -> None:
-        self.assert_query(
-            "screenshot:'test screenshot'",
-            Q(source_unit__screenshots__name__iexact="test screenshot")
-            | Q(screenshots__name__iexact="test screenshot"),
         )
 
     def test_priority(self) -> None:
@@ -647,6 +630,10 @@ class UserQueryParserTest(SearchTestCase):
                 Q(social_auth__verifiedemail__email__icontains="hello"),
             )
 
+    def test_ip(self) -> None:
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("ip:192.0.2.1", Q(auditlog__address="192.0.2.1"))
+
     def test_joined(self) -> None:
         self.assert_query(
             "joined:2018",
@@ -675,23 +662,30 @@ class UserQueryParserTest(SearchTestCase):
         )
 
     def test_contributes(self) -> None:
+        user = User.objects.create(is_superuser=True)
         self.assert_query(
             "contributes:test",
-            Q(change__project__slug__iexact="test"),
+            Q(change__project__slug__iexact="test")
+            & Q(change__project__in=user.allowed_projects),
+            user=user,
         )
         self.assert_query(
             "contributes:test/test",
-            Q(change__component_id__in=[]),
+            Q(change__component_id__in=[])
+            & Q(change__project__in=user.allowed_projects),
+            user=user,
         )
         self.assert_query(
             "contributes:test change_time:>'90 days ago'",
             Q(change__project__slug__iexact="test")
+            & Q(change__project__in=user.allowed_projects)
             & Q(
                 change__timestamp__gte=datetime.now(tz=UTC).replace(
                     hour=0, minute=0, second=0, microsecond=0
                 )
                 - timedelta(days=90)
             ),
+            user=user,
         )
 
 
@@ -714,6 +708,21 @@ class SuperuserQueryParserTest(UserQueryParserTest):
             "email:hello", Q(social_auth__verifiedemail__email__icontains="hello")
         )
 
+    def test_ip(self) -> None:
+        self.assert_query("ip:192.0.2.1", Q(auditlog__address="192.0.2.1"))
+        self.assert_query("ip:2001:0db8::1", Q(auditlog__address="2001:db8::1"))
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("ip:not-an-ip", Q(auditlog__address="not-an-ip"))
+
+    def test_plain_ip(self) -> None:
+        self.assert_query(
+            "192.0.2.1",
+            Q(username__icontains="192.0.2.1")
+            | Q(full_name__icontains="192.0.2.1")
+            | Q(social_auth__verifiedemail__email__iexact="192.0.2.1")
+            | Q(auditlog__address="192.0.2.1"),
+        )
+
     def test_is(self) -> None:
         self.assert_query("is:bot", Q(is_bot=True))
         self.assert_query("is:superuser", Q(is_superuser=True))
@@ -732,10 +741,7 @@ class SearchTest(ViewTestCase, SearchTestCase):
         glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
         glossary.add_unit(None, "", "hello", "ahoj", author=self.user)
 
-        if using_postgresql():
-            expected = "[[:<:]](hello)[[:>:]]"
-        else:
-            expected = r"(^|[ \t\n\r\f\v])(hello)($|[ \t\n\r\f\v])"
+        expected = "[[:<:]](hello)[[:>:]]"
         self.assert_query(
             "has:glossary",
             Q(source__iregex=expected),

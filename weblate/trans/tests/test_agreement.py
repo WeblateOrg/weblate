@@ -5,10 +5,10 @@
 """Test for contributor license agreement management."""
 
 from weblate.trans.models import ContributorAgreement
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
-class AgreementTest(FixtureTestCase):
+class AgreementTest(FixtureComponentTestCase):
     def test_basic(self) -> None:
         self.assertFalse(
             ContributorAgreement.objects.has_agreed(self.user, self.component)

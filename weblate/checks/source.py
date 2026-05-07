@@ -48,7 +48,7 @@ class EllipsisCheck(SourceCheck):
     check_id = "ellipsis"
     name = gettext_lazy("Ellipsis")
     description = gettext_lazy(
-        "The string uses three dots (...) instead of an ellipsis character (…)."
+        "The string uses three dots ``(...)`` instead of an ellipsis character ``(…)``."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
@@ -65,11 +65,13 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
     )
 
     def get_related_checks(self, unit_ids: Iterable[int]):
-        from weblate.checks.models import Check
+        from weblate.checks.models import Check  # noqa: PLC0415
 
-        return Check.objects.filter(
-            Q(unit__id__in=unit_ids) | Q(unit__source_unit_id__in=unit_ids)
-        ).select_related("unit__translation")
+        return (
+            Check.objects.filter(unit__source_unit_id__in=unit_ids)
+            .exclude(unit_id__in=unit_ids)
+            .select_related("unit__translation")
+        )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
         if unit.translation.component.batch_checks:
@@ -85,13 +87,15 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
         return related.count() >= 2
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
+
+        source_translation = component.get_source_translation()
+        if source_translation is None:
+            return []
 
         unit_id_and_check_count = (
             self.get_related_checks(
-                Unit.objects.filter(translation__component=component).values_list(
-                    "pk", flat=True
-                )
+                source_translation.unit_set.values_list("pk", flat=True)
             )
             .values_list("unit__source_unit_id")
             .annotate(translation_count=Count("unit__translation_id", distinct=True))
@@ -108,10 +112,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
         )
 
     def get_description(self, check_obj):
-        unit_ids = check_obj.unit.unit_set.exclude(pk=check_obj.unit.id).values_list(
-            "pk", flat=True
-        )
-        related = self.get_related_checks(unit_ids).select_related(
+        related = self.get_related_checks([check_obj.unit_id]).select_related(
             "unit__translation__language"
         )
         if not related:
@@ -152,6 +153,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
     check_id = "long_untranslated"
     name = gettext_lazy("Long untranslated")
     description = gettext_lazy("The string has not been translated for a long time.")
+    version_added = "4.1"
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         component = unit.translation.component
@@ -175,8 +177,27 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             < unit.translation.component.stats.translated_percent
         )
 
+    @staticmethod
+    def get_component_translated_percent(component: Component):
+        from weblate.trans.models import Unit  # noqa: PLC0415
+
+        return Unit.objects.filter(translation__component=component).aggregate(
+            total=Count("pk"),
+            not_translated=Count(
+                "pk", filter=Q(state__in=[STATE_EMPTY, *FUZZY_STATES])
+            ),
+        )
+
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Unit  # noqa: PLC0415
+
+        component_stats = self.get_component_translated_percent(component)
+        total = component_stats["total"] or 0
+        if total == 0:
+            return []
+        component_translated_percent = (
+            100 * (total - (component_stats["not_translated"] or 0)) / total
+        )
 
         result = (
             Unit.objects.filter(
@@ -194,7 +215,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             .annotate(
                 translated_percent=100 * (F("total") - F("not_translated")) / F("total")
             )
-        ).filter(translated_percent__lt=component.stats.translated_percent / 2)
+        ).filter(translated_percent__lt=component_translated_percent / 2)
         return (
             Unit.objects.prefetch()
             .prefetch_bulk()

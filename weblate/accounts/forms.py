@@ -4,14 +4,13 @@
 
 from __future__ import annotations
 
-import base64
 import json
 from binascii import unhexlify
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from altcha import ChallengeOptions, create_challenge, verify_solution
+from altcha import Payload, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -38,6 +37,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     get_all_user_mails,
     invalidate_reset_codes,
+    reset_api_token,
 )
 from weblate.auth.models import Group, User
 from weblate.lang.models import Language
@@ -454,6 +454,10 @@ class UserForm(forms.ModelForm):
 class CaptchaWidget(forms.TextInput):
     challenge: Challenge | None = None
 
+    @staticmethod
+    def serialize_challenge(challenge: Challenge) -> str:
+        return json.dumps(challenge.to_dict())
+
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         if self.challenge is None:
             msg = "Challenge is missing!"
@@ -462,15 +466,7 @@ class CaptchaWidget(forms.TextInput):
         return format_html(
             "<altcha-widget challengejson='{}' strings='{}' hidefooter auto='onfocus'></altcha-widget>",
             # Directly include challenge
-            json.dumps(
-                {
-                    "algorithm": self.challenge.algorithm,
-                    "challenge": self.challenge.challenge,
-                    "maxnumber": self.challenge.max_number,
-                    "salt": self.challenge.salt,
-                    "signature": self.challenge.signature,
-                }
-            ),
+            self.serialize_challenge(self.challenge),
             # Localize strings
             json.dumps(
                 {
@@ -540,17 +536,14 @@ class CaptchaForm(forms.Form):
                 self.store_challenge()
 
     def generate_challenge(self) -> Challenge:
-        # The expires timestamp needs to be in the local time and not
-        # timezone aware because it is converted using time.mktime(expires.timetuple())
-        # and then compared to time.time()
-        expires = datetime.now(tz=None) + timedelta(hours=1)  # noqa: DTZ005
-
-        challenge_options = ChallengeOptions(
-            hmac_key=settings.SECRET_KEY,
-            max_number=settings.ALTCHA_MAX_NUMBER,
-            expires=expires,
+        self.challenge = create_challenge(
+            algorithm="ARGON2ID",
+            cost=settings.ALTCHA_COST,
+            memory_cost=settings.ALTCHA_MEMORY_COST,
+            parallelism=settings.ALTCHA_PARALLELISM,
+            hmac_secret=settings.SECRET_KEY,
+            expires_at=datetime.now(tz=UTC) + timedelta(hours=1),
         )
-        self.challenge = create_challenge(challenge_options)
         return self.challenge
 
     def generate_captcha(self) -> None:
@@ -572,7 +565,7 @@ class CaptchaForm(forms.Form):
             self["captcha"].label = cast("str", self.fields["captcha"].label)
 
     def store_challenge(self) -> None:
-        self.request.session["captcha_challenge"] = self.challenge.challenge
+        self.request.session["captcha_challenge"] = self.challenge.signature
 
     def clean_captcha(self) -> None:
         """Validate math captcha."""
@@ -593,15 +586,21 @@ class CaptchaForm(forms.Form):
         payload = self.data.get("altcha", "")
 
         # Validate payload
-        result = verify_solution(payload, settings.SECRET_KEY, check_expires=True)
-        if not result[0]:
-            LOGGER.error("Invalid altcha solution: %s", result[1:])
+        result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        if not result.verified:
+            LOGGER.error(
+                "Invalid altcha solution: expired=%s invalid_signature=%s invalid_solution=%s error=%s",
+                result.expired,
+                result.invalid_signature,
+                result.invalid_solution,
+                result.error,
+            )
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 
         # Manually guard against replay attacks
-        payload = json.loads(base64.b64decode(payload).decode())
+        payload = Payload.from_base64(payload)
         # Use get to gracefully handle already solved challenges
-        if payload["challenge"] != self.request.session.get("captcha_challenge"):
+        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
             LOGGER.error("Outdated altcha solution")
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 
@@ -727,6 +726,16 @@ class SetPasswordForm(DjangoSetPasswordForm):
         label=gettext_lazy("New password confirmation"),
         new_password=True,
     )
+    regenerate_api_key = forms.BooleanField(
+        label=gettext_lazy("Regenerate API key"),
+        help_text=gettext_lazy(
+            "Leave enabled to revoke the current API key and generate a new one. "
+            "This is recommended if you suspect your password was compromised. "
+            "Disable it to keep your current API key active after changing your password."
+        ),
+        required=False,
+        initial=True,
+    )
 
     @transaction.atomic
     # pylint: disable-next=arguments-renamed
@@ -749,6 +758,9 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
         # Invalidate password reset codes
         invalidate_reset_codes(self.user)
+
+        if self.cleaned_data.get("regenerate_api_key"):
+            reset_api_token(self.user)
 
         if delete_session:
             request.session.flush()

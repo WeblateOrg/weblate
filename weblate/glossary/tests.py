@@ -10,6 +10,7 @@ import csv
 import json
 from io import StringIO
 from typing import TYPE_CHECKING
+from unittest.mock import patch
 
 from django.db import transaction
 from django.urls import reverse
@@ -23,8 +24,8 @@ from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import calculate_hash
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -92,7 +93,7 @@ def unit_sources_and_positions(units):
     return {(unit.source, unit.glossary_positions) for unit in units}
 
 
-class GlossaryTest(TransactionsTestMixin, ViewTestCase):
+class GlossaryTest(ViewTestCase):
     """Testing of glossary manipulations."""
 
     CREATE_GLOSSARIES: bool = True
@@ -410,6 +411,46 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
     def test_add_duplicate(self) -> None:
         self.do_add_unit()
         self.do_add_unit()
+
+    def test_add_locked(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        with patch(
+            "weblate.trans.models.translation.Translation.add_unit",
+            side_effect=WeblateLockTimeoutError("locked", lock=self.component.lock),
+        ):
+            response = self.client.post(
+                reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
+                {
+                    "context": "context",
+                    "source_0": "source",
+                    "target_0": "překlad",
+                    "translation": self.glossary.pk,
+                    "auto_context": 1,
+                },
+            )
+
+        content = response.json()
+        self.assertEqual(content["responseCode"], 423)
+        self.assertIn("another background operation", content["responseDetails"])
+
+    def test_add_result_escapes_html(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        response = self.client.post(
+            reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
+            {
+                "context": "context",
+                "source_0": "<script>alert(1)</script>",
+                "target_0": '<img/src=x/onerror=1>"x="y',
+                "translation": self.glossary.pk,
+                "auto_context": 1,
+            },
+        )
+        content = response.json()
+        self.assertEqual(content["responseCode"], 200)
+        self.assertIn("&lt;script&gt;alert(1)&lt;/script&gt;", content["results"])
+        self.assertIn("&lt;img/src=x/onerror=1&gt;&quot;x=&quot;y", content["results"])
+        self.assertNotIn("<script>", content["results"])
+        self.assertNotIn('<img/src=x/onerror=1>"x="y', content["results"])
 
     def test_terminology(self) -> None:
         start = Unit.objects.count()

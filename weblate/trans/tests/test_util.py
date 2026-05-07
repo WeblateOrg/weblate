@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 from translate.misc.multistring import multistring
 
 from weblate.lang.models import Language
@@ -12,6 +12,7 @@ from weblate.trans.util import (
     count_words,
     get_string,
     join_plural,
+    sanitize_backend_error_message,
     translation_percent,
 )
 
@@ -86,6 +87,85 @@ class CleanupPathTest(SimpleTestCase):
         self.assertEqual(cleanup_path("foo//*.po"), "foo/*.po")
 
 
+class BackendErrorSanitizationTest(SimpleTestCase):
+    def test_sanitize_backend_error_message(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            (
+                "fatal: unable to access "
+                "'ssh://git@internal.example.net/private/repo.git': "
+                "Could not resolve host: internal.example.net\n"
+                "/srv/weblate/data/vcs/test/.git/index.lock"
+            ),
+            repo_urls=("ssh://git@internal.example.net/private/repo.git",),
+            extra_paths=("/srv/weblate/data/vcs/test",),
+        )
+
+        self.assertIn("Could not resolve host: ...", sanitized)
+        self.assertNotIn("internal.example.net", sanitized)
+        self.assertNotIn("ssh://", sanitized)
+        self.assertNotIn("/srv/weblate/data/vcs/test", sanitized)
+        self.assertIn(".../.git/index.lock", sanitized)
+
+    def test_strip_descendant_internal_path(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            "Commit failed in /srv/weblate/data/vcs/test/test/secret",
+            extra_paths=("/srv/weblate/data/vcs/test/test",),
+        )
+
+        self.assertEqual(sanitized, "Commit failed in .../secret")
+
+    def test_strip_internal_path_before_period(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            "Commit failed in /srv/weblate/data/vcs/test/test.",
+            extra_paths=("/srv/weblate/data/vcs/test/test",),
+        )
+
+        self.assertEqual(sanitized, "Commit failed in ....")
+
+    @override_settings(DATA_DIR="/srv/weblate/data", CACHE_DIR="/srv/weblate/cache")
+    def test_strip_descendant_internal_path_before_cleanup(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            "Commit failed in /srv/weblate/data/vcs/test/test/secret",
+            extra_paths=("/srv/weblate/data/vcs/test/test",),
+        )
+
+        self.assertEqual(sanitized, "Commit failed in .../secret")
+
+    def test_preserve_file_line_diagnostics(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            "messages.po:123: unknown keyword",
+        )
+
+        self.assertEqual(sanitized, "messages.po:123: unknown keyword")
+
+    def test_preserve_repo_relative_refs(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            "fatal: couldn't find remote ref refs/heads/main",
+        )
+
+        self.assertEqual(sanitized, "fatal: couldn't find remote ref refs/heads/main")
+
+    def test_preserve_newlines(self) -> None:
+        sanitized = sanitize_backend_error_message(
+            (
+                "fatal: unable to access "
+                "'ssh://git@internal.example.net/private/repo.git':\n"
+                "Could not resolve host: internal.example.net\n"
+                "Could not resolve host: internal.example.net\n"
+                "/srv/weblate/data/vcs/test/.git/index.lock"
+            ),
+            repo_urls=("ssh://git@internal.example.net/private/repo.git",),
+            extra_paths=("/srv/weblate/data/vcs/test",),
+        )
+
+        self.assertEqual(
+            sanitized,
+            "fatal: unable to access 'repository URL':\n"
+            "Could not resolve host: ...\n"
+            ".../.git/index.lock",
+        )
+
+
 class TextConversionTest(SimpleTestCase):
     def test_multistring(self) -> None:
         self.assertEqual(get_string(multistring(["foo", "bar"])), "foo\x1e\x1ebar")
@@ -146,4 +226,16 @@ class WordCountTestCase(SimpleTestCase):
                 Language(code="zh_Hant"),
             ),
             118,
+        )
+        self.assertEqual(
+            count_words(
+                join_plural(
+                    [
+                        "小娜在2014年4月2日举行的微软Build开发者大会上正式展示并发布。2014年中旬，微软发布了“小娜”这一名字，作为Cortana在中国大陆使用的中文名。与这一中文名一起发布的是小娜在中国大陆的另一个形象。“小娜”一名源自微软旗下知名FPS游戏《光环》中的同名女角色。",
+                        "小娜在2014年4月2日举行的微软Build开发者大会上正式展示并发布。2014年中旬，微软发布了“小娜”这一名字，作为Cortana在中国大陆使用的中文名。与这一中文名一起发布的是小娜在中国大陆的另一个形象。“小娜”一名源自微软旗下知名FPS游戏《光环》中的同名女角色。",
+                    ]
+                ),
+                Language(code="zh_Hant"),
+            ),
+            236,
         )

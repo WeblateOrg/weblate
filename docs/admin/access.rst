@@ -180,6 +180,20 @@ team) would be sufficient.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+Both project administrators and site administrators can also invite multiple
+users at once by pasting whitespace-separated e-mail addresses. All
+invitations created in one bulk action use the selected team, and site-wide
+bulk invites also apply the selected superuser flag.
+
+Site-wide user management is controlled by the global ``user.edit``
+permission. Unlike project access management, this is a trusted administrative
+permission which allows editing user accounts across the whole instance,
+including assigning site-wide teams and granting superuser status to the
+managed account, even the caller's own account.
+
+Bulk invitations are processed individually. Invalid addresses and addresses
+with an already pending invitation are skipped while valid invitations are
+still created and sent.
 
 .. versionchanged:: 5.0
 
@@ -213,6 +227,12 @@ One of the main benefits of managing permissions through the Weblate
 user interface is that you can delegate it to other users without giving them
 the superuser privilege. In order to do so, add them to the `Administration`
 team of the project.
+
+This project-scoped delegation is separate from the site-wide ``user.edit``
+permission. Membership in a project `Administration` team allows managing
+access only for that project, while ``user.edit`` grants site-wide user
+management in the Weblate UI and API and should be assigned only to fully
+trusted site administrators.
 
 .. _project-api:
 
@@ -466,8 +486,8 @@ be accomplished with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
-    As for now, there is no way to bulk-add already existing users to some team
-    via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
+    Bulk inviting through the user interface creates invitations. Existing
+    users still have to confirm the invitation before they become team members.
 
 Default teams and roles
 -----------------------

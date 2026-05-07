@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Count, Sum
+from django.db.models import Sum
 from django.shortcuts import redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
@@ -38,6 +38,9 @@ from weblate.utils.views import (
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+
+
+SEARCH_SUMMARY_MAX_STRINGS = 1_000
 
 
 @login_required
@@ -158,21 +161,18 @@ def search(request: AuthenticatedHttpRequest, path=None):
             request=request, data=request.GET, show_builder=False, obj=obj
         )
         search_form.is_valid()
-        units = unit_set.prefetch_bulk().search(
+        search_units = unit_set.prefetch_bulk().search(
             search_form.cleaned_data.get("q", ""), project=context.get("project")
         )
+        ordered_units = search_units.order_by_request(search_form.cleaned_data, obj)
+        units = get_paginator(request, ordered_units)
+        total_strings = units.paginator.count
+        total_words = None
+        if total_strings <= SEARCH_SUMMARY_MAX_STRINGS:
+            total_words = search_units.aggregate(total_words=Sum("num_words"))[
+                "total_words"
+            ]
 
-        # Count total strings and sum total words from the search results
-        aggregation = units.aggregate(
-            total_strings=Count("id"), total_words=Sum("num_words")
-        )
-        # Get the total strings and total words from the aggregation
-        total_strings = aggregation["total_strings"]
-        total_words = aggregation["total_words"]
-
-        units = get_paginator(
-            request, units.order_by_request(search_form.cleaned_data, obj)
-        )
         # Make sure source translation is available
         fill_in_source_translation(units)
         # Rebuild context from scratch here to get new form

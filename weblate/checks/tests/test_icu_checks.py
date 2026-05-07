@@ -7,7 +7,10 @@
 from __future__ import annotations
 
 from weblate.checks.icu import ICUMessageFormatCheck, ICUSourceCheck
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.lang.models import Language
+from weblate.trans.models import Component, Project, Translation, Unit
 
 
 class ICUMessageFormatCheckTest(CheckTestCase):
@@ -296,6 +299,24 @@ class ICUMessageFormatCheckTest(CheckTestCase):
     def test_check_target_plural(self) -> None:
         unit = self.get_mock(["{count} apple", "{count} apples"])
         self.assertFalse(self.check.check_target_unit(unit.sources, unit.sources, unit))
+
+    def test_description(self) -> None:
+        unit = Unit(
+            source="mailing list at iot{'@'}lists.fedoraproject.org",
+            target="lista de discussão em iot{'@'}lists.fedoraproject.org",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language(code="en"),
+                    project=Project(),
+                )
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertEqual(
+            "Syntax error: Expected placeholder name at position 20 but found &quot;&#x27;&quot;",
+            str(self.check.get_description(check)),
+        )
 
 
 # This is a sub-class of our existing test set because this format is an extension

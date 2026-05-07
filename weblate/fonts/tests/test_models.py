@@ -4,11 +4,11 @@
 
 from weblate.fonts.models import FONT_STORAGE
 from weblate.fonts.tasks import cleanup_font_files
-from weblate.fonts.tests.utils import FontTestCase
+from weblate.fonts.tests.utils import FontComponentTestCase
 from weblate.fonts.utils import configure_fontconfig
 
 
-class FontModelTest(FontTestCase):
+class FontModelTest(FontComponentTestCase):
     def test_save(self) -> None:
         font = self.add_font()
         self.assertEqual(font.family, "Kurinto Sans")

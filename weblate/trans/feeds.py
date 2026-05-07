@@ -71,11 +71,16 @@ class ObjectChangesFeed(BaseFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return obj.change_set.prefetch().recent(skip_preload="translation")
+        return obj.change_set.prefetch().recent()
 
 
 class TranslationChangesFeed(ObjectChangesFeed):
     """RSS feed for changes in translation."""
+
+    def items(self, obj):
+        if not isinstance(obj, Translation):
+            return super().items(obj)
+        return obj.change_set.prefetch().recent(skip_preload="translation")
 
     # pylint: disable-next=arguments-differ
     def get_object(self, request: AuthenticatedHttpRequest, path):

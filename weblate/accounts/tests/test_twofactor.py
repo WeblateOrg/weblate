@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from unittest import mock
 
 from django.core import mail
 from django.urls import reverse
@@ -18,7 +19,11 @@ from django_otp_webauthn.models import WebAuthnCredential
 
 from weblate.accounts.models import AuditLog
 from weblate.accounts.tasks import cleanup_auditlog
-from weblate.accounts.utils import SESSION_WEBAUTHN_AUDIT
+from weblate.accounts.utils import (
+    SECOND_FACTOR_VERIFY_SECONDS,
+    SESSION_SECOND_FACTOR_TIMESTAMP,
+    SESSION_WEBAUTHN_AUDIT,
+)
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -198,6 +203,37 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         self.assertEqual(response.context["user"], self.user)
 
+    def test_login_totp_rejects_unsafe_next(self) -> None:
+        device = self.add_totp()
+        self.client.logout()
+
+        response = self.client.post(
+            reverse("login"),
+            {
+                "username": "testuser",
+                "password": "testpassword",
+                "next": "https://evil.example/",
+            },
+        )
+
+        second_factor_url = response["Location"]
+        self.assertTrue(
+            second_factor_url.startswith(
+                reverse("2fa-login", kwargs={"backend": "totp"})
+            )
+        )
+        self.assertIn("next=https%3A%2F%2Fevil.example%2F", second_factor_url)
+
+        totp_response = totp(
+            device.bin_key, device.step, device.t0, device.digits, device.drift
+        )
+        response = self.client.post(
+            second_factor_url, {"otp_token": totp_response}, follow=True
+        )
+
+        self.assertRedirects(response, reverse("home"))
+        self.assertEqual(response.context["user"], self.user)
+
     def test_team_enforced_2fa(self) -> None:
         # Turn on enforcement on all user teams
         self.user.groups.update(enforced_2fa=True)
@@ -212,6 +248,41 @@ class TwoFactorTestCase(FixtureTestCase):
         self.test_login_totp()
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_password_requires_recent_second_factor(self) -> None:
+        self.add_totp()
+
+        with mock.patch("weblate.accounts.views.time.time") as mocked_time:
+            mocked_time.return_value = 2_000_000_000
+
+            stale_session = self.client.session
+            stale_session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(
+                mocked_time.return_value
+            ) - (SECOND_FACTOR_VERIFY_SECONDS + 1)
+            stale_session.save()
+
+            response = self.client.get(reverse("password"))
+
+        self.assertRedirects(
+            response,
+            f"{reverse('2fa-login', kwargs={'backend': 'totp'})}?next={reverse('password')}",
+        )
+
+    def test_password_allows_recent_second_factor(self) -> None:
+        self.add_totp()
+
+        with mock.patch("weblate.accounts.views.time.time") as mocked_time:
+            mocked_time.return_value = 2_000_000_000
+
+            session = self.client.session
+            session[SESSION_SECOND_FACTOR_TIMESTAMP] = (
+                int(mocked_time.return_value) - SECOND_FACTOR_VERIFY_SECONDS
+            )
+            session.save()
+
+            response = self.client.get(reverse("password"))
+
+        self.assertContains(response, "Current password")
 
     def test_project_enforced_2fa(self) -> None:
         # Turn on enforcement on project and make user an admin

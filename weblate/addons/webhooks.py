@@ -13,9 +13,11 @@ from typing import TYPE_CHECKING
 
 import jsonschema.exceptions
 import requests
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
-from django.utils import timezone as dj_timezone
-from django.utils.translation import gettext_lazy
+from django.utils import timezone
+from django.utils.translation import gettext_lazy, override
 from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
 from weblate_schemas import load_schema, validate_schema
 
@@ -23,7 +25,7 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
-from weblate.utils.requests import http_request
+from weblate.utils.requests import fetch_validated_url
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
@@ -34,7 +36,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
 
-    PayloadType = Mapping[str, int | str | list]
+    PayloadType = Mapping[str, int | str | list["PayloadType"] | "PayloadType"]
 
 
 def standard_webhooks_sign(
@@ -73,33 +75,42 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         self, change: Change, headers: dict, payload: PayloadType
     ) -> requests.Response:
         try:
-            return http_request(
+            return fetch_validated_url(
                 method="post",
                 url=self.instance.configuration["webhook_url"],
                 json=payload,
                 headers=headers,
                 timeout=15,
                 raise_for_status=False,
+                allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+                allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
             )
+        except ValidationError as error:
+            raise MessageNotDeliveredError("; ".join(error.messages)) from error
         except requests.exceptions.ConnectionError as error:
-            raise MessageNotDeliveredError from error
+            msg = "Unable to deliver webhook: could not connect to the remote server."
+            raise MessageNotDeliveredError(msg) from error
 
     def change_event(
         self, change: Change, activity_log_id: int | None = None
     ) -> dict | None:
         """Deliver notification message."""
-        payload = self.build_webhook_payload(change)
-        headers = self.build_headers(change, payload)
-        response = self.send_message(change, headers, payload)
+        with override("en"):
+            payload = self.build_webhook_payload(change)
+            headers = self.build_headers(change, payload)
+            response = self.send_message(change, headers, payload)
 
-        return {
-            "request": {"headers": headers, "payload": payload},
-            "response": {
-                "status_code": response.status_code,
-                "content": response.text,
-                "headers": dict(response.headers),
-            },
-        }
+            return {
+                "request": {
+                    "headers": headers,
+                    "payload": payload,
+                },
+                "response": {
+                    "status_code": response.status_code,
+                    "content": response.text,
+                    "headers": dict(response.headers),
+                },
+            }
 
 
 class WebhookAddon(JSONWebhookBaseAddon):
@@ -109,6 +120,13 @@ class WebhookAddon(JSONWebhookBaseAddon):
     verbose = gettext_lazy("Webhook")
     description = gettext_lazy(
         "Sends notifications to external services based on selected events, following the Standard Webhooks specification."
+    )
+    version_added = "5.11"
+    versions_changed = (
+        (
+            "5.15",
+            "Compliance of the secret length with the specification is now validated.",
+        ),
     )
 
     settings_form = WebhooksAddonForm
@@ -151,7 +169,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
     def build_headers(self, change: Change, payload: PayloadType) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
         webhook_id = change.get_uuid().hex
-        attempt_time = dj_timezone.now()
+        attempt_time = timezone.now()
         headers: dict[str, str] = {
             "webhook-timestamp": str(attempt_time.timestamp()),
             "webhook-id": webhook_id,
@@ -196,36 +214,37 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     )
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
+    version_added = "5.12"
 
     def build_webhook_payload(self, change: Change) -> PayloadType:
         message_header = ""
         if change.path_object:
             message_header += f"{key_name(change.path_object)} - "
         message_header += change.get_action_display()
-        payload: dict[str, list] = {
+        return {
             "blocks": [
                 {
                     "type": "header",
-                    "text": {"type": "plain_text", "text": message_header},
+                    "text": {
+                        "type": "plain_text",
+                        "text": message_header,
+                    },
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": str(change.get_details_display()) or "No details",
+                    },
+                    "accessory": {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "View",
+                        },
+                        "value": "view-change",
+                        "url": get_site_url(change.get_absolute_url()),
+                    },
                 },
             ]
         }
-
-        change_details = change.get_details_display() or "No details"
-
-        payload["blocks"].append(
-            {
-                "type": "section",
-                "text": {"type": "plain_text", "text": change_details},
-                "accessory": {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "View",
-                    },
-                    "value": "view-change",
-                    "url": get_site_url(change.get_absolute_url()),
-                },
-            }
-        )
-        return payload

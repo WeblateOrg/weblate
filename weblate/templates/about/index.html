@@ -55,7 +55,7 @@
     <div class="card-body formats">
       {% for ver in versions %}
         <a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
-          {% if not hide_version or user.is_superuser %}<span>{{ ver.2 }}</span>{% endif %}
+          {% if show_version_details %}<span>{{ ver.2 }}</span>{% endif %}
         </a>
       {% endfor %}
     </div>

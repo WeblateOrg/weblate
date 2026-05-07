@@ -9,7 +9,7 @@ from __future__ import annotations
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
-from weblate.accounts.models import AuditLog, Profile
+from weblate.accounts.models import AUDIT_WARNING, NOTIFY_ACTIVITY, AuditLog, Profile
 from weblate.auth.models import User
 
 
@@ -29,6 +29,29 @@ class AuditLogTestCase(SimpleTestCase):
     def test_address_blank(self) -> None:
         audit = AuditLog()
         self.assertEqual(audit.shortened_address, "")
+
+    def test_superuser_audit_classification(self) -> None:
+        self.assertIn("superuser-granted", AUDIT_WARNING)
+        self.assertIn("superuser-revoked", AUDIT_WARNING)
+        self.assertIn("superuser-granted", NOTIFY_ACTIVITY)
+        self.assertIn("superuser-revoked", NOTIFY_ACTIVITY)
+
+
+class AuditLogLoggingTestCase(TestCase):
+    def test_sitewide_team_add_logged(self) -> None:
+        user = User.objects.create_user(
+            username="audit-user",
+            email="audit-user@example.com",
+        )
+
+        with self.assertLogs("weblate.audit", level="INFO") as captured:
+            AuditLog.objects.create(
+                user, None, "sitewide-team-add", team="Users", username="admin"
+            )
+
+        self.assertTrue(
+            any("audit[sitewide-team-add]" in entry for entry in captured.output)
+        )
 
 
 class ProfileCommitNameTestCase(TestCase):
