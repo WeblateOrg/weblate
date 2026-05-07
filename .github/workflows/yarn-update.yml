@@ -34,7 +34,7 @@ jobs:
     permissions:
       contents: write
     if: startsWith(github.repository, 'WeblateOrg/')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-24.04-arm
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
@@ -50,19 +50,7 @@ jobs:
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
-    - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-      with:
-        path: ~/.cache/pre-commit
-        key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-      with:
-        enable-cache: false
-
-        version: 0.11.11
-    - name: Set up Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      with:
-        python-version: '3.14'
+    - uses: ./.github/actions/pre-commit-setup
     - working-directory: ./client
       run: |
         yarn install --check-files
