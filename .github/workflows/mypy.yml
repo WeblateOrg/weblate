@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   mypy:
@@ -22,7 +23,6 @@ jobs:
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
-        fetch-depth: 2
         persist-credentials: false
     - name: Get changed files
       if: github.event_name == 'pull_request'
@@ -30,6 +30,7 @@ jobs:
       uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
       with:
         files: '**.py'
+        use_rest_api: true
     - name: List all changed files
       if: github.event_name == 'pull_request'
       env:
