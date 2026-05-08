@@ -554,6 +554,36 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertContains(response, "Could not find any such user")
 
+    def test_special_users_denied_project_membership(self) -> None:
+        """Test that special users can not be assigned to project teams."""
+        self.project.add_user(self.user, "Administration")
+        inactive = User.objects.create_user(
+            "inactive-acl", "inactive-acl@example.org", "testpassword"
+        )
+        inactive.is_active = False
+        inactive.save()
+        users = [get_anonymous(), inactive]
+
+        for user in users:
+            response = self.client.post(
+                reverse("add-user", kwargs=self.kw_project),
+                {"user": user.username, "group": self.admin_group.pk},
+                follow=True,
+            )
+            self.assertContains(response, "can not be assigned to teams")
+            self.assertFalse(
+                Invitation.objects.filter(user=user, group=self.admin_group).exists()
+            )
+            self.assertFalse(user.groups.filter(pk=self.admin_group.pk).exists())
+
+            response = self.client.post(
+                reverse("set-groups", kwargs=self.kw_project),
+                {"user": user.username, "groups": [self.admin_group.pk]},
+                follow=True,
+            )
+            self.assertContains(response, "can not be assigned to teams")
+            self.assertFalse(user.groups.filter(pk=self.admin_group.pk).exists())
+
     def test_acl_groups(self) -> None:
         """Test handling ACL groups."""
         self.project.defined_groups.all().delete()

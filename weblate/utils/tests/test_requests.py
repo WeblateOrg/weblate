@@ -6,6 +6,7 @@ import os
 from unittest.mock import Mock, patch
 
 import responses
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -142,6 +143,9 @@ class OpenAssetURLTest(SimpleTestCase):
 
 
 class GetUriErrorTest(SimpleTestCase):
+    def setUp(self) -> None:
+        cache.clear()
+
     @responses.activate
     def test_get_uri_error_allows_internal_host_by_default(self) -> None:
         responses.add(
@@ -152,6 +156,94 @@ class GetUriErrorTest(SimpleTestCase):
         )
 
         self.assertIsNone(get_uri_error("https://gitlab.intranet.example/project"))
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value="93.184.216.34",
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("127.0.0.1", 443))],
+        ],
+    )
+    def test_get_uri_error_blocks_private_redirect(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "https://private.example.com/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/final",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        expected_error = (
+            "This URL is prohibited because it points to an internal or non-public "
+            "address."
+        )
+        self.assertEqual(
+            get_uri_error(
+                "https://public.example.com/source", allow_private_targets=False
+            ),
+            expected_error,
+        )
+
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value="93.184.216.34",
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("127.0.0.1", 443))],
+        ],
+    )
+    def test_get_uri_error_cache_is_scoped_by_private_target_policy(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "https://private.example.com/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/final",
+            status=200,
+            body=b"private-target",
+        )
+
+        expected_error = (
+            "This URL is prohibited because it points to an internal or non-public "
+            "address."
+        )
+
+        self.assertIsNone(get_uri_error("https://public.example.com/source"))
+        self.assertEqual(
+            get_uri_error(
+                "https://public.example.com/source", allow_private_targets=False
+            ),
+            expected_error,
+        )
+
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 3)
 
     @patch("weblate.utils.requests._probe_validated_url")
     def test_get_uri_error_flattens_validation_error(self, mocked_probe) -> None:

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import subprocess  # noqa: S404
+import tempfile
 from collections.abc import Mapping, Sequence
 from contextlib import suppress
 from itertools import chain
@@ -26,7 +27,7 @@ from weblate.utils import messages
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
-from weblate.utils.files import cleanup_error_message
+from weblate.utils.files import cleanup_error_message, get_repo_temp_dir
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
@@ -729,19 +730,47 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
         # Check if parent directory exists
         dirname = os.path.dirname(filename)
-        if not os.path.exists(dirname):
+        if not os.path.lexists(dirname):
             os.makedirs(dirname)
 
         # Validate if there is not a symlink out of the tree
         try:
             component.repository.resolve_symlinks(dirname)
-            if os.path.exists(filename):
-                component.repository.resolve_symlinks(filename)
+            component.repository.resolve_symlinks(filename)
         except ValueError:
             component.log_error("refused to write out of repository: %s", filename)
             return None
 
         return filename
+
+    @staticmethod
+    def write_repo_file(filename: str, content: bytes | str) -> None:
+        dirname, basename = os.path.split(filename)
+        temp_dir = get_repo_temp_dir(dirname)
+        temp_filename = ""
+        try:
+            if isinstance(content, bytes):
+                with tempfile.NamedTemporaryFile(
+                    prefix=basename, dir=temp_dir, delete=False
+                ) as handle:
+                    temp_filename = handle.name
+                    handle.write(content)
+            else:
+                with tempfile.NamedTemporaryFile(
+                    prefix=basename,
+                    dir=temp_dir,
+                    delete=False,
+                    mode="w",
+                    encoding="utf-8",
+                ) as handle:
+                    temp_filename = handle.name
+                    handle.write(content)
+            os.replace(temp_filename, filename)
+            temp_filename = ""
+        finally:
+            if temp_filename:
+                with suppress(OSError):
+                    os.unlink(temp_filename)
 
     @classmethod
     def pre_install(

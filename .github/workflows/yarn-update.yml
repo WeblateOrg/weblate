@@ -31,23 +31,11 @@ permissions:
 
 jobs:
   yarn-update:
-    permissions:
-      contents: write
     if: startsWith(github.repository, 'WeblateOrg/')
     runs-on: ubuntu-24.04-arm
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
-      with:
-        token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
-        persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
-      with:
-        persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
     - uses: ./.github/actions/pre-commit-setup
@@ -63,11 +51,7 @@ jobs:
         yarn install
         yarn build
 
-    - name: Commit or create pull request (pre-commit-ci-lite)
+    - name: Prepare maintenance patch (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
         message: 'chore(js): update vendored libraries'
-        pr-branch: create-pull-request/yarn-update
-        pr-labels: |
-          dependencies
-        github-token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]

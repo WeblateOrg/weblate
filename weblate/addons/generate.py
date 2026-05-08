@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django.db.models import F, Prefetch, Q
@@ -79,7 +78,7 @@ class GenerateFileAddon(
         if not filename:
             return
         content = render_template(configuration["template"], translation=translation)
-        Path(filename).write_text(content, encoding="utf-8")
+        self.write_repo_file(filename, content)
         # For pre_commit hook
         translation.addon_commit_files.append(filename)
         # For post_install hook

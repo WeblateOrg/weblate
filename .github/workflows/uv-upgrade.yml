@@ -29,21 +29,9 @@ jobs:
   uv-update:
     if: startsWith(github.repository, 'WeblateOrg/')
     runs-on: ubuntu-24.04-arm
-    permissions:
-      contents: write
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
-      with:
-        token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
-        persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
-      with:
-        persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
     - uses: ./.github/actions/pre-commit-setup
@@ -57,11 +45,7 @@ jobs:
     - run: uv sync --all-extras
       name: Update lock file
 
-    - name: Commit or create pull request (pre-commit-ci-lite)
+    - name: Prepare maintenance patch (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
         message: 'chore(deps): update lockfile'
-        pr-branch: create-pull-request/uv-lock-update
-        pr-labels: |
-          dependencies
-        github-token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]

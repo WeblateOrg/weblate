@@ -549,6 +549,29 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(audit.params["team"], group.name)
         self.assertEqual(audit.params["username"], self.user.username)
 
+    def test_add_group_rejects_special_users(self) -> None:
+        group = Group.objects.create(name="Special API group")
+        inactive = User.objects.create_user(
+            "target-inactive", "target-inactive@example.org", "x"
+        )
+        inactive.is_active = False
+        inactive.save()
+        users = [
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+            inactive,
+        ]
+
+        for target in users:
+            self.do_request(
+                "api:user-groups",
+                kwargs={"username": target.username},
+                method="post",
+                superuser=True,
+                code=400,
+                request={"group_id": group.id},
+            )
+            self.assertFalse(target.groups.filter(pk=group.pk).exists())
+
     def test_remove_group(self) -> None:
         group = Group.objects.get(name="Viewers")
         target = User.objects.create_user(
@@ -1650,6 +1673,37 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=400,
         )
+
+    def test_grant_admin_rejects_special_users(self) -> None:
+        group = Group.objects.create(name="Test Special Group")
+        inactive = User.objects.create_user(
+            "grant-inactive", "grant-inactive@example.org", "x"
+        )
+        inactive.is_active = False
+        inactive.save()
+        bot = User.objects.create(
+            username="grant-bot",
+            full_name="Grant Bot",
+            email="grant-bot@example.org",
+            is_bot=True,
+        )
+        users = [
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+            inactive,
+            bot,
+        ]
+
+        for user in users:
+            self.do_request(
+                "api:group-grant-admin",
+                kwargs={"id": group.id},
+                method="post",
+                superuser=True,
+                request={"user_id": user.id},
+                code=400,
+            )
+            self.assertFalse(group.admins.filter(pk=user.pk).exists())
+            self.assertFalse(user.groups.filter(pk=group.pk).exists())
 
     def test_group_admin_edit(self) -> None:
         user = User.objects.create_user(username="testuser", password="12345")
@@ -4369,6 +4423,14 @@ class ComponentAPITest(APIBaseTest):
         self.component.save()
         self.do_request("api:component-new-template", self.component_kwargs)
 
+    def test_new_template_download_prohibited(self) -> None:
+        self.component.new_base = "po/cs.po"
+        self.component.save()
+        project = self.component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request("api:component-new-template", self.component_kwargs, code=403)
+
     def test_monolingual_404(self) -> None:
         self.do_request(
             "api:component-monolingual-base", self.component_kwargs, code=404
@@ -4379,6 +4441,17 @@ class ComponentAPITest(APIBaseTest):
         self.do_request(
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
+        )
+
+    def test_monolingual_download_prohibited(self) -> None:
+        component = self.create_po_mono(name="mono", project=self.component.project)
+        project = component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:component-monolingual-base",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            code=403,
         )
 
     def test_translations(self) -> None:

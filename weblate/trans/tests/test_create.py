@@ -4,16 +4,24 @@
 
 """Test for creating projects and models."""
 
+from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
+
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from translation_finder import DiscoveryResult
 
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing, get_test_file
+from weblate.utils.views import get_form_data
 from weblate.vcs.git import GitRepository
+
+if TYPE_CHECKING:
+    from translation_finder.discovery.result import ResultDict
 
 TEST_ZIP = get_test_file("translations.zip")
 TEST_HTML = get_test_file("cs.html")
@@ -179,6 +187,83 @@ class CreateTest(ViewTestCase):
             response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, "po/*.po")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_wizard_discovery_file_format_params(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        source_component = self.create_java(name="source-java", project=self.project)
+
+        discovery = DiscoveryResult(
+            cast(
+                "ResultDict",
+                {
+                    "file_format": "properties",
+                    "filemask": "java/swing_messages_*.properties",
+                    "template": "java/swing_messages.properties",
+                    "file_format_params": {
+                        "properties_encoding": "utf-8",
+                        "strings_encoding": "utf-16",
+                    },
+                },
+            )
+        )
+        discovery.meta = {"priority": 1000, "origin": None}
+        create_url = (
+            f"{reverse('create-component-vcs')}?source_component={source_component.pk}"
+        )
+        params = {
+            "name": "Create Component With Discovery Params",
+            "slug": "create-component-with-discovery-params",
+            "project": self.project.pk,
+            "vcs": "git",
+            "repo": self.component.repo,
+            "source_language": get_default_lang(),
+        }
+
+        with (
+            patch("weblate.trans.forms.discover", return_value=[discovery]),
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
+        ):
+            response = self.client.post(create_url, params)
+        self.assertContains(response, "Choose translation files to import")
+        self.assertContains(response, "java/swing_messages_*.properties")
+        self.assertNotContains(response, "properties_encoding")
+        self.assertNotContains(response, "strings_encoding")
+
+        params["discovery"] = "0"
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(create_url, params)
+        self.assertContains(
+            response,
+            "You will be able to edit more options in the component settings after creating it.",
+        )
+        data = get_form_data(response.context["form"].initial)
+        self.assertEqual(data["file_format"], "properties")
+        self.assertEqual(
+            data["file_format_params"],
+            {"properties_encoding": "utf-8"},
+        )
+
+        file_format_params = data.pop("file_format_params")
+        data.update(
+            {
+                f"file_format_params_{key}": value
+                for key, value in file_format_params.items()
+            }
+        )
+        data["project"] = self.project.pk
+        data["source_language"] = get_default_lang()
+        data["language_regex"] = "^[^.]+$"
+        data["new_base"] = ""
+        data["new_lang"] = "contact"
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            response = self.client.post(create_url, data)
+        self.assertEqual(response.status_code, 302)
+
+        component = Component.objects.get(slug="create-component-with-discovery-params")
+        self.assertEqual(component.file_format_params["properties_encoding"], "utf-8")
+        self.assertNotIn("strings_encoding", component.file_format_params)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_existing(self) -> None:
