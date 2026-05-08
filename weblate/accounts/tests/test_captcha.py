@@ -46,6 +46,10 @@ class CaptchaTest(TestCase):
         self.assertEqual(serialized["parameters"]["algorithm"], "ARGON2ID")
         self.assertEqual(serialized["parameters"]["cost"], 1)
         self.assertIn("signature", serialized)
+        rendered = form["altcha"].as_widget()
+        self.assertIn("<altcha-widget ", rendered)
+        self.assertIn("challenge=", rendered)
+        self.assertNotIn("challengejson=", rendered)
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,

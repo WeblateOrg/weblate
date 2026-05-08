@@ -170,6 +170,10 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        resourceQuery: /source/,
+        type: "asset/source",
+      },
     ],
   },
   plugins: [
