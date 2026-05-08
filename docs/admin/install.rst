@@ -239,13 +239,13 @@ Django REST Framework
        - | `mercurial <https://pypi.org/project/mercurial>`_
        - :ref:`vcs-mercurial`
 
-     * - ``openai``
-       - | `openai <https://pypi.org/project/openai>`_
-       - :ref:`mt-openai`
-
      * - ``postgres``
        - | `psycopg <https://pypi.org/project/psycopg>`_
        - PostgreSQL, see :ref:`database-setup`
+
+     * - ``rollbar``
+       - | `rollbar <https://pypi.org/project/rollbar>`__
+       - :reF:`collecting-errors`
 
      * - ``saml``
        - | `python3-saml <https://pypi.org/project/python3-saml>`_
@@ -257,10 +257,6 @@ Django REST Framework
      * - ``sphinx``
        - | `Sphinx <https://pypi.org/project/Sphinx>`_
        - Needed for :ref:`addon-weblate.gettext.sphinx`
-
-     * - ``wlhosted``
-       - | `wlhosted <https://pypi.org/project/wlhosted>`_
-       - Hosted Weblate integration
 
      * - ``wllegal``
        - | `wllegal <https://pypi.org/project/wllegal>`_

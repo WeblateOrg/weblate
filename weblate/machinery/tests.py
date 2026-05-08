@@ -16,9 +16,7 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import MagicMock, Mock, call, patch
 
-import httpx
 import responses
-import respx
 from aliyunsdkcore.client import AcsClient
 from botocore.stub import ANY, Stubber
 from django.core.exceptions import ValidationError
@@ -317,7 +315,6 @@ class BaseMachineTranslationTest(TestCase):
         return machine
 
     @responses.activate
-    @respx.mock
     def test_validate_settings(self) -> None:
         self.mock_response()
         machine = self.get_machine()
@@ -328,7 +325,6 @@ class BaseMachineTranslationTest(TestCase):
         self.assertEqual(machine.map_language_code("en_devel"), self.ENGLISH)
 
     @responses.activate
-    @respx.mock
     def test_support(self, machine_translation=None) -> None:
         self.mock_response()
         if machine_translation is None:
@@ -385,13 +381,11 @@ class BaseMachineTranslationTest(TestCase):
         self.skipTest("Not tested")
 
     @responses.activate
-    @respx.mock
     def test_translate_empty(self) -> None:
         self.mock_empty()
         self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
     @responses.activate
-    @respx.mock
     def test_translate(self, **kwargs) -> None:
         self.mock_response()
         self.assert_translate(
@@ -399,7 +393,6 @@ class BaseMachineTranslationTest(TestCase):
         )
 
     @responses.activate
-    @respx.mock
     def test_batch(self, machine=None) -> None:
         self.mock_response()
         if machine is None:
@@ -416,14 +409,12 @@ class BaseMachineTranslationTest(TestCase):
         self.assertIn("translation", unit2.machinery)
 
     @responses.activate
-    @respx.mock
     def test_error(self) -> None:
         self.mock_error()
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
     @responses.activate
-    @respx.mock
     def test_clean(self) -> None:
         if not self.CONFIGURATION or self.MACHINE_CLS.settings_form is None:
             return
@@ -2094,7 +2085,6 @@ class ModernMTTest(BaseMachineTranslationTest):
         self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
 
     @responses.activate
-    @respx.mock
     def test_clean_custom(self) -> None:
         """Check that validation of context_vector settings works."""
         self.mock_response()
@@ -2983,53 +2973,49 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     @staticmethod
     def mock_models() -> None:
-        respx.get("https://api.openai.com/v1/models").mock(
-            httpx.Response(
-                200,
-                json={
-                    "object": "list",
-                    "data": [
-                        {
-                            "id": "gpt-5-nano",
-                            "object": "model",
-                            "created": 1686935002,
-                            "owned_by": "openai",
-                        }
-                    ],
-                },
-            )
+        responses.add(
+            responses.GET,
+            "https://api.openai.com/v1/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "gpt-5-nano",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "openai",
+                    }
+                ],
+            },
         )
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         self.mock_models()
-        respx.post(
+        responses.add(
+            responses.POST,
             "https://api.openai.com/v1/chat/completions",
-        ).mock(
-            httpx.Response(
-                200,
-                json={
-                    "id": "chatcmpl-123",
-                    "object": "chat.completion",
-                    "created": 1677652288,
-                    "model": "gpt-5-nano",
-                    "system_fingerprint": "fp_44709d6fcb",
-                    "choices": [
-                        {
-                            "index": 0,
-                            "message": {
-                                "role": "assistant",
-                                "content": content,
-                            },
-                            "finish_reason": "stop",
-                        }
-                    ],
-                    "usage": {
-                        "prompt_tokens": 9,
-                        "completion_tokens": 12,
-                        "total_tokens": 21,
-                    },
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "gpt-5-nano",
+                "system_fingerprint": "fp_44709d6fcb",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
                 },
-            )
+            },
         )
 
     def test_translate_sends_unit_context(self) -> None:
@@ -3663,7 +3649,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(unit2.machinery["translation"], ["Archive as verb"])
 
     @responses.activate
-    @respx.mock
     def test_translate_repairs_invalid_json_string_quotes(self) -> None:
         source = "Synthetic source string for malformed JSON recovery."
         self.mock_response('["Préfixe "citation" suffixe"]')
@@ -3680,7 +3665,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    @respx.mock
     def test_translate_uses_llm_placeholder_syntax(self) -> None:
         machine = self.get_machine()
 
@@ -3732,7 +3716,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "Bonjour %s! <<foo>>")
 
     @responses.activate
-    @respx.mock
     def test_translate_repairs_escaped_placeholders(self) -> None:
         source = "List filtered by responses to custom field @@PH44@@."
         self.mock_response(
@@ -3751,7 +3734,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    @respx.mock
     def test_translate_placeholderizes_existing_translation(self) -> None:
         machine = self.get_machine()
         existing_translation = "Bonjour, %s! <<foo>>"
@@ -3859,7 +3841,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    @respx.mock
     def test_translate_omits_unmappable_existing_translation(self) -> None:
         machine = self.get_machine()
         broken_translation = "Bonjour tout le monde! <<foo>>"
@@ -3888,7 +3869,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "Bonjour %s! <<foo>>")
 
     @responses.activate
-    @respx.mock
     def test_translate_maps_reordered_distinct_placeholders(self) -> None:
         machine = self.get_machine()
 
@@ -3920,7 +3900,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    @respx.mock
     def test_translate_rejects_unmappable_rst_markup(self) -> None:
         self.mock_response('["Voir :ref:`branche-cible`."]')  # codespell:ignore
 
@@ -3933,7 +3912,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
-    @respx.mock
     def test_translate_rejects_unmappable_single_highlight(self) -> None:
         self.mock_response('["Hello, `friend`!"]')
 
@@ -3946,7 +3924,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
-    @respx.mock
     def test_translate_rejects_placeholder_mismatch(self) -> None:
         self.mock_response('["Synthetic source string without placeholder."]')
 
@@ -3958,7 +3935,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
-    @respx.mock
     def test_translate_recovers_spaced_placeholder_syntax(self) -> None:
         self.mock_response('["Bonjour @@PH7@ @! <<foo>>"]')
 
@@ -3972,7 +3948,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "Bonjour %s! <<foo>>")
 
     @responses.activate
-    @respx.mock
     def test_translate_restores_placeholder_before_literal_at(self) -> None:
         machine = self.get_machine()
 
@@ -4002,7 +3977,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "%s@example.com")
 
     @responses.activate
-    @respx.mock
     def test_translate_accepts_adjacent_placeholders(self) -> None:
         machine = self.get_machine()
 
@@ -4031,7 +4005,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "%s%s")
 
     @responses.activate
-    @respx.mock
     def test_translate_rejects_placeholder_with_trailing_at(self) -> None:
         self.mock_response('["Bonjour @@PH7@@@! <<foo>>"]')
 
@@ -4044,7 +4017,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
-    @respx.mock
     def test_translate_rejects_legacy_placeholder_syntax(self) -> None:
         self.mock_response('["Synthetic source string with [X44X] placeholder."]')
 
@@ -4056,7 +4028,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
-    @respx.mock
     def test_translate_rejects_missing_comma_between_items(self) -> None:
         self.mock_response('["Premier" "Deuxieme", "Troisieme"]')
 
@@ -4068,7 +4039,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
-    @respx.mock
     def test_translate_blank_reply_reports_single_exception_event(self) -> None:
         machine = self.get_machine()
         handled_cause = f"machinery[{machine.name}]: Blank assistant reply"
@@ -4088,7 +4058,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    @respx.mock
     def test_translate_parse_error_reports_single_exception_event(self) -> None:
         machine = self.get_machine()
         handled_cause = (
@@ -4116,7 +4085,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    @respx.mock
     def test_translate_still_rejects_unrepairable_json(self) -> None:
         self.mock_response('["Ahoj světe"')
 
@@ -4124,7 +4092,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 1)
 
     @responses.activate
-    @respx.mock
     def test_translate_chains_repaired_json_decode_error(self) -> None:
         self.mock_response('["Ahoj "svete"]')
 
@@ -4199,54 +4166,49 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
     }
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
-        respx.get("https://custom.example.com/models").mock(
-            httpx.Response(
-                200,
-                json={
-                    "object": "list",
-                    "data": [
-                        {
-                            "id": "gpt-5-nano",
-                            "object": "model",
-                            "created": 1686935002,
-                            "owned_by": "openai",
-                        }
-                    ],
-                },
-            )
+        responses.add(
+            responses.GET,
+            "https://custom.example.com/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "gpt-5-nano",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "openai",
+                    }
+                ],
+            },
         )
-        respx.post(
+        responses.add(
+            responses.POST,
             "https://custom.example.com/chat/completions",
-        ).mock(
-            httpx.Response(
-                200,
-                json={
-                    "id": "chatcmpl-123",
-                    "object": "chat.completion",
-                    "created": 1677652288,
-                    "model": "gpt-5-nano",
-                    "system_fingerprint": "fp_44709d6fcb",
-                    "choices": [
-                        {
-                            "index": 0,
-                            "message": {
-                                "role": "assistant",
-                                "content": content,
-                            },
-                            "finish_reason": "stop",
-                        }
-                    ],
-                    "usage": {
-                        "prompt_tokens": 9,
-                        "completion_tokens": 12,
-                        "total_tokens": 21,
-                    },
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "gpt-5-nano",
+                "system_fingerprint": "fp_44709d6fcb",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
                 },
-            )
+            },
         )
 
     @responses.activate
-    @respx.mock
     def test_clean_custom(self) -> None:
         self.mock_response()
         settings = self.CONFIGURATION.copy()
@@ -4276,14 +4238,15 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
         machine.settings["_project"] = Mock()
 
         with (
-            patch.object(machine.client.models, "list") as mocked_list,
+            patch.object(machine, "request") as mocked_request,
             self.assertRaises(ValidationError),
         ):
             machine.get_model()
 
         mocked_getaddrinfo.assert_called_once()
-        mocked_list.assert_not_called()
+        mocked_request.assert_not_called()
 
+    @responses.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
@@ -4294,6 +4257,21 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
         machine = self.MACHINE_CLS(self.CONFIGURATION.copy())
         machine.delete_cache()
         machine.settings["_project"] = Mock()
+        responses.add(
+            responses.GET,
+            "https://custom.example.com/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "gpt-5-nano",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "openai",
+                    }
+                ],
+            },
+        )
 
         with (
             patch.dict(
@@ -4305,16 +4283,11 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                     "NO_PROXY": "",
                 },
             ),
-            patch.object(
-                machine.client.models,
-                "list",
-                return_value=[Mock(id="gpt-5-nano")],
-            ) as mocked_list,
         ):
             self.assertEqual(machine.get_model(), "gpt-5-nano")
 
         mocked_getaddrinfo.assert_not_called()
-        mocked_list.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
 
 
 class AzureOpenAITranslationTest(OpenAITranslationTest):
@@ -4328,36 +4301,34 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
     }
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
-        respx.post(
+        responses.add(
+            responses.POST,
             "https://my-instance.openai.azure.com/openai/deployments/my-deployment/chat/completions?api-version=2024-06-01",
-        ).mock(
-            httpx.Response(
-                200,
-                json={
-                    "id": "chatcmpl-123",
-                    "object": "chat.completion",
-                    "created": 1677652288,
-                    "model": "my-deployment",
-                    "system_fingerprint": "fp_44709d6fcb",
-                    "choices": [
-                        {
-                            "index": 0,
-                            "message": {
-                                "role": "assistant",
-                                "content": content,
-                            },
-                            "finish_reason": "stop",
-                        }
-                    ],
-                    "usage": {
-                        "prompt_tokens": 9,
-                        "completion_tokens": 12,
-                        "total_tokens": 21,
-                    },
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "my-deployment",
+                "system_fingerprint": "fp_44709d6fcb",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
                 },
-            )
+            },
         )
 
+    @responses.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
@@ -4367,8 +4338,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
     ) -> None:
         machine = self.MACHINE_CLS(self.CONFIGURATION.copy())
         machine.settings["_project"] = Mock()
-        completion = Mock()
-        completion.choices = [Mock(message=Mock(content='["Ahoj světe"]'))]
+        self.mock_response()
 
         with (
             patch.dict(
@@ -4380,11 +4350,6 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
                     "NO_PROXY": "",
                 },
             ),
-            patch.object(
-                machine.client.chat.completions,
-                "create",
-                return_value=completion,
-            ) as mocked_create,
         ):
             self.assertEqual(
                 machine.fetch_llm_translations("prompt", "content", "prev", "resp"),
@@ -4392,7 +4357,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
             )
 
         mocked_getaddrinfo.assert_not_called()
-        mocked_create.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
 
 
 class OllamaTranslationTest(BaseMachineTranslationTest):

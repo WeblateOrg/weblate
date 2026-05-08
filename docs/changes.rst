@@ -14,6 +14,7 @@ Weblate 2026.5
 
 * Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
 * Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
+* :ref:`mt-openai` no longer requires the OpenAI Python SDK.
 * Audited project and component setting changes are now recorded in history.
 * :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
