@@ -133,6 +133,41 @@ jobs:
           echo "pr_branch=$pr_branch"
         } >> "$GITHUB_OUTPUT"
 
+    - name: Show source workflow run
+      shell: bash
+      env:
+        HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+        RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        RUN_EVENT: ${{ github.event.workflow_run.event }}
+        RUN_ID: ${{ github.event.workflow_run.id }}
+        RUN_NAME: ${{ github.event.workflow_run.name }}
+        RUN_NUMBER: ${{ github.event.workflow_run.run_number }}
+        RUN_URL: ${{ github.event.workflow_run.html_url }}
+      run: |
+        {
+          echo "Source workflow: ${RUN_NAME}"
+          echo "Source event: ${RUN_EVENT}"
+          echo "Source conclusion: ${RUN_CONCLUSION}"
+          echo "Source run: ${RUN_URL}"
+          echo "Source run id: ${RUN_ID}"
+          echo "Source run number: ${RUN_NUMBER}"
+          echo "Source run attempt: ${RUN_ATTEMPT}"
+          echo "Source branch: ${HEAD_BRANCH}"
+          echo "Source commit: https://github.com/${GITHUB_REPOSITORY}/commit/${HEAD_SHA}"
+        } >> "$GITHUB_STEP_SUMMARY"
+
+        echo "Source workflow: ${RUN_NAME}"
+        echo "Source event: ${RUN_EVENT}"
+        echo "Source conclusion: ${RUN_CONCLUSION}"
+        echo "Source run: ${RUN_URL}"
+        echo "Source run id: ${RUN_ID}"
+        echo "Source run number: ${RUN_NUMBER}"
+        echo "Source run attempt: ${RUN_ATTEMPT}"
+        echo "Source branch: ${HEAD_BRANCH}"
+        echo "Source commit: https://github.com/${GITHUB_REPOSITORY}/commit/${HEAD_SHA}"
+
     - name: Checkout trusted scripts
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
