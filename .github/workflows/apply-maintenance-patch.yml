@@ -155,8 +155,9 @@ jobs:
         mkdir patch-repo
         git -C patch-repo init
         git -C patch-repo remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+        auth_header=$(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 --wrap=0)
         git -C patch-repo \
-          -c "http.extraheader=AUTHORIZATION: bearer ${GITHUB_TOKEN}" \
+          -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${auth_header}" \
           fetch --no-tags --depth=1 origin "$HEAD_SHA"
         git -C patch-repo rev-parse --verify "$HEAD_SHA^{commit}" >/dev/null
 
