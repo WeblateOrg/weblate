@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-04-26 22:41+0000\n"
+"PO-Revision-Date: 2026-05-09 00:13+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1286,19 +1286,15 @@ msgid "The registration link has been invalidated."
 msgstr "Lidhja e regjistrimi është bërë e pavlefshme."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Lidhja e regjistrimi është bërë e pavlefshme."
+msgstr "Lidhja e ftesës s’është më e vlefshme."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "U hoq ftesë përdoruesi."
+msgstr "Kjo ftesë ka skaduar."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1447,16 +1443,13 @@ msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr "Qe planifikuar prapakthim përpunimesh nga %(user)s në tërë sajtin."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr "Qe planifikuar prapakthim përpunimesh nga %(user)s në tërë sajtin."
+msgstr "Qe planifikuar spastrim kontributesh prej %(user)s në tërë sajtin."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "S’u krijua ndonjë ftesë."
+msgstr "S’u përzgjodh ndonjë veprim pastrimi."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -6007,16 +6000,12 @@ msgid "Glossary"
 msgstr "Fjalorth"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"S’u hoq dot vargu, ngaqë është duke u kryer në prapaskenë një tjetër veprim. "
-"Ju lutemi, riprovoni më vonë."
+"S’u shtua dot termi i fjalorthit, ngaqë është duke u kryer në prapaskenë një "
+"tjetër veprim. Ju lutemi, riprovoni më vonë."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -6479,16 +6468,12 @@ msgid "Source language selection"
 msgstr "Përzgjedhje gjuhe burim"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
-"Kjo URL është e ndaluar, ngaqë shpie te një adresë e brendshme, ose "
-"jopublike."
+"Përkthimi nga makina në shkallë projekti s’mund të përdorë adresa të "
+"brendshme, ose jopublike."
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -8624,10 +8609,8 @@ msgid "Disable password"
 msgstr "Çaktivizo fjalëkalimin"
 
 #: weblate/templates/accounts/user.html:443
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "Kontribues në koment"
+msgstr "Pastrim kontributesh"
 
 #: weblate/templates/accounts/user.html:446
 #, python-format
@@ -8639,10 +8622,8 @@ msgstr ""
 #: weblate/templates/accounts/user.html:451
 #: weblate/templates/accounts/user.html:477
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
-msgstr "Pastrim"
+msgstr "Pastroje"
 
 #: weblate/templates/accounts/user.html:464
 #: weblate/templates/accounts/user.html:504
@@ -10740,16 +10721,10 @@ msgid "Reset and reapply"
 msgstr "Riktheje dhe riaplikoji"
 
 #: weblate/templates/js/git-status.html:180
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
-"E kthen depon Weblate të përputhet me depon e zhvillimit dhe zëvendëson "
-"përkthimet te dega e zhvillimit me gjendjen aktuale nga Weblate."
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -13712,26 +13687,22 @@ msgid "Revert user edits"
 msgstr "Prapakthe përpunime përdoruesi"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:13
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
-msgstr "Kjo do të fshijë ekipin <b>%(name)s</b> nga ky projekt."
+msgstr ""
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
-msgstr "Kjo do të fshijë ekipin <b>%(name)s</b> nga ky projekt."
+msgstr ""
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1413
-#, fuzzy
-#| msgid "Reject suggestion"
 msgid "Reject user suggestions"
-msgstr "Hidheni tej sugjerimin"
+msgstr "Hidheni tej sugjerimin e përdoruesit"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:31
 #, python-format
@@ -13740,29 +13711,24 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:33
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid "Reject all pending suggestions from <b>%(user)s</b> in this project."
-msgstr "Kjo do të fshijë ekipin <b>%(name)s</b> nga ky projekt."
+msgstr ""
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:43
 #: weblate/trans/forms.py:1420
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete user comments"
-msgstr "Të fshijë komentin"
+msgstr "Fshi komente përdoruesi"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:46
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> across all projects."
-msgstr "Kjo do t’i heqë <b>%(user)s</b> hyrje në këtë projekt."
+msgstr ""
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:48
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "Delete all comments from <b>%(user)s</b> in this project."
-msgstr "Kjo do t’i heqë <b>%(user)s</b> hyrje në këtë projekt."
+msgstr ""
 
 #: weblate/templates/snippets/user-list.html:23 weblate/utils/forms.py:138
 msgid "Could not find any such user."
@@ -14638,17 +14604,14 @@ msgid "Edit team membership for %(username)s"
 msgstr "Përpunoni anëtarësi ekipi për %(username)s"
 
 #: weblate/templates/trans/project-access.html:103
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Clean up user contributions"
-msgstr "Mund të kontribuojnë vetëm përdoruesit e zgjedhur."
+msgstr "Pastro kontribute përdoruesi"
 
 #: weblate/templates/trans/project-access.html:132
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
-msgstr "Kjo do t’i heqë <b>%(user)s</b> hyrje në këtë projekt."
+msgstr ""
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -15778,10 +15741,8 @@ msgstr "U shtua varg burim te depoja"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:188
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "Emër projekti"
+msgstr "U kopjeruajt pprojekt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:190
@@ -16512,23 +16473,17 @@ msgid "Please choose"
 msgstr "Ju lutemi, zgjidhni"
 
 #: weblate/trans/forms.py:1408
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Kalo te përkthimi i fundit te kërkimi i tanishëm."
+msgstr ""
 
 #: weblate/trans/forms.py:1415
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Reject all pending suggestions from this user in the current project."
-msgstr "Kalo te përkthimi i fundit te kërkimi i tanishëm."
+msgstr ""
 
 #: weblate/trans/forms.py:1422
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Delete all comments from this user in the current project."
-msgstr "Kalo te përkthimi i fundit te kërkimi i tanishëm."
+msgstr ""
 
 #: weblate/trans/forms.py:1432
 msgid "Allow user to add or remove users from a team."
@@ -16948,16 +16903,12 @@ msgid "Use flags to indicate special strings in your translation."
 msgstr "Për të treguar vargje speciale te përkthimi juaj, përdorni flamurka."
 
 #: weblate/trans/guide.py:267
-#, fuzzy
-#| msgid ""
-#| "Add safe-html flag to avoid dangerous HTML from translators for strings "
-#| "which are rendered as HTML."
 msgid ""
 "Add safe-html or auto-safe-html flag to avoid dangerous HTML from "
 "translators for strings which are rendered as HTML."
 msgstr ""
-"Shtoni flamurkë safe-html për të shmangur HTML të rrezikshme nga "
-"përkthyesit, për vargje që trajtohen si HTML."
+"Shtoni flamurkë safe-html ose auto-safe-html, për të shmangur HTML të "
+"rrezikshme nga përkthyesit, për vargje që trajtohen si HTML."
 
 #: weblate/trans/guide.py:302
 msgid "Workflow customization"
@@ -17752,16 +17703,10 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "Në u lëntë e zbrazët, ky rregullim trashëgohet prej projektit."
 
 #: weblate/trans/models/component.py:1949
-#, fuzzy
-#| msgid ""
-#| "Could not verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
-"S’u verifikua dot kyç SSH strehe, ju lutemi, shtojini te faqja SSH në "
-"ndërfaqen e përgjegjësit."
 
 #: weblate/trans/models/component.py:1955
 msgid ""
@@ -17838,16 +17783,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/models/component.py:2620
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"E kthen depon Weblate të përputhet me depon e zhvillimit dhe hedh tej "
-"çfarëdo ndryshime pezull në Weblate."
 
 #: weblate/trans/models/component.py:2640
 #, python-format
@@ -18335,10 +18274,9 @@ msgid "Could not parse uploaded file: %s"
 msgstr "S’u përtyp dot kartela e ngarkuar: %s"
 
 #: weblate/trans/models/translation.py:2361
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "S’u përtypën dot kartela përkthimi."
+msgstr "S’u përtyp dot kartelë përkthimi: %s"
 
 #: weblate/trans/models/translation.py:2411
 msgid "Plurals are not supported by the file format."
@@ -18473,10 +18411,8 @@ msgid "User configured character: {}"
 msgstr "Shenjë e formësuar nga përdoruesi: {}"
 
 #: weblate/trans/tasks.py:750
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Përkthim i automatizuar në kryerje e sipër"
+msgstr "U anashkalua përkthim i automatizuar, ngaqë objektivi s’ekziston më."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -18766,10 +18702,9 @@ msgid "Weblate statistics"
 msgstr "Statistika Weblate"
 
 #: weblate/trans/views/acl.py:102
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr "Qe planifikuar prapakthim përpunimesh nga %(user)s në tërë sajtin."
+msgstr ""
 
 #: weblate/trans/views/acl.py:138 weblate/trans/views/acl.py:315
 msgid "You can not remove yourself!"
@@ -19009,10 +18944,8 @@ msgstr ""
 "që nga rregullimet."
 
 #: weblate/trans/views/edit.py:526
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not revert the selected change."
-msgstr "S’u gjet dot ndryshimi i prapësuar."
+msgstr ""
 
 #: weblate/trans/views/edit.py:542
 msgid "You do not have privilege to accept suggestions!"
@@ -19065,16 +18998,12 @@ msgid "Comment has been resolved."
 msgstr "Çështja e komentit u zgjidh."
 
 #: weblate/trans/views/edit.py:1129
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"S’u hoq dot vargu, ngaqë është duke u kryer në prapaskenë një tjetër veprim. "
-"Ju lutemi, riprovoni më vonë."
+"S’u shtua dot vargu, ngaqë është duke u kryer në prapaskenë një tjetër "
+"veprim. Ju lutemi, riprovoni më vonë."
 
 #: weblate/trans/views/edit.py:1138
 msgid "New string has been added."
@@ -19505,12 +19434,11 @@ msgstr ""
 "gjedhesh."
 
 #: weblate/utils/requests.py:276
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr "Kjo URL është e ndaluar, ngaqë ka përkim me një rregullsi të kufizuar."
+msgstr ""
+"Kjo URL është e ndaluar, ngaqë s’u përcaktua dot adresa e ortakut të lidhur."
 
 #: weblate/utils/requests.py:456
 #, python-format
@@ -19537,10 +19465,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "S’u analizua dot vulë kohore: {}"
 
 #: weblate/utils/search.py:424
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "Fushë e panjohur kërkimesh: {}"
+msgstr ""
 
 #: weblate/utils/search.py:451
 msgid "Unknown search field: {}"
@@ -19557,10 +19483,8 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "Kërkim i pambuluar për {field}: {value}"
 
 #: weblate/utils/search.py:857
-#, fuzzy
-#| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
-msgstr "S’u analizua dot shenjë {}: {}"
+msgstr ""
 
 #: weblate/utils/search.py:912
 msgid "Mixed operators!"
@@ -19635,10 +19559,8 @@ msgstr ""
 "për ta përcaktuar është {1}."
 
 #: weblate/utils/validators.py:138 weblate/utils/validators.py:143
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "Kartela e ngarkuar është shumë e madhe."
+msgstr "Kartela ZIP e ngarkuar është shumë e madhe."
 
 #: weblate/utils/validators.py:176
 msgid "The uploaded image was invalid."
@@ -19716,10 +19638,8 @@ msgid "No archive can be specified in backup location."
 msgstr ""
 
 #: weblate/utils/validators.py:326 weblate/utils/validators.py:334
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "Emri i kartelës s’mund të jetë një shteg absolut."
+msgstr ""
 
 #: weblate/utils/validators.py:341
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
@@ -19841,26 +19761,21 @@ msgid "Component and priority"
 msgstr "Përbërës dhe përparësi"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "Kartelë ZIP që përmban kopjeruajtje projekti"
+msgstr ""
 
 #: weblate/utils/zip.py:62
-#, fuzzy
-#| msgid "ZIP file containing project backup"
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "Kartelë ZIP që përmban kopjeruajtje projekti"
+msgstr ""
 
 #: weblate/utils/zip.py:66 weblate/utils/zip.py:70
 msgid "ZIP file contains unsupported special files."
 msgstr ""
 
 #: weblate/utils/zip.py:84
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Kartelë ZIP që përmban përkthime"
+msgstr ""
 
 #: weblate/utils/zip.py:94
 msgid ""
@@ -19953,10 +19868,9 @@ msgid "Unknown error"
 msgstr "Gabim i panjohur"
 
 #: weblate/vcs/git.py:2298
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "S’u rikthye dot fotoja e ekranit %(name)s: %(error)s"
+msgstr ""
 
 #: weblate/vcs/git.py:2417
 msgid "Pagure merge request"
@@ -20050,33 +19964,24 @@ msgstr ""
 "(%(keytype)s), ju lutemi, verifikojini se janë të saktë."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "S’u arrit të merrej kyç strehe: %s"
+msgstr ""
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "S’u gjet dot ndryshimi i prapësuar."
+msgstr ""
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "S’u përditësua dot depoja."
+msgstr ""
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s)."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"U shtua kyç strehe për %(host)s me shenja gishtash %(fingerprint)s "
-"(%(keytype)s)."
+"U hoq kyç strehe për %(host)s me shenja gishtash %(fingerprint)s (%(keytype)"
+"s)."
 
 #: weblate/wladmin/forms.py:17
 msgid "Activation token"
