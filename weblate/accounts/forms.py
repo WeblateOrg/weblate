@@ -21,7 +21,14 @@ from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
-from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
+from django.utils.translation import (
+    activate,
+    get_language,
+    gettext,
+    gettext_lazy,
+    ngettext,
+    pgettext,
+)
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
 from django_otp.oath import totp
@@ -464,22 +471,10 @@ class CaptchaWidget(forms.TextInput):
             raise ValueError(msg)
 
         return format_html(
-            "<altcha-widget challengejson='{}' strings='{}' hidefooter auto='onfocus'></altcha-widget>",
-            # Directly include challenge
+            '<altcha-widget challenge="{}" configuration="{}" language="{}" auto="onfocus"></altcha-widget>',
             self.serialize_challenge(self.challenge),
-            # Localize strings
-            json.dumps(
-                {
-                    "error": gettext("Verification failed. Try again later."),
-                    "expired": gettext("Verification expired. Try again."),
-                    "label": gettext("I'm not a robot"),
-                    "verified": gettext("Verification completed"),
-                    "verifying": gettext("Verifying…"),
-                    "waitAlert": gettext(
-                        "Verification is still in progress, please wait."
-                    ),
-                }
-            ),
+            json.dumps({"hideFooter": True}),
+            get_language() or "",
         )
 
 
