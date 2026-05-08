@@ -62,7 +62,8 @@ CSP_DIRECTIVES: CSP_TYPE = {
     "style-src": {"'self'", "'unsafe-inline'"},
     # "data:" is required for bootstrap 5 icons
     "img-src": {"'self'", "data:"},
-    "script-src": {"'self'"},
+    # 'wasm-unsafe-eval' is required by the altcha Argon2id worker
+    "script-src": {"'self'", "'wasm-unsafe-eval'"},
     "connect-src": {"'self'"},
     "object-src": {"'none'"},
     "font-src": {"'self'"},
