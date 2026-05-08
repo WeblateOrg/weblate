@@ -17,6 +17,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -454,8 +455,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user: User, group: str | None = None) -> None:
+    def add_user(
+        self, user: User, group: str | None = None, *, allow_bot: bool = False
+    ) -> None:
         """Add user based on username or email address."""
+        validate_team_assignable_user(user, allow_bot=allow_bot)
         implicit_group = False
         if group is None:
             implicit_group = True

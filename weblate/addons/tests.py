@@ -529,6 +529,28 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon.extra_files = []
         return addon
 
+    def test_render_repo_filename_rejects_broken_leaf_symlink_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        target = Path(repository_dir) / "stats" / "cs.json"
+        outside_target = Path(outside_dir) / "cs.json"
+        target.parent.mkdir(parents=True)
+        target.symlink_to(outside_target)
+
+        component = self.build_fake_component(repository_dir, new_base="messages.pot")
+        addon = self.build_fake_addon(BaseAddon, component)
+        translation = SimpleNamespace(component=component)
+
+        self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
+        self.assertFalse(outside_target.exists())
+
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
@@ -832,6 +854,28 @@ class GettextAddonTest(ViewTestCase):
         addon = GenerateMoAddon.create(component=translation.component)
         addon.pre_commit(translation, "", True)
         self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
+
+    def test_gettext_mo_rejects_broken_leaf_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        translation = self.get_translation()
+        translation.addon_commit_files = []
+        output = Path(self.component.full_path) / "po" / "broken.mo"
+        outside_dir = tempfile.mkdtemp()
+        outside_target = Path(outside_dir) / "broken.mo"
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        output.symlink_to(outside_target)
+        addon = GenerateMoAddon.create(
+            component=translation.component,
+            run=False,
+            configuration={"path": "po/broken.mo"},
+        )
+
+        addon.pre_commit(translation, "", True)
+
+        self.assertEqual(translation.addon_commit_files, [])
+        self.assertFalse(outside_target.exists())
 
     def test_update_linguas(self) -> None:
         translation = self.get_translation()
@@ -3570,6 +3614,32 @@ msgstr ""
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("stats/cs.json", commit)
         self.assertIn('"translated": 25', commit)
+
+    def test_generate_rejects_broken_leaf_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        translation = self.get_translation()
+        translation.addon_commit_files = []
+        output = Path(self.component.full_path) / "stats" / "cs.json"
+        outside_dir = tempfile.mkdtemp()
+        outside_target = Path(outside_dir) / "cs.json"
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        output.parent.mkdir(parents=True)
+        output.symlink_to(outside_target)
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "filename": "stats/{{ language_code }}.json",
+                "template": "{{ language_code }}",
+            },
+        )
+
+        addon.pre_commit(translation, "", True)
+
+        self.assertEqual(translation.addon_commit_files, [])
+        self.assertFalse(outside_target.exists())
 
     def test_gettext_comment(self) -> None:
         translation = self.get_translation()

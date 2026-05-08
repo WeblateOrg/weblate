@@ -28,10 +28,10 @@ Prerequisites
 
 Before proceeding with an installation, make sure you have the following prerequisites:
 
-- ``Nodejs`` version 14 or higher.
+- A supported ``Node.js`` release.
 - The ``yarn`` package manager is installed on your system.
 - Run ``cd client``.
-- Run ``yarn install``.
+- Run ``yarn install --check-files``.
 
 Installation
 ++++++++++++
@@ -88,7 +88,9 @@ Now the library is built and ready for use. To include it follow these steps:
 Coding style
 ------------
 
-Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS code.
+Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS
+code. Django templates are formatted and linted separately by :program:`djade`
+and :program:`djlint`.
 
 .. _Biome: https://biomejs.dev/
 
@@ -102,16 +104,16 @@ function, but there are more complex features available:
 
 .. code-block:: javascript
 
-    document.write(gettext('this is to be translated'));
+    document.write(gettext("this is to be translated"));
 
     var object_count = 1 // or 0, or 2, or 3, ...
-    s = ngettext('literal for the singular case',
-            'literal for the plural case', object_count);
+    s = ngettext("literal for the singular case",
+            "literal for the plural case", object_count);
 
-    fmts = ngettext('There is %s object. Remaining: %s',
-            'There are %s objects. Remaining: %s', 11);
+    fmts = ngettext("There is %s object. Remaining: %s",
+            "There are %s objects. Remaining: %s", 11);
     s = interpolate(fmts, [11, 20]);
-    // s is 'There are 11 objects. Remaining: 20'
+    // s is "There are 11 objects. Remaining: 20"
 
 .. seealso::
 

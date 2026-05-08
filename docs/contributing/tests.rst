@@ -53,7 +53,11 @@ The simple execution can look like:
 Local testing of Weblate
 +++++++++++++++++++++++++
 
-Before running test, please ensure test dependencies are installed. This can be done by ``pip install -e .[test]``.
+Before running tests, please ensure development dependencies are installed:
+
+.. code-block:: sh
+
+   uv sync --all-extras --dev
 
 Testing using pytest
 ~~~~~~~~~~~~~~~~~~~~
@@ -62,19 +66,19 @@ Prior to running tests you should collect static files as some tests rely on the
 
 .. code-block:: sh
 
-    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py collectstatic
+    DJANGO_SETTINGS_MODULE=weblate.settings_test uv run ./manage.py collectstatic --noinput
 
-You can use `pytest` to run a testsuite locally:
+You can use `pytest` to run the test suite locally:
 
 .. code-block:: sh
 
-   pytest weblate
+   uv run pytest
 
 Running an individual test file:
 
 .. code-block:: sh
 
-   pytest weblate/utils/tests/test_search.py
+   uv run pytest weblate/utils/tests/test_search.py
 
 .. hint::
 
@@ -108,17 +112,17 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 Local testing of Weblate modules
 --------------------------------
 
-The tests are executed using :program:`py.test`. First you need to install test requirements:
+The tests are executed using :program:`pytest`. First you need to install development dependencies:
 
 .. code-block:: sh
 
-   uv pip install -e '.[dev]'
+   uv sync --all-extras --dev
 
 You can then execute the testsuite in the repository checkout:
 
 .. code-block:: sh
 
-   py.test
+   uv run pytest
 
 .. _test-data:
 

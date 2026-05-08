@@ -72,7 +72,7 @@ def _get_validated_uri_error(
         validate_request_url(uri, allow_private_targets=allow_private_targets)
     except ValidationError as error:
         return format_validation_error(error)
-    return get_uri_error(uri)
+    return get_uri_error(uri, allow_private_targets=allow_private_targets)
 
 
 def register(cls: type[BaseAlert]) -> type[BaseAlert]:

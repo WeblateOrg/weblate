@@ -20,17 +20,21 @@ Weblate 2026.5
 
 .. rubric:: Bug fixes
 
+* Hardened search previews and :ref:`machine-translation` suggestion origins against XSS.
 * Database error details are no longer exposed in upload failure messages.
 * Category :doc:`/admin/announcements` no longer appear across the whole project.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
+* :ref:`project-api` expiring today now remain valid until the end of the day.
 * :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
+* URL health checks now validate redirect targets using the configured private-target restrictions.
 
 .. rubric:: Compatibility
 
 * The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead.
 * The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work.
 * The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team`` file format parameter at the component level; see :ref:`file_format_params`.
+* Weblate now uses calendar versioning for releases, see :ref:`release-cycle`.
 * Weblate now uses stricter dependency version constraints to better control runtime environment.
 
 .. rubric:: Upgrading
@@ -38,7 +42,7 @@ Weblate 2026.5
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
-* The upgrading policy was changed, and upgrades are only supported from the last year's releases.
+* The upgrading policy was changed, and upgrades are only supported from the current or previous calendar year.
 
 .. rubric:: Contributors
 

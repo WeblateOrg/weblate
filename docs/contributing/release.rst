@@ -6,16 +6,24 @@ Releasing Weblate
 Release cycle
 -------------
 
-Weblate has two month release cycle for releases (x.y). These are usually
-followed by a bunch of bugfix releases to fix issues which slip into them
-(x.y.z). This includes bug fixes and addressing security issues.
+Weblate uses calendar versioning with monthly releases. The version format is
+``<YEAR>.<MONTH>.<PATCH>`` with a numeric, non-zero-padded month. The
+``<PATCH>`` part is omitted for the first release in a month when it would be
+``0``, for example ``2026.5``. Patch releases use the full version number, for
+example ``2026.5.1``.
 
-The change in the major version indicates that the upgrade process can not skip
-this version - you always have to upgrade to x.0 before upgrading to higher x.y
-releases.
+Monthly releases are usually published at the beginning of the month. Patch
+releases include bug fixes, security fixes, and dependency updates which should
+not wait for the next monthly release.
 
-The Docker container includes additional digit in versioning to track changes
-in the container itself like dependencies. These updates may include security
+Direct upgrades are supported from releases in the current or previous calendar
+year. The first release in a new year drops direct upgrade support for releases
+from the year before the previous year.
+
+The Docker container includes an additional version component to track changes
+in the container itself, such as dependencies. Fixed Docker image tags include
+the patch component together with this build component, even when the Weblate
+version omits a ``0`` patch component. These updates may include security
 updates.
 
 .. seealso::

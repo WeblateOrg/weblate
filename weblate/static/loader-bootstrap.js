@@ -942,11 +942,18 @@ $(function () {
   }
 
   /* Override all multiple selects */
-  $("select[multiple]").multi({
-    enable_search: true,
-    search_placeholder: gettext("Search…"),
-    non_selected_header: gettext("Available:"),
-    selected_header: gettext("Chosen:"),
+  document.querySelectorAll("select[multiple]").forEach((el) => {
+    if (el.tomselect) {
+      return;
+    }
+    new TomSelect(el, {
+      plugins: ["remove_button", "checkbox_options"],
+      placeholder: gettext("Search…"),
+      hidePlaceholder: false,
+      persist: false,
+      create: false,
+      allowEmptyOption: true,
+    });
   });
 
   /* Slugify name */

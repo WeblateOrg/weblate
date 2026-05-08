@@ -120,6 +120,7 @@ from weblate.api.serializers import (
 )
 from weblate.auth.models import Group, Role, User
 from weblate.auth.results import PermissionResult
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.machinery.models import validate_service_configuration
@@ -185,6 +186,17 @@ COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentLinkResponseSerializer",
     fields={"data": ComponentSerializer()},
 )
+
+
+def validate_api_team_assignable_user(
+    user: User, field_name: str, *, allow_bot: bool = False
+) -> None:
+    try:
+        validate_team_assignable_user(user, allow_bot=allow_bot)
+    except DjangoValidationError as error:
+        raise ValidationError({field_name: error.messages}) from error
+
+
 COMPONENT_TRANSLATION_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentTranslationResponseSerializer",
     fields={"data": ComponentTranslationSerializer()},
@@ -714,6 +726,7 @@ class UserViewSet(viewsets.ModelViewSet):
             raise not_found_validation_error(field_name, "Group") from error
 
         if request.method == "POST":
+            validate_api_team_assignable_user(obj, "username", allow_bot=True)
             obj.add_team(request, group)
         if request.method == "DELETE":
             if obj.is_bot and not obj.groups.exclude(pk=group.pk).exists():
@@ -1167,6 +1180,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist as error:
             msg = "User not found"
             raise ValidationError({"user_id": msg}) from error
+        validate_api_team_assignable_user(user, "user_id")
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
@@ -2004,6 +2018,9 @@ class ComponentViewSet(
     def monolingual_base(self, request: Request, **kwargs):
         obj = self.get_object()
 
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
+
         if not obj.has_template():
             msg = "No template found!"
             raise Http404(msg)
@@ -2022,6 +2039,9 @@ class ComponentViewSet(
     @action(detail=True, methods=["get"])
     def new_template(self, request: Request, **kwargs):
         obj = self.get_object()
+
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
 
         if not obj.new_base:
             msg = "No file found!"

@@ -27,7 +27,8 @@ For application-developer workflows and broader product integration guidance, us
   `<type>(<optional scope>): <description>`. Common types include `feat`,
   `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:
   `fix(translations): handle empty component slug`.
-- Include the GPL-3.0-or-later license header in new Python files.
+- Keep new project code under GPL-3.0-or-later and include the repository's
+  usual copyright and SPDX license header in new Python files.
 
 ## Documentation expectations
 
@@ -72,15 +73,18 @@ For application-developer workflows and broader product integration guidance, us
 - After syncing, prefer `uv run ...` for subsequent commands so they use the
   virtual environment created in `.venv`. If needed, you can also activate it
   with `source .venv/bin/activate` or invoke tools from `.venv/bin/`.
-- Prefer `prek run --all-files` as the primary linting/formatting command because
+- Prefer `uv run prek run --all-files` as the primary linting/formatting command because
   it runs the repository's configured pre-commit framework checks.
 - `prek` is a third-party reimplementation of the `pre-commit` tool.
-- Use `pytest` to run the test suite: `pytest weblate`. On a fresh checkout,
+- Use `pytest` to run the test suite: `uv run pytest`. On a fresh checkout,
   first follow the local test setup in `docs/contributing/tests.rst`
   (`DJANGO_SETTINGS_MODULE=weblate.settings_test`, `collectstatic`, and test
   database prerequisites). `scripts/test-database.sh` can be sourced to set up
   the database connection variables such as `CI_DB_USER`, `CI_DB_PASSWORD`,
   `CI_DB_HOST`, and `CI_DB_PORT`.
-- Use `pylint` to lint the Python code: `pylint weblate/`
-- Use `mypy` to type check the code: `mypy weblate/`
-- All mentioned linting tools MUST pass.
+- Use `pylint` to lint the Python code: `uv run pylint weblate/ scripts/`
+- Use `mypy` to type check with the same command as CI:
+  `uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh`.
+- New or changed code should not introduce new mypy failures where current
+  Django typing support makes that practical. Existing non-enforced mypy
+  findings should not be worsened.

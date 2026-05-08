@@ -28,7 +28,7 @@ from PIL import Image
 
 from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentList, Project
+from weblate.trans.models import Component, ComponentLink, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     clear_users_cache,
@@ -646,6 +646,19 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
+
+    def test_view_project_deduplicates_outgoing_shared_component(self) -> None:
+        first_project = Project.objects.create(name="Shared target one", slug="target1")
+        second_project = Project.objects.create(
+            name="Shared target two", slug="target2"
+        )
+        ComponentLink.objects.create(component=self.component, project=first_project)
+        ComponentLink.objects.create(component=self.component, project=second_project)
+
+        response = self.client.get(self.project.get_absolute_url())
+
+        component_ids = [component.pk for component in response.context["components"]]
+        self.assertEqual(component_ids.count(self.component.pk), 1)
 
     def test_view_project_ghost(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="es"))

@@ -24,8 +24,9 @@ Installing from sources
 
         . ~/weblate-env/bin/activate
         uv pip install -e 'weblate-src[all]'
-        # In case you intentd to run testsuite, install test deps as well:
-        uv pip install -e 'weblate-src[all,test]'
+
+   If you intend to run the testsuite from the source checkout, install the
+   development dependencies as described in :ref:`local-tests`.
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`.
 

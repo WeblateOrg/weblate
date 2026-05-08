@@ -64,7 +64,7 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.43.5",
+  "boto3-stubs==1.43.6",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.3",
   "django-stubs[compatible-mypy]==6.0.3",
@@ -183,12 +183,12 @@ dependencies = [
   # Pin for translate-toolkit extra
   "tomlkit==0.14.0",
   "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.8",
-  "translation-finder==2.24",
+  "translation-finder==3.0",
   "twisted==25.5.0",
   # Pin for translate-toolkit extra
   "unicode-segmentation-rs==0.2.4",
   "unidecode==1.4.0",
-  "urllib3[brotli,zstd]==2.6.3",
+  "urllib3[brotli,zstd]==2.7.0",
   "user-agents==2.2.0",
   "weblate-fonts==2026.1",
   "weblate-language-data==2026.7",
@@ -218,7 +218,7 @@ all = [
   "weblate[alibaba,amazon,gelf,gerrit,google,ldap,mercurial,openai,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.5"
+  "boto3==1.43.6"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -234,10 +234,10 @@ ldap = [
   "django-auth-ldap==5.3.0"
 ]
 mercurial = [
-  "mercurial==7.2.1"
+  "mercurial==7.2.2"
 ]
 openai = [
-  "openai==2.35.1"
+  "openai==2.36.0"
 ]
 postgres = [
   "psycopg[binary]==3.3.4"
@@ -295,7 +295,6 @@ ignore = [
   ".gitmodules",
   ".imgbotconfig",
   ".reuse/dep5",
-  ".stylelintrc",
   ".weblate",
   ".well-known/*",
   ".yamllint.yml",
@@ -592,13 +591,13 @@ ignore = [
   "DOC402",  # CONFIG: `yield` is not documented in docstring
   "DOC501",  # TODO: Raised exception missing from docstring
   "E203",  # CONFIG: formatter
-  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
+  "E501",  # WONTFIX: we accept long strings (rest is formatted by Ruff)
   "FBT",  # TODO: Boolean in function definition
   "FIX002",  # CONFIG: we use TODO
   "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
   "PLR6301",  # TODO: Method could be a function, class method, or static method
   "PLW2901",  # TODO: overwriting variables inside loop
-  "PT",  # CONFIG: Not using pytest
+  "PT",  # CONFIG: pytest-style rules are not enforced
   "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
   "TD002",  # CONFIG: no detailed TODO documentation is required

@@ -2,9 +2,14 @@
 License and copyright
 ---------------------
 
-When contributing code, you agree to put your changes and new code under the
-same license as the repository is already using, unless stated and agreed
-otherwise.
+When contributing project code, you agree to put your changes and new code
+under the repository license, :abbr:`GPL-3.0-or-later (GNU General Public
+License v3.0 or later)`, unless stated and agreed otherwise. New source files
+should follow the existing copyright and :abbr:`SPDX (Software Package Data
+Exchange)` license header style.
+
+Use a different license only when there is a deliberate reason, such as files
+shared with repositories using more permissive licenses.
 
 .. seealso::
 
@@ -66,11 +71,14 @@ Type checking
 ~~~~~~~~~~~~~
 
 Any new code should utilize :pep:`484` type hints. We are using :program:`mypy`
-to check (because it has a Django plugin that makes type checking of Django
-apps doable).
+to check them because it has a Django plugin that makes type checking of Django
+apps practical.
 
-The code base is not yet completely covered by type annotations, but some
-modules are already enforced for type checking in the CI.
+New and changed code should not introduce new :program:`mypy` failures where
+current Django typing support makes that practical. The code base is not yet
+completely covered by type annotations, and some Django constructs are
+difficult to annotate precisely. CI therefore enforces :program:`mypy` only for
+selected modules and reports other findings separately.
 
 Coding standard and linting the code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,7 +98,7 @@ To check all files manually, run:
 
 .. code-block:: sh
 
-    prek run --all-files
+    uv run prek run --all-files
 
 If you prefer the original :program:`pre-commit` client, it uses the same
 configuration from :file:`.pre-commit-config.yaml`.

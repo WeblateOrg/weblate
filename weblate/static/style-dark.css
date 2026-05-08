@@ -2125,37 +2125,51 @@ button.close {
   background-color: transparent;
   border-color: currentcolor;
 }
-.multi-wrapper {
-  border-color: #444b4d;
+.ts-control,
+.ts-control input,
+.ts-dropdown {
+  color: #dcd7cf;
 }
-.multi-wrapper .non-selected-wrapper {
-  background-color: #1e2021;
-  background-image: none;
+.ts-wrapper.multi .ts-control > div {
+  background-color: #282b2c;
+  border-color: #444b4d;
+  color: #dcd7cf;
+}
+.ts-wrapper.multi .ts-control > div.active {
+  background-color: #124437;
+  color: #fffdfa;
+}
+.ts-wrapper.multi.disabled .ts-control > div,
+.ts-wrapper.multi.disabled .ts-control > div.active {
+  background-color: #25282a;
+  border-color: #25282a;
+  color: #ada396;
+}
+.ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
+  border-left-color: #444b4d;
+}
+.ts-wrapper.plugin-remove_button.rtl .item .remove {
   border-right-color: #444b4d;
 }
-.multi-wrapper .selected-wrapper {
+.ts-wrapper.plugin-remove_button .item .remove:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.ts-dropdown {
   background-color: #1a1d1e;
-  background-image: none;
+  border-color: rgba(154, 143, 127, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 12px;
 }
-.multi-wrapper .header {
-  color: #c8c2b7;
+.ts-dropdown .active {
+  background-color: #282b2c;
+  color: #e5e0da;
 }
-.multi-wrapper .item:hover {
-  background-color: #272a2b;
-  background-image: none;
+.ts-dropdown .optgroup-header {
+  background-color: #1a1d1e;
+  color: #ada396;
 }
-.multi-wrapper .search-input {
-  border-color: currentcolor currentcolor #444b4d;
-  outline-color: currentcolor;
-}
-.multi-wrapper .non-selected-wrapper .item.disabled,
-.multi-wrapper .selected-wrapper .item.disabled {
-  text-decoration-color: currentcolor;
-}
-.multi-wrapper .non-selected-wrapper .item.disabled:hover,
-.multi-wrapper .selected-wrapper .item.disabled:hover {
-  background-color: inherit;
-  background-image: inherit;
+.ts-dropdown [data-selectable] .highlight {
+  background-color: rgba(255, 237, 40, 0.25);
+  color: #fffdfa;
 }
 .progress {
   box-shadow: none;

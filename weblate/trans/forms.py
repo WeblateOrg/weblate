@@ -42,6 +42,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -121,6 +122,7 @@ if TYPE_CHECKING:
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLMixin
     from weblate.trans.models import (
         Translation,
@@ -1400,6 +1402,16 @@ class UserManageForm(forms.Form):
     )
 
 
+class TeamAssignableUserMixin:
+    allow_bot_user = False
+
+    def clean_user(self) -> User | None:
+        user = self.cleaned_data["user"]
+        if user is not None:
+            validate_team_assignable_user(user, allow_bot=self.allow_bot_user)
+        return user
+
+
 class UserContributionCleanupForm(UserManageForm):
     revert_edits = forms.BooleanField(
         required=False,
@@ -1424,7 +1436,7 @@ class UserContributionCleanupForm(UserManageForm):
     )
 
 
-class UserAddTeamForm(UserManageForm):
+class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
     make_admin = forms.BooleanField(
         required=False,
         initial=False,
@@ -2020,16 +2032,25 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         ) and "file_format" in kwargs["initial"]:
             source_component = Component.objects.get(pk=int(source_component_text))
             if source_component.file_format_params:
-                kwargs["initial"]["file_format_params"] = {
+                supported_params = {
+                    param.get_identifier()
+                    for param in get_params_for_file_format(
+                        kwargs["initial"]["file_format"]
+                    )
+                }
+                source_file_format_params = {
                     k: v
                     for k, v in source_component.file_format_params.items()
-                    if k
-                    in [
-                        param.get_identifier()
-                        for param in get_params_for_file_format(
-                            kwargs["initial"]["file_format"]
-                        )
-                    ]
+                    if k in supported_params
+                }
+                initial_file_format_params = kwargs["initial"].get(
+                    "file_format_params", {}
+                )
+                if not isinstance(initial_file_format_params, dict):
+                    initial_file_format_params = {}
+                kwargs["initial"]["file_format_params"] = {
+                    **source_file_format_params,
+                    **initial_file_format_params,
                 }
         super().__init__(request, *args, **kwargs)
 
@@ -2361,11 +2382,29 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             hint=self.instance.filemask,
         )
 
+    @staticmethod
+    def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
+        data = cast("dict[str, Any]", value.match)
+        file_format = data.get("file_format")
+        file_format_params = data.get("file_format_params")
+        if file_format_params is None:
+            return data
+        if not isinstance(file_format, str) or not isinstance(file_format_params, dict):
+            data.pop("file_format_params", None)
+            return data
+        data["file_format_params"] = strip_unused_file_format_params(
+            file_format,
+            cast("FileFormatParams", file_format_params.copy()),
+        )
+        return data
+
     def clean(self) -> None:
         super().clean()
         discovery = self.cleaned_data.get("discovery")
         if discovery and discovery != "manual":
-            self.cleaned_data.update(self.discovered[int(discovery)])
+            self.cleaned_data.update(
+                self.get_discovery_data(self.discovered[int(discovery)])
+            )
 
 
 class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
@@ -3368,7 +3407,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.instance.username = name
         self.instance.email = f"{name}@bots.noreply.weblate.org"
         result = super().save(*args, **kwargs)
-        self.project.add_user(self.instance, "Administration")
+        self.project.add_user(self.instance, "Administration", allow_bot=True)
         AuditLog.objects.create(
             self.instance,
             None,
@@ -3378,8 +3417,10 @@ class ProjectTokenCreateForm(forms.ModelForm):
         )
         return result
 
-    def clean_expires(self):
-        expires = self.cleaned_data["expires"]
+    def clean_date_expires(self):
+        expires = self.cleaned_data["date_expires"]
+        if expires is None:
+            return expires
         expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
         if expires < timezone.now():
             raise forms.ValidationError(gettext("Expiry cannot be in the past."))
@@ -3417,6 +3458,15 @@ class ProjectUserGroupForm(UserManageForm):
         cleaned_data = super().clean()
         user = cleaned_data.get("user")
         groups = cleaned_data.get("groups")
+        if user and groups:
+            current_group_ids = set(
+                user.groups.filter(defining_project=self.project).values_list(
+                    "id", flat=True
+                )
+            )
+            added_group_ids = set(groups.values_list("id", flat=True))
+            if added_group_ids - current_group_ids:
+                validate_team_assignable_user(user, allow_bot=True)
         if user and user.is_bot and not groups:
             raise ValidationError(
                 gettext_lazy("At least one team is required for a project token.")
