@@ -5,16 +5,24 @@
 from __future__ import annotations
 
 import time
-from unittest.mock import patch
+from pathlib import Path
+from unittest.mock import Mock, patch
 
+from django.conf import settings
 from django.core.cache import cache
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.addons.base import BaseAddon
-from weblate.utils.apps import check_class_loader, check_settings
+from weblate.utils.apps import (
+    CACHE_EXEC_CHECK_PREFIX,
+    check_class_loader,
+    check_data_writable,
+    check_settings,
+)
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
+from weblate.utils.unittest import tempdir_setting
 
 
 class CeleryQueueTest(SimpleTestCase):
@@ -95,6 +103,46 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
             self.assertIn("does not define a 'not_found' class", errors[0].msg)
         finally:
             ClassLoader.instances = old_instances
+
+
+class DataWritableCheckTestCase(SimpleTestCase):
+    @staticmethod
+    def get_cache_probes() -> list[Path]:
+        return list(
+            (Path(settings.CACHE_DIR) / "ssh").glob(f"{CACHE_EXEC_CHECK_PREFIX}*")
+        )
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_cache_dir_executable(self) -> None:
+        errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.C044" for error in errors))
+        self.assertEqual(self.get_cache_probes(), [])
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_cache_dir_execution_permission_error(self) -> None:
+        with patch(
+            "weblate.utils.apps.subprocess.run",
+            side_effect=PermissionError("permission denied"),
+        ):
+            errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.C044" for error in errors))
+        self.assertEqual(self.get_cache_probes(), [])
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_cache_dir_execution_failure(self) -> None:
+        with patch(
+            "weblate.utils.apps.subprocess.run",
+            return_value=Mock(returncode=126),
+        ):
+            errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.C044" for error in errors))
+        self.assertEqual(self.get_cache_probes(), [])
 
 
 class SettingsCheckTestCase(SimpleTestCase):

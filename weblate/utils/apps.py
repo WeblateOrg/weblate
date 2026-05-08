@@ -6,12 +6,15 @@ from __future__ import annotations
 
 import errno
 import os
+import subprocess  # noqa: S404
 import time
+from contextlib import suppress
 from datetime import timedelta
 from email.utils import parseaddr
 from itertools import chain
 from pathlib import Path
 from shutil import disk_usage
+from tempfile import NamedTemporaryFile
 from typing import TYPE_CHECKING, cast
 
 from celery.exceptions import TimeoutError as CeleryTimeoutError
@@ -63,6 +66,47 @@ DEFAULT_SECRET_KEYS = {
     "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6(",
     "secret key used for tests only",
 }
+CACHE_EXEC_CHECK_PREFIX = ".weblate-cache-exec-"
+
+
+def check_cache_dir_executable(cache_dir: Path) -> CheckMessage | None:
+    """Check whether Weblate can execute generated files from cache."""
+    probe: Path | None = None
+    message = (
+        "Cannot execute files from {}, check your CACHE_DIR settings and mount options."
+    )
+    try:
+        with NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=cache_dir,
+            prefix=CACHE_EXEC_CHECK_PREFIX,
+            delete=False,
+        ) as handle:
+            probe = Path(handle.name)
+            handle.write("#!/bin/sh\nexit 0\n")
+        probe.chmod(0o755)
+        result = subprocess.run(  # noqa: S603
+            [probe.as_posix()],
+            check=False,
+            stderr=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            timeout=5,
+        )
+        if result.returncode:
+            status = result.returncode
+            return weblate_check(
+                "weblate.C044",
+                f"{message.format(cache_dir)} The check exited with status {status}.",
+            )
+    except (OSError, subprocess.SubprocessError) as error:
+        return weblate_check("weblate.C044", f"{message.format(cache_dir)} {error}")
+    finally:
+        if probe is not None:
+            with suppress(OSError):
+                probe.unlink()
+
+    return None
 
 
 @register(deploy=True)
@@ -349,10 +393,16 @@ def check_data_writable(
         data_path("cache") / "fonts",
     ]
     message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."
+    cache_path = data_path("cache") / "ssh"
     for path in dirs:
         path.mkdir(parents=True, exist_ok=True)
         if not os.access(path, os.W_OK):
             errors.append(weblate_check("weblate.E002", message.format(path), Error))
+
+    if os.access(cache_path, os.W_OK) and (
+        executable_error := check_cache_dir_executable(cache_path)
+    ):
+        errors.append(executable_error)
 
     return errors
 

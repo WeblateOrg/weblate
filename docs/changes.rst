@@ -16,6 +16,7 @@ Weblate 2026.5
 * Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
 * Audited project and component setting changes are now recorded in history.
 * :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
+* Weblate now checks whether :setting:`CACHE_DIR` allows executing generated helper files.
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
 
 .. rubric:: Bug fixes
