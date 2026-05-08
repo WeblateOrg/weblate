@@ -21,7 +21,8 @@ This is the process:
 3. Weblate pulls changes from the VCS repository, parses translation files and updates its database, see :ref:`update-vcs`.
 4. Translators submit translations using the Weblate web interface, or upload offline changes.
 5. Once the translators are finished, Weblate commits the changes to the local repository (see :ref:`lazy-commit`).
-6. Changes are pushed back to the upstream repository (see :ref:`push-changes`).
+6. Changes are pushed back to the upstream repository (see
+   :ref:`code-hosting-push-options`).
 
 .. graphviz::
 
@@ -334,144 +335,12 @@ Pushing changes from Weblate
 ----------------------------
 
 Each translation component can have a push URL set up (see
-:ref:`component-push`), and in that case Weblate will be able to push change to
-the remote repository. Weblate can be also be configured to automatically push
-changes on every commit (this is default, see :ref:`component-push_on_commit`).
-If you do not want changes to be pushed automatically, you can do that manually
-under :guilabel:`Repository maintenance` or using the API via :option:`wlc push`.
+:ref:`component-push`), and in that case Weblate will be able to push changes
+to the remote repository. Weblate can also be configured to automatically push
+changes on every commit, see :ref:`component-push_on_commit`.
 
-The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
-For provider-specific push setup, see :doc:`/admin/code-hosting`.
-
-In case you do not want direct pushes by Weblate, there is support for
-:ref:`code-hosting-github-pull-requests`,
-:ref:`code-hosting-gitlab-merge-requests`,
-:ref:`code-hosting-gitea-pull-requests`,
-:ref:`code-hosting-pagure-merge-requests`,
-:ref:`code-hosting-azure-devops-pull-requests`, or
-:ref:`code-hosting-gerrit` reviews. You can activate these by choosing
-:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`,
-:guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` as
-:ref:`component-vcs` in :ref:`component`.
-
-Overall, following options are available with Git, Mercurial, GitHub, GitLab,
-Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and Bitbucket Cloud:
-
-.. list-table::
-   :header-rows: 1
-
-   * - Desired setup
-     - :ref:`component-vcs`
-     - :ref:`component-push`
-     - :ref:`component-push_branch`
-
-   * - No push
-     - :ref:`vcs-git`
-     - `empty`
-     - `empty`
-
-   * - Push directly
-     - :ref:`vcs-git`
-     - SSH URL
-     - `empty`
-
-   * - Push to separate branch
-     - :ref:`vcs-git`
-     - SSH URL
-     - Branch name
-
-   * - No push
-     - :ref:`vcs-mercurial`
-     - `empty`
-     - `empty`
-
-   * - Push directly
-     - :ref:`vcs-mercurial`
-     - SSH URL
-     - `empty`
-
-   * - GitHub pull request from fork
-     - :ref:`code-hosting-github-pull-requests`
-     - `empty`
-     - `empty`
-
-   * - GitHub pull request from branch
-     - :ref:`code-hosting-github-pull-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-   * - GitLab merge request from fork
-     - :ref:`code-hosting-gitlab-merge-requests`
-     - `empty`
-     - `empty`
-
-   * - GitLab merge request from branch
-     - :ref:`code-hosting-gitlab-merge-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-   * - Gitea merge request from fork
-     - :ref:`code-hosting-gitea-pull-requests`
-     - `empty`
-     - `empty`
-
-   * - Gitea merge request from branch
-     - :ref:`code-hosting-gitea-pull-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-   * - Pagure merge request from fork
-     - :ref:`code-hosting-pagure-merge-requests`
-     - `empty`
-     - `empty`
-
-   * - Pagure merge request from branch
-     - :ref:`code-hosting-pagure-merge-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-   * - Azure DevOps pull request from fork
-     - :ref:`code-hosting-azure-devops-pull-requests`
-     - `empty`
-     - `empty`
-
-   * - Azure DevOps pull request from branch
-     - :ref:`code-hosting-azure-devops-pull-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-   * - Gerrit review
-     - :ref:`code-hosting-gerrit`
-     - SSH URL
-     - Target branch name (optional)
-
-   * - Bitbucket Data Center pull request from fork
-     - :ref:`code-hosting-bitbucket-data-center-pull-requests`
-     - `empty`
-     - `empty`
-
-   * - Bitbucket Data Center pull request from branch
-     - :ref:`code-hosting-bitbucket-data-center-pull-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-   * - Bitbucket Cloud pull request from fork
-     - :ref:`code-hosting-bitbucket-cloud-pull-requests`
-     - `empty`
-     - `empty`
-
-   * - Bitbucket Cloud pull request from branch
-     - :ref:`code-hosting-bitbucket-cloud-pull-requests`
-     - SSH URL [#empty]_
-     - Branch name
-
-.. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
-
-
-.. note::
-
-   You can also enable automatic pushing of changes after Weblate commits, this can be done in
-   :ref:`component-push_on_commit`.
+For the push options table and provider-specific pull, merge, and review
+request workflows, see :ref:`code-hosting-push-options`.
 
 .. seealso::
 

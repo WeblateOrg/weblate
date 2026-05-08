@@ -398,7 +398,7 @@ VCS to use, see :ref:`vcs` for details.
 
 .. seealso::
 
-   :ref:`push-changes`
+   :ref:`code-hosting-push-options`
 
 .. _component-repo:
 
@@ -424,14 +424,15 @@ Repository push URL
 
 Repository URL used for pushing. The behavior of this depends on
 :ref:`component-vcs`, and this is in more detail covered in
-:ref:`push-changes`.
+:ref:`code-hosting-push-options`.
 
 For linked repositories, this is not used and setting from linked component applies.
 
 .. seealso::
 
    See :ref:`vcs-repos` for more details on how to specify a repository URL and
-   :ref:`push-changes` for more details on pushing changes from Weblate.
+   :ref:`code-hosting-push-options` for more details on pushing changes from
+   Weblate.
 
 .. _component-repoweb:
 
@@ -491,7 +492,7 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
 .. seealso::
 
-   :ref:`push-changes`
+   :ref:`code-hosting-push-options`
 
 .. _component-filemask:
 

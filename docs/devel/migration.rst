@@ -161,7 +161,7 @@ Enable automatic updates and commits:
 1. Configure repository integration:
 
    * **Pull changes**: Set up a :ref:`webhook <update-vcs>` so Weblate updates when your source code changes
-   * **Push changes**: Configure :ref:`push-changes` so translations are committed back to your repository
+   * **Push changes**: Configure :ref:`code-hosting-push-options` so translations are committed back to your repository
 
 2. Enable automatic actions in component settings:
 

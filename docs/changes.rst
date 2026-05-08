@@ -346,7 +346,7 @@ Weblate 5.16
 * Regular repository maintenance is now performed in the background.
 * Repository cleanup now recovers failed merges or rebases.
 * Better visibility of :ref:`project-commit_policy` to translators.
-* Validation of VCS settings :ref:`push-changes` has been extended.
+* Validation of VCS settings :ref:`code-hosting-push-options` has been extended.
 * The default values for :ref:`project-translation_review` and :ref:`project-source_review` can be configured in settings.
 * The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` and ``{site_title}`` variables.
 * The default value for personal translation memory contribution is now based on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration.

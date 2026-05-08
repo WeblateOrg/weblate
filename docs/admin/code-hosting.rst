@@ -39,6 +39,145 @@ Setup overview
 5. Optionally set :ref:`component-push_branch` when Weblate should push to a
    branch in the upstream repository instead of using a fork where supported.
 
+.. _code-hosting-push-options:
+
+Pushing changes from Weblate
+----------------------------
+
+Each translation component can have a push URL set up (see
+:ref:`component-push`), and in that case Weblate will be able to push changes
+to the remote repository. Weblate can also be configured to automatically push
+changes on every commit; this is enabled by default, see
+:ref:`component-push_on_commit`.
+
+If you do not want changes to be pushed automatically, you can push manually
+under :guilabel:`Repository maintenance` or using the API via
+:option:`wlc push`.
+
+In case you do not want direct pushes by Weblate, there is support for
+:ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`,
+:ref:`code-hosting-azure-devops-pull-requests`, or
+:ref:`code-hosting-gerrit` reviews. You can activate these by choosing
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`,
+:guilabel:`Gerrit`, :guilabel:`Azure DevOps`, or :guilabel:`Pagure` as
+:ref:`component-vcs` in :ref:`component`.
+
+Overall, following options are available with Git, Mercurial, GitHub, GitLab,
+Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and Bitbucket Cloud:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Desired setup
+     - :ref:`component-vcs`
+     - :ref:`component-push`
+     - :ref:`component-push_branch`
+
+   * - No push
+     - :ref:`vcs-git`
+     - `empty`
+     - `empty`
+
+   * - Push directly
+     - :ref:`vcs-git`
+     - SSH URL
+     - `empty`
+
+   * - Push to separate branch
+     - :ref:`vcs-git`
+     - SSH URL
+     - Branch name
+
+   * - No push
+     - :ref:`vcs-mercurial`
+     - `empty`
+     - `empty`
+
+   * - Push directly
+     - :ref:`vcs-mercurial`
+     - SSH URL
+     - `empty`
+
+   * - GitHub pull request from fork
+     - :ref:`code-hosting-github-pull-requests`
+     - `empty`
+     - `empty`
+
+   * - GitHub pull request from branch
+     - :ref:`code-hosting-github-pull-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - GitLab merge request from fork
+     - :ref:`code-hosting-gitlab-merge-requests`
+     - `empty`
+     - `empty`
+
+   * - GitLab merge request from branch
+     - :ref:`code-hosting-gitlab-merge-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Gitea merge request from fork
+     - :ref:`code-hosting-gitea-pull-requests`
+     - `empty`
+     - `empty`
+
+   * - Gitea merge request from branch
+     - :ref:`code-hosting-gitea-pull-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Pagure merge request from fork
+     - :ref:`code-hosting-pagure-merge-requests`
+     - `empty`
+     - `empty`
+
+   * - Pagure merge request from branch
+     - :ref:`code-hosting-pagure-merge-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Azure DevOps pull request from fork
+     - :ref:`code-hosting-azure-devops-pull-requests`
+     - `empty`
+     - `empty`
+
+   * - Azure DevOps pull request from branch
+     - :ref:`code-hosting-azure-devops-pull-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Gerrit review
+     - :ref:`code-hosting-gerrit`
+     - SSH URL
+     - Target branch name (optional)
+
+   * - Bitbucket Data Center pull request from fork
+     - :ref:`code-hosting-bitbucket-data-center-pull-requests`
+     - `empty`
+     - `empty`
+
+   * - Bitbucket Data Center pull request from branch
+     - :ref:`code-hosting-bitbucket-data-center-pull-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+   * - Bitbucket Cloud pull request from fork
+     - :ref:`code-hosting-bitbucket-cloud-pull-requests`
+     - `empty`
+     - `empty`
+
+   * - Bitbucket Cloud pull request from branch
+     - :ref:`code-hosting-bitbucket-cloud-pull-requests`
+     - SSH URL [#empty]_
+     - Branch name
+
+.. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
+
 .. _code-hosting-github:
 
 GitHub
