@@ -2,23 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-name: Auto Commit Changes
-description: Automatically commit and push changes based on workflow context
+name: Prepare Auto Commit Changes
+description: Prepares generated changes for trusted maintenance commits
 
 inputs:
   message:
-    description: Commit message and PR title to use
-    required: true
-  pr-branch:
-    description: Branch name for pull request (if created)
-    required: false
-    default: create-pull-request/auto-update
-  pr-labels:
-    description: Labels to apply to pull request (one per line)
-    required: false
-    default: ''
-  github-token:
-    description: GitHub token for creating pull requests
+    description: Commit message to use for pull request formatting updates
     required: true
 
 runs:
@@ -36,37 +25,35 @@ runs:
     run: git diff
     shell: bash
 
-    # PRs from forks / outside collaborators
+    # PRs from forks / outside collaborators. This action receives no
+    # repository secret and is intentionally limited to pull request runs.
   - name: Commit changes (external PR, pre-commit-ci-lite)
     if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]' && github.actor != 'dependabot[bot]'
-    uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43   # v1.1.0
+    uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
     with:
       msg: ${{ inputs.message }}
 
-    # in-repository PRs (non-main branches)
-  - name: Update current branch
-    if: ( github.event_name == 'push' && github.ref_name != 'main' && github.ref_name != 'stable' )  || github.repository_owner != 'WeblateOrg'
-    uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9   # v7.1.0
-    with:
-      commit_message: ${{ inputs.message }}
-
-    # for main branch or scheduled runs: create PR
-  - name: Create Pull Request
-    id: cpr
-    if: ( github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main' || github.ref_name == 'stable')  && github.repository_owner == 'WeblateOrg'
-    uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-    with:
-      branch: ${{ inputs.pr-branch }}
-      title: ${{ inputs.message }}
-      commit-message: ${{ inputs.message }}
-      token: ${{ inputs.github-token }}
-      labels: ${{ inputs.pr-labels }}
-
-    # Enable automerge
-  - name: Enable Pull Request Automerge
-    if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
+  - name: Prepare maintenance patch
+    if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
     shell: bash
-    run: gh pr merge --rebase --auto "$PR_NUMBER"
-    env:
-      GH_TOKEN: ${{ inputs.github-token }}
-      PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+    run: |
+      set -euo pipefail
+      mkdir -p maintenance-patch
+      git add -N .
+      git diff HEAD --binary --src-prefix=a/ --dst-prefix=b/ > maintenance-patch/changes.patch
+      git diff HEAD --name-only > maintenance-patch/files.txt
+      {
+        echo "workflow=${GITHUB_WORKFLOW}"
+        echo "event=${GITHUB_EVENT_NAME}"
+        echo "ref=${GITHUB_REF}"
+        echo "ref_name=${GITHUB_REF_NAME}"
+        echo "sha=${GITHUB_SHA}"
+      } > maintenance-patch/metadata.env
+
+  - name: Upload maintenance patch
+    if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
+    uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+    with:
+      name: maintenance-patch
+      path: maintenance-patch
+      retention-days: 3

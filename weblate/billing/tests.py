@@ -5,6 +5,7 @@
 import os.path
 from datetime import timedelta
 from io import StringIO
+from unittest.mock import patch
 
 from django.core import mail
 from django.core.exceptions import ValidationError
@@ -14,15 +15,23 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import User
-from weblate.billing.models import Billing, Invoice, Plan
+from weblate.billing.models import Billing, BillingEvent, Invoice, Plan
 from weblate.billing.tasks import (
     billing_check,
     billing_notify,
+    inactive_recurring_check,
     notify_expired,
     perform_removal,
     schedule_removal,
 )
-from weblate.trans.models import Project
+from weblate.lang.models import Language
+from weblate.trans.models import (
+    Component,
+    PendingUnitChange,
+    Project,
+    Translation,
+    Unit,
+)
 from weblate.trans.tests.test_models import BaseTestCase, RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -47,6 +56,7 @@ class BillingTest(BaseTestCase):
             ref="00000",
         )
         self.projectnum = 0
+        self.componentnum = 0
 
     def refresh_from_db(self) -> None:
         self.billing = Billing.objects.get(pk=self.billing.pk)
@@ -60,6 +70,97 @@ class BillingTest(BaseTestCase):
         self.billing.projects.add(project)
         self.billing.owners.add(self.user)
         return project
+
+    def add_component(
+        self,
+        project,
+        remote_revision: str,
+        *,
+        linked_component=None,
+        repo: str = "https://example.org/repo.git",
+        vcs: str = "git",
+    ):
+        name = f"component{self.componentnum}"
+        self.componentnum += 1
+        [component] = Component.objects.bulk_create(
+            [
+                Component(
+                    name=name,
+                    slug=name,
+                    project=project,
+                    vcs=vcs,
+                    repo=repo,
+                    filemask="po/*.po",
+                    file_format="po",
+                    linked_component=linked_component,
+                    remote_revision=remote_revision,
+                )
+            ]
+        )
+        return component
+
+    @staticmethod
+    def patch_remote_commit_dates(commit_dates):
+        def get_last_remote_commit(component):
+            commit_date = commit_dates.get(component.remote_revision)
+            if commit_date is None:
+                return None
+            if isinstance(commit_date, dict):
+                return commit_date
+            return {"committerdate": commit_date}
+
+        return patch.object(
+            Component,
+            "get_last_remote_commit",
+            autospec=True,
+            side_effect=get_last_remote_commit,
+        )
+
+    def add_pending_change(self, component, timestamp):
+        source_language = component.source_language
+        target_language = Language.objects.get(code="cs")
+        source_translation = Translation.objects.create(
+            component=component,
+            language=source_language,
+            language_code=source_language.code,
+            plural=source_language.plural,
+            filename="po/en.po",
+        )
+        target_translation = Translation.objects.create(
+            component=component,
+            language=target_language,
+            language_code=target_language.code,
+            plural=target_language.plural,
+            filename="po/cs.po",
+        )
+        source_unit = Unit(
+            translation=source_translation,
+            id_hash=1,
+            source="Hello",
+            target="Hello",
+            position=1,
+        )
+        source_unit.save(only_save=True, run_checks=False)
+        target_unit = Unit(
+            translation=target_translation,
+            id_hash=1,
+            source="Hello",
+            target="Ahoj",
+            position=1,
+            source_unit=source_unit,
+        )
+        target_unit.save(only_save=True, run_checks=False)
+        return PendingUnitChange.store_unit_change(
+            target_unit,
+            author=self.user,
+            timestamp=timestamp,
+            store_disk_state=False,
+        )
+
+    @staticmethod
+    def set_alert_timestamp(component, name, timestamp):
+        component.add_alert(name)
+        component.alert_set.filter(name=name).update(timestamp=timestamp)
 
     def test_view_billing(self) -> None:
         self.add_project()
@@ -131,6 +232,270 @@ class BillingTest(BaseTestCase):
         self.add_project()
         billing_notify()
         self.assertEqual(len(mail.outbox), 1)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="")
+    def test_inactive_recurring_warning_and_disable(self) -> None:
+        project = self.add_project()
+        self.add_component(project, "old")
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates(
+            {"old": timezone.now() - timedelta(days=200)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNotNone(self.billing.inactive_recurring_notification)
+        self.assertIsNotNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNotNone(self.billing.inactive_recurring_disable)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            "Recurring payment will be disabled for inactive projects",
+        )
+        self.assertIn("manually", mail.outbox[0].body)
+        scheduled_log = self.billing.billinglog_set.get(
+            event=BillingEvent.INACTIVE_RECURRING_SCHEDULED
+        )
+        self.assertTrue(scheduled_log.details["automatic"])
+        self.assertIn("latest_commit", scheduled_log.details)
+        self.assertIn("planned_disable", scheduled_log.details)
+
+        self.billing.inactive_recurring_disable = timezone.now() - timedelta(days=1)
+        self.billing.save(update_fields=["inactive_recurring_disable"])
+
+        with self.patch_remote_commit_dates(
+            {"old": timezone.now() - timedelta(days=200)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertNotIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_notification)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNone(self.billing.inactive_recurring_disable)
+        log = self.billing.billinglog_set.get(event=BillingEvent.DISABLED_RECURRING)
+        self.assertTrue(log.details["automatic"])
+
+    def test_inactive_recurring_keeps_active_projects(self) -> None:
+        project = self.add_project()
+        self.add_component(project, "new")
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.inactive_recurring_latest_commit = timezone.now() - timedelta(
+            days=200
+        )
+        self.billing.inactive_recurring_notification = timezone.now()
+        self.billing.inactive_recurring_disable = timezone.now() + timedelta(days=30)
+        self.billing.save(
+            update_fields=[
+                "payment",
+                "inactive_recurring_latest_commit",
+                "inactive_recurring_notification",
+                "inactive_recurring_disable",
+            ]
+        )
+
+        with self.patch_remote_commit_dates(
+            {"new": timezone.now() - timedelta(days=10)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_notification)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNone(self.billing.inactive_recurring_disable)
+
+    def test_inactive_recurring_uses_commit_date(self) -> None:
+        project = self.add_project()
+        self.add_component(project, "new-commit")
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates(
+            {
+                "new-commit": {
+                    "authordate": timezone.now() - timedelta(days=200),
+                    "commitdate": timezone.now() - timedelta(days=10),
+                }
+            }
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_notification)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNone(self.billing.inactive_recurring_disable)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="")
+    def test_inactive_recurring_uses_pending_weblate_changes(self) -> None:
+        project = self.add_project()
+        self.add_pending_change(
+            self.add_component(project, "new-upstream"),
+            timezone.now() - timedelta(days=200),
+        )
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates(
+            {"new-upstream": timezone.now() - timedelta(days=10)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNotNone(self.billing.inactive_recurring_oldest_pending_change)
+        self.assertIsNotNone(self.billing.inactive_recurring_disable)
+        self.assertIn("pending translation changes", mail.outbox[0].body)
+        scheduled_log = self.billing.billinglog_set.get(
+            event=BillingEvent.INACTIVE_RECURRING_SCHEDULED
+        )
+        self.assertIsNone(scheduled_log.details["latest_commit"])
+        self.assertIn("oldest_pending_change", scheduled_log.details)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="")
+    def test_inactive_recurring_uses_repository_changes_alert(self) -> None:
+        project = self.add_project()
+        component = self.add_component(project, "new-upstream")
+        self.set_alert_timestamp(
+            component, "RepositoryChanges", timezone.now() - timedelta(days=200)
+        )
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates(
+            {"new-upstream": timezone.now() - timedelta(days=10)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNotNone(self.billing.inactive_recurring_repository_changes)
+        self.assertIsNotNone(self.billing.inactive_recurring_disable)
+        self.assertIn("repository changes waiting", mail.outbox[0].body)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="")
+    def test_inactive_recurring_uses_push_failure_alert(self) -> None:
+        project = self.add_project()
+        component = self.add_component(project, "new-upstream")
+        self.set_alert_timestamp(
+            component, "PushFailure", timezone.now() - timedelta(days=200)
+        )
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates(
+            {"new-upstream": timezone.now() - timedelta(days=10)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNotNone(self.billing.inactive_recurring_push_failure)
+        self.assertIsNotNone(self.billing.inactive_recurring_disable)
+        self.assertIn("unable to push repository changes", mail.outbox[0].body)
+
+    def test_inactive_recurring_skips_unknown_upstream_date(self) -> None:
+        project = self.add_project()
+        self.add_component(project, "unknown")
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates({}):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_notification)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNone(self.billing.inactive_recurring_disable)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="")
+    def test_inactive_recurring_uses_repo_components(self) -> None:
+        project = self.add_project()
+        old = self.add_component(project, "old")
+        self.add_component(project, "local", vcs="local", repo="local:")
+        self.add_component(
+            project,
+            "",
+            linked_component=old,
+            repo=old.get_repo_link_url(),
+        )
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.save(update_fields=["payment"])
+
+        with self.patch_remote_commit_dates(
+            {
+                "old": timezone.now() - timedelta(days=200),
+                "local": None,
+                "": None,
+            }
+        ) as mocked:
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIsNotNone(self.billing.inactive_recurring_notification)
+        self.assertIsNotNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNotNone(self.billing.inactive_recurring_disable)
+        self.assertEqual(mocked.call_count, 1)
+
+    @override_settings(EMAIL_SUBJECT_PREFIX="")
+    def test_inactive_recurring_clears_stale_schedule(self) -> None:
+        project = self.add_project()
+        self.add_component(project, "old")
+        self.billing.payment = {"recurring": "payment"}
+        self.billing.inactive_recurring_notification = timezone.now() - timedelta(
+            days=30
+        )
+        self.billing.inactive_recurring_latest_commit = timezone.now() - timedelta(
+            days=200
+        )
+        self.billing.inactive_recurring_disable = timezone.now() - timedelta(days=1)
+        self.plan.yearly_price = 0
+        self.plan.save(update_fields=["yearly_price"])
+        self.billing.save(
+            update_fields=[
+                "payment",
+                "inactive_recurring_notification",
+                "inactive_recurring_latest_commit",
+                "inactive_recurring_disable",
+            ]
+        )
+
+        with self.patch_remote_commit_dates(
+            {"old": timezone.now() - timedelta(days=200)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNone(self.billing.inactive_recurring_notification)
+        self.assertIsNone(self.billing.inactive_recurring_latest_commit)
+        self.assertIsNone(self.billing.inactive_recurring_disable)
+        cleared_log = self.billing.billinglog_set.get(
+            event=BillingEvent.INACTIVE_RECURRING_CLEARED
+        )
+        self.assertTrue(cleared_log.details["automatic"])
+        self.assertIn("planned_disable", cleared_log.details)
+
+        self.plan.yearly_price = 199
+        self.plan.save(update_fields=["yearly_price"])
+        with self.patch_remote_commit_dates(
+            {"old": timezone.now() - timedelta(days=200)}
+        ):
+            inactive_recurring_check()
+
+        self.refresh_from_db()
+        self.assertIn("recurring", self.billing.payment)
+        self.assertIsNotNone(self.billing.inactive_recurring_notification)
+        self.assertIsNotNone(self.billing.inactive_recurring_latest_commit)
+        self.assertGreater(self.billing.inactive_recurring_disable, timezone.now())
 
     def test_invoice_validation(self) -> None:
         invoice = Invoice(

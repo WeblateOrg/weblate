@@ -1,0 +1,56 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <p>
+    {% blocktranslate with date=planned_disable|date:"SHORT_DATE_FORMAT" %}Recurring annual payment for your billing plan will be disabled on {{ date }} because the covered projects seem abandoned.{% endblocktranslate %}
+  </p>
+
+  <ul>
+    {% if latest_commit %}
+      <li>
+        {% blocktranslate with date=latest_commit|date:"SHORT_DATE_FORMAT" %}The newest known upstream repository commit for these projects is from {{ date }}.{% endblocktranslate %}
+      </li>
+    {% endif %}
+    {% if oldest_pending_change %}
+      <li>
+        {% blocktranslate with date=oldest_pending_change|date:"SHORT_DATE_FORMAT" %}Weblate has pending translation changes for these projects since {{ date }}.{% endblocktranslate %}
+      </li>
+    {% endif %}
+    {% if repository_changes %}
+      <li>
+        {% blocktranslate with date=repository_changes|date:"SHORT_DATE_FORMAT" %}Weblate has repository changes waiting to be pushed since {{ date }}.{% endblocktranslate %}
+      </li>
+    {% endif %}
+    {% if push_failure %}
+      <li>
+        {% blocktranslate with date=push_failure|date:"SHORT_DATE_FORMAT" %}Weblate has been unable to push repository changes since {{ date }}.{% endblocktranslate %}
+      </li>
+    {% endif %}
+  </ul>
+
+  {% with projects=billing.projects.all %}
+    {% if projects %}
+      <p>{% translate "This billing plan covers the following projects:" %}</p>
+
+      <ul>
+        {% for project in projects %}
+          <li>
+            <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <p>{% translate "The projects will remain available, but the next payment will need to be made manually." %}</p>
+
+  {% if payment_enabled %}
+    <div class="line buttons">
+      <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
+         class="button">{% translate "Change plan or payment method" %}</a>
+    </div>
+  {% endif %}
+
+{% endblock content %}

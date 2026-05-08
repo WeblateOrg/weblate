@@ -749,13 +749,17 @@
       if (typeof el.origin !== "undefined") {
         service.append(" (");
         let origin;
-        const _deleteUrl = false;
         if (typeof el.origin_detail !== "undefined") {
           origin = $("<abbr/>").text(el.origin).attr("title", el.origin_detail);
         } else if (typeof el.origin_url !== "undefined") {
-          origin = $("<a/>").text(el.origin).attr("href", el.origin_url);
+          const originUrl = WLT.URLs.getHttpUrl(el.origin_url);
+          if (originUrl === null) {
+            origin = document.createTextNode(String(el.origin));
+          } else {
+            origin = $("<a/>").text(el.origin).attr("href", originUrl);
+          }
         } else {
-          origin = el.origin;
+          origin = document.createTextNode(String(el.origin));
         }
         if (el.delete_url) {
           this.state.weblateTranslationMemory.add(el.text);

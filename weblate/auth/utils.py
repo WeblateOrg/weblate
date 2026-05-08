@@ -10,7 +10,9 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.utils.translation import gettext
 from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
@@ -24,7 +26,7 @@ from weblate.auth.data import (
 )
 
 if TYPE_CHECKING:
-    from weblate.auth.models import Group, Permission, Role
+    from weblate.auth.models import Group, Permission, Role, User
 
 
 def get_auth_backends():
@@ -46,6 +48,20 @@ def is_django_permission(permission: str):
         and permission not in GLOBAL_PERM_NAMES
         and not permission.startswith(("meta:", "billing:"))
     )
+
+
+def validate_team_assignable_user(user: User, *, allow_bot: bool = False) -> None:
+    """Validate a user can be manually assigned to a team."""
+    if user.is_anonymous:
+        raise ValidationError(
+            gettext("The anonymous user can not be assigned to teams.")
+        )
+    if not user.is_active:
+        raise ValidationError(gettext("Inactive users can not be assigned to teams."))
+    if user.is_bot and not allow_bot:
+        raise ValidationError(
+            gettext("Project tokens can not be assigned to teams here.")
+        )
 
 
 def migrate_permissions_list(

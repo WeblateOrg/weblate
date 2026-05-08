@@ -1,0 +1,291 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Apply maintenance patch
+
+# Runs from the default branch and only applies validated patch artifacts.
+on: # zizmor: ignore[dangerous-triggers]
+  workflow_run:
+    workflows:
+    - uv lock update
+    - yarn update
+    - jsonschema update
+    - unicodechars update
+    - Documentation
+    - licenses update
+    types:
+    - completed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  apply:
+    if: >-
+      github.repository_owner == 'WeblateOrg' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.event != 'pull_request' &&
+      (
+        startsWith(github.event.workflow_run.head_branch, 'renovate/') ||
+        startsWith(github.event.workflow_run.head_branch, 'dependabot/') ||
+        github.event.workflow_run.head_branch == 'main' ||
+        github.event.workflow_run.head_branch == 'stable'
+      )
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Resolve maintenance context
+      id: context
+      shell: bash
+      env:
+        HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        RUN_EVENT: ${{ github.event.workflow_run.event }}
+        RUN_NAME: ${{ github.event.workflow_run.name }}
+      run: |
+        set -euo pipefail
+
+        git check-ref-format --branch "$HEAD_BRANCH" >/dev/null
+
+        case "$RUN_EVENT" in
+          push|schedule|workflow_dispatch)
+            ;;
+          *)
+            echo "Unsupported source event: $RUN_EVENT" >&2
+            exit 1
+            ;;
+        esac
+
+        if [ "$RUN_EVENT" != "push" ]; then
+          case "$HEAD_BRANCH" in
+            main|stable)
+              ;;
+            *)
+              echo "Scheduled and manual patch application is limited to trusted branches" >&2
+              exit 1
+              ;;
+          esac
+        fi
+
+        case "$HEAD_BRANCH" in
+          renovate/*|dependabot/*)
+            mode=branch
+            ;;
+          main|stable)
+            mode=pull-request
+            ;;
+          *)
+            echo "Unsupported source branch: $HEAD_BRANCH" >&2
+            exit 1
+            ;;
+        esac
+
+        case "$RUN_NAME" in
+          "uv lock update")
+            message="chore(deps): update lockfile"
+            pr_branch="create-pull-request/uv-lock-update"
+            allowed_pattern='^uv\.lock$'
+            ;;
+          "yarn update")
+            message="chore(js): update vendored libraries"
+            pr_branch="create-pull-request/yarn-update"
+            allowed_pattern='^(client/(package\.json|yarn\.lock)|weblate/static/(js|styles)/vendor/[^/]+)$'
+            ;;
+          "jsonschema update")
+            message="docs: Update JSON schemas"
+            pr_branch="create-pull-request/jsonschema-update"
+            allowed_pattern='^docs/specs/schemas/[^/]+\.json$'
+            ;;
+          "unicodechars update")
+            message="chore: update unicode characters data"
+            pr_branch="create-pull-request/unicodechars-update"
+            allowed_pattern='^weblate/utils/unicodechars\.py$'
+            ;;
+          "Documentation")
+            message="docs: Documentation snippets update"
+            pr_branch="create-pull-request/doc-snippets-update"
+            allowed_pattern='^docs/snippets/.+\.rst$'
+            ;;
+          "licenses update")
+            message="utils: Update SPDX license data"
+            pr_branch="create-pull-request/licenses-update"
+            allowed_pattern='^weblate/utils/licensedata\.py$'
+            ;;
+          *)
+            echo "Unsupported workflow: $RUN_NAME" >&2
+            exit 1
+            ;;
+        esac
+
+        {
+          echo "allowed_pattern=$allowed_pattern"
+          echo "base_branch=$HEAD_BRANCH"
+          echo "head_branch=$HEAD_BRANCH"
+          echo "labels=dependencies"
+          echo "message=$message"
+          echo "mode=$mode"
+          echo "pr_branch=$pr_branch"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Checkout trusted scripts
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        ref: ${{ github.event.repository.default_branch }}
+        path: trusted-scripts
+        persist-credentials: false
+        sparse-checkout: scripts/validate-maintenance-patch-paths.py
+        sparse-checkout-cone-mode: false
+
+    - name: Initialize patch repository
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+      run: |
+        set -euo pipefail
+
+        # Keep the source commit as passive Git object data. Do not check out
+        # this commit or execute files from it in this privileged workflow.
+        mkdir patch-repo
+        git -C patch-repo init
+        git -C patch-repo remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+        git -C patch-repo \
+          -c "http.extraheader=AUTHORIZATION: bearer ${GITHUB_TOKEN}" \
+          fetch --no-tags --depth=1 origin "$HEAD_SHA"
+        git -C patch-repo rev-parse --verify "$HEAD_SHA^{commit}" >/dev/null
+
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: maintenance-patch
+        path: ${{ runner.temp }}/maintenance-patch
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}
+
+    - name: Validate and apply patch
+      id: patch
+      shell: bash
+      working-directory: patch-repo
+      env:
+        ALLOWED_PATTERN: ${{ steps.context.outputs.allowed_pattern }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+      run: |
+        set -euo pipefail
+
+        patch_file="$RUNNER_TEMP/maintenance-patch/changes.patch"
+        if [ ! -f "$patch_file" ]; then
+          echo "Missing maintenance patch artifact" >&2
+          exit 1
+        fi
+
+        if [ ! -s "$patch_file" ]; then
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        git read-tree "$HEAD_SHA"
+
+        git apply --numstat -z "$patch_file" > "$RUNNER_TEMP/patch-files.z"
+        python3 "$GITHUB_WORKSPACE/trusted-scripts/scripts/validate-maintenance-patch-paths.py" \
+          "$ALLOWED_PATTERN" "$RUNNER_TEMP/patch-files.z"
+
+        git apply --cached --check --binary "$patch_file"
+        git apply --cached --binary "$patch_file"
+
+        git diff --cached --numstat -z "$HEAD_SHA" > "$RUNNER_TEMP/applied-files.z"
+        python3 "$GITHUB_WORKSPACE/trusted-scripts/scripts/validate-maintenance-patch-paths.py" \
+          "$ALLOWED_PATTERN" "$RUNNER_TEMP/applied-files.z"
+
+        if git diff-index --cached --quiet "$HEAD_SHA" --; then
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        git diff --cached --stat "$HEAD_SHA"
+        echo "changed=true" >> "$GITHUB_OUTPUT"
+
+    - name: Update source branch
+      if: steps.patch.outputs.changed == 'true' && steps.context.outputs.mode == 'branch'
+      shell: bash
+      working-directory: patch-repo
+      env:
+        COMMIT_MESSAGE: ${{ steps.context.outputs.message }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        TARGET_BRANCH: ${{ steps.context.outputs.head_branch }}
+        WEBLATE_CI_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
+      run: |
+        set -euo pipefail
+
+        git config user.name "Weblate CI"
+        git config user.email "noreply@weblate.org"
+        tree=$(git write-tree)
+        commit=$(printf "%s\n" "$COMMIT_MESSAGE" | git commit-tree "$tree" -p "$HEAD_SHA")
+        git remote set-url \
+          origin "https://x-access-token:${WEBLATE_CI_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git push origin "$commit:refs/heads/${TARGET_BRANCH}"
+
+    - name: Create or update pull request
+      id: cpr
+      if: steps.patch.outputs.changed == 'true' && steps.context.outputs.mode == 'pull-request'
+      shell: bash
+      working-directory: patch-repo
+      env:
+        BASE_BRANCH: ${{ steps.context.outputs.base_branch }}
+        COMMIT_MESSAGE: ${{ steps.context.outputs.message }}
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        LABELS: ${{ steps.context.outputs.labels }}
+        PR_BRANCH: ${{ steps.context.outputs.pr_branch }}
+      run: |
+        set -euo pipefail
+
+        git config user.name "Weblate CI"
+        git config user.email "noreply@weblate.org"
+        tree=$(git write-tree)
+        commit=$(printf "%s\n" "$COMMIT_MESSAGE" | git commit-tree "$tree" -p "$HEAD_SHA")
+        git remote set-url \
+          origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git push --force origin "$commit:refs/heads/${PR_BRANCH}"
+
+        pr_number=$(gh pr list \
+          --repo "$GITHUB_REPOSITORY" \
+          --head "$PR_BRANCH" \
+          --base "$BASE_BRANCH" \
+          --state open \
+          --json number \
+          --jq '.[0].number // empty')
+
+        if [ -z "$pr_number" ]; then
+          pr_url=$(gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --base "$BASE_BRANCH" \
+            --head "$PR_BRANCH" \
+            --title "$COMMIT_MESSAGE" \
+            --body "$COMMIT_MESSAGE" \
+            --label "$LABELS")
+          pr_number=${pr_url##*/}
+          echo "pull-request-operation=created" >> "$GITHUB_OUTPUT"
+        else
+          gh pr edit "$pr_number" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$COMMIT_MESSAGE" \
+            --body "$COMMIT_MESSAGE" \
+            --add-label "$LABELS"
+          echo "pull-request-operation=updated" >> "$GITHUB_OUTPUT"
+        fi
+
+        echo "pull-request-number=$pr_number" >> "$GITHUB_OUTPUT"
+
+    - name: Enable Pull Request Automerge
+      if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
+      shell: bash
+      run: gh pr merge --rebase --auto "$PR_NUMBER"
+      env:
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        GH_REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}

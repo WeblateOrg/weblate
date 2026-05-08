@@ -118,7 +118,13 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
             del billing.payment["recurring"]
-        billing.save()
+        billing.clear_inactive_recurring_status(save=False, log=False)
+        billing.save(
+            update_fields=[
+                "payment",
+                *Billing.INACTIVE_RECURRING_FIELDS,
+            ]
+        )
         billing.billinglog_set.create(
             event=BillingEvent.DISABLED_RECURRING, user=request.user
         )

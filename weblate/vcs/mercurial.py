@@ -11,7 +11,7 @@ import re
 from configparser import RawConfigParser
 from pathlib import Path
 from shutil import which
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.utils.translation import gettext_lazy
 
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.vcs.base import RemoteOperation
+    from weblate.vcs.base import RawCommitInfo, RemoteOperation
 
 
 VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
@@ -226,7 +226,7 @@ class HgRepository(Repository):
         status = self.execute(cmd, remote_op="none", needs_lock=False)
         return bool(status)
 
-    def _get_revision_info(self, revision: str) -> dict[str, str]:
+    def _get_revision_info(self, revision: str) -> RawCommitInfo:
         """Return dictionary with detailed revision information."""
         template = """
         author_name: {person(author)}
@@ -271,7 +271,7 @@ class HgRepository(Repository):
         result["message"] = "\n".join(message)
         result["summary"] = message[0] if message else ""
 
-        return result
+        return cast("RawCommitInfo", result)
 
     def log_revisions(self, refspec: str) -> list[str]:
         """Return revision log for given refspec."""

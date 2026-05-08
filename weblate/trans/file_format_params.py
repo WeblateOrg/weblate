@@ -547,7 +547,15 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
 
 @register_file_format_param
 class MergeDuplicates(BaseFileFormatParam):
-    file_formats = ("markdown", "html", "txt", "dokuwiki", "mediawiki", "asciidoc")
+    file_formats = (
+        "markdown",
+        "mdx",
+        "html",
+        "txt",
+        "dokuwiki",
+        "mediawiki",
+        "asciidoc",
+    )
     name = "merge_duplicates"
     label = gettext_lazy("Deduplicate identical strings")
     field_class = forms.BooleanField
@@ -646,7 +654,7 @@ class DOSLineEndings(BaseFileFormatParam):
 @register_file_format_param
 class LineMaxLength(BaseFileFormatParam):
     name = "line_max_length"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Maximum line length")
     field_class = forms.IntegerField
     default = 80
@@ -659,34 +667,34 @@ class LineMaxLength(BaseFileFormatParam):
 @register_file_format_param
 class MdExtractCodeBlocks(BaseFileFormatParam):
     name = "md_extract_code_blocks"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Extract code blocks")
     field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy(
-        "Whether to extract translatable content from code blocks in Markdown files."
+        "Whether to extract translatable content from code blocks in Markdown and MDX files."
     )
 
 
 @register_file_format_param
 class MdExtractFrontmatter(BaseFileFormatParam):
     name = "md_extract_frontmatter"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Extract front matter")
     field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy(
-        "Whether to extract and translate YAML front matter blocks in Markdown files."
+        "Whether to extract and translate YAML front matter blocks in Markdown and MDX files."
     )
 
 
 @register_file_format_param
 class MdNoPlaceholders(BaseFileFormatParam):
     name = "md_no_placeholders"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Disable placeholders")
     field_class = forms.BooleanField
     default = False
     help_text = gettext_lazy(
-        "Disables detection and processing of placeholders in Markdown files."
+        "Disables detection and processing of placeholders in Markdown and MDX files."
     )

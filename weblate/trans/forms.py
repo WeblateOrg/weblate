@@ -42,6 +42,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -1401,6 +1402,16 @@ class UserManageForm(forms.Form):
     )
 
 
+class TeamAssignableUserMixin:
+    allow_bot_user = False
+
+    def clean_user(self) -> User | None:
+        user = self.cleaned_data["user"]
+        if user is not None:
+            validate_team_assignable_user(user, allow_bot=self.allow_bot_user)
+        return user
+
+
 class UserContributionCleanupForm(UserManageForm):
     revert_edits = forms.BooleanField(
         required=False,
@@ -1425,7 +1436,7 @@ class UserContributionCleanupForm(UserManageForm):
     )
 
 
-class UserAddTeamForm(UserManageForm):
+class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
     make_admin = forms.BooleanField(
         required=False,
         initial=False,
@@ -3396,7 +3407,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.instance.username = name
         self.instance.email = f"{name}@bots.noreply.weblate.org"
         result = super().save(*args, **kwargs)
-        self.project.add_user(self.instance, "Administration")
+        self.project.add_user(self.instance, "Administration", allow_bot=True)
         AuditLog.objects.create(
             self.instance,
             None,
@@ -3447,6 +3458,15 @@ class ProjectUserGroupForm(UserManageForm):
         cleaned_data = super().clean()
         user = cleaned_data.get("user")
         groups = cleaned_data.get("groups")
+        if user and groups:
+            current_group_ids = set(
+                user.groups.filter(defining_project=self.project).values_list(
+                    "id", flat=True
+                )
+            )
+            added_group_ids = set(groups.values_list("id", flat=True))
+            if added_group_ids - current_group_ids:
+                validate_team_assignable_user(user, allow_bot=True)
         if user and user.is_bot and not groups:
             raise ValidationError(
                 gettext_lazy("At least one team is required for a project token.")

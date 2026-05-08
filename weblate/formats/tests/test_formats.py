@@ -27,6 +27,7 @@ from translate.storage.pypo import pofile
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
+from weblate.formats.convert import MDXFormat
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.multi import MultiUnit
@@ -243,6 +244,7 @@ TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
 TEST_STRINGS = get_test_file("cs.strings")
 TEST_FLUENT = get_test_file("cs.ftl")
+TEST_MDX = get_test_file("cs.mdx")
 
 
 class HierarchicalContextValidationTest(SimpleTestCase):
@@ -427,6 +429,9 @@ class AutoLoadTest(SimpleTestCase):
 
     def test_json(self) -> None:
         self.single_test(TEST_JSON, JSONFormat)
+
+    def test_mdx(self) -> None:
+        self.single_test(TEST_MDX, MDXFormat)
 
     def test_php(self) -> None:
         self.single_test(TEST_PHP, PhpFormat)
