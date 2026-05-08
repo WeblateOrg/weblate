@@ -17,17 +17,19 @@ from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
+from weblate.auth.results import Denied
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.ttkit import CSVFormat
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FailedCommitError, FileParseError
-from weblate.trans.forms import SimpleUploadForm
+from weblate.trans.forms import SimpleUploadForm, UploadForm, get_upload_form
 from weblate.trans.models import Change, ComponentList, PendingUnitChange, Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -57,6 +59,49 @@ TEST_TBX = get_test_file("terms.tbx")
 
 TRANSLATION_OURS = "Nazdar světe!\n"
 TRANSLATION_PO = "Ahoj světe!\n"
+
+
+class UploadFormTest(SimpleTestCase):
+    def test_upload_form_rejects_approved_conflicts_without_review(self) -> None:
+        form = UploadForm(
+            data={
+                "method": "translate",
+                "fuzzy": "",
+                "conflicts": "replace-approved",
+            },
+            files={"file": SimpleUploadedFile("test.po", b'msgid ""\n')},
+            review_permission=Denied("Translation reviews are turned off."),
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["conflicts"],
+            ["Translation reviews are turned off."],
+        )
+
+
+class UploadFormPermissionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_cache()
+
+    def test_upload_form_hides_approved_conflicts_without_review(self) -> None:
+        form = get_upload_form(self.user, self.translation)
+
+        choices = [choice[0] for choice in form.fields["conflicts"].choices]
+        self.assertIn("replace-translated", choices)
+        self.assertNotIn("replace-approved", choices)
+
+    def test_upload_form_keeps_approved_conflicts_with_review(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        self.user.clear_cache()
+
+        form = get_upload_form(self.user, self.translation)
+
+        choices = [choice[0] for choice in form.fields["conflicts"].choices]
+        self.assertIn("replace-approved", choices)
 
 
 class ImportBaseTest(ViewTestCase):

@@ -122,6 +122,7 @@ if TYPE_CHECKING:
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.results import PermissionResult
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLMixin
     from weblate.trans.models import (
@@ -763,8 +764,20 @@ class UploadForm(SimpleUploadForm):
     )
 
     def __init__(self, *args, **kwargs) -> None:
+        self.review_permission: bool | PermissionResult = kwargs.pop(
+            "review_permission", False
+        )
         super().__init__(*args, **kwargs)
         self.helper.layout.fields.append(Field("conflicts"))
+
+    def clean_conflicts(self) -> str:
+        conflicts = cast("str", self.cleaned_data["conflicts"])
+        if conflicts == "replace-approved" and not self.review_permission:
+            reason = getattr(self.review_permission, "reason", None)
+            raise ValidationError(
+                reason or gettext("Insufficient privileges for reviewing strings.")
+            )
+        return conflicts
 
 
 class ExtraUploadForm(UploadForm):
@@ -781,6 +794,7 @@ class ExtraUploadForm(UploadForm):
 
 def get_upload_form(user: User, translation: Translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
+    form: type[SimpleUploadForm]
     if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
         kwargs["initial"] = {"author_name": user.full_name, "author_email": user.email}
@@ -788,16 +802,20 @@ def get_upload_form(user: User, translation: Translation, *args, **kwargs):
         form = UploadForm
     else:
         form = SimpleUploadForm
+    review_permission: bool | PermissionResult = True
+    if form != SimpleUploadForm:
+        review_permission = user.has_perm("unit.review", translation)
+        kwargs["review_permission"] = review_permission
     result = form(*args, **kwargs)
     for method in [x[0] for x in result.fields["method"].choices]:
         if not check_upload_method_permissions(user, translation, method):
             result.remove_translation_choice(method)
     # Remove approved choice for non review projects
-    if not user.has_perm("unit.review", translation) and form != SimpleUploadForm:
+    if not review_permission and form != SimpleUploadForm:
         result.fields["conflicts"].choices = [
             choice
             for choice in result.fields["conflicts"].choices
-            if choice[0] != "approved"
+            if choice[0] != "replace-approved"
         ]
     return result
 
