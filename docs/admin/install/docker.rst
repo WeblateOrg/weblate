@@ -2272,7 +2272,24 @@ consist of name of your docker-compose directory, container, and volume names).
 
 The :file:`cache` volume is mounted as :file:`/app/cache` and is used to store static
 files and :setting:`CACHE_DIR`. Its content is recreated on container startup
-and the volume can be mounted using ephemeral filesystem such as `tmpfs`.
+and the volume can be mounted using ephemeral filesystem such as `tmpfs`, but
+the mount has to allow execution because Weblate stores generated helper files
+there.
+
+When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose,
+enable execution:
+
+.. code-block:: yaml
+
+   tmpfs:
+     - /app/cache:exec
+
+When also setting ownership options, keep the ``exec`` option:
+
+.. code-block:: yaml
+
+   tmpfs:
+     - /app/cache:exec,uid=1000,gid=1000
 
 When creating the volumes manually, the directories should be owned by UID 1000
 as that is user used inside the container.

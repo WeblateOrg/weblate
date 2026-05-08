@@ -63,7 +63,7 @@ services:
     restart: always
     user: $USER_ID:$GROUP_ID
     tmpfs:
-    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /app/cache:exec,uid=$USER_ID,gid=$GROUP_ID
     - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
     - /run:uid=$USER_ID,gid=$GROUP_ID
     userns_mode: host

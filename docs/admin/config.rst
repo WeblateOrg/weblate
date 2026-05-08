@@ -432,16 +432,16 @@ in :setting:`DATA_DIR`.
 Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
 network filesystem.
 
-Weblate also stores generated SSH wrapper scripts here, so :setting:`CACHE_DIR`
-needs to be on an executable filesystem if :setting:`DATA_DIR` is mounted with
-``noexec``.
+Weblate stores generated helper files here and executes some of them, so
+:setting:`CACHE_DIR` has to be writable and mounted on a filesystem that allows
+execution. Avoid using ``noexec`` mount options for this directory.
 
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 The following subdirectories usually exist:
 
 :file:`ssh`
-   Generated SSH wrapper scripts used for VCS access.
+   Generated helper files used for VCS access.
 :file:`fonts`
    :program:`font-config` cache for :ref:`fonts`.
 :file:`avatar`

@@ -401,6 +401,10 @@ you might prefer to move these to a better location such as:
 Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
 
+The configured :setting:`CACHE_DIR` also has to be writable by the Weblate
+process and has to allow executing generated helper files. Do not mount
+:setting:`CACHE_DIR` with the ``noexec`` option.
+
 You should also take care when running :ref:`manage`, as they should be ran
 under the same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
