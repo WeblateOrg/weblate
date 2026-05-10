@@ -84,7 +84,7 @@ Updating repositories
 You should set up some way of updating backend repositories from their
 source.
 
-* Use :ref:`hooks` to integrate with most of common code hosting services, see
+* Use :ref:`hooks` to integrate with the majority of common code hosting services, see
   :doc:`/admin/code-hosting`. You must also :ref:`project-enable_hooks` for
   this to work.
 
