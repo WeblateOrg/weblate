@@ -16,8 +16,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-01 01:27+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2026-05-10 14:28+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1300,19 +1300,15 @@ msgid "The registration link has been invalidated."
 msgstr "A hiperligação de registo foi invalidada."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "A hiperligação de registo foi invalidada."
+msgstr "A hiperligação de convite já não é válida."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:171 weblate/auth/views.py:245
 #: weblate/auth/views.py:266
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "O convite do utilizador foi removido."
+msgstr "Este convite expirou."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1463,17 +1459,13 @@ msgstr ""
 "A reversão das edições feitas por %(user)s em todo o site foi agendada."
 
 #: weblate/accounts/views.py:770
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr ""
-"A reversão das edições feitas por %(user)s em todo o site foi agendada."
+msgstr "A limpeza das contribuições do %(user)s foi agendada."
 
 #: weblate/accounts/views.py:777 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "Nenhum convite foi criado."
+msgstr "Não foi selecionada nenhuma ação de limpeza."
 
 #: weblate/accounts/views.py:894 weblate/templates/base.html:455
 msgid "Website"
@@ -1748,7 +1740,7 @@ msgstr "Redefinir repositório para \"upstream\""
 
 #: weblate/addons/cleanup.py:132
 msgid "Discards all changes in the Weblate repository each night."
-msgstr "Limpa todas as alterações no repositório do Weblate todas as noites."
+msgstr "Rejeita todas as alterações no repositório do Weblate todas as noites."
 
 #: weblate/addons/consistency.py:91
 msgid "Add missing languages"
@@ -1759,42 +1751,44 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Garante que um conjunto consistente de idiomas seja usado para todos os "
-"componentes de um projeto."
+"Garante que um conjunto de idiomas consistente é utilizado para todos os "
+"componentes dentro de um projeto."
 
 #: weblate/addons/consistency.py:129
 msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
-"Este complemento afeta projeto inteiro e pode criar ficheiros de tradução em "
-"vários componentes ou repositórios."
+"Este extra afeta todo o projeto e pode criar ficheiros de tradução em vários "
+"componentes ou repositórios."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
-"Este complemento afeta a categoria inteira e pode criar ficheiros de "
-"tradução em vários componentes ou repositórios."
+"Este extra afeta toda a categoria e pode criar ficheiros de tradução em "
+"vários componentes ou repositórios."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Este extra afeta todos os projetos e pode criar ficheiros de tradução em "
+"vários componentes ou repositórios."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4721
 msgid ""
 "The given language maps to a different language. Check language aliases "
 "settings."
 msgstr ""
-"O idioma fornecido é mapeado para um idioma diferente. Verifique as "
+"O idioma indicado é mapeado para um idioma diferente. Verifique as "
 "definições de ''aliases'' do idioma."
 
 #: weblate/addons/consistency.py:248 weblate/trans/models/component.py:4727
 msgid "The given language is used as a source language."
-msgstr "O idioma dado é usado como um idioma de origem."
+msgstr "O idioma indicado é utilizado como um idioma fonte."
 
 #: weblate/addons/consistency.py:253 weblate/trans/models/component.py:4739
 msgid "The language filter timed out."
@@ -2362,22 +2356,17 @@ msgid "Generic preset: %(name)s [%(details)s]"
 msgstr "Predefinição genérica: %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:915
-#, fuzzy
-#| msgid "Information about project"
 msgid "format not preset"
-msgstr "Informação do projeto"
+msgstr "formato não predefinido"
 
 #: weblate/addons/forms.py:923
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Ficheiro de idioma base monolingue"
+msgstr "Base monolingue: %(base)s"
 
 #: weblate/addons/forms.py:926
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "Definir nome do ficheiro base monolingue"
+msgstr "sem base monolingue"
 
 #: weblate/addons/forms.py:934
 #, python-format
@@ -2386,11 +2375,11 @@ msgstr "%(format)s; %(base)s"
 
 #: weblate/addons/forms.py:944
 msgid "One folder per language"
-msgstr "Uma pasta por língua"
+msgstr "Uma pasta por idioma"
 
 #: weblate/addons/forms.py:945
 msgid "Matches files like cs/application.po."
-msgstr ""
+msgstr "Corresponde a ficheiros como cs/application.po."
 
 #: weblate/addons/forms.py:949
 msgid "Gettext locales layout"
@@ -2402,7 +2391,7 @@ msgstr "Corresponde a ficheiros como locale/cs/LC_MESSAGES/application.po."
 
 #: weblate/addons/forms.py:954
 msgid "Complex filenames"
-msgstr "Nomes complexos de ficheiros"
+msgstr "Nomes de ficheiros complexos"
 
 #: weblate/addons/forms.py:955
 msgid "Matches files like src/locale/application.cs.po."
@@ -2410,7 +2399,7 @@ msgstr "Corresponde a ficheiros como src/locale/application.cs.po."
 
 #: weblate/addons/forms.py:959
 msgid "Filename-based language variants"
-msgstr "Variantes linguísticas baseadas em nomes de ficheiros"
+msgstr "Variantes linguísticas baseadas em nomes de ficheiro"
 
 #: weblate/addons/forms.py:960
 msgid "Matches files like news_en.md."
@@ -2426,7 +2415,7 @@ msgstr "Corresponde a ficheiros como locale/cs/application/cs.po."
 
 #: weblate/addons/forms.py:969
 msgid "Split Android strings"
-msgstr "Dividir cadeias do Android"
+msgstr "Dividir cadeias de carateres de Android"
 
 #: weblate/addons/forms.py:970
 msgid "Matches files like res/values-cs/strings-about.xml."
@@ -2441,6 +2430,8 @@ msgid ""
 "Matches nested Java properties layouts and also fills the component name "
 "template."
 msgstr ""
+"Corresponde a ''layouts'' de propriedades Java incorporadas e também "
+"preenche o modelo do nome do componente."
 
 #: weblate/addons/forms.py:1004
 #, python-format
@@ -2448,24 +2439,20 @@ msgid "Detected: %(pattern)s [%(details)s]"
 msgstr "Detetado: %(pattern)s [%(details)s]"
 
 #: weblate/addons/forms.py:1074
-#, fuzzy
-#| msgid "Merged repository"
 msgid "Detected from repository"
-msgstr "Repositório unido"
+msgstr "Detetado do repositório"
 
 #: weblate/addons/forms.py:1084
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Generic presets"
-msgstr "Redefinição do repositório"
+msgstr "Pré-ajustes genéricos"
 
 #: weblate/addons/forms.py:1113 weblate/trans/models/component.py:3947
 msgid "You can not use a monolingual translation without a base file."
-msgstr "Você não pode utilizar uma tradução monolingue sem um ficheiro base."
+msgstr "Não pode utilizar uma tradução monolingue sem um ficheiro base."
 
 #: weblate/addons/forms.py:1121 weblate/trans/models/component.py:3869
 msgid "You can not use a base file for bilingual translation."
-msgstr "Não pode utilizar o ficheiro base para a tradução bilíngue."
+msgstr "Não pode utilizar o ficheiro base para a tradução bilingue."
 
 #: weblate/addons/forms.py:1135
 msgid "Please review and confirm the matched components."
@@ -2476,10 +2463,8 @@ msgid "This template must include {{ component }}."
 msgstr "Este modelo deve incluir {{ component }}."
 
 #: weblate/addons/forms.py:1188
-#, fuzzy
-#| msgid "Please include component markup in the template."
 msgid "This template must include component markup."
-msgstr "Por favor, inclua a marcação de componentes no modelo."
+msgstr "Este modelo deve incluir a marcação de componente."
 
 #: weblate/addons/forms.py:1260
 msgid "Translation threshold"
@@ -2499,15 +2484,15 @@ msgstr "Seletor de CSS"
 
 #: weblate/addons/forms.py:1273
 msgid "CSS selector to detect localizable elements."
-msgstr "Seletor CSS para detetar elementos localizáveis."
+msgstr "Seletor de CSS para detetar elementos traduzíveis."
 
 #: weblate/addons/forms.py:1276
 msgid "Language cookie name"
-msgstr "Nome do cookie do idioma"
+msgstr "Nome do ''cookie'' do idioma"
 
 #: weblate/addons/forms.py:1279
 msgid "Name of cookie which stores language preference."
-msgstr "Nome do cookie que armazena a preferência de idioma."
+msgstr "Nome do ''cookie'' que guarda a preferência de idioma."
 
 #: weblate/addons/forms.py:1284
 msgid "Extract strings from HTML files"
