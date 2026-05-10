@@ -224,7 +224,7 @@ Django REST Framework
 
      * - ``gerrit``
        - | `git-review <https://pypi.org/project/git-review>`_
-       - :ref:`vcs-gerrit`
+       - :ref:`code-hosting-gerrit`
 
      * - ``google``
        - | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_

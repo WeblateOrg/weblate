@@ -3174,7 +3174,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`github-setup`
+        :ref:`GitHub notifications <code-hosting-github-notifications>`
             For instruction on setting up GitHub integration
         https://docs.github.com/en/get-started/customizing-your-github-workflow/exploring-integrations/about-webhooks
             Generic information about GitHub Webhooks
@@ -3188,7 +3188,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`gitlab-setup`
+        :ref:`GitLab notifications <code-hosting-gitlab-notifications>`
             For instruction on setting up GitLab integration
         https://docs.gitlab.com/user/project/integrations/webhooks/
             Generic information about GitLab Webhooks
@@ -3202,7 +3202,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`bitbucket-setup`
+        :ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`
             For instruction on setting up Bitbucket integration
         https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/
             Generic information about Bitbucket Webhooks
@@ -3216,7 +3216,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`pagure-setup`
+        :ref:`Pagure notifications <code-hosting-pagure-notifications>`
             For instruction on setting up Pagure integration
         https://docs.pagure.org/pagure/usage/using_webhooks.html
             Generic information about Pagure Webhooks
@@ -3235,7 +3235,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`azure-setup`
+        :ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`
             For instruction on setting up Azure integration
         https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
             Generic information about Azure DevOps Web Hooks
@@ -3249,7 +3249,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`gitea-setup`
+        :ref:`Gitea notifications <code-hosting-gitea-notifications>`
             For instruction on setting up Gitea integration
         https://docs.gitea.io/en-us/webhooks/
             Generic information about Gitea Webhooks
@@ -3263,7 +3263,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`forgejo-setup`
+        :ref:`Forgejo notifications <code-hosting-forgejo-notifications>`
             For instruction on setting up Forgejo integration
         https://forgejo.org/docs/latest/user/webhooks/
             Generic information about Forgejo Webhooks
@@ -3277,7 +3277,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`gitee-setup`
+        :ref:`Gitee notifications <code-hosting-gitee-notifications>`
             For instruction on setting up Gitee integration
         https://gitee.com/help/categories/40
             Generic information about Gitee Webhooks
