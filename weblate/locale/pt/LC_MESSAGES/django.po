@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-04 01:44-0500\n"
-"PO-Revision-Date: 2026-05-10 14:28+0000\n"
+"PO-Revision-Date: 2026-05-10 15:01+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -1472,23 +1472,17 @@ msgid "Website"
 msgstr "Site da Web"
 
 #: weblate/accounts/views.py:896
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "URL do Site de Código"
+msgstr "Site de código"
 
 #: weblate/accounts/views.py:915
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "O serviço já não está disponível"
+msgstr "Esta hiperligação de perfil já não está disponível."
 
 #: weblate/accounts/views.py:927
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Perfil do utilizador"
+msgstr "Hiperligação de perfil externa"
 
 #: weblate/accounts/views.py:1050 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -2237,28 +2231,23 @@ msgstr ""
 "Limite para a remoção. Este campo não tem efeito com os votos desativados."
 
 #: weblate/addons/forms.py:631
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
-msgstr "Confirmo que as correspondências acima parecem correctas"
+msgstr "Eu confirmo que as ações acima parecem corretas"
 
 #: weblate/addons/forms.py:654
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Please review and confirm the missing language changes."
-msgstr "Por favor, reveja e confirme os componentes coincidentes."
+msgstr "Por favor, reveja e confirme as alterações de idioma em falta."
 
 #: weblate/addons/forms.py:753
 msgid "Regular expression to match translation files against"
 msgstr "Expressão regular para corresponder os ficheiros de tradução com"
 
 #: weblate/addons/forms.py:756
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid ""
 "The regular expression must define named groups for component and language."
 msgstr ""
-"A expressão regular não deve corresponder a uma cadeia de carateres vazia."
+"A expressão regular deve definir os grupos nomeados para o componente e "
+"idioma."
 
 #: weblate/addons/forms.py:760
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
@@ -2282,28 +2271,25 @@ msgid "Define the monolingual base filename"
 msgstr "Definir nome do ficheiro base monolingue"
 
 #: weblate/addons/forms.py:778
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Manter vazio para ficheiros de tradução bilingue."
+msgstr ""
+"Deixe em branco para os ficheiros de tradução bilingue. Quando definido, "
+"este modelo deve incluir {{ component }}."
 
 #: weblate/addons/forms.py:782
 msgid "Define the base file for new translations"
 msgstr "Defina o ficheiro base para as novas traduções"
 
 #: weblate/addons/forms.py:786
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Nome do ficheiro do ficheiro utilizado para criar as novas traduções. Para "
-"gettext, escolha o ficheiro \".pot\"."
+"O nome de ficheiro do ficheiro utilizado para criar as novas traduções. Para "
+"gettext, escolha o ficheiro \".pot\". Este modelo deve incluir {{ "
+"component }}."
 
 #: weblate/addons/forms.py:791
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2312,19 +2298,15 @@ msgid "Intermediate language file"
 msgstr "Ficheiro de idioma intermédio"
 
 #: weblate/addons/forms.py:795
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"Nome do ficheiro do ficheiro de tradução intermediário. Geralmente este é um "
-"ficheiro de tradução fornecido pelos programadores e é utilizado na criação "
-"das cadeias de carateres fonte atuais."
+"O nome de ficheiro do ficheiro de tradução intermediário. Geralmente este é "
+"um ficheiro de tradução fornecido pelos programadores e é utilizado na "
+"criação das cadeias de carateres fonte atuais. Este modelo deve incluir {{ "
+"component }}."
 
 #: weblate/addons/forms.py:802 weblate/trans/models/component.py:859
 msgid "Language filter"
@@ -2686,26 +2668,22 @@ msgid "Update LINGUAS file"
 msgstr "Atualizar ficheiro LINGUAS"
 
 #: weblate/addons/gettext.py:137
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Updates the LINGUAS file when a translation is added or removed."
-msgstr "Atualiza o ficheiro LINGUAS quando é adicionada uma nova tradução."
+msgstr ""
+"Atualiza o ficheiro LINGUAS quando é adicionada ou removida uma tradução."
 
 #: weblate/addons/gettext.py:271
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Atualizar a variável ALL_LINGUAS no ficheiro \"configure\""
 
 #: weblate/addons/gettext.py:273
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
 "Atualiza a variável ALL_LINGUAS nos ficheiros \"configure\", "
-"\"configure.in\" ou \"configure.ac\" quando é adicionada uma nova tradução."
+"\"configure.in\" ou \"configure.ac\" quando é adicionada ou removida uma "
+"tradução."
 
 #: weblate/addons/gettext.py:367
 msgid "Update PO files to match POT (msgmerge)"
@@ -2781,10 +2759,8 @@ msgstr "Comprimir as submissões Git antes de enviar as alterações."
 
 #: weblate/addons/models.py:298 weblate/addons/views.py:257
 #: weblate/api/views.py:3728
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
-msgstr "Esta extensão não tem definições."
+msgstr "Este extra não pode ser acionado manualmente."
 
 #: weblate/addons/properties.py:160
 msgid "Format the Java properties file"
@@ -2841,10 +2817,8 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Extra instalado, por favor, reveja as instruções de integração."
 
 #: weblate/addons/views.py:262 weblate/api/views.py:3735
-#, fuzzy
-#| msgid "Comment has been deleted."
 msgid "Add-on run has been scheduled."
-msgstr "O comentário foi eliminado."
+msgstr "A execução do extra foi agendada."
 
 #: weblate/addons/webhooks.py:120
 msgid "Webhook"
@@ -4535,10 +4509,8 @@ msgstr[0] "A palavra seguinte está em duplicado:"
 msgstr[1] "As palavras seguintes estão em duplicado:"
 
 #: weblate/checks/flags.py:79
-#, fuzzy
-#| msgid "Unsafe HTML"
 msgid "Conditional safe HTML"
-msgstr "HTML inseguro"
+msgstr "HTML seguro condicional"
 
 #: weblate/checks/flags.py:85
 msgid "Automatically detect Java MessageFormat"
@@ -5861,7 +5833,7 @@ msgstr "Não foi possível analisar a chave: %s"
 
 #: weblate/formats/ttkit.py:1837 weblate/formats/ttkit.py:1852
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "Esta chave entra em conflito com uma chave hierárquica existente."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1864
@@ -6084,16 +6056,12 @@ msgid "Glossary"
 msgstr "Glossário"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Não foi possível remover a cadeia porque outra operação em segundo plano "
-"está em andamento. Tente novamente mais tarde."
+"Não foi possível adicionar o termo do glossário porque está em progresso "
+"outra operação em segundo plano. Por favor, tente novamente mais tarde."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -6560,6 +6528,8 @@ msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
+"A tradução automática ao nível do projeto não pode utilizar endereços "
+"internos ou não públicos."
 
 #: weblate/machinery/forms.py:68
 msgid ""
