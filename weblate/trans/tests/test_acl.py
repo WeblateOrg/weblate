@@ -103,6 +103,34 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         response = self.client.get(self.access_url)
         self.assertContains(response, "Users")
 
+    @override_settings(DEFAULT_PAGE_LIMIT=10)
+    def test_edit_acl_users_pagination(self) -> None:
+        """Project user list should be paginated."""
+        self.project.add_user(self.user, "Administration")
+        users = []
+        for idx in range(11):
+            user = User.objects.create_user(
+                f"acl-page-{idx:02d}",
+                f"acl-page-{idx:02d}@example.org",
+                "testpassword",
+            )
+            self.project.add_user(user, "Translate")
+            users.append(user)
+
+        response = self.client.get(self.access_url)
+
+        self.assertContains(response, "acl-page-00")
+        self.assertContains(response, "acl-page-09")
+        self.assertNotContains(response, "acl-page-10")
+        self.assertNotContains(response, f"edit_user_{users[10].id}")
+        self.assertContains(response, "?page=2&amp;limit=10#users")
+
+        response = self.client.get(f"{self.access_url}?page=2")
+
+        self.assertContains(response, "acl-page-10")
+        self.assertContains(response, self.user.username)
+        self.assertNotContains(response, "acl-page-00")
+
     def add_user(self) -> None:
         self.add_acl()
         self.project.add_user(self.user, "Administration")

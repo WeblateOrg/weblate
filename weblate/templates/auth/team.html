@@ -91,6 +91,7 @@
         <div class="tab-pane" id="auto">
           <p>
             {% translate "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+            {% translate "This is checked for every new user on the site, regardless of which project they use." %}
           </p>
           {{ auto_formset|crispy }}
           <div class="multiFieldEmpty hidden">{{ auto_formset.empty_form|crispy }}</div>
