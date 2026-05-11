@@ -209,11 +209,6 @@ Django REST Framework
        - Python packages
        - Weblate feature
 
-     * - ``alibaba``
-       - | `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
-         | `aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_
-       - :ref:`mt-alibaba`
-
      * - ``amazon``
        - | `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
