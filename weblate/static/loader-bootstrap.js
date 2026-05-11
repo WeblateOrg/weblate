@@ -561,7 +561,6 @@ function initHighlight(root) {
     }
     const syncContent = () => {
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
-      autosize.update(editor);
     };
     syncContent();
     editor.addEventListener("input", syncContent);
@@ -584,8 +583,6 @@ function initHighlight(root) {
     });
 
     resizeObserver.observe(editor);
-    /* Autosizing */
-    autosize(editor);
   });
 }
 
