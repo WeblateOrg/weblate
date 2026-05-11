@@ -103,7 +103,7 @@ class ProjectLanguageFactory(UserDict):
             instance.__dict__["workflow_settings"] = None
 
 
-class ProjectQuerySet(QuerySet["Project"]):
+class ProjectQuerySet(QuerySet["Project", "Project"]):
     def order(self) -> Self:
         return self.order_by("name")
 
@@ -761,13 +761,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def source_language_ids(self) -> set[int]:
-        def filter_source_language(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.values_list("source_language_id", flat=True).distinct()  # type: ignore[return-value]
-
         cached = cache.get(self.source_language_cache_key)
         if cached is not None:
             return cached
-        result = set(self.get_child_components_filter(filter_source_language))
+        result = set(
+            self.child_components.values_list("source_language_id", flat=True)
+            .distinct()
+            .iterator()
+        )
         cache.set(self.source_language_cache_key, result, 7 * 24 * 3600)
         return result
 

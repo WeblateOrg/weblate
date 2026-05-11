@@ -27,14 +27,12 @@ from weblate.utils.validators import validate_slug
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from django.db.models import QuerySet
-
     from weblate.auth.models import User
     from weblate.trans.models import Component
     from weblate.trans.models.component import ComponentQuerySet
 
 
-class CategoryQuerySet(models.QuerySet):
+class CategoryQuerySet(models.QuerySet["Category", "Category"]):
     def search(self, query: str):
         return self.filter(
             Q(name__icontains=query) | Q(slug__icontains=query)
@@ -236,7 +234,7 @@ class Category(
         )
 
     @cached_property
-    def all_components(self) -> QuerySet[Component]:
+    def all_components(self) -> ComponentQuerySet:
         from weblate.trans.models import Component  # noqa: PLC0415
 
         return Component.objects.filter(
@@ -259,7 +257,9 @@ class Category(
                 component.linked_component_id
                 and component.linked_component_id not in included
             ):
-                yield component.linked_component
+                linked_component = component.linked_component
+                if linked_component is not None:
+                    yield linked_component
 
     @cached_property
     def all_component_ids(self):

@@ -57,7 +57,7 @@ class LibreCheck:
         return self.message
 
 
-class PlanQuerySet(models.QuerySet["Plan"]):
+class PlanQuerySet(models.QuerySet["Plan", "Plan"]):
     def public(self, user=None):
         """List of public paid plans which are available."""
         base = self.exclude(Q(price=0) & Q(yearly_price=0))
@@ -113,7 +113,7 @@ class BillingManager(models.Manager["Billing"]):
             bill.check_limits()
 
 
-class BillingQuerySet(models.QuerySet["Billing"]):
+class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
     def get_out_of_limits(self):
         return self.filter(in_limits=False)
 
@@ -821,7 +821,7 @@ class Billing(models.Model):
         return all(self.libre_checklist)
 
 
-class InvoiceQuerySet(models.QuerySet["Invoice"]):
+class InvoiceQuerySet(models.QuerySet["Invoice", "Invoice"]):
     def order(self):
         return self.order_by("-start")
 
@@ -936,7 +936,7 @@ class BillingEvent(models.IntegerChoices):
     INACTIVE_RECURRING_CLEARED = 17, "Cleared recurring payment disablement"
 
 
-class BillingLogQuerySet(models.QuerySet["BillingLog"]):
+class BillingLogQuerySet(models.QuerySet["BillingLog", "BillingLog"]):
     def order(self) -> BillingLogQuerySet:
         return self.order_by("-timestamp")
 

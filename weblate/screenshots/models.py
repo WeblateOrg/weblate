@@ -36,7 +36,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Component
 
 
-class ScreenshotQuerySet(models.QuerySet):
+class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
     def order(self):
         return self.order_by("name")
 

@@ -95,7 +95,7 @@ def load_memory_tmx_store(fileobj: BinaryIO):
     return tmxfile.parsefile(fileobj)
 
 
-class MemoryQuerySet(models.QuerySet):
+class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
     def global_file_query(self) -> Q:
         return Q(from_file=True, user__isnull=True, project__isnull=True)
 

@@ -137,7 +137,7 @@ class WeblateChecksConf(AppConf):
         prefix = ""
 
 
-class CheckQuerySet(models.QuerySet):
+class CheckQuerySet(models.QuerySet["Check", "Check"]):
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:

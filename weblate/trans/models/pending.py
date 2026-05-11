@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from django.conf import settings
 from django.db import models
@@ -34,15 +34,11 @@ from weblate.utils.version import GIT_VERSION
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from django.db.models import (
-        QuerySet,
-    )
-
     from weblate.auth.models import User
     from weblate.trans.models import Component, Project, Translation, Unit
 
 
-class PendingChangeQuerySet(models.QuerySet):
+class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitChange"]):
     def find_committable_components(
         self, pks: list[int] | None = None, hours: int | None = None
     ) -> models.QuerySet[Component]:
@@ -173,8 +169,11 @@ class PendingChangeQuerySet(models.QuerySet):
         return self._apply_commit_policy_filter(qs, commit_policy)
 
     def _apply_retry_filter(
-        self, qs: QuerySet, revision: str | None, blocking_unit_filter: bool
-    ) -> QuerySet:
+        self,
+        qs: PendingChangeQuerySet,
+        revision: str | None,
+        blocking_unit_filter: bool,
+    ) -> PendingChangeQuerySet:
         """
         Filter pending changes based on retry eligibility.
 
@@ -192,16 +191,9 @@ class PendingChangeQuerySet(models.QuerySet):
         """
         one_week_ago = timezone.now() - timedelta(days=7)
 
-        annotations_: dict[str, Any] = {
-            "failed_revision": KT("metadata__failed_revision"),
-            "weblate_version": KT("metadata__weblate_version"),
-            "last_failed": KT("metadata__last_failed"),
-        }
-
         # Component-level queries require joining unit.translation for revision;
         # translation-level queries use the provided revision directly
         if revision is None:
-            annotations_["translation_revision"] = F("unit__translation__revision")
             revision_comparison = ~Q(failed_revision=F("translation_revision"))
         else:
             revision_comparison = ~Q(failed_revision=revision)
@@ -214,22 +206,41 @@ class PendingChangeQuerySet(models.QuerySet):
             | Q(last_failed__lt=one_week_ago.isoformat())
         )
 
-        annotations_["eligible_for_attempt"] = Case(
+        eligible_for_attempt = Case(
             When(eligible_for_attempt_filter, then=True),
             default=False,
             output_field=BooleanField(),
         )
 
-        qs = qs.annotate(**annotations_)
+        if revision is None:
+            annotated_qs = qs.annotate(
+                failed_revision=KT("metadata__failed_revision"),
+                weblate_version=KT("metadata__weblate_version"),
+                last_failed=KT("metadata__last_failed"),
+                translation_revision=F("unit__translation__revision"),
+                eligible_for_attempt=eligible_for_attempt,
+            )
+        else:
+            annotated_qs = qs.annotate(
+                failed_revision=KT("metadata__failed_revision"),
+                weblate_version=KT("metadata__weblate_version"),
+                last_failed=KT("metadata__last_failed"),
+                eligible_for_attempt=eligible_for_attempt,
+            )
 
         if not blocking_unit_filter:
-            return qs.filter(eligible_for_attempt=True)
+            return cast(
+                "PendingChangeQuerySet",
+                annotated_qs.filter(eligible_for_attempt=True),
+            )
 
         # When blocking_unit_filter is True, we need to handle the case where a failed
         # change with blocking_unit=True prevents newer changes on the same unit from
         # being committed. This requires Python-side iteration to track blocked units.
-        qs = (
-            qs.filter(Q(eligible_for_attempt=True) | Q(metadata__blocking_unit=True))
+        changes = (
+            annotated_qs.filter(
+                Q(eligible_for_attempt=True) | Q(metadata__blocking_unit=True)
+            )
             .order_by("unit_id", "timestamp")
             .values_list(
                 "pk", "unit_id", "metadata__blocking_unit", "eligible_for_attempt"
@@ -241,7 +252,7 @@ class PendingChangeQuerySet(models.QuerySet):
 
         # failed changes that are not yet eligible for retry and have blocking_unit=True
         # should prevent all newer changes from being committed
-        for pk, unit_id, blocking_unit, eligible_for_attempt in qs.iterator():
+        for pk, unit_id, blocking_unit, eligible_for_attempt in changes.iterator():
             if unit_id in blocked_units:
                 continue
 
@@ -252,7 +263,9 @@ class PendingChangeQuerySet(models.QuerySet):
 
         return self.filter(pk__in=eligible_pks)
 
-    def _apply_commit_policy_filter(self, qs: QuerySet, commit_policy: int) -> QuerySet:
+    def _apply_commit_policy_filter(
+        self, qs: PendingChangeQuerySet, commit_policy: int
+    ) -> PendingChangeQuerySet:
         """
         Filter pending changes based on the project's commit policy.
 
@@ -286,7 +299,7 @@ class PendingChangeQuerySet(models.QuerySet):
         # Use weaker locking and limit locking to this table only
         return super().select_for_update(no_key=True, of=("self",))
 
-    def _count_units_helper(self, qs: QuerySet) -> int:
+    def _count_units_helper(self, qs: PendingChangeQuerySet) -> int:
         """Count distinct units in a PendingUnitChange queryset."""
         return qs.distinct("unit_id").count()
 
