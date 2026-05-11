@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-11 12:05+0000\n"
+"PO-Revision-Date: 2026-05-11 12:30+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -5449,7 +5449,7 @@ msgstr "CSV 文件中无效的 id_hash 元数据： %s"
 
 #: weblate/formats/ttkit.py:207 weblate/formats/ttkit.py:2399
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "CSV 文件中的复数形式元数据要求 id_hash。"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
@@ -5618,15 +5618,15 @@ msgstr "CSV 文件"
 #: weblate/formats/ttkit.py:2376
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "CSV 文件中的复数形式元数据没有 %d 形式。"
 
 #: weblate/formats/ttkit.py:2446
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "CSV 文件中的复数形式元数据要求 target_plural_form。"
 
 #: weblate/formats/ttkit.py:2455
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "CSV 文件中的复数形式元数据要求 source_plural_form。"
 
 #: weblate/formats/ttkit.py:2476
 #, python-format
@@ -7254,11 +7254,11 @@ msgstr "发送"
 
 #: weblate/templates/accounts/contact.html:44
 msgid "How can we help?"
-msgstr ""
+msgstr "我们怎样提供帮助？"
 
 #: weblate/templates/accounts/contact.html:47
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "在下面选项中选择一个来获得帮助。"
 
 #: weblate/templates/accounts/contact.html:56
 msgid "Question about a translation project"
@@ -7323,11 +7323,11 @@ msgstr "文档"
 msgid ""
 "Browse the Weblate documentation for guides on translating, administration, "
 "and configuration."
-msgstr ""
+msgstr "浏览 Weblate 文档获得翻译、管理和配置方面的指南。"
 
 #: weblate/templates/accounts/contact.html:121
 msgid "Read the docs"
-msgstr ""
+msgstr "阅读文档"
 
 #: weblate/templates/accounts/contact.html:131
 #, python-format
@@ -7342,7 +7342,7 @@ msgstr "给服务器管理员的问题"
 msgid ""
 "Reach out to the administrators of this server about account, registration, "
 "or server-wide questions that don't fit the topics above."
-msgstr ""
+msgstr "联络此服务器的管理员询问上方主题未涵盖的关于账户、注册或整台服务器的问题。"
 
 #: weblate/templates/accounts/contact.html:143
 msgid "Open contact form"
@@ -10761,7 +10761,7 @@ msgstr "生成于 %(timestamp)s。"
 msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
-msgstr ""
+msgstr "因不活跃已计划好自动禁用下列账单的循环付款："
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -10831,7 +10831,7 @@ msgstr "您的翻译项目已被删除"
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_expired_subject.txt:8
 msgid "Your translation project is scheduled for removal"
-msgstr "您的翻译项目已计划删除"
+msgstr "已计划删除您的翻译项目"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_expired_subject.txt:11
@@ -10848,14 +10848,14 @@ msgstr "您的付费套餐已过期"
 msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
-msgstr ""
+msgstr "您付费套餐的年度付款将于 %(date)s 被禁用，因为所覆盖的项目似乎已废弃。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
 msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
-msgstr ""
+msgstr "这些项目的最新已知上游仓库提交是从 %(date)s 起。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
 #, python-format
@@ -10866,7 +10866,7 @@ msgstr "Weblate 有这些项目自 %(date)s 以来的未完成的翻译更改。
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
-msgstr ""
+msgstr "Weblate 自 %(date)s 起有等待提交的仓库更改。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
 #, python-format
@@ -10877,7 +10877,7 @@ msgstr "Weblate 自 %(date)s 以来始终无法推送仓库更改。"
 msgid ""
 "The projects will remain available, but the next payment will need to be "
 "made manually."
-msgstr ""
+msgstr "项目仍然存在，但下次付款需要手动进行。"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
@@ -15458,7 +15458,7 @@ msgstr "让 Weblate 更新 \"Last-Translator\" 文件标头。"
 
 #: weblate/trans/file_format_params.py:406
 msgid "Update X-Generator header"
-msgstr ""
+msgstr "更新 X-Generator 标头"
 
 #: weblate/trans/file_format_params.py:409
 msgid "Lets Weblate update the \"X-Generator\" file header."
