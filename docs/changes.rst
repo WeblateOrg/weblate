@@ -23,6 +23,7 @@ Weblate 2026.5
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
 * :ref:`code-hosting-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 * Added :doc:`/admin/code-hosting` with provider-oriented setup guidance for code hosting integrations.
+* The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 
 .. rubric:: Bug fixes
 
