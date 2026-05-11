@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-11 09:10+0000\n"
+"PO-Revision-Date: 2026-05-11 09:35+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -12928,7 +12928,7 @@ msgid ""
 "won’t be able to use any of its privileges until you configure 2FA."
 msgstr ""
 "Ste členom tímu, ktorý vyžaduje dvojfázové overenie. Nebudete môcť používať "
-"žiadne jeho privilégiá, kým nekonfigurujete 2FA."
+"žiadne jeho oprávnenia, kým nekonfigurujete 2FA."
 
 #: weblate/templates/snippets/git-info.html:7
 #: weblate/trans/models/component.py:528
@@ -14984,7 +14984,7 @@ msgstr "Uložiť a zostať"
 
 #: weblate/templates/translate.html:272
 msgid "Insufficient privileges for adding suggestions."
-msgstr "Nedostatočné privilégiá na pridávanie návrhov."
+msgstr "Nedostatočné oprávnenia na pridávanie návrhov."
 
 #: weblate/templates/translate.html:273
 msgid "Suggest"
@@ -16471,6 +16471,8 @@ msgstr "Zakázať zástupné symboly"
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
 msgstr ""
+"Zakazuje detekciu a spracovanie zástupných symbolov v súboroch Markdown a "
+"MDX."
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16659,10 +16661,8 @@ msgid "Change translated and approved strings"
 msgstr "Zmeniť preložené a schválené reťazce"
 
 #: weblate/trans/forms.py:778
-#, fuzzy
-#| msgid "Insufficient privileges for editing source strings."
 msgid "Insufficient privileges for reviewing strings."
-msgstr "Nedostatočné oprávnenia na úpravu zdrojových reťazcov."
+msgstr "Nedostatočné oprávnenia na kontrolu reťazcov."
 
 #: weblate/trans/forms.py:786
 msgid "Author name"
@@ -17393,10 +17393,8 @@ msgid "Send notification to subscribed users."
 msgstr "Odoslať notifikáciu odberateľom."
 
 #: weblate/trans/models/announcement.py:187
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify both component and category!"
-msgstr "Nešpecifikujte súčasne komponent aj projekt!"
+msgstr "Nešpecifikujte zároveň komponent aj kategóriu!"
 
 #: weblate/trans/models/announcement.py:196
 msgid "Do not specify both component and project!"
@@ -18286,6 +18284,8 @@ msgid ""
 "Use %(branch)s instead of %(ref)s; Weblate and git-review add the Gerrit "
 "refs automatically."
 msgstr ""
+"Použite %(branch)s namiesto %(ref)s; Weblate a git‑review pridávajú Gerrit "
+"refy automaticky."
 
 #: weblate/trans/models/component.py:4083
 #, python-format
@@ -18571,18 +18571,14 @@ msgstr[1] "Nepodarilo sa nájsť %d reťazce:"
 msgstr[2] "Nepodarilo sa nájsť %d reťazcov:"
 
 #: weblate/trans/models/translation.py:1345
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
-msgstr ""
-"Tvary množného čísla v nahranom súbore sa nezhodujú s aktuálnym prekladom."
+msgstr "Tvary množného čísla %d v nahranom súbore sú mimo povoleného rozsahu."
 
 #: weblate/trans/models/translation.py:1351
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"Tvary množného čísla v nahranom súbore sa nezhodujú s aktuálnym prekladom."
+msgstr "Tvary množného čísla v nahranom súbore chýbajú %d."
 
 #: weblate/trans/models/translation.py:1562
 #: weblate/trans/models/translation.py:1567
@@ -19272,7 +19268,7 @@ msgstr "Váš návrh je prázdny!"
 
 #: weblate/trans/views/edit.py:340
 msgid "You don't have privileges to add suggestions!"
-msgstr "Nemáte privilégiá na pridávanie návrhov!"
+msgstr "Nemáte oprávnenia na pridávanie návrhov!"
 
 #: weblate/trans/views/edit.py:348
 msgid "Your suggestion has been identified as spam!"
@@ -19301,15 +19297,15 @@ msgstr "Nepodarilo sa vrátiť späť vybranú zmenu."
 
 #: weblate/trans/views/edit.py:542
 msgid "You do not have privilege to accept suggestions!"
-msgstr "Nemáte privilégium na prijatie návrhov!"
+msgstr "Nemáte oprávnenie na prijatie návrhov!"
 
 #: weblate/trans/views/edit.py:548
 msgid "You do not have privilege to delete suggestions!"
-msgstr "Nemáte privilégium na vymazanie návrhov!"
+msgstr "Nemáte oprávnenie na vymazanie návrhov!"
 
 #: weblate/trans/views/edit.py:553
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Nemáte privilégium na hlasovanie o návrhoch!"
+msgstr "Nemáte oprávnenie na hlasovanie o návrhoch!"
 
 #: weblate/trans/views/edit.py:587
 msgid "Invalid suggestion!"
