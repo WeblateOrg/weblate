@@ -325,7 +325,7 @@ def prefetch_glossary_terms(components) -> None:
         lookup[item].__dict__["glossary_sources"] = value
 
 
-class ComponentQuerySet(models.QuerySet):
+class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
         # Use weaker locking and limit locking to the Component table only.

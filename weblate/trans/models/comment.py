@@ -94,7 +94,7 @@ class CommentManager(models.Manager):
         return new_comment
 
 
-class CommentQuerySet(models.QuerySet):
+class CommentQuerySet(models.QuerySet["Comment", "Comment"]):
     def prefetch(self):
         return self.select_related("user")
 

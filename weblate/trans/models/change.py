@@ -100,7 +100,7 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
     )
 
 
-class ChangeQuerySet(models.QuerySet["Change"]):
+class ChangeQuerySet(models.QuerySet["Change", "Change"]):
     def content(self, prefetch: bool = False) -> Self:
         """Return queryset with content changes."""
         base = self
@@ -278,7 +278,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             dispatch_changes_notifications,
         )
 
-        changes: list[Change] = super().bulk_create(
+        changes = super().bulk_create(
             objs,
             batch_size=batch_size,
             ignore_conflicts=ignore_conflicts,

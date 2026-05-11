@@ -138,7 +138,7 @@ def get_default_lang() -> int:
         return -1
 
 
-class LanguageQuerySet(models.QuerySet["Language"]):
+class LanguageQuerySet(models.QuerySet["Language", "Language"]):
     @staticmethod
     def _cache_result_key(code: str) -> str:
         return f"result:{code}"
@@ -1138,7 +1138,7 @@ class Language(models.Model, CacheKeyMixin):
         return True
 
 
-class PluralQuerySet(models.QuerySet["Plural"]):
+class PluralQuerySet(models.QuerySet["Plural", "Plural"]):
     def order(self):
         return self.order_by("source")
 

@@ -48,11 +48,11 @@ class RemovalAddon(BaseAddon):
             if component:
                 component.invalidate_cache()
             elif category:
-                for comp in category.all_components.iterator():
-                    comp.invalidate_cache()
+                for category_component in category.all_components.iterator():
+                    category_component.invalidate_cache()
             elif project:
-                for comp in project.component_set.iterator():
-                    comp.invalidate_cache()
+                for project_component in project.component_set.iterator():
+                    project_component.invalidate_cache()
 
 
 class RemoveComments(RemovalAddon):

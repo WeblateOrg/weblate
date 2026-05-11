@@ -214,7 +214,7 @@ def get_default_contribute_personal_tm() -> bool:
     return not settings.DEFAULT_AUTOCLEAN_TM
 
 
-class SubscriptionQuerySet(models.QuerySet["Subscription"]):
+class SubscriptionQuerySet(models.QuerySet["Subscription", "Subscription"]):
     def order(self):
         """Ordering in project scope by priority."""
         return self.order_by("user", "scope")
@@ -472,7 +472,7 @@ class AuditLogManager(models.Manager):
         )
 
 
-class AuditLogQuerySet(models.QuerySet["AuditLog"]):
+class AuditLogQuerySet(models.QuerySet["AuditLog", "AuditLog"]):
     def get_after(self, user: User, after: str, activity: str) -> AuditLogQuerySet:
         """
         Get user activities of given type after another activity.

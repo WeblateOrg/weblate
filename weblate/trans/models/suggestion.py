@@ -97,7 +97,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
         return suggestion
 
 
-class SuggestionQuerySet(models.QuerySet):
+class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
     def order(self):
         return self.order_by("-timestamp")
 

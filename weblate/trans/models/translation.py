@@ -156,7 +156,7 @@ class TranslationManager(models.Manager):
         return translation
 
 
-class TranslationQuerySet(models.QuerySet):
+class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
     def prefetch(self, *, defer_huge: bool = True):
         from weblate.trans.models import Component  # noqa: PLC0415
 
@@ -858,7 +858,7 @@ class Translation(
             self.log_error("skipping commit due to error: %s", error)
             return False
 
-        pending_changes = list(
+        pending_changes: list[PendingUnitChange] = list(
             PendingUnitChange.objects.filter(pk__in=pending_changes_pk)
             .prefetch_related("unit", "author")
             .order_by("timestamp")

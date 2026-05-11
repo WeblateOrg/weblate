@@ -31,7 +31,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         """Filter announcements by context."""
         base = self.filter(
             Q(expiry__isnull=True) | Q(expiry__gte=timezone.now())
-        ).order()
+        ).order_by("id")
 
         if language and project is None and component is None and category is None:
             return base.filter(
@@ -103,7 +103,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         return result
 
 
-class AnnouncementQuerySet(models.QuerySet):
+class AnnouncementQuerySet(models.QuerySet["Announcement", "Announcement"]):
     def order(self):
         return self.order_by("id")
 

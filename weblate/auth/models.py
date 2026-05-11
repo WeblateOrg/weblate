@@ -118,7 +118,7 @@ class Role(models.Model):
         return pgettext("Access-control role", self.name)
 
 
-class GroupQuerySet(models.QuerySet["Group"]):
+class GroupQuerySet(models.QuerySet["Group", "Group"]):
     def order(self):
         """Ordering in project scope by priority."""
         return self.order_by("defining_project__name", "name")
@@ -289,7 +289,7 @@ class UserManager(BaseUserManager["User"]):
             return user
 
 
-class UserQuerySet(models.QuerySet["User"]):
+class UserQuerySet(models.QuerySet["User", "User"]):
     def having_perm(self, perm: str, project: Project) -> Self:
         """
         All users having explicit permission on a project.

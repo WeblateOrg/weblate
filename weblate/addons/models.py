@@ -44,6 +44,8 @@ from .base import BaseAddon
 from .events import AddonEvent
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
@@ -72,7 +74,7 @@ class AddonCache:
         return self.events.get(event, [])
 
 
-class AddonQuerySet(models.QuerySet):
+class AddonQuerySet(models.QuerySet["Addon", "Addon"]):
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
 
@@ -599,7 +601,7 @@ def handle_addon_event(
     project: Project | None = None,
     component: Component | None = None,
     translation: Translation | None = None,
-    addon_queryset: AddonQuerySet | list[Addon] | None = None,
+    addon_queryset: Iterable[Addon] | None = None,
 ) -> None:
     # Scope is used for logging
     scope: Translation | Component | Project | None = (
@@ -618,13 +620,13 @@ def handle_addon_event(
 
 
 @transaction.atomic
-def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]) -> None:
+def handle_daily_addon_event(addon_queryset: Iterable[Addon]) -> None:
     handle_scoped_addon_event(addon_queryset, AddonEvent.EVENT_DAILY, "daily")
 
 
 @transaction.atomic
 def handle_scoped_addon_event(
-    addon_queryset: AddonQuerySet | list[Addon], event: AddonEvent, method: str
+    addon_queryset: Iterable[Addon], event: AddonEvent, method: str
 ) -> None:
     project_kwargs = {"component": None, "category": None, "project": None}
 
