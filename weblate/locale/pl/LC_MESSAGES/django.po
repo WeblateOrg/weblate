@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-11 09:10+0000\n"
+"PO-Revision-Date: 2026-05-11 09:35+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -4091,20 +4091,16 @@ msgid "Oldest pending Weblate change"
 msgstr "Najstarsza oczekująca zmiana Weblate"
 
 #: weblate/billing/models.py:233
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "Zmiany repozytorium"
+msgstr "Alert o zmianach w repozytorium"
 
 #: weblate/billing/models.py:238
 msgid "Push failure alert"
-msgstr ""
+msgstr "Alert o niepowodzeniu wypchnięcia"
 
 #: weblate/billing/models.py:243
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "Zakończ cykliczną płatność"
+msgstr "Wyłączenie zaplanowanej płatności cyklicznej"
 
 #: weblate/billing/models.py:340
 msgid "Changes in last month"
@@ -5606,10 +5602,8 @@ msgstr "Plik Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:472
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "Plik DTD"
+msgstr "Plik MDX"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:553
@@ -5718,7 +5712,7 @@ msgstr "Wielowartościowy plik CSV"
 #: weblate/formats/ttkit.py:220
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "Nieprawidłowe metadane formy liczby mnogiej w pliku CSV: %s"
 
 #: weblate/formats/ttkit.py:152 weblate/formats/ttkit.py:2367
 #, python-format
@@ -5726,17 +5720,18 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"Metadane formy liczby mnogiej w pliku CSV są poza zakresem: %(value)s "
+"(maksymalnie: %(maximum)s)"
 
 #: weblate/formats/ttkit.py:177 weblate/formats/ttkit.py:183
 #: weblate/formats/ttkit.py:188 weblate/formats/ttkit.py:194
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "Nieprawidłowa flaga tłumaczenia \"%s\""
+msgstr "Nieprawidłowe metadane id_hash w pliku CSV: %s"
 
 #: weblate/formats/ttkit.py:207 weblate/formats/ttkit.py:2399
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "Metadane formy liczby mnogiej w pliku CSV wymagają id_hash."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
@@ -5905,27 +5900,25 @@ msgstr "Plik CSV"
 #: weblate/formats/ttkit.py:2376
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "W metadanych formy liczby mnogiej w pliku CSV brakuje formy %d."
 
 #: weblate/formats/ttkit.py:2446
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "Metadane formy liczby mnogiej w pliku CSV wymagają target_plural_form."
 
 #: weblate/formats/ttkit.py:2455
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "Metadane formy liczby mnogiej w pliku CSV wymagają source_plural_form."
 
 #: weblate/formats/ttkit.py:2476
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "W pliku znaleziono zduplikowany ciąg."
+msgstr "Zduplikowana docelowa forma liczby mnogiej w pliku CSV: %s"
 
 #: weblate/formats/ttkit.py:2485
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Kodowanie używane w plikach CSV"
+msgstr "Sprzeczna źródłowa forma liczby mnogiej w pliku CSV: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2665
