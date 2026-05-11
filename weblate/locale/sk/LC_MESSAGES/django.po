@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-10 15:01+0000\n"
+"PO-Revision-Date: 2026-05-11 08:35+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -3947,18 +3947,16 @@ msgid "The file format does not support updating source strings."
 msgstr "Formát súboru nepodporuje aktualizáciu zdrojových reťazcov."
 
 #: weblate/auth/utils.py:57
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "Názov súboru nemôže byť absolútna cesta."
+msgstr "Anonymného používateľa nie je možné priradiť do tímov."
 
 #: weblate/auth/utils.py:60
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "Neaktívnych používateľov nie je možné priradiť do tímov."
 
 #: weblate/auth/utils.py:63
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "Tokeny projektu tu nie je možné priradiť tímom."
 
 #: weblate/auth/views.py:131
 msgid "Cannot remove built-in team!"
@@ -4037,38 +4035,28 @@ msgid "In limits"
 msgstr "V limitoch"
 
 #: weblate/billing/models.py:218
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "Zastaviť opakujúcu sa platbu"
+msgstr "Oznámenie o neaktívnej opakovanej platbe"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "Posledný vzdialený zápis"
+msgstr "Najnovší upstream zápis"
 
 #: weblate/billing/models.py:228
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "Zapísať čakajúce zmeny"
+msgstr "Najstaršia čakajúca zmena vo Weblate"
 
 #: weblate/billing/models.py:233
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "Zmeny repozitára"
+msgstr "Upozornenie na zmeny v repozitári"
 
 #: weblate/billing/models.py:238
 msgid "Push failure alert"
-msgstr ""
+msgstr "Upozornenie o zlyhaní odoslania"
 
 #: weblate/billing/models.py:243
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "Zastaviť opakujúcu sa platbu"
+msgstr "Plánované deaktivovanie opakovanej platby"
 
 #: weblate/billing/models.py:340
 msgid "Changes in last month"
@@ -5556,10 +5544,8 @@ msgstr "Súbor Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:472
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "Súbor DTD"
+msgstr "Súbor MDX"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:553
@@ -5668,7 +5654,7 @@ msgstr "Viachodnotový súbor CSV"
 #: weblate/formats/ttkit.py:220
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "Neplatné metadáta množného čísla v súbore CSV: %s"
 
 #: weblate/formats/ttkit.py:152 weblate/formats/ttkit.py:2367
 #, python-format
@@ -5676,17 +5662,18 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"Metadáta množného čísla v CSV súbore sú mimo povoleného rozsahu: %(value)s "
+"(maximum: %(maximum)s)"
 
 #: weblate/formats/ttkit.py:177 weblate/formats/ttkit.py:183
 #: weblate/formats/ttkit.py:188 weblate/formats/ttkit.py:194
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "Neplatná príznak prekladu: „%s“"
+msgstr "Neplatný príznak prekladu: „%s“"
 
 #: weblate/formats/ttkit.py:207 weblate/formats/ttkit.py:2399
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "Metadáta množného čísla v CSV súbore vyžadujú id_hash."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
@@ -5855,27 +5842,25 @@ msgstr "Súbor CSV"
 #: weblate/formats/ttkit.py:2376
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "V metadátach množného čísla v CSV súbore chýba formulár %d."
 
 #: weblate/formats/ttkit.py:2446
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "Metadáta množného čísla v CSV súbore vyžadujú target_plural_form."
 
 #: weblate/formats/ttkit.py:2455
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "Metadáta množného čísla v CSV súbore vyžadujú source_plural_form."
 
 #: weblate/formats/ttkit.py:2476
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "Nájdený duplikovaný reťazec v súbore."
+msgstr "Duplicitný cieľový formulár množného čísla v CSV súbore: %s"
 
 #: weblate/formats/ttkit.py:2485
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Kódovanie používané pre súbory CSV"
+msgstr "Konfliktný zdrojový formulár množného čísla v CSV súbore: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2665
@@ -7533,16 +7518,13 @@ msgid "Contact server administrators"
 msgstr "Kontaktovať správcov servera"
 
 #: weblate/templates/accounts/contact.html:25
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
-msgstr "Tu môžete kontaktovať iba správcov servera %(site_title)s."
+msgstr "Tento formulár použite na kontaktovanie administrátorov %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
-msgstr "Tu môžete kontaktovať iba správcov celého servera."
+msgstr "Tento formulár použite na kontaktovanie administrátorov tohto servera."
 
 #: weblate/templates/accounts/contact.html:34
 #: weblate/templates/accounts/user_profile_link.html:35
@@ -7558,88 +7540,62 @@ msgstr "Odoslať"
 
 #: weblate/templates/accounts/contact.html:44
 msgid "How can we help?"
-msgstr ""
+msgstr "Ako vám môžeme pomôcť?"
 
 #: weblate/templates/accounts/contact.html:47
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "Vyberte si jednu z nižšie uvedených možností, aby ste získali pomoc."
 
 #: weblate/templates/accounts/contact.html:56
-#, fuzzy
-#| msgid "Import translation project"
 msgid "Question about a translation project"
-msgstr "Importovať prekladový projekt"
+msgstr "Otázka týkajúca sa prekladového projektu"
 
 #: weblate/templates/accounts/contact.html:60
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, don’t use this form. "
-#| "Refer to the project’s Info tab and contact its maintainers."
 msgid ""
 "Find a specific translation project, refer to the project's Overview tab and "
 "contact its maintainers directly."
 msgstr ""
-"Pre otázky o konkrétnom prekladovom projekte nepoužívajte tento formulár. "
-"Odkazujte na kartu Info projektu a kontaktujte jeho správcov."
+"Ak chcete nájsť konkrétny prekladový projekt, pozrite si kartu Prehľad "
+"daného projektu a kontaktujte jeho správcov priamo."
 
 #: weblate/templates/accounts/contact.html:64
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse projects"
-msgstr "Prehľadať všetky projekty"
+msgstr "Prehľadať projekty"
 
 #: weblate/templates/accounts/contact.html:72
-#, fuzzy
-#| msgid "Weblate project"
 msgid "Weblate product feedback"
-msgstr "Projekt Weblate"
+msgstr "Spätná väzba k produktu Weblate"
 
 #: weblate/templates/accounts/contact.html:76
-#, fuzzy
-#| msgid ""
-#| "Weblate development ideas and questions can be sent to the %"
-#| "(link_start)sWeblate issue tracker%(link_end)s."
 msgid ""
 "Share Weblate development ideas, feature requests, or report bugs in the "
 "upstream issue tracker."
 msgstr ""
-"Návrhy a otázky týkajúce sa vývoja Weblate môžu byť odoslané na %"
-"(link_start)sWeblate issue tracker%(link_end)s."
+"Zdieľajte svoje nápady na vývoj Weblate, návrhy na nové funkcie alebo "
+"nahláste chyby v upstream issue trackeri."
 
 #: weblate/templates/accounts/contact.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Open issue"
-#| msgid_plural "Open issues"
 msgid "Open issue tracker"
-msgstr "Otvorený problém"
+msgstr "Otvoriť issue tracker"
 
 #: weblate/templates/accounts/contact.html:92
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support for another Weblate server"
-msgstr "Podpora Weblate"
+msgstr "Podpora pre iný Weblate server"
 
 #: weblate/templates/accounts/contact.html:96
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for any other Weblate deployment than %(site_title)s, "
-#| "please check support offerings at %(weblate_link)s or use this form on "
-#| "the correct server."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
 "Ak hľadáte podporu pre akékoľvek iné nasadenie Weblate než %(site_title)s, "
-"prosím, skontrolujte ponuky podpory na %(weblate_link)s alebo použite tento "
-"formulár na správnom serveri."
+"pozrite si dostupné možnosti podpory alebo použite kontaktný formulár na "
+"príslušnom serveri."
 
 #: weblate/templates/accounts/contact.html:103
-#, fuzzy
-#| msgid "New source string"
 msgid "View support offerings"
-msgstr "Nový zdrojový reťazec"
+msgstr "Zobraziť ponuku podpory"
 
 #: weblate/templates/accounts/contact.html:112 weblate/templates/base.html:434
 #: weblate/templates/base.html:436 weblate/templates/footer.html:41
@@ -7659,16 +7615,17 @@ msgid ""
 "Browse the Weblate documentation for guides on translating, administration, "
 "and configuration."
 msgstr ""
+"Preštudujte si dokumentáciu Weblate, kde nájdete návody na prekladanie, "
+"správu a konfiguráciu."
 
 #: weblate/templates/accounts/contact.html:121
 msgid "Read the docs"
-msgstr ""
+msgstr "Prečítať dokumentáciu"
 
 #: weblate/templates/accounts/contact.html:131
-#, fuzzy, python-format
-#| msgid "Contact site administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "Kontaktujte správcu webu"
+msgstr "Otázka pre administrátorov %(site_title)s"
 
 #: weblate/templates/accounts/contact.html:133
 #, fuzzy
