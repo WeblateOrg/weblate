@@ -16,10 +16,10 @@ from weblate.checks.consistency import (
     TranslatedCheck,
 )
 from weblate.checks.models import Check
-from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Unit
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     FixtureTestCase,
@@ -29,24 +29,24 @@ from weblate.utils.state import STATE_TRANSLATED
 
 class PluralsCheckTest(TestCase):
     def setUp(self) -> None:
-        self.check = PluralsCheck()
+        self.check: PluralsCheck | SamePluralsCheck = PluralsCheck()
 
     def test_none(self) -> None:
         self.assertFalse(
-            self.check.check_target(["string"], ["string"], MockUnit("plural_none"))
+            self.check.check_target(["string"], ["string"], make_unit("plural_none"))
         )
 
     def test_empty(self) -> None:
         self.assertFalse(
             self.check.check_target(
-                ["string", "plural"], ["", ""], MockUnit("plural_empty")
+                ["string", "plural"], ["", ""], make_unit("plural_empty")
             )
         )
 
     def test_hit(self) -> None:
         self.assertTrue(
             self.check.check_target(
-                ["string", "plural"], ["string", ""], MockUnit("plural_partial_empty")
+                ["string", "plural"], ["string", ""], make_unit("plural_partial_empty")
             )
         )
 
@@ -55,7 +55,7 @@ class PluralsCheckTest(TestCase):
             self.check.check_target(
                 ["string", "plural"],
                 ["translation", "trplural"],
-                MockUnit("plural_good"),
+                make_unit("plural_good"),
             )
         )
 
@@ -69,7 +69,7 @@ class SamePluralsCheckTest(PluralsCheckTest):
             self.check.check_target(
                 ["string", "plural"],
                 ["string", "string"],
-                MockUnit("plural_partial_empty"),
+                make_unit("plural_partial_empty"),
             )
         )
 
@@ -116,7 +116,7 @@ class TranslatedCheckTest(FixtureTestCase):
 class ReusedCheckGuardTest(SimpleTestCase):
     def test_reuse_ignores_non_propagating_component(self) -> None:
         check = ReusedCheck()
-        unit = MockUnit(target="Jeden")
+        unit = make_unit(target="Jeden")
         unit.translation.component.allow_translation_propagation = False
         unit.translation.component.batch_checks = True
 
