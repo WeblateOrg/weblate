@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-11 08:36+0000\n"
+"PO-Revision-Date: 2026-05-11 09:10+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -7636,12 +7636,13 @@ msgid ""
 "Reach out to the administrators of this server about account, registration, "
 "or server-wide questions that don't fit the topics above."
 msgstr ""
+"Obráťte sa na administrátorov tohto servera v súvislosti s otázkami o účte, "
+"registrácii alebo celoserverových záležitostiach, ktoré nespadajú do vyššie "
+"uvedených tém."
 
 #: weblate/templates/accounts/contact.html:143
-#, fuzzy
-#| msgid "Use contact form"
 msgid "Open contact form"
-msgstr "Použiť kontaktný formulár"
+msgstr "Otvoriť kontaktný formulár"
 
 #: weblate/templates/accounts/email-sent.html:7
 #: weblate/templates/accounts/register.html:7
@@ -11292,6 +11293,8 @@ msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
 msgstr ""
+"Tieto fakturácie majú naplánované automatické zrušenie opakovanej platby z "
+"dôvodu neaktivity:"
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -11389,6 +11392,8 @@ msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
 msgstr ""
+"Opakovaná ročná platba za váš plán bude vypnutá %(date)s, keďže zahrnuté "
+"projekty vykazujú známky neaktivity."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
@@ -11396,42 +11401,37 @@ msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
 msgstr ""
+"Najnovší známy záznam zmeny repozitára pre tieto projekty pochádza z %(date)"
+"s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
-msgstr "Požiadavka na nový preklad bola odoslaná správcov projektu."
+msgstr "Weblate má pre tieto projekty čakajúce prekladové zmeny od %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
+"Weblate má zmeny v repozitári, ktoré čakajú na odoslanie, už od %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr ""
-"Weblate by teraz mal vidieť aktualizovaný repozitár a vy ho môžete odomknúť."
+msgstr "Weblate nedokáže od %(date)s odoslať zmeny do repozitára."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
 "The projects will remain available, but the next payment will need to be "
 "made manually."
 msgstr ""
+"Projekty zostanú dostupné, ale ďalšiu platbu bude potrebné uhradiť manuálne."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "Účet bude deaktivovaný po vypršaní."
+msgstr "Opakovaná platba bude deaktivovaná pre neaktívne projekty"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -15949,17 +15949,13 @@ msgstr "Úprava používateľa vrátená späť"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:196
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Project setting changed"
-msgstr "Zdrojový reťazec zmenený"
+msgstr "Nastavenie projektu zmenené"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:198
-#, fuzzy
-#| msgid "Component renamed"
 msgid "Component setting changed"
-msgstr "Komponent premenovaný"
+msgstr "Nastavenie komponentu zmenené"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16080,20 +16076,14 @@ msgstr ""
 "Licencia komponentu „%(component)s“ bola zmenená z %(old)s na %(target)s."
 
 #: weblate/trans/change_display.py:256
-#, fuzzy, python-format
-#| msgid ""
-#| "The license of the \"%(component)s\" component was changed from %(old)s "
-#| "to %(target)s."
+#, python-format
 msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
-msgstr ""
-"Licencia komponentu „%(component)s“ bola zmenená z %(old)s na %(target)s."
+msgstr "%(setting)s sa zmenilo z „%(old)s“ na „%(target)s“."
 
 #: weblate/trans/change_display.py:266
-#, fuzzy
-#| msgid "Next section"
 msgctxt "Setting value"
 msgid "Not set"
-msgstr "Nasledujúca sekcia"
+msgstr "Nenastavené"
 
 #: weblate/trans/change_display.py:347
 msgid "Original revision: {}"
@@ -16277,56 +16267,40 @@ msgid "Use fuzzy matching"
 msgstr "Použiť nejasné zarovnanie"
 
 #: weblate/trans/file_format_params.py:386
-#, fuzzy
-#| msgid "Set \"Language-Team\" header"
 msgid "Update language team header"
-msgstr "Nastaviť hlavičku „Language-Team“"
+msgstr "Aktualizovať hlavičku jazykového tímu"
 
 #: weblate/trans/file_format_params.py:389
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"Language-Team\" file header."
-msgstr "Umožňuje Weblate aktualizovať hlavičku „Language-Team“ vášho projektu."
+msgstr "Umožňuje Weblate aktualizovať hlavičku „Language‑Team“ v súbore."
 
 #: weblate/trans/file_format_params.py:396
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Update last translator header"
-msgstr "Nepreložené reťazce"
+msgstr "Aktualizovať hlavičku posledného prekladateľa"
 
 #: weblate/trans/file_format_params.py:399
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"Last-Translator\" file header."
-msgstr "Umožňuje Weblate aktualizovať hlavičku „Language-Team“ vášho projektu."
+msgstr "Umožňuje Weblate aktualizovať hlavičku „Last‑Translator“ v súbore."
 
 #: weblate/trans/file_format_params.py:406
 msgid "Update X-Generator header"
-msgstr ""
+msgstr "Aktualizovať hlavičku X‑Generator"
 
 #: weblate/trans/file_format_params.py:409
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"X-Generator\" file header."
-msgstr "Umožňuje Weblate aktualizovať hlavičku „Language-Team“ vášho projektu."
+msgstr "Umožňuje Weblate aktualizovať hlavičku „X‑Generator“ v súbore."
 
 #: weblate/trans/file_format_params.py:416
-#, fuzzy
-#| msgid "Report missing language"
 msgid "Report msgid bugs to"
-msgstr "Nahlásiť chýbajúci jazyk"
+msgstr "Nahlásiť chyby v msgid"
 
 #: weblate/trans/file_format_params.py:420
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid ""
 "Lets Weblate update the \"Report-Msgid-Bugs-To\" file header if Source "
 "string bug reporting address is set."
-msgstr "Umožňuje Weblate aktualizovať hlavičku „Language-Team“ vášho projektu."
+msgstr ""
+"Umožňuje Weblate aktualizovať hlavičku „Report‑Msgid‑Bugs‑To“ v súbore, ak "
+"je nastavená adresa na hlásenie chýb zdrojových reťazcov."
 
 #: weblate/trans/file_format_params.py:434
 msgid "YAML indentation"
@@ -16454,46 +16428,44 @@ msgstr "Koncovky riadkov DOS"
 msgid ""
 "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
 msgstr ""
+"Použije zakončenia riadkov DOS (\\r\\n) namiesto zakončení riadkov UNIX (\\"
+"n) v reťazcoch."
 
 #: weblate/trans/file_format_params.py:658
 msgid "Maximum line length"
-msgstr ""
+msgstr "Maximálna dĺžka riadku"
 
 #: weblate/trans/file_format_params.py:663
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "The maximum number of characters for each line in the output file."
-msgstr "Maximálny počet tokenov na vygenerovanie v odpovedi."
+msgstr "Maximálny počet znakov pre každý riadok vo výstupnom súbore."
 
 #: weblate/trans/file_format_params.py:671
-#, fuzzy
-#| msgid "Extract all comments"
 msgid "Extract code blocks"
-msgstr "Extrahovať všetky komentáre"
+msgstr "Extrahovať bloky kódu"
 
 #: weblate/trans/file_format_params.py:675
 msgid ""
 "Whether to extract translatable content from code blocks in Markdown and MDX "
 "files."
 msgstr ""
+"Či sa má extrahovať preložiteľný obsah z blokov kódu v súboroch Markdown a "
+"MDX."
 
 #: weblate/trans/file_format_params.py:683
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Extract front matter"
-msgstr "Extrahovať komentáre s tagom"
+msgstr "Extrahovať front matter"
 
 #: weblate/trans/file_format_params.py:687
 msgid ""
 "Whether to extract and translate YAML front matter blocks in Markdown and "
 "MDX files."
 msgstr ""
+"Či sa majú extrahovať a prekladať YAML front matter bloky v súboroch "
+"Markdown a MDX."
 
 #: weblate/trans/file_format_params.py:695
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "Percentuálne zástupné symboly"
+msgstr "Zakázať zástupné symboly"
 
 #: weblate/trans/file_format_params.py:699
 msgid ""
