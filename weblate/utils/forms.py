@@ -78,7 +78,7 @@ class UsernameField(forms.CharField):
         help_text: StrOrPromise | None = None,
         **kwargs,
     ) -> None:
-        self.valid = None
+        self.valid: str | None = None
         if not label:
             label = gettext_lazy("Username")
         if not help_text:

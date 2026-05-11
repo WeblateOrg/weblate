@@ -435,7 +435,9 @@ class UserForm(forms.ModelForm):
         emails = get_all_user_mails(self.instance)
 
         self.fields["email"].choices = [(x, x) for x in sorted(emails)]
-        self.fields["username"].valid = self.instance.username
+        cast(
+            "UniqueUsernameField", self.fields["username"]
+        ).valid = self.instance.username
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
