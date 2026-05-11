@@ -473,12 +473,13 @@ class AdminTest(ViewTestCase):
         self.assertEqual(Invitation.objects.filter(is_superuser=True).count(), 2)
 
     def test_check_user(self) -> None:
+        email = cast("str", self.user.email)
         response = self.client.get(
-            reverse("manage-users-check"), {"q": self.user.email}, follow=True
+            reverse("manage-users-check"), {"q": email}, follow=True
         )
         self.assertRedirects(response, self.user.get_absolute_url())
         response = self.client.get(
-            reverse("manage-users-check"), {"email": self.user.email}, follow=True
+            reverse("manage-users-check"), {"email": email}, follow=True
         )
         self.assertRedirects(response, self.user.get_absolute_url())
         self.assertContains(response, "Never signed-in")
