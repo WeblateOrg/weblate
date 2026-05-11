@@ -260,7 +260,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
                     break
             return self.preload_list(result, skip_preload)
 
-    def bulk_create(
+    def bulk_create(  # type: ignore[override]
         self,
         objs: Iterable[Change],
         batch_size: int | None = None,
@@ -278,8 +278,8 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
             dispatch_changes_notifications,
         )
 
-        changes = super().bulk_create(
-            objs,
+        changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
+            objs,  # type: ignore[arg-type]
             batch_size=batch_size,
             ignore_conflicts=ignore_conflicts,
             update_conflicts=update_conflicts,
