@@ -70,28 +70,6 @@ wheels = [
 ]
 
 [[package]]
-name = "aliyun-python-sdk-alimt"
-version = "3.2.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "aliyun-python-sdk-core" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/3f/5f/b89b7ec66f1df7b56b611dc7a5683d2448ec560549a00e8ee909a20b90d0/aliyun-python-sdk-alimt-3.2.0.tar.gz", hash = "sha256:a33f0f358fe3eb113ba58f7517c3b979dda3d36abcb4597503fbbd4397d86ee0", size = 5518, upload-time = "2023-04-11T09:25:55.32Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/2c/158c9c5c1f4d0c5c21836b9fe884bebe1fc65729f34ca5e37b9a28e5f80b/aliyun_python_sdk_alimt-3.2.0-py2.py3-none-any.whl", hash = "sha256:167f301adfc34c10a86d0f85b21fa758e953c520d49faf447eb7db8d08df4acb", size = 24824, upload-time = "2023-04-11T09:25:53.324Z" },
-]
-
-[[package]]
-name = "aliyun-python-sdk-core"
-version = "2.16.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "cryptography" },
-    { name = "jmespath" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/3e/09/da9f58eb38b4fdb97ba6523274fbf445ef6a06be64b433693da8307b4bec/aliyun-python-sdk-core-2.16.0.tar.gz", hash = "sha256:651caad597eb39d4fad6cf85133dffe92837d53bdf62db9d8f37dab6508bb8f9", size = 449555, upload-time = "2024-10-09T06:01:01.762Z" }
-
-[[package]]
 name = "altcha"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4948,13 +4926,7 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-alibaba = [
-    { name = "aliyun-python-sdk-alimt" },
-    { name = "aliyun-python-sdk-core" },
-]
 all = [
-    { name = "aliyun-python-sdk-alimt" },
-    { name = "aliyun-python-sdk-core" },
     { name = "boto3" },
     { name = "django-auth-ldap" },
     { name = "django-zxcvbn-password-validator" },
@@ -5132,8 +5104,6 @@ types = [
 requires-dist = [
     { name = "aeidon", specifier = "==1.16" },
     { name = "ahocorasick-rs", specifier = "==1.0.3" },
-    { name = "aliyun-python-sdk-alimt", marker = "extra == 'alibaba'", specifier = "==3.2.0" },
-    { name = "aliyun-python-sdk-core", marker = "extra == 'alibaba'", specifier = "==2.16.0" },
     { name = "altcha", specifier = "==2.0.0" },
     { name = "argon2-cffi", specifier = "==25.1.0" },
     { name = "argon2-cffi-bindings", specifier = "==25.1.0" },
@@ -5223,14 +5193,14 @@ requires-dist = [
     { name = "unidecode", specifier = "==1.4.0" },
     { name = "urllib3", extras = ["brotli", "zstd"], specifier = "==2.7.0" },
     { name = "user-agents", specifier = "==2.2.0" },
-    { name = "weblate", extras = ["alibaba", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "postgres", "rollbar", "sphinx", "zxcvbn"], marker = "extra == 'all'" },
+    { name = "weblate", extras = ["amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "postgres", "rollbar", "sphinx", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-fonts", specifier = "==2026.1" },
     { name = "weblate-language-data", specifier = "==2026.7" },
     { name = "weblate-schemas", specifier = "==2026.1" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = "==2026.3" },
     { name = "xmlsec", marker = "extra == 'saml'", specifier = "==1.3.17" },
 ]
-provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [

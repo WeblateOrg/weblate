@@ -15,9 +15,9 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import MagicMock, Mock, call, patch
+from urllib.parse import parse_qs, urlparse
 
 import responses
-from aliyunsdkcore.client import AcsClient
 from botocore.stub import ANY, Stubber
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
@@ -2922,6 +2922,7 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = AlibabaTranslation
     EXPECTED_LEN = 1
     NOTSUPPORTED = "tog"
+    API_URL = re.compile(r"^https://mt(?:\.[a-z0-9-]+)?\.aliyuncs\.com/\?.*")
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "key",
         "secret": "secret",
@@ -2931,25 +2932,93 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
 
-    def mock_error(self) -> NoReturn:
-        self.skipTest("Not tested")
+    def mock_error(self) -> None:
+        responses.add(
+            responses.POST,
+            self.API_URL,
+            json={
+                "Code": "InvalidAccessKeyId.NotFound",
+                "Message": "Specified access key is not found.",
+            },
+            status=400,
+        )
 
     def mock_response(self) -> None:
-        patcher = patch.object(
-            AcsClient,
-            "do_action_with_exception",
-            Mock(
-                return_value=json.dumps(
+        responses.add(
+            responses.POST,
+            self.API_URL,
+            json={
+                "RequestId": "14E447CA-B93B-4526-ACD7-42AE13CC2AF6",
+                "Data": {"Translated": "Hello"},
+                "Code": 200,
+            },
+        )
+
+    @responses.activate
+    def test_signed_request(self) -> None:
+        def request_callback(request: PreparedRequest):
+            url = urlparse(request.url)
+            query = parse_qs(url.query, keep_blank_values=True)
+            body_content = (
+                request.body.decode()
+                if isinstance(request.body, bytes)
+                else str(request.body)
+            )
+            body = parse_qs(body_content, keep_blank_values=True)
+
+            self.assertEqual(url.scheme, "https")
+            self.assertEqual(url.netloc, "mt.cn-hangzhou.aliyuncs.com")
+            self.assertEqual(body["SourceLanguage"], ["en"])
+            self.assertEqual(body["SourceText"], [self.SOURCE_TRANSLATED])
+            self.assertEqual(body["TargetLanguage"], [self.SUPPORTED])
+            self.assertEqual(body["FormatType"], ["text"])
+            self.assertEqual(query["Action"], ["TranslateGeneral"])
+            self.assertEqual(query["Version"], ["2018-10-12"])
+            self.assertEqual(query["Format"], ["JSON"])
+            self.assertEqual(query["RegionId"], ["cn-hangzhou"])
+            self.assertEqual(query["AccessKeyId"], ["key"])
+            self.assertEqual(query["SignatureMethod"], ["HMAC-SHA1"])
+            self.assertEqual(query["SignatureType"], [""])
+            self.assertEqual(query["SignatureVersion"], ["1.0"])
+            self.assertEqual(query["SignatureNonce"], ["nonce"])
+            self.assertEqual(query["Timestamp"], ["2016-02-23T12:46:24Z"])
+            self.assertEqual(query["Signature"], ["CFsUjxmfcBDHRL3x66DjpEQ+hJc="])
+            return (
+                200,
+                {},
+                json.dumps(
                     {
                         "RequestId": "14E447CA-B93B-4526-ACD7-42AE13CC2AF6",
                         "Data": {"Translated": "Hello"},
                         "Code": 200,
                     }
-                )
-            ),
+                ),
+            )
+
+        responses.add_callback(
+            responses.POST,
+            self.API_URL,
+            callback=request_callback,
         )
-        patcher.start()
-        self.addCleanup(patcher.stop)
+        with (
+            patch(
+                "weblate.machinery.alibaba._get_timestamp",
+                return_value="2016-02-23T12:46:24Z",
+            ),
+            patch("weblate.machinery.alibaba._get_nonce", return_value="nonce"),
+        ):
+            self.assert_translate(
+                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+
+    @responses.activate
+    def test_error_message(self) -> None:
+        self.mock_error()
+        with self.assertRaisesRegex(
+            MachineTranslationError,
+            "Error InvalidAccessKeyId.NotFound: Specified access key is not found.",
+        ):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
 class OpenAITranslationTest(BaseMachineTranslationTest):

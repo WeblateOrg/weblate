@@ -209,12 +209,8 @@ requires-python = ">=3.12"
 version = "2026.5"
 
 [project.optional-dependencies]
-alibaba = [
-  "aliyun-python-sdk-alimt==3.2.0",
-  "aliyun-python-sdk-core==2.16.0"
-]
 all = [
-  "weblate[alibaba,amazon,gelf,gerrit,google,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
+  "weblate[amazon,gelf,gerrit,google,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
   "boto3==1.43.6"
@@ -404,8 +400,6 @@ plugins = [
 disallow_untyped_defs = true
 ignore_missing_imports = true
 module = [
-  "aliyunsdkalimt.*",
-  "aliyunsdkcore.*",
   "appconf.*",
   "askalono.*",
   "borg.*",

@@ -15,6 +15,7 @@ Weblate 2026.5
 * Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
 * Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
 * :ref:`mt-openai` no longer requires the OpenAI Python SDK.
+* :ref:`mt-alibaba` no longer requires the Aliyun Python SDK.
 * Audited project and component setting changes are now recorded in history.
 * :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 * Weblate now checks whether :setting:`CACHE_DIR` allows executing generated helper files.
