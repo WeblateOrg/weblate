@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-04 12:58+0000\n"
+"PO-Revision-Date: 2026-05-11 07:44+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -20139,26 +20139,18 @@ msgid "Invalid host name given!"
 msgstr "שם המארח שגוי!"
 
 #: weblate/vcs/ssh.py:331
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"נוסף מפתח מארח עבור %(host)s עם טביעת אצבע %(fingerprint)s (%(keytype)s), נא "
-"לוודא שהוא נכון."
+"נוסף מפתח מארח עבור %(host)s עם טביעת אצבע %(fingerprint)s (%(keytype)s)."
 
 #: weblate/vcs/ssh.py:344
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"נוסף מפתח מארח עבור %(host)s עם טביעת אצבע %(fingerprint)s (%(keytype)s), נא "
-"לוודא שהוא נכון."
+"נפסח מפתח מארח עבור %(host)s עם טביעת אצבע %(fingerprint)s (%(keytype)s)."
 
 #: weblate/vcs/ssh.py:356
 #, python-format
@@ -20170,32 +20162,23 @@ msgstr ""
 "לוודא שהוא נכון."
 
 #: weblate/vcs/ssh.py:393
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "לא ניתן לקבל מפתח מארח: %s"
+msgstr "לא ניתן לקרוא מפתחות מארח מאוחסנים."
 
 #: weblate/vcs/ssh.py:406
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "לא ניתן למצוא את השינוי ששוחזר."
+msgstr "לא ניתן למצוא את מפתח המארח הנבחר."
 
 #: weblate/vcs/ssh.py:413
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "לא ניתן לעדכן את המאגר."
+msgstr "לא ניתן לעדכן את מפתחות המארח המאוחסנים."
 
 #: weblate/vcs/ssh.py:420
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"נוסף מפתח מארח עבור %(host)s עם טביעת אצבע %(fingerprint)s (%(keytype)s), נא "
+"הוסר מפתח מארח עבור %(host)s עם טביעת אצבע %(fingerprint)s (%(keytype)s), נא "
 "לוודא שהוא נכון."
 
 #: weblate/wladmin/forms.py:17
@@ -20213,12 +20196,14 @@ msgstr "פתחה"
 
 #: weblate/wladmin/forms.py:38
 msgid "Keep blank for using the default SSH port."
-msgstr ""
+msgstr "להשאיר ריק כדי להשתמש בפתחת ברירת המחדל של SSH."
 
 #: weblate/wladmin/forms.py:44
 msgid ""
 "Fingerprint of key to add. Keep blank to add all keys offered by the host."
 msgstr ""
+"טביעת אצבע של מפתח להוספה. אפשר להשאיר ריק כדי להוסיף את כל המפתחות שמציע "
+"המארח."
 
 #: weblate/wladmin/forms.py:58
 msgid "The test e-mail will be sent to this address."
