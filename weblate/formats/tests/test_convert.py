@@ -13,7 +13,6 @@ from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.test import SimpleTestCase
 
-from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
     AsciiDocFormat,
     HTMLFormat,
@@ -27,6 +26,7 @@ from weblate.formats.convert import (
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -58,7 +58,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_TEMPLATE = ""
     CONVERT_TRANSLATION = ""
     CONVERT_EXPECTED = ""
-    CONVERT_EXISTING: ClassVar[list[MockUnit]] = []
+    CONVERT_EXISTING: ClassVar[list[Unit]] = []
 
     def test_convert(self) -> None:
         self.maxDiff = None
@@ -163,9 +163,7 @@ Bye
 
 Nazdar
 """
-    CONVERT_EXISTING: ClassVar[list[MockUnit]] = [
-        MockUnit(source="Hello", target="Ahoj")
-    ]
+    CONVERT_EXISTING: ClassVar[list[Unit]] = [make_unit(source="Hello", target="Ahoj")]
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {
         "line_max_length": 80,
         "md_extract_code_blocks": False,
@@ -187,7 +185,7 @@ Nazdar
             testfile,
             template_store=self.format_class(testfile, is_template=True),
             existing_units=[
-                MockUnit(
+                make_unit(
                     source="Orangutan has five bananas.",
                     target="Orangutan má pět banánů.",
                 )
@@ -351,7 +349,7 @@ Nazdar
                 [
                     cast(
                         "Unit",
-                        MockUnit(
+                        make_unit(
                             source="Orangutan has five bananas.",
                             target="Orangutan má pět banánů.",
                         ),
@@ -599,9 +597,7 @@ Bye
 
 Nazdar
 """
-    CONVERT_EXISTING: ClassVar[list[MockUnit]] = [
-        MockUnit(source="Hello", target="Ahoj")
-    ]
+    CONVERT_EXISTING: ClassVar[list[Unit]] = [make_unit(source="Hello", target="Ahoj")]
 
     def test_existing_units(self) -> None:
         testdata = Path(self.FILE).read_bytes()
@@ -617,7 +613,7 @@ Nazdar
             testfile,
             template_store=self.format_class(testfile, is_template=True),
             existing_units=[
-                MockUnit(
+                make_unit(
                     source="Orangutan has five bananas.",
                     target="Orangutan má pět banánů.",
                 )

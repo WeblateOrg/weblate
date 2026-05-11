@@ -6,45 +6,54 @@
 """Tests for AngularJS checks."""
 
 from weblate.checks.angularjs import AngularJSInterpolationCheck
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.trans.tests.factories import make_unit
 
 
 class AngularJSInterpolationCheckTest(CheckTestCase):
     check = AngularJSInterpolationCheck()
 
     def test_no_format(self) -> None:
-        self.assertFalse(self.check.check_format("strins", "string", False, None))
+        self.assertFalse(
+            self.check.check_format("strins", "string", False, make_unit())
+        )
 
     def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
-                "{{name}} string {{other}}", "{{name}} {{other}} string", False, None
+                "{{name}} string {{other}}",
+                "{{name}} {{other}} string",
+                False,
+                make_unit(),
             )
         )
 
     def test_format_ignore_position(self) -> None:
         self.assertFalse(
             self.check.check_format(
-                "{{name}} string {{other}}", "{{other}} string {{name}}", False, None
+                "{{name}} string {{other}}",
+                "{{other}} string {{name}}",
+                False,
+                make_unit(),
             )
         )
 
     def test_different_whitespace(self) -> None:
         self.assertFalse(
             self.check.check_format(
-                "{{ name   }} string", "{{name}} string", False, None
+                "{{ name   }} string", "{{name}} string", False, make_unit()
             )
         )
 
     def test_missing_format(self) -> None:
         self.assertTrue(
-            self.check.check_format("{{name}} string", "string", False, None)
+            self.check.check_format("{{name}} string", "string", False, make_unit())
         )
 
     def test_wrong_value(self) -> None:
         self.assertTrue(
             self.check.check_format(
-                "{{name}} string", "{{nameerror}} string", False, None
+                "{{name}} string", "{{nameerror}} string", False, make_unit()
             )
         )
 
@@ -54,7 +63,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
                 "Value: {{ something.value | currency }}",
                 "Wert: {{ something.value | currency }}",
                 False,
-                None,
+                make_unit(),
             )
         )
         self.assertTrue(
@@ -62,7 +71,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
                 "Value: {{ something.value | currency }}",
                 "Value: {{ something.value }}",
                 False,
-                None,
+                make_unit(),
             )
         )
 
@@ -70,7 +79,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
         highlights = list(
             self.check.check_highlight(
                 "{{name}} {{ something.value | currency }} string",
-                MockUnit("angularjs_format", flags="angularjs-format"),
+                make_unit("angularjs_format", flags="angularjs-format"),
             )
         )
         self.assertEqual(
@@ -82,7 +91,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
         highlights = list(
             self.check.check_highlight(
                 "{{name}} {{other}} string",
-                MockUnit("angularjs_format", flags="ignore-angularjs-format"),
+                make_unit("angularjs_format", flags="ignore-angularjs-format"),
             )
         )
         self.assertEqual([], highlights)

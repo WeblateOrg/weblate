@@ -6,11 +6,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from weblate.checks.icu import ICUMessageFormatCheck, ICUSourceCheck
-from weblate.checks.models import Check
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.lang.models import Language
-from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.trans.tests.factories import make_check, make_unit
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 class ICUMessageFormatCheckTest(CheckTestCase):
@@ -22,7 +25,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
 
     def get_mock(
         self, source: str | list[str] | None = None, flags: str | None = None
-    ) -> MockUnit:
+    ) -> Unit:
         if not flags and self.flags:
             flags = self.flags
         elif flags and self.flags:
@@ -30,7 +33,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
 
         flags = f"{self.flag}, icu-flags:{flags}" if flags else self.flag
 
-        return MockUnit(
+        return make_unit(
             self.id_hash,
             flags=flags,
             source=source if source is not None else "",
@@ -86,7 +89,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
     def test_source_non_icu(self) -> None:
         check = ICUSourceCheck()
         source = "icon in the top bar: {{ img-queue | strip }}"
-        self.assertFalse(check.check_source([source], MockUnit("x", source=source)))
+        self.assertFalse(check.check_source([source], make_unit("x", source=source)))
 
     def test_bad_source(self) -> None:
         check = ICUSourceCheck()
@@ -290,7 +293,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
     def test_check_no_highlight(self) -> None:
         highlights = list(
             self.check.check_highlight(
-                "Hello, {name}!", MockUnit("java_format", flags="java-format")
+                "Hello, {name}!", make_unit("java_format", flags="java-format")
             )
         )
 
@@ -298,23 +301,17 @@ class ICUMessageFormatCheckTest(CheckTestCase):
 
     def test_check_target_plural(self) -> None:
         unit = self.get_mock(["{count} apple", "{count} apples"])
-        self.assertFalse(self.check.check_target_unit(unit.sources, unit.sources, unit))
+        sources = unit.get_source_plurals()
+        self.assertFalse(self.check.check_target_unit(sources, sources, unit))
 
     def test_description(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source="mailing list at iot{'@'}lists.fedoraproject.org",
             target="lista de discussão em iot{'@'}lists.fedoraproject.org",
-            translation=Translation(
-                component=Component(
-                    file_format="po",
-                    source_language=Language(code="en"),
-                    project=Project(),
-                )
-            ),
         )
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertEqual(
-            "Syntax error: Expected placeholder name at position 20 but found &quot;&#x27;&quot;",
+            "Syntax error: Expected placeholder name at position 26 but found &quot;&#x27;&quot;",
             str(self.check.get_description(check)),
         )
 
@@ -330,7 +327,7 @@ class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
                 "Hello <user/>! <link>Click here!</link>",
                 "Hallo <user />! <link>Klicke hier!</link>",
                 False,
-                None,
+                make_unit(),
             )
         )
 

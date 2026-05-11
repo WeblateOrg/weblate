@@ -12,7 +12,6 @@ from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
-from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import MagicMock, Mock, call, patch
 
@@ -38,7 +37,6 @@ from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
 import weblate.machinery.models
-from weblate.checks.tests.test_checks import MockLanguage, MockUnit
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -75,14 +73,16 @@ from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.trans.models import Project, Unit
+from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     FixtureTestCase,
     ViewTestCase,
 )
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.util import join_plural
 from weblate.utils.classloader import load_class
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 from .types import SourceLanguageChoices
 
@@ -348,7 +348,7 @@ class BaseMachineTranslationTest(TestCase):
             unit_args = {}
         if machine is None:
             machine = self.get_machine(cache=cache)
-        translation = machine.translate(MockUnit(code=lang, source=word, **unit_args))
+        translation = machine.translate(make_unit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
         if expected_len:
             self.assertGreater(len(translation), 0)
@@ -397,11 +397,14 @@ class BaseMachineTranslationTest(TestCase):
         self.mock_response()
         if machine is None:
             machine = self.get_machine()
-        unit1 = MockUnit(
+        unit1 = make_unit(
             code=self.SUPPORTED, source=self.SOURCE_TRANSLATED, target="target"
         )
-        unit2 = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
-        unit2.translated = False
+        unit2 = make_unit(
+            code=self.SUPPORTED,
+            source=self.SOURCE_TRANSLATED,
+            state=STATE_EMPTY,
+        )
         machine.batch_translate([unit1, unit2])
         self.assertGreater(unit1.machinery["quality"][0], -1)
         self.assertIn("translation", unit1.machinery)
@@ -430,7 +433,9 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    MockUnit(code=self.SUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
+                    make_unit(
+                        code=self.SUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED
+                    )
                 )[0],
             ),
             self.EXPECTED_LEN,
@@ -440,14 +445,14 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         machine_translation = self.get_machine()
         self.assertEqual(
             machine_translation.translate(
-                MockUnit(code=self.NOTSUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
+                make_unit(code=self.NOTSUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
             ),
             [],
         )
 
     def test_placeholders(self) -> None:
         machine_translation = self.get_machine()
-        unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
+        unit = make_unit(code="cs", source="Hello, %s!", flags="c-format")
         self.assertEqual(
             machine_translation.cleanup_text(unit.source, unit),
             ("Hello, [X7X]!", {"[X7X]": "%s"}),
@@ -469,7 +474,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 
     def test_placeholders_backslash(self) -> None:
         machine_translation = self.get_machine()
-        unit = MockUnit(code="cs", source=r"Hello, %s C:\Windows!", flags="c-format")
+        unit = make_unit(code="cs", source=r"Hello, %s C:\Windows!", flags="c-format")
         self.assertEqual(
             machine_translation.cleanup_text(unit.source, unit),
             (r"Hello, [X7X] C:\Windows!", {"[X7X]": "%s"}),
@@ -493,8 +498,8 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         if machine is None:
             machine = self.get_machine()
         units = [
-            MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
-            MockUnit(code="cs", source="Hello, %d!", flags="c-format"),
+            make_unit(code="cs", source="Hello, %s!", flags="c-format"),
+            make_unit(code="cs", source="Hello, %d!", flags="c-format"),
         ]
         machine.batch_translate(units)
         self.assertEqual(units[0].machinery["translation"], ["Nazdar %s!"])
@@ -502,7 +507,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 
     def test_translate_skips_pending_cache_key_without_cache(self) -> None:
         machine_translation = self.get_machine()
-        unit = MockUnit(code="cs", source=self.SOURCE_TRANSLATED)
+        unit = make_unit(code="cs", source=self.SOURCE_TRANSLATED)
 
         with (
             patch.object(
@@ -522,8 +527,8 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 
     def test_cached_translation_uses_current_original_source(self) -> None:
         machine_translation = self.get_machine(cache=True)
-        unit1 = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
-        unit2 = MockUnit(code="cs", source="Hello, %d!", flags="c-format")
+        unit1 = make_unit(code="cs", source="Hello, %s!", flags="c-format")
+        unit2 = make_unit(code="cs", source="Hello, %d!", flags="c-format")
 
         machine_translation.translate(cast("Unit", unit1))
         translation = machine_translation.translate(cast("Unit", unit2))
@@ -563,7 +568,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 
         machine_translation = RecordingTranslation({})
         machine_translation.cache_translations = False
-        unit = MockUnit(code="cs", source=self.SOURCE_TRANSLATED)
+        unit = make_unit(code="cs", source=self.SOURCE_TRANSLATED)
 
         translations = machine_translation.translate_sources_for_test(
             [(self.SOURCE_TRANSLATED, unit), (self.SOURCE_TRANSLATED, unit)]
@@ -587,7 +592,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
 class MachineTranslationCleanupTest(SimpleTestCase):
     def test_rst_reference_remains_placeholder(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs", source=r"Hello, :ref:`docker-volume`!", flags="rst-text"
         )
         self.assertEqual(
@@ -611,7 +616,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_suffix_reference_remains_placeholder(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs", source=r"Hello, `docker-volume`:ref:!", flags="rst-text"
         )
         self.assertEqual(
@@ -621,7 +626,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_file_role_roundtrip(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs",
             source=r"Hello, :file:`C:\Windows\System.exe`!",
             flags="rst-text",
@@ -647,7 +652,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_builtin_translatable_role_roundtrip(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs",
             source="Hello, :Code:`Save`!",
             flags="rst-text",
@@ -673,7 +678,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_suffix_translatable_role_roundtrip(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs",
             source="Hello, `Save`:guilabel:!",
             flags="rst-text",
@@ -699,7 +704,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_translatable_role_roundtrip(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs",
             source=(
                 "Hello, :guilabel:`Sign out` and :ref:`review workflow <reviews>`!"
@@ -729,7 +734,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_role_duplicate_fragment_roundtrip(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs",
             source="Use ``:ref:`foo``` syntax, then see :ref:`foo`.",
             flags="rst-text",
@@ -745,7 +750,7 @@ class MachineTranslationCleanupTest(SimpleTestCase):
 
     def test_rst_escaped_role_example_roundtrip(self) -> None:
         machine_translation = DummyTranslation({})
-        unit = MockUnit(
+        unit = make_unit(
             code="cs",
             source=r"Use \:ref:`foo` literally, then see :ref:`foo`.",
             flags="rst-text",
@@ -800,57 +805,57 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         Any problematic leading character is removed from term
         Leading and trailing whitespaces are stripped
         """
-        unit = MockUnit(code="cs", source="foo", target="bar")
+        unit = make_unit(code="cs", source="foo", target="bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # prohibited characters cleaned
-        unit = MockUnit(code="cs", source="=foo", target="=bar")
+        unit = make_unit(code="cs", source="=foo", target="=bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="+foo", target="+bar")
+        unit = make_unit(code="cs", source="+foo", target="+bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="-foo", target="-bar")
+        unit = make_unit(code="cs", source="-foo", target="-bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="@foo", target="@bar")
+        unit = make_unit(code="cs", source="@foo", target="@bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="|foo", target="|bar")
+        unit = make_unit(code="cs", source="|foo", target="|bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="%foo", target="%bar")
+        unit = make_unit(code="cs", source="%foo", target="%bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # multiple prohibited characters are cleaned
-        unit = MockUnit(code="cs", source="==foo", target="==bar")
+        unit = make_unit(code="cs", source="==foo", target="==bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # whitespace correctly stripped
-        unit = MockUnit(code="cs", source=" foo  ", target=" bar  ")
+        unit = make_unit(code="cs", source=" foo  ", target=" bar  ")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # whitespaces after prohibited characters correctly stripped
-        unit = MockUnit(code="cs", source="% foo  ", target="% bar  ")
+        unit = make_unit(code="cs", source="% foo  ", target="% bar  ")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="% foo  ", target="% % bar  ")
+        unit = make_unit(code="cs", source="% foo  ", target="% % bar  ")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # other Unicode whitespaces are correctly stripped
-        unit = MockUnit(code="cs", source="\r- foo", target="bar")
+        unit = make_unit(code="cs", source="\r- foo", target="bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="|\u00a0foo", target="bar")
+        unit = make_unit(code="cs", source="|\u00a0foo", target="bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="\n\nfoo", target="bar")
+        unit = make_unit(code="cs", source="\n\nfoo", target="bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
-        unit = MockUnit(code="cs", source="%\u2002foo  ", target="%bar")
+        unit = make_unit(code="cs", source="%\u2002foo  ", target="%bar")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo\tbar")
 
         # no character cleaned
-        unit = MockUnit(code="cs", source="foo=", target="bar=")
+        unit = make_unit(code="cs", source="foo=", target="bar=")
         self.assertEqual(render_glossary_units_tsv([unit]), "foo=\tbar=")
-        unit = MockUnit(code="cs", source=":foo", target=":bar")
+        unit = make_unit(code="cs", source=":foo", target=":bar")
         self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
     def test_glossary_changes_invalidates_result_cache(self) -> None:
         machine = self.get_machine(cache=True)
         source_text = "Hello, world!"
-        unit = MockUnit(code="cs", source=source_text, target="")
+        unit = make_unit(code="cs", source=source_text, target="")
 
         with (
             patch.object(
@@ -1291,7 +1296,7 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
 
     def test_replacements(self) -> None:
         machine_translation = self.get_machine()
-        unit = MockUnit(code="cs", source="Hello,\n%s!", flags="c-format")
+        unit = make_unit(code="cs", source="Hello,\n%s!", flags="c-format")
         replaced = 'Hello,<br translate="no"><span translate="no" id="7">%s</span>!'
         replacements = {
             '<br translate="no">': "\n",
@@ -2626,11 +2631,14 @@ class LTEngineTranslationTest(BaseMachineTranslationTest):
             json={"translatedText": "¡Adiós, Mundo!"},
         )
 
-        unit1 = MockUnit(
+        unit1 = make_unit(
             code=self.SUPPORTED, source=self.SOURCE_TRANSLATED, target="target"
         )
-        unit2 = MockUnit(code=self.SUPPORTED, source="Goodbye, world!")
-        unit2.translated = False
+        unit2 = make_unit(
+            code=self.SUPPORTED,
+            source="Goodbye, world!",
+            state=STATE_EMPTY,
+        )
         machine.batch_translate([unit1, unit2])
 
         payloads = get_translate_payloads(self.get_api_url("translate"))
@@ -2728,7 +2736,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 },
                 {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
             )
-            unit = MockUnit(code="cs_CZ", source="Hello")
+            unit = make_unit(code="cs_CZ", source="Hello")
             unit.translation.component.source_language.code = "en_US"
             translation = machine.translate(unit)
             self.assertIsInstance(translation, list)
@@ -3020,15 +3028,13 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_sends_unit_context(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Hello, %s!",
             flags="python-format",
             context="greeting.button",
         )
-        cast("Any", unit).source_unit = SimpleNamespace(
-            explanation="Shown on the greeting button.", unit_set=None
-        )
+        unit.source_unit.explanation = "Shown on the greeting button."
         label_languages = []
 
         class FakeCheck:
@@ -3045,7 +3051,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 label_languages.append(get_language())
                 return "<strong>Source</strong> and translation are identical."
 
-        cast("Any", unit).active_checks = [FakeCheck()]
+        unit.__dict__["all_checks"] = [FakeCheck()]
         typed_unit = cast("Unit", unit)
         cleaned_source, _replacements = machine.cleanup_text(unit.source, typed_unit)
 
@@ -3087,7 +3093,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translation_cache_uses_stable_check_id(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Hello, %s!",
             flags="python-format",
@@ -3109,12 +3115,12 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             def get_description(self) -> str:
                 return f"{self.label} description"
 
-        cast("Any", unit).active_checks = [LocalizedCheck("Unchanged translation")]
+        unit.__dict__["all_checks"] = [LocalizedCheck("Unchanged translation")]
         english_cache_parts = machine.get_translation_cache_parts(
             typed_unit, "en", "fr", cleaned_source, 75, replacements
         )
 
-        cast("Any", unit).active_checks = [LocalizedCheck("Unveränderte Übersetzung")]
+        unit.__dict__["all_checks"] = [LocalizedCheck("Unveränderte Übersetzung")]
         german_cache_parts = machine.get_translation_cache_parts(
             typed_unit, "en", "fr", cleaned_source, 75, replacements
         )
@@ -3123,7 +3129,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translation_cache_sorts_failing_checks(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Hello, %s!",
             flags="python-format",
@@ -3144,12 +3150,12 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             def get_description(self) -> str:
                 return f"{self.name} description"
 
-        cast("Any", unit).active_checks = [NamedCheck("same"), NamedCheck("xml")]
+        unit.__dict__["all_checks"] = [NamedCheck("same"), NamedCheck("xml")]
         original_cache_parts = machine.get_translation_cache_parts(
             typed_unit, "en", "fr", cleaned_source, 75, replacements
         )
 
-        cast("Any", unit).active_checks = [NamedCheck("xml"), NamedCheck("same")]
+        unit.__dict__["all_checks"] = [NamedCheck("xml"), NamedCheck("same")]
         reordered_cache_parts = machine.get_translation_cache_parts(
             typed_unit, "en", "fr", cleaned_source, 75, replacements
         )
@@ -3158,7 +3164,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translation_cache_uses_glossary_checksum(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Hello, world!",
         )
@@ -3183,7 +3189,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translation_cache_uses_stable_secondary_language_name(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Hello, world!",
             context="greeting.button",
@@ -3198,7 +3204,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 return "Localized language"
             return "Default language"
 
-        secondary_unit = MockUnit(
+        secondary_unit = make_unit(
             code="de",
             source="Hello, world!",
             target="Secondary text",
@@ -3221,9 +3227,12 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         cast(
             "Any", unit.translation.component.project
         ).secondary_language = secondary_language
-        cast("Any", unit).source_unit = SimpleNamespace(unit_set=FakeUnitSet())
+        unit_set = FakeUnitSet()
 
-        with patch.object(Language, "__str__", locale_dependent_language_name):
+        with (
+            patch.object(Unit, "unit_set", new=property(lambda _unit: unit_set)),
+            patch.object(Language, "__str__", locale_dependent_language_name),
+        ):
             with translation_override("en"):
                 english_cache_parts = machine.get_translation_cache_parts(
                     typed_unit, "en", "fr", cleaned_source, 75, replacements
@@ -3255,6 +3264,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         with (
             translation_override("cs"),
+            patch.object(Unit, "unit_set", new=property(lambda _unit: unit_set)),
             patch.object(Language, "__str__", locale_dependent_language_name),
             patch.object(
                 machine, "fetch_llm_translations", side_effect=request_callback
@@ -3268,14 +3278,14 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_caches_secondary_lookup_for_request(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Hello, world!",
             context="greeting.button",
         )
         typed_unit = cast("Unit", unit)
-        secondary_language = MockLanguage("de")
-        secondary_unit = MockUnit(
+        secondary_language = make_language("de")
+        secondary_unit = make_unit(
             code="de",
             source="Hello, world!",
             target="Secondary text",
@@ -3302,7 +3312,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         cast(
             "Any", unit.translation.component.project
         ).secondary_language = secondary_language
-        cast("Any", unit).source_unit = SimpleNamespace(unit_set=unit_set)
 
         def request_callback(
             _prompt: str,
@@ -3318,8 +3327,11 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
             return json.dumps(["Bonjour le monde!", "Salut le monde!"])
 
-        with patch.object(
-            machine, "fetch_llm_translations", side_effect=request_callback
+        with (
+            patch.object(Unit, "unit_set", new=property(lambda _unit: unit_set)),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
         ):
             machine.download_multiple_translations(
                 "en",
@@ -3331,7 +3343,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_sends_monolingual_key(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source="Save",
             context="app.menu.save",
@@ -3363,7 +3375,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_sends_plural_context(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["One file", "%d files"],
             flags="python-format",
@@ -3404,7 +3416,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_sends_duplicate_plural_placeholder_context(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["%d file", "%s file"],
             flags="python-format",
@@ -3449,7 +3461,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_disambiguates_duplicate_plural_sources(self) -> None:
         machine = self.get_machine(cache=True)
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["fish", "fish"],
             target=["", ""],
@@ -3486,18 +3498,18 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_duplicate_plural_cache_tracks_occurrence_context(self) -> None:
         machine = self.get_machine(cache=True)
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["fish", "fish"],
             target=["", ""],
         )
         typed_unit = cast("Unit", unit)
-        secondary_unit = MockUnit(
+        secondary_unit = make_unit(
             code="de",
             source=["fish", "fish"],
             target=["Fisch", "Fische old"],
         )
-        secondary_language = MockLanguage("de")
+        secondary_language = make_language("de")
 
         class FakeUnitSet:
             def filter(self, *args, **kwargs):
@@ -3516,7 +3528,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         cast(
             "Any", unit.translation.component.project
         ).secondary_language = secondary_language
-        cast("Any", unit).source_unit = SimpleNamespace(unit_set=FakeUnitSet())
+        unit_set = FakeUnitSet()
         translations_by_secondary = {
             "Fisch": "poisson",
             "Fische old": "poissons old",
@@ -3538,6 +3550,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         with (
             patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch.object(Unit, "unit_set", new=property(lambda _unit: unit_set)),
             patch.object(
                 machine, "fetch_llm_translations", side_effect=request_callback
             ),
@@ -3549,7 +3562,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 [["poisson"], ["poissons old"]],
             )
 
-            secondary_unit.targets[1] = "Fische new"
+            secondary_unit.target = join_plural(["Fisch", "Fische new"])
             seen_secondary.clear()
             translation = machine.translate(typed_unit)
 
@@ -3561,12 +3574,12 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_sends_selected_source_plural_context(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["One file", "%d files"],
             flags="python-format",
         )
-        secondary_language = MockLanguage("pl")
+        secondary_language = make_language("pl")
         cast(
             "Any", unit.translation.component.project
         ).secondary_language = secondary_language
@@ -3612,8 +3625,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_batch_translate_preserves_duplicate_source_context(self) -> None:
         machine = self.get_machine()
-        unit1 = MockUnit(code="fr", source="Archive", context="noun")
-        unit2 = MockUnit(code="fr", source="Archive", context="verb")
+        unit1 = make_unit(code="fr", source="Archive", context="noun")
+        unit2 = make_unit(code="fr", source="Archive", context="verb")
         response_by_context = {
             "noun": "Archive as noun",
             "verb": "Archive as verb",
@@ -3767,7 +3780,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     def test_translate_recovers_plural_placeholder_source_variant(self) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["Single item.", "Items: %d."],
             target=["Articles: %d.", "Articles: %d."],
@@ -3805,7 +3818,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self,
     ) -> None:
         machine = self.get_machine()
-        unit = MockUnit(
+        unit = make_unit(
             code="fr",
             source=["Single item.", "Items: %d."],
             target=["Articles: %d.", "Articles: %d."],

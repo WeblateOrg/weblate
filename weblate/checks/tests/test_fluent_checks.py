@@ -21,63 +21,47 @@ from weblate.checks.fluent.syntax import (
     FluentSourceSyntaxCheck,
     FluentTargetSyntaxCheck,
 )
-from weblate.checks.tests.test_checks import MockUnit
+from weblate.trans.tests.factories import make_check, make_unit
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck, SourceCheck, TargetCheck
+    from weblate.trans.models import Unit
 
 
-class MockFluentTransUnit(MockUnit):
-    def __init__(
-        self,
-        source: str,
-        target: str = "",
-        fluent_type: str | None = None,
-        unit_id: str = "",
-        is_source: bool = False,
-    ) -> None:
-        self._fluent_type = fluent_type
-        flags = Flags()
-        if fluent_type:
-            flags.set_value("fluent-type", fluent_type)
-        flags.merge(
-            [
-                # Add flags so that should_skip returns False.
-                "fluent-source-syntax",
-                "fluent-target-syntax",
-                "fluent-parts",
-                "fluent-references",
-                "fluent-source-inner-html",
-                "fluent-target-inner-html",
-            ]
-        )
-        super().__init__(
-            flags=flags,
-            source=source,
-            target=target,
-            context=unit_id,
-            is_source=is_source,
-        )
-
-    def __str__(self) -> str:
-        fluent_type = self._fluent_type or ""
-        source = self.get_source_plurals()[0]
-        if self.is_source:
-            return f"{fluent_type} ({source!r})"
-        target = self.get_target_plurals()[0]
-        return f"{fluent_type} ({source!r} -> {target!r})"
-
-
-class MockCheckModel:  # noqa: B903
-    # Mock Check object from weblate.checks.models
-    def __init__(self, unit: MockFluentTransUnit) -> None:
-        self.unit = unit
+def make_fluent_unit(
+    source: str,
+    target: str = "",
+    fluent_type: str | None = None,
+    unit_id: str = "",
+    is_source: bool = False,
+) -> Unit:
+    flags = Flags()
+    if fluent_type:
+        flags.set_value("fluent-type", fluent_type)
+    flags.merge(
+        [
+            # Add flags so that should_skip returns False.
+            "fluent-source-syntax",
+            "fluent-target-syntax",
+            "fluent-parts",
+            "fluent-references",
+            "fluent-source-inner-html",
+            "fluent-target-inner-html",
+        ]
+    )
+    return make_unit(
+        flags=flags,
+        source=source,
+        target=target,
+        context=unit_id,
+        is_source=is_source,
+    )
 
 
 class FluentCheckTestBase(SimpleTestCase):
     @staticmethod
-    def _create_source_unit(source: str, fluent_type: str) -> MockFluentTransUnit:
-        return MockFluentTransUnit(
+    def _create_source_unit(source: str, fluent_type: str) -> Unit:
+        return make_fluent_unit(
             source,
             target="",
             fluent_type=fluent_type,
@@ -86,10 +70,8 @@ class FluentCheckTestBase(SimpleTestCase):
         )
 
     @staticmethod
-    def _create_target_unit(
-        source: str, target: str, fluent_type: str
-    ) -> MockFluentTransUnit:
-        return MockFluentTransUnit(
+    def _create_target_unit(source: str, target: str, fluent_type: str) -> Unit:
+        return make_fluent_unit(
             source,
             target=target,
             fluent_type=fluent_type,
@@ -100,10 +82,10 @@ class FluentCheckTestBase(SimpleTestCase):
     def assert_check_description(
         self,
         check: BaseCheck,
-        unit: MockFluentTransUnit,
-        description: str | re.Pattern,
+        unit: Unit,
+        description: str | re.Pattern[str],
     ) -> None:
-        check_desc = check.get_description(MockCheckModel(unit))
+        check_desc = str(check.get_description(make_check(unit, check)))
         if isinstance(description, str):
             self.assertHTMLEqual(
                 check_desc,
@@ -370,7 +352,7 @@ class FluentSourceSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
         # Units with no fluent-type: flag are assumed to be messages or terms
         # based on the id.
         source = ".attr = ok"
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target="",
             fluent_type=None,
@@ -381,7 +363,7 @@ class FluentSourceSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
             self.check.check_source_unit([source], unit),
             f"Syntax check should pass for {unit} with Message id",
         )
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target="",
             fluent_type=None,
@@ -416,7 +398,7 @@ class FluentTargetSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
         # based on the id.
         source = "ok"
         target = ".attr = ok"
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target=target,
             fluent_type=None,
@@ -427,7 +409,7 @@ class FluentTargetSyntaxCheckTest(FluentCheckTestBase, FluentSyntaxCheckTestBase
             self.check.check_single(source, target, unit),
             f"Syntax check should pass for {unit} with Message id",
         )
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target=target,
             fluent_type=None,
@@ -572,7 +554,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
         # based on the id.
         source = "source\n.title = ok"
         target = "target"
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target=target,
             fluent_type=None,
@@ -583,7 +565,7 @@ class FluentPartsCheckTest(FluentCheckTestBase):
             self.check.check_single(source, target, unit),
             f"Parts check should fail for {unit} with Message id",
         )
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target=target,
             fluent_type=None,
@@ -1598,7 +1580,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
         # based on the id.
         source = "source\n.title = { -term }"
         target = "target\n.title = { $var }"
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target=target,
             fluent_type=None,
@@ -1609,7 +1591,7 @@ class TestFluentReferencesCheck(FluentCheckTestBase):
             self.check.check_single(source, target, unit),
             f"References check should fail for {unit} with Message id",
         )
-        unit = MockFluentTransUnit(
+        unit = make_fluent_unit(
             source,
             target=target,
             fluent_type=None,
