@@ -153,6 +153,54 @@ Example:
 
    :ref:`auto-translation`
 
+.. _backup-management-command:
+
+backup
+------
+
+.. weblate-admin:: backup
+
+Runs configured backups synchronously, without using Celery. It first updates
+the settings and database backup dumps in :setting:`DATA_DIR`, then runs the
+selected Borg backup service or services.
+
+.. weblate-admin-option:: --list
+
+    Lists configured backup service IDs.
+
+.. weblate-admin-option:: --service ID
+
+    Runs one backup service by ID.
+
+.. weblate-admin-option:: --all
+
+    Runs all enabled backup services.
+
+Use Django's standard ``--verbosity 2`` option to show backup service output.
+Failed backup service output is shown even without increased verbosity.
+
+Examples:
+
+.. code-block:: sh
+
+    weblate backup --list
+    weblate backup --service 1 --verbosity 2
+    weblate backup --all
+
+For Docker Compose deployments, you can stop the regular Weblate container and
+run the command in a one-off container using :command:`docker compose run`. The
+database and configured backup storage still need to be available.
+
+.. code-block:: sh
+
+    docker compose stop weblate
+    docker compose run --rm --user weblate weblate weblate backup --list
+    docker compose run --rm --user weblate weblate weblate backup --service 1 --verbosity 2
+
+.. seealso::
+
+   :ref:`automated-backup`
+
 benchmark
 ---------
 

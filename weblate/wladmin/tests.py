@@ -17,7 +17,9 @@ from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
+from django.test import TestCase as DjangoTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -115,6 +117,152 @@ class BackupTaskTest(TestCase):
         service.backup.assert_called_once_with()
         service.prune.assert_called_once_with()
         service.cleanup.assert_called_once_with()
+
+
+class BackupCommandTest(DjangoTestCase):
+    def test_list_services(self) -> None:
+        enabled = BackupService.objects.create(
+            repository="/backup/enabled", paperkey="paper"
+        )
+        disabled = BackupService.objects.create(
+            repository="/backup/disabled", enabled=False, paperkey="paper"
+        )
+
+        output = StringIO()
+        call_command("backup", "--list", stdout=output)
+
+        self.assertEqual(
+            output.getvalue().splitlines(),
+            [
+                f"{enabled.pk}\tenabled\t/backup/enabled",
+                f"{disabled.pk}\tdisabled\t/backup/disabled",
+            ],
+        )
+
+    def test_service_runs_synchronously(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        with (
+            patch(
+                "weblate.wladmin.management.commands.backup.run_settings_backup"
+            ) as settings_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_database_backup"
+            ) as database_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service"
+            ) as backup_service_runner,
+        ):
+            call_command("backup", "--service", str(service.pk))
+
+        settings_backup.assert_called_once_with()
+        database_backup.assert_called_once_with()
+        backup_service_runner.assert_called_once_with(service)
+
+    def test_all_runs_enabled_services_synchronously(self) -> None:
+        enabled = BackupService.objects.create(
+            repository="/backup/enabled", paperkey="paper"
+        )
+        BackupService.objects.create(
+            repository="/backup/disabled", enabled=False, paperkey="paper"
+        )
+
+        with (
+            patch(
+                "weblate.wladmin.management.commands.backup.run_settings_backup"
+            ) as settings_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_database_backup"
+            ) as database_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service"
+            ) as backup_service_runner,
+        ):
+            call_command("backup", "--all")
+
+        settings_backup.assert_called_once_with()
+        database_backup.assert_called_once_with()
+        self.assertEqual(
+            [call.args[0].pk for call in backup_service_runner.call_args_list],
+            [enabled.pk],
+        )
+
+    def test_all_reports_failed_services(self) -> None:
+        first = BackupService.objects.create(repository="/backup/one", paperkey="paper")
+        second = BackupService.objects.create(
+            repository="/backup/two", paperkey="paper"
+        )
+
+        with (
+            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service",
+                side_effect=[False, True],
+            ) as backup_service_runner,
+            self.assertRaisesRegex(CommandError, f"Backup service failed: {first.pk}"),
+        ):
+            call_command("backup", "--all")
+
+        self.assertEqual(
+            [call.args[0].pk for call in backup_service_runner.call_args_list],
+            [first.pk, second.pk],
+        )
+
+    def test_verbosity_outputs_service_logs(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        def run_backup(service: BackupService) -> bool:
+            service.backuplog_set.create(event="backup", log="borg backup output")
+            return True
+
+        output = StringIO()
+        with (
+            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service",
+                side_effect=run_backup,
+            ),
+        ):
+            call_command(
+                "backup", "--service", str(service.pk), verbosity=2, stdout=output
+            )
+
+        self.assertIn(f"Backup service {service.pk}: /backup", output.getvalue())
+        self.assertIn("borg backup output", output.getvalue())
+
+    def test_error_outputs_service_logs(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        def run_backup(service: BackupService) -> bool:
+            service.backuplog_set.create(event="error", log="borg failed")
+            return True
+
+        output = StringIO()
+        with (
+            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service",
+                side_effect=run_backup,
+            ),
+            self.assertRaisesRegex(
+                CommandError, f"Backup service failed: {service.pk}"
+            ),
+        ):
+            call_command("backup", "--service", str(service.pk), stderr=output)
+
+        self.assertIn(f"Backup service {service.pk}: /backup", output.getvalue())
+        self.assertIn("borg failed", output.getvalue())
+
+    def test_rejects_conflicting_selection(self) -> None:
+        with self.assertRaises(CommandError):
+            call_command("backup", "--all", "--service", "1")
+
+    def test_rejects_unknown_service(self) -> None:
+        with self.assertRaisesRegex(CommandError, "Backup service 1 does not exist"):
+            call_command("backup", "--service", "1")
 
 
 class BackupServiceStatusTest(TestCase):
