@@ -44,7 +44,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
-from weblate.utils.views import parse_path, show_form_errors
+from weblate.utils.views import get_paginator, parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
 
 if TYPE_CHECKING:
@@ -367,6 +367,7 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             ),
         )
     )
+    users = get_paginator(request, users)
     project_tokens = (
         User.objects.filter(groups__in=groups, is_bot=True)
         .distinct()

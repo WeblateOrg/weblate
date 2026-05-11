@@ -24,6 +24,7 @@ Weblate 2026.5
 * :ref:`code-hosting-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
 * Added :doc:`/admin/code-hosting` with provider-oriented setup guidance for code hosting integrations.
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
+* Project access management now paginates users and better explains site-wide automatic team assignments.
 
 .. rubric:: Bug fixes
 

@@ -189,6 +189,11 @@
             {% endfor %}
           </tbody>
         </table>
+        {% if all_users.paginator.num_pages > 1 %}
+          <div class="card-footer">
+            {% include "paginator.html" with page_obj=all_users anchor="users" paginator_form="paginator-form" %}
+          </div>
+        {% endif %}
         <div class="card-body">
           <p class="help-block">
             {% translate "Once all its permissions are removed, the user will be removed from the project." %}
@@ -451,5 +456,7 @@
       {% documentation_icon 'vcs' right=True %}
     </div>
   </div>
+  <form method="get" id="paginator-form">
+  </form>
 
 {% endblock content %}

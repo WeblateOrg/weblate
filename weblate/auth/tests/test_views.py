@@ -33,6 +33,10 @@ class TeamsTest(FixtureTestCase):
         self.make_superuser()
         response = self.client.get(group.get_absolute_url())
         self.assertContains(response, "id_autogroup_set-TOTAL_FORMS")
+        self.assertContains(
+            response,
+            "This is checked for every new user on the site, regardless of which project they use.",
+        )
 
         response = self.client.post(group.get_absolute_url(), edit_payload)
         self.assertRedirects(response, group.get_absolute_url())
