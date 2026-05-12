@@ -24,7 +24,7 @@ class PlaceholdersTest(CheckTestCase):
         self.test_failure_3 = (
             "string $URL$ $2$",
             "string $URL$",
-            "placeholders:$URL$:$2$:",
+            "placeholders:$URL$:$2$",
         )
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
@@ -132,6 +132,35 @@ class PlaceholdersTest(CheckTestCase):
                 (0, 14, "&lt;strong&gt;"),
                 (44, 59, "&lt;/strong&gt;"),
             ],
+        )
+
+    def test_empty_placeholder_flags_do_not_match(self) -> None:
+        for flags in ("placeholders:", 'placeholders:""', 'placeholders:r""'):
+            with self.subTest(flags=flags):
+                unit = make_unit(source="string", target="translation", flags=flags)
+                self.assertFalse(
+                    self.check.check_target(["string"], ["translation"], unit)
+                )
+                self.assertEqual(
+                    list(self.check.check_highlight(unit.source, unit)), []
+                )
+
+    def test_empty_placeholder_values_are_ignored(self) -> None:
+        unit = make_unit(
+            source="string $URL$ $2$",
+            target="string $URL$",
+            flags="placeholders:$URL$:$2$:",
+        )
+        self.assertTrue(
+            self.check.check_target(
+                ["string $URL$ $2$"],
+                ["string $URL$"],
+                unit,
+            )
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [(7, 12, "$URL$"), (13, 16, "$2$")],
         )
 
 
