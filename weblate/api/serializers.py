@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import models
 from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
@@ -62,6 +63,7 @@ from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
     validate_bitmap,
     validate_component_zip_upload_size,
+    validate_plural_formula_range,
     validate_translation_upload_size,
 )
 from weblate.utils.version import GIT_VERSION
@@ -225,6 +227,15 @@ class LanguagePluralSerializer(serializers.ModelSerializer[Plural]):
             "formula",
             "type",
         )
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        number = attrs.get("number", getattr(self.instance, "number", 2))
+        formula = attrs.get("formula", getattr(self.instance, "formula", "n != 1"))
+        try:
+            validate_plural_formula_range(number, formula)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError({"formula": error.messages}) from error
+        return attrs
 
 
 class LanguageSerializer(serializers.ModelSerializer[Language]):

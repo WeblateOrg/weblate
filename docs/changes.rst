@@ -37,6 +37,7 @@ Weblate 2026.5
 * Translation announcement deletion now honors language-scoped permissions.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
 * Plural counts parsed from translation file headers are now bounded.
+* Plural formulas are now rejected when they can evaluate outside the configured plural form range.
 * :ref:`project-api` expiring today now remain valid until the end of the day.
 * :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
