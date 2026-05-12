@@ -25,6 +25,17 @@ def parse_regex(val):
     return val
 
 
+def parse_placeholders(val):
+    placeholders = multi_value_flag(lambda x: x)(val)
+    if any(
+        not (placeholder if isinstance(placeholder, str) else placeholder.pattern)
+        for placeholder in placeholders
+    ):
+        msg = "Empty placeholder"
+        raise ValueError(msg)
+    return placeholders
+
+
 class PlaceholderCheck(TargetCheckParametrized):
     check_id = "placeholders"
     default_disabled = True
@@ -40,14 +51,18 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     @property
     def param_type(self):
-        return multi_value_flag(lambda x: x)
+        return parse_placeholders
 
     def get_value(self, unit: Unit):
+        placeholders = (
+            regex.escape(param) if isinstance(param, str) else param.pattern
+            for param in unit.all_flags.get_value_raw(self.enable_string)
+        )
+        placeholder_regex = "|".join(param for param in placeholders if param)
+        if not placeholder_regex:
+            return regex.compile(r"(?!)")
         return regex.compile(
-            "|".join(
-                regex.escape(param) if isinstance(param, str) else param.pattern
-                for param in super().get_value(unit)
-            ),
+            placeholder_regex,
             regex.IGNORECASE if "case-insensitive" in unit.all_flags else 0,
         )
 
@@ -112,6 +127,8 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
+            return
+        if not self.has_value(unit):
             return
 
         regexp = self.get_value(unit)

@@ -169,6 +169,16 @@ class FlagTest(SimpleTestCase):
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, "")
 
+    def test_empty_placeholder_value(self) -> None:
+        for value in (
+            "placeholders:",
+            'placeholders:""',
+            'placeholders:r""',
+            "placeholders:$URL$:",
+        ):
+            with self.subTest(value=value), self.assertRaises(ValidationError):
+                FlagsValidator(value).validate()
+
     def test_regex(self) -> None:
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
