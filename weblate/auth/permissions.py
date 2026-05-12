@@ -637,6 +637,14 @@ def check_announcement_delete(
 ) -> bool | PermissionResult:
     if isinstance(obj, Announcement):
         if obj.component_id is not None:
+            if obj.language_id is not None:
+                try:
+                    translation = obj.component.translation_set.get(
+                        language_id=obj.language_id
+                    )
+                except Translation.DoesNotExist:
+                    return False
+                return check_permission(user, permission, translation)
             obj = obj.component
         elif obj.category_id is not None:
             obj = obj.category

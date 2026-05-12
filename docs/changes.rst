@@ -32,6 +32,7 @@ Weblate 2026.5
 * Screenshot URL uploads and remote HTML extraction in :ref:`addon-weblate.cdn.cdnjs` now reject internal or non-public asset URLs by default.
 * Database error details are no longer exposed in upload failure messages.
 * Category :doc:`/admin/announcements` no longer appear across the whole project.
+* Translation announcement deletion now honors language-scoped permissions.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
 * :ref:`project-api` expiring today now remain valid until the end of the day.
 * :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
