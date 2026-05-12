@@ -40,7 +40,7 @@ class HighlightTestCase(SimpleTestCase):
         )
 
     def test_overlap_non_nested(self) -> None:
-        # The 2 flags matches partially overlapping spans
+        # The 2 flags match partially overlapping spans
         # 'python-brace-format' matches {user.name}.
         # "placeholders:r"\$\{\w+" matches ${user.
         unit = make_unit(
