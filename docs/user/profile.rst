@@ -170,6 +170,10 @@ example about new strings to translate), while some trigger at component level
 (for example merge errors). These two groups of notifications are visually
 separated in the settings.
 
+The :guilabel:`Translation activity summary` notification is digest-only and
+summarizes added, updated, translated, approved, needs editing, and unfinished
+strings.
+
 You can toggle notifications for watched projects and administered projects and it
 can be further tweaked (or muted) per project and component. Visit the component
 overview page and select appropriate choice from the :guilabel:`Watching` menu.
