@@ -1,6 +1,6 @@
 {% extends "message.html" %}
 
-{% load i18n permissions %}
+{% load i18n permissions subscriptions %}
 
 {% block tags %}warning{% endblock %}
 
@@ -13,10 +13,17 @@
          data-href="{% url 'unlock' path=object.get_url_path %}">{% translate "Unlock" %}</a>
     {% endif %}
     {% if user.is_authenticated %}
-      <a href=""
-         class="btn btn-primary link-post"
-         data-href="{% url 'subscribe' %}"
-         data-params='{"onetime":"LockNotification","component":{{ object.pk }} }'>{% translate "Get notified when this project is unlocked again" %}</a>
+      {% component_lock_unsubscribe_url user object as lock_unsubscribe_url %}
+      {% if lock_unsubscribe_url %}
+        <a href=""
+           class="btn btn-primary link-post"
+           data-href="{{ lock_unsubscribe_url }}">{% translate "Turn off this notification" %}</a>
+      {% else %}
+        <a href=""
+           class="btn btn-primary link-post"
+           data-href="{% url 'subscribe' %}"
+           data-params='{"onetime":"LockNotification","component":{{ object.pk }} }'>{% translate "Get notified when this project is unlocked again" %}</a>
+      {% endif %}
     {% endif %}
   </div>
   {% translate "The translation is temporarily closed for contributions due to maintenance, please come back later." %}

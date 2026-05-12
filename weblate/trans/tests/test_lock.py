@@ -6,6 +6,7 @@
 
 from django.urls import reverse
 
+from weblate.accounts.notifications import NotificationFrequency
 from weblate.trans.models.component import Component
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -72,3 +73,60 @@ class LockTest(FixtureTestCase):
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
+
+    def test_lock_notification_subscription_button(self) -> None:
+        notify_text = "Get notified when this project is unlocked again"
+        unsubscribe_text = "Turn off this notification"
+        self.component.locked = True
+        self.component.save(update_fields=["locked"])
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, notify_text)
+        self.assertNotContains(response, unsubscribe_text)
+
+        response = self.client.post(
+            reverse("subscribe"),
+            {"onetime": "LockNotification", "component": self.component.pk},
+        )
+        self.assertRedirects(
+            response,
+            f"{reverse('profile')}#notifications",
+            fetch_redirect_response=False,
+        )
+        subscription = self.user.subscription_set.get(
+            notification="LockNotification",
+            project=self.project,
+            component=self.component,
+            onetime=True,
+        )
+        self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_INSTANT)
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertNotContains(response, notify_text)
+        self.assertContains(response, unsubscribe_text)
+        self.assertContains(response, reverse("unsubscribe"))
+
+        response = self.client.post(subscription.get_unsubscribe_url())
+        self.assertRedirects(
+            response,
+            f"{reverse('profile')}#notifications",
+            fetch_redirect_response=False,
+        )
+        subscription.refresh_from_db()
+        self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_NONE)
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, notify_text)
+        self.assertNotContains(response, unsubscribe_text)
+
+        response = self.client.post(
+            reverse("subscribe"),
+            {"onetime": "LockNotification", "component": self.component.pk},
+        )
+        self.assertRedirects(
+            response,
+            f"{reverse('profile')}#notifications",
+            fetch_redirect_response=False,
+        )
+        subscription.refresh_from_db()
+        self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_INSTANT)

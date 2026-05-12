@@ -17,6 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
+from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F, Q
@@ -224,6 +225,8 @@ class SubscriptionQuerySet(models.QuerySet["Subscription", "Subscription"]):
 
 
 class Subscription(models.Model):
+    SIGNATURE_MAX_AGE: ClassVar[int] = 24 * 3600
+
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     notification = models.CharField(
         choices=[n.get_choice() for n in NOTIFICATIONS], max_length=100
@@ -253,6 +256,25 @@ class Subscription(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.username}:{self.get_scope_display()},{self.get_notification_display()} ({self.project},{self.component})"
+
+    @staticmethod
+    def sign_id(subscription_id: int | str) -> str:
+        return TimestampSigner().sign(str(subscription_id))
+
+    def get_signed_id(self) -> str:
+        return self.sign_id(self.pk)
+
+    @classmethod
+    def get_by_signed_id(cls, signed_id: str) -> Subscription:
+        return cls.objects.get(
+            pk=int(TimestampSigner().unsign(signed_id, max_age=cls.SIGNATURE_MAX_AGE))
+        )
+
+    def get_unsubscribe_url(self) -> str:
+        from django.urls import reverse  # noqa: PLC0415
+        from django.utils.http import urlencode  # noqa: PLC0415
+
+        return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
 
 
 ACCOUNT_ACTIVITY = {
