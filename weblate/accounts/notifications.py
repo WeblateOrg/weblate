@@ -17,8 +17,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.signing import TimestampSigner
 from django.db.models import Count, IntegerChoices, Q
 from django.db.models.functions import Coalesce
+from django.db.models import IntegerChoices, Q
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import (
     get_language,
@@ -339,9 +339,7 @@ class Notification:
         elif summaries is not None:
             result["changes"] = summaries
         if subscription is not None:
-            result["unsubscribe_url"] = get_site_url(
-                f"{reverse('unsubscribe')}?i={TimestampSigner().sign(f'{subscription.pk}')}"
-            )
+            result["unsubscribe_url"] = get_site_url(subscription.get_unsubscribe_url())
             result["subscription_user"] = subscription.user
         else:
             result["subscription_user"] = None

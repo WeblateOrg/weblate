@@ -10,6 +10,7 @@ from io import StringIO
 from itertools import chain
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import connection
 from django.test import TestCase
@@ -704,6 +705,54 @@ class PluralTest(BaseTestCase):
         )
         self.assertEqual(plural.type, data.PLURAL_ONE_FEW_MANY)
 
+    def test_validate_plural_formula_range(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"), number=2, formula="n != 1"
+        )
+        plural.full_clean()
+
+    def test_validate_plural_formula_range_above(self) -> None:
+        plural = Plural(language=Language.objects.get(code="cs"), number=2, formula="2")
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_range_below(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"), number=2, formula="(0-1)"
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_range_examples_tail(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"),
+            number=2,
+            formula="n == 2000000 ? 2 : 0",
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_range_skipped_constant(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"),
+            number=2,
+            formula="n == 10001 ? 2 : 0",
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_evaluation_error(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"), number=2, formula="n/0"
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("count 0", error.exception.message_dict["formula"][0])
+
     def test_definitions(self) -> None:
         """Verify consistency of plural definitions."""
         plurals = [x[1] for x in data.PLURAL_MAPPINGS]
@@ -727,6 +776,26 @@ class PluralTest(BaseTestCase):
     def test_parse_too_many(self) -> None:
         with self.assertRaises(ValueError):
             Plural.parse_plural_forms(f"nplurals={PLURAL_COUNT_MAX + 1}; plural=0;")
+
+    def test_parse_out_of_range(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2; plural=2;")
+
+    def test_parse_negative(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2; plural=(0-1);")
+
+    def test_parse_out_of_range_examples_tail(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2; plural=n == 2000000 ? 2 : 0;")
+
+    def test_parse_out_of_range_skipped_constant(self) -> None:
+        with self.assertRaisesRegex(ValueError, "10001"):
+            Plural.parse_plural_forms("nplurals=2; plural=n == 10001 ? 2 : 0;")
+
+    def test_parse_evaluation_error(self) -> None:
+        with self.assertRaisesRegex(ValueError, "count 0"):
+            Plural.parse_plural_forms("nplurals=2; plural=n/0;")
 
     def test_parse_empty(self) -> None:
         with self.assertRaises(ValueError):

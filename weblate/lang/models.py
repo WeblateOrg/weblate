@@ -14,7 +14,7 @@ from weakref import WeakValueDictionary
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
@@ -40,7 +40,11 @@ from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.validators import validate_plural_formula
+from weblate.utils.validators import (
+    iter_plural_formula_examples,
+    validate_plural_formula,
+    validate_plural_formula_range,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -1344,6 +1348,15 @@ class Plural(models.Model):
     def get_absolute_url(self) -> str:
         return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
 
+    def clean(self) -> None:
+        super().clean()
+        try:
+            validate_plural_formula_range(
+                self.number, self.formula, validate_formula=False
+            )
+        except ValidationError as error:
+            raise ValidationError({"formula": error}) from error
+
     @cached_property
     def plural_form(self) -> str:
         return f"nplurals={self.number:d}; plural={self.formula};"
@@ -1360,7 +1373,7 @@ class Plural(models.Model):
     def examples(self) -> dict[int, list[str]]:
         result: dict[int, list[str]] = defaultdict(list)
         func = self.plural_function
-        for i in chain(range(10000), range(10000, 2000001, 1000)):
+        for i in iter_plural_formula_examples():
             ret = func(i)  # pylint: disable=too-many-function-args
             if len(result[ret]) >= 10:
                 continue
@@ -1387,8 +1400,10 @@ class Plural(models.Model):
         formula = matches.group(2)
         if not formula:
             formula = "0"
-        # Try to parse the formula
-        c2py(formula)
+        try:
+            validate_plural_formula_range(number, formula)
+        except ValidationError as error:
+            raise ValueError("; ".join(error.messages)) from error
 
         return number, formula
 
