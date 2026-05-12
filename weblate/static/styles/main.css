@@ -1957,18 +1957,6 @@ a.language:hover {
   color: #107a62;
   text-decoration: underline;
 }
-.tribute-container {
-  z-index: 10000;
-}
-.tribute-container > .dropdown-menu {
-  position: relative;
-  display: block;
-}
-.tribute-container > .dropdown-menu > li.highlight > a {
-  color: #262626;
-  text-decoration: none;
-  background-color: #e9eaec;
-}
 
 .editor-wrap {
   padding: 0;
@@ -2256,6 +2244,15 @@ h5.list-group-item-heading {
   position: absolute;
   top: 100%;
 }
+
+.autoComplete.mention-dropdown {
+  position: fixed;
+  max-width: 320px;
+  max-height: 14em;
+  overflow-y: auto;
+  z-index: 10000;
+}
+
 .navbar .autoComplete {
   margin-top: 0;
   border-top-left-radius: 0;
