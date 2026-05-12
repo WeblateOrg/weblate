@@ -1888,6 +1888,32 @@ class PoXliffPoHeaderFormatTest(PoXliffFormatTest):
         self.assertEqual(plural.number, 4)
         self.assertEqual(plural.formula, plural_formula)
 
+    def test_get_plural_rejects_excessive_header(self) -> None:
+        source_plural_forms = (
+            "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : "
+            "(n&gt;=2 &amp;&amp; n&lt;=4) ? 1 : 2;"
+        )
+        testfile = Path(self.tempdir) / "excessive.poxliff"
+        testfile.write_text(
+            Path(self.FILE)
+            .read_text(encoding="utf-8")
+            .replace("Language: cs", "Language: he")
+            .replace(source_plural_forms, "Plural-Forms: nplurals=32767; plural=0;"),
+            encoding="utf-8",
+        )
+        language = Language.objects.get(code="he")
+        gettext_count = language.plural_set.filter(source=Plural.SOURCE_GETTEXT).count()
+
+        storage = self.parse_file(testfile.as_posix())
+        plural = storage.get_plural(language)
+
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.number, 3)
+        self.assertEqual(
+            language.plural_set.filter(source=Plural.SOURCE_GETTEXT).count(),
+            gettext_count,
+        )
+
 
 class RESXFormatTest(XMLMixin, BaseFormatTest):
     format_class = RESXFormat

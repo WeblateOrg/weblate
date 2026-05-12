@@ -33,6 +33,7 @@ Weblate 2026.5
 * Database error details are no longer exposed in upload failure messages.
 * Category :doc:`/admin/announcements` no longer appear across the whole project.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
+* Plural counts parsed from translation file headers are now bounded.
 * :ref:`project-api` expiring today now remain valid until the end of the day.
 * :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
