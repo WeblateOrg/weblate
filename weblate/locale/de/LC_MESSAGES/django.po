@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-09 00:13+0000\n"
+"PO-Revision-Date: 2026-05-12 08:03+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -4066,18 +4066,16 @@ msgstr ""
 "nicht."
 
 #: weblate/auth/utils.py:57
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "Der Dateiname kann kein absoluter Pfad sein."
+msgstr "Der anonyme Benutzer kann nicht Teams zugewiesen werden."
 
 #: weblate/auth/utils.py:60
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "Inaktive Benutzer können nicht Teams zugewiesen werden."
 
 #: weblate/auth/utils.py:63
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "Projekt-Tokens können hier nicht Teams zugewiesen werden."
 
 #: weblate/auth/views.py:131
 msgid "Cannot remove built-in team!"
@@ -4158,38 +4156,28 @@ msgid "In limits"
 msgstr "Innerhalb der Beschränkungen"
 
 #: weblate/billing/models.py:218
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "Wiederkehrende Zahlung beenden"
+msgstr "Benachrichtigung über inaktive wiederkehrende Zahlung"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "Letzter Remote-Commit"
+msgstr "Letzter Upstream Commit"
 
 #: weblate/billing/models.py:228
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "Commit für ausstehende Änderungen"
+msgstr "Älteste ausstehende Weblate-Änderung"
 
 #: weblate/billing/models.py:233
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "Repository-Änderungen"
+msgstr "Warnung bei Repository-Änderungen"
 
 #: weblate/billing/models.py:238
 msgid "Push failure alert"
-msgstr ""
+msgstr "Warnung bei Push-Fehlern"
 
 #: weblate/billing/models.py:243
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "Wiederkehrende Zahlung beenden"
+msgstr "Deaktivierung planmäßiger wiederkehrender Zahlungen"
 
 #: weblate/billing/models.py:340
 msgid "Changes in last month"
@@ -5727,10 +5715,8 @@ msgstr "Markdown-Datei"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:472
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "DTD-Datei"
+msgstr "MDX-Datei"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:553
@@ -5839,7 +5825,7 @@ msgstr "Mehrwertige CSV-Datei (UTF-8)"
 #: weblate/formats/ttkit.py:220
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "Ungültige Pluralform-Metadaten in der CSV-Datei: %s"
 
 #: weblate/formats/ttkit.py:152 weblate/formats/ttkit.py:2367
 #, python-format
@@ -5847,17 +5833,18 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"Die Pluralformen-Metadaten in der CSV-Datei liegen außerhalb des Bereichs: %"
+"(value)s (Maximum: %(maximum)s)"
 
 #: weblate/formats/ttkit.py:177 weblate/formats/ttkit.py:183
 #: weblate/formats/ttkit.py:188 weblate/formats/ttkit.py:194
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "Ungültige Übersetzungsmarkierung: „%s“"
+msgstr "Ungültige id_hash-Metadaten in der CSV-Datei: %s"
 
 #: weblate/formats/ttkit.py:207 weblate/formats/ttkit.py:2399
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "Pluralformen-Metadaten in der CSV-Datei erfordern id_hash."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
@@ -6028,27 +6015,25 @@ msgstr "CSV-Datei"
 #: weblate/formats/ttkit.py:2376
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "Pluralform-Metadaten in der CSV-Datei fehlt die Form %d."
 
 #: weblate/formats/ttkit.py:2446
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "Pluralform-Metadaten in der CSV-Datei erfordern target_plural_form."
 
 #: weblate/formats/ttkit.py:2455
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "Pluralform-Metadaten in der CSV-Datei erfordern source_plural_form."
 
 #: weblate/formats/ttkit.py:2476
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "Doppelte Zeichenkette in der Datei gefunden."
+msgstr "Doppelte Ziel-Pluralform in der CSV-Datei: %s"
 
 #: weblate/formats/ttkit.py:2485
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Für CSV-Dateien verwendete Codierung"
+msgstr "Widersprüchliche Quell-Pluralform in der CSV-Datei: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2665
@@ -7743,17 +7728,17 @@ msgid "Contact server administrators"
 msgstr "Server-Administratoren kontaktieren"
 
 #: weblate/templates/accounts/contact.html:25
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
 msgstr ""
-"Sie können hier nur Administratoren des Servers %(site_title)s kontaktieren."
+"Verwenden Sie dieses Formular, um die Administratoren von %(site_title)s zu "
+"erreichen."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
-msgstr "Sie können hier nur Administratoren des gesamten Servers kontaktieren."
+msgstr ""
+"Verwenden Sie dieses Formular, um die Administratoren dieses Servers zu "
+"erreichen."
 
 #: weblate/templates/accounts/contact.html:34
 #: weblate/templates/accounts/user_profile_link.html:35
@@ -7769,90 +7754,63 @@ msgstr "Senden"
 
 #: weblate/templates/accounts/contact.html:44
 msgid "How can we help?"
-msgstr ""
+msgstr "Wie können wir helfen?"
 
 #: weblate/templates/accounts/contact.html:47
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "Wählen Sie eine der folgenden Optionen, um Hilfe zu erhalten."
 
 #: weblate/templates/accounts/contact.html:56
-#, fuzzy
-#| msgid "Import translation project"
 msgid "Question about a translation project"
-msgstr "Übersetzungsprojekt importieren"
+msgstr "Frage zu einem Übersetzungsprojekt"
 
 #: weblate/templates/accounts/contact.html:60
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, don’t use this form. "
-#| "Refer to the project’s Info tab and contact its maintainers."
 msgid ""
 "Find a specific translation project, refer to the project's Overview tab and "
 "contact its maintainers directly."
 msgstr ""
-"Bei Fragen zu einem bestimmten Übersetzungsprojekt verwenden Sie bitte nicht "
-"dieses Formular, sondern wenden sich bitte direkt über den Info-Reiter des "
-"Projekts an dessen Betreuer."
+"Wenn Sie ein bestimmtes Übersetzungsprojekt suchen, sehen Sie auf der "
+"Übersichtsseite des Projekts nach und wenden Sie sich direkt an die "
+"Projektbetreuer."
 
 #: weblate/templates/accounts/contact.html:64
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse projects"
-msgstr "Alle Projekte auflisten"
+msgstr "Projekte durchsuchen"
 
 #: weblate/templates/accounts/contact.html:72
-#, fuzzy
-#| msgid "Weblate project"
 msgid "Weblate product feedback"
-msgstr "Weblate-Projekt"
+msgstr "Rückmeldung zum Weblate-Produkt"
 
 #: weblate/templates/accounts/contact.html:76
-#, fuzzy
-#| msgid ""
-#| "Weblate development ideas and questions can be sent to the %"
-#| "(link_start)sWeblate issue tracker%(link_end)s."
 msgid ""
 "Share Weblate development ideas, feature requests, or report bugs in the "
 "upstream issue tracker."
 msgstr ""
-"Ideen und Fragen zur Entwicklung von Weblate können an den %"
-"(link_start)sWeblate Issue Tracker%(link_end)s gesendet werden."
+"Teilen Sie Ihre Ideen zur Entwicklung von Weblate und Vorschläge für neue "
+"Funktionen oder melden Sie Fehler im Upstream-Issue-Tracker."
 
 #: weblate/templates/accounts/contact.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Open issue"
-#| msgid_plural "Open issues"
 msgid "Open issue tracker"
-msgstr "Offenes Problem"
+msgstr "Issue Tracker öffnen"
 
 #: weblate/templates/accounts/contact.html:92
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support for another Weblate server"
-msgstr "Weblate unterstützen"
+msgstr "Support für einen anderen Weblate-Server"
 
 #: weblate/templates/accounts/contact.html:96
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for any other Weblate deployment than %(site_title)s, "
-#| "please check support offerings at %(weblate_link)s or use this form on "
-#| "the correct server."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
-"Wenn Sie Unterstützung für eine andere Bereitstellung von Weblate als "
-"%(site_title)s benötigen, prüfen Sie bitte die Support-Angebote unter "
-"%(weblate_link)s oder verwenden Sie dieses Formular auf dem entsprechenden "
-"Server."
+"Wenn Sie Unterstützung für eine andere Weblate-Installation als %(site_title)"
+"s benötigen, prüfen Sie die verfügbaren Support-Angebote, oder verwenden Sie "
+"das Kontaktformular auf dem entsprechenden Server."
 
 #: weblate/templates/accounts/contact.html:103
-#, fuzzy
-#| msgid "View source string"
 msgid "View support offerings"
-msgstr "Ausgangszeichenkette anzeigen"
+msgstr "Support-Angebote anzeigen"
 
 #: weblate/templates/accounts/contact.html:112 weblate/templates/base.html:434
 #: weblate/templates/base.html:436 weblate/templates/footer.html:41
@@ -7872,34 +7830,34 @@ msgid ""
 "Browse the Weblate documentation for guides on translating, administration, "
 "and configuration."
 msgstr ""
+"Durchsuchen Sie die Weblate-Dokumentation nach Anleitungen zur Übersetzung, "
+"Verwaltung und Konfiguration."
 
 #: weblate/templates/accounts/contact.html:121
 msgid "Read the docs"
-msgstr ""
+msgstr "Die Dokumentation lesen"
 
 #: weblate/templates/accounts/contact.html:131
-#, fuzzy, python-format
-#| msgid "Contact site administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "Site-Administratoren kontaktieren"
+msgstr "Frage an die %(site_title)s-Administratoren"
 
 #: weblate/templates/accounts/contact.html:133
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Question for the server administrators"
-msgstr "Server-Administratoren kontaktieren"
+msgstr "Frage an die Server-Administratoren"
 
 #: weblate/templates/accounts/contact.html:139
 msgid ""
 "Reach out to the administrators of this server about account, registration, "
 "or server-wide questions that don't fit the topics above."
 msgstr ""
+"Wenden Sie sich an die Administratoren dieses Servers, wenn Sie Fragen zum "
+"Konto, zur Registrierung oder zum Server haben, die nicht zu den oben "
+"genannten Themen passen."
 
 #: weblate/templates/accounts/contact.html:143
-#, fuzzy
-#| msgid "Use contact form"
 msgid "Open contact form"
-msgstr "Kontaktformular benutzen"
+msgstr "Kontaktformular öffnen"
 
 #: weblate/templates/accounts/email-sent.html:7
 #: weblate/templates/accounts/register.html:7
@@ -11589,6 +11547,8 @@ msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
 msgstr ""
+"Für die folgenden Abrechnungen ist aufgrund von Inaktivität eine "
+"automatische Deaktivierung der wiederkehrenden Zahlungen geplant:"
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -11689,6 +11649,8 @@ msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
 msgstr ""
+"Die wiederkehrende jährliche Zahlung für Ihr Abrechnungsmodell wird am %"
+"(date)s deaktiviert, da die betroffenen Projekte offenbar eingestellt wurden."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
@@ -11696,17 +11658,16 @@ msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
 msgstr ""
+"Der neueste bekannte Commit im Upstream-Repository für diese Projekte ist "
+"vom %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
 msgstr ""
-"Eine Anfrage für eine neue Übersetzung wurde an die Betreuer des Projekts "
-"geschickt."
+"Weblate hat ausstehende Übersetzungsänderungen für diese Projekte seit dem %"
+"(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
