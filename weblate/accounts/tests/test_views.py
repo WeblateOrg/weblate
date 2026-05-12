@@ -31,7 +31,11 @@ from weblate_schemas import load_schema
 
 from weblate.accounts.forms import ProfileForm
 from weblate.accounts.models import Profile, Subscription
-from weblate.accounts.notifications import NotificationFrequency, NotificationScope
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
+    NotificationFrequency,
+    NotificationScope,
+)
 from weblate.accounts.views import log_handled_auth_failure
 from weblate.auth.models import User
 from weblate.billing.models import Plan
@@ -625,6 +629,12 @@ class ViewTest(RepoTestCase):
 
 
 class ProfileTest(FixtureTestCase):
+    @staticmethod
+    def get_muted_subscription_count() -> int:
+        return sum(
+            1 for notification in NOTIFICATIONS if not notification.ignore_watched
+        )
+
     def test_profile(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
@@ -970,6 +980,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(form.initial["project"], self.project)
 
     def test_watch(self) -> None:
+        muted_subscription_count = self.get_muted_subscription_count()
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 10)
 
@@ -983,13 +994,15 @@ class ProfileTest(FixtureTestCase):
         # Mute notifications for component
         self.client.post(reverse("mute", kwargs=self.kw_component))
         self.assertEqual(
-            self.user.subscription_set.filter(component=self.component).count(), 20
+            self.user.subscription_set.filter(component=self.component).count(),
+            muted_subscription_count,
         )
 
         # Mute notifications for project
         self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 20
+            self.user.subscription_set.filter(project=self.project).count(),
+            muted_subscription_count,
         )
 
         # Unwatch project
@@ -1006,6 +1019,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 10)
 
     def test_watch_component(self) -> None:
+        muted_subscription_count = self.get_muted_subscription_count()
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 10)
 
@@ -1014,7 +1028,8 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 20
+            self.user.subscription_set.filter(project=self.project).count(),
+            muted_subscription_count,
         )
         # Only default notifications should be enabled
         self.assertEqual(
