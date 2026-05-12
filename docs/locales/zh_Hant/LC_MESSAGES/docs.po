@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-05 12:13+0200\n"
-"PO-Revision-Date: 2026-05-11 09:35+0000\n"
+"PO-Revision-Date: 2026-05-12 01:31+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -62,8 +62,8 @@ msgid ""
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
-"Weblate 具有一個精細的權限管理系統，可以為整個實例或在有限範圍內分配使用者權"
-"限。可以使用已定義的角色來進行分配，或為使用者指定一組或多組權限，這適用於整"
+"Weblate 帶有一個細緻的權限管理系統，可以為整個實例或在有限範圍內分配使用者權"
+"限。可以使用預定義的角色來進行分配，或為使用者指定一組或多組權限，這適用於整"
 "個系統，或特定專案、組件、詞彙表等等。"
 
 #: admin/access.rst:14
@@ -93,7 +93,7 @@ msgstr ""
 
 #: admin/access.rst:25 admin/config.rst:592
 msgid ":guilabel:`Public`"
-msgstr ":guilabel:`Public`"
+msgstr ":guilabel:`公開`"
 
 #: admin/access.rst:26 admin/access.rst:34
 msgid "Visible to everybody."
@@ -134,7 +134,7 @@ msgstr "** 選擇這個增加可見度，但您仍能控制誰來貢獻。**"
 
 #: admin/access.rst:41 admin/config.rst:596
 msgid ":guilabel:`Private`"
-msgstr ":guilabel:`Private`"
+msgstr ":guilabel:`私人`"
 
 #: admin/access.rst:42 admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -202,11 +202,11 @@ msgstr ""
 
 #: admin/access.rst:88
 msgid "Managing per-project access control"
-msgstr "管理單一專案的存取控制"
+msgstr "管理個別專案存取控制"
 
 #: admin/access.rst:93
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "於 `公開`、`保護` 與 `隱私` 專案："
+msgstr "對於 `公開` 、 `保護` 與 `私人` 專案："
 
 #: admin/access.rst:95
 msgid ""
@@ -224,7 +224,7 @@ msgstr ""
 
 #: admin/access.rst:102 snippets/roles.rst:10
 msgid "`Administration`"
-msgstr "管理權"
+msgstr "`管理`"
 
 #: admin/access.rst:103
 msgid "All available permissions for the project."
@@ -243,6 +243,7 @@ msgid "Available only if :ref:`review workflow <reviews>` is on."
 msgstr "僅當啟用 :ref:`review workflow <reviews>` 時才可用。"
 
 #: admin/access.rst:110
+#, fuzzy
 msgid "For `Protected` and `Private` projects only:"
 msgstr "只限‘受保護’及‘私有’專案："
 
@@ -272,7 +273,7 @@ msgstr "`語言`"
 
 #: admin/access.rst:120
 msgid "Manage translated languages (add or remove translations)."
-msgstr "管理已翻譯的語言（新增或移除翻譯字串）。"
+msgstr "管理已翻譯的語言（新增或移除翻譯）。"
 
 #: admin/access.rst:122
 msgid "`Glossary`"
@@ -332,8 +333,8 @@ msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 msgstr ""
-"這些功能可在 :guilabel:`Access control` 頁面上找到，頁面存取路徑為專案 "
-"menu :guilabel:`Manage` ↓ :guilabel:`Users`。"
+"These features are available on the :guilabel:`Access control` page in the "
+"project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 
 #: admin/access.rst:148
 msgid ""
@@ -382,8 +383,8 @@ msgid ""
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
-"不需要具有任何站點範圍的權限，就可以這麼做，專案級別的存取管理權限 (如，"
-"`Administration` 組成員資格) 就足夠了。"
+"不需要具有任何站點範圍的權限，就可以這麼做，專案級別的存取管理權限 (如，`管"
+"理` 組成員資格) 就足夠了。"
 
 #: admin/access.rst:178
 msgid ""
@@ -446,7 +447,7 @@ msgstr ""
 
 #: admin/access.rst:215
 msgid "Per-project permission management"
-msgstr "單一專案權限管理"
+msgstr "個別專案權限管理"
 
 #: admin/access.rst:217
 #, fuzzy
@@ -469,10 +470,10 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"預設情況下，這可以防止 Weblate 授權 `Users` 和 `Viewers` 提供 :ref:`default "
-"teams <default-teams>` 由於這些團隊所擁有的設定。這不會阻止您透過變更預設團"
-"隊，為預設團隊建立新的一個專案，或者為以下單個組件建立其他自訂設定，或者"
-"如 :ref:`custom-acl` 所描述。"
+"預設情況下，這可以防止 Weblate 授權 `使用者` 和 `檢視者` 提供 :ref:`default "
+"teams <default-teams>` 由於這些團隊所擁有的設定。這不會阻止您透過變更預設團隊"
+"，為預設團隊建立新的一個專案，或者為以下單個組件建立其他自訂設定，或者如 "
+":ref:`custom-acl` 所描述。"
 
 #: admin/access.rst:226
 msgid ""
@@ -482,8 +483,8 @@ msgid ""
 "team of the project."
 msgstr ""
 "其中一個透過 Weblate 使用者介面管理權限的主要好處是，您可以將其委派給其他使用"
-"者，而不需要給予他們超級使用者權限。為了這樣做，請將他們加入專案的 "
-"`Administration` 團隊。"
+"者，而不需要給予他們超級使用者權限。為了這樣做，請將他們加入專案的 `管理` 團"
+"隊。"
 
 #: admin/access.rst:231
 msgid ""
@@ -558,7 +559,7 @@ msgstr ""
 
 #: admin/access.rst:276
 msgid "Site-wide permission management"
-msgstr "網站範圍內的權限管理"
+msgstr "網站範圍權限管理"
 
 #: admin/access.rst:278
 msgid ""
@@ -797,7 +798,9 @@ msgstr "`群組`"
 msgid ""
 "Groups connect roles and users with authentication objects (projects, "
 "languages, components, and component lists)."
-msgstr "使用者組連接角色、使用者和身份驗證物件（專案、語言和組件清單）。"
+msgstr ""
+"Groups connect roles and users with authentication objects (projects, "
+"languages, components, and component lists)."
 
 #: admin/access.rst:380
 msgid ""
@@ -1010,9 +1013,9 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
-"該功能最常見的用例是將所有新使用者指派給某個預設團隊。此行為用於預設的 "
-"`Users` 和 `Guest` 團隊（請參閱 :ref:`default-teams`）。使用正規表達式 "
-"``^.*$`` 來匹配所有使用者。"
+"該功能最常見的用例是將所有新使用者指派給某個預設團隊。此行為用於預設的 `使用"
+"者` 和 `訪客` 團隊（請參閱 :ref:`default-teams`）。使用正規表達式 ``^.*$`` 來"
+"匹配所有使用者。"
 
 #: admin/access.rst:476
 #, fuzzy
@@ -1041,9 +1044,9 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"從一個 Weblate 版本升級到另一個版本時，總是會重新建立對 `Users` 和 `Viewers` "
-"的使用者團隊指派。如果您想關閉它，將正規表達式設定為 ``^$`` （不比對任何內"
-"容）。"
+"從一個 Weblate 版本升級到另一個版本時，總是會重新建立對 `使用者` 和 `檢視者` "
+"的使用者團隊指派。如果您想關閉它，將正規表達式設定為 ``^$`` （不比對任何內容"
+"）。"
 
 #: admin/access.rst:489
 msgid ""
@@ -3749,15 +3752,15 @@ msgstr ""
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
-msgstr "字型組允許為不同語言確定不同字型，這是非拉丁語言中典型需要的："
+msgstr "字型群組允許為不同語言確定不同字型，這是非拉丁語言中典型需要的："
 
 #: admin/checks.rst:157
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
-"字型組透過名稱識別，名稱不能包含空白字元或特殊字元，這使它能夠容易地用在檢查"
-"定義中："
+"字型群組透過名稱識別，名稱不能包含空白字元或特殊字元，這使它能夠容易地用在檢"
+"查定義中："
 
 #: admin/checks.rst:162
 msgid "Font-family and style is automatically recognized after uploading them:"
@@ -3787,7 +3790,7 @@ msgstr ""
 
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
-msgstr "確定字型組，透過指定其識別文字來使用。"
+msgstr "確定字型群組，透過指定其識別文字來使用。"
 
 #: admin/checks.rst:178
 msgid "Defines font size in pixels."
@@ -14161,8 +14164,8 @@ msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`, for example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``."
 msgstr ""
-"正規表達式必須包含組命名的 `component` 和 `language`。例如： ``(?"
-"P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
+"正規表達式必須包含群組命名的 `component` 和 `language`。例如： ``"
+"(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 
 #: admin/management.rst:479
 msgid ""
@@ -14984,8 +14987,8 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
-"成員或 :guilabel:`Users` 使用者組與匿名使用者預設通過 :guilabel:`Access "
-"repository` 和 :guilabel:`Power user` 角色存取公開專案。"
+"成員或 :guilabel:`使用者` 使用者群組與匿名使用者預設通過 :guilabel:`存取儲存"
+"庫` 和 :guilabel:`超級使用者` 角色存取公開專案。"
 
 #: admin/optionals.rst:71
 msgid "Billing"
@@ -17057,8 +17060,8 @@ msgid ""
 "`custom` or `private` access control groups."
 msgstr ""
 "無論專案級別權限如何，限制組件的存取或組件清單級別將接管到組件的存取權限。您"
-"必須明確授予對其的存取權限。這可以通過授予對新使用者組的存取並將使用者放入其"
-"中，或使用預設的“自訂”或“私有”存取控制組。"
+"必須明確授予對其的存取權限。這可以通過授予對新使用者群組的存取並將使用者放入"
+"其中，或使用預設的“自訂”或“私有”存取控制組。"
 
 #: admin/projects.rst:1112
 msgid ""
@@ -17748,17 +17751,10 @@ msgstr ""
 "個："
 
 #: admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions and a limited group controls what "
-#| "is accepted. - Turn on voting. - Turn off automatic acceptance. - Don't "
-#| "let users save translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
 msgstr ""
-"使用者建議並對建議進行投票，並且有限的組控制接受什麼。 ——打開投票。 ——關閉自"
-"動接受。 ——不要讓使用者儲存翻譯。"
 
 #: admin/translating.rst:29 admin/translating.rst:36
 msgid "Turn on voting."
@@ -33169,7 +33165,7 @@ msgstr "修復了一些驗證配置的登入重新導向。"
 
 #: changes/v4.rst:1047
 msgid "Fixed LDAP authentication with group sync."
-msgstr "修復了使用組同步的LDAP身份驗證。"
+msgstr "修復了支援群組同步的 LDAP 身份驗證。"
 
 #: changes/v4.rst:1048
 #, fuzzy
@@ -33885,8 +33881,7 @@ msgstr ""
 msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
-msgstr ""
-"擴充了 API 覆寫螢幕擷圖、使用者、使用者組、組件清單，並擴充了新增專案。"
+msgstr "擴充了 API 覆寫螢幕擷圖、使用者、使用者群組、組件清單，並擴充了新增專案。"
 
 #: changes/v4.rst:1262
 msgid "Add support for source upload on bilingual translations."
@@ -39784,9 +39779,9 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
-"如果 :guilabel:`Key` 匹配表達式，那麼匹配部分被刪除以產生變體的根鍵。然後，具"
-"有相同根鍵的所有字串將成為單個變體組的一部分，也包括具有與根鍵完全匹配的鍵的"
-"字串。"
+"如果 :guilabel:`金鑰` 匹配表達式，那麼匹配部分被刪除以產生變體的根鍵。然後，"
+"具有相同根鍵的所有字串將成為單個變體群組的一部分，也包括具有與根鍵完全匹配的"
+"鍵的字串。"
 
 #: devel/translations.rst:126
 msgid "The following table lists some usage examples:"
@@ -45980,10 +45975,13 @@ msgid ""
 msgstr "用於非對稱算法的大於512比特的有限場的乘法群中的離散對數的計算"
 
 #: security/us-compliance.rst:74
+#, fuzzy
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
-msgstr "用於非對稱算法的組中的分立對數超過112比特的組中的離散對比度"
+msgstr ""
+"Discrete logarithms in a group different than above in excess of 112 bits "
+"for an asymmetric algorithm"
 
 #: security/us-compliance.rst:76
 msgid ""
@@ -59858,7 +59856,7 @@ msgstr "使用者可以在不確定時提出建議，這很有用。"
 
 #: workflows.rst:130 workflows.rst:162 workflows.rst:195
 msgid "Translators group"
-msgstr "翻譯組"
+msgstr "翻譯群組"
 
 #: workflows.rst:130 workflows.rst:162 workflows.rst:195
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
@@ -59866,7 +59864,7 @@ msgstr "或使用 :ref:`per-project access control <manage-acl>` 的翻譯權限
 
 #: workflows.rst:134 workflows.rst:166 workflows.rst:199
 msgid "Reviewers group"
-msgstr "審核者組"
+msgstr "審核者群組"
 
 #: workflows.rst:134 workflows.rst:166
 msgid "N/A"
