@@ -47,6 +47,44 @@ class WidgetsTest(FixtureTestCase):
             )
         )
         self.assertContains(response, "Test")
+        self.assertContains(response, "Choose what to work on")
+        self.assertContains(response, "?q=state:empty")
+        self.assertContains(response, "?q=state:needs-editing")
+        self.assertContains(response, "?q=has:check%20AND%20state:%3E=translated")
+        self.assertNotContains(response, '?q=has:check"')
+        self.assertContains(response, "?q=has:suggestion#suggestions")
+        self.assertNotContains(response, "state:%3Ctranslated")
+
+    def test_view_engage_lang_review_tasks(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+
+        response = self.client.get(
+            reverse(
+                "engage", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
+            )
+        )
+
+        self.assertContains(response, "Needs review")
+        self.assertContains(response, "?q=state:translated")
+
+    def test_view_engage_lang_source_review_tasks(self) -> None:
+        self.project.source_review = True
+        self.project.save()
+
+        response = self.client.get(
+            reverse(
+                "engage", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
+            )
+        )
+        self.assertNotContains(response, "?q=state:translated")
+
+        response = self.client.get(
+            reverse(
+                "engage", kwargs={"path": [*self.project.get_url_path(), "-", "en"]}
+            )
+        )
+        self.assertContains(response, "?q=state:translated")
 
     def test_site_og(self) -> None:
         response = self.client.get(reverse("og-image"))

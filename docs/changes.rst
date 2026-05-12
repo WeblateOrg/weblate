@@ -27,6 +27,7 @@ Weblate 2026.5
 * Project access management now paginates users and better explains site-wide automatic team assignments.
 * Documented Gettext-style :ref:`plural-formula` syntax and linked to the upstream GNU gettext references.
 * The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
+* The engage page now highlights actionable translation task buckets for newcomers.
 
 .. rubric:: Bug fixes
 
