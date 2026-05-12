@@ -457,6 +457,40 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
 
 class XgettextExtractPotFormTest(SimpleTestCase):
+    def test_rejects_potfiles_symlink_outside_repository_before_stat(self) -> None:
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "po")
+
+        component = SimpleNamespace(
+            full_path=repository_dir,
+            check_file_is_valid=lambda filename: filename,
+        )
+        addon = SimpleNamespace(
+            instance=SimpleNamespace(component=component, pk=None),
+            documentation_build=False,
+        )
+        form = XgettextExtractPotForm(
+            None,
+            addon,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "input_mode": "potfiles",
+                "language": "Python",
+                "source_patterns": "",
+                "potfiles_path": "po/POTFILES.in",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["potfiles_path"],
+            ["Invalid symbolic link in a repository."],
+        )
+
     def test_rejects_potfiles_symlink_outside_repository(self) -> None:
         repository_dir = tempfile.mkdtemp()
         outside_dir = tempfile.mkdtemp()
