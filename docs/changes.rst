@@ -28,6 +28,7 @@ Weblate 2026.5
 * Documented Gettext-style :ref:`plural-formula` syntax and linked to the upstream GNU gettext references.
 * The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
 * The engage page now highlights actionable translation task buckets for newcomers.
+* :ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page.
 
 .. rubric:: Bug fixes
 
