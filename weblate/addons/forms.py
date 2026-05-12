@@ -27,6 +27,7 @@ from weblate.trans.discovery import (
 )
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Translation
+from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
@@ -358,17 +359,24 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
                 validate_filename(potfiles_path)
                 component = self._addon.instance.component
                 if component is not None:
+                    component_root = Path(component.full_path).resolve(strict=False)
                     manifest = Path(component.full_path) / potfiles_path
-                    try:
-                        component.check_file_is_valid(str(manifest))
-                    except forms.ValidationError as error:
-                        self.add_error("potfiles_path", error)
+                    if not is_path_within_resolved_directory(manifest, component_root):
+                        self.add_error(
+                            "potfiles_path",
+                            gettext("Invalid symbolic link in a repository."),
+                        )
                     else:
-                        if manifest.exists() and manifest.is_dir():
-                            self.add_error(
-                                "potfiles_path",
-                                gettext("POTFILES path has to point to a file."),
-                            )
+                        try:
+                            component.check_file_is_valid(str(manifest))
+                        except forms.ValidationError as error:
+                            self.add_error("potfiles_path", error)
+                        else:
+                            if manifest.is_dir():
+                                self.add_error(
+                                    "potfiles_path",
+                                    gettext("POTFILES path has to point to a file."),
+                                )
             cleaned_data["source_patterns"] = []
             cleaned_data["potfiles_path"] = potfiles_path
         return self.clean_xgettext_options(cleaned_data)
