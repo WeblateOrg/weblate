@@ -44,7 +44,6 @@ function mainLicenseTransform(packages) {
     "@sentry",
     "tributejs",
     "@tarekraafat/autocomplete.js",
-    "autosize",
     "tom-select",
     "hotkeys-js",
     "prismjs",
@@ -66,10 +65,6 @@ function sentryLicenseTransform(packages) {
 
 function tributeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
-}
-
-function autosizeLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
 }
 
 function prismJsLicenseTransform(packages) {
@@ -142,7 +137,6 @@ module.exports = {
     sentry: "./src/sentry.js",
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
-    autosize: "./src/autosize.js",
     "tom-select": "./src/tom-select.js",
     hotkeys: "./src/hotkeys.js",
     prismjs: "./src/prismjs.js",
@@ -183,7 +177,6 @@ module.exports = {
         "sentry.js.license": sentryLicenseTransform,
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
-        "autosize.js.license": autosizeLicenseTransform,
         "tom-select.js.license": tomSelectLicenseTransform,
         "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,
         "hotkeys.js.license": hotkeysLicenseTransform,

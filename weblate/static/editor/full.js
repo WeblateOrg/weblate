@@ -50,7 +50,6 @@
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
-      autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
 
@@ -62,7 +61,6 @@
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
-      autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
@@ -75,7 +73,6 @@
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
-      autosize.update(this.$translationArea);
       WLT.Utils.markApproved(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
@@ -225,7 +222,7 @@
         const target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
-          autosize.update(target);
+          target.dispatchEvent(new Event("input", { bubbles: true }));
         }
       });
       localStorage.removeItem(restoreKey);
@@ -672,10 +669,6 @@
       });
 
       $areas.first().focus();
-
-      if (typeof autosize !== "undefined") {
-        autosize.update($areas);
-      }
     });
   };
 
