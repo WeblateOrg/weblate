@@ -148,7 +148,7 @@ class PlaceholdersTest(CheckTestCase):
             list(self.check.check_highlight(unit.source, unit)),
             [(7, 19, "${user.name}")],
         )
-        
+
     def test_empty_placeholder_flags_do_not_match(self) -> None:
         for flags in ("placeholders:", 'placeholders:""', 'placeholders:r""'):
             with self.subTest(flags=flags):
