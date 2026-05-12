@@ -26,6 +26,7 @@ Weblate 2026.5
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 * Project access management now paginates users and better explains site-wide automatic team assignments.
 * Documented Gettext-style :ref:`plural-formula` syntax and linked to the upstream GNU gettext references.
+* The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
 
 .. rubric:: Bug fixes
 

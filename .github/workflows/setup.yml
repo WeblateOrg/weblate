@@ -36,6 +36,8 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
+    - name: Set reproducible build timestamp
+      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$GITHUB_ENV"
     - name: build
       run: |
         echo "::add-matcher::.github/matchers/setuptools.json"
@@ -200,10 +202,22 @@ jobs:
       run: uvx pydistcheck --inspect dist/*
     - name: pyroma
       run: uvx --with pip pyroma dist/*.tar.gz
-    - name: check-wheel-contents
-      run: uvx check-wheel-contents dist/*.whl
     - name: check-manifest
       run: uvx --with pip check-manifest -v
+    - name: Prepare sdist tree for wheel comparison
+      id: wheel-source
+      run: |
+        source_dir=$(mktemp -d)
+        tar --strip-components=1 -xf dist/*.tar.gz -C "$source_dir"
+        echo "path=$source_dir" >> "$GITHUB_OUTPUT"
+    - name: Build source catalogs
+      working-directory: ${{ steps.wheel-source.outputs.path }}
+      # Wheels ship generated .mo files, while Git and sdist ship .po sources.
+      # Compile catalogs before comparing the wheel against the sdist tree.
+      run: uv run --with translate-toolkit --with setuptools --no-project python setup.py build_mo
+    - name: check-wheel-contents
+      working-directory: ${{ steps.wheel-source.outputs.path }}
+      run: uvx check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
     - name: install
       run: |
         uv venv .venv-install

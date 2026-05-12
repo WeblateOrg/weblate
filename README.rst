@@ -32,7 +32,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 
 .. image:: https://img.shields.io/github/license/WeblateOrg/weblate.svg
     :alt: License
-    :target: https://github.com/WeblateOrg/weblate/blob/main/COPYING
+    :target: https://github.com/WeblateOrg/weblate/blob/main/LICENSE
 
 .. image:: https://argos-ci.com/badge.svg
     :alt: Covered by Argos Visual Testing

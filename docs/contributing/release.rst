@@ -47,6 +47,10 @@ Things to check prior to release:
 3. Make sure screenshots are up to date :command:`make -j 12 -C docs update-screenshots`.
 4. Merge any possibly pending translations :command:`wlc push; git remote update; git merge origin/weblate`
 
+When building distribution packages locally, start from a clean checkout or
+remove ignored packaging artifacts such as :file:`build/`, :file:`dist/`,
+:file:`weblate.egg-info/`, and generated :file:`weblate/locale/**/*.mo` files.
+
 Perform the release:
 
 5. Create a release :command:`./scripts/create-release --tag` (see below for requirements).
