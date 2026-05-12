@@ -12,7 +12,6 @@ from unittest import mock
 
 from django.conf import settings
 from django.core import mail
-from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
@@ -1030,7 +1029,7 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "notification change link is no longer valid")
 
         response = self.client.get(
-            reverse("unsubscribe"), {"i": TimestampSigner().sign("-1")}, follow=True
+            reverse("unsubscribe"), {"i": Subscription.sign_id("-1")}, follow=True
         )
         self.assertRedirects(response, f"{reverse('profile')}#notifications")
         self.assertContains(response, "notification change link is no longer valid")
@@ -1043,7 +1042,7 @@ class ProfileTest(FixtureTestCase):
         )
         response = self.client.get(
             reverse("unsubscribe"),
-            {"i": TimestampSigner().sign(f"{subscription.pk}")},
+            {"i": subscription.get_signed_id()},
             follow=True,
         )
         self.assertRedirects(response, f"{reverse('profile')}#notifications")

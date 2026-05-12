@@ -30,7 +30,7 @@ from django.core.exceptions import (
     ValidationError,
 )
 from django.core.mail.message import EmailMessage
-from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
+from django.core.signing import BadSignature, SignatureExpired
 from django.db import transaction
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
@@ -1923,11 +1923,21 @@ def subscribe(request: AuthenticatedHttpRequest):
             onetime=True,
         )
         try:
-            subscription.full_clean()
+            subscription.full_clean(validate_unique=False, validate_constraints=False)
         except ValidationError:
             pass
         else:
-            subscription.save()
+            Subscription.objects.update_or_create(
+                user=subscription.user,
+                notification=subscription.notification,
+                scope=subscription.scope,
+                project=subscription.project,
+                component=subscription.component,
+                defaults={
+                    "frequency": subscription.frequency,
+                    "onetime": subscription.onetime,
+                },
+            )
         messages.success(request, gettext("Notification settings adjusted."))
     return redirect_profile("#notifications")
 
@@ -1935,14 +1945,8 @@ def subscribe(request: AuthenticatedHttpRequest):
 @login_not_required
 def unsubscribe(request: AuthenticatedHttpRequest):
     if "i" in request.GET:
-        signer = TimestampSigner()
         try:
-            subscription = Subscription.objects.get(
-                pk=int(signer.unsign(request.GET["i"], max_age=24 * 3600))
-            )
-            subscription.frequency = NotificationFrequency.FREQ_NONE
-            subscription.save(update_fields=["frequency"])
-            messages.success(request, gettext("Notification settings adjusted."))
+            subscription = Subscription.get_by_signed_id(request.GET["i"])
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
             messages.error(
                 request,
@@ -1951,6 +1955,10 @@ def unsubscribe(request: AuthenticatedHttpRequest):
                     "please sign in to configure notifications."
                 ),
             )
+        else:
+            subscription.frequency = NotificationFrequency.FREQ_NONE
+            subscription.save(update_fields=["frequency"])
+            messages.success(request, gettext("Notification settings adjusted."))
 
     return redirect_profile("#notifications")
 
