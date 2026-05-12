@@ -205,6 +205,7 @@ class CreateTest(ViewTestCase):
                         "properties_encoding": "utf-8",
                         "strings_encoding": "utf-16",
                     },
+                    "language_regex": "^(?!en$).+$",
                 },
             )
         )
@@ -244,8 +245,9 @@ class CreateTest(ViewTestCase):
             data["file_format_params"],
             {"properties_encoding": "utf-8"},
         )
+        self.assertEqual(data["language_regex"], "^(?!en$).+$")
 
-        file_format_params = data.pop("file_format_params")
+        file_format_params = cast("dict[str, str]", data.pop("file_format_params"))
         data.update(
             {
                 f"file_format_params_{key}": value
@@ -254,7 +256,6 @@ class CreateTest(ViewTestCase):
         )
         data["project"] = self.project.pk
         data["source_language"] = get_default_lang()
-        data["language_regex"] = "^[^.]+$"
         data["new_base"] = ""
         data["new_lang"] = "contact"
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
