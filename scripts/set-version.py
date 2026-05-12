@@ -90,7 +90,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. rubric:: Contributors
 
-.. include:: changes/contributors/{version}.rst
+.. include:: /changes/contributors/{version}.rst
 
 `All changes in detail <{milestone_url}?closed=1>`__.
 
