@@ -1,8 +1,8 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-  "setuptools>=78.0.2",
-  "translate-toolkit"
+  "setuptools==82.0.1",
+  "translate-toolkit==3.19.9"
 ]
 
 [dependency-groups]
@@ -124,7 +124,7 @@ dependencies = [
   "cyrtranslit==1.2.0",
   "dateparser==1.4.0",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.181",
+  "disposable-email-domains==0.0.182",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-compressor==4.6.0",
@@ -206,7 +206,7 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.12"
-version = "2026.5"
+version = "2026.5.dev0"
 
 [project.optional-dependencies]
 all = [
@@ -319,6 +319,41 @@ ignore-bad-ideas = [
 ignore = [
   "W002",  # Triggered by __init__.py or .license files
   "W004"  # Django migrations fail here
+]
+package = [
+  "weblate"
+]
+package_omit = [
+  "*.egg-info",
+  "*.pyc",
+  "*.pyo",
+  ".*",
+  "CVS",
+  "RCS",
+  "weblate/*/test-data/*",
+  "weblate/*/tests.py",
+  "weblate/*/tests/*",
+  "weblate/examples/apache-path.conf",
+  "weblate/examples/apache.conf",
+  "weblate/examples/apache.gunicorn.conf",
+  "weblate/examples/benchmark",
+  "weblate/examples/celery",
+  "weblate/examples/celery-weblate.conf",
+  "weblate/examples/celery-weblate.logrotate",
+  "weblate/examples/celery-weblate.service",
+  "weblate/examples/docker-compose.yml",
+  "weblate/examples/granian.service",
+  "weblate/examples/gunicorn.service",
+  "weblate/examples/gunicorn.socket",
+  "weblate/examples/weblate.nginx.conf",
+  "weblate/examples/weblate.nginx.granian.conf",
+  "weblate/examples/weblate.nginx.gunicorn.conf",
+  "weblate/examples/weblate.uwsgi.ini",
+  "weblate/locale/*.pot",
+  "weblate/locale/*/LC_MESSAGES/*.po",
+  "weblate/settings.py",
+  "weblate/static/js/vendor/oss-licenses.json",
+  "weblate/trans/fixtures/*"
 ]
 
 [tool.codespell]
@@ -657,15 +692,14 @@ disable = [
 "weblate/trans/tests/data/*.md" = ["MD026"]
 
 [tool.setuptools]
-include-package-data = true
+include-package-data = false
 zip-safe = false
 
 [tool.setuptools.package-data]
 weblate = [
   "addons/extractors/sphinx/docutils.conf",
+  "examples/git-merge-gettext-po",
   "locale/**/*.mo",
-  "locale/**/*.po",
-  "locale/**/*.pot",
   "static/**/*",
   "templates/**/*"
 ]
@@ -674,6 +708,12 @@ weblate = [
 "weblate.wladmin" = ["templates/**/*"]
 
 [tool.setuptools.packages.find]
+exclude = [
+  "weblate.*.tests",
+  "weblate.*.tests.*",
+  "weblate.tests",
+  "weblate.tests.*"
+]
 include = ["weblate*"]
 namespaces = true
 

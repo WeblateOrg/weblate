@@ -4,13 +4,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import re
 import subprocess  # noqa: S404
 import sys
 from pathlib import Path
 
 import requests
 from ruamel.yaml import YAML
+from update_version import VERSION_FILES, replace_file, update_version
 
 if len(sys.argv) != 2:
     print("Usage: ./scripts/set-version.py VERSION")
@@ -19,13 +19,7 @@ if len(sys.argv) != 2:
 version = version_full = sys.argv[1]
 if version.count(".") == 1:
     version_full = f"{version}.0"
-
-
-def replace_file(name: str, search: str, replace: str) -> None:
-    content = Path(name).read_text(encoding="utf-8")
-
-    content = re.sub(search, replace, content, flags=re.MULTILINE)
-    Path(name).write_text(content, encoding="utf-8")
+package_version = f"{version}.dev0"
 
 
 def prepend_file(name: str, content: str) -> None:
@@ -61,9 +55,7 @@ if milestone_url is None:
         raise
 
 # Set version in the files
-replace_file("weblate/utils/version.py", "^VERSION =.*", f'VERSION = "{version}-dev"')
-replace_file("docs/conf.py", "release =.*", f'release = "{version}"')
-replace_file("pyproject.toml", "^version = .*", f'version = "{version}"')
+update_version(package_version, version)
 replace_file(
     "client/package.json", '  "version": ".*",', f'  "version": "{version_full}",'
 )
@@ -90,7 +82,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. rubric:: Contributors
 
-.. include:: changes/contributors/{version}.rst
+.. include:: /changes/contributors/{version}.rst
 
 `All changes in detail <{milestone_url}?closed=1>`__.
 
@@ -102,12 +94,9 @@ version_contributors.write_text("""..
 """)
 
 files = [
-    "weblate/utils/version.py",
-    "docs/conf.py",
+    *VERSION_FILES,
     "docs/changes.rst",
-    "pyproject.toml",
     "client/package.json",
-    "uv.lock",
     version_contributors.as_posix(),
 ]
 subprocess.run(["git", "add", version_contributors.as_posix()], check=True)  # noqa: S603, S607

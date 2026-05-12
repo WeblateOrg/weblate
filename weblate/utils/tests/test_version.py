@@ -11,11 +11,14 @@ import responses
 from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from packaging.version import Version
 
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.docs import get_doc_url
 from weblate.utils.version import (
     PYPI,
+    VERSION,
+    VERSION_BASE,
     download_version_info,
     flush_version_cache,
     get_latest_version,
@@ -39,6 +42,9 @@ class VersionTest(SimpleTestCase):
     def setUp(self) -> None:
         super().setUp()
         flush_version_cache()
+
+    def test_version_base(self) -> None:
+        self.assertEqual(VERSION_BASE, Version(VERSION).base_version)
 
     @staticmethod
     def mock_pypi() -> None:
@@ -98,6 +104,14 @@ class VersionDisplayTest(SimpleTestCase):
     @patch("weblate.utils.version.VERSION", "5.17.1")
     def test_doc_url_soft_mode_keeps_versioned_docs(self) -> None:
         self.assertIn("/weblate-5.17.1/", get_doc_url("admin/config"))
+
+    @patch("weblate.utils.version.VERSION", "2026.5.dev0")
+    def test_doc_url_dev_mode_uses_latest_docs(self) -> None:
+        self.assertIn("/latest/", get_doc_url("admin/config"))
+
+    @patch("weblate.utils.version.VERSION", "2026.5rc0")
+    def test_doc_url_rc_mode_uses_latest_docs(self) -> None:
+        self.assertIn("/latest/", get_doc_url("admin/config"))
 
     @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_HIDE, HIDE_VERSION=True)
     @patch("weblate.utils.version.VERSION", "5.17.1")

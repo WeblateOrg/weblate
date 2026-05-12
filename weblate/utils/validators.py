@@ -13,6 +13,7 @@ from email.errors import HeaderDefect
 from email.headerregistry import Address
 from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
+from itertools import chain
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import unquote, urlparse
@@ -48,6 +49,8 @@ from weblate.utils.outbound import (
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Iterator
+
     from django.core.files.base import File
     from django.core.files.base import File as DjangoFile
 
@@ -60,6 +63,7 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 # Block certain characters from full name
 FULL_NAME_RESTRICT = re.compile(r'[<>"]')
+PLURAL_FORMULA_NUMBER_RE = re.compile(r"\d+")
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 PIL_FORMATS = ["png", "jpeg", "webp", "gif"]
@@ -80,6 +84,31 @@ FORBIDDEN_EXTENSIONS = {
     ".dll",
     ".zip",
 }
+
+
+def iter_plural_formula_examples() -> Iterator[int]:
+    return chain(range(10000), range(10000, 2000001, 1000))
+
+
+def iter_plural_formula_validation_numbers(value: str | None) -> Iterator[int]:
+    seen: set[int] = set()
+
+    for number in iter_plural_formula_examples():
+        seen.add(number)
+        yield number
+
+    if value is None:
+        return
+
+    for match in PLURAL_FORMULA_NUMBER_RE.finditer(value):
+        try:
+            number = int(match[0])
+        except ValueError:
+            continue
+        for candidate in (number - 1, number, number + 1):
+            if candidate >= 0 and candidate not in seen:
+                seen.add(candidate)
+                yield candidate
 
 
 def validate_re(
@@ -278,13 +307,47 @@ class EmailValidator(EmailValidatorDjango):
 validate_email = EmailValidator()
 
 
-def validate_plural_formula(value) -> None:
+def _compile_plural_formula(value: str | None) -> Callable[[int], int]:
     try:
-        c2py(value or "0")
+        return c2py(value or "0")
     except ValueError as error:
         raise ValidationError(
             gettext("Could not evaluate plural formula: {}").format(error)
         ) from error
+
+
+def validate_plural_formula(value: str | None) -> None:
+    _compile_plural_formula(value)
+
+
+def validate_plural_formula_range(
+    number: int | None, value: str | None, *, validate_formula: bool = True
+) -> None:
+    if number is None or number < 1:
+        return
+
+    try:
+        plural = _compile_plural_formula(value)
+    except ValidationError:
+        if validate_formula:
+            raise
+        return
+    for count in iter_plural_formula_validation_numbers(value):
+        try:
+            result = plural(count)
+        except Exception as error:
+            raise ValidationError(
+                gettext(
+                    "Could not evaluate plural formula for count {count}: {error}"
+                ).format(count=count, error=error)
+            ) from error
+        if result < 0 or result >= number:
+            raise ValidationError(
+                gettext(
+                    "Plural formula result {result} for count {count} is outside "
+                    "the allowed range 0..{max}."
+                ).format(result=result, count=count, max=number - 1)
+            )
 
 
 def validate_filename(value: str, *, check_prohibited: bool = True) -> None:

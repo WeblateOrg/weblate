@@ -537,20 +537,20 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertIn("Last-Translator: Automatically generated", commit4)
 
     def test_x_generator_header(self):
-        with patch("weblate.utils.version.VERSION", new="X.XX"):
+        with patch("weblate.utils.version.VERSION", new="9.99"):
             commit0 = self.component.repository.show(
                 self.component.repository.last_revision
             )
-            self.assertNotIn("X-Generator: Weblate X.XX", commit0)
+            self.assertNotIn("X-Generator: Weblate 9.99", commit0)
             self.update_component_file_params(po_set_x_generator=False)
 
             rev1, commit1 = self.edit_unit_and_commit_changes("one")
-            self.assertNotIn("X-Generator: Weblate X.XX", commit1)
+            self.assertNotIn("X-Generator: Weblate 9.99", commit1)
 
             self.update_component_file_params(po_set_x_generator=True)
             rev2, commit2 = self.edit_unit_and_commit_changes("two")
             self.assertNotEqual(rev1, rev2)
-            self.assertIn("X-Generator: Weblate X.XX", commit2)
+            self.assertIn("X-Generator: Weblate 9.99", commit2)
 
     def test_report_msgid_bugs_to_header(self):
         self.component.report_source_bugs = "weblate@example.org"
