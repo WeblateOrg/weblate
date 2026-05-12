@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import struct
 from binascii import unhexlify
 from datetime import UTC, datetime, timedelta
 from time import time
@@ -582,8 +583,29 @@ class CaptchaForm(forms.Form):
             return
         payload = self.data.get("altcha", "")
 
+        try:
+            payload = Payload.from_base64(payload)
+        except (ValueError, KeyError, TypeError) as error:
+            LOGGER.error("Invalid altcha payload: %s", error)
+            raise forms.ValidationError(
+                gettext("Validation failed, please try again.")
+            ) from error
+
+        # Manually guard against replay attacks
+        # Use get to gracefully handle already solved challenges
+        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
+            LOGGER.error("Outdated altcha solution")
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
+
         # Validate payload
-        result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        try:
+            result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        except (ValueError, TypeError, struct.error) as error:
+            LOGGER.error("Invalid altcha solution: %s", error)
+            raise forms.ValidationError(
+                gettext("Validation failed, please try again.")
+            ) from error
+
         if not result.verified:
             LOGGER.error(
                 "Invalid altcha solution: expired=%s invalid_signature=%s invalid_solution=%s error=%s",
@@ -592,13 +614,6 @@ class CaptchaForm(forms.Form):
                 result.invalid_solution,
                 result.error,
             )
-            raise forms.ValidationError(gettext("Validation failed, please try again."))
-
-        # Manually guard against replay attacks
-        payload = Payload.from_base64(payload)
-        # Use get to gracefully handle already solved challenges
-        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
-            LOGGER.error("Outdated altcha solution")
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 
     def is_valid(self) -> bool:

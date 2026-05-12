@@ -39,6 +39,7 @@ Weblate 2026.5
 * URL health checks now validate redirect targets using the configured private-target restrictions.
 * :ref:`code-hosting-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`code-hosting-gerrit` branch validation now suggests short branch names when full refs are supplied.
+* Malformed ALTCHA CAPTCHA submissions no longer cause server errors.
 
 .. rubric:: Compatibility
 
