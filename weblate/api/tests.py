@@ -11079,6 +11079,72 @@ class AnnouncementAPITest(APIBaseTest):
         # Verify announcement still exists
         self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
 
+    def test_delete_translation_announcement_language_scope(self) -> None:
+        """Test deleting a translation announcement checks language scope."""
+        czech_language = Language.objects.get(code="cs")
+        german_language = Language.objects.get(code="de")
+        czech_translation, _created = Translation.objects.get_or_create(
+            component=self.component, language=czech_language
+        )
+        german_translation, _created = Translation.objects.get_or_create(
+            component=self.component, language=german_language
+        )
+        german_announcement = Announcement.objects.create(
+            project=self.component.project,
+            component=self.component,
+            language=german_language,
+            message="Test German translation announcement",
+        )
+
+        permission = Permission.objects.get(codename="announcement.delete")
+        role = Role.objects.create(name="Czech announcement deleter")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Czech announcement deleters",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_MANUAL,
+        )
+        group.projects.add(self.component.project)
+        group.languages.add(czech_language)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.assertTrue(self.user.has_perm("announcement.delete", czech_translation))
+        self.assertTrue(
+            self.user.has_perm("announcement.delete", self.translation_announcement)
+        )
+        self.assertFalse(self.user.has_perm("announcement.delete", german_translation))
+        self.assertFalse(self.user.has_perm("announcement.delete", german_announcement))
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={
+                "language__code": german_translation.language.code,
+                "component__slug": german_translation.component.slug,
+                "component__project__slug": german_translation.component.project.slug,
+                "announcement_id": german_announcement.id,
+            },
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+        self.assertTrue(Announcement.objects.filter(id=german_announcement.id).exists())
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={
+                **self.translation_kwargs,
+                "announcement_id": self.translation_announcement.id,
+            },
+            method="delete",
+            superuser=False,
+            code=204,
+        )
+        self.assertFalse(
+            Announcement.objects.filter(id=self.translation_announcement.id).exists()
+        )
+
     def test_delete_nonexistent_translation_announcement(self) -> None:
         """Test deleting an announcement that doesn't exist."""
         self.do_request(

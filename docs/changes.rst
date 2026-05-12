@@ -33,6 +33,7 @@ Weblate 2026.5
 * Database error details are no longer exposed in upload failure messages.
 * :ref:`vcs-gerrit` now rejects review target branches containing Gerrit push options.
 * Category :doc:`/admin/announcements` no longer appear across the whole project.
+* Translation announcement deletion now honors language-scoped permissions.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
 * Plural counts parsed from translation file headers are now bounded.
 * :ref:`project-api` expiring today now remain valid until the end of the day.
