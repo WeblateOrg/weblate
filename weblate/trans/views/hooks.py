@@ -35,6 +35,7 @@ from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+    from urllib.parse import ParseResult
 
     from django_stubs_ext import StrOrPromise
 
@@ -134,9 +135,19 @@ def normalize_full_name(full_name: str | None) -> str | None:
     return full_name
 
 
+def parse_repo_url(repo: str) -> ParseResult | None:
+    """Parse repository URL, returning None for malformed URL syntax."""
+    try:
+        return urlparse(repo)
+    except ValueError:
+        return None
+
+
 def repo_connection(repo: str) -> tuple[str | None, str | None, int | None, bool]:
     """Extract hostname, username and SSH port from repository URL."""
-    parsed = urlparse(repo)
+    parsed = parse_repo_url(repo)
+    if parsed is None:
+        return None, None, None, False
     if parsed.hostname is not None:
         try:
             port = parsed.port
@@ -156,12 +167,15 @@ def repo_connection(repo: str) -> tuple[str | None, str | None, int | None, bool
 
 def repo_is_scp_like(repo: str) -> bool:
     """Check whether repository URL uses scp-like Git syntax."""
-    return urlparse(repo).hostname is None and ":" in repo
+    parsed = parse_repo_url(repo)
+    return parsed is not None and parsed.hostname is None and ":" in repo
 
 
 def repo_path(repo: str) -> str | None:
     """Extract repository path from URL or scp-like Git syntax."""
-    parsed = urlparse(repo)
+    parsed = parse_repo_url(repo)
+    if parsed is None:
+        return None
     if parsed.hostname is not None:
         return strip_git_suffix(parsed.path.lstrip("/")) or None
     if ":" not in repo:
@@ -187,6 +201,11 @@ def repo_is_loopback(repo: str) -> bool:
         return False
 
 
+def repo_allows_fallback_matching(repo: str) -> bool:
+    """Check whether repository URL is safe evidence for suffix fallback."""
+    return parse_repo_url(repo) is not None and not repo_is_loopback(repo)
+
+
 def allow_fallback_matching(repos: list[str]) -> bool:
     """
     Allow suffix fallback only for payloads with at least one non-loopback URL.
@@ -195,7 +214,7 @@ def allow_fallback_matching(repos: list[str]) -> bool:
     exact matching fails, suffix fallback would scan all components for that
     sample repository path before responding to the hook.
     """
-    return any(not repo_is_loopback(repo) for repo in repos)
+    return any(repo_allows_fallback_matching(repo) for repo in repos)
 
 
 def url_host(hostname: str) -> str:

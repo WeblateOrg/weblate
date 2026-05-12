@@ -1438,6 +1438,23 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_gitea_malformed_repo_url_no_server_error(self) -> None:
+        self.component.repo = "https://example.com/unrelated/project.git"
+        self.component.save()
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["clone_url"] = "http://[::1"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_forgejo(self) -> None:
         # Adjust matching repo
         self.component.repo = "http://localhost:3000/forgejo/webhooks.git"
@@ -2170,6 +2187,22 @@ class GiteaLikeRepoVariantsTest(SimpleTestCase):
             ],
         )
 
+    def test_gitea_like_repo_variants_skip_malformed_urls(self) -> None:
+        repos = gitea_like_repo_variants(
+            "http://[::1",
+            "ssh://[::1",
+            "http://[::1",
+            "forgejo/webhooks",
+        )
+
+        self.assertEqual(
+            repos,
+            [
+                "http://[::1",
+                "ssh://[::1",
+            ],
+        )
+
 
 class AllowFallbackMatchingTest(SimpleTestCase):
     """Test repository suffix fallback guard."""
@@ -2185,6 +2218,30 @@ class AllowFallbackMatchingTest(SimpleTestCase):
             allow_fallback_matching(
                 [
                     "http://localhost:3000/owner/repo",
+                    "https://example.com/owner/repo",
+                ]
+            )
+        )
+
+    def test_allow_fallback_matching_malformed_url(self) -> None:
+        self.assertFalse(allow_fallback_matching(["http://[::1"]))
+
+    def test_allow_fallback_matching_malformed_url_with_loopback(self) -> None:
+        self.assertFalse(
+            allow_fallback_matching(
+                [
+                    "http://[::1",
+                    "http://localhost:3000/owner/repo",
+                    "ssh://git@127.0.0.1/owner/repo",
+                ]
+            )
+        )
+
+    def test_allow_fallback_matching_malformed_url_with_public_url(self) -> None:
+        self.assertTrue(
+            allow_fallback_matching(
+                [
+                    "http://[::1",
                     "https://example.com/owner/repo",
                 ]
             )
