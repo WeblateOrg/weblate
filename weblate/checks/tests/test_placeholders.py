@@ -134,6 +134,21 @@ class PlaceholdersTest(CheckTestCase):
             ],
         )
 
+    def test_overlapping_non_nested(self) -> None:
+        # The 2 flags matches partially overlapping spans
+        # 'python-brace-format' matches {user.name}.
+        # "placeholders:r"\$\{\w+" matches ${user.
+        unit = MockUnit(
+            None,
+            r'placeholders:r"\$\{\w+":r"\w+\.\w+\}"',
+            self.default_lang,
+            "nested ${user.name} non-overlapping",
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [(7, 19, "${user.name}")],
+        )
+
 
 class PluralPlaceholdersTest(FixtureComponentTestCase):
     def test_plural(self) -> None:
