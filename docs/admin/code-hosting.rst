@@ -615,7 +615,8 @@ of pushing them directly to the repository.
 The optional :ref:`component-push_branch` setting selects the target branch for
 the Gerrit review. Leave it empty to use :ref:`component-branch`. Use the short
 branch name, such as ``main``; Weblate and ``git-review`` push the review to
-``refs/for/<branch>`` automatically.
+``refs/for/<branch>`` automatically. Do not include Gerrit push options such as
+``%submit`` or ``%l=Code-Review+2`` in the branch name.
 
 The Gerrit documentation has the details on the configuration necessary to set
 up such repositories. There is no separate code hosting credential setting for

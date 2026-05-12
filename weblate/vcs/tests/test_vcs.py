@@ -688,6 +688,36 @@ class GitBranchValidationTest(SimpleTestCase):
             merge_err=False,
         )
 
+    def test_generic_git_branch_accepts_gerrit_option_delimiters(self) -> None:
+        with patch.object(GitRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "main%submit", GitRepository.validate_branch_name("main%submit")
+            )
+
+    def test_gerrit_branch_accepts_plain_name(self) -> None:
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "review-branch",
+                GitWithGerritRepository.validate_branch_name("review-branch"),
+            )
+
+    def test_gerrit_branch_rejects_magic_ref_options(self) -> None:
+        branches = (
+            "main%submit",
+            "main%l=Code-Review+2",
+            "main%topic=evil,l=Code-Review+2",
+            "main,topic",
+        )
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            for branch in branches:
+                with (
+                    self.subTest(branch=branch),
+                    self.assertRaises(RepositoryError) as cm,
+                ):
+                    GitWithGerritRepository.validate_branch_name(branch)
+
+                self.assertIn("review push options", str(cm.exception))
+
     def test_shorthand_branch_is_rejected(self) -> None:
         with self.assertRaises(RepositoryError) as cm:
             GitRepository.validate_branch_name("@{-1}")

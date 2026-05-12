@@ -488,7 +488,8 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
    For Gerrit, this selects the target branch for the review request. Leave it
    empty to review against :ref:`component-branch`. Use the short branch name,
-   not ``refs/heads/<branch>`` or ``refs/for/<branch>``.
+   not ``refs/heads/<branch>``, ``refs/for/<branch>``, or Gerrit push options
+   such as ``%submit``.
 
 .. seealso::
 
