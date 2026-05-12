@@ -272,6 +272,7 @@
   FullEditor.prototype.initMachinery = function () {
     this.isMachineryLoaded = true;
     this.machinery = new Machinery();
+    this.initMachineryHotkeys();
 
     $("#js-translate")
       .data("services")
@@ -299,6 +300,32 @@
         },
       });
       return false;
+    });
+  };
+
+  FullEditor.prototype.initMachineryHotkeys = () => {
+    hotkeys("ctrl+m,command+m", () => {
+      _seqStart("machinery");
+      return false;
+    });
+
+    hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
+      if (!_seqMatch("machinery")) {
+        return;
+      }
+
+      const $copyButton = $("#machinery-translations")
+        .children("tr")
+        .filter(function () {
+          return this.dataset.machineryKey === e.key;
+        })
+        .first()
+        .find(".js-copy-machinery");
+
+      if ($copyButton.length > 0) {
+        $copyButton.click();
+        return false;
+      }
     });
   };
 
@@ -373,12 +400,9 @@
 
     const $translationRows = $("#machinery-translations").children("tr");
 
-    // Two-step sequence: Ctrl/Cmd+M then a digit key copies machinery result
-    const machineryActions = {};
-
     $translationRows.each(function (idx) {
       if (idx < 10) {
-        const key = WLT.Utils.getNumericKey(idx);
+        const key = String(WLT.Utils.getNumericKey(idx));
 
         let title;
         if (WLT.Config.IS_MAC) {
@@ -387,25 +411,14 @@
           title = interpolate(gettext("Ctrl+M then %s"), [key]);
         }
         $(this)
+          .attr("data-machinery-key", key)
           .find(".machinery-number")
           .html($("<kbd/>").attr("title", title).text(key));
-        machineryActions[key] = () => {
-          $translationRows.eq(idx).find(".js-copy-machinery").click();
-        };
       } else {
-        $(this).find(".machinery-number").html("");
-      }
-    });
-
-    hotkeys("ctrl+m,command+m", () => {
-      _seqStart("machinery");
-      return false;
-    });
-
-    hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
-      if (_seqMatch("machinery") && machineryActions[e.key]) {
-        machineryActions[e.key]();
-        return false;
+        $(this)
+          .removeAttr("data-machinery-key")
+          .find(".machinery-number")
+          .html("");
       }
     });
   };
@@ -650,7 +663,7 @@
 
       // Inject data into translation fields (plural-aware)
       $areas.each((i, el) => {
-        const text = $btn.attr("data-text-" + i);
+        const text = $btn.attr(`data-text-${i}`);
 
         // Prevent overwriting with empty/undefined data
         if (text !== undefined && text !== "") {
