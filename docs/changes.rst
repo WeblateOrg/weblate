@@ -43,6 +43,7 @@ Weblate 2026.5
 * :ref:`code-hosting-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`code-hosting-gerrit` branch validation now suggests short branch names when full refs are supplied.
 * Malformed repository URLs in webhook payloads no longer trigger server errors during fallback matching.
+* :ref:`check-placeholders` now merges overlapping non-nested spans from multiple flags.
 
 .. rubric:: Compatibility
 
