@@ -15,7 +15,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -54,6 +54,7 @@ if TYPE_CHECKING:
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
 )
+PLURAL_COUNT_MAX = 10
 PLURAL_TITLE = """
 {name} <span class="text-muted" title="{title}">({examples})</span>
 """
@@ -1311,7 +1312,7 @@ class Plural(models.Model):
     number = models.SmallIntegerField(
         default=2,
         verbose_name=gettext_lazy("Number of plurals"),
-        validators=[MinValueValidator(1)],
+        validators=[MinValueValidator(1), MaxValueValidator(PLURAL_COUNT_MAX)],
     )
     formula = models.TextField(
         default="n != 1",
@@ -1379,6 +1380,9 @@ class Plural(models.Model):
         number = int(matches.group(1))
         if number <= 0:
             msg = "Plural number has to be greater than zero"
+            raise ValueError(msg)
+        if number > PLURAL_COUNT_MAX:
+            msg = f"Plural number has to be at most {PLURAL_COUNT_MAX}"
             raise ValueError(msg)
         formula = matches.group(2)
         if not formula:
