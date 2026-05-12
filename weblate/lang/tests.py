@@ -21,7 +21,13 @@ from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
 from weblate_language_data.population import POPULATION
 
 from weblate.lang import data
-from weblate.lang.models import Language, Plural, PluralMapper, get_plural_type
+from weblate.lang.models import (
+    PLURAL_COUNT_MAX,
+    Language,
+    Plural,
+    PluralMapper,
+    get_plural_type,
+)
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import (
@@ -711,6 +717,16 @@ class PluralTest(BaseTestCase):
             Plural.parse_plural_forms("nplurals=2; plural=(n == 1) ? 0 : 1;"),
             (2, "(n == 1) ? 0 : 1"),
         )
+
+    def test_parse_upper_limit(self) -> None:
+        self.assertEqual(
+            Plural.parse_plural_forms(f"nplurals={PLURAL_COUNT_MAX}; plural=0;"),
+            (PLURAL_COUNT_MAX, "0"),
+        )
+
+    def test_parse_too_many(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms(f"nplurals={PLURAL_COUNT_MAX + 1}; plural=0;")
 
     def test_parse_empty(self) -> None:
         with self.assertRaises(ValueError):

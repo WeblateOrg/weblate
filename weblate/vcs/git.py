@@ -877,6 +877,7 @@ class GitWithGerritRepository(GitRepository):
         "This will push changes to Gerrit for a review."
     )
     pushes_to_different_location: ClassVar[bool] = True
+    BRANCH_OPTION_DELIMITERS: ClassVar[frozenset[str]] = frozenset({"%", ","})
 
     _version: ClassVar[str | None] = None
 
@@ -884,6 +885,20 @@ class GitWithGerritRepository(GitRepository):
     def _get_version(cls):
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
+
+    @classmethod
+    def validate_branch_name(cls, branch: str) -> str:
+        branch = super().validate_branch_name(branch)
+        if cls.BRANCH_OPTION_DELIMITERS.intersection(branch):
+            raise RepositoryError(
+                0,
+                gettext(
+                    "Gerrit branch names cannot contain %(chars)s because Gerrit "
+                    "interprets them as review push options."
+                )
+                % {"chars": "'%' or ','"},
+            )
+        return branch
 
     def get_username_from_url(self, url) -> str:
         if url is not None:

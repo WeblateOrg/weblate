@@ -6,8 +6,9 @@ from __future__ import annotations
 import hashlib
 import logging
 import os
+import re
 import traceback
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
 import sentry_sdk
 
@@ -17,8 +18,14 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger(__name__)
 
 UNKNOWN = "unknown"
+MAX_INPUT_ATTACHMENT_BYTES = 1024 * 1024
 
 _STATE = {"initialized": False}
+_ATTACHMENT_FILENAME_RE = re.compile(r"[^A-Za-z0-9_.-]+")
+
+
+class AttachmentScope(Protocol):
+    def add_attachment(self, **kwargs: object) -> None: ...
 
 
 def _run_url(environ: Mapping[str, str]) -> str:
@@ -74,11 +81,32 @@ def _exception_type(error: Exception) -> str:
     return f"{error_type.__module__}.{error_type.__name__}"
 
 
-def _input_context(data: bytes) -> dict[str, object]:
+def _input_context(target_name: str, data: bytes) -> dict[str, object]:
+    attachment_data = data[:MAX_INPUT_ATTACHMENT_BYTES]
     return {
         "size": len(data),
         "sha256": hashlib.sha256(data).hexdigest(),
+        "attachment_filename": _attachment_filename(target_name),
+        "attachment_size": len(attachment_data),
+        "attachment_sha256": hashlib.sha256(attachment_data).hexdigest(),
+        "attachment_truncated": len(attachment_data) != len(data),
+        "attachment_limit": MAX_INPUT_ATTACHMENT_BYTES,
     }
+
+
+def _attachment_filename(target_name: str) -> str:
+    normalized_target = _ATTACHMENT_FILENAME_RE.sub("-", target_name).strip("-.")
+    if not normalized_target:
+        normalized_target = UNKNOWN
+    return f"fuzz-input-{normalized_target}.bin"
+
+
+def _attach_fuzz_input(scope: AttachmentScope, target_name: str, data: bytes) -> None:
+    scope.add_attachment(
+        bytes=data[:MAX_INPUT_ATTACHMENT_BYTES],
+        filename=_attachment_filename(target_name),
+        content_type="application/octet-stream",
+    )
 
 
 def _github_context(environ: Mapping[str, str]) -> dict[str, str]:
@@ -119,31 +147,35 @@ def capture_fuzz_exception(
     exception_type = _exception_type(error)
     top_frame = _top_frame(error)
 
-    sentry_sdk.capture_exception(
-        error,
-        fingerprint=[
-            "clusterfuzzlite",
-            sanitizer,
-            target_name,
-            exception_type,
-            top_frame,
-        ],
-        tags={
-            "source": "clusterfuzzlite",
-            "mode": environ.get("CFLITE_MODE", "batch"),
-            "sanitizer": sanitizer,
-            "target": target_name,
-            "workflow": environ.get("GITHUB_WORKFLOW", ""),
-            "run_id": environ.get("GITHUB_RUN_ID", ""),
-            "run_attempt": environ.get("GITHUB_RUN_ATTEMPT", ""),
-            "sha": environ.get("GITHUB_SHA", ""),
-        },
-        contexts={
-            "clusterfuzzlite": _clusterfuzzlite_context(target_name, error, environ),
-            "fuzz_input": _input_context(data),
-            "github_actions": _github_context(environ),
-        },
-    )
+    with sentry_sdk.new_scope() as scope:
+        _attach_fuzz_input(scope, target_name, data)
+        sentry_sdk.capture_exception(
+            error,
+            fingerprint=[
+                "clusterfuzzlite",
+                sanitizer,
+                target_name,
+                exception_type,
+                top_frame,
+            ],
+            tags={
+                "source": "clusterfuzzlite",
+                "mode": environ.get("CFLITE_MODE", "batch"),
+                "sanitizer": sanitizer,
+                "target": target_name,
+                "workflow": environ.get("GITHUB_WORKFLOW", ""),
+                "run_id": environ.get("GITHUB_RUN_ID", ""),
+                "run_attempt": environ.get("GITHUB_RUN_ATTEMPT", ""),
+                "sha": environ.get("GITHUB_SHA", ""),
+            },
+            contexts={
+                "clusterfuzzlite": _clusterfuzzlite_context(
+                    target_name, error, environ
+                ),
+                "fuzz_input": _input_context(target_name, data),
+                "github_actions": _github_context(environ),
+            },
+        )
     sentry_sdk.flush(timeout=10)
 
 
