@@ -741,10 +741,11 @@ def show_message(tags, message):
 @register.filter(is_safe=True)
 def naturaltime(value: float | datetime, microseconds: bool = False) -> SafeString:
     """
-    Heavily based on Django's django.contrib.humanize implementation of naturaltime.
+    Render date and time values for JavaScript relative-time formatting.
 
-    For date and time values shows how many seconds, minutes or hours ago compared to
-    current timestamp returns representing string.
+    The returned markup includes the absolute timestamp in the data-datetime
+    attribute. The page JavaScript replaces the visible fallback date with a
+    relative value for recent timestamps.
     """
     # float is what time() returns
     if isinstance(value, float):
