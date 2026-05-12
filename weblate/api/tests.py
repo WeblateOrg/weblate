@@ -6136,6 +6136,40 @@ class LanguageAPITest(APIBaseTest):
             },
         )
 
+    def test_create_invalid_plural_formula_range(self) -> None:
+        self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+                "plural": {"number": 2, "formula": "2"},
+            },
+        )
+        self.assertEqual(Language.objects.count(), len(LANGUAGES))
+
+    def test_create_invalid_plural_formula_evaluation_error(self) -> None:
+        self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+                "plural": {"number": 2, "formula": "n/0"},
+            },
+        )
+        self.assertEqual(Language.objects.count(), len(LANGUAGES))
+
     def test_delete(self) -> None:
         self.do_request(
             "api:language-list",
