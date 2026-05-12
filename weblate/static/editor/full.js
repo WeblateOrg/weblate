@@ -222,6 +222,7 @@
         const target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
+          target.dispatchEvent(new Event("input", { bubbles: true }));
         }
       });
       localStorage.removeItem(restoreKey);

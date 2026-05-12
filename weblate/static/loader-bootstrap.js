@@ -411,6 +411,18 @@ function quoteSearch(value) {
   return value;
 }
 
+// Auto-resize a textarea to fit its content.
+// CSS `field-sizing: content` would be cleaner but Firefox doesn't implement it yet
+function autosizeTextarea(el) {
+  const resize = () => {
+    // Reset to 0 so the textarea collapses past any `rows` attribute default 
+    el.style.height = "0px";
+    el.style.height = `${el.scrollHeight}px`;
+  };
+  el.addEventListener("input", resize);
+  resize();
+}
+
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
@@ -583,6 +595,7 @@ function initHighlight(root) {
     });
 
     resizeObserver.observe(editor);
+    autosizeTextarea(editor);
   });
 }
 
