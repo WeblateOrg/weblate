@@ -415,7 +415,7 @@ function quoteSearch(value) {
 // CSS `field-sizing: content` would be cleaner but Firefox doesn't implement it yet
 function autosizeTextarea(el) {
   const resize = () => {
-    // Reset to 0 so the textarea collapses past any `rows` attribute default 
+    // Reset to 0 so the textarea collapses past any `rows` attribute default
     el.style.height = "0px";
     el.style.height = `${el.scrollHeight}px`;
   };
