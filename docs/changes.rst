@@ -31,6 +31,7 @@ Weblate 2026.5
 * Hardened search previews and :ref:`machine-translation` suggestion origins against XSS.
 * Screenshot URL uploads and remote HTML extraction in :ref:`addon-weblate.cdn.cdnjs` now reject internal or non-public asset URLs by default.
 * Database error details are no longer exposed in upload failure messages.
+* :ref:`vcs-gerrit` now rejects review target branches containing Gerrit push options.
 * Category :doc:`/admin/announcements` no longer appear across the whole project.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
 * :ref:`project-api` expiring today now remain valid until the end of the day.
