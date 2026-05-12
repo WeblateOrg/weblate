@@ -38,7 +38,7 @@
            class="btn btn-link">{% icon "download.svg" %}</a>
       {% endif %}
     {% endif %}
-    <a href="{{ changes_rss }}"
+    <a href="{{ changes_rss }}{% if query_string %}?{{ query_string }}{% endif %}"
        title="{% translate "Follow using RSS" %}"
        class="btn btn-link">{% icon "rss.svg" %}</a>
   </div>
