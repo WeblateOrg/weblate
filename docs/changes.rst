@@ -25,6 +25,7 @@ Weblate 2026.5
 * Added :doc:`/admin/code-hosting` with provider-oriented setup guidance for code hosting integrations.
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 * Project access management now paginates users and better explains site-wide automatic team assignments.
+* Documented Gettext-style :ref:`plural-formula` syntax and linked to the upstream GNU gettext references.
 
 .. rubric:: Bug fixes
 
