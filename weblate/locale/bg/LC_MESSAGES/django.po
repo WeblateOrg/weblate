@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-05 11:53+0000\n"
+"PO-Revision-Date: 2026-05-12 08:03+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -4000,18 +4000,16 @@ msgid "The file format does not support updating source strings."
 msgstr "Файловият формат не поддържа обновяване на изходните низове."
 
 #: weblate/auth/utils.py:57
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "Името на файла не може да бъде абсолютен път."
+msgstr "Анонимните потребители не могат да бъдат добавяни към екипи."
 
 #: weblate/auth/utils.py:60
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "Неактивните потребители не могат да бъдат добавяни към екипи."
 
 #: weblate/auth/utils.py:63
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "Идентификаторите на проекти не могат да бъдат добавяни към екипи тук."
 
 #: weblate/auth/views.py:131
 msgid "Cannot remove built-in team!"
@@ -4091,38 +4089,28 @@ msgid "In limits"
 msgstr "В рамките на ограниченията"
 
 #: weblate/billing/models.py:218
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "Прекратяване на регулярното плащане"
+msgstr "Известие за неактивно регулярно плащане"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "Последна отдалечена промяна"
+msgstr "Последна промяна в отдалеченото хранилище"
 
 #: weblate/billing/models.py:228
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "Подаване на чакащите промени"
+msgstr "Най-стара чакаща промяна в Weblate"
 
 #: weblate/billing/models.py:233
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "Промени в хранилището"
+msgstr "Сигнал за промени в хранилището"
 
 #: weblate/billing/models.py:238
 msgid "Push failure alert"
-msgstr ""
+msgstr "Сигнал за неуспешно изпращане"
 
 #: weblate/billing/models.py:243
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "Прекратяване на регулярното плащане"
+msgstr "Насрочено прекратяване на регулярно плащане"
 
 #: weblate/billing/models.py:340
 msgid "Changes in last month"
@@ -5624,10 +5612,8 @@ msgstr "Файл с форматиране на Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:472
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "Файл DTD"
+msgstr "Файл MDX"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:553
@@ -5736,7 +5722,7 @@ msgstr "Файл CSV с множество стойности"
 #: weblate/formats/ttkit.py:220
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "Неправилни метаданни за формите за множествено число във файл CSV: %s"
 
 #: weblate/formats/ttkit.py:152 weblate/formats/ttkit.py:2367
 #, python-format

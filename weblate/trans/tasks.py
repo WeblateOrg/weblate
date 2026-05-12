@@ -420,22 +420,6 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
 
 
 @app.task(trail=False)
-def cleanup_old_suggestions() -> None:
-    if not settings.SUGGESTION_CLEANUP_DAYS:
-        return
-    cutoff = timezone.now() - timedelta(days=settings.SUGGESTION_CLEANUP_DAYS)
-    Suggestion.objects.filter(timestamp__lt=cutoff).delete()
-
-
-@app.task(trail=False)
-def cleanup_old_comments() -> None:
-    if not settings.COMMENT_CLEANUP_DAYS:
-        return
-    cutoff = timezone.now() - timedelta(days=settings.COMMENT_CLEANUP_DAYS)
-    Comment.objects.filter(timestamp__lt=cutoff).delete()
-
-
-@app.task(trail=False)
 def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> None:
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
@@ -994,16 +978,6 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
     )
     sender.add_periodic_task(
         crontab(hour=0, minute=40), cleanup_stale_repos.s(), name="cleanup-stale-repos"
-    )
-    sender.add_periodic_task(
-        crontab(hour=0, minute=45),
-        cleanup_old_suggestions.s(),
-        name="cleanup-old-suggestions",
-    )
-    sender.add_periodic_task(
-        crontab(hour=0, minute=50),
-        cleanup_old_comments.s(),
-        name="cleanup-old-comments",
     )
     sender.add_periodic_task(
         crontab(hour=2, minute=30),

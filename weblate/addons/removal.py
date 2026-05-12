@@ -107,12 +107,11 @@ class RemoveSuggestions(RemovalAddon):
             suggestions = Suggestion.objects.filter(
                 unit__translation__component__project=project
             )
+        votes = self.instance.configuration.get("votes", 0)
+        if votes is not None:
+            suggestions = suggestions.annotate(Sum("vote__value")).filter(
+                Q(vote__value__sum__lte=votes) | Q(vote__value__sum=None)
+            )
         self.delete_older(
-            suggestions.annotate(Sum("vote__value")).filter(
-                Q(vote__value__sum__lte=self.instance.configuration.get("votes", 0))
-                | Q(vote__value__sum=None)
-            ),
-            component=component,
-            category=category,
-            project=project,
+            suggestions, component=component, category=category, project=project
         )

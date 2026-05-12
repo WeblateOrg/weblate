@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-12 01:31+0000\n"
+"PO-Revision-Date: 2026-05-12 08:30+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -373,11 +373,11 @@ msgstr "加入團隊"
 
 #: weblate/accounts/forms.py:1152
 msgid "Name your authentication app"
-msgstr "為您的身份驗證應用程式命名"
+msgstr "為您的身分驗證應用程式命名"
 
 #: weblate/accounts/forms.py:1155
 msgid "Verify the code from the app"
-msgstr "驗證應用程式中的程式碼"
+msgstr "驗證應用程式中的代碼"
 
 #: weblate/accounts/forms.py:1171
 msgid "Discard previously configured authentication apps"
@@ -410,7 +410,7 @@ msgstr "恢復代碼只能使用一次。使用後請將其標記為已使用。
 
 #: weblate/accounts/forms.py:1313
 msgid "Enter the code from the app"
-msgstr "輸入 App 中的代碼"
+msgstr "輸入應用程式中的代碼"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:260
@@ -611,11 +611,11 @@ msgstr "已經移除 {project} 的專案權杖。"
 
 #: weblate/accounts/models.py:344
 msgid "Two-factor authentication recovery codes were generated"
-msgstr "產生了雙重要素身分驗證代碼"
+msgstr "產生了雙重要素恢復代碼"
 
 #: weblate/accounts/models.py:348
 msgid "Two-factor authentication recovery codes were viewed"
-msgstr "查閱了雙重要素身分驗證代碼"
+msgstr "檢視了雙重要素身分驗證代碼"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -744,8 +744,6 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"請輸入原始碼的自訂 URL 連結。可使用 {{branch}} 作為分支名， {{filename}} 和 "
-"{{line}} 分別作為檔案名稱和列號的佔位符號。"
 
 #: weblate/accounts/models.py:739
 msgid "Translation editor mode"
@@ -881,7 +879,7 @@ msgstr "程式碼網站 URL"
 
 #: weblate/accounts/models.py:872
 msgid "Link to your code profile for services like Codeberg or GitLab."
-msgstr "連結您的程式碼個人檔案，如 Codeberg 或 GitLab 等服務。"
+msgstr "連結您的程式碼個人檔案，像是 Codeberg 或 GitLab。"
 
 #: weblate/accounts/models.py:877
 msgid "GitHub username"
@@ -1411,7 +1409,7 @@ msgstr "請在繼續之前使用第二種驗證來確認您的身分。"
 
 #: weblate/accounts/views.py:1268 weblate/accounts/views.py:1344
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "無法重設密碼，郵件信箱身份核對功能已停用。"
+msgstr "無法重設密碼，郵件信箱身分核對功能已停用。"
 
 #: weblate/accounts/views.py:1299 weblate/templates/accounts/password.html:17
 #: weblate/templates/accounts/profile.html:206
@@ -1425,7 +1423,7 @@ msgstr "密碼重設已經完成。"
 
 #: weblate/accounts/views.py:1543
 msgid "Could not remove user identity"
-msgstr "無法移除使用者身份"
+msgstr "無法移除使用者身分"
 
 #: weblate/accounts/views.py:1553
 msgid "Add another identity by confirming your e-mail address first."
@@ -1462,11 +1460,11 @@ msgstr "請重新註冊來驗證您的身分。確認連結可能已經過期。
 
 #: weblate/accounts/views.py:1630
 msgid "Could not authenticate due to invalid session state."
-msgstr "無效的作業階段狀態導致無法核對身份。"
+msgstr "無效的作業階段狀態導致無法核對身分。"
 
 #: weblate/accounts/views.py:1645
 msgid "Got no e-mail address from third party authentication service."
-msgstr "無法從第三方身份核對服務取得郵件信箱。"
+msgstr "無法從第三方身分核對服務取得郵件信箱。"
 
 #: weblate/accounts/views.py:1649
 msgid "Please register using e-mail instead."
@@ -1483,15 +1481,15 @@ msgstr "已停用新註冊。"
 #: weblate/accounts/views.py:1748 weblate/accounts/views.py:1760
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
-msgstr "無法核對身份，很可能是因為權杖過期或是連線時發生錯誤。"
+msgstr "無法核對身分，很可能是因為權杖過期或是連線時發生錯誤。"
 
 #: weblate/accounts/views.py:1769
 msgid "Authentication cancelled."
-msgstr "已取消身份核對。"
+msgstr "已取消身分核對。"
 
 #: weblate/accounts/views.py:1776
 msgid "The server does not allow authentication."
-msgstr "伺服器不允許核對身份。"
+msgstr "伺服器不允許核對身分。"
 
 #: weblate/accounts/views.py:1786
 msgid "The supplied e-mail address is already in use for another account."
@@ -1504,7 +1502,7 @@ msgstr "提供的使用者名稱已經被其他帳號使用。"
 #: weblate/accounts/views.py:1807
 #, python-format
 msgid "Authentication failed: %s"
-msgstr "身份驗證失敗：%s"
+msgstr "身分驗證失敗：%s"
 
 #: weblate/accounts/views.py:1817
 msgid "The supplied user identity is already in use for another account."
@@ -2629,12 +2627,12 @@ msgstr "根據選擇事件傳送通知到 Slack 頻道。"
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
-msgstr "使用者登入時使用的基於作業階段的身份驗證。"
+msgstr "使用者登入時使用的基於作業階段的身分驗證。"
 
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr "基於權杖的身份驗證，需要前綴 `%s`。"
+msgstr "基於權杖的身分驗證，需要前綴 `%s`。"
 
 #: weblate/api/authentication.py:42
 msgid ""
@@ -2862,7 +2860,7 @@ msgstr "個人資訊"
 
 #: weblate/auth/admin.py:165
 msgid "Authentication"
-msgstr "身份核對"
+msgstr "身分核對"
 
 #: weblate/auth/admin.py:171 weblate/auth/models.py:108
 msgid "Permissions"
@@ -2883,12 +2881,12 @@ msgstr "當選擇組件時，這不會被使用。"
 #. Translators: Permission name
 #: weblate/auth/data.py:21
 msgid "Download changes"
-msgstr "下載變更處"
+msgstr "下載變更"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:23
 msgid "Post comment"
-msgstr "張貼評論"
+msgstr "發佈評論"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
@@ -2913,7 +2911,7 @@ msgstr "鎖定組件，防止翻譯"
 #. Translators: Permission name
 #: weblate/auth/data.py:33
 msgid "Add glossary entry"
-msgstr "增加詞彙表條目"
+msgstr "新增詞彙表條目"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -2968,19 +2966,19 @@ msgstr "下載報表"
 #. Translators: Permission name
 #: weblate/auth/data.py:55 weblate/templates/translate.html:853
 msgid "Add screenshot"
-msgstr "加入擷圖"
+msgstr "新增螢幕擷圖"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/base.html:533
 #: weblate/templates/screenshots/screenshot_detail.html:99
 msgid "Edit screenshot"
-msgstr "編輯擷圖"
+msgstr "編輯螢幕擷圖"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:59
 #: weblate/templates/screenshots/screenshot_detail.html:134
 msgid "Delete screenshot"
-msgstr "刪除擷圖"
+msgstr "刪除螢幕擷圖"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:61 weblate/templates/translate.html:990
@@ -3276,7 +3274,7 @@ msgstr "管理翻譯記憶庫"
 #: weblate/auth/data.py:254
 msgctxt "Access-control role"
 msgid "Manage screenshots"
-msgstr "管理擷圖"
+msgstr "管理螢幕擷圖"
 
 #: weblate/auth/data.py:258
 msgctxt "Access-control role"
@@ -3356,7 +3354,7 @@ msgstr "記憶"
 #: weblate/auth/data.py:312
 msgctxt "Per-project access-control team name"
 msgid "Screenshots"
-msgstr "擷圖"
+msgstr "螢幕擷圖"
 
 #: weblate/auth/data.py:315
 msgctxt "Per-project access-control team name"
@@ -6224,7 +6222,7 @@ msgstr "本網站使用 Cookie 的方式："
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr "需要有身份核對用的 Cookie 來辨識通過核對的使用者。"
+msgstr "需要有身分核對用的 Cookie 來辨識通過核對的使用者。"
 
 #: weblate/legal/templates/legal/cookies.html:43
 msgid "Preferences cookie to store user preferences in certain situations."
@@ -6368,7 +6366,7 @@ msgstr "應用程式基礎 URL"
 #: weblate/machinery/forms.py:223
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "身份核對服務 URL"
+msgstr "身分核對服務 URL"
 
 #: weblate/machinery/forms.py:232
 msgid "Regional or multi-service can be specified using region field below."
@@ -6377,7 +6375,7 @@ msgstr "可以使用下方的區域欄位指定區域性或多服務。"
 #: weblate/machinery/forms.py:238
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service region"
-msgstr "身份核對服務區域"
+msgstr "身分核對服務區域"
 
 #: weblate/machinery/forms.py:243
 msgctxt "Automatic suggestion service configuration"
@@ -6679,7 +6677,7 @@ msgstr "最大權杖數"
 
 #: weblate/machinery/forms.py:604
 msgid "Maximum number of tokens to generate in the response."
-msgstr "回應中可產生的 token 數上限。"
+msgstr ""
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -6920,11 +6918,11 @@ msgstr "影像會下載並儲存。"
 #: weblate/screenshots/models.py:59
 #: weblate/templates/screenshots/screenshot_list.html:52
 msgid "Screenshot name"
-msgstr "擷圖名稱"
+msgstr "螢幕擷圖名稱"
 
 #: weblate/screenshots/models.py:62
 msgid "Repository path to screenshot"
-msgstr "要擷圖的儲存庫路徑"
+msgstr "要螢幕擷圖的儲存庫路徑"
 
 #: weblate/screenshots/models.py:63
 msgid "Scan for screenshot file change on repository update."
@@ -6942,16 +6940,16 @@ msgstr "上傳至多 2000x2000 像素的影像。"
 
 #: weblate/screenshots/views.py:247
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr "擷圖已上傳，您現在可以將其指派給來源字串。"
+msgstr "螢幕擷圖已上傳，您現在可以將其指派給來源字串。"
 
 #: weblate/screenshots/views.py:253
 msgid "Could not upload screenshot, please fix errors below."
-msgstr "上傳擷圖失敗，請嘗試修正下列錯誤。"
+msgstr "上傳螢幕擷圖失敗，請嘗試修正下列錯誤。"
 
 #: weblate/screenshots/views.py:326
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "%s 擷圖已刪除。"
+msgstr "%s 螢幕擷圖已刪除。"
 
 #: weblate/screenshots/views.py:346
 msgid "Invalid unit."
@@ -7267,8 +7265,7 @@ msgstr "確認加入使用者身分"
 msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
-msgstr ""
-"確認之後，您就可以使用 %(backend_verbose)s (%(uid)s) 的身份使用 Weblate。"
+msgstr "確認之後，您就可以使用 %(backend_verbose)s (%(uid)s) 的身分使用 Weblate。"
 
 #: weblate/templates/accounts/confirm.html:27
 msgid "Confirm"
@@ -7576,11 +7573,11 @@ msgstr "註冊新帳號"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr "請啟用密碼核對身份以確保您的帳號安全。"
+msgstr "請啟用密碼核對身分以確保您的帳號安全。"
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "You will be still able to authenticate using third party services."
-msgstr "您仍可以透過第三方服務核對身份。"
+msgstr "您仍可以透過第三方服務核對身分。"
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "The password is used to verify important changes on your account."
@@ -7704,7 +7701,7 @@ msgstr "只能從驗證過的郵件信箱地址中選擇。"
 
 #: weblate/templates/accounts/profile.html:198
 msgid "Current user identities"
-msgstr "目前的使用者身份"
+msgstr "目前的使用者身分"
 
 #: weblate/templates/accounts/profile.html:208
 msgid "Set password"
@@ -7764,7 +7761,7 @@ msgstr "您的瀏覽器不支援 WebAuthn。"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Authenticator apps (TOTP)"
-msgstr "身份驗證器 App (TOTP)"
+msgstr "身分驗證器 App (TOTP)"
 
 #: weblate/templates/accounts/profile.html:320
 msgid "No authenticator apps registered yet."
@@ -7935,7 +7932,7 @@ msgstr "存取 Git 儲存庫"
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
-msgstr "API 金鑰也用來核對自動匯出 Git 儲存庫的身份。"
+msgstr "API 金鑰也用來核對自動匯出 Git 儲存庫的身分。"
 
 #: weblate/templates/accounts/profile.html:628
 msgid ""
@@ -8008,7 +8005,7 @@ msgstr "回到帳號設定"
 #: weblate/templates/accounts/redirect.html:15
 #: weblate/templates/accounts/token.html:13
 msgid "Redirecting you to the authentication provider."
-msgstr "正將您重新導向至身份核對處。"
+msgstr "正將您重新導向至身分核對處。"
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
@@ -8176,7 +8173,7 @@ msgid ""
 "Authenticator apps generate time-based one-time passwords that are used as a "
 "second factor to verify your identity when prompted during sign-in."
 msgstr ""
-"身份驗證器應用程式會產生基於時間的一次性密碼，該密碼可在登入時用作驗證您身分"
+"身分驗證器應用程式會產生基於時間的一次性密碼，該密碼可在登入時用作驗證您身分"
 "的第二要素。"
 
 #: weblate/templates/accounts/totp.html:30
@@ -8305,7 +8302,7 @@ msgstr "最近變更"
 
 #: weblate/templates/accounts/user.html:186
 msgid "User identities"
-msgstr "使用者身份"
+msgstr "使用者身分"
 
 #: weblate/templates/accounts/user.html:203
 #: weblate/templates/fonts/font_list.html:59
@@ -8343,7 +8340,7 @@ msgstr "瀏覽使用者進行的所有變更"
 
 #: weblate/templates/accounts/user.html:251
 msgid "Identity"
-msgstr "身份"
+msgstr "身分"
 
 #: weblate/templates/accounts/user.html:252
 msgid "User ID"
@@ -9286,7 +9283,7 @@ msgstr "您的 Weblate 超出服務限額。請升級訂購方案。"
 #: weblate/templates/base.html:533
 #: weblate/templates/screenshots/screenshot_detail.html:111
 msgid "Screenshot details"
-msgstr "擷圖細節"
+msgstr "螢幕擷圖細節"
 
 #: weblate/templates/billing/detail.html:30
 msgid "Recurring payment"
@@ -9518,7 +9515,7 @@ msgstr "任何人都看得到。"
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:39
 #: weblate/templates/snippets/info.html:115
 msgid "Any authenticated user can contribute."
-msgstr "任何通過身份驗證的使用者都可以貢獻。"
+msgstr "任何通過身分驗證的使用者都可以貢獻。"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:42
 msgid "VCS repository is accessible to everybody."
@@ -10311,7 +10308,7 @@ msgstr "成為 Weblate 的支持者"
 msgid ""
 "Here you can find guidance to make your localization project attractive to "
 "the community."
-msgstr "這裡能讓您找到使在地化專案更加吸引社群協助的指引。"
+msgstr "這裡能讓您找到使在地化專案更加吸引社群協助的指南。"
 
 #: weblate/templates/guide.html:66
 msgid "Return to the component"
@@ -11361,7 +11358,7 @@ msgstr "來源字串位置"
 #: weblate/templates/mail/snippets/unit-screenshots.html:11
 #: weblate/templates/translate.html:841
 msgid "Screenshot context"
-msgstr "擷圖情境"
+msgstr "螢幕擷圖情境"
 
 #: weblate/templates/mail/todo_strings.html:10 weblate/trans/filter.py:26
 #: weblate/trans/filter.py:123
@@ -12182,7 +12179,7 @@ msgstr "指派的來源字串"
 #: weblate/templates/screenshots/screenshot_detail.html:45
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
-msgstr "擷圖來可以為所有列出的來源字串補充所見的情境。"
+msgstr "螢幕擷圖來可以為所有列出的來源字串補充所見的情境。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:56
 msgid "Assign source strings"
@@ -12198,12 +12195,12 @@ msgstr "來源字串搜尋"
 
 #: weblate/templates/screenshots/screenshot_detail.html:138
 msgid "Deleting screenshot will remove it from all associated source strings."
-msgstr "刪除擷圖會一併將之從所有相連動的來源字串中移除。"
+msgstr "刪除螢幕擷圖會一併將之從所有相連動的來源字串中移除。"
 
 #: weblate/templates/screenshots/screenshot_list.html:37
 #: weblate/templates/translate.html:1096
 msgid "Add new screenshot"
-msgstr "新增擷圖"
+msgstr "新增螢幕擷圖"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
 #: weblate/templates/snippets/translation.html:22
@@ -13827,7 +13824,7 @@ msgstr "至少有一個螢幕擷圖沒有指派至任何字串。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:6
 msgid "Manage screenshots"
-msgstr "管理擷圖"
+msgstr "管理螢幕擷圖"
 
 #: weblate/templates/trans/alert/updatefailure.html:3
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -14153,7 +14150,7 @@ msgstr "鎖定"
 #: weblate/templates/trans/project-access-row.html:74
 #, python-format
 msgid "Edit team membership for %(username)s"
-msgstr "編輯 %(username)s 的團隊成員身份"
+msgstr "編輯 %(username)s 的團隊成員身分"
 
 #: weblate/templates/trans/project-access.html:103
 #, fuzzy
@@ -14551,7 +14548,7 @@ msgstr "字串資訊"
 
 #: weblate/templates/translate.html:846
 msgid "No screenshot currently associated."
-msgstr "目前無關聯的擷圖。"
+msgstr "目前無關聯的螢幕擷圖。"
 
 #: weblate/templates/translate.html:873
 msgid "No explanation currently provided."
@@ -14686,7 +14683,7 @@ msgstr "快速下載"
 
 #: weblate/templates/translation.html:304
 msgid "File in original format as translated in the repository"
-msgstr "儲存庫中已經翻譯的原格式檔案"
+msgstr "儲存庫中已經翻譯的原始格式檔案"
 
 #: weblate/templates/translation.html:312
 msgid ""
@@ -14756,7 +14753,7 @@ msgstr "推動翻譯專案"
 #: weblate/templates/widgets.html:19
 #, python-format
 msgid "You can point newcomers to the introduction page at %(engage_link)s."
-msgstr "您可以指引新人查看 %(engage_link)s 的簡介頁面。"
+msgstr "您可以引導新人查看位於 %(engage_link)s 的簡介頁面。"
 
 #: weblate/templates/widgets.html:22
 msgid "Promoting specific translations"
@@ -15089,12 +15086,12 @@ msgstr "已變更貢獻者授權契約"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:117
 msgid "Screenshot added"
-msgstr "新增了畫面擷圖"
+msgstr "新增了螢幕擷圖"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:119
 msgid "Screenshot uploaded"
-msgstr "上傳了畫面擷圖"
+msgstr "上傳了螢幕擷圖"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:121
@@ -15229,7 +15226,7 @@ msgstr "已強制重新掃描翻譯"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:176
 msgid "Screenshot removed"
-msgstr "擷圖已移除"
+msgstr "螢幕擷圖已移除"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:178
@@ -15837,7 +15834,7 @@ msgstr "有變體的字串"
 
 #: weblate/trans/filter.py:31
 msgid "Strings with screenshots"
-msgstr "有擷圖的字串"
+msgstr "有螢幕擷圖的字串"
 
 #: weblate/trans/filter.py:32
 msgid "Strings with labels"
@@ -15869,7 +15866,7 @@ msgstr "等候檢閱的字串"
 
 #: weblate/trans/filter.py:64
 msgid "Strings without screenshots"
-msgstr "無擷圖的字串"
+msgstr "無螢幕擷圖的字串"
 
 #: weblate/trans/filter.py:67
 msgid "Strings without a label"
@@ -16497,7 +16494,7 @@ msgstr "建置社群"
 
 #: weblate/trans/guide.py:176
 msgid "Define translation instructions to give translators a guideline."
-msgstr "定義翻譯指引以提供翻譯者指導原則。"
+msgstr "定義翻譯指南以提供翻譯者指導原則。"
 
 #: weblate/trans/guide.py:194
 msgid "Make your translations available under a libre license."

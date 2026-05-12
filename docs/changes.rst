@@ -25,6 +25,7 @@ Weblate 2026.5
 * Added :doc:`/admin/code-hosting` with provider-oriented setup guidance for code hosting integrations.
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 * Project access management now paginates users and better explains site-wide automatic team assignments.
+* Documented Gettext-style :ref:`plural-formula` syntax and linked to the upstream GNU gettext references.
 
 .. rubric:: Bug fixes
 
@@ -42,8 +43,10 @@ Weblate 2026.5
 * URL health checks now validate redirect targets using the configured private-target restrictions.
 * :ref:`code-hosting-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
 * :ref:`code-hosting-gerrit` branch validation now suggests short branch names when full refs are supplied.
+* Malformed ALTCHA CAPTCHA submissions no longer cause server errors.
 * Malformed repository URLs in webhook payloads no longer trigger server errors during fallback matching.
 * :ref:`check-placeholders` now merges overlapping non-nested spans from multiple flags.
+* :ref:`backup` logs no longer include OpenSSH post-quantum key exchange warnings from remote Borg connections.
 
 .. rubric:: Compatibility
 
@@ -59,6 +62,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
 * The upgrading policy was changed, and upgrades are only supported from the current or previous calendar year.
+* The ``COMMENT_CLEANUP_DAYS`` and ``SUGGESTION_CLEANUP_DAYS`` settings are migrated once to site-wide :ref:`addon-weblate.removal.comments` and :ref:`addon-weblate.removal.suggestions` add-ons; configure those add-ons instead.
 
 .. rubric:: Contributors
 
