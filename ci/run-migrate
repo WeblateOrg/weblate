@@ -73,6 +73,10 @@ check
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-base.py"
 check
 
+# Add stale comment removal add-on for cleanup settings migration test
+./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-cleanup-settings.py"
+check
+
 # Add component links for through-model migration test
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-links.py"
 check
@@ -132,10 +136,19 @@ git reset --hard
 check
 git checkout "$HEAD_COMMIT"
 check
+cp weblate/settings_test.py "$MIGRATE_DIR/settings_test.py"
+check
+cat >> weblate/settings_test.py << 'EOF'
+COMMENT_CLEANUP_DAYS = 15
+SUGGESTION_CLEANUP_DAYS = 20
+EOF
+check
 # Use CI environment
 deactivate
 check
 run_coverage ./manage.py migrate
+check
+cp "$MIGRATE_DIR/settings_test.py" weblate/settings_test.py
 check
 # Check migrated vote exists
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-vote.py"
@@ -143,6 +156,10 @@ check
 
 # Check component links survived through-model migration
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-links.py"
+check
+
+# Check cleanup settings were migrated to site-wide add-ons
+uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cleanup-settings.py"
 check
 
 # Check migrated pending unit

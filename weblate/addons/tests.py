@@ -5727,6 +5727,40 @@ class TestRemoval(ComponentTestCase):
         comments.daily(self.component)
         self.assert_count(suggestions=1)
 
+    def test_ignores_votes(self) -> None:
+        suggestions, comments = self.install()
+        suggestions.instance.configuration["votes"] = None
+        suggestions.instance.save(update_fields=["configuration"])
+        self.add_content()
+        self.age_content()
+        Vote.objects.create(
+            user=self.user, suggestion=Suggestion.objects.all()[0], value=1
+        )
+        suggestions.daily(self.component)
+        comments.daily(self.component)
+        self.assert_count()
+
+    def test_settings_form_ignores_votes(self) -> None:
+        suggestions, _comments = self.install()
+        suggestions.instance.configuration["votes"] = None
+        form = suggestions.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected removal form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form(), {"age": 7, "votes": None})
+
+    def test_settings_form_empty_votes(self) -> None:
+        suggestions, _comments = self.install()
+        form = suggestions.get_settings_form(None, data={"age": "9", "votes": ""})
+
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected removal form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.serialize_form(), {"age": 9, "votes": None})
+
     def test_daily(self) -> None:
         self.install()
         self.add_content()

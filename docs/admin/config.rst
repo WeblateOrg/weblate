@@ -525,14 +525,6 @@ You can turn on only a few:
    * :ref:`own-checks`
    * :ref:`custom-modules`
 
-.. setting:: COMMENT_CLEANUP_DAYS
-
-COMMENT_CLEANUP_DAYS
---------------------
-
-Delete comments after a given number of days.
-Defaults to ``None``, meaning no deletion at all.
-
 .. setting:: COMMIT_PENDING_HOURS
 
 COMMIT_PENDING_HOURS
@@ -2429,14 +2421,6 @@ STATUS_URL
 ----------
 
 The URL where your Weblate instance reports its status.
-
-.. setting:: SUGGESTION_CLEANUP_DAYS
-
-SUGGESTION_CLEANUP_DAYS
------------------------
-
-Automatically deletes suggestions after a given number of days.
-Defaults to ``None``, meaning no deletions.
 
 .. setting:: SUPPORT_STATUS_CHECK
 
