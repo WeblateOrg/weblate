@@ -43,7 +43,7 @@ class HighlightTestCase(SimpleTestCase):
         # The 2 flags matches partially overlapping spans
         # 'python-brace-format' matches {user.name}.
         # "placeholders:r"\$\{\w+" matches ${user.
-        unit = MockUnit(
+        unit = make_unit(
             source="nested ${user.name} non-overlapping",
             flags=r'python-brace-format, placeholders:r"\$\{\w+"',
         )

@@ -138,7 +138,7 @@ class PlaceholdersTest(CheckTestCase):
         # The 2 flags matches partially overlapping spans
         # 'python-brace-format' matches {user.name}.
         # "placeholders:r"\$\{\w+" matches ${user.
-        unit = MockUnit(
+        unit = make_unit(
             None,
             r'placeholders:r"\$\{\w+":r"\w+\.\w+\}"',
             self.default_lang,
