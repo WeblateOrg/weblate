@@ -8,9 +8,11 @@ import json
 import logging
 import os
 import re
+import sys
 import time
 import uuid
 from dataclasses import dataclass
+from html import escape as html_escape
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlsplit
@@ -25,6 +27,9 @@ DEFAULT_SARIF_PATH = Path("cifuzz-sarif/results.sarif")
 DEFAULT_ARTIFACTS_PATH = Path("out/artifacts")
 MAX_SUMMARY_LENGTH = 8000
 MAX_CONTEXT_LENGTH = 512
+MAX_REPORT_SUMMARY_LENGTH = 8000
+MAX_REPORT_SUMMARY_LINES = 120
+MAX_REPORT_ARTIFACT_FILES = 20
 UNKNOWN = "unknown"
 
 _ASAN_RE = re.compile(r"ERROR:\s*([^:\n]+):\s*([^\n]+)")
@@ -371,6 +376,291 @@ def fingerprint_location(location: str) -> str:
     return location or UNKNOWN
 
 
+def count_sarif_results(sarif_path: Path) -> int | None:
+    if not sarif_path.exists():
+        return None
+
+    with sarif_path.open(encoding="utf-8") as handle:
+        sarif_data = json.load(handle)
+
+    count = 0
+    for run in sarif_data.get("runs", []):
+        if not isinstance(run, dict):
+            continue
+        results = run.get("results", [])
+        if isinstance(results, list):
+            count += len(results)
+    return count
+
+
+def display_path(path: Path) -> str:
+    try:
+        return path.relative_to(Path.cwd()).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def display_value(value: str) -> str:
+    return value if value and value != UNKNOWN else UNKNOWN
+
+
+def report_source_label(finding: FuzzFinding) -> str:
+    if finding.source == "sarif" and finding.summary:
+        return "SARIF + crash summary"
+    if finding.source == "sarif":
+        return "SARIF"
+    if finding.source == "summary":
+        return "crash summary"
+    return finding.source
+
+
+def summary_excerpt_text(text: str) -> str:
+    text = text.strip()
+    if not text:
+        return "(empty)"
+
+    lines = text.splitlines()
+    excerpt = "\n".join(lines[:MAX_REPORT_SUMMARY_LINES])
+    truncated = len(lines) > MAX_REPORT_SUMMARY_LINES
+
+    if len(excerpt) > MAX_REPORT_SUMMARY_LENGTH:
+        excerpt = excerpt[:MAX_REPORT_SUMMARY_LENGTH]
+        truncated = True
+
+    if truncated:
+        excerpt = f"{excerpt}\n... [truncated]"
+    return excerpt
+
+
+def format_summary_excerpt(text: str) -> list[str]:
+    return [f"  {line}" for line in summary_excerpt_text(text).splitlines()]
+
+
+def summary_artifact_files(summary: CrashSummary) -> list[Path]:
+    directory = summary.path.parent
+    if not directory.exists():
+        return []
+
+    return sorted(path for path in directory.iterdir() if path.is_file())
+
+
+def append_summary_report(lines: list[str], summary: CrashSummary) -> None:
+    lines.extend(
+        (
+            f"Summary file: {display_path(summary.path)}",
+            f"Artifact directory: {display_path(summary.path.parent)}",
+        )
+    )
+
+    artifact_files = summary_artifact_files(summary)
+    if artifact_files:
+        lines.append("Artifact files:")
+        lines.extend(
+            f"  - {artifact_file.name}"
+            for artifact_file in artifact_files[:MAX_REPORT_ARTIFACT_FILES]
+        )
+        if len(artifact_files) > MAX_REPORT_ARTIFACT_FILES:
+            lines.append(
+                f"  - ... {len(artifact_files) - MAX_REPORT_ARTIFACT_FILES} more"
+            )
+
+    lines.append("Summary excerpt:")
+    lines.extend(format_summary_excerpt(summary.text))
+
+
+def format_findings_report(
+    findings: list[FuzzFinding],
+    summaries: list[CrashSummary],
+    *,
+    sarif_path: Path = DEFAULT_SARIF_PATH,
+    artifacts_path: Path = DEFAULT_ARTIFACTS_PATH,
+) -> str:
+    sarif_results = count_sarif_results(sarif_path)
+    lines = [
+        "Fuzzing report",
+        "==============",
+        f"SARIF results: {sarif_results if sarif_results is not None else 'not generated'}",
+        f"Artifact root: {display_path(artifacts_path)}",
+        f"Crash summary files: {len(summaries)}",
+        f"Findings: {len(findings)}",
+    ]
+
+    if not findings and not summaries:
+        lines.extend(("", "No fuzz findings found."))
+        return "\n".join(lines)
+
+    for index, finding in enumerate(findings, start=1):
+        source = report_source_label(finding)
+        lines.extend(
+            (
+                "",
+                f"Finding {index}",
+                "-" * len(f"Finding {index}"),
+                f"Target: {display_value(finding.target)}",
+                f"Source: {source}",
+                f"Rule: {display_value(finding.rule_id)}",
+                f"Crash: {display_value(finding.crash_type)}",
+                f"Likely location: {display_value(finding.location)}",
+            )
+        )
+        if finding.message and finding.message != finding.crash_type:
+            lines.append(f"Message: {truncate(finding.message, MAX_CONTEXT_LENGTH)}")
+        if finding.summary:
+            append_summary_report(lines, finding.summary)
+
+    finding_summary_paths = {
+        finding.summary.path for finding in findings if finding.summary is not None
+    }
+    additional_summaries = [
+        summary for summary in summaries if summary.path not in finding_summary_paths
+    ]
+    if additional_summaries:
+        lines.extend(("", "Additional crash summaries", "--------------------------"))
+        for index, summary in enumerate(additional_summaries, start=1):
+            lines.extend(
+                ("", f"Summary {index}", f"Target: {display_value(summary.target)}")
+            )
+            lines.append(f"Crash: {display_value(summary.crash_type)}")
+            append_summary_report(lines, summary)
+
+    return "\n".join(lines)
+
+
+def markdown_text(value: str) -> str:
+    return html_escape(display_value(value))
+
+
+def markdown_code(value: str) -> str:
+    value = display_value(value).replace("\n", " ")
+    if value == UNKNOWN:
+        return UNKNOWN
+    if "`" in value:
+        return f"`` {html_escape(value)} ``"
+    return f"`{html_escape(value)}`"
+
+
+def markdown_code_block(value: str) -> str:
+    value = summary_excerpt_text(value)
+    longest_backtick_run = max(
+        (len(match.group(0)) for match in re.finditer(r"`+", value)),
+        default=0,
+    )
+    fence = "`" * max(3, longest_backtick_run + 1)
+    return f"{fence}text\n{value}\n{fence}"
+
+
+def append_summary_markdown(lines: list[str], summary: CrashSummary) -> None:
+    lines.extend(
+        (
+            f"- Summary file: {markdown_code(display_path(summary.path))}",
+            f"- Artifact directory: {markdown_code(display_path(summary.path.parent))}",
+        )
+    )
+
+    artifact_files = summary_artifact_files(summary)
+    if artifact_files:
+        lines.extend(("", "Artifact files:"))
+        lines.extend(
+            f"- {markdown_code(artifact_file.name)}"
+            for artifact_file in artifact_files[:MAX_REPORT_ARTIFACT_FILES]
+        )
+        if len(artifact_files) > MAX_REPORT_ARTIFACT_FILES:
+            lines.append(
+                f"- ... {len(artifact_files) - MAX_REPORT_ARTIFACT_FILES} more"
+            )
+
+    lines.extend(
+        (
+            "",
+            "<details>",
+            "<summary>Summary excerpt</summary>",
+            "",
+            markdown_code_block(summary.text),
+            "",
+            "</details>",
+        )
+    )
+
+
+def format_findings_step_summary(
+    findings: list[FuzzFinding],
+    summaries: list[CrashSummary],
+    *,
+    sarif_path: Path = DEFAULT_SARIF_PATH,
+    artifacts_path: Path = DEFAULT_ARTIFACTS_PATH,
+) -> str:
+    sarif_results = count_sarif_results(sarif_path)
+    lines = [
+        "## Fuzzing report",
+        "",
+        f"- SARIF results: {sarif_results if sarif_results is not None else 'not generated'}",
+        f"- Artifact root: {markdown_code(display_path(artifacts_path))}",
+        f"- Crash summary files: {len(summaries)}",
+        f"- Findings: {len(findings)}",
+    ]
+
+    if not findings and not summaries:
+        lines.extend(("", "No fuzz findings found."))
+        return "\n".join(lines)
+
+    for index, finding in enumerate(findings, start=1):
+        lines.extend(
+            (
+                "",
+                f"### Finding {index}",
+                "",
+                f"- Target: {markdown_code(finding.target)}",
+                f"- Source: {markdown_text(report_source_label(finding))}",
+                f"- Rule: {markdown_code(finding.rule_id)}",
+                f"- Crash: {markdown_text(finding.crash_type)}",
+                f"- Likely location: {markdown_code(finding.location)}",
+            )
+        )
+        if finding.message and finding.message != finding.crash_type:
+            lines.append(
+                f"- Message: {markdown_text(truncate(finding.message, MAX_CONTEXT_LENGTH))}"
+            )
+        if finding.summary:
+            append_summary_markdown(lines, finding.summary)
+
+    finding_summary_paths = {
+        finding.summary.path for finding in findings if finding.summary is not None
+    }
+    additional_summaries = [
+        summary for summary in summaries if summary.path not in finding_summary_paths
+    ]
+    if additional_summaries:
+        lines.extend(("", "### Additional crash summaries"))
+        for index, summary in enumerate(additional_summaries, start=1):
+            lines.extend(
+                (
+                    "",
+                    f"#### Summary {index}",
+                    "",
+                    f"- Target: {markdown_code(summary.target)}",
+                    f"- Crash: {markdown_text(summary.crash_type)}",
+                )
+            )
+            append_summary_markdown(lines, summary)
+
+    return "\n".join(lines)
+
+
+def write_github_step_summary(
+    markdown_report: str, environ: Mapping[str, str] | None = None
+) -> bool:
+    environ = os.environ if environ is None else environ
+    summary_path = environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        LOGGER.info("GITHUB_STEP_SUMMARY is not configured; skipping step summary.")
+        return False
+
+    with Path(summary_path).open("a", encoding="utf-8") as handle:
+        handle.write(markdown_report.rstrip())
+        handle.write("\n")
+    return True
+
+
 def build_run_url(environ: Mapping[str, str]) -> str:
     repository = environ.get("GITHUB_REPOSITORY", "")
     run_id = environ.get("GITHUB_RUN_ID", "")
@@ -400,10 +690,7 @@ def build_report_config(
         sha=environ.get("GITHUB_SHA", ""),
         repository=environ.get("GITHUB_REPOSITORY", ""),
         run_url=build_run_url(environ),
-        artifact_names=(
-            f"{artifact_prefix}-crash-summaries-{sanitizer}",
-            f"{artifact_prefix}-sarif-{sanitizer}",
-        ),
+        artifact_names=(f"{artifact_prefix}-crash-summaries-{sanitizer}",),
     )
 
 
@@ -555,13 +842,28 @@ def send_sentry_event(event: dict[str, Any], dsn: str) -> None:
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Report ClusterFuzzLite findings to Sentry."
+        description="Report ClusterFuzzLite findings to the console and Sentry."
     )
     parser.add_argument("--sarif", type=Path, default=DEFAULT_SARIF_PATH)
     parser.add_argument("--artifacts", type=Path, default=DEFAULT_ARTIFACTS_PATH)
     parser.add_argument("--mode", default=os.environ.get("CFLITE_MODE", "batch"))
     parser.add_argument("--sanitizer", default=os.environ.get("SANITIZER", "address"))
     parser.add_argument("--environment", default="")
+    parser.add_argument(
+        "--print-report",
+        action="store_true",
+        help="Print a human-readable findings report to stdout.",
+    )
+    parser.add_argument(
+        "--github-step-summary",
+        action="store_true",
+        help="Append a Markdown findings report to GITHUB_STEP_SUMMARY.",
+    )
+    parser.add_argument(
+        "--no-sentry",
+        action="store_true",
+        help="Skip reporting findings to Sentry.",
+    )
     parser.add_argument("--log-level", default="INFO")
     return parser
 
@@ -580,7 +882,26 @@ def main(argv: list[str] | None = None) -> int:
         environment=environment,
     )
     findings, summaries = collect_findings(args.sarif, args.artifacts)
-    reported = report_findings(findings, config)
+    if args.print_report:
+        sys.stdout.write(
+            format_findings_report(
+                findings,
+                summaries,
+                sarif_path=args.sarif,
+                artifacts_path=args.artifacts,
+            )
+            + "\n"
+        )
+    if args.github_step_summary:
+        write_github_step_summary(
+            format_findings_step_summary(
+                findings,
+                summaries,
+                sarif_path=args.sarif,
+                artifacts_path=args.artifacts,
+            )
+        )
+    reported = 0 if args.no_sentry else report_findings(findings, config)
     LOGGER.info(
         "Processed %d crash summary file(s), %d finding(s), reported %d event(s).",
         len(summaries),

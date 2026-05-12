@@ -9,7 +9,7 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase
 from unittest.mock import patch
 
-from fuzzing.sentry_reporter import (
+from fuzzing.findings_reporter import (
     MAX_SUMMARY_LENGTH,
     CrashSummary,
     FuzzFinding,
@@ -18,12 +18,15 @@ from fuzzing.sentry_reporter import (
     build_event,
     build_report_config,
     collect_findings,
+    format_findings_report,
+    format_findings_step_summary,
     parse_dsn,
     report_findings,
+    write_github_step_summary,
 )
 
 
-class FuzzingSentryReporterTest(TestCase):
+class FuzzingFindingsReporterTest(TestCase):
     def test_collect_sarif_findings(self) -> None:
         with TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -316,6 +319,222 @@ class FuzzingSentryReporterTest(TestCase):
             findings[0].crash_type, "AddressSanitizer: heap-use-after-free"
         )
 
+    def test_format_findings_report_includes_location_and_summary(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            sarif_path = root / "results.sarif"
+            artifacts_path = root / "artifacts"
+            summary_path = artifacts_path / "backups" / "crash" / "crash.summary"
+            summary_path.parent.mkdir(parents=True)
+            summary_path.write_text(
+                "==1==ERROR: AddressSanitizer: heap-use-after-free\n",
+                encoding="utf-8",
+            )
+            (summary_path.parent / "crash-testcase").write_text(
+                "testcase", encoding="utf-8"
+            )
+            sarif_path.write_text(
+                json.dumps(
+                    {
+                        "version": "2.1.0",
+                        "runs": [
+                            {
+                                "results": [
+                                    {
+                                        "ruleId": "asan-crash",
+                                        "message": {
+                                            "text": "AddressSanitizer: heap-use-after-free"
+                                        },
+                                        "properties": {"target": "backups"},
+                                        "locations": [
+                                            {
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "weblate/trans/backups.py"
+                                                    },
+                                                    "region": {"startLine": 42},
+                                                }
+                                            },
+                                            {
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": (
+                                                            "out/artifacts/backups/"
+                                                            "crash/crash.summary"
+                                                        )
+                                                    }
+                                                }
+                                            },
+                                        ],
+                                    }
+                                ]
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            findings, summaries = collect_findings(sarif_path, artifacts_path)
+
+            report = format_findings_report(
+                findings,
+                summaries,
+                sarif_path=sarif_path,
+                artifacts_path=artifacts_path,
+            )
+
+        self.assertIn("SARIF results: 1", report)
+        self.assertIn("Findings: 1", report)
+        self.assertIn("Target: backups", report)
+        self.assertIn("Source: SARIF + crash summary", report)
+        self.assertIn("Likely location: weblate/trans/backups.py:42", report)
+        self.assertIn("Artifact files:", report)
+        self.assertIn("  - crash-testcase", report)
+        self.assertIn("AddressSanitizer: heap-use-after-free", report)
+
+    def test_format_findings_report_includes_additional_summaries(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            artifacts_path = root / "artifacts"
+            summary_path = artifacts_path / "backups" / "crash" / "crash.summary"
+            summary_path.parent.mkdir(parents=True)
+            summary_path.write_text(
+                "Traceback (most recent call last):\n"
+                "ValueError: unexpected backup failure\n",
+                encoding="utf-8",
+            )
+            findings, summaries = collect_findings(
+                root / "missing.sarif", artifacts_path
+            )
+
+            report = format_findings_report(
+                findings,
+                summaries,
+                sarif_path=root / "missing.sarif",
+                artifacts_path=artifacts_path,
+            )
+
+        self.assertIn("Findings: 0", report)
+        self.assertIn("Additional crash summaries", report)
+        self.assertIn("Target: backups", report)
+        self.assertIn("ValueError: unexpected backup failure", report)
+
+    def test_format_findings_report_labels_summary_only_findings(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            artifacts_path = root / "artifacts"
+            summary_path = artifacts_path / "webhooks" / "crash" / "crash.summary"
+            summary_path.parent.mkdir(parents=True)
+            summary_path.write_text(
+                "SUMMARY: libFuzzer: out-of-memory\n",
+                encoding="utf-8",
+            )
+            findings, summaries = collect_findings(
+                root / "missing.sarif", artifacts_path
+            )
+
+            report = format_findings_report(
+                findings,
+                summaries,
+                sarif_path=root / "missing.sarif",
+                artifacts_path=artifacts_path,
+            )
+
+        self.assertIn("SARIF results: not generated", report)
+        self.assertIn("Findings: 1", report)
+        self.assertIn("Source: crash summary", report)
+        self.assertIn("Likely location: unknown", report)
+
+    def test_format_findings_step_summary_uses_markdown(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            sarif_path = root / "results.sarif"
+            artifacts_path = root / "artifacts"
+            summary_path = artifacts_path / "backups" / "crash" / "crash.summary"
+            summary_path.parent.mkdir(parents=True)
+            summary_path.write_text(
+                "==1==ERROR: AddressSanitizer: heap-use-after-free\n",
+                encoding="utf-8",
+            )
+            (summary_path.parent / "crash-testcase").write_text(
+                "testcase", encoding="utf-8"
+            )
+            sarif_path.write_text(
+                json.dumps(
+                    {
+                        "version": "2.1.0",
+                        "runs": [
+                            {
+                                "results": [
+                                    {
+                                        "ruleId": "asan-crash",
+                                        "message": {
+                                            "text": "AddressSanitizer: heap-use-after-free"
+                                        },
+                                        "properties": {"target": "backups"},
+                                        "locations": [
+                                            {
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "weblate/trans/backups.py"
+                                                    },
+                                                    "region": {"startLine": 42},
+                                                }
+                                            },
+                                            {
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": (
+                                                            "out/artifacts/backups/"
+                                                            "crash/crash.summary"
+                                                        )
+                                                    }
+                                                }
+                                            },
+                                        ],
+                                    }
+                                ]
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            findings, summaries = collect_findings(sarif_path, artifacts_path)
+
+            report = format_findings_step_summary(
+                findings,
+                summaries,
+                sarif_path=sarif_path,
+                artifacts_path=artifacts_path,
+            )
+
+        self.assertIn("## Fuzzing report", report)
+        self.assertIn("- SARIF results: 1", report)
+        self.assertIn("### Finding 1", report)
+        self.assertIn("- Target: `backups`", report)
+        self.assertIn("- Source: SARIF + crash summary", report)
+        self.assertIn("- Likely location: `weblate/trans/backups.py:42`", report)
+        self.assertIn("<details>", report)
+        self.assertIn("```text", report)
+        self.assertIn("AddressSanitizer: heap-use-after-free", report)
+
+    def test_write_github_step_summary_appends_report(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            summary_path = Path(tmpdir) / "summary.md"
+
+            wrote = write_github_step_summary(
+                "## Fuzzing report\n", {"GITHUB_STEP_SUMMARY": str(summary_path)}
+            )
+
+            self.assertTrue(wrote)
+            self.assertEqual(
+                summary_path.read_text(encoding="utf-8"), "## Fuzzing report\n"
+            )
+
+    def test_write_github_step_summary_skips_without_path(self) -> None:
+        self.assertFalse(write_github_step_summary("## Fuzzing report\n", {}))
+
     def test_build_event_uses_stable_fingerprint_and_metadata(self) -> None:
         config = build_report_config(
             {
@@ -416,7 +635,7 @@ class FuzzingSentryReporterTest(TestCase):
         self.assertIn(b'"type": "event"', envelope)
         self.assertIn(b'"message": "test"', envelope)
 
-    @patch("fuzzing.sentry_reporter.send_sentry_event")
+    @patch("fuzzing.findings_reporter.send_sentry_event")
     def test_report_findings_sends_sentry_events(self, send_sentry_event_mock) -> None:
         config = ReportConfig(
             dsn="https://public@example.invalid/1",
@@ -448,7 +667,7 @@ class FuzzingSentryReporterTest(TestCase):
         self.assertEqual(reported, 1)
         send_sentry_event_mock.assert_called_once()
 
-    @patch("fuzzing.sentry_reporter.send_sentry_event")
+    @patch("fuzzing.findings_reporter.send_sentry_event")
     def test_report_findings_ignores_sentry_transport_errors(
         self, send_sentry_event_mock
     ) -> None:
