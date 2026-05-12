@@ -1249,7 +1249,16 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @property
     def enable_review(self) -> bool:
-        return self.project.enable_review
+        project_review = (
+            self.project.source_review
+            if self.is_source
+            else self.project.translation_review
+        )
+        if not project_review:
+            return False
+        if self.workflow_settings is not None:
+            return self.workflow_settings.translation_review
+        return project_review
 
     @property
     def enable_suggestions(self) -> bool:
@@ -1380,7 +1389,7 @@ class ProjectLanguageStats(ChecklistStats):
 
     @cached_property
     def has_review(self):
-        return self.project.source_review or self.project.translation_review
+        return self._object.enable_review
 
     def get_child_objects(self):
         return (
