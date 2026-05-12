@@ -617,9 +617,10 @@ class RemoveSuggestionForm(RemoveForm):
     votes = forms.IntegerField(
         label=gettext_lazy("Voting threshold"),
         initial=0,
-        required=True,
+        required=False,
         help_text=gettext_lazy(
-            "Threshold for removal. This field has no effect with voting turned off."
+            "Threshold for removal. Leave empty to remove suggestions regardless of "
+            "votes. This field has no effect with voting turned off."
         ),
     )
 

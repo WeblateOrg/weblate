@@ -54,6 +54,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly.
 * The upgrading policy was changed, and upgrades are only supported from the current or previous calendar year.
+* The ``COMMENT_CLEANUP_DAYS`` and ``SUGGESTION_CLEANUP_DAYS`` settings are migrated once to site-wide :ref:`addon-weblate.removal.comments` and :ref:`addon-weblate.removal.suggestions` add-ons; configure those add-ons instead.
 
 .. rubric:: Contributors
 

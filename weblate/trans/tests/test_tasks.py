@@ -5,15 +5,12 @@
 from datetime import timedelta
 from unittest.mock import patch
 
-from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.checks.tasks import finalize_component_checks
-from weblate.trans.models import Comment, PendingUnitChange, Suggestion
+from weblate.trans.models import PendingUnitChange, Suggestion
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
-    cleanup_old_comments,
-    cleanup_old_suggestions,
     cleanup_repos,
     cleanup_suggestions,
     commit_pending,
@@ -72,32 +69,6 @@ class CleanupTest(ComponentTestCase):
         # The cleanup should remove one
         cleanup_suggestions()
         self.assertEqual(len(self.get_unit().suggestions), 1)
-
-    def test_cleanup_old_suggestions(self, expected=2) -> None:
-        request = self.get_request()
-        unit = self.get_unit()
-        Suggestion.objects.add(unit, ["Zkouška"], request)
-        Suggestion.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
-        Suggestion.objects.add(unit, ["Zkouška 2"], request)
-        cleanup_old_suggestions()
-        self.assertEqual(Suggestion.objects.count(), expected)
-
-    @override_settings(SUGGESTION_CLEANUP_DAYS=15)
-    def test_cleanup_old_suggestions_enabled(self) -> None:
-        self.test_cleanup_old_suggestions(1)
-
-    def test_cleanup_old_comments(self, expected=2) -> None:
-        request = self.get_request()
-        unit = self.get_unit()
-        Comment.objects.add(request, unit, "Zkouška", "global")
-        Comment.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
-        Comment.objects.add(request, unit, "Zkouška 2", "global")
-        cleanup_old_comments()
-        self.assertEqual(Comment.objects.count(), expected)
-
-    @override_settings(COMMENT_CLEANUP_DAYS=15)
-    def test_cleanup_old_comments_enabled(self) -> None:
-        self.test_cleanup_old_comments(1)
 
 
 class TasksTest(ComponentTestCase):
