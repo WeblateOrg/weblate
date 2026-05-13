@@ -14,12 +14,14 @@ from django.core import mail
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
+from weblate.accounts.data import DEFAULT_NOTIFICATIONS
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import (
     RECIPIENT_USERNAME_HEADER,
     MergeFailureNotification,
     NotificationFrequency,
     NotificationScope,
+    TranslationActivitySummaryNotification,
     get_email_headers,
     get_notification_emails,
 )
@@ -114,6 +116,32 @@ class NotificationHeadersTest(SimpleTestCase):
 
         self.assertNotIn(RECIPIENT_USERNAME_HEADER, messages[0]["headers"])
 
+    def test_activity_summary_digest_only(self) -> None:
+        choices = {
+            frequency
+            for frequency, _label in TranslationActivitySummaryNotification.get_freq_choices()
+        }
+
+        self.assertNotIn(NotificationFrequency.FREQ_INSTANT, choices)
+
+    def test_activity_summary_default_notification(self) -> None:
+        self.assertIn(
+            (
+                NotificationScope.SCOPE_WATCHED,
+                NotificationFrequency.FREQ_WEEKLY,
+                "TranslationActivitySummaryNotification",
+            ),
+            DEFAULT_NOTIFICATIONS,
+        )
+        self.assertNotIn(
+            (
+                NotificationScope.SCOPE_WATCHED,
+                NotificationFrequency.FREQ_WEEKLY,
+                "NewStringNotificaton",
+            ),
+            DEFAULT_NOTIFICATIONS,
+        )
+
 
 @override_settings(
     TEMPLATES=TEMPLATES_RAISE,
@@ -162,6 +190,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
                 notification=notification,
                 frequency=NotificationFrequency.FREQ_INSTANT,
             )
+        Subscription.objects.filter(
+            user=self.user, notification="TranslationActivitySummaryNotification"
+        ).delete()
         self.thirduser = User.objects.create_user(
             "thirduser", "noreply+third@example.org", "testpassword"
         )
@@ -589,6 +620,36 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             change=ActionEvents.REQUESTED_LANGUAGE,
             subj="New language was added or requested",
         )
+
+    def test_translation_activity_summary(self) -> None:
+        self.user.subscription_set.all().delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification="TranslationActivitySummaryNotification",
+            frequency=NotificationFrequency.FREQ_WEEKLY,
+        )
+        unit = self.get_unit()
+        unit.change_set.create(action=ActionEvents.NEW_UNIT)
+        unit.change_set.create(action=ActionEvents.SOURCE_CHANGE)
+        unit.change_set.create(user=self.anotheruser, action=ActionEvents.CHANGE)
+        unit.change_set.create(user=self.anotheruser, action=ActionEvents.APPROVE)
+        unit.change_set.create(user=self.anotheruser, action=ActionEvents.MARKED_EDIT)
+
+        self.assertEqual(len(mail.outbox), 0)
+
+        notify_weekly()
+
+        self.validate_notifications(1, "[Weblate] Translation activity summary")
+        content = mail.outbox[0].alternatives[0][0]
+        self.assertIn("Translation activity in this period", content)
+        self.assertIn("Test/Test — Czech", content)
+        self.assertIn("change_action%3Astring-added", content)
+        self.assertIn("change_action%3Asource-string-changed", content)
+        self.assertIn("change_action%3Atranslation-changed", content)
+        self.assertIn("change_action%3Atranslation-approved", content)
+        self.assertIn("change_action%3Amarked-for-edit", content)
+        self.assertIn("state%3A%3Ctranslated", content)
+        self.assertNotIn("Hello, world", content)
 
     def test_reminder(
         self,

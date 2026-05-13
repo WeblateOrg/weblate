@@ -57,7 +57,12 @@ from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
-from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
+from weblate.trans.views.changes import (
+    ChangesCSVView,
+    ChangesRSSView,
+    ChangesView,
+    show_change,
+)
 from weblate.trans.views.hooks import ServiceHookView
 from weblate.utils.version import VERSION
 
@@ -665,6 +670,10 @@ real_patterns = [
     path("changes/csv/", ChangesCSVView.as_view(), name="changes-csv"),
     path(
         "changes/csv/<object_path:path>/", ChangesCSVView.as_view(), name="changes-csv"
+    ),
+    path("changes/rss/", ChangesRSSView.as_view(), name="changes-rss"),
+    path(
+        "changes/rss/<object_path:path>/", ChangesRSSView.as_view(), name="changes-rss"
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks

@@ -5,7 +5,7 @@
 import os
 import pathlib
 import tempfile
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import call, patch
 
 from django.test import SimpleTestCase
@@ -490,8 +490,9 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
         file_format: str = "",
         intermediate: str = "",
         new_base: str = "",
+        language_regex: str = "",
     ) -> DiscoveryResult:
-        data: ResultDict = {}
+        data: dict[str, object] = {}
         if name:
             data["name"] = name
         if filemask:
@@ -504,8 +505,10 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             data["intermediate"] = intermediate
         if new_base:
             data["new_base"] = new_base
+        if language_regex:
+            data["language_regex"] = language_regex
 
-        result = DiscoveryResult(data)
+        result = DiscoveryResult(cast("ResultDict", data))
         result.meta = {"priority": 1000, "origin": None}
         return result
 
@@ -534,6 +537,43 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             presets[0]["values"]["base_file_template"],
             "{{ component }}/values/strings.xml",
         )
+
+    def test_detected_presets_preserve_language_regex(self) -> None:
+        first = self.make_discovery_result(
+            file_format="po",
+            filemask="django/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="django/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+        second = self.make_discovery_result(
+            file_format="po",
+            filemask="djangojs/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="djangojs/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+
+        presets = get_detected_discovery_presets_from_results([first, second])
+
+        self.assertEqual(len(presets), 1)
+        self.assertEqual(presets[0]["values"]["language_regex"], "^(?!en$).+$")
+
+    def test_detected_presets_do_not_combine_different_language_regexes(self) -> None:
+        first = self.make_discovery_result(
+            file_format="po",
+            filemask="django/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="django/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+        second = self.make_discovery_result(
+            file_format="po",
+            filemask="djangojs/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="djangojs/conf/locale/en_GB/LC_MESSAGES/messages.po",
+            language_regex="^(?!en_GB$).+$",
+        )
+
+        presets = get_detected_discovery_presets_from_results([first, second])
+
+        self.assertEqual(presets, [])
 
     def test_detected_presets_keep_filename_suffix_from_translation_finder_cases(
         self,

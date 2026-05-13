@@ -3291,6 +3291,34 @@ RSS feeds
 
 Changes in translations are exported in RSS feeds.
 
+Filtered RSS feeds are available from the changes browser. These accept the same
+filters as the changes page, for example ``action``, ``user``, ``exclude_user``,
+and ``period``.
+
+.. http:get:: /changes/rss/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters.
+
+.. http:get:: /changes/rss/(string:project)/(string:component)/(string:language)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    translation.
+
+.. http:get:: /changes/rss/(string:project)/(string:component)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    component.
+
+.. http:get:: /changes/rss/(string:project)/-/(string:language)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    project language.
+
+.. http:get:: /changes/rss/-/-/(string:language)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    language.
+
 .. http:get:: /exports/rss/(string:project)/(string:component)/(string:language)/
 
     Retrieves RSS feed with recent changes for a translation.
