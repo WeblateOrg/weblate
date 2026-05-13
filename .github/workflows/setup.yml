@@ -107,12 +107,11 @@ jobs:
     - name: Generate SBOM
       id: generate-sbom
       env:
-        # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
+        # renovate-cyclonedx-cli
         CYCLONEDX_CLI_VERSION: v0.31.0
+        CYCLONEDX_CLI_DIGEST: sha256:72c465982796cb930dd7bfabe68d869aea053c9b7a717dff9ceee56b5624eea4
       run: |
-        version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
-        version=${version%-dev}
-        version=${version%-rc}
+        version=$(uv run --frozen --only-group sbom ./scripts/show-version.py)
         sbom="build/sbom/weblate-$version-sbom.cdx.json"
         mkdir -p build/sbom
         uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > build/sbom/python.json
@@ -122,9 +121,11 @@ jobs:
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
         cd ..
         ./scripts/reproducible-sbom.py build/sbom/javascript.json
-        curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
-        chmod +x /tmp/cyclonedx-linux-x64
-        /tmp/cyclonedx-linux-x64 merge --input-files build/sbom/*.json --output-file "$sbom"
+        cyclonedx_cli=/tmp/cyclonedx-linux-x64
+        curl -fsSL "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > "$cyclonedx_cli"
+        echo "${CYCLONEDX_CLI_DIGEST#sha256:}  $cyclonedx_cli" | sha256sum --check --strict
+        chmod +x "$cyclonedx_cli"
+        "$cyclonedx_cli" merge --input-files build/sbom/*.json --output-file "$sbom"
         ./scripts/reproducible-sbom.py "$sbom"
         echo "path=$sbom" >> "$GITHUB_OUTPUT"
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
