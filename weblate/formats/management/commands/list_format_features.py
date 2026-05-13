@@ -151,6 +151,15 @@ class Command(DocGeneratorCommand):
                 file_format.supports_read_only,
                 "read-only-strings",
             )
+            specific_flags: list[str] = getattr(file_format, "check_flags", [])
+
+            if specific_flags:
+                self.new_list_table_row(
+                    output,
+                    "File format specific flags",
+                    sorted(specific_flags),
+                    "custom-checks",
+                )
 
             if file_path.exists():
                 lines = file_path.read_text(encoding="utf-8").splitlines()
