@@ -37,6 +37,7 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 import weblate.machinery.models
 from weblate.auth.models import User
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.lang.models import Language
 from weblate.machinery.dummy import DummyTranslation
@@ -449,7 +450,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.addCleanup(restore_dummy_machinery)
 
         project = self.create_component()
-        project.machinery_settings = {identifier: {}}
+        project.machinery_settings = dict.fromkeys(
+            Setting.objects.get_settings_dict(SettingCategory.MT)
+        )
+        project.machinery_settings[identifier] = {}
         project.save(update_fields=["machinery_settings"])
 
         self.do_login(superuser=True)
