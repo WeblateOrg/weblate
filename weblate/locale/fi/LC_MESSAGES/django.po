@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2023, 2024.
 # Tuomas Hietala <tuomas.hietala@iki.fi>, 2024, 2025, 2026.
-# Ricky Tigg <ricky.tigg@gmail.com>, 2024, 2025.
+# Ricky Tigg <ricky.tigg@gmail.com>, 2024, 2025, 2026.
 # qywter11 qywter11 <qywter11@outlook.com>, 2025.
 # Tuukka Salminen <tuukkas@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-04-18 07:53+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-05-13 13:58+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -4547,13 +4547,10 @@ msgid "Different strings are translated the same."
 msgstr "Eri teksteillä on sama käännös."
 
 #: weblate/checks/consistency.py:199
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "Muu lähdeteksti: %s"
-msgstr[1] "Muut lähdetekstit: %s"
+msgstr[0] "Muu lähdemerkkijono"
+msgstr[1] "Muut lähdemerkkijonot:"
 
 #: weblate/checks/consistency.py:202
 #, python-format
@@ -5081,10 +5078,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "Fluent-syntaksivirhe käännöksessä."
 
 #: weblate/checks/format.py:529
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "Seuraavat muotoilutekstit ovat väärässä järjestyksessä: %s"
+msgstr "Seuraavat muotoilutekstit ovat väärässä järjestyksessä:"
 
 #: weblate/checks/format.py:618
 msgid "Python format"
@@ -5317,81 +5312,54 @@ msgstr ""
 "-teksteissä."
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "Syntaksivirhe: %s"
+msgstr "Syntaksivirhe:"
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "Yksi tai useampi tuntematon paikanvaraaja käännöksessä: %s"
+msgstr "Yksi tai useampi tuntematon paikanvaraaja käännöksessä:"
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "Käännöksestä puuttuu yksi tai useampi paikanvaraaja: %s"
+msgstr "Käännöksestä puuttuu yksi tai useampi paikanvaraaja:"
 
 #: weblate/checks/icu.py:492
-#, fuzzy
-#| msgid "One or more placeholder types are incorrect: %s"
 msgid "One or more placeholder types are incorrect:"
-msgstr "Yksi tai useampi paikanvaraajatyyppi on virheellinen: %s"
+msgstr "Yksi tai useampi paikanvaraajatyyppi on virheellinen:"
 
 #: weblate/checks/icu.py:499
-#, fuzzy
-#| msgid "Missing other sub-message for: %s"
 msgid "Missing other sub-message for:"
-msgstr "Toinen alaviesti puuttuu: %s"
+msgstr "Toinen alaviesti puuttuu:"
 
 #: weblate/checks/icu.py:506
-#, fuzzy
-#| msgid "Incorrect plural selectors for: %s"
 msgid "Incorrect plural selectors for:"
-msgstr "Virheelliset monikkovalitsimet %s:lle"
+msgstr "Virheelliset monikkovalitsimet:"
 
 #: weblate/checks/icu.py:515
-#, fuzzy
-#| msgid "Incorrect sub-message selectors for: %s"
 msgid "Incorrect sub-message selectors for:"
-msgstr "Virheelliset aliviestivalitsimet %s:lle"
+msgstr "Virheelliset aliviestivalitsimet:"
 
 #: weblate/checks/icu.py:526
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should have a corresponding XML tag in the "
-#| "translation: %s"
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation:"
 msgstr ""
 "Yhdellä tai useammalla paikkamerkillä tulee olla vastaava XML-tunniste "
-"käännöksessä: %s"
+"käännöksessä:"
 
 #: weblate/checks/icu.py:535
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should not be an XML tag in the translation: %s"
 msgid "One or more placeholders should not be an XML tag in the translation:"
-msgstr ""
-"Yksi tai useampi paikanvaraaja ei saa olla XML-tunniste käännöksessä: %s"
+msgstr "Yksi tai useampi paikanvaraaja ei saa olla XML-tunniste käännöksessä:"
 
 #: weblate/checks/icu.py:544
-#, fuzzy
-#| msgid "One or more XML tags has unexpected content in the translation: %s"
 msgid "One or more XML tags has unexpected content in the translation:"
 msgstr ""
 "Yhdellä tai useammalla XML-tunnisteella on odottamatonta sisältöä "
-"käännöksessä: %s"
+"käännöksessä:"
 
 #: weblate/checks/icu.py:552
-#, fuzzy
-#| msgid "One or more XML tags missing content in the translation: %s"
 msgid "One or more XML tags missing content in the translation:"
-msgstr ""
-"Yhdestä tai useammasta XML-tunnisteesta puuttuu sisältöä käännöksestä: %s"
+msgstr "Yhdestä tai useammasta XML-tunnisteesta puuttuu sisältöä käännöksestä:"
 
 #: weblate/checks/markup.py:156
 msgid "BBCode markup"
@@ -7147,10 +7115,8 @@ msgid "Target language of the document when not specified in file"
 msgstr "Asiakirjan kohdekieli, kun sitä ei ole määritetty tiedostossa"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "You can upload a file of following formats: %s."
 msgid "You can upload a file of following formats:"
-msgstr "Voit ulosladata seuraavan muotoisen tiedoston: %s."
+msgstr "Voit ulosladata seuraavan muotoisen tiedoston:"
 
 #: weblate/memory/forms.py:61
 msgid ""
@@ -9270,10 +9236,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/discovery_presets.html:42
-#, fuzzy
-#| msgid "Example add-on"
 msgid "Examples:"
-msgstr "Esimerkkilisäosa"
+msgstr "Esimerkit:"
 
 #: weblate/templates/addons/discovery_presets.html:47
 #, fuzzy
@@ -9292,10 +9256,8 @@ msgid "Matched files"
 msgstr "Täsmäävät tiedostot"
 
 #: weblate/templates/addons/discovery_preview.html:14
-#, fuzzy
-#| msgid "The following errors were found:"
 msgid "The following errors were found"
-msgstr "Seuraavat virheet löytyivät:"
+msgstr "Seuraavat virheet löytyivät"
 
 #: weblate/templates/addons/discovery_preview.html:27
 #: weblate/templates/addons/discovery_preview.html:67
