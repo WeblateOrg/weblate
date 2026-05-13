@@ -51,7 +51,7 @@ if TYPE_CHECKING:
         AutoTranslateAddon,
         AutoTranslateAddonStoredConfiguration,
     )
-    from weblate.addons.cdn import CDNJSAddon  # noqa: F401
+    from weblate.addons.cdn import CDNFilesAddon, CDNJSAddon  # noqa: F401
     from weblate.addons.consistency import LanguageConsistencyAddon  # noqa: F401
     from weblate.addons.generate import (
         GenerateFileAddon,  # noqa: F401
@@ -1345,6 +1345,21 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
             raise forms.ValidationError(errors)
 
         return files
+
+
+class CDNFilesForm(BaseAddonForm[dict[str, object], "CDNFilesAddon"]):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        layout = []
+        if self.is_bound and self._addon.instance.pk:
+            layout.append(
+                ContextDiv(
+                    template="addons/cdnfiles.html",
+                    context={"url": self._addon.cdn_files_url, "user": self.user},
+                )
+            )
+        self.helper.layout = Layout(*layout)
 
 
 class TranslationLanguageChoiceField(CachedModelChoiceField):

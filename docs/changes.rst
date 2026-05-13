@@ -12,6 +12,7 @@ Weblate 2026.5
 * Added Gettext PO and POT :ref:`file_format_params` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers.
 * Added a :ref:`backup-management-command` to run configured backup services synchronously.
 * The translation memory lookup API can now skip fuzzy matching with the ``exact`` query parameter.
+* Added :ref:`addon-weblate.cdn.files` to publish translation files to the configured CDN.
 
 .. rubric:: Improvements
 

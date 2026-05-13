@@ -71,7 +71,7 @@ from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
-from .cdn import CDNJSAddon
+from .cdn import CDNFilesAddon, CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
 from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
@@ -6397,6 +6397,11 @@ class CDNJSAddonTest(ViewTestCase):
     def test_noconfigured(self) -> None:
         self.assertFalse(CDNJSAddon.can_install(component=self.component))
 
+    def test_events(self) -> None:
+        self.assertIn(AddonEvent.EVENT_POST_REMOVE, CDNJSAddon.events)
+        self.assertIn(AddonEvent.EVENT_POST_UPDATE, CDNJSAddon.events)
+        self.assertNotIn(AddonEvent.EVENT_COMPONENT_UPDATE, CDNJSAddon.events)
+
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn(self) -> None:
@@ -6429,6 +6434,11 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertIn('"cs"', content)
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
 
+        translation = self.get_translation()
+        translation.remove(self.user)
+        self.assertNotIn('"cs"', Path(jsname).read_text(encoding="utf-8"))
+        self.assertFalse(os.path.isfile(addon.cdn_path("cs.json")))
+
         # Configuration
         response = self.client.get(addon.instance.get_absolute_url())
         self.assertContains(response, addon.cdn_js_url)
@@ -6454,6 +6464,29 @@ class CDNJSAddonTest(ViewTestCase):
         )
 
         # Verify strings
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 14
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract_post_update(self) -> None:
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        addon = CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "html/en.html",
+                "cookie_name": "django_languages",
+                "css_selector": "*",
+            },
+            run=False,
+        )
+
+        addon.post_update(self.component, "", False)
+
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 14
         )
@@ -6727,6 +6760,179 @@ class CDNJSAddonTest(ViewTestCase):
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
         self.assertFalse(self.component.alert_set.filter(name="CDNAddonError").exists())
+
+
+class CDNFilesAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_json_mono()
+
+    @override_settings(LOCALIZE_CDN_URL=None)
+    def test_noconfigured(self) -> None:
+        self.assertFalse(CDNFilesAddon.can_install(component=self.component))
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_needs_component(self) -> None:
+        self.assertFalse(CDNFilesAddon.can_install(project=self.project))
+
+    def test_events(self) -> None:
+        self.assertIn(AddonEvent.EVENT_COMPONENT_UPDATE, CDNFilesAddon.events)
+        self.assertIn(AddonEvent.EVENT_POST_REMOVE, CDNFilesAddon.events)
+        self.assertIn(AddonEvent.EVENT_POST_UPDATE, CDNFilesAddon.events)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_mono(self) -> None:
+        self.make_manager()
+        self.assertTrue(CDNFilesAddon.can_install(component=self.component))
+
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+
+        source = self.component.source_translation
+        translation = self.get_translation()
+        source_filename = source.get_filename()
+        translation_filename = translation.get_filename()
+        self.assertIsNotNone(source_filename)
+        self.assertIsNotNone(translation_filename)
+
+        self.assertEqual(
+            Path(addon.cdn_path("en.json")).read_bytes(),
+            Path(source_filename).read_bytes(),
+        )
+        self.assertEqual(
+            Path(addon.cdn_path("cs.json")).read_bytes(),
+            Path(translation_filename).read_bytes(),
+        )
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.component.commit_pending("test", None)
+
+        self.assertEqual(
+            Path(addon.cdn_path("cs.json")).read_bytes(),
+            Path(translation_filename).read_bytes(),
+        )
+        self.assertIn(
+            "Nazdar svete", Path(addon.cdn_path("cs.json")).read_text(encoding="utf-8")
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_configuration(self) -> None:
+        self.make_manager()
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+
+        response = self.client.get(addon.instance.get_absolute_url())
+        self.assertContains(response, addon.cdn_files_url)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_component_update_removes_stale_files(self) -> None:
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        stale_file = Path(addon.cdn_path("de.json"))
+        stale_file.write_text("stale", encoding="utf-8")
+
+        addon.component_update(self.component)
+
+        self.assertFalse(stale_file.exists())
+        self.assertTrue(os.path.isfile(addon.cdn_path("en.json")))
+        self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_post_update_refreshes_file_bytes(self) -> None:
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        translation = self.get_translation()
+        filename = translation.get_filename()
+        self.assertIsNotNone(filename)
+
+        Path(filename).write_bytes(b'{"hello": "updated"}\n')
+        addon.post_update(self.component, "", False)
+
+        self.assertEqual(
+            Path(addon.cdn_path("cs.json")).read_bytes(), Path(filename).read_bytes()
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_normalizes_file_permissions(self) -> None:
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        translation = self.get_translation()
+        filename = translation.get_filename()
+        self.assertIsNotNone(filename)
+
+        os.chmod(filename, 0o600)
+        addon.publish_files(self.component)
+
+        self.assertEqual(os.stat(addon.cdn_path("cs.json")).st_mode & 0o777, 0o644)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_refuses_weblate_js(self) -> None:
+        addon = CDNFilesAddon.create(
+            component=self.component, configuration={}, run=False
+        )
+
+        with (
+            patch.object(addon, "get_output_filename", return_value="weblate.js"),
+            self.assertRaisesRegex(ValueError, "weblate.js"),
+        ):
+            addon.publish_files(self.component)
+
+        self.assertFalse(os.path.exists(addon.cdn_path("weblate.js")))
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_remove_translation_removes_stale_file(self) -> None:
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
+
+        self.translation.remove(self.user)
+
+        self.assertFalse(os.path.exists(addon.cdn_path("cs.json")))
+        self.assertTrue(os.path.isfile(addon.cdn_path("en.json")))
+
+
+class CDNFilesBilingualAddonTest(ViewTestCase):
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_bilingual_skips_source(self) -> None:
+        self.make_manager()
+        self.assertTrue(CDNFilesAddon.can_install(component=self.component))
+
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        translation = self.get_translation()
+        translation_filename = translation.get_filename()
+        self.assertIsNotNone(translation_filename)
+
+        self.assertTrue(os.path.isfile(addon.cdn_path("cs.po")))
+        self.assertFalse(os.path.exists(addon.cdn_path("en.po")))
+        self.assertEqual(
+            Path(addon.cdn_path("cs.po")).read_bytes(),
+            Path(translation_filename).read_bytes(),
+        )
+
+
+class CDNFilesAppStoreAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_appstore()
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn_files_multifile_preserves_relative_paths(self) -> None:
+        addon = CDNFilesAddon.create(component=self.component, configuration={})
+        translation = self.get_translation()
+        self.assertFalse(self.component.file_format_cls.simple_filename)
+
+        filename = translation.filenames[0]
+        expected = os.path.join(
+            translation.language.code,
+            Path(filename)
+            .relative_to(Path(self.component.full_path, translation.filename))
+            .as_posix(),
+        )
+
+        self.assertEqual(addon.get_output_filename(translation, filename), expected)
+        self.assertTrue(os.path.isfile(addon.cdn_path(expected)))
 
 
 class SiteWideAddonsTest(ViewTestCase):

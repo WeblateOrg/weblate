@@ -142,14 +142,17 @@ class Command(DocGeneratorCommand):
                     and not field.widget.is_hidden
                 ]
 
-                for table_row in format_table(table, None):
-                    table_row = table_row.strip(
-                        "\n"
-                    )  # self.write_sections() inserts newlines
-                    addon_lines.append(f"{prefix}{table_row}")
-                    if not prefix.isspace():
-                        prefix = " " * len(prefix)
-                addon_lines.append("")
+                if table:
+                    for table_row in format_table(table, None):
+                        table_row = table_row.strip(
+                            "\n"
+                        )  # self.write_sections() inserts newlines
+                        addon_lines.append(f"{prefix}{table_row}")
+                        if not prefix.isspace():
+                            prefix = " " * len(prefix)
+                    addon_lines.append("")
+                else:
+                    addon_lines.append(f"{prefix}`This add-on has no configuration.`")
 
                 for name in self.params & set(form.fields):
                     field = form.fields[name]
