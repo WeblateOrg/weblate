@@ -126,7 +126,7 @@ class _HTMLFluentReferenceTagError(_HTMLParseError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The Fluent reference in {sequence} may expand into a HTML "
+                "The Fluent reference in {sequence} may expand into an HTML "
                 "tag. Maybe use {suggestion}."
             ),
             sequence=self.sequence,
@@ -141,7 +141,7 @@ class _HTMLFluentReferenceCharacterReferenceError(_HTMLParseError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The Fluent reference in {sequence} may expand into a HTML "
+                "The Fluent reference in {sequence} may expand into an HTML "
                 "character reference. Maybe use {suggestion}."
             ),
             sequence=self.sequence,
@@ -153,7 +153,7 @@ class _HTMLInvalidTagSequenceError(_HTMLParseError):
     """
     Base class for parsing errors in a tag-like sequence.
 
-    We assume the user may not have wanted to create a HTML tag, so we will show
+    We assume the user may not have wanted to create an HTML tag, so we will show
     a suggestion on how to avoid it.
     """
 
@@ -169,7 +169,7 @@ class _HTMLInvalidEndTagError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins with a HTML closing tag, "
+                "The sequence {sequence} begins with an HTML closing tag, "
                 "but the name or syntax is not valid. "
                 "If you do not want a closing tag, use {suggestion}."
             ),
@@ -182,9 +182,9 @@ class _HTMLInvalidStartTagNameError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins with a HTML tag, "
+                "The sequence {sequence} begins with an HTML tag, "
                 "but the name is not valid. "
-                "If you do not want to begin a HTML tag, use {suggestion}."
+                "If you do not want to begin an HTML tag, use {suggestion}."
             ),
             sequence=self.sequence,
             suggestion=self.suggestion,
@@ -195,9 +195,9 @@ class _HTMLStartTagNotClosedError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins with a HTML tag, "
+                "The sequence {sequence} begins with an HTML tag, "
                 "but the tag is never closed by {close}. "
-                "If you do not want to begin a HTML tag, use {suggestion}."
+                "If you do not want to begin an HTML tag, use {suggestion}."
             ),
             sequence=self.sequence,
             close=">",
@@ -225,10 +225,10 @@ class _HTMLUnexpectedAttributeError(_HTMLInvalidTagSequenceError):
     def description(self) -> SafeString:
         return format_html_code(
             gettext(
-                "The sequence {sequence} begins with a HTML tag, "
+                "The sequence {sequence} begins with an HTML tag, "
                 "but the sequence {attribute} is not a valid attribute "
                 "with a value. "
-                "If you do not want to begin a HTML tag, use {suggestion}."
+                "If you do not want to begin an HTML tag, use {suggestion}."
             ),
             sequence=self.sequence,
             attribute=self.attribute,
@@ -339,7 +339,7 @@ class _HTMLUnexpectedCharacterReferenceError(_HTMLParseError):
         suggestion = self.sequence.replace("&", "&amp;", 1)
         return format_html_code(
             gettext(
-                "The sequence {sequence} will begin a HTML character "
+                "The sequence {sequence} will begin an HTML character "
                 "reference, but does not end with {semicolon}. "
                 "If you do not want a character reference, use {suggestion}."
             ),
@@ -610,7 +610,7 @@ class _FluentInnerHTMLCheck:
         """
         Get all the non-blank and non ">" characters found at the start.
 
-        This is used to grab some joined sequence of characters within a HTML
+        This is used to grab some joined sequence of characters within an HTML
         tag to show back to the user.
         """
         return source.get(cls._NON_BLANK_OR_CLOSE_REGEX)
@@ -907,7 +907,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     for some HTML element. For example, when using the Fluent DOM package.
 
     The aim of this check is to predict how the value will be parsed as inner
-    HTML, assuming a HTML5 conforming parser, to catch cases where there would
+    HTML, assuming an HTML5 conforming parser, to catch cases where there would
     be some "unintended" loss of the string, without being too strict about
     technical parsing errors that do *not* lead to a loss of the string.
 
@@ -921,7 +921,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     Therefore, this check does not expect or want translators and developers to
     have to care about strictly avoiding *any* technical HTML5 parsing errors
     (let alone XHTML parsing errors). Instead, this check will just want to warn
-    them when they may have unintentionally opened a HTML tag or inserted a
+    them when they may have unintentionally opened an HTML tag or inserted a
     character reference.
 
     Moreover, for the Fluent values that intentionally contain HTML tags or
@@ -1020,12 +1020,12 @@ class _VariantNodesDifference:
     ) -> SafeString:
         if not variants:
             return format_html_code(
-                gettext("Fluent value is missing a HTML {tag} tag."),
+                gettext("Fluent value is missing an HTML {tag} tag."),
                 tag=tag,
             )
         return format_html_code(
             gettext(
-                "Fluent value is missing a HTML {tag} tag "
+                "Fluent value is missing an HTML {tag} tag "
                 "for the following variants: {variant_list}."
             ),
             tag=tag,

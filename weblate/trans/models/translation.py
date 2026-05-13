@@ -14,9 +14,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
 import sentry_sdk
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import IntegrityError, models, transaction
+from django.db import DatabaseError, IntegrityError, models, transaction
 from django.db.models import F, Q
 from django.urls import reverse
 from django.utils import timezone
@@ -37,6 +38,11 @@ from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
     PluralFormsMismatchError,
+)
+from weblate.trans.file_format_params import (
+    GettextLastTranslator,
+    GettextReportMsgidBugsTo,
+    GettextSetLanguageTeamHeader,
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
@@ -72,6 +78,7 @@ from weblate.utils.stats import GhostStats, TranslationStats
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -83,6 +90,18 @@ if TYPE_CHECKING:
     from .project import Project
 
 UploadResult = tuple[int, int, int, int]
+
+
+def read_translation_upload(fileobj: BinaryIO) -> bytes:
+    max_size = settings.TRANSLATION_UPLOAD_MAX_SIZE
+    size = getattr(fileobj, "size", None)
+    if size is not None and size > max_size:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+
+    content = fileobj.read(max_size + 1)
+    if len(content) > max_size:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+    return content
 
 
 class NewUnitParams(TypedDict):
@@ -137,7 +156,7 @@ class TranslationManager(models.Manager):
         return translation
 
 
-class TranslationQuerySet(models.QuerySet):
+class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
     def prefetch(self, *, defer_huge: bool = True):
         from weblate.trans.models import Component  # noqa: PLC0415
 
@@ -839,7 +858,7 @@ class Translation(
             self.log_error("skipping commit due to error: %s", error)
             return False
 
-        pending_changes = list(
+        pending_changes: list[PendingUnitChange] = list(
             PendingUnitChange.objects.filter(pk__in=pending_changes_pk)
             .prefetch_related("unit", "author")
             .order_by("timestamp")
@@ -1223,25 +1242,27 @@ class Translation(
 
         # Prepare headers to update
         headers = {
-            "last_translator": author_name,
             "plural_forms": self.plural.plural_form,
             "language": self.language_code,
             "PO_Revision_Date": now.strftime("%Y-%m-%d %H:%M%z"),
         }
 
         # Optionally store language team with link to website
-        if self.component.project.set_language_team:
+        if GettextSetLanguageTeamHeader.get_value(self.component.file_format_params):
             headers["language_team"] = (
                 f"{self.language.name} <{get_site_url(self.get_absolute_url())}>"
             )
+        if GettextLastTranslator.get_value(self.component.file_format_params):
+            headers["last_translator"] = author_name
 
         # Optionally store email for reporting bugs in source
-        report_source_bugs = self.component.report_source_bugs
-        if report_source_bugs:
+        if (
+            report_source_bugs := self.component.report_source_bugs
+        ) and GettextReportMsgidBugsTo.get_value(self.component.file_format_params):
             headers["report_msgid_bugs_to"] = report_source_bugs
 
         # Update generic headers
-        store.update_header(**headers)
+        store.update_header(self.component.file_format_params, **headers)
 
         # save translation changes
         store.save()
@@ -1313,6 +1334,40 @@ class Translation(
             ),
         )
 
+    def validate_upload_plural_forms(self, unit: TranslationUnit) -> None:
+        target_plural_forms = getattr(unit, "target_plural_forms", ())
+        if not target_plural_forms:
+            return
+
+        invalid = [form for form in target_plural_forms if form >= self.plural.number]
+        if invalid:
+            raise FileParseError(
+                gettext("Plural form %d in the uploaded file is out of range.")
+                % invalid[0]
+            )
+        missing = set(range(self.plural.number)) - set(target_plural_forms)
+        if missing:
+            raise FileParseError(
+                gettext("Plural form %d in the uploaded file is missing.")
+                % min(missing)
+            )
+
+    def validate_upload_unit_metadata(self, unit: TranslationUnit) -> None:
+        try:
+            _ = getattr(unit, "import_id_hash", None)
+        except ValueError as error:
+            raise FileParseError(str(error)) from error
+        self.validate_upload_plural_forms(unit)
+
+    def validate_upload_plural_store(self, store: TranslationFormat) -> None:
+        try:
+            units = store.content_units
+        except ValueError as error:
+            raise FileParseError(str(error)) from error
+
+        for unit in units:
+            self.validate_upload_unit_metadata(unit)
+
     def merge_translations(
         self,
         request: AuthenticatedHttpRequest,
@@ -1332,6 +1387,8 @@ class Translation(
         add_fuzzy = method == "fuzzy"
         add_approve = method == "approve"
         not_found_log: list[str] = []
+
+        self.validate_upload_plural_store(store2)
 
         # Are there any translations to propagate?
         # This is just an optimalization to avoid doing that for every unit.
@@ -1408,6 +1465,8 @@ class Translation(
         skipped = 0
         accepted = 0
         not_found_log: list[str] = []
+
+        self.validate_upload_plural_store(store)
 
         unit_set = self.unit_set.all()
 
@@ -1493,10 +1552,16 @@ class Translation(
         """Replace source translations with uploaded one."""
         component = self.component
         filenames = []
+        filecopy = read_translation_upload(fileobj)
         with component.repository.lock:
             # Commit pending changes
             try:
                 component.commit_pending("source update", author)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1511,7 +1576,7 @@ class Translation(
             with tempfile.NamedTemporaryFile(
                 prefix="weblate-upload", dir=self.component.full_path, delete=False
             ) as temp:
-                temp.write(fileobj.read())
+                temp.write(filecopy)
 
             try:
                 # Prepare msgmerge args based on add-ons (if configured)
@@ -1548,7 +1613,7 @@ class Translation(
         self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
     ) -> UploadResult:
         """Replace file content with uploaded one."""
-        filecopy = fileobj.read()
+        filecopy = read_translation_upload(fileobj)
         fileobj.close()
         fileobj = NamedBytesIO(fileobj.name, filecopy)
         self.unit_set.select_for_update()
@@ -1558,6 +1623,11 @@ class Translation(
                     self.component.commit_pending("replace file", author)
                 else:
                     self.commit_pending("replace file", author)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1610,8 +1680,13 @@ class Translation(
         has_template = component.has_template()
         skipped = 0
         accepted = 0
-        component.start_batched_checks()
         existing: set[str] | set[tuple[str, str]]
+        existing_id_hashes: set[int] | None = None
+
+        self.validate_upload_plural_store(store)
+
+        component.start_batched_checks()
+
         if has_template:
             existing = set(self.unit_set.values_list("context", flat=True))
         else:
@@ -1623,6 +1698,15 @@ class Translation(
                     existing.add((ex_context, split_plural(ex_source)[0]))
 
         for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
+            import_id_hash = getattr(unit, "import_id_hash", None)
+            if import_id_hash is not None:
+                if existing_id_hashes is None:
+                    existing_id_hashes = set(
+                        self.unit_set.values_list("id_hash", flat=True)
+                    )
+                if import_id_hash in existing_id_hashes:
+                    skipped += 1
+                    continue
             idkey = unit.context if has_template else (unit.context, unit.source)
             if idkey in existing:
                 skipped += 1
@@ -1662,7 +1746,7 @@ class Translation(
     ) -> TranslationFormat:
         component = self.component
 
-        filecopy = fileobj.read()
+        filecopy = read_translation_upload(fileobj)
         fileobj.close()
 
         # Strip possible UTF-8 BOM
@@ -1673,6 +1757,11 @@ class Translation(
         if component.has_template() and component.source_translation.needs_commit():
             try:
                 component.commit_pending("upload", request.user)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
             except Exception as error:
                 raise FailedCommitError(
                     gettext("Could not commit pending changes: %s")
@@ -1682,6 +1771,14 @@ class Translation(
                         extra_paths=(self.component.full_path,),
                     )
                 ) from error
+
+        existing_units_cache: Iterable[Unit] | None = None
+
+        def get_existing_units() -> Iterable[Unit]:
+            nonlocal existing_units_cache
+            if existing_units_cache is None:
+                existing_units_cache = self.unit_set.all()
+            return existing_units_cache
 
         def load_uploaded_store(
             template_store: TranslationFormat | None,
@@ -1697,6 +1794,7 @@ class Translation(
                     is_template=is_template,
                     language_code=self.language_code,
                     source_language=self.component.source_language.code,
+                    existing_units=get_existing_units,
                     file_format_params=self.component.file_format_params,
                 )
             except Exception as error:
@@ -1966,22 +2064,52 @@ class Translation(
         state: StringState | None = None,
         author: User,
     ) -> Unit | None: ...
-    @transaction.atomic
-    def add_unit(  # noqa: C901, PLR0914, PLR0915, PLR0912
+    def add_unit(
         self,
-        request,
-        context,
-        source,
-        target=None,
+        request: AuthenticatedHttpRequest | None,
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
         *,
-        extra_flags="",
-        explanation="",
-        auto_context=False,
-        is_batch_update=False,
-        skip_existing=False,
-        state=None,
-        author=None,
-    ):
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
+        is_batch_update: bool = False,
+        skip_existing: bool = False,
+        state: StringState | None = None,
+        author: User | None = None,
+    ) -> Unit | None:
+        with self.component.lock:
+            return self._add_unit_locked(
+                request,
+                context,
+                source,
+                target,
+                extra_flags=extra_flags,
+                explanation=explanation,
+                auto_context=auto_context,
+                is_batch_update=is_batch_update,
+                skip_existing=skip_existing,
+                state=state,
+                author=author,
+            )
+
+    @transaction.atomic
+    def _add_unit_locked(  # noqa: C901, PLR0914, PLR0915, PLR0912
+        self,
+        request: AuthenticatedHttpRequest | None,
+        context: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
+        *,
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
+        is_batch_update: bool = False,
+        skip_existing: bool = False,
+        state: StringState | None = None,
+        author: User | None = None,
+    ) -> Unit | None:
         if isinstance(source, list):
             source = join_plural(source)
 
@@ -2028,6 +2156,15 @@ class Translation(
             while self.unit_set.filter(context=context, **filter_args).exists():
                 suffix += 1
                 context = f"{base}{suffix}"
+
+        if not is_batch_update:
+            self._validate_new_unit_context(context)
+            self._validate_new_unit_duplicate(
+                context,
+                source,
+                auto_context=auto_context,
+                skip_existing=skip_existing,
+            )
 
         unit_ids = []
         changes = []
@@ -2283,6 +2420,62 @@ class Translation(
             self.store_update_changes()
             self.component.invalidate_cache()
 
+    def _validate_new_unit_context(self, context: str) -> None:
+        if not context:
+            return
+
+        component = self.component
+        file_format_cls = component.file_format_cls
+        if not (self.filename and file_format_cls.has_hierarchical_contexts):
+            file_format_cls.validate_context(context)
+            return
+
+        pending_contexts = list(
+            self.unit_set.filter(pending_changes__add_unit=True).values_list(
+                "context", flat=True
+            )
+        )
+        try:
+            self.store.validate_new_context(
+                context,
+                pending_contexts=pending_contexts,
+            )
+        except FileParseError as error:
+            raise ValidationError(
+                gettext("Could not parse translation file: %s")
+                % sanitize_backend_error_message(
+                    str(error),
+                    repo_urls=(component.repo, component.push),
+                    extra_paths=(component.full_path,),
+                )
+            ) from error
+
+    def _get_new_unit_duplicate_filters(self, source: list[str]) -> list[Q]:
+        if self.component.has_template():
+            return []
+
+        source_query = Q(source=join_plural(source))
+        # Validate non-pluralized strings against pluralized ones because
+        # having singular and plural entries with matching sources does not
+        # work for most of the formats.
+        source_query |= Q(source__startswith=join_plural([source[0], ""]))
+        if len(source) > 1:
+            source_query |= Q(source=source[0])
+        return [source_query]
+
+    def _validate_new_unit_duplicate(
+        self, context: str, source: str, *, auto_context: bool, skip_existing: bool
+    ) -> None:
+        if (
+            not auto_context
+            and not skip_existing
+            and self.unit_set.filter(
+                *self._get_new_unit_duplicate_filters(split_plural(source)),
+                context=context,
+            ).exists()
+        ):
+            raise ValidationError(gettext("This string seems to already exist."))
+
     def validate_new_unit_data(
         self,
         context: str,
@@ -2295,8 +2488,6 @@ class Translation(
         skip_existing: bool = False,
     ) -> None:
         component = self.component
-        # extra holds Q objects to be unpacked in the filter() call below
-        extra: list[Q] = []
         if isinstance(source, str):
             source = [source]
         if len(source) > 1 and not component.file_format_cls.supports_plural:
@@ -2321,25 +2512,13 @@ class Translation(
                         "Approved state is not available as reviews are not enabled."
                     )
                 )
-        if context:
-            component.file_format_cls.validate_context(context)
-        if not component.has_template():
-            source_query = Q(source=join_plural(source))
-            # Validate non-pluralized strings against pluralized ones because
-            # having singular and plural entries with matching sources does not
-            # work for most of the formats
-
-            # Look for plural string with the same singular (also matches strings with any plural form)
-            source_query |= Q(source__startswith=join_plural([source[0], ""]))
-
-            # Look for singular string with the same text
-            if len(source) > 1:
-                source_query |= Q(source=source[0])
-
-            extra.append(source_query)
-
-        if not auto_context and self.unit_set.filter(*extra, context=context).exists():
-            raise ValidationError(gettext("This string seems to already exist."))
+        self._validate_new_unit_context(context)
+        self._validate_new_unit_duplicate(
+            context,
+            join_plural(source),
+            auto_context=auto_context,
+            skip_existing=skip_existing,
+        )
         # Avoid using source translations without a filename
         if not self.filename:
             try:

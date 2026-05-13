@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from fuzzing.atheris_compat import fuzz, instrument_imports, setup
+from fuzzing.sentry import wrap_target
 
 with instrument_imports():
     from fuzzing.targets import TARGETS
@@ -43,7 +44,7 @@ def resolve_target(argv: list[str]) -> tuple[str, list[str]]:
 
 def main() -> None:
     target_name, argv = resolve_target(sys.argv)
-    setup(argv, TARGETS[target_name])
+    setup(argv, wrap_target(target_name, TARGETS[target_name]))
     fuzz()
 
 

@@ -44,6 +44,8 @@ from .base import BaseAddon
 from .events import AddonEvent
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
@@ -72,7 +74,7 @@ class AddonCache:
         return self.events.get(event, [])
 
 
-class AddonQuerySet(models.QuerySet):
+class AddonQuerySet(models.QuerySet["Addon", "Addon"]):
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
 
@@ -492,8 +494,6 @@ def execute_addon_event(
     args: tuple | None = None,
     kwargs: dict | None = None,
 ) -> None:
-    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
-
     # Trigger repository scoped add-ons only on the main component
     if (
         addon.repo_scope
@@ -516,7 +516,7 @@ def execute_addon_event(
         else:
             scope.log_error(message, *args)
 
-    # Log logging result and error flag for add-on activity log
+    # Log result and error flag for add-on activity log
     log_result = None
     error_occurred = False
     if args is None:
@@ -576,12 +576,19 @@ def execute_addon_event(
         finally:
             # Check if add-on is still installed and log activity
             if event not in NO_LOG_EVENTS and addon.pk is not None:
-                update_addon_activity_log(
-                    activity_log.pk,
-                    log_result,
-                    pending=False,
-                    error_occurred=error_occurred,
-                )
+                if log_result or error_occurred:
+                    activity_log.update_activity(
+                        log_result,
+                        pending=False,
+                        error_occurred=error_occurred,
+                    )
+                    activity_log.save(update_fields=["details", "pending"])
+                else:
+                    # Async handlers can write details using this log id before
+                    # this finalizer runs in eager execution.
+                    AddonActivityLog.objects.filter(pk=activity_log.pk).update(
+                        pending=False
+                    )
 
 
 @transaction.atomic
@@ -594,7 +601,7 @@ def handle_addon_event(
     project: Project | None = None,
     component: Component | None = None,
     translation: Translation | None = None,
-    addon_queryset: AddonQuerySet | list[Addon] | None = None,
+    addon_queryset: Iterable[Addon] | None = None,
 ) -> None:
     # Scope is used for logging
     scope: Translation | Component | Project | None = (
@@ -613,13 +620,13 @@ def handle_addon_event(
 
 
 @transaction.atomic
-def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]) -> None:
+def handle_daily_addon_event(addon_queryset: Iterable[Addon]) -> None:
     handle_scoped_addon_event(addon_queryset, AddonEvent.EVENT_DAILY, "daily")
 
 
 @transaction.atomic
 def handle_scoped_addon_event(
-    addon_queryset: AddonQuerySet | list[Addon], event: AddonEvent, method: str
+    addon_queryset: Iterable[Addon], event: AddonEvent, method: str
 ) -> None:
     project_kwargs = {"component": None, "category": None, "project": None}
 
@@ -850,6 +857,22 @@ class AddonActivityLog(models.Model):
 
     def get_details_display(self) -> str:
         return self.addon.addon.render_activity_log(self)
+
+    def update_activity(
+        self,
+        result: object | None = None,
+        *,
+        error_occurred: bool = False,
+        pending: bool | None = None,
+    ) -> None:
+        """Update activity details without saving the instance."""
+        details = self.details or {}
+        details["error"] = error_occurred
+        self.details = details
+        if result:
+            self.update_result(result)
+        if pending is not None:
+            self.pending = pending
 
     def update_result(self, result: object) -> None:
         """Update the result field in the details JSON."""

@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
 from django.conf import settings
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import models
 from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
@@ -59,7 +60,12 @@ from weblate.trans.util import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
-from weblate.utils.validators import validate_bitmap
+from weblate.utils.validators import (
+    validate_bitmap,
+    validate_component_zip_upload_size,
+    validate_plural_formula_range,
+    validate_translation_upload_size,
+)
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 from weblate.utils.views import (
@@ -68,6 +74,7 @@ from weblate.utils.views import (
     get_form_errors,
     guess_filemask_from_doc,
 )
+from weblate.vcs.base import RepositoryError
 
 NEW_UNIT_STATE_CHOICES = tuple(
     choice for choice in StringState.choices if choice[0] != STATE_READONLY
@@ -220,6 +227,15 @@ class LanguagePluralSerializer(serializers.ModelSerializer[Plural]):
             "formula",
             "type",
         )
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        number = attrs.get("number", getattr(self.instance, "number", 2))
+        formula = attrs.get("formula", getattr(self.instance, "formula", "n != 1"))
+        try:
+            validate_plural_formula_range(number, formula)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError({"formula": error.messages}) from error
+        return attrs
 
 
 class LanguageSerializer(serializers.ModelSerializer[Language]):
@@ -741,7 +757,6 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "translation_review",
             "source_review",
             "commit_policy",
-            "set_language_team",
             "instructions",
             "enable_hooks",
             "language_aliases",
@@ -882,7 +897,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
-    zipfile = serializers.FileField(required=False)
+    zipfile = serializers.FileField(
+        required=False, validators=[validate_component_zip_upload_size]
+    )
     docfile = serializers.FileField(required=False)
     from_component = ComponentReferenceField(required=False, write_only=True)
     disable_autoshare = serializers.BooleanField(required=False)
@@ -1285,7 +1302,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             if zipfile is not None:
                 try:
                     create_component_from_zip(attrs, zipfile)
-                except BadZipfile as error:
+                except (BadZipfile, OSError, RepositoryError) as error:
                     raise serializers.ValidationError(
                         {"zipfile": "Could not parse uploaded ZIP file."}
                     ) from error
@@ -1568,7 +1585,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
-    file = serializers.FileField()
+    file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
@@ -1670,13 +1687,10 @@ class ComponentLinkRequestSerializer(ReadOnlySerializer):
         category_id = attrs.get("category_id")
         if category_id is not None:
             try:
-                category = Category.objects.get(pk=category_id)
+                category = project.category_set.get(pk=category_id)
             except Category.DoesNotExist as error:
                 msg = "Category not found."
                 raise serializers.ValidationError({"category_id": msg}) from error
-            if category.project != project:
-                msg = "The category does not belong to the selected project."
-                raise serializers.ValidationError({"category_id": msg})
             attrs["category"] = category
         else:
             attrs["category"] = None
@@ -1946,6 +1960,10 @@ class MemoryLookupRequestSerializer(serializers.Serializer):
         allow_empty=False,
         max_length=100,
     )
+
+
+class MemoryLookupQuerySerializer(serializers.Serializer):
+    exact = serializers.BooleanField(required=False, default=False)
 
 
 class MemoryLookupMatchSerializer(serializers.Serializer):
@@ -2423,6 +2441,16 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 {"name": f"Add-on already installed: {name}"}
             )
 
+    @staticmethod
+    def serialize_submitted_configuration(form, configuration):
+        submitted = set(configuration) if isinstance(configuration, dict) else set()
+        fields = set(form.fields)
+        return {
+            key: value
+            for key, value in form.serialize_form().items()
+            if key in submitted or key not in fields
+        }
+
     def validate(self, attrs):
         instance = self.instance
         try:
@@ -2449,7 +2477,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             ) from error
 
         # Don't allow duplicate add-ons
-        addon = addon_class(Addon())
+        addon = instance.addon if instance else addon_class(Addon())
         if not component and addon_class.needs_component:
             raise serializers.ValidationError(
                 {"component": "This add-on can only be installed on the component."}
@@ -2464,18 +2492,29 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             if project:
                 self.check_addon(name, Addon.objects.filter_project(project))
 
-        if addon.has_settings() and "configuration" in attrs:
-            form = addon.get_add_form(
-                None,
-                component=component,
-                project=project,
-                data=attrs["configuration"],
-            )
-            form.is_valid()
+        if addon.has_settings() and (not instance or "configuration" in attrs):
+            if instance:
+                form = addon.get_settings_form(
+                    None, data=attrs.get("configuration", {})
+                )
+            else:
+                form = addon.get_add_form(
+                    None,
+                    component=component,
+                    project=project,
+                    data=attrs.get("configuration", {}),
+                )
+            if form is None:
+                raise serializers.ValidationError(
+                    {"configuration": "Can not configure add-on"}
+                )
             if not form.is_valid():
                 raise serializers.ValidationError(
                     {"configuration": list(get_form_errors(form))}
                 )
+            attrs["configuration"] = self.serialize_submitted_configuration(
+                form, attrs.get("configuration", {})
+            )
         return attrs
 
     def create(self, validated_data):

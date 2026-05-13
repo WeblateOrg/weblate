@@ -19,7 +19,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Count, Exists, F, OuterRef
+from django.db.models import Exists, F, OuterRef
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -43,6 +43,7 @@ from weblate.trans.models import (
     Project,
     Suggestion,
     Translation,
+    Unit,
 )
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.removal import RemovalBatch, removal_batch_context
@@ -212,6 +213,53 @@ def revert_user_edits(
 
 
 @app.task(trail=False)
+@transaction.atomic
+def cleanup_user_contributions(
+    target_user_id: int,
+    acting_user_id: int,
+    *,
+    project_id: int | None = None,
+    sitewide: bool = False,
+    reject_suggestions: bool = False,
+    delete_comments: bool = False,
+) -> dict[str, int]:
+    if project_id is None and not sitewide:
+        msg = "Either project_id or sitewide must be provided"
+        raise ValueError(msg)
+
+    target_user = User.objects.get(pk=target_user_id)
+    acting_user = User.objects.get(pk=acting_user_id)
+
+    rejected_suggestions = 0
+    deleted_comments = 0
+
+    if reject_suggestions:
+        suggestions = Suggestion.objects.filter(user=target_user).select_related("unit")
+        if project_id is not None:
+            suggestions = suggestions.filter(
+                unit__translation__component__project_id=project_id
+            )
+        for suggestion in suggestions.iterator(chunk_size=100):
+            suggestion.delete_log(acting_user, old=suggestion.unit.target)
+            rejected_suggestions += 1
+
+    if delete_comments:
+        comments = Comment.objects.filter(user=target_user).select_related("unit")
+        if project_id is not None:
+            comments = comments.filter(
+                unit__translation__component__project_id=project_id
+            )
+        for comment in comments.iterator(chunk_size=100):
+            comment.delete(user=acting_user)
+            deleted_comments += 1
+
+    return {
+        "comments": deleted_comments,
+        "suggestions": rejected_suggestions,
+    }
+
+
+@app.task(trail=False)
 def cleanup_component(pk: int) -> None:
     """
     Perform cleanup of component models.
@@ -239,9 +287,12 @@ def cleanup_component(pk: int) -> None:
 
     # Remove all units where there is just one referenced unit (self)
     with transaction.atomic():
+        referenced_units = Unit.objects.filter(source_unit=OuterRef("pk")).exclude(
+            pk=OuterRef("pk")
+        )
         deleted, details = (
-            translation.unit_set.annotate(Count("unit"))
-            .filter(unit__count__lte=1)
+            translation.unit_set.alias(has_references=Exists(referenced_units))
+            .filter(has_references=False)
             .delete()
         )
         if deleted:
@@ -366,22 +417,6 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
         else:
             empty_dir = False
     return empty_dir
-
-
-@app.task(trail=False)
-def cleanup_old_suggestions() -> None:
-    if not settings.SUGGESTION_CLEANUP_DAYS:
-        return
-    cutoff = timezone.now() - timedelta(days=settings.SUGGESTION_CLEANUP_DAYS)
-    Suggestion.objects.filter(timestamp__lt=cutoff).delete()
-
-
-@app.task(trail=False)
-def cleanup_old_comments() -> None:
-    if not settings.COMMENT_CLEANUP_DAYS:
-        return
-    cutoff = timezone.now() - timedelta(days=settings.COMMENT_CLEANUP_DAYS)
-    Comment.objects.filter(timestamp__lt=cutoff).delete()
 
 
 @app.task(trail=False)
@@ -943,16 +978,6 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
     )
     sender.add_periodic_task(
         crontab(hour=0, minute=40), cleanup_stale_repos.s(), name="cleanup-stale-repos"
-    )
-    sender.add_periodic_task(
-        crontab(hour=0, minute=45),
-        cleanup_old_suggestions.s(),
-        name="cleanup-old-suggestions",
-    )
-    sender.add_periodic_task(
-        crontab(hour=0, minute=50),
-        cleanup_old_comments.s(),
-        name="cleanup-old-comments",
     )
     sender.add_periodic_task(
         crontab(hour=2, minute=30),

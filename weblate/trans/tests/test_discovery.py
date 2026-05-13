@@ -5,7 +5,7 @@
 import os
 import pathlib
 import tempfile
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import call, patch
 
 from django.test import SimpleTestCase
@@ -302,6 +302,34 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
 
+    def test_perform_disables_unsupported_unit_management(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        for language in ("cs", "en"):
+            (docs / f"news_{language}.md").write_text(
+                "# News\n\nContent\n", encoding="utf-8"
+            )
+
+        self.component.manage_units = True
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>.+?)_(?P<language>[^/.]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}_en.md",
+        )
+
+        created, matched, deleted, skipped = discovery.perform(preview=True)
+
+        self.assertEqual(skipped, [])
+        self.assertEqual(matched, [])
+        self.assertEqual(deleted, [])
+        self.assertEqual(len(created), 1)
+        self.assertEqual(created[0][0]["mask"], "docs/news_*.md")
+        component = created[0][1]
+        self.assertIsNotNone(component)
+        self.assertFalse(component.manage_units)
+
     def test_create_component_tolerates_missing_copy_from_addons_source(self) -> None:
         source_component = self._create_component(
             "po",
@@ -448,7 +476,6 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(created[0][0]["name"], "localization: component")
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
-        self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
 
 
@@ -462,8 +489,9 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
         file_format: str = "",
         intermediate: str = "",
         new_base: str = "",
+        language_regex: str = "",
     ) -> DiscoveryResult:
-        data: ResultDict = {}
+        data: dict[str, object] = {}
         if name:
             data["name"] = name
         if filemask:
@@ -476,8 +504,10 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             data["intermediate"] = intermediate
         if new_base:
             data["new_base"] = new_base
+        if language_regex:
+            data["language_regex"] = language_regex
 
-        result = DiscoveryResult(data)
+        result = DiscoveryResult(cast("ResultDict", data))
         result.meta = {"priority": 1000, "origin": None}
         return result
 
@@ -506,6 +536,43 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             presets[0]["values"]["base_file_template"],
             "{{ component }}/values/strings.xml",
         )
+
+    def test_detected_presets_preserve_language_regex(self) -> None:
+        first = self.make_discovery_result(
+            file_format="po",
+            filemask="django/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="django/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+        second = self.make_discovery_result(
+            file_format="po",
+            filemask="djangojs/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="djangojs/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+
+        presets = get_detected_discovery_presets_from_results([first, second])
+
+        self.assertEqual(len(presets), 1)
+        self.assertEqual(presets[0]["values"]["language_regex"], "^(?!en$).+$")
+
+    def test_detected_presets_do_not_combine_different_language_regexes(self) -> None:
+        first = self.make_discovery_result(
+            file_format="po",
+            filemask="django/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="django/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+        second = self.make_discovery_result(
+            file_format="po",
+            filemask="djangojs/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="djangojs/conf/locale/en_GB/LC_MESSAGES/messages.po",
+            language_regex="^(?!en_GB$).+$",
+        )
+
+        presets = get_detected_discovery_presets_from_results([first, second])
+
+        self.assertEqual(presets, [])
 
     def test_detected_presets_keep_filename_suffix_from_translation_finder_cases(
         self,

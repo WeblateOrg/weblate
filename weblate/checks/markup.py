@@ -470,7 +470,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
 class URLCheck(TargetCheck):
     check_id = "url"
     name = gettext_lazy("URL")
-    description = gettext_lazy("The translation does not contain an URL.")
+    description = gettext_lazy("The translation does not contain a URL.")
     default_disabled = True
 
     @cached_property

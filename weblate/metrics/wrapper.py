@@ -48,7 +48,7 @@ class MetricsWrapper:
         today = timezone.now().date()
         dates = [today - timedelta(days=days) for days in [0, 1, 30, 31, 60, 61]]
 
-        # Use use range as it is more likely to use index than
+        # Use range as it is more likely to use index than
         # the IN operator with six values.
         metrics = Metric.objects.filter_metric(
             self.scope, self.relation, self.secondary

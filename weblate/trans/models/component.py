@@ -29,7 +29,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, F, Q, Value
+from django.db.models import F, Q, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -57,7 +57,10 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.file_format_params import FILE_FORMATS_PARAMS, get_encoding_param
+from weblate.trans.file_format_params import (
+    FILE_FORMATS_PARAMS,
+    get_encoding_param,
+)
 from weblate.trans.mixins import (
     CacheKeyMixin,
     ComponentCategoryMixin,
@@ -65,6 +68,7 @@ from weblate.trans.mixins import (
     PathMixin,
 )
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
+from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.translation import Translation
@@ -149,12 +153,17 @@ from weblate.vcs.base import (
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
 )
-from weblate.vcs.git import GitMergeRequestBase, GitRepository, LocalRepository
+from weblate.vcs.git import (
+    GitMergeRequestBase,
+    GitRepository,
+    GitWithGerritRepository,
+    LocalRepository,
+)
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterable
+    from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
 
     from django_stubs_ext import StrOrPromise
@@ -167,7 +176,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.trans.removal import RemovalBatch
-    from weblate.vcs.base import Repository, RepositoryLock
+    from weblate.vcs.base import CommitInfo, Repository, RepositoryLock
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -316,7 +325,12 @@ def prefetch_glossary_terms(components) -> None:
         lookup[item].__dict__["glossary_sources"] = value
 
 
-class ComponentQuerySet(models.QuerySet):
+class ComponentQuerySet(models.QuerySet["Component", "Component"]):
+    # pylint: disable-next=arguments-differ
+    def select_for_update(self) -> ComponentQuerySet:  # type: ignore[override]
+        # Use weaker locking and limit locking to the Component table only.
+        return super().select_for_update(no_key=True, of=("self",))
+
     def get_for_update(self, *args, **kwargs) -> Component:
         return self.select_for_update().get(*args, **kwargs)
 
@@ -453,6 +467,18 @@ class OldComponentSettings(TypedDict):
 class Component(  # noqa: PLR0904
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "restricted",
+        "enable_suggestions",
+        "suggestion_voting",
+        "suggestion_autoaccept",
+        "new_lang",
+        "manage_units",
+        "allow_translation_propagation",
+        "contribute_project_tm",
+        "check_flags",
+        "enforced_checks",
+    )
     LINKED_REPOSITORY_SETTINGS: ClassVar[tuple[str, ...]] = (
         "push_on_commit",
         "commit_pending_age",
@@ -1035,6 +1061,7 @@ class Component(  # noqa: PLR0904
         # Repository links change both the effective repository object and
         # the delegated filesystem path.
         self.refresh_linked_component()
+        update_fields = kwargs.get("update_fields")
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
@@ -1076,7 +1103,7 @@ class Component(  # noqa: PLR0904
 
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
-            self.generate_changes(old)
+            self.generate_changes(old, update_fields=update_fields)
             # Detect slug changes and rename Git repo
             was_renamed = self.check_rename(old)
             # Rename linked repos
@@ -1262,7 +1289,9 @@ class Component(  # noqa: PLR0904
     def cached_links(self) -> models.QuerySet[Project]:
         return self.links.all()
 
-    def generate_changes(self, old) -> None:
+    def generate_changes(
+        self, old: Component, update_fields: Collection[str] | None = None
+    ) -> None:
         def getvalue(base, attribute):
             result = getattr(base, attribute)
             if result is None:
@@ -1278,6 +1307,8 @@ class Component(  # noqa: PLR0904
             ("project", ActionEvents.MOVE_COMPONENT),
         )
         for attribute, action in tracked:
+            if not should_track_field(self, attribute, update_fields):
+                continue
             old_value = getvalue(old, attribute)
             current_value = getvalue(self, attribute)
 
@@ -1288,6 +1319,14 @@ class Component(  # noqa: PLR0904
                     target=current_value,
                     user=self.acting_user,
                 )
+        log_setting_changes(
+            self,
+            old,
+            self.AUDIT_SETTINGS,
+            ActionEvents.COMPONENT_SETTING_CHANGE,
+            self.acting_user,
+            update_fields,
+        )
 
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
@@ -1778,7 +1817,7 @@ class Component(  # noqa: PLR0904
         return self.build_repository()
 
     @perform_on_link
-    def get_last_remote_commit(self):
+    def get_last_remote_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
         if self.is_repo_local or not self.remote_revision:
             return None
@@ -1787,7 +1826,7 @@ class Component(  # noqa: PLR0904
         except RepositoryError:
             return None
 
-    def get_last_commit(self):
+    def get_last_commit(self) -> CommitInfo | None:
         """Return latest locally known remote commit."""
         if self.is_repo_local or not self.local_revision:
             return None
@@ -2958,7 +2997,7 @@ class Component(  # noqa: PLR0904
     def store_local_revision(self) -> None:
         """Store current revision in the database."""
         self.local_revision = self.repository.last_revision
-        # Avoid using using save as that does complex things and we
+        # Avoid using save as that does complex things and we
         # just want to update the database
         with transaction.atomic():
             queryset = Component.objects.filter(
@@ -4023,7 +4062,8 @@ class Component(  # noqa: PLR0904
 
     def clean_branches(self) -> None:
         """Validate VCS branch names."""
-        if not issubclass(self.repository_class, GitRepository):
+        repository_class = self.repository_class
+        if not issubclass(repository_class, GitRepository):
             return
 
         for field, message in (
@@ -4034,15 +4074,26 @@ class Component(  # noqa: PLR0904
             if not branch:
                 continue
             try:
-                self.repository_class.validate_branch_name(branch)
+                repository_class.validate_branch_name(branch)
             except RepositoryError as error:
-                raise ValidationError({field: message % error.get_message()}) from error
+                error_message = error.get_message()
+                if issubclass(repository_class, GitWithGerritRepository):
+                    for prefix in ("refs/heads/", "refs/for/"):
+                        if branch.startswith(prefix):
+                            short_branch = branch.removeprefix(prefix)
+                            hint = gettext(
+                                "Use %(branch)s instead of %(ref)s; Weblate "
+                                "and git-review add the Gerrit refs automatically."
+                            ) % {"branch": short_branch, "ref": branch}
+                            error_message = f"{error_message} {hint}"
+                            break
+                raise ValidationError({field: message % error_message}) from error
 
     def clean_file_format_params(self) -> None:
         for param in [
             p for p in FILE_FORMATS_PARAMS if p.name in self.file_format_params
         ]:
-            if self.file_format not in param.file_formats:
+            if not param.supports_format(self.file_format):
                 message = gettext(
                     "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
                 ) % {"param": param.name, "format": self.file_format}
@@ -4419,9 +4470,7 @@ class Component(  # noqa: PLR0904
             ).update(variant=variant)
 
         # Delete stale variant links
-        self.variant_set.annotate(unit_count=Count("defining_units")).filter(
-            variant_regex="", unit_count=0
-        ).delete()
+        self.variant_set.filter(variant_regex="", defining_units__isnull=True).delete()
 
     def _update_alerts(self) -> None:
         self._alerts_scheduled = False

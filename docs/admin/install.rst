@@ -209,11 +209,6 @@ Django REST Framework
        - Python packages
        - Weblate feature
 
-     * - ``alibaba``
-       - | `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
-         | `aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_
-       - :ref:`mt-alibaba`
-
      * - ``amazon``
        - | `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
@@ -224,7 +219,7 @@ Django REST Framework
 
      * - ``gerrit``
        - | `git-review <https://pypi.org/project/git-review>`_
-       - :ref:`vcs-gerrit`
+       - :ref:`code-hosting-gerrit`
 
      * - ``google``
        - | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
@@ -239,13 +234,13 @@ Django REST Framework
        - | `mercurial <https://pypi.org/project/mercurial>`_
        - :ref:`vcs-mercurial`
 
-     * - ``openai``
-       - | `openai <https://pypi.org/project/openai>`_
-       - :ref:`mt-openai`
-
      * - ``postgres``
        - | `psycopg <https://pypi.org/project/psycopg>`_
        - PostgreSQL, see :ref:`database-setup`
+
+     * - ``rollbar``
+       - | `rollbar <https://pypi.org/project/rollbar>`__
+       - :reF:`collecting-errors`
 
      * - ``saml``
        - | `python3-saml <https://pypi.org/project/python3-saml>`_
@@ -257,10 +252,6 @@ Django REST Framework
      * - ``sphinx``
        - | `Sphinx <https://pypi.org/project/Sphinx>`_
        - Needed for :ref:`addon-weblate.gettext.sphinx`
-
-     * - ``wlhosted``
-       - | `wlhosted <https://pypi.org/project/wlhosted>`_
-       - Hosted Weblate integration
 
      * - ``wllegal``
        - | `wllegal <https://pypi.org/project/wllegal>`_
@@ -404,6 +395,10 @@ you might prefer to move these to a better location such as:
 
 Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
+
+The configured :setting:`CACHE_DIR` also has to be writable by the Weblate
+process and has to allow executing generated helper files. Do not mount
+:setting:`CACHE_DIR` with the ``noexec`` option.
 
 You should also take care when running :ref:`manage`, as they should be ran
 under the same user as Weblate itself is running, otherwise permissions on some
@@ -1289,6 +1284,14 @@ Running Weblate is not different from running any other Django based
 program. Django is usually executed as WSGI or fcgi (see examples for
 different webservers below).
 
+.. note::
+
+   The sample configuration files shown below are maintained in the Weblate
+   source tree under :file:`weblate/examples/`. They are included in source
+   distributions and in this documentation, but Python wheels only install
+   runtime files. When installing Weblate from PyPI, get the matching source
+   distribution or source checkout before copying these examples.
+
 For testing purposes, you can use the built-in web server in Django:
 
 .. code-block:: sh
@@ -1389,7 +1392,7 @@ Sample configuration for NGINX and Gunicorn
 +++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate using Gunicorn under the NGINX webserver
-(also available as :file:`weblate/examples/weblate.nginx.gunicorn.conf`):
+(:file:`weblate/examples/weblate.nginx.gunicorn.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/weblate.nginx.gunicorn.conf
     :language: nginx
@@ -1414,12 +1417,12 @@ example using ``virtualenv = /home/user/weblate-env`` in uWSGI).
 
 The following configuration runs Weblate as uWSGI under the NGINX webserver.
 
-Configuration for NGINX (also available as :file:`weblate/examples/weblate.nginx.conf`):
+Configuration for NGINX (:file:`weblate/examples/weblate.nginx.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/weblate.nginx.conf
     :language: nginx
 
-Configuration for uWSGI (also available as :file:`weblate/examples/weblate.uwsgi.ini`):
+Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
     :language: ini
@@ -1436,7 +1439,7 @@ Sample configuration for Apache
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 The following configuration runs Weblate as WSGI, you need to have enabled
-``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):
+``mod_wsgi`` (:file:`weblate/examples/apache.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/apache.conf
     :language: apache
@@ -1460,7 +1463,7 @@ Sample configuration for Apache and Gunicorn
 ++++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate in Gunicorn and Apache 2.4
-(available as :file:`weblate/examples/apache.gunicorn.conf`):
+(:file:`weblate/examples/apache.gunicorn.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/apache.gunicorn.conf
     :language: apache
@@ -1529,7 +1532,7 @@ Running Weblate under path
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using
-``mod_wsgi`` (also available as :file:`weblate/examples/apache-path.conf`):
+``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/apache-path.conf
     :language: apache
@@ -1569,14 +1572,13 @@ A typical setup using Valkey or Redis as a backend looks like this:
 
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
-You should also start the Celery worker to process the tasks and start
-scheduled tasks, this can be done directly on the command-line (which is mostly
-useful when debugging or developing):
+You should also start the Celery worker to process the tasks and start scheduled
+tasks. For debugging or development, this can be done directly on the
+command-line:
 
 .. code-block:: sh
 
-   ./weblate/examples/celery start
-   ./weblate/examples/celery stop
+   celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
 
 .. note::
 
@@ -1609,8 +1611,9 @@ Running Celery as system service
 
 Most likely you will want to run Celery as a daemon and that is covered by
 :doc:`celery:userguide/daemonizing`. For the most common Linux setup using
-systemd, you can use the example files shipped in the :file:`examples` folder
-listed below.
+systemd, adapt the example files listed below. These examples are maintained in
+the Weblate source tree under :file:`weblate/examples/`; Python wheels do not
+install these deployment samples.
 
 Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate.service`:
 

@@ -169,6 +169,16 @@ class FlagTest(SimpleTestCase):
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, "")
 
+    def test_empty_placeholder_value(self) -> None:
+        for value in (
+            "placeholders:",
+            'placeholders:""',
+            'placeholders:r""',
+            "placeholders:$URL$:",
+        ):
+            with self.subTest(value=value), self.assertRaises(ValidationError):
+                FlagsValidator(value).validate()
+
     def test_regex(self) -> None:
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
@@ -318,4 +328,8 @@ class FlagTest(SimpleTestCase):
 
         # test md-text flag
         content = f'{PO_HEADER}#: ../../path/file.md:24 ../../path/file.md:52msgid "Hello, world!"msgstr "Nazdar svete!"'
+        check_location_flags(content, {"md-text"})
+
+        # test md-text flag for MDX
+        content = f'{PO_HEADER}#: ../../path/file.mdx:24 ../../path/file.mdx:52msgid "Hello, world!"msgstr "Nazdar svete!"'
         check_location_flags(content, {"md-text"})

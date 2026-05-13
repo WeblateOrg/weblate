@@ -60,7 +60,7 @@ User profile
 The user profile is accessible by clicking your user icon in the top-right of the top menu,
 then the :guilabel:`Settings` menu.
 
-The user profile contains your preferences. Name and e-mail address is used in VCS commits, so keep this info accurate.
+The user profile contains your preferences. Name and e-mail address are used in VCS commits, so keep this info accurate.
 
 
 .. note::
@@ -169,6 +169,10 @@ Some of the notifications are sent only for events in your languages (for
 example about new strings to translate), while some trigger at component level
 (for example merge errors). These two groups of notifications are visually
 separated in the settings.
+
+The :guilabel:`Translation activity summary` notification is digest-only and
+summarizes added, updated, translated, approved, needs editing, and unfinished
+strings.
 
 You can toggle notifications for watched projects and administered projects and it
 can be further tweaked (or muted) per project and component. Visit the component

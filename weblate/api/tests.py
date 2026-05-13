@@ -18,6 +18,7 @@ import yaml
 from django.conf import settings
 from django.core.cache import cache
 from django.core.files import File
+from django.db import DatabaseError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
@@ -30,11 +31,13 @@ from weblate.accounts.notifications import (
 )
 from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
+from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
 from weblate.api.serializers import (
     CommentSerializer,
     ComponentSerializer,
     MemoryLookupRequestSerializer,
+    MonolingualUnitSerializer,
     RepoOperations,
 )
 from weblate.api.views import MemoryViewSet
@@ -545,6 +548,29 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(audit.params["team"], group.name)
         self.assertEqual(audit.params["username"], self.user.username)
+
+    def test_add_group_rejects_special_users(self) -> None:
+        group = Group.objects.create(name="Special API group")
+        inactive = User.objects.create_user(
+            "target-inactive", "target-inactive@example.org", "x"
+        )
+        inactive.is_active = False
+        inactive.save()
+        users = [
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+            inactive,
+        ]
+
+        for target in users:
+            self.do_request(
+                "api:user-groups",
+                kwargs={"username": target.username},
+                method="post",
+                superuser=True,
+                code=400,
+                request={"group_id": group.id},
+            )
+            self.assertFalse(target.groups.filter(pk=group.pk).exists())
 
     def test_remove_group(self) -> None:
         group = Group.objects.get(name="Viewers")
@@ -1647,6 +1673,37 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=400,
         )
+
+    def test_grant_admin_rejects_special_users(self) -> None:
+        group = Group.objects.create(name="Test Special Group")
+        inactive = User.objects.create_user(
+            "grant-inactive", "grant-inactive@example.org", "x"
+        )
+        inactive.is_active = False
+        inactive.save()
+        bot = User.objects.create(
+            username="grant-bot",
+            full_name="Grant Bot",
+            email="grant-bot@example.org",
+            is_bot=True,
+        )
+        users = [
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+            inactive,
+            bot,
+        ]
+
+        for user in users:
+            self.do_request(
+                "api:group-grant-admin",
+                kwargs={"id": group.id},
+                method="post",
+                superuser=True,
+                request={"user_id": user.id},
+                code=400,
+            )
+            self.assertFalse(group.admins.filter(pk=user.pk).exists())
+            self.assertFalse(user.groups.filter(pk=group.pk).exists())
 
     def test_group_admin_edit(self) -> None:
         user = User.objects.create_user(username="testuser", password="12345")
@@ -3218,6 +3275,53 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
+    @override_settings(COMPONENT_ZIP_UPLOAD_MAX_SIZE=1)
+    def test_create_component_zipfile_too_big(self) -> None:
+        handle = BytesIO(b"xx")
+        handle.name = "translations.zip"
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "zipfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "filemask": "*.po",
+                "new_base": "project.pot",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertIn("Uploaded ZIP file is too big.", str(response.data))
+
+    def test_create_component_zipfile_unsafe_path(self) -> None:
+        handle = BytesIO()
+        with zipfile.ZipFile(handle, "w") as archive:
+            archive.writestr("../outside.po", "blocked")
+        handle.seek(0)
+        handle.name = "translations.zip"
+
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "zipfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "filemask": "*.po",
+                "new_base": "project.pot",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertIn("Could not parse uploaded ZIP file.", str(response.data))
+
     def test_create_component_zipfile_bad_params(self) -> None:
         with open(TEST_ZIP, "rb") as handle:
             self.do_request(
@@ -3783,7 +3887,12 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data, [])
 
     @responses.activate
-    def test_install_machinery(self) -> None:
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_install_machinery(self, mocked_getaddrinfo, mocked_get_peer) -> None:
         """Test the machinery settings API endpoint for various scenarios."""
         # Deep import to avoid running these as tests
         from weblate.machinery.tests import (  # noqa: PLC0415
@@ -4026,6 +4135,8 @@ class ProjectAPITest(APIBaseTest):
         )
 
         self.assertEqual(new_config, response.data)
+        mocked_getaddrinfo.assert_called()
+        mocked_get_peer.assert_called()
 
     @override_settings(OFFER_HOSTING=False)
     def test_install_machinery_blocks_private_project_target(self) -> None:
@@ -4312,6 +4423,14 @@ class ComponentAPITest(APIBaseTest):
         self.component.save()
         self.do_request("api:component-new-template", self.component_kwargs)
 
+    def test_new_template_download_prohibited(self) -> None:
+        self.component.new_base = "po/cs.po"
+        self.component.save()
+        project = self.component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request("api:component-new-template", self.component_kwargs, code=403)
+
     def test_monolingual_404(self) -> None:
         self.do_request(
             "api:component-monolingual-base", self.component_kwargs, code=404
@@ -4322,6 +4441,17 @@ class ComponentAPITest(APIBaseTest):
         self.do_request(
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
+        )
+
+    def test_monolingual_download_prohibited(self) -> None:
+        component = self.create_po_mono(name="mono", project=self.component.project)
+        project = component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:component-monolingual-base",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            code=403,
         )
 
     def test_translations(self) -> None:
@@ -5836,7 +5966,7 @@ class ComponentAPITest(APIBaseTest):
     def test_links_with_invalid_category(self) -> None:
         """Non-existent category_id should be rejected."""
         self.create_acl()
-        self.do_request(
+        missing_response = self.do_request(
             "api:component-links",
             self.component_kwargs,
             method="post",
@@ -5844,6 +5974,18 @@ class ComponentAPITest(APIBaseTest):
             superuser=True,
             request={"project_slug": "acl", "category_id": 99999},
         )
+        category = Category.objects.create(
+            name="Wrong Category", slug="wrong-cat", project=self.component.project
+        )
+        wrong_project_response = self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "acl", "category_id": category.pk},
+        )
+        self.assertEqual(wrong_project_response.data, missing_response.data)
 
     def test_links_duplicate(self) -> None:
         """Adding a link to an already linked project should return 400."""
@@ -5994,6 +6136,40 @@ class LanguageAPITest(APIBaseTest):
             },
         )
 
+    def test_create_invalid_plural_formula_range(self) -> None:
+        self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+                "plural": {"number": 2, "formula": "2"},
+            },
+        )
+        self.assertEqual(Language.objects.count(), len(LANGUAGES))
+
+    def test_create_invalid_plural_formula_evaluation_error(self) -> None:
+        self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+                "plural": {"number": 2, "formula": "n/0"},
+            },
+        )
+        self.assertEqual(Language.objects.count(), len(LANGUAGES))
+
     def test_delete(self) -> None:
         self.do_request(
             "api:language-list",
@@ -6096,7 +6272,7 @@ class TasksAPITest(APIBaseTest):
             {"completed": False, "progress": 0, "result": None, "log": ""},
         )
 
-    def test_retrieve_denies_inaccessible_cached_component(self) -> None:
+    def test_retrieve_hides_inaccessible_cached_component(self) -> None:
         other_component = self.create_acl()
         cache.set(
             get_task_metadata_key(self.task_id),
@@ -6118,6 +6294,60 @@ class TasksAPITest(APIBaseTest):
                 "api:task-detail",
                 kwargs={"pk": self.task_id},
                 method="get",
+                code=404,
+            )
+
+    def test_retrieve_hides_inaccessible_cached_translation(self) -> None:
+        other_component = self.create_acl()
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_id": None,
+                "translation_id": other_component.source_translation.id,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=404,
+            )
+
+    def test_destroy_denies_visible_cached_component_without_edit_permission(
+        self,
+    ) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
                 code=403,
             )
 
@@ -6552,6 +6782,62 @@ class MemoryAPITest(APIBaseTest):
             get_fuzzy_match.call_args.args[4],
             "Batch fuzzy sourca",  # codespell:ignore sourca
         )
+
+    def test_lookup_exact_query_skips_fuzzy_fallback(self) -> None:
+        self.authenticate()
+        exact = self.create_memory(
+            source="Exact only match",
+            target="Pouze presna shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        fuzzy = self.create_memory(
+            source="Exact only fuzzy entry",
+            target="Pouze fuzzy shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+
+        with patch.object(
+            MemoryViewSet,
+            "get_fuzzy_match",
+            autospec=True,
+            return_value=fuzzy,
+        ) as get_fuzzy_match:
+            response = self.client.post(
+                (
+                    f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                    f"&project={self.component.project.slug}&exact=true"
+                ),
+                {
+                    "strings": [
+                        "Exact only match",
+                        "Exact only fuzzy entri",
+                    ]
+                },  # codespell:ignore entri
+                format="json",
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["match"]["id"], exact.id)
+        self.assertTrue(response.data[0]["match"]["exact"])
+        self.assertIsNone(response.data[1]["match"])
+        get_fuzzy_match.assert_not_called()
+
+    def test_lookup_exact_query_rejects_invalid_boolean(self) -> None:
+        self.authenticate()
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                "&exact=invalid"
+            ),
+            {"strings": ["Invalid exact parameter"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "exact")
 
     def test_get_exact_matches_uses_distinct_on_source(self) -> None:
         first = self.create_memory(
@@ -7004,6 +7290,20 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(self.component.project.stats.suggestions, 0)
         self.check_upload_changes(changes_start, 2)
 
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_upload_too_big(self) -> None:
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(
+            response, "Uploaded translation file is too big.", status_code=400
+        )
+
     def test_upload_parse_error(self) -> None:
         self.authenticate()
         with (
@@ -7093,6 +7393,34 @@ class TranslationAPITest(APIBaseTest):
         self.assertNotIn("ssh://", detail)
         self.assertNotIn(self.component.full_path, detail)
         self.assertIn(".../secret", detail)
+
+    def test_upload_database_error_is_hidden(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=DatabaseError(
+                    "invalid page in block 876338 of relation base/16386/17990"
+                ),
+            ),
+            patch("weblate.api.views.report_error") as mocked_report_error,
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        detail = response.data["errors"][0]["detail"]
+        self.assertIn("File upload has failed", detail)
+        self.assertIn("Please try again later.", detail)
+        self.assertNotIn("invalid page", detail)
+        self.assertNotIn("base/16386/17990", detail)
+        mocked_report_error.assert_called_once_with(
+            "Upload error", print_tb=True, project=self.component.project
+        )
 
     def test_upload_internal_error_is_sanitized(self) -> None:
         self.authenticate()
@@ -7625,6 +7953,29 @@ class TranslationAPITest(APIBaseTest):
             code=400,
         )
         self.assertEqual(component.source_translation.unit_set.count(), 6)
+
+    def test_add_monolingual_parse_error(self) -> None:
+        component = self._create_component(
+            "json-nested",
+            "json-nested/*.json",
+            "json-nested/en.json",
+            name="JSON nested",
+            project=self.project,
+        )
+        translation = component.source_translation
+
+        with patch.object(
+            translation,
+            "load_store",
+            side_effect=FileParseError("Broken JSON"),
+        ):
+            serializer = MonolingualUnitSerializer(
+                data={"key": "test.key", "value": ["Source language"]},
+                context={"translation": translation},
+            )
+            self.assertFalse(serializer.is_valid())
+
+        self.assertIn("Broken JSON", str(serializer.errors))
 
     def test_add_bilingual(self) -> None:
         self.do_request(
@@ -8998,6 +9349,33 @@ class ScreenshotAPITest(APIBaseTest):
             1,
         )
 
+    def test_create_hides_inaccessible_translation(self) -> None:
+        private_component = self.create_acl()
+        hidden_response = self.do_request(
+            "api:screenshot-list",
+            method="post",
+            code=400,
+            request={
+                "name": "Hidden translation screenshot",
+                "project_slug": private_component.project.slug,
+                "component_slug": private_component.slug,
+                "language_code": private_component.source_translation.language.code,
+            },
+        )
+        missing_response = self.do_request(
+            "api:screenshot-list",
+            method="post",
+            code=400,
+            request={
+                "name": "Missing translation screenshot",
+                "project_slug": "missing",
+                "component_slug": private_component.slug,
+                "language_code": private_component.source_translation.language.code,
+            },
+        )
+
+        self.assertEqual(hidden_response.data, missing_response.data)
+
     def test_patch_screenshot(self) -> None:
         self.do_request(
             "api:screenshot-detail",
@@ -9555,6 +9933,11 @@ class AddonAPITest(APIBaseTest):
             "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             "name_template": "{{ component|title }}",
             "language_regex": "^(?!xx).+$",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "copy_addons": True,
+            "remove": False,
         }
         self.assertEqual(Component.objects.all().count(), 2)
         self.create_addon(name="weblate.discovery.discovery", configuration=initial)
@@ -9562,10 +9945,52 @@ class AddonAPITest(APIBaseTest):
         self.assertEqual(self.component.addon_set.get().configuration, initial)
         self.assertEqual(Component.objects.all().count(), 6)
 
+    def test_configured_addon_requires_configuration(self) -> None:
+        response = self.create_addon(name="weblate.discovery.discovery", code=400)
+
+        self.assertFalse(
+            self.component.addon_set.filter(name="weblate.discovery.discovery").exists()
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "configuration")
+        self.assertIn("match", response.data["errors"][0]["detail"])
+
+    def test_configured_addon_requires_configuration_despite_defaults(self) -> None:
+        response = self.create_addon(name="weblate.git.squash", code=400)
+
+        self.assertFalse(
+            self.component.addon_set.filter(name="weblate.git.squash").exists()
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "configuration")
+        self.assertIn("squash", response.data["errors"][0]["detail"])
+
+    def test_create_preserves_omitted_optional_configuration(self) -> None:
+        configuration = {
+            "file_format": "po",
+            "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            "name_template": "{{ component|title }}",
+            "language_regex": "^(?!xx).+$",
+        }
+
+        self.create_addon(
+            name="weblate.discovery.discovery", configuration=configuration
+        )
+
+        self.assertEqual(self.component.addon_set.get().configuration, configuration)
+
     def test_edit(self) -> None:
-        initial = {"path": "{{ filename|stripext }}.mo"}
-        expected = {"path": "{{ language_code }}.mo"}
+        initial = {"path": "{{ filename|stripext }}.mo", "fuzzy": False}
+        expected = {"path": "{{ language_code }}.mo", "fuzzy": False}
         response = self.create_addon(name="weblate.gettext.mo", configuration=initial)
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={},
+        )
         self.assertEqual(self.component.addon_set.get().configuration, initial)
         self.do_request(
             "api:addon-detail",
@@ -9587,10 +10012,75 @@ class AddonAPITest(APIBaseTest):
         )
         self.assertEqual(self.component.addon_set.get().configuration, expected)
 
+    def test_edit_uses_existing_addon_for_configuration_serialization(
+        self,
+    ) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        with patch("weblate.addons.base.BaseAddon.post_configure") as mocked:
+            self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={
+                    "configuration": {
+                        "interval": "weekly",
+                        "normalize_header": False,
+                        "update_po_files": True,
+                        "input_mode": "patterns",
+                        "language": "Python",
+                        "source_patterns": ["src/*.py"],
+                        "potfiles_path": "",
+                    }
+                },
+            )
+        mocked.assert_called_once_with()
+
+        addon.refresh_from_db()
+        self.assertNotIn("_install_msgmerge", addon.configuration)
+        self.assertEqual(addon.configuration["source_patterns"], ["src/*.py"])
+
+    def test_edit_preserves_omitted_optional_configuration(self) -> None:
+        addon = GitSquashAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"squash": "all"},
+        ).instance
+
+        with patch("weblate.addons.base.BaseAddon.post_configure") as mocked:
+            self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={"configuration": {"squash": "language"}},
+            )
+        mocked.assert_called_once_with()
+
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration, {"squash": "language"})
+        self.assertTrue(addon.addon.configuration["append_trailers"])
+
     def create_project_addon(
         self, superuser=True, code=201, name="weblate.consistency.languages", **request
     ):
         request["name"] = name
+        if name == "weblate.consistency.languages" and "configuration" not in request:
+            request["configuration"] = {"confirm": True}
         return self.do_request(
             "api:project-addons",
             kwargs=self.project_kwargs,
@@ -9996,7 +10486,6 @@ class AnnouncementAPITest(APIBaseTest):
             project=self.component.project, message="Test project announcement"
         )
         self.category_announcement = Announcement.objects.create(
-            project=self.component.project,
             category=self.category,
             message="Test category announcement",
         )
@@ -10258,7 +10747,7 @@ class AnnouncementAPITest(APIBaseTest):
             id=response.data["id"]
         )
         self.assertIsNotNone(announcement)
-        self.assertEqual(announcement.project, category.project)
+        self.assertIsNone(announcement.project)
         self.assertEqual(announcement.category, category)
         self.assertIsNone(announcement.component)
         self.assertIsNone(announcement.language)
@@ -10679,6 +11168,72 @@ class AnnouncementAPITest(APIBaseTest):
 
         # Verify announcement still exists
         self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_translation_announcement_language_scope(self) -> None:
+        """Test deleting a translation announcement checks language scope."""
+        czech_language = Language.objects.get(code="cs")
+        german_language = Language.objects.get(code="de")
+        czech_translation, _created = Translation.objects.get_or_create(
+            component=self.component, language=czech_language
+        )
+        german_translation, _created = Translation.objects.get_or_create(
+            component=self.component, language=german_language
+        )
+        german_announcement = Announcement.objects.create(
+            project=self.component.project,
+            component=self.component,
+            language=german_language,
+            message="Test German translation announcement",
+        )
+
+        permission = Permission.objects.get(codename="announcement.delete")
+        role = Role.objects.create(name="Czech announcement deleter")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Czech announcement deleters",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_MANUAL,
+        )
+        group.projects.add(self.component.project)
+        group.languages.add(czech_language)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.assertTrue(self.user.has_perm("announcement.delete", czech_translation))
+        self.assertTrue(
+            self.user.has_perm("announcement.delete", self.translation_announcement)
+        )
+        self.assertFalse(self.user.has_perm("announcement.delete", german_translation))
+        self.assertFalse(self.user.has_perm("announcement.delete", german_announcement))
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={
+                "language__code": german_translation.language.code,
+                "component__slug": german_translation.component.slug,
+                "component__project__slug": german_translation.component.project.slug,
+                "announcement_id": german_announcement.id,
+            },
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+        self.assertTrue(Announcement.objects.filter(id=german_announcement.id).exists())
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={
+                **self.translation_kwargs,
+                "announcement_id": self.translation_announcement.id,
+            },
+            method="delete",
+            superuser=False,
+            code=204,
+        )
+        self.assertFalse(
+            Announcement.objects.filter(id=self.translation_announcement.id).exists()
+        )
 
     def test_delete_nonexistent_translation_announcement(self) -> None:
         """Test deleting an announcement that doesn't exist."""

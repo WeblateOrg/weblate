@@ -287,7 +287,7 @@ class BaseTermExpr:
         # Lazily import as this can be expensive
         from dateparser.date import DateDataParser  # noqa: PLC0415
 
-        # Custom RELATIVE_BASE allows to base "1 day ago" from the midnight instead
+        # Custom RELATIVE_BASE allows basing "1 day ago" from midnight instead
         # of the current time
         parser = DateDataParser(
             locales=["en"],
@@ -417,7 +417,12 @@ class BaseTermExpr:
         try:
             return Change.ACTION_NAMES[text]
         except KeyError:
-            return Change.ACTION_STRINGS[text]
+            try:
+                return Change.ACTION_STRINGS[text]
+            except KeyError:
+                raise SearchQueryError(
+                    gettext("Unknown change action: {}").format(text)
+                ) from None
 
     def convert_change_time(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)

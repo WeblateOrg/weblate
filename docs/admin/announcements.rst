@@ -5,7 +5,8 @@ Announcements
 
    In prior releases this feature was called whiteboard messages.
 
-Provide info to your translators by posting announcements, site-wide, per project, component, or language.
+Provide info to your translators by posting announcements, site-wide, per project,
+category, component, or language.
 
 Announce the purpose, deadlines, status, or specify targets for translation.
 
@@ -34,6 +35,10 @@ No context specified
 Project specified
 
     Shown within the project, including all its components and translations.
+
+Category specified
+
+    Shown within the category, including all its components and translations.
 
 Component specified
 

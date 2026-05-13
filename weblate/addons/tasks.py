@@ -32,7 +32,7 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import open_asset_url
+from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
@@ -47,7 +47,12 @@ def read_component_file(component: Component, filename: str) -> str:
     return Path(component.full_path, resolved).read_text(encoding="utf-8")
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def cdn_parse_html(addon_id: int, component_id: int) -> None:
     try:
         addon = Addon.objects.get(pk=addon_id)
@@ -64,7 +69,12 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with open_asset_url("get", filename) as handle:
+                with open_restricted_asset_url(
+                    "get",
+                    filename,
+                    allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+                    allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+                ) as handle:
                     content = handle.text
             else:
                 content = read_component_file(component, filename)
@@ -231,11 +241,9 @@ def update_addon_activity_log(
             # retrying, for example when the triggering component or add-on is
             # deleted and cascades the activity row away.
             return
-        addon_activity_log.details["error"] = error_occurred
-        if result:
-            addon_activity_log.update_result(result)
-        if pending is not None:
-            addon_activity_log.pending = pending
+        addon_activity_log.update_activity(
+            result, error_occurred=error_occurred, pending=pending
+        )
         addon_activity_log.save(update_fields=["details", "pending"])
 
 

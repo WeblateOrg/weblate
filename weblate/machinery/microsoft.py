@@ -13,6 +13,7 @@ from django.utils import timezone
 from weblate.glossary.models import get_glossary_terms
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     MachineTranslation,
     MachineTranslationError,
     XMLMachineTranslationMixin,
@@ -152,7 +153,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         args = {

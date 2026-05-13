@@ -101,7 +101,7 @@ selector to process all elements.
 HTML localization using Weblate CDN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To localize a HTML document, you need to load the :file:`weblate.js` script:
+To localize an HTML document, you need to load the :file:`weblate.js` script:
 
 .. code-block:: html
 

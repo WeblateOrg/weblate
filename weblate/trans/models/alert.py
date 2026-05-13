@@ -47,7 +47,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
-    from weblate.trans.models.component import Component, ComponentQuerySet
+    from weblate.trans.models.component import Component
     from weblate.trans.models.translation import Translation, TranslationQuerySet
 
 
@@ -72,7 +72,7 @@ def _get_validated_uri_error(
         validate_request_url(uri, allow_private_targets=allow_private_targets)
     except ValidationError as error:
         return format_validation_error(error)
-    return get_uri_error(uri)
+    return get_uri_error(uri, allow_private_targets=allow_private_targets)
 
 
 def register(cls: type[BaseAlert]) -> type[BaseAlert]:
@@ -295,13 +295,7 @@ class DuplicateFilemask(BaseAlert):
             return {"duplicates": sorted(translations)}
         return False
 
-    def resolve_filename(
-        self, filename: str
-    ) -> ComponentQuerySet | TranslationQuerySet:
-        if "*" in filename:
-            # Legacy path for old alerts
-            # TODO: Remove in Weblate 6.0
-            return self.instance.component.component_set.filter(filemask=filename)
+    def resolve_filename(self, filename: str) -> TranslationQuerySet:
         return self.get_translations(self.instance.component).filter(filename=filename)
 
     def get_analysis(self) -> dict[str, Any]:
@@ -726,8 +720,7 @@ class UnusedScreenshot(BaseAlert):
 
         return (
             Screenshot.objects.filter(translation__component=component)
-            .annotate(Count("units"))
-            .filter(units__count=0)
+            .filter(units__isnull=True)
             .exists()
         )
 

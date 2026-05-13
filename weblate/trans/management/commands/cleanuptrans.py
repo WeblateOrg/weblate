@@ -9,8 +9,6 @@ from weblate.screenshots.tasks import cleanup_screenshot_files
 from weblate.trans.models import Component
 from weblate.trans.tasks import (
     cleanup_component,
-    cleanup_old_comments,
-    cleanup_old_suggestions,
     cleanup_stale_repos,
     cleanup_suggestions,
 )
@@ -29,5 +27,3 @@ class Command(BaseCommand):
             cleanup_component(component.pk)
         cleanup_suggestions()
         cleanup_stale_repos()
-        cleanup_old_suggestions()
-        cleanup_old_comments()

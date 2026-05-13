@@ -98,8 +98,13 @@ class WeblateConf(AppConf):
     LOCALE_FILTER_FILES = True
 
     ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
+    ASSET_RESTRICT_PRIVATE = True
+    ASSET_PRIVATE_ALLOWLIST: ClassVar[list[str]] = []
     ALLOWED_MACHINERY_DOMAINS: ClassVar[list[str]] = []
     ALLOWED_ASSET_SIZE: ClassVar[int] = 10_000_000
+    TRANSLATION_UPLOAD_MAX_SIZE: ClassVar[int] = 50_000_000
+    COMPONENT_ZIP_UPLOAD_MAX_SIZE: ClassVar[int] = 50_000_000
+    PROJECT_BACKUP_UPLOAD_MAX_SIZE: ClassVar[int] = 250 * 1024 * 1024
 
     def configure(self):
         data = AppConf.configure(self).copy()

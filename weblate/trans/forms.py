@@ -42,6 +42,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, User
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -49,6 +50,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup
@@ -107,7 +109,12 @@ from weblate.utils.state import (
     StringState,
     get_state_label,
 )
-from weblate.utils.validators import validate_file_extension
+from weblate.utils.validators import (
+    validate_component_zip_upload_size,
+    validate_file_extension,
+    validate_project_backup_upload_size,
+    validate_translation_upload_size,
+)
 from weblate.utils.views import get_sort_name
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -116,6 +123,8 @@ if TYPE_CHECKING:
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.results import PermissionResult
+    from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLMixin
     from weblate.trans.models import (
         Translation,
@@ -694,7 +703,8 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
     """Base form for uploading a file."""
 
     file = forms.FileField(
-        label=gettext_lazy("File"), validators=[validate_file_extension]
+        label=gettext_lazy("File"),
+        validators=[validate_translation_upload_size, validate_file_extension],
     )
     method = forms.ChoiceField(
         label=gettext_lazy("File upload mode"),
@@ -755,8 +765,20 @@ class UploadForm(SimpleUploadForm):
     )
 
     def __init__(self, *args, **kwargs) -> None:
+        self.review_permission: bool | PermissionResult = kwargs.pop(
+            "review_permission", False
+        )
         super().__init__(*args, **kwargs)
         self.helper.layout.fields.append(Field("conflicts"))
+
+    def clean_conflicts(self) -> str:
+        conflicts = cast("str", self.cleaned_data["conflicts"])
+        if conflicts == "replace-approved" and not self.review_permission:
+            reason = getattr(self.review_permission, "reason", None)
+            raise ValidationError(
+                reason or gettext("Insufficient privileges for reviewing strings.")
+            )
+        return conflicts
 
 
 class ExtraUploadForm(UploadForm):
@@ -773,6 +795,7 @@ class ExtraUploadForm(UploadForm):
 
 def get_upload_form(user: User, translation: Translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
+    form: type[SimpleUploadForm]
     if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
         kwargs["initial"] = {"author_name": user.full_name, "author_email": user.email}
@@ -780,16 +803,20 @@ def get_upload_form(user: User, translation: Translation, *args, **kwargs):
         form = UploadForm
     else:
         form = SimpleUploadForm
+    review_permission: bool | PermissionResult = True
+    if form != SimpleUploadForm:
+        review_permission = user.has_perm("unit.review", translation)
+        kwargs["review_permission"] = review_permission
     result = form(*args, **kwargs)
     for method in [x[0] for x in result.fields["method"].choices]:
         if not check_upload_method_permissions(user, translation, method):
             result.remove_translation_choice(method)
     # Remove approved choice for non review projects
-    if not user.has_perm("unit.review", translation) and form != SimpleUploadForm:
+    if not review_permission and form != SimpleUploadForm:
         result.fields["conflicts"].choices = [
             choice
             for choice in result.fields["conflicts"].choices
-            if choice[0] != "approved"
+            if choice[0] != "replace-approved"
         ]
     return result
 
@@ -1011,7 +1038,10 @@ class AutoForm(forms.Form):
         label=gettext_lazy("Machine translation engines"), choices=[], required=False
     )
     threshold = forms.IntegerField(
-        label=gettext_lazy("Score threshold"), initial=80, min_value=1, max_value=100
+        label=gettext_lazy("Score threshold"),
+        initial=MACHINERY_DEFAULT_THRESHOLD,
+        min_value=1,
+        max_value=100,
     )
 
     def __init__(
@@ -1394,7 +1424,41 @@ class UserManageForm(forms.Form):
     )
 
 
-class UserAddTeamForm(UserManageForm):
+class TeamAssignableUserMixin:
+    allow_bot_user = False
+
+    def clean_user(self) -> User | None:
+        user = self.cleaned_data["user"]
+        if user is not None:
+            validate_team_assignable_user(user, allow_bot=self.allow_bot_user)
+        return user
+
+
+class UserContributionCleanupForm(UserManageForm):
+    revert_edits = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Revert user edits"),
+        help_text=gettext_lazy(
+            "Revert the latest translation edits from this user in the current project."
+        ),
+    )
+    reject_suggestions = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Reject user suggestions"),
+        help_text=gettext_lazy(
+            "Reject all pending suggestions from this user in the current project."
+        ),
+    )
+    delete_comments = forms.BooleanField(
+        required=False,
+        label=gettext_lazy("Delete user comments"),
+        help_text=gettext_lazy(
+            "Delete all comments from this user in the current project."
+        ),
+    )
+
+
+class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
     make_admin = forms.BooleanField(
         required=False,
         initial=False,
@@ -1403,7 +1467,7 @@ class UserAddTeamForm(UserManageForm):
     )
 
 
-class UserBlockForm(forms.Form):
+class UserBlockForm(UserContributionCleanupForm):
     user = UserField(
         label=gettext_lazy("User to block"),
         help_text=gettext_lazy(
@@ -1428,18 +1492,21 @@ class UserBlockForm(forms.Form):
             "Internal notes regarding blocking the user that are not visible to the user."
         ),
     )
-    revert_edits = forms.BooleanField(
-        required=False,
-        label=gettext_lazy("Revert user edits"),
-        help_text=gettext_lazy(
-            "Revert the latest translation edits from this user in the current project."
-        ),
-    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "auto_id" not in kwargs:
             kwargs["auto_id"] = "id_block_%s"
         super().__init__(*args, **kwargs)
+        self.order_fields(
+            [
+                "user",
+                "expiry",
+                "note",
+                "revert_edits",
+                "reject_suggestions",
+                "delete_comments",
+            ]
+        )
 
 
 class ReportsForm(forms.Form):
@@ -1594,6 +1661,16 @@ class FormParamsWidget(forms.MultiWidget):
         return [value.get(param_name) for param_name in self.fields_order]
 
     def get_context(self, *args, **kwargs) -> dict[str, Any]:
+        # Crispy injects `form-control` class to all subwidgets, which can conflict
+        # with some of our widgets, so we need to remove it from checkboxes and selects
+        for widget in self.widgets:
+            classes = widget.attrs.get("class", "").split()
+            if "form-control" in classes and (
+                "form-check-input" in classes or "form-select" in classes
+            ):
+                widget.attrs["class"] = " ".join(
+                    c for c in classes if c != "form-control"
+                )
         context = super().get_context(*args, **kwargs)
         context["subwidget_class"] = self.subwidget_class
         return context
@@ -1980,16 +2057,25 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         ) and "file_format" in kwargs["initial"]:
             source_component = Component.objects.get(pk=int(source_component_text))
             if source_component.file_format_params:
-                kwargs["initial"]["file_format_params"] = {
+                supported_params = {
+                    param.get_identifier()
+                    for param in get_params_for_file_format(
+                        kwargs["initial"]["file_format"]
+                    )
+                }
+                source_file_format_params = {
                     k: v
                     for k, v in source_component.file_format_params.items()
-                    if k
-                    in [
-                        param.get_identifier()
-                        for param in get_params_for_file_format(
-                            kwargs["initial"]["file_format"]
-                        )
-                    ]
+                    if k in supported_params
+                }
+                initial_file_format_params = kwargs["initial"].get(
+                    "file_format_params", {}
+                )
+                if not isinstance(initial_file_format_params, dict):
+                    initial_file_format_params = {}
+                kwargs["initial"]["file_format_params"] = {
+                    **source_file_format_params,
+                    **initial_file_format_params,
                 }
         super().__init__(request, *args, **kwargs)
 
@@ -2064,7 +2150,7 @@ class ComponentBranchForm(ComponentSelectForm):
         if not component or any(field not in data for field in form_fields):
             return
         kwargs = model_to_dict(component, exclude=["id", "links"])
-        # We need a object, not integer here
+        # We need an object, not integer here
         kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project
         kwargs["category"] = component.category
@@ -2149,7 +2235,10 @@ class ComponentScratchCreateForm(ComponentProjectForm):
 class ComponentZipCreateForm(ComponentProjectForm):
     zipfile = forms.FileField(
         label=gettext_lazy("ZIP file containing translations"),
-        validators=[FileExtensionValidator(allowed_extensions=["zip"])],
+        validators=[
+            validate_component_zip_upload_size,
+            FileExtensionValidator(allowed_extensions=["zip"]),
+        ],
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
 
@@ -2318,11 +2407,29 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             hint=self.instance.filemask,
         )
 
+    @staticmethod
+    def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
+        data = cast("dict[str, Any]", value.match)
+        file_format = data.get("file_format")
+        file_format_params = data.get("file_format_params")
+        if file_format_params is None:
+            return data
+        if not isinstance(file_format, str) or not isinstance(file_format_params, dict):
+            data.pop("file_format_params", None)
+            return data
+        data["file_format_params"] = strip_unused_file_format_params(
+            file_format,
+            cast("FileFormatParams", file_format_params.copy()),
+        )
+        return data
+
     def clean(self) -> None:
         super().clean()
         discovery = self.cleaned_data.get("discovery")
         if discovery and discovery != "manual":
-            self.cleaned_data.update(self.discovered[int(discovery)])
+            self.cleaned_data.update(
+                self.get_discovery_data(self.discovered[int(discovery)])
+            )
 
 
 class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
@@ -2454,7 +2561,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "name",
             "web",
             "instructions",
-            "set_language_team",
             "use_shared_tm",
             "contribute_shared_tm",
             "autoclean_tm",
@@ -2549,15 +2655,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 }
             )
 
-    def save(self, commit: bool = True) -> None:
-        super().save(commit=commit)
-        if self.changed_access:
-            self.instance.change_set.create(
-                action=ActionEvents.ACCESS_EDIT,
-                user=self.user,
-                details={"access_control": self.instance.access_control},
-            )
-
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
         self.user = request.user
@@ -2602,7 +2699,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 ),
                 Tab(
                     gettext("Workflow"),
-                    "set_language_team",
                     "use_shared_tm",
                     "contribute_shared_tm",
                     "autoclean_tm",
@@ -2711,7 +2807,10 @@ class ProjectImportForm(BillingMixin, forms.Form):
 
     zipfile = forms.FileField(
         label=gettext_lazy("ZIP file containing project backup"),
-        validators=[FileExtensionValidator(allowed_extensions=["zip"])],
+        validators=[
+            validate_project_backup_upload_size,
+            FileExtensionValidator(allowed_extensions=["zip"]),
+        ],
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
 
@@ -3333,7 +3432,7 @@ class ProjectTokenCreateForm(forms.ModelForm):
         self.instance.username = name
         self.instance.email = f"{name}@bots.noreply.weblate.org"
         result = super().save(*args, **kwargs)
-        self.project.add_user(self.instance, "Administration")
+        self.project.add_user(self.instance, "Administration", allow_bot=True)
         AuditLog.objects.create(
             self.instance,
             None,
@@ -3343,8 +3442,10 @@ class ProjectTokenCreateForm(forms.ModelForm):
         )
         return result
 
-    def clean_expires(self):
-        expires = self.cleaned_data["expires"]
+    def clean_date_expires(self):
+        expires = self.cleaned_data["date_expires"]
+        if expires is None:
+            return expires
         expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
         if expires < timezone.now():
             raise forms.ValidationError(gettext("Expiry cannot be in the past."))
@@ -3382,6 +3483,15 @@ class ProjectUserGroupForm(UserManageForm):
         cleaned_data = super().clean()
         user = cleaned_data.get("user")
         groups = cleaned_data.get("groups")
+        if user and groups:
+            current_group_ids = set(
+                user.groups.filter(defining_project=self.project).values_list(
+                    "id", flat=True
+                )
+            )
+            added_group_ids = set(groups.values_list("id", flat=True))
+            if added_group_ids - current_group_ids:
+                validate_team_assignable_user(user, allow_bot=True)
         if user and user.is_bot and not groups:
             raise ValidationError(
                 gettext_lazy("At least one team is required for a project token.")

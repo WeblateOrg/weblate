@@ -426,7 +426,7 @@ operations like searching, sending contact forms, or translating.
 If affected by it, you are blocked for a certain period, until you can
 perform the operation again.
 
-Default limits and fine-tuning is described in the administrative manual,
+Default limits and fine-tuning are described in the administrative manual,
 see :ref:`rate-limit`.
 
 .. _search-replace:

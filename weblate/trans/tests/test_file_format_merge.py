@@ -14,7 +14,12 @@ import uuid
 
 from django.test import TestCase
 
-from weblate.formats.convert import HTMLFormat, MarkdownFormat, PlainTextFormat
+from weblate.formats.convert import (
+    HTMLFormat,
+    MarkdownFormat,
+    MDXFormat,
+    PlainTextFormat,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 
 
@@ -88,6 +93,26 @@ class TestFormatsMerge(TestCase):
         self.assertNotEqual(
             loc_0, loc_1, "Locations should be distinct (different lines)"
         )
+
+    def test_mdx_merge_and_location(self):
+        """Verify MDX merging deduplicates translatable text."""
+        content = b'import Box from "./Box"\n\n- Item\n- Item\n\n<Box>Code</Box>\n'
+        store = self._load_format(content, MDXFormat, "mdx", {"merge_duplicates": True})
+        units = [u for u in store.units if u.source.strip() == "Item"]
+
+        self.assertEqual(len(units), 1, "Should have 1 unit when merged")
+        self.assertEqual(len(list(units[0].getlocations())), 2)
+        self.assertFalse(units[0].getcontext())
+
+    def test_mdx_explicit_false(self):
+        """Verify MDX duplicate merging can be disabled."""
+        content = b'import Box from "./Box"\n\n- Item\n- Item\n\n<Box>Code</Box>\n'
+        store = self._load_format(
+            content, MDXFormat, "mdx", {"merge_duplicates": False}
+        )
+        units = [u for u in store.units if u.source.strip() == "Item"]
+
+        self.assertEqual(len(units), 2, "Should have 2 units when explicitly disabled")
 
     def test_markdown_default_behavior_empty_dict(self):
         """

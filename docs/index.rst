@@ -104,6 +104,7 @@ Learn more about :ref:`contributing`.
     admin/projects
     admin/languages
     admin/continuous
+    admin/code-hosting
     admin/licensing
     admin/translating
     admin/checks
@@ -177,6 +178,7 @@ Learn more about :ref:`contributing`.
     :hidden:
 
     changes
+    changes/v5
     changes/v4
     changes/v3
     changes/v2

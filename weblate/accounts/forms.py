@@ -4,15 +4,14 @@
 
 from __future__ import annotations
 
-import base64
 import json
+import struct
 from binascii import unhexlify
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from altcha import create_challenge_v1 as create_challenge
-from altcha import verify_solution_v1 as verify_solution
+from altcha import Payload, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -23,7 +22,14 @@ from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
-from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
+from django.utils.translation import (
+    activate,
+    get_language,
+    gettext,
+    gettext_lazy,
+    ngettext,
+    pgettext,
+)
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
 from django_otp.oath import totp
@@ -59,7 +65,7 @@ from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_ra
 from weblate.utils.validators import validate_fullname
 
 if TYPE_CHECKING:
-    from altcha import ChallengeV1 as Challenge
+    from altcha import Challenge
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
 
@@ -430,7 +436,9 @@ class UserForm(forms.ModelForm):
         emails = get_all_user_mails(self.instance)
 
         self.fields["email"].choices = [(x, x) for x in sorted(emails)]
-        self.fields["username"].valid = self.instance.username
+        cast(
+            "UniqueUsernameField", self.fields["username"]
+        ).valid = self.instance.username
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
@@ -466,22 +474,10 @@ class CaptchaWidget(forms.TextInput):
             raise ValueError(msg)
 
         return format_html(
-            "<altcha-widget challengejson='{}' strings='{}' hidefooter auto='onfocus'></altcha-widget>",
-            # Directly include challenge
+            '<altcha-widget challenge="{}" configuration="{}" language="{}" auto="onfocus"></altcha-widget>',
             self.serialize_challenge(self.challenge),
-            # Localize strings
-            json.dumps(
-                {
-                    "error": gettext("Verification failed. Try again later."),
-                    "expired": gettext("Verification expired. Try again."),
-                    "label": gettext("I'm not a robot"),
-                    "verified": gettext("Verification completed"),
-                    "verifying": gettext("Verifying…"),
-                    "waitAlert": gettext(
-                        "Verification is still in progress, please wait."
-                    ),
-                }
-            ),
+            json.dumps({"hideFooter": True}),
+            get_language() or "",
         )
 
 
@@ -538,15 +534,13 @@ class CaptchaForm(forms.Form):
                 self.store_challenge()
 
     def generate_challenge(self) -> Challenge:
-        # The expires timestamp needs to be in the local time and not
-        # timezone aware because it is converted using time.mktime(expires.timetuple())
-        # and then compared to time.time()
-        expires = datetime.now(tz=None) + timedelta(hours=1)  # noqa: DTZ005
-
         self.challenge = create_challenge(
-            hmac_key=settings.SECRET_KEY,
-            max_number=settings.ALTCHA_MAX_NUMBER,
-            expires=expires,
+            algorithm="ARGON2ID",
+            cost=settings.ALTCHA_COST,
+            memory_cost=settings.ALTCHA_MEMORY_COST,
+            parallelism=settings.ALTCHA_PARALLELISM,
+            hmac_secret=settings.SECRET_KEY,
+            expires_at=datetime.now(tz=UTC) + timedelta(hours=1),
         )
         return self.challenge
 
@@ -569,7 +563,7 @@ class CaptchaForm(forms.Form):
             self["captcha"].label = cast("str", self.fields["captcha"].label)
 
     def store_challenge(self) -> None:
-        self.request.session["captcha_challenge"] = self.challenge.challenge
+        self.request.session["captcha_challenge"] = self.challenge.signature
 
     def clean_captcha(self) -> None:
         """Validate math captcha."""
@@ -589,17 +583,37 @@ class CaptchaForm(forms.Form):
             return
         payload = self.data.get("altcha", "")
 
-        # Validate payload
-        result = verify_solution(payload, settings.SECRET_KEY, check_expires=True)
-        if not result[0]:
-            LOGGER.error("Invalid altcha solution: %s", result[1:])
-            raise forms.ValidationError(gettext("Validation failed, please try again."))
+        try:
+            payload = Payload.from_base64(payload)
+        except (ValueError, KeyError, TypeError) as error:
+            LOGGER.error("Invalid altcha payload: %s", error)
+            raise forms.ValidationError(
+                gettext("Validation failed, please try again.")
+            ) from error
 
         # Manually guard against replay attacks
-        payload = json.loads(base64.b64decode(payload).decode())
         # Use get to gracefully handle already solved challenges
-        if payload["challenge"] != self.request.session.get("captcha_challenge"):
+        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
             LOGGER.error("Outdated altcha solution")
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
+
+        # Validate payload
+        try:
+            result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        except (ValueError, TypeError, struct.error) as error:
+            LOGGER.error("Invalid altcha solution: %s", error)
+            raise forms.ValidationError(
+                gettext("Validation failed, please try again.")
+            ) from error
+
+        if not result.verified:
+            LOGGER.error(
+                "Invalid altcha solution: expired=%s invalid_signature=%s invalid_solution=%s error=%s",
+                result.expired,
+                result.invalid_signature,
+                result.invalid_solution,
+                result.error,
+            )
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 
     def is_valid(self) -> bool:

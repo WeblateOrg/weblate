@@ -54,6 +54,13 @@ remote: Host key verification failed.
 class ComponentTest(RepoTestCase):
     """Component object testing."""
 
+    def test_select_for_update_uses_component_only_no_key_lock(self) -> None:
+        queryset = Component.objects.select_for_update()
+
+        self.assertTrue(queryset.query.select_for_update)
+        self.assertEqual(queryset.query.select_for_update_of, ("self",))
+        self.assertTrue(queryset.query.select_for_no_key_update)
+
     def verify_component(
         self,
         component: Component,
@@ -595,6 +602,57 @@ class ComponentTest(RepoTestCase):
             component.clean()
 
         self.assertIn("Invalid push branch", str(cm.exception))
+
+    def test_invalid_gerrit_branch_full_ref_validation(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po()
+        component.vcs = "gerrit"
+        component.branch = "refs/heads/main"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        error = str(cm.exception)
+        self.assertIn("Invalid repository branch", error)
+        self.assertIn("Use main instead of refs/heads/main", error)
+
+    def test_invalid_gerrit_push_branch_full_ref_validation(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po_push()
+        component.vcs = "gerrit"
+        component.push_branch = "refs/for/main"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        error = str(cm.exception)
+        self.assertIn("Invalid push branch", error)
+        self.assertIn("Use main instead of refs/for/main", error)
+
+    def test_invalid_gerrit_push_branch_magic_ref_option_validation(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po_push()
+        component.vcs = "gerrit"
+        component.push_branch = "main%submit"
+
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+
+        error = str(cm.exception)
+        self.assertIn("Invalid push branch", error)
+        self.assertIn("review push options", error)
 
     def _test_maintenance(self, component: Component) -> None:
         self.verify_component(component, 4, "cs", 4)

@@ -14,6 +14,7 @@ There are several flavors of this format:
 * DokuWiki text file
 * MediaWiki text file
 * :ref:`markdown`
+* :ref:`mdx`
 
 .. include:: /snippets/format-database-backed.rst
 

@@ -35,9 +35,13 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
+import weblate.machinery.models
 from weblate.auth.models import User
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
+from weblate.machinery.dummy import DummyTranslation
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Project, Unit
@@ -59,7 +63,38 @@ if TYPE_CHECKING:
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
 
+    from weblate.machinery.types import DownloadTranslations
     from weblate.trans.models import Translation
+
+
+class SeleniumDummyTranslation(DummyTranslation):
+    """Dummy machine translation for Selenium hotkey tests."""
+
+    name = "Selenium Dummy"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        yield {
+            "text": "initial machinery 1",
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "initial machinery 2",
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
+        }
+
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -351,6 +386,143 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 "const cell = document.createElement('td'); cell.textContent = 'inner'; return extractText(cell);"
             ),
             "inner",
+        )
+
+    def test_hotkeys(self) -> None:
+        """Test hotkeys functionality."""
+        # Check that the hotkeys library is loaded and the filter is overridden by our wrapper.
+        self.assertTrue(
+            self.driver.execute_script(
+                "return typeof window.hotkeys === 'function'"
+                " && typeof window.hotkeys.filter === 'function';"
+            )
+        )
+
+        # Why this test exists: the wrapper overrides hotkeys.filter to always
+        # return true so bindings still fire inside inputs and textareas
+        # (mousetrap-global-bind used to cover this). Dropping that override
+        # would silently break every in-editor shortcut.
+        self.driver.execute_script(
+            """
+            window.__hotkeyFired = 0;
+            window.hotkeys('ctrl+alt+b', () => {
+                window.__hotkeyFired += 1;
+                return false;
+            });
+            const ta = document.createElement('textarea');
+            ta.id = '__hotkey_test_ta';
+            document.body.appendChild(ta);
+            ta.focus();
+            """
+        )
+        textarea = self.driver.find_element(By.ID, "__hotkey_test_ta")
+        (
+            self.actions.key_down(Keys.CONTROL)
+            .key_down(Keys.ALT)
+            .send_keys_to_element(textarea, "b")
+            .key_up(Keys.ALT)
+            .key_up(Keys.CONTROL)
+            .perform()
+        )
+        self.assertEqual(self.driver.execute_script("return window.__hotkeyFired;"), 1)
+
+        # Shift+/ on a non-input element opens the shortcuts help modal.
+        body = self.driver.find_element(By.TAG_NAME, "body")
+        self.actions.send_keys_to_element(body, "?").perform()
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: (
+                "show"
+                in driver.find_element(By.ID, "shortcuts-modal").get_attribute("class")
+            )
+        )
+
+    def test_machinery_hotkeys_use_current_results(self) -> None:
+        """Test that machinery hotkeys use current result rows."""
+        identifier = SeleniumDummyTranslation.get_identifier()
+        original_service = weblate.machinery.models.MACHINERY.data.get(identifier)
+        weblate.machinery.models.MACHINERY[identifier] = SeleniumDummyTranslation
+
+        def restore_dummy_machinery() -> None:
+            if original_service is None:
+                weblate.machinery.models.MACHINERY.data.pop(identifier, None)
+            else:
+                weblate.machinery.models.MACHINERY[identifier] = original_service
+
+        self.addCleanup(restore_dummy_machinery)
+
+        project = self.create_component()
+        project.machinery_settings = dict.fromkeys(
+            Setting.objects.get_settings_dict(SettingCategory.MT)
+        )
+        project.machinery_settings[identifier] = {}
+        project.save(update_fields=["machinery_settings"])
+
+        self.do_login(superuser=True)
+        unit = (
+            Unit.objects.filter(
+                translation__component__project=project,
+                translation__language_code="cs",
+            )
+            .exclude(source="")
+            .first()
+        )
+        self.assertIsNotNone(unit)
+        unit = cast("Unit", unit)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        self.click(htmlid="toggle-machinery")
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: (
+                len(driver.find_elements(By.CSS_SELECTOR, "#machinery-translations tr"))
+                == 2
+            )
+        )
+
+        self.driver.execute_script(
+            """
+            const $translations = $("#machinery-translations");
+            $translations.empty();
+            ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
+                const key = String((idx + 1) % 10);
+                const $row = $("<tr/>").attr("data-machinery-key", key).data("raw", {
+                    plural_forms: [0],
+                    text: text,
+                });
+                $row.append(
+                    $("<td/>")
+                        .addClass("machinery-number")
+                        .append($("<kbd/>").text(key)),
+                );
+                $row.append(
+                    $("<td/>").append(
+                        $("<a/>").addClass("js-copy-machinery").text("Clone"),
+                    ),
+                );
+                $translations.append($row);
+            });
+            $(".translator .translation-editor").val("");
+            """
+        )
+
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-editor"
+        )
+        editor.click()
+        (
+            self.actions.key_down(Keys.CONTROL)
+            .send_keys("m")
+            .key_up(Keys.CONTROL)
+            .send_keys("2")
+            .perform()
+        )
+
+        self.assertEqual(
+            self.driver.execute_script(
+                'return $(".translator .translation-editor").val();'
+            ),
+            "current replacement 2",
         )
 
     def test_login(self) -> None:

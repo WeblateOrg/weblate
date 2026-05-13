@@ -462,12 +462,11 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
         # - Shared components whose link to this project has no category
         #   (scoped to this project to avoid matching links to other projects
         #   if a component is shared to multiple projects)
+        shared_root_components = ComponentLink.objects.filter(
+            project=obj, category__isnull=True
+        ).values_list("component_id", flat=True)
         return qs.filter(
-            Q(project=obj, category=None)
-            | Q(
-                componentlink__project=obj,
-                componentlink__category__isnull=True,
-            )
+            Q(project=obj, category=None) | Q(pk__in=shared_root_components)
         )
 
     user = request.user
@@ -613,7 +612,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
                 obj=obj,
             ),
             "announcement_form": optional_form(
-                AnnouncementForm, user, "announcement.add", obj.project
+                AnnouncementForm, user, "announcement.add", obj
             ),
             "delete_form": optional_form(
                 CategoryDeleteForm, user, "project.edit", obj, obj=obj

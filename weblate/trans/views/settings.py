@@ -78,6 +78,7 @@ def change(request: AuthenticatedHttpRequest, path):
 
 def change_project(request: AuthenticatedHttpRequest, obj):
     if request.method == "POST":
+        obj.acting_user = request.user
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
@@ -398,7 +399,6 @@ def announcement(request: AuthenticatedHttpRequest, path):
         scope["project"] = obj.project
         scope["language"] = obj.language
     elif isinstance(obj, Category):
-        scope["project"] = obj.project
         scope["category"] = obj
     elif isinstance(obj, Translation):
         scope["project"] = obj.component.project
@@ -424,12 +424,7 @@ def announcement(request: AuthenticatedHttpRequest, path):
 def announcement_delete(request: AuthenticatedHttpRequest, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
 
-    obj = (
-        announcement.component
-        if announcement.component is not None
-        else announcement.project
-    )
-    if not request.user.has_perm("announcement.delete", obj):
+    if not request.user.has_perm("announcement.delete", announcement):
         raise PermissionDenied
 
     announcement.delete()

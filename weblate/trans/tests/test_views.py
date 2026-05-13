@@ -17,6 +17,8 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -26,7 +28,7 @@ from PIL import Image
 
 from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentList, Project
+from weblate.trans.models import Component, ComponentLink, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     clear_users_cache,
@@ -45,6 +47,17 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
     from weblate.utils.state import StringState
+
+
+class PaginatorTemplateTest(TestCase):
+    def test_anchor_in_page_form_action(self) -> None:
+        page_obj = Paginator(range(11), 10).page(1)
+
+        rendered = render_to_string(
+            "paginator.html", {"page_obj": page_obj, "anchor": "components"}
+        )
+
+        self.assertIn('<form method="get" action="#components">', rendered)
 
 
 class RegistrationTestMixin(TestCase):
@@ -270,7 +283,7 @@ class ComponentTestCase(RepoTestCase):
 
         for unit in store.content_units:
             id_hash = unit.id_hash
-            self.assertNotIn(id_hash, messages, "Duplicate string in in backend file!")
+            self.assertNotIn(id_hash, messages, "Duplicate string in the backend file!")
             if unit.is_translated():
                 translated += 1
 
@@ -633,6 +646,19 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
+
+    def test_view_project_deduplicates_outgoing_shared_component(self) -> None:
+        first_project = Project.objects.create(name="Shared target one", slug="target1")
+        second_project = Project.objects.create(
+            name="Shared target two", slug="target2"
+        )
+        ComponentLink.objects.create(component=self.component, project=first_project)
+        ComponentLink.objects.create(component=self.component, project=second_project)
+
+        response = self.client.get(self.project.get_absolute_url())
+
+        component_ids = [component.pk for component in response.context["components"]]
+        self.assertEqual(component_ids.count(self.component.pk), 1)
 
     def test_view_project_ghost(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="es"))

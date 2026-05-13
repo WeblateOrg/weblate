@@ -27,6 +27,7 @@ from weblate.trans.discovery import (
 )
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Translation
+from weblate.utils.files import is_path_within_resolved_directory
 from weblate.utils.forms import (
     CachedModelChoiceField,
     ContextDiv,
@@ -37,10 +38,10 @@ from weblate.utils.regex import compile_regex, regex_match, regex_sub
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
     DomainOrIPValidator,
-    validate_asset_url,
     validate_filename,
     validate_re,
     validate_re_nonempty,
+    validate_restricted_asset_url,
     validate_webhook_secret_string,
     validate_webhook_url,
 )
@@ -358,17 +359,24 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
                 validate_filename(potfiles_path)
                 component = self._addon.instance.component
                 if component is not None:
+                    component_root = Path(component.full_path).resolve(strict=False)
                     manifest = Path(component.full_path) / potfiles_path
-                    try:
-                        component.check_file_is_valid(str(manifest))
-                    except forms.ValidationError as error:
-                        self.add_error("potfiles_path", error)
+                    if not is_path_within_resolved_directory(manifest, component_root):
+                        self.add_error(
+                            "potfiles_path",
+                            gettext("Invalid symbolic link in a repository."),
+                        )
                     else:
-                        if manifest.exists() and manifest.is_dir():
-                            self.add_error(
-                                "potfiles_path",
-                                gettext("POTFILES path has to point to a file."),
-                            )
+                        try:
+                            component.check_file_is_valid(str(manifest))
+                        except forms.ValidationError as error:
+                            self.add_error("potfiles_path", error)
+                        else:
+                            if manifest.is_dir():
+                                self.add_error(
+                                    "potfiles_path",
+                                    gettext("POTFILES path has to point to a file."),
+                                )
             cleaned_data["source_patterns"] = []
             cleaned_data["potfiles_path"] = potfiles_path
         return self.clean_xgettext_options(cleaned_data)
@@ -617,9 +625,10 @@ class RemoveSuggestionForm(RemoveForm):
     votes = forms.IntegerField(
         label=gettext_lazy("Voting threshold"),
         initial=0,
-        required=True,
+        required=False,
         help_text=gettext_lazy(
-            "Threshold for removal. This field has no effect with voting turned off."
+            "Threshold for removal. Leave empty to remove suggestions regardless of "
+            "votes. This field has no effect with voting turned off."
         ),
     )
 
@@ -1326,7 +1335,7 @@ class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
                 continue
             try:
                 if filename.startswith(("http://", "https://")):
-                    validate_asset_url(filename)
+                    validate_restricted_asset_url(filename)
                 else:
                     validate_filename(filename)
             except forms.ValidationError as error:

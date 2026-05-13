@@ -47,7 +47,7 @@ DATABASES = {
         # Database user.
         "USER": "weblate",
         # Name of role to alter to set parameters in PostgreSQL,
-        # use in case role name is different than user used for authentication.
+        # use in case role name is different than the user used for authentication.
         # "ALTER_ROLE": "weblate",
         # Database password.
         "PASSWORD": "",
@@ -378,11 +378,17 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 # Restrict private webhook targets
 # WEBHOOK_RESTRICT_PRIVATE = True
 
+# Restrict private asset targets
+# ASSET_RESTRICT_PRIVATE = True
+
 # Restrict private VCS repository targets
 # VCS_RESTRICT_PRIVATE = True
 
 # Private webhook target allowlist
 # WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
+
+# Private asset target allowlist
+# ASSET_PRIVATE_ALLOWLIST = [".internal.example", "assets.internal.example"]
 
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
@@ -651,6 +657,12 @@ SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+# Maximum allowed uploaded translation file size
+TRANSLATION_UPLOAD_MAX_SIZE = 50000000
+# Maximum allowed uploaded component ZIP file size
+COMPONENT_ZIP_UPLOAD_MAX_SIZE = 50000000
+# Maximum allowed uploaded project backup ZIP file size
+PROJECT_BACKUP_UPLOAD_MAX_SIZE = 250 * 1024 * 1024
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 

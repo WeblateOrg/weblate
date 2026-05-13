@@ -76,7 +76,7 @@ if get_env_bool("WEBLATE_DATABASES", True):
             # Database user.
             "USER": get_env_str("POSTGRES_USER", required=True),
             # Name of role to alter to set parameters in PostgreSQL,
-            # use in case role name is different than user used for authentication.
+            # use in case role name is different than the user used for authentication.
             "ALTER_ROLE": get_env_str(
                 "POSTGRES_ALTER_ROLE", get_env_str("POSTGRES_USER", required=True)
             ),
@@ -723,6 +723,8 @@ PROJECT_WEB_RESTRICT_ALLOWLIST = set(
 )
 WEBHOOK_RESTRICT_PRIVATE = get_env_bool("WEBLATE_WEBHOOK_RESTRICT_PRIVATE", True)
 WEBHOOK_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST", [])
+ASSET_RESTRICT_PRIVATE = get_env_bool("WEBLATE_ASSET_RESTRICT_PRIVATE", True)
+ASSET_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_ASSET_PRIVATE_ALLOWLIST", [])
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:
@@ -1032,6 +1034,18 @@ SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+# Maximum allowed uploaded translation file size
+TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE", 50000000
+)
+# Maximum allowed uploaded component ZIP file size
+COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE", 50000000
+)
+# Maximum allowed uploaded project backup ZIP file size
+PROJECT_BACKUP_UPLOAD_MAX_SIZE = get_env_int(
+    "WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE", 250 * 1024 * 1024
+)
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
@@ -1115,7 +1129,7 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 
-# This allows to hide glossary components when shared to other projects
+# This allows hiding glossary components when shared to other projects
 HIDE_SHARED_GLOSSARY_COMPONENTS = get_env_bool(
     "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS", False
 )

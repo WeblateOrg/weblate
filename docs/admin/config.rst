@@ -80,6 +80,8 @@ This is currently used in the following places:
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_SIZE`
+   * :setting:`ASSET_RESTRICT_PRIVATE`
+   * :setting:`ASSET_PRIVATE_ALLOWLIST`
 
 .. setting:: ALLOWED_MACHINERY_DOMAINS
 
@@ -118,14 +120,83 @@ Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
 
    * :setting:`ALLOWED_ASSET_DOMAINS`
 
-.. setting:: ALTCHA_MAX_NUMBER
+.. setting:: ASSET_PRIVATE_ALLOWLIST
 
-ALTCHA_MAX_NUMBER
------------------
+ASSET_PRIVATE_ALLOWLIST
+-----------------------
 
-.. versionadded:: 5.9
+.. versionadded:: 2025.5
 
-Configures a maximal number for ALTCHA proof-of-work mechanism.
+Defines hostnames or domains exempt from :setting:`ASSET_RESTRICT_PRIVATE`
+for remote asset downloads that enforce private-target checks. Entries follow
+Django host matching semantics, so values such as ``assets.internal.example``
+or ``.internal.example`` can be used.
+
+This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must
+still match the asset domain allowlist.
+
+Default configuration:
+
+.. code-block:: python
+
+   ASSET_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+   * :setting:`ASSET_RESTRICT_PRIVATE`
+
+.. setting:: ASSET_RESTRICT_PRIVATE
+
+ASSET_RESTRICT_PRIVATE
+----------------------
+
+.. versionadded:: 2025.5
+
+Reject remote asset URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by
+default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`ASSET_PRIVATE_ALLOWLIST`.
+This currently applies to screenshot URL uploads and remote HTML downloads for
+the :ref:`addon-weblate.cdn.cdnjs` add-on.
+
+.. seealso::
+
+   * :ref:`screenshots`
+   * :ref:`addon-weblate.cdn.cdnjs`
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+   * :setting:`ASSET_PRIVATE_ALLOWLIST`
+
+.. setting:: ALTCHA_COST
+
+ALTCHA_COST
+-----------
+
+.. versionadded:: 5.18
+
+Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``.
+
+Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget v2.
+
+.. setting:: ALTCHA_MEMORY_COST
+
+ALTCHA_MEMORY_COST
+------------------
+
+.. versionadded:: 5.18
+
+Argon2id memory cost in KiB. Defaults to ``65536``.
+
+.. setting:: ALTCHA_PARALLELISM
+
+ALTCHA_PARALLELISM
+------------------
+
+.. versionadded:: 5.18
+
+Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
@@ -361,16 +432,16 @@ in :setting:`DATA_DIR`.
 Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
 network filesystem.
 
-Weblate also stores generated SSH wrapper scripts here, so :setting:`CACHE_DIR`
-needs to be on an executable filesystem if :setting:`DATA_DIR` is mounted with
-``noexec``.
+Weblate stores generated helper files here and executes some of them, so
+:setting:`CACHE_DIR` has to be writable and mounted on a filesystem that allows
+execution. Avoid using ``noexec`` mount options for this directory.
 
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 The following subdirectories usually exist:
 
 :file:`ssh`
-   Generated SSH wrapper scripts used for VCS access.
+   Generated helper files used for VCS access.
 :file:`fonts`
    :program:`font-config` cache for :ref:`fonts`.
 :file:`avatar`
@@ -454,14 +525,6 @@ You can turn on only a few:
    * :ref:`own-checks`
    * :ref:`custom-modules`
 
-.. setting:: COMMENT_CLEANUP_DAYS
-
-COMMENT_CLEANUP_DAYS
---------------------
-
-Delete comments after a given number of days.
-Defaults to ``None``, meaning no deletion at all.
-
 .. setting:: COMMIT_PENDING_HOURS
 
 COMMIT_PENDING_HOURS
@@ -477,6 +540,23 @@ Number of hours between committing pending changes by way of the background task
    * :wladmin:`commit_pending`
 
 
+.. setting:: COMPONENT_ZIP_UPLOAD_MAX_SIZE
+
+COMPONENT_ZIP_UPLOAD_MAX_SIZE
+-----------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded component ZIP files.
+Defaults to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``
+environment variable.
+
+.. seealso::
+
+   * :ref:`component`
+
 .. setting:: CONTACT_FORM
 
 CONTACT_FORM
@@ -488,9 +568,9 @@ Configures how e-mail from the contact form is being sent.
 Choose a configuration that matches the configuration of your mail server.
 
 ``"reply-to"``
-   The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
+   The sender is used as :mailheader:`Reply-To`, this is the default behaviour.
 ``"from"``
-   The sender is used in as :mailheader:`From`. Your mail server needs to allow
+   The sender is used as :mailheader:`From`. Your mail server needs to allow
    sending such e-mails.
 ``"disabled"``
    Disables the contact form entirely.
@@ -901,7 +981,8 @@ List for credentials for Gitea servers.
 
 .. seealso::
 
-   * :ref:`vcs-gitea`
+   * :doc:`/admin/code-hosting`
+   * :ref:`code-hosting-gitea-pull-requests`
    * `Creating a Gitea personal access token`_
 
 .. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
@@ -932,7 +1013,7 @@ List for credentials for GitLab servers.
 
 .. seealso::
 
-   * :ref:`vcs-gitlab`
+   * :ref:`code-hosting-gitlab-merge-requests`
    * `GitLab: Personal access token <https://docs.gitlab.com/user/profile/personal_access_tokens/>`_
 
 .. setting:: GITHUB_CREDENTIALS
@@ -968,13 +1049,13 @@ List for credentials for GitHub servers.
 
 .. hint::
 
-   Use ``api.github.com`` as a API host for https://github.com/.
+   Use ``api.github.com`` as an API host for https://github.com/.
 
 .. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
 
-   * :ref:`vcs-github`
+   * :ref:`code-hosting-github-pull-requests`
    * `Creating a GitHub personal access token`_
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
@@ -1001,7 +1082,7 @@ List for credentials for Bitbucket Data Center.
 
 .. seealso::
 
-   * :ref:`vcs-bitbucket-data-center`
+   * :ref:`code-hosting-bitbucket-data-center-pull-requests`
    * `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
@@ -1040,7 +1121,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   * :ref:`vcs-bitbucket-cloud`
+   * :ref:`code-hosting-bitbucket-cloud-pull-requests`
    * `Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/>`_
    * `API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/api-token-permissions/>`_
 
@@ -1083,7 +1164,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   * :ref:`vcs-azure-devops`
+   * :ref:`code-hosting-azure-devops-pull-requests`
    * `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
@@ -1285,7 +1366,7 @@ Additional licenses to include in the license choices.
 
 .. note::
 
-    Each license definition should be tuple of its short name, a long name, a URL and a boolean, indication with it is a libre license.
+    Each license definition should be a tuple of its short name, a long name, a URL and a boolean, indicating whether it is a libre license.
 
 For example:
 
@@ -1458,7 +1539,7 @@ List for credentials for Pagure servers.
 
 .. seealso::
 
-   * :ref:`vcs-pagure`
+   * :ref:`code-hosting-pagure-merge-requests`
    * `Pagure API <https://pagure.io/api/0/>`_
 
 .. setting:: PASSWORD_MINIMAL_STRENGTH
@@ -1614,6 +1695,25 @@ Defines how long the project backups will be kept on the server. Defaults to 30 
 
    :ref:`projectbackup`
 
+.. setting:: PROJECT_BACKUP_UPLOAD_MAX_SIZE
+
+PROJECT_BACKUP_UPLOAD_MAX_SIZE
+------------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded project backup ZIP files.
+Defaults to 262144000 bytes (250 MiB).
+
+In Docker, configure this using the ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``
+environment variable. Docker setups can also be constrained by
+:envvar:`CLIENT_MAX_BODY_SIZE`; other deployments can be constrained by their
+reverse proxy request body-size limit.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
 .. setting:: PROJECT_BACKUP_IMPORT_MAX_MEMBERS
 
 PROJECT_BACKUP_IMPORT_MAX_MEMBERS
@@ -1626,6 +1726,23 @@ backup.
 
 This is a safeguard against malformed or intentionally fragmented archives.
 Defaults to 100000 entries.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+
+PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+-------------------------------------------------
+
+.. versionadded:: 5.17.1
+
+Defines the maximum total uncompressed size, in bytes, for ZIP entries in an
+imported project backup. Defaults to 262144000 bytes (250 MiB).
+
+This limits archives that are small when uploaded but expand to much more data
+during validation or restore.
 
 .. seealso::
 
@@ -1844,6 +1961,9 @@ WEBHOOK_RESTRICT_PRIVATE
 Reject webhook URLs pointing to internal or non-public addresses unless the
 target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by default.
 
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
+
 .. seealso::
 
    * :ref:`addon-weblate.webhook.webhook`
@@ -1969,7 +2089,7 @@ REGISTRATION_CAPTCHA
 
 Whether registration of new accounts is protected by a CAPTCHA. Defaults to enabled.
 
-If turned on, a CAPTCHA is added to all pages where a users enters their e-mail address:
+If turned on, a CAPTCHA is added to all pages where a user enters their e-mail address:
 
 * New account registration.
 * Password recovery.
@@ -1979,7 +2099,7 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 The protection currently consists of following steps:
 
 * Mathematical captcha to be solved by the user.
-* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_MAX_NUMBER`.
+* Proof of work challenge calculated by the browser. The difficulty can be adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 
@@ -2302,14 +2422,6 @@ STATUS_URL
 
 The URL where your Weblate instance reports its status.
 
-.. setting:: SUGGESTION_CLEANUP_DAYS
-
-SUGGESTION_CLEANUP_DAYS
------------------------
-
-Automatically deletes suggestions after a given number of days.
-Defaults to ``None``, meaning no deletions.
-
 .. setting:: SUPPORT_STATUS_CHECK
 
 SUPPORT_STATUS_CHECK
@@ -2323,6 +2435,19 @@ to the donation page in case there is no active support subscription.
 .. hint::
 
    Improve your Weblate experience by purchasing a support subscription and boosting Weblate progress instead of turning this off.
+
+.. setting:: TRANSLATION_UPLOAD_MAX_SIZE
+
+TRANSLATION_UPLOAD_MAX_SIZE
+---------------------------
+
+.. versionadded:: 5.17.1
+
+Configures the maximum size, in bytes, for uploaded translation files. Defaults
+to 50 MB.
+
+In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``
+environment variable.
 
 .. setting:: UNUSED_ALERT_DAYS
 
@@ -2417,6 +2542,9 @@ VCS_RESTRICT_PRIVATE
 Reject VCS repository URLs pointing to internal or non-public addresses unless
 the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
 
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+
 .. setting:: VCS_API_DELAY
 
 VCS_API_DELAY
@@ -2425,8 +2553,11 @@ VCS_API_DELAY
 .. versionadded:: 4.15.1
 
 Configures minimal delay in seconds between third-party API calls in
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
-:ref:`vcs-azure-devops`.
+:ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`, and
+:ref:`code-hosting-azure-devops-pull-requests`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
@@ -2442,8 +2573,11 @@ VCS_API_TIMEOUT
 .. versionadded:: 5.15
 
 Configures timeout in seconds for third-party API calls such as forking or
-creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`,
-:ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`.
+creating merge requests in :ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`, and
+:ref:`code-hosting-azure-devops-pull-requests`.
 
 The default value is 10.
 

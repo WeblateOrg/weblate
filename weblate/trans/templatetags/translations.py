@@ -741,10 +741,11 @@ def show_message(tags, message):
 @register.filter(is_safe=True)
 def naturaltime(value: float | datetime, microseconds: bool = False) -> SafeString:
     """
-    Heavily based on Django's django.contrib.humanize implementation of naturaltime.
+    Render date and time values for JavaScript relative-time formatting.
 
-    For date and time values shows how many seconds, minutes or hours ago compared to
-    current timestamp returns representing string.
+    The returned markup includes the absolute timestamp in the data-datetime
+    attribute. The page JavaScript replaces the visible fallback date with a
+    relative value for recent timestamps.
     """
     # float is what time() returns
     if isinstance(value, float):
@@ -970,7 +971,9 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(context: Context, project=None, component=None, language=None):
+def announcements(
+    context: Context, project=None, component=None, language=None, category=None
+):
     """Display announcement messages for given context."""
     user = context["user"]
 
@@ -986,16 +989,16 @@ def announcements(context: Context, project=None, component=None, language=None)
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
-                            "announcement.delete",
-                            announcement.component
-                            if announcement.component is not None
-                            else announcement.project,
+                            "announcement.delete", announcement
                         ),
                     },
                 ),
             )
             for announcement in Announcement.objects.context_filter(
-                project, component, language
+                project=project,
+                component=component,
+                language=language,
+                category=category,
             )
         ),
     )

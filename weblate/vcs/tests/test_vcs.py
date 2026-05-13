@@ -10,11 +10,14 @@ import re
 import shutil
 import tempfile
 from contextlib import ExitStack
+from datetime import datetime
+from io import BytesIO
 from os import utime
 from pathlib import Path
 from time import time
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import patch
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import responses
 from django.core.cache import cache
@@ -27,6 +30,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
+from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
@@ -35,6 +39,7 @@ from weblate.vcs.base import (
     get_config_check_cache_key,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
+    parse_commit_date,
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
@@ -223,6 +228,14 @@ class RepositoryTest(SimpleTestCase):
 
     def test_is_supported_no_version(self) -> None:
         self.assertTrue(GitNoVersionRepository.is_supported())
+
+    def test_parse_commit_date_normalizes_naive_datetime(self) -> None:
+        parsed = parse_commit_date(datetime(2026, 5, 7, 12, 30))  # noqa: DTZ001
+        self.assertTrue(timezone.is_aware(parsed))
+
+    def test_parse_commit_date_normalizes_naive_string(self) -> None:
+        parsed = parse_commit_date("2026-05-07 12:30:00")
+        self.assertTrue(timezone.is_aware(parsed))
 
     def test_is_supported_cache(self) -> None:
         GitTestRepository.is_supported()
@@ -675,6 +688,36 @@ class GitBranchValidationTest(SimpleTestCase):
             merge_err=False,
         )
 
+    def test_generic_git_branch_accepts_gerrit_option_delimiters(self) -> None:
+        with patch.object(GitRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "main%submit", GitRepository.validate_branch_name("main%submit")
+            )
+
+    def test_gerrit_branch_accepts_plain_name(self) -> None:
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "review-branch",
+                GitWithGerritRepository.validate_branch_name("review-branch"),
+            )
+
+    def test_gerrit_branch_rejects_magic_ref_options(self) -> None:
+        branches = (
+            "main%submit",
+            "main%l=Code-Review+2",
+            "main%topic=evil,l=Code-Review+2",
+            "main,topic",
+        )
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            for branch in branches:
+                with (
+                    self.subTest(branch=branch),
+                    self.assertRaises(RepositoryError) as cm,
+                ):
+                    GitWithGerritRepository.validate_branch_name(branch)
+
+                self.assertIn("review push options", str(cm.exception))
+
     def test_shorthand_branch_is_rejected(self) -> None:
         with self.assertRaises(RepositoryError) as cm:
             GitRepository.validate_branch_name("@{-1}")
@@ -1044,6 +1087,14 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.assertRaises(RepositorySymlinkError):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
+    def test_resolve_symlinks_allows_regular_repository_path(self) -> None:
+        filename = "locale/cs.po"
+        full_path = os.path.join(self.repo.path, filename)
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        Path(full_path).write_text("TEST\n", encoding="utf-8")
+
+        self.assertEqual(self.repo.resolve_symlinks(filename), filename)
+
     def test_merge_commit(self) -> None:
         self.test_commit()
         self.test_merge()
@@ -1302,6 +1353,12 @@ class VCSGitUpstreamTest(VCSGitTest):
     _repo_override: str = ""
 
     def setUp(self) -> None:
+        getaddrinfo_patcher = patch(
+            "weblate.utils.outbound.socket.getaddrinfo",
+            return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+        )
+        getaddrinfo_patcher.start()
+        self.addCleanup(getaddrinfo_patcher.stop)
         super().setUp()
         # Set repo URL to match configured credentials
         if self._repo_override:
@@ -1431,6 +1488,27 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         )
         super().test_push(branch)
         mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push_reconfigures_stale_fork_remote(self) -> None:
+        self.repo.config_update(
+            ('remote "test"', "pushurl", "git@github.com:test/test.git")
+        )
+
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+            )
+
+            super().test_push("")
+
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
+        )
+        self.assertEqual(
+            self.repo.get_config("remote.test.pushURL"), "git@gitea.io:test/test.git"
+        )
 
     @responses.activate
     def test_pull_request_error(self, branch: str = "") -> None:
@@ -2619,6 +2697,54 @@ class VCSGerritTest(VCSGitUpstreamTest):
         hook = os.path.join(repo.path, ".git", "hooks", "commit-msg")
         Path(hook).write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
         os.chmod(hook, 0o755)  # noqa: S103, nosec
+        if isinstance(repo, GitWithGerritRepository):
+            repo.config_update(('remote "gerrit"', "url", self.get_remote_repo_url()))
+
+    def test_configure_remote_sets_gerrit_fetch(self) -> None:
+        with self.repo.lock:
+            self.repo.configure_remote(
+                "pullurl", "ssh://sshuser@domain.com:29418/repo.git", "branch"
+            )
+            self.assertEqual(
+                self.repo.get_config("remote.gerrit.fetch"),
+                "+refs/heads/branch:refs/remotes/gerrit/branch",
+            )
+            self.assertEqual(self.repo.get_config("remote.gerrit.tagOpt"), "--no-tags")
+
+    def test_configure_remote_removes_gerrit_fetch_without_push(self) -> None:
+        with self.repo.lock:
+            self.repo.configure_remote(
+                "pullurl", "ssh://sshuser@domain.com:29418/repo.git", "branch"
+            )
+            self.repo.configure_remote("pullurl", "", "branch")
+            with self.assertRaises(RepositoryError):
+                self.repo.get_config("remote.gerrit.url")
+            with self.assertRaises(RepositoryError):
+                self.repo.get_config("remote.gerrit.fetch")
+            with self.assertRaises(RepositoryError):
+                self.repo.get_config("remote.gerrit.tagOpt")
+
+    def test_push_branch_targets_gerrit_review_branch(self) -> None:
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "needs_push", return_value=True) as needs_push,
+            patch.object(self.repo, "execute") as execute,
+        ):
+            self.repo.push("review-branch")
+
+        needs_push.assert_called_once_with("review-branch")
+        execute.assert_called_once_with(
+            ["review", "--remote", "gerrit", "--yes", "review-branch"],
+            remote_op="push",
+        )
+        self.assertEqual(
+            self.repo.get_config("remote.gerrit.fetch"),
+            "+refs/heads/review-branch:refs/remotes/gerrit/review-branch",
+        )
+
+    def test_push_branch(self) -> None:
+        self.test_commit()
+        self.test_push("translations")
 
     def test_set_gitreview_username_git(self) -> None:
         with self.repo.lock:
@@ -2888,6 +3014,72 @@ remove the file manually to continue.
             )
         finally:
             shutil.rmtree(tempdir)
+
+    def test_from_zip_rejects_symlink_entry(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("symlink", "ignored")
+            info = zipfile.getinfo("symlink")
+            info.external_attr = 0o120777 << 16
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-symlink")
+
+        with self.assertRaisesRegex(
+            RepositoryError, "ZIP file contains unsupported symbolic links"
+        ):
+            LocalRepository.from_zip(target, archive)
+
+    def test_from_zip_rejects_path_outside_target(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("../../outside.txt", "blocked")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-path")
+
+        with self.assertRaisesRegex(RepositoryError, "ZIP file contains invalid path"):
+            LocalRepository.from_zip(target, archive)
+        self.assertFalse(os.path.exists(target))
+
+    def test_from_zip_rejects_too_many_entries(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("first.po", "msgid ''\nmsgstr ''\n")
+            zipfile.writestr("second.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-too-many")
+
+        with (
+            patch.object(
+                LocalRepository,
+                "ZIP_IMPORT_LIMITS",
+                ZipSafetyLimits(max_members=1),
+            ),
+            self.assertRaisesRegex(RepositoryError, "contains too many entries"),
+        ):
+            LocalRepository.from_zip(target, archive)
+
+    def test_from_zip_rejects_compressed_large_entry(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("large.po", b"a" * 5000, compress_type=ZIP_DEFLATED)
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-compressed")
+
+        with (
+            patch.object(
+                LocalRepository,
+                "ZIP_IMPORT_LIMITS",
+                ZipSafetyLimits(
+                    max_compressed_entry_size=100,
+                    min_compressed_ratio_size=10,
+                    max_compressed_entry_ratio=5,
+                ),
+            ),
+            self.assertRaisesRegex(
+                RepositoryError, "compressed entry that is too large"
+            ),
+        ):
+            LocalRepository.from_zip(target, archive)
 
 
 @override_settings(

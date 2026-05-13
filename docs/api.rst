@@ -929,7 +929,6 @@ Projects
     :>json string credits_url: URL to list contributor credits; see :http:get:`/api/projects/(string:project)/credits/`
     :>json boolean translation_review: :ref:`project-translation_review`
     :>json boolean source_review: :ref:`project-source_review`
-    :>json boolean set_language_team: :ref:`project-set_language_team`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
@@ -2433,6 +2432,8 @@ Memory
     :type target_language: string
     :query project: Project slug filter (optional)
     :type project: string
+    :query exact: Return exact matches only and skip fuzzy matching (optional)
+    :type exact: boolean
     :<json array strings: List of source strings to look up
     :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
 
@@ -2596,7 +2597,7 @@ Changes
 
         Change object attributes are documented at :http:get:`/api/changes/(int:id)/`.
 
-    :query string user: Username of user to filters
+    :query string user: Username of the user to filter by
     :query int action: Action to filter, can be used several times
     :query timestamp timestamp_after: ISO 8601 formatted timestamp to list changes after
     :query timestamp timestamp_before: ISO 8601 formatted timestamp to list changes before
@@ -3175,7 +3176,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`github-setup`
+        :ref:`GitHub notifications <code-hosting-github-notifications>`
             For instruction on setting up GitHub integration
         https://docs.github.com/en/get-started/customizing-your-github-workflow/exploring-integrations/about-webhooks
             Generic information about GitHub Webhooks
@@ -3189,7 +3190,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`gitlab-setup`
+        :ref:`GitLab notifications <code-hosting-gitlab-notifications>`
             For instruction on setting up GitLab integration
         https://docs.gitlab.com/user/project/integrations/webhooks/
             Generic information about GitLab Webhooks
@@ -3203,7 +3204,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`bitbucket-setup`
+        :ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`
             For instruction on setting up Bitbucket integration
         https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/
             Generic information about Bitbucket Webhooks
@@ -3217,7 +3218,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`pagure-setup`
+        :ref:`Pagure notifications <code-hosting-pagure-notifications>`
             For instruction on setting up Pagure integration
         https://docs.pagure.org/pagure/usage/using_webhooks.html
             Generic information about Pagure Webhooks
@@ -3236,7 +3237,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`azure-setup`
+        :ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`
             For instruction on setting up Azure integration
         https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
             Generic information about Azure DevOps Web Hooks
@@ -3250,7 +3251,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`gitea-setup`
+        :ref:`Gitea notifications <code-hosting-gitea-notifications>`
             For instruction on setting up Gitea integration
         https://docs.gitea.io/en-us/webhooks/
             Generic information about Gitea Webhooks
@@ -3264,7 +3265,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`forgejo-setup`
+        :ref:`Forgejo notifications <code-hosting-forgejo-notifications>`
             For instruction on setting up Forgejo integration
         https://forgejo.org/docs/latest/user/webhooks/
             Generic information about Forgejo Webhooks
@@ -3278,7 +3279,7 @@ update individual repositories; see
 
     .. seealso::
 
-        :ref:`gitee-setup`
+        :ref:`Gitee notifications <code-hosting-gitee-notifications>`
             For instruction on setting up Gitee integration
         https://gitee.com/help/categories/40
             Generic information about Gitee Webhooks
@@ -3291,6 +3292,34 @@ RSS feeds
 +++++++++
 
 Changes in translations are exported in RSS feeds.
+
+Filtered RSS feeds are available from the changes browser. These accept the same
+filters as the changes page, for example ``action``, ``user``, ``exclude_user``,
+and ``period``.
+
+.. http:get:: /changes/rss/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters.
+
+.. http:get:: /changes/rss/(string:project)/(string:component)/(string:language)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    translation.
+
+.. http:get:: /changes/rss/(string:project)/(string:component)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    component.
+
+.. http:get:: /changes/rss/(string:project)/-/(string:language)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    project language.
+
+.. http:get:: /changes/rss/-/-/(string:language)/
+
+    Retrieves RSS feed with recent changes matching changes browsing filters in a
+    language.
 
 .. http:get:: /exports/rss/(string:project)/(string:component)/(string:language)/
 

@@ -14,8 +14,8 @@ from weakref import WeakValueDictionary
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.validators import MinValueValidator
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -40,7 +40,11 @@ from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.validators import validate_plural_formula
+from weblate.utils.validators import (
+    iter_plural_formula_examples,
+    validate_plural_formula,
+    validate_plural_formula_range,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -54,6 +58,7 @@ if TYPE_CHECKING:
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
 )
+PLURAL_COUNT_MAX = 10
 PLURAL_TITLE = """
 {name} <span class="text-muted" title="{title}">({examples})</span>
 """
@@ -138,7 +143,7 @@ def get_default_lang() -> int:
         return -1
 
 
-class LanguageQuerySet(models.QuerySet["Language"]):
+class LanguageQuerySet(models.QuerySet["Language", "Language"]):
     @staticmethod
     def _cache_result_key(code: str) -> str:
         return f"result:{code}"
@@ -322,7 +327,7 @@ class LanguageQuerySet(models.QuerySet["Language"]):
         """
         Get matching language for code.
 
-        The code does not have to be exactly same (cs_CZ is trteated same as
+        The code does not have to be exactly the same (cs_CZ is treated the same as
         cs-CZ) or returns None.
 
         It also handles Android special naming of regional locales like pt-rBR.
@@ -591,7 +596,7 @@ class LanguageQuerySet(models.QuerySet["Language"]):
 
     def get_request_language(self, request: AuthenticatedHttpRequest):
         """
-        Guess user language from a HTTP request.
+        Guess user language from an HTTP request.
 
         Accept-Language HTTP header, for most browser it consists of browser
         language with higher rank and OS language with lower rank so it still
@@ -1138,7 +1143,7 @@ class Language(models.Model, CacheKeyMixin):
         return True
 
 
-class PluralQuerySet(models.QuerySet["Plural"]):
+class PluralQuerySet(models.QuerySet["Plural", "Plural"]):
     def order(self):
         return self.order_by("source")
 
@@ -1311,7 +1316,7 @@ class Plural(models.Model):
     number = models.SmallIntegerField(
         default=2,
         verbose_name=gettext_lazy("Number of plurals"),
-        validators=[MinValueValidator(1)],
+        validators=[MinValueValidator(1), MaxValueValidator(PLURAL_COUNT_MAX)],
     )
     formula = models.TextField(
         default="n != 1",
@@ -1343,6 +1348,15 @@ class Plural(models.Model):
     def get_absolute_url(self) -> str:
         return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
 
+    def clean(self) -> None:
+        super().clean()
+        try:
+            validate_plural_formula_range(
+                self.number, self.formula, validate_formula=False
+            )
+        except ValidationError as error:
+            raise ValidationError({"formula": error}) from error
+
     @cached_property
     def plural_form(self) -> str:
         return f"nplurals={self.number:d}; plural={self.formula};"
@@ -1359,7 +1373,7 @@ class Plural(models.Model):
     def examples(self) -> dict[int, list[str]]:
         result: dict[int, list[str]] = defaultdict(list)
         func = self.plural_function
-        for i in chain(range(10000), range(10000, 2000001, 1000)):
+        for i in iter_plural_formula_examples():
             ret = func(i)  # pylint: disable=too-many-function-args
             if len(result[ret]) >= 10:
                 continue
@@ -1380,11 +1394,16 @@ class Plural(models.Model):
         if number <= 0:
             msg = "Plural number has to be greater than zero"
             raise ValueError(msg)
+        if number > PLURAL_COUNT_MAX:
+            msg = f"Plural number has to be at most {PLURAL_COUNT_MAX}"
+            raise ValueError(msg)
         formula = matches.group(2)
         if not formula:
             formula = "0"
-        # Try to parse the formula
-        c2py(formula)
+        try:
+            validate_plural_formula_range(number, formula)
+        except ValidationError as error:
+            raise ValueError("; ".join(error.messages)) from error
 
         return number, formula
 

@@ -7,6 +7,7 @@ import os
 from typing import TYPE_CHECKING
 
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import DatabaseError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext
@@ -26,7 +27,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
-from weblate.trans.util import sanitize_backend_error_message
+from weblate.trans.util import get_upload_error_message
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -258,8 +259,8 @@ def upload(request: AuthenticatedHttpRequest, path):
     except FileParseError as error:
         messages.error(
             request,
-            sanitize_backend_error_message(
-                str(error),
+            get_upload_error_message(
+                error,
                 repo_urls=(obj.component.repo, obj.component.push),
                 extra_paths=(obj.component.full_path,),
             ),
@@ -267,8 +268,18 @@ def upload(request: AuthenticatedHttpRequest, path):
     except FailedCommitError as error:
         messages.error(
             request,
-            sanitize_backend_error_message(
-                str(error),
+            get_upload_error_message(
+                error,
+                repo_urls=(obj.component.repo, obj.component.push),
+                extra_paths=(obj.component.full_path,),
+            ),
+        )
+        report_error("Upload error", project=obj.component.project)
+    except DatabaseError as error:
+        messages.error(
+            request,
+            get_upload_error_message(
+                error,
                 repo_urls=(obj.component.repo, obj.component.push),
                 extra_paths=(obj.component.full_path,),
             ),
@@ -277,9 +288,8 @@ def upload(request: AuthenticatedHttpRequest, path):
     except Exception as error:
         messages.error(
             request,
-            gettext("File upload has failed: %s")
-            % sanitize_backend_error_message(
-                str(error),
+            get_upload_error_message(
+                error,
                 repo_urls=(obj.component.repo, obj.component.push),
                 extra_paths=(obj.component.full_path,),
             ),

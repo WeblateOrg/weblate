@@ -6,9 +6,12 @@ Dependencies
 Software Bill of Material
 -------------------------
 
-Weblate comes with a Software Bill of Material (SBOM) in the source core as
-:file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can be used to review
-the dependencies for security issues or license compliance.
+Weblate publishes a Software Bill of Material (SBOM) using the CycloneDX
+format for released versions. The SBOM is available as a versioned
+``weblate-<version>-sbom.cdx.json`` file in the `GitHub release assets`_ and
+is also attached to the release provenance using GitHub artifact attestations.
+This can be used to review the dependencies for security issues or license
+compliance.
 
 Tracking dependencies for vulnerabilities
 -----------------------------------------
@@ -37,4 +40,5 @@ on our CI as :abbr:`SARIF (Static Analysis Results Interchange Format)`.
    * `Renovate <https://www.mend.io/renovate/>`_
    * `Anchore <https://anchore.com/>`_
 
+.. _GitHub release assets: https://github.com/WeblateOrg/weblate/releases/latest
 .. _Trivy: https://github.com/aquasecurity/trivy

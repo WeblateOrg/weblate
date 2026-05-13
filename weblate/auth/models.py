@@ -8,6 +8,7 @@ import uuid
 from collections import defaultdict
 from contextvars import ContextVar
 from dataclasses import dataclass
+from datetime import timedelta
 from functools import cache as functools_cache
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
@@ -117,7 +118,7 @@ class Role(models.Model):
         return pgettext("Access-control role", self.name)
 
 
-class GroupQuerySet(models.QuerySet["Group"]):
+class GroupQuerySet(models.QuerySet["Group", "Group"]):
     def order(self):
         """Ordering in project scope by priority."""
         return self.order_by("defining_project__name", "name")
@@ -288,7 +289,7 @@ class UserManager(BaseUserManager["User"]):
             return user
 
 
-class UserQuerySet(models.QuerySet["User"]):
+class UserQuerySet(models.QuerySet["User", "User"]):
     def having_perm(self, perm: str, project: Project) -> Self:
         """
         All users having explicit permission on a project.
@@ -757,7 +758,11 @@ class User(AbstractBaseUser):
     def needs_project_filter(self):
         if self.is_superuser:
             return False
-        return self.allowed_projects.count() != Project.objects.all().count()
+        if -SELECTION_ALL in self.project_permissions:
+            return False
+        return Project.objects.exclude(
+            pk__in=self.allowed_projects.values("pk").order_by()
+        ).exists()
 
     @cached_property
     def watched_projects(self):
@@ -1165,7 +1170,7 @@ def sync_create_groups(sender, **kwargs) -> None:
 
 def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
-    if user.username == settings.ANONYMOUS_USER_NAME:
+    if user.is_anonymous:
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.prefetch_related("group"):
@@ -1291,6 +1296,18 @@ def setup_project_groups(
         group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
 
 
+class InvitationError(Exception):
+    """Base exception for invitation acceptance failures."""
+
+
+class InvitationExpiredError(InvitationError):
+    """Invitation is too old to accept."""
+
+
+class InvitationUserMismatchError(InvitationError):
+    """Invitation can not be accepted by this user."""
+
+
 class Invitation(models.Model):
     """
     User invitation store.
@@ -1354,6 +1371,19 @@ class Invitation(models.Model):
     def get_absolute_url(self) -> str:
         return reverse("invitation", kwargs={"pk": self.uuid})
 
+    def is_expired(self) -> bool:
+        return self.timestamp <= timezone.now() - timedelta(
+            seconds=settings.AUTH_TOKEN_VALID
+        )
+
+    def matches_email(self, email: str) -> bool:
+        return bool(self.email and email and self.email.casefold() == email.casefold())
+
+    def matches_user(self, user: User) -> bool:
+        if self.user_id is not None:
+            return self.user_id == user.pk
+        return self.matches_email(user.email)
+
     def send_email(self) -> None:
         from weblate.accounts.notifications import (  # noqa: PLC0415
             send_notification_email,
@@ -1365,7 +1395,7 @@ class Invitation(models.Model):
         elif self.user is not None:
             email = self.user.email
         else:
-            msg = "Intiviation without an e-mail!"
+            msg = "Invitation without an e-mail!"
             raise ValueError(msg)
 
         send_notification_email(
@@ -1377,12 +1407,16 @@ class Invitation(models.Model):
             user=self.user,
         )
 
-    def accept(self, request: AuthenticatedHttpRequest, user: User) -> None:
+    def accept(self, request: AuthenticatedHttpRequest | None, user: User) -> None:
         from weblate.accounts.models import AuditLog  # noqa: PLC0415
 
-        if self.user and self.user != user:
+        if self.is_expired():
+            msg = "Invitation expired on accept!"
+            raise InvitationExpiredError(msg)
+
+        if not self.matches_user(user):
             msg = "User mismatch on accept!"
-            raise ValueError(msg)
+            raise InvitationUserMismatchError(msg)
 
         if self.is_superuser:
             user.store_audit_state()

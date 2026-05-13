@@ -9,6 +9,28 @@
 
   const $window = $(window);
 
+  // Shared two-step keyboard sequence state.
+  // Only one sequence can be pending at a time — starting a new one cancels
+  // the previous.
+  const _seqState = { name: null, timer: null };
+
+  function _seqStart(name) {
+    clearTimeout(_seqState.timer);
+    _seqState.name = name;
+    _seqState.timer = setTimeout(() => {
+      _seqState.name = null;
+    }, 2000);
+  }
+
+  function _seqMatch(name) {
+    if (_seqState.name === name) {
+      clearTimeout(_seqState.timer);
+      _seqState.name = null;
+      return true;
+    }
+    return false;
+  }
+
   function FullEditor() {
     EditorBase.call(this);
 
@@ -28,7 +50,6 @@
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
-      autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
 
@@ -40,7 +61,6 @@
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
-      autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
@@ -53,7 +73,6 @@
       raw.plural_forms.forEach((pluralForm) => {
         $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
       });
-      autosize.update(this.$translationArea);
       WLT.Utils.markApproved(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
@@ -93,57 +112,72 @@
       });
     });
 
-    Mousetrap.bindGlobal("alt+end", (_e) => {
-      window.location = $("#button-end").attr("href");
+    hotkeys("alt+end", () => {
+      const button = document.getElementById("button-end");
+      if (button?.href) {
+        window.location = button.href;
+      }
       return false;
     });
-    Mousetrap.bindGlobal(["alt+pagedown", "mod+down", "alt+down"], (_e) => {
-      window.location = $("#button-next").attr("href");
+    hotkeys("alt+pagedown,ctrl+down,command+down,alt+down", () => {
+      const button = document.getElementById("button-next");
+      if (button?.href) {
+        window.location = button.href;
+      }
       return false;
     });
-    Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], (_e) => {
-      window.location = $("#button-prev").attr("href");
+    hotkeys("alt+pageup,ctrl+up,command+up,alt+up", () => {
+      const button = document.getElementById("button-prev");
+      if (button?.href) {
+        window.location = button.href;
+      }
       return false;
     });
-    Mousetrap.bindGlobal("alt+home", (_e) => {
-      window.location = $("#button-first").attr("href");
+    hotkeys("alt+home", () => {
+      const button = document.getElementById("button-first");
+      if (button?.href) {
+        window.location = button.href;
+      }
       return false;
     });
-    Mousetrap.bindGlobal("mod+o", (_e) => {
-      $(".source-language-group [data-clone-value]").click();
+    hotkeys("ctrl+o,command+o", () => {
+      document
+        .querySelector(".source-language-group [data-clone-value]")
+        ?.click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+y", (_e) => {
-      $('input[name="fuzzy"]').click();
+    hotkeys("ctrl+y,command+y", () => {
+      document.querySelector('input[name="fuzzy"]')?.click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+shift+enter", (e, combo) => {
-      $('input[name="fuzzy"]').prop("checked", false);
-      return submitForm(e, combo);
+    hotkeys("ctrl+shift+enter,command+shift+enter", (e) => {
+      const fuzzy = document.querySelector('input[name="fuzzy"]');
+      if (fuzzy) fuzzy.checked = false;
+      return submitForm(e);
     });
-    Mousetrap.bindGlobal("alt+enter", (e, combo) =>
-      submitForm(e, combo, 'button[name="suggest"]'),
-    );
-    Mousetrap.bindGlobal("mod+e", () => {
+    hotkeys("alt+enter", (e) => {
+      return submitForm(e, null, 'button[name="suggest"]');
+    });
+    hotkeys("ctrl+e,command+e", () => {
       this.$translationArea.get(0).focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+s", (_e) => {
-      $("#search-dropdown").click();
-      $('textarea[name="q"]').focus();
+    hotkeys("ctrl+s,command+s", () => {
+      document.getElementById("search-dropdown")?.click();
+      document.querySelector('textarea[name="q"]')?.focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+u", (_e) => {
-      $('.nav [data-bs-target="#comments"]').click();
-      $('textarea[name="comment"]').focus();
+    hotkeys("ctrl+u,command+u", () => {
+      document.querySelector('.nav [data-bs-target="#comments"]')?.click();
+      document.querySelector('textarea[name="comment"]')?.focus();
       return false;
     });
-    Mousetrap.bindGlobal("mod+j", (_e) => {
-      $('.nav [data-bs-target="#nearby"]').click();
+    hotkeys("ctrl+j,command+j", () => {
+      document.querySelector('.nav [data-bs-target="#nearby"]')?.click();
       return false;
     });
-    Mousetrap.bindGlobal("mod+m", (_e) => {
-      $('.nav [data-bs-target="#machinery"]').click();
+    hotkeys("ctrl+m,command+m", () => {
+      document.querySelector('.nav [data-bs-target="#machinery"]')?.click();
       return false;
     });
   }
@@ -188,7 +222,7 @@
         const target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
-          autosize.update(target);
+          target.dispatchEvent(new Event("input", { bubbles: true }));
         }
       });
       localStorage.removeItem(restoreKey);
@@ -235,6 +269,7 @@
   FullEditor.prototype.initMachinery = function () {
     this.isMachineryLoaded = true;
     this.machinery = new Machinery();
+    this.initMachineryHotkeys();
 
     $("#js-translate")
       .data("services")
@@ -262,6 +297,32 @@
         },
       });
       return false;
+    });
+  };
+
+  FullEditor.prototype.initMachineryHotkeys = () => {
+    hotkeys("ctrl+m,command+m", () => {
+      _seqStart("machinery");
+      return false;
+    });
+
+    hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
+      if (!_seqMatch("machinery")) {
+        return;
+      }
+
+      const $copyButton = $("#machinery-translations")
+        .children("tr")
+        .filter(function () {
+          return this.dataset.machineryKey === e.key;
+        })
+        .first()
+        .find(".js-copy-machinery");
+
+      if ($copyButton.length > 0) {
+        $copyButton.click();
+        return false;
+      }
     });
   };
 
@@ -334,19 +395,11 @@
     });
     this.machinery.render(data.translations);
 
-    // Cancel out browser's `meta+m` and let Mousetrap handle the rest
-    document.addEventListener("keydown", (e) => {
-      const isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
-      if (isMod && e.key.toLowerCase() === "m") {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
-
     const $translationRows = $("#machinery-translations").children("tr");
+
     $translationRows.each(function (idx) {
       if (idx < 10) {
-        const key = WLT.Utils.getNumericKey(idx);
+        const key = String(WLT.Utils.getNumericKey(idx));
 
         let title;
         if (WLT.Config.IS_MAC) {
@@ -355,14 +408,14 @@
           title = interpolate(gettext("Ctrl+M then %s"), [key]);
         }
         $(this)
+          .attr("data-machinery-key", key)
           .find(".machinery-number")
           .html($("<kbd/>").attr("title", title).text(key));
-        Mousetrap.bindGlobal([`mod+m ${key}`, `mod+m mod+${key}`], () => {
-          $translationRows.eq(idx).find(".js-copy-machinery").click();
-          return false;
-        });
       } else {
-        $(this).find(".machinery-number").html("");
+        $(this)
+          .removeAttr("data-machinery-key")
+          .find(".machinery-number")
+          .html("");
       }
     });
   };
@@ -371,10 +424,10 @@
     /* Clicking links (e.g. comments, suggestions)
      * This is inside things to checks, but not a check-item */
     this.$editor.on("click", '.check [data-bs-toggle="tab"]', function (e) {
-      const href = $(this).attr("href");
+      const target = $(this).attr("data-bs-target");
 
       e.preventDefault();
-      $(`.nav [href="${href}"]`).click();
+      $(`.nav [data-bs-target="${target}"]`).click();
       $window.scrollTop($(".translation-tabs").offset().top);
     });
 
@@ -467,21 +520,14 @@
     });
 
     /* Keyboard shortcuts */
-    // Cancel out browser's `meta+i` and let Mousetrap handle the rest
-    document.addEventListener("keydown", (e) => {
-      const isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
-      if (isMod && e.key.toLowerCase() === "i") {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
+    // Two-step sequence: Ctrl/Cmd+I then a digit key dismisses a check
+    const checkActions = {};
 
     $checks.each(function (idx) {
-      const $this = $(this);
-      const $number = $(this).find(".check-number");
+      const numberEl = this.querySelector(".check-number");
 
       if (idx < 10) {
-        if ($number.length === 0) {
+        if (!numberEl) {
           return;
         }
         const key = WLT.Utils.getNumericKey(idx);
@@ -497,14 +543,28 @@
             [key],
           );
         }
-        $number.html($("<kbd/>").attr("title", title).text(key));
+        const kbd = document.createElement("kbd");
+        kbd.title = title;
+        kbd.textContent = key;
+        numberEl.replaceChildren(kbd);
 
-        Mousetrap.bindGlobal([`mod+i ${key}`, `mod+i mod+${key}`], (_e) => {
-          $this.find(".check-dismiss-single").click();
-          return false;
-        });
+        checkActions[key] = () => {
+          this.querySelector(".check-dismiss-single")?.click();
+        };
       } else {
-        $number.html("");
+        if (numberEl) numberEl.textContent = "";
+      }
+    });
+
+    hotkeys("ctrl+i,command+i", () => {
+      _seqStart("checks");
+      return false;
+    });
+
+    hotkeys("1,2,3,4,5,6,7,8,9,0", (e) => {
+      if (_seqMatch("checks") && checkActions[e.key]) {
+        checkActions[e.key]();
+        return false;
       }
     });
   };
@@ -600,7 +660,7 @@
 
       // Inject data into translation fields (plural-aware)
       $areas.each((i, el) => {
-        const text = $btn.attr("data-text-" + i);
+        const text = $btn.attr(`data-text-${i}`);
 
         // Prevent overwriting with empty/undefined data
         if (text !== undefined && text !== "") {
@@ -609,10 +669,6 @@
       });
 
       $areas.first().focus();
-
-      if (typeof autosize !== "undefined") {
-        autosize.update($areas);
-      }
     });
   };
 
@@ -699,13 +755,17 @@
       if (typeof el.origin !== "undefined") {
         service.append(" (");
         let origin;
-        const _deleteUrl = false;
         if (typeof el.origin_detail !== "undefined") {
           origin = $("<abbr/>").text(el.origin).attr("title", el.origin_detail);
         } else if (typeof el.origin_url !== "undefined") {
-          origin = $("<a/>").text(el.origin).attr("href", el.origin_url);
+          const originUrl = WLT.URLs.getHttpUrl(el.origin_url);
+          if (originUrl === null) {
+            origin = document.createTextNode(String(el.origin));
+          } else {
+            origin = $("<a/>").text(el.origin).attr("href", originUrl);
+          }
         } else {
-          origin = el.origin;
+          origin = document.createTextNode(String(el.origin));
         }
         if (el.delete_url) {
           this.state.weblateTranslationMemory.add(el.text);

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .base import ResponseStatusMachineTranslation
+from .base import MACHINERY_DEFAULT_THRESHOLD, ResponseStatusMachineTranslation
 from .forms import MyMemoryMachineryForm
 
 if TYPE_CHECKING:
@@ -62,7 +62,7 @@ class MyMemoryTranslation(ResponseStatusMachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from MyMemory."""
         args = {

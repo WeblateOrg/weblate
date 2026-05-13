@@ -407,6 +407,9 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         category.save()
         url = reverse("announcement", kwargs={"path": category.get_url_path()})
         self.perform_test(url)
+        announcement = Announcement.objects.get(message=self.data["message"])
+        self.assertEqual(announcement.category, category)
+        self.assertIsNone(announcement.project)
 
     def test_delete_announcement(self) -> None:
         second_component = self.create_link_existing()
@@ -424,6 +427,13 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         project_announcement = Announcement.objects.create(
             message="test project announcement",
             project=self.project,
+        )
+        category = Category.objects.create(
+            project=self.project, name="Test Category", slug="test-category"
+        )
+        category_announcement = Announcement.objects.create(
+            message="test category announcement",
+            category=category,
         )
 
         group = Group.objects.create(
@@ -458,6 +468,14 @@ class AnnouncementPermissionTestCase(ViewTestCase):
             Announcement.objects.filter(pk=project_announcement.pk).count(), 1
         )
 
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": category_announcement.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(
+            Announcement.objects.filter(pk=category_announcement.pk).count(), 1
+        )
+
         group.project_selection = SELECTION_ALL
         group.components.clear()
         group.save()
@@ -477,6 +495,14 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             Announcement.objects.filter(pk=project_announcement.pk).count(), 0
+        )
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": category_announcement.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            Announcement.objects.filter(pk=category_announcement.pk).count(), 0
         )
         self.assertEqual(Announcement.objects.count(), 0)
 

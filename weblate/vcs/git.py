@@ -42,21 +42,39 @@ from requests.exceptions import HTTPError
 
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_excluded, remove_tree
+from weblate.utils.files import (
+    is_excluded,
+    remove_tree,
+)
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
-from weblate.vcs.base import Repository, RepositoryCommandError, RepositoryError
+from weblate.utils.zip import (
+    ZipSafetyError,
+    ZipSafetyLimits,
+    extract_zip_member,
+    iter_safe_zip_members,
+    validate_zip_members,
+)
+from weblate.vcs.base import (
+    Repository,
+    RepositoryCommandError,
+    RepositoryError,
+)
 from weblate.vcs.gpg import get_gpg_sign_key
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
     from datetime import datetime
+    from zipfile import ZipInfo
 
     from django_stubs_ext import StrOrPromise
     from requests.auth import AuthBase
 
     from weblate.trans.models import Component
+    from weblate.vcs.base import (
+        RawCommitInfo,
+    )
 
 LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
@@ -508,7 +526,7 @@ class GitRepository(Repository):
             return [f"--gpg-sign={sign_key}"]
         return []
 
-    def _get_revision_info(self, revision):
+    def _get_revision_info(self, revision: str) -> RawCommitInfo:
         """Return dictionary with detailed revision info."""
         text = self.execute(
             ["log", "-1", "--format=fuller", "--date=rfc", "--abbrev-commit", revision],
@@ -544,7 +562,7 @@ class GitRepository(Repository):
         result["message"] = "\n".join(message)
         result["summary"] = message[0] if message else ""
 
-        return result
+        return cast("RawCommitInfo", result)
 
     def log_revisions(self, refspec):
         """Return revision log for given refspec."""
@@ -859,6 +877,7 @@ class GitWithGerritRepository(GitRepository):
         "This will push changes to Gerrit for a review."
     )
     pushes_to_different_location: ClassVar[bool] = True
+    BRANCH_OPTION_DELIMITERS: ClassVar[frozenset[str]] = frozenset({"%", ","})
 
     _version: ClassVar[str | None] = None
 
@@ -866,6 +885,20 @@ class GitWithGerritRepository(GitRepository):
     def _get_version(cls):
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
+
+    @classmethod
+    def validate_branch_name(cls, branch: str) -> str:
+        branch = super().validate_branch_name(branch)
+        if cls.BRANCH_OPTION_DELIMITERS.intersection(branch):
+            raise RepositoryError(
+                0,
+                gettext(
+                    "Gerrit branch names cannot contain %(chars)s because Gerrit "
+                    "interprets them as review push options."
+                )
+                % {"chars": "'%' or ','"},
+            )
+        return branch
 
     def get_username_from_url(self, url) -> str:
         if url is not None:
@@ -878,11 +911,26 @@ class GitWithGerritRepository(GitRepository):
             return ""
         return ""
 
+    def get_gerrit_fetch_refspec(self, branch: str) -> str:
+        branch = self.validate_branch_name(branch)
+        return dumps(
+            f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}",
+            ensure_ascii=False,
+        )
+
+    def configure_gerrit_target_branch(self, branch: str) -> None:
+        self.config_update(
+            ('remote "gerrit"', "fetch", self.get_gerrit_fetch_refspec(branch)),
+            ('remote "gerrit"', "tagOpt", "--no-tags"),
+        )
+
     def push(self, branch) -> None:
-        if self.needs_push():
+        target_branch = self.validate_branch_name(branch or self.branch)
+        if self.needs_push(branch):
+            self.configure_gerrit_target_branch(target_branch)
             try:
                 self.execute(
-                    ["review", "--yes", self.validate_branch_name(self.branch)],
+                    ["review", "--remote", "gerrit", "--yes", target_branch],
                     remote_op="push",
                 )
             except RepositoryError as error:
@@ -897,9 +945,15 @@ class GitWithGerritRepository(GitRepository):
             gerrit_user = self.get_username_from_url(push_url)
             return (
                 ('remote "gerrit"', "url", push_url),
+                ('remote "gerrit"', "fetch", self.get_gerrit_fetch_refspec(branch)),
+                ('remote "gerrit"', "tagOpt", "--no-tags"),
                 ("gitreview", "username", gerrit_user),
             )
-        return (('remote "gerrit"', "url", None),)
+        return (
+            ('remote "gerrit"', "url", None),
+            ('remote "gerrit"', "fetch", None),
+            ('remote "gerrit"', "tagOpt", None),
+        )
 
 
 class SubversionRepository(GitRepository):
@@ -1342,7 +1396,28 @@ class GitMergeRequestBase(GitForcePushRepository):
         self.config_update(
             # Push url
             (f'remote "{remote_name}"', "pushurl", push_url),
+            (
+                f'remote "{remote_name}"',
+                "weblate-url",
+                self.get_fork_remote_marker(credentials),
+            ),
         )
+
+    def get_fork_remote_marker(self, credentials: GitCredentials) -> str:
+        """Return marker identifying a Weblate-managed fork remote."""
+        return f"{self.identifier}:{credentials['url']}:{credentials['push_scheme']}"
+
+    def has_current_fork_remote(self, credentials: GitCredentials) -> bool:
+        """Check whether the configured fork remote matches current settings."""
+        remote_name = credentials["username"]
+        remotes = self.execute(["remote"], remote_op="none").splitlines()
+        if remote_name not in remotes:
+            return False
+        try:
+            marker = self.get_config(f"remote.{remote_name}.weblate-url")
+        except RepositoryError:
+            return False
+        return marker == self.get_fork_remote_marker(credentials)
 
     def should_use_fork(self, branch: str | None = None) -> bool:
         return not branch or branch == self.branch
@@ -1360,8 +1435,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def fork(self, credentials: GitCredentials) -> None:
         """Create fork of original repository if one doesn't exist yet."""
-        remotes = self.execute(["remote"], remote_op="none").splitlines()
-        if credentials["username"] not in remotes:
+        if not self.has_current_fork_remote(credentials):
             self.create_fork(credentials)
 
     def push(self, branch: str) -> None:
@@ -1649,8 +1723,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             raise RepositoryError(0, "Invalid token")
 
     def fork(self, credentials: GitCredentials) -> None:
-        remotes = self.execute(["remote"], remote_op="none").splitlines()
-        if credentials["username"] not in remotes:
+        if not self.has_current_fork_remote(credentials):
             self.create_fork(credentials)
             return
 
@@ -2108,6 +2181,9 @@ class LocalRepository(GitRepository):
     identifier = "local"
     default_branch = "main"
     supports_push = False
+    ZIP_IMPORT_LIMITS: ClassVar[ZipSafetyLimits] = ZipSafetyLimits(
+        max_total_uncompressed_size=250 * 1024 * 1024,
+    )
 
     def configure_remote(
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
@@ -2195,13 +2271,26 @@ class LocalRepository(GitRepository):
     @classmethod
     def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:
         # Extract zip file content, ignoring some files
-        with (
-            cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo,
-            ZipFile(zipfile) as zipobj,
-        ):
-            names = [name for name in zipobj.namelist() if not is_excluded(name)]
-            zipobj.extractall(path=target, members=names)
-            return repo
+        with ZipFile(zipfile) as zipobj:
+
+            def skip_member(info: ZipInfo) -> bool:
+                return is_excluded(info.filename)
+
+            try:
+                validate_zip_members(
+                    zipobj,
+                    limits=cls.ZIP_IMPORT_LIMITS,
+                    skip_member=skip_member,
+                )
+            except ZipSafetyError as error:
+                raise RepositoryError(1, str(error)) from error
+
+            with cls.build_local_repo(target, "ZIP file uploaded into Weblate") as repo:
+                for info, destination in iter_safe_zip_members(
+                    zipobj, target, skip_member=skip_member
+                ):
+                    extract_zip_member(zipobj, info, destination)
+                return repo
 
     @classmethod
     def from_files(cls, target: str, files: dict[str, bytes]) -> Self:

@@ -2,7 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.auth.models import Group
+from django.conf import settings
+
+from weblate.auth.models import Group, User
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
@@ -31,6 +33,10 @@ class TeamsTest(FixtureTestCase):
         self.make_superuser()
         response = self.client.get(group.get_absolute_url())
         self.assertContains(response, "id_autogroup_set-TOTAL_FORMS")
+        self.assertContains(
+            response,
+            "This is checked for every new user on the site, regardless of which project they use.",
+        )
 
         response = self.client.post(group.get_absolute_url(), edit_payload)
         self.assertRedirects(response, group.get_absolute_url())
@@ -115,6 +121,51 @@ class TeamsTest(FixtureTestCase):
         )
         self.assertEqual(group.user_set.count(), 2)
         self.assertEqual(group.admins.count(), 1)
+
+    def test_add_special_users_denied(self) -> None:
+        group = Group.objects.create(name="Test group", defining_project=self.project)
+        self.user.groups.add(group)
+        group.admins.add(self.user)
+        inactive = User.objects.create_user(
+            "inactive-user", "inactive-user@example.org", "testpassword"
+        )
+        inactive.is_active = False
+        inactive.save()
+        bot = User.objects.create(
+            username="bot-user",
+            full_name="Bot user",
+            email="bot-user@example.org",
+            is_bot=True,
+        )
+        users = [
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME),
+            inactive,
+            bot,
+        ]
+
+        for user in users:
+            for payload in (
+                {"add_user": "1", "user": user.username},
+                {"add_user": "1", "user": user.username, "make_admin": "1"},
+            ):
+                self.client.post(group.get_absolute_url(), payload)
+                self.assertFalse(group.user_set.filter(pk=user.pk).exists())
+                self.assertFalse(group.admins.filter(pk=user.pk).exists())
+
+    def test_anonymous_team_admin_denied(self) -> None:
+        group = Group.objects.create(name="Test group", defining_project=self.project)
+        anonymous = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
+        anonymous.groups.add(group)
+        group.admins.add(anonymous)
+        self.client.logout()
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {"add_user": "1", "user": self.anotheruser.username},
+        )
+
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(group.user_set.filter(pk=self.anotheruser.pk).exists())
 
     def test_admin_access(self) -> None:
         group = Group.objects.create(name="Test group", defining_project=self.project)

@@ -36,10 +36,6 @@ jobs:
         experimental:
         - false
         include:
-        # Reduced testing for minimal deps
-        - python-version: '3.12'
-          requirements: minimal
-          experimental: false
         # Reduced testing for edge deps
         - python-version: '3.14'
           requirements: edge
@@ -69,7 +65,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.0.3-alpine@sha256:e1095c6c76ee982cb2d1e07edbb7fb2a53606630a1d810d5a47c9f646b708bf5
+        image: valkey/valkey:9.0.4-alpine@sha256:d1cc70645bbcef743615463a2fa4616e841407545e18f560aed0c49671a90147
         ports:
         - 6379:6379
         options: >-
@@ -95,7 +91,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.11.7
+        version: 0.11.12
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies

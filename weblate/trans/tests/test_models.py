@@ -996,7 +996,8 @@ class UnitTest(ModelTestCase):
         self.assertEqual(unit.target, "new\nstring\n")
         # New object to clear all_flags cache
         unit = Unit.objects.get(pk=unit.pk)
-        unit.flags = "dos-eol"
+        unit.translation.component.file_format_params["dos_eol"] = True
+        unit.translation.component.save()
         unit.translate(user, "new\nstring", STATE_TRANSLATED)
         self.assertEqual(unit.target, "new\r\nstring\r\n")
         unit.translate(user, "other\r\nstring", STATE_TRANSLATED)
@@ -1164,6 +1165,53 @@ class AnnouncementTest(ModelTestCase):
             Announcement.objects.context_filter(project=self.component.project),
             1,
             "test project",
+        )
+
+    def test_contextfilter_category(self) -> None:
+        category = self.create_category(self.component.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        other_component = self.create_po(project=self.component.project, name="Other")
+        Announcement.objects.create(
+            category=category,
+            message="test category",
+        )
+
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    project=self.component.project
+                )
+            ],
+            ["test project"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    category=category
+                )
+            ],
+            ["test project", "test category"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component
+                )
+            ],
+            ["test project", "test component", "test category"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=other_component
+                )
+            ],
+            ["test project"],
         )
 
     def test_contextfilter_component(self) -> None:

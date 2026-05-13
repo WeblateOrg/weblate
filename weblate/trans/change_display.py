@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
+from django.core.exceptions import FieldDoesNotExist
+from django.db import models
 from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy, npgettext, pgettext
@@ -28,6 +30,7 @@ from weblate.utils.pii import mask_email
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.trans.models.audit import AuditValue
     from weblate.trans.models.change import Change, Translation
 
 AUTO_ACTIONS = {
@@ -220,6 +223,56 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
             if number == details["access_control"]:
                 return name
         return f"Unknown {details['access_control']}"
+
+
+@register_details_display_strategy
+class RenderSettingChange(BaseDetailsRenderStrategy):
+    """Strategy for displaying details of project and component setting changes."""
+
+    details_required = True
+    actions: ClassVar[set[ActionEvents]] = {
+        ActionEvents.PROJECT_SETTING_CHANGE,
+        ActionEvents.COMPONENT_SETTING_CHANGE,
+    }
+
+    def render_details(self, change: Change) -> StrOrPromise:
+        obj = (
+            change.project
+            if change.action == ActionEvents.PROJECT_SETTING_CHANGE
+            else change.component
+        )
+        details = change.details
+        if obj is None or "field" not in details:
+            return change.get_action_display()
+
+        try:
+            field = cast(
+                "models.Field",
+                obj._meta.get_field(details["field"]),  # noqa: SLF001
+            )
+        except FieldDoesNotExist:
+            return change.get_action_display()
+
+        return gettext('%(setting)s changed from "%(old)s" to "%(target)s".') % {
+            "setting": field.verbose_name,
+            "old": self.format_setting_value(field, details.get("old")),
+            "target": self.format_setting_value(field, details.get("target")),
+        }
+
+    def format_setting_value(
+        self, field: models.Field, value: AuditValue
+    ) -> StrOrPromise:
+        if value in (None, "", []):
+            return pgettext("Setting value", "Not set")
+        if isinstance(field, models.BooleanField):
+            return gettext("enabled") if value else gettext("disabled")
+        if field.choices:
+            for choice_value, choice_label in field.flatchoices:
+                if choice_value == value:
+                    return choice_label
+        if isinstance(value, list):
+            return ", ".join(str(item) for item in value)
+        return str(value)
 
 
 @register_details_display_strategy

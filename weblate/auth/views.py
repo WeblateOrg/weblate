@@ -20,6 +20,8 @@ from weblate.auth.models import (
     AutoGroup,
     Group,
     Invitation,
+    InvitationExpiredError,
+    InvitationUserMismatchError,
 )
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next, redirect_param
@@ -69,6 +71,9 @@ class TeamUpdateView(UpdateView):
     def get_object(self, queryset=None):
         result = super().get_object(queryset=queryset)
         user = self.request.user
+
+        if user.is_anonymous:
+            raise PermissionDenied
 
         if (
             not user.has_perm("meta:team.edit", result)
@@ -165,12 +170,19 @@ class InvitationView(DetailView):
     def validate_invitation(
         self, request: AuthenticatedHttpRequest
     ) -> HttpResponse | None:
+        if self.object.is_expired():
+            messages.error(request, gettext("This invitation has expired."))
+            if request.user.is_authenticated:
+                return redirect_param("profile", "#account")
+            return redirect("register")
+
         if request.user.is_authenticated and self.object.user != request.user:
             # Invitation not for this user (either is for email and user is None or different user)
             messages.error(
                 request,
                 gettext(
-                    "This invitation can be accepted only by the e-mail address chosen by the inviter; it can't be used by your account."
+                    "This invitation can be accepted only by the e-mail address "
+                    "chosen by the inviter; it can't be used by your account."
                 ),
             )
             return redirect_param("profile", "#account")
@@ -230,7 +242,13 @@ class InvitationView(DetailView):
             return validation_result
 
         # Accept invitation
-        invitation.accept(request, user)
+        try:
+            invitation.accept(request, user)
+        except InvitationExpiredError:
+            messages.error(request, gettext("This invitation has expired."))
+            return redirect_param("profile", "#account")
+        except InvitationUserMismatchError as error:
+            raise Http404 from error
 
         if invitation.group.defining_project:
             return redirect(invitation.group.defining_project)
@@ -238,15 +256,21 @@ class InvitationView(DetailView):
 
 
 def accept_invitation(
-    request: AuthenticatedHttpRequest, invitation: Invitation, user: User | None
+    request: AuthenticatedHttpRequest | None, invitation: Invitation, user: User | None
 ) -> None:
     if user is None:
         user = invitation.user
     if user is None:
         raise Http404
 
-    # Add user to invited group
-    user.add_team(request, invitation.group)
+    try:
+        invitation.accept(request, user)
+    except InvitationExpiredError as error:
+        messages.error(request, gettext("This invitation has expired."))
+        raise Http404 from error
+    except InvitationUserMismatchError as error:
+        raise Http404 from error
+
     # Let him watch the project
     if invitation.group.defining_project:
         user.profile.watched.add(invitation.group.defining_project)
@@ -254,4 +278,3 @@ def accept_invitation(
     messages.success(
         request, gettext("Accepted invitation to the %s team.") % invitation.group
     )
-    invitation.delete()

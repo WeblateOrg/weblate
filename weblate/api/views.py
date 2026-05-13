@@ -16,8 +16,13 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.postgres.search import TrigramSimilarity
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
-from django.db import IntegrityError, transaction
+from django.core.exceptions import (
+    PermissionDenied,
+)
+from django.core.exceptions import (
+    ValidationError as DjangoValidationError,
+)
+from django.db import DatabaseError, IntegrityError, transaction
 from django.db.models import Q
 from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
@@ -81,6 +86,7 @@ from weblate.api.serializers import (
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
+    MemoryLookupQuerySerializer,
     MemoryLookupRequestSerializer,
     MemoryLookupResultSerializer,
     MemorySerializer,
@@ -115,8 +121,10 @@ from weblate.api.serializers import (
 )
 from weblate.auth.models import Group, Role, User
 from weblate.auth.results import PermissionResult
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory
 from weblate.screenshots.models import Screenshot
@@ -143,7 +151,7 @@ from weblate.trans.models import (
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.tasks import category_removal, component_removal, project_removal
-from weblate.trans.util import sanitize_backend_error_message
+from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
 from weblate.utils.celery import get_task_metadata, get_task_progress
@@ -180,6 +188,17 @@ COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentLinkResponseSerializer",
     fields={"data": ComponentSerializer()},
 )
+
+
+def validate_api_team_assignable_user(
+    user: User, field_name: str, *, allow_bot: bool = False
+) -> None:
+    try:
+        validate_team_assignable_user(user, allow_bot=allow_bot)
+    except DjangoValidationError as error:
+        raise ValidationError({field_name: error.messages}) from error
+
+
 COMPONENT_TRANSLATION_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentTranslationResponseSerializer",
     fields={"data": ComponentTranslationSerializer()},
@@ -709,6 +728,7 @@ class UserViewSet(viewsets.ModelViewSet):
             raise not_found_validation_error(field_name, "Group") from error
 
         if request.method == "POST":
+            validate_api_team_assignable_user(obj, "username", allow_bot=True)
             obj.add_team(request, group)
         if request.method == "DELETE":
             if obj.is_bot and not obj.groups.exclude(pk=group.pk).exists():
@@ -1162,6 +1182,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist as error:
             msg = "User not found"
             raise ValidationError({"user_id": msg}) from error
+        validate_api_team_assignable_user(user, "user_id")
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
         return Response({"Administration rights granted."}, status=HTTP_200_OK)
@@ -1276,7 +1297,6 @@ class AnnouncementsMixin:
         if isinstance(obj, Project):
             project = obj
         if isinstance(obj, Category):
-            project = obj.project
             category = obj
         if isinstance(obj, Component):
             project = obj.project
@@ -1290,6 +1310,12 @@ class AnnouncementsMixin:
 
     def get_announcements(self, obj):
         project, category, component, language = self.get_context(obj)
+        if category is not None:
+            return Announcement.objects.filter(
+                category=category,
+                component=component,
+                language=language,
+            )
 
         return Announcement.objects.filter(
             project=project,
@@ -1367,7 +1393,7 @@ class AnnouncementsMixin:
             msg = f"Announcement with ID {announcement_id} was not found"
             raise Http404(msg) from error
 
-        if not request.user.has_perm("announcement.delete", obj):
+        if not request.user.has_perm("announcement.delete", announcement):
             self.permission_denied(request, "Can not delete announcement")
 
         announcement.delete()
@@ -1994,6 +2020,9 @@ class ComponentViewSet(
     def monolingual_base(self, request: Request, **kwargs):
         obj = self.get_object()
 
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
+
         if not obj.has_template():
             msg = "No template found!"
             raise Http404(msg)
@@ -2012,6 +2041,9 @@ class ComponentViewSet(
     @action(detail=True, methods=["get"])
     def new_template(self, request: Request, **kwargs):
         obj = self.get_object()
+
+        if not request.user.has_perm("translation.download", obj):
+            raise PermissionDenied
 
         if not obj.new_base:
             msg = "No file found!"
@@ -2394,7 +2426,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         source_language: Language,
         target_language: Language,
         text: str,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         base = queryset.filter(
             source_language=source_language,
@@ -2472,6 +2504,12 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
                 location=OpenApiParameter.QUERY,
                 description="Project slug filter.",
             ),
+            OpenApiParameter(
+                name="exact",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description="Return exact matches only and skip fuzzy matching.",
+            ),
         ],
         methods=["post"],
     )
@@ -2485,6 +2523,8 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     )
     def lookup(self, request: Request, **kwargs):
         source_language, target_language = self.get_lookup_languages()
+        query_serializer = MemoryLookupQuerySerializer(data=request.query_params)
+        query_serializer.is_valid(raise_exception=True)
         serializer = MemoryLookupRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -2493,12 +2533,13 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             target_language=target_language,
         )
         queries = serializer.validated_data["strings"]
+        exact_only = query_serializer.validated_data["exact"]
         exact_matches = self.get_exact_matches(queryset, queries)
 
         results = []
         for query in queries:
             match = exact_matches.get(query)
-            if match is None:
+            if match is None and not exact_only:
                 match = self.get_fuzzy_match(
                     queryset, source_language, target_language, query
                 )
@@ -2656,8 +2697,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         except FileParseError as error:
             raise ValidationError(
                 {
-                    "file": sanitize_backend_error_message(
-                        str(error),
+                    "file": get_upload_error_message(
+                        error,
                         repo_urls=(obj.component.repo, obj.component.push),
                         extra_paths=(obj.component.full_path,),
                     )
@@ -2667,8 +2708,19 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             report_error("Upload error", project=obj.component.project)
             raise ValidationError(
                 {
-                    "file": sanitize_backend_error_message(
-                        str(error),
+                    "file": get_upload_error_message(
+                        error,
+                        repo_urls=(obj.component.repo, obj.component.push),
+                        extra_paths=(obj.component.full_path,),
+                    )
+                }
+            ) from error
+        except DatabaseError as error:
+            report_error("Upload error", print_tb=True, project=obj.component.project)
+            raise ValidationError(
+                {
+                    "file": get_upload_error_message(
+                        error,
                         repo_urls=(obj.component.repo, obj.component.push),
                         extra_paths=(obj.component.full_path,),
                     )
@@ -2678,9 +2730,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             report_error("Upload error", print_tb=True, project=obj.component.project)
             raise ValidationError(
                 {
-                    "file": gettext("File upload has failed: %s")
-                    % sanitize_backend_error_message(
-                        str(error),
+                    "file": get_upload_error_message(
+                        error,
                         repo_urls=(obj.component.repo, obj.component.push),
                         extra_paths=(obj.component.full_path,),
                     )
@@ -2758,22 +2809,30 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             serializer_class = BilingualUnitSerializer
 
         if request.method == "POST":
-            with transaction.atomic():
-                if not (can_add := request.user.has_perm("unit.add", obj)):
-                    self.permission_denied(request, can_add.reason)
-                serializer = serializer_class(
-                    data=request.data, context={"translation": obj}
+            if not (can_add := request.user.has_perm("unit.add", obj)):
+                self.permission_denied(
+                    request,
+                    (
+                        can_add.reason
+                        if isinstance(can_add, PermissionResult)
+                        else "Can not add unit"
+                    ),
                 )
-                serializer.is_valid(raise_exception=True)
+            input_serializer = serializer_class(
+                data=request.data, context={"translation": obj}
+            )
+            input_serializer.is_valid(raise_exception=True)
 
-                try:
-                    unit = obj.add_unit(request, **serializer.as_kwargs())
-                except IntegrityError as error:
-                    raise ValidationError(
-                        gettext("This string seems to already exist.")
-                    ) from error
-                outserializer = UnitSerializer(unit, context={"request": request})
-                return Response(outserializer.data, status=HTTP_200_OK)
+            try:
+                unit = obj.add_unit(request, **input_serializer.as_kwargs())
+            except DjangoValidationError as error:
+                raise ValidationError(error.messages) from error
+            except IntegrityError as error:
+                raise ValidationError(
+                    gettext("This string seems to already exist.")
+                ) from error
+            output_serializer = UnitSerializer(unit, context={"request": request})
+            return Response(output_serializer.data, status=HTTP_200_OK)
 
         query_string = request.GET.get("q", "")
         try:
@@ -3206,13 +3265,14 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new screenshot."""
+        user = cast("User", request.user)
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
                 raise ValidationError({param: "This field is required."})
 
         try:
-            translation = Translation.objects.get(
+            translation = Translation.objects.filter_access(user).get(
                 component__project__slug=request.data["project_slug"],
                 component__slug=request.data["component_slug"],
                 language__code=request.data["language_code"],
@@ -3222,7 +3282,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 dict.fromkeys(required_params, "Translation not found.")
             ) from error
 
-        if not request.user.has_perm("screenshot.add", translation):
+        if not user.has_perm("screenshot.add", translation):
             self.permission_denied(request, "Can not add screenshot.")
 
         with transaction.atomic():
@@ -3230,18 +3290,18 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 data=request.data, context={"request": request}
             )
             serializer.is_valid(raise_exception=True)
-            instance = serializer.save(translation=translation, user=request.user)
+            instance = serializer.save(translation=translation, user=user)
 
             instance.change_set.create(
                 action=ActionEvents.SCREENSHOT_UPLOADED,
-                user=request.user,
+                user=user,
                 target=instance.name,
             )
 
             for unit in instance.units.all():
                 instance.change_set.create(
                     action=ActionEvents.SCREENSHOT_ADDED,
-                    user=request.user,
+                    user=user,
                     target=instance.name,
                     unit=unit,
                 )
@@ -3579,22 +3639,29 @@ class TasksViewSet(ViewSet):
     ) -> tuple[AsyncResult, Component | None]:
         obj: Model
         component: Component
-        task = AsyncResult(str(pk))
+        user = cast("User", request.user)
+        task: AsyncResult = AsyncResult(str(pk))
         metadata = get_task_metadata(str(pk)) or {}
         if translation_id := metadata.get("translation_id"):
-            obj = get_object_or_404(Translation, pk=translation_id)
-            component = obj.component
+            translation = get_object_or_404(
+                Translation.objects.filter_access(user), pk=translation_id
+            )
+            obj = translation
+            component = translation.component
         elif component_id := metadata.get("component_id"):
-            component = obj = get_object_or_404(Component, pk=component_id)
+            component = get_object_or_404(
+                Component.objects.filter_access(user), pk=component_id
+            )
+            obj = component
         else:
             msg = "Invalid task"
             raise Http404(msg)
 
         # Check access or permission
         if permission:
-            if not request.user.has_perm(permission, obj):
+            if not user.has_perm(permission, obj):
                 raise PermissionDenied
-        elif not request.user.can_access_component(component):
+        elif not user.can_access_component(component):
             raise PermissionDenied
 
         return task, component

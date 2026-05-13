@@ -8,6 +8,7 @@ Markdown files
 .. include:: /snippets/format-in-development.rst
 
 The translatable content is extracted from the Markdown files and offered for the translation.
+For Markdown files with JSX syntax, use :ref:`mdx`.
 
 Markdown units automatically get the ``md-text`` and ``auto-safe-html`` flags.
 This keeps the unsafe HTML check active for plain text, standard HTML, and

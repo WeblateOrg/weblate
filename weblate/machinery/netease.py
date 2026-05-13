@@ -9,7 +9,11 @@ import time
 from hashlib import sha1
 from typing import TYPE_CHECKING, ClassVar
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeySecretMachineryForm
 
 if TYPE_CHECKING:
@@ -55,7 +59,7 @@ class NeteaseSightTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(

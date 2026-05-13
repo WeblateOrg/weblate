@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, ClassVar
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     MachineryRateLimitError,
     MachineTranslation,
     MachineTranslationError,
@@ -103,7 +104,7 @@ class BaiduTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(

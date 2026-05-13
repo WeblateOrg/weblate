@@ -118,14 +118,19 @@ get_detected_discovery_preset_values_key = cast(
 
 def get_discovery_result_key(
     result: DiscoveryResult,
-) -> tuple[str, str, str, str, str]:
+) -> tuple[str, str, str, str, str, str]:
     return (
         str(result.get("file_format", "")),
         str(result.get("filemask", "")),
         str(result.get("template", "")),
         str(result.get("new_base", "")),
         str(result.get("intermediate", "")),
+        get_discovery_language_regex(result),
     )
+
+
+def get_discovery_language_regex(result: DiscoveryResult) -> str:
+    return str(result.get("language_regex") or "^[^.]+$")
 
 
 def split_discovery_path(value: str) -> list[str]:
@@ -296,6 +301,10 @@ def build_detected_discovery_preset(
     if first.get("file_format") != second.get("file_format"):
         return None
 
+    language_regex = get_discovery_language_regex(first)
+    if language_regex != get_discovery_language_regex(second):
+        return None
+
     filemasks = [str(first.get("filemask", "")), str(second.get("filemask", ""))]
     if any(not filemask or filemask.count("*") != 1 for filemask in filemasks):
         return None
@@ -370,7 +379,7 @@ def build_detected_discovery_preset(
         "match": match,
         "file_format": str(first["file_format"]),
         "name_template": DISCOVERY_PRESET_COMPONENT_TEMPLATE,
-        "language_regex": "^[^.]+$",
+        "language_regex": language_regex,
         "base_file_template": base_file_template,
         "new_base_template": new_base_template,
         "intermediate_template": intermediate_template,
@@ -385,7 +394,7 @@ def build_detected_discovery_preset(
 def get_detected_discovery_presets_from_results(
     discovered: list[DiscoveryResult],
 ) -> list[DetectedDiscoveryPreset]:
-    unique_results: dict[tuple[str, str, str, str, str], DiscoveryResult] = {}
+    unique_results: dict[tuple[str, str, str, str, str, str], DiscoveryResult] = {}
     for result in discovered:
         key = get_discovery_result_key(result)
         if key[0] and key[1]:
@@ -662,6 +671,28 @@ class ComponentDiscovery:
         else:
             LOGGER.info(*args)
 
+    def clean_inherited_file_format_options(
+        self, kwargs: dict[str, object], name: str
+    ) -> None:
+        """Drop inherited component options unsupported by the discovered format."""
+        if kwargs.get("edit_template", True) and not self.file_format_cls.can_edit_base:
+            self.log(
+                "Disabling template editing for %s because it is not supported",
+                name,
+            )
+            kwargs["edit_template"] = False
+
+        if (
+            kwargs.get("manage_units")
+            and not self.file_format_cls.can_add_unit
+            and not self.file_format_cls.can_delete_unit
+        ):
+            kwargs["manage_units"] = False
+            self.log(
+                "Disabling managing strings for %s because it is not supported",
+                name,
+            )
+
     def create_component(
         self,
         main: Component | None,
@@ -693,9 +724,7 @@ class ComponentDiscovery:
             kwargs.pop("enforced_checks", None)
             kwargs.pop("file_format_params", None)
 
-        # Disable template editing if not supported by format
-        if not self.file_format_cls.can_edit_base:
-            kwargs["edit_template"] = False
+        self.clean_inherited_file_format_options(kwargs, name)
 
         # Fill in repository
         if "repo" not in kwargs:

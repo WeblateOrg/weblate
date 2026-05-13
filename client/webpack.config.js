@@ -44,14 +44,14 @@ function mainLicenseTransform(packages) {
     "@sentry",
     "tributejs",
     "@tarekraafat/autocomplete.js",
-    "autosize",
-    "multi.js",
-    "mousetrap",
+    "tom-select",
+    "hotkeys-js",
     "prismjs",
     "@altcha",
     "altcha",
     "source-",
     "bootstrap",
+    "@orchidjs",
   ];
   return genericTransform(
     packages,
@@ -67,45 +67,19 @@ function tributeLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
 }
 
-function autosizeLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
-}
-
-function multiJsLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("multi.js"));
-}
-
 function prismJsLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("prismjs"));
-}
-
-function altchaLicenseTransform(packages) {
-  return genericTransform(
-    packages,
-    (pkg) => pkg.name.startsWith("altcha") || pkg.name.startsWith("@altcha"),
-  );
 }
 
 function bootstrapLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
 
-// REUSE-IgnoreStart
-function mousetrapLicenseTransform(packages) {
-  const pkg = packages.find((pkg) => pkg.name.startsWith("mousetrap"));
-  if (pkg) {
-    const author =
-      typeof pkg.author === "string"
-        ? pkg.author
-        : pkg.author?.email
-          ? `${pkg.author.name} <${pkg.author.email}>`
-          : pkg.author?.name
-            ? pkg.author.name
-            : "";
-    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
-  }
-  return "";
+function hotkeysLicenseTransform(packages) {
+  return genericTransform(packages, (pkg) => pkg.name.startsWith("hotkeys-js"));
 }
+
+// REUSE-IgnoreStart
 function autoCompleteLicenseTransform(packages) {
   const pkg = packages.find((pkgsItem) =>
     pkgsItem.name.startsWith("@tarekraafat/autocomplete.js"),
@@ -123,6 +97,37 @@ function autoCompleteLicenseTransform(packages) {
   }
   return "";
 }
+function tomSelectLicenseTransform(packages) {
+  const pkg = packages.find((pkgsItem) =>
+    pkgsItem.name.startsWith("tom-select"),
+  );
+  if (pkg) {
+    const author =
+      typeof pkg.author === "string"
+        ? pkg.author
+        : pkg.author?.email
+          ? `${pkg.author.name} <${pkg.author.email}>`
+          : pkg.author?.name
+            ? pkg.author.name
+            : "";
+    return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
+  }
+  return "";
+}
+function altchaLicenseTransform() {
+  const pkg = require(
+    path.join(__dirname, "node_modules", "altcha", "package.json"),
+  );
+  const author =
+    typeof pkg.author === "string"
+      ? pkg.author
+      : pkg.author?.email
+        ? `${pkg.author.name} <${pkg.author.email}>`
+        : pkg.author?.name
+          ? pkg.author.name
+          : "";
+  return `SPDX-FileCopyrightText: ${author}\n\nSPDX-License-Identifier: ${pkg.license}`;
+}
 // REUSE-IgnoreEnd
 
 // Webpack configuration
@@ -132,9 +137,8 @@ module.exports = {
     sentry: "./src/sentry.js",
     tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
-    autosize: "./src/autosize.js",
-    multi: "./src/multi.js",
-    mousetrap: "./src/mousetrap.js",
+    "tom-select": "./src/tom-select.js",
+    hotkeys: "./src/hotkeys.js",
     prismjs: "./src/prismjs.js",
     altcha: "./src/altcha.js",
     bootstrap5: "./src/bootstrap5.js",
@@ -160,6 +164,10 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        resourceQuery: /source/,
+        type: "asset/source",
+      },
     ],
   },
   plugins: [
@@ -169,10 +177,9 @@ module.exports = {
         "sentry.js.license": sentryLicenseTransform,
         "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
-        "autosize.js.license": autosizeLicenseTransform,
-        "multi.js.license": multiJsLicenseTransform,
-        "../../styles/vendor/multi.css.license": multiJsLicenseTransform,
-        "mousetrap.js.license": mousetrapLicenseTransform,
+        "tom-select.js.license": tomSelectLicenseTransform,
+        "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,
+        "hotkeys.js.license": hotkeysLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,

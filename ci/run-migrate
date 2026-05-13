@@ -43,9 +43,8 @@ check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
 # Install matching Weblate package
-# - Need to keep "ci" as Weblate 5.8 and older have the dependency separately
 # - Force PyGobject 3.52 to be compatible with girepository-2.0
-uv pip install --override "$MIGRATE_DIR/migrate-override.txt" -e ".[all,ci]"
+uv pip install --override "$MIGRATE_DIR/migrate-override.txt" -e ".[all]"
 check
 if [ -n "$CI_DB_HOST" ]; then
     echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
@@ -72,6 +71,10 @@ check
 
 # Setup migration testing
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-base.py"
+check
+
+# Add stale comment removal add-on for cleanup settings migration test
+./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-cleanup-settings.py"
 check
 
 # Add component links for through-model migration test
@@ -113,14 +116,39 @@ if [ "$billing_users_migrate" -eq 0 ]; then
     check
 fi
 
+# Add dos-eol flag to project, component, translation and unit
+semver_compare "5.11" "<=" "$1" && semver_compare "$1" "<" "5.17.1"
+dos_eol_migrate=$?
+if [ "$dos_eol_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-dos-eol-param.py"
+    check
+fi
+
+# Migrate gettext file format header settings
+semver_compare "$1" "<" "5.17"
+gettext_header_settings_migrate=$?
+if [ "$gettext_header_settings_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-gettext-header-settings.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
+check
+cp weblate/settings_test.py "$MIGRATE_DIR/settings_test.py"
+check
+cat >> weblate/settings_test.py << 'EOF'
+COMMENT_CLEANUP_DAYS = 15
+SUGGESTION_CLEANUP_DAYS = 20
+EOF
 check
 # Use CI environment
 deactivate
 check
 run_coverage ./manage.py migrate
+check
+cp "$MIGRATE_DIR/settings_test.py" weblate/settings_test.py
 check
 # Check migrated vote exists
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-vote.py"
@@ -128,6 +156,10 @@ check
 
 # Check component links survived through-model migration
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-links.py"
+check
+
+# Check cleanup settings were migrated to site-wide add-ons
+uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cleanup-settings.py"
 check
 
 # Check migrated pending unit
@@ -149,4 +181,16 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+fi
+
+if [ "$dos_eol_migrate" -eq 0 ]; then
+    # check that the dos-eol flag has been migrated to the file format params
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-dos-eol-param.py"
+    check
+fi
+
+if [ "$gettext_header_settings_migrate" -eq 0 ]; then
+    # check that the gettext file format header settings have been migrated
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-gettext-header-settings.py"
+    check
 fi

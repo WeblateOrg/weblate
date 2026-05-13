@@ -166,7 +166,9 @@ function submitForm(evt, _combo, selector) {
   }
   return false;
 }
-Mousetrap.bindGlobal("mod+enter", submitForm);
+hotkeys("ctrl+enter,command+enter", (e) => {
+  return submitForm(e);
+});
 
 function screenshotStart() {
   $("#search-results tbody.unit-listing-body").empty();
@@ -409,6 +411,18 @@ function quoteSearch(value) {
   return value;
 }
 
+// Auto-resize a textarea to fit its content.
+// CSS `field-sizing: content` would be cleaner but Firefox doesn't implement it yet
+function autosizeTextarea(el) {
+  const resize = () => {
+    // Reset to 0 so the textarea collapses past any `rows` attribute default
+    el.style.height = "0px";
+    el.style.height = `${el.scrollHeight}px`;
+  };
+  el.addEventListener("input", resize);
+  resize();
+}
+
 function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
@@ -559,7 +573,6 @@ function initHighlight(root) {
     }
     const syncContent = () => {
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
-      autosize.update(editor);
     };
     syncContent();
     editor.addEventListener("input", syncContent);
@@ -582,8 +595,7 @@ function initHighlight(root) {
     });
 
     resizeObserver.observe(editor);
-    /* Autosizing */
-    autosize(editor);
+    autosizeTextarea(editor);
   });
 }
 
@@ -940,11 +952,18 @@ $(function () {
   }
 
   /* Override all multiple selects */
-  $("select[multiple]").multi({
-    enable_search: true,
-    search_placeholder: gettext("Search…"),
-    non_selected_header: gettext("Available:"),
-    selected_header: gettext("Chosen:"),
+  document.querySelectorAll("select[multiple]").forEach((el) => {
+    if (el.tomselect) {
+      return;
+    }
+    new TomSelect(el, {
+      plugins: ["remove_button", "checkbox_options"],
+      placeholder: gettext("Search…"),
+      hidePlaceholder: false,
+      persist: false,
+      create: false,
+      allowEmptyOption: true,
+    });
   });
 
   /* Slugify name */
@@ -1124,6 +1143,7 @@ $(function () {
   const $positionInputEditable = $(".position-input-editable");
   const $positionInputEditableInput = $("#position-input-editable-input");
   $positionInput.on("click", function (event) {
+    event.preventDefault();
     const $form = $(this).closest("form");
     $positionInput.hide();
     $form.find("input[name=offset]").prop("disabled", false);
@@ -1681,7 +1701,11 @@ $(function () {
           .find(".file-format-param-field")
           .attr("fileformats")
           ?.split(" ");
-        if (fileFormats.includes(selectedFileFormat)) {
+        if (
+          fileFormats &&
+          (fileFormats.includes(selectedFileFormat) ||
+            fileFormats.includes("*"))
+        ) {
           $(this).show();
           displayFieldLabel = true;
         } else {

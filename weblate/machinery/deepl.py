@@ -11,6 +11,7 @@ from django.core.cache import cache
 from requests.exceptions import HTTPError, RequestException
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     BatchMachineTranslation,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
@@ -149,7 +150,7 @@ class DeepLTranslation(
         target_language,
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         """Download list of possible translations from a service."""
         texts = [text for text, _unit in sources]

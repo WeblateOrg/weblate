@@ -7,7 +7,11 @@ from typing import TYPE_CHECKING
 
 from requests.exceptions import RequestException
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeyMachineryForm
 
 if TYPE_CHECKING:
@@ -52,7 +56,7 @@ class YandexTranslation(MachineTranslation):
         text: str,
         unit: Unit | None,
         user: User | None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(

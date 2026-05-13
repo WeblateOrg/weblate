@@ -9,7 +9,7 @@ from __future__ import annotations
 import codecs
 import os
 import shutil
-from collections import defaultdict
+from collections import defaultdict, deque
 from io import BytesIO
 from operator import attrgetter
 from typing import IO, TYPE_CHECKING, Any, ClassVar, NoReturn, cast
@@ -45,6 +45,13 @@ from translate.storage.xml_extract.extract import (
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import BasePoUnit, TTKitUnit, XliffUnit
+from weblate.trans.file_format_params import (
+    LineMaxLength,
+    MdExtractCodeBlocks,
+    MdExtractFrontmatter,
+    MdNoPlaceholders,
+    MergeDuplicates,
+)
 from weblate.trans.util import get_string
 from weblate.utils.concurrency import MARKDOWN_LOCK
 from weblate.utils.errors import report_error
@@ -57,6 +64,7 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
     from weblate.formats.base import TranslationUnit
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
@@ -69,7 +77,7 @@ class ConvertPoUnit[U: pounit, F: "ConvertFormat"](BasePoUnit[U, F]):  # type: i
         """Check whether unit is translated."""
         if self.parent.is_template:
             return self.has_translation()
-        return self.unit is not None and self.has_translation()
+        return self.has_unit() and self.has_translation()
 
     def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs editing."""
@@ -119,6 +127,7 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     can_delete_unit = False
     can_edit_base: bool = False
     unit_class: type[TranslationUnit] = ConvertPoUnit  # type: ignore[assignment]
+    needs_existing_units = True
     autoaddon: ClassVar[dict[str, dict[str, Any]]] = {
         "weblate.flags.same_edit": {},
         "weblate.cleanup.generic": {},
@@ -172,7 +181,7 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     def create_new_file(
         cls,
         filename: str,
-        language: str,  # noqa: ARG003
+        language: Language,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
         file_format_params: FileFormatParams | None = None,  # noqa: ARG003
@@ -331,7 +340,7 @@ class HTMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("merge_duplicates"):
+        if MergeDuplicates.get_value(self.file_format_params):
             duplicate_style = "merge"
 
         return self.convert_to_po(
@@ -367,24 +376,51 @@ class HTMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
 class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("Markdown file")
-    autoload = ("*.md", "*.markdown")
+    autoload: tuple[str, ...] = ("*.md", "*.markdown")
     format_id = "markdown"
     check_flags = ("auto-safe-html", "strict-same", "md-text")
+
+    @staticmethod
+    def get_parser_class() -> type[Any]:
+        """Return parser class."""
+        # Lazy import as mistletoe is expensive
+        from translate.storage.markdown import MarkdownFile  # noqa: PLC0415
+
+        return MarkdownFile
+
+    @staticmethod
+    def get_translator_class() -> type[Any]:
+        """Return translator class."""
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2md import MarkdownTranslator  # noqa: PLC0415
+
+        return MarkdownTranslator
+
+    def get_save_translator_class(self) -> type[Any]:
+        """Return translator class for saving."""
+        return self.get_translator_class()
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
     ) -> S:
-        # Lazy import as mistletoe is expensive
-        from translate.storage.markdown import MarkdownFile  # noqa: PLC0415
-
         # Hold Markdown lock because this is not thread-safe, see
         # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
             # Fake input file with a blank filename
-            mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
+            mdparser = self.get_parser_class()(
+                inputfile=NamedBytesIO("", storefile.read()),
+                max_line_length=LineMaxLength.get_value(self.file_format_params),
+                extract_code_blocks=MdExtractCodeBlocks.get_value(
+                    self.file_format_params
+                ),
+                extract_frontmatter=MdExtractFrontmatter.get_value(
+                    self.file_format_params
+                ),
+                no_placeholders=MdNoPlaceholders.get_value(self.file_format_params),
+            )
 
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("merge_duplicates"):
+        if MergeDuplicates.get_value(self.file_format_params):
             duplicate_style = "merge"
 
         return self.convert_to_po(
@@ -395,18 +431,21 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        # Lazy import as mistletoe is expensive
-        from translate.convert.po2md import MarkdownTranslator  # noqa: PLC0415
-
         # Hold Markdown lock because this is not thread-safe, see
         # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
-            converter = MarkdownTranslator(
-                # TODO: remove type override with translate-toolkit 3.19.4
-                inputstore=self.store,  # type: ignore[arg-type]
+            converter = self.get_save_translator_class()(
+                inputstore=self.store,
                 includefuzzy=True,
                 outputthreshold=None,
-                maxlength=80,
+                maxlength=LineMaxLength.get_value(self.file_format_params),
+                extract_code_blocks=MdExtractCodeBlocks.get_value(
+                    self.file_format_params
+                ),
+                extract_frontmatter=MdExtractFrontmatter.get_value(
+                    self.file_format_params
+                ),
+                no_placeholders=MdNoPlaceholders.get_value(self.file_format_params),
             )
             if self.template_store is None:
                 msg = "Template store is required."
@@ -426,6 +465,85 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     def extension() -> str:
         """Return most common file extension for format."""
         return "md"
+
+
+class MDXFormat(MarkdownFormat):
+    # Translators: File format name
+    name = gettext_lazy("MDX file")
+    autoload: tuple[str, ...] = ("*.mdx",)
+    format_id = "mdx"
+
+    @staticmethod
+    def get_parser_class() -> type[Any]:
+        """Return parser class."""
+        # Lazy import as mistletoe is expensive
+        from translate.storage.mdxfile import MDXFile  # noqa: PLC0415
+
+        return MDXFile
+
+    @staticmethod
+    def get_translator_class() -> type[Any]:
+        """Return translator class."""
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2mdx import MDXTranslator  # noqa: PLC0415
+
+        return MDXTranslator
+
+    def get_save_translator_class(self) -> type[Any]:
+        """Return translator class for saving."""
+        if MergeDuplicates.get_value(self.file_format_params):
+            return self.get_translator_class()
+
+        # Lazy import as mistletoe is expensive
+        from translate.convert.po2mdx import MDXTranslator  # noqa: PLC0415
+
+        class ContextMDXTranslator(MDXTranslator):
+            def __init__(
+                self,
+                inputstore: TranslationStore,
+                includefuzzy: bool,
+                outputthreshold: int | None,
+                maxlength: int,
+                extract_code_blocks: bool = True,
+                extract_frontmatter: bool = True,
+                no_placeholders: bool = False,
+            ) -> None:
+                super().__init__(
+                    inputstore,
+                    includefuzzy,
+                    outputthreshold,
+                    maxlength,
+                    extract_code_blocks,
+                    extract_frontmatter,
+                    no_placeholders,
+                )
+                self._source_units: dict[str, deque[pounit]] = defaultdict(deque)
+                for unit in self.inputstore.units:
+                    if not unit.isheader():
+                        self._source_units[get_string(unit.source)].append(unit)
+
+            def _lookup(self, string: str) -> str:
+                units = self._source_units.get(string)
+                if not units:
+                    return string
+                unit = units.popleft()
+                if unit.istranslated():
+                    return get_string(unit.target)
+                if self.includefuzzy and unit.isfuzzy():
+                    return get_string(unit.target)
+                return get_string(unit.source)
+
+        return ContextMDXTranslator
+
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common mime type for format."""
+        return "text/mdx"
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "mdx"
 
 
 class OpenDocumentFormat[S: Xliff1File, U: Xliff1Unit, T: ConvertXliffUnit](
@@ -662,7 +780,7 @@ class PlainTextFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U
         input_store.parse(storefile.readlines())
         input_store.filename = os.path.basename(storefile.name)
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("merge_duplicates"):
+        if MergeDuplicates.get_value(self.file_format_params):
             duplicate_style = "merge"
 
         return self.convert_to_po(
@@ -718,7 +836,7 @@ class AsciiDocFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         adocparser = AsciiDocFile(inputfile=NamedBytesIO("", storefile.read()))
 
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("merge_duplicates"):
+        if MergeDuplicates.get_value(self.file_format_params):
             duplicate_style = "merge"
 
         return self.convert_to_po(

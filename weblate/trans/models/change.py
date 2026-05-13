@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast, overload
+from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
 import sentry_sdk
@@ -39,7 +39,7 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Collection, Iterable
     from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
@@ -100,20 +100,20 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
     )
 
 
-class ChangeQuerySet(models.QuerySet["Change"]):
-    def content(self, prefetch: bool = False) -> ChangeQuerySet:
+class ChangeQuerySet(models.QuerySet["Change", "Change"]):
+    def content(self, prefetch: bool = False) -> Self:
         """Return queryset with content changes."""
         base = self
         if prefetch:
             base = base.prefetch()
         return base.filter(action__in=ACTIONS_CONTENT)
 
-    def for_category(self, category: Category) -> ChangeQuerySet:
+    def for_category(self, category: Category) -> Self:
         return self.filter(
             Q(component_id__in=category.all_component_ids) | Q(category=category)
         )
 
-    def filter_announcements(self) -> ChangeQuerySet:
+    def filter_announcements(self) -> Self:
         return self.filter(action=ActionEvents.ANNOUNCEMENT)
 
     def count_stats(
@@ -174,7 +174,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return base.count_stats(days, step, dtstart)
 
-    def prefetch_for_render(self) -> ChangeQuerySet:
+    def prefetch_for_render(self) -> Self:
         """
         Prefetch needed related fields for rendering.
 
@@ -188,7 +188,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             "comment",
         )
 
-    def prefetch(self) -> ChangeQuerySet:
+    def prefetch(self) -> Self:
         """
         Fetch related fields at once to avoid loading them individually.
 
@@ -240,7 +240,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             )
         )
 
-    def order(self) -> ChangeQuerySet:
+    def order(self) -> Self:
         return self.order_by("-timestamp")
 
     def recent(
@@ -260,7 +260,15 @@ class ChangeQuerySet(models.QuerySet["Change"]):
                     break
             return self.preload_list(result, skip_preload)
 
-    def bulk_create(self, *args, **kwargs) -> list[Change]:
+    def bulk_create(  # type: ignore[override]
+        self,
+        objs: Iterable[Change],
+        batch_size: int | None = None,
+        ignore_conflicts: bool = False,
+        update_conflicts: bool = False,
+        update_fields: Collection[str] | None = None,
+        unique_fields: Collection[str] | None = None,
+    ) -> list[Change]:
         """
         Bulk creation of changes.
 
@@ -270,7 +278,14 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             dispatch_changes_notifications,
         )
 
-        changes = super().bulk_create(*args, **kwargs)
+        changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
+            objs,  # type: ignore[arg-type]
+            batch_size=batch_size,
+            ignore_conflicts=ignore_conflicts,
+            update_conflicts=update_conflicts,
+            update_fields=update_fields,
+            unique_fields=unique_fields,
+        )
 
         # Dispatch notifications
         dispatch_changes_notifications(changes)
@@ -296,7 +311,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return changes
 
-    def filter_components(self, user: User) -> ChangeQuerySet:
+    def filter_components(self, user: User) -> Self:
         if not user.needs_component_restrictions_filter:
             return self
         return self.filter(
@@ -305,7 +320,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             | Q(component_id__in=user.component_permissions)
         )
 
-    def filter_projects(self, user: User) -> ChangeQuerySet:
+    def filter_projects(self, user: User) -> Self:
         if not user.needs_project_filter:
             return self
         return self.filter(project__in=user.allowed_projects)
@@ -329,7 +344,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
         return lookup
 
-    def filter_by_day(self, dt: datetime | date) -> ChangeQuerySet:
+    def filter_by_day(self, dt: datetime | date) -> Self:
         """
         Filter changes by given date.
 
@@ -337,7 +352,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         return self.filter(timestamp__range=dt_as_day_range(dt))
 
-    def since_day(self, dt: datetime | date) -> ChangeQuerySet:
+    def since_day(self, dt: datetime | date) -> Self:
         """
         Filter changes since given date.
 
@@ -381,7 +396,7 @@ class ChangeManager(models.Manager["Change"]):
         language: Language | None = None,
     ) -> models.QuerySet[Change, Change]:
         """
-        Return the most recent changes for an user.
+        Return the most recent changes for a user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.

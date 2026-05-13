@@ -96,7 +96,7 @@ class Font(models.Model, UserDisplayMixin):
         return related.order().distinct()
 
 
-class FontGroupQuerySet(models.QuerySet):
+class FontGroupQuerySet(models.QuerySet["FontGroup", "FontGroup"]):
     def order(self):
         return self.order_by("name")
 

@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 from django.core.management.base import CommandError
 
 from weblate.auth.models import User
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.models import Component
@@ -54,7 +55,7 @@ class Command(WeblateTranslationCommand):
         )
         parser.add_argument(
             "--threshold",
-            default=80,
+            default=MACHINERY_DEFAULT_THRESHOLD,
             type=int,
             help=("Set machine translation threshold"),
         )

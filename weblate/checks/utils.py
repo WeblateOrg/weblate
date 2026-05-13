@@ -46,6 +46,21 @@ def highlight_pygments(source: str, unit: Unit) -> Generator[tuple[int, int, str
             start += len(text)
 
 
+def merge_highlight_spans(
+    source: str, highlights: list[tuple[int, int, str]]
+) -> list[tuple[int, int, str]]:
+    """Merge overlapping highlight spans (nested or partial) into their union intervals."""
+    merged: list[tuple[int, int, str]] = []
+    for start, end, text in highlights:
+        if merged and start < merged[-1][1]:
+            prev_start, prev_end, _ = merged[-1]
+            new_end = max(prev_end, end)
+            merged[-1] = (prev_start, new_end, source[prev_start:new_end])
+        else:
+            merged.append((start, end, text))
+    return merged
+
+
 def highlight_string(
     source: str, unit: Unit, *, highlight_syntax: bool = False
 ) -> list[tuple[int, int, str]]:
@@ -67,27 +82,7 @@ def highlight_string(
     # Sort by order in string, longest first
     highlights.sort(key=lambda item: (item[0], -item[1]))
 
-    # Remove overlapping ones
-    # pylint: disable-next=consider-using-enumerate
-    for hl_idx in range(len(highlights)):
-        if hl_idx >= len(highlights):
-            break
-        elref = highlights[hl_idx]
-        hl_idx_next = hl_idx + 1
-        while hl_idx_next < len(highlights):
-            eltest = highlights[hl_idx_next]
-            if eltest[0] >= elref[0] and eltest[1] <= elref[1]:
-                # Elements overlap, remove inner one
-                highlights.pop(hl_idx_next)
-                # Do not increment index here as we've removed the current element
-            elif eltest[0] > elref[1]:
-                # This is not an overlapping element
-                break
-            else:
-                # Increase index to test
-                hl_idx_next += 1
-
-    return highlights
+    return merge_highlight_spans(source, highlights)
 
 
 def replace_highlighted(
@@ -106,6 +101,7 @@ def replace_highlighted(
     last_end = 0
     for start, end, _text in highlights:
         if start < last_end:
+            last_end = max(last_end, end)
             continue
         result.append(source[last_end:start])
         if callable(replacement):

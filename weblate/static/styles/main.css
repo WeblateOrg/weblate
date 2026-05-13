@@ -288,17 +288,21 @@ ul.legend li {
 
 textarea.translation-editor,
 textarea[name="explanation"] {
-  height: 3em;
+  min-height: 3em;
 }
 
 textarea#id_comment {
-  height: 5em;
+  min-height: 5em;
 }
 
 textarea#id_extra_flags,
 textarea#id_explanation,
 textarea#id_check_flags {
-  height: 4em;
+  min-height: 4em;
+}
+
+textarea.highlight-editor {
+  overflow: hidden;
 }
 
 .hlcheck,
@@ -494,6 +498,48 @@ th:hover .sort-icon {
 
 .engage .buttons a {
   margin: 1em;
+}
+
+.engage-tasks {
+  margin: 2em auto 0;
+  max-width: 920px;
+}
+
+.engage-tasks h3 {
+  margin: 0 0 0.25em;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.engage-tasks > p {
+  margin: 0 auto 1.25em;
+  max-width: 620px;
+}
+
+.engage-task-list {
+  row-gap: 12px;
+}
+
+.engage-task.metric {
+  padding: 0;
+}
+
+.engage-task > a {
+  display: block;
+  padding: 20px 0;
+  color: var(--bs-body-color);
+  text-decoration: none;
+}
+
+.engage-task:hover,
+.engage-task:focus-within {
+  border-color: var(--bs-link-color);
+}
+
+.engage-task > a:hover,
+.engage-task > a:focus {
+  color: var(--bs-link-color);
+  text-decoration: none;
 }
 
 .bignumbers {
@@ -796,6 +842,11 @@ kbd {
 .zen {
   table-layout: auto;
   width: 100%;
+}
+
+.zen-horizontal .translatetext,
+.zen-horizontal .translator {
+  width: 50%;
 }
 
 .zen-unit:nth-child(even) {
@@ -2400,7 +2451,7 @@ tbody.warning {
   box-shadow: 1px 2px 4px #00000020;
 }
 
-#search-preview > #search-result {
+#search-preview > .search-result {
   display: block;
   padding: 5px;
   margin-bottom: 5px;
@@ -2409,11 +2460,11 @@ tbody.warning {
   border-radius: 4px;
 }
 
-#search-preview > #search-result:hover {
+#search-preview > .search-result:hover {
   background-color: #cccccc50;
 }
 
-#search-preview > #search-result > div {
+#search-preview > .search-result > div {
   margin-left: 10px;
 }
 
@@ -2731,4 +2782,14 @@ table.table-simple tbody#glossary-terms .alert-info {
 
 .translate-explanation {
   background-color: var(--bs-secondary-bg) !important;
+}
+
+/* styling fix for file format parameters caused by `display: none` elements as first children in the same container */
+.file-format-param {
+  display: flow-root;
+  clear: left;
+}
+
+.ts-dropdown-content {
+  max-height: min(60vh, 480px);
 }

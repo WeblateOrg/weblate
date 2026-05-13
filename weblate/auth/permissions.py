@@ -12,6 +12,7 @@ from django.utils.translation import gettext
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
 from weblate.trans.models import (
+    Announcement,
     Category,
     Component,
     ComponentList,
@@ -73,7 +74,7 @@ def check_permission(
     | Project
     | ComponentList,
 ) -> bool:
-    """Check whether user has a object-specific permission."""
+    """Check whether user has an object-specific permission."""
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):
@@ -630,8 +631,26 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
 
 @register_perm("announcement.delete")
 def check_announcement_delete(
-    user: User, permission: str, obj: Project | Component | None
+    user: User,
+    permission: str,
+    obj: Announcement | Project | Category | Component | None,
 ) -> bool | PermissionResult:
+    if isinstance(obj, Announcement):
+        if obj.component_id is not None:
+            if obj.language_id is not None:
+                try:
+                    translation = obj.component.translation_set.get(
+                        language_id=obj.language_id
+                    )
+                except Translation.DoesNotExist:
+                    return False
+                return check_permission(user, permission, translation)
+            obj = obj.component
+        elif obj.category_id is not None:
+            obj = obj.category
+        else:
+            obj = obj.project
+
     if obj is None:
         return check_global_permission(user, permission)
     return check_permission(user, permission, obj)

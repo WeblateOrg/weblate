@@ -16,7 +16,7 @@ import subprocess  # noqa: S404
 from copy import copy
 from io import StringIO
 from pathlib import Path
-from typing import IO, TYPE_CHECKING, Any, ClassVar, cast
+from typing import IO, TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -29,7 +29,7 @@ from translate.misc.xml_helpers import setXMLspace
 from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
-from translate.storage.csvl10n import csvunit
+from translate.storage.csvl10n import csvfile, csvunit
 from translate.storage.jsonl10n import (
     ARBJsonFile,
     BaseJsonUnit,
@@ -47,7 +47,7 @@ from translate.storage.jsonl10n import (
     WebExtensionJsonFile,
 )
 from translate.storage.lisa import LISAfile
-from translate.storage.poxliff import PoXliffFile
+from translate.storage.poxliff import PoXliffFile, PoXliffUnit
 from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
@@ -64,17 +64,31 @@ from weblate.formats.base import (
     TranslationUnit,
     UpdateError,
 )
+from weblate.formats.helpers import (
+    CSV_ID_HASH,
+    CSV_ID_HASH_PREFIX,
+    CSV_PLURAL_FIELDNAMES,
+    CSV_SOURCE_PLURAL_FORM,
+    CSV_TARGET_PLURAL_FORM,
+    format_csv_id_hash,
+)
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
-from weblate.trans.file_format_params import get_encoding_param
+from weblate.trans.file_format_params import (
+    GettextLastTranslator,
+    GettextXGenerator,
+    get_encoding_param,
+)
 from weblate.trans.util import (
     get_string,
+    join_plural,
     rich_to_xliff_string,
     xliff_string_to_rich,
 )
 from weblate.utils.commands import get_clean_env
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.hash import checksum_to_hash
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -85,23 +99,128 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator
+    from collections.abc import Callable, Generator, Iterable
 
     from translate.storage.aresource import AndroidResourceUnit
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
-    from translate.storage.csvl10n import csvfile
     from translate.storage.ini import inifile, iniunit
     from translate.storage.php import phpfile, phpunit
     from translate.storage.placeables import StringElem
+    from translate.storage.poheader import poheader
     from translate.storage.properties import propfile, propunit
 
     from weblate.checks.flags import Flags
     from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.models import Unit
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
+_CSV_MAX_PLURAL_FORMS = 100
+
+
+class CSVMetadataError(ValueError):
+    """Invalid Weblate CSV metadata."""
+
+
+def _parse_csv_int_metadata(
+    source: WeblateCSVUnit,
+    field_name: str,
+    *,
+    allow_negative: bool = False,
+    max_value: int | None = None,
+) -> int | None:
+    value = getattr(source, field_name, "")
+    if value is None:
+        return None
+    if isinstance(value, str) and not value:
+        return None
+    try:
+        result = int(value)
+    except (TypeError, ValueError) as error:
+        raise CSVMetadataError(
+            gettext("Invalid plural form metadata in CSV file: %s") % value
+        ) from error
+    if result < 0 and not allow_negative:
+        raise CSVMetadataError(
+            gettext("Invalid plural form metadata in CSV file: %s") % value
+        )
+    if max_value is not None and result >= max_value:
+        raise CSVMetadataError(
+            gettext(
+                "Plural form metadata in CSV file is out of range: "
+                "%(value)s (maximum: %(maximum)s)"
+            )
+            % {"value": value, "maximum": max_value - 1}
+        )
+    return result
+
+
+def _has_csv_plural_metadata(source: WeblateCSVUnit) -> bool:
+    for field in (CSV_SOURCE_PLURAL_FORM, CSV_TARGET_PLURAL_FORM):
+        value = getattr(source, field, None)
+        if value is None:
+            continue
+        if isinstance(value, str) and not value:
+            continue
+        return True
+    return False
+
+
+def _parse_csv_id_hash_metadata(source: WeblateCSVUnit) -> int | None:
+    value = getattr(source, CSV_ID_HASH, "")
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise CSVMetadataError(
+            gettext("Invalid id_hash metadata in CSV file: %s") % value
+        )
+    if not value:
+        return None
+    if not value.lower().startswith(CSV_ID_HASH_PREFIX):
+        raise CSVMetadataError(
+            gettext("Invalid id_hash metadata in CSV file: %s") % value
+        )
+    checksum = value[len(CSV_ID_HASH_PREFIX) :]
+    if len(checksum) != 16:
+        raise CSVMetadataError(
+            gettext("Invalid id_hash metadata in CSV file: %s") % value
+        )
+    try:
+        return checksum_to_hash(checksum)
+    except ValueError as error:
+        raise CSVMetadataError(
+            gettext("Invalid id_hash metadata in CSV file: %s") % value
+        ) from error
+
+
+def _get_csv_import_id_hash(source: WeblateCSVUnit) -> int | None:
+    has_plural_metadata = _has_csv_plural_metadata(source) or bool(
+        getattr(source, "target_plural_forms", ())
+    )
+    if not has_plural_metadata:
+        return None
+    result = _parse_csv_id_hash_metadata(source)
+    if result is None:
+        raise CSVMetadataError(
+            gettext("Plural form metadata in CSV file requires id_hash.")
+        )
+    return result
+
+
+def _get_csv_target_plural_form(row: WeblateCSVUnit) -> int:
+    result = _parse_csv_int_metadata(
+        row,
+        CSV_TARGET_PLURAL_FORM,
+        max_value=_CSV_MAX_PLURAL_FORMS,
+    )
+    if result is None:
+        raise ValueError(
+            gettext("Invalid plural form metadata in CSV file: %s")
+            % row.target_plural_form
+        )
+    return result
 
 
 class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U, F]):
@@ -336,8 +455,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
-        # TODO: remove type override with translate-toolkit 3.19.4
-        self.store.serialize(handle)  # type: ignore[arg-type]
+        self.store.serialize(handle)
 
     def save(self) -> None:
         """Save underlying store to disk."""
@@ -445,7 +563,9 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
 
         return unit
 
-    def untranslate_store(self, language) -> None:
+    def untranslate_store(
+        self, language: Language, file_format_params: FileFormatParams | None = None
+    ) -> None:
         """Remove translations from Translate Toolkit store."""
         self.store.settargetlanguage(self.get_language_code(language.code))
 
@@ -464,7 +584,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
         file_format_params: FileFormatParams | None = None,
@@ -475,7 +595,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             store = cls(base, file_format_params=file_format_params)
             if callback:
                 callback(store)
-            store.untranslate_store(language)
+            store.untranslate_store(language, file_format_params=file_format_params)
             store.store.savefile(filename)
         elif cls.empty_file_template is not None:
             Path(filename).write_bytes(
@@ -654,10 +774,9 @@ class BasePoUnit[U: pounit, F: BaseTTKitFormat](TTKitUnit[U, F]):
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         super().set_state(state)
+        self.__dict__.pop("previous_source", None)
         if state not in FUZZY_STATES:
-            self.unit.prev_msgid = []
-            self.unit.prev_msgid_plural = []
-            self.unit.prev_msgctxt = []
+            self.unit.clear_previous()
 
     def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         """
@@ -827,8 +946,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
 
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
-        # TODO: remove type override with translate-toolkit 3.19.4
-        self.unit.markapproved(state == STATE_APPROVED)  # type: ignore[attr-defined]
+        self.unit.markapproved(state == STATE_APPROVED)
         target_state = None
         if state in FUZZY_STATES:
             # Always set state for fuzzy
@@ -1102,7 +1220,80 @@ class PlaceholdersJSONUnit(JSONUnit):
         return flags
 
 
+class WeblateCSVUnit(csvunit):
+    """CSV unit preserving Weblate-specific import/export metadata."""
+
+    def __init__(self, source=None) -> None:
+        super().__init__(source)
+        self.source_plural_form = ""
+        self.target_plural_form = ""
+        self.target_plural_forms: tuple[int, ...] = ()
+        self.plural_rows: tuple[WeblateCSVUnit, ...] = ()
+        self.id_hash = ""
+
+    def fromdict(self, cedict, encoding="utf-8") -> None:
+        super().fromdict(cedict, encoding=encoding)
+        for field in (CSV_SOURCE_PLURAL_FORM, CSV_TARGET_PLURAL_FORM, CSV_ID_HASH):
+            value = cedict.get(field)
+            if value is not None:
+                setattr(self, field, value)
+
+    def todict(self, **kwargs):
+        result = super().todict(**kwargs)
+        for field in (CSV_SOURCE_PLURAL_FORM, CSV_TARGET_PLURAL_FORM, CSV_ID_HASH):
+            result[field] = str(getattr(self, field, "") or "")
+        return result
+
+
+class WeblateCSVFile(csvfile):
+    UnitClass = WeblateCSVUnit
+
+
+CSVPluralGroupKey = int
+
+
 class CSVUnit(MonolingualSimpleUnit):
+    def _get_int_metadata(
+        self,
+        field: str,
+        *,
+        allow_negative: bool = False,
+        max_value: int | None = None,
+    ) -> int | None:
+        return _parse_csv_int_metadata(
+            self.mainunit,
+            field,
+            allow_negative=allow_negative,
+            max_value=max_value,
+        )
+
+    @cached_property
+    def import_id_hash(self) -> int | None:
+        return _get_csv_import_id_hash(self.mainunit)
+
+    @cached_property
+    def id_hash(self) -> int:
+        import_id_hash = self.import_id_hash
+        if import_id_hash is not None:
+            return import_id_hash
+        return super().id_hash
+
+    @cached_property
+    def source_plural_form(self) -> int | None:
+        return self._get_int_metadata(
+            CSV_SOURCE_PLURAL_FORM, max_value=_CSV_MAX_PLURAL_FORMS
+        )
+
+    @cached_property
+    def target_plural_form(self) -> int | None:
+        return self._get_int_metadata(
+            CSV_TARGET_PLURAL_FORM, max_value=_CSV_MAX_PLURAL_FORMS
+        )
+
+    @cached_property
+    def target_plural_forms(self) -> tuple[int, ...]:
+        return tuple(getattr(self.mainunit, "target_plural_forms", ()))
+
     @staticmethod
     def unescape_csv(string):
         r"""
@@ -1165,6 +1356,24 @@ class CSVUnit(MonolingualSimpleUnit):
         return self.unescape_csv(target)
 
     def set_target(self, target: str | list[str]) -> None:
+        plural_rows = getattr(self.mainunit, "plural_rows", ())
+        if plural_rows:
+            self._invalidate_target()
+            if isinstance(target, multistring):
+                target_forms = [str(target), *target.extra_strings]
+            elif isinstance(target, list):
+                target_forms = target
+            else:
+                target_forms = [target]
+            self.unit.target = multistring(target_forms)
+            for row in plural_rows:
+                target_form = self._get_row_plural_form(row)
+                if target_form < len(target_forms):
+                    row.target = target_forms[target_form]
+                else:
+                    row.target = ""
+            return
+
         super().set_target(target)
         if (
             self.template is not None
@@ -1184,11 +1393,28 @@ class CSVUnit(MonolingualSimpleUnit):
             # which may be empty when "source" acts as the key column.
             self.unit.source = self.context
 
+    def set_state(self, state) -> None:
+        super().set_state(state)
+        for row in getattr(self.mainunit, "plural_rows", ()):
+            row.markfuzzy(state in FUZZY_STATES)
+
+    @staticmethod
+    def _get_row_plural_form(row: WeblateCSVUnit) -> int:
+        return _get_csv_target_plural_form(row)
+
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
         if "fuzzy" not in self.parent.store.fieldnames:
             return fallback
         return super().is_fuzzy()
+
+
+class CSVPluralGroup(TypedDict):
+    first: WeblateCSVUnit
+    import_id_hash: int
+    rows: list[WeblateCSVUnit]
+    source_forms: dict[int, str]
+    target_forms: dict[int, str]
 
 
 class RESXUnit(TTKitUnit):
@@ -1316,20 +1542,45 @@ class AndroidUnit(MonolingualIDUnit):
             self.unit.marktranslatable(False)
 
 
-class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
-    loader = pofile  # type: ignore[assignment]
-    plural_preference = None
-    supports_plural: bool = True
-    supports_descriptions = True
-    supports_context = True
-    supports_location = True
-    supports_flags = True
-    additional_states = (STATE_FUZZY,)
+class PoHeaderMixin[
+    S: pofile | PoXliffFile,
+    U: pounit | PoXliffUnit,
+    T: TTKitUnit,
+](TTKitFormat[S, U, T]):
+    def _po_header_store(self) -> poheader:
+        return self.store
+
+    def _ensure_po_header_first(self, header: U | None = None) -> U | None:
+        """Keep PO-style header in the position expected by Translate Toolkit."""
+        units = self.store.units
+        if header is None:
+            header = next(
+                (unit for unit in units if getattr(unit, "isheader", lambda: False)()),
+                None,
+            )
+        if header is None:
+            return None
+
+        if units and units[0] is not header:
+            try:
+                units.remove(header)
+            except ValueError:
+                return header
+            units.insert(0, header)
+
+        element = getattr(header, "xmlelement", None)
+        parent = element.getparent() if element is not None else None
+        if parent is not None and parent.index(element) > 0:
+            parent.remove(element)
+            parent.insert(0, element)
+        return header
 
     def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
         # Fallback will trigger KeyError later
-        header = self.store.parseheader()
+        self._ensure_po_header_first()
+        store = self._po_header_store()
+        header = store.parseheader()
 
         try:
             number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
@@ -1349,24 +1600,36 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
             formula=formula,
         )
 
-    def untranslate_store(self, language) -> None:
+    def untranslate_store(
+        self, language: Language, file_format_params: FileFormatParams | None = None
+    ) -> None:
         """Remove translations from Translate Toolkit store."""
-        super().untranslate_store(language)
+        super().untranslate_store(language, file_format_params=file_format_params)
         plural = language.plural
+        store = self._po_header_store()
 
-        self.store.updateheader(
-            add=True,
-            last_translator="Automatically generated",
-            plural_forms=plural.plural_form,
-            language_team="none",
+        header_kwargs = {}
+        if GettextLastTranslator.get_value(file_format_params):
+            header_kwargs["last_translator"] = "Automatically generated"
+
+        self._ensure_po_header_first(
+            store.updateheader(
+                add=True,
+                plural_forms=plural.plural_form,
+                language_team="none",
+                **header_kwargs,
+            )
         )
 
-    def update_header(self, **kwargs) -> None:
+    def update_header(self, file_format_params: FileFormatParams, **kwargs) -> None:
         """Update store header if available."""
-        kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
+        if GettextXGenerator.get_value(file_format_params):
+            kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
 
         # Adjust Content-Type header if needed
-        header = self.store.parseheader()
+        self._ensure_po_header_first()
+        store = self._po_header_store()
+        header = store.parseheader()
         if (
             "Content-Type" not in header
             or "charset=CHARSET" in header["Content-Type"]
@@ -1374,7 +1637,18 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](TTKitFormat[S, U, T]):
         ):
             kwargs["Content_Type"] = "text/plain; charset=UTF-8"
 
-        self.store.updateheader(add=True, **kwargs)
+        self._ensure_po_header_first(store.updateheader(add=True, **kwargs))
+
+
+class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](PoHeaderMixin[S, U, T]):
+    loader = pofile  # type: ignore[assignment]
+    plural_preference: tuple[int, ...] | None = None
+    supports_plural: bool = True
+    supports_descriptions = True
+    supports_context = True
+    supports_location = True
+    supports_flags = True
+    additional_states = (STATE_FUZZY,)
 
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()
@@ -1558,7 +1832,10 @@ class RichXliffFormat(XliffFormat):
     unit_class = RichXliffUnit
 
 
-class PoXliffFormat(XliffFormat):
+class PoXliffFormat(
+    PoHeaderMixin[PoXliffFile, PoXliffUnit, XliffUnit[PoXliffUnit, XliffFormat]],
+    XliffFormat,
+):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
@@ -1775,19 +2052,88 @@ class CMPFormat(AndroidFormat):
     loader = ("aresource", "CMPResourceFile")
 
 
-class DictStoreFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
-    TTKitFormat[S, U, T]
-):
-    @classmethod
-    def validate_context(cls, context: str) -> None:
-        id_class = cls.get_class().UnitClass.IdClass
+class ContextIdValidationMixin:
+    has_hierarchical_contexts: ClassVar[bool] = False
 
+    @classmethod
+    def parse_new_context_id(cls, context: str):
+        id_class = cls.get_class().UnitClass.IdClass  # type: ignore[attr-defined]
         try:
-            id_class.from_string(context)
+            return id_class.from_string(context)
         except Exception as error:
             raise ValidationError(
                 gettext("Could not parse the key: %s") % error
             ) from error
+
+    @staticmethod
+    def is_context_conflict(
+        context_parts: list[tuple[str, str | int]],
+        existing_parts: list[tuple[str, str | int]],
+    ) -> bool:
+        if context_parts == existing_parts:
+            return False
+        if (
+            context_parts == existing_parts[: len(context_parts)]
+            or existing_parts == context_parts[: len(existing_parts)]
+        ):
+            return True
+        for context_part, existing_part in zip(
+            context_parts, existing_parts, strict=False
+        ):
+            if context_part == existing_part:
+                continue
+            return context_part[0] != existing_part[0]
+        return False
+
+    @classmethod
+    def validate_context(cls, context: str) -> None:
+        cls.parse_new_context_id(context)
+
+    def validate_new_context(
+        self, context: str, pending_contexts: Iterable[str] | None = None
+    ) -> None:
+        # Validate against parsed file UnitIds first. Database contexts are used
+        # only for pending additions which are not yet present in the file.
+        context_parts = self.parse_new_context_id(context).parts
+
+        if not self.has_hierarchical_contexts:
+            return
+
+        ttkit_format = cast("BaseTTKitFormat[Any, Any, Any]", self)
+        parsed_store_contexts: set[str] | None = (
+            set() if pending_contexts is not None else None
+        )
+        for existing_unit in ttkit_format.all_store_units:
+            if parsed_store_contexts is not None:
+                parsed_store_contexts.add(
+                    ttkit_format.unit_class(ttkit_format, None, existing_unit).context
+                )
+            existing_parts = existing_unit.get_unitid().parts
+            if self.is_context_conflict(context_parts, existing_parts):
+                raise ValidationError(
+                    gettext("This key conflicts with an existing hierarchical key.")
+                )
+
+        if pending_contexts is None:
+            return
+
+        for existing_context in pending_contexts:
+            if existing_context == context or (
+                parsed_store_contexts is not None
+                and existing_context in parsed_store_contexts
+            ):
+                continue
+            existing_parts = self.parse_new_context_id(existing_context).parts
+            if self.is_context_conflict(context_parts, existing_parts):
+                raise ValidationError(
+                    gettext("This key conflicts with an existing hierarchical key.")
+                )
+
+
+class DictStoreFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
+    ContextIdValidationMixin, TTKitFormat[S, U, T]
+):
+    pass
 
 
 class JSONFormat[S: JsonFile, U: BaseJsonUnit, T: JSONUnit](DictStoreFormat[S, U, T]):
@@ -1817,6 +2163,7 @@ class JSONNestedFormat(JSONFormat):
     format_id = "json-nested"
     loader = JsonNestedFile
     autoload: tuple[str, ...] = ()
+    has_hierarchical_contexts = True
 
 
 class WebExtensionJSONFormat(JSONFormat):
@@ -1840,6 +2187,7 @@ class I18NextFormat(JSONFormat):
     check_flags = ("i18next-interpolation",)
     language_format: str = "bcp"
     supports_plural: bool = True
+    has_hierarchical_contexts = True
 
 
 class I18NextV4Format(I18NextFormat):
@@ -1924,7 +2272,7 @@ class RESJSONFormat(JSONFormat):
     unit_class = TTKitUnit  # type: ignore[assignment]
 
 
-class TOMLFormat(TTKitFormat):
+class TOMLFormat(ContextIdValidationMixin, TTKitFormat):
     # Translators: File format name
     name = gettext_lazy("TOML file")
     format_id = "toml"
@@ -1932,6 +2280,7 @@ class TOMLFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("*.toml",)
     monolingual = True
     empty_file_template = "\n"
+    has_hierarchical_contexts = True
 
     @staticmethod
     def mimetype() -> str:
@@ -1954,12 +2303,12 @@ class GoI18nTOMLFormat(TOMLFormat):
     supports_plural: bool = True
 
 
-class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
+class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
     # Translators: File format name
     name = gettext_lazy("CSV file")
     format_id = "csv"
-    loader = ("csvl10n", "csvfile")
-    unit_class = CSVUnit  # type: ignore[assignment]
+    loader = WeblateCSVFile
+    unit_class = CSVUnit
     autoload: tuple[str, ...] = ("*.csv",)
     supports_descriptions: bool = True
     supports_context: bool = True
@@ -1973,7 +2322,7 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
-        existing_units: list[Any] | None = None,
+        existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
     ) -> None:
@@ -1993,6 +2342,247 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
             template_store, CSVFormat
         ):
             self.template_store = None
+
+    def check_valid(self) -> None:
+        """Check store validity without treating plural metadata as format detection."""
+        if not isinstance(self.store, csvfile):
+            raise TypeError(
+                gettext(
+                    "Could not load strings from the file, try choosing other format."
+                )
+            )
+        super().check_valid()
+
+    @staticmethod
+    def _forms_to_list(
+        forms: dict[int, str], fallback: str, *, require_complete: bool = False
+    ) -> list[str]:
+        if not forms:
+            return [fallback]
+
+        plural_count = max(forms) + 1
+        if plural_count > _CSV_MAX_PLURAL_FORMS:
+            raise CSVMetadataError(
+                gettext(
+                    "Plural form metadata in CSV file is out of range: "
+                    "%(value)s (maximum: %(maximum)s)"
+                )
+                % {"value": plural_count - 1, "maximum": _CSV_MAX_PLURAL_FORMS - 1}
+            )
+        if require_complete:
+            missing = set(range(plural_count)) - set(forms)
+            if missing:
+                raise CSVMetadataError(
+                    gettext("Plural form metadata in CSV file is missing form %d.")
+                    % min(missing)
+                )
+
+        result = [""] * plural_count
+        for index, value in forms.items():
+            result[index] = value
+        return result
+
+    def _get_plural_group_source(self, group: CSVPluralGroup) -> str:
+        first = group["first"]
+        return join_plural(
+            self._forms_to_list(
+                group["source_forms"],
+                CSVUnit.unescape_csv(get_string(first.source)),
+            )
+        )
+
+    @staticmethod
+    def _plural_group_key(unit: WeblateCSVUnit) -> CSVPluralGroupKey:
+        import_id_hash = _get_csv_import_id_hash(unit)
+        if import_id_hash is None:
+            raise CSVMetadataError(
+                gettext("Plural form metadata in CSV file requires id_hash.")
+            )
+        return import_id_hash
+
+    def _build_plural_group(self, group: CSVPluralGroup) -> WeblateCSVUnit:
+        first = group["first"]
+        source = self._get_plural_group_source(group)
+        target_forms = self._forms_to_list(
+            group["target_forms"], "", require_complete=True
+        )
+        target = "" if not any(target_forms) else join_plural(target_forms)
+
+        unit = cast("WeblateCSVUnit", self.store.UnitClass(source))
+        unit.target = target
+        unit.target_plural_forms = tuple(sorted(group["target_forms"]))
+        unit.plural_rows = tuple(group["rows"])
+        for attr in (
+            "location",
+            "id",
+            "fuzzy",
+            "context",
+            "translator_comments",
+            "developer_comments",
+        ):
+            setattr(unit, attr, getattr(first, attr))
+        unit.id_hash = format_csv_id_hash(group["import_id_hash"])
+
+        return unit
+
+    def _group_csv_units(
+        self, source_units: Iterable[WeblateCSVUnit]
+    ) -> list[WeblateCSVUnit]:
+        units = list(source_units)
+        grouped: dict[CSVPluralGroupKey, CSVPluralGroup] = {}
+        result: list[WeblateCSVUnit | CSVPluralGroupKey] = []
+
+        for unit in units:
+            source_form = _parse_csv_int_metadata(
+                unit, CSV_SOURCE_PLURAL_FORM, max_value=_CSV_MAX_PLURAL_FORMS
+            )
+            target_form = _parse_csv_int_metadata(
+                unit, CSV_TARGET_PLURAL_FORM, max_value=_CSV_MAX_PLURAL_FORMS
+            )
+            if target_form is None:
+                if source_form is not None:
+                    raise CSVMetadataError(
+                        gettext(
+                            "Plural form metadata in CSV file requires "
+                            "target_plural_form."
+                        )
+                    )
+                result.append(unit)
+                continue
+            if source_form is None:
+                raise CSVMetadataError(
+                    gettext(
+                        "Plural form metadata in CSV file requires source_plural_form."
+                    )
+                )
+
+            key = self._plural_group_key(unit)
+
+            if key not in grouped:
+                grouped[key] = {
+                    "first": unit,
+                    "import_id_hash": key,
+                    "rows": [],
+                    "source_forms": {},
+                    "target_forms": {},
+                }
+                result.append(key)
+
+            group = grouped[key]
+            group["rows"].append(unit)
+            target_forms = group["target_forms"]
+            if target_form in target_forms:
+                raise CSVMetadataError(
+                    gettext("Duplicate target plural form in CSV file: %s")
+                    % target_form
+                )
+
+            source_forms = group["source_forms"]
+            source = CSVUnit.unescape_csv(get_string(unit.source))
+            if source_form in source_forms:
+                if source_forms[source_form] != source:
+                    raise CSVMetadataError(
+                        gettext("Conflicting source plural form in CSV file: %s")
+                        % source_form
+                    )
+            else:
+                source_forms[source_form] = source
+            target_forms[target_form] = CSVUnit.unescape_csv(get_string(unit.target))
+
+        if not grouped:
+            return units
+
+        return [
+            self._build_plural_group(grouped[item]) if isinstance(item, int) else item
+            for item in result
+        ]
+
+    def _build_monolingual_unit(self, unit: CSVUnit) -> CSVUnit:
+        store_unit = self.find_unit_template(unit.context, unit.source, unit.id_hash)
+        template = cast("WeblateCSVUnit", unit.template)
+        if store_unit is not None and store_unit.plural_rows:
+            template = copy(template)
+            template.id_hash = store_unit.id_hash
+            template.target_plural_forms = store_unit.target_plural_forms
+            template.plural_rows = store_unit.plural_rows
+        return self.unit_class(self, store_unit, template)
+
+    def _ensure_plural_fieldnames(self) -> None:
+        for field in CSV_PLURAL_FIELDNAMES:
+            if field not in self.store.fieldnames:
+                self.store.fieldnames.append(field)
+
+    def _copy_plural_row_for_target(self, source: WeblateCSVUnit) -> WeblateCSVUnit:
+        row = cast("WeblateCSVUnit", self.store.UnitClass(source.source))
+        for attr in (
+            "location",
+            "id",
+            "fuzzy",
+            "context",
+            "translator_comments",
+            "developer_comments",
+            CSV_SOURCE_PLURAL_FORM,
+            CSV_TARGET_PLURAL_FORM,
+            CSV_ID_HASH,
+        ):
+            setattr(row, attr, getattr(source, attr))
+        row.target = ""
+        return row
+
+    def _has_store_unit(self, unit: WeblateCSVUnit) -> bool:
+        return any(existing is unit for existing in self.store.units)
+
+    def _remove_store_unit(self, unit: WeblateCSVUnit) -> None:
+        for index, existing in enumerate(self.store.units):
+            if existing is unit:
+                del self.store.units[index]
+                return
+        self.store.removeunit(unit)
+
+    def add_unit(self, unit: TranslationUnit) -> None:
+        """Add new unit to underlying store."""
+        csv_unit = cast("WeblateCSVUnit", unit.unit)
+        plural_rows = getattr(csv_unit, "plural_rows", ())
+        if not plural_rows:
+            super().add_unit(unit)
+            return
+
+        self._ensure_plural_fieldnames()
+        target_rows: list[WeblateCSVUnit] = []
+        for row in plural_rows:
+            if self._has_store_unit(row):
+                target_row = row
+            else:
+                target_row = self._copy_plural_row_for_target(row)
+            if not self._has_store_unit(target_row):
+                self.store.addunit(target_row)
+            target_rows.append(target_row)
+        csv_unit.plural_rows = tuple(target_rows)
+        csv_unit.target_plural_forms = tuple(
+            _get_csv_target_plural_form(row) for row in target_rows
+        )
+
+    def delete_unit(self, ttkit_unit) -> str | None:
+        plural_rows = getattr(ttkit_unit, "plural_rows", ())
+        if not plural_rows:
+            return super().delete_unit(ttkit_unit)
+
+        for row in plural_rows:
+            self._remove_store_unit(row)
+        return None
+
+    def _get_all_bilingual_units(self) -> list[CSVUnit]:
+        return [
+            self.unit_class(self, unit)
+            for unit in self._group_csv_units(self.all_store_units)
+        ]
+
+    @cached_property
+    def template_units(self) -> list[CSVUnit]:
+        return [
+            self.unit_class(self, None, unit)
+            for unit in self._group_csv_units(self.all_store_units)
+        ]
 
     @staticmethod
     def mimetype() -> str:
@@ -2017,11 +2607,11 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
         return content, filename
 
     # pylint: disable-next=arguments-differ
-    def parse_store(self, storefile) -> S:
+    def parse_store(self, storefile) -> WeblateCSVFile:
         """Parse the store."""
         return self.parse_csv(storefile)
 
-    def parse_csv(self, storefile, *, dialect: str | None = None) -> S:
+    def parse_csv(self, storefile, *, dialect: str | None = None) -> WeblateCSVFile:
         """Parse CSV file with a dialect."""
         content, filename = self.get_content_and_filename(storefile)
 
@@ -2052,7 +2642,9 @@ class CSVFormat[S: csvfile, U: csvunit, T: CSVUnit](TTKitFormat[S, U, T]):
 
         return self.parse_simple_csv(content, filename, header=header)
 
-    def parse_simple_csv(self, content, filename, header: list[str] | None = None) -> S:
+    def parse_simple_csv(
+        self, content, filename, header: list[str] | None = None
+    ) -> WeblateCSVFile:
         fieldnames = ["source", "target"]
         # Prefer detected header if available (translate-toolkit PR #5830 adds
         # monolingual CSV support with proper handling of context/id/target columns)
@@ -2095,6 +2687,7 @@ class YAMLFormat(DictStoreFormat):
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.pyml",)
     empty_file_template = "{}\n"
+    has_hierarchical_contexts = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2306,7 +2899,7 @@ class XWikiUnit(PropertiesUnit):
     """
     Dedicated unit for XWiki.
 
-    Inspired from PropertiesUnit, allow to override the methods to use the right
+    Inspired by PropertiesUnit, allow overriding the methods to use the right
     XWikiDialect methods for decoding properties.
     """
 
@@ -2517,7 +3110,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
-        existing_units: list[Any] | None = None,
+        existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
     ) -> None:

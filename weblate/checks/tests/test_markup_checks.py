@@ -26,10 +26,8 @@ from weblate.checks.markup import (
     XMLValidityCheck,
     extract_rst_references,
 )
-from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
-from weblate.lang.models import Language, Plural
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.tests.factories import make_check, make_unit
 
 
 class BBCodeCheckTest(CheckTestCase):
@@ -279,14 +277,14 @@ class MarkdownLinkCheckTest(CheckTestCase):
         )
 
     def test_fixup(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source="[My Home Page](http://example.com)",
             target="[Moje stránka] (http://example.com)",
         )
 
         self.assertEqual(self.check.get_fixup(unit), [("regex", r"\] +\(", "](", "u")])
 
-        unit = Unit(
+        unit = make_unit(
             source="[My Home Page](http://example.com)",
             target="[Moje stránka]",
         )
@@ -556,21 +554,14 @@ class RSTReferencesCheckTest(CheckTestCase):
         )
 
     def test_description(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source=":ref:`bar` `baz`_",
             target=":ref:`bar <baz>` `baz`",
-            extra_flags="rst-text",
-            translation=Translation(
-                component=Component(
-                    file_format="po",
-                    source_language=Language(code="en"),
-                ),
-                plural=Plural(),
-            ),
+            flags="rst-text",
         )
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
-            self.check.get_description(check),
+            str(self.check.get_description(check)),
             """
             The following reStructuredText markup is missing:
             <span class="hlcheck" data-value=":ref:`bar`">:ref:`bar`</span>,
@@ -1134,21 +1125,14 @@ class RSTSyntaxCheckTest(CheckTestCase):
         )
 
     def test_description(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source=":ref:`bar`",
             target=":ref:`bar",
-            extra_flags="rst-text",
-            translation=Translation(
-                component=Component(
-                    file_format="po",
-                    source_language=Language(code="en"),
-                ),
-                plural=Plural(),
-            ),
+            flags="rst-text",
         )
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
-            self.check.get_description(check),
+            str(self.check.get_description(check)),
             """
             The following errors were found:<br>
             Inline interpreted text or phrase reference start-string without end-string.

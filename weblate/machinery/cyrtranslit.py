@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from weblate.lang.models import Language
 
-from .base import MachineTranslation
+from .base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 from .types import TranslationResultDict
 
 if TYPE_CHECKING:
@@ -97,7 +97,7 @@ class CyrTranslitTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         """Download list of possible translations from a service."""
         import cyrtranslit  # noqa: PLC0415

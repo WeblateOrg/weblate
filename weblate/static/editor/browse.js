@@ -4,7 +4,7 @@
 
 (() => {
   function ProjectStringsBrowser() {
-    Mousetrap.bindGlobal("right", (_e) => {
+    hotkeys("right", () => {
       const nextButton = $("#button-next");
       const nextLocation = nextButton.attr("href");
       if (nextButton.length > 0 && !nextButton.hasClass("disabled")) {
@@ -14,7 +14,7 @@
       }
       return false;
     });
-    Mousetrap.bindGlobal("left", (_e) => {
+    hotkeys("left", () => {
       const prevButton = $("#button-prev");
       const prevLocation = prevButton.attr("href");
       if (prevButton.length > 0 && !prevButton.hasClass("disabled")) {

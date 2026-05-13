@@ -78,7 +78,7 @@ class StatsView(AboutView):
             .filter(user__is_bot=False, user__is_active=True)[:10]
             .select_related("user")
         )
-        translated_max = max(user.translated for user in top_users)
+        translated_max = max((user.translated for user in top_users), default=0)
         for user in top_users:
             if translated_max:
                 user.translated_width = 100 * user.translated // translated_max

@@ -11,12 +11,13 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
-from django.db.models import Count, F, Q, QuerySet, Value
+from django.db.models import F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
+from weblate.auth.utils import validate_team_assignable_user
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -24,6 +25,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
+from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.lock import WeblateLock
 from weblate.utils.site import get_site_url
@@ -37,7 +39,7 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Callable, Collection, Iterable
 
     from ahocorasick_rs import AhoCorasick
 
@@ -101,7 +103,7 @@ class ProjectLanguageFactory(UserDict):
             instance.__dict__["workflow_settings"] = None
 
 
-class ProjectQuerySet(QuerySet["Project"]):
+class ProjectQuerySet(QuerySet["Project", "Project"]):
     def order(self) -> Self:
         return self.order_by("name")
 
@@ -140,27 +142,25 @@ class ProjectQuerySet(QuerySet["Project"]):
 def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
     id_lookup = {project.id: project for project in projects}
     if id_lookup:
-        queryset = Project.objects.filter(id__in=id_lookup.keys()).values("id")
+        queryset = Project.objects.filter(id__in=id_lookup)
         # Fallback value for locking and alerts
         for project in projects:
             project.__dict__["locked"] = True
             project.__dict__["has_alerts"] = False
         # Indicate alerts
-        for alert in queryset.filter(component__alert__dismissed=False).annotate(
-            Count("component__alert")
-        ):
-            id_lookup[alert["id"]].__dict__["has_alerts"] = bool(
-                alert["component__alert__count"]
-            )
-        # Filter unlocked projects
-        for locks in (
-            queryset.filter(component__locked=False)
+        for project_id in (
+            queryset.filter(component__alert__dismissed=False)
+            .values_list("id", flat=True)
             .distinct()
-            .annotate(Count("component__id"))
         ):
-            id_lookup[locks["id"]].__dict__["locked"] = (
-                locks["component__id__count"] == 0
-            )
+            id_lookup[project_id].__dict__["has_alerts"] = True
+        # Filter unlocked projects
+        for project_id in (
+            queryset.filter(component__locked=False)
+            .values_list("id", flat=True)
+            .distinct()
+        ):
+            id_lookup[project_id].__dict__["locked"] = False
 
     # Prefetch source language ids
     key_lookup = {project.source_language_cache_key: project for project in projects}
@@ -170,6 +170,17 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
 
 
 class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
+    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "enforced_2fa",
+        "translation_review",
+        "source_review",
+        "commit_policy",
+        "enable_hooks",
+        "use_shared_tm",
+        "contribute_shared_tm",
+        "check_flags",
+    )
+
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -208,13 +219,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
 
-    set_language_team = models.BooleanField(
-        verbose_name=gettext_lazy('Set "Language-Team" header'),
-        default=True,
-        help_text=gettext_lazy(
-            'Lets Weblate update the "Language-Team" file header of your project.'
-        ),
-    )
     use_shared_tm = models.BooleanField(
         verbose_name=gettext_lazy("Use shared translation memory"),
         default=settings.DEFAULT_SHARED_TM,
@@ -352,10 +356,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         # Renaming detection
         old = None
+        update_fields = kwargs.get("update_fields")
         if self.id:
             old = Project.objects.get(pk=self.id)
             # Generate change entries for changes
-            self.generate_changes(old)
+            self.generate_changes(old, update_fields=update_fields)
             # Detect slug changes and rename directory
             self.check_rename(old)
             # Rename linked repos
@@ -407,9 +412,13 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             origin=self.full_slug,
         )
 
-    def generate_changes(self, old: Project) -> None:
+    def generate_changes(
+        self, old: Project, update_fields: Collection[str] | None = None
+    ) -> None:
         tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
+            if not should_track_field(self, attribute, update_fields):
+                continue
             old_value = getattr(old, attribute)
             current_value = getattr(self, attribute)
             if old_value != current_value:
@@ -419,6 +428,26 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     target=current_value,
                     user=self.acting_user,
                 )
+        if (
+            should_track_field(self, "access_control", update_fields)
+            and old.access_control != self.access_control
+        ):
+            self.change_set.create(
+                action=ActionEvents.ACCESS_EDIT,
+                user=self.acting_user,
+                details={
+                    "access_control": self.access_control,
+                    "old_access_control": old.access_control,
+                },
+            )
+        log_setting_changes(
+            self,
+            old,
+            self.AUDIT_SETTINGS,
+            ActionEvents.PROJECT_SETTING_CHANGE,
+            self.acting_user,
+            update_fields,
+        )
 
     @cached_property
     def language_aliases_dict(self) -> dict[str, str]:
@@ -426,8 +455,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user: User, group: str | None = None) -> None:
+    def add_user(
+        self, user: User, group: str | None = None, *, allow_bot: bool = False
+    ) -> None:
         """Add user based on username or email address."""
+        validate_team_assignable_user(user, allow_bot=allow_bot)
         implicit_group = False
         if group is None:
             implicit_group = True
@@ -729,13 +761,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def source_language_ids(self) -> set[int]:
-        def filter_source_language(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.values_list("source_language_id", flat=True).distinct()  # type: ignore[return-value]
-
         cached = cache.get(self.source_language_cache_key)
         if cached is not None:
             return cached
-        result = set(self.get_child_components_filter(filter_source_language))
+        result = set(
+            self.child_components.values_list("source_language_id", flat=True)
+            .distinct()
+            .iterator()
+        )
         cache.set(self.source_language_cache_key, result, 7 * 24 * 3600)
         return result
 

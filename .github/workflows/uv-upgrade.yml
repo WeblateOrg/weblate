@@ -28,39 +28,13 @@ permissions:
 jobs:
   uv-update:
     if: startsWith(github.repository, 'WeblateOrg/')
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
+    runs-on: ubuntu-24.04-arm
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
-      with:
-        token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
-        persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
-      with:
-        persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
-    - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-      with:
-        path: ~/.cache/pre-commit
-        key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - name: Set up Python
-      id: setup_python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      with:
-        python-version: '3.14'
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-      with:
-        save-cache: ${{ github.ref == 'refs/heads/main' }}
-        cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-
-        version: 0.11.7
+    - uses: ./.github/actions/pre-commit-setup
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
 
@@ -71,26 +45,7 @@ jobs:
     - run: uv sync --all-extras
       name: Update lock file
 
-    - name: Update SBOM
-      run: |
-        uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > docs/specs/sbom/partial/python.json
-        ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
-
-    - name: Merge SBOM
-      env:
-        # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.30.0
-      run: |
-        curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
-        chmod +x /tmp/cyclonedx-linux-x64
-        /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
-        ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
-
-    - name: Commit or create pull request (pre-commit-ci-lite)
+    - name: Prepare maintenance patch (pre-commit-ci-lite)
       uses: ./.github/actions/auto-commit
       with:
         message: 'chore(deps): update lockfile'
-        pr-branch: create-pull-request/uv-lock-update
-        pr-labels: |
-          dependencies
-        github-token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]

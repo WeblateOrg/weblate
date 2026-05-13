@@ -79,11 +79,11 @@ Please choose a tag that matches your environment and expectations:
 +=========================================+============================================================================================================+=============================================================================+
 |``latest``                               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment                                 |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>``                              | Weblate stable release                                                                                     | Rolling updates within a major version in a production environment          |
+|``<YEAR>``                               | Weblate stable release                                                                                     | Rolling updates within a calendar year in a production environment          |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>.<MINOR>``                      | Weblate stable release                                                                                     | Rolling updates within a minor version in a production environment          |
+|``<YEAR>.<MONTH>``                       | Weblate stable release                                                                                     | Rolling updates within a monthly release in a production environment        |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
-|``<MAJOR>.<MINOR>.<PATCH>.<BUILD>``      | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
+|``<YEAR>.<MONTH>.<PATCH>.<BUILD>``       | Weblate stable release                                                                                     | Well defined deploy in a production environment                             |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
 |``edge``                                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment                                    |
 +-----------------------------------------+------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------+
@@ -249,10 +249,9 @@ should be no need for additional manual actions.
 
 .. note::
 
-    Upgrades across major versions are not supported by Weblate. For example,
-    if you are on 3.x series and want to upgrade to 4.x, first upgrade to the
-    latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which
-    will do the migration and then continue upgrading to newer versions.
+    Direct upgrades are only supported for releases from the current or previous
+    calendar year. If you need to upgrade from an older release, upgrade first
+    to an intermediate version listed in :ref:`version-specific-instructions`.
 
 You might also want to update the ``docker-compose`` repository, though it's
 not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
@@ -727,6 +726,20 @@ Generic settings
 
    Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
 
+.. envvar:: WEBLATE_ASSET_RESTRICT_PRIVATE
+
+   .. versionadded:: 2025.5
+
+   Configures :setting:`ASSET_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
+.. envvar:: WEBLATE_ASSET_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 2025.5
+
+   Configures :setting:`ASSET_PRIVATE_ALLOWLIST`.
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.
@@ -838,7 +851,7 @@ Generic settings
 
 .. envvar:: WEBLATE_SECURE_PROXY_SSL_HEADER
 
-    A tuple representing a HTTP header/value combination that signifies a
+    A tuple representing an HTTP header/value combination that signifies a
     request is secure. This is needed when Weblate is running behind a reverse
     proxy doing SSL termination which does not pass standard HTTPS headers.
 
@@ -1247,8 +1260,8 @@ Code hosting sites credentials
 
 In the Docker container, the code hosting credentials can be configured either
 in separate variables or using a Python dictionary to set them at once. The
-following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
-with appropriately changed variable names.
+following examples are for :ref:`code-hosting-github-pull-requests`, but apply
+to all :ref:`vcs` with appropriately changed variable names.
 
 .. important::
 
@@ -1293,7 +1306,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITHUB_HOST
 .. envvar:: WEBLATE_GITHUB_CREDENTIALS
 
-    Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`.
+    Configures :ref:`code-hosting-github-pull-requests` by changing
+    :setting:`GITHUB_CREDENTIALS`.
 
     .. seealso::
 
@@ -1304,7 +1318,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITLAB_HOST
 .. envvar:: WEBLATE_GITLAB_CREDENTIALS
 
-    Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`.
+    Configures :ref:`code-hosting-gitlab-merge-requests` by changing
+    :setting:`GITLAB_CREDENTIALS`.
 
     .. seealso::
 
@@ -1315,7 +1330,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITEA_HOST
 .. envvar:: WEBLATE_GITEA_CREDENTIALS
 
-    Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`.
+    Configures :ref:`code-hosting-gitea-pull-requests` by changing
+    :setting:`GITEA_CREDENTIALS`.
 
     .. seealso::
 
@@ -1326,7 +1342,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_PAGURE_HOST
 .. envvar:: WEBLATE_PAGURE_CREDENTIALS
 
-    Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`.
+    Configures :ref:`code-hosting-pagure-merge-requests` by changing
+    :setting:`PAGURE_CREDENTIALS`.
 
     .. seealso::
 
@@ -1337,7 +1354,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETSERVER_HOST
 .. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-data-center` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+    Configures :ref:`code-hosting-bitbucket-data-center-pull-requests` by
+    changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
 
 .. envvar:: WEBLATE_BITBUCKETCLOUD_USERNAME
 .. envvar:: WEBLATE_BITBUCKETCLOUD_WORKSPACE
@@ -1345,7 +1363,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETCLOUD_HOST
 .. envvar:: WEBLATE_BITBUCKETCLOUD_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-cloud` by changing :setting:`BITBUCKETCLOUD_CREDENTIALS`.
+    Configures :ref:`code-hosting-bitbucket-cloud-pull-requests` by changing
+    :setting:`BITBUCKETCLOUD_CREDENTIALS`.
 
     .. seealso::
 
@@ -1357,7 +1376,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_AZURE_DEVOPS_HOST
 .. envvar:: WEBLATE_AZURE_DEVOPS_CREDENTIALS
 
-    Configures :ref:`vcs-azure-devops` by changing :setting:`AZURE_DEVOPS_CREDENTIALS`.
+    Configures :ref:`code-hosting-azure-devops-pull-requests` by changing
+    :setting:`AZURE_DEVOPS_CREDENTIALS`.
 
     .. seealso::
 
@@ -1771,7 +1791,7 @@ both Weblate and PostgreSQL containers.
 
    .. versionadded:: 5.1
 
-   Set to false to disables environment based configuration of the database
+   Set to false to disable environment based configuration of the database
    connection. Use :ref:`docker-settings-override` to configure the database
    connection manually.
 
@@ -2259,7 +2279,24 @@ consist of name of your docker-compose directory, container, and volume names).
 
 The :file:`cache` volume is mounted as :file:`/app/cache` and is used to store static
 files and :setting:`CACHE_DIR`. Its content is recreated on container startup
-and the volume can be mounted using ephemeral filesystem such as `tmpfs`.
+and the volume can be mounted using ephemeral filesystem such as `tmpfs`, but
+the mount has to allow execution because Weblate stores generated helper files
+there.
+
+When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose,
+enable execution:
+
+.. code-block:: yaml
+
+   tmpfs:
+     - /app/cache:exec
+
+When also setting ownership options, keep the ``exec`` option:
+
+.. code-block:: yaml
+
+   tmpfs:
+     - /app/cache:exec,uid=1000,gid=1000
 
 When creating the volumes manually, the directories should be owned by UID 1000
 as that is user used inside the container.

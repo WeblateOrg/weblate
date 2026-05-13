@@ -22,7 +22,9 @@ from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.checks.flags import Flags
-from weblate.trans.file_format_params import get_params_for_file_format
+from weblate.trans.file_format_params import (
+    get_params_for_file_format,
+)
 from weblate.trans.util import get_string, join_plural, split_plural
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import get_repo_temp_dir
@@ -31,13 +33,15 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator, Iterator, Sequence
+    from collections.abc import Callable, Generator, Iterable, Iterator, Sequence
 
     from django_stubs_ext import StrOrPromise
     from lxml import etree
 
     from weblate.lang.models import Language, Plural
-    from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.file_format_params import (
+        FileFormatParams,
+    )
     from weblate.trans.models import Component, Translation, Unit
     from weblate.utils.state import StringState
 
@@ -238,7 +242,7 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             _, extension = os.path.splitext(location.split(":")[0].strip())
             if extension == ".rst":
                 yield "rst-text"
-            elif extension in {".md", ".markdown"}:
+            elif extension in {".md", ".markdown", ".mdx"}:
                 yield "md-text"
         yield from self.add_flags
 
@@ -401,10 +405,12 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_location: bool = False
     supports_flags: bool = False
     supports_read_only: bool = False
+    has_hierarchical_contexts: ClassVar[bool] = False
     additional_states: tuple[StringState, ...] = ()
     can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
+    needs_existing_units: ClassVar[bool] = False
     store: S
 
     @classmethod
@@ -418,7 +424,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         language_code: str | None = None,
         source_language: str | None = None,
         is_template: bool = False,
-        existing_units: list[Unit] | None = None,
+        existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
     ) -> None:
@@ -567,7 +573,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         """Add new unit to underlying store."""
         raise NotImplementedError
 
-    def update_header(self, **kwargs) -> None:
+    def update_header(self, file_format_params: FileFormatParams, **kwargs) -> None:
         """Update store header if available."""
         return
 
@@ -763,7 +769,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     def add_language(
         cls,
         filename: str | Path,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
         file_format_params: FileFormatParams | None = None,
@@ -792,7 +798,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     def create_new_file(
         cls,
         filename: str,
-        language: str,
+        language: Language,
         base: str,
         callback: Callable | None = None,
         file_format_params: FileFormatParams | None = None,
@@ -962,6 +968,13 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     def validate_context(context: str) -> None:  # noqa: ARG004
         return
 
+    def validate_new_context(
+        self,
+        context: str,
+        pending_contexts: Iterable[str] | None = None,
+    ) -> None:
+        self.validate_context(context)
+
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
@@ -1009,7 +1022,7 @@ class BilingualUpdateMixin:
         """
         Return list of arguments for update command.
 
-        This is used to pass additional arguments to update command.
+        This is used to pass additional arguments to the update command.
         """
         params = component.file_format_params
         args: list[str] = []
@@ -1032,6 +1045,7 @@ class BaseExporter:
     set_id = False
     file_format = ""
     storage_class: ClassVar[type[TranslateToolkitStore]]
+    file_format_params: FileFormatParams
 
     def __init__(
         self,
@@ -1049,12 +1063,16 @@ class BaseExporter:
             self.source_language = translation.component.source_language
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
+            self.file_format_params = cast(
+                "FileFormatParams", self.translation.component.file_format_params
+            )
         else:
             self.project = project
             self.language = language
             self.source_language = source_language
             self.plural = language.plural
             self.url = url
+            self.file_format_params = cast("FileFormatParams", {})
         self.fieldnames = fieldnames
 
     @staticmethod
@@ -1088,13 +1106,12 @@ class BaseExporter:
         if self.translation is None or not self.file_format:
             return
 
-        params = self.translation.component.file_format_params
         for param_class in get_params_for_file_format(self.file_format):
             if param_class.is_encoding():
-                encoding = param_class.get_value(params)
+                encoding = param_class.get_value(self.file_format_params)
                 if encoding != "auto":
                     storage.encoding = encoding
-            param_class().setup_store(storage, **params)
+            param_class().setup_store(storage, **self.file_format_params)
 
     def add(self, unit: TranslateToolkitUnit, word: str) -> None:
         unit.target = word
@@ -1119,6 +1136,10 @@ class BaseExporter:
 
     def add_unit(self, unit: Unit) -> None:
         output = self.build_unit(unit)
+        self.store_unit_metadata(output, unit)
+        self.storage.addunit(output)
+
+    def store_unit_metadata(self, output, unit: Unit) -> None:
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in self.string_filter(unit.location).split(","):
@@ -1164,8 +1185,6 @@ class BaseExporter:
 
         # Store fuzzy flag
         self.store_unit_state(output, unit)
-
-        self.storage.addunit(output)
 
     def store_unit_state(self, output, unit) -> None:
         if unit.fuzzy:

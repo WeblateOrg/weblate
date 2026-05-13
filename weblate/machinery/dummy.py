@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     GlossaryMachineTranslationMixin,
     MachineTranslation,
 )
@@ -37,7 +38,7 @@ class DummyTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """
         Download translations.
@@ -92,7 +93,7 @@ class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Translate with glossary."""
         self.get_glossary_id(source_language, target_language, unit)

@@ -13,6 +13,7 @@ from email.errors import HeaderDefect
 from email.headerregistry import Address
 from gettext import c2py  # type: ignore[attr-defined]
 from io import BytesIO
+from itertools import chain
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import unquote, urlparse
@@ -48,6 +49,8 @@ from weblate.utils.outbound import (
 from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Iterator
+
     from django.core.files.base import File
     from django.core.files.base import File as DjangoFile
 
@@ -60,6 +63,7 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 # Block certain characters from full name
 FULL_NAME_RESTRICT = re.compile(r'[<>"]')
+PLURAL_FORMULA_NUMBER_RE = re.compile(r"\d+")
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 PIL_FORMATS = ["png", "jpeg", "webp", "gif"]
@@ -80,6 +84,31 @@ FORBIDDEN_EXTENSIONS = {
     ".dll",
     ".zip",
 }
+
+
+def iter_plural_formula_examples() -> Iterator[int]:
+    return chain(range(10000), range(10000, 2000001, 1000))
+
+
+def iter_plural_formula_validation_numbers(value: str | None) -> Iterator[int]:
+    seen: set[int] = set()
+
+    for number in iter_plural_formula_examples():
+        seen.add(number)
+        yield number
+
+    if value is None:
+        return
+
+    for match in PLURAL_FORMULA_NUMBER_RE.finditer(value):
+        try:
+            number = int(match[0])
+        except ValueError:
+            continue
+        for candidate in (number - 1, number, number + 1):
+            if candidate >= 0 and candidate not in seen:
+                seen.add(candidate)
+                yield candidate
 
 
 def validate_re(
@@ -126,6 +155,21 @@ def validate_re_nonempty(value: str) -> None:
 def validate_upload_size(value: DjangoFile) -> None:
     if value.size > settings.ALLOWED_ASSET_SIZE:
         raise ValidationError(gettext("Uploaded file is too big."))
+
+
+def validate_translation_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.TRANSLATION_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded translation file is too big."))
+
+
+def validate_component_zip_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.COMPONENT_ZIP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
+
+
+def validate_project_backup_upload_size(value: DjangoFile) -> None:
+    if value.size > settings.PROJECT_BACKUP_UPLOAD_MAX_SIZE:
+        raise ValidationError(gettext("Uploaded ZIP file is too big."))
 
 
 def validate_bitmap(
@@ -202,7 +246,7 @@ def validate_fullname(val):
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
 
-    if FULL_NAME_RESTRICT.match(val):
+    if FULL_NAME_RESTRICT.search(val):
         raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
@@ -263,13 +307,47 @@ class EmailValidator(EmailValidatorDjango):
 validate_email = EmailValidator()
 
 
-def validate_plural_formula(value) -> None:
+def _compile_plural_formula(value: str | None) -> Callable[[int], int]:
     try:
-        c2py(value or "0")
+        return c2py(value or "0")
     except ValueError as error:
         raise ValidationError(
             gettext("Could not evaluate plural formula: {}").format(error)
         ) from error
+
+
+def validate_plural_formula(value: str | None) -> None:
+    _compile_plural_formula(value)
+
+
+def validate_plural_formula_range(
+    number: int | None, value: str | None, *, validate_formula: bool = True
+) -> None:
+    if number is None or number < 1:
+        return
+
+    try:
+        plural = _compile_plural_formula(value)
+    except ValidationError:
+        if validate_formula:
+            raise
+        return
+    for count in iter_plural_formula_validation_numbers(value):
+        try:
+            result = plural(count)
+        except Exception as error:
+            raise ValidationError(
+                gettext(
+                    "Could not evaluate plural formula for count {count}: {error}"
+                ).format(count=count, error=error)
+            ) from error
+        if result < 0 or result >= number:
+            raise ValidationError(
+                gettext(
+                    "Plural formula result {result} for count {count} is outside "
+                    "the allowed range 0..{max}."
+                ).format(result=result, count=count, max=number - 1)
+            )
 
 
 def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
@@ -302,13 +380,13 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(str(err)) from err
 
     if loc.archive:
-        msg = "No archive can be specified in backup location."
+        msg = gettext("No archive can be specified in backup location.")
         raise ValidationError(msg)
 
     if loc.proto == "file":
         # Missing path
         if not loc.path:
-            msg = "Backup location has to be an absolute path."
+            msg = gettext("Backup location has to be an absolute path.")
             raise ValidationError(msg)
 
         # The path is already normalized here
@@ -316,13 +394,15 @@ def validate_backup_path(value: str) -> None:
 
         # Restrict relative paths as the cwd might change
         if not path.is_absolute():
-            msg = "Backup location has to be an absolute path."
+            msg = gettext("Backup location has to be an absolute path.")
             raise ValidationError(msg)
 
         # Restrict placing under Weblate backups as that will produce mess
         data_backups = Path(data_dir("backups"))
         if data_backups == path or data_backups in path.parents:
-            msg = "Backup location should be outside Weblate backups in DATA_DIR."
+            msg = gettext(
+                "Backup location should be outside Weblate backups in DATA_DIR."
+            )
             raise ValidationError(msg)
 
 
@@ -354,6 +434,7 @@ def _validate_runtime_public_url(
     value: str,
     *,
     allow_private_targets: bool,
+    allow_unresolved_hostname: bool = True,
     allowed_domains: list[str] | tuple[str, ...] = (),
 ) -> None:
     hostname = urlparse(value).hostname or ""
@@ -363,7 +444,7 @@ def _validate_runtime_public_url(
     try:
         validate_runtime_url(value, allow_private_targets=False)
     except ValidationError as error:
-        if not isinstance(error.__cause__, OSError):
+        if not allow_unresolved_hostname or not isinstance(error.__cause__, OSError):
             raise
 
 
@@ -554,6 +635,18 @@ def _has_blocked_profile_url_extension(value: str) -> bool:
     return path.endswith(PROFILE_URL_BLOCKED_EXTENSIONS)
 
 
+def _validate_profile_like_url(
+    value: str | None,
+    *,
+    credentials_message: str,
+    blocked_extension_message: str,
+) -> None:
+    """Validate common profile/contact URL safety checks."""
+    _validate_public_profile_url(value, credentials_message=credentials_message)
+    if value and _has_blocked_profile_url_extension(value):
+        raise ValidationError(blocked_extension_message)
+
+
 def _get_profile_path_segments(value: str) -> list[str]:
     parsed = urlparse(value)
     if parsed.query or parsed.fragment:
@@ -565,34 +658,34 @@ def _get_profile_path_segments(value: str) -> list[str]:
 
 def validate_profile_url(value: str | None) -> None:
     """Reject unsafe public profile URLs."""
-    _validate_public_profile_url(
+    _validate_profile_like_url(
         value,
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
         ),
+        blocked_extension_message=gettext(
+            "Profile URL should link to a profile page, "
+            "not directly to a file download."
+        ),
     )
-    if value and _has_blocked_profile_url_extension(value):
-        raise ValidationError(
-            gettext(
-                "Profile URL should link to a profile page, "
-                "not directly to a file download."
-            )
-        )
 
 
 def validate_code_site_url(value: str | None) -> None:
     """Reject URLs not matching common code hosting profile shapes."""
-    _validate_public_profile_url(
+    _validate_profile_like_url(
         value,
         credentials_message=gettext(
             "Profile URL cannot include username or password credentials."
+        ),
+        blocked_extension_message=gettext(
+            "Profile URL should link to a profile page, "
+            "not directly to a file download."
         ),
     )
     if not value:
         return
 
     segments = _get_profile_path_segments(value)
-    has_blocked_extension = _has_blocked_profile_url_extension(value)
     is_profile_like = (
         len(segments) == 1
         and segments[0] not in CODE_SITE_REJECTED_TOP_LEVEL_SEGMENTS
@@ -604,13 +697,6 @@ def validate_code_site_url(value: str | None) -> None:
         and all(segment != "-" for segment in segments)
         and all(CODE_SITE_PROFILE_SEGMENT.match(segment) for segment in segments)
     )
-    if has_blocked_extension:
-        raise ValidationError(
-            gettext(
-                "Profile URL should link to a profile page, "
-                "not directly to a file download."
-            )
-        )
     if is_profile_like:
         return
     if is_repository_like:
@@ -628,19 +714,16 @@ def validate_code_site_url(value: str | None) -> None:
 
 def validate_contact_url(value: str | None) -> None:
     """Reject unsafe public contact URLs."""
-    _validate_public_profile_url(
+    _validate_profile_like_url(
         value,
         credentials_message=gettext(
             "Contact URL cannot include username or password credentials."
         ),
+        blocked_extension_message=gettext(
+            "Contact URL should link to a contact or profile page, "
+            "not directly to a file download."
+        ),
     )
-    if value and _has_blocked_profile_url_extension(value):
-        raise ValidationError(
-            gettext(
-                "Contact URL should link to a contact or profile page, "
-                "not directly to a file download."
-            )
-        )
 
 
 def validate_fediverse_url(value: str | None) -> None:
@@ -692,6 +775,21 @@ def validate_asset_url(value: str) -> None:
         raise ValidationError(gettext("URL domain is not allowed."))
 
 
+def validate_restricted_asset_url(value: str) -> None:
+    validate_asset_url(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
+        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+    )
+
+
 def validate_machinery_url(value: str, *, allow_private_targets: bool = True) -> None:
     WeblateServiceURLValidator()(value)
     validate_outbound_url(
@@ -721,6 +819,7 @@ def validate_webhook_url(value: str) -> None:
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
         allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
@@ -830,6 +929,7 @@ def validate_repo_url(url: str) -> None:
     _validate_runtime_public_url(
         normalized_url,
         allow_private_targets=allow_private_targets,
+        allow_unresolved_hostname=False,
     )
 
 

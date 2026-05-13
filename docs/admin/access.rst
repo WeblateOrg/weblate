@@ -425,7 +425,7 @@ the following rules:
   :ref:`unrestricted components <component-restricted>`.
 
 - The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
-  when it’s verified if a user has an access to perform certain actions. Namely,
+  when it’s verified if a user has access to perform certain actions. Namely,
   it’s applied only to actions directly related to the translation process itself like
   reviewing, saving translations, adding suggestions, etc.
 

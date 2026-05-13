@@ -161,14 +161,6 @@ Translation instructions
 Text describing localization process in the project, and any other information
 useful for translators. Markdown can be used for text formatting or inserting links.
 
-.. _project-set_language_team:
-
-Set "Language-Team" header
-++++++++++++++++++++++++++
-
-Whether Weblate should manage the ``Language-Team`` header (this is a
-:ref:`gettext` only feature right now).
-
 .. _project-use_shared_tm:
 
 Use shared translation memory
@@ -406,7 +398,7 @@ VCS to use, see :ref:`vcs` for details.
 
 .. seealso::
 
-   :ref:`push-changes`
+   :ref:`code-hosting-push-options`
 
 .. _component-repo:
 
@@ -432,14 +424,15 @@ Repository push URL
 
 Repository URL used for pushing. The behavior of this depends on
 :ref:`component-vcs`, and this is in more detail covered in
-:ref:`push-changes`.
+:ref:`code-hosting-push-options`.
 
 For linked repositories, this is not used and setting from linked component applies.
 
 .. seealso::
 
    See :ref:`vcs-repos` for more details on how to specify a repository URL and
-   :ref:`push-changes` for more details on pushing changes from Weblate.
+   :ref:`code-hosting-push-options` for more details on pushing changes from
+   Weblate.
 
 .. _component-repoweb:
 
@@ -508,12 +501,16 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
 .. note::
 
-   This is currently only supported for Git, GitLab and GitHub, it is ignored
-   for other VCS integrations.
+   This setting is ignored for Mercurial and Subversion.
+
+   For Gerrit, this selects the target branch for the review request. Leave it
+   empty to review against :ref:`component-branch`. Use the short branch name,
+   not ``refs/heads/<branch>``, ``refs/for/<branch>``, or Gerrit push options
+   such as ``%submit``.
 
 .. seealso::
 
-   :ref:`push-changes`
+   :ref:`code-hosting-push-options`
 
 .. _component-filemask:
 

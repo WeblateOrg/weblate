@@ -2573,6 +2573,8 @@ paths:
             - 92
             - 93
             - 94
+            - 95
+            - 96
         description: |-
           * `0` - Resource updated
           * `1` - Translation completed
@@ -2663,6 +2665,8 @@ paths:
           * `92` - Project restored
           * `93` - Component restored
           * `94` - User edit reverted
+          * `95` - Project setting changed
+          * `96` - Component setting changed
         explode: true
         style: form
       - name: page
@@ -12700,6 +12704,11 @@ paths:
       description: Look up translation memory matches for the provided source strings.
       parameters:
       - in: query
+        name: exact
+        schema:
+          type: boolean
+        description: Return exact matches only and skip fuzzy matching.
+      - in: query
         name: project
         schema:
           type: string
@@ -12754,6 +12763,20 @@ paths:
                     errors:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
                       attr: null
           description: ''
         '405':
@@ -12892,6 +12915,20 @@ paths:
                     errors:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
                       attr: null
           description: ''
         '405':
@@ -18787,6 +18824,53 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: ''
+        '404':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+            application/vnd.oai.openapi+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
         '405':
           content:
             application/vnd.oai.openapi:
@@ -20766,6 +20850,20 @@ paths:
                     errors:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
                       attr: null
           description: ''
         '405':
@@ -27832,6 +27930,8 @@ components:
       - 92
       - 93
       - 94
+      - 95
+      - 96
       type: integer
       description: |-
         * `0` - Resource updated
@@ -27923,6 +28023,8 @@ components:
         * `92` - Project restored
         * `93` - Component restored
         * `94` - User edit reverted
+        * `95` - Project setting changed
+        * `96` - Component setting changed
     Addon:
       type: object
       properties:
@@ -29337,6 +29439,7 @@ components:
       - json-nested
       - laravel
       - markdown
+      - mdx
       - mediawiki
       - mi18n-lang
       - moko-resource
@@ -29406,6 +29509,7 @@ components:
         * `json-nested` - JSON nested structure file
         * `laravel` - Laravel PHP strings
         * `markdown` - Markdown file
+        * `mdx` - MDX file
         * `mediawiki` - MediaWiki text file
         * `mi18n-lang` - @draggable/i18n lang file
         * `moko-resource` - Mobile Kotlin Resource
@@ -29773,7 +29877,7 @@ components:
           maximum: 32767
         number:
           type: integer
-          maximum: 32767
+          maximum: 10
           minimum: 1
           title: Number of plurals
         formula:
@@ -30052,6 +30156,7 @@ components:
       - LicenseNotification
       - ParseErrorNotification
       - NewStringNotificaton
+      - TranslationActivitySummaryNotification
       - NewContributorNotificaton
       - NewSuggestionNotificaton
       - LanguageTranslatedNotificaton
@@ -30076,6 +30181,7 @@ components:
         * `LicenseNotification` - License was changed
         * `ParseErrorNotification` - Parse error occurred
         * `NewStringNotificaton` - String is available for translation
+        * `TranslationActivitySummaryNotification` - Translation activity summary
         * `NewContributorNotificaton` - Contributor made their first translation
         * `NewSuggestionNotificaton` - Suggestion was added
         * `LanguageTranslatedNotificaton` - Language was translated
@@ -31333,11 +31439,6 @@ components:
             * `30` - Only include approved translations
           minimum: -2147483648
           maximum: 2147483647
-        set_language_team:
-          type: boolean
-          title: Set "Language-Team" header
-          description: Lets Weblate update the "Language-Team" file header of your
-            project.
         instructions:
           type: string
           title: Translation instructions
@@ -31581,11 +31682,6 @@ components:
             * `30` - Only include approved translations
           minimum: -2147483648
           maximum: 2147483647
-        set_language_team:
-          type: boolean
-          title: Set "Language-Team" header
-          description: Lets Weblate update the "Language-Team" file header of your
-            project.
         instructions:
           type: string
           title: Translation instructions
