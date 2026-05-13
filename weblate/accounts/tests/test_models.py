@@ -44,21 +44,16 @@ class AuditLogTestCase(SimpleTestCase):
 
     def test_user_agent_display(self) -> None:
         audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
-        self.assertEqual(
-            audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0"
-        )
+        self.assertEqual(audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0")
 
-    def test_user_agent_display_calls_gettext_for_each_part(self) -> None:
+    def test_user_agent_display_calls_gettext_for_first_part_only(self) -> None:
         with mock.patch("weblate.accounts.models.gettext") as mocked_gettext:
             mocked_gettext.side_effect = lambda x: x
-            audit = AuditLog(
-                user_agent="PC / Linux / Chrome 120.0.0"
-            )
-            audit.get_user_agent_display()
-            self.assertEqual(mocked_gettext.call_count, 3)
+            audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
+            result = audit.get_user_agent_display()
+            self.assertEqual(mocked_gettext.call_count, 1)
             mocked_gettext.assert_any_call("PC")
-            mocked_gettext.assert_any_call("Linux")
-            mocked_gettext.assert_any_call("Chrome 120.0.0")
+            self.assertEqual(result, "PC / Linux / Chrome 120.0.0")
 
 
 class AuditLogLoggingTestCase(TestCase):

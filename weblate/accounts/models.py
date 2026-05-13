@@ -615,12 +615,10 @@ class AuditLog(models.Model):
             return ""
 
         parts = ua_string.split(" / ")
-        localized: list[str] = []
-        for part in parts:
-            part = part.strip()
-            if not part:
-                continue
-            localized.append(gettext(part))
+        localized = list(parts)
+        if localized:
+            localized[0] = gettext(localized[0].strip())
+
         return " / ".join(localized)
 
     def should_notify(self) -> bool:
