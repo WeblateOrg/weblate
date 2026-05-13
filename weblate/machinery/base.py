@@ -108,6 +108,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     highlight_syntax = False
     glossary_support = False
     llm_context_support = False
+    sends_data_to_third_party = True
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
@@ -1101,6 +1102,7 @@ class InternalMachineTranslation(MachineTranslation):
     do_cleanup = False
     accounting_key = "internal"
     cache_translations = False
+    sends_data_to_third_party = False
     settings_form: type[BaseMachineryForm] | None = None
 
     def is_supported(
