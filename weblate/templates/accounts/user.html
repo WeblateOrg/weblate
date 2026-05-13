@@ -319,7 +319,7 @@
                   <td>{{ log.timestamp|date:"DATETIME_FORMAT" }}</td>
                   <th>{{ log.get_message }}</th>
                   <td>{{ log.address }}</td>
-                  <td>{{ log.user_agent }}</td>
+                  <td>{{ log.get_user_agent_display }}</td>
                 </tr>
               {% endfor %}
             </tbody>
