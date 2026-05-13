@@ -216,6 +216,61 @@ Weblate currently supports:
    * :setting:`AVATAR_URL_PREFIX`
    * :setting:`ENABLE_AVATARS`
 
+.. _cdn-server-security:
+
+Localization CDN
+----------------
+
+The :ref:`addon-weblate.cdn.cdnjs` and :ref:`addon-weblate.cdn.files` add-ons
+write files to :setting:`LOCALIZE_CDN_PATH`; Weblate does not serve them.
+Configure the web server or CDN serving :setting:`LOCALIZE_CDN_URL` as a
+public, read-only static file host.
+
+Treat every published CDN file as public. The add-on specific UUID in the URL
+is not an access-control mechanism. Do not enable CDN add-ons for components
+that contain private strings, unreleased product text, customer data, internal
+URLs, API examples, repository paths, translator comments, or file-format
+metadata that should not be exposed.
+
+The :ref:`addon-weblate.cdn.files` add-on publishes raw translation files in
+formats supported by Weblate. Some formats can be interpreted by browsers or
+other clients as HTML, SVG, XML, JavaScript, YAML, or application-specific
+configuration. Serve the CDN from a dedicated domain that is separate from
+Weblate and from the application consuming the translations. Do not share
+authentication cookies with the CDN domain.
+
+Recommended server configuration:
+
+* Serve only the directory configured by :setting:`LOCALIZE_CDN_PATH`; do not
+  expose Weblate repositories, backups, media, configuration, or the whole data
+  directory.
+* Disable directory listing.
+* Use HTTPS and make the CDN host read-only from the web server.
+* Send :http:header:`X-Content-Type-Options` with ``nosniff``.
+* Configure conservative MIME types. Serve unknown translation formats as
+  :mimetype:`text/plain` or :mimetype:`application/octet-stream`; only serve
+  :file:`weblate.js` as JavaScript.
+* For raw translation formats that are not intended to be rendered in a
+  browser, consider adding :http:header:`Content-Disposition` with
+  ``attachment``.
+* Configure ``Access-Control-Allow-Origin`` only for sites that need browser
+  access to the files.
+* Set cache lifetimes that match your update expectations, and purge CDN caches
+  when stale translations must disappear quickly.
+
+The following nginx snippet serves only the configured CDN directory and
+applies conservative defaults for raw translation files:
+
+.. literalinclude:: ../../weblate/examples/weblate.nginx.cdn.conf
+   :language: nginx
+   :caption: weblate/examples/weblate.nginx.cdn.conf
+
+.. seealso::
+
+   * :ref:`weblate-cdn`
+   * :setting:`LOCALIZE_CDN_URL`
+   * :setting:`LOCALIZE_CDN_PATH`
+
 .. _gpg-sign:
 
 Signing Git commits with GnuPG

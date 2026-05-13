@@ -850,6 +850,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.removal.RemoveSuggestions",
 #     "weblate.addons.resx.ResxUpdateAddon",
 #     "weblate.addons.cdn.CDNJSAddon",
+#     "weblate.addons.cdn.CDNFilesAddon",
 #     "weblate.addons.webhooks.WebhookAddon",
 #     "weblate.addons.webhooks.SlackWebhookAddon",
 #     "weblate.addons.fedora_messaging.FedoraMessagingAddon",

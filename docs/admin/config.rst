@@ -1446,10 +1446,13 @@ The restriction is the length of the source string × 10 characters.
 LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
 --------------------------------------
 
-These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on.
+These settings configure the CDN add-ons, including
+:ref:`addon-weblate.cdn.cdnjs` and :ref:`addon-weblate.cdn.files`.
 :setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
 available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
 store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
+The files are served by your web server or CDN, not by Weblate; see
+:ref:`cdn-server-security` for secure serving guidance.
 
 .. hint::
 
@@ -1457,7 +1460,8 @@ store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
 
 .. seealso::
 
-   :ref:`addon-weblate.cdn.cdnjs`
+   * :ref:`addon-weblate.cdn.cdnjs`
+   * :ref:`addon-weblate.cdn.files`
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID
