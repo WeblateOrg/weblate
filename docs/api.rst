@@ -2433,7 +2433,7 @@ Memory
     :query project: Project slug filter (optional)
     :type project: string
     :query exact: Return exact matches only and skip fuzzy matching (optional)
-    :type exact: bool
+    :type exact: boolean
     :<json array strings: List of source strings to look up
     :>json array results: Ordered lookup results with the best match for each query or ``null`` when no match was found
 
