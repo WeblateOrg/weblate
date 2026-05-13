@@ -11,6 +11,7 @@ Weblate 2026.5
 * :ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now export plural strings as separate plural-form rows that can be imported back.
 * :ref:`file_format_params` now include ``po_set_language_team``, ``po_set_last_translator``, ``po_set_x_generator``, and ``po_report_msgid_bugs_to`` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers in Gettext PO and POT files.
 * Added a :ref:`backup-management-command` to run configured backup services synchronously.
+* The translation memory lookup API can now skip fuzzy matching with the ``exact`` query parameter.
 
 .. rubric:: Improvements
 

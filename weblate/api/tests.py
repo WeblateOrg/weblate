@@ -6783,6 +6783,62 @@ class MemoryAPITest(APIBaseTest):
             "Batch fuzzy sourca",  # codespell:ignore sourca
         )
 
+    def test_lookup_exact_query_skips_fuzzy_fallback(self) -> None:
+        self.authenticate()
+        exact = self.create_memory(
+            source="Exact only match",
+            target="Pouze presna shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        fuzzy = self.create_memory(
+            source="Exact only fuzzy entry",
+            target="Pouze fuzzy shoda",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+
+        with patch.object(
+            MemoryViewSet,
+            "get_fuzzy_match",
+            autospec=True,
+            return_value=fuzzy,
+        ) as get_fuzzy_match:
+            response = self.client.post(
+                (
+                    f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                    f"&project={self.component.project.slug}&exact=true"
+                ),
+                {
+                    "strings": [
+                        "Exact only match",
+                        "Exact only fuzzy entri",
+                    ]
+                },  # codespell:ignore entri
+                format="json",
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["match"]["id"], exact.id)
+        self.assertTrue(response.data[0]["match"]["exact"])
+        self.assertIsNone(response.data[1]["match"])
+        get_fuzzy_match.assert_not_called()
+
+    def test_lookup_exact_query_rejects_invalid_boolean(self) -> None:
+        self.authenticate()
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                "&exact=invalid"
+            ),
+            {"strings": ["Invalid exact parameter"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "exact")
+
     def test_get_exact_matches_uses_distinct_on_source(self) -> None:
         first = self.create_memory(
             source="Shared exact source",
