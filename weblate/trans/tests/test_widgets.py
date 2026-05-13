@@ -6,16 +6,62 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, Any, cast
 
+from django.test import SimpleTestCase
 from django.urls import reverse
 
+from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
+from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
+
+
+class EngageTaskObject(TranslationChecklistMixin):
+    def __init__(self, stats, enable_review: bool = True) -> None:
+        self.stats = stats
+        self.enable_review = enable_review
+
+    def get_translate_url(self) -> str:
+        return "/translate/"
+
+
+class EngageTaskChecklistTest(SimpleTestCase):
+    """Testing of engage task checklist."""
+
+    def get_engage_tasks(self, **stats):
+        obj = EngageTaskObject(
+            SimpleNamespace(
+                nottranslated=stats.get("nottranslated", 0),
+                translated_checks=stats.get("translated_checks", 0),
+                suggestions=stats.get("suggestions", 0),
+                fuzzy=stats.get("fuzzy", 0),
+                unapproved=stats.get("unapproved", 0),
+            ),
+            stats.get("enable_review", True),
+        )
+        return cast("Any", obj).list_engage_tasks
+
+    def test_engage_tasks_skip_zero_categories(self) -> None:
+        tasks = self.get_engage_tasks(nottranslated=1, fuzzy=2)
+
+        self.assertEqual(
+            [(task.url, str(task.label), task.total) for task in tasks],
+            [
+                ("/translate/?q=state:empty", "Untranslated", 1),
+                ("/translate/?q=state:needs-editing", "Needs editing", 2),
+            ],
+        )
+
+    def test_engage_tasks_hide_empty_review(self) -> None:
+        tasks = self.get_engage_tasks(enable_review=True)
+
+        self.assertEqual(tasks, [])
 
 
 class WidgetsTest(FixtureTestCase):
@@ -49,15 +95,28 @@ class WidgetsTest(FixtureTestCase):
         self.assertContains(response, "Test")
         self.assertContains(response, "Choose what to work on")
         self.assertContains(response, "?q=state:empty")
-        self.assertContains(response, "?q=state:needs-editing")
-        self.assertContains(response, "?q=has:check%20AND%20state:%3E=translated")
+        self.assertNotContains(response, "?q=state:needs-editing")
+        self.assertNotContains(response, "?q=has:check%20AND%20state:%3E=translated")
         self.assertNotContains(response, '?q=has:check"')
-        self.assertContains(response, "?q=has:suggestion#suggestions")
+        self.assertNotContains(response, "?q=has:suggestion#suggestions")
         self.assertNotContains(response, "state:%3Ctranslated")
+
+    def test_view_engage_lang_suggestion_tasks(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", suggest="yes")
+
+        response = self.client.get(
+            reverse(
+                "engage", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
+            )
+        )
+
+        self.assertContains(response, "Suggestions pending")
+        self.assertContains(response, "?q=has:suggestion#suggestions")
 
     def test_view_engage_lang_review_tasks(self) -> None:
         self.project.translation_review = True
         self.project.save()
+        self.change_unit("Nazdar svete!\n")
 
         response = self.client.get(
             reverse(
@@ -71,6 +130,10 @@ class WidgetsTest(FixtureTestCase):
     def test_view_engage_lang_source_review_tasks(self) -> None:
         self.project.source_review = True
         self.project.save()
+        unit = self.get_unit(language="en")
+        unit.state = STATE_TRANSLATED
+        unit.save()
+        unit.invalidate_related_cache()
 
         response = self.client.get(
             reverse(

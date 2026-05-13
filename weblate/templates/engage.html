@@ -59,54 +59,22 @@
       {% endif %}
     </p>
 
-    {% if translate_object %}
-      {% with task_stats=translate_object.stats translate_url=translate_object.get_translate_url %}
+    {% if translate_object.list_engage_tasks %}
+      {% with engage_tasks=translate_object.list_engage_tasks %}
         <div class="engage-tasks">
           <h3>{% translate "Choose what to work on" %}</h3>
           <p>{% translate "Start with untranslated strings, then continue with checks, review, suggestions, or editing." %}</p>
           <div class="row engage-task-list">
-            <div class="col-sm-3">
-              <div class="metric engage-task">
-                <a href="{{ translate_url }}?q=state:empty">
-                  <div class="metric-number">{{ task_stats.nottranslated|intcomma }}</div>
-                  <div class="metric-text">{% translate "Untranslated" %}</div>
-                </a>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric engage-task">
-                <a href="{{ translate_url }}?q=has:check%20AND%20state:%3E=translated">
-                  <div class="metric-number">{{ task_stats.translated_checks|intcomma }}</div>
-                  <div class="metric-text">{% translate "Failing checks" %}</div>
-                </a>
-              </div>
-            </div>
-            {% if task_stats.has_review %}
+            {% for task in engage_tasks %}
               <div class="col-sm-3">
                 <div class="metric engage-task">
-                  <a href="{{ translate_url }}?q=state:translated">
-                    <div class="metric-number">{{ task_stats.waiting_review|intcomma }}</div>
-                    <div class="metric-text">{% translate "Needs review" %}</div>
+                  <a href="{{ task.url }}">
+                    <div class="metric-number">{{ task.total|intcomma }}</div>
+                    <div class="metric-text">{{ task.label }}</div>
                   </a>
                 </div>
               </div>
-            {% endif %}
-            <div class="col-sm-3">
-              <div class="metric engage-task">
-                <a href="{{ translate_url }}?q=has:suggestion#suggestions">
-                  <div class="metric-number">{{ task_stats.suggestions|intcomma }}</div>
-                  <div class="metric-text">{% translate "Suggestions pending" %}</div>
-                </a>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="metric engage-task">
-                <a href="{{ translate_url }}?q=state:needs-editing">
-                  <div class="metric-number">{{ task_stats.fuzzy|intcomma }}</div>
-                  <div class="metric-text">{% translate "Needs editing" %}</div>
-                </a>
-              </div>
-            </div>
+            {% endfor %}
           </div>
         </div>
       {% endwith %}
