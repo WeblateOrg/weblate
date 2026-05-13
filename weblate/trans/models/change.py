@@ -396,7 +396,7 @@ class ChangeManager(models.Manager["Change"]):
         language: Language | None = None,
     ) -> models.QuerySet[Change, Change]:
         """
-        Return the most recent changes for an user.
+        Return the most recent changes for a user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.

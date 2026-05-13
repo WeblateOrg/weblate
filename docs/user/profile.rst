@@ -60,7 +60,7 @@ User profile
 The user profile is accessible by clicking your user icon in the top-right of the top menu,
 then the :guilabel:`Settings` menu.
 
-The user profile contains your preferences. Name and e-mail address is used in VCS commits, so keep this info accurate.
+The user profile contains your preferences. Name and e-mail address are used in VCS commits, so keep this info accurate.
 
 
 .. note::

@@ -1850,14 +1850,14 @@ class FluentInnerHTMLCheckTestBase:
                 "a<{ $var }",
                 fluent_type,
                 "The Fluent reference in <code>&lt;{ $var }</code> may expand "
-                "into a HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
+                "into an HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
             )
             self.assert_html_error(
                 'before <span>a<{ -term(param: 5, p2: "yes") }b</span> after',
                 fluent_type,
                 "The Fluent reference in "
                 '<code>&lt;{ -term(param: 5, p2: "yes") }</code> '
-                "may expand into a HTML tag. Maybe use "
+                "may expand into an HTML tag. Maybe use "
                 '<code>&amp;lt;{ -term(param: 5, p2: "yes") }</code>.',
             )
             # Putting the "<" in a literal will not help.
@@ -1865,33 +1865,33 @@ class FluentInnerHTMLCheckTestBase:
                 'a { "<" }{ $var }',
                 fluent_type,
                 "The Fluent reference in <code>&lt;{ $var }</code> may expand "
-                "into a HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
+                "into an HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
             )
             # Even unicode escape for "<".
             self.assert_html_error(
                 '{ "a \\u003c" }{ $var }',
                 fluent_type,
                 "The Fluent reference in <code>&lt;{ $var }</code> may expand "
-                "into a HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
+                "into an HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
             )
             self.assert_html_error(
                 'a { "\\U00003C" }{ $var }',
                 fluent_type,
                 "The Fluent reference in <code>&lt;{ $var }</code> may expand "
-                "into a HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
+                "into an HTML tag. Maybe use <code>&amp;lt;{ $var }</code>.",
             )
             self.assert_html_error(
                 "a&{ FUNC($var) }",
                 fluent_type,
                 "The Fluent reference in <code>&amp;{ FUNC($var) }</code> may "
-                "expand into a HTML character reference. Maybe use "
+                "expand into an HTML character reference. Maybe use "
                 "<code>&amp;amp;{ FUNC($var) }</code>.",
             )
             self.assert_html_error(
                 "before <p data-val='&{ -term }'>x</p>",
                 fluent_type,
                 "The Fluent reference in <code>&amp;{ -term }</code> may "
-                "expand into a HTML character reference. Maybe use "
+                "expand into an HTML character reference. Maybe use "
                 "<code>&amp;amp;{ -term }</code>.",
             )
 
@@ -1937,49 +1937,49 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "<span>hello</ span>",
                 fluent_type,
-                "The sequence <code>&lt;/</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/</code>.",
             )
             self.assert_html_error(
                 "hello</>",
                 fluent_type,
-                "The sequence <code>&lt;/</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/</code>.",
             )
             self.assert_html_error(
                 "hello</",
                 fluent_type,
-                "The sequence <code>&lt;/</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/</code>.",
             )
             self.assert_html_error(
                 "<span>hello</span",
                 fluent_type,
-                "The sequence <code>&lt;/span</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/span</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/span</code>.",
             )
             self.assert_html_error(
                 "<span>hello</span hidden=''>",
                 fluent_type,
-                "The sequence <code>&lt;/span</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/span</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/span</code>.",
             )
             self.assert_html_error(
                 "<span>hello</5>",
                 fluent_type,
-                "The sequence <code>&lt;/5</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/5</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/5</code>.",
             )
             self.assert_html_error(
                 "<span>hello</sp~n>",
                 fluent_type,
-                "The sequence <code>&lt;/sp~n</code> begins with a HTML closing tag, "
+                "The sequence <code>&lt;/sp~n</code> begins with an HTML closing tag, "
                 "but the name or syntax is not valid. If you do not want a "
                 "closing tag, use <code>&amp;lt;/sp~n</code>.",
             )
@@ -1988,23 +1988,23 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <sp~n and",
                 fluent_type,
-                "The sequence <code>&lt;sp~n</code> begins with a HTML tag, "
-                "but the name is not valid. If you do not want to begin a HTML "
+                "The sequence <code>&lt;sp~n</code> begins with an HTML tag, "
+                "but the name is not valid. If you do not want to begin an HTML "
                 "tag, use <code>&amp;lt;sp~n</code>.",
             )
             # Fluent literal does not help.
             self.assert_html_error(
                 'a { "<" }sp~n and',
                 fluent_type,
-                "The sequence <code>&lt;sp~n</code> begins with a HTML tag, "
-                "but the name is not valid. If you do not want to begin a HTML "
+                "The sequence <code>&lt;sp~n</code> begins with an HTML tag, "
+                "but the name is not valid. If you do not want to begin an HTML "
                 "tag, use <code>&amp;lt;sp~n</code>.",
             )
             self.assert_html_error(
                 "a <sp~n> and </sp~n>",
                 fluent_type,
-                "The sequence <code>&lt;sp~n</code> begins with a HTML tag, "
-                "but the name is not valid. If you do not want to begin a HTML "
+                "The sequence <code>&lt;sp~n</code> begins with an HTML tag, "
+                "but the name is not valid. If you do not want to begin an HTML "
                 "tag, use <code>&amp;lt;sp~n</code>.",
             )
             # Technically an allowed custom name, but not allowed by our parser
@@ -2012,8 +2012,8 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <my-😄> and </my-😄>",
                 fluent_type,
-                "The sequence <code>&lt;my-😄</code> begins with a HTML tag, "
-                "but the name is not valid. If you do not want to begin a HTML "
+                "The sequence <code>&lt;my-😄</code> begins with an HTML tag, "
+                "but the name is not valid. If you do not want to begin an HTML "
                 "tag, use <code>&amp;lt;my-😄</code>.",
             )
 
@@ -2021,57 +2021,57 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "a <div",
                 fluent_type,
-                "The sequence <code>&lt;div</code> begins with a HTML tag, "
+                "The sequence <code>&lt;div</code> begins with an HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
-                "want to begin a HTML tag, use <code>&amp;lt;div</code>.",
+                "want to begin an HTML tag, use <code>&amp;lt;div</code>.",
             )
             self.assert_html_error(
                 "a <div data-val=''",
                 fluent_type,
-                "The sequence <code>&lt;div</code> begins with a HTML tag, "
+                "The sequence <code>&lt;div</code> begins with an HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
-                "want to begin a HTML tag, use <code>&amp;lt;div</code>.",
+                "want to begin an HTML tag, use <code>&amp;lt;div</code>.",
             )
             self.assert_html_error(
                 "a <img data-val='a' \n\t",
                 fluent_type,
-                "The sequence <code>&lt;img</code> begins with a HTML tag, "
+                "The sequence <code>&lt;img</code> begins with an HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
-                "want to begin a HTML tag, use <code>&amp;lt;img</code>.",
+                "want to begin an HTML tag, use <code>&amp;lt;img</code>.",
             )
 
             # Invalid attribute, with no equal sign.
             self.assert_html_error(
                 "a <span attr",
                 fluent_type,
-                "The sequence <code>&lt;span</code> begins with a HTML tag, "
+                "The sequence <code>&lt;span</code> begins with an HTML tag, "
                 "but the sequence <code>attr</code> is not a valid attribute "
-                "with a value. If you do not want to begin a HTML tag, use "
+                "with a value. If you do not want to begin an HTML tag, use "
                 "<code>&amp;lt;span</code>.",
             )
             self.assert_html_error(
                 "a <span class='val' attr and more",
                 fluent_type,
-                "The sequence <code>&lt;span</code> begins with a HTML tag, "
+                "The sequence <code>&lt;span</code> begins with an HTML tag, "
                 "but the sequence <code>attr</code> is not a valid attribute "
-                "with a value. If you do not want to begin a HTML tag, use "
+                "with a value. If you do not want to begin an HTML tag, use "
                 "<code>&amp;lt;span</code>.",
             )
             self.assert_html_error(
                 "a <p><em att*va>content</em></p>",
                 fluent_type,
-                "The sequence <code>&lt;em</code> begins with a HTML tag, "
+                "The sequence <code>&lt;em</code> begins with an HTML tag, "
                 "but the sequence <code>att*va</code> is not a valid attribute "
-                "with a value. If you do not want to begin a HTML tag, use "
+                "with a value. If you do not want to begin an HTML tag, use "
                 "<code>&amp;lt;em</code>.",
             )
             # Attribute with no value.
             self.assert_html_error(
                 "a <p><img attr></p>",
                 fluent_type,
-                "The sequence <code>&lt;img</code> begins with a HTML tag, "
+                "The sequence <code>&lt;img</code> begins with an HTML tag, "
                 "but the sequence <code>attr</code> is not a valid attribute "
-                "with a value. If you do not want to begin a HTML tag, use "
+                "with a value. If you do not want to begin an HTML tag, use "
                 "<code>&amp;lt;img</code>.",
             )
 
@@ -2203,7 +2203,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "nice&ethical",
                 fluent_type,
-                "The sequence <code>&amp;ethical</code> will begin a HTML "
+                "The sequence <code>&amp;ethical</code> will begin an HTML "
                 "character reference, but does not end with "
                 "<code>;</code>. If you do not want a character reference, "
                 "use <code>&amp;amp;ethical</code>.",
@@ -2211,7 +2211,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "<p>character &#90</p>",
                 fluent_type,
-                "The sequence <code>&amp;#90</code> will begin a HTML "
+                "The sequence <code>&amp;#90</code> will begin an HTML "
                 "character reference, but does not end with "
                 "<code>;</code>. If you do not want a character reference, "
                 "use <code>&amp;amp;#90</code>.",
@@ -2219,7 +2219,7 @@ class FluentInnerHTMLCheckTestBase:
             self.assert_html_error(
                 "<p class='a&gt~hello'>content</p>",
                 fluent_type,
-                "The sequence <code>&amp;gt</code> will begin a HTML "
+                "The sequence <code>&amp;gt</code> will begin an HTML "
                 "character reference, but does not end with "
                 "<code>;</code>. If you do not want a character reference, "
                 "use <code>&amp;amp;gt</code>.",
@@ -2266,14 +2266,14 @@ class FluentInnerHTMLCheckTestBase:
                 "}",
                 fluent_type,
                 "The Fluent reference in <code>&lt;{ $num }</code> may expand "
-                "into a HTML tag. Maybe use <code>&amp;lt;{ $num }</code>.",
+                "into an HTML tag. Maybe use <code>&amp;lt;{ $num }</code>.",
             )
             self.assert_html_error(
                 "a <{ $var ->\n  [zero] none\n *[other] { $var }\n}",
                 fluent_type,
-                "The sequence <code>&lt;none</code> begins with a HTML tag, "
+                "The sequence <code>&lt;none</code> begins with an HTML tag, "
                 "but the tag is never closed by <code>></code>. If you do not "
-                "want to begin a HTML tag, use <code>&amp;lt;none</code>.",
+                "want to begin an HTML tag, use <code>&amp;lt;none</code>.",
             )
 
 
@@ -2430,7 +2430,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<strong>source</strong>",
                 "target",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;strong&gt;…&lt;/strong&gt;</code> tag.",
             )
             self.assert_target_check_fails(
@@ -2438,7 +2438,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<em>source</em>\n.title = text",
                 "target\n.title = <em>text</em>",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;em&gt;…&lt;/em&gt;</code> tag.",
             )
             # For void elements, the tag is serialized as self-closing.
@@ -2447,14 +2447,14 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "with <img/>",
                 "target",
                 fluent_type,
-                "Fluent value is missing a HTML <code>&lt;img/&gt;</code> tag.",
+                "Fluent value is missing an HTML <code>&lt;img/&gt;</code> tag.",
             )
             self.assert_target_check_fails(
                 self.check,
                 "with <br>",
                 "target",
                 fluent_type,
-                "Fluent value is missing a HTML <code>&lt;br/&gt;</code> tag.",
+                "Fluent value is missing an HTML <code>&lt;br/&gt;</code> tag.",
             )
             # With attribute.
             self.assert_target_check_fails(
@@ -2462,7 +2462,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "with <a data-val='ok'>text</a>",
                 "target",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 '<code>&lt;a data-val="ok"&gt;…&lt;/a&gt;</code> tag.',
             )
             # When attribute value contains a double-quote, the serialized tag
@@ -2472,7 +2472,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "with <a data-val='ok\"' class='other'>text</a>",
                 "target",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 '<code>&lt;a data-val=\'ok"\' class="other"&gt;'
                 "…&lt;/a&gt;</code> tag.",
             )
@@ -2493,7 +2493,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "source<br>has<br>two",
                 "target<br>one",
                 fluent_type,
-                "Fluent value is missing a HTML <code>&lt;br/&gt;</code> tag.",
+                "Fluent value is missing an HTML <code>&lt;br/&gt;</code> tag.",
             )
             self.assert_target_check_fails(
                 self.check,
@@ -2510,7 +2510,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<i>source</i> <img>",
                 "<img> <em data-val='ok'>target</em> val",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;i&gt;…&lt;/i&gt;</code> tag.<br>"
                 "Fluent value has an unexpected extra HTML "
                 '<code>&lt;em data-val="ok"&gt;…&lt;/em&gt;</code> tag.',
@@ -2522,7 +2522,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<p>first<br>expected</p>",
                 "<p>missing br</p>",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;p&gt;&lt;br/&gt;&lt;/p&gt;</code> tag.",
             )
             self.assert_target_check_fails(
@@ -2530,7 +2530,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<p>first<br>expected</p>",
                 "<p>missing <i>a<br>b</i></p>",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;p&gt;&lt;br/&gt;&lt;/p&gt;</code> tag.<br>"
                 "Fluent value has an unexpected extra HTML "
                 "<code>&lt;p&gt;&lt;i&gt;…&lt;/i&gt;&lt;/p&gt;</code> tag.<br>"
@@ -2544,7 +2544,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "add <p>with<img></p>",
                 "<p>with</p> <img>",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;p&gt;&lt;img/&gt;&lt;/p&gt;</code> tag.<br>"
                 "Fluent value has an unexpected extra HTML "
                 "<code>&lt;img/&gt;</code> tag.",
@@ -2554,7 +2554,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<em>first</em> and <strong>second</strong>",
                 "<em>first and <strong>second</strong></em>",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;strong&gt;…&lt;/strong&gt;</code> tag.<br>"
                 "Fluent value has an unexpected extra HTML "
                 "<code>&lt;em&gt;&lt;strong&gt;"
@@ -2567,7 +2567,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<span data-val='ok'>text</span> more",
                 "<span>text</span> more",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 '<code>&lt;span data-val="ok"&gt;…&lt;/span&gt;</code> tag.<br>'
                 "Fluent value has an unexpected extra HTML "
                 "<code>&lt;span&gt;…&lt;/span&gt;</code> tag.",
@@ -2577,7 +2577,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<span data-val='ok'>text</span> more",
                 "<span data-val='not'>text</span> more",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 '<code>&lt;span data-val="ok"&gt;…&lt;/span&gt;</code> tag.<br>'
                 "Fluent value has an unexpected extra HTML "
                 '<code>&lt;span data-val="not"&gt;…&lt;/span&gt;</code> tag.',
@@ -2589,7 +2589,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                 "<SPAN>text</SPAN> more",
                 "<span>text</span> more",
                 fluent_type,
-                "Fluent value is missing a HTML "
+                "Fluent value is missing an HTML "
                 "<code>&lt;SPAN&gt;…&lt;/SPAN&gt;</code> tag.<br>"
                 "Fluent value has an unexpected extra HTML "
                 "<code>&lt;span&gt;…&lt;/span&gt;</code> tag.",
@@ -2625,7 +2625,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                     "<span data-val='a'>first</span><br>"
                     '<span data-val="a">second</span></p>',
                     fluent_type,
-                    "Fluent value is missing a HTML "
+                    "Fluent value is missing an HTML "
                     '<code>&lt;p class="ok"&gt;&lt;span data-val="b"&gt;'
                     "…&lt;/span&gt;&lt;/p&gt;</code> tag.<br>"
                     "Fluent value has an unexpected extra HTML "
@@ -2644,7 +2644,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                     " *[b] <span data-val='b'>B</span>\n"
                     "}</p> and <img>",
                     fluent_type,
-                    "Fluent value is missing a HTML "
+                    "Fluent value is missing an HTML "
                     '<code>&lt;p class="ok"&gt;&lt;br/&gt;&lt;/p&gt;</code> '
                     "tag.<br>Fluent value has an unexpected extra HTML "
                     "<code>&lt;img/&gt;</code> tag.",
@@ -2662,7 +2662,7 @@ class FluentTargetInnerHTMLCheckTest(FluentCheckTestBase, FluentInnerHTMLCheckTe
                     " *[c] <span data-val='b'>C</span>\n"
                     "}</p>",
                     fluent_type,
-                    "Fluent value is missing a HTML "
+                    "Fluent value is missing an HTML "
                     '<code>&lt;p class="ok"&gt;&lt;br/&gt;&lt;/p&gt;</code> '
                     "tag for the following variants: "
                     "<code>[no][b], [no][c]</code>.<br>"

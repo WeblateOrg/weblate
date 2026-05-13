@@ -2143,7 +2143,7 @@ class ComponentBranchForm(ComponentSelectForm):
         if not component or any(field not in data for field in form_fields):
             return
         kwargs = model_to_dict(component, exclude=["id", "links"])
-        # We need a object, not integer here
+        # We need an object, not integer here
         kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project
         kwargs["category"] = component.category

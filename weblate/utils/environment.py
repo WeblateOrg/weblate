@@ -147,7 +147,7 @@ def get_env_float(name: str, default: float = 0.0) -> float:
     try:
         return float(string_value)
     except ValueError as error:
-        msg = f"{name} is not an float: {error}"
+        msg = f"{name} is not a float: {error}"
         raise ImproperlyConfigured(msg) from error
 
 

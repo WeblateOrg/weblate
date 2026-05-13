@@ -4,7 +4,7 @@ Language definitions
 ====================
 
 To present different translations properly, info about language name,
-text direction, plural definitions and language code is needed.
+text direction, plural definitions and language code are needed.
 
 .. _included-languages:
 

@@ -2982,7 +2982,7 @@ class Component(  # noqa: PLR0904
     def store_local_revision(self) -> None:
         """Store current revision in the database."""
         self.local_revision = self.repository.last_revision
-        # Avoid using using save as that does complex things and we
+        # Avoid using save as that does complex things and we
         # just want to update the database
         with transaction.atomic():
             queryset = Component.objects.filter(

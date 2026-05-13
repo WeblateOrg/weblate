@@ -568,9 +568,9 @@ Configures how e-mail from the contact form is being sent.
 Choose a configuration that matches the configuration of your mail server.
 
 ``"reply-to"``
-   The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
+   The sender is used as :mailheader:`Reply-To`, this is the default behaviour.
 ``"from"``
-   The sender is used in as :mailheader:`From`. Your mail server needs to allow
+   The sender is used as :mailheader:`From`. Your mail server needs to allow
    sending such e-mails.
 ``"disabled"``
    Disables the contact form entirely.
@@ -1049,7 +1049,7 @@ List for credentials for GitHub servers.
 
 .. hint::
 
-   Use ``api.github.com`` as a API host for https://github.com/.
+   Use ``api.github.com`` as an API host for https://github.com/.
 
 .. include:: /snippets/vcs-credentials.rst
 
@@ -1366,7 +1366,7 @@ Additional licenses to include in the license choices.
 
 .. note::
 
-    Each license definition should be tuple of its short name, a long name, a URL and a boolean, indication with it is a libre license.
+    Each license definition should be a tuple of its short name, a long name, a URL and a boolean, indicating whether it is a libre license.
 
 For example:
 
@@ -2089,7 +2089,7 @@ REGISTRATION_CAPTCHA
 
 Whether registration of new accounts is protected by a CAPTCHA. Defaults to enabled.
 
-If turned on, a CAPTCHA is added to all pages where a users enters their e-mail address:
+If turned on, a CAPTCHA is added to all pages where a user enters their e-mail address:
 
 * New account registration.
 * Password recovery.

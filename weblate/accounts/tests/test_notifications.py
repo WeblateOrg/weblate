@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Tests for notitifications."""
+"""Tests for notifications."""
 
 from __future__ import annotations
 

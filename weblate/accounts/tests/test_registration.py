@@ -1132,7 +1132,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Try to add GitHub auth with other e-mail
         self.client.login(username="second", password="x")
         self.test_github(fail=True)
-        # User should get an notification
+        # User should get a notification
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
         self.assertEqual(mail.outbox[0].to, ["noreply-weblate@example.org"])

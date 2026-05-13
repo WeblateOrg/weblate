@@ -1395,7 +1395,7 @@ class Invitation(models.Model):
         elif self.user is not None:
             email = self.user.email
         else:
-            msg = "Intiviation without an e-mail!"
+            msg = "Invitation without an e-mail!"
             raise ValueError(msg)
 
         send_notification_email(

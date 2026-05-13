@@ -287,7 +287,7 @@ class BaseTermExpr:
         # Lazily import as this can be expensive
         from dateparser.date import DateDataParser  # noqa: PLC0415
 
-        # Custom RELATIVE_BASE allows to base "1 day ago" from the midnight instead
+        # Custom RELATIVE_BASE allows basing "1 day ago" from midnight instead
         # of the current time
         parser = DateDataParser(
             locales=["en"],
