@@ -135,11 +135,15 @@ class PlaceholderCheck(TargetCheckParametrized):
         regex_flags = regex.IGNORECASE if "case-insensitive" in unit.all_flags else 0
         spans: list[tuple[int, int, str]] = []
 
-        # get raw list of patterns from super() to run each independently
-        for param in super().get_value(unit):
+        # get raw list of patterns from unit to run each independently                    continue
+        for param in unit.all_flags.get_value_raw(self.enable_string):
             if isinstance(param, str):
+                if not param:
+                    continue
                 pattern = regex.compile(regex.escape(param), regex_flags)
             else:
+                if not param.pattern:
+                    continue
                 pattern = regex.compile(param.pattern, regex_flags)
 
             spans.extend(
