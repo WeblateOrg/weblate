@@ -92,11 +92,6 @@ repos:
   - id: djlint-django
     types_or: [html, text]
     files: ^weblate/.*templates/.*\.(txt|html|tmx)$
-- repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.10.0
-  hooks:
-  - id: rst-directive-colons
-  - id: rst-inline-touching-normal
 - repo: local
   hooks:
   - id: rst-double-space
@@ -129,6 +124,18 @@ repos:
     args: [--multiline]
     entry: ^\.\. seealso::\n\n(   *[:`*][^\n]*\n)*   *[:`*][^\n]*,
     language: pygrep
+  - id: rst-directive-colons
+    name: rst directives end with two colons
+    description: Detect mistake of rst directive not ending with double colon or space before the double colon
+    entry: ^\s*\.\. [a-z]+(| | :):$
+    language: pygrep
+    types: [rst]
+  - id: rst-inline-touching-normal
+    name: rst ``inline code`` next to normal text
+    description: Detect mistake of inline code touching normal text in rst
+    entry: \w``\w
+    language: pygrep
+    types: [rst]
   - id: py-join-comma
     name: Localized comma in join
     types: [python]
