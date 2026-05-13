@@ -608,6 +608,21 @@ class AuditLog(models.Model):
             return EXTRA_MESSAGES[self.activity].format(**self.params)
         return None
 
+    def get_user_agent_display(self) -> str:
+        """Return a localized user agent string."""
+        ua_string = self.user_agent
+        if not ua_string:
+            return ""
+
+        parts = ua_string.split(" / ")
+        localized: list[str] = []
+        for part in parts:
+            part = part.strip()
+            if not part:
+                continue
+            localized.append(gettext(part))
+        return " / ".join(localized)
+
     def should_notify(self) -> bool:
         return (
             self.user is not None
