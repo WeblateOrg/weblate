@@ -12704,6 +12704,11 @@ paths:
       description: Look up translation memory matches for the provided source strings.
       parameters:
       - in: query
+        name: exact
+        schema:
+          type: boolean
+        description: Return exact matches only and skip fuzzy matching.
+      - in: query
         name: project
         schema:
           type: string
