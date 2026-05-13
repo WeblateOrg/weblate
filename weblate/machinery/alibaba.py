@@ -13,7 +13,11 @@ from uuid import uuid4
 
 from requests.exceptions import JSONDecodeError
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import AlibabaMachineryForm
 
 if TYPE_CHECKING:
@@ -339,7 +343,7 @@ class AlibabaTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         body_params = {

@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, ClassVar
 from django.utils.functional import cached_property
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
 )
@@ -70,7 +71,7 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         params = {
             "Text": text,

@@ -46,6 +46,7 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     MachineryRateLimitError,
     MachineTranslationError,
 )
@@ -551,7 +552,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
                 target_language,
                 sources,
                 user=None,
-                threshold: int = 75,
+                threshold: int = MACHINERY_DEFAULT_THRESHOLD,
             ):
                 self.batches.append(sources)
                 return {

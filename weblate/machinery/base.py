@@ -44,6 +44,8 @@ from .types import (
     SourceLanguageChoices,
 )
 
+MACHINERY_DEFAULT_THRESHOLD = 80
+
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
@@ -148,7 +150,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                 self.validate_target_language,
                 [("test", None)],
                 None,
-                75,
+                MACHINERY_DEFAULT_THRESHOLD,
             )
         except Exception as error:
             raise ValidationError(
@@ -701,7 +703,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         self,
         unit: Unit,
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_language: Language | None = None,
     ):
@@ -751,7 +753,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         """
         Download dictionary of a lists of possible translations from a service.
@@ -771,7 +773,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return {
             text: result
@@ -790,7 +792,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> list[list[TranslationResultDict]]:
         output: list[list[TranslationResultDict]] = [[] for _source in sources]
         pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]] = (
@@ -880,7 +882,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         source_language,
         target_language,
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> None:
         remaining_keys = list(pending)
         while remaining_keys:
@@ -945,7 +947,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None, int]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return self.download_multiple_translations(
             source_language,
@@ -976,7 +978,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         self,
         units: list[Unit] | UnitQuerySet,
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_language: Language | None = None,
     ) -> None:
@@ -1058,7 +1060,7 @@ class MachineTranslation(BatchMachineTranslation):
         text: str,
         unit: Unit | None,
         user: User | None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """
         Download list of possible translations from a service.
@@ -1078,7 +1080,7 @@ class MachineTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return {
             text: list(

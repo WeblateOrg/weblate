@@ -22,6 +22,7 @@ from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
 
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.memory.utils import (
     CATEGORY_FILE,
     CATEGORY_PRIVATE_OFFSET,
@@ -142,8 +143,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
 
         Machinery threshold typical values:
 
-        - 75 machinery
-        - 80 automatic translation (default value)
+        - 80 machinery and automatic translation (default value)
         - 10 search
 
         PostgreSQL similarity threshold needs to be higher to avoid too slow
@@ -223,7 +223,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         user,
         project,
         use_shared,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         base = self.prefetch_project().filter_type(
             user=user,

@@ -124,6 +124,7 @@ from weblate.auth.results import PermissionResult
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory
 from weblate.screenshots.models import Screenshot
@@ -2425,7 +2426,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         source_language: Language,
         target_language: Language,
         text: str,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         base = queryset.filter(
             source_language=source_language,
