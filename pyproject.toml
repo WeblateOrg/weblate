@@ -9,6 +9,7 @@ requires = [
 dev = [
   {include-group = "docs"},
   {include-group = "lint"},
+  {include-group = "sbom"},
   {include-group = "scripts"},
   {include-group = "test"},
   {include-group = "types"}
@@ -39,6 +40,9 @@ pre-commit = [
 ]
 pylint = [
   "pylint==4.0.5"
+]
+sbom = [
+  "packaging==26.2"
 ]
 schemas = [
   "weblate-schemas==2026.1"
