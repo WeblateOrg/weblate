@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-11 07:44+0000\n"
+"PO-Revision-Date: 2026-05-13 12:12+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -605,10 +605,9 @@ msgstr "הגישה למיזם {project} נחסמה."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:341
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "מיזם התרגום שלך הוסר"
+msgstr "אסימון המיזם עבור {project} הוסר."
 
 #: weblate/accounts/models.py:344
 msgid "Two-factor authentication recovery codes were generated"
@@ -691,10 +690,9 @@ msgid "Account activity"
 msgstr "פעילות בחשבון"
 
 #: weblate/accounts/models.py:584
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "התקבלה הזמנה אל {project} מאת {username}."
+msgstr "הוזנק על ידי {username}."
 
 #: weblate/accounts/models.py:678
 msgid "Interface Language"
@@ -1855,10 +1853,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:188
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "לא ניתן להוסיף הערה!"
+msgstr "לא לחלץ הערות"
 
 #: weblate/addons/forms.py:189
 #, fuzzy
@@ -1915,10 +1911,8 @@ msgstr ""
 
 #: weblate/addons/forms.py:258 weblate/addons/forms.py:349
 #: weblate/addons/forms.py:356
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This field is required."
-msgstr "חל איסור על שם זה"
+msgstr "זה שדה חובה."
 
 #: weblate/addons/forms.py:268
 #, fuzzy
@@ -2048,10 +2042,8 @@ msgid ""
 msgstr "התבנית לתרגומים חדשים שגויה."
 
 #: weblate/addons/forms.py:504 weblate/addons/forms.py:510
-#, fuzzy
-#| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
-msgstr "לא ניתן ליצור את תיקיית המיזם: %s"
+msgstr "לא ניתן לאתר את תיקיית קוד מקור ה־Sphinx."
 
 #: weblate/addons/forms.py:519
 msgid "Name of generated file"
@@ -2237,10 +2229,9 @@ msgid "format not preset"
 msgstr "איפוס מאגר"
 
 #: weblate/addons/forms.py:923
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "קובץ בסיס שפה חד לשוני"
+msgstr "בסיס חד־לשוני: %(base)s"
 
 #: weblate/addons/forms.py:926
 #, fuzzy
@@ -4382,15 +4373,12 @@ msgid "Different strings are translated the same."
 msgstr "מחרוזות שונות מתורגמות אותו דבר."
 
 #: weblate/checks/consistency.py:199
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "מחרוזת מקור אחרת: %s"
-msgstr[1] "מחרוזות מקור אחרות: %s"
-msgstr[2] "מחרוזות מקור אחרות: %s"
-msgstr[3] "מחרוזות מקור אחרות: %s"
+msgstr[0] "מחרוזת מקור אחרת:"
+msgstr[1] "מחרוזות מקור אחרות:"
+msgstr[2] "מחרוזות מקור אחרות:"
+msgstr[3] "מחרוזות מקור אחרות:"
 
 #: weblate/checks/consistency.py:202
 #, python-format
@@ -4909,10 +4897,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "שגיאת תחביר Fluent בתרגום."
 
 #: weblate/checks/format.py:529
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "מחרוזות התבנית הן בסדר שגוי: %s"
+msgstr "מחרוזות התבנית הבאות הן בסדר שגוי:"
 
 #: weblate/checks/format.py:618
 msgid "Python format"
@@ -5140,75 +5126,50 @@ msgid ""
 msgstr "שגיאות תחביא ו/או חוסר התאמה בממלאי מקום במחרוזות ICU MessageFormat."
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "שגיאת תחביר: %s"
+msgstr "שגיאת תחביר:"
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "ממלא מקום לא ידוע אחד או יותר בתרגום: %s"
+msgstr "ממלא מקום לא ידוע אחד או יותר בתרגום:"
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "ממלא מקום אחד או יותר חסרים בתרגום: %s"
+msgstr "ממלא מקום אחד או יותר חסרים בתרגום:"
 
 #: weblate/checks/icu.py:492
-#, fuzzy
-#| msgid "One or more placeholder types are incorrect: %s"
 msgid "One or more placeholder types are incorrect:"
-msgstr "אחד או יותר מסוגי ממלאי המקום שגויים: %s"
+msgstr "אחד או יותר מסוגי ממלאי המקום שגויים:"
 
 #: weblate/checks/icu.py:499
-#, fuzzy
-#| msgid "Missing other sub-message for: %s"
 msgid "Missing other sub-message for:"
-msgstr "חסרה תת־הודעה אחרת עבור: %s"
+msgstr "חסרה תת־הודעה אחרת עבור:"
 
 #: weblate/checks/icu.py:506
-#, fuzzy
-#| msgid "Incorrect plural selectors for: %s"
 msgid "Incorrect plural selectors for:"
-msgstr "בוררי ריבוי שגויים עבור: %s"
+msgstr "בוררי ריבוי שגויים עבור:"
 
 #: weblate/checks/icu.py:515
-#, fuzzy
-#| msgid "Incorrect sub-message selectors for: %s"
 msgid "Incorrect sub-message selectors for:"
-msgstr "בוחרי תת־הודעות שגויים עבור: %s"
+msgstr "בוחרי תת־הודעות שגויים עבור:"
 
 #: weblate/checks/icu.py:526
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should have a corresponding XML tag in the "
-#| "translation: %s"
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation:"
-msgstr "לממלא מקום אחד או יותר אמורה להיות תגית XML תואמות בתרגום: %s"
+msgstr "לממלא מקום אחד או יותר אמורה להיות תגית XML תואמות בתרגום:"
 
 #: weblate/checks/icu.py:535
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should not be an XML tag in the translation: %s"
 msgid "One or more placeholders should not be an XML tag in the translation:"
-msgstr "ממלא מקום אחד או יותר לא אמור להיות תגית XML בתרגום: %s"
+msgstr "ממלא מקום אחד או יותר לא אמור להיות תגית XML בתרגום:"
 
 #: weblate/checks/icu.py:544
-#, fuzzy
-#| msgid "One or more XML tags has unexpected content in the translation: %s"
 msgid "One or more XML tags has unexpected content in the translation:"
-msgstr "לתגית XML אחת או יותר יש תוכן מפתיע בתרגום: %s"
+msgstr "לתגית XML אחת או יותר יש תוכן מפתיע בתרגום:"
 
 #: weblate/checks/icu.py:552
-#, fuzzy
-#| msgid "One or more XML tags missing content in the translation: %s"
 msgid "One or more XML tags missing content in the translation:"
-msgstr "לאחת או יותר מתגיות ה־XML חסר תוכן בתרגום: %s"
+msgstr "לאחת או יותר מתגיות ה־XML חסר תוכן בתרגום:"
 
 #: weblate/checks/markup.py:156
 msgid "BBCode markup"
@@ -6001,10 +5962,8 @@ msgid "Git export failed."
 msgstr ""
 
 #: weblate/gitexport/views.py:295
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "הקובץ אינו נתמך!"
+msgstr "שירות Git לא נתמך."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -6927,10 +6886,8 @@ msgid "Target language of the document when not specified in file"
 msgstr "שפת היעד של המסמך כשלא צוין בקובץ"
 
 #: weblate/memory/forms.py:48
-#, fuzzy
-#| msgid "You can upload a file of following formats: %s."
 msgid "You can upload a file of following formats:"
-msgstr "אפשר להעלות את סוגי הקבצים הבאים: %s."
+msgstr "אפשר להעלות את סוגי הקבצים הבאים:"
 
 #: weblate/memory/forms.py:61
 msgid ""
@@ -19913,10 +19870,8 @@ msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
 
 #: weblate/utils/validators.py:712
-#, fuzzy
-#| msgid "Image URL domain is not allowed."
 msgid "URL domain is not allowed."
-msgstr "שם התחום של כתובת התמונה אינו מורשה."
+msgstr "שם התחום של הכתובת אינו מורשה."
 
 #: weblate/utils/validators.py:816 weblate/utils/validators.py:835
 #, python-format
@@ -19965,10 +19920,9 @@ msgid "Component and priority"
 msgstr "רכיב ועדיפות"
 
 #: weblate/utils/zip.py:54 weblate/utils/zip.py:142
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "קובץ ZIP שמכיל את גיבוי המיזם"
+msgstr "קובץ ZIP מכיל נתיב שגוי: {path}"
 
 #: weblate/utils/zip.py:62
 #, fuzzy
