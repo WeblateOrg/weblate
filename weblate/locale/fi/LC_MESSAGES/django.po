@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-13 13:58+0000\n"
+"PO-Revision-Date: 2026-05-13 15:19+0000\n"
 "Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -14177,10 +14177,8 @@ msgstr ""
 "mutta sinun on suositeltavaa päivittää laskutussuunnitelma."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "Arkiston päivitys epäonnistui."
+msgstr "Weblate ei voinut vahvistaa tietovaraston selaimen URL-osoitetta:"
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -14200,10 +14198,8 @@ msgstr ""
 "ylähakemistoon tai on absoluuttinen."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr "Weblate ei voi pushata paikallisia muutoksia etäarkistoon."
+msgstr "Weblate ei voinut vahvistaa projektin verkkosivuston URL-osoitetta:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -16354,17 +16350,12 @@ msgid "Discovery configuration"
 msgstr "Hyvä kokoonpano"
 
 #: weblate/trans/discovery.py:562
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
-"Säännöllisessä lausekkeessa, jolla etsitään käännöstiedostot, on oltava "
-"kaksi nimettyä ryhmää jotka vastaavat komponenttia ja kieltä. Joitain "
-"esimerkkejä:"
+"Löydettyjen tiedostojen yhdistämiseen käytetty säännöllinen lauseke on liian "
+"monimutkainen ja sen laskeminen kesti liian kauan."
 
 #: weblate/trans/discovery.py:587
 msgid ""
@@ -17143,16 +17134,12 @@ msgid "The category does not belong to the selected project."
 msgstr "Luokka ei kuulu tähän projektiin."
 
 #: weblate/trans/forms.py:2609
-#, fuzzy
-#| msgid ""
-#| "You must specify a license for these components to make them publicly "
-#| "accessible: %s"
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible:"
 msgstr ""
-"Sinun pitää määrittää lisenssi näille komponenteille asettaaksesi ne "
-"julkisesti saataville: %s"
+"Sinun on määritettävä näille komponenteille lisenssi, jotta ne ovat "
+"julkisesti saatavilla:"
 
 #: weblate/trans/forms.py:2630
 msgid ""
@@ -18413,10 +18400,8 @@ msgstr ""
 "ole valinnut käännöstiedostoille kantatiedostoa."
 
 #: weblate/trans/models/component.py:3892
-#, fuzzy
-#| msgid "Could not parse base file for new translations: %s"
 msgid "Could not parse base file for new translations:"
-msgstr "Uusien käännösten kantatiedoston jäsentäminen epäonnistui : %s"
+msgstr "Uusien käännösten kantatiedoston jäsentäminen epäonnistui :"
 
 #: weblate/trans/models/component.py:3897
 msgid "Unrecognized base file for new translations."
@@ -19456,12 +19441,10 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr "Täydennä profiiliin koko nimesi ja sähköpostiosoitteesi."
 
 #: weblate/trans/views/edit.py:98
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following fix-up was applied to the translation:"
 msgid_plural "The following fix-ups were applied to the translation:"
-msgstr[0] "Käännökseen tehtiin seuraavia korjauksia: %s"
-msgstr[1] "Käännökseen tehtiin seuraavia korjauksia: %s"
+msgstr[0] "Käännökseen tehtiin seuraavia korjauksia:"
+msgstr[1] "Käännökseen tehtiin seuraavia korjauksia:"
 
 #: weblate/trans/views/edit.py:110
 #, fuzzy, python-brace-format
