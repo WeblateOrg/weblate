@@ -50,6 +50,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup
@@ -1037,7 +1038,10 @@ class AutoForm(forms.Form):
         label=gettext_lazy("Machine translation engines"), choices=[], required=False
     )
     threshold = forms.IntegerField(
-        label=gettext_lazy("Score threshold"), initial=80, min_value=1, max_value=100
+        label=gettext_lazy("Score threshold"),
+        initial=MACHINERY_DEFAULT_THRESHOLD,
+        min_value=1,
+        max_value=100,
     )
 
     def __init__(

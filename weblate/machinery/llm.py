@@ -24,6 +24,7 @@ from weblate.glossary.models import (
     get_glossary_tuples,
 )
 from weblate.machinery.base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     BatchMachineTranslation,
     MachineTranslationError,
 )
@@ -239,7 +240,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> list[list[TranslationResultDict]]:
         started_cache = self._ensure_secondary_context_cache()
         try:
@@ -1051,7 +1052,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return self._download_multiple_translations(
             source_language, target_language, sources, user, threshold
@@ -1063,7 +1064,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None, int]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return self._download_multiple_translations(
             source_language,
@@ -1082,7 +1083,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_occurrences: list[int] | None = None,
     ) -> DownloadMultipleTranslations:
@@ -1105,7 +1106,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_occurrences: list[int] | None = None,
     ) -> DownloadMultipleTranslations:

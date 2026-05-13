@@ -39,6 +39,7 @@ import weblate.machinery.models
 from weblate.auth.models import User
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.lang.models import Language
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
@@ -77,7 +78,7 @@ class SeleniumDummyTranslation(DummyTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         _ = (source_language, target_language, unit, user, threshold)
         yield {
