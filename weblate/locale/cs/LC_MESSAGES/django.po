@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-13 13:27+0000\n"
+"PO-Revision-Date: 2026-05-13 13:57+0000\n"
 "Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -16420,27 +16420,24 @@ msgstr ""
 "Zda extrahovat přeložitelný obsah z bloků kódu v souborech Markdown a MDX."
 
 #: weblate/trans/file_format_params.py:683
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Extract front matter"
-msgstr "Extrahovat komentáře se značkou"
+msgstr "Extrahovat úvodní část"
 
 #: weblate/trans/file_format_params.py:687
 msgid ""
 "Whether to extract and translate YAML front matter blocks in Markdown and "
 "MDX files."
-msgstr ""
+msgstr "Zda extrahovat a přeložit úvodní bloky YAML v souborech Markdown a MDX."
 
 #: weblate/trans/file_format_params.py:695
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "Procentuální zástupné symboly"
+msgstr "Zakázat zástupné symboly"
 
 #: weblate/trans/file_format_params.py:699
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
 msgstr ""
+"Zakáže detekci a zpracování zástupných symbolů v souborech Markdown a MDX."
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16627,10 +16624,8 @@ msgid "Change translated and approved strings"
 msgstr "Změnit přeložené a schválené řetězce"
 
 #: weblate/trans/forms.py:778
-#, fuzzy
-#| msgid "Insufficient privileges for editing source strings."
 msgid "Insufficient privileges for reviewing strings."
-msgstr "Nemáte oprávnění pro změny zdrojových řetězců."
+msgstr "Nemáte oprávnění pro kontrolu řetězců řetězců."
 
 #: weblate/trans/forms.py:786
 msgid "Author name"
@@ -17356,10 +17351,8 @@ msgid "Send notification to subscribed users."
 msgstr "Odeslat oznámení přihlášeným uživatelům."
 
 #: weblate/trans/models/announcement.py:187
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify both component and category!"
-msgstr "Nezadávejte projekt i součást najednou!"
+msgstr "Nezadávejte součást i kategorii najednou!"
 
 #: weblate/trans/models/announcement.py:196
 msgid "Do not specify both component and project!"
@@ -18234,6 +18227,8 @@ msgid ""
 "Use %(branch)s instead of %(ref)s; Weblate and git-review add the Gerrit "
 "refs automatically."
 msgstr ""
+"Použijte větev %(branch)s namísto %(ref)s; Weblate a git-review přidají "
+"Gerrit refs automaticky."
 
 #: weblate/trans/models/component.py:4083
 #, python-format
@@ -18519,18 +18514,14 @@ msgstr[1] "Nepodařilo se najít %d řetězce:"
 msgstr[2] "Nepodařilo se najít %d řetězců:"
 
 #: weblate/trans/models/translation.py:1345
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
-msgstr ""
-"Tvary množného čísla v nahraném souboru se neshodují se stávajícím překladem."
+msgstr "Tvar množného čísla %d v nahraném souboru je mimo rozsah."
 
 #: weblate/trans/models/translation.py:1351
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"Tvary množného čísla v nahraném souboru se neshodují se stávajícím překladem."
+msgstr "Tvar množného čísla %d v nahraném souboru chybí."
 
 #: weblate/trans/models/translation.py:1562
 #: weblate/trans/models/translation.py:1567
