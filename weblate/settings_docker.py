@@ -76,7 +76,7 @@ if get_env_bool("WEBLATE_DATABASES", True):
             # Database user.
             "USER": get_env_str("POSTGRES_USER", required=True),
             # Name of role to alter to set parameters in PostgreSQL,
-            # use in case role name is different than user used for authentication.
+            # use in case role name is different than the user used for authentication.
             "ALTER_ROLE": get_env_str(
                 "POSTGRES_ALTER_ROLE", get_env_str("POSTGRES_USER", required=True)
             ),
@@ -1129,7 +1129,7 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 
-# This allows to hide glossary components when shared to other projects
+# This allows hiding glossary components when shared to other projects
 HIDE_SHARED_GLOSSARY_COMPONENTS = get_env_bool(
     "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS", False
 )

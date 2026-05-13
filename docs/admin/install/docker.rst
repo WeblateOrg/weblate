@@ -851,7 +851,7 @@ Generic settings
 
 .. envvar:: WEBLATE_SECURE_PROXY_SSL_HEADER
 
-    A tuple representing a HTTP header/value combination that signifies a
+    A tuple representing an HTTP header/value combination that signifies a
     request is secure. This is needed when Weblate is running behind a reverse
     proxy doing SSL termination which does not pass standard HTTPS headers.
 
@@ -1791,7 +1791,7 @@ both Weblate and PostgreSQL containers.
 
    .. versionadded:: 5.1
 
-   Set to false to disables environment based configuration of the database
+   Set to false to disable environment based configuration of the database
    connection. Use :ref:`docker-settings-override` to configure the database
    connection manually.
 

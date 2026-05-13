@@ -1022,7 +1022,7 @@ class BilingualUpdateMixin:
         """
         Return list of arguments for update command.
 
-        This is used to pass additional arguments to update command.
+        This is used to pass additional arguments to the update command.
         """
         params = component.file_format_params
         args: list[str] = []

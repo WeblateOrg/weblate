@@ -420,7 +420,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 Overriding authentication method names and icons
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can override the authentication method display name and icon using using settings as
+You can override the authentication method display name and icon using settings as
 ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. For example
 overriding naming for Auth0 would look like:
 

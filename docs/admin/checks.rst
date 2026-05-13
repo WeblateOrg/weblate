@@ -159,7 +159,7 @@ special characters, so that it can be easily used in the check definition:
 
 .. image:: /screenshots/font-group-list.webp
 
-Font-family and style is automatically recognized after uploading them:
+Font-family and style are automatically recognized after uploading them:
 
 .. image:: /screenshots/font-edit.webp
 

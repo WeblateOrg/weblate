@@ -93,7 +93,7 @@ class PlaceholdersTest(CheckTestCase):
             """,
         )
 
-    def test_case_insentivive(self) -> None:
+    def test_case_insensitive(self) -> None:
         self.assertTrue(
             self.check.check_target(
                 ["Hello %WORLD%"],

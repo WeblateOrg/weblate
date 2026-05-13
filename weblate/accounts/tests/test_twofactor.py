@@ -188,7 +188,7 @@ class TwoFactorTestCase(FixtureTestCase):
         expected_url = reverse("2fa-login", kwargs={"backend": "totp"})
         self.assertRedirects(response, expected_url)
 
-        # We should be on 2fa page without an user set now
+        # We should be on 2fa page without a user set now
         self.assertNotEqual(response.context["user"], self.user)
 
         totp_response = totp(

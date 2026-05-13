@@ -20,7 +20,7 @@ The backup can be restored when creating a project (see
 
 The backups currently do not include access control information and history.
 
-The comments and suggestions are backed up with an username of user who did
+The comments and suggestions are backed up with the username of the user who did
 create them. Upon import it is assigned to a matching user. If there is no user
 with such username, it is assigned to anonymous user.
 
@@ -150,7 +150,7 @@ to create it but needs the appropriate permissions to do so.
               - /home/weblate/data:/app/data
               - /home/weblate/borgbackup:/borgbackup
 
-    The directory where backups will be stored have to be owned by UID 1000,
+    The directory where backups will be stored has to be owned by UID 1000,
     otherwise Weblate won’t be able to write the backups there.
 
 Remote backups

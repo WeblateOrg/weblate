@@ -2597,7 +2597,7 @@ Changes
 
         Change object attributes are documented at :http:get:`/api/changes/(int:id)/`.
 
-    :query string user: Username of user to filters
+    :query string user: Username of the user to filter by
     :query int action: Action to filter, can be used several times
     :query timestamp timestamp_after: ISO 8601 formatted timestamp to list changes after
     :query timestamp timestamp_before: ISO 8601 formatted timestamp to list changes before

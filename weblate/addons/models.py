@@ -516,7 +516,7 @@ def execute_addon_event(
         else:
             scope.log_error(message, *args)
 
-    # Log logging result and error flag for add-on activity log
+    # Log result and error flag for add-on activity log
     log_result = None
     error_occurred = False
     if args is None:

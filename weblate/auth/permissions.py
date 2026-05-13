@@ -74,7 +74,7 @@ def check_permission(
     | Project
     | ComponentList,
 ) -> bool:
-    """Check whether user has a object-specific permission."""
+    """Check whether user has an object-specific permission."""
     if user.is_superuser:
         return True
     if isinstance(obj, ProjectLanguage):

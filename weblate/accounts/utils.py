@@ -159,7 +159,7 @@ def get_all_user_mails(user: User, entries=None, filter_deliverable=True):
 
 
 def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
-    """Invalidate email activation codes for an user."""
+    """Invalidate email activation codes for a user."""
     if emails is None:
         emails = get_all_user_mails(user, entries)
     Code.objects.filter(email__in=emails).delete()

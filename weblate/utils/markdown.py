@@ -130,7 +130,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         return self.escape_html_text(f"![{token.title}]({token.src})")
 
     def check_url(self, url: str) -> bool:
-        """Check if an url is valid or not  the scheme."""
+        """Check whether a URL uses an allowed scheme."""
         if url.startswith("/user/"):
             return True
         return bool(self._allowed_url_re.match(url))

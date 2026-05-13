@@ -2899,7 +2899,7 @@ class XWikiUnit(PropertiesUnit):
     """
     Dedicated unit for XWiki.
 
-    Inspired from PropertiesUnit, allow to override the methods to use the right
+    Inspired by PropertiesUnit, allow overriding the methods to use the right
     XWikiDialect methods for decoding properties.
     """
 

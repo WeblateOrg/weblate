@@ -327,7 +327,7 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
         """
         Get matching language for code.
 
-        The code does not have to be exactly same (cs_CZ is trteated same as
+        The code does not have to be exactly the same (cs_CZ is treated the same as
         cs-CZ) or returns None.
 
         It also handles Android special naming of regional locales like pt-rBR.
@@ -596,7 +596,7 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
 
     def get_request_language(self, request: AuthenticatedHttpRequest):
         """
-        Guess user language from a HTTP request.
+        Guess user language from an HTTP request.
 
         Accept-Language HTTP header, for most browser it consists of browser
         language with higher rank and OS language with lower rank so it still

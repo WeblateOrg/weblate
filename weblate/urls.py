@@ -1072,7 +1072,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         ),
     ]
 
-# Legal integartion
+# Legal integration
 if "weblate.legal" in settings.INSTALLED_APPS:
     real_patterns.extend(
         (

@@ -466,7 +466,7 @@ def store_email(strategy, backend, user: User, social, details, **kwargs) -> Non
     """Store verified e-mail."""
     # The email can be empty for some services
     if "verified_emails" in details:
-        # For some reasons tuples get converted to lists inside python social auth
+        # For some reason tuples get converted to lists inside python social auth
         current: set[tuple[str, bool]] = set(map(tuple, details["verified_emails"]))
     elif details.get("email"):
         current = {(details["email"], True)}

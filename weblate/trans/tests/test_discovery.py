@@ -476,7 +476,6 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(created[0][0]["name"], "localization: component")
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
-        self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
 
 
