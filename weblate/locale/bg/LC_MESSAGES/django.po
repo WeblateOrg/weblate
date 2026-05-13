@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-05-12 08:03+0000\n"
+"PO-Revision-Date: 2026-05-13 12:11+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -5730,17 +5730,19 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"Метаданните за формите за множествено число във файла CSV не спазват "
+"позволения диапазон: %(value)s (максимум: %(maximum)s)"
 
 #: weblate/formats/ttkit.py:177 weblate/formats/ttkit.py:183
 #: weblate/formats/ttkit.py:188 weblate/formats/ttkit.py:194
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "Неправилен флаг за превод: „%s“"
+msgstr "Неправилни метаданни за id_hash във файла CSV: „%s“"
 
 #: weblate/formats/ttkit.py:207 weblate/formats/ttkit.py:2399
 msgid "Plural form metadata in CSV file requires id_hash."
 msgstr ""
+"Метаданните за множествените числа във файла CSV трябва да включват id_hash."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1664
@@ -5910,26 +5912,29 @@ msgstr "Файл CSV"
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
 msgstr ""
+"В метаданните за множествено число във файла CSV липсва следната форма: %d."
 
 #: weblate/formats/ttkit.py:2446
 msgid "Plural form metadata in CSV file requires target_plural_form."
 msgstr ""
+"В метаданните за множествено число във файла CSV е задължително да присъства "
+"„target_plural_form“."
 
 #: weblate/formats/ttkit.py:2455
 msgid "Plural form metadata in CSV file requires source_plural_form."
 msgstr ""
+"В метаданните за множествено число във файла CSV е задължително да присъства "
+"„source_plural_form“."
 
 #: weblate/formats/ttkit.py:2476
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "Във файла е открит дублиран низ."
+msgstr "Дублирана целева форма за множествено число във файла CSV: %s"
 
 #: weblate/formats/ttkit.py:2485
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Кодировка ползвана за файловете CSV"
+msgstr "Конфликтна изходна форма за множествено число във файла CSV: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2665
@@ -7603,18 +7608,17 @@ msgid "Contact server administrators"
 msgstr "Връзка с администраторите на сървъра"
 
 #: weblate/templates/accounts/contact.html:25
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
 msgstr ""
-"Можете да се свържете само с администраторите на сървъра %(site_title)s от "
-"тук."
+"Използвайте този формуляр, за да се свържете с администраторите на %"
+"(site_title)s."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
-msgstr "Тук можете да се свържете с само с администраторите на целия сървър."
+msgstr ""
+"Използвайте този формуляр, за да се свържете с администраторите на този "
+"сървър."
 
 #: weblate/templates/accounts/contact.html:34
 #: weblate/templates/accounts/user_profile_link.html:35
@@ -7630,17 +7634,15 @@ msgstr "Изпращане"
 
 #: weblate/templates/accounts/contact.html:44
 msgid "How can we help?"
-msgstr ""
+msgstr "Как да помогнем?"
 
 #: weblate/templates/accounts/contact.html:47
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "Изберете една от възможностите по-долу, за да Ви помогнем по-добре."
 
 #: weblate/templates/accounts/contact.html:56
-#, fuzzy
-#| msgid "Import translation project"
 msgid "Question about a translation project"
-msgstr "Внасяне на проект за превод"
+msgstr "Въпрос относно проект за превод"
 
 #: weblate/templates/accounts/contact.html:60
 #, fuzzy
