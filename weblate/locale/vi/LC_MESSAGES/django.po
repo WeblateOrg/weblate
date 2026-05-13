@@ -17,8 +17,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-04-18 07:52+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-05-13 12:12+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -187,10 +187,8 @@ msgid "New password confirmation"
 msgstr "Xác nhận mật khẩu mới"
 
 #: weblate/accounts/forms.py:725 weblate/templates/accounts/profile.html:562
-#, fuzzy
-#| msgid "Generate"
 msgid "Regenerate API key"
-msgstr "Tạo"
+msgstr "Tạo khóa API"
 
 #: weblate/accounts/forms.py:727
 msgid ""
@@ -198,6 +196,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Hãy để tùy chọn này được bật để thu hồi khóa API hiện tại và tạo khóa mới. "
+"Điều này được khuyến nghị nếu bạn nghi ngờ mật khẩu của mình đã bị xâm phạm. "
+"Tắt tùy chọn này để giữ cho khóa API hiện tại hoạt động sau khi thay đổi mật "
+"khẩu."
 
 #: weblate/accounts/forms.py:763
 msgid "Your password has been changed."
@@ -580,26 +582,24 @@ msgid "User was disabled because the access has expired."
 msgstr "Người dùng bị vô hiệu hóa vì quyền truy cập đã hết hạn."
 
 #: weblate/accounts/models.py:322
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "Người dùng được thêm vào nhóm {team} bởi {username}."
+msgstr "Người dùng được thêm vào nhóm {team} site-wide bởi {username}."
 
 #: weblate/accounts/models.py:326
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "Người dùng đã bị xóa khỏi nhóm {team} bởi {username}."
+msgstr "Người dùng đã bị xóa khỏi nhóm {team} site-wide bởi {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Đã cấp quyền quản trị viên."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:331
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Quyền quản trị viên cấp cao đã bị thu hồi."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:333
@@ -620,17 +620,15 @@ msgstr "Người dùng đã bị xóa khỏi nhóm {team} bởi {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:339
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Truy cập vào dự án {project} đã bị chặn."
+msgstr "Mã thông báo dự án cho {project} đã được tạo."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:341
-#, fuzzy, python-brace-format
-#| msgid "XLIFF Translation File"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Mã thông báo dự án cho {project} đã bị xóa."
 
 #: weblate/accounts/models.py:344
 msgid "Two-factor authentication recovery codes were generated"
@@ -717,10 +715,9 @@ msgid "Account activity"
 msgstr "Hoạt động tài khoản"
 
 #: weblate/accounts/models.py:584
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Được mời đến {project} bởi {username}."
+msgstr "Được kích hoạt bởi {username}."
 
 #: weblate/accounts/models.py:678
 msgid "Interface Language"
@@ -1254,19 +1251,15 @@ msgid "The registration link has been invalidated."
 msgstr "Liên kết đăng ký đã bị mất hiệu lực."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Liên kết đăng ký đã bị mất hiệu lực."
+msgstr "Liên kết mời không còn hiệu lực."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:174 weblate/auth/views.py:248
 #: weblate/auth/views.py:269
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "Lời mời của người dùng đã bị xóa."
+msgstr "Lời mời này đã hết hạn."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1413,42 +1406,35 @@ msgstr "Dùng thử miễn phí"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"Việc hoàn tác các chỉnh sửa của %(user)s trên toàn trang web đã được lên "
+"lịch."
 
 #: weblate/accounts/views.py:793
 #, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
 msgstr ""
+"Việc dọn dẹp các đóng góp của %(user)s trên toàn trang web đã được lên lịch."
 
 #: weblate/accounts/views.py:800 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No cleanup action was selected."
-msgstr "Lời mời của người dùng đã bị xóa."
+msgstr "Không có thao tác dọn dẹp nào được chọn."
 
 #: weblate/accounts/views.py:917 weblate/templates/base.html:456
-#, fuzzy
-#| msgid "Website URL"
 msgid "Website"
-msgstr "URL trang web"
+msgstr "Trang web"
 
 #: weblate/accounts/views.py:919
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "URL trang chứa mã"
+msgstr "Trang mã nguồn"
 
 #: weblate/accounts/views.py:938
-#, fuzzy
-#| msgid "PHP strings"
 msgid "This profile link is no longer available."
-msgstr "PHP strings"
+msgstr "Liên kết hồ sơ này hiện không còn khả dụng."
 
 #: weblate/accounts/views.py:950
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Hồ sơ người dùng"
+msgstr "Liên kết hồ sơ bên ngoài"
 
 #: weblate/accounts/views.py:1073 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1520,16 +1506,12 @@ msgstr ""
 "nhập của bạn."
 
 #: weblate/accounts/views.py:1615
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Hãy thử đăng ký lại để xác minh danh tính của bạn, liên kết xác nhận có thể "
-"đã hết hạn."
+"Hãy thử đặt lại mật khẩu một lần nữa để xác minh danh tính của bạn, có thể "
+"liên kết xác nhận đã hết hạn."
 
 #: weblate/accounts/views.py:1622
 msgid ""
@@ -1710,30 +1692,36 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Tiện ích bổ sung này ảnh hưởng đến toàn bộ dự án và có thể tạo ra các tệp "
+"dịch thuật trên nhiều thành phần hoặc kho lưu trữ khác nhau."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Tiện ích bổ sung này ảnh hưởng đến toàn bộ danh mục và có thể tạo ra các tệp "
+"dịch thuật trên nhiều thành phần hoặc kho lưu trữ."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Tiện ích bổ sung này ảnh hưởng đến tất cả các dự án và có thể tạo ra các tệp "
+"dịch thuật trên nhiều thành phần hoặc kho lưu trữ."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4772
 msgid ""
 "The given language maps to a different language. Check language aliases "
 "settings."
 msgstr ""
+"Ngôn ngữ được cung cấp tương ứng với một ngôn ngữ khác. Vui lòng kiểm tra "
+"cài đặt bí danh ngôn ngữ."
 
 #: weblate/addons/consistency.py:248 weblate/trans/models/component.py:4778
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "The given language is used as a source language."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Ngôn ngữ được cung cấp được sử dụng làm ngôn ngữ nguồn."
 
 #: weblate/addons/consistency.py:253 weblate/trans/models/component.py:4790
 #, fuzzy
@@ -7412,7 +7400,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 #: weblate/templates/403.html:22 weblate/templates/404.html:23
 #: weblate/templates/base.html:144 weblate/templates/base.html:470
 msgid "Dashboard"
-msgstr ""
+msgstr "Bảng điều khiển"
 
 #: weblate/templates/403.html:23 weblate/templates/404.html:24
 #: weblate/templates/base.html:172
@@ -10682,10 +10670,8 @@ msgid_plural "Browse all %(count)s projects"
 msgstr[0] ""
 
 #: weblate/templates/dashboard/user.html:12
-#, fuzzy
-#| msgid "Change password"
 msgid "Configure dashboard"
-msgstr "Thay đổi mật khẩu"
+msgstr "Cấu hình bảng điều khiển"
 
 #: weblate/templates/dashboard/user.html:65
 #, fuzzy
@@ -13124,10 +13110,8 @@ msgid "Thank you for using Weblate"
 msgstr "Cảm ơn bạn vì đã sử dụng Weblate."
 
 #: weblate/templates/registration/logged_out.html:16
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Return to dashboard"
-msgstr "Quay lại Weblate"
+msgstr "Trở lại bảng điều khiển"
 
 #: weblate/templates/replace.html:12
 msgid "Please review and confirm the search and replace results."
@@ -19387,12 +19371,14 @@ msgstr ""
 
 #: weblate/trans/models/componentlist.py:50
 msgid "Show on dashboard"
-msgstr ""
+msgstr "Hiển thị trên bảng điều khiển"
 
 #: weblate/trans/models/componentlist.py:54
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"Khi được kích hoạt, danh sách các thành phần này sẽ hiển thị dưới dạng một "
+"tab trên bảng điều khiển"
 
 #: weblate/trans/models/componentlist.py:85
 msgid "Project regular expression"
