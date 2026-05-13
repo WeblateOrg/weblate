@@ -28,7 +28,12 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.timezone import now
-from django.utils.translation import get_language, gettext, gettext_lazy
+from django.utils.translation import (
+    get_language,
+    gettext,
+    gettext_lazy,
+    gettext_noop,
+)
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
@@ -454,6 +459,21 @@ NOTIFY_ACTIVITY = {
 }
 
 
+# Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
+USER_AGENT_DEVICE_TYPES: dict[str, str] = {
+    # Translators: User agent device type
+    "PC": gettext_noop("PC"),
+    # Translators: User agent device type
+    "Other": gettext_noop("Other"),
+    # Translators: User agent device type
+    "Generic Smartphone": gettext_noop("Generic Smartphone"),
+    # Translators: User agent device type
+    "Generic Feature Phone": gettext_noop("Generic Feature Phone"),
+    # Translators: User agent device type
+    "iOS-Device": gettext_noop("iOS-Device"),
+}
+
+
 class AuditLogManager(models.Manager):
     def is_new_login(self, user: User, address, user_agent) -> bool:
         """
@@ -617,7 +637,10 @@ class AuditLog(models.Model):
         parts = ua_string.split(" / ")
         localized = list(parts)
         if localized:
-            localized[0] = gettext(localized[0].strip())
+            device_type = localized[0].strip()
+            localized[0] = gettext(
+                USER_AGENT_DEVICE_TYPES.get(device_type, device_type)
+            )
 
         return " / ".join(localized)
 
