@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-12 04:42+0200\n"
-"PO-Revision-Date: 2026-05-12 10:39+0000\n"
+"PO-Revision-Date: 2026-05-13 12:12+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -4138,36 +4138,36 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "requests."
 msgstr ""
+"Weblate lässt sich an mehreren Stellen mit Code-Hosting-Sites integrieren: "
+"Repository-Zugriff, eingehende Benachrichtigungen und Zurückpushen von "
+"Übersetzungen. Die genaue Einrichtung hängt davon ab, ob Sie Hosted Weblate "
+"nutzen oder eine eigene Weblate-Instanz betreiben, und davon, ob Weblate "
+"direkt pushen oder Pull Requests erstellen soll."
 
 #: admin/code-hosting.rst:11
 msgid ""
 "Use this page as a provider-oriented checklist. The individual setting pages "
 "remain the canonical reference for setting syntax."
 msgstr ""
+"Verwenden Sie diese Seite als Checkliste für Anbieter. Die einzelnen "
+"Einstellungsseiten bleiben die maßgebliche Referenz für die "
+"Einstellungssyntax."
 
 #: admin/code-hosting.rst:15
-#, fuzzy
-#| msgid "Architecture overview"
 msgid "Setup overview"
-msgstr "Architekturübersicht"
+msgstr "Einrichtungsübersicht"
 
 #: admin/code-hosting.rst:17
-#, fuzzy
-#| msgid "Merge Weblate changes to the upstream repository."
 msgid "Grant Weblate access to the repository."
-msgstr "Weblate-Änderungen im Upstream-Repository zusammenführen."
+msgstr "Weblate Zugriff auf das Repository gewähren."
 
 #: admin/code-hosting.rst:19
-#, fuzzy
-#| msgid ""
-#| "On a Hosted Weblate, this is pre-configured for most of the public sites, "
-#| "please see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
-"Bei einem Hosted Weblate ist dies für die meisten öffentlichen Plattformen "
-"vorkonfiguriert, siehe :ref:`hosted-push`."
+"Für Hosted Weblate den gehosteten :guilabel:`weblate`-Benutzer hinzufügen, "
+"wenn er verfügbar ist, siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:21
 msgid ""
@@ -4175,12 +4175,15 @@ msgid ""
 "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-code-"
 "hosting`."
 msgstr ""
+"Für ein selbst gehostetes Weblate einen dedizierten Code-Hosting-Benutzer "
+"erstellen und ihm Zugriff mit dem SSH-Schlüssel von Weblate oder einem HTTPS-"
+"Token gewähren, siehe :ref:`vcs-repos-code-hosting`."
 
 #: admin/code-hosting.rst:25
-#, fuzzy
-#| msgid "Configures if and how Weblate should update repositories."
 msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
-msgstr "Konfiguriert, ob und wie Weblate Repositorys aktualisieren soll."
+msgstr ""
+":ref:`component-repo` konfigurieren, damit Weblate das Repository klonen "
+"kann."
 
 #: admin/code-hosting.rst:27
 msgid ""
@@ -4188,16 +4191,22 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"Eingehende Benachrichtigungen so konfigurieren, dass Weblate Änderungen kurz "
+"nach einem Push zieht. Der Repository-Webhook oder die App muss auf die "
+"entsprechende Weblate-Hook-URL verweisen, und für das Projekt muss "
+":ref:`project-enable_hooks` eingeschaltet sein."
 
 #: admin/code-hosting.rst:31
 msgid "Decide how Weblate should push translations back:"
-msgstr ""
+msgstr "Wie Weblate Übersetzungen zurückpushen soll:"
 
 #: admin/code-hosting.rst:33
 msgid ""
 "Use :ref:`vcs-git` or :ref:`vcs-mercurial` and :ref:`component-push` to push "
 "directly."
 msgstr ""
+":ref:`vcs-git` oder :ref:`vcs-mercurial` und :ref:`component-push` "
+"verwenden, um direkt zu pushen."
 
 #: admin/code-hosting.rst:35
 msgid ""
@@ -4205,28 +4214,24 @@ msgid ""
 "or :guilabel:`GitLab`, to create pull or merge requests. These backends need "
 "API credentials in the Weblate settings."
 msgstr ""
+"Ein anbieterspezifisches VCS-Backend, wie :guilabel:`GitHub` oder "
+":guilabel:`GitLab` verwenden, um Pull oder Merge Requests zu erstellen. "
+"Diese Backends benötigen API-Zugangsdaten in den Weblate-Einstellungen."
 
 #: admin/code-hosting.rst:39
 msgid ""
 "Optionally set :ref:`component-push_branch` when Weblate should push to a "
 "branch in the upstream repository instead of using a fork where supported."
 msgstr ""
+"Optional :ref:`component-push_branch` einsetzen, wenn Weblate zu einem "
+"Branch im Upstream-Repository pushen soll, anstatt einen Fork zu verwenden, "
+"sofern unterstützt."
 
 #: admin/code-hosting.rst:45 admin/continuous.rst:335
 msgid "Pushing changes from Weblate"
 msgstr "Änderungen aus Weblate pushen"
 
 #: admin/code-hosting.rst:47
-#, fuzzy
-#| msgid ""
-#| "Each translation component can have a push URL set up "
-#| "(see :ref:`component-push`), and in that case Weblate will be able to "
-#| "push change to the remote repository. Weblate can be also be configured "
-#| "to automatically push changes on every commit (this is default, "
-#| "see :ref:`component-push_on_commit`). If you do not want changes to be "
-#| "pushed automatically, you can do that manually "
-#| "under :guilabel:`Repository maintenance` or using the API "
-#| "via :option:`wlc push`."
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
@@ -4235,13 +4240,10 @@ msgid ""
 "push_on_commit`."
 msgstr ""
 "Für jede Übersetzungskomponente kann eine Push-URL eingerichtet werden "
-"(siehe :ref:`component-push`) und in diesem Fall kann Weblate Änderungen an "
-"das Remote-Repository weiterleiten. Weblate kann auch so konfiguriert "
-"werden, dass Änderungen automatisch bei jedem Commit gepusht werden (dies "
-"ist die Voreinstellung, siehe :ref:`component-push_on_commit`). Wenn "
-"Änderungen nicht automatisch gepusht werden sollen, können Sie dies manuell "
-"unter :guilabel:`Repository-Wartung` oder über die API per :option:`wlc "
-"push` tun."
+"(siehe :ref:`component-push`), und in diesem Fall kann Weblate Änderungen an "
+"das Remote-Repository pushen. Weblate kann auch so konfiguriert werden, dass "
+"Änderungen automatisch bei jedem Commit gepusht werden; dies ist "
+"standardmäßig aktiviert, siehe :ref:`component-push_on_commit`."
 
 #: admin/code-hosting.rst:53
 msgid ""
@@ -4249,6 +4251,9 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"Wenn Sie nicht möchten, dass Änderungen automatisch gepusht werden, können "
+"Sie manuell unter :guilabel:`Repository-Wartung` oder über die API via "
+":option:`wlc push` pushen."
 
 #: admin/code-hosting.rst:57
 #, fuzzy
