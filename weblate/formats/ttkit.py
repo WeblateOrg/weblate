@@ -118,6 +118,8 @@ LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 _CSV_MAX_PLURAL_FORMS = 100
+type PoHeaderStore = pofile | PoXliffFile
+type PoHeaderUnit = pounit | PoXliffUnit
 
 
 class CSVMetadataError(ValueError):
@@ -1542,17 +1544,16 @@ class AndroidUnit(MonolingualIDUnit):
             self.unit.marktranslatable(False)
 
 
-class PoHeaderMixin[
-    S: pofile | PoXliffFile,
-    U: pounit | PoXliffUnit,
-    T: TTKitUnit,
-](TTKitFormat[S, U, T]):
+class PoHeaderMixin:
     def _po_header_store(self) -> poheader:
-        return self.store
+        return cast("poheader", cast("Any", self).store)
 
-    def _ensure_po_header_first(self, header: U | None = None) -> U | None:
+    def _ensure_po_header_first(
+        self, header: PoHeaderUnit | None = None
+    ) -> PoHeaderUnit | None:
         """Keep PO-style header in the position expected by Translate Toolkit."""
-        units = self.store.units
+        store = cast("PoHeaderStore", cast("Any", self).store)
+        units = store.units
         if header is None:
             header = next(
                 (unit for unit in units if getattr(unit, "isheader", lambda: False)()),
@@ -1585,7 +1586,7 @@ class PoHeaderMixin[
         try:
             number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):
-            return super().get_plural(language)
+            return cast("TTKitFormat[Any, Any, Any]", super()).get_plural(language)
 
         # Find matching one
         for plural in language.plural_set.iterator():
@@ -1604,7 +1605,9 @@ class PoHeaderMixin[
         self, language: Language, file_format_params: FileFormatParams | None = None
     ) -> None:
         """Remove translations from Translate Toolkit store."""
-        super().untranslate_store(language, file_format_params=file_format_params)
+        cast("TTKitFormat[Any, Any, Any]", super()).untranslate_store(
+            language, file_format_params=file_format_params
+        )
         plural = language.plural
         store = self._po_header_store()
 
@@ -1640,7 +1643,9 @@ class PoHeaderMixin[
         self._ensure_po_header_first(store.updateheader(add=True, **kwargs))
 
 
-class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](PoHeaderMixin[S, U, T]):
+class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
+    PoHeaderMixin, TTKitFormat[S, U, T]
+):
     loader = pofile  # type: ignore[assignment]
     plural_preference: tuple[int, ...] | None = None
     supports_plural: bool = True
@@ -1832,10 +1837,7 @@ class RichXliffFormat(XliffFormat):
     unit_class = RichXliffUnit
 
 
-class PoXliffFormat(
-    PoHeaderMixin[PoXliffFile, PoXliffUnit, XliffUnit[PoXliffUnit, XliffFormat]],
-    XliffFormat,
-):
+class PoXliffFormat(PoHeaderMixin, XliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
