@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from unittest import mock
+
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
@@ -35,6 +37,28 @@ class AuditLogTestCase(SimpleTestCase):
         self.assertIn("superuser-revoked", AUDIT_WARNING)
         self.assertIn("superuser-granted", NOTIFY_ACTIVITY)
         self.assertIn("superuser-revoked", NOTIFY_ACTIVITY)
+
+    def test_user_agent_display_empty(self) -> None:
+        audit = AuditLog(user_agent="")
+        self.assertEqual(audit.get_user_agent_display(), "")
+
+    def test_user_agent_display(self) -> None:
+        audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
+        self.assertEqual(
+            audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0"
+        )
+
+    def test_user_agent_display_calls_gettext_for_each_part(self) -> None:
+        with mock.patch("weblate.accounts.models.gettext") as mocked_gettext:
+            mocked_gettext.side_effect = lambda x: x
+            audit = AuditLog(
+                user_agent="PC / Linux / Chrome 120.0.0"
+            )
+            audit.get_user_agent_display()
+            self.assertEqual(mocked_gettext.call_count, 3)
+            mocked_gettext.assert_any_call("PC")
+            mocked_gettext.assert_any_call("Linux")
+            mocked_gettext.assert_any_call("Chrome 120.0.0")
 
 
 class AuditLogLoggingTestCase(TestCase):
