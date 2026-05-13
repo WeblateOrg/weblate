@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-12 04:42+0200\n"
-"PO-Revision-Date: 2026-05-13 13:57+0000\n"
+"PO-Revision-Date: 2026-05-13 15:19+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -4061,18 +4061,13 @@ msgstr ""
 "拉取请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:273
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "github` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while "
 "the :guilabel:`GitHub` backend creates pull requests. The latter is not "
 "needed for merely accessing Git repositories."
 msgstr ""
-":ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-github` 创建拉取请求。仅访"
-"问 Git 仓库不需要后者。"
+":ref:`vcs-git` 将更改直接推送到仓库，而 :guilabel:`GitHub` 后端创建拉取请求。"
+"仅访问 Git 仓库不需要后者。"
 
 #: admin/code-hosting.rst:277
 msgid ""
@@ -4088,24 +4083,17 @@ msgid "GitLab"
 msgstr "GitLab"
 
 #: admin/code-hosting.rst:294
-#, fuzzy
-#| msgid "GitLab repositories"
 msgid "GitLab repository access"
-msgstr "GitLab 仓库"
+msgstr "GitLab 仓库访问"
 
 #: admin/code-hosting.rst:296
-#, fuzzy
-#| msgid ""
-#| "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need "
-#| "to access more than one repository, you will hit a GitLab limitation on "
-#| "allowed SSH key usage (since each key can be used only once)."
 msgid ""
 "Access via SSH is possible, see :ref:`ssh-repos`, but if you need to access "
 "more than one repository, you will hit a GitLab limitation on allowed SSH "
 "key usage because each key can be used only once."
 msgstr ""
-"可以通过 SSH 访问（请参阅 :ref:`ssh-repos`），但如果您需要访问多个仓库，您将"
-"遇到 GitLab 对允许的 SSH 密钥使用的限制（因为每个密钥只能使用一次）。"
+"可以通过 SSH 访问，请参阅 :ref:`ssh-repos`，但如果您需要访问多个仓库，您将遇"
+"到 GitLab 对允许的 SSH 密钥使用的限制，因为每个密钥只能使用一次。"
 
 #: admin/code-hosting.rst:300
 msgid ""
@@ -4128,30 +4116,18 @@ msgstr ""
 "角色进行推送。"
 
 #: admin/code-hosting.rst:309
-#, fuzzy
-#| msgid ""
-#| "The URL needs to contain an username, for personal access token it is the "
-#| "actual username ( ``https://user:personal_access_token@gitlab.com/example/"
-#| "example.git``) for project access tokens it can be non-blank value "
-#| "(``https://example:project_access_token@gitlab.com/example/example.git``)."
 msgid ""
 "The URL needs to contain a username. For a personal access token, it is the "
 "actual username: ``https://user:personal_access_token@gitlab.com/example/"
 "example.git``. For project access tokens it can be a non-blank value: "
 "``https://example:project_access_token@gitlab.com/example/example.git``."
 msgstr ""
-"URL 需要包含用户名。对个人访问令牌，这是实际用户名 ( ``https://"
-"user:personal_access_token@gitlab.com/example/example.git``)；对项目访问令"
-"牌，可以是非空白值 (``https://example:project_access_token@gitlab.com/"
-"example/example.git``)。"
+"URL 需要包含用户名。对个人访问令牌，它是实际用户名 ： ``https://"
+"user:personal_access_token@gitlab.com/example/example.git`` ；对项目访问令牌"
+"，可以是非空白值 ： ``https://example:project_access_token@gitlab.com/"
+"example/example.git`` 。"
 
 #: admin/code-hosting.rst:317
-#, fuzzy
-#| msgid ""
-#| "The rules for using project access tokens has changed between GitLab "
-#| "releases, the non-blank value is the current requirement, but older "
-#| "versions had different expectations (project name, bot user name). Check "
-#| "GitLab documentation matching your version if unsure."
 msgid ""
 "The rules for using project access tokens have changed between GitLab "
 "releases, the non-blank value is the current requirement, but older versions "
@@ -4162,25 +4138,17 @@ msgstr ""
 "有不同预期（项目名、bot 用户名）。如不确定请查看匹配你版本的 GitLab 文档。"
 
 #: admin/code-hosting.rst:325
-#, fuzzy
-#| msgid "Notifications"
 msgid "GitLab notifications"
-msgstr "通知"
+msgstr "GitLab 通知"
 
 #: admin/code-hosting.rst:327
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for GitLab hooks, add a project webhook with "
-#| "destination to ``/hooks/gitlab/`` URL on your Weblate installation (for "
-#| "example ``https://hosted.weblate.org/hooks/gitlab/``)."
 msgid ""
 "Weblate has support for GitLab hooks. Add a project webhook with destination "
 "to ``/hooks/gitlab/`` URL on your Weblate installation, for example "
 "``https://hosted.weblate.org/hooks/gitlab/``."
 msgstr ""
-"Weblate 已经支持 GitLab hooks，添加项目的 webhook，目的地为你的 Weblate 安装"
-"上的 ``/hooks/gitlab/``\\ （例如 ``https://hosted.weblate.org/hooks/gitlab/"
-"``）。"
+"Weblate 支持 GitLab hooks，添加项目的 webhook，目的地为你的 Weblate 安装上的 "
+"``/hooks/gitlab/`` URL，例如 ``https://hosted.weblate.org/hooks/gitlab/`` 。"
 
 #: admin/code-hosting.rst:331 faq.rst:473
 msgid "Troubleshooting"
@@ -4203,27 +4171,15 @@ msgid "GitLab merge requests"
 msgstr "GitLab 合并请求"
 
 #: admin/code-hosting.rst:348
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to allow "
 "pushing translation changes as merge requests instead of pushing directly to "
 "the repository."
 msgstr ""
-"这只是使用 `GitLab API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为合并请求推送，而不是直接推送到仓库。"
+"这使用 `GitLab API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改作为"
+"合并请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:352
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-gitlab` creates merge "
-#| "request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4231,8 +4187,8 @@ msgid ""
 "while the :guilabel:`GitLab` backend creates a merge request."
 msgstr ""
 "不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别是"
-"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-"
-"gitlab` 创建合并请求。"
+"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 "
+":guilabel:`GitLab` 后端创建合并请求。"
 
 #: admin/code-hosting.rst:357
 msgid ""
@@ -4252,19 +4208,10 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:373
-#, fuzzy
-#| msgid "Notifications"
 msgid "Gitea notifications"
-msgstr "通知"
+msgstr "Gitea 通知"
 
 #: admin/code-hosting.rst:375
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` "
-#| "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/gitea/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Gitea webhooks. Add a :guilabel:`Gitea Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` URL "
@@ -4272,10 +4219,10 @@ msgid ""
 "gitea/``. This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"Weblate 已经支持 Gitea webhooks，为 :guilabel:`Push events` 事件添"
-"加 :guilabel:`Gitea Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitea/"
-"`` URL（例如 ``https://hosted.weblate.org/hooks/gitea/``）。这可以"
-"在 :guilabel:`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
+"Weblate 已经支持 Gitea webhooks，为 :guilabel:`Push events` 事件添加 "
+":guilabel:`Gitea Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitea/`` "
+"URL，例如 ``https://hosted.weblate.org/hooks/gitea/``。这可以在 "
+":guilabel:`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: admin/code-hosting.rst:382
 msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
@@ -4286,19 +4233,10 @@ msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/code-hosting.rst:389
-#, fuzzy
-#| msgid "Notifications"
 msgid "Forgejo notifications"
-msgstr "通知"
+msgstr "Forgejo 通知"
 
 #: admin/code-hosting.rst:391
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo "
-#| "Webhook` for :guilabel:`Push events` event with destination to ``/hooks/"
-#| "forgejo/`` URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/forgejo/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Forgejo webhooks. Add a :guilabel:`Forgejo Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/forgejo/`` "
@@ -4306,9 +4244,9 @@ msgid ""
 "hooks/forgejo/``. This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
-"Weblate 支持 Forgejo webhooks，在你的 Weblate 安装上添加含目的"
-"地 :guilabel:`Push events` 事件的 :guilabel:`Forgejo Webhook` 到 ``/hooks/"
-"forgejo/`` URL （如 ``https://hosted.weblate.org/hooks/forgejo/``）。可以在仓"
+"Weblate 支持 Forgejo webhooks，在你的 Weblate 安装上添加含目的地 "
+":guilabel:`Push events` 事件的 :guilabel:`Forgejo Webhook` 到 ``/hooks/"
+"forgejo/`` URL ，如 ``https://hosted.weblate.org/hooks/forgejo/``。可以在仓"
 "库 :guilabel:`设置` 下的 :guilabel:`Webhooks` 中完成此配置。"
 
 #: admin/code-hosting.rst:399
