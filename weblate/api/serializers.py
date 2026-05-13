@@ -1962,6 +1962,10 @@ class MemoryLookupRequestSerializer(serializers.Serializer):
     )
 
 
+class MemoryLookupQuerySerializer(serializers.Serializer):
+    exact = serializers.BooleanField(required=False, default=False)
+
+
 class MemoryLookupMatchSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     source = serializers.CharField()

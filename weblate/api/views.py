@@ -86,6 +86,7 @@ from weblate.api.serializers import (
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
+    MemoryLookupQuerySerializer,
     MemoryLookupRequestSerializer,
     MemoryLookupResultSerializer,
     MemorySerializer,
@@ -2502,6 +2503,12 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
                 location=OpenApiParameter.QUERY,
                 description="Project slug filter.",
             ),
+            OpenApiParameter(
+                name="exact",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description="Return exact matches only and skip fuzzy matching.",
+            ),
         ],
         methods=["post"],
     )
@@ -2515,6 +2522,8 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     )
     def lookup(self, request: Request, **kwargs):
         source_language, target_language = self.get_lookup_languages()
+        query_serializer = MemoryLookupQuerySerializer(data=request.query_params)
+        query_serializer.is_valid(raise_exception=True)
         serializer = MemoryLookupRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -2523,12 +2532,13 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             target_language=target_language,
         )
         queries = serializer.validated_data["strings"]
+        exact_only = query_serializer.validated_data["exact"]
         exact_matches = self.get_exact_matches(queryset, queries)
 
         results = []
         for query in queries:
             match = exact_matches.get(query)
-            if match is None:
+            if match is None and not exact_only:
                 match = self.get_fuzzy_match(
                     queryset, source_language, target_language, query
                 )
