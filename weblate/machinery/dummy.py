@@ -21,6 +21,7 @@ class DummyTranslation(MachineTranslation):
     """Dummy machine translation for testing purposes."""
 
     name = "Dummy"
+    sends_data_to_third_party = False
     settings_form = None
 
     def download_languages(self):

@@ -47,12 +47,14 @@ from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import (
     MACHINERY_DEFAULT_THRESHOLD,
+    InternalMachineTranslation,
     MachineryRateLimitError,
     MachineTranslationError,
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
+from weblate.machinery.forms import BaseMachineryForm
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
@@ -73,6 +75,7 @@ from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
+from weblate.memory.machine import WeblateMemory
 from weblate.trans.models import Project, Unit
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import (
@@ -4927,6 +4930,11 @@ class CyrTranslitTranslationTest(ViewTestCase, BaseMachineTranslationTest):
 class ViewsTest(FixtureTestCase):
     """Testing of AJAX/JS views."""
 
+    THIRD_PARTY_WARNING = (
+        "This service can send source strings, translations, and related context "
+        "to a third-party provider."
+    )
+
     @staticmethod
     def ensure_dummy_mt():
         """Ensure we have dummy mt installed."""
@@ -5066,6 +5074,53 @@ class ViewsTest(FixtureTestCase):
                 category=SettingCategory.MT, name=service.get_identifier()
             ).exists()
         )
+
+    def test_configure_global_third_party_warning(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.get(
+            reverse("machinery-edit", kwargs={"machinery": "deepl"})
+        )
+
+        self.assertContains(response, self.THIRD_PARTY_WARNING)
+
+    def test_configure_global_no_third_party_warning_for_internal(self) -> None:
+        class TestInternalTranslation(InternalMachineTranslation):
+            name = "Test Internal"
+            settings_form = BaseMachineryForm
+
+        identifier = TestInternalTranslation.get_identifier()
+        weblate.machinery.models.MACHINERY[identifier] = TestInternalTranslation
+        self.user.is_superuser = True
+        self.user.save()
+
+        try:
+            response = self.client.get(
+                reverse("machinery-edit", kwargs={"machinery": identifier})
+            )
+        finally:
+            weblate.machinery.models.MACHINERY.data.pop(identifier, None)
+
+        self.assertNotContains(response, self.THIRD_PARTY_WARNING)
+
+    def test_configure_global_no_third_party_warning_for_cyrtranslit(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.get(
+            reverse("machinery-edit", kwargs={"machinery": "cyrtranslit"})
+        )
+
+        self.assertNotContains(response, self.THIRD_PARTY_WARNING)
+
+    def test_configure_global_list_has_no_third_party_warning(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.get(reverse("manage-machinery"))
+
+        self.assertNotContains(response, self.THIRD_PARTY_WARNING)
 
     def test_configure_project(self) -> None:
         service = self.ensure_dummy_mt()
@@ -5307,6 +5362,46 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
 
 class MachineryValidationTest(TestCase):
+    def test_machinery_third_party_data_annotations(self) -> None:
+        third_party_services = (
+            AlibabaTranslation,
+            AnthropicTranslation,
+            ApertiumAPYTranslation,
+            AWSTranslation,
+            BaiduTranslation,
+            DeepLTranslation,
+            GlosbeTranslation,
+            GoogleTranslation,
+            GoogleV3Translation,
+            LibreTranslateTranslation,
+            LTEngineTranslation,
+            MicrosoftCognitiveTranslation,
+            ModernMTTranslation,
+            MyMemoryTranslation,
+            NeteaseSightTranslation,
+            TMServerTranslation,
+            YandexTranslation,
+            YandexV2Translation,
+            SAPTranslationHub,
+            YoudaoTranslation,
+            SystranTranslation,
+            OpenAITranslation,
+            OllamaTranslation,
+            AzureOpenAITranslation,
+        )
+        local_services = (
+            CyrTranslitTranslation,
+            DummyGlossaryTranslation,
+            DummyTranslation,
+            WeblateMemory,
+            WeblateTranslation,
+        )
+
+        for service in third_party_services:
+            self.assertTrue(service.sends_data_to_third_party, service.name)
+        for service in local_services:
+            self.assertFalse(service.sends_data_to_third_party, service.name)
+
     @override_settings(OFFER_HOSTING=False)
     def test_project_machinery_rejects_private_url(self) -> None:
         form = DeepLTranslation.settings_form(

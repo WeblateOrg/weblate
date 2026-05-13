@@ -17,7 +17,8 @@ the project settings:
 .. note::
 
    They come subject to their terms of use, so ensure you are allowed to use
-   them how you want.
+   them how you want. Third-party services can receive source strings,
+   translations, and related context from Weblate.
 
 The services translate from the source language as configured at
 :ref:`component`, see :ref:`component-source_language`.

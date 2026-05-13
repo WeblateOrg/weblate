@@ -55,6 +55,7 @@ class CyrTranslitTranslation(MachineTranslation):
     max_score = 100
     version_added = "5.7"
     cache_translations = False
+    sends_data_to_third_party = False
     replacement_start = "[___"
     replacement_end = "___]"
     validate_source_language = "sr@latin"

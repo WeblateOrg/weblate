@@ -68,6 +68,7 @@ class MachineryGlobalMixin(MachineryMixin):
 class DeprecatedMachinery:
     is_available = False
     settings_form: None = None
+    sends_data_to_third_party = False
 
     def __init__(self, identifier: str) -> None:
         self.identifier = self.name = identifier
@@ -253,6 +254,9 @@ class EditMachineryView(FormView):
         result["machinery_id"] = self.machinery.get_identifier()
         result["machinery_name"] = self.machinery.name
         result["machinery_doc_anchor"] = self.machinery.get_doc_anchor()
+        result["machinery_sends_data_to_third_party"] = (
+            self.machinery.sends_data_to_third_party
+        )
         return result
 
     def install_service(self) -> None:
