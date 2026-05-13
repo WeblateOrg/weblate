@@ -5,52 +5,39 @@ Weblate 2026.5
 
 .. rubric:: New features
 
-* Added :ref:`file_format_params` for :ref:`markdown`, including ``line_max_length``, ``md_extract_code_blocks``, ``md_extract_frontmatter``, and ``md_no_placeholders``.
-* Added :ref:`mdx` support for translating Markdown text while preserving JSX syntax.
+* Added :ref:`mdx` support for translating Markdown text while preserving JSX syntax, with :ref:`file_format_params` shared with :ref:`markdown` for line wrapping, code blocks, front matter, and placeholder handling.
+* Added extended :ref:`LLM translation context <llm-translation-context>` for automatic suggestions, covering string context, explanations, secondary-language translations, plurals, failing checks, and placeholders.
 * Added a digest-only translation activity summary notification, see :ref:`notifications`.
 * :ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now export plural strings as separate plural-form rows that can be imported back.
-* :ref:`file_format_params` now include ``po_set_language_team``, ``po_set_last_translator``, ``po_set_x_generator``, and ``po_report_msgid_bugs_to`` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers in Gettext PO and POT files.
+* Added Gettext PO and POT :ref:`file_format_params` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers.
 * Added a :ref:`backup-management-command` to run configured backup services synchronously.
 * The translation memory lookup API can now skip fuzzy matching with the ``exact`` query parameter.
 
 .. rubric:: Improvements
 
 * Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`.
-* Improved :ref:`LLM translation context <llm-translation-context>` for automatic suggestions.
-* :ref:`mt-openai` no longer requires the OpenAI Python SDK.
-* :ref:`mt-alibaba` no longer requires the Aliyun Python SDK.
+* :ref:`mt-openai` and :ref:`mt-alibaba` no longer require their vendor Python SDKs.
 * Audited project and component setting changes are now recorded in history.
-* :ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
+* Gerrit review pushes now use :ref:`component-push_branch` as the target branch.
 * Weblate now checks whether :setting:`CACHE_DIR` allows executing generated helper files.
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
-* :ref:`code-hosting-gerrit` now uses :ref:`component-push_branch` as the target branch for review pushes.
-* Added :doc:`/admin/code-hosting` with provider-oriented setup guidance for code hosting integrations.
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 * Project access management now paginates users and better explains site-wide automatic team assignments.
-* Documented Gettext-style :ref:`plural-formula` syntax and linked to the upstream GNU gettext references.
+* Added provider-oriented code hosting documentation and Gettext-style :ref:`plural-formula` guidance.
 * The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
 * The engage page now highlights actionable translation task buckets for newcomers.
 * :ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page.
 
 .. rubric:: Bug fixes
 
-* Hardened search previews and :ref:`machine-translation` suggestion origins against XSS.
-* Screenshot URL uploads and remote HTML extraction in :ref:`addon-weblate.cdn.cdnjs` now reject internal or non-public asset URLs by default.
-* Database error details are no longer exposed in upload failure messages.
-* :ref:`vcs-gerrit` now rejects review target branches containing Gerrit push options.
-* Category :doc:`/admin/announcements` no longer appear across the whole project.
-* Translation announcement deletion now honors language-scoped permissions.
+* Hardened search previews and :ref:`machine-translation` suggestion origins against XSS, and stopped exposing database error details in upload failures.
+* Screenshot URL uploads, remote HTML extraction in :ref:`addon-weblate.cdn.cdnjs`, and URL health-check redirects now reject internal or non-public targets by default.
+* Gerrit review pushes now reject target branches containing push options, track the target branch before invoking ``git-review``, and suggest short branch names when full refs are supplied.
+* Category :doc:`/admin/announcements` no longer appear across the whole project, and translation announcement deletion now honors language-scoped permissions.
 * Merge request pushes now refresh stale fork remotes after changing repository hosting.
-* Plural counts parsed from translation file headers are now bounded.
-* Plural formulas are now rejected when they can evaluate outside the configured plural form range.
+* Plural counts parsed from translation file headers are now bounded, and plural formulas are rejected when they can evaluate outside the configured plural form range.
 * :ref:`project-api` expiring today now remain valid until the end of the day.
-* :ref:`vcs-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
-* :ref:`vcs-gerrit` branch validation now suggests short branch names when full refs are supplied.
-* URL health checks now validate redirect targets using the configured private-target restrictions.
-* :ref:`code-hosting-gerrit` now tracks the target branch on its Gerrit remote before invoking ``git-review``.
-* :ref:`code-hosting-gerrit` branch validation now suggests short branch names when full refs are supplied.
-* Malformed ALTCHA CAPTCHA submissions no longer cause server errors.
-* Malformed repository URLs in webhook payloads no longer trigger server errors during fallback matching.
+* Malformed ALTCHA CAPTCHA submissions and repository URLs in webhook payloads no longer cause server errors.
 * :ref:`check-placeholders` now merges overlapping non-nested spans from multiple flags.
 * :ref:`backup` logs no longer include OpenSSH post-quantum key exchange warnings from remote Borg connections.
 * Locked component pages now show an unsubscribe action after subscribing to unlock notifications.
