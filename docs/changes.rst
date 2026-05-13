@@ -51,6 +51,7 @@ Weblate 2026.5
 * :ref:`code-hosting-gerrit` branch validation now suggests short branch names when full refs are supplied.
 * Malformed ALTCHA CAPTCHA submissions no longer cause server errors.
 * Malformed repository URLs in webhook payloads no longer trigger server errors during fallback matching.
+* :ref:`check-placeholders` now merges overlapping non-nested spans from multiple flags.
 * :ref:`backup` logs no longer include OpenSSH post-quantum key exchange warnings from remote Borg connections.
 * Locked component pages now show an unsubscribe action after subscribing to unlock notifications.
 

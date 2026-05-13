@@ -14,6 +14,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag, single_value_flag
+from weblate.checks.utils import merge_highlight_spans
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
@@ -131,10 +132,30 @@ class PlaceholderCheck(TargetCheckParametrized):
         if not self.has_value(unit):
             return
 
-        regexp = self.get_value(unit)
+        regex_flags = regex.IGNORECASE if "case-insensitive" in unit.all_flags else 0
+        spans: list[tuple[int, int, str]] = []
 
-        for match in regexp.finditer(source):
-            yield (match.start(), match.end(), match.group())
+        # get raw list of patterns from unit to run each independently                    continue
+        for param in unit.all_flags.get_value_raw(self.enable_string):
+            if isinstance(param, str):
+                if not param:
+                    continue
+                pattern = regex.compile(regex.escape(param), regex_flags)
+            else:
+                if not param.pattern:
+                    continue
+                pattern = regex.compile(param.pattern, regex_flags)
+
+            spans.extend(
+                (match.start(), match.end(), match.group())
+                for match in pattern.finditer(source)
+            )
+
+        if not spans:
+            return
+
+        spans.sort(key=lambda x: (x[0], -x[1]))
+        yield from merge_highlight_spans(source, spans)
 
     def get_description(self, check_obj):
         unit = check_obj.unit

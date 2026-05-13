@@ -39,6 +39,19 @@ class HighlightTestCase(SimpleTestCase):
             [(7, 26, '<a href="{format}">'), (32, 36, "</a>")],
         )
 
+    def test_overlap_non_nested(self) -> None:
+        # The 2 flags match partially overlapping spans
+        # 'python-brace-format' matches {user.name}.
+        # "placeholders:r"\$\{\w+" matches ${user.
+        unit = make_unit(
+            source="nested ${user.name} non-overlapping",
+            flags=r'python-brace-format, placeholders:r"\$\{\w+"',
+        )
+        self.assertEqual(
+            highlight_string(unit.source, unit),
+            [(7, 19, "${user.name}")],
+        )
+
     def test_syntax(self) -> None:
         unit = make_unit(
             source="Text with a `link <https://www.sphinx-doc.org>`_.",

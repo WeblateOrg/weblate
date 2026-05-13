@@ -134,6 +134,21 @@ class PlaceholdersTest(CheckTestCase):
             ],
         )
 
+    def test_overlapping_non_nested(self) -> None:
+        # The 2 flags match partially overlapping spans
+        # 'python-brace-format' matches {user.name}.
+        # "placeholders:r"\$\{\w+" matches ${user.
+        unit = make_unit(
+            None,
+            r'placeholders:r"\$\{\w+":r"\w+\.\w+\}"',
+            self.default_lang,
+            "nested ${user.name} non-overlapping",
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [(7, 19, "${user.name}")],
+        )
+
     def test_empty_placeholder_flags_do_not_match(self) -> None:
         for flags in ("placeholders:", 'placeholders:""', 'placeholders:r""'):
             with self.subTest(flags=flags):
