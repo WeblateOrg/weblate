@@ -190,6 +190,100 @@ class ComponentTest(RepoTestCase):
         )
         self.assertEqual(unit.state, STATE_EMPTY)
 
+    def test_is_gettext_po_template_pot(self) -> None:
+        component = self.create_po(new_base="po/project.pot")
+
+        self.assertTrue(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_po_excluded_by_language_regex(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+            language_regex="^(?!en$).+$",
+        )
+
+        self.assertTrue(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_po_included_by_language_regex(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+        )
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_po_outside_filemask(self) -> None:
+        component = self.create_po(new_base="locale/en/LC_MESSAGES/django.po")
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_non_po_component(self) -> None:
+        component = self.create_po()
+        component.file_format = "json"
+        component.new_base = "po/project.pot"
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_invalid_language_regex(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+            language_regex="^(?!en$).+$",
+        )
+        component.language_regex = "[-"
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_create_po_template(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+            language_regex="^(?!en$).+$",
+        )
+        base = pathlib.Path(component.full_path)
+        en_filename = base / "locale" / "en" / "LC_MESSAGES" / "django.po"
+        cs_filename = base / "locale" / "cs" / "LC_MESSAGES" / "django.po"
+        en_filename.parent.mkdir(parents=True, exist_ok=True)
+        cs_filename.parent.mkdir(parents=True, exist_ok=True)
+        en_filename.write_text(
+            'msgid ""\n'
+            'msgstr ""\n'
+            '"Project-Id-Version: test\\n"\n'
+            '"Language: en\\n"\n'
+            '"Content-Type: text/plain; charset=UTF-8\\n"\n'
+            '"Plural-Forms: nplurals=2; plural=(n != 1);\\n"\n'
+            "\n"
+            "#: example.py:1\n"
+            'msgid "Hello"\n'
+            'msgstr ""\n',
+            encoding="utf-8",
+        )
+        cs_filename.write_text(
+            'msgid ""\n'
+            'msgstr ""\n'
+            '"Project-Id-Version: test\\n"\n'
+            '"Language: cs\\n"\n'
+            '"Content-Type: text/plain; charset=UTF-8\\n"\n'
+            '"Plural-Forms: nplurals=3; '
+            'plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\\n"\n'
+            "\n"
+            "#: example.py:1\n"
+            'msgid "Hello"\n'
+            'msgstr "Ahoj"\n',
+            encoding="utf-8",
+        )
+
+        component.create_translations_immediate(force=True)
+        component.refresh_from_db()
+        component.__dict__.pop("source_translation", None)
+
+        self.verify_component(component, 2, "cs", 1, "Hello")
+        self.assertEqual(component.source_translation.filename, component.new_base)
+
     def test_create_filtered(self) -> None:
         component = self._create_component("po", "po/*.po", language_regex="^cs$")
         self.verify_component(component, 2, "cs", 4)

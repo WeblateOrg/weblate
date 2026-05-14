@@ -28,6 +28,7 @@ Weblate 2026.5
 * The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
 * The engage page now highlights actionable translation task buckets for newcomers.
 * :ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page.
+* :ref:`addon-weblate.gettext.django` now supports gettext PO files used as templates when they are excluded by the language filter.
 
 .. rubric:: Bug fixes
 

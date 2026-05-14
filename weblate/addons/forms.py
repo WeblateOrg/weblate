@@ -433,10 +433,12 @@ class DjangoExtractPotForm(BaseExtractPotForm):
         component = self._addon.instance.component
         if component is None:
             return cleaned_data
-        if not component.new_base.endswith(".pot"):
+        if not component.is_gettext_po_template():
             self.add_error(
                 None,
-                gettext("The component has to define a POT file for new translations."),
+                gettext(
+                    "The component has to define a gettext template for new translations."
+                ),
             )
             return cleaned_data
         if Path(component.new_base).stem not in {"django", "djangojs"}:
@@ -444,7 +446,8 @@ class DjangoExtractPotForm(BaseExtractPotForm):
                 None,
                 gettext(
                     "The Django add-on expects the template for new translations to "
-                    'be named "django.pot" or "djangojs.pot".'
+                    'be named "django.pot", "djangojs.pot", "django.po", '
+                    'or "djangojs.po".'
                 ),
             )
         return cleaned_data
