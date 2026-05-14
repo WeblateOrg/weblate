@@ -5,9 +5,11 @@
 """Test for categories."""
 
 import os
+import pathlib
 from contextlib import ExitStack
 from unittest.mock import call, patch
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
@@ -201,6 +203,40 @@ class CategoriesTest(ViewTestCase):
                 component.translation_set.get(language_code="cs").get_filename()
             )
         )
+
+    def test_move_local_component_to_existing_empty_category_path(self) -> None:
+        component = self.create_po(project=self.project, name="Local", vcs="local")
+        old_path = component.full_path
+        self.assertTrue(os.path.exists(os.path.join(old_path, ".git", "config")))
+
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        os.makedirs(os.path.join(category.full_path, component.slug))
+
+        component.category = category
+        component.save()
+
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(
+            os.path.exists(os.path.join(component.full_path, ".git", "config"))
+        )
+
+    def test_create_category_existing_non_empty_path(self) -> None:
+        path = os.path.join(self.project.full_path, "blocked")
+        git_path = pathlib.Path(path) / ".git"
+        git_path.mkdir(parents=True)
+        (git_path / "config").write_text("stale", encoding="utf-8")
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "Repository path for this category already exists and is not empty.",
+        ):
+            Category.objects.create(
+                project=self.project, name="Blocked", slug="blocked"
+            )
+
+        self.assertFalse(Category.objects.filter(slug="blocked").exists())
 
     def test_create(self) -> None:
         # Make superuser, otherwise user can not create due to no valid billing
