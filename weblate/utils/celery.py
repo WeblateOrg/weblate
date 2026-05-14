@@ -50,15 +50,19 @@ def store_task_metadata(
     *,
     component_id: int | None = None,
     translation_id: int | None = None,
+    user_id: int | None = None,
 ) -> None:
     if not task_id:
         return
+    data = {
+        "component_id": component_id,
+        "translation_id": translation_id,
+    }
+    if user_id is not None:
+        data["user_id"] = user_id
     cache.set(
         get_task_metadata_key(task_id),
-        {
-            "component_id": component_id,
-            "translation_id": translation_id,
-        },
+        data,
         TASK_METADATA_TTL,
     )
 

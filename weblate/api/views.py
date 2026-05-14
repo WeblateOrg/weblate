@@ -3638,7 +3638,7 @@ class TasksViewSet(ViewSet):
         self, request, pk, permission: str | None = None
     ) -> tuple[AsyncResult, Component | None]:
         obj: Model
-        component: Component
+        component: Component | None
         user = cast("User", request.user)
         task: AsyncResult = AsyncResult(str(pk))
         metadata = get_task_metadata(str(pk)) or {}
@@ -3653,15 +3653,23 @@ class TasksViewSet(ViewSet):
                 Component.objects.filter_access(user), pk=component_id
             )
             obj = component
+        elif (user_id := metadata.get("user_id")) is not None:
+            if user_id != user.id:
+                msg = "Invalid task"
+                raise Http404(msg)
+            obj = user
+            component = None
         else:
             msg = "Invalid task"
             raise Http404(msg)
 
         # Check access or permission
         if permission:
+            if component is None:
+                raise PermissionDenied
             if not user.has_perm(permission, obj):
                 raise PermissionDenied
-        elif not user.can_access_component(component):
+        elif component is not None and not user.can_access_component(component):
             raise PermissionDenied
 
         return task, component

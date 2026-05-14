@@ -678,6 +678,7 @@ class ProjectBackup:
         do_restore: Literal[False] = False,
         actor: None = None,
         changes: None = None,
+        progress_callback: Callable[[int, int], None] | None = None,
     ) -> None: ...
 
     @overload
@@ -688,6 +689,7 @@ class ProjectBackup:
         do_restore: Literal[True],
         actor: User,
         changes: list[Change],
+        progress_callback: Callable[[int, int], None] | None = None,
     ) -> None: ...
 
     def load_components(
@@ -697,6 +699,7 @@ class ProjectBackup:
         do_restore: bool = False,
         actor: User | None = None,
         changes: list[Change] | None = None,
+        progress_callback: Callable[[int, int], None] | None = None,
     ) -> None:
         pending: list[str] = []
         if do_restore:
@@ -706,7 +709,10 @@ class ProjectBackup:
             if changes is None:
                 msg = "Need a restore changes list."
                 raise TypeError(msg)
-            for component in self.list_components(zipfile):
+            restored = 0
+            components = self.list_components(zipfile)
+            total = len(components)
+            for component in components:
                 processed = self.load_component(
                     zipfile,
                     component,
@@ -717,6 +723,10 @@ class ProjectBackup:
                 )
                 if not processed:
                     pending.append(component)
+                else:
+                    restored += 1
+                    if progress_callback is not None:
+                        progress_callback(restored, total)
             for component in pending:
                 self.load_component(
                     zipfile,
@@ -726,6 +736,9 @@ class ProjectBackup:
                     actor=actor,
                     changes=changes,
                 )
+                restored += 1
+                if progress_callback is not None:
+                    progress_callback(restored, total)
             return
 
         for component in self.list_components(zipfile):
@@ -1147,6 +1160,7 @@ class ProjectBackup:
         project_slug: str,
         user: User,
         billing: Billing | None = None,
+        progress_callback: Callable[[int, int], None] | None = None,
     ) -> Project:
         if not self.filename:
             msg = "Need a filename string."
@@ -1179,9 +1193,9 @@ class ProjectBackup:
                 self.restore_categories(self.data["categories"], None)
 
             # Import translation memory
-            memory = self.load_memory(zipfile)
-            Memory.objects.bulk_create(
-                [
+            memory_batch = []
+            for entry in self.load_memory(zipfile):
+                memory_batch.append(
                     Memory(
                         project=project,
                         origin=entry["origin"],
@@ -1192,9 +1206,12 @@ class ProjectBackup:
                         target_language=self.import_language(entry["target_language"]),
                         status=entry.get("status", Memory.STATUS_ACTIVE),
                     )
-                    for entry in memory
-                ]
-            )
+                )
+                if len(memory_batch) >= 2000:
+                    Memory.objects.bulk_create(memory_batch)
+                    memory_batch.clear()
+            if memory_batch:
+                Memory.objects.bulk_create(memory_batch)
 
             # Extract VCS
             project_path = Path(project.full_path)
@@ -1228,6 +1245,7 @@ class ProjectBackup:
                 do_restore=True,
                 actor=user,
                 changes=restore_changes,
+                progress_callback=progress_callback,
             )
 
             if "teams" in self.data:
