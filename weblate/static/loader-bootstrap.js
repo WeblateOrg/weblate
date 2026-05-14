@@ -1398,7 +1398,6 @@ $(function () {
       },
     });
 
-    
     editor.addEventListener(
       "keydown",
       (event) => {
