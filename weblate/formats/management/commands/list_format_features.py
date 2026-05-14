@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 from django.core.management.base import CommandError
 
+from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
 from weblate.utils.management.base import DocGeneratorCommand
 
@@ -62,6 +63,10 @@ class Command(DocGeneratorCommand):
 
         # ignore formats that are merged into other formats
         ignore_list = set(chain(*FORMAT_DOC_SNIPPETS_MERGES.values()))
+
+        check_id_dash_to_doc_id = {
+            check.check_id.replace("_", "-"): check.doc_id for check in CHECKS.values()
+        }
 
         for format_id, file_format in FILE_FORMATS.items():
             if format_id in ignore_list:
@@ -151,13 +156,21 @@ class Command(DocGeneratorCommand):
                 file_format.supports_read_only,
                 "read-only-strings",
             )
-            specific_flags: list[str] = getattr(file_format, "check_flags", [])
 
-            if specific_flags:
+            if file_format.check_flags:
+                check_doc_ids: str = ", ".join(
+                    [
+                        f":ref:`{check_id_dash_to_doc_id[check_id]}`"
+                        if check_id in check_id_dash_to_doc_id
+                        else f"``{check_id}``"
+                        for check_id in file_format.check_flags
+                    ]
+                )
+
                 self.new_list_table_row(
                     output,
-                    "File format specific flags",
-                    sorted(specific_flags),
+                    "Check flags added by this format",
+                    check_doc_ids,
                     "custom-checks",
                 )
 
