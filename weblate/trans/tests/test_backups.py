@@ -313,9 +313,10 @@ class BackupsTest(ViewTestCase):
 
         restore.validate()
 
-        restored = restore.restore(
-            project_name="Restored", project_slug="restored", user=self.user
-        )
+        with patch.object(ProjectBackup, "IMPORT_BATCH_SIZE", 1):
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
 
         self.assertEqual(
             Vote.objects.filter(
