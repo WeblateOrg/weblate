@@ -112,7 +112,7 @@ jobs:
         ./scripts/reproducible-sbom.py build/sbom/python.json
         cd client
         yarn install --check-files
-        npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
+        npm sbom --omit dev --omit peer --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
         cd ..
         ./scripts/reproducible-sbom.py build/sbom/javascript.json
         cyclonedx_cli=/tmp/cyclonedx-linux-x64
