@@ -29,6 +29,7 @@ Weblate 2026.5
 * The engage page now highlights actionable translation task buckets for newcomers.
 * :ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page.
 * :ref:`addon-weblate.gettext.django` now supports gettext PO files used as templates when they are excluded by the language filter.
+* Reworked :doc:`/security/threat-model` into a contract-style document.
 
 .. rubric:: Bug fixes
 

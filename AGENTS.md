@@ -57,6 +57,15 @@ For application-developer workflows and broader product integration guidance, us
   risks.
 - Handle VCS operations defensively and surface failures cleanly.
 - Mock external VCS operations and API calls in tests.
+- Check `docs/security/threat-model.rst` when changing public endpoints,
+  authentication or token modes, deployment modes, backup or import formats, VCS
+  execution paths, outbound integration classes, add-on execution capabilities,
+  or security-relevant defaults for hooks, HTTPS, rate limits, CSP,
+  private-network access, or backup import limits.
+- Update `docs/security/threat-model.rst` in the same change when the threat
+  model's "Conditions that change this model" apply, including when unsupported
+  components become supported product surface, claimed security properties
+  change, or a vulnerability report exposes a model gap.
 - For user-visible changes, add or update a changelog entry in the top section
   of `docs/changes.rst` for the upcoming release.
 - Do not alter changelog sections for already released versions; put follow-up
