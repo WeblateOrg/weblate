@@ -712,6 +712,14 @@ Generic settings
 
    Defaults to enabled.
 
+.. envvar:: WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`.
+
+   Expects a comma-separated list of trusted project slugs.
+
 .. envvar:: WEBLATE_WEBHOOK_RESTRICT_PRIVATE
 
    .. versionadded:: 5.17
@@ -726,6 +734,8 @@ Generic settings
 
    Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
 
+   Expects a comma-separated list of trusted hostnames or domains.
+
 .. envvar:: WEBLATE_ASSET_RESTRICT_PRIVATE
 
    .. versionadded:: 2025.5
@@ -739,6 +749,8 @@ Generic settings
    .. versionadded:: 2025.5
 
    Configures :setting:`ASSET_PRIVATE_ALLOWLIST`.
+
+   Expects a comma-separated list of trusted hostnames or domains.
 
 .. envvar:: WEBLATE_TIME_ZONE
 
@@ -1251,6 +1263,61 @@ Generic settings
 
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
+
+.. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
+
+   Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE
+
+   Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE
+
+   Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`.
+
+   The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also
+   large enough for uploaded backup files.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`.
 
 
 .. _docker-vcs-config:
