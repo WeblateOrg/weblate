@@ -1397,6 +1397,23 @@ $(function () {
         },
       },
     });
+
+    
+    editor.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key !== "Escape" || !mentionAutoComplete.isOpen) {
+          return;
+        }
+        event.stopImmediatePropagation();
+        event.preventDefault();
+        editor.setAttribute("aria-expanded", "false");
+        editor.setAttribute("aria-activedescendant", "");
+        mentionAutoComplete.list?.setAttribute("hidden", "");
+        mentionAutoComplete.isOpen = false;
+      },
+      true,
+    );
   });
 
   /* forset fields adding */
