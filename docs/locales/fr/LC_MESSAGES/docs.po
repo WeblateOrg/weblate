@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-12 04:42+0200\n"
-"PO-Revision-Date: 2026-05-13 13:57+0000\n"
+"PO-Revision-Date: 2026-05-14 20:11+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -133,8 +133,8 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
-"**Choisissez cette option pour gagner en visibilité, tout en gardant le "
-"contrôle sur les personnes qui peuvent contribuer.**"
+"**Choisissez cette option pour gagner en visibilité tout en gardant le "
+"contrôle des contributeurs.**"
 
 #: admin/access.rst:41 admin/config.rst:667
 msgid ":guilabel:`Private`"
@@ -1803,16 +1803,12 @@ msgstr ""
 "messages."
 
 #: admin/announcements.rst:8
-#, fuzzy
-#| msgid ""
-#| "Provide info to your translators by posting announcements, site-wide, per "
-#| "project, component, or language."
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, category, component, or language."
 msgstr ""
 "Fournissez des informations à vos traducteurs en publiant des annonces sur "
-"l’ensemble du site, par projet, composant ou langue."
+"l’ensemble du site, par projet, catégorie, composant ou langue."
 
 #: admin/announcements.rst:11
 msgid ""
@@ -1880,18 +1876,13 @@ msgid ""
 msgstr "Montré dans le projet, en incluant tous ses composants et traductions."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Category"
 msgid "Category specified"
-msgstr "Catégorie"
+msgstr "Catégorie spécifiée"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the category, including all its components and translations."
-msgstr "Montré dans le projet, en incluant tous ses composants et traductions."
+msgstr "Affiché dans la catégorie, avec tous ses composants et ses traductions."
 
 #: admin/announcements.rst:43
 msgid "Component specified"
@@ -2237,10 +2228,8 @@ msgstr ""
 "<https://translate.codeberg.org>`_."
 
 #: admin/auth.rst:330 admin/install/docker.rst:1547
-#, fuzzy
-#| msgid "Microsoft Translator"
 msgid "Microsoft Entra ID"
-msgstr "Microsoft Traduction"
+msgstr "Microsoft Entra ID"
 
 #: admin/auth.rst:332
 msgid ""
@@ -2249,6 +2238,10 @@ msgid ""
 "compatibility with the underlying Python Social Auth backends and existing "
 "deployments."
 msgstr ""
+"Azure Active Directory (Azure AD) s'appelle maintenant Microsoft Entra ID. "
+"Weblate garde les noms des serveurs ``azuread-oauth2`` et ``azuread-tenant-"
+"oauth2`` pour la compatibilité avec les serveurs Python Social Auth sous-"
+"jascents et les déploiements existants."
 
 #: admin/auth.rst:337
 msgid ""
@@ -2273,16 +2266,13 @@ msgid "You will need following:"
 msgstr "Vous aurez besoin des éléments suivants :"
 
 #: admin/auth.rst:345
-#, fuzzy
-#| msgid ""
-#| "*Application (client) ID* can be obtained from application page. *Object "
-#| "ID* is not used in Weblate."
 msgid ""
 "*Application (client) ID* is available on the app registration overview in "
 "the Microsoft Entra admin center. *Object ID* is not used in Weblate."
 msgstr ""
-"L'*identifiant de l'application du client* peut être obtenu à partir de la "
-"page de l'application. *Object ID* n'est pas utilisé dans Weblate."
+"L'*identifiant de l'application client* peut être obtenu à partir de la page "
+"d'enregistrement de l'application du centre d'administration Microsoft "
+"entra. *Object ID* n'est pas utilisé dans Weblate."
 
 #: admin/auth.rst:347
 msgid ""
@@ -2293,16 +2283,13 @@ msgstr ""
 "de l'entité, ce qui est généralement souhaité."
 
 #: admin/auth.rst:348
-#, fuzzy
-#| msgid ""
-#| "*Secret value* is displayed once you generate a secret for an "
-#| "application. *Secret ID* is not used in Weblate."
 msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
-"La *valeur secrète* est affichée une fois que vous générez un secret pour "
-"une application. Le *Secret ID* n'est pas utilisé dans Weblate."
+"La *valeur secrète* est affichée une fois que vous créer un secret de client "
+"à l'enregistrement d'une application. Le *Secret ID* n'est pas utilisé dans "
+"Weblate."
 
 #: admin/auth.rst:393 admin/install/docker.rst:1610
 msgid "Slack"
@@ -2441,17 +2428,19 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: admin/auth.rst:500
-#, fuzzy
-#| msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
 msgid ""
 "The SAML XML metadata URL is ``/accounts/metadata/saml/``, which is also an "
 "entity ID."
-msgstr "L’URL SAML de metadonnées XML est ``/accounts/metadata/saml/``."
+msgstr ""
+"L’URL SAML des metadonnées XML est ``/accounts/metadata/saml/``, qui est "
+"également l'ID d'une entité."
 
 #: admin/auth.rst:501
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
 msgstr ""
+"L'URL d'enregistrement est ``/accounts/complete/saml/`` (connue également "
+"comme URL ACS)."
 
 #: admin/auth.rst:502
 msgid ""
@@ -2470,7 +2459,7 @@ msgstr "Exemple de configuration :"
 
 #: admin/auth.rst:544
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Vous pouvez générer une nouvelle paire de clés en utilisant :"
 
 #: admin/auth.rst:550
 msgid ""
@@ -2881,6 +2870,11 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"La validation de l'importation des sauvegardes de projets téléversées peut "
+"être affinée en utilisant :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, et "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:37
 msgid ""
@@ -2921,14 +2915,10 @@ msgstr ""
 "l’onglet :guilabel:`Backups` de l’interface de gestion."
 
 #: admin/backup.rst:59
-#, fuzzy
-#| msgid ""
-#| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
-#| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
 msgstr ""
-"Les bases de données PostgreSQL et MySQL/MariaDB sont incluses dans les "
-"sauvegardes automatisées."
+"Les bases de données PostgreSQL sont incluses dans les sauvegardes "
+"automatisées."
 
 #: admin/backup.rst:61
 msgid ""
@@ -3165,17 +3155,14 @@ msgstr ""
 "pour les sauvegardes."
 
 #: admin/backup.rst:167
-#, fuzzy
-#| msgid ""
-#| "Add Weblate SSH key to the user so that Weblate can SSH to the server "
-#| "without a password (see :ref:`weblate-ssh-key`)."
 msgid ""
 "Add Weblate SSH key to the user's `.ssh/authorized_keys` file, so that "
 "Weblate can SSH to the server without a password (see :ref:`weblate-ssh-"
 "key`)."
 msgstr ""
-"Ajoutez la clé SSH de Weblate à l'utilisateur pour que Weblate puisse se "
-"connecter en SSH au serveur sans mot de passe (voir :ref:`weblate-ssh-key`)."
+"Ajoutez la clé SSH de Weblate au fichier `.ssh/authorized_keys` de "
+"l'utilisateur pour que Weblate puisse se connecter en SSH au serveur sans "
+"mot de passe (voir :ref:`weblate-ssh-key`)."
 
 #: admin/backup.rst:168
 msgid ""
@@ -3183,32 +3170,28 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Créer un répertoire utilisateur accessible en écriture où Weblate peut à "
+"distance intialiser le dépôt de sauvegarde de Borg, par exemple dans le "
+"répertoire racine (comme ``/home/borg/backups``)."
 
 #: admin/backup.rst:169
-#, fuzzy
-#| msgid ""
-#| "Configure the backup location in Weblate as ``user@host:/path/to/"
-#| "backups`` or ``ssh://user@host:port/path/to/backups``."
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/home/borg/backups`` "
 "or ``ssh://user@host:port/home/borg/backups``."
 msgstr ""
 "Configurez l'emplacement de la sauvegarde dans Weblate comme ``user@host:/"
-"path/to/backups`` ou ``ssh://user@host:port/path/to/backups``."
+"home/borg/backups`` ou ``ssh://user@host:port/home/borg/backups``."
 
 #: admin/backup.rst:170
-#, fuzzy
-#| msgid ""
-#| "Once enabled, the backups will be triggered automatically daily. You can "
-#| "also manually trigger a backup from the Weblate UI."
 msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI or using :ref:`backup-"
 "management-command`."
 msgstr ""
-"Une fois activée, les sauvegardes seront déclenchées automatiquement tous "
-"les jours. Vous pouvez également déclencher manuellement une sauvegarde "
-"depuis l'interface Weblate."
+"Une fois activées, les sauvegardes seront déclenchées automatiquement chaque "
+"jour. Vous pouvez également déclencher manuellement une sauvegarde depuis "
+"l'interface utilisateur Weblate ou en utilisant :ref:`backup-management-"
+"command`."
 
 #: admin/backup.rst:174
 msgid ""
@@ -3300,7 +3283,7 @@ msgstr "La session Borg doit ressembler à :"
 
 #: admin/backup.rst:228
 msgid "Restoring Docker based setup"
-msgstr ""
+msgstr "Restitution de la configuration Docker de base"
 
 #: admin/backup.rst:230
 msgid ""
@@ -3309,6 +3292,11 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Les étapes suivante supposent que les paramètres officiels Docker Compose "
+"utilisent les services embarqués PostgreSQL et Valkey, voir :doc:`install/"
+"docker`. Si votre déploiement utilise une base de données externes ou un "
+"fichier Compose personnalisé, adaptez les étapes de la base de données et le "
+"volume à cet environnement."
 
 #: admin/backup.rst:235
 msgid ""
@@ -3330,10 +3318,8 @@ msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
 
 #: admin/backup.rst:250
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "Supprimer le volume PostgreSQL :"
+msgstr "Recréer le volume PostgreSQL."
 
 #: admin/backup.rst:258
 msgid ""
@@ -3341,18 +3327,17 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"Le nom de volume dépend du nom du projet Compose et peut être différent de "
+":file:`weblate-docker_postgres-data`. Vérifiez votre configuration avant de "
+"supprimer tout volume."
 
 #: admin/backup.rst:262
-#, fuzzy
-#| msgid "Upgrade the database:"
 msgid "Start the database service:"
-msgstr "Mettre à jour la base de données :"
+msgstr "Démarrer le service de la base de données :"
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Restaurer la base de données à partir de la sauvegarde :"
+msgstr "Restaurer la base de données à partir de la sauvegarde :"
 
 #: admin/backup.rst:274
 msgid ""
@@ -3369,17 +3354,20 @@ msgstr ""
 
 #: admin/backup.rst:281
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Démarrez les services restants et vérifiez les journaux :"
 
 #: admin/backup.rst:288
 msgid ""
 "The Weblate container performs database migrations on startup. If you are "
 "also upgrading Weblate, follow :ref:`upgrading-docker`."
 msgstr ""
+"Le conteneur Weblate réalise les migrations de la base de données au "
+"démarrage. Si vous mettez aussi à jour Weblate, suivez :ref:`upgrading-"
+"docker`."
 
 #: admin/backup.rst:291
 msgid "Refresh the repositories after the restore:"
-msgstr ""
+msgstr "Rafraîchir les dépôts après la restauration :"
 
 #: admin/backup.rst:308
 msgid "Manual backup"
@@ -3430,21 +3418,15 @@ msgid "Native database backup"
 msgstr "Sauvegarde native de base de données"
 
 #: admin/backup.rst:336
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
-"L’approche recommandée est de dumper la base de donnés avec des outils "
-"natifs tels que :program:`pg_dump` ou :program:`mysqldump`. C’est "
-"généralement plus efficace que les sauvegardes Django et les restaurations "
-"des tables contiennent toutes les données."
+"L’approche recommandée est d'enregistrer un dump de la base de donnés en "
+"utilisant les outils natifs de la base de données tels "
+"que :program:`pg_dump`. C’est généralement plus efficace que les sauvegardes "
+"Django et les tables sont entièrement restaurées avec toutes leurs données."
 
 #: admin/backup.rst:340
 msgid ""
@@ -61628,6 +61610,7 @@ msgstr ""
 #: wlc.rst:398
 msgid "The configuration precedence (highest to lowest) is:"
 msgstr ""
+"La précédence des paramètres est la suivante (le plus important en premier) :"
 
 #: wlc.rst:400
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."
@@ -61844,10 +61827,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:76
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Translated / Waiting for review"
-msgstr "En attente de révision"
+msgstr "Traduit / En attente de relecture"
 
 #: workflows.rst:77
 msgid ""
@@ -61898,11 +61879,6 @@ msgstr ""
 "traduction."
 
 #: workflows.rst:95
-#, fuzzy
-#| msgid ""
-#| "If the file format you use does not support storing states, you might "
-#| "want to use the :ref:`addon-weblate.flags.same_edit` add-on to flag "
-#| "unchanged strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
@@ -61910,18 +61886,16 @@ msgid ""
 msgstr ""
 "Si le format que vous utilisez ne prend pas en charge les états "
 "d'enregistrement, vous pouvez utiliser le greffon :ref:`addon-"
-"weblate.flags.same_edit` pour marquer les chaînes non modifiées comme devant "
-"être modifiées."
+"weblate.flags.same_edit` pour marquer les chaînes non modifiées qui "
+"nécessitent d'être modifiées."
 
 #: workflows.rst:101
-#, fuzzy
-#| msgid "Preferences cookie to store user preferences in certain situations."
 msgid ""
 "The :ref:`project-commit_policy` determines which translation states are "
 "stored in the file."
 msgstr ""
-"Cookie servant à enregistrer les préférences utilisateur sous certaines "
-"conditions."
+"La :ref:`project-commit_policy` détermine quels états de la traduction sont "
+"à enregistrer dans le fichier."
 
 #: workflows.rst:110
 msgid "Direct translation"
