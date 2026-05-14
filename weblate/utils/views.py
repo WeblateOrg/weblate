@@ -65,6 +65,14 @@ def key_translated(instance):
     return instance.stats.translated_percent
 
 
+def key_approved(instance):
+    stats = instance.stats
+    # Mixed listings can include objects without review workflow enabled.
+    if stats.has_review:
+        return stats.approved_percent + stats.readonly_percent
+    return 0
+
+
 def key_unreviewed(instance):
     stats = instance.stats
     # Mixed listings can include objects without review workflow enabled.
@@ -103,6 +111,7 @@ def key_comments(instance):
 
 SORT_KEYS = {
     "name": key_name,
+    "approved": key_approved,
     "translated": key_translated,
     "unreviewed": key_unreviewed,
     "untranslated": key_untranslated,
