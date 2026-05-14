@@ -374,6 +374,11 @@ class GitRepository(Repository):
         )
         self.clean_revision_cache()
 
+    def reset_to_revision(self, revision: str) -> None:
+        """Reset working copy to a local revision."""
+        self.execute(["reset", "--hard", revision], remote_op="none")
+        self.clean_revision_cache()
+
     def get_git_file_path(self, name: str) -> Path:
         return Path(self.path) / ".git" / name
 
