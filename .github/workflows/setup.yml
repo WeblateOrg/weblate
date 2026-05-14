@@ -106,8 +106,8 @@ jobs:
       id: generate-sbom
       env:
         # renovate-cyclonedx-cli
-        CYCLONEDX_CLI_VERSION: v0.31.0
-        CYCLONEDX_CLI_DIGEST: sha256:72c465982796cb930dd7bfabe68d869aea053c9b7a717dff9ceee56b5624eea4
+        CYCLONEDX_CLI_VERSION: v0.32.0
+        CYCLONEDX_CLI_DIGEST: sha256:454879e6a4a405c8a13bff49b8982adcb0596f3019b26b0811c66e4d7f0783e1
       run: |
         version=$(uv run --frozen --only-group sbom ./scripts/show-version.py)
         sbom="build/sbom/weblate-$version-sbom.cdx.json"
