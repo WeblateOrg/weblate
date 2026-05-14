@@ -534,18 +534,20 @@ class XgettextExtractPotFormTest(SimpleTestCase):
 
 class GettextRepositoryPathValidationTest(SimpleTestCase):
     @staticmethod
-    def build_fake_component(repository_dir: str, *, new_base: str) -> SimpleNamespace:
+    def build_fake_component(repository_dir: str, *, new_base: str) -> Component:
         repository = SimpleNamespace(path=repository_dir)
         repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
             repository, path
         )
-        component = SimpleNamespace(
+        component = Component(
             file_format="po",
-            full_path=repository_dir,
+            filemask="*.po",
             new_base=new_base,
-            repository=repository,
-            log_error=lambda *_args, **_kwargs: None,
+            source_language_id=1,
         )
+        component.__dict__["full_path"] = repository_dir
+        component.__dict__["repository"] = repository
+        component.log_error = lambda *_args, **_kwargs: None
         component.check_file_is_valid = lambda filename: Component.check_file_is_valid(
             component, filename
         )
@@ -555,7 +557,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         return component
 
     @staticmethod
-    def build_fake_addon(addon_class, component: SimpleNamespace):
+    def build_fake_addon(addon_class, component: Component):
         addon = addon_class.__new__(addon_class)
         addon.instance = SimpleNamespace(component=component, pk=None, configuration={})
         addon.documentation_build = False
@@ -1306,6 +1308,35 @@ class GettextAddonTest(ViewTestCase):
         )
         self.assertTrue(form.is_valid())
 
+    def test_django_form_po_template(self) -> None:
+        self.component.filemask = "locale/*/LC_MESSAGES/django.po"
+        self.component.new_base = "locale/en/LC_MESSAGES/django.po"
+        self.component.language_regex = "^(?!en$).+$"
+        form = DjangoAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_django_form_po_template_not_excluded(self) -> None:
+        self.component.filemask = "locale/*/LC_MESSAGES/django.po"
+        self.component.new_base = "locale/en/LC_MESSAGES/django.po"
+        form = DjangoAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
     def test_django_form_invalid_domain(self) -> None:
         self.component.new_base = "locale/website.pot"
         form = DjangoAddon.get_add_form(
@@ -1334,6 +1365,14 @@ class GettextAddonTest(ViewTestCase):
     def test_django_can_install_is_component_specific(self) -> None:
         self.component.new_base = "locale/django.pot"
         self.assertTrue(DjangoAddon.can_install(component=self.component))
+
+        self.component.filemask = "locale/*/LC_MESSAGES/django.po"
+        self.component.new_base = "locale/en/LC_MESSAGES/django.po"
+        self.component.language_regex = "^(?!en$).+$"
+        self.assertTrue(DjangoAddon.can_install(component=self.component))
+
+        self.component.language_regex = "^[^.]+$"
+        self.assertFalse(DjangoAddon.can_install(component=self.component))
 
         self.component.new_base = "po/hello.pot"
         self.assertFalse(DjangoAddon.can_install(component=self.component))
@@ -2741,6 +2780,39 @@ msgstr ""
         self.assertIn("WEBLATE_EXTRACT_LOCALE_PATH", mocked.call_args.kwargs["env"])
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
 
+    def test_django_command_po_template(self) -> None:
+        self.component.filemask = "locale/*/LC_MESSAGES/django.po"
+        self.component.new_base = "locale/en/LC_MESSAGES/django.po"
+        self.component.language_regex = "^(?!en$).+$"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertTrue(template.exists())
+        self.assertEqual(template.read_text(encoding="utf-8"), 'msgid ""\nmsgstr ""\n')
+        command = mocked.call_args.args[1]
+        self.assertIn("django", command)
+        self.assertIn("WEBLATE_EXTRACT_LOCALE_PATH", mocked.call_args.kwargs["env"])
+
     def test_django_scopes_to_pot_parent_tree(self) -> None:
         self.component.new_base = "weblate/locale/django.pot"
         source_dir = Path(self.component.full_path) / "weblate"
@@ -2802,6 +2874,39 @@ msgstr ""
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
         self.assertIn("--source-prefix", command)
         self.assertIn(".", command)
+
+    def test_django_conf_locale_po_scopes_to_package_root(self) -> None:
+        self.component.filemask = "django/conf/locale/*/LC_MESSAGES/django.po"
+        self.component.new_base = "django/conf/locale/en/LC_MESSAGES/django.po"
+        self.component.language_regex = "^(?!en$).+$"
+        source_dir = Path(self.component.full_path) / "django"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
+        prefix_index = command.index("--source-prefix")
+        self.assertEqual(command[prefix_index + 1], "django")
 
     def test_django_uses_file_format_gettext_flags(self) -> None:
         self.component.new_base = "locale/django.pot"

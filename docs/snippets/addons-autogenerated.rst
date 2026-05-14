@@ -1008,8 +1008,8 @@ Customize gettext output
 
 .. _addon-weblate.gettext.django:
 
-Update POT file (Django)
-------------------------
+Update gettext template (Django)
+--------------------------------
 
 .. versionadded:: 5.17
 

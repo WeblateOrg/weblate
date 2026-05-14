@@ -1499,7 +1499,7 @@ class MesonAddon(XgettextAddon):
 class DjangoAddon(ExtractPotBaseAddon):
     name = "weblate.gettext.django"
     version_added = "5.17"
-    verbose = gettext_lazy("Update POT file (Django)")
+    verbose = gettext_lazy("Update gettext template (Django)")
     description = gettext_lazy(
         "Updates the gettext template using Django's built-in makemessages command."
     )
@@ -1523,6 +1523,8 @@ class DjangoAddon(ExtractPotBaseAddon):
             return False
         if component is None:
             return True
+        if not component.is_gettext_po_template():
+            return False
         if Path(component.new_base).stem not in {"django", "djangojs"}:
             return False
         try:
@@ -1576,6 +1578,19 @@ class DjangoAddon(ExtractPotBaseAddon):
             )
             return False
         domain = self.get_domain(component)
+        if not component.is_gettext_po_template():
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": (
+                        "The component has to define a gettext template "
+                        "for new translations"
+                    ),
+                }
+            )
+            return False
         if not self.validate_django_repository_tree(component, source_dir):
             self.alerts.append(
                 {
@@ -1592,7 +1607,10 @@ class DjangoAddon(ExtractPotBaseAddon):
                     "addon": self.name,
                     "command": "django makemessages",
                     "output": component.new_base,
-                    "error": "The Django extractor only supports django.pot and djangojs.pot templates",
+                    "error": (
+                        "The Django extractor only supports django.pot, "
+                        "djangojs.pot, django.po, and djangojs.po templates"
+                    ),
                 }
             )
             return False
@@ -1652,9 +1670,14 @@ class DjangoAddon(ExtractPotBaseAddon):
             return cls.get_validated_repository_dir(
                 component, Path(component.full_path)
             )
-        if locale_index == 1 and parts[0] == "conf":
+        if parts[locale_index - 1] == "conf":
+            if locale_index == 1:
+                return cls.get_validated_repository_dir(
+                    component, Path(component.full_path)
+                )
             return cls.get_validated_repository_dir(
-                component, Path(component.full_path)
+                component,
+                Path(component.full_path).joinpath(*parts[: locale_index - 1]),
             )
         source_dir = Path(component.full_path).joinpath(*parts[:locale_index])
         return cls.get_validated_repository_dir(component, source_dir)

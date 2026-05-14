@@ -3327,6 +3327,24 @@ class Component(  # noqa: PLR0904
             return [self.template, *sorted(matches)]
         return sorted(matches)
 
+    def is_gettext_po_template(self) -> bool:
+        """Check whether the base file should be handled as a gettext template."""
+        if self.file_format != "po" or not self.new_base:
+            return False
+        if self.new_base.endswith(".pot"):
+            return True
+        if not self.new_base.endswith(".po"):
+            return False
+
+        code = self.get_lang_code(self.new_base, validate=True)
+        if not code:
+            return False
+
+        try:
+            return regex_match(self.language_regex, code) is None
+        except (TimeoutError, regex.error):
+            return False
+
     @cached_property
     def all_active_alerts(self) -> list[Alert]:
         return [alert for alert in self.alert_set.all() if not alert.dismissed]
@@ -3561,12 +3579,10 @@ class Component(  # noqa: PLR0904
             # This creates the translation when necessary
             translation = self.source_translation
 
-            if (
-                self.file_format == "po"
-                and self.new_base.endswith(".pot")
-                and os.path.exists(self.get_new_base_filename())
+            if self.is_gettext_po_template() and os.path.exists(
+                self.get_new_base_filename()
             ):
-                # Process pot file as source to include additional metadata
+                # Process template file as source to include additional metadata
                 matches = [self.new_base, *matches]
                 source_file = self.new_base
             else:
