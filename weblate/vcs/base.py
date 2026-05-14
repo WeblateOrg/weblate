@@ -698,6 +698,10 @@ class Repository:
         """Reset working copy to match remote branch."""
         raise NotImplementedError
 
+    def reset_to_revision(self, revision: str) -> None:
+        """Reset working copy to a local revision."""
+        raise NotImplementedError
+
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
     ) -> None:

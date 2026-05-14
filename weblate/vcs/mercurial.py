@@ -140,6 +140,15 @@ class HgRepository(Repository):
             self.execute(["strip", "roots(outgoing())"], remote_op="pull")
         self.clean_revision_cache()
 
+    def reset_to_revision(self, revision: str) -> None:
+        """Reset working copy to a local revision."""
+        self.set_config_values(("extensions", "strip", ""))
+        self.execute(["update", "--clean", revision], remote_op="none")
+        self.execute(
+            ["strip", f"descendants({revision}) - {revision}"], remote_op="none"
+        )
+        self.clean_revision_cache()
+
     def configure_merge(self) -> None:
         """Select the correct merge tool."""
         updates: list[tuple[str, str, str]] = [

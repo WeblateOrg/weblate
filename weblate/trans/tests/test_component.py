@@ -24,6 +24,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
+    CommitPolicyChoices,
     Component,
     PendingUnitChange,
     Project,
@@ -1362,6 +1363,278 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     ["add", "--force", "--", translation.filename],
                     remote_op="none",
                 )
+
+    def test_file_sync_recreates_missing_translation_file(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+        self.assertFalse(os.path.exists(filename))
+
+        def assert_file_restored_before_queue(*_args, **_kwargs) -> None:
+            self.assertTrue(os.path.exists(filename))
+
+        with patch.object(
+            Component,
+            "queue_background_task",
+            autospec=True,
+            side_effect=assert_file_restored_before_queue,
+        ) as mock_queue:
+            self.assertTrue(self.component.do_file_sync(self.get_request()))
+
+        self.assertTrue(os.path.exists(filename))
+        mock_queue.assert_called_once()
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+
+        self.assertTrue(self.component.commit_pending("file-sync", self.user))
+        self.de_translation.drop_store_cache()
+        self.de_translation.check_sync(force=True)
+        self.assertEqual(
+            self.get_unit(language="de", translation=self.de_translation).target,
+            "Hallo Welt!\n",
+        )
+
+    def test_file_sync_keeps_pending_changes_when_restore_fails(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+        request = self.get_request()
+
+        with (
+            patch.object(
+                Component, "can_restore_missing_translation_file", return_value=False
+            ),
+            patch.object(self.component.repository, "reset") as mock_reset,
+            patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.assertFalse(os.path.exists(filename))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_reset.assert_not_called()
+        mock_cleanup.assert_not_called()
+        mock_queue.assert_not_called()
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_restore_failure_does_not_reset_repository(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        request = self.get_request()
+
+        with (
+            patch.object(
+                Component,
+                "restore_missing_translation_file",
+                autospec=True,
+                side_effect=OSError("restore failed"),
+            ),
+            patch.object(self.component.repository, "reset") as mock_reset,
+            patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
+            patch("weblate.trans.models.component.report_error") as mock_report_error,
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_reset.assert_not_called()
+        mock_cleanup.assert_called_once_with()
+        mock_queue.assert_not_called()
+        mock_report_error.assert_called_once_with(
+            "Could not recreate missing translation file during file sync",
+            project=self.component.project,
+        )
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_rolls_back_partial_missing_translation_restore(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        it_translation = self.ensure_translation("it")
+        self.prepare_missing_translation_file(
+            it_translation,
+            target="Ciao mondo!\n",
+            commit_to_remote=True,
+        )
+        start_rev = self.component.repository.last_revision
+
+        restore_file = Component.restore_missing_translation_file
+        restore_calls = 0
+        lock_states = []
+
+        def fail_second_restore(component, translation, **kwargs) -> None:
+            nonlocal restore_calls
+
+            lock_states.append(component.repository.lock.is_locked)
+            restore_calls += 1
+            if restore_calls == 2:
+                msg = "restore failed"
+                raise OSError(msg)
+            restore_file(component, translation, **kwargs)
+
+        request = self.get_request()
+        with (
+            patch.object(
+                Component,
+                "restore_missing_translation_file",
+                autospec=True,
+                side_effect=fail_second_restore,
+            ),
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.component.repository.clean_revision_cache()
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(self.component.repository.count_outgoing(), 0)
+        mock_queue.assert_not_called()
+        self.assertEqual(lock_states, [True, True])
+
+        for translation in (self.de_translation, it_translation):
+            self.assertFalse(os.path.exists(cast("str", translation.get_filename())))
+            self.assertTrue(
+                PendingUnitChange.objects.filter(unit__translation=translation).exists()
+            )
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_restore_failure_cleans_uncommitted_artifacts(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        filename = cast("str", self.de_translation.get_filename())
+        addon_file = os.path.join(self.component.full_path, "po", "restore-extra.mo")
+        start_rev = self.component.repository.last_revision
+
+        def fail_commit(translation, *args, **kwargs) -> bool:
+            pathlib.Path(addon_file).write_text("artifact", encoding="utf-8")
+            translation.addon_commit_files.append(addon_file)
+            msg = "commit failed"
+            raise OSError(msg)
+
+        request = self.get_request()
+        with (
+            patch.object(
+                Translation,
+                "git_commit",
+                autospec=True,
+                side_effect=fail_commit,
+            ),
+            patch("weblate.trans.models.component.translation_post_add.send"),
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.component.repository.clean_revision_cache()
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(self.component.repository.count_outgoing(), 0)
+        self.assertFalse(os.path.exists(filename))
+        self.assertFalse(os.path.exists(addon_file))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_queue.assert_not_called()
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_ignores_uncommittable_missing_translation_file(self) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.save()
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+
+        with (
+            patch.object(
+                Component, "restore_missing_translation_file", autospec=True
+            ) as mock_restore,
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertTrue(self.component.do_file_sync(self.get_request()))
+
+        self.assertFalse(os.path.exists(filename))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_restore.assert_not_called()
+        mock_queue.assert_called_once()
+
+    def test_file_sync_without_commit_does_not_restore_missing_translation_file(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+
+        with patch.object(
+            Component, "restore_pending_translation_files", autospec=True
+        ) as mock_restore:
+            self.assertTrue(
+                self.component.do_file_sync(
+                    self.get_request(),
+                    do_commit=False,
+                    store_disk_state=False,
+                )
+            )
+
+        self.assertFalse(os.path.exists(filename))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_restore.assert_not_called()
 
     def test_reset_keep_recreates_missing_translation_file(self) -> None:
         self.prepare_missing_translation_file(
