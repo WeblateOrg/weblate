@@ -796,7 +796,7 @@ class TranslationActivitySummaryNotification(Notification):
             last_user = user
             if subscription.frequency != frequency:
                 continue
-            if not user.can_access_project(project):
+            if not user.can_access_component(component):
                 continue
 
             user.current_subscription = subscription

@@ -32,7 +32,8 @@ from weblate.accounts.tasks import (
     notify_weekly,
     send_mails,
 )
-from weblate.auth.models import User
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Comment, Suggestion
@@ -650,6 +651,54 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertIn("change_action%3Amarked-for-edit", content)
         self.assertIn("state%3A%3Ctranslated", content)
         self.assertNotIn("Hello, world", content)
+
+    def test_translation_activity_summary_skips_restricted_component(self) -> None:
+        self.user.subscription_set.all().delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification="TranslationActivitySummaryNotification",
+            frequency=NotificationFrequency.FREQ_WEEKLY,
+        )
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_cache()
+        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
+
+        unit = self.get_unit()
+        unit.change_set.create(action=ActionEvents.NEW_UNIT)
+
+        notify_weekly()
+
+        self.validate_notifications(0)
+
+    def test_translation_activity_summary_restricted_component_access(self) -> None:
+        self.user.subscription_set.all().delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification="TranslationActivitySummaryNotification",
+            frequency=NotificationFrequency.FREQ_WEEKLY,
+        )
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        component_group = Group.objects.create(
+            name="Restricted component access", language_selection=SELECTION_ALL
+        )
+        component_group.roles.add(Role.objects.get(name="Power user"))
+        component_group.components.add(self.component)
+        self.user.groups.add(component_group)
+        self.user.clear_cache()
+        self.assertTrue(self.user.can_access_component(self.component))
+
+        unit = self.get_unit()
+        unit.change_set.create(action=ActionEvents.NEW_UNIT)
+
+        notify_weekly()
+
+        self.validate_notifications(1, "[Weblate] Translation activity summary")
+        content = mail.outbox[0].alternatives[0][0]
+        self.assertIn("Test/Test — Czech", content)
+        self.assertIn("change_action%3Astring-added", content)
 
     def test_reminder(
         self,
