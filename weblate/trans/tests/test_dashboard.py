@@ -9,6 +9,7 @@ from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, ComponentList, Project
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.state import STATE_APPROVED
 
 
 class DashboardTest(FixtureTestCase):
@@ -37,6 +38,7 @@ class DashboardTest(FixtureTestCase):
         self.create_po(project=no_review, name="Other")
         self.project.translation_review = True
         self.project.save(update_fields=["translation_review"])
+        self.change_unit("Nazdar svete!\n", state=STATE_APPROVED)
 
         response = self.client.get(reverse("projects"))
 
@@ -57,6 +59,18 @@ class DashboardTest(FixtureTestCase):
         self.assertEqual(
             [project.slug for project in response.context["projects"]],
             ["no-review", "test"],
+        )
+
+        response = self.client.get(reverse("projects"), {"sort_by": "approved"})
+        self.assertEqual(
+            [project.slug for project in response.context["projects"]],
+            ["no-review", "test"],
+        )
+
+        response = self.client.get(reverse("projects"), {"sort_by": "-approved"})
+        self.assertEqual(
+            [project.slug for project in response.context["projects"]],
+            ["test", "no-review"],
         )
 
     def test_view_projects_slash(self) -> None:
