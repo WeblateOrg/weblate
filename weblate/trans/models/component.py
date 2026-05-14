@@ -29,7 +29,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import F, Q, Value
+from django.db.models import F, OuterRef, Q, Subquery, Value
 from django.db.models.functions import MD5
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -47,7 +47,7 @@ from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -2696,24 +2696,78 @@ class Component(  # noqa: PLR0904
         do_commit: bool = True,
         store_disk_state: bool = True,
     ) -> bool:
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
         from weblate.trans.tasks import perform_commit  # noqa: PLC0415
 
         pending: list[PendingUnitChange] = []
-        for unit in Unit.objects.filter(
-            Q(translation__component=self)
-            | Q(translation__component__linked_component=self)
-        ).exclude(
-            Q(translation__language_id=F("translation__component__source_language_id"))
-            | Q(translation__filename="")
-        ):
+        units_to_update: list[Unit] = []
+        anonymous_id = get_anonymous().id
+        last_author = (
+            Change.objects.filter(unit_id=OuterRef("pk"), action__in=ACTIONS_CONTENT)
+            .order_by("-timestamp")
+            .values("author_id")[:1]
+        )
+        units = (
+            Unit.objects.filter(
+                Q(translation__component=self)
+                | Q(translation__component__linked_component=self)
+            )
+            .exclude(
+                Q(
+                    translation__language_id=F(
+                        "translation__component__source_language_id"
+                    )
+                )
+                | Q(translation__filename="")
+            )
+            .annotate(last_author_id=Subquery(last_author))
+            .values(
+                "id",
+                "target",
+                "explanation",
+                "state",
+                "details",
+                "automatically_translated",
+                "source_unit__explanation",
+                "last_author_id",
+            )
+        )
+        for unit in units.iterator(chunk_size=1000):
+            if store_disk_state:
+                details = unit["details"] or {}
+                if "disk_state" not in details:
+                    details = {
+                        **details,
+                        "disk_state": Unit.get_disk_state(
+                            target=unit["target"],
+                            state=unit["state"],
+                            explanation=unit["explanation"],
+                            automatically_translated=unit["automatically_translated"],
+                        ),
+                    }
+                    units_to_update.append(Unit(id=unit["id"], details=details))
+                    if len(units_to_update) > 1000:
+                        Unit.objects.bulk_update(units_to_update, ["details"])
+                        units_to_update.clear()
+
             pending.append(
-                PendingUnitChange.store_unit_change(
-                    unit, store_disk_state=store_disk_state, save=False
+                PendingUnitChange.build_unit_change(
+                    unit_id=unit["id"],
+                    author_id=unit["last_author_id"] or anonymous_id,
+                    target=unit["target"],
+                    explanation=unit["explanation"],
+                    state=unit["state"],
+                    source_unit_explanation=unit["source_unit__explanation"] or "",
+                    automatically_translated=unit["automatically_translated"],
                 )
             )
             if len(pending) > 1000:
                 PendingUnitChange.objects.bulk_create(pending)
                 pending.clear()
+
+        if units_to_update:
+            Unit.objects.bulk_update(units_to_update, ["details"])
+            units_to_update.clear()
 
         if pending:
             PendingUnitChange.objects.bulk_create(pending)

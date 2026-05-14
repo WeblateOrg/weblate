@@ -728,6 +728,21 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": unit.automatically_translated,
         }
 
+    @staticmethod
+    def get_disk_state(
+        *,
+        target: str,
+        state: int,
+        explanation: str,
+        automatically_translated: bool,
+    ) -> dict[str, Any]:
+        return {
+            "target": target,
+            "state": state,
+            "explanation": explanation,
+            "automatically_translated": automatically_translated,
+        }
+
     def store_disk_state(self) -> None:
         """
         Store a snapshot of unit state before pending changes are created.
@@ -738,12 +753,12 @@ class Unit(models.Model, LoggerMixin):
             msg = "`store_old_unit` should be called before saving disk state."
             raise ValueError(msg)
         if "disk_state" not in self.details:
-            self.details["disk_state"] = {
-                "target": self.old_unit["target"],
-                "state": self.old_unit["state"],
-                "explanation": self.old_unit["explanation"],
-                "automatically_translated": self.old_unit["automatically_translated"],
-            }
+            self.details["disk_state"] = self.get_disk_state(
+                target=self.old_unit["target"],
+                state=self.old_unit["state"],
+                explanation=self.old_unit["explanation"],
+                automatically_translated=self.old_unit["automatically_translated"],
+            )
             self.save(same_content=True, only_save=True, update_fields=["details"])
 
     def clear_disk_state(self) -> None:

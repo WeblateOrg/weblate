@@ -1306,6 +1306,78 @@ class ComponentErrorTest(RepoTestCase):
             self.component.clean()
 
 
+class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
+    def test_file_sync_creates_pending_changes_from_unit_values(self) -> None:
+        unit = self.get_unit()
+        Unit.objects.filter(pk=unit.source_unit_id).update(
+            explanation="Source explanation"
+        )
+        unit.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user, author=self.user
+        )
+        unit.refresh_from_db()
+        source_explanation = Unit.objects.get(pk=unit.source_unit_id).explanation
+
+        with patch.object(Component, "queue_background_task", autospec=True):
+            self.assertTrue(
+                self.component.do_file_sync(self.get_request(), do_commit=False)
+            )
+
+        pending = PendingUnitChange.objects.get(unit=unit)
+        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.target, unit.target)
+        self.assertEqual(pending.explanation, unit.explanation)
+        self.assertEqual(pending.state, unit.state)
+        self.assertEqual(pending.source_unit_explanation, source_explanation)
+        self.assertEqual(
+            pending.automatically_translated, unit.automatically_translated
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(
+            unit.details["disk_state"],
+            Unit.get_disk_state(
+                target=unit.target,
+                state=unit.state,
+                explanation=unit.explanation,
+                automatically_translated=unit.automatically_translated,
+            ),
+        )
+
+    def test_file_sync_without_disk_state_keeps_unit_details(self) -> None:
+        unit = self.get_unit()
+        original_details = unit.details.copy()
+
+        self.assertTrue(
+            self.component.do_file_sync(
+                self.get_request(),
+                do_commit=False,
+                store_disk_state=False,
+            )
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.details, original_details)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+
+    def test_file_sync_keeps_existing_disk_state(self) -> None:
+        unit = self.get_unit()
+        disk_state = Unit.get_disk_state(
+            target="Original target",
+            state=STATE_TRANSLATED,
+            explanation="Original explanation",
+            automatically_translated=True,
+        )
+        Unit.objects.filter(pk=unit.pk).update(details={"disk_state": disk_state})
+
+        self.assertTrue(
+            self.component.do_file_sync(self.get_request(), do_commit=False)
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.details["disk_state"], disk_state)
+
+
 class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
