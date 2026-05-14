@@ -381,6 +381,52 @@ class PendingUnitChange(models.Model):
         return f"Pending change for {self.unit} -> {self.target} by {self.author}"
 
     @classmethod
+    def build_unit_change(
+        cls,
+        *,
+        unit: Unit | None = None,
+        unit_id: int | None = None,
+        author: User | None = None,
+        author_id: int | None = None,
+        target: str,
+        explanation: str,
+        state: int,
+        add_unit: bool = False,
+        source_unit_explanation: str,
+        automatically_translated: bool,
+        timestamp: datetime | None = None,
+    ) -> PendingUnitChange:
+        """Build pending change from a unit instance or pre-fetched unit values."""
+        kwargs = {
+            "target": target,
+            "explanation": explanation,
+            "state": state,
+            "add_unit": add_unit,
+            "source_unit_explanation": source_unit_explanation,
+            "automatically_translated": automatically_translated,
+        }
+        if unit_id is not None:
+            kwargs["unit_id"] = unit_id
+        elif unit is not None:
+            kwargs["unit"] = unit
+        else:
+            msg = "Pending unit change requires unit or unit_id."
+            raise ValueError(msg)
+
+        if author_id is not None:
+            kwargs["author_id"] = author_id
+        elif author is not None:
+            kwargs["author"] = author
+        else:
+            msg = "Pending unit change requires author or author_id."
+            raise ValueError(msg)
+
+        if timestamp is not None:
+            kwargs["timestamp"] = timestamp
+
+        return cls(**kwargs)
+
+    @classmethod
     def store_unit_change(
         cls,
         unit: Unit,
@@ -415,20 +461,17 @@ class PendingUnitChange(models.Model):
         if automatically_translated is None:
             automatically_translated = unit.automatically_translated
 
-        kwargs = {
-            "unit": unit,
-            "author": author,
-            "target": target,
-            "explanation": explanation,
-            "state": state,
-            "add_unit": add_unit,
-            "source_unit_explanation": source_unit_explanation,
-            "automatically_translated": automatically_translated,
-        }
-        if timestamp is not None:
-            kwargs["timestamp"] = timestamp
-
-        pending_unit_change = PendingUnitChange(**kwargs)
+        pending_unit_change = cls.build_unit_change(
+            unit=unit,
+            author=author,
+            target=target,
+            explanation=explanation,
+            state=state,
+            add_unit=add_unit,
+            source_unit_explanation=source_unit_explanation,
+            automatically_translated=automatically_translated,
+            timestamp=timestamp,
+        )
         if save:
             pending_unit_change.save()
         return pending_unit_change
