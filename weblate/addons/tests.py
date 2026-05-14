@@ -4401,7 +4401,10 @@ class CommandTest(ComponentTestCase):
 
     def test_list_addons(self) -> None:
         output = StringIO()
-        call_command("list_addons", stdout=output)
+        with patch(
+            "weblate.addons.forms.get_component_detected_discovery_presets"
+        ) as mocked:
+            call_command("list_addons", stdout=output)
         generated = output.getvalue()
         self.assertIn("msgmerge", generated)
         self.assertNotIn("Guided preset", generated)
@@ -4413,6 +4416,7 @@ class CommandTest(ComponentTestCase):
         # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
         self.assertNotIn("confirm", generated)
         self.assertNotIn("Update PO files using msgmerge", generated)
+        mocked.assert_not_called()
 
     def test_install_not_supported(self) -> None:
         output = StringIO()

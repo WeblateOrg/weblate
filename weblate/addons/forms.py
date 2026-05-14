@@ -847,7 +847,7 @@ class DiscoveryForm(BaseAddonForm):
             Field("copy_addons"),
             Field("remove"),
         )
-        if self.guided_preset_sections:
+        if not self._addon.documentation_build and self.guided_preset_sections:
             self.helper.layout.insert(
                 0,
                 ContextDiv(
