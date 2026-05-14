@@ -735,7 +735,12 @@ def show_message(tags, message):
             task_id = tag[5:]
         else:
             final.append(tag)
-    return {"tags": " ".join(final), "task_id": task_id, "message": message}
+    return {
+        "tags": " ".join(final),
+        "task_id": task_id,
+        "message": message,
+        "progress": 0,
+    }
 
 
 @register.filter(is_safe=True)

@@ -1064,6 +1064,11 @@ $(function () {
             progressCompleted();
             if (result.message) {
               $messageText.text(result.message);
+            } else if (typeof result === "string" && result) {
+              $messageText.text(result);
+            }
+            if (result.url) {
+              window.location = result.url;
             }
             if (result.warnings?.length) {
               $warnings.empty();

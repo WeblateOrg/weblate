@@ -42,6 +42,7 @@ Weblate 2026.5
 * :ref:`backup` logs no longer include OpenSSH post-quantum key exchange warnings from remote Borg connections.
 * Category repository paths are now handled more safely during cleanup and moves.
 * Locked component pages now show an unsubscribe action after subscribing to unlock notifications.
+* :ref:`projectbackup` imports now restore in the background to avoid web worker memory limits.
 
 .. rubric:: Compatibility
 

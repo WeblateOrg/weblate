@@ -37,8 +37,9 @@ from weblate.trans.forms import (
     ProjectImportForm,
 )
 from weblate.trans.models import Category, Component, Project
-from weblate.trans.tasks import perform_update
+from weblate.trans.tasks import import_project_backup, perform_update
 from weblate.utils import messages
+from weblate.utils.celery import store_task_metadata
 from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
@@ -211,15 +212,22 @@ class ImportProject(CreateProject):
             if form.cleaned_data["billing"]:
                 self.request.session["import_billing"] = form.cleaned_data["billing"].pk
             return redirect("create-project-import")
-        # Perform actual import
-        project = self.projectbackup.restore(
+        billing = form.cleaned_data["billing"]
+        task = import_project_backup.delay(
             project_name=form.cleaned_data["name"],
             project_slug=form.cleaned_data["slug"],
-            user=self.request.user,
-            billing=form.cleaned_data["billing"],
+            user_id=self.request.user.id,
+            filename=self.projectbackup.filename,
+            billing_id=billing.pk if billing else None,
+        )
+        store_task_metadata(task.id, user_id=self.request.user.id)
+        messages.success(
+            self.request,
+            gettext("Project backup import in progress"),
+            f"task:{task.id}",
         )
         del self.request.session["import_project"]
-        return redirect(project)
+        return redirect("home")
 
 
 @method_decorator(login_required, name="dispatch")

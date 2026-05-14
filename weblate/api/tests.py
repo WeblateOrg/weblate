@@ -6272,6 +6272,61 @@ class TasksAPITest(APIBaseTest):
             {"completed": False, "progress": 0, "result": None, "log": ""},
         )
 
+    def test_retrieve_uses_cached_user_metadata(self) -> None:
+        cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertEqual(
+            response.data,
+            {"completed": False, "progress": 0, "result": None, "log": ""},
+        )
+
+    def test_destroy_denies_cached_user_metadata(self) -> None:
+        cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
+
+        class DummyAsyncResult:
+            latest = None
+
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.revoked = False
+                self.state = "PENDING"
+                DummyAsyncResult.latest = self
+
+            def ready(self):
+                return False
+
+            def revoke(self, *args, **kwargs) -> None:
+                self.revoked = True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
+                code=403,
+            )
+
+        self.assertIsNotNone(DummyAsyncResult.latest)
+        self.assertFalse(DummyAsyncResult.latest.revoked)
+
     def test_retrieve_hides_inaccessible_cached_component(self) -> None:
         other_component = self.create_acl()
         cache.set(

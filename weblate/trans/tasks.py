@@ -13,6 +13,7 @@ from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
 
+from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -977,6 +978,56 @@ def create_project_backup(pk: int, uid: int | None = None) -> None:
     user = User.objects.get(pk=uid) if uid else None
     backup = ProjectBackup()
     backup.backup_project(project, user)
+
+
+def report_task_progress(progress: int) -> None:
+    if current_task and current_task.request.id:
+        current_task.update_state(state="PROGRESS", meta={"progress": progress})
+
+
+def report_restore_component_progress(completed: int, total: int) -> None:
+    if total:
+        report_task_progress(30 + (60 * completed // total))
+
+
+@app.task(trail=False)
+def import_project_backup(
+    project_name: str,
+    project_slug: str,
+    user_id: int,
+    filename: str,
+    billing_id: int | None = None,
+) -> dict[str, str]:
+    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
+
+    try:
+        report_task_progress(5)
+        user = User.objects.get(pk=user_id)
+        billing = None
+        if billing_id is not None:
+            from weblate.billing.models import Billing  # noqa: PLC0415
+
+            billing = Billing.objects.get(pk=billing_id)
+        restore = ProjectBackup(filename)
+        report_task_progress(10)
+        restore.validate()
+        report_task_progress(30)
+        project = restore.restore(
+            project_name=project_name,
+            project_slug=project_slug,
+            user=user,
+            billing=billing,
+            progress_callback=report_restore_component_progress,
+        )
+        report_task_progress(95)
+    finally:
+        with suppress(OSError):
+            os.unlink(filename)
+
+    return {
+        "message": gettext("Project backup import completed."),
+        "url": project.get_absolute_url(),
+    }
 
 
 @app.task(trail=False)
