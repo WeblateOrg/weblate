@@ -1703,7 +1703,7 @@ PROJECT_BACKUP_UPLOAD_MAX_SIZE
 .. versionadded:: 5.17.1
 
 Configures the maximum size, in bytes, for uploaded project backup ZIP files.
-Defaults to 262144000 bytes (250 MiB).
+Defaults to 536870912 bytes (512 MiB).
 
 In Docker, configure this using the ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``
 environment variable. Docker setups can also be constrained by
@@ -1727,6 +1727,9 @@ backup.
 This is a safeguard against malformed or intentionally fragmented archives.
 Defaults to 100000 entries.
 
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` environment variable.
+
 .. seealso::
 
    :ref:`projectbackup`
@@ -1739,10 +1742,14 @@ PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
 .. versionadded:: 5.17.1
 
 Defines the maximum total uncompressed size, in bytes, for ZIP entries in an
-imported project backup. Defaults to 262144000 bytes (250 MiB).
+imported project backup. Defaults to 536870912 bytes (512 MiB).
 
 This limits archives that are small when uploaded but expand to much more data
 during validation or restore.
+
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` environment
+variable.
 
 .. seealso::
 
@@ -1763,6 +1770,10 @@ enough to look suspicious. Large low-compression files are intentionally
 allowed here and are expected to be constrained by the HTTP upload limit.
 Defaults to 262144000 bytes (250 MiB).
 
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` environment
+variable.
+
 .. seealso::
 
    :ref:`projectbackup`
@@ -1780,6 +1791,9 @@ considering the ZIP compression ratio during project backup import.
 Smaller files are ignored for the compression-ratio-based validation to avoid
 rejecting reasonably sized files that compress well. Defaults to 1048576 bytes
 (1 MiB).
+
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable.
 
 .. seealso::
 
@@ -1800,6 +1814,10 @@ This is used together with
 :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` to detect suspiciously
 compressed entries while still allowing large repository pack files and other
 low-compression content. Defaults to 250.
+
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` environment
+variable.
 
 .. seealso::
 

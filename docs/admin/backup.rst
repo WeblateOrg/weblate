@@ -30,6 +30,7 @@ The generated backups are kept on the server as configured by
 
 Import validation of uploaded project backups can be tuned using
 :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`,
+:setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`,
 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`,
 :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, and
 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`.

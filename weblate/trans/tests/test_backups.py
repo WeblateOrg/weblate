@@ -633,7 +633,8 @@ class BackupsTest(ViewTestCase):
                     PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE=total_size
                 ),
                 self.assertRaisesRegex(
-                    ValueError, "contains too much uncompressed data"
+                    ValueError,
+                    "data after unpacking, exceeding the configured limit",
                 ),
             ):
                 restore.validate()

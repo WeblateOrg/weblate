@@ -10,6 +10,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 from shutil import copyfileobj
 from typing import TYPE_CHECKING
 
+from django.template.defaultfilters import filesizeformat
 from django.utils.translation import gettext
 
 from weblate.utils.files import is_path_within_resolved_directory
@@ -111,7 +112,13 @@ def validate_zip_members(
             limits.max_total_uncompressed_size is not None
             and total_uncompressed_size > limits.max_total_uncompressed_size
         ):
-            msg = gettext("The ZIP file contains too much uncompressed data.")
+            msg = gettext(
+                "The ZIP file contains %(actual_size)s of data after unpacking, "
+                "exceeding the configured limit of %(limit_size)s."
+            ) % {
+                "actual_size": filesizeformat(total_uncompressed_size),
+                "limit_size": filesizeformat(limits.max_total_uncompressed_size),
+            }
             raise ZipSafetyError(msg)
 
         if (

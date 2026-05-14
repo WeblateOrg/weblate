@@ -121,7 +121,7 @@ class ProjectBackup:
     MAX_COMPRESSED_ENTRY_SIZE = 250 * 1024 * 1024
     MIN_COMPRESSED_RATIO_SIZE = 1 * 1024 * 1024
     MAX_COMPRESSED_ENTRY_RATIO = 250
-    MAX_TOTAL_UNCOMPRESSED_SIZE = 250 * 1024 * 1024
+    MAX_TOTAL_UNCOMPRESSED_SIZE = 512 * 1024 * 1024
 
     def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}
