@@ -799,7 +799,7 @@ LICENSES = (
         "CDDL-1.1",
         "Common Development and Distribution License 1.1",
         "https://spdx.org/licenses/CDDL-1.1.html",
-        False,
+        True,
     ),
     (
         "CDL-1.0",
