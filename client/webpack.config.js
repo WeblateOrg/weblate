@@ -42,7 +42,6 @@ SPDX-License-Identifier: ${licenses}
 function mainLicenseTransform(packages) {
   const excludePrefixes = [
     "@sentry",
-    "tributejs",
     "@tarekraafat/autocomplete.js",
     "tom-select",
     "hotkeys-js",
@@ -61,10 +60,6 @@ function mainLicenseTransform(packages) {
 
 function sentryLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("@sentry"));
-}
-
-function tributeLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
 }
 
 function prismJsLicenseTransform(packages) {
@@ -135,7 +130,6 @@ module.exports = {
   entry: {
     main: "./src/main.js",
     sentry: "./src/sentry.js",
-    tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
     "tom-select": "./src/tom-select.js",
     hotkeys: "./src/hotkeys.js",
@@ -175,7 +169,6 @@ module.exports = {
       additionalFiles: {
         "main.js.license": mainLicenseTransform,
         "sentry.js.license": sentryLicenseTransform,
-        "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
         "tom-select.js.license": tomSelectLicenseTransform,
         "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,

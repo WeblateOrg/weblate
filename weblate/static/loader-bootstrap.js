@@ -1318,48 +1318,101 @@ $(function () {
     );
   });
 
-  /* Username autocompletion */
-  const tribute = new Tribute({
-    trigger: "@",
-    requireLeadingSpace: true,
-    /* The length should match validation in API */
-    menuShowMinLength: 2,
-    searchOpts: {
-      pre: "​",
-      post: "​",
-    },
-    noMatchTemplate: () => "",
-    menuItemTemplate: (item) => {
-      const link = document.createElement("a");
-      link.innerText = item.string;
-      link.classList.add("dropdown-item");
-      link.href = "#";
-      return link.outerHTML;
-    },
-    values: (text, callback) => {
-      $.ajax({
-        type: "GET",
-        url: `/api/users/?username=${text}&is_active=1`,
-        dataType: "json",
-        success: (data) => {
-          const userMentionList = data.results.map((user) => ({
-            value: user.username,
-            key: `${user.full_name} (${user.username})`,
-          }));
-          callback(userMentionList);
-        },
-        error: (_jqXhr, _textStatus, errorThrown) => {
-          console.error(errorThrown);
-        },
-      });
-    },
-  });
-  tribute.attach(document.querySelectorAll(".markdown-editor"));
+  /* Username @-mention autocompletion in markdown textareas */
+  const positionMentionDropdown = (editor, list) => {
+    if (!list) {
+      return;
+    }
+    const rect = editor.getBoundingClientRect();
+    const cs = getComputedStyle(editor);
+    const lineHeight = Number.parseFloat(cs.lineHeight) || 20;
+    const paddingTop = Number.parseFloat(cs.paddingTop) || 0;
+    const before = editor.value.substring(0, editor.selectionStart);
+    const linesBefore = (before.match(/\n/g) || []).length;
+    const yOffset =
+      paddingTop + (linesBefore + 1) * lineHeight - editor.scrollTop;
+    list.style.top = `${rect.top + yOffset}px`;
+    list.style.left = `${rect.left}px`;
+  };
   document.querySelectorAll(".markdown-editor").forEach((editor) => {
-    editor.addEventListener("tribute-active-true", (_e) => {
-      $(".tribute-container").addClass("open");
-      $(".tribute-container ul").addClass("dropdown-menu shadow");
+    const mentionRegex = /(?:^|\s)@(\S+)$/;
+    const mentionAutoComplete = new autoComplete({
+      selector: () => editor,
+      wrapper: false,
+      data: {
+        keys: ["full_name"],
+        src: async (query) => {
+          const response = await fetch(
+            `/api/users/?username=${encodeURIComponent(query)}&is_active=1`,
+          );
+          const data = await response.json();
+          return data.results.map((user) => ({
+            username: user.username,
+            full_name: `${user.full_name} (${user.username})`,
+          }));
+        },
+      },
+      query: (val) => {
+        const before = val.substring(0, editor.selectionStart);
+        const match = before.match(mentionRegex);
+        return match ? match[1] : "";
+      },
+      trigger: (query) => query.length >= 2,
+      resultsList: {
+        class: "autoComplete dropdown-menu shadow mention-dropdown",
+      },
+      resultItem: {
+        class: "autoComplete_result",
+        element: (item, data) => {
+          item.textContent = "";
+          const child = document.createElement("a");
+          child.textContent = data.value.full_name;
+          child.classList.add("dropdown-item");
+          item.appendChild(child);
+        },
+        selected: "autoComplete_selected",
+        highlight: false,
+      },
+      events: {
+        input: {
+          open: () => positionMentionDropdown(editor, mentionAutoComplete.list),
+          results: () =>
+            positionMentionDropdown(editor, mentionAutoComplete.list),
+          selection(event) {
+            const username = event.detail.selection.value.username;
+            const caret = editor.selectionStart;
+            const before = editor.value.substring(0, caret);
+            const after = editor.value.substring(caret);
+            const match = before.match(/@\S*$/);
+            if (!match) {
+              return;
+            }
+            const tokenStart = caret - match[0].length;
+            editor.value = `${editor.value.substring(0, tokenStart)}@${username}${after}`;
+            const newCaret = tokenStart + username.length + 1;
+            editor.selectionStart = editor.selectionEnd = newCaret;
+            editor.focus();
+            editor.dispatchEvent(new Event("input", { bubbles: true }));
+          },
+        },
+      },
     });
+
+    editor.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key !== "Escape" || !mentionAutoComplete.isOpen) {
+          return;
+        }
+        event.stopImmediatePropagation();
+        event.preventDefault();
+        editor.setAttribute("aria-expanded", "false");
+        editor.setAttribute("aria-activedescendant", "");
+        mentionAutoComplete.list?.setAttribute("hidden", "");
+        mentionAutoComplete.isOpen = false;
+      },
+      true,
+    );
   });
 
   /* forset fields adding */
