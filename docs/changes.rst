@@ -40,6 +40,7 @@ Weblate 2026.5
 * Malformed ALTCHA CAPTCHA submissions and repository URLs in webhook payloads no longer cause server errors.
 * :ref:`check-placeholders` now merges overlapping non-nested spans from multiple flags.
 * :ref:`backup` logs no longer include OpenSSH post-quantum key exchange warnings from remote Borg connections.
+* Category repository paths are now handled more safely during cleanup and moves.
 * Locked component pages now show an unsubscribe action after subscribing to unlock notifications.
 
 .. rubric:: Compatibility

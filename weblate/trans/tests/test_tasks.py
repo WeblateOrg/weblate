@@ -2,16 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import os
+import time
 from datetime import timedelta
+from pathlib import Path
 from unittest.mock import patch
 
 from django.utils import timezone
 
 from weblate.checks.tasks import finalize_component_checks
-from weblate.trans.models import PendingUnitChange, Suggestion
+from weblate.trans.models import Category, PendingUnitChange, Suggestion
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_repos,
+    cleanup_stale_repos,
     cleanup_suggestions,
     commit_pending,
     daily_update_checks,
@@ -77,6 +81,29 @@ class TasksTest(ComponentTestCase):
 
     def test_cleanup_repos(self) -> None:
         cleanup_repos()
+
+    def test_cleanup_stale_repos_keeps_category_with_stale_git_dir(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="WorkshopApp", slug="workshopapp"
+        )
+        component = self.create_po(
+            project=self.project, category=category, name="startup", vcs="local"
+        )
+        stale_git = Path(category.full_path) / ".git"
+        stale_git.mkdir()
+        (stale_git / "config").write_text("[core]\n", encoding="utf-8")
+
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(category.full_path, (old_timestamp, old_timestamp))
+        os.utime(component.full_path, (old_timestamp, old_timestamp))
+
+        cleanup_stale_repos()
+
+        self.assertTrue(os.path.isdir(category.full_path))
+        self.assertTrue(os.path.isdir(component.full_path))
+        self.assertTrue(
+            os.path.isfile(os.path.join(component.full_path, ".git", "config"))
+        )
 
     def test_update_remotes(self) -> None:
         update_remotes()
