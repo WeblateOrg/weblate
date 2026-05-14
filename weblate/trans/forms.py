@@ -2831,11 +2831,11 @@ class ProjectImportForm(BillingMixin, forms.Form):
             backup.validate()
         except jsonschema.exceptions.ValidationError as error:
             version = backup.data.get("metadata", {}).get("version", "unknown")
+            error_message = gettext(
+                "The backup is from an incompatible version (%(version)s). Please upgrade your Weblate instance."
+            ) % {"version": version}
             raise ValidationError(
-                gettext(
-                    "Could not load project backup: The backup is from an incompatible version (%(version)s). Please upgrade your Weblate instance."
-                )
-                % {"version": version}
+                gettext("Could not load project backup: %s") % error_message
             ) from error
         except Exception as error:
             raise ValidationError(
