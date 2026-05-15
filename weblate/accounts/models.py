@@ -32,7 +32,7 @@ from django.utils.translation import (
     get_language,
     gettext,
     gettext_lazy,
-    gettext_noop,
+    pgettext_lazy,
 )
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -462,15 +462,15 @@ NOTIFY_ACTIVITY = {
 # Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
 USER_AGENT_DEVICE_TYPES: dict[str, str] = {
     # Translators: User agent device type
-    "PC": gettext_lazy("PC"),
+    "PC": pgettext_lazy("PC"),
     # Translators: User agent device type
-    "Other": gettext_lazy("Other"),
+    "Other": pgettext_lazy("Other"),
     # Translators: User agent device type
-    "Generic Smartphone": gettext_lazy("Generic Smartphone"),
+    "Generic Smartphone": pgettext_lazy("Generic Smartphone"),
     # Translators: User agent device type
-    "Generic Feature Phone": gettext_lazy("Generic Feature Phone"),
+    "Generic Feature Phone": pgettext_lazy("Generic Feature Phone"),
     # Translators: User agent device type
-    "iOS-Device": gettext_lazy("iOS-Device"),
+    "iOS-Device": pgettext_lazy("iOS-Device"),
 }
 
 
