@@ -5,11 +5,13 @@
 const path = require("node:path");
 
 const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
 const LicensePlugin = require("webpack-license-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // Regular expression to match copyright lines
 const copyrightRegex = /Copyright.*\n/;
+const ossLicensesJson = "oss-licenses.json";
 
 // REUSE-IgnoreStart
 // Function to extract copyright information from a package
@@ -125,6 +127,27 @@ function altchaLicenseTransform() {
 }
 // REUSE-IgnoreEnd
 
+class RemoveOssLicensesJsonPlugin {
+  apply(compiler) {
+    compiler.hooks.thisCompilation.tap(
+      "RemoveOssLicensesJsonPlugin",
+      (compilation) => {
+        compilation.hooks.processAssets.tap(
+          {
+            name: "RemoveOssLicensesJsonPlugin",
+            stage: webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
+          },
+          () => {
+            if (compilation.getAsset(ossLicensesJson)) {
+              compilation.deleteAsset(ossLicensesJson);
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
 // Webpack configuration
 module.exports = {
   entry: {
@@ -166,6 +189,7 @@ module.exports = {
   },
   plugins: [
     new LicensePlugin({
+      outputFilename: ossLicensesJson,
       additionalFiles: {
         "main.js.license": mainLicenseTransform,
         "sentry.js.license": sentryLicenseTransform,
@@ -182,6 +206,7 @@ module.exports = {
           bootstrapLicenseTransform,
       },
     }),
+    new RemoveOssLicensesJsonPlugin(),
     new MiniCssExtractPlugin({
       filename: "../../styles/vendor/[name].css",
     }),
