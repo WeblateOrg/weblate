@@ -47,7 +47,7 @@ class AuditLogTestCase(SimpleTestCase):
         self.assertEqual(audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0")
 
     def test_user_agent_display_calls_gettext_for_first_part_only(self) -> None:
-        with mock.patch("weblate.accounts.models.gettext") as mocked_gettext:
+        with mock.patch("weblate.accounts.models.gettext_lazy") as mocked_gettext:
             mocked_gettext.side_effect = lambda x: x
             audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
             result = audit.get_user_agent_display()

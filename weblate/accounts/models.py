@@ -462,15 +462,15 @@ NOTIFY_ACTIVITY = {
 # Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
 USER_AGENT_DEVICE_TYPES: dict[str, str] = {
     # Translators: User agent device type
-    "PC": gettext_noop("PC"),
+    "PC": gettext_lazy("PC"),
     # Translators: User agent device type
-    "Other": gettext_noop("Other"),
+    "Other": gettext_lazy("Other"),
     # Translators: User agent device type
-    "Generic Smartphone": gettext_noop("Generic Smartphone"),
+    "Generic Smartphone": gettext_lazy("Generic Smartphone"),
     # Translators: User agent device type
-    "Generic Feature Phone": gettext_noop("Generic Feature Phone"),
+    "Generic Feature Phone": gettext_lazy("Generic Feature Phone"),
     # Translators: User agent device type
-    "iOS-Device": gettext_noop("iOS-Device"),
+    "iOS-Device": gettext_lazy("iOS-Device"),
 }
 
 
