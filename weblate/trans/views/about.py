@@ -26,9 +26,9 @@ MENU = (
 REPO_URL = "https://api.github.com/repos/WeblateOrg/weblate"
 ACTIVITY_URL = "https://api.github.com/repos/WeblateOrg/weblate/stats/commit_activity"
 FALLBACK_STATS = {
-    "stars": 4082,
-    "issues": 447,
-    "commits": 663,
+    "stars": 5875,
+    "issues": 497,
+    "commits": 2421,
 }
 
 

@@ -4,13 +4,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import subprocess  # noqa: S404
 import sys
+import time
 from pathlib import Path
 
 import requests
 from ruamel.yaml import YAML
 from update_version import VERSION_FILES, replace_file, update_version
+
+REPO_API = "https://api.github.com/repos/WeblateOrg/weblate"
+ACTIVITY_API = f"{REPO_API}/stats/commit_activity"
+FALLBACK_STATS_FILE = "weblate/trans/views/about.py"
 
 if len(sys.argv) != 2:
     print("Usage: ./scripts/set-version.py VERSION")
@@ -27,11 +34,56 @@ def prepend_file(name: str, content: str) -> None:
     Path(name).write_text(content, encoding="utf-8")
 
 
+def fetch_commit_activity(request_headers: dict[str, str]) -> list[dict[str, int]]:
+    """Fetch commit activity, retrying while GitHub prepares the stats."""
+    for _attempt in range(5):
+        activity_response = requests.get(
+            ACTIVITY_API, headers=request_headers, timeout=5
+        )
+        if activity_response.status_code != 202:
+            activity_response.raise_for_status()
+            return activity_response.json()
+        time.sleep(1)
+    activity_response.raise_for_status()
+    msg = "GitHub commit activity is not ready"
+    raise RuntimeError(msg)
+
+
+def fetch_fallback_stats(request_headers: dict[str, str]) -> dict[str, int]:
+    repo_response = requests.get(REPO_API, headers=request_headers, timeout=5)
+    repo_response.raise_for_status()
+    repo = repo_response.json()
+    activity = sorted(
+        fetch_commit_activity(request_headers), key=lambda item: -item["week"]
+    )
+    return {
+        "stars": repo["stargazers_count"],
+        "issues": repo["open_issues_count"],
+        "commits": sum(item["total"] for item in activity[:8]),
+    }
+
+
+def update_fallback_stats(stats: dict[str, int]) -> None:
+    replace_file(
+        FALLBACK_STATS_FILE,
+        r"^FALLBACK_STATS = \{\n"
+        r'    "stars": \d+,\n'
+        r'    "issues": \d+,\n'
+        r'    "commits": \d+,\n'
+        r"\}",
+        "FALLBACK_STATS = {\n"
+        f'    "stars": {stats["stars"]},\n'
+        f'    "issues": {stats["issues"]},\n'
+        f'    "commits": {stats["commits"]},\n'
+        "}",
+    )
+
+
 yaml = YAML()
 config = yaml.load(Path("~/.config/hub").expanduser().read_text(encoding="utf-8"))
 
 # Get/create milestone
-milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"
+milestones_api = f"{REPO_API}/milestones"
 api_auth = f"token {config['github.com'][0]['oauth_token']}"
 headers = {"Authorization": api_auth, "Accept": "application/vnd.github.v3+json"}
 response = requests.get(
@@ -54,11 +106,14 @@ if milestone_url is None:
         print(payload)
         raise
 
+fallback_stats = fetch_fallback_stats(headers)
+
 # Set version in the files
 update_version(package_version, version)
 replace_file(
     "client/package.json", '  "version": ".*",', f'  "version": "{version_full}",'
 )
+update_fallback_stats(fallback_stats)
 
 # Update changelog
 title = f"Weblate {version}"
@@ -97,6 +152,7 @@ files = [
     *VERSION_FILES,
     "docs/changes.rst",
     "client/package.json",
+    FALLBACK_STATS_FILE,
     version_contributors.as_posix(),
 ]
 subprocess.run(["git", "add", version_contributors.as_posix()], check=True)  # noqa: S603, S607
