@@ -22,6 +22,7 @@ from weblate.trans.tasks import (
     update_remotes,
 )
 from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.tasks import (
     update_language_stats_parents,
@@ -104,6 +105,23 @@ class TasksTest(ComponentTestCase):
         self.assertTrue(
             os.path.isfile(os.path.join(component.full_path, ".git", "config"))
         )
+
+    def test_cleanup_stale_repos_keeps_empty_component_dir(self) -> None:
+        component = self.create_po(project=self.project, name="empty", vcs="local")
+        component_path = Path(component.full_path)
+
+        for entry in component_path.iterdir():
+            if entry.is_dir():
+                remove_tree(entry)
+            else:
+                entry.unlink()
+
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(component_path, (old_timestamp, old_timestamp))
+
+        cleanup_stale_repos()
+
+        self.assertTrue(component_path.is_dir())
 
     def test_update_remotes(self) -> None:
         update_remotes()

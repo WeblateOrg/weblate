@@ -495,6 +495,12 @@ class Repository:
                 timeout=3600,
                 **kwargs,
             )
+        except OSError as error:
+            if cwd is None or error.filename != cwd:
+                raise
+            raise RepositoryCommandError(
+                error.errno or 1, cls.sanitize_error_message(str(error))
+            ) from error
         except subprocess.TimeoutExpired as error:
             stdout = (
                 error.stdout.decode()

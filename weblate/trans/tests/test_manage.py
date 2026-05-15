@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import os.path
+import pathlib
 from typing import ClassVar
 from unittest.mock import patch
 
@@ -205,6 +206,33 @@ class RenameTest(ViewTestCase):
         # Test rename redirect for the old name in middleware
         response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
+
+    def test_rename_component_replaces_stale_target_dir(self) -> None:
+        self.make_manager()
+        old_path = self.component.full_path
+        target = os.path.join(data_dir("vcs"), self.project.slug, "stale-target")
+        os.makedirs(os.path.join(target, ".git"))
+        pathlib.Path(os.path.join(target, ".git", "config")).write_text(
+            "[stale]\n", encoding="utf-8"
+        )
+        self.addCleanup(remove_tree, target, True)
+
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "slug": "stale-target",
+                "name": self.component.name,
+            },
+        )
+
+        self.assertRedirects(response, "/projects/test/stale-target/")
+        component = Component.objects.get(pk=self.component.pk)
+        config = pathlib.Path(component.full_path) / ".git" / "config"
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.isdir(component.full_path))
+        self.assertTrue(config.is_file())
+        self.assertNotIn("[stale]", config.read_text(encoding="utf-8"))
 
     def test_rename_component_locks_component_before_binding_form(self) -> None:
         self.make_manager()
