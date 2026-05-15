@@ -966,6 +966,20 @@ $(function () {
     });
   });
 
+  /* Searchable single selects */
+  document.querySelectorAll("select.searchable-select").forEach((el) => {
+    if (el.tomselect) {
+      return;
+    }
+    new TomSelect(el, {
+      placeholder: gettext("Search…"),
+      hidePlaceholder: true,
+      persist: false,
+      create: false,
+      allowEmptyOption: true,
+    });
+  });
+
   /* Slugify name */
   slugify.extend({ ".": "-" });
   $('input[name="slug"]').each(function () {

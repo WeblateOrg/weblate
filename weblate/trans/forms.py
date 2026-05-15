@@ -89,6 +89,7 @@ from weblate.utils.forms import (
     EmailField,
     NormalizedNewlineCharField,
     QueryField,
+    SearchableSelect,
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
@@ -1797,6 +1798,7 @@ class ComponentSettingsForm(
             "source_language": SortedSelect,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
+            "license": SearchableSelect,
         }
         field_classes = {  # noqa: RUF012
             "enforced_checks": SelectChecksField,
@@ -2043,6 +2045,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
         widgets = {  # noqa: RUF012
             "source_language": SortedSelect,
             "language_code_style": SortedSelect,
+            "license": SearchableSelect,
         }
         field_classes = {  # noqa: RUF012
             "file_format_params": FormParamsField,

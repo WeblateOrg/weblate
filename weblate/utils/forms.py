@@ -190,6 +190,18 @@ class SortedSelectMultiple(SortedSelect, forms.SelectMultiple):
     """Wrapper class to sort choices alphabetically."""
 
 
+class SearchableSelect(forms.Select):
+    """Select widget with search on client side."""
+
+    def __init__(self, attrs=None, choices=()) -> None:
+        attrs = {**(attrs or {})}
+        existing = attrs.get("class", "").split()
+        if "searchable-select" not in existing:
+            existing.append("searchable-select")
+        attrs["class"] = " ".join(existing)
+        super().__init__(attrs, choices)
+
+
 class ContextDiv(Div):
     def __init__(self, *fields, **kwargs) -> None:
         self.context = kwargs.pop("context", {})
