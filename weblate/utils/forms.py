@@ -53,7 +53,7 @@ class QueryField(forms.CharField):
                 raise ValidationError(gettext("Missing query string."))
             return ""
         try:
-            # Use anonumous user for parsing here, it is needed for some searches
+            # Use anonymous user for parsing here, it is needed for some searches
             # and anonymous user will serve well for the validation.
             parse_query(value, parser=self.parser, user=get_anonymous())
         except SearchQueryError as error:
