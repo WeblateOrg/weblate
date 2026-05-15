@@ -427,6 +427,11 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
                 empty_dir = False
             continue
 
+        component = _get_component_by_vcs_path(relative_parts)
+        if component is not None and not component.is_repo_link:
+            empty_dir = False
+            continue
+
         if not git_dir.exists() and not mercurial_dir.exists():
             # Possible project/category dir not present in the database.
             if not cleanup_stale_repos(path):
@@ -438,7 +443,6 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             empty_dir = False
             continue
 
-        component = _get_component_by_vcs_path(relative_parts)
         if component is None:
             LOGGER.info("removing stale VCS path (not found): %s", path)
             remove_tree(path)

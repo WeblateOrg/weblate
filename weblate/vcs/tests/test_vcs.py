@@ -261,6 +261,20 @@ class RepositoryTest(SimpleTestCase):
 
         self.assertEqual(str(error), "Can not switch subversion URL (-1)")
 
+    def test_popen_missing_working_tree_raises_repository_error(self) -> None:
+        cwd = os.path.join(tempfile.gettempdir(), "missing-working-tree")
+        error = FileNotFoundError(2, "No such file or directory", cwd)
+
+        with (
+            patch("weblate.vcs.base.subprocess.run", side_effect=error),
+            self.assertRaises(RepositoryCommandError) as context,
+        ):
+            GitRepository._popen(["status"], cwd=cwd)  # noqa: SLF001
+
+        self.assertIs(context.exception.__cause__, error)
+        self.assertEqual(context.exception.retcode, 2)
+        self.assertIn(cwd, str(context.exception))
+
     def test_mercurial_repository_uses_hg_temp_dir(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             repo_path = Path(tempdir)

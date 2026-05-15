@@ -15,6 +15,7 @@ from django.utils.translation import gettext
 from weblate.accounts.avatar import get_user_display
 from weblate.logger import LOGGER
 from weblate.utils.data import data_dir
+from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -128,8 +129,12 @@ class PathMixin(LoggerMixin, URLMixin):
                 new_parent = os.path.dirname(new_path)
                 if not os.path.exists(new_parent):
                     os.makedirs(new_parent)
-                if os.path.isdir(new_path) and not os.listdir(new_path):
-                    os.rmdir(new_path)
+                if os.path.lexists(new_path):
+                    self.log_info('removing stale target "%s"', new_path)
+                    if os.path.isdir(new_path) and not os.path.islink(new_path):
+                        remove_tree(new_path)
+                    else:
+                        os.unlink(new_path)
                 os.rename(old_path, new_path)
             return True
         return False
