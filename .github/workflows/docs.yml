@@ -76,10 +76,17 @@ jobs:
       run: uv run --frozen ./manage.py migrate --noinput --traceback
     - run: make -C docs update-docs
 
-    - name: Prepare maintenance patch (pre-commit-ci-lite)
+    - name: Prepare maintenance patch
       uses: ./.github/actions/auto-commit
+
+    # Keep this outside the composite action; pre-commit.ci lite detects the
+    # top-level post step, and composites expose nested post hooks.
+    # The condition mirrors pre-commit-ci/lite-action's main.mjs user-PR check.
+    - name: Commit changes (external PR, pre-commit-ci-lite)
+      if: github.event_name == 'pull_request' && github.event.sender.type == 'User'
+      uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
       with:
-        message: 'docs: Documentation snippets update'
+        msg: 'docs: Documentation snippets update'
 
   list-languages:
     runs-on: ubuntu-24.04
