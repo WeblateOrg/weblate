@@ -36,11 +36,13 @@ data["metadata"].pop("timestamp", None)
 # Generate UUID based on the content (with serialNumber excluded)
 checksum_data = data.copy()
 checksum_data.pop("serialNumber", None)
-reproducible_uuid = generate_uuid(json.dumps(checksum_data))
+reproducible_uuid = generate_uuid(
+    json.dumps(checksum_data, separators=(",", ":"), sort_keys=True)
+)
 
 # Update serial number
 data["serialNumber"] = f"urn:uuid:{reproducible_uuid}"
 
 with open(filename, "w", encoding="utf-8") as handle:
-    json.dump(data, handle, indent=2)
+    json.dump(data, handle, indent=2, sort_keys=True)
     handle.write("\n")

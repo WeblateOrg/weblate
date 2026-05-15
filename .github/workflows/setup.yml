@@ -102,6 +102,8 @@ jobs:
       with:
         node-version: 26
         package-manager-cache: false
+    - name: Set reproducible SBOM timestamp
+      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$GITHUB_ENV"
     - name: Generate SBOM
       id: generate-sbom
       env:
@@ -112,10 +114,18 @@ jobs:
         version=$(uv run --frozen --only-group sbom ./scripts/show-version.py)
         sbom="build/sbom/weblate-$version-sbom.cdx.json"
         mkdir -p build/sbom
-        uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > build/sbom/python.json
+        uv export \
+          --preview-features sbom-export \
+          --format cyclonedx1.5 \
+          --all-extras \
+          --no-dev \
+          --locked \
+          --python 3.14 \
+          --no-python-downloads \
+          > build/sbom/python.json
         ./scripts/reproducible-sbom.py build/sbom/python.json
         cd client
-        yarn install --check-files
+        yarn install --immutable --check-files
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
         cd ..
         ./scripts/reproducible-sbom.py build/sbom/javascript.json
