@@ -206,13 +206,13 @@ jobs:
     - name: list sdist
       run: tar tvf dist/*.tar.gz
     - name: twine check
-      run: uvx twine check --strict dist/*
+      run: uv run --frozen --only-group package-lint twine check --strict dist/*
     - name: pydistcheck
-      run: uvx pydistcheck --inspect dist/*
+      run: uv run --frozen --only-group package-lint pydistcheck --inspect dist/*
     - name: pyroma
-      run: uvx --with pip pyroma dist/*.tar.gz
+      run: uv run --frozen --only-group package-lint pyroma dist/*.tar.gz
     - name: check-manifest
-      run: uvx --with pip check-manifest -v
+      run: uv run --frozen --only-group package-lint check-manifest -v
     - name: Prepare sdist tree for wheel comparison
       id: wheel-source
       run: |
@@ -226,7 +226,7 @@ jobs:
       run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-build python setup.py build_mo
     - name: check-wheel-contents
       working-directory: ${{ steps.wheel-source.outputs.path }}
-      run: uvx check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
+      run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-lint check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
     - name: install
       run: |
         uv venv .venv-install
