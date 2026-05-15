@@ -86,6 +86,8 @@ jobs:
       run: ./ci/run-migrate 5.16
     - name: Migrate from 5.17
       run: ./ci/run-migrate 5.17
+    - name: Migrate from 2026.5
+      run: ./ci/run-migrate 2026.5
     - name: Coverage
       run: |
         uv run coverage combine
