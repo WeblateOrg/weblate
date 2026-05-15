@@ -213,7 +213,7 @@ jobs:
       working-directory: ${{ steps.wheel-source.outputs.path }}
       # Wheels ship generated .mo files, while Git and sdist ship .po sources.
       # Compile catalogs before comparing the wheel against the sdist tree.
-      run: uv run --with translate-toolkit --with setuptools --no-project python setup.py build_mo
+      run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-build python setup.py build_mo
     - name: check-wheel-contents
       working-directory: ${{ steps.wheel-source.outputs.path }}
       run: uvx check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
