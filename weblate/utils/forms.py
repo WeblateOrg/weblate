@@ -191,7 +191,7 @@ class SortedSelectMultiple(SortedSelect, forms.SelectMultiple):
 
 
 class SearchableSelect(forms.Select):
-    """Select widget with search on client side"""
+    """Select widget with search on client side."""
 
     def __init__(self, attrs=None, choices=()) -> None:
         attrs = {**(attrs or {})}
