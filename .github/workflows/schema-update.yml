@@ -39,7 +39,5 @@ jobs:
         uv sync --only-group schemas --only-group pre-commit
     - run: make -C docs update-schemas
 
-    - name: Prepare maintenance patch (pre-commit-ci-lite)
+    - name: Prepare maintenance patch
       uses: ./.github/actions/auto-commit
-      with:
-        message: 'docs: Update JSON schemas'

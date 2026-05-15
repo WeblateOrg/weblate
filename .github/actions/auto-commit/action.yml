@@ -5,17 +5,9 @@
 name: Prepare Auto Commit Changes
 description: Prepares generated changes for trusted maintenance commits
 
-inputs:
-  message:
-    description: Commit message to use for pull request formatting updates
-    required: true
-
 runs:
   using: composite
   steps:
-    # pre-commit-ci/lite-action identifies workflows by the caller step name.
-    # Keep the magic text in top-level workflow steps using this action.
-
   - name: pre-commit format the code
     run: uv run --frozen --only-group pre-commit prek run --all-files
     continue-on-error: true
@@ -24,14 +16,6 @@ runs:
   - name: Display changes
     run: git diff
     shell: bash
-
-    # PRs from forks / outside collaborators. This action receives no
-    # repository secret and is intentionally limited to pull request runs.
-  - name: Commit changes (external PR, pre-commit-ci-lite)
-    if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]' && github.actor != 'dependabot[bot]'
-    uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
-    with:
-      msg: ${{ inputs.message }}
 
   - name: Prepare maintenance patch
     if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
