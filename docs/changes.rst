@@ -1,7 +1,7 @@
 Weblate 2026.5
 --------------
 
-*Not yet released.*
+*Released on May 15th 2026.*
 
 .. rubric:: New features
 
