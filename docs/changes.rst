@@ -7,6 +7,9 @@ Weblate 2026.6
 
 .. rubric:: Improvements
 
+* Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
+  Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

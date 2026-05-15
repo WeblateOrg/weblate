@@ -16,6 +16,7 @@ from weblate.api.spectacular import (
     get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
+from weblate.formats.defaults import DEFAULT_FORMATS
 from weblate.utils.environment import (
     get_email_config,
     get_env_bool,
@@ -1252,6 +1253,10 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.html.BleachHTML",
 ]
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
+
+# List of enabled file formats
+WEBLATE_FORMATS = list(DEFAULT_FORMATS)
+modify_env_list(WEBLATE_FORMATS, "FORMATS")
 
 # List of enabled addons
 WEBLATE_ADDONS = [
