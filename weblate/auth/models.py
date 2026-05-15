@@ -59,6 +59,8 @@ from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
+from . import defaults as auth_defaults
+
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping
 
@@ -1439,13 +1441,17 @@ class Invitation(models.Model):
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
 
-    AUTH_RESTRICT_ADMINS: ClassVar[dict] = {}
+    AUTH_RESTRICT_ADMINS: ClassVar[dict] = dict(
+        auth_defaults.DEFAULT_AUTH_RESTRICT_ADMINS
+    )
 
     # Anonymous user name
-    ANONYMOUS_USER_NAME = "anonymous"
+    ANONYMOUS_USER_NAME = auth_defaults.DEFAULT_ANONYMOUS_USER_NAME
 
-    SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
-    SESSION_COOKIE_AGE_2FA = 180
+    SESSION_COOKIE_AGE_AUTHENTICATED = (
+        auth_defaults.DEFAULT_SESSION_COOKIE_AGE_AUTHENTICATED
+    )
+    SESSION_COOKIE_AGE_2FA = auth_defaults.DEFAULT_SESSION_COOKIE_AGE_2FA
 
     class Meta:
         prefix = ""

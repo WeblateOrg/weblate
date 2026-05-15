@@ -46,6 +46,8 @@ from weblate.utils.validators import (
     validate_plural_formula_range,
 )
 
+from . import defaults
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
@@ -1615,16 +1617,16 @@ class WeblateLanguagesConf(AppConf):
     """Languages settings."""
 
     # Update languages on migration
-    UPDATE_LANGUAGES = True
+    UPDATE_LANGUAGES = defaults.DEFAULT_UPDATE_LANGUAGES
 
     # Use simple language codes for default language/country combinations
-    SIMPLIFY_LANGUAGES = True
+    SIMPLIFY_LANGUAGES = defaults.DEFAULT_SIMPLIFY_LANGUAGES
 
     # Default source languaage
-    DEFAULT_LANGUAGE = "en"
+    DEFAULT_LANGUAGE = defaults.DEFAULT_LANGUAGE
 
     # List of basic languages to show for user when adding new translation
-    BASIC_LANGUAGES = None
+    BASIC_LANGUAGES = defaults.DEFAULT_BASIC_LANGUAGES
 
     class Meta:
         prefix = ""

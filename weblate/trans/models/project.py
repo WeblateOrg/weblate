@@ -908,7 +908,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return (
             access_control in {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
             and settings.LICENSE_REQUIRED
-            and not settings.LOGIN_REQUIRED_URLS
+            and not settings.REQUIRE_LOGIN
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
         )
 
