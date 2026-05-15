@@ -11,12 +11,20 @@ from pathlib import Path
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 
+from weblate.accounts import defaults as accounts_defaults
+from weblate.addons import defaults as addons_defaults
 from weblate.api.spectacular import (
     get_drf_settings,
     get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
+from weblate.auth import defaults as auth_defaults
+from weblate.checks.defaults import DEFAULT_CHECK_LIST
 from weblate.formats.defaults import DEFAULT_FORMATS
+from weblate.lang import defaults as lang_defaults
+from weblate.machinery.defaults import DEFAULT_WEBLATE_MACHINERY
+from weblate.trans import defaults as trans_defaults
+from weblate.utils import defaults as utils_defaults
 from weblate.utils.environment import (
     get_email_config,
     get_env_bool,
@@ -38,18 +46,21 @@ from weblate.utils.version_display import (
     VERSION_DISPLAY_HIDE,
     normalize_version_display,
 )
+from weblate.vcs import defaults as vcs_defaults
 
 # Title of site to use
-SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", "Weblate")
+SITE_TITLE = get_env_str("WEBLATE_SITE_TITLE", trans_defaults.DEFAULT_SITE_TITLE)
 
 # Site domain
 SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 
 # Whether site uses https
-ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
+ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", trans_defaults.DEFAULT_ENABLE_HTTPS)
 
 # Project website availability checks
-WEBSITE_ALERTS_ENABLED = get_env_bool("WEBLATE_WEBSITE_ALERTS_ENABLED", True)
+WEBSITE_ALERTS_ENABLED = get_env_bool(
+    "WEBLATE_WEBSITE_ALERTS_ENABLED", trans_defaults.DEFAULT_WEBSITE_ALERTS_ENABLED
+)
 
 # Site URL
 SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
@@ -402,8 +413,14 @@ if SOCIAL_AUTH_AUTH0_KEY:
     SOCIAL_AUTH_AUTH0_DOMAIN = get_env_str(
         "WEBLATE_SOCIAL_AUTH_AUTH0_DOMAIN", required=True
     )
-    SOCIAL_AUTH_AUTH0_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_TITLE")
-    SOCIAL_AUTH_AUTH0_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_IMAGE")
+    SOCIAL_AUTH_AUTH0_TITLE = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AUTH0_TITLE",
+        accounts_defaults.DEFAULT_SOCIAL_AUTH_AUTH0_TITLE,
+    )
+    SOCIAL_AUTH_AUTH0_IMAGE = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_AUTH0_IMAGE",
+        accounts_defaults.DEFAULT_SOCIAL_AUTH_AUTH0_IMAGE,
+    )
     SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
     auth0_extra_args = get_env_map_or_none(
         "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
@@ -439,8 +456,12 @@ if WEBLATE_SAML_IDP:
             "url": SITE_URL,
         }
     }
-    SOCIAL_AUTH_SAML_IMAGE = get_env_str("WEBLATE_SAML_IDP_IMAGE")
-    SOCIAL_AUTH_SAML_TITLE = get_env_str("WEBLATE_SAML_IDP_TITLE")
+    SOCIAL_AUTH_SAML_IMAGE = get_env_str(
+        "WEBLATE_SAML_IDP_IMAGE", accounts_defaults.DEFAULT_SOCIAL_AUTH_SAML_IMAGE
+    )
+    SOCIAL_AUTH_SAML_TITLE = get_env_str(
+        "WEBLATE_SAML_IDP_TITLE", accounts_defaults.DEFAULT_SOCIAL_AUTH_SAML_TITLE
+    )
 
 # Microsoft Entra ID
 SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY")
@@ -690,59 +711,120 @@ PASSWORD_HASHERS = [
 ]
 
 # Content-Security-Policy header
-CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
-CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
-CSP_CONNECT_SRC = get_env_list("WEBLATE_CSP_CONNECT_SRC")
-CSP_STYLE_SRC = get_env_list("WEBLATE_CSP_STYLE_SRC")
-CSP_FONT_SRC = get_env_list("WEBLATE_CSP_FONT_SRC")
-CSP_FORM_SRC = get_env_list("WEBLATE_CSP_FORM_SRC")
+CSP_SCRIPT_SRC = get_env_list(
+    "WEBLATE_CSP_SCRIPT_SRC", list(utils_defaults.DEFAULT_CSP_SCRIPT_SRC)
+)
+CSP_IMG_SRC = get_env_list(
+    "WEBLATE_CSP_IMG_SRC", list(utils_defaults.DEFAULT_CSP_IMG_SRC)
+)
+CSP_CONNECT_SRC = get_env_list(
+    "WEBLATE_CSP_CONNECT_SRC", list(utils_defaults.DEFAULT_CSP_CONNECT_SRC)
+)
+CSP_STYLE_SRC = get_env_list(
+    "WEBLATE_CSP_STYLE_SRC", list(utils_defaults.DEFAULT_CSP_STYLE_SRC)
+)
+CSP_FONT_SRC = get_env_list(
+    "WEBLATE_CSP_FONT_SRC", list(utils_defaults.DEFAULT_CSP_FONT_SRC)
+)
+CSP_FORM_SRC = get_env_list(
+    "WEBLATE_CSP_FORM_SRC", list(utils_defaults.DEFAULT_CSP_FORM_SRC)
+)
 
 # Allow new user registrations
-REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
-REGISTRATION_CAPTCHA = get_env_bool("WEBLATE_REGISTRATION_CAPTCHA", True)
-REGISTRATION_REBIND = get_env_bool("WEBLATE_REGISTRATION_REBIND", False)
-REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
+REGISTRATION_OPEN = get_env_bool(
+    "WEBLATE_REGISTRATION_OPEN", accounts_defaults.DEFAULT_REGISTRATION_OPEN
+)
+REGISTRATION_CAPTCHA = get_env_bool(
+    "WEBLATE_REGISTRATION_CAPTCHA", accounts_defaults.DEFAULT_REGISTRATION_CAPTCHA
+)
+REGISTRATION_REBIND = get_env_bool(
+    "WEBLATE_REGISTRATION_REBIND", accounts_defaults.DEFAULT_REGISTRATION_REBIND
+)
+REGISTRATION_ALLOW_BACKENDS = get_env_list(
+    "WEBLATE_REGISTRATION_ALLOW_BACKENDS",
+    list(accounts_defaults.DEFAULT_REGISTRATION_ALLOW_BACKENDS),
+)
 
 # VCS configuration
-VCS_CLONE_DEPTH = get_env_int("WEBLATE_VCS_CLONE_DEPTH", 1)
-VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", 10)
-VCS_API_TIMEOUT = get_env_int("WEBLATE_VCS_API_TIMEOUT", 10)
-VCS_ALLOW_HOSTS = set(get_env_list("WEBLATE_VCS_ALLOW_HOSTS", []))
-VCS_ALLOW_SCHEMES = set(get_env_list("WEBLATE_VCS_ALLOW_SCHEMES", ["https", "ssh"]))
-VCS_RESTRICT_PRIVATE = get_env_bool("WEBLATE_VCS_RESTRICT_PRIVATE", True)
+VCS_CLONE_DEPTH = get_env_int(
+    "WEBLATE_VCS_CLONE_DEPTH", vcs_defaults.DEFAULT_VCS_CLONE_DEPTH
+)
+VCS_API_DELAY = get_env_int("WEBLATE_VCS_API_DELAY", vcs_defaults.DEFAULT_VCS_API_DELAY)
+VCS_API_TIMEOUT = get_env_int(
+    "WEBLATE_VCS_API_TIMEOUT", vcs_defaults.DEFAULT_VCS_API_TIMEOUT
+)
+VCS_ALLOW_HOSTS = set(
+    get_env_list("WEBLATE_VCS_ALLOW_HOSTS", list(vcs_defaults.DEFAULT_VCS_ALLOW_HOSTS))
+)
+VCS_ALLOW_SCHEMES = set(
+    get_env_list(
+        "WEBLATE_VCS_ALLOW_SCHEMES", list(vcs_defaults.DEFAULT_VCS_ALLOW_SCHEMES)
+    )
+)
+VCS_RESTRICT_PRIVATE = get_env_bool(
+    "WEBLATE_VCS_RESTRICT_PRIVATE", vcs_defaults.DEFAULT_VCS_RESTRICT_PRIVATE
+)
 
 # Email registration filter
-REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
+REGISTRATION_EMAIL_MATCH = get_env_str(
+    "WEBLATE_REGISTRATION_EMAIL_MATCH",
+    accounts_defaults.DEFAULT_REGISTRATION_EMAIL_MATCH,
+)
 REGISTRATION_ALLOW_DISPOSABLE_EMAILS = get_env_bool(
-    "WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS", False
+    "WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS",
+    accounts_defaults.DEFAULT_REGISTRATION_ALLOW_DISPOSABLE_EMAILS,
 )
 PROJECT_WEB_RESTRICT_PRIVATE = get_env_bool(
-    "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE", True
+    "WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE",
+    utils_defaults.DEFAULT_PROJECT_WEB_RESTRICT_PRIVATE,
 )
 PROJECT_WEB_RESTRICT_ALLOWLIST = set(
-    get_env_list("WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST", [])
+    get_env_list(
+        "WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST",
+        list(utils_defaults.DEFAULT_PROJECT_WEB_RESTRICT_ALLOWLIST),
+    )
 )
-WEBHOOK_RESTRICT_PRIVATE = get_env_bool("WEBLATE_WEBHOOK_RESTRICT_PRIVATE", True)
-WEBHOOK_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST", [])
-ASSET_RESTRICT_PRIVATE = get_env_bool("WEBLATE_ASSET_RESTRICT_PRIVATE", True)
-ASSET_PRIVATE_ALLOWLIST = get_env_list("WEBLATE_ASSET_PRIVATE_ALLOWLIST", [])
+WEBHOOK_RESTRICT_PRIVATE = get_env_bool(
+    "WEBLATE_WEBHOOK_RESTRICT_PRIVATE", utils_defaults.DEFAULT_WEBHOOK_RESTRICT_PRIVATE
+)
+WEBHOOK_PRIVATE_ALLOWLIST = get_env_list(
+    "WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST",
+    list(utils_defaults.DEFAULT_WEBHOOK_PRIVATE_ALLOWLIST),
+)
+ASSET_RESTRICT_PRIVATE = get_env_bool(
+    "WEBLATE_ASSET_RESTRICT_PRIVATE", utils_defaults.DEFAULT_ASSET_RESTRICT_PRIVATE
+)
+ASSET_PRIVATE_ALLOWLIST = get_env_list(
+    "WEBLATE_ASSET_PRIVATE_ALLOWLIST",
+    list(utils_defaults.DEFAULT_ASSET_PRIVATE_ALLOWLIST),
+)
 
 private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
 if private_commit_email_template_str is not None:
     PRIVATE_COMMIT_EMAIL_TEMPLATE = private_commit_email_template_str
 del private_commit_email_template_str
-PRIVATE_COMMIT_EMAIL_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN", True)
+PRIVATE_COMMIT_EMAIL_OPT_IN = get_env_bool(
+    "WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN",
+    accounts_defaults.DEFAULT_PRIVATE_COMMIT_EMAIL_OPT_IN,
+)
 
 private_commit_name_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE")
 if private_commit_name_template_str is not None:
     PRIVATE_COMMIT_NAME_TEMPLATE = private_commit_name_template_str
 del private_commit_name_template_str
-PRIVATE_COMMIT_NAME_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN", True)
+PRIVATE_COMMIT_NAME_OPT_IN = get_env_bool(
+    "WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN",
+    accounts_defaults.DEFAULT_PRIVATE_COMMIT_NAME_OPT_IN,
+)
 
 # Shortcut for login required setting
-REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN")
+REQUIRE_LOGIN = get_env_bool(
+    "WEBLATE_REQUIRE_LOGIN", trans_defaults.DEFAULT_REQUIRE_LOGIN
+)
 
-PUBLIC_ENGAGE = get_env_bool("WEBLATE_PUBLIC_ENGAGE")
+PUBLIC_ENGAGE = get_env_bool(
+    "WEBLATE_PUBLIC_ENGAGE", trans_defaults.DEFAULT_PUBLIC_ENGAGE
+)
 
 # Middleware
 MIDDLEWARE = [
@@ -1031,37 +1113,47 @@ SECURE_REFERRER_POLICY = "same-origin"
 SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1000
-SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
+SESSION_COOKIE_AGE_AUTHENTICATED = (
+    auth_defaults.DEFAULT_SESSION_COOKIE_AGE_AUTHENTICATED
+)
 SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Maximum allowed uploaded translation file size
 TRANSLATION_UPLOAD_MAX_SIZE = get_env_int(
-    "WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE", 50000000
+    "WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE",
+    utils_defaults.DEFAULT_TRANSLATION_UPLOAD_MAX_SIZE,
 )
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = get_env_int(
-    "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE", 50000000
+    "WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE",
+    utils_defaults.DEFAULT_COMPONENT_ZIP_UPLOAD_MAX_SIZE,
 )
 # Maximum allowed uploaded project backup ZIP file size
 PROJECT_BACKUP_UPLOAD_MAX_SIZE = get_env_int(
-    "WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE", 512 * 1024 * 1024
+    "WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE",
+    utils_defaults.DEFAULT_PROJECT_BACKUP_UPLOAD_MAX_SIZE,
 )
 # Project backup ZIP import safety limits
 PROJECT_BACKUP_IMPORT_MAX_MEMBERS = get_env_int(
-    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS", 100000
+    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS",
+    trans_defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_MEMBERS,
 )
 PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE = get_env_int(
-    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE", 512 * 1024 * 1024
+    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE",
+    trans_defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE,
 )
 PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE = get_env_int(
-    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE", 250 * 1024 * 1024
+    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE",
+    trans_defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE,
 )
 PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE = get_env_int(
-    "WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE", 1 * 1024 * 1024
+    "WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE",
+    trans_defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE,
 )
 PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO = get_env_int(
-    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO", 250
+    "WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO",
+    trans_defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO,
 )
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
@@ -1098,12 +1190,14 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
 
 # Anonymous user name
-ANONYMOUS_USER_NAME = "anonymous"
+ANONYMOUS_USER_NAME = auth_defaults.DEFAULT_ANONYMOUS_USER_NAME
 
 # Reverse proxy settings
 IP_PROXY_HEADER = get_env_str("WEBLATE_IP_PROXY_HEADER")
 IP_BEHIND_REVERSE_PROXY = bool(IP_PROXY_HEADER)
-IP_PROXY_OFFSET = get_env_int("WEBLATE_IP_PROXY_OFFSET", -1)
+IP_PROXY_OFFSET = get_env_int(
+    "WEBLATE_IP_PROXY_OFFSET", trans_defaults.DEFAULT_IP_PROXY_OFFSET
+)
 
 # Sending HTML in mails
 EMAIL_SEND_HTML = True
@@ -1112,11 +1206,13 @@ EMAIL_SEND_HTML = True
 EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 
 # Enable remote hooks
-ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
+ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", trans_defaults.DEFAULT_ENABLE_HOOKS)
 
 # Version visibility
-VERSION_DISPLAY = get_env_str("WEBLATE_VERSION_DISPLAY")
-HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
+VERSION_DISPLAY = get_env_str(
+    "WEBLATE_VERSION_DISPLAY", utils_defaults.DEFAULT_VERSION_DISPLAY
+)
+HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION", utils_defaults.DEFAULT_HIDE_VERSION)
 VERSION_DISPLAY = normalize_version_display(VERSION_DISPLAY, HIDE_VERSION)
 HIDE_VERSION = VERSION_DISPLAY == VERSION_DISPLAY_HIDE
 
@@ -1127,8 +1223,12 @@ if license_filter_list is not None:
     LICENSE_FILTER.discard("")
 del license_filter_list
 
-LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED")
-WEBSITE_REQUIRED = get_env_bool("WEBLATE_WEBSITE_REQUIRED", True)
+LICENSE_REQUIRED = get_env_bool(
+    "WEBLATE_LICENSE_REQUIRED", trans_defaults.DEFAULT_LICENSE_REQUIRED
+)
+WEBSITE_REQUIRED = get_env_bool(
+    "WEBLATE_WEBSITE_REQUIRED", trans_defaults.DEFAULT_WEBSITE_REQUIRED
+)
 
 # Language filter
 basic_languages_list = get_env_list_or_none("WEBLATE_BASIC_LANGUAGES")
@@ -1140,118 +1240,36 @@ del basic_languages_list
 # the source string * 10 characters. Set this option to False to allow longer
 # translations (up to 10.000 characters)
 LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
-    "WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH", True
+    "WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH",
+    trans_defaults.DEFAULT_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH,
 )
 
 # Use simple language codes for default language/country combinations
-SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
+SIMPLIFY_LANGUAGES = get_env_bool(
+    "WEBLATE_SIMPLIFY_LANGUAGES", lang_defaults.DEFAULT_SIMPLIFY_LANGUAGES
+)
 
 # This allows hiding glossary components when shared to other projects
 HIDE_SHARED_GLOSSARY_COMPONENTS = get_env_bool(
-    "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS", False
+    "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS",
+    trans_defaults.DEFAULT_HIDE_SHARED_GLOSSARY_COMPONENTS,
 )
 
 # Default number of elements to display when pagination is active
-DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
+DEFAULT_PAGE_LIMIT = get_env_int(
+    "WEBLATE_DEFAULT_PAGE_LIMIT", trans_defaults.DEFAULT_PAGE_LIMIT
+)
 
 # Render forms using bootstrap
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # List of quality checks
-CHECK_LIST = [
-    "weblate.checks.same.SameCheck",
-    "weblate.checks.chars.BeginNewlineCheck",
-    "weblate.checks.chars.EndNewlineCheck",
-    "weblate.checks.chars.BeginSpaceCheck",
-    "weblate.checks.chars.EndSpaceCheck",
-    "weblate.checks.chars.DoubleSpaceCheck",
-    "weblate.checks.chars.EndStopCheck",
-    "weblate.checks.chars.EndColonCheck",
-    "weblate.checks.chars.EndQuestionCheck",
-    "weblate.checks.chars.EndExclamationCheck",
-    "weblate.checks.chars.EndInterrobangCheck",
-    "weblate.checks.chars.EndEllipsisCheck",
-    "weblate.checks.chars.EndSemicolonCheck",
-    "weblate.checks.chars.MaxLengthCheck",
-    "weblate.checks.chars.MultipleCapitalCheck",
-    "weblate.checks.chars.KashidaCheck",
-    "weblate.checks.chars.PunctuationSpacingCheck",
-    "weblate.checks.chars.KabyleCharactersCheck",
-    "weblate.checks.format.PythonFormatCheck",
-    "weblate.checks.format.PythonBraceFormatCheck",
-    "weblate.checks.format.PHPFormatCheck",
-    "weblate.checks.format.CFormatCheck",
-    "weblate.checks.format.PerlFormatCheck",
-    "weblate.checks.format.PerlBraceFormatCheck",
-    "weblate.checks.format.JavaScriptFormatCheck",
-    "weblate.checks.format.LuaFormatCheck",
-    "weblate.checks.format.ObjectPascalFormatCheck",
-    "weblate.checks.format.SchemeFormatCheck",
-    "weblate.checks.format.CSharpFormatCheck",
-    "weblate.checks.format.LaravelFormatCheck",
-    "weblate.checks.format.JavaFormatCheck",
-    "weblate.checks.format.JavaMessageFormatCheck",
-    "weblate.checks.format.PercentPlaceholdersCheck",
-    "weblate.checks.format.VueFormattingCheck",
-    "weblate.checks.format.I18NextInterpolationCheck",
-    "weblate.checks.format.ESTemplateLiteralsCheck",
-    "weblate.checks.format.AutomatticComponentsCheck",
-    "weblate.checks.angularjs.AngularJSInterpolationCheck",
-    "weblate.checks.icu.ICUMessageFormatCheck",
-    "weblate.checks.icu.ICUSourceCheck",
-    "weblate.checks.qt.QtFormatCheck",
-    "weblate.checks.qt.QtPluralCheck",
-    "weblate.checks.ruby.RubyFormatCheck",
-    "weblate.checks.consistency.PluralsCheck",
-    "weblate.checks.consistency.SamePluralsCheck",
-    "weblate.checks.consistency.ConsistencyCheck",
-    "weblate.checks.consistency.ReusedCheck",
-    "weblate.checks.consistency.TranslatedCheck",
-    "weblate.checks.chars.EscapedNewlineCountingCheck",
-    "weblate.checks.chars.NewLineCountCheck",
-    "weblate.checks.markup.BBCodeCheck",
-    "weblate.checks.chars.ZeroWidthSpaceCheck",
-    "weblate.checks.render.MaxSizeCheck",
-    "weblate.checks.markup.XMLValidityCheck",
-    "weblate.checks.markup.XMLTagsCheck",
-    "weblate.checks.markup.XMLCharsAroundTagsCheck",
-    "weblate.checks.markup.MarkdownRefLinkCheck",
-    "weblate.checks.markup.MarkdownLinkCheck",
-    "weblate.checks.markup.MarkdownSyntaxCheck",
-    "weblate.checks.markup.URLCheck",
-    "weblate.checks.markup.SafeHTMLCheck",
-    "weblate.checks.markup.RSTReferencesCheck",
-    "weblate.checks.markup.RSTSyntaxCheck",
-    "weblate.checks.placeholders.PlaceholderCheck",
-    "weblate.checks.placeholders.RegexCheck",
-    "weblate.checks.duplicate.DuplicateCheck",
-    "weblate.checks.source.OptionalPluralCheck",
-    "weblate.checks.source.EllipsisCheck",
-    "weblate.checks.source.MultipleFailingCheck",
-    "weblate.checks.source.LongUntranslatedCheck",
-    "weblate.checks.format.MultipleUnnamedFormatsCheck",
-    "weblate.checks.glossary.GlossaryCheck",
-    "weblate.checks.glossary.ProhibitedInitialCharacterCheck",
-    "weblate.checks.fluent.syntax.FluentSourceSyntaxCheck",
-    "weblate.checks.fluent.syntax.FluentTargetSyntaxCheck",
-    "weblate.checks.fluent.parts.FluentPartsCheck",
-    "weblate.checks.fluent.references.FluentReferencesCheck",
-    "weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck",
-    "weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck",
-]
+CHECK_LIST = list(DEFAULT_CHECK_LIST)
 modify_env_list(CHECK_LIST, "CHECK")
 
 # List of automatic fixups
-AUTOFIX_LIST = [
-    "weblate.trans.autofixes.whitespace.SameBookendingWhitespace",
-    "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
-    "weblate.trans.autofixes.chars.RemoveZeroSpace",
-    "weblate.trans.autofixes.chars.RemoveControlChars",
-    "weblate.trans.autofixes.chars.DevanagariDanda",
-    "weblate.trans.autofixes.chars.PunctuationSpacing",
-    "weblate.trans.autofixes.html.BleachHTML",
-]
+AUTOFIX_LIST = list(trans_defaults.DEFAULT_AUTOFIX_LIST)
 modify_env_list(AUTOFIX_LIST, "AUTOFIX")
 
 # List of enabled file formats
@@ -1259,74 +1277,11 @@ WEBLATE_FORMATS = list(DEFAULT_FORMATS)
 modify_env_list(WEBLATE_FORMATS, "FORMATS")
 
 # List of enabled addons
-WEBLATE_ADDONS = [
-    "weblate.addons.gettext.GenerateMoAddon",
-    "weblate.addons.gettext.UpdateLinguasAddon",
-    "weblate.addons.gettext.UpdateConfigureAddon",
-    "weblate.addons.gettext.MsgmergeAddon",
-    "weblate.addons.gettext.XgettextAddon",
-    "weblate.addons.gettext.MesonAddon",
-    "weblate.addons.gettext.DjangoAddon",
-    "weblate.addons.gettext.SphinxAddon",
-    "weblate.addons.gettext.GettextAuthorComments",
-    "weblate.addons.cleanup.CleanupAddon",
-    "weblate.addons.cleanup.RemoveBlankAddon",
-    "weblate.addons.cleanup.ResetAddon",
-    "weblate.addons.consistency.LanguageConsistencyAddon",
-    "weblate.addons.discovery.DiscoveryAddon",
-    "weblate.addons.autotranslate.AutoTranslateAddon",
-    "weblate.addons.flags.SourceEditAddon",
-    "weblate.addons.flags.TargetEditAddon",
-    "weblate.addons.flags.SameEditAddon",
-    "weblate.addons.flags.BulkEditAddon",
-    "weblate.addons.flags.TargetRepoUpdateAddon",
-    "weblate.addons.generate.GenerateFileAddon",
-    "weblate.addons.generate.PseudolocaleAddon",
-    "weblate.addons.generate.PrefillAddon",
-    "weblate.addons.generate.FillReadOnlyAddon",
-    "weblate.addons.properties.PropertiesSortAddon",
-    "weblate.addons.git.GitSquashAddon",
-    "weblate.addons.removal.RemoveComments",
-    "weblate.addons.removal.RemoveSuggestions",
-    "weblate.addons.resx.ResxUpdateAddon",
-    "weblate.addons.cdn.CDNJSAddon",
-    "weblate.addons.cdn.CDNFilesAddon",
-    "weblate.addons.webhooks.WebhookAddon",
-    "weblate.addons.webhooks.SlackWebhookAddon",
-    "weblate.addons.fedora_messaging.FedoraMessagingAddon",
-]
+WEBLATE_ADDONS = list(addons_defaults.DEFAULT_WEBLATE_ADDONS)
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # Machinery configuration
-WEBLATE_MACHINERY = [
-    "weblate.machinery.apertium.ApertiumAPYTranslation",
-    "weblate.machinery.aws.AWSTranslation",
-    "weblate.machinery.alibaba.AlibabaTranslation",
-    "weblate.machinery.anthropic.AnthropicTranslation",
-    "weblate.machinery.baidu.BaiduTranslation",
-    "weblate.machinery.deepl.DeepLTranslation",
-    "weblate.machinery.glosbe.GlosbeTranslation",
-    "weblate.machinery.google.GoogleTranslation",
-    "weblate.machinery.googlev3.GoogleV3Translation",
-    "weblate.machinery.libretranslate.LTEngineTranslation",
-    "weblate.machinery.libretranslate.LibreTranslateTranslation",
-    "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-    "weblate.machinery.modernmt.ModernMTTranslation",
-    "weblate.machinery.mymemory.MyMemoryTranslation",
-    "weblate.machinery.netease.NeteaseSightTranslation",
-    "weblate.machinery.tmserver.TMServerTranslation",
-    "weblate.machinery.yandex.YandexTranslation",
-    "weblate.machinery.yandexv2.YandexV2Translation",
-    "weblate.machinery.saptranslationhub.SAPTranslationHub",
-    "weblate.machinery.youdao.YoudaoTranslation",
-    "weblate.machinery.systran.SystranTranslation",
-    "weblate.machinery.openai.OpenAITranslation",
-    "weblate.machinery.openai.AzureOpenAITranslation",
-    "weblate.machinery.ollama.OllamaTranslation",
-    "weblate.machinery.weblatetm.WeblateTranslation",
-    "weblate.memory.machine.WeblateMemory",
-    "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
-]
+WEBLATE_MACHINERY = list(DEFAULT_WEBLATE_MACHINERY)
 modify_env_list(WEBLATE_MACHINERY, "MACHINERY")
 
 
@@ -1385,7 +1340,7 @@ DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL
-FONTS_CDN_URL = None
+FONTS_CDN_URL = trans_defaults.DEFAULT_FONTS_CDN_URL
 
 # Django compressor offline mode
 COMPRESS_OFFLINE = True
@@ -1395,9 +1350,10 @@ COMPRESS_CSS_HASHING_METHOD = "content"
 # Note: When REQUIRE_LOGIN is enabled, Django's LoginRequiredMiddleware is used.
 # Public views are marked with @login_not_required decorator in the code.
 # The LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS settings are no longer used.
-# Environment variables WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS,
-# WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS, and WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS
-# are deprecated and have no effect.
+# Environment variables WEBLATE_LOGIN_REQUIRED_URLS,
+# WEBLATE_ADD_LOGIN_REQUIRED_URLS, WEBLATE_REMOVE_LOGIN_REQUIRED_URLS,
+# WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS, WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS,
+# and WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS are deprecated and have no effect.
 
 # Email server
 EMAIL_HOST = get_env_str("WEBLATE_EMAIL_HOST", "localhost", required=True)
@@ -1465,63 +1421,109 @@ CORS_ALLOW_ALL_ORIGINS = get_env_bool("WEBLATE_CORS_ALLOW_ALL_ORIGINS", False)
 CORS_URLS_REGEX = rf"^{URL_PREFIX}/api/.*$"
 
 # Database backup type
-DATABASE_BACKUP = get_env_str("WEBLATE_DATABASE_BACKUP", "plain")
+DATABASE_BACKUP = get_env_str(
+    "WEBLATE_DATABASE_BACKUP", utils_defaults.DEFAULT_DATABASE_BACKUP
+)
 
 # Enable auto updating
-AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE")
+AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", trans_defaults.DEFAULT_AUTO_UPDATE)
 
 # Update languages on migration
-UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
+UPDATE_LANGUAGES = get_env_bool(
+    "WEBLATE_UPDATE_LANGUAGES", lang_defaults.DEFAULT_UPDATE_LANGUAGES
+)
 
 # Avatars
-ENABLE_AVATARS = get_env_bool("WEBLATE_ENABLE_AVATARS", True)
+ENABLE_AVATARS = get_env_bool(
+    "WEBLATE_ENABLE_AVATARS", accounts_defaults.DEFAULT_ENABLE_AVATARS
+)
 AVATAR_URL_PREFIX = get_env_str(
-    "WEBLATE_AVATAR_URL_PREFIX", "https://www.gravatar.com/", required=ENABLE_AVATARS
+    "WEBLATE_AVATAR_URL_PREFIX",
+    accounts_defaults.DEFAULT_AVATAR_URL_PREFIX,
+    required=ENABLE_AVATARS,
 )
 
 # Default access control
-DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL")
+DEFAULT_ACCESS_CONTROL = get_env_int(
+    "WEBLATE_DEFAULT_ACCESS_CONTROL", trans_defaults.DEFAULT_ACCESS_CONTROL
+)
 
-DEFAULT_TRANSLATION_REVIEW = get_env_bool("WEBLATE_DEFAULT_TRANSLATION_REVIEW", False)
-DEFAULT_SOURCE_REVIEW = get_env_bool("WEBLATE_DEFAULT_SOURCE_REVIEW", False)
+DEFAULT_TRANSLATION_REVIEW = get_env_bool(
+    "WEBLATE_DEFAULT_TRANSLATION_REVIEW", trans_defaults.DEFAULT_TRANSLATION_REVIEW
+)
+DEFAULT_SOURCE_REVIEW = get_env_bool(
+    "WEBLATE_DEFAULT_SOURCE_REVIEW", trans_defaults.DEFAULT_SOURCE_REVIEW
+)
 
 # Default access control
-DEFAULT_RESTRICTED_COMPONENT = get_env_bool("WEBLATE_DEFAULT_RESTRICTED_COMPONENT")
+DEFAULT_RESTRICTED_COMPONENT = get_env_bool(
+    "WEBLATE_DEFAULT_RESTRICTED_COMPONENT",
+    trans_defaults.DEFAULT_RESTRICTED_COMPONENT,
+)
 
 # Default translation propagation
 DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
-    "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION", True
+    "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION",
+    trans_defaults.DEFAULT_TRANSLATION_PROPAGATION,
 )
 
 DEFAULT_COMMITER_EMAIL = get_env_str(
-    "WEBLATE_DEFAULT_COMMITER_EMAIL", "noreply@weblate.org", required=True
+    "WEBLATE_DEFAULT_COMMITER_EMAIL",
+    trans_defaults.DEFAULT_COMMITER_EMAIL,
+    required=True,
 )
 DEFAULT_COMMITER_NAME = get_env_str(
-    "WEBLATE_DEFAULT_COMMITER_NAME", "Weblate", required=True
+    "WEBLATE_DEFAULT_COMMITER_NAME",
+    trans_defaults.DEFAULT_COMMITER_NAME,
+    required=True,
 )
 
-DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
+DEFAULT_AUTO_WATCH = get_env_bool(
+    "WEBLATE_DEFAULT_AUTO_WATCH", accounts_defaults.DEFAULT_AUTO_WATCH
+)
 
-DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
+DEFAULT_SHARED_TM = get_env_bool(
+    "WEBLATE_DEFAULT_SHARED_TM", trans_defaults.DEFAULT_SHARED_TM
+)
 
-DEFAULT_AUTOCLEAN_TM = get_env_bool("WEBLATE_AUTOCLEAN_TM", False)
+DEFAULT_AUTOCLEAN_TM = get_env_bool(
+    "WEBLATE_AUTOCLEAN_TM", trans_defaults.DEFAULT_AUTOCLEAN_TM
+)
 
-COMMIT_PENDING_HOURS = get_env_int("WEBLATE_COMMIT_PENDING_HOURS", 24)
+COMMIT_PENDING_HOURS = get_env_int(
+    "WEBLATE_COMMIT_PENDING_HOURS", trans_defaults.DEFAULT_COMMIT_PENDING_HOURS
+)
 
-CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
-ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")
+CONTACT_FORM = get_env_str(
+    "WEBLATE_CONTACT_FORM", accounts_defaults.DEFAULT_CONTACT_FORM, required=True
+)
+ADMINS_CONTACT = get_env_list(
+    "WEBLATE_ADMINS_CONTACT", list(trans_defaults.DEFAULT_ADMINS_CONTACT)
+)
 
-SSH_EXTRA_ARGS = get_env_str("WEBLATE_SSH_EXTRA_ARGS", "")
+SSH_EXTRA_ARGS = get_env_str(
+    "WEBLATE_SSH_EXTRA_ARGS", vcs_defaults.DEFAULT_SSH_EXTRA_ARGS
+)
 
-BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
+BORG_EXTRA_ARGS = get_env_list(
+    "WEBLATE_BORG_EXTRA_ARGS", utils_defaults.DEFAULT_BORG_EXTRA_ARGS
+)
 
-ENABLE_SHARING = get_env_bool("WEBLATE_ENABLE_SHARING")
+ENABLE_SHARING = get_env_bool(
+    "WEBLATE_ENABLE_SHARING", trans_defaults.DEFAULT_ENABLE_SHARING
+)
 
-SUPPORT_STATUS_CHECK = get_env_bool("WEBLATE_SUPPORT_STATUS_CHECK")
+SUPPORT_STATUS_CHECK = get_env_bool(
+    "WEBLATE_SUPPORT_STATUS_CHECK", accounts_defaults.DEFAULT_SUPPORT_STATUS_CHECK
+)
 
-EXTRA_HTML_HEAD = get_env_str("WEBLATE_EXTRA_HTML_HEAD", "")
+EXTRA_HTML_HEAD = get_env_str(
+    "WEBLATE_EXTRA_HTML_HEAD", trans_defaults.DEFAULT_EXTRA_HTML_HEAD
+)
 
-UNUSED_ALERT_DAYS = get_env_int("WEBLATE_UNUSED_ALERT_DAYS", 365)
+UNUSED_ALERT_DAYS = get_env_int(
+    "WEBLATE_UNUSED_ALERT_DAYS", trans_defaults.DEFAULT_UNUSED_ALERT_DAYS
+)
 
 USE_X_FORWARDED_HOST = get_env_bool("WEBLATE_USE_X_FORWARDED_HOST", False)
 
@@ -1533,30 +1535,50 @@ for name in os.environ:
         locals()[name[8:].removesuffix("_FILE")] = get_env_int(name)
 
 # PGP commits signing
-WEBLATE_GPG_IDENTITY = get_env_str("WEBLATE_GPG_IDENTITY")
+WEBLATE_GPG_IDENTITY = get_env_str(
+    "WEBLATE_GPG_IDENTITY", utils_defaults.DEFAULT_WEBLATE_GPG_IDENTITY
+)
 
 # Localize CDN addon
-LOCALIZE_CDN_URL = get_env_str("WEBLATE_LOCALIZE_CDN_URL")
-LOCALIZE_CDN_PATH = get_env_str("WEBLATE_LOCALIZE_CDN_PATH")
+LOCALIZE_CDN_URL = get_env_str(
+    "WEBLATE_LOCALIZE_CDN_URL", addons_defaults.DEFAULT_LOCALIZE_CDN_URL
+)
+LOCALIZE_CDN_PATH = get_env_str(
+    "WEBLATE_LOCALIZE_CDN_PATH", addons_defaults.DEFAULT_LOCALIZE_CDN_PATH
+)
 
 # Integration links
-GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
-STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
-LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
-PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
-PASSWORD_RESET_URL = get_env_str("WEBLATE_PASSWORD_RESET_URL")
+GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL", trans_defaults.DEFAULT_GET_HELP_URL)
+STATUS_URL = get_env_str("WEBLATE_STATUS_URL", trans_defaults.DEFAULT_STATUS_URL)
+LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL", trans_defaults.DEFAULT_LEGAL_URL)
+PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL", trans_defaults.DEFAULT_PRIVACY_URL)
+PASSWORD_RESET_URL = get_env_str(
+    "WEBLATE_PASSWORD_RESET_URL", accounts_defaults.DEFAULT_PASSWORD_RESET_URL
+)
 # Third party services integration
-MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
-MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")
-GOOGLE_ANALYTICS_ID = get_env_str("WEBLATE_GOOGLE_ANALYTICS_ID")
-SENTRY_DSN = get_env_str("SENTRY_DSN")
+MATOMO_SITE_ID = get_env_str(
+    "WEBLATE_MATOMO_SITE_ID", trans_defaults.DEFAULT_MATOMO_SITE_ID
+)
+MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL", trans_defaults.DEFAULT_MATOMO_URL)
+GOOGLE_ANALYTICS_ID = get_env_str(
+    "WEBLATE_GOOGLE_ANALYTICS_ID", trans_defaults.DEFAULT_GOOGLE_ANALYTICS_ID
+)
+SENTRY_DSN = get_env_str("SENTRY_DSN", utils_defaults.DEFAULT_SENTRY_DSN)
 SENTRY_ENVIRONMENT = get_env_str("SENTRY_ENVIRONMENT", SITE_DOMAIN)
-SENTRY_MONITOR_BEAT_TASKS = get_env_bool("SENTRY_MONITOR_BEAT_TASKS", True)
-SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE")
-SENTRY_PROFILES_SAMPLE_RATE = get_env_float("SENTRY_PROFILES_SAMPLE_RATE", 1.0)
-SENTRY_TOKEN = get_env_str("SENTRY_TOKEN")
-SENTRY_SEND_PII = get_env_bool("SENTRY_SEND_PII", False)
-ZAMMAD_URL = get_env_str("WEBLATE_ZAMMAD_URL")
+SENTRY_MONITOR_BEAT_TASKS = get_env_bool(
+    "SENTRY_MONITOR_BEAT_TASKS", utils_defaults.DEFAULT_SENTRY_MONITOR_BEAT_TASKS
+)
+SENTRY_TRACES_SAMPLE_RATE = get_env_float(
+    "SENTRY_TRACES_SAMPLE_RATE", utils_defaults.DEFAULT_SENTRY_TRACES_SAMPLE_RATE
+)
+SENTRY_PROFILES_SAMPLE_RATE = get_env_float(
+    "SENTRY_PROFILES_SAMPLE_RATE", utils_defaults.DEFAULT_SENTRY_PROFILES_SAMPLE_RATE
+)
+SENTRY_TOKEN = get_env_str("SENTRY_TOKEN", utils_defaults.DEFAULT_SENTRY_TOKEN)
+SENTRY_SEND_PII = get_env_bool(
+    "SENTRY_SEND_PII", utils_defaults.DEFAULT_SENTRY_SEND_PII
+)
+ZAMMAD_URL = get_env_str("WEBLATE_ZAMMAD_URL", utils_defaults.DEFAULT_ZAMMAD_URL)
 
 ADDITIONAL_CONFIG = Path("/app/data/settings-override.py")
 if ADDITIONAL_CONFIG.exists():

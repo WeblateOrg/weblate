@@ -35,6 +35,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
@@ -115,13 +116,19 @@ class ProjectBackup:
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
     IMPORT_BATCH_SIZE = 2000
-    MAX_ARCHIVE_MEMBERS = 100_000
+    MAX_ARCHIVE_MEMBERS = defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_MEMBERS
     # Per-entry limits reject suspiciously high compression ratios, while the
     # total uncompressed limit constrains low-compression archives as a whole.
-    MAX_COMPRESSED_ENTRY_SIZE = 250 * 1024 * 1024
-    MIN_COMPRESSED_RATIO_SIZE = 1 * 1024 * 1024
-    MAX_COMPRESSED_ENTRY_RATIO = 250
-    MAX_TOTAL_UNCOMPRESSED_SIZE = 512 * 1024 * 1024
+    MAX_COMPRESSED_ENTRY_SIZE = (
+        defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+    )
+    MIN_COMPRESSED_RATIO_SIZE = defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+    MAX_COMPRESSED_ENTRY_RATIO = (
+        defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+    )
+    MAX_TOTAL_UNCOMPRESSED_SIZE = (
+        defaults.DEFAULT_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+    )
 
     def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}

@@ -2258,7 +2258,7 @@ Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``
 SENTRY_PROFILES_SAMPLE_RATE
 ---------------------------
 
-Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+Configure sampling rate for performance monitoring. Set to 1 to profile all traced events (the default), 0 disables profiling.
 
 .. seealso::
 

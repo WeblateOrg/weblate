@@ -216,7 +216,7 @@ class AlertTest(ViewTestCase):
 
         # Public, but login required
         component.project.access_control = component.project.ACCESS_PUBLIC
-        with override_settings(LOGIN_REQUIRED_URLS=["some"]):
+        with override_settings(REQUIRE_LOGIN=True):
             component.update_alerts()
             self.assertFalse(has_license_alert(component))
 
