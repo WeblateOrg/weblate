@@ -8,7 +8,7 @@
 # "Mr.k" <mineshtine28546271@gmail.com>, 2024.
 # jonnysemon <jonnysemon@users.noreply.hosted.weblate.org>, 2024, 2025, 2026.
 # Ilyes Kouachi <eliaskwachi@gmail.com>, 2025.
-# Basheer Radman <ba2014sheer@gmail.com>, 2025.
+# Basheer Radman <ba2014sheer@gmail.com>, 2025, 2026.
 # ابْنُ السَدِيمِ <amarlubs2@gmail.com>, 2025.
 # abdelbasset jabrane <ribago9317@cubene.com>, 2025.
 # Michal Čihař <michal@weblate.org>, 2025.
@@ -21,8 +21,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-11 02:03-0500\n"
-"PO-Revision-Date: 2026-04-16 07:09+0000\n"
-"Last-Translator: anas agha <anasagha2001@gmail.com>\n"
+"PO-Revision-Date: 2026-05-16 05:45+0000\n"
+"Last-Translator: Basheer Radman <ba2014sheer@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
 "Language: ar\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -200,6 +200,9 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"‌اترك الخيار مُفعّلاً لإلغاء مفتاح API الحالي وإنشاء مفتاح جديد. يُنصح بهذا الخيار "
+"إذا كنت تشك في اختراق كلمة مرورك. عطّله للحفاظ على مفتاح API الحالي فعالاً بعد "
+"تغيير كلمة مرورك."
 
 #: weblate/accounts/forms.py:763
 msgid "Your password has been changed."
@@ -565,26 +568,24 @@ msgid "User was disabled because the access has expired."
 msgstr "عُطل المستخدم بسبب انتهاء صلاحية النفاذ."
 
 #: weblate/accounts/models.py:322
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "أضاف {username} المستخدم إلى الفريق {team}."
+msgstr "تمت إضافة المستخدم إلى فريق {team} على مستوى الموقع بواسطة {username}."
 
 #: weblate/accounts/models.py:326
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "أزال {username} المستخدم من فريق {team}."
+msgstr "تمت إزالة المستخدم من فريق {team} على مستوى الموقع بواسطة {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "تم منح صلاحيات المستخدم المتميز."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:331
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "تم إلغاء صلاحيات المستخدم المتميز."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:333
@@ -700,10 +701,9 @@ msgid "Account activity"
 msgstr "نشاط الحساب"
 
 #: weblate/accounts/models.py:584
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "دعاك {username} إلى {project}."
+msgstr "تم تشغيله بواسطة {username}."
 
 #: weblate/accounts/models.py:678
 msgid "Interface Language"
@@ -1234,19 +1234,15 @@ msgid "The registration link has been invalidated."
 msgstr "رابط تسجيلك قد انتهى وقته."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "رابط تسجيلك قد انتهى وقته."
+msgstr "رابط الدعوة لم يعد صالحاً."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:174 weblate/auth/views.py:248
 #: weblate/auth/views.py:269
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "This invitation has expired."
-msgstr "سيتم إرسال بريد التفعيل الى هنا."
+msgstr "انتهت صلاحية هذه الدعوة."
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1266,6 +1262,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"لا يمكن قبول هذه الدعوة إلا من خلال عنوان البريد الإلكتروني الذي اختاره الداعي؛ "
+"ولا يمكن استخدامها من خلال حسابك."
 
 #: weblate/accounts/pipeline.py:662
 #, python-brace-format
@@ -1394,42 +1392,33 @@ msgstr "تجربة مجانية"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"تمت جدولة عملية التراجع عن التعديلات التي أجراها %(user)s على مستوى الموقع."
 
 #: weblate/accounts/views.py:793
 #, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "تمت جدولة عملية تنظيف مساهمات %(user)s على مستوى الموقع."
 
 #: weblate/accounts/views.py:800 weblate/trans/views/acl.py:276
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "No cleanup action was selected."
-msgstr "سيتم إرسال بريد التفعيل الى هنا."
+msgstr "لم يتم تحديد أي إجراء تنظيف."
 
 #: weblate/accounts/views.py:917 weblate/templates/base.html:456
-#, fuzzy
-#| msgid "Website URL"
 msgid "Website"
-msgstr "رابط الموقع"
+msgstr "موقع إلكتروني"
 
 #: weblate/accounts/views.py:919
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "رابط موقع الكود"
+msgstr "موقع الكود"
 
 #: weblate/accounts/views.py:938
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This profile link is no longer available."
-msgstr "الخدمة غير متوفرة حاليا."
+msgstr "لم يعد رابط الملف الشخصي هذا متاحًا."
 
 #: weblate/accounts/views.py:950
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "ملف المستخدم الشخصي"
+msgstr "رابط الملف الشخصي الخارجي"
 
 #: weblate/accounts/views.py:1073 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1495,14 +1484,12 @@ msgid "You can also request a new password, if you have lost your credentials."
 msgstr "يمكنك أيضًا طلب كلمة مرور جديدة، إذا فقدت بيانات الاعتماد الخاصة بك."
 
 #: weblate/accounts/views.py:1615
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
-msgstr "حاول التسجيل مرة أخرى للتحقق من هويتك، فربما انتهت صلاحية رابط التحقق."
+msgstr ""
+"حاول إعادة تعيين كلمة المرور الخاصة بك مرة أخرى للتحقق من هويتك، ربما انتهت "
+"صلاحية رابط التأكيد."
 
 #: weblate/accounts/views.py:1622
 msgid ""
@@ -1525,17 +1512,16 @@ msgstr "يرجى التسجيل باستخدام البريد الإلكترون
 
 #: weblate/accounts/views.py:1655
 msgid "Could not parse RelayState from SAML Identity Provider."
-msgstr ""
+msgstr "تعذر تحليل RelayState من موفر هوية SAML."
 
 #: weblate/accounts/views.py:1660
 msgid "New registrations are turned off."
 msgstr "التسجيلات الجديدة معطلة."
 
 #: weblate/accounts/views.py:1748 weblate/accounts/views.py:1760
-#, fuzzy
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
-msgstr "تعذرت المصادقة، ربما بسبب معرف منتهي أو خطأ في الاتصال."
+msgstr "تعذر المصادقة، ربما بسبب انتهاء صلاحية الرمز المميز أو خطأ في الاتصال."
 
 #: weblate/accounts/views.py:1769
 msgid "Authentication cancelled."
@@ -1671,64 +1657,61 @@ msgstr "أضف لغات مفقودة"
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
-msgstr ""
+msgstr "يضمن استخدام مجموعة متسقة من اللغات لجميع المكونات داخل المشروع."
 
 #: weblate/addons/consistency.py:129
 msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"تؤثر هذه الإضافة على المشروع بأكمله وقد تقوم بإنشاء ملفات ترجمة عبر العديد من "
+"المكونات أو المستودعات."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"تؤثر هذه الإضافة على الفئة بأكملها وقد تقوم بإنشاء ملفات ترجمة عبر العديد من "
+"المكونات أو المستودعات."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"تؤثر هذه الإضافة على جميع المشاريع وقد تقوم بإنشاء ملفات ترجمة عبر العديد من "
+"المكونات أو المستودعات."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:4772
 msgid ""
 "The given language maps to a different language. Check language aliases "
 "settings."
-msgstr ""
+msgstr "اللغة المحددة تُقابل لغة أخرى. تحقق من إعدادات أسماء اللغات البديلة."
 
 #: weblate/addons/consistency.py:248 weblate/trans/models/component.py:4778
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "The given language is used as a source language."
-msgstr "هذه الترجمة تٌستخدم كسلاسل مصدر بداخل هذا المكون."
+msgstr "تُستخدم اللغة المعطاة كلغة مصدر."
 
 #: weblate/addons/consistency.py:253 weblate/trans/models/component.py:4790
-#, fuzzy
-#| msgid "Entry with same name already exists."
 msgid "The language filter timed out."
-msgstr "يوجد داخل آخَر يحمل نفس الإسم."
+msgstr "انتهت مهلة فلتر اللغة."
 
 #: weblate/addons/consistency.py:256 weblate/trans/models/component.py:4794
 msgid "The given language is filtered by the language filter."
-msgstr ""
+msgstr "يتم تصفية اللغة المحددة بواسطة مرشح اللغة."
 
 #: weblate/addons/discovery.py:27
 msgid "Component discovery"
 msgstr "مستكشف المكونات"
 
 #: weblate/addons/discovery.py:29
-#, fuzzy
-#| msgid ""
-#| "This addon automatically adds or removes components to the project based "
-#| "on file changes in the version control system."
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"يضيف هذا الملحق تلقائيا أو يزيل عناصر إلى مشروع ما استنادا إلى تغييرات "
-"الملفات في نظام تحكم الإصدارات."
+"يقوم تلقائيًا بإضافة أو إزالة مكونات المشروع بناءً على تغييرات الملفات في نظام "
+"التحكم في الإصدار."
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -1748,70 +1731,53 @@ msgstr "هذا المُلحق يُنفّذ برنامجًا نصيًا."
 
 #: weblate/addons/fedora_messaging.py:32
 msgid "Fedora Messaging"
-msgstr ""
+msgstr "نظام المراسلة فيدورا"
 
 #: weblate/addons/fedora_messaging.py:34
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
-msgstr ""
+msgstr "يرسل الإشعارات إلى تبادل AMQP متوافق مع Fedora Messaging."
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
 msgstr "ضع علامة \"تستوجب التحقق\" على السلاسل الجديدة"
 
 #: weblate/addons/flags.py:53
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"حالما تُستورد سلسلة جديدة من عند نظام إدارة الإصدارات، فستكون عليها علامة "
-"أنها بحاجة إلى التعديل في Weblate. يمكنك بهذه الطريقة تصفية السلاسل المصدرية "
-"التي كتبها المطورون وتحريرها بسهولة."
+"عند استيراد أي سلسلة نصية جديدة من نظام التحكم في الإصدارات، يتم تمييزها في "
+"Weblate بأنها تحتاج إلى مراجعة. بهذه الطريقة، يمكنك بسهولة تصفية وتعديل "
+"السلاسل النصية التي كتبها المطورون."
 
 #: weblate/addons/flags.py:72
 msgid "Flag new translations as \"Needs rewriting\""
 msgstr "ضع علامة \"تستوجب اعادة الكتابة\" على الترجمات الجديدة"
 
 #: weblate/addons/flags.py:74
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"حالما تُستورد سلسلة جديدة قابلة للترجمة من نظام إدارة الإصدارات، فإنها ستعلَّم "
-"بأنها بحاجة إلى التعديل في وِبليت. يمكنك بهذه الطريقة تصفية السلاسل المصدرية "
-"التي أنشأها المطورون وتحريرها بسهولة."
+"عند استيراد أي نص قابل للترجمة من نظام التحكم في الإصدارات، يتم تمييزه في "
+"Weblate بأنه يحتاج إلى إعادة كتابة. بهذه الطريقة، يمكنك بسهولة تصفية وتعديل "
+"الترجمات التي أنشأها المطورون."
 
 #: weblate/addons/flags.py:90
 msgid "Flag unchanged translations as \"Needs rewriting\""
 msgstr "علّم الترجمات غير المُعدّلة أنها \"تستوجب إعادة الكتابة\""
 
 #: weblate/addons/flags.py:92
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"حالما تستورد سلسلة جديدة قابلة للترجمة من عند نظام إدارة الإصدارات وتتطابق "
-"مع سلاسل المصدر، توضع عليها إشارة على أنها بحاجة إلى التعديل في Weblate. هذا "
-"مفيد بشكل خاص لتنسيقات الملفات التي تتضمن جميع السلاسل المترجمة منها وغير "
-"المترجمة."
+"عند استيراد أي نص قابل للترجمة من نظام التحكم في الإصدارات (VCS) ومطابقته لنص "
+"مصدر، يتم وضع علامة عليه في Weblate بأنه يحتاج إلى إعادة كتابة. وهذا مفيد "
+"بشكل خاص لتنسيقات الملفات التي تتضمن نصوص مصدر لنصوص غير مترجمة."
 
 #: weblate/addons/flags.py:113 weblate/templates/category-language.html:53
 #: weblate/templates/category-language.html:136
@@ -1886,7 +1852,7 @@ msgstr "شهرياً"
 msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
-msgstr ""
+msgstr "عدد مرات تحديث الملحق لملف POT عند تحديث المكون."
 
 #: weblate/addons/forms.py:150
 msgid "Normalize POT header"
@@ -1894,19 +1860,17 @@ msgstr ""
 
 #: weblate/addons/forms.py:154
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "يقوم بتحديث ترويسات gettext واستبدال تعليقات POT البديلة."
 
 #: weblate/addons/forms.py:158
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update PO files using msgmerge"
-msgstr "حدّث ملفات PO لتطابق ملف POT (باستعمال msgmerge)"
+msgstr "قم بتحديث ملفات أوامر الشراء باستخدام msgmerge"
 
 #: weblate/addons/forms.py:163
 msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
-msgstr ""
+msgstr "يضمن تثبيت الملحق msgmerge وتشغيله بعد تحديث ملف POT."
 
 #: weblate/addons/forms.py:188
 msgid "Do not extract comments"
@@ -1921,10 +1885,8 @@ msgid "Extract comments with tag"
 msgstr "استخرج التعليقات الموسومة"
 
 #: weblate/addons/forms.py:199
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "تعليقات المستخدمين"
+msgstr "تعليقات الكود"
 
 #: weblate/addons/forms.py:204
 msgid ""
@@ -8916,6 +8878,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"بالتسجيل، فإنك توافق على أن يكون اسمك واسم المستخدم الخاص بك مرئيين للعامة "
+"طالما أن حسابك موجود."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -8953,7 +8917,7 @@ msgstr "الرجاء إدخال إسمك الكامل وعنوان بريدك ا
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
-msgstr ""
+msgstr "أنت تقدم مساهمتك بموجب الترخيص المحدد لكل مشروع ساهمت فيه."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 #, fuzzy
@@ -22175,11 +22139,8 @@ msgid "This will push changes and create a GitLab merge request."
 msgstr "طلب سحب خادم Bitbucket"
 
 #: weblate/vcs/git.py:2337
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Unknown"
 msgid "Unknown error"
-msgstr "مجهول"
+msgstr "خطأ غير معروف"
 
 #: weblate/vcs/git.py:2345
 #, fuzzy, python-format
