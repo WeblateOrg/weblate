@@ -638,9 +638,7 @@ class AuditLog(models.Model):
         localized = list(parts)
         if localized:
             device_type = localized[0].strip()
-            localized[0] = gettext(
-                USER_AGENT_DEVICE_TYPES.get(device_type, device_type)
-            )
+            localized[0] = USER_AGENT_DEVICE_TYPES.get(device_type, device_type)
 
         return " / ".join(localized)
 
