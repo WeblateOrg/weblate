@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-12 04:42+0200\n"
-"PO-Revision-Date: 2026-05-14 20:11+0000\n"
+"PO-Revision-Date: 2026-05-16 05:45+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -151,7 +151,7 @@ msgstr ":guilabel:`自訂`"
 
 #: admin/access.rst:56
 msgid "Not available on Hosted Weblate."
-msgstr "在 Hosted Weblate 上無法使用。"
+msgstr "在 Hosted Weblate 上不可用。"
 
 #: admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
@@ -509,28 +509,13 @@ msgid "Site-wide access control"
 msgstr "站點範圍存取控制"
 
 #: admin/access.rst:260
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on teams and roles, where roles define a "
-#| "set of permissions, and teams link them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on roles defining a set of permissions, and "
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"權限系統基於團隊和角色，其中角色定義一組權限，團隊將其與使用者和翻譯相關聯。"
-"參閱 :ref:`auth-model` 瞭解更多資訊。"
 
 #: admin/access.rst:264
-#, fuzzy
-#| msgid ""
-#| "The most powerful features of the Weblate’s access control system for now "
-#| "are available only through the :ref:`Django admin interface <admin-"
-#| "interface>`. You can use it to manage permissions of any project. You "
-#| "don’t necessarily have to switch it to `Custom` :ref:`access control "
-#| "<acl>` to utilize it. However you must have superuser privileges in order "
-#| "to use it."
 msgid ""
 "The most powerful features of the Weblate’s access control system can be "
 "configured in the :ref:`management-interface`. You can use it to manage "
@@ -538,10 +523,6 @@ msgid ""
 "to :guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"Weblate's Access Control系統的最強大功能僅透過以下方式提供:ref:`Django管理員"
-"介面<admin-interface>`。您可以使用它來管理任何專案的權限。您不一定必須將其切"
-"換到“自訂”:ref:“存取控制<ACL>”使用它。但是，您必須具有超級使用者權限才能使用"
-"它。"
 
 #: admin/access.rst:270
 msgid ""
@@ -9042,16 +9023,12 @@ msgid "PostgreSQL, see :ref:`database-setup`"
 msgstr "PostgreSQL，請參閱 :ref:`database-setup`"
 
 #: admin/install.rst:0
-#, fuzzy
-#| msgid "https://pypi.org/project/aeidon/"
 msgid "`rollbar <https://pypi.org/project/rollbar>`__"
-msgstr "https://pypi.org/project/aeidon/"
+msgstr "`rollbar <https://pypi.org/project/rollbar>`__"
 
 #: admin/install.rst:243
-#, fuzzy
-#| msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgid ":reF:`collecting-errors`"
-msgstr "Sentry DSN 用於 :ref:`collecting-errors`。"
+msgstr ":reF:`collecting-errors`"
 
 #: admin/install.rst:251
 msgid "Integrating SAML 2 IDP into Weblate"
@@ -11796,16 +11773,12 @@ msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr "配置 :setting:`WEBHOOK_PRIVATE_ALLOWLIST`。"
 
 #: admin/install/docker.rst:733
-#, fuzzy
-#| msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`ASSET_RESTRICT_PRIVATE`."
-msgstr "配置 :setting:`VCS_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`ASSET_RESTRICT_PRIVATE`。"
 
 #: admin/install/docker.rst:741
-#, fuzzy
-#| msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgid "Configures :setting:`ASSET_PRIVATE_ALLOWLIST`."
-msgstr "配置 :setting:`WEBHOOK_PRIVATE_ALLOWLIST`。"
+msgstr "配置 :setting:`ASSET_PRIVATE_ALLOWLIST`。"
 
 #: admin/install/docker.rst:745
 msgid ""
@@ -19048,10 +19021,8 @@ msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr "驗證您的設定合理（還請參閱 :ref:`production`）："
 
 #: admin/upgrade.rst:115
-#, fuzzy
-#| msgid "Restart celery worker (see :ref:`celery`)."
 msgid "Restart the Celery worker (see :ref:`celery`)."
-msgstr "重新啟動 celery worker （請參閱 :ref:`celery`）。"
+msgstr "重新啟動 Celery worker （請參閱 :ref:`celery`）。"
 
 #: admin/upgrade.rst:120
 msgid "Version-specific instructions"
@@ -19228,7 +19199,7 @@ msgstr "調整 `settings.py` 文件而將 PostgreSQL 用作資料庫。"
 
 #: admin/upgrade.rst:188
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr "遷移 PostgreSQL 中的模式："
+msgstr ""
 
 #: admin/upgrade.rst:195
 #, fuzzy
@@ -19446,7 +19417,7 @@ msgstr "直到速率限制視窗重設時的秒數"
 
 #: api.rst:223
 msgid "Added ratelimiting status headers."
-msgstr "新增速率限制狀態的標頭。"
+msgstr "新增了速率限制狀態標頭。"
 
 #: api.rst:235
 msgid "Error responses"
@@ -19479,14 +19450,10 @@ msgid "Projects"
 msgstr "專案"
 
 #: api.rst:1418
-#, fuzzy
-#| msgid ""
-#| "See :http:post:`/api/projects/(string:project)/repository/` for "
-#| "documentation."
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
-msgstr "文件請參閱 :http:post:`/api/projects/(string:project)/repository/`。"
+msgstr "使用 :http:post:`/api/projects/(string:project)/components/` 來建立新組件。"
 
 #: api.rst:2056 snippets/permissions.rst:221
 msgid "Translations"
@@ -19498,7 +19465,7 @@ msgstr "記憶"
 
 #: api.rst:2447
 msgid "Units"
-msgstr "單位"
+msgstr ""
 
 #: api.rst:2449
 #, fuzzy
@@ -19584,21 +19551,19 @@ msgstr ""
 
 #: api.rst:3290
 msgid "RSS feeds"
-msgstr "RSS 消息來源"
+msgstr "RSS 訂閱源"
 
 #: api.rst:3292
 msgid "Changes in translations are exported in RSS feeds."
-msgstr "翻譯的變更匯出到 RSS 頻道。"
+msgstr ""
 
 #: api.rst:3316
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`維基百科上的 RSS <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.5"
-msgstr "Weblate 2.5"
+msgstr "Weblate 2026.5"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19681,11 +19646,11 @@ msgstr "改進了 :ref:`translation-propagation` 效能。"
 
 #: changes.rst:18
 msgid ":ref:`mt-openai` no longer requires the OpenAI Python SDK."
-msgstr ""
+msgstr ":ref:`mt-openai` 不再需要 OpenAI Python SDK。"
 
 #: changes.rst:19
 msgid ":ref:`mt-alibaba` no longer requires the Aliyun Python SDK."
-msgstr ""
+msgstr ":ref:`mt-alibaba` 不再需要 Aliyun Python SDK。"
 
 #: changes.rst:20
 #, fuzzy
@@ -23750,10 +23715,8 @@ msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`mt-azure-openai` 自動建議服務。"
 
 #: changes.rst:1465
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-cloud`."
 msgid ":ref:`code-hosting-bitbucket-cloud-pull-requests`."
-msgstr ":ref:`vcs-bitbucket-cloud`."
+msgstr ":ref:`code-hosting-bitbucket-cloud-pull-requests`。"
 
 #: changes.rst:1469
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
@@ -25141,10 +25104,8 @@ msgid "*Released on November 16th 2023.*"
 msgstr "*發佈於 2023 年 11 月 16 日。*"
 
 #: changes.rst:2045
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`."
 msgid ":ref:`code-hosting-azure-devops-pull-requests`."
-msgstr ":ref:`vcs-azure-devops`."
+msgstr ":ref:`code-hosting-azure-devops-pull-requests`。"
 
 #: changes.rst:2049
 msgid "Faster statistics updates."
@@ -36126,7 +36087,7 @@ msgstr ""
 
 #: contributing/frontend.rst:89
 msgid "Coding style"
-msgstr "編碼風格"
+msgstr "程式碼風格"
 
 #: contributing/frontend.rst:91
 #, fuzzy
@@ -36166,7 +36127,7 @@ msgstr ":doc:`django文件中的翻譯主題<django:topics/i18n/translation>`"
 
 #: contributing/frontend.rst:123
 msgid "Icons"
-msgstr "圖示"
+msgstr "圖標"
 
 #: contributing/frontend.rst:125
 #, fuzzy
@@ -36245,7 +36206,7 @@ msgstr ""
 
 #: contributing/index.rst:48
 msgid "Funding Weblate development"
-msgstr "為 Weblate 開發提供資金"
+msgstr "資助 Weblate 開發"
 
 #: contributing/index.rst:50
 #, fuzzy
@@ -36336,7 +36297,7 @@ msgstr "基於 `Django REST framework`_ 的 API。"
 
 #: contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr "認證和權限。"
+msgstr "認證與權限。"
 
 #: contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
@@ -36348,7 +36309,7 @@ msgstr "翻譯字串 :ref:`checks` 模組。"
 
 #: contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr "字型提供檢查模組。"
+msgstr "字型繪製檢查模組。"
 
 #: contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
@@ -36463,8 +36424,8 @@ msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
-"Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ 託管"
-"於 Github。"
+"Weblate `問題追蹤器 <https://github.com/WeblateOrg/weblate/issues>`_ 託管於 "
+"Github。"
 
 #: contributing/issues.rst:8
 #, fuzzy
@@ -36499,7 +36460,7 @@ msgstr "如果您不確定您的錯誤報告或功能請求，您可以嘗試:re
 
 #: contributing/issues.rst:20
 msgid "Using AI to create issues"
-msgstr ""
+msgstr "使用 AI 建立 issues"
 
 #: contributing/issues.rst:22
 msgid ""
@@ -36571,9 +36532,8 @@ msgid "License terms"
 msgstr "授權條款"
 
 #: contributing/license.rst:15
-#, fuzzy
 msgid "Copyright © Michal Čihař michal@weblate.org"
-msgstr "版權所有©2012-2021 MichalČihařmichal@cihar.com"
+msgstr "版權所有 © Michal Čihař michal@weblate.org"
 
 #: contributing/license.rst:17
 msgid ""
@@ -36611,7 +36571,7 @@ msgstr "Weblate 模組授權"
 msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
-msgstr ""
+msgstr "有些 Weblate 模組使用 MIT 或 ISC 授權。請檢查相關的儲存庫取得實際授權。"
 
 #: contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -36634,6 +36594,8 @@ msgid ""
 "`wlc <https://github.com/WeblateOrg/wlc/>`_, Python client library, "
 "see :ref:`wlc`"
 msgstr ""
+"`wlc <https://github.com/WeblateOrg/wlc/>`_，Python 用戶端函式庫，請參閱 "
+":ref:`wlc`"
 
 #: contributing/modules.rst:10
 msgid ""
@@ -36642,15 +36604,9 @@ msgid ""
 msgstr ""
 
 #: contributing/modules.rst:11
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Weblate languages` holds language definitions, explained "
-#| "further in :ref:`languages`."
 msgid ""
 "`language-data`_, language definitions for Weblate, see :ref:`languages`"
-msgstr ""
-":guilabel:`Weblate languages` 保持語言定義，在 :ref:`languages` 中進一步解"
-"釋。"
+msgstr "`language-data`_，Weblate 的語言定義，請參閱 :ref:`languages`"
 
 #: contributing/modules.rst:12
 msgid ""
@@ -36991,7 +36947,7 @@ msgstr ""
 
 #: contributing/snippets/code-guide.rst:109
 msgid "Coding securely"
-msgstr "安全地編碼"
+msgstr "安全地編寫程式碼"
 
 #: contributing/snippets/code-guide.rst:111
 msgid ""
@@ -37036,7 +36992,7 @@ msgstr ""
 
 #: contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr "開始為 Weblate 貢獻代碼"
+msgstr "開始為 Weblate 貢獻程式碼"
 
 #: contributing/start.rst:4
 msgid ""
@@ -37098,7 +37054,7 @@ msgstr "安裝用於開發的所有相依性："
 
 #: contributing/start.rst:36
 msgid "Start a development server:"
-msgstr ""
+msgstr "啟動開發伺服器："
 
 #: contributing/start.rst:42
 msgid ""
@@ -37208,7 +37164,7 @@ msgstr ""
 
 #: contributing/start.rst:119
 msgid "Bootstrapping your devel instance"
-msgstr ""
+msgstr "引導您的開發實例"
 
 #: contributing/start.rst:121
 #, fuzzy
@@ -37230,7 +37186,7 @@ msgstr ""
 
 #: contributing/start.rst:128
 msgid "Coding Weblate with PyCharm"
-msgstr "使用 PyCharm 為 Weblate 編寫代碼"
+msgstr "使用 PyCharm 為 Weblate 編寫程式碼"
 
 #: contributing/start.rst:130
 msgid ""
@@ -37330,7 +37286,7 @@ msgstr ""
 
 #: contributing/submodules.rst:16
 msgid "SPDX license data"
-msgstr ""
+msgstr "SPDX 授權資料"
 
 #: contributing/submodules.rst:18
 msgid ""
@@ -37392,7 +37348,7 @@ msgstr "有幾項工作來確認不同的方面："
 
 #: contributing/tests.rst:22
 msgid "Unit and functional tests using `pytest <https://pytest.org/>`_."
-msgstr ""
+msgstr "使用 `pytest <https://pytest.org/>`_ 進行單元與功能測試的。"
 
 #: contributing/tests.rst:23
 #, fuzzy
@@ -37413,7 +37369,7 @@ msgstr ""
 
 #: contributing/tests.rst:25
 msgid "Code security scanning using `CodeQL <https://codeql.github.com/>`_."
-msgstr ""
+msgstr "使用 `CodeQL <https://codeql.github.com/>`_ 進行程式碼安全掃描。"
 
 #: contributing/tests.rst:26
 msgid "Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_."
@@ -37463,7 +37419,7 @@ msgstr "簡單的執行看起來可以像這樣："
 
 #: contributing/tests.rst:54
 msgid "Local testing of Weblate"
-msgstr "Weblate 本地測試"
+msgstr "Weblate 的本地測試"
 
 #: contributing/tests.rst:56
 msgid ""
@@ -37481,10 +37437,8 @@ msgid ""
 msgstr "執行測試前，應該收集靜態文件，因為一些測試在出現時依賴於它們："
 
 #: contributing/tests.rst:71
-#, fuzzy
-#| msgid "To run a testsuite locally, use:"
 msgid "You can use `pytest` to run the test suite locally:"
-msgstr "如果本地執行測試套件，要使用："
+msgstr "您可以使用 `pytest` 在本地執行測試套件："
 
 #: contributing/tests.rst:77
 msgid "Running an individual test file:"
@@ -43248,7 +43202,7 @@ msgstr ""
 msgid ""
 "Nested files are supported as well (see above for requirements), such a file "
 "can look like:"
-msgstr "也支援巢狀文件（需求請參閱上面），這樣的文件看起來像："
+msgstr "也支援巢狀檔案（需求請參閱上方說明），這樣的檔案可能長這樣："
 
 #: formats/json.rst:84
 msgid "`JSON nested structure file`"
@@ -43319,10 +43273,8 @@ msgid ""
 msgstr ""
 
 #: formats/mdx.rst:4
-#, fuzzy
-#| msgid "DTD files"
 msgid "MDX files"
-msgstr "DTD 檔案"
+msgstr "MDX 檔案"
 
 #: formats/mdx.rst:10
 msgid ""
@@ -43341,10 +43293,8 @@ msgid ""
 msgstr ""
 
 #: formats/mdx.rst:44
-#, fuzzy
-#| msgid "`DTD file`"
 msgid "`MDX file`"
-msgstr "`DTD 檔案`"
+msgstr "`MDX 檔案`"
 
 #: formats/mdx.rst:54
 msgid ""
@@ -44467,10 +44417,8 @@ msgid ""
 msgstr ""
 
 #: security/data-residency.rst:28
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Customer control"
-msgstr "自訂存取控制"
+msgstr "消費者控制"
 
 #: security/data-residency.rst:30
 msgid ""
@@ -44842,10 +44790,8 @@ msgid "Incident categories and severity"
 msgstr "事件類別與嚴重程度"
 
 #: security/incident-response-plan.rst:41
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident activation"
-msgstr "事件類型"
+msgstr "事件啟動"
 
 #: security/incident-response-plan.rst:43
 msgid ""
@@ -47692,10 +47638,8 @@ msgid "Markdown file"
 msgstr "Markdown 檔案"
 
 #: snippets/addon-parameters-autogenerated.rst:144
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "DTD 檔案"
+msgstr "MDX 檔案"
 
 #: snippets/addon-parameters-autogenerated.rst:148
 msgid "@draggable/i18n lang file"
@@ -52125,10 +52069,8 @@ msgstr "Markdown 連結和來源不一致。"
 #: snippets/checks-autogenerated.rst:1281
 #: snippets/checks-autogenerated.rst:1306
 #: snippets/checks-autogenerated.rst:1331
-#, fuzzy
-#| msgid ":ref:`arb`, :ref:`formatjs`"
 msgid ":ref:`markdown`, :ref:`mdx`"
-msgstr ":ref:`arb`, :ref:`formatjs`"
+msgstr ":ref:`markdown`、:ref:`mdx`"
 
 #: snippets/checks-autogenerated.rst:1291
 #: snippets/checks-autogenerated.rst:1316
@@ -53423,10 +53365,8 @@ msgid "Avoid spaces after separators"
 msgstr "分隔符號後不要有空白"
 
 #: snippets/file-format-parameters.rst:92
-#, fuzzy
-#| msgid "``ignore-max-length``"
 msgid "line_max_length"
-msgstr "``ignore-max-length``"
+msgstr "line_max_length"
 
 #: snippets/file-format-parameters.rst:92
 msgid "Maximum line length"
@@ -53471,16 +53411,12 @@ msgid ""
 msgstr ""
 
 #: snippets/file-format-parameters.rst:101
-#, fuzzy
-#| msgid "Placeholders"
 msgid "md_no_placeholders"
-msgstr "佔位符號"
+msgstr "md_no_placeholders"
 
 #: snippets/file-format-parameters.rst:101
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "百分比佔位符號"
+msgstr "停用佔位字元"
 
 #: snippets/file-format-parameters.rst:101
 msgid ""
@@ -53579,10 +53515,8 @@ msgid ""
 msgstr ""
 
 #: snippets/file-format-parameters.rst:134
-#, fuzzy
-#| msgid ":ref:`project-set_language_team`"
 msgid "po_set_language_team"
-msgstr ":ref:`project-set_language_team`"
+msgstr "po_set_language_team"
 
 #: snippets/file-format-parameters.rst:134
 #, fuzzy
@@ -59985,7 +59919,7 @@ msgid ""
 "integration on."
 msgstr ""
 "Weblate 在背景為您建立 Git 儲存庫並追蹤所有變更。如果您之後決定使用版本控制系"
-"統儲存翻譯，Weblate 內建儲存庫可作為整合基礎。"
+"統儲存翻譯，其內建儲存庫可作為整合基礎。"
 
 #: wlc.rst:8
 msgid "Weblate Client"
