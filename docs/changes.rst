@@ -12,6 +12,8 @@ Weblate 2026.6
 
 .. rubric:: Bug fixes
 
+* Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading

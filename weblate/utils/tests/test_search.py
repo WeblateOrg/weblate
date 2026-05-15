@@ -411,11 +411,33 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("is:fuzzy", Q(state__in=FUZZY_STATES))
 
     def test_changed_by(self) -> None:
+        action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
+
         self.assert_query(
             "changed_by:nijel",
-            Q(change__author__username__iexact="nijel")
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            Q(change__author__username__iexact="nijel") & action_change,
         )
+        self.assert_query(
+            "changed_by:none",
+            Q(change__author__username__iexact="none") & action_change,
+        )
+
+        def get_query_parts(query: str):
+            filters, annotations = parse_query(query)
+            self.assertEqual(annotations, {})
+            return Unit.objects.filter(filters).query.sql_with_params()
+
+        sql, _params = get_query_parts('changed_by:""')
+        self.assertEqual(sql.count("EXISTS"), 1)
+        self.assertIn('"action" IN', sql)
+        self.assertIn('"author_id" IS NULL', sql)
+        self.assertNotIn('"weblate_auth_user"', sql)
+
+        sql, _params = get_query_parts('NOT changed_by:""')
+        self.assertEqual(sql.count("EXISTS"), 1)
+        self.assertIn("NOT (EXISTS", sql)
+        self.assertIn('"action" IN', sql)
+        self.assertIn('"author_id" IS NULL', sql)
 
     def test_explanation(self) -> None:
         self.assert_query(
