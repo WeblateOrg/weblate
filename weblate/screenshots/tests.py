@@ -193,6 +193,56 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
 
+    def test_private_screenshot_actions_hidden(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get()
+        source = self.component.source_translation.unit_set.all()[0]
+
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.user.groups.remove(Group.objects.get(name="Managers"))
+        self.project.remove_user(self.user)
+
+        response = self.client.get(screenshot.get_absolute_url())
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.get(screenshot.get_view_url())
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("screenshot-delete", kwargs={"pk": screenshot.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("screenshot-js-search", kwargs={"pk": screenshot.pk}),
+            {"q": "hello"},
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+            {"source": source.pk},
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.get(
+            reverse("screenshot-js-get", kwargs={"pk": screenshot.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("screenshot-remove-source", kwargs={"pk": screenshot.pk}),
+            {"source": source.pk},
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
     def test_delete(self) -> None:
         self.make_manager()
         self.do_upload()

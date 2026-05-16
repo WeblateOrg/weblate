@@ -12,6 +12,7 @@ Weblate 2026.6
 
 .. rubric:: Bug fixes
 
+* Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
 
 .. rubric:: Compatibility
