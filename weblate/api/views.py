@@ -169,7 +169,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import GlobalStats, prefetch_stats
+from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
@@ -1296,6 +1296,9 @@ class AnnouncementsMixin:
         language = None
         if isinstance(obj, Project):
             project = obj
+        if isinstance(obj, ProjectLanguage):
+            project = obj.project
+            language = obj.language
         if isinstance(obj, Category):
             category = obj
         if isinstance(obj, Component):
@@ -1332,13 +1335,16 @@ class AnnouncementsMixin:
     @extend_schema(
         description="Create an announcement.",
         methods=["post"],
+        responses={HTTP_201_CREATED: AnnouncementSerializer},
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=AnnouncementSerializer
     )
     def announcements(self, request: Request, **kwargs):
         obj = self.get_object()
+        return self._announcements(obj, request, **kwargs)
 
+    def _announcements(self, obj, request: Request, **kwargs):
         if request.method == "POST":
             project, category, component, language = self.get_context(obj)
             if not request.user.has_perm("announcement.add", obj):
@@ -1386,7 +1392,9 @@ class AnnouncementsMixin:
     )
     def delete_announcement(self, request: Request, announcement_id, **kwargs):
         obj = self.get_object()
+        return self._delete_announcement(obj, request, announcement_id, **kwargs)
 
+    def _delete_announcement(self, obj, request: Request, announcement_id, **kwargs):
         try:
             announcement = self.get_announcements(obj).get(id=announcement_id)
         except Announcement.DoesNotExist as error:
@@ -1910,6 +1918,71 @@ class ProjectViewSet(
             obj.do_lock(request.user, serializer.validated_data["lock"])
 
         return Response(data=ProjectLockSerializer(obj).data)
+
+    @extend_schema(
+        description="Return project language announcements.",
+        methods=["get"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
+        responses=AnnouncementSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a project language announcement.",
+        methods=["post"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
+        responses={HTTP_201_CREATED: AnnouncementSerializer},
+    )
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        serializer_class=AnnouncementSerializer,
+        url_path="languages/(?P<language_code>[^/.]+)/announcements",
+    )
+    def language_announcements(self, request: Request, language_code, **kwargs):
+        obj = self.get_object()
+
+        try:
+            language = Language.objects.get(code=language_code)
+        except Language.DoesNotExist as error:
+            msg = "language_code"
+            raise not_found_validation_error(msg, "Language") from error
+
+        if not obj.has_language(language):
+            msg = f"Project language with code {language_code}"
+            raise not_found_http404(msg)
+
+        return super()._announcements(ProjectLanguage(obj, language), request, **kwargs)
+
+    @extend_schema(
+        description="Delete a project language announcement.",
+        methods=["delete"],
+        parameters=[
+            OpenApiParameter("language_code", str, OpenApiParameter.PATH),
+            OpenApiParameter("announcement_id", int, OpenApiParameter.PATH),
+        ],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="languages/(?P<language_code>[^/.]+)/announcements/(?P<announcement_id>[0-9]+)",
+    )
+    def language_delete_announcement(
+        self, request: Request, language_code, announcement_id, **kwargs
+    ):
+        obj = self.get_object()
+
+        try:
+            language = Language.objects.get(code=language_code)
+        except Language.DoesNotExist as error:
+            msg = "language_code"
+            raise not_found_validation_error(msg, "Language") from error
+
+        if not obj.has_language(language):
+            msg = f"Project language with code {language_code}"
+            raise not_found_http404(msg)
+
+        return super()._delete_announcement(
+            ProjectLanguage(obj, language), request, announcement_id, **kwargs
+        )
 
 
 @extend_schema_view(
