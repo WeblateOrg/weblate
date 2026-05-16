@@ -76,6 +76,32 @@ if TYPE_CHECKING:
 
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
+LOCKED_COMPONENT_ORDER_FIELD = "translation__component__locked"
+COMPONENT_ORDER_FIELDS = [
+    # Order by priority for custom ordering
+    "translation__component__priority",
+    # Show glossaries at the end
+    "translation__component__is_glossary",
+    "translation__component__name",
+]
+
+
+def orders_units_by_component(obj: object) -> bool:
+    """Return whether the object scope spans component-ordered units."""
+    if isinstance(obj, (Project, Category)):
+        return True
+
+    from weblate.utils.stats import CategoryLanguage, ProjectLanguage  # noqa: PLC0415
+
+    return isinstance(obj, (ProjectLanguage, CategoryLanguage))
+
+
+def get_component_order_fields(sign: str = "") -> list[str]:
+    return [
+        # Show locked components at the end, regardless of sort direction
+        LOCKED_COMPONENT_ORDER_FIELD,
+        *(f"{sign}{field}" for field in COMPONENT_ORDER_FIELDS),
+    ]
 
 
 def fill_in_source_translation(units: Iterable[Unit]) -> None:
@@ -254,6 +280,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             },
         }
         sort_list = []
+        component_sort = False
         for choice in sort_list_request:
             unsigned_choice = choice.replace("-", "")
             if unsigned_choice in countable_sort_choices:
@@ -266,33 +293,25 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 )
             if unsigned_choice in available_sort_choices:
                 if unsigned_choice == "component":
+                    component_sort = True
                     sign = "-" if choice[0] == "-" else ""
-                    sort_list.extend(
-                        [
-                            f"{sign}translation__component__priority",
-                            f"{sign}translation__component__is_glossary",
-                            f"{sign}translation__component__name",
-                        ]
-                    )
+                    sort_list.extend(get_component_order_fields(sign))
                     continue
 
                 if unsigned_choice == "labels":
                     choice = choice.replace("labels", "max_labels_name")
                 sort_list.append(choice)
+        if (
+            component_sort
+            and orders_units_by_component(obj)
+            and "position" not in sort_list
+        ):
+            sort_list.append("position")
         if not sort_list:
             if hasattr(obj, "component") and obj.component.is_glossary:
                 sort_list = ["source"]
-            elif isinstance(obj, (Project, Category)):
-                sort_list = [
-                    # Show locked components at the end
-                    "translation__component__locked",
-                    # Order by priority for custom ordering
-                    "translation__component__priority",
-                    # Show glossaries at the end
-                    "translation__component__is_glossary",
-                    "translation__component__name",
-                    "-priority",
-                ]
+            elif orders_units_by_component(obj):
+                sort_list = [*get_component_order_fields(), "-priority", "position"]
             else:
                 sort_list = ["-priority", "position"]
         if "max_labels_name" in sort_list or "-max_labels_name" in sort_list:
