@@ -27,6 +27,7 @@ from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
+    Category,
     Change,
     Comment,
     Component,
@@ -57,7 +58,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import CategoryLanguage, GlobalStats, ProjectLanguage
 from weblate.utils.version import GIT_VERSION
 
 
@@ -1064,6 +1065,57 @@ class UnitTest(ModelTestCase):
             translation__language_code="cs"
         ).order_by_request({"sort_by": "position,timestamp"}, None)
         self.assertEqual(multiple_ordered_unit.count(), 4)
+
+    def test_order_by_request_language_scope_orders_by_component(self) -> None:
+        category = Category.objects.create(
+            name="Docs", slug="docs", project=self.component.project
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            category=category, priority=120
+        )
+        high_component = self.create_po(
+            category=category,
+            name="High",
+            locked=True,
+            priority=80,
+            project=self.component.project,
+        )
+        language = Language.objects.get(code="cs")
+        high_translation = high_component.translation_set.get(language=language)
+        high_units = list(high_translation.unit_set.order_by("position"))
+        low_units = list(
+            self.component.translation_set.get(language=language).unit_set.order_by(
+                "position"
+            )
+        )
+        high_priority_unit = high_units[-1]
+        Unit.objects.filter(pk=high_priority_unit.pk).update(priority=200)
+
+        expected_ids = [
+            *(unit.pk for unit in low_units),
+            high_priority_unit.pk,
+            *(unit.pk for unit in high_units if unit.pk != high_priority_unit.pk),
+        ]
+
+        scopes = [
+            ProjectLanguage(self.component.project, language),
+            CategoryLanguage(category, language),
+        ]
+        for scope in scopes:
+            for form_data in (
+                {},
+                {"sort_by": "component,-priority"},
+                {"sort_by": "-component,-priority"},
+            ):
+                ordered_ids = list(
+                    Unit.objects.filter(
+                        translation__component__in=(self.component, high_component),
+                        translation__language=language,
+                    )
+                    .order_by_request(form_data, scope)
+                    .values_list("pk", flat=True)
+                )
+                self.assertEqual(ordered_ids, expected_ids)
 
     def test_get_max_length_no_pk(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs")[0]

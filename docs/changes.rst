@@ -14,6 +14,7 @@ Weblate 2026.6
 
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
+* Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
 
 .. rubric:: Compatibility
 

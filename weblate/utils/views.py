@@ -239,7 +239,7 @@ SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items(
 
 def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
     """Get sort name."""
-    if isinstance(obj, (Project, Category)):
+    if isinstance(obj, (Project, Category, ProjectLanguage, CategoryLanguage)):
         default = "component,-priority"
     elif hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
