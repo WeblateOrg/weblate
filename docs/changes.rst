@@ -5,6 +5,8 @@ Weblate 2026.6
 
 .. rubric:: New features
 
+* :doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages.
+
 .. rubric:: Improvements
 
 * Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
