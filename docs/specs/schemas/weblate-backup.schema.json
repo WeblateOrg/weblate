@@ -407,13 +407,47 @@
             "title": "Members",
             "type": "array",
             "items": {
-              "title": "Username",
-              "type": "string"
+              "oneOf": [
+                {
+                  "title": "Username",
+                  "type": "string"
+                },
+                {
+                  "title": "Team member",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "username",
+                    "limit_languages"
+                  ],
+                  "properties": {
+                    "username": {
+                      "title": "Username",
+                      "type": "string"
+                    },
+                    "limit_languages": {
+                      "title": "Limited languages",
+                      "type": "array",
+                      "items": {
+                        "title": "Language code",
+                        "type": "string"
+                      },
+                      "default": []
+                    }
+                  }
+                }
+              ]
             },
             "default": [],
             "examples": [
               [
-                "user-1"
+                "user-1",
+                {
+                  "username": "reviewer-cs",
+                  "limit_languages": [
+                    "cs"
+                  ]
+                }
               ]
             ]
           },
