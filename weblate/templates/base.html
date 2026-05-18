@@ -39,6 +39,8 @@
     {% include "snippets/meta-css.html" %}
 
     <script src="{% url 'js-catalog' %}" defer></script>
+    <meta name="argon2id-worker-url"
+          content="{% static 'js/vendor/argon2id.js' %}{{ cache_param }}" />
     {% compress js %}
       <script defer
               data-cfasync="false"

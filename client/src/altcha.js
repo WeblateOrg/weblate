@@ -4,11 +4,15 @@
 
 import * as Altcha from "altcha/i18n";
 
-import argon2idWorkerUrl from "altcha/workers/argon2id?url";
+import "altcha/workers/argon2id?url";
+
+function getArgon2idWorkerUrl() {
+  return document.querySelector('meta[name="argon2id-worker-url"]').content;
+}
 
 globalThis.$altcha.algorithms.set(
   "ARGON2ID",
-  () => new Worker(argon2idWorkerUrl),
+  () => new Worker(getArgon2idWorkerUrl()),
 );
 
 window.Altcha = Altcha;
