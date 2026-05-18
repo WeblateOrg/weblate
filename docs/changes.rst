@@ -9,6 +9,7 @@ Weblate 2026.6
 
 * Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
   Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
+* Improved performance of the :ref:`check-inconsistent` check on large projects.
 
 .. rubric:: Bug fixes
 

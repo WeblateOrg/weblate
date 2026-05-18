@@ -8,7 +8,7 @@ from collections import defaultdict
 from functools import reduce
 from typing import TYPE_CHECKING, ClassVar, Literal
 
-from django.db.models import Count, Prefetch, Q, Value
+from django.db.models import Count, F, Max, Min, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -121,8 +121,8 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
             units.values("id_hash", "translation__plural_id")
-            .annotate(Count("target", distinct=True))
-            .filter(target__count__gt=1)
+            .annotate(min_target=Min("target"), max_target=Max("target"))
+            .filter(min_target__lt=F("max_target"))
             .order_by("id_hash")[:100]
         )
 

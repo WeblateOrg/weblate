@@ -6,7 +6,9 @@
 
 from unittest.mock import patch
 
+from django.db import connection
 from django.test import SimpleTestCase, TestCase
+from django.test.utils import CaptureQueriesContext
 
 from weblate.checks.consistency import (
     ConsistencyCheck,
@@ -262,3 +264,25 @@ class ConsistencyCheckTest(ComponentTestCase):
         self.assertTrue(check.check_target_unit([], [], unit))
 
         self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency_empty_target(self) -> None:
+        check = ConsistencyCheck()
+
+        self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.add_unit(self.translation_2, "one", "One", "", increment=False)
+
+        self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency_query_uses_min_max_targets(self) -> None:
+        check = ConsistencyCheck()
+
+        self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.add_unit(self.translation_2, "one", "One", "Jedna", increment=False)
+
+        with CaptureQueriesContext(connection) as queries:
+            list(check.check_component(self.component))
+
+        sql = "\n".join(query["sql"].upper() for query in queries)
+        self.assertNotIn("COUNT(DISTINCT", sql)
+        self.assertIn("MIN(", sql)
+        self.assertIn("MAX(", sql)
