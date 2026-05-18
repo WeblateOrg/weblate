@@ -14,6 +14,7 @@ Weblate 2026.6
 .. rubric:: Bug fixes
 
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
+* Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
 * Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
 
