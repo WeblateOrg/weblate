@@ -916,6 +916,8 @@ real_patterns = [
         weblate.wladmin.views.performance,
         name="manage-performance",
     ),
+    # VCS
+    path("", include("weblate.vcs.urls")),
     # Accounts
     path("accounts/", include(weblate.accounts.urls)),
     # Auth

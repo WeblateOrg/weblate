@@ -40,6 +40,11 @@
         <a class="nav-link" data-bs-target="#scratch" data-bs-toggle="tab" href="#">{% translate "Start from scratch" %}</a>
       </li>
     {% endif %}
+    {% if github_app_available %}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" data-bs-target="#github" data-bs-toggle="tab" href="#">{% translate "From GitHub" %}</a>
+      </li>
+    {% endif %}
   </ul>
 {% endblock nav_pills %}
 
@@ -175,6 +180,65 @@
                    class="btn btn-primary"
                    id="create-vcs">
           </form>
+        </div>
+      {% endif %}
+
+      {% if github_app_available %}
+        <div class="tab-pane" id="github">
+          <p>
+            {% translate "Pick a repository from a connected GitHub account. The component creation form will be pre-filled with the clone URL, default branch, and GitHub VCS driver." %}
+            {% if github_app_install_url %}
+              <a href="{{ github_app_install_url }}"
+                 class="btn btn-outline-primary btn-sm float-end">{% translate "Add or configure account" %}</a>
+            {% endif %}
+          </p>
+          {% if github_app_repositories %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>{% translate "Repository" %}</th>
+                  <th>{% translate "Account" %}</th>
+                  <th>{% translate "Branch" %}</th>
+                  <th>{% translate "Visibility" %}</th>
+                  <th>{% translate "Actions" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for repo in github_app_repositories %}
+                  <tr>
+                    <td>
+                      <strong>{{ repo.full_name }}</strong>
+                      {% if repo.description %}
+                        <br>
+                        <small class="text-body-secondary">{{ repo.description }}</small>
+                      {% endif %}
+                    </td>
+                    <td>{{ repo.account_name }}</td>
+                    <td>{{ repo.default_branch }}</td>
+                    <td>
+                      {% if repo.private %}
+                        <span class="badge text-bg-warning">{% translate "Private" %}</span>
+                      {% else %}
+                        <span class="badge text-bg-success">{% translate "Public" %}</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github"
+                         class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="text-body-secondary">
+              {% if github_app_install_url %}
+                {% translate "No repositories available yet. Install the Weblate GitHub app on a GitHub organization or user account to make repositories available here." %}
+              {% else %}
+                {% translate "No repositories available from connected GitHub accounts." %}
+              {% endif %}
+            </p>
+          {% endif %}
         </div>
       {% endif %}
 

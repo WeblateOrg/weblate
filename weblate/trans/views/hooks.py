@@ -13,9 +13,11 @@ from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import parsers, serializers
 from rest_framework.exceptions import (
+    APIException,
     MethodNotAllowed,
     NotFound,
     ParseError,
+    PermissionDenied,
     ValidationError,
 )
 from rest_framework.permissions import AllowAny
@@ -40,6 +42,13 @@ from weblate.trans.hooks.matching import HOOK_MATCH_EXACT, HOOK_MATCH_FALLBACK
 from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
+from weblate.vcs.github import (
+    GitHubInstallation,
+    get_github_app_configurations,
+    get_github_app_settings,
+    normalize_github_app_hostname,
+    verify_webhook_signature,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -413,12 +422,284 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
     }
 
 
+def _match_github_signature_hostname(
+    request: Request | None,
+    body: bytes,
+    configured_hosts: Mapping[str, dict[str, str]],
+) -> str | None:
+    """Return the configured GitHub host whose webhook secret matches."""
+    if request is None:
+        return None
+
+    signature = request.headers.get("x-hub-signature-256", "")
+    if not signature:
+        return None
+
+    matches = [
+        hostname
+        for hostname, config in configured_hosts.items()
+        if config["webhook_secret"]
+        and verify_webhook_signature(body, signature, config["webhook_secret"])
+    ]
+    if len(matches) == 1:
+        return matches[0]
+    return None
+
+
+def _resolve_github_installation_hostname(
+    request: Request | None, data: dict, body: bytes = b""
+) -> str | None:
+    """Resolve the GitHub hostname for a webhook delivery."""
+    installation = data.get("installation") or {}
+    installation_id = str(installation.get("id", ""))
+    configured_hosts = get_github_app_configurations()
+
+    def get_known_hostname(candidate: str | None) -> str | None:
+        if not candidate:
+            return None
+        hostname = normalize_github_app_hostname(candidate)
+        if hostname in configured_hosts:
+            return hostname
+        if (
+            installation_id
+            and GitHubInstallation.objects.filter(
+                hostname=hostname,
+                installation_id=installation_id,
+            ).exists()
+        ):
+            return hostname
+        return None
+
+    if request is not None and (
+        hostname := get_known_hostname(request.query_params.get("host", "").strip())
+    ):
+        return hostname
+
+    app_id = str(installation.get("app_id", "")).strip()
+    if app_id:
+        matches = [
+            hostname
+            for hostname, config in configured_hosts.items()
+            if config["app_id"] == app_id
+        ]
+        if len(matches) == 1:
+            return matches[0]
+
+    if installation_id:
+        matches = list(
+            GitHubInstallation.objects.filter(installation_id=installation_id)
+            .values_list("hostname", flat=True)
+            .distinct()
+        )
+        if len(matches) == 1:
+            return matches[0]
+
+    if hostname := _match_github_signature_hostname(request, body, configured_hosts):
+        return hostname
+
+    if len(configured_hosts) == 1:
+        return next(iter(configured_hosts))
+
+    return None
+
+
+def _lookup_github_installation(data: dict, hostname: str | None = None):
+    """Return the GitHubInstallation referenced by the webhook payload, if any."""
+    installation_id = (data.get("installation") or {}).get("id")
+    if not installation_id:
+        return None
+
+    if hostname is not None:
+        return GitHubInstallation.objects.get_for_installation(
+            hostname, installation_id
+        )
+
+    matches = list(
+        GitHubInstallation.objects.filter(installation_id=str(installation_id))[:2]
+    )
+    if len(matches) == 1:
+        return matches[0]
+    return None
+
+
+def _authenticate_github_app_webhook(request: Request, data: dict):
+    """
+    Resolve and authenticate a Weblate GitHub app webhook delivery.
+
+    The webhook secret is read from ``settings.GITHUB_APP_CREDENTIALS`` for the
+    delivery's host. App-scoped events (those carrying an ``installation`` in
+    the payload) are rejected when the host has no configured App, since
+    nothing can authenticate them. Plain push deliveries from non-App webhooks
+    fall through with no installation context.
+    """
+    body = request.body
+    hostname = _resolve_github_installation_hostname(request, data, body)
+    installation = _lookup_github_installation(data, hostname)
+    if hostname is None and installation is not None:
+        hostname = installation.hostname
+    config = get_github_app_settings(hostname) if hostname is not None else None
+
+    payload = data.get("installation") or {}
+    is_app_event = bool(payload.get("id"))
+    if is_app_event and config is None:
+        LOGGER.warning(
+            "Rejected Weblate GitHub app webhook for unconfigured host %s (installation %s)",
+            hostname,
+            payload.get("id"),
+        )
+        msg = "Weblate GitHub app webhook host is not configured"
+        raise PermissionDenied(msg)
+
+    if config is not None and config["webhook_secret"]:
+        signature = request.headers.get("x-hub-signature-256", "")
+        if not verify_webhook_signature(body, signature, config["webhook_secret"]):
+            LOGGER.warning(
+                "Rejected Weblate GitHub app webhook with invalid signature for %s",
+                installation or payload,
+            )
+            msg = "Invalid webhook signature"
+            raise PermissionDenied(msg)
+    return installation, hostname
+
+
+def _handle_github_installation_event(  # noqa: C901
+    data: dict, installation, hostname: str | None
+) -> None:
+    """Handle ``installation`` and ``installation_repositories`` events."""
+    action = data.get("action", "")
+    payload = data.get("installation") or {}
+    installation_id = str(payload.get("id", ""))
+    if not installation_id:
+        return
+
+    config = get_github_app_settings(hostname) if hostname is not None else None
+    hostname = (
+        installation.hostname
+        if installation is not None
+        else config["hostname"]
+        if config is not None
+        else None
+    )
+    if hostname is None:
+        return
+
+    if action in {"deleted", "suspend"}:
+        GitHubInstallation.objects.filter(
+            hostname=hostname, installation_id=installation_id
+        ).update(enabled=False)
+        LOGGER.info(
+            "Connected GitHub account %s/%s %s",
+            hostname,
+            installation_id,
+            action,
+        )
+        return
+
+    if action == "unsuspend":
+        if installation is None:
+            if config is None:
+                return
+            installation = GitHubInstallation.objects.sync_from_api(
+                hostname, installation_id, enabled=True
+            )
+        else:
+            installation.enabled = True
+            installation.save(update_fields=["enabled"])
+        if installation.repositories:
+            try:
+                installation.refresh_repositories()
+            except Exception:
+                report_error("Failed to refresh connected GitHub account repositories")
+        LOGGER.info(
+            "Connected GitHub account %s/%s unsuspended",
+            hostname,
+            installation_id,
+        )
+        return
+
+    if action in {"created", "new_permissions_accepted"}:
+        if installation is None and config is None:
+            return
+        installation = GitHubInstallation.objects.upsert_from_data(
+            hostname,
+            installation_id,
+            payload,
+            enabled=True,
+        )
+        if config is not None:
+            try:
+                installation.refresh_repositories()
+            except Exception:
+                report_error("Failed to refresh connected GitHub account repositories")
+        LOGGER.info(
+            "Connected GitHub account %s/%s synchronized",
+            hostname,
+            installation_id,
+        )
+        return
+
+    if action in {"added", "removed"}:
+        if installation is None:
+            installation = GitHubInstallation.objects.get_for_installation(
+                hostname, installation_id
+            )
+            if installation is None:
+                return
+        repos = list(installation.repositories)
+        existing_names = {r.get("full_name") for r in repos}
+
+        http_host = "github.com" if hostname == "github.com" else hostname
+        for repo in data.get("repositories_added") or []:
+            full_name = repo.get("full_name")
+            if not full_name or full_name in existing_names:
+                continue
+            repos.append(
+                {
+                    "full_name": full_name,
+                    "clone_url": f"https://{http_host}/{full_name}.git",
+                    "ssh_url": f"git@{http_host}:{full_name}.git",
+                    "html_url": f"https://{http_host}/{full_name}",
+                    "default_branch": repo.get("default_branch", "main"),
+                    "private": repo.get("private", False),
+                    "description": repo.get("description", ""),
+                }
+            )
+            existing_names.add(full_name)
+
+        removed_names = {
+            repo["full_name"]
+            for repo in data.get("repositories_removed") or []
+            if "full_name" in repo
+        }
+        if removed_names:
+            repos = [r for r in repos if r.get("full_name") not in removed_names]
+
+        installation.repositories = repos
+        installation.save(update_fields=["repositories"])
+        LOGGER.info(
+            "Connected GitHub account %s/%s repositories updated: +%d -%d",
+            hostname,
+            installation_id,
+            len(data.get("repositories_added") or []),
+            len(data.get("repositories_removed") or []),
+        )
+
+
 @register_hook
 def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
     """Parse hooks from GitHub."""
-    # Ignore non push events
-    if request and request.headers.get("x-github-event") != "push":
-        return None
+    if request:
+        event = request.headers.get("x-github-event", "")
+
+        installation, hostname = _authenticate_github_app_webhook(request, data)
+
+        if event in {"installation", "installation_repositories"}:
+            _handle_github_installation_event(data, installation, hostname)
+            return None
+
+        if event != "push":
+            return None
+
     # Parse owner, branch and repository name
     repository = require_mapping(data.get("repository"), "repository")
     o_data = require_mapping(repository.get("owner"), "repository.owner")
@@ -658,7 +939,7 @@ class ServiceHookView(APIView):
         )
         return Response(serializer.data, status=status)
 
-    def post(self, request: Request, service: str) -> Response:
+    def post(self, request: Request, service: str) -> Response:  # noqa: PLR0914
         """Process incoming webhook from a code hosting site."""
         # We support only post methods
         if not settings.ENABLE_HOOKS:
@@ -671,6 +952,11 @@ class ServiceHookView(APIView):
         except KeyError as exc:
             msg = f"Hook {service} not supported"
             raise NotFound(msg) from exc
+
+        # Cache the raw request body before DRF's parser consumes the input
+        # stream, so webhook signature verification can read the unparsed
+        # bytes later in :func:`_authenticate_github_app_webhook`.
+        _ = request.body
 
         request_data = extract_request_data(request.content_type, request.data)
         request_serializer = HookRequestSerializer(data=request_data)
@@ -688,6 +974,10 @@ class ServiceHookView(APIView):
         except HookPayloadError as exc:
             msg = f"Invalid data in json payload: {exc}"
             raise ValidationError(msg) from exc
+        except APIException:
+            # Auth/permission errors raised by hook handlers (e.g. invalid
+            # webhook signature) must surface as their original status code.
+            raise
         except Exception as exc:
             report_error("Invalid service data")
             msg = "Invalid data in json payload!"

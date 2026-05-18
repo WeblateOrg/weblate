@@ -50,6 +50,7 @@ from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.github import GitHubInstallation, github_app_is_configured
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -649,6 +650,25 @@ class CreateComponentSelection(CreateComponent):
             kwargs["scratch_form"] = kwargs["form"]
         else:
             kwargs["existing_form"] = kwargs["form"]
+        installations = GitHubInstallation.objects.filter(enabled=True).order_by(
+            "target_login", "hostname"
+        )
+        kwargs["github_app_available"] = github_app_is_configured() or (
+            installations.exists()
+        )
+        repositories: list[dict] = []
+        for installation in installations:
+            for repo in installation.repositories:
+                entry = dict(repo)
+                entry["account_name"] = str(installation)
+                repositories.append(entry)
+        kwargs["github_app_repositories"] = repositories
+        if github_app_is_configured():
+            kwargs["github_app_install_url"] = (
+                reverse("github-app-install")
+                + "?"
+                + urlencode({"next": self.request.get_full_path()})
+            )
         return kwargs
 
     def get_form(self, form_class=None, empty=False):

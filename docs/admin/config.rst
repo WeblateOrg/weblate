@@ -1071,6 +1071,50 @@ List for credentials for GitHub servers.
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
+.. setting:: GITHUB_APP_CREDENTIALS
+
+GITHUB_APP_CREDENTIALS
+----------------------
+
+List of Weblate GitHub App credentials for GitHub.com and GitHub Enterprise
+Server hosts.
+
+.. code-block:: python
+
+    GITHUB_APP_CREDENTIALS = {
+        "github.com": {
+            "app_id": "12345",
+            "app_slug": "weblate-app",
+            "private_key": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----",
+            "webhook_secret": "your-webhook-secret",
+        },
+        "github.example.com": {
+            "app_id": "67890",
+            "app_slug": "weblate-enterprise-app",
+            "private_key": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----",
+            "webhook_secret": "your-enterprise-webhook-secret",
+        },
+    }
+
+The dictionary keys are GitHub web hostnames. Use ``github.com`` for
+GitHub.com and the web hostname, not the API URL, for GitHub Enterprise
+Server.
+
+Use the :guilabel:`App ID` from the GitHub App settings as ``app_id``, the
+slug from the app URL as ``app_slug``, a generated private key PEM as
+``private_key``, and the configured app webhook secret as ``webhook_secret``.
+
+The :guilabel:`Webhook URL` configured in the GitHub App should include the
+matching host when Weblate is configured with multiple GitHub hosts:
+
+.. code-block:: text
+
+    https://weblate.example.com/hooks/github/?host=github.example.com
+
+.. seealso::
+
+   * :ref:`code-hosting-github-notifications`
+
 .. setting:: BITBUCKETSERVER_CREDENTIALS
 
 BITBUCKETSERVER_CREDENTIALS

@@ -237,7 +237,38 @@ access to the repository. To push changes back, you still need to add
 the Hosted Weblate :guilabel:`weblate` GitHub user as a collaborator with write
 access, see :ref:`hosted-push`.
 
-If you are not using the app, add the Weblate webhook in the repository
+For self-hosted Weblate, create a GitHub App on each GitHub host you want
+Weblate to connect to and configure :setting:`GITHUB_APP_CREDENTIALS` with the
+app ID, app slug, private key, and webhook secret from that app.
+
+When creating the GitHub App, copy :guilabel:`App ID` from the app settings,
+use the slug from the app URL as ``app_slug``, generate a private key and use
+its PEM contents as ``private_key``, and choose a webhook secret to store as
+``webhook_secret``.
+
+In the GitHub App webhook settings, enable webhooks and use the Weblate
+GitHub hook URL as the :guilabel:`Webhook URL`. When Weblate is configured for
+multiple GitHub hosts, include the GitHub host in the URL query string:
+
+.. code-block:: text
+
+   https://weblate.example.com/hooks/github/?host=github.example.com
+
+The ``host`` value has to match the host key in :setting:`GITHUB_APP_CREDENTIALS`.
+Use ``github.com`` for GitHub.com and the web hostname for GitHub Enterprise
+Server. The query parameter is not added by GitHub; it is part of the webhook
+URL you configure in the GitHub App.
+
+The host is needed because GitHub App IDs and installation IDs are scoped to a
+single GitHub host. If the same Weblate instance handles GitHub.com and one or
+more GitHub Enterprise Server instances, the same numeric ID can exist on more
+than one host. The host value lets Weblate choose the correct app credentials
+before validating the webhook signature and before creating or updating the
+stored installation. If the parameter is omitted, Weblate tries to infer the
+host from a unique app ID, an existing installation, or a matching webhook
+secret, but an explicit host keeps the first delivery unambiguous.
+
+If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
 GitHub repository, as shown on the image below:
 
@@ -253,6 +284,7 @@ types and consumes just the :guilabel:`push` event.
 .. seealso::
 
    * :http:post:`/hooks/github/`
+   * :setting:`GITHUB_APP_CREDENTIALS`
    * :ref:`hosted-push`
 
 .. _code-hosting-github-pull-requests:

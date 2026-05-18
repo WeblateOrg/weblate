@@ -30,6 +30,11 @@ from .defaults import (
     DEFAULT_VCS_RESTRICT_PRIVATE,
 )
 
+# Import GitHub models so Django registers them with the VCS app.
+from .github import (
+    GitHubInstallation as GitHubInstallation,  # noqa: PLC0414
+)
+
 
 class VCSConf(AppConf):
     VCS_BACKENDS = DEFAULT_VCS_BACKENDS

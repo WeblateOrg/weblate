@@ -201,6 +201,17 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = {}
 
+# Weblate GitHub app configuration for one-click installation flow.
+# Please see the documentation for more details.
+GITHUB_APP_CREDENTIALS = {
+    # "github.com": {
+    #     "app_id": "12345",
+    #     "app_slug": "weblate-app",
+    #     "private_key": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----",
+    #     "webhook_secret": "secret",
+    # },
+}
+
 # Azure DevOps username and token for sending pull requests.
 # Please see the documentation for more details.
 AZURE_DEVOPS_CREDENTIALS = {}

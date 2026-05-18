@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-github-accounts' %}">{% translate "Connected GitHub accounts" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% translate "Connected GitHub accounts" %}
+        {% if github_app_install_url %}
+          <a href="{{ github_app_install_url }}" class="btn btn-primary btn-sm float-end">{% translate "Connect GitHub account" %}</a>
+        {% endif %}
+      </h4>
+    </div>
+    <div class="card-body">
+      {% if installations %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{% translate "Account" %}</th>
+              <th>{% translate "GitHub installation ID" %}</th>
+              <th>{% translate "Hostname" %}</th>
+              <th>{% translate "Repositories" %}</th>
+              <th>{% translate "Status" %}</th>
+              <th>{% translate "Actions" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for installation in installations %}
+              <tr>
+                <td>
+                  <strong>{{ installation.target_login }}</strong>
+                  <small class="text-body-secondary">({{ installation.target_type }})</small>
+                </td>
+                <td>{{ installation.installation_id }}</td>
+                <td>{{ installation.hostname }}</td>
+                <td>{{ installation.repositories|length }}</td>
+                <td>
+                  {% if installation.enabled %}
+                    <span class="badge text-bg-success">{% translate "Active" %}</span>
+                  {% else %}
+                    <span class="badge text-bg-warning">{% translate "Disabled" %}</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{% url 'manage-github-account-detail' installation.pk %}"
+                     class="btn btn-outline-primary btn-sm">{% translate "Details" %}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-body-secondary">
+          {% if github_app_configured %}
+            {% translate "No connected GitHub accounts yet. Use the connect button to connect a GitHub organization or user account." %}
+          {% else %}
+            {% translate "Weblate GitHub app credentials are not configured on this Weblate instance. Configure GITHUB_APP_CREDENTIALS in settings to enable the install flow." %}
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock content %}

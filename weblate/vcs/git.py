@@ -104,6 +104,10 @@ class GitCredentials(TypedDict):
     workspace: NotRequired[str]
     organization: NotRequired[str]
     workItemIds: NotRequired[list[str]]
+    # Set on GitHub-App-resolved credentials. Signals that the token has
+    # write access to the source repo directly, so the fork workflow should
+    # be skipped (Apps can't fork anyway).
+    github_app: NotRequired[bool]
 
 
 class GitAPIRequestError(RepositoryError):
@@ -988,7 +992,10 @@ class GitRepository(Repository):
             if branch
             else current_branch
         )
-        self.execute([*self._cmd_push, "origin", refspec], remote_op="push")
+        self.execute(
+            [*self.get_auth_args(), *self._cmd_push, "origin", refspec],
+            remote_op="push",
+        )
 
     def unshallow(self) -> None:
         self.execute([*self.get_auth_args(), "fetch", "--unshallow"], remote_op="pull")
@@ -1509,12 +1516,13 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         # Credentials from URL
         push_scheme = scheme
-        if not username or not password:
+        using_configured_credentials = not username or not password
+        if using_configured_credentials:
             push_scheme = "ssh"
             username = credentials["username"]
             password = credentials["token"]
 
-        return {
+        result: GitCredentials = {
             "url": self.format_url(scheme, hostname, owner, slug),
             "owner": owner,
             "slug": slug,
@@ -1524,6 +1532,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             "scheme": scheme,
             "push_scheme": push_scheme,
         }
+        if using_configured_credentials and credentials.get("github_app"):
+            result["github_app"] = True
+        return result
 
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         configuration = self.get_credentials_configuration()
@@ -2279,6 +2290,163 @@ class GithubRepository(GitMergeRequestBase):
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes and create a GitHub pull request."
     )
+
+    @classmethod
+    def is_configured(cls) -> bool:
+        # A configured Weblate GitHub app provides installation tokens that replace
+        # GITHUB_CREDENTIALS for cloning, pushing, and PR creation.
+        from weblate.vcs.github import github_app_is_configured  # noqa: PLC0415
+
+        if github_app_is_configured():
+            return True
+        return super().is_configured()
+
+    @cached_property
+    def _is_github_app_backed(self) -> bool:
+        """
+        Whether the repository URL belongs to a connected GitHub account.
+
+        Used to short-circuit the fork-and-PR workflow: when the app is
+        connected to the source repo it already has push access, so we
+        commit to a branch on the source and open a same-repo PR instead
+        of forking (which requires an explicit organization target for apps).
+        """
+        try:
+            _, username, password, host, owner, slug = self.parse_repo_url()
+        except RepositoryError:
+            return False
+        if username or password:
+            return False
+        if not host or not owner or not slug:
+            return False
+        hostname = self.format_api_host(host).lower()
+        raw_hostname = "github.com" if hostname == "api.github.com" else hostname
+        from weblate.vcs.github import GitHubInstallation  # noqa: PLC0415
+
+        return (
+            GitHubInstallation.objects.get_for_repo(raw_hostname, f"{owner}/{slug}")
+            is not None
+        )
+
+    def should_use_fork(self, branch: str | None = None) -> bool:
+        # App-backed components push branches directly to the source repo;
+        # forking is both unnecessary (App already has write access) and
+        # unsupported (Apps cannot fork without an explicit organization).
+        if self._is_github_app_backed:
+            return False
+        return super().should_use_fork(branch)
+
+    def push(self, branch: str) -> None:
+        # App-backed components must not push translations onto the pull
+        # branch — there's no fork to absorb them. Substitute a dedicated
+        # weblate-* branch on the source repo when no explicit push branch
+        # is configured (or when it equals the pull branch).
+        if self._is_github_app_backed and (not branch or branch == self.branch):
+            branch = self.get_fork_branch_name()
+        return super().push(branch)
+
+    @classmethod
+    def _resolve_github_app_credentials_for_repo(
+        cls, repo: str
+    ) -> dict[str, str] | None:
+        """Resolve an installation access token for a GitHub HTTPS repo URL."""
+        parsed = urlparse(repo)
+        if parsed.scheme != "https" or not parsed.hostname:
+            return None
+        if parsed.username or parsed.password:
+            return None
+
+        path = parsed.path.strip("/").removesuffix(".git")
+        if path.count("/") != 1:
+            return None
+
+        from weblate.vcs.github import (  # noqa: PLC0415
+            GitHubAppNotConfiguredError,
+            GitHubInstallation,
+        )
+
+        installation = GitHubInstallation.objects.get_for_repo(
+            parsed.hostname.lower(), path
+        )
+        if installation is None:
+            return None
+
+        try:
+            token = installation.get_access_token()
+        except GitHubAppNotConfiguredError:
+            return None
+
+        return {
+            "username": "x-access-token",
+            "token": token,
+            "github_app": True,
+        }
+
+    @classmethod
+    def _get_auth_args(cls, repo: str):
+        yield from GitRepository._get_auth_args(repo)  # noqa: SLF001
+
+        app_creds = cls._resolve_github_app_credentials_for_repo(repo)
+        if app_creds is not None:
+            from weblate.vcs.github import get_github_git_auth_args  # noqa: PLC0415
+
+            yield from get_github_git_auth_args(
+                app_creds["username"], app_creds["token"]
+            )
+
+    @classmethod
+    def get_remote_branch(cls, repo: str):
+        if not repo:
+            return super().get_remote_branch(repo)
+
+        try:
+            result = cls._popen(
+                [*cls._get_auth_args(repo), "ls-remote", "--symref", "--", repo, "HEAD"]
+            )
+        except RepositoryError:
+            report_error("Listing remote branch")
+            return super().get_remote_branch(repo)
+
+        for line in result.splitlines():
+            if not line.startswith("ref: "):
+                continue
+            return line.split("\t")[0].split("refs/heads/")[1]
+
+        report_error("Could not figure out remote branch", message=True)
+        raise RepositoryError(0, "Could not figure out remote branch")
+
+    def _resolve_github_app_token(self, hostname: str) -> dict[str, str] | None:
+        """Resolve an installation access token for the parsed repository."""
+        from weblate.vcs.github import (  # noqa: PLC0415
+            GitHubAppNotConfiguredError,
+            GitHubInstallation,
+        )
+
+        # ``hostname`` arrives as the API host (``api.github.com`` for
+        # github.com). Map it back to the user-facing hostname used by
+        # installations.
+        raw_hostname = "github.com" if hostname == "api.github.com" else hostname
+
+        _, _, _, _, owner, slug = self.parse_repo_url()
+        full_name = f"{owner}/{slug}"
+        installation = GitHubInstallation.objects.get_for_repo(raw_hostname, full_name)
+        if installation is None:
+            return None
+        try:
+            token = installation.get_access_token()
+        except GitHubAppNotConfiguredError:
+            return None
+        return {
+            "username": "x-access-token",
+            "token": token,
+            "github_app": True,
+        }
+
+    def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
+        app_creds = self._resolve_github_app_token(hostname)
+        if app_creds is not None:
+            return app_creds
+        return super().get_credentials_by_hostname(hostname)
 
     def format_api_host(self, host):
         if host == "github.com":

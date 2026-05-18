@@ -30,6 +30,7 @@ from weblate.utils.environment import (
     get_env_bool,
     get_env_credentials,
     get_env_float,
+    get_env_github_app_credentials,
     get_env_int,
     get_env_int_or_none,
     get_env_json,
@@ -245,6 +246,9 @@ TEMPLATES = [
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = get_env_credentials("GITHUB")
+
+# Weblate GitHub app configuration for one-click installation flow.
+GITHUB_APP_CREDENTIALS = get_env_github_app_credentials()
 
 # Azure DevOps username, token, and organization for sending pull requests.
 # Please see the documentation for more details.
