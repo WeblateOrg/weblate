@@ -183,7 +183,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        resourceQuery: /url/,
+        resourceQuery: /^\?url$/,
         type: "asset/resource",
         generator: {
           filename: "[name][ext]",

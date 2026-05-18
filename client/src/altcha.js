@@ -7,7 +7,9 @@ import * as Altcha from "altcha/i18n";
 import "altcha/workers/argon2id?url";
 
 function getArgon2idWorkerUrl() {
-  return document.querySelector('meta[name="argon2id-worker-url"]').content;
+  const meta = document.querySelector('meta[name="argon2id-worker-url"]');
+  if (!meta) throw new Error("argon2id-worker-url meta tag missing");
+  return meta.content;
 }
 
 globalThis.$altcha.algorithms.set(
