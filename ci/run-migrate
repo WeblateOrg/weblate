@@ -86,6 +86,14 @@ fi
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-links.py"
 check
 
+# Add user team membership for through-model migration test
+semver_compare "$1" "<" "2026.6"
+team_membership_migrate=$?
+if [ "$team_membership_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-team-membership.py"
+    check
+fi
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
@@ -166,6 +174,12 @@ check
 # Check component links survived through-model migration
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-links.py"
 check
+
+# Check user team memberships survived through-model migration
+if [ "$team_membership_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-team-membership.py"
+    check
+fi
 
 # Check cleanup settings were migrated to site-wide add-ons
 if [ "$cleanup_settings_migrate" -eq 0 ]; then

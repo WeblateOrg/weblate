@@ -511,7 +511,9 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 ).exclude_source()
                 self._task_meta = {"category": obj.pk}
             case ProjectLanguage():
-                self.translations = [t for t in obj.translation_set if not t.is_source]
+                self.translations = list(
+                    obj.action_translation_set.exclude_source().prefetch()
+                )
                 self._task_meta = {
                     "project": obj.project.pk,
                     "language": obj.language.pk,

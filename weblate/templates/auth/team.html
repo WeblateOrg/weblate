@@ -117,6 +117,7 @@
                 <tr>
                   <th>{% translate "Username" %}</th>
                   <th>{% translate "Full name" %}</th>
+                  <th>{% translate "Language limit" %}</th>
                   <th>{% translate "Last sign in" %}</th>
                   <th></th>
                 </tr>
@@ -131,6 +132,15 @@
                       {% endif %}
                     </td>
                     <td>{{ user.full_name }}</td>
+                    <td>
+                      {% with limit_languages=user.team_membership.limit_languages.all %}
+                        {% for language in limit_languages %}
+                          <span class="badge text-bg-secondary">{{ language }}</span>
+                        {% empty %}
+                          <em>{% translate "No additional limit" %}</em>
+                        {% endfor %}
+                      {% endwith %}
+                    </td>
                     <td>
                       {% if user.last_login %}
                         {{ user.last_login|naturaltime }}

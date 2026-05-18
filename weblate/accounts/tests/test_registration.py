@@ -35,9 +35,11 @@ from weblate.auth.models import (
     Invitation,
     InvitationExpiredError,
     InvitationUserMismatchError,
+    TeamMembership,
     User,
 )
 from weblate.auth.views import accept_invitation
+from weblate.lang.models import Language
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -436,6 +438,42 @@ class RegistrationTest(BaseRegistrationTest):
         accept_invitation(None, invitation, invited_user)
 
         self.assertTrue(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_accept_invitation_limit_languages(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        czech = Language.objects.get(code="cs")
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+        invitation.limit_languages.add(czech)
+
+        invitation.accept(None, invited_user)
+
+        membership = TeamMembership.objects.get(user=invited_user, group=invited_group)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)), ["cs"]
+        )
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_accept_invitation_empty_limit_languages_clears_membership(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        czech = Language.objects.get(code="cs")
+        invited_user.groups.add(invited_group)
+        membership = TeamMembership.objects.get(user=invited_user, group=invited_group)
+        membership.limit_languages.add(czech)
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+
+        invitation.accept(None, invited_user)
+
+        membership.refresh_from_db()
+        self.assertFalse(membership.limit_languages.exists())
         self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
 
     def test_invitation_view_accept_handles_expired_race(self) -> None:

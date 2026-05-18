@@ -42,7 +42,7 @@ from weblate.api.serializers import (
 )
 from weblate.api.views import MemoryViewSet
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -512,8 +512,9 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(User.objects.filter(is_active=True).count(), 1)
 
     def test_add_group(self) -> None:
-        group = Group.objects.get(name="Viewers")
+        group = Group.objects.get(name="Managers")
         target = User.objects.create_user("target-add", "target-add@example.org", "x")
+        self.assertFalse(target.groups.filter(pk=group.pk).exists())
         self.do_request(
             "api:user-groups",
             kwargs={"username": target.username},
@@ -533,6 +534,16 @@ class UserAPITest(APIBaseTest):
         self.assertNotContains(
             response, "matching query does not exist", status_code=400
         )
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="post",
+            superuser=True,
+            code=400,
+            request=[],
+            format="json",
+        )
+        self.assertContains(response, "Expected an object.", status_code=400)
         self.do_request(
             "api:user-groups",
             kwargs={"username": target.username},
@@ -549,6 +560,119 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(audit.params["team"], group.name)
         self.assertEqual(audit.params["username"], self.user.username)
+
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="delete",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id},
+        )
+        self.assertFalse(target.groups.filter(pk=group.pk).exists())
+
+    def test_add_group_with_limit_languages(self) -> None:
+        group = Group.objects.get(name="Viewers")
+        target = User.objects.create_user(
+            "target-add-limit", "target-add-limit@example.org", "x"
+        )
+        language = Language.objects.get(code="cs")
+
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id, "limit_language_codes": ["cs", "cs"]},
+            format="json",
+        )
+        self.assertEqual(
+            list(
+                TeamMembership.objects.get(
+                    user=target, group=group
+                ).limit_languages.values_list("pk", flat=True)
+            ),
+            [language.pk],
+        )
+
+        form_target = User.objects.create_user(
+            "target-add-limit-form", "target-add-limit-form@example.org", "x"
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": form_target.username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id, "limit_language_codes": ["cs"]},
+        )
+        self.assertEqual(
+            list(
+                TeamMembership.objects.get(
+                    user=form_target, group=group
+                ).limit_languages.values_list("pk", flat=True)
+            ),
+            [language.pk],
+        )
+
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": form_target.username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id},
+        )
+        self.assertEqual(
+            list(
+                TeamMembership.objects.get(
+                    user=form_target, group=group
+                ).limit_languages.values_list("pk", flat=True)
+            ),
+            [language.pk],
+        )
+
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": form_target.username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_id": group.id, "limit_language_codes": []},
+            format="json",
+        )
+        self.assertEqual(
+            list(
+                TeamMembership.objects.get(
+                    user=form_target, group=group
+                ).limit_languages.values_list("pk", flat=True)
+            ),
+            [],
+        )
+
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": group.id, "limit_language_codes": ["missing"]},
+            format="json",
+        )
+        self.assertContains(response, "Language not found.", status_code=400)
+        self.assertContains(response, "missing", status_code=400)
+
+        response = self.do_request(
+            "api:user-groups",
+            kwargs={"username": target.username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_id": group.id, "limit_language_codes": ["cs\x00"]},
+            format="json",
+        )
+        self.assertContains(response, "Invalid language code.", status_code=400)
 
     def test_add_group_rejects_special_users(self) -> None:
         group = Group.objects.create(name="Special API group")
@@ -11735,6 +11859,37 @@ class OpenAPITest(APIBaseTest):
         schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
         self.assertNotIn("version", required)
+
+    def test_user_groups_schema_includes_language_limits(self) -> None:
+        schema = self.get_schema()
+        operations = schema["paths"]["/api/users/{username}/groups/"]
+        request_schema = operations["post"]["requestBody"]["content"][
+            "application/json"
+        ]["schema"]
+        self.assertEqual(
+            request_schema, {"$ref": "#/components/schemas/UserGroupRequest"}
+        )
+        response_schema = operations["post"]["responses"]["200"]["content"][
+            "application/json"
+        ]["schema"]
+        self.assertEqual(response_schema, {"$ref": "#/components/schemas/FullUser"})
+
+        properties = schema["components"]["schemas"]["UserGroupRequest"]["properties"]
+        self.assertIn("limit_language_codes", properties)
+        limit_schema = properties["limit_language_codes"]
+        self.assertEqual(limit_schema["type"], "array")
+        self.assertEqual(limit_schema["items"], {"type": "string"})
+        self.assertNotIn(
+            "group_id",
+            {parameter["name"] for parameter in operations["delete"]["parameters"]},
+        )
+        delete_request_schema = operations["delete"]["requestBody"]["content"][
+            "application/json"
+        ]["schema"]
+        self.assertEqual(
+            delete_request_schema,
+            {"$ref": "#/components/schemas/UserGroupDeleteRequest"},
+        )
 
     def test_addon_trigger_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()

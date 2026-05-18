@@ -956,14 +956,15 @@ $(function () {
     if (el.tomselect) {
       return;
     }
-    new TomSelect(el, {
+    const options = {
       plugins: ["remove_button", "checkbox_options"],
-      placeholder: gettext("Search…"),
-      hidePlaceholder: false,
+      placeholder: el.dataset.placeholder || gettext("Search…"),
+      hidePlaceholder: el.dataset.hidePlaceholder === "true",
       persist: false,
       create: false,
       allowEmptyOption: true,
-    });
+    };
+    new TomSelect(el, options);
   });
 
   /* Searchable single selects */
@@ -978,6 +979,26 @@ $(function () {
       create: false,
       allowEmptyOption: true,
     });
+  });
+
+  document.querySelectorAll(".project-membership-team-toggle").forEach((el) => {
+    const limitField = document.getElementById(el.dataset.limitTarget);
+    const updateLimitField = () => {
+      if (!limitField) {
+        return;
+      }
+      limitField.disabled = !el.checked;
+      if (!limitField.tomselect) {
+        return;
+      }
+      if (el.checked) {
+        limitField.tomselect.enable();
+      } else {
+        limitField.tomselect.disable();
+      }
+    };
+    el.addEventListener("change", updateLimitField);
+    updateLimitField();
   });
 
   /* Slugify name */

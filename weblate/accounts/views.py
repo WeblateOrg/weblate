@@ -141,7 +141,9 @@ from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_anonymous
 from weblate.auth.utils import (
     format_address,
+    format_membership_limit_language_codes,
     get_auth_keys,
+    prefetch_membership_limit_languages,
     validate_team_assignable_user,
 )
 from weblate.logger import LOGGER
@@ -740,7 +742,15 @@ class UserPage(UpdateView):
             for message in error.messages:
                 messages.error(request, message)
             return HttpResponseRedirect(f"{self.get_success_url()}#groups")
-        user.add_team(request, self.group_form.cleaned_data["add_group"])
+        group = self.group_form.cleaned_data["add_group"]
+        had_membership = user.team_memberships.filter(group=group).exists()
+        user.add_team(request, group)
+        membership = user.team_memberships.get(group=group)
+        membership.set_limit_languages(
+            self.group_form.cleaned_data["limit_languages"],
+            request,
+            audit=had_membership,
+        )
         return HttpResponseRedirect(f"{self.get_success_url()}#groups")
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
@@ -873,11 +883,25 @@ class UserPage(UpdateView):
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
-        context["page_user_groups"] = (
+        memberships = (
+            user.team_memberships.select_related("group", "group__defining_project")
+            .prefetch_related(prefetch_membership_limit_languages())
+            .order_by("group__defining_project__name", "group__name")
+        )
+        memberships_by_group_id = {}
+        for membership in memberships:
+            membership.limit_language_codes = format_membership_limit_language_codes(
+                membership
+            )
+            memberships_by_group_id[membership.group_id] = membership
+        page_user_groups = list(
             user.groups.annotate(Count("user"))
-            .prefetch_related("defining_project")
+            .select_related("defining_project")
             .order()
         )
+        for group in page_user_groups:
+            group.team_membership = memberships_by_group_id.get(group.pk)
+        context["page_user_groups"] = page_user_groups
         return context
 
 

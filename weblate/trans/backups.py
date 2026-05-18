@@ -23,6 +23,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.db import transaction
+from django.db.models import Prefetch
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
@@ -30,7 +31,14 @@ from django.utils.timezone import make_aware
 from django.utils.translation import gettext
 from weblate_schemas import load_schema, validate_schema
 
-from weblate.auth.models import AutoGroup, Group, Role, User, get_anonymous
+from weblate.auth.models import (
+    AutoGroup,
+    Group,
+    Role,
+    TeamMembership,
+    User,
+    get_anonymous,
+)
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory
@@ -200,7 +208,6 @@ class ProjectBackup:
             ("roles", "roles", "name"),
             ("languages", "languages", "code"),
             ("admins", "admins", "username"),
-            ("members", "user_set", "username"),
             ("autogroups", "autogroup_set", "match"),
         ]:
             extras[schema_name] = partial(
@@ -211,6 +218,7 @@ class ProjectBackup:
         extras["components"] = lambda obj: [
             self.full_slug_without_project(c) for c in obj.components.all()
         ]
+        extras["members"] = self.backup_team_members
 
         return [
             self.backup_object(
@@ -220,6 +228,31 @@ class ProjectBackup:
             )
             for group in project.defined_groups.all()
         ]
+
+    @staticmethod
+    def backup_team_members(group: Group) -> list[str | dict[str, Any]]:
+        result: list[str | dict[str, Any]] = []
+        memberships = (
+            group.memberships.select_related("user")
+            .prefetch_related(
+                Prefetch("limit_languages", queryset=Language.objects.only("code"))
+            )
+            .order_by("user__username")
+        )
+        for membership in memberships:
+            limit_languages = sorted(
+                language.code for language in membership.limit_languages.all()
+            )
+            if limit_languages:
+                result.append(
+                    {
+                        "username": membership.user.username,
+                        "limit_languages": limit_languages,
+                    }
+                )
+            else:
+                result.append(membership.user.username)
+        return result
 
     def backup_categories(self, obj: Project | Category) -> list[dict]:
         if isinstance(obj, Project):
@@ -827,6 +860,70 @@ class ProjectBackup:
             users.append(user)
         return users
 
+    def restore_team_members(
+        self, group: Group, members: list[str | dict[str, Any]]
+    ) -> None:
+        users: dict[str, User] = {}
+        limit_languages: dict[str, list[str]] = {}
+        for member in members:
+            if isinstance(member, str):
+                username = member
+                languages = []
+            else:
+                username = member["username"]
+                languages = member.get("limit_languages", [])
+            missing_languages = [
+                language_code
+                for language_code in dict.fromkeys(languages)
+                if language_code not in self.languages_cache
+            ]
+            if missing_languages:
+                msg = (
+                    f"Unknown language codes in limit_languages for {username!r}: "
+                    f"{', '.join(missing_languages)}"
+                )
+                raise ValueError(msg)
+            user = self.restore_user(username)
+            if user.username == settings.ANONYMOUS_USER_NAME:
+                continue
+            if user.username in limit_languages and set(
+                limit_languages[user.username]
+            ) != set(languages):
+                warnings.warn(
+                    f"Conflicting language limits for {user.username!r} in backup.",
+                    stacklevel=2,
+                )
+            users[user.username] = user
+            limit_languages[user.username] = languages
+
+        with transaction.atomic():
+            user_list = list(users.values())
+            group.user_set.set(user_list)
+            memberships = list(
+                TeamMembership.objects.filter(
+                    group=group, user__in=user_list
+                ).select_related("user")
+            )
+            membership_ids = [membership.id for membership in memberships]
+            if not membership_ids:
+                return
+
+            through = TeamMembership.limit_languages.through
+            through.objects.filter(teammembership_id__in=membership_ids).delete()
+            through.objects.bulk_create(
+                through(teammembership_id=membership.id, language_id=language_id)
+                for membership in memberships
+                for language_id in sorted(
+                    {
+                        language.id
+                        for language in self.get_items_from_cache(
+                            self.languages_cache,
+                            limit_languages[membership.user.username],
+                        )
+                    }
+                )
+            )
+
     @staticmethod
     def get_items_from_cache(cache: dict[str, Any], keys: list[str]) -> list:
         return [value for key in keys if (value := cache.get(key))]
@@ -849,7 +946,7 @@ class ProjectBackup:
             self.get_items_from_cache(self.languages_cache, team["languages"])
         )
         group.admins.set(self.restore_users(team["admins"]))
-        group.user_set.set(self.restore_users(team["members"]))
+        self.restore_team_members(group, team["members"])
 
         autogroups = [
             AutoGroup(match=match, group=group) for match in team["autogroups"]

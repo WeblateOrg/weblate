@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -25,6 +26,7 @@ from weblate.auth.models import (
     User,
 )
 from weblate.auth.utils import validate_team_assignable_user
+from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
@@ -167,6 +169,7 @@ def create_invitation(
     username: str = "",
     full_name: str = "",
     is_superuser: bool = False,
+    limit_languages=None,
     success_message: bool = True,
 ) -> Invitation:
     author = request.user
@@ -178,15 +181,18 @@ def create_invitation(
     if resolved_user is not None:
         resolved_email = ""
 
-    invitation = Invitation.objects.create(
-        author=author,
-        user=resolved_user,
-        username=username,
-        full_name=full_name,
-        group=group,
-        email=resolved_email,
-        is_superuser=is_superuser,
-    )
+    with transaction.atomic():
+        invitation = Invitation.objects.create(
+            author=author,
+            user=resolved_user,
+            username=username,
+            full_name=full_name,
+            group=group,
+            email=resolved_email,
+            is_superuser=is_superuser,
+        )
+        if limit_languages is not None:
+            invitation.limit_languages.set(limit_languages)
 
     if invitation.user:
         details = {"username": invitation.user.username}
@@ -219,6 +225,8 @@ def create_invitation(
 
 
 class BaseInviteForm:
+    support_limit_languages = False
+
     def setup_group_field(self, project) -> None:
         self.project = project
         if project:
@@ -227,9 +235,22 @@ class BaseInviteForm:
             self.fields["group"].queryset = Group.objects.filter(
                 defining_project=None
             ).order()
+        if project and self.support_limit_languages:
+            languages = project.languages
+            self.fields["limit_languages"] = LimitLanguagesField(
+                languages,
+                language_choices=get_language_code_choices(languages),
+            )
+
+    def get_limit_languages(self):
+        if "limit_languages" not in self.fields:
+            return None
+        return self.cleaned_data["limit_languages"]
 
 
 class InviteUserForm(BaseInviteForm, forms.ModelForm):
+    support_limit_languages = True
+
     class Meta:
         model = Invitation
         fields = ("user", "group")
@@ -272,6 +293,7 @@ class InviteUserForm(BaseInviteForm, forms.ModelForm):
             username=self.cleaned_data.get("username", ""),
             full_name=self.cleaned_data.get("full_name", ""),
             is_superuser=self.cleaned_data.get("is_superuser", False),
+            limit_languages=self.get_limit_languages(),
         )
         return
 
@@ -289,6 +311,8 @@ class AdminInviteUserForm(InviteUserForm):
 
 
 class BulkInviteForm(BaseInviteForm, forms.Form):
+    support_limit_languages = True
+
     group = forms.ModelChoiceField(
         queryset=Group.objects.none(),
         label=gettext_lazy("Team"),
@@ -324,6 +348,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
     def save(self, request: AuthenticatedHttpRequest) -> BulkInviteResult:
         email_field = EmailField()
         group = self.cleaned_data["group"]
+        limit_languages = self.get_limit_languages()
         seen: set[str] = set()
         created = 0
         skipped: list[str] = []
@@ -379,6 +404,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
                 project=self.project,
                 email=email,
                 user=invited_user,
+                limit_languages=limit_languages,
                 success_message=False,
                 **self.get_invitation_kwargs(),
             )
