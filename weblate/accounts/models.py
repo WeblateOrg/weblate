@@ -406,11 +406,11 @@ EXTRA_MESSAGES = {
     ),
     # Translators: Audit log hint
     "register": gettext_lazy(
-        "If it was you, please use a password reset to regain access to your account."
+        "If it was you, reset your password to regain access to your account."
     ),
     # Translators: Audit log hint
     "connect": gettext_lazy(
-        "If it was you, please use a password reset to regain access to your account."
+        "If it was you, reset your password to regain access to your account."
     ),
 }
 
