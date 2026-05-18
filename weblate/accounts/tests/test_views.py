@@ -36,7 +36,7 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.views import log_handled_auth_failure
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.billing.models import Plan
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
@@ -1130,6 +1130,36 @@ class EditUserTest(FixtureTestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+    def test_add_team_with_language_limit(self) -> None:
+        target = User.objects.create_user(
+            username="team-target", password="testpassword"
+        )
+        group = Group.objects.create(name="Translate", defining_project=self.project)
+        language = Language.objects.get(code="cs")
+
+        response = self.client.post(
+            target.get_absolute_url(),
+            {"add_group": group.pk, "limit_languages": [language.code]},
+        )
+        self.assertRedirects(response, f"{target.get_absolute_url()}#groups")
+
+        membership = target.team_memberships.get(group=group)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)), ["cs"]
+        )
+
+        response = self.client.post(target.get_absolute_url(), {"add_group": group.pk})
+        self.assertRedirects(response, f"{target.get_absolute_url()}#groups")
+        self.assertFalse(membership.limit_languages.exists())
+        audit = target.auditlog_set.get(activity="team-change")
+        self.assertEqual(audit.params["team"], group.name)
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertEqual(audit.params["previous_limit_languages"], ["cs"])
+        self.assertEqual(audit.params["limit_languages"], [])
+
+        response = self.client.get(target.get_absolute_url())
+        self.assertContains(response, "No language limit")
 
 
 class AdminUserRevertTest(FixtureTestCase):

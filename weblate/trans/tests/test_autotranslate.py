@@ -12,6 +12,8 @@ from django.urls import reverse
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.models import AddonActivityLog
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role, TeamMembership
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
@@ -334,6 +336,38 @@ class AutoTranslationTest(ViewTestCase):
             language=Language.objects.get(code="cs"),
         )
         self.make_different("de")
+
+        self.perform_auto(
+            path_params={"path": project_language.get_url_path()},
+            expected_count=1,
+            expected=1,
+        )
+
+    def test_autotranslate_project_language_limited_membership(self) -> None:
+        czech = Language.objects.get(code="cs")
+        project_language = ProjectLanguage(self.component2.project, language=czech)
+        group = Group.objects.create(
+            name="Czech automatic translation",
+            language_selection=SELECTION_ALL,
+        )
+        group.projects.add(self.component2.project)
+        group.roles.add(Role.objects.get(name="Automatic translation"))
+        self.user.groups.add(group)
+        TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
+            czech
+        )
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_cache()
+
+        response = self.client.get(
+            reverse("show", kwargs={"path": project_language.get_url_path()})
+        )
+        self.assertContains(response, "Automatic translation")
+        self.assertFalse(
+            self.user.has_perm("translation.auto", self.component2.project)
+        )
+        self.assertTrue(self.user.has_perm("translation.auto", project_language))
 
         self.perform_auto(
             path_params={"path": project_language.get_url_path()},

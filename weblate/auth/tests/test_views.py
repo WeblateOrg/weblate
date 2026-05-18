@@ -4,7 +4,8 @@
 
 from django.conf import settings
 
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, TeamMembership, User
+from weblate.lang.models import Language
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
@@ -91,6 +92,28 @@ class TeamsTest(FixtureTestCase):
         )
         self.assertEqual(group.user_set.count(), 1)
         self.assertEqual(group.admins.count(), 0)
+        self.assertFalse(
+            TeamMembership.objects.get(
+                user=self.user, group=group
+            ).limit_languages.exists()
+        )
+
+        self.client.post(
+            group.get_absolute_url(),
+            {
+                "add_user": "add",
+                "user": self.user.username,
+                "limit_languages": ["cs"],
+            },
+        )
+        self.assertEqual(
+            list(
+                TeamMembership.objects.get(
+                    user=self.user, group=group
+                ).limit_languages.values_list("code", flat=True)
+            ),
+            ["cs"],
+        )
 
         self.client.post(
             group.get_absolute_url(),
@@ -98,6 +121,28 @@ class TeamsTest(FixtureTestCase):
         )
         self.assertEqual(group.user_set.count(), 1)
         self.assertEqual(group.admins.count(), 1)
+        self.assertEqual(
+            list(
+                TeamMembership.objects.get(
+                    user=self.user, group=group
+                ).limit_languages.values_list("code", flat=True)
+            ),
+            ["cs"],
+        )
+
+        self.client.post(
+            group.get_absolute_url(),
+            {
+                "add_user": "add",
+                "user": self.user.username,
+            },
+        )
+        self.assertFalse(
+            TeamMembership.objects.get(
+                user=self.user, group=group
+            ).limit_languages.exists()
+        )
+        group.admins.add(self.user)
 
         # Team admin
         self.make_superuser(False)
@@ -121,6 +166,23 @@ class TeamsTest(FixtureTestCase):
         )
         self.assertEqual(group.user_set.count(), 2)
         self.assertEqual(group.admins.count(), 1)
+
+    def test_user_list_orders_limit_languages(self) -> None:
+        group = Group.objects.create(name="Test group", defining_project=self.project)
+        membership = TeamMembership.objects.create(user=self.user, group=group)
+        membership.limit_languages.add(Language.objects.get(code="de"))
+        membership.limit_languages.add(Language.objects.get(code="cs"))
+        self.make_superuser()
+
+        response = self.client.get(group.get_absolute_url())
+
+        listed_user = next(iter(response.context["users"]))
+        with self.assertNumQueries(0):
+            limit_languages = list(listed_user.team_membership.limit_languages.all())
+        self.assertEqual(
+            [language.code for language in limit_languages],
+            ["cs", "de"],
+        )
 
     def test_add_special_users_denied(self) -> None:
         group = Group.objects.create(name="Test group", defining_project=self.project)

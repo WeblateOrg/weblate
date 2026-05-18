@@ -429,6 +429,14 @@ the following rules:
   it’s applied only to actions directly related to the translation process itself like
   reviewing, saving translations, adding suggestions, etc.
 
+  Individual team memberships can further limit these permissions to selected
+  languages. Leaving the per-member language limit empty applies no additional
+  limit beyond the team language selection. The same language limit can be set
+  when inviting new users to a project team. When a per-member language limit is
+  set, the membership grants only permissions that can be evaluated for one of
+  those languages. Project-wide, component-wide and global permissions from that
+  team are not granted for that member.
+
 .. hint::
 
    Use :guilabel:`Language selection` or :guilabel:`Project selection`

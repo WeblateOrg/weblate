@@ -2568,6 +2568,7 @@ paths:
             - 94
             - 95
             - 96
+            - 97
         description: |-
           * `0` - Resource updated
           * `1` - Translation completed
@@ -2660,6 +2661,7 @@ paths:
           * `94` - User edit reverted
           * `95` - Project setting changed
           * `96` - Component setting changed
+          * `97` - User access changed
         explode: true
         style: form
       - name: page
@@ -26727,7 +26729,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FullUser'
+              $ref: '#/components/schemas/UserGroupRequest'
         required: true
       security:
       - tokenAuth: []
@@ -26978,6 +26980,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
         '423':
           content:
             application/json:
@@ -27014,6 +27030,12 @@ paths:
           description: ''
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGroupDeleteRequest'
+        required: true
   /api/users/{username}/notifications/:
     get:
       operationId: api_users_notifications_list
@@ -28382,6 +28404,7 @@ components:
       - 94
       - 95
       - 96
+      - 97
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28475,6 +28498,7 @@ components:
         * `94` - User edit reverted
         * `95` - Project setting changed
         * `96` - Component setting changed
+        * `97` - User access changed
     Addon:
       type: object
       properties:
@@ -33350,6 +33374,17 @@ components:
       - result
       - skipped
       - total
+    UserGroupRequest:
+      type: object
+      properties:
+        group_id:
+          type: integer
+        limit_language_codes:
+          type: array
+          items:
+            type: string
+      required:
+      - group_id
     UserStatistics:
       type: object
       properties:
@@ -33385,6 +33420,13 @@ components:
         * `local` - No remote repository
         * `mercurial` - Mercurial
         * `subversion` - Subversion
+    UserGroupDeleteRequest:
+      type: object
+      properties:
+        group_id:
+          type: integer
+      required:
+      - group_id
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -400,6 +400,7 @@ linkcheck_ignore = [
     "https://anubis.techaro.lol/",
     # Seems unstable
     "https://pagure.io/",
+    "https://cgit.git.savannah.gnu.org/cgit/gettext.git/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
     "https://wiki.gnupg.org/",
     "https://www.bis.doc.gov/",
