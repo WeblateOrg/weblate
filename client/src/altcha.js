@@ -4,12 +4,7 @@
 
 import * as Altcha from "altcha/i18n";
 
-// Need to manually import and bundle Altcha Argon2ID worker
-import argon2idWorkerSource from "altcha/workers/argon2id?source";
-
-const argon2idWorkerUrl = URL.createObjectURL(
-  new Blob([argon2idWorkerSource], { type: "text/javascript" }),
-);
+import argon2idWorkerUrl from "altcha/workers/argon2id?url";
 
 globalThis.$altcha.algorithms.set(
   "ARGON2ID",

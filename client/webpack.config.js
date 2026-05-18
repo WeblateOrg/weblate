@@ -166,6 +166,7 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
+        exclude: /argon2id\.js$/,
         extractComments: false,
         terserOptions: {
           format: {
@@ -182,8 +183,11 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
-        resourceQuery: /source/,
-        type: "asset/source",
+        resourceQuery: /url/,
+        type: "asset/resource",
+        generator: {
+          filename: "[name][ext]",
+        },
       },
     ],
   },
