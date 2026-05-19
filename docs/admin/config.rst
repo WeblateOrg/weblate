@@ -174,7 +174,7 @@ the :ref:`addon-weblate.cdn.cdnjs` add-on.
 ALTCHA_COST
 -----------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``.
 
@@ -185,7 +185,7 @@ Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget v2.
 ALTCHA_MEMORY_COST
 ------------------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id memory cost in KiB. Defaults to ``65536``.
 
@@ -194,7 +194,7 @@ Argon2id memory cost in KiB. Defaults to ``65536``.
 ALTCHA_PARALLELISM
 ------------------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id parallelism factor. Defaults to ``1``.
 
