@@ -6136,6 +6136,54 @@ class LanguageAPITest(APIBaseTest):
             },
         )
 
+    def test_create_gettext_variant_code(self) -> None:
+        response = self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "code": "new_lang@variant",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertEqual(response.data["code"], "new_lang@variant")
+        self.do_request(
+            "api:language-detail",
+            kwargs={"code": "new_lang@variant"},
+            superuser=True,
+            method="get",
+            code=200,
+        )
+
+    def test_create_invalid_language_code(self) -> None:
+        for language_code in ("new lang", "new/lang", "@variant", "new@"):
+            with self.subTest(language_code=language_code):
+                response = self.do_request(
+                    "api:language-list",
+                    method="post",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={
+                        "code": language_code,
+                        "name": "New Language",
+                        "direction": "rtl",
+                        "population": 100,
+                        "plural": {"number": 2, "formula": "n != 1"},
+                    },
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "code")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "Enter a valid language code.",
+                )
+                self.assertEqual(Language.objects.count(), len(LANGUAGES))
+
     def test_create_invalid_plural_formula_range(self) -> None:
         self.do_request(
             "api:language-list",
@@ -11415,6 +11463,18 @@ class OpenAPITest(APIBaseTest):
         )
         # Ensure schema includes the language-specific project download parameter
         self.assertIn("language_code", response.content.decode())
+
+    def test_language_code_pattern(self) -> None:
+        schema = self.get_schema()
+        expected_pattern = r"^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*$"
+        for schema_name in ("Language", "PatchedLanguage"):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(
+                    schema["components"]["schemas"][schema_name]["properties"]["code"][
+                        "pattern"
+                    ],
+                    expected_pattern,
+                )
 
     def test_metrics_version_is_optional(self) -> None:
         schema = self.get_schema()

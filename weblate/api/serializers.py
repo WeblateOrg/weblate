@@ -35,7 +35,7 @@ from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.component_copy import get_inherited_component_fields
@@ -263,7 +263,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:language-detail", "lookup_field": "code"},
-            "code": {"validators": []},
+            "code": {"validators": [validate_language_code]},
         }
 
     @property
@@ -274,6 +274,11 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         )
 
     def validate_code(self, value):
+        try:
+            validate_language_code(value)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.messages) from error
+
         check_query = Language.objects.filter(code=value)
         if not check_query.exists() and self.is_source_language:
             msg = "Language with this language code was not found."
