@@ -18,6 +18,7 @@ Weblate 2026.6
 * Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
 * Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository.
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
+* Engage page task links now stay centered and show the target translation language.
 
 .. rubric:: Compatibility
 
