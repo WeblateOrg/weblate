@@ -2113,6 +2113,48 @@ class GiteaRepository(GitMergeRequestBase):
         "This will push changes and create a Gitea pull request."
     )
 
+    @staticmethod
+    def is_matching_repository(repository: dict, owner: str, slug: str) -> bool:
+        expected_full_name = f"{owner}/{slug}".casefold()
+        full_name = repository.get("full_name")
+        if isinstance(full_name, str) and full_name.casefold() == expected_full_name:
+            return True
+        name = repository.get("name")
+        if not isinstance(name, str) or name.casefold() != slug.casefold():
+            return False
+        repo_owner = repository.get("owner")
+        if not isinstance(repo_owner, dict):
+            return False
+        owner_name = owner.casefold()
+        return owner_name in {
+            value.casefold()
+            for value in (
+                repo_owner.get("login"),
+                repo_owner.get("username"),
+                repo_owner.get("name"),
+            )
+            if isinstance(value, str)
+        }
+
+    def validate_existing_fork(
+        self, repository: dict, credentials: GitCredentials
+    ) -> None:
+        parent = repository.get("parent")
+        if (
+            repository.get("fork") is True
+            and isinstance(parent, dict)
+            and self.is_matching_repository(
+                parent, credentials["owner"], credentials["slug"]
+            )
+        ):
+            return
+        raise RepositoryError(
+            0,
+            "Existing repository "
+            f"{credentials['username']}/{credentials['slug']} is not a fork of "
+            f"{credentials['owner']}/{credentials['slug']}.",
+        )
+
     def create_fork(self, credentials: GitCredentials) -> None:
         fork_url = f"{credentials['url']}/forks"
 
@@ -2126,9 +2168,16 @@ class GiteaRepository(GitMergeRequestBase):
             and "repository is already forked by user" in error
         ) or response.status_code == 409:
             # we have to get the repository again if it is already forked
-            response_data, response, error = self.request(
-                "get", credentials, credentials["url"]
+            fork_api_url = self.format_url(
+                credentials["scheme"],
+                credentials["hostname"],
+                credentials["username"],
+                credentials["slug"],
             )
+            response_data, response, error = self.request(
+                "get", credentials, fork_api_url
+            )
+            self.validate_existing_fork(response_data, credentials)
         if "ssh_url" not in response_data:
             report_error("Could not fork repository", message=True)
             raise RepositoryError(
