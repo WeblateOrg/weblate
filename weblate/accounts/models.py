@@ -462,15 +462,15 @@ NOTIFY_ACTIVITY = {
 # Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
 USER_AGENT_DEVICE_TYPES: dict[str, str] = {
     # Translators: User agent device type
-    "PC": pgettext_lazy("PC"),
+    "PC": pgettext_lazy("User agent platform", "PC"),
     # Translators: User agent device type
-    "Other": pgettext_lazy("Other"),
+    "Other": pgettext_lazy("User agent platform", "Other"),
     # Translators: User agent device type
-    "Generic Smartphone": pgettext_lazy("Generic Smartphone"),
+    "Generic Smartphone": pgettext_lazy("User agent platform", "Generic Smartphone"),
     # Translators: User agent device type
-    "Generic Feature Phone": pgettext_lazy("Generic Feature Phone"),
+    "Generic Feature Phone": pgettext_lazy("User agent platform", "Generic Feature Phone"),
     # Translators: User agent device type
-    "iOS-Device": pgettext_lazy("iOS-Device"),
+    "iOS-Device": pgettext_lazy("User agent platform", "iOS-Device"),
 }
 
 
@@ -638,7 +638,7 @@ class AuditLog(models.Model):
         localized = list(parts)
         if localized:
             device_type = localized[0].strip()
-            localized[0] = USER_AGENT_DEVICE_TYPES.get(device_type, device_type)
+            localized[0] = str(USER_AGENT_DEVICE_TYPES.get(device_type, device_type))
 
         return " / ".join(localized)
 
