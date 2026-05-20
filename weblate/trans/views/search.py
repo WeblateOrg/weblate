@@ -183,10 +183,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "page_obj": units,
                 "path_object": obj,
                 "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
-                "query_string": search_form.urlencode(),
-                "search_url": search_form.urlencode(),
                 "search_query": search_form.cleaned_data["q"],
-                "search_items": search_form.items(),
                 "total_strings": total_strings,
                 "total_words": total_words,
             }

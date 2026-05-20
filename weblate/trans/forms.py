@@ -34,7 +34,6 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
-from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import normalize_newlines, slugify
 from django.utils.translation import gettext, gettext_lazy
@@ -900,50 +899,6 @@ class SearchForm(forms.Form):
             self.cleaned_data["offset"] = 1
         return self.cleaned_data["offset"]
 
-    def items(self):
-        items = []
-        # Skip checksum and offset as these change
-        ignored = {"offset", "checksum"}
-        for param in sorted(self.cleaned_data):
-            value = self.cleaned_data[param]
-            # We don't care about empty values or ignored ones
-            if value is None or param in ignored:
-                continue
-            if isinstance(value, bool):
-                # Only store true values
-                if value:
-                    items.append((param, "1"))
-            elif isinstance(value, int):
-                # Avoid storing 0 values
-                if value > 0:
-                    items.append((param, str(value)))
-            elif isinstance(value, datetime):
-                # Convert date to string
-                items.append((param, value.date().isoformat()))
-            elif isinstance(value, list):
-                items.extend((param, val) for val in value)
-            elif isinstance(value, User):
-                items.append((param, value.username))
-            elif value:
-                # It should be a string here
-                items.append((param, value))
-        return items
-
-    def urlencode(self):
-        return urlencode(self.items())
-
-    def reset_offset(self):
-        """
-        Reset form offset.
-
-        This is needed to avoid issues when using the form as the default for
-        any new search.
-        """
-        data = copy.copy(self.data)  # pylint: disable=access-member-before-definition
-        data["offset"] = "1"
-        data["checksum"] = ""
-        self.data = data
-        return self
 
 
 class PositionSearchForm(SearchForm):
@@ -3395,33 +3350,6 @@ class ChangesForm(forms.Form):
         required=False,
     )
 
-    def items(self):
-        items = []
-        for param in sorted(self.cleaned_data):
-            value = self.cleaned_data[param]
-            # We don't care about empty values
-            if not value:
-                continue
-            if (
-                isinstance(value, dict)
-                and "start_date" in value
-                and "end_date" in value
-            ):
-                # Convert date to string
-                start_date = value["start_date"].strftime("%m/%d/%Y")
-                end_date = value["end_date"].strftime("%m/%d/%Y")
-                items.append((param, f"{start_date} - {end_date}"))
-            elif isinstance(value, User):
-                items.append((param, value.username))
-            elif isinstance(value, list):
-                items.extend((param, part) for part in value)
-            else:
-                # It should be a string here
-                items.append((param, value))
-        return items
-
-    def urlencode(self):
-        return urlencode(self.items())
 
 
 class LabelForm(forms.ModelForm):

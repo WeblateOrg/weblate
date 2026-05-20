@@ -55,10 +55,8 @@ class ChangesView(PathViewMixin, ListView):
 
     def get_filtered_changes_url(self) -> str:
         url = self.get_changes_url()
-        if self.changes_form.is_valid() and (
-            query_string := self.changes_form.urlencode()
-        ):
-            return f"{url}?{query_string}"
+        if self.request.GET:
+            return f"{url}?{self.request.GET.urlencode()}"
         return url
 
     def get_title(self):
@@ -101,8 +99,6 @@ class ChangesView(PathViewMixin, ListView):
         context["changes_rss"] = self.get_changes_url("changes-rss")
 
         if self.changes_form.is_valid():
-            context["query_string"] = self.changes_form.urlencode()
-            context["search_items"] = self.changes_form.items()
             if period := self.changes_form.cleaned_data.get("period"):
                 self.changes_form.fields["period"].widget.attrs["data-start-date"] = (
                     period["start_date"].strftime("%m/%d/%Y")

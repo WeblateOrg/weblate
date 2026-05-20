@@ -3,7 +3,7 @@
 {% if page_obj.paginator.num_pages > 1 %}
   <ul class="pagination">
     <li class="page-item{% if page_obj.number == 1 %} disabled{% endif %}">
-      <a href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
+      <a href="?{% querystring page=1 limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
          class="page-link green">
         {% if LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
@@ -17,7 +17,7 @@
         {% if page_obj.has_previous %}
           rel="prev"
           {# djlint:off #}
-          href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
+          href="?{% querystring page=page_obj.previous_page_number limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
           {# djlint:on #}
         {% endif %}
         class="page-link green">
@@ -38,13 +38,6 @@
         {# djlint:off #}
         {% if not paginator_form %}<form method="get"{% if anchor %} action="#{{ anchor }}"{% endif %}>{% endif %}
         {# djlint:on #}
-        {% for key, value in search_items %}
-          <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %}
-                 type="hidden"
-                 name="{{ key }}"
-                 value="{{ value }}"
-                 aria-label="{{ value }}" />
-        {% endfor %}
         <input {% if paginator_form %}form="{{ paginator_form }}"{% endif %}
                type="hidden"
                name="limit"
@@ -75,7 +68,7 @@
         {% if page_obj.has_next %}
           rel="next"
           {# djlint:off #}
-          href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
+          href="?{% querystring page=page_obj.next_page_number limit=page_obj.paginator.per_page %}{% if anchor %}#{{ anchor }}{% endif %}"
           {# djlint:on #}
         {% endif %}
         class="page-link green">
@@ -87,7 +80,7 @@
       </a>
     </li>
     <li class="page-item{% if page_obj.paginator.num_pages == page_obj.number %} disabled{% endif %}">
-      <a href="?page={{ page_obj.paginator.num_pages }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
+      <a href="?{% querystring page=page_obj.paginator.num_pages limit=page_obj.paginator.per_page %}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
          class="page-link green">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
