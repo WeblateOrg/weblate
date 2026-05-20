@@ -14,7 +14,7 @@ from django.utils.http import urlencode
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
-from weblate.checks.flags import Flags
+from weblate.checks.flags import Flags, get_flag_choices
 from weblate.checks.models import Check
 from weblate.trans.models import (
     Change,
@@ -176,3 +176,9 @@ def matomo(request: AuthenticatedHttpRequest):
     return render(
         request, "js/matomo.js", content_type='text/javascript; charset="utf-8"'
     )
+
+
+@cache_control(max_age=3600)
+def flag_choices(request: AuthenticatedHttpRequest):
+    """Return the catalog of known translation flags as JSON."""
+    return JsonResponse({"choices": list(get_flag_choices())})

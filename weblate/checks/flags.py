@@ -452,3 +452,96 @@ class FlagsValidator(Flags):
 
 
 FlagInput = str | etree._Element | Flags | FlagItems | None  # noqa: SLF001
+
+
+# Categorization of flags for the UI flag editor. Keys are flag names that
+# are not derived from a check; values are translatable category labels.
+_FLAG_CATEGORIES: dict[str, StrOrPromise] = {
+    "rst-text": gettext_lazy("Text format"),
+    "md-text": gettext_lazy("Text format"),
+    "xml-text": gettext_lazy("Text format"),
+    "url": gettext_lazy("Text format"),
+    "read-only": gettext_lazy("String behavior"),
+    "forbidden": gettext_lazy("String behavior"),
+    "terminology": gettext_lazy("String behavior"),
+    "case-insensitive": gettext_lazy("String behavior"),
+    "strict-same": gettext_lazy("String behavior"),
+    "strict-format": gettext_lazy("String behavior"),
+    "ignore-all-checks": gettext_lazy("String behavior"),
+    "priority": gettext_lazy("String behavior"),
+    "max-length": gettext_lazy("String behavior"),
+    "replacements": gettext_lazy("String behavior"),
+    "variant": gettext_lazy("String behavior"),
+    "font-family": gettext_lazy("Rendering"),
+    "font-size": gettext_lazy("Rendering"),
+    "font-weight": gettext_lazy("Rendering"),
+    "font-spacing": gettext_lazy("Rendering"),
+    "icu-flags": gettext_lazy("ICU MessageFormat"),
+    "icu-tag-prefix": gettext_lazy("ICU MessageFormat"),
+    "fluent-type": gettext_lazy("Format"),
+    DISCARD_FLAG: gettext_lazy("Other"),
+}
+
+
+def _flag_choice(
+    name: str,
+    label: StrOrPromise,
+    *,
+    category: StrOrPromise,
+    has_value: bool,
+) -> dict[str, str | bool]:
+    return {
+        "name": name,
+        "label": str(label),
+        "category": str(category),
+        "has_value": has_value,
+    }
+
+
+@lru_cache(maxsize=1)
+def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
+    """Return catalog of all known flags for the UI flag editor.
+
+    Each entry contains:
+    - ``name``: the actual flag identifier as used in the flag string
+    - ``label``: human-readable description
+    - ``category``: localized category for grouping in the UI
+    - ``has_value``: ``True`` when the flag requires a colon-separated value
+    """
+    choices: list[dict[str, str | bool]] = []
+    seen: set[str] = set()
+    enable_strings = {check.enable_string for check in CHECKS.values()}
+
+    def add(name: str, label: StrOrPromise, category: StrOrPromise, has_value: bool) -> None:  # noqa: FBT001
+        if name in seen:
+            return
+        seen.add(name)
+        choices.append(
+            _flag_choice(name, label, category=category, has_value=has_value)
+        )
+
+    for name, label in PLAIN_FLAGS.items():
+        category = _FLAG_CATEGORIES.get(
+            name,
+            gettext_lazy("Enabled check")
+            if name in enable_strings
+            else gettext_lazy("Automatic detection"),
+        )
+        add(name, label, category, has_value=False)
+
+    for name, label in TYPED_FLAGS.items():
+        category = _FLAG_CATEGORIES.get(
+            name,
+            gettext_lazy("Parametrized check")
+            if name in enable_strings
+            else gettext_lazy("Other"),
+        )
+        add(name, label, category, has_value=True)
+
+    ignore_category = gettext_lazy("Ignored check")
+    for check in CHECKS.values():
+        add(check.ignore_string, check.name, ignore_category, has_value=False)
+    for ignore_string in AUTOFIXES.get_ignore_strings():
+        add(ignore_string, ignore_string, ignore_category, has_value=False)
+
+    return tuple(choices)

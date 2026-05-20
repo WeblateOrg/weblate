@@ -31,7 +31,7 @@ from django.db.models import Count, Q
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
@@ -225,8 +225,25 @@ class ChecksumField(forms.CharField):
             raise ValidationError(gettext("Invalid checksum specified!")) from error
 
 
+class FlagEditorWidget(forms.TextInput):
+    """Text input wired up to the tom-select-based flag editor in the UI."""
+
+    def __init__(self, attrs=None) -> None:
+        attrs = {**(attrs or {})}
+        existing = attrs.get("class", "").split()
+        if "flag-editor" not in existing:
+            existing.append("flag-editor")
+        attrs["class"] = " ".join(existing)
+        attrs.setdefault("autocomplete", "off")
+        attrs.setdefault("autocapitalize", "off")
+        attrs.setdefault("spellcheck", "false")
+        attrs.setdefault("data-flag-choices-url", reverse_lazy("js-flag-choices"))
+        super().__init__(attrs)
+
+
 class FlagField(forms.CharField):
     default_validators = [validate_check_flags]  # noqa: RUF012
+    widget = FlagEditorWidget
 
 
 class PluralTextarea(forms.Textarea):
@@ -1803,6 +1820,7 @@ class ComponentSettingsForm(
         field_classes = {  # noqa: RUF012
             "enforced_checks": SelectChecksField,
             "file_format_params": FormParamsField,
+            "check_flags": FlagField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -2579,6 +2597,9 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
             "secondary_language": SortedSelect,
+        }
+        field_classes = {  # noqa: RUF012
+            "check_flags": FlagField,
         }
 
     def clean(self) -> None:
