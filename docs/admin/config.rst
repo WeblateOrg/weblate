@@ -174,7 +174,7 @@ the :ref:`addon-weblate.cdn.cdnjs` add-on.
 ALTCHA_COST
 -----------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``.
 
@@ -185,7 +185,7 @@ Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget v2.
 ALTCHA_MEMORY_COST
 ------------------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id memory cost in KiB. Defaults to ``65536``.
 
@@ -194,7 +194,7 @@ Argon2id memory cost in KiB. Defaults to ``65536``.
 ALTCHA_PARALLELISM
 ------------------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id parallelism factor. Defaults to ``1``.
 
@@ -2258,7 +2258,7 @@ Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``
 SENTRY_PROFILES_SAMPLE_RATE
 ---------------------------
 
-Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+Configure sampling rate for performance monitoring. Set to 1 to profile all traced events (the default), 0 disables profiling.
 
 .. seealso::
 

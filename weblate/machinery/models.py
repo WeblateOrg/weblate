@@ -12,6 +12,7 @@ from appconf import AppConf
 from weblate.utils.classloader import ClassLoader
 
 from .base import BatchMachineTranslation
+from .defaults import DEFAULT_WEBLATE_MACHINERY
 
 if TYPE_CHECKING:
     from .types import SettingsDict
@@ -28,35 +29,7 @@ class WeblateConf(AppConf):
     """Machine-translation settings."""
 
     # List of machinery classes
-    WEBLATE_MACHINERY = (
-        "weblate.machinery.apertium.ApertiumAPYTranslation",
-        "weblate.machinery.aws.AWSTranslation",
-        "weblate.machinery.alibaba.AlibabaTranslation",
-        "weblate.machinery.anthropic.AnthropicTranslation",
-        "weblate.machinery.baidu.BaiduTranslation",
-        "weblate.machinery.deepl.DeepLTranslation",
-        "weblate.machinery.glosbe.GlosbeTranslation",
-        "weblate.machinery.google.GoogleTranslation",
-        "weblate.machinery.googlev3.GoogleV3Translation",
-        "weblate.machinery.libretranslate.LTEngineTranslation",
-        "weblate.machinery.libretranslate.LibreTranslateTranslation",
-        "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-        "weblate.machinery.modernmt.ModernMTTranslation",
-        "weblate.machinery.mymemory.MyMemoryTranslation",
-        "weblate.machinery.netease.NeteaseSightTranslation",
-        "weblate.machinery.tmserver.TMServerTranslation",
-        "weblate.machinery.yandex.YandexTranslation",
-        "weblate.machinery.yandexv2.YandexV2Translation",
-        "weblate.machinery.saptranslationhub.SAPTranslationHub",
-        "weblate.machinery.youdao.YoudaoTranslation",
-        "weblate.machinery.systran.SystranTranslation",
-        "weblate.machinery.openai.OpenAITranslation",
-        "weblate.machinery.ollama.OllamaTranslation",
-        "weblate.machinery.openai.AzureOpenAITranslation",
-        "weblate.machinery.weblatetm.WeblateTranslation",
-        "weblate.memory.machine.WeblateMemory",
-        "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
-    )
+    WEBLATE_MACHINERY = DEFAULT_WEBLATE_MACHINERY
 
     class Meta:
         prefix = ""

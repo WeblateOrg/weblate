@@ -565,6 +565,26 @@ class UnitTermExpr(BaseTermExpr):
         "comment_author": "comment__user__username",
     }
 
+    def as_query(self, context: dict) -> Q:
+        if (
+            self.field == "changed_by"
+            and not self.match
+            and self.operator in {":", ":="}
+        ):
+            from weblate.trans.models import Change  # noqa: PLC0415
+
+            return Q(
+                Exists(
+                    Change.objects.filter(
+                        action__in=Change.ACTIONS_CONTENT,
+                        author__isnull=True,
+                        unit_id=OuterRef("pk"),
+                    )
+                )
+            )
+
+        return super().as_query(context)
+
     def is_field(self, text: str, context: dict) -> Q:
         if text in {"read-only", "readonly"}:
             return Q(state=STATE_READONLY)

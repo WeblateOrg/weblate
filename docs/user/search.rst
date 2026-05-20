@@ -81,6 +81,7 @@ Fields
    Path to the object to limit searching inside component, category, project, or translation.
 ``changed_by:TEXT``
    String was changed by author with given username.
+   Use ``changed_by:""`` to search for strings with at least one content change without a recorded author.
 ``changed:DATETIME``
    String content was changed on date, supports :ref:`search-operators` and :ref:`date-search`.
 ``change_time:DATETIME``

@@ -2156,11 +2156,11 @@ Localization CDN
        * :setting:`LOCALIZE_CDN_PATH`
 
 
-Changing enabled apps, checks, add-ons, machine translation or autofixes
+Changing enabled apps, checks, formats, add-ons, machinery, or autofixes
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-The built-in configuration of enabled checks, add-ons or autofixes can be
-adjusted by the following variables:
+The built-in configuration of enabled checks, file formats, add-ons,
+machinery, or autofixes can be adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
 .. envvar:: WEBLATE_REMOVE_APPS
@@ -2168,6 +2168,8 @@ adjusted by the following variables:
 .. envvar:: WEBLATE_REMOVE_CHECK
 .. envvar:: WEBLATE_ADD_AUTOFIX
 .. envvar:: WEBLATE_REMOVE_AUTOFIX
+.. envvar:: WEBLATE_ADD_FORMATS
+.. envvar:: WEBLATE_REMOVE_FORMATS
 .. envvar:: WEBLATE_ADD_ADDONS
 .. envvar:: WEBLATE_REMOVE_ADDONS
 .. envvar:: WEBLATE_ADD_MACHINERY
@@ -2184,12 +2186,14 @@ adjusted by the following variables:
 
     environment:
       WEBLATE_REMOVE_AUTOFIX: weblate.trans.autofixes.whitespace.SameBookendingWhitespace
+      WEBLATE_REMOVE_FORMATS: weblate.formats.ttkit.PoFormat
       WEBLATE_ADD_ADDONS: customize.addons.MyAddon,customize.addons.OtherAddon
 
 .. seealso::
 
    * :setting:`CHECK_LIST`
    * :setting:`AUTOFIX_LIST`
+   * :setting:`WEBLATE_FORMATS`
    * :setting:`WEBLATE_ADDONS`
    * :setting:`django:INSTALLED_APPS`
    * :setting:`WEBLATE_MACHINERY`

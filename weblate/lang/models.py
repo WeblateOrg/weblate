@@ -15,7 +15,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -46,6 +46,8 @@ from weblate.utils.validators import (
     validate_plural_formula_range,
 )
 
+from . import defaults
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
@@ -65,6 +67,11 @@ PLURAL_TITLE = """
 COPY_RE = re.compile(r"\([0-9]+\)")
 KNOWN_SUFFIXES = {"hant", "hans", "latn", "cyrl", "shaw"}
 GENERATED_SUFFIX = "(generated)"
+LANGUAGE_CODE_RE = r"^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*\Z"
+validate_language_code = RegexValidator(
+    regex=LANGUAGE_CODE_RE,
+    message=gettext_lazy("Enter a valid language code."),
+)
 
 
 def get_plural_type(base_code: str, plural_formula: str) -> int:
@@ -982,9 +989,10 @@ def setup_lang(sender, **kwargs) -> None:
 
 
 class Language(models.Model, CacheKeyMixin):
-    code = models.SlugField(
+    code = models.CharField(
         max_length=LANGUAGE_CODE_LENGTH,
         unique=True,
+        validators=[validate_language_code],
         verbose_name=gettext_lazy("Language code"),
     )
     name = models.CharField(
@@ -1615,16 +1623,16 @@ class WeblateLanguagesConf(AppConf):
     """Languages settings."""
 
     # Update languages on migration
-    UPDATE_LANGUAGES = True
+    UPDATE_LANGUAGES = defaults.DEFAULT_UPDATE_LANGUAGES
 
     # Use simple language codes for default language/country combinations
-    SIMPLIFY_LANGUAGES = True
+    SIMPLIFY_LANGUAGES = defaults.DEFAULT_SIMPLIFY_LANGUAGES
 
     # Default source languaage
-    DEFAULT_LANGUAGE = "en"
+    DEFAULT_LANGUAGE = defaults.DEFAULT_LANGUAGE
 
     # List of basic languages to show for user when adding new translation
-    BASIC_LANGUAGES = None
+    BASIC_LANGUAGES = defaults.DEFAULT_BASIC_LANGUAGES
 
     class Meta:
         prefix = ""

@@ -238,6 +238,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
             "percent": translation_percent(stats["translated"], stats["all"]),
             "language": language,
             "translate_object": translate_object,
+            "target_language": translate_object.language if translate_object else None,
             "project_link": format_html(
                 '<a href="{}">{}</a>', project.get_absolute_url(), project.name
             ),

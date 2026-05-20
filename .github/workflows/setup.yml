@@ -25,25 +25,101 @@ jobs:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Checkout first source tree
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
+        path: source/first
+    - name: Checkout second source tree
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+        path: source/second
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - name: Setup Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
     - name: Set reproducible build timestamp
-      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$GITHUB_ENV"
+      run: echo "SOURCE_DATE_EPOCH=$(git -C source/first log -1 --pretty=%ct)" >> "$GITHUB_ENV"
     - name: build
       run: |
-        echo "::add-matcher::.github/matchers/setuptools.json"
-        uv build
+        set -euo pipefail
+
+        echo "::add-matcher::source/first/.github/matchers/setuptools.json"
+        uv build source/first --out-dir dist/first --no-create-gitignore
+        uv build source/second --out-dir dist/second --no-create-gitignore
         echo "::remove-matcher owner=setuptools::"
-        rm -f dist/.gitignore
+        python source/first/scripts/normalize-dist-archives.py dist/first/*.tar.gz dist/first/*.whl
+        python source/first/scripts/normalize-dist-archives.py dist/second/*.tar.gz dist/second/*.whl
+
+        report_artifact_difference() {
+          filename=$1
+          first=dist/first/"$filename"
+          second=dist/second/"$filename"
+
+          echo "::group::sha256sum $filename"
+          sha256sum "$first" "$second"
+          echo "::endgroup::"
+
+          case "$filename" in
+            *.tar.gz)
+              echo "::group::tar metadata diff $filename"
+              diff -u \
+                <(tar --numeric-owner --full-time -tvf "$first") \
+                <(tar --numeric-owner --full-time -tvf "$second") || true
+              echo "::endgroup::"
+              ;;
+            *.whl)
+              echo "::group::zip metadata diff $filename"
+              diff -u \
+                <(zipinfo -l "$first") \
+                <(zipinfo -l "$second") || true
+              echo "::endgroup::"
+              ;;
+          esac
+
+          extracted=$(mktemp -d)
+          mkdir "$extracted/first" "$extracted/second"
+          case "$filename" in
+            *.tar.gz)
+              tar -xf "$first" -C "$extracted/first"
+              tar -xf "$second" -C "$extracted/second"
+              ;;
+            *.whl)
+              unzip -q "$first" -d "$extracted/first"
+              unzip -q "$second" -d "$extracted/second"
+              ;;
+          esac
+          echo "::group::extracted content diff $filename"
+          diff -qr "$extracted/first" "$extracted/second" || true
+          echo "::endgroup::"
+          rm -rf "$extracted"
+        }
+
+        if ! diff -u \
+          <(cd dist/first && find . -maxdepth 1 -type f -printf '%f\n' | sort) \
+          <(cd dist/second && find . -maxdepth 1 -type f -printf '%f\n' | sort); then
+          echo "::error::Package artifact names differ between builds"
+          sha256sum dist/first/* dist/second/*
+          exit 1
+        fi
+
+        for artifact in dist/first/*; do
+          filename=${artifact##*/}
+          if ! cmp --silent "$artifact" "dist/second/$filename"; then
+            echo "::error file=$filename::Normalized package artifact differs between builds"
+            report_artifact_difference "$filename"
+            exit 1
+          fi
+        done
+
+        rm -rf dist/second
+        mv dist/first/* dist/
+        rmdir dist/first
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         path: dist/*
@@ -93,18 +169,22 @@ jobs:
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - name: Setup Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      id: setup_python
       with:
         python-version: '3.14'
     - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e   # v6.4.0
       with:
         node-version: 26
         package-manager-cache: false
+    - name: Set reproducible SBOM timestamp
+      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$GITHUB_ENV"
     - name: Generate SBOM
       id: generate-sbom
       env:
+        PYTHON_VERSION: ${{ steps.setup_python.outputs.python-version }}
         # renovate-cyclonedx-cli
         CYCLONEDX_CLI_VERSION: v0.32.0
         CYCLONEDX_CLI_DIGEST: sha256:454879e6a4a405c8a13bff49b8982adcb0596f3019b26b0811c66e4d7f0783e1
@@ -112,10 +192,18 @@ jobs:
         version=$(uv run --frozen --only-group sbom ./scripts/show-version.py)
         sbom="build/sbom/weblate-$version-sbom.cdx.json"
         mkdir -p build/sbom
-        uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > build/sbom/python.json
+        uv export \
+          --preview-features sbom-export \
+          --format cyclonedx1.5 \
+          --all-extras \
+          --no-dev \
+          --locked \
+          --python "$PYTHON_VERSION" \
+          --no-python-downloads \
+          > build/sbom/python.json
         ./scripts/reproducible-sbom.py build/sbom/python.json
         cd client
-        yarn install --check-files
+        yarn install --immutable --check-files
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
         cd ..
         ./scripts/reproducible-sbom.py build/sbom/javascript.json
@@ -183,7 +271,7 @@ jobs:
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: dist
@@ -196,13 +284,13 @@ jobs:
     - name: list sdist
       run: tar tvf dist/*.tar.gz
     - name: twine check
-      run: uvx twine check --strict dist/*
+      run: uv run --frozen --only-group package-lint twine check --strict dist/*
     - name: pydistcheck
-      run: uvx pydistcheck --inspect dist/*
+      run: uv run --frozen --only-group package-lint pydistcheck --inspect dist/*
     - name: pyroma
-      run: uvx --with pip pyroma dist/*.tar.gz
+      run: uv run --frozen --only-group package-lint pyroma dist/*.tar.gz
     - name: check-manifest
-      run: uvx --with pip check-manifest -v
+      run: uv run --frozen --only-group package-lint check-manifest -v
     - name: Prepare sdist tree for wheel comparison
       id: wheel-source
       run: |
@@ -213,10 +301,10 @@ jobs:
       working-directory: ${{ steps.wheel-source.outputs.path }}
       # Wheels ship generated .mo files, while Git and sdist ship .po sources.
       # Compile catalogs before comparing the wheel against the sdist tree.
-      run: uv run --with translate-toolkit --with setuptools --no-project python setup.py build_mo
+      run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-build python setup.py build_mo
     - name: check-wheel-contents
       working-directory: ${{ steps.wheel-source.outputs.path }}
-      run: uvx check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
+      run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-lint check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
     - name: install
       run: |
         uv venv .venv-install
@@ -233,7 +321,7 @@ jobs:
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -286,7 +374,7 @@ jobs:
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - run: uv publish --trusted-publishing always
 
   publish_github:

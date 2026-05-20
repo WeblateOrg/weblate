@@ -1,7 +1,43 @@
-Weblate 2026.5
+Weblate 2026.6
 --------------
 
 *Not yet released.*
+
+.. rubric:: New features
+
+* :doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages.
+
+.. rubric:: Improvements
+
+* Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
+  Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
+* Improved performance of the :ref:`check-inconsistent` check on large projects.
+
+.. rubric:: Bug fixes
+
+* Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
+* Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
+* Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
+* Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository.
+* Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
+* Engage page task links now stay centered and show the target translation language.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.6.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/165?closed=1>`__.
+
+Weblate 2026.5
+--------------
+
+*Released on May 15th 2026.*
 
 .. rubric:: New features
 
@@ -33,7 +69,7 @@ Weblate 2026.5
 
 .. rubric:: Bug fixes
 
-* Hardened search previews and :ref:`machine-translation` suggestion origins against XSS, and stopped exposing database error details in upload failures.
+* Hardened search previews and :ref:`machine-translation` suggestion origins against XSS, and stopped exposing database error details in upload failures (:cve:`2026-45106` / :ghsa:`6wxc-8mgq-w26m`).
 * Screenshot URL uploads, remote HTML extraction in :ref:`addon-weblate.cdn.cdnjs`, and URL health-check redirects now reject internal or non-public targets by default.
 * Gerrit review pushes now reject target branches containing push options, track the target branch before invoking ``git-review``, and suggest short branch names when full refs are supplied.
 * Category :doc:`/admin/announcements` no longer appear across the whole project, and translation announcement deletion now honors language-scoped permissions.

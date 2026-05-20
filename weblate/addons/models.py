@@ -41,6 +41,12 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
 from .base import BaseAddon
+from .defaults import (
+    DEFAULT_ADDON_ACTIVITY_LOG_EXPIRY,
+    DEFAULT_LOCALIZE_CDN_PATH,
+    DEFAULT_LOCALIZE_CDN_URL,
+    DEFAULT_WEBLATE_ADDONS,
+)
 from .events import AddonEvent
 
 if TYPE_CHECKING:
@@ -409,48 +415,13 @@ class Event(models.Model):
 
 
 class AddonsConf(AppConf):
-    WEBLATE_ADDONS = (
-        "weblate.addons.gettext.GenerateMoAddon",
-        "weblate.addons.gettext.UpdateLinguasAddon",
-        "weblate.addons.gettext.UpdateConfigureAddon",
-        "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.XgettextAddon",
-        "weblate.addons.gettext.MesonAddon",
-        "weblate.addons.gettext.DjangoAddon",
-        "weblate.addons.gettext.SphinxAddon",
-        "weblate.addons.gettext.GettextAuthorComments",
-        "weblate.addons.cleanup.CleanupAddon",
-        "weblate.addons.cleanup.RemoveBlankAddon",
-        "weblate.addons.cleanup.ResetAddon",
-        "weblate.addons.consistency.LanguageConsistencyAddon",
-        "weblate.addons.discovery.DiscoveryAddon",
-        "weblate.addons.autotranslate.AutoTranslateAddon",
-        "weblate.addons.flags.SourceEditAddon",
-        "weblate.addons.flags.TargetEditAddon",
-        "weblate.addons.flags.SameEditAddon",
-        "weblate.addons.flags.BulkEditAddon",
-        "weblate.addons.flags.TargetRepoUpdateAddon",
-        "weblate.addons.generate.GenerateFileAddon",
-        "weblate.addons.generate.PseudolocaleAddon",
-        "weblate.addons.generate.PrefillAddon",
-        "weblate.addons.generate.FillReadOnlyAddon",
-        "weblate.addons.properties.PropertiesSortAddon",
-        "weblate.addons.git.GitSquashAddon",
-        "weblate.addons.removal.RemoveComments",
-        "weblate.addons.removal.RemoveSuggestions",
-        "weblate.addons.resx.ResxUpdateAddon",
-        "weblate.addons.cdn.CDNJSAddon",
-        "weblate.addons.cdn.CDNFilesAddon",
-        "weblate.addons.webhooks.WebhookAddon",
-        "weblate.addons.webhooks.SlackWebhookAddon",
-        "weblate.addons.fedora_messaging.FedoraMessagingAddon",
-    )
+    WEBLATE_ADDONS = DEFAULT_WEBLATE_ADDONS
 
-    LOCALIZE_CDN_URL = None
-    LOCALIZE_CDN_PATH = None
+    LOCALIZE_CDN_URL = DEFAULT_LOCALIZE_CDN_URL
+    LOCALIZE_CDN_PATH = DEFAULT_LOCALIZE_CDN_PATH
 
     # How long to keep add-on activity log entries
-    ADDON_ACTIVITY_LOG_EXPIRY = 180
+    ADDON_ACTIVITY_LOG_EXPIRY = DEFAULT_ADDON_ACTIVITY_LOG_EXPIRY
 
     class Meta:
         prefix = ""

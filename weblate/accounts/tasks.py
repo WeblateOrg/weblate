@@ -17,6 +17,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.db import transaction
+from django.urls import reverse
 from django.utils.timezone import now
 from social_django.models import Code, Partial
 
@@ -43,6 +44,20 @@ class OutgoingEmail(TypedDict):
     subject: str
     body: str
     headers: dict[str, str]
+
+
+def get_registration_attempt_password_reset_url(activity: str) -> str | None:
+    """Return a password reset URL suitable for registration-attempt e-mails."""
+    if activity not in {"connect", "register"}:
+        return None
+    if settings.PASSWORD_RESET_URL:
+        return settings.PASSWORD_RESET_URL
+
+    from weblate.auth.utils import get_auth_keys  # noqa: PLC0415
+
+    if "email" in get_auth_keys():
+        return reverse("password_reset")
+    return None
 
 
 @app.task(trail=False)
@@ -166,6 +181,9 @@ def notify_auditlog(log_id: int, email: str) -> None:
             "extra_message": audit.get_extra_message,
             "address": audit.shortened_address,
             "user_agent": audit.user_agent,
+            "password_reset_url": get_registration_attempt_password_reset_url(
+                audit.activity
+            ),
         },
         info=f"{audit.activity} from {audit.address}",
         user=audit.user,

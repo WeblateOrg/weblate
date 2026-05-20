@@ -35,6 +35,17 @@ lint = [
   {include-group = "pre-commit"},
   {include-group = "pylint"}
 ]
+package-build = [
+  "setuptools==82.0.1",
+  "translate-toolkit==3.19.10"
+]
+package-lint = [
+  "check-manifest==0.51",
+  "check-wheel-contents==0.6.3",
+  "pydistcheck==0.11.3",
+  "pyroma==5.0.1",
+  "twine==6.2.0"
+]
 pre-commit = [
   "prek==0.4.0"
 ]
@@ -45,7 +56,7 @@ sbom = [
   "packaging==26.2"
 ]
 schemas = [
-  "weblate-schemas==2026.1"
+  "weblate-schemas==2026.2"
 ]
 scripts = [
   "django-debug-toolbar==6.3.0",
@@ -67,22 +78,22 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.43.8",
+  "boto3-stubs==1.43.11",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.4",
   "django-stubs[compatible-mypy]==6.0.4",
   "djangorestframework-stubs==3.17.0",
   "mypy==1.20.2",
   "PyGObject-stubs==2.17.0",
-  "types-dateparser==1.4.0.20260508",
-  "types-docutils==0.22.3.20260508",
-  "types-jsonschema==4.26.0.20260508",
+  "types-dateparser==1.4.0.20260518",
+  "types-docutils==0.22.3.20260518",
+  "types-jsonschema==4.26.0.20260518",
   "types-lxml==2026.2.16",
-  "types-openpyxl==3.1.5.20260508",
-  "types-python-dateutil==2.9.0.20260508",
-  "types-regex==2026.5.9.20260510",
-  "types-requests==2.33.0.20260513",
-  "types-setuptools==82.0.0.20260508"
+  "types-openpyxl==3.1.5.20260518",
+  "types-python-dateutil==2.9.0.20260518",
+  "types-regex==2026.5.9.20260518",
+  "types-requests==2.33.0.20260518",
+  "types-setuptools==82.0.0.20260518"
 ]
 
 [project]
@@ -128,7 +139,7 @@ dependencies = [
   "cyrtranslit==1.2.0",
   "dateparser==1.4.0",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.184",
+  "disposable-email-domains==0.0.187",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-compressor==4.6.0",
@@ -154,7 +165,7 @@ dependencies = [
   # Pin for translate-toolkit extra
   "iniparse==0.5",
   "jsonschema==4.26.0",
-  "lxml==6.1.0",
+  "lxml==6.1.1",
   "mistletoe==1.5.1",
   "nh3==0.3.5",
   "openpyxl==3.1.5",
@@ -195,7 +206,7 @@ dependencies = [
   "user-agents==2.2.0",
   "weblate-fonts==2026.1",
   "weblate-language-data==2026.8",
-  "weblate-schemas==2026.1"
+  "weblate-schemas==2026.2"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -210,14 +221,14 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.12"
-version = "2026.5.dev0"
+version = "2026.6.dev0"
 
 [project.optional-dependencies]
 all = [
   "weblate[amazon,gelf,gerrit,google,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.8"
+  "boto3==1.43.11"
 ]
 gelf = [
   "logging-gelf==0.0.32"

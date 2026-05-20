@@ -259,6 +259,9 @@ class ScreenshotBaseView(DetailView):
     model = Screenshot
     request: AuthenticatedHttpRequest
 
+    def get_queryset(self):
+        return Screenshot.objects.filter_access(self.request.user)
+
     def get_object(self, *args, **kwargs):
         obj = super().get_object(*args, **kwargs)
         self.request.user.check_access_component(obj.translation.component)
@@ -316,7 +319,7 @@ class ScreenshotDetail(ScreenshotBaseView):
 @require_POST
 @login_required
 def delete_screenshot(request: AuthenticatedHttpRequest, pk):
-    obj = get_object_or_404(Screenshot, pk=pk)
+    obj = get_object_or_404(Screenshot.objects.filter_access(request.user), pk=pk)
     component = obj.translation.component
     if not request.user.has_perm("screenshot.delete", obj.translation):
         raise PermissionDenied
@@ -329,7 +332,7 @@ def delete_screenshot(request: AuthenticatedHttpRequest, pk):
 
 
 def get_screenshot(request: AuthenticatedHttpRequest, pk):
-    obj = get_object_or_404(Screenshot, pk=pk)
+    obj = get_object_or_404(Screenshot.objects.filter_access(request.user), pk=pk)
     if not request.user.has_perm("screenshot.edit", obj.translation.component):
         raise PermissionDenied
     return obj

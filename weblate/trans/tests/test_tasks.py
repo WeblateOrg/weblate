@@ -8,10 +8,12 @@ from datetime import timedelta
 from pathlib import Path
 from unittest.mock import patch
 
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 
 from weblate.checks.tasks import finalize_component_checks
-from weblate.trans.models import Category, PendingUnitChange, Suggestion
+from weblate.trans.models import Category, Component, PendingUnitChange, Suggestion
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_repos,
@@ -19,9 +21,11 @@ from weblate.trans.tasks import (
     cleanup_suggestions,
     commit_pending,
     daily_update_checks,
+    update_checks,
     update_remotes,
 )
 from weblate.trans.tests.test_views import ComponentTestCase
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.tasks import (
     update_language_stats_parents,
@@ -79,6 +83,30 @@ class TasksTest(ComponentTestCase):
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
 
+    def test_update_checks_uses_narrow_prefetches(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="WorkshopApp", slug="workshopapp"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        with (
+            patch.object(Component, "run_batched_checks", autospec=True) as batched,
+            CaptureQueriesContext(connection) as queries,
+        ):
+            update_checks(self.component.pk, "update-token")
+
+        batched.assert_called_once()
+        sql_queries = [query["sql"] for query in queries]
+
+        def count_relation_prefetches(table: str) -> int:
+            marker = f'FROM "{table}" WHERE ("{table}"."id") IN'
+            return sum(marker in sql for sql in sql_queries)
+
+        self.assertLessEqual(count_relation_prefetches("trans_project"), 1)
+        self.assertLessEqual(count_relation_prefetches("trans_category"), 1)
+        self.assertLessEqual(count_relation_prefetches("trans_component"), 1)
+
     def test_cleanup_repos(self) -> None:
         cleanup_repos()
 
@@ -104,6 +132,23 @@ class TasksTest(ComponentTestCase):
         self.assertTrue(
             os.path.isfile(os.path.join(component.full_path, ".git", "config"))
         )
+
+    def test_cleanup_stale_repos_keeps_empty_component_dir(self) -> None:
+        component = self.create_po(project=self.project, name="empty", vcs="local")
+        component_path = Path(component.full_path)
+
+        for entry in component_path.iterdir():
+            if entry.is_dir():
+                remove_tree(entry)
+            else:
+                entry.unlink()
+
+        old_timestamp = time.time() - 2 * 86400
+        os.utime(component_path, (old_timestamp, old_timestamp))
+
+        cleanup_stale_repos()
+
+        self.assertTrue(component_path.is_dir())
 
     def test_update_remotes(self) -> None:
         update_remotes()

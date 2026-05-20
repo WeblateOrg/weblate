@@ -621,6 +621,37 @@ def handle_suggestions(
     return HttpResponseRedirect(redirect_url)
 
 
+def handle_component_shift_notice(
+    request: AuthenticatedHttpRequest, unit_set, search_result, unit
+) -> None:
+    """Show a warning when sequential navigation moves to another component."""
+    last_viewed_unit_id = search_result.get("last_viewed_unit_id")
+    if last_viewed_unit_id:
+        try:
+            previous_unit = unit_set.get(pk=last_viewed_unit_id)
+        except Unit.DoesNotExist:
+            previous_unit = None
+        if (
+            previous_unit is not None
+            and unit.translation.component != previous_unit.translation.component
+        ):
+            messages.warning(
+                request,
+                gettext("You have shifted from %(previous)s to %(current)s.")
+                % {
+                    "previous": previous_unit.translation.full_slug,
+                    "current": unit.translation.full_slug,
+                },
+            )
+
+    search_result["last_viewed_unit_id"] = unit.id
+    session_key = search_result["key"]
+    if session_key in request.session:
+        session_result = request.session[session_key]
+        session_result["last_viewed_unit_id"] = unit.id
+        request.session[session_key] = session_result
+
+
 @transaction.atomic
 def translate(request: AuthenticatedHttpRequest, path):
     """Translate, suggest and search view."""
@@ -675,19 +706,7 @@ def translate(request: AuthenticatedHttpRequest, path):
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
 
-    last_viewed_unit_id = search_result.get("last_viewed_unit_id")
-    if last_viewed_unit_id:
-        previous_unit = unit_set.get(pk=last_viewed_unit_id)
-        if unit.translation.component != previous_unit.translation.component:
-            messages.warning(
-                request,
-                gettext("You have shifted from %(previous)s to %(current)s.")
-                % {
-                    "previous": previous_unit.translation.full_slug,
-                    "current": unit.translation.full_slug,
-                },
-            )
-    search_result["last_viewed_unit_id"] = unit.id
+    handle_component_shift_notice(request, unit_set, search_result, unit)
 
     # Some URLs we will most likely use
     base_unit_url = f"{obj.get_translate_url()}?{search_result['url']}&offset="

@@ -62,9 +62,15 @@
     {% if translate_object.list_engage_tasks %}
       {% with engage_tasks=translate_object.list_engage_tasks %}
         <div class="engage-tasks">
-          <h3>{% translate "Choose what to work on" %}</h3>
+          <h3>
+            {% translate "Choose what to work on" %}
+            {% if target_language %}
+              —
+              {{ target_language }}
+            {% endif %}
+          </h3>
           <p>{% translate "Start with untranslated strings, then continue with checks, review, suggestions, or editing." %}</p>
-          <div class="row engage-task-list">
+          <div class="row engage-task-list justify-content-center">
             {% for task in engage_tasks %}
               <div class="col-sm-3">
                 <div class="metric engage-task">
@@ -86,7 +92,10 @@
       {% endif %}
       {% if translate_object %}
         <a href="{% url 'translate' path=translate_object.get_url_path %}?q=state:empty"
-           class="btn btn-primary btn-lg">{% translate "Translate" context "Call to action on engage page" %}</a>
+           class="btn btn-primary btn-lg engage-language-button">
+          <span>{% translate "Translate" context "Call to action on engage page" %}</span>
+          {% if target_language %}<span class="engage-button-language">{{ target_language }}</span>{% endif %}
+        </a>
       {% endif %}
       {% if language %}
         <a id="engage-project"

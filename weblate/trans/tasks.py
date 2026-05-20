@@ -45,7 +45,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.removal import RemovalBatch, removal_batch_context
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
@@ -427,6 +426,11 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
                 empty_dir = False
             continue
 
+        component = _get_component_by_vcs_path(relative_parts)
+        if component is not None and not component.is_repo_link:
+            empty_dir = False
+            continue
+
         if not git_dir.exists() and not mercurial_dir.exists():
             # Possible project/category dir not present in the database.
             if not cleanup_stale_repos(path):
@@ -438,7 +442,6 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             empty_dir = False
             continue
 
-        component = _get_component_by_vcs_path(relative_parts)
         if component is None:
             LOGGER.info("removing stale VCS path (not found): %s", path)
             remove_tree(path)
@@ -877,7 +880,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
 @transaction.atomic
 def update_checks(pk: int, update_token: str, update_state: bool = False) -> None:
     try:
-        component = Component.objects.get(pk=pk)
+        component = Component.objects.select_related("source_language").get(pk=pk)
     except Component.DoesNotExist:
         return
 
@@ -887,21 +890,21 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         return
 
     component.start_batched_checks()
+    source_translation = component.source_translation
     # Source translation as last
     translations = (
-        *component.translation_set.exclude(
-            pk=component.source_translation.pk
-        ).prefetch(),
-        component.source_translation,
+        *component.translation_set.exclude(pk=source_translation.pk).select_related(
+            "language", "plural"
+        ),
+        source_translation,
     )
     for translation in translations:
-        units = translation.unit_set.prefetch().prefetch_source()
+        units = translation.unit_set.prefetch_all_checks()
         if update_state:
             units = units.select_for_update()
-        fill_in_source_translation(units)
-        for unit in units.prefetch_all_checks():
+        for unit in units:
             # Reuse object to avoid fetching from the database
-            unit.source_unit.translation = component.source_translation
+            unit.source_unit.translation = source_translation
             # Mark this as a batch update to avoid stats update on each unit
             unit.is_batch_update = True
             if update_state:

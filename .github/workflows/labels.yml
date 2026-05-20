@@ -9,12 +9,13 @@ on:
   issues:
     types: [labeled]
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
-  issueLabeled:
+  issue-labeled:
+    if: ${{ ! github.event.issue.pull_request && github.event.label.name == 'good first issue' }}
     permissions:
+      contents: read  # for actions/checkout
       issues: write  # for gh issue comment
     runs-on: ubuntu-slim
     steps:
@@ -22,7 +23,6 @@ jobs:
       with:
         persist-credentials: false
     - name: Add good first issue comment
-      if: ${{ github.event.label.name == 'good first issue' }}
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}

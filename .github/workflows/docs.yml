@@ -34,7 +34,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
     services:
       database:
-        image: postgres:18.4-alpine@sha256:2591af411ef9fdc73eac387e85cf37cee5feff417abc773624f0037402390c77
+        image: postgres:18.4-alpine@sha256:96d56f7f57c6aacd1fcb908bc83b345ec5f83231ee486dd66a1baadce274db88
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -46,7 +46,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.0.4-alpine@sha256:d1cc70645bbcef743615463a2fa4616e841407545e18f560aed0c49671a90147
+        image: valkey/valkey:9.1.0-alpine@sha256:a35428eba9043cc0b79dbe54100f0c92784f2de00ad09b01182bfb1c5c83d1bd
         ports:
         - 6379:6379
         options: >-
@@ -65,7 +65,7 @@ jobs:
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b   # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -76,10 +76,17 @@ jobs:
       run: uv run --frozen ./manage.py migrate --noinput --traceback
     - run: make -C docs update-docs
 
-    - name: Prepare maintenance patch (pre-commit-ci-lite)
+    - name: Prepare maintenance patch
       uses: ./.github/actions/auto-commit
+
+    # Keep this outside the composite action; pre-commit.ci lite detects the
+    # top-level post step, and composites expose nested post hooks.
+    # The condition mirrors pre-commit-ci/lite-action's main.mjs user-PR check.
+    - name: Commit changes (external PR, pre-commit-ci-lite)
+      if: github.event_name == 'pull_request' && github.event.sender.type == 'User'
+      uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
       with:
-        message: 'docs: Documentation snippets update'
+        msg: 'docs: Documentation snippets update'
 
   list-languages:
     runs-on: ubuntu-24.04
@@ -113,7 +120,7 @@ jobs:
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - name: Set up Python
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
@@ -149,7 +156,7 @@ jobs:
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: false
-        version: 0.11.12
+        version: 0.11.14
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:

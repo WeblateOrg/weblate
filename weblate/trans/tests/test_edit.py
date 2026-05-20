@@ -33,7 +33,8 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.views import get_sort_name
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck
@@ -1352,6 +1353,99 @@ class EditComplexTest(ViewTestCase):
         self.assertContains(
             response,
             f'href="{translate_url}?checksum={unit.checksum}&amp;revert={change.id}"',
+        )
+
+    def test_project_language_warns_when_switching_component(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(priority=120)
+        high_component = self.create_po(name="High", priority=80, project=self.project)
+        high_translation = high_component.translation_set.get(
+            language=self.translation.language
+        )
+        translate_url = ProjectLanguage(
+            self.project, self.translation.language
+        ).get_translate_url()
+        high_component_offset = high_translation.unit_set.count()
+
+        response = self.client.get(translate_url, {"offset": high_component_offset})
+        self.assertNotContains(response, "You have shifted from")
+        self.assertContains(response, 'value="component,-priority"')
+
+        response = self.client.get(translate_url, {"offset": high_component_offset + 1})
+        self.assertContains(response, "You have shifted from")
+
+    def test_language_scope_sort_defaults_to_component_priority(self) -> None:
+        request = SimpleNamespace(GET={})
+        category = self.create_category(self.project)
+
+        self.assertEqual(
+            get_sort_name(
+                request, ProjectLanguage(self.project, self.translation.language)
+            )["query"],
+            "component,-priority",
+        )
+        self.assertEqual(
+            get_sort_name(
+                request, CategoryLanguage(category, self.translation.language)
+            )["query"],
+            "component,-priority",
+        )
+
+    def test_project_language_submitted_search_keeps_component_order(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(priority=120)
+        high_component = self.create_po(
+            name="High", locked=True, priority=80, project=self.project
+        )
+        high_translation = high_component.translation_set.get(
+            language=self.translation.language
+        )
+        translate_url = ProjectLanguage(
+            self.project, self.translation.language
+        ).get_translate_url()
+
+        self.client.get(translate_url, {"sort_by": "component,-priority", "offset": 1})
+
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        expected_ids = [
+            *self.translation.unit_set.order_by("position").values_list(
+                "pk", flat=True
+            ),
+            *high_translation.unit_set.order_by("position").values_list(
+                "pk", flat=True
+            ),
+        ]
+        self.assertEqual(session[search_key]["ids"], expected_ids)
+
+    def test_project_language_ignores_stale_component_shift_unit(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(priority=120)
+        high_component = self.create_po(name="High", priority=80, project=self.project)
+        high_translation = high_component.translation_set.get(
+            language=self.translation.language
+        )
+        translate_url = ProjectLanguage(
+            self.project, self.translation.language
+        ).get_translate_url()
+        high_component_offset = high_translation.unit_set.count()
+
+        response = self.client.get(translate_url, {"offset": high_component_offset})
+        self.assertEqual(response.status_code, 200)
+
+        last_unit_id = Unit.objects.order_by("-pk").values_list("pk", flat=True)[0]
+        stale_unit_id = last_unit_id + 1
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        session_result = session[search_key]
+        session_result["last_viewed_unit_id"] = stale_unit_id
+        session[search_key] = session_result
+        session.save()
+
+        response = self.client.get(translate_url, {"offset": high_component_offset + 1})
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "You have shifted from")
+        self.assertNotEqual(
+            self.client.session[search_key]["last_viewed_unit_id"], stale_unit_id
         )
 
     def test_revert_plural(self) -> None:

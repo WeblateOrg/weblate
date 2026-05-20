@@ -13,7 +13,6 @@ on:
   - cron: 37 1 * * 5
   push:
     branches: [main]
-  pull_request:
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -23,7 +22,7 @@ jobs:
     name: Scorecard analysis
     runs-on: ubuntu-24.04
     # `publish_results: true` only works when run from the default branch. conditional can be removed if disabled.
-    if: github.event.repository.default_branch == github.ref_name || github.event_name == 'pull_request'
+    if: github.event.repository.default_branch == github.ref_name
     permissions:
       # Needed to upload the results to code-scanning dashboard.
       security-events: write
@@ -74,6 +73,6 @@ jobs:
       # Upload the results to GitHub's code scanning dashboard (optional).
       # Commenting out will disable upload of results to your repo's Code Scanning dashboard
     - name: Upload to code-scanning
-      uses: github/codeql-action/upload-sarif@68bde559dea0fdcac2102bfdf6230c5f70eb485e # v4.35.4
+      uses: github/codeql-action/upload-sarif@9e0d7b8d25671d64c341c19c0152d693099fb5ba # v4.35.5
       with:
         sarif_file: results.sarif

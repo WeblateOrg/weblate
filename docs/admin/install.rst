@@ -240,7 +240,7 @@ Django REST Framework
 
      * - ``rollbar``
        - | `rollbar <https://pypi.org/project/rollbar>`__
-       - :reF:`collecting-errors`
+       - :ref:`collecting-errors`
 
      * - ``saml``
        - | `python3-saml <https://pypi.org/project/python3-saml>`_

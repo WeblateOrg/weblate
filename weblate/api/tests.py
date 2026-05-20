@@ -125,6 +125,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         }
         self.component_kwargs = {"slug": "test", "project__slug": "test"}
         self.project_kwargs = {"slug": "test"}
+        self.project_language_kwargs = {"slug": "test", "language_code": "cs"}
         self.tearDown()
         self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
         self.user.profile.languages.add(Language.objects.get(code="cs"))
@@ -6136,6 +6137,54 @@ class LanguageAPITest(APIBaseTest):
             },
         )
 
+    def test_create_gettext_variant_code(self) -> None:
+        response = self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "code": "new_lang@variant",
+                "name": "New Language",
+                "direction": "rtl",
+                "population": 100,
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertEqual(response.data["code"], "new_lang@variant")
+        self.do_request(
+            "api:language-detail",
+            kwargs={"code": "new_lang@variant"},
+            superuser=True,
+            method="get",
+            code=200,
+        )
+
+    def test_create_invalid_language_code(self) -> None:
+        for language_code in ("new lang", "new/lang", "@variant", "new@"):
+            with self.subTest(language_code=language_code):
+                response = self.do_request(
+                    "api:language-list",
+                    method="post",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={
+                        "code": language_code,
+                        "name": "New Language",
+                        "direction": "rtl",
+                        "population": 100,
+                        "plural": {"number": 2, "formula": "n != 1"},
+                    },
+                )
+                self.assertEqual(response.data["errors"][0]["attr"], "code")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "Enter a valid language code.",
+                )
+                self.assertEqual(Language.objects.count(), len(LANGUAGES))
+
     def test_create_invalid_plural_formula_range(self) -> None:
         self.do_request(
             "api:language-list",
@@ -10540,6 +10589,11 @@ class AnnouncementAPITest(APIBaseTest):
         self.project_announcement = Announcement.objects.create(
             project=self.component.project, message="Test project announcement"
         )
+        self.project_language_announcement = Announcement.objects.create(
+            project=self.component.project,
+            language=Language.objects.get(code="cs"),
+            message="Test project language announcement",
+        )
         self.category_announcement = Announcement.objects.create(
             category=self.category,
             message="Test category announcement",
@@ -10741,6 +10795,255 @@ class AnnouncementAPITest(APIBaseTest):
             "api:project-delete-announcement",
             kwargs={
                 **self.project_kwargs,
+                "announcement_id": self.translation_announcement.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcements still exists
+        self.assertTrue(
+            Announcement.objects.filter(id=self.category_announcement.id).exists()
+        )
+        self.assertTrue(
+            Announcement.objects.filter(id=self.component_announcement.id).exists()
+        )
+        self.assertTrue(
+            Announcement.objects.filter(id=self.translation_announcement.id).exists()
+        )
+
+    def test_get_project_language_announcement(self) -> None:
+        response = self.do_request(
+            "api:project-language-announcements",
+            kwargs=self.project_language_kwargs,
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
+
+    def test_get_project_language_announcement_wrong_language(self) -> None:
+        self.do_request(
+            "api:project-language-announcements",
+            kwargs={**self.project_language_kwargs, "language_code": "ab"},
+            method="get",
+            code=404,
+        )
+
+    def test_get_project_language_announcement_invalid_language(self) -> None:
+        self.do_request(
+            "api:project-language-announcements",
+            kwargs={**self.project_language_kwargs, "language_code": "invalid"},
+            method="get",
+            code=400,
+        )
+
+    def test_project_language_announcement_options(self) -> None:
+        response = self.do_request(
+            "api:project-language-announcements",
+            kwargs=self.project_language_kwargs,
+            method="options",
+        )
+        fields = response.data["actions"]["POST"]
+        self.assertLessEqual(
+            {"id", "message", "severity", "expiry", "notify"},
+            set(fields),
+        )
+        self.assertTrue(fields["id"]["read_only"])
+        self.assertNotIn("name", fields)
+        self.assertNotIn("slug", fields)
+
+    def test_create_project_language_announcement(self) -> None:
+        project = self.component.project
+        self.authenticate(False)
+
+        self.do_request(
+            "api:project-language-announcements",
+            kwargs=self.project_language_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=403,
+        )
+
+        self.grant_perm_to_user("announcement.add", "test", project)
+        response = self.do_request(
+            "api:project-language-announcements",
+            kwargs=self.project_language_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=201,
+        )
+        announcement = (
+            Announcement.objects.filter(project=project)
+            .filter(language__code=self.project_language_kwargs["language_code"])
+            .get(id=response.data["id"])
+        )
+        self.assertIsNotNone(announcement)
+        self.assertEqual(announcement.project, project)
+        self.assertIsNone(announcement.component)
+        self.assertEqual(
+            announcement.language.code, self.project_language_kwargs["language_code"]
+        )
+
+    def test_create_project_language_announcement_wrong_language(self) -> None:
+        self.do_request(
+            "api:project-language-announcements",
+            superuser=True,
+            kwargs={**self.project_language_kwargs, "language_code": "ab"},
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=404,
+        )
+
+    def test_create_project_language_announcement_invalid_language(self) -> None:
+        self.do_request(
+            "api:project-language-announcements",
+            superuser=True,
+            kwargs={**self.project_language_kwargs, "language_code": "invalid"},
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=400,
+        )
+
+    def test_delete_project_language_announcement(self) -> None:
+        """Test deleting an announcement from a project."""
+        announcement = self.project_language_announcement
+
+        # Test successful deletion
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={**self.project_language_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        # Verify announcement was deleted
+        self.assertFalse(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_language_announcement_permission_denied(self) -> None:
+        """Test that non-admin users cannot delete announcements."""
+        announcement: Announcement = self.project_language_announcement
+
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={**self.project_language_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_nonexistent_project_language_announcement(self) -> None:
+        """Test deleting an announcement that doesn't exist."""
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={**self.project_language_kwargs, "announcement_id": 9999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+    def test_delete_project_language_announcement_wrong_project_language(self) -> None:
+        """Test deleting an announcement from wrong project language returns error."""
+        announcement: Announcement = self.project_language_announcement
+
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={
+                **self.project_language_kwargs,
+                "language_code": "de",
+                "announcement_id": announcement.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_language_announcement_wrong_scope(self) -> None:
+        """Test deleting a project language announcement via the category, component or translation scope returns not found."""
+        announcement: Announcement = self.project_language_announcement
+
+        self.do_request(
+            "api:category-delete-announcement",
+            kwargs={"pk": self.category.pk, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:component-delete-announcement",
+            kwargs={**self.component_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:translation-delete-announcement",
+            kwargs={**self.translation_kwargs, "announcement_id": announcement.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify announcement still exists
+        self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_language_scope_other_announcements(self) -> None:
+        """Test deleting a category, component or translation announcement via the project language scope returns not found."""
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={
+                **self.project_language_kwargs,
+                "announcement_id": self.category_announcement.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={
+                **self.project_language_kwargs,
+                "announcement_id": self.component_announcement.id,
+            },
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={
+                **self.project_language_kwargs,
                 "announcement_id": self.translation_announcement.id,
             },
             method="delete",
@@ -11415,6 +11718,18 @@ class OpenAPITest(APIBaseTest):
         )
         # Ensure schema includes the language-specific project download parameter
         self.assertIn("language_code", response.content.decode())
+
+    def test_language_code_pattern(self) -> None:
+        schema = self.get_schema()
+        expected_pattern = r"^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*$"
+        for schema_name in ("Language", "PatchedLanguage"):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(
+                    schema["components"]["schemas"][schema_name]["properties"]["code"][
+                        "pattern"
+                    ],
+                    expected_pattern,
+                )
 
     def test_metrics_version_is_optional(self) -> None:
         schema = self.get_schema()

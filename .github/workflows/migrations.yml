@@ -10,6 +10,8 @@ on:
     - renovate/**
     - weblate
     - dependabot/**
+    - copilot/**
+    - codex/**
   pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -33,7 +35,7 @@ jobs:
       UV_FROZEN: '1'
     services:
       database:
-        image: postgres:18.4-alpine@sha256:2591af411ef9fdc73eac387e85cf37cee5feff417abc773624f0037402390c77
+        image: postgres:18.4-alpine@sha256:96d56f7f57c6aacd1fcb908bc83b345ec5f83231ee486dd66a1baadce274db88
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -57,7 +59,7 @@ jobs:
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.11.12
+        version: 0.11.14
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -84,11 +86,13 @@ jobs:
       run: ./ci/run-migrate 5.16
     - name: Migrate from 5.17
       run: ./ci/run-migrate 5.17
+    - name: Migrate from 2026.5
+      run: ./ci/run-migrate 2026.5
     - name: Coverage
       run: |
         uv run coverage combine
         uv run coverage xml
-    - uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
+    - uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
       with:
         token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
         flags: migrations
