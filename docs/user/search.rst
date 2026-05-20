@@ -94,6 +94,9 @@ Fields
    English name of the change action, either quoted and with spaces or
    lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for
    examples.
+
+   When combining ``changed_by``, ``changed``, ``change_time``, and
+   ``change_action`` filters, the filters apply to the same change event.
 ``source_changed:DATETIME``
    Source string was last changed on date, supports :ref:`search-operators` and :ref:`date-search`.
 ``last_changed:DATETIME``
