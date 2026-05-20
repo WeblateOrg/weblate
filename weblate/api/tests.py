@@ -11049,6 +11049,54 @@ class AnnouncementAPITest(APIBaseTest):
             code=400,
         )
 
+    def test_create_project_language_announcement_language_scope(self) -> None:
+        project = self.component.project
+        czech_language = Language.objects.get(code="cs")
+        german_language = Language.objects.get(code="de")
+        Translation.objects.get_or_create(
+            component=self.component, language=czech_language
+        )
+        Translation.objects.get_or_create(
+            component=self.component, language=german_language
+        )
+
+        permission = Permission.objects.get(codename="announcement.add")
+        role = Role.objects.create(name="Czech announcement creator")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Czech announcement creators",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_MANUAL,
+        )
+        group.projects.add(project)
+        group.languages.add(czech_language)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.do_request(
+            "api:project-language-announcements",
+            kwargs={
+                **self.project_language_kwargs,
+                "language_code": german_language.code,
+            },
+            method="post",
+            request={
+                "message": "Test German message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=403,
+        )
+        self.assertFalse(
+            Announcement.objects.filter(
+                project=project,
+                language=german_language,
+                message="Test German message",
+            ).exists()
+        )
+
     def test_delete_project_language_announcement(self) -> None:
         """Test deleting an announcement from a project."""
         announcement = self.project_language_announcement
@@ -11079,6 +11127,55 @@ class AnnouncementAPITest(APIBaseTest):
 
         # Verify announcement still exists
         self.assertTrue(Announcement.objects.filter(id=announcement.id).exists())
+
+    def test_delete_project_language_announcement_language_scope(self) -> None:
+        czech_language = Language.objects.get(code="cs")
+        german_language = Language.objects.get(code="de")
+        czech_announcement = self.project_language_announcement
+        german_announcement = Announcement.objects.create(
+            project=self.component.project,
+            language=german_language,
+            message="Test German project language announcement",
+        )
+
+        permission = Permission.objects.get(codename="announcement.delete")
+        role = Role.objects.create(name="Czech announcement deleter")
+        role.permissions.add(permission)
+        group = Group.objects.create(
+            name="Czech announcement deleters",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_MANUAL,
+        )
+        group.projects.add(self.component.project)
+        group.languages.add(czech_language)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={
+                **self.project_language_kwargs,
+                "language_code": german_language.code,
+                "announcement_id": german_announcement.id,
+            },
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+        self.assertTrue(Announcement.objects.filter(id=german_announcement.id).exists())
+
+        self.do_request(
+            "api:project-language-delete-announcement",
+            kwargs={
+                **self.project_language_kwargs,
+                "announcement_id": czech_announcement.id,
+            },
+            method="delete",
+            superuser=False,
+            code=204,
+        )
+        self.assertFalse(Announcement.objects.filter(id=czech_announcement.id).exists())
 
     def test_delete_nonexistent_project_language_announcement(self) -> None:
         """Test deleting an announcement that doesn't exist."""
