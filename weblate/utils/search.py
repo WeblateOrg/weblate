@@ -6,11 +6,11 @@ from __future__ import annotations
 
 import threading
 import warnings
+from dataclasses import dataclass
 from datetime import datetime
-from functools import lru_cache, reduce
+from functools import lru_cache
 from ipaddress import ip_address
 from itertools import chain
-from operator import and_, or_
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 
 from dateutil.parser import ParserError
@@ -80,6 +80,79 @@ OPERATOR_MAP = {
     ":>": "gt",
     ":>=": "gte",
 }
+
+
+@dataclass(slots=True)
+class ParsedQueryClause:
+    query: Q
+    change_query: Q | None = None
+
+    def materialize(self) -> Q:
+        if self.change_query is None:
+            return self.query
+
+        from weblate.trans.models import Change  # noqa: PLC0415
+
+        return self.query & Q(
+            Exists(Change.objects.filter(self.change_query, unit_id=OuterRef("pk")))
+        )
+
+    def combine_and(self, other: ParsedQueryClause) -> ParsedQueryClause:
+        change_query: Q | None
+        if self.change_query is None:
+            change_query = other.change_query
+        elif other.change_query is None:
+            change_query = self.change_query
+        else:
+            change_query = self.change_query & other.change_query
+
+        return ParsedQueryClause(self.query & other.query, change_query)
+
+
+@dataclass(slots=True)
+class ParsedQuery:
+    clauses: list[ParsedQueryClause]
+
+    @classmethod
+    def from_query(cls, query: Q) -> ParsedQuery:
+        return cls([ParsedQueryClause(query)])
+
+    @classmethod
+    def from_change_query(cls, change_query: Q) -> ParsedQuery:
+        return cls([ParsedQueryClause(Q(), change_query)])
+
+    def materialize(self) -> Q:
+        if not self.clauses:
+            return Q()
+
+        result = self.clauses[0].materialize()
+        for clause in self.clauses[1:]:
+            result |= clause.materialize()
+        return result
+
+    def has_change_query(self) -> bool:
+        return any(clause.change_query is not None for clause in self.clauses)
+
+    def combine_and(self, other: ParsedQuery) -> ParsedQuery:
+        if not self.has_change_query() and not other.has_change_query():
+            return ParsedQuery.from_query(self.materialize() & other.materialize())
+
+        return ParsedQuery(
+            [
+                left.combine_and(right)
+                for left in self.clauses
+                for right in other.clauses
+            ]
+        )
+
+    def combine_or(self, other: ParsedQuery) -> ParsedQuery:
+        if not self.has_change_query() and not other.has_change_query():
+            return ParsedQuery.from_query(self.materialize() | other.materialize())
+
+        return ParsedQuery([*self.clauses, *other.clauses])
+
+    def negate(self) -> ParsedQuery:
+        return ParsedQuery.from_query(~self.materialize())
 
 
 def build_parser(term_expression: type[BaseTermExpr]) -> ParserElement:
@@ -450,6 +523,45 @@ class BaseTermExpr:
             return self.NONTEXT_FIELDS[field]
         raise SearchQueryError(gettext("Unknown search field: {}").format(field))
 
+    def build_field_query(
+        self,
+        field: str,
+        match: Any,  # noqa: ANN401
+        field_name: Callable[[str, str | None], str] | None = None,
+    ) -> Q:
+        if field_name is None:
+            field_name = self.field_name
+
+        if isinstance(match, RegexExpr):
+            # Regular expression
+            from weblate.trans.models import Unit  # noqa: PLC0415
+
+            with transaction.atomic():
+                try:
+                    Unit.objects.annotate(test=Value("")).filter(
+                        test__trgm_regex=match.expr
+                    ).exists()
+                except DataError as error:
+                    raise SearchQueryError(
+                        gettext("Invalid regular expression: {}").format(error)
+                    ) from error
+            return Q(**{field_name(field, "trgm_regex"): match.expr})
+
+        if isinstance(match, tuple):
+            start, end = match
+            # Ranges
+            if self.operator in {":", ":="}:
+                return Q(**{field_name(field, "range"): (start, end)})
+            if self.operator in {":>", ":>="}:
+                return Q(**{field_name(field, "gte"): start})
+            return Q(**{field_name(field, "lte"): end})
+
+        if isinstance(match, set):
+            return Q(**{field_name(field, "in"): match})
+
+        # Generic query
+        return Q(**{field_name(field, None): match})
+
     def convert_non_field(self) -> Q:
         raise NotImplementedError
 
@@ -473,38 +585,10 @@ class BaseTermExpr:
         if convert_method is not None:
             match = convert_method(match)
 
-        if isinstance(match, RegexExpr):
-            # Regular expression
-            from weblate.trans.models import Unit  # noqa: PLC0415
+        return self.field_extra(field, self.build_field_query(field, match), match)
 
-            with transaction.atomic():
-                try:
-                    Unit.objects.annotate(test=Value("")).filter(
-                        test__trgm_regex=match.expr
-                    ).exists()
-                except DataError as error:
-                    raise SearchQueryError(
-                        gettext("Invalid regular expression: {}").format(error)
-                    ) from error
-            return Q(**{self.field_name(field, "trgm_regex"): match.expr})
-
-        if isinstance(match, tuple):
-            start, end = match
-            # Ranges
-            if self.operator in {":", ":="}:
-                query = Q(**{self.field_name(field, "range"): (start, end)})
-            elif self.operator in {":>", ":>="}:
-                query = Q(**{self.field_name(field, "gte"): start})
-            else:
-                query = Q(**{self.field_name(field, "lte"): end})
-
-        elif isinstance(match, set):
-            query = Q(**{self.field_name(field, "in"): match})
-        else:
-            # Generic query
-            query = Q(**{self.field_name(field): match})
-
-        return self.field_extra(field, query, match)
+    def as_parsed_query(self, context: dict) -> ParsedQuery:
+        return ParsedQuery.from_query(self.as_query(context))
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         return {}
@@ -528,6 +612,19 @@ class BaseTermExpr:
 
 
 class UnitTermExpr(BaseTermExpr):
+    CHANGE_FIELDS: ClassVar[set[str]] = {
+        "changed",
+        "changed_by",
+        "change_action",
+        "change_time",
+    }
+    CHANGE_CONTENT_FIELDS: ClassVar[set[str]] = {"changed", "changed_by"}
+    CHANGE_FIELD_MAP: ClassVar[dict[str, str]] = {
+        "changed": "timestamp",
+        "changed_by": "author__username",
+        "change_action": "action",
+        "change_time": "timestamp",
+    }
     PLAIN_FIELDS: ClassVar[set[str]] = {
         "source",
         "target",
@@ -542,12 +639,9 @@ class UnitTermExpr(BaseTermExpr):
         "source_state": "source_unit__state",
         "position": "position",
         "pending": "pending_changes__isnull",
-        "changed": "change__timestamp",
         "source_changed": "source_unit__last_updated",
         "last_changed": "last_updated",
-        "change_time": "change__timestamp",
         "added": "timestamp",
-        "change_action": "change__action",
         "labels_count": "labels_count",
     }
     STRING_FIELD_MAP: ClassVar[dict[str, str]] = {
@@ -560,29 +654,48 @@ class UnitTermExpr(BaseTermExpr):
     EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "language": "translation__language__code",
         "project": "translation__component__project__slug",
-        "changed_by": "change__author__username",
         "suggestion_author": "suggestion__user__username",
         "comment_author": "comment__user__username",
     }
 
-    def as_query(self, context: dict) -> Q:
-        if (
-            self.field == "changed_by"
-            and not self.match
-            and self.operator in {":", ":="}
-        ):
+    def change_field_name(self, field: str, suffix: str | None = None) -> str:
+        if suffix is None:
+            suffix = OPERATOR_MAP[self.operator]
+
+        if field == "changed_by":
+            if suffix == "substring":
+                suffix = "iexact"
+            return f"{self.CHANGE_FIELD_MAP[field]}__{suffix}"
+        if suffix not in {"substring", "iexact"}:
+            return f"{self.CHANGE_FIELD_MAP[field]}__{suffix}"
+        return self.CHANGE_FIELD_MAP[field]
+
+    def as_change_query(self, context: dict) -> Q:
+        field = cast("str", self.field)
+        match = self.match
+
+        if field == "changed_by" and not match and self.operator in {":", ":="}:
+            query = Q(author__isnull=True)
+        else:
+            convert_method = getattr(self, f"convert_{field}", None)
+            if convert_method is not None:
+                match = convert_method(match)
+            query = self.build_field_query(field, match, self.change_field_name)
+
+        if field in self.CHANGE_CONTENT_FIELDS:
             from weblate.trans.models import Change  # noqa: PLC0415
 
-            return Q(
-                Exists(
-                    Change.objects.filter(
-                        action__in=Change.ACTIONS_CONTENT,
-                        author__isnull=True,
-                        unit_id=OuterRef("pk"),
-                    )
-                )
-            )
+            query &= Q(action__in=Change.ACTIONS_CONTENT)
+        return query
 
+    def as_parsed_query(self, context: dict) -> ParsedQuery:
+        if self.field in self.CHANGE_FIELDS:
+            return ParsedQuery.from_change_query(self.as_change_query(context))
+        return super().as_parsed_query(context)
+
+    def as_query(self, context: dict) -> Q:
+        if self.field in self.CHANGE_FIELDS:
+            return self.as_parsed_query(context).materialize()
         return super().as_query(context)
 
     def is_field(self, text: str, context: dict) -> Q:
@@ -809,10 +922,6 @@ class UnitTermExpr(BaseTermExpr):
         return self.convert_int(text)
 
     def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
-        from weblate.trans.models import Change  # noqa: PLC0415
-
-        if field in {"changed", "changed_by"}:
-            return query & Q(change__action__in=Change.ACTIONS_CONTENT)
         if field == "comment":
             return query & Q(comment__resolved=False)
         if field == "resolved_comment":
@@ -917,14 +1026,16 @@ PARSERS: dict[Literal["unit", "user", "superuser"], ParserElement] = {
 PARSER_LOCK = threading.Lock()
 
 
-def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
+def parser_to_parsed_query(
+    obj: ParseResults | BaseTermExpr, context: dict
+) -> ParsedQuery:
     # Simple lookups
     if isinstance(obj, BaseTermExpr):
-        return obj.as_query(context)
+        return obj.as_parsed_query(context)
 
     # Operators
     operator = ""
-    expressions: list[Q] = []
+    expressions: list[ParsedQuery] = []
     was_operator = False
     for item in obj:
         if isinstance(item, str) and (current := item.upper()) in {"OR", "AND", "NOT"}:
@@ -936,19 +1047,32 @@ def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
             continue
         if not was_operator and expressions:
             # Implicit AND
-            expressions[-1] &= parser_to_query(item, context)
+            expressions[-1] = expressions[-1].combine_and(
+                parser_to_parsed_query(item, context)
+            )
         else:
-            expressions.append(parser_to_query(item, context))
+            expressions.append(parser_to_parsed_query(item, context))
         was_operator = False
 
     if not expressions:
-        return Q()
+        return ParsedQuery.from_query(Q())
 
     if operator == "NOT":
-        return ~expressions[0]
+        return expressions[0].negate()
     if operator == "AND":
-        return reduce(and_, expressions)
-    return reduce(or_, expressions)
+        result = expressions[0]
+        for expression in expressions[1:]:
+            result = result.combine_and(expression)
+        return result
+
+    result = expressions[0]
+    for expression in expressions[1:]:
+        result = result.combine_or(expression)
+    return result
+
+
+def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
+    return parser_to_parsed_query(obj, context).materialize()
 
 
 def parser_annotations(
