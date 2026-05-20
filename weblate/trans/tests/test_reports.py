@@ -8,9 +8,11 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import User
+from weblate.trans.forms import CountsReportsForm
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import generate_counts, generate_credits
+from weblate.utils.state import STATE_APPROVED
 
 COUNTS_DATA = [
     {
@@ -57,6 +59,21 @@ class BaseReportsTest(ViewTestCase):
 
     def add_change(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+    def generate_count_data(
+        self, counting_mode: str = CountsReportsForm.COUNTING_MODE_UNIQUE
+    ):
+        now = timezone.now()
+        return generate_counts(
+            None,
+            now - timedelta(days=1),
+            now + timedelta(days=1),
+            "",
+            "date_joined",
+            "ascending",
+            counting_mode,
+            component=self.component,
+        )
 
 
 class ReportsTest(BaseReportsTest):
@@ -144,6 +161,80 @@ class ReportsTest(BaseReportsTest):
             component=self.component,
         )
         self.assertEqual(data, self.counts_data)
+
+    def test_counts_unique_repeated_edits(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.edit_unit("Hello, world!\n", "Nazdar svete 2!\n")
+        self.edit_unit("Hello, world!\n", "Nazdar svete 3!\n")
+
+        data = self.generate_count_data()
+
+        self.assertEqual(data[0]["count"], 2)
+        self.assertEqual(data[0]["count_new"], 1)
+        self.assertEqual(data[0]["count_edit"], 1)
+        self.assertEqual(data[0]["words"], 4)
+        self.assertEqual(data[0]["words_new"], 2)
+        self.assertEqual(data[0]["words_edit"], 2)
+
+    def test_counts_all_repeated_edits(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.edit_unit("Hello, world!\n", "Nazdar svete 2!\n")
+        self.edit_unit("Hello, world!\n", "Nazdar svete 3!\n")
+
+        data = self.generate_count_data(CountsReportsForm.COUNTING_MODE_ALL)
+
+        self.assertEqual(data[0]["count"], 3)
+        self.assertEqual(data[0]["count_new"], 1)
+        self.assertEqual(data[0]["count_edit"], 2)
+        self.assertEqual(data[0]["words"], 6)
+        self.assertEqual(data[0]["words_new"], 2)
+        self.assertEqual(data[0]["words_edit"], 4)
+
+    def test_counts_unique_repeated_approvals(self) -> None:
+        user = User.objects.create(
+            username="approvalbase",
+            email="approval-base@example.org",
+            password=TESTPASSWORD,
+            full_name="Approval Base",
+        )
+        self.change_unit("Nazdar svete!\n", user=user)
+        self.change_unit("Nazdar svete 2!\n", user=self.user, state=STATE_APPROVED)
+        self.change_unit("Nazdar svete 3!\n", user=self.user, state=STATE_APPROVED)
+
+        data = generate_counts(
+            self.user,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "",
+            "date_joined",
+            "ascending",
+            component=self.component,
+        )
+
+        self.assertEqual(data[0]["count"], 1)
+        self.assertEqual(data[0]["count_approve"], 1)
+        self.assertEqual(data[0]["words"], 2)
+        self.assertEqual(data[0]["words_approve"], 2)
+
+    def test_counts_unique_per_user(self) -> None:
+        user = User.objects.create(
+            username="uniqueuser",
+            email="unique-user@example.org",
+            password=TESTPASSWORD,
+            full_name="Unique User",
+        )
+        self.change_unit("Nazdar svete!\n", user=self.user)
+        self.change_unit("Nazdar svete 2!\n", user=self.user)
+        self.change_unit("Nazdar svete 3!\n", user=user)
+        self.change_unit("Nazdar svete 4!\n", user=user)
+
+        data = {item["email"]: item for item in self.generate_count_data()}
+
+        self.assertEqual(data[self.user.email]["count"], 2)
+        self.assertEqual(data[self.user.email]["count_new"], 1)
+        self.assertEqual(data[self.user.email]["count_edit"], 1)
+        self.assertEqual(data[user.email]["count"], 1)
+        self.assertEqual(data[user.email]["count_edit"], 1)
 
 
 class ReportsComponentTest(BaseReportsTest):
@@ -421,6 +512,13 @@ class ReportsComponentTest(BaseReportsTest):
             "Error in parameter sort_by: Select a valid choice. - is not one of the available choices.",
         )
 
+    def test_counts_invalid_counting_mode(self) -> None:
+        response = self.get_counts("json", counting_mode="-", follow=True)
+        self.assertContains(
+            response,
+            "Error in parameter counting_mode: Select a valid choice. - is not one of the available choices.",
+        )
+
     def create_test_sort_data(self) -> None:
         user1 = User.objects.create(
             username="customtestuser1",
@@ -548,7 +646,11 @@ class ReportsComponentTest(BaseReportsTest):
         }
 
         url = reverse("counts", kwargs=self.get_kwargs())
-        params = {"style": "json", "period": "01/01/2000 - 01/01/2100"}
+        params = {
+            "style": "json",
+            "period": "01/01/2000 - 01/01/2100",
+            "counting_mode": CountsReportsForm.COUNTING_MODE_ALL,
+        }
 
         response = self.client.post(
             url, {**params, "sort_by": "count", "sort_order": "descending"}
@@ -585,6 +687,38 @@ class ReportsComponentTest(BaseReportsTest):
             response.content.decode(),
             [expected_count3, expected_count2, expected_count1],
         )
+
+    def test_counts_sorting_unique(self) -> None:
+        user1 = User.objects.create(
+            username="unique_sort_user1",
+            email="unique-sort-1@example.org",
+            password=TESTPASSWORD,
+            full_name="Unique Sort 1",
+        )
+        user2 = User.objects.create(
+            username="unique_sort_user2",
+            email="unique-sort-2@example.org",
+            password=TESTPASSWORD,
+            full_name="Unique Sort 2",
+        )
+        self.change_unit("Nazdar svete!\n", user=user1)
+        self.change_unit("Nazdar svete 2!\n", user=user1)
+        self.change_unit("Nazdar svete 3!\n", user=user2)
+
+        response = self.client.post(
+            reverse("counts", kwargs=self.get_kwargs()),
+            {
+                "style": "json",
+                "period": "01/01/2000 - 01/01/2100",
+                "sort_by": "count",
+                "sort_order": "descending",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual([item["email"] for item in data], [user1.email, user2.email])
+        self.assertEqual([item["count"] for item in data], [2, 1])
 
     def test_credits_sorting(self) -> None:
         self.create_test_sort_data()
