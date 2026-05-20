@@ -468,7 +468,9 @@ USER_AGENT_DEVICE_TYPES: dict[str, str] = {
     # Translators: User agent device type
     "Generic Smartphone": pgettext_lazy("User agent platform", "Generic Smartphone"),
     # Translators: User agent device type
-    "Generic Feature Phone": pgettext_lazy("User agent platform", "Generic Feature Phone"),
+    "Generic Feature Phone": pgettext_lazy(
+        "User agent platform", "Generic Feature Phone"
+    ),
     # Translators: User agent device type
     "iOS-Device": pgettext_lazy("User agent platform", "iOS-Device"),
 }
