@@ -900,7 +900,6 @@ class SearchForm(forms.Form):
         return self.cleaned_data["offset"]
 
 
-
 class PositionSearchForm(SearchForm):
     offset = forms.IntegerField(min_value=-1, required=False)
     offset_kwargs: ClassVar[dict[str, str]] = {
@@ -3349,7 +3348,6 @@ class ChangesForm(forms.Form):
         label=gettext_lazy("Date range"),
         required=False,
     )
-
 
 
 class LabelForm(forms.ModelForm):
