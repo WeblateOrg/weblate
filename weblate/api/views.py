@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import os.path
+from collections.abc import Mapping
 from contextlib import suppress
 from datetime import datetime
 from typing import TYPE_CHECKING, TypedDict, cast
@@ -119,10 +120,11 @@ from weblate.api.serializers import (
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
-from weblate.auth.models import Group, Role, User
+from weblate.auth.models import Group, Role, TeamMembership, User
 from weblate.auth.results import PermissionResult
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
+from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
@@ -169,7 +171,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import GlobalStats, prefetch_stats
+from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
@@ -188,6 +190,57 @@ COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentLinkResponseSerializer",
     fields={"data": ComponentSerializer()},
 )
+
+USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
+    "UserGroupRequest",
+    fields={
+        "group_id": serializers.IntegerField(),
+        "limit_language_codes": serializers.ListField(
+            child=serializers.CharField(), required=False
+        ),
+    },
+)
+
+
+def parse_limit_language_codes(data: Mapping[str, object]) -> list[Language] | None:
+    language_field_name = "limit_language_codes"
+    getlist = getattr(data, "getlist", None)
+    if language_field_name not in data:
+        return None
+
+    language_codes = (
+        getlist(language_field_name) if callable(getlist) else data[language_field_name]
+    )
+    if not isinstance(language_codes, list):
+        raise ValidationError(
+            {language_field_name: "Expected a list of language codes."}
+        )
+
+    for language_code in language_codes:
+        if not isinstance(language_code, str) or not language_code:
+            raise ValidationError({language_field_name: "Invalid language code."})
+        try:
+            validate_language_code(language_code)
+        except DjangoValidationError as error:
+            raise ValidationError(
+                {language_field_name: "Invalid language code."}
+            ) from error
+
+    unique_language_codes = list(dict.fromkeys(language_codes))
+    languages_by_code = Language.objects.in_bulk(
+        unique_language_codes, field_name="code"
+    )
+    missing_language_codes = [
+        code for code in unique_language_codes if code not in languages_by_code
+    ]
+    if missing_language_codes:
+        raise ValidationError(
+            {
+                language_field_name: "Language not found. Missing codes: "
+                f"{', '.join(missing_language_codes)}."
+            }
+        )
+    return [languages_by_code[code] for code in unique_language_codes]
 
 
 def validate_api_team_assignable_user(
@@ -708,28 +761,49 @@ class UserViewSet(viewsets.ModelViewSet):
             cast("AuthenticatedHttpRequest", self.request)
         )
 
-    @extend_schema(description="Associate groups with a user.", methods=["post"])
-    @extend_schema(description="Remove a user from a group.", methods=["delete"])
+    @extend_schema(
+        description="Associate groups with a user.",
+        methods=["post"],
+        request=USER_GROUP_REQUEST_SERIALIZER,
+    )
+    @extend_schema(
+        description="Remove a user from a group.",
+        methods=["delete"],
+    )
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
 
-        if "group_id" not in request.data:
+        if not isinstance(request.data, Mapping):
+            raise ValidationError(
+                {api_settings.NON_FIELD_ERRORS_KEY: gettext_lazy("Expected an object.")}
+            )
+
+        field_name = "group_id"
+        group_id = request.data.get(field_name)
+        if group_id is None:
             msg = "Missing group_id parameter"
             raise ValidationError({"group_id": msg})
 
-        field_name = "group_id"
         try:
-            group = Group.objects.get(pk=int(request.data[field_name]))
+            group = Group.objects.get(pk=int(group_id))
         except (TypeError, ValueError) as error:
             raise invalid_integer_error(field_name) from error
         except Group.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Group") from error
 
         if request.method == "POST":
+            limit_languages = parse_limit_language_codes(request.data)
             validate_api_team_assignable_user(obj, "username", allow_bot=True)
+            had_membership = obj.team_memberships.filter(group=group).exists()
             obj.add_team(request, group)
+            if limit_languages is not None:
+                TeamMembership.objects.get(user=obj, group=group).set_limit_languages(
+                    limit_languages,
+                    request,
+                    audit=had_membership,
+                )
         if request.method == "DELETE":
             if obj.is_bot and not obj.groups.exclude(pk=group.pk).exists():
                 raise ValidationError(
@@ -1296,6 +1370,9 @@ class AnnouncementsMixin:
         language = None
         if isinstance(obj, Project):
             project = obj
+        if isinstance(obj, ProjectLanguage):
+            project = obj.project
+            language = obj.language
         if isinstance(obj, Category):
             category = obj
         if isinstance(obj, Component):
@@ -1332,13 +1409,16 @@ class AnnouncementsMixin:
     @extend_schema(
         description="Create an announcement.",
         methods=["post"],
+        responses={HTTP_201_CREATED: AnnouncementSerializer},
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=AnnouncementSerializer
     )
     def announcements(self, request: Request, **kwargs):
         obj = self.get_object()
+        return self._announcements(obj, request, **kwargs)
 
+    def _announcements(self, obj, request: Request, **kwargs):
         if request.method == "POST":
             project, category, component, language = self.get_context(obj)
             if not request.user.has_perm("announcement.add", obj):
@@ -1386,7 +1466,9 @@ class AnnouncementsMixin:
     )
     def delete_announcement(self, request: Request, announcement_id, **kwargs):
         obj = self.get_object()
+        return self._delete_announcement(obj, request, announcement_id, **kwargs)
 
+    def _delete_announcement(self, obj, request: Request, announcement_id, **kwargs):
         try:
             announcement = self.get_announcements(obj).get(id=announcement_id)
         except Announcement.DoesNotExist as error:
@@ -1910,6 +1992,71 @@ class ProjectViewSet(
             obj.do_lock(request.user, serializer.validated_data["lock"])
 
         return Response(data=ProjectLockSerializer(obj).data)
+
+    @extend_schema(
+        description="Return project language announcements.",
+        methods=["get"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
+        responses=AnnouncementSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a project language announcement.",
+        methods=["post"],
+        parameters=[OpenApiParameter("language_code", str, OpenApiParameter.PATH)],
+        responses={HTTP_201_CREATED: AnnouncementSerializer},
+    )
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        serializer_class=AnnouncementSerializer,
+        url_path="languages/(?P<language_code>[^/.]+)/announcements",
+    )
+    def language_announcements(self, request: Request, language_code, **kwargs):
+        obj = self.get_object()
+
+        try:
+            language = Language.objects.get(code=language_code)
+        except Language.DoesNotExist as error:
+            msg = "language_code"
+            raise not_found_validation_error(msg, "Language") from error
+
+        if not obj.has_language(language):
+            msg = f"Project language with code {language_code}"
+            raise not_found_http404(msg)
+
+        return super()._announcements(ProjectLanguage(obj, language), request, **kwargs)
+
+    @extend_schema(
+        description="Delete a project language announcement.",
+        methods=["delete"],
+        parameters=[
+            OpenApiParameter("language_code", str, OpenApiParameter.PATH),
+            OpenApiParameter("announcement_id", int, OpenApiParameter.PATH),
+        ],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="languages/(?P<language_code>[^/.]+)/announcements/(?P<announcement_id>[0-9]+)",
+    )
+    def language_delete_announcement(
+        self, request: Request, language_code, announcement_id, **kwargs
+    ):
+        obj = self.get_object()
+
+        try:
+            language = Language.objects.get(code=language_code)
+        except Language.DoesNotExist as error:
+            msg = "language_code"
+            raise not_found_validation_error(msg, "Language") from error
+
+        if not obj.has_language(language):
+            msg = f"Project language with code {language_code}"
+            raise not_found_http404(msg)
+
+        return super()._delete_announcement(
+            ProjectLanguage(obj, language), request, announcement_id, **kwargs
+        )
 
 
 @extend_schema_view(

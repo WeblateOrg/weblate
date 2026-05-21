@@ -583,7 +583,7 @@
         text = target.find(".source").text();
       }
 
-      this.insertIntoTranslation($.trim(text));
+      this.insertIntoTranslation(text.trim());
       e.preventDefault();
     });
 
@@ -673,7 +673,7 @@
   };
 
   FullEditor.prototype.insertIntoTranslation = function (text) {
-    this.$translationArea.insertAtCaret($.trim(text));
+    this.$translationArea.insertAtCaret(text.trim());
   };
 
   class Machinery {

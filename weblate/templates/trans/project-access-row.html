@@ -20,7 +20,12 @@
     {% endif %}
   </td>
   <td>
-    {% for group in user.project_groups %}<span class="badge  text-bg-secondary">{{ group }}</span>{% endfor %}
+    {% for membership in user.project_group_memberships %}
+      <span class="badge text-bg-secondary">
+        {{ membership.group }}
+        {% include "snippets/membership-language-limit.html" with membership=membership only %}
+      </span>
+    {% endfor %}
   </td>
   <td>
     <a href="#"
@@ -78,7 +83,7 @@
                       data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}"></button>
             </div>
-            <div class="modal-body">{{ user.group_edit_form|crispy }}</div>
+            <div class="modal-body">{% include "trans/project-access-team-form.html" with form=user.group_edit_form only %}</div>
             <div class="modal-footer">
               <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
             </div>

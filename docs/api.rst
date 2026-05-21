@@ -1372,6 +1372,50 @@ Projects
         - ``403 Forbidden`` if the user does not have permission to the project.
         - ``404 Not Found`` if the project slug does not exist.
 
+.. http:get:: /api/projects/(string:project)/languages/(string:language_code)/announcements/
+
+   .. versionadded:: 2026.6
+
+    Returns announcements for a specified ``language_code`` in a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param language_code: Language code
+    :type language_code: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/projects/(string:project)/languages/(string:language_code)/announcements/
+
+   .. versionadded:: 2026.6
+
+    Creates an announcement for a specified ``language_code`` in a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param language_code: Language code
+    :type language_code: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/projects/(string:project)/languages/(string:language_code)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 2026.6
+
+    Deletes an announcement from a specified ``language_code`` in a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param language_code: Language code
+    :type language_code: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
+
 .. http:get:: /api/projects/(string:project)/announcements/
 
    .. versionadded:: 5.17

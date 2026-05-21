@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from email.errors import HeaderDefect
 from email.headerregistry import Address
+from operator import attrgetter
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -26,7 +27,46 @@ from weblate.auth.data import (
 )
 
 if TYPE_CHECKING:
-    from weblate.auth.models import Group, Permission, Role, User
+    from django.db.models import Prefetch
+    from django.utils.safestring import SafeString
+
+    from weblate.auth.models import (
+        Group,
+        Invitation,
+        Permission,
+        Role,
+        TeamMembership,
+        User,
+    )
+    from weblate.lang.models import Language
+
+
+def get_ordered_membership_limit_languages(
+    membership: TeamMembership | Invitation,
+) -> list[Language]:
+    return sorted(membership.limit_languages.all(), key=attrgetter("code"))
+
+
+def prefetch_membership_limit_languages() -> Prefetch:
+    from django.db.models import Prefetch  # noqa: PLC0415
+
+    from weblate.lang.models import Language  # noqa: PLC0415
+
+    return Prefetch("limit_languages", queryset=Language.objects.order_by("code"))
+
+
+def format_membership_limit_language_codes(
+    membership: TeamMembership | Invitation,
+) -> SafeString:
+    from weblate.utils.html import format_html_join_comma  # noqa: PLC0415
+
+    return format_html_join_comma(
+        "{}",
+        (
+            (language.code,)
+            for language in get_ordered_membership_limit_languages(membership)
+        ),
+    )
 
 
 def get_auth_backends():

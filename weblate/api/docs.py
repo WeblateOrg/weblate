@@ -35,6 +35,7 @@ WILDCARD_MEDIA_TYPE = "*/*"
 CSV_MEDIA_TYPE = "text/csv"
 OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
 METRICS_PATH = "/api/metrics/"
+USER_GROUPS_PATH = "/api/users/{username}/groups/"
 UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE = "415"
 FILE_UPLOAD_REQUEST_MEDIA_TYPES = {
     ("post", "/api/projects/{slug}/components/"): {
@@ -178,6 +179,35 @@ def simplify_media_types(result, generator, request, public):
             _simplify_response_media_types(path, method, operation)
             _simplify_format_parameter(path, method, operation)
             _simplify_error_responses(operation)
+
+    return result
+
+
+def document_user_group_delete_body(result, generator, request, public):
+    """Document legacy DELETE body support for user group removal."""
+    operation = result.get("paths", {}).get(USER_GROUPS_PATH, {}).get("delete")
+    if not isinstance(operation, dict):
+        return result
+
+    # drf-spectacular does not emit request bodies for DELETE methods.
+    schemas = result.setdefault("components", {}).setdefault("schemas", {})
+    schemas["UserGroupDeleteRequest"] = {
+        "type": "object",
+        "properties": {
+            "group_id": {
+                "type": "integer",
+            }
+        },
+        "required": ["group_id"],
+    }
+    operation["requestBody"] = {
+        "content": {
+            JSON_MEDIA_TYPE: {
+                "schema": {"$ref": "#/components/schemas/UserGroupDeleteRequest"}
+            }
+        },
+        "required": True,
+    }
 
     return result
 
