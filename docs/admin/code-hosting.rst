@@ -188,12 +188,10 @@ GitHub
 GitHub repository access
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are two main approaches to accessing GitHub repositories with Weblate:
+HTTPS with personal access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Option 1: HTTPS with personal access token**
-
-Use HTTPS authentication with a personal access token and your GitHub account.
-This works for both read-only access and read-write access.
+.. include:: /snippets/code-hosting-https-repository-access.rst
 
 To use this approach:
 
@@ -205,18 +203,14 @@ This is suitable when you are starting with Weblate or working with a single rep
 
 .. _Creating an access token for command-line use: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-**Option 2: SSH with a dedicated user**
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For setups with multiple repositories, create a dedicated user for Weblate.
-This avoids GitHub's limitation that each SSH key can only be used once per
-platform.
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
 
-To use this approach:
-
-1. Create a dedicated GitHub user account, for example ``weblate-bot``.
-2. Add Weblate's public SSH key to this user, see :ref:`weblate-ssh-key`.
-3. Grant this user access to all repositories you want to translate.
-4. Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``.
+For GitHub, create a dedicated user, for example ``weblate-bot``, and use
+GitHub SSH URLs for your repositories, for example
+``git@github.com:owner/repo.git``.
 
 This approach is also used for Hosted Weblate, which has a dedicated
 :guilabel:`weblate` user for that purpose.
@@ -293,18 +287,14 @@ GitLab
 GitLab repository access
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Access via SSH is possible, see :ref:`ssh-repos`, but if you need to access
-more than one repository, you will hit a GitLab limitation on allowed SSH key
-usage because each key can be used only once.
+HTTPS with personal or project access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In case the :ref:`component-push_branch` is not set, the project is forked and
-changes pushed through a fork. In case it is set, changes are pushed to the
-upstream repository and chosen branch.
+.. include:: /snippets/code-hosting-https-repository-access.rst
 
-Using personal or project access tokens is possible as well. The token needs
-:guilabel:`write_repository` scope to be able to push changes to the
-repository. The project access token requires :guilabel:`Developer` role for
-pushing.
+For GitLab, the token needs :guilabel:`write_repository` scope to be able to
+push changes to the repository. The project access token requires
+:guilabel:`Developer` role for pushing.
 
 The URL needs to contain a username. For a personal access token, it is the
 actual username:
@@ -318,6 +308,14 @@ For project access tokens it can be a non-blank value:
    releases, the non-blank value is the current requirement, but older versions
    had different expectations (project name, bot user name). Check GitLab
    documentation matching your version if unsure.
+
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
+
+For GitLab, create a dedicated user and use GitLab SSH URLs, for example
+``git@gitlab.com:group/project.git``.
 
 .. _code-hosting-gitlab-notifications:
 
@@ -357,12 +355,32 @@ repository, while the :guilabel:`GitLab` backend creates a merge request.
 To create merge requests, select :guilabel:`GitLab` as
 :ref:`component-vcs` and configure :setting:`GITLAB_CREDENTIALS`.
 
+The :ref:`component-push_branch` configuration affects where Weblate pushes
+changes before opening the merge request. If it is not set, the project is
+forked and changes are pushed through a fork. If it is set, changes are pushed
+to the upstream repository and chosen branch.
+
 .. _GitLab API: https://docs.gitlab.com/api/
 
 .. _code-hosting-gitea:
 
 Gitea, Forgejo, and Codeberg
 ----------------------------
+
+.. _code-hosting-gitea-repositories:
+
+Gitea, Forgejo, and Codeberg repository access
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+HTTPS with an access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-https-repository-access.rst
+
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
 
 For Hosted Weblate repositories on Codeberg, add the hosted
 :guilabel:`weblate` user where write access is needed, see :ref:`hosted-push`.
@@ -425,6 +443,21 @@ To create pull requests, select :guilabel:`Gitea` as
 
 Bitbucket
 ---------
+
+.. _code-hosting-bitbucket-repositories:
+
+Bitbucket repository access
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+HTTPS with an access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-https-repository-access.rst
+
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
 
 Hosted Weblate has a dedicated :guilabel:`weblate` user for Bitbucket access,
 see :ref:`hosted-push`.
@@ -505,6 +538,25 @@ To create pull requests, select :guilabel:`Bitbucket Cloud` as
 Azure DevOps
 ------------
 
+.. _code-hosting-azure-repos-repositories:
+
+Azure Repos repository access
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+HTTPS with an access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-https-repository-access.rst
+
+Use the HTTPS clone URL shown by Azure Repos for the repository.
+
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
+
+Use the SSH URL shown by Azure Repos for the repository.
+
 .. _code-hosting-azure-repos-notifications:
 
 Azure Repos notifications
@@ -544,6 +596,21 @@ To create pull requests, select :guilabel:`Azure DevOps` as
 
 Pagure
 ------
+
+.. _code-hosting-pagure-repositories:
+
+Pagure repository access
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+HTTPS with an access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-https-repository-access.rst
+
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
 
 .. _code-hosting-pagure-notifications:
 
@@ -585,6 +652,21 @@ To create merge requests, select :guilabel:`Pagure` as
 
 Other workflows
 ---------------
+
+.. _code-hosting-gitee-repositories:
+
+Gitee repository access
+~~~~~~~~~~~~~~~~~~~~~~~
+
+HTTPS with an access token
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-https-repository-access.rst
+
+SSH with a dedicated user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. include:: /snippets/code-hosting-ssh-repository-access.rst
 
 .. _code-hosting-gitee-notifications:
 
