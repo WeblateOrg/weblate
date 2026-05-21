@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-16 05:45+0000\n"
+"PO-Revision-Date: 2026-05-21 22:59+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -7774,7 +7774,7 @@ msgstr "更新儲存庫"
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
-msgstr "應該新增一些從他們的來源來更新後端儲存庫的方式。"
+msgstr "您應該設定某種方法來從來源更新後端儲存庫。"
 
 #: admin/continuous.rst:87
 msgid ""
@@ -7907,7 +7907,7 @@ msgstr ""
 
 #: admin/continuous.rst:138
 msgid "The script for doing updates can look like this:"
-msgstr "進行更新的指令碼看起來像這樣："
+msgstr ""
 
 #: admin/continuous.rst:159
 #, fuzzy
@@ -31636,19 +31636,10 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:596
-#, fuzzy
-#| msgid ""
-#| "Please use :http:get:`/api/components/(string:project)/(string:component)/"
-#| "statistics/` and :http:get:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/statistics/` instead; it allows "
-#| "access to ACL controlled projects as well."
 msgid ""
 "Dropped long-deprecated :http:get:`/hooks/update/(string:project)/"
 "(string:component)/` and :http:get:`/hooks/update/(string:project)/`."
 msgstr ""
-"請替代使用:http:get:`/api/components/(string:project)/(string:component)/"
-"statistics/` 和:http:get:`/api/translations/(string:project)/(string: "
-"component)/(string:language)/statistics/`；它也允許存取ACL 控制的專案。"
 
 #: changes/v5.rst:597
 msgid ""
@@ -33949,14 +33940,9 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:1611
-#, fuzzy
-#| msgid ""
-#| "link to associated componentlist; see :http:get:`/api/component-lists/"
-#| "(str:slug)/`"
 msgid ""
 ":http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp."
-msgstr ""
-"相關聯組件清單的連接；請參閱 :http:get:`/api/component-lists/(str:slug)/`"
+msgstr ":http:get:`/api/units/(int:id)/` 現在包含 ``last_updated`` 時間戳。"
 
 #: changes/v5.rst:1612
 #, fuzzy
@@ -39228,24 +39214,12 @@ msgid ""
 msgstr ""
 
 #: devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "To fetch updated strings from Weblate, you can simply fetch the "
-#| "underlying Git repository (either from filesystem, or it can be made "
-#| "available through :ref:`git-exporter`). Prior to this, you might want to "
-#| "commit any pending changes (see :ref:`lazy-commit`). You can do so in the "
-#| "user interface (in the :guilabel:`Repository maintenance`) or from the "
-#| "command-line using :ref:`wlc`."
 msgid ""
 "Prior to this, you might want to commit any pending local changes made in "
 "Weblate (see :ref:`lazy-commit`). This can be done from the user interface "
 "(in the :guilabel:`Repository maintenance`), or from the command-line "
 "using :ref:`wlc`."
 msgstr ""
-"為了從 Weblate 取回更新的字串，可以簡單地擷取基礎的 Git 儲存庫（要麼來自檔案"
-"系統，要麼可以通過 :ref:`git-exporter`來獲得）。在這之前，您會想要提交任何掛"
-"起的變更（請參閱 :ref:`lazy-commit`）。這可以通過（在 :guilabel:`Repository "
-"maintenance` 中）或使用 :ref:`wlc` 從命令列來實現。"
 
 #: devel/integration.rst:34
 #, fuzzy
@@ -39276,21 +39250,12 @@ msgid "Fetching remote changes into Weblate"
 msgstr "取得遠端變更至 Weblate"
 
 #: devel/integration.rst:50
-#, fuzzy
-#| msgid ""
-#| "To fetch the strings newly updated in your repository into Weblate, just "
-#| "let it pull from the upstream repository. This can be achieved in the "
-#| "user interface (in the :guilabel:`Repository maintenance`), or from the "
-#| "command line using :ref:`wlc`."
 msgid ""
 "To fetch any strings recently updated in your remote VCS repository into "
 "Weblate, allow Weblate to pull from the upstream repository. This can be "
 "achieved in the user interface (in the :guilabel:`Repository maintenance`), "
 "or from the command-line using :ref:`wlc`."
 msgstr ""
-"為了將儲存庫中更新的字串取得到 Weblate，只要從上游儲存庫拉取就可以了。這可以"
-"在使用者介面（在 :guilabel:`Repository maintenance` 中）或使用 :ref:`wlc` 從"
-"命令列來實現。"
 
 #: devel/integration.rst:55
 #, fuzzy
@@ -39359,16 +39324,10 @@ msgid ""
 msgstr ""
 
 #: devel/integration.rst:83
-#, fuzzy
-#| msgid ""
-#| "URL to strings list; see :http:get:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/units/`"
 msgid ""
 "Programmatically, using the API :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`."
 msgstr ""
-"字串清單的 URL；請參閱 :http:get:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/units/`"
 
 #: devel/integration.rst:84
 #, fuzzy
@@ -41221,8 +41180,6 @@ msgid ""
 "Either submit a pull request with the changes directly or write us at "
 "care@weblate.org to get listed."
 msgstr ""
-"您正在為您的框架建立 Weblate 整合工具嗎？歡迎提供您的作品，不論是直接提交 "
-"Pull Request 或寄信到 care@weblate.org 讓我們幫您條列在這裡。"
 
 #: devel/translations.rst:2
 msgid "Managing translations"
@@ -44863,14 +44820,10 @@ msgid "Weblate's Python API"
 msgstr "Weblate 的 Python API"
 
 #: python.rst:13
-#, fuzzy
-#| msgid ""
-#| "The Python API is shipped separately, you need to install the :ref:`wlc`: "
-#| "(wlc) to have it."
 msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc` "
 "(wlc) to have it."
-msgstr "Python API是單獨發佈的，您需要安裝 :ref:`wlc`: (wlc) 以使用。"
+msgstr "Python API 是單獨提供的，您需要安裝 :ref:`wlc` (wlc) 來使用。"
 
 #: python.rst:27
 msgid ":exc:`WeblateException`"
@@ -61699,19 +61652,19 @@ msgstr ""
 msgid ""
 "Detailed GitHub pull request setup is covered in :ref:`code-hosting-github-"
 "pull-requests`."
-msgstr ""
+msgstr "詳細的 GitHub 拉取請求設定請參閱 :ref:`code-hosting-github-pull-requests`。"
 
 #: vcs.rst:336
 msgid ""
 "Detailed GitLab merge request setup is covered in :ref:`code-hosting-gitlab-"
 "merge-requests`."
-msgstr ""
+msgstr "詳細的 GitLab 合併請求設定請參閱 :ref:`code-hosting-gitlab-merge-requests`。"
 
 #: vcs.rst:345
 msgid ""
 "Detailed Gitea pull request setup is covered in :ref:`code-hosting-gitea-"
 "pull-requests`."
-msgstr ""
+msgstr "詳細的 Gitea 拉取請求設定請參閱 :ref:`code-hosting-gitea-pull-requests`。"
 
 #: vcs.rst:355
 msgid ""
@@ -61729,7 +61682,7 @@ msgstr ""
 msgid ""
 "Detailed Pagure merge request setup is covered in :ref:`code-hosting-pagure-"
 "merge-requests`."
-msgstr ""
+msgstr "詳細的 Pagure 合併請求設定請參閱 :ref:`code-hosting-pagure-merge-requests`。"
 
 #: vcs.rst:379
 msgid "Gerrit"
@@ -61739,13 +61692,15 @@ msgstr "Gerrit"
 msgid ""
 "Detailed Gerrit review request setup is covered in :ref:`code-hosting-"
 "gerrit`."
-msgstr ""
+msgstr "詳細的 Gerrit 檢閱請求設定請參閱 :ref:`code-hosting-gerrit`。"
 
 #: vcs.rst:390
 msgid ""
 "Detailed Azure DevOps pull request setup is covered in :ref:`code-hosting-"
 "azure-devops-pull-requests`."
 msgstr ""
+"詳細的 Azure DevOps 拉取請求設定請參閱 :ref:`code-hosting-azure-devops-pull-"
+"requests`。"
 
 #: vcs.rst:396
 msgid "Mercurial"
@@ -61905,17 +61860,11 @@ msgid "Getting started"
 msgstr "開始使用"
 
 #: wlc.rst:76
-#, fuzzy
-#| msgid ""
-#| "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
-#| "config` for other locations), please create it to match your environment:"
 msgid ""
 "The easiest way to get started is to create a personal :program:`wlc` "
 "configuration in :file:`~/.config/weblate` (see :ref:`wlc-config` for the "
 "full discovery rules and other locations):"
 msgstr ""
-"wlc 配置儲存在 ``~/.config/weblate`` 中（其他位置請參閱 ref:`wlc-config`）,請"
-"建立它以比對您的環境："
 
 #: wlc.rst:89
 msgid "You can then invoke commands on the default server:"
@@ -61946,14 +61895,15 @@ msgid "Commands actually indicate which operation should be performed."
 msgstr "指令實際上指示應該執行哪個操作。"
 
 #: wlc.rst:139
+#, fuzzy
 msgid ""
 "Weblate Client is a Python library and command-line utility to manage "
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
 "Weblate 用戶端是一個 Python 庫和命令列實用程式，可使用 :ref:`api` 遠端管理 "
-"Weblate。命令列實用程式可以作為 :command:`wlc` 呼叫，並且內建在 :mod:`wlc` "
-"上。"
+"Weblate。命令列實用程式可以作為 :command:`wlc` 呼叫，並且內建在 :mod:`wlc` 上"
+"。"
 
 #: wlc.rst:144
 msgid "Arguments"
@@ -61977,7 +61927,7 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
-"指定 API URL。覆寫在配置檔案中找到的任何值，請參閱 :ref:`wlc-config`。該網址"
+"指定 API URL。覆寫在配置檔案中找到的任何值，請參閱 :ref:`wlc-config`。該 URL "
 "應以 ``/api/`` 結尾，例如 ``https://hosted.weblate.org/api/``。"
 
 #: wlc.rst:160
@@ -61997,7 +61947,7 @@ msgstr ""
 
 #: wlc.rst:170
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
-msgstr "覆寫正在使用的配置檔案部分，請參閱 :ref:`wlc-config`。"
+msgstr "覆寫使用中的配置檔案部分，請參閱 :ref:`wlc-config`。"
 
 #: wlc.rst:173
 msgid "Commands"
@@ -62271,13 +62221,11 @@ msgstr ""
 
 #: wlc.rst:355
 msgid "The configuration file is an INI file, for example:"
-msgstr "配置檔案是一個 INI 檔案，例如："
+msgstr "配置檔案是個 INI 檔案，例如："
 
 #: wlc.rst:368
-#, fuzzy
-#| msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgid "The API keys are stored in the ``[keys]`` section:"
-msgstr "另外，API 金鑰可以儲存在 ``[keys]`` 部分中："
+msgstr "API 金鑰儲存在 ``[keys]`` 部分中："
 
 #: wlc.rst:375
 #, fuzzy
@@ -62314,11 +62262,11 @@ msgstr "明顯的設定與依賴項變更："
 
 #: wlc.rst:400
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."
-msgstr ""
+msgstr "命令列引數 （:option:`--url`、:option:`--key`）。"
 
 #: wlc.rst:401
 msgid "Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
-msgstr ""
+msgstr "環境變數 （:envvar:`WLC_URL`、:envvar:`WLC_KEY`）。"
 
 #: wlc.rst:402
 msgid ""
