@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-12 04:42+0200\n"
-"PO-Revision-Date: 2026-05-13 12:12+0000\n"
+"PO-Revision-Date: 2026-05-16 05:45+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -4256,15 +4256,6 @@ msgstr ""
 ":option:`wlc push` pushen."
 
 #: admin/code-hosting.rst:57
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` or :ref:`vcs-gerrit` reviews, you can "
-#| "activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-"
@@ -4274,28 +4265,24 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Für den Fall, dass Sie keine direkten Pushes durch Weblate möchten, gibt es "
-"Unterstützung für :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
-"gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` oder :ref:`vcs-gerrit`-"
-"Reviews. Sie können diese aktivieren, indem "
-"Sie :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-"DevOps`, oder :guilabel:`Pagure` als :ref:`component-vcs` "
-"in :ref:`component` auswählen."
+"Falls Sie kein direktes Pushen durch Weblate möchten, gibt es Unterstützung "
+"für :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-"
+"merge-requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
+"pagure-merge-requests`, :ref:`code-hosting-azure-devops-pull-requests` oder "
+":ref:`code-hosting-gerrit`. Sie können diese aktivieren, indem Sie "
+":guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit`, :guilabel:`Azure DevOps` oder :guilabel:`Pagure` als "
+":ref:`component-vcs` in der :ref:`component` auswählen."
 
 #: admin/code-hosting.rst:68
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, Mercurial, GitHub, "
-#| "GitLab, Gitea, Pagure, Azure DevOps, Bitbucket Data Center and Bitbucket "
-#| "Cloud:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and "
 "Bitbucket Cloud:"
 msgstr ""
-"Insgesamt stehen mit Git, Mercurial, GitHub, GitLab, Gitea, Pagure, Azure "
-"DevOps, Bitbucket Data Center und Bitbucket Cloud folgende Optionen zur "
-"Verfügung:"
+"Insgesamt sind folgende Optionen mit Git, Mercurial, GitHub, GitLab, Gitea, "
+"Pagure, Azure DevOps, Gerrit, Bitbucket Data Center und Bitbucket Cloud "
+"verfügbar:"
 
 #: admin/code-hosting.rst:74
 msgid "Desired setup"
@@ -4336,7 +4323,7 @@ msgstr "Push zu separatem Branch"
 #: admin/code-hosting.rst:142 admin/code-hosting.rst:152
 #: admin/code-hosting.rst:167 admin/code-hosting.rst:177
 msgid "Branch name"
-msgstr "Name des Branches"
+msgstr "Branch-Name"
 
 #: admin/code-hosting.rst:104
 msgid "GitHub pull request from fork"
@@ -4386,16 +4373,12 @@ msgid "Azure DevOps pull request from branch"
 msgstr "Azure-DevOps-Pull-Request vom Branch"
 
 #: admin/code-hosting.rst:154
-#, fuzzy
-#| msgid "Peer review"
 msgid "Gerrit review"
-msgstr "Peer-Review"
+msgstr "Gerrit-Review"
 
 #: admin/code-hosting.rst:157
-#, fuzzy
-#| msgid "Target translation"
 msgid "Target branch name (optional)"
-msgstr "Zielübersetzung"
+msgstr "Ziel-Branch-Name (optional)"
 
 #: admin/code-hosting.rst:159
 msgid "Bitbucket Data Center pull request from fork"
@@ -4422,10 +4405,8 @@ msgid "GitHub"
 msgstr "GitHub"
 
 #: admin/code-hosting.rst:189
-#, fuzzy
-#| msgid "GitHub repositories"
 msgid "GitHub repository access"
-msgstr "GitHub-Repositorys"
+msgstr "GitHub-Repository-Zugriff"
 
 #: admin/code-hosting.rst:191
 msgid ""
@@ -4434,29 +4415,17 @@ msgstr ""
 "Es gibt zwei Hauptansätze für den Zugriff auf GitHub-Repositorys mit Weblate:"
 
 #: admin/code-hosting.rst:193
-#, fuzzy
-#| msgid ""
-#| "**Option 1: HTTPS with Personal Access Token (simpler for getting "
-#| "started)**"
 msgid "**Option 1: HTTPS with personal access token**"
-msgstr ""
-"**Option 1: HTTPS mit persönlichem Zugangstoken (einfacher für den "
-"Einstieg)**"
+msgstr "**Option 1: HTTPS mit persönlichem Zugangstoken**"
 
 #: admin/code-hosting.rst:195
-#, fuzzy
-#| msgid ""
-#| "Use HTTPS authentication with a personal access token and your GitHub "
-#| "account. This works for both read-only access (cloning) and read-write "
-#| "access (pushing changes or creating pull requests)."
 msgid ""
 "Use HTTPS authentication with a personal access token and your GitHub "
 "account. This works for both read-only access and read-write access."
 msgstr ""
 "Verwenden Sie die HTTPS-Authentifizierung mit einem persönlichen "
 "Zugangstoken und Ihrem GitHub-Konto. Dies funktioniert sowohl für den Nur-"
-"Lese-Zugriff (Klonen) als auch für den Lese-Schreib-Zugriff (Pushen von "
-"Änderungen oder Erstellen von Pull Requests)."
+"Lese-Zugriff als auch für den Lese-Schreib-Zugriff."
 
 #: admin/code-hosting.rst:198 admin/code-hosting.rst:214
 msgid "To use this approach:"
@@ -4471,84 +4440,56 @@ msgstr ""
 "for command-line use`_ beschrieben."
 
 #: admin/code-hosting.rst:201
-#, fuzzy
-#| msgid ""
-#| "Include the token in your repository URL: ``https://"
-#| "username:token@github.com/owner/repo.git``"
 msgid ""
 "Include the token in your repository URL: ``https://"
 "username:token@github.com/owner/repo.git``."
 msgstr ""
 "Das Token in die Repository-URL einfügen: ``https://"
-"username:token@github.com/owner/repo.git``"
+"username:token@github.com/owner/repo.git``."
 
 #: admin/code-hosting.rst:204
-#, fuzzy
-#| msgid ""
-#| "This is suitable when you're starting with Weblate or working with a "
-#| "single repository."
 msgid ""
 "This is suitable when you are starting with Weblate or working with a single "
 "repository."
 msgstr ""
-"Dies ist geeignet, wenn Sie mit Weblate beginnen oder mit einem einzelnen "
+"Dies eignet sich, wenn Sie mit Weblate beginnen oder mit einem einzelnen "
 "Repository arbeiten."
 
 #: admin/code-hosting.rst:208
-#, fuzzy
-#| msgid ""
-#| "**Option 2: SSH with Dedicated User (recommended for multiple "
-#| "repositories)**"
 msgid "**Option 2: SSH with a dedicated user**"
-msgstr ""
-"**Option 2: SSH mit eigenem Benutzer (empfohlen für mehrere Repositorys)**"
+msgstr "**Option 2: SSH mit einem eigenen Benutzer**"
 
 #: admin/code-hosting.rst:210
-#, fuzzy
-#| msgid ""
-#| "For setups with multiple repositories, it is recommended to create a "
-#| "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
-#| "key can only be used once per platform."
 msgid ""
 "For setups with multiple repositories, create a dedicated user for Weblate. "
 "This avoids GitHub's limitation that each SSH key can only be used once per "
 "platform."
 msgstr ""
-"Für Einrichtungen mit mehreren Repositorys ist es empfehlenswert, einen "
-"dedizierten Benutzer für Weblate zu erstellen. Dadurch wird die "
-"Einschränkung von GitHub umgangen, dass jeder SSH-Schlüssel nur einmal pro "
-"Plattform verwendet werden kann."
+"Für Einrichtungen mit mehreren Repositorys erstellen Sie einen eigenen "
+"Benutzer für Weblate. Dadurch wird die Einschränkung von GitHub umgangen, "
+"dass jeder SSH-Schlüssel nur einmal pro Plattform verwendet werden kann."
 
 #: admin/code-hosting.rst:216
-#, fuzzy
-#| msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
 msgid "Create a dedicated GitHub user account, for example ``weblate-bot``."
-msgstr "Ein spezielles GitHub-Benutzerkonto (z. B. ``weblate-bot``) erstellen"
+msgstr ""
+"Ein eigenes GitHub-Benutzerkonto erstellen, zum Beispiel ``weblate-bot``."
 
 #: admin/code-hosting.rst:217
-#, fuzzy
-#| msgid ""
-#| "Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)"
 msgid "Add Weblate's public SSH key to this user, see :ref:`weblate-ssh-key`."
 msgstr ""
-"Den öffentlichen SSH-Schlüssel von Weblate zu diesem Benutzer hinzufügen "
-"(siehe :ref:`weblate-ssh-key`)"
+"Den öffentlichen SSH-Schlüssel von Weblate zu diesem Benutzer hinzufügen, "
+"(siehe :ref:`weblate-ssh-key`)."
 
 #: admin/code-hosting.rst:218
-#, fuzzy
-#| msgid "Grant this user access to all repositories you want to translate"
 msgid "Grant this user access to all repositories you want to translate."
 msgstr ""
 "Diesem Benutzer Zugriff auf alle Repositorys, die übersetzt werden sollen, "
-"gewähren"
+"gewähren."
 
 #: admin/code-hosting.rst:219
-#, fuzzy
-#| msgid ""
-#| "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``"
 msgid "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``."
 msgstr ""
-"SSH-URLs für die Repositorys verwenden: ``git@github.com:owner/repo.git``"
+"SSH-URLs für die Repositorys verwenden: ``git@github.com:owner/repo.git``."
 
 #: admin/code-hosting.rst:221
 msgid ""
@@ -4559,44 +4500,27 @@ msgstr ""
 "einen eigenen Benutzer :guilabel:`weblate` hat."
 
 #: admin/code-hosting.rst:226
-#, fuzzy
-#| msgid ""
-#| "When using :ref:`vcs-github` for pull requests, the :ref:`component-"
-#| "push_branch` configuration affects the behavior: if not set, the project "
-#| "is forked and changes are pushed through a fork. If set, changes are "
-#| "pushed to the upstream repository and the chosen branch."
 msgid ""
 "When using :guilabel:`GitHub` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Beim Verwenden von :ref:`vcs-github` für Pull Requests wirkt sich "
-"die :ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn "
-"sie nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden "
-"über einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen an das "
+"Beim Verwenden von :guilabel:`GitHub` für Pull Requests wirkt sich die "
+":ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn sie "
+"nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden über "
+"einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen in das "
 "Upstream-Repository und den ausgewählten Branch gepusht."
 
 #: admin/code-hosting.rst:234
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub notifications"
-msgstr "GitHub"
+msgstr "GitHub-Benachrichtigungen"
 
 #: admin/code-hosting.rst:236
 msgid "Weblate comes with native support for GitHub."
 msgstr "Weblate bietet native Unterstützung für GitHub."
 
 #: admin/code-hosting.rst:238
-#, fuzzy
-#| msgid ""
-#| "If you are using Hosted Weblate, the recommended approach is to install "
-#| "the `Weblate app <https://github.com/apps/weblate>`_. The app delivers "
-#| "GitHub notifications to Hosted Weblate, so you do not need to configure a "
-#| "separate :guilabel:`Webhook` in GitHub. It does not by itself grant "
-#| "Hosted Weblate write access to the repository, though. To push changes "
-#| "back, you still need to add the Hosted Weblate :guilabel:`weblate` GitHub "
-#| "user as a collaborator with write access, see :ref:`hosted-push`."
 msgid ""
 "If you are using Hosted Weblate, the recommended approach is to install the "
 "`Weblate app <https://github.com/apps/weblate>`_. The app delivers GitHub "
@@ -4608,19 +4532,14 @@ msgid ""
 msgstr ""
 "Wenn Sie Hosted Weblate verwenden, empfiehlt sich die Installation der "
 "`Weblate-App <https://github.com/apps/weblate>`_. Die App liefert GitHub-"
-"Benachrichtigungen an Hosted Weblate, so dass Sie keinen "
-"separaten :guilabel:`Webhook` in GitHub konfigurieren müssen. Sie gewährt "
-"Hosted Weblate jedoch nicht von sich aus Schreibzugriff auf das Repository. "
-"Um Änderungen zurückzupushen, müssen Sie immer noch den Hosted-Weblate-"
-"GitHub-Benutzer :guilabel:`weblate` als Mitwirkenden mit Schreibzugriff "
-"hinzufügen, siehe :ref:`hosted-push`."
+"Benachrichtigungen an Hosted Weblate, so dass Sie keinen separaten "
+":guilabel:`Webhook` in GitHub konfigurieren müssen. Allerdings gewährt sie "
+"Hosted Weblate nicht von sich aus Schreibzugriff auf das Repository. Um "
+"Änderungen zurückzupushen, müssen Sie immer noch den Hosted-Weblate-GitHub-"
+"Benutzer :guilabel:`weblate` als Mitwirkenden mit Schreibzugriff hinzufügen, "
+"siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:246
-#, fuzzy
-#| msgid ""
-#| "If you are not using the app, add the Weblate Webhook in the repository "
-#| "settings (:guilabel:`Webhooks`) to receive notifications on every push to "
-#| "a GitHub repository, as shown on the image below:"
 msgid ""
 "If you are not using the app, add the Weblate webhook in the repository "
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
@@ -4642,16 +4561,13 @@ msgstr ""
 "Beispiel ``https://hosted.weblate.org/hooks/github/``."
 
 #: admin/code-hosting.rst:256
-#, fuzzy
-#| msgid ""
-#| "You can leave other values at default settings (Weblate can handle both "
-#| "content types and consumes just the `push` event)."
 msgid ""
 "You can leave other values at default settings. Weblate can handle both "
 "content types and consumes just the :guilabel:`push` event."
 msgstr ""
-"Sie können die anderen Werte auf den Standardeinstellungen belassen (Weblate "
-"kann beide Inhaltstypen verarbeiten und verwendet nur das `push`-Ereignis)."
+"Sie können die anderen Werte auf den Standardeinstellungen belassen. Weblate "
+"kann beide Inhaltstypen verarbeiten und verwendet nur das :guilabel:`Push`-"
+"Ereignis."
 
 #: admin/code-hosting.rst:261
 msgid ":http:post:`/hooks/github/`"
@@ -4672,19 +4588,14 @@ msgstr ""
 "Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: admin/code-hosting.rst:273
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "github` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while "
 "the :guilabel:`GitHub` backend creates pull requests. The latter is not "
 "needed for merely accessing Git repositories."
 msgstr ""
-":ref:`vcs-git` pusht Änderungen direkt in ein Repository, während :ref:`vcs-"
-"github` Pull Requests erstellt. Letzteres wird für den bloßen Zugriff auf "
-"Git-Repositorys nicht benötigt."
+":ref:`vcs-git` pusht Änderungen direkt in ein Repository, während das "
+":guilabel:`GitHub`-Backend Pull Requests erstellt. Letzteres wird für den "
+"bloßen Zugriff auf Git-Repositorys nicht benötigt."
 
 #: admin/code-hosting.rst:277
 msgid ""
@@ -4694,32 +4605,31 @@ msgid ""
 "write repository contents and create pull requests. If Weblate should fork "
 "private repositories, the token might also need administration access."
 msgstr ""
+"Um Pull Requests zu erstellen, wählen Sie :guilabel:`GitHub` als "
+":ref:`component-vcs` und konfigurieren Sie :setting:`GITHUB_CREDENTIALS`. "
+"Für GitHub.com, verwenden Sie ``api.github.com`` als API-Host. Das Token "
+"muss Weblate erlauben, Repository-Inhalte zu lesen und zu schreiben und Pull "
+"Requests zu erstellen. Wenn Weblate private Repositorys forken soll, "
+"benötigt das Token eventuell auch Administrationszugriff."
 
 #: admin/code-hosting.rst:289 admin/install/docker.rst:1529
 msgid "GitLab"
 msgstr "GitLab"
 
 #: admin/code-hosting.rst:294
-#, fuzzy
-#| msgid "GitLab repositories"
 msgid "GitLab repository access"
-msgstr "GitLab-Repositorys"
+msgstr "GitLab Repository-Zugriff"
 
 #: admin/code-hosting.rst:296
-#, fuzzy
-#| msgid ""
-#| "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need "
-#| "to access more than one repository, you will hit a GitLab limitation on "
-#| "allowed SSH key usage (since each key can be used only once)."
 msgid ""
 "Access via SSH is possible, see :ref:`ssh-repos`, but if you need to access "
 "more than one repository, you will hit a GitLab limitation on allowed SSH "
 "key usage because each key can be used only once."
 msgstr ""
-"Der Zugriff über SSH ist möglich (siehe :ref:`ssh-repos`), aber falls Sie "
-"auf mehr als ein Repository zugreifen müssen, stoßen Sie auf eine GitLab-"
-"Beschränkung für die Verwendung von SSH-Schlüsseln (da jeder Schlüssel nur "
-"einmal verwendet werden kann)."
+"Der Zugriff über SSH ist möglich, siehe :ref:`ssh-repos`, aber wenn Sie auf "
+"mehr als ein Repository zugreifen müssen, stoßen Sie auf eine GitLab-"
+"Beschränkung für die zulässige Verwendung von SSH-Schlüsseln, da jeder "
+"Schlüssel nur einmal verwendet werden kann."
 
 #: admin/code-hosting.rst:300
 msgid ""
@@ -4746,31 +4656,19 @@ msgstr ""
 "können."
 
 #: admin/code-hosting.rst:309
-#, fuzzy
-#| msgid ""
-#| "The URL needs to contain an username, for personal access token it is the "
-#| "actual username ( ``https://user:personal_access_token@gitlab.com/example/"
-#| "example.git``) for project access tokens it can be non-blank value "
-#| "(``https://example:project_access_token@gitlab.com/example/example.git``)."
 msgid ""
 "The URL needs to contain a username. For a personal access token, it is the "
 "actual username: ``https://user:personal_access_token@gitlab.com/example/"
 "example.git``. For project access tokens it can be a non-blank value: "
 "``https://example:project_access_token@gitlab.com/example/example.git``."
 msgstr ""
-"Die URL muss einen Benutzernamen enthalten, für persönliche Zugangstoken ist "
-"es der tatsächliche Benutzername ( ``https://"
-"user:personal_access_token@gitlab.com/example/example.git``), für Projekt-"
-"Zugangstoken kann es ein nicht-leerer Wert sein (``https://"
-"example:project_access_token@gitlab.com/example/example.git``)."
+"Die URL muss einen Benutzernamen enthalten. Für ein persönliches "
+"Zugangstoken ist es der tatsächliche Benutzername: ``https://"
+"user:personal_access_token@gitlab.com/example/example.git``. Für Projekt-"
+"Zugangstoken kann es ein nicht leerer Wert sein: ``https://"
+"example:project_access_token@gitlab.com/example/example.git``."
 
 #: admin/code-hosting.rst:317
-#, fuzzy
-#| msgid ""
-#| "The rules for using project access tokens has changed between GitLab "
-#| "releases, the non-blank value is the current requirement, but older "
-#| "versions had different expectations (project name, bot user name). Check "
-#| "GitLab documentation matching your version if unsure."
 msgid ""
 "The rules for using project access tokens have changed between GitLab "
 "releases, the non-blank value is the current requirement, but older versions "
@@ -4784,25 +4682,18 @@ msgstr ""
 "Version passende GitLab-Dokumentation."
 
 #: admin/code-hosting.rst:325
-#, fuzzy
-#| msgid "Notifications"
 msgid "GitLab notifications"
-msgstr "Benachrichtigungen"
+msgstr "GitLab-Benachrichtigungen"
 
 #: admin/code-hosting.rst:327
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for GitLab hooks, add a project webhook with "
-#| "destination to ``/hooks/gitlab/`` URL on your Weblate installation (for "
-#| "example ``https://hosted.weblate.org/hooks/gitlab/``)."
 msgid ""
 "Weblate has support for GitLab hooks. Add a project webhook with destination "
 "to ``/hooks/gitlab/`` URL on your Weblate installation, for example "
 "``https://hosted.weblate.org/hooks/gitlab/``."
 msgstr ""
 "Weblate unterstützt GitLab-Hooks. Fügen Sie einen Projekt-Webhook mit der "
-"Ziel-URL ``/hooks/gitlab/`` auf Ihrer Weblate-Installation hinzu (zum "
-"Beispiel ``https://hosted.weblate.org/hooks/gitlab/``)."
+"Ziel-URL ``/hooks/gitlab/`` auf Ihrer Weblate-Installation hinzu, zum "
+"Beispiel ``https://hosted.weblate.org/hooks/gitlab/``."
 
 #: admin/code-hosting.rst:331 faq.rst:473
 msgid "Troubleshooting"
@@ -4829,11 +4720,6 @@ msgid "GitLab merge requests"
 msgstr "GitLab-Merge-Requests"
 
 #: admin/code-hosting.rst:348
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to allow "
 "pushing translation changes as merge requests instead of pushing directly to "
@@ -4844,13 +4730,6 @@ msgstr ""
 "Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: admin/code-hosting.rst:352
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-gitlab` creates merge "
-#| "request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4860,18 +4739,20 @@ msgstr ""
 "Für den Zugriff auf Git-Repositorys ist dies nicht notwendig, das "
 "gewöhnliche :ref:`vcs-git` funktioniert genauso, der einzige Unterschied "
 "ist, wie das Pushen zu einem Repository gehandhabt wird. Mit :ref:`vcs-git` "
-"werden Änderungen direkt in das Repository gepusht, während :ref:`vcs-"
-"gitlab` einen Merge Request erstellt."
+"werden Änderungen direkt in das Repository gepusht, während das "
+":guilabel:`GitLab`-Backend einen Merge Request erstellt."
 
 #: admin/code-hosting.rst:357
 msgid ""
 "To create merge requests, select :guilabel:`GitLab` as :ref:`component-vcs` "
 "and configure :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"Um Merge Requests zu erstellen, wählen Sie :guilabel:`GitLab` als "
+":ref:`component-vcs` und konfigurieren Sie :setting:`GITLAB_CREDENTIALS`."
 
 #: admin/code-hosting.rst:365
 msgid "Gitea, Forgejo, and Codeberg"
-msgstr ""
+msgstr "Gitea, Forgejo, und Codeberg"
 
 #: admin/code-hosting.rst:367
 msgid ""
@@ -4879,21 +4760,15 @@ msgid ""
 "hosted :guilabel:`weblate` user where write access is needed, "
 "see :ref:`hosted-push`."
 msgstr ""
+"Für Hosted-Weblate-Repositorys auf Codeberg fügen Sie den gehosteten "
+":guilabel:`weblate`-Benutzer hinzu, wenn Sie Schreibrechte benötigen, siehe "
+":ref:`hosted-push`."
 
 #: admin/code-hosting.rst:373
-#, fuzzy
-#| msgid "Notifications"
 msgid "Gitea notifications"
-msgstr "Benachrichtigungen"
+msgstr "Gitea-Benachrichtigungen"
 
 #: admin/code-hosting.rst:375
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitea webhooks, add a :guilabel:`Gitea Webhook` "
-#| "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/gitea/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Gitea webhooks. Add a :guilabel:`Gitea Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/gitea/`` URL "
@@ -4903,8 +4778,8 @@ msgid ""
 msgstr ""
 "Weblate unterstützt Gitea-Webhooks. Fügen Sie einen :guilabel:`Gitea "
 "Webhook` für das :guilabel:`Push events`-Ereignis mit der Ziel-URL ``/hooks/"
-"gitea/`` auf Ihrer Weblate-Installation hinzu (zum Beispiel ``https://"
-"hosted.weblate.org/hooks/gitea/``). Dies kann in :guilabel:`Webhooks` unter "
+"gitea/`` auf Ihrer Weblate-Installation hinzu, zum Beispiel ``https://"
+"hosted.weblate.org/hooks/gitea/``. Dies kann in :guilabel:`Webhooks` unter "
 "Repository :guilabel:`Settings` erfolgen."
 
 #: admin/code-hosting.rst:382
@@ -4916,19 +4791,10 @@ msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/code-hosting.rst:389
-#, fuzzy
-#| msgid "Notifications"
 msgid "Forgejo notifications"
-msgstr "Benachrichtigungen"
+msgstr "Forgejo-Benachrichtigungen"
 
 #: admin/code-hosting.rst:391
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Forgejo webhooks, add a :guilabel:`Forgejo "
-#| "Webhook` for :guilabel:`Push events` event with destination to ``/hooks/"
-#| "forgejo/`` URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/forgejo/``). This can be done "
-#| "in :guilabel:`Webhooks` under repository :guilabel:`Settings`."
 msgid ""
 "Weblate has support for Forgejo webhooks. Add a :guilabel:`Forgejo Webhook` "
 "for :guilabel:`Push events` event with destination to ``/hooks/forgejo/`` "
@@ -4938,9 +4804,9 @@ msgid ""
 msgstr ""
 "Weblate unterstützt Forgejo-Webhooks. Fügen Sie einen :guilabel:`Forgejo "
 "Webhook` für das :guilabel:`Push events`-Ereignis mit der Ziel-URL ``/hooks/"
-"gitea/`` auf Ihrer Weblate-Installation hinzu (zum Beispiel ``https://"
-"hosted.weblate.org/hooks/forgejo/``). Dies kann in :guilabel:`Webhooks` "
-"unter Repository :guilabel:`Settings` erfolgen."
+"gitea/`` auf Ihrer Weblate-Installation hinzu, zum Beispiel ``https://"
+"hosted.weblate.org/hooks/forgejo/``. Dies kann in :guilabel:`Webhooks` unter "
+"Repository :guilabel:`Settings` erfolgen."
 
 #: admin/code-hosting.rst:399
 msgid ""
@@ -4959,11 +4825,6 @@ msgid "Gitea pull requests"
 msgstr "Gitea-Pull-Requests"
 
 #: admin/code-hosting.rst:410
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
-#| "allow pushing translation changes as pull requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to allow "
 "pushing translation changes as pull requests instead of pushing directly to "
@@ -4974,13 +4835,6 @@ msgstr ""
 "ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: admin/code-hosting.rst:414
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-gitea` creates pull "
-#| "requests."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4990,50 +4844,42 @@ msgstr ""
 "Für den Zugriff auf Git-Repositorys ist dies nicht notwendig, das "
 "gewöhnliche :ref:`vcs-git` funktioniert genauso, der einzige Unterschied "
 "ist, wie das Pushen zu einem Repository gehandhabt wird. Mit :ref:`vcs-git` "
-"werden Änderungen direkt in das Repository gepusht, während :ref:`vcs-gitea` "
-"Pull Requests erstellt."
+"werden Änderungen direkt in das Repository gepusht, während das "
+":guilabel:`Gitea`-Backend Pull Requests erstellt."
 
 #: admin/code-hosting.rst:419
 msgid ""
 "To create pull requests, select :guilabel:`Gitea` as :ref:`component-vcs` "
 "and configure :setting:`GITEA_CREDENTIALS`."
 msgstr ""
+"Um Pull Requests zu erstellen, wählen Sie :guilabel:`Gitea` als "
+":ref:`component-vcs` und konfigurieren Sie :setting:`GITEA_CREDENTIALS`."
 
 #: admin/code-hosting.rst:427 admin/install/docker.rst:1503
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
 #: admin/code-hosting.rst:429
-#, fuzzy
-#| msgid ""
-#| "This approach is also used for Hosted Weblate, which has a "
-#| "dedicated :guilabel:`weblate` user for that purpose."
 msgid ""
 "Hosted Weblate has a dedicated :guilabel:`weblate` user for Bitbucket "
 "access, see :ref:`hosted-push`."
 msgstr ""
-"Dieser Ansatz wird auch für Hosted Weblate verwendet, das zu diesem Zweck "
-"einen eigenen Benutzer :guilabel:`weblate` hat."
+"Hosted Weblate hat einen eigenen :guilabel:`weblate`-Benutzer für den "
+"Bitbucket-Zugang, siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:432
 msgid ""
 "To push directly, use :ref:`vcs-git` or :ref:`vcs-mercurial` "
 "with :ref:`component-push`."
 msgstr ""
+"Um direkt zu pushen, verwenden Sie :ref:`vcs-git` oder :ref:`vcs-mercurial` "
+"mit :ref:`component-push`."
 
 #: admin/code-hosting.rst:438
-#, fuzzy
-#| msgid "Bitbucket authentication"
 msgid "Bitbucket notifications"
-msgstr "Bitbucket"
+msgstr "Bitbucket-Benachrichtigungen"
 
 #: admin/code-hosting.rst:440
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Bitbucket webhooks, add a webhook which triggers "
-#| "upon repository push, with destination to ``/hooks/bitbucket/`` URL on "
-#| "your Weblate installation (for example ``https://hosted.weblate.org/hooks/"
-#| "bitbucket/``)."
 msgid ""
 "Weblate has support for Bitbucket webhooks. Add a webhook which triggers "
 "upon repository push, with destination to ``/hooks/bitbucket/`` URL on your "
@@ -5042,8 +4888,8 @@ msgid ""
 msgstr ""
 "Weblate unterstützt Bitbucket-Webhooks. Fügen Sie einen Webhook, der bei "
 "einem Repository-Push ausgelöst wird, mit der Ziel-URL ``/hooks/bitbucket/`` "
-"auf Ihrer Weblate-Installation hinzu (zum Beispiel ``https://"
-"hosted.weblate.org/hooks/bitbucket/``)."
+"auf Ihrer Weblate-Installation hinzu, zum Beispiel ``https://"
+"hosted.weblate.org/hooks/bitbucket/``."
 
 #: admin/code-hosting.rst:448
 msgid ":http:post:`/hooks/bitbucket/`"
@@ -5054,11 +4900,6 @@ msgid "Bitbucket Data Center pull requests"
 msgstr "Bitbucket-Data-Center-Pull-Requests"
 
 #: admin/code-hosting.rst:458
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data "
-#| "Center API`_ to allow pushing translation changes as pull requests "
-#| "instead of pushing directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data Center "
 "API`_ to allow pushing translation changes as pull requests instead of "
@@ -5074,13 +4915,6 @@ msgid "This does not support Bitbucket Cloud API."
 msgstr "Dies unterstützt die Bitbucket-Cloud-API nicht."
 
 #: admin/code-hosting.rst:466
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-bitbucket-data-center` "
-#| "creates pull request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -5090,31 +4924,23 @@ msgstr ""
 "Für den Zugriff auf Git-Repositorys ist dies nicht notwendig, :ref:`vcs-git` "
 "funktioniert genauso, der einzige Unterschied ist, wie das Pushen in ein "
 "Repository gehandhabt wird. Mit :ref:`vcs-git` werden Änderungen direkt in "
-"das Repository gepusht, während :ref:`vcs-bitbucket-data-center` einen Pull "
-"Request erstellt."
+"das Repository gepusht, während das :guilabel:`Bitbucket Data Center`-"
+"Backend einen Pull Request erstellt."
 
 #: admin/code-hosting.rst:472
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-data-center` by "
-#| "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Data Center` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Konfiguriert :ref:`vcs-bitbucket-data-center` durch Ändern "
-"von :setting:`BITBUCKETSERVER_CREDENTIALS`."
+"Um Pull Requests zu erstellen, wählen Sie :guilabel:`Bitbucket Data Center` "
+"als :ref:`component-vcs` und konfigurieren Sie "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: admin/code-hosting.rst:480 vcs.rst:362
 msgid "Bitbucket Cloud pull requests"
 msgstr "Bitbucket-Cloud-Pull-Requests"
 
 #: admin/code-hosting.rst:484
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket "
-#| "Cloud API`_ to allow pushing translation changes as pull requests instead "
-#| "of pushing directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Cloud API`_ "
 "to allow pushing translation changes as pull requests instead of pushing "
@@ -5129,13 +4955,6 @@ msgid "This is different from Bitbucket Data Center API."
 msgstr "Dies unterscheidet sich von der Bitbucket-Data-Center-API."
 
 #: admin/code-hosting.rst:492
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-bitbucket-cloud` "
-#| "creates pull request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -5145,41 +4964,27 @@ msgstr ""
 "Für den Zugriff auf Git-Repositorys ist dies nicht notwendig, :ref:`vcs-git` "
 "funktioniert genauso, der einzige Unterschied ist, wie das Pushen in ein "
 "Repository gehandhabt wird. Mit :ref:`vcs-git` werden Änderungen direkt in "
-"das Repository gepusht, während :ref:`vcs-bitbucket-cloud` einen Pull "
-"Request erstellt."
+"das Repository gepusht, während das :guilabel:`Bitbucket Cloud`-Backend "
+"einen Pull Request erstellt."
 
 #: admin/code-hosting.rst:498
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-cloud` by "
-#| "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Cloud` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"Konfiguriert :ref:`vcs-bitbucket-cloud` durch Ändern "
-"von :setting:`BITBUCKETCLOUD_CREDENTIALS`."
+"Um Pull Requests zu erstellen, wählen Sie :guilabel:`Bitbucket Cloud` als "
+":ref:`component-vcs` und konfigurieren Sie "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/code-hosting.rst:506
-#, fuzzy
-#| msgid "Azure OpenAI"
 msgid "Azure DevOps"
-msgstr "Azure OpenAI"
+msgstr "Azure DevOps"
 
 #: admin/code-hosting.rst:511
-#, fuzzy
-#| msgid "Added digest notifications."
 msgid "Azure Repos notifications"
-msgstr "Zusammenfassungsbenachrichtigungen hinzugefügt."
+msgstr "Azure-Repos-Benachrichtigungen"
 
 #: admin/code-hosting.rst:513
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Azure Repos webhooks, add a webhook "
-#| "for :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/azure/``). This can be done "
-#| "in :guilabel:`Service hooks` under :guilabel:`Project settings`."
 msgid ""
 "Weblate has support for Azure Repos webhooks. Add a webhook "
 "for :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL "
@@ -5189,9 +4994,9 @@ msgid ""
 msgstr ""
 "Weblate unterstützt Azure-Repos-Webhooks. Fügen Sie einen Webhook für das "
 "Ereignis :guilabel:`Code pushed` mit der Ziel-URL ``/hooks/azure/`` auf "
-"Ihrer Weblate-Installation hinzu (zum Beispiel ``https://hosted.weblate.org/"
-"hooks/azure/``). Dies kann in :guilabel:`Service hooks` "
-"unter :guilabel:`Project settings` erfolgen."
+"Ihrer Weblate-Installation hinzu, zum Beispiel ``https://hosted.weblate.org/"
+"hooks/azure/``. Dies kann in :guilabel:`Service hooks` unter "
+":guilabel:`Project settings` erfolgen."
 
 #: admin/code-hosting.rst:521
 msgid ""
@@ -5220,43 +5025,33 @@ msgstr ""
 "Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: admin/code-hosting.rst:534
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "azure-devops` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while "
 "the :guilabel:`Azure DevOps` backend creates pull requests. The latter is "
 "not needed for merely accessing Git repositories."
 msgstr ""
-":ref:`vcs-git` pusht Änderungen direkt in ein Repository, während :ref:`vcs-"
-"azure-devops` Pull Requests erstellt. Letzteres wird für den bloßen Zugriff "
-"auf Git-Repositorys nicht benötigt."
+":ref:`vcs-git` pusht Änderungen direkt in ein Repository, während das "
+":guilabel:`Azure DevOps`-Backend Pull Requests erstellt. Letzteres wird für "
+"den bloßen Zugriff auf Git-Repositorys nicht benötigt."
 
 #: admin/code-hosting.rst:538
 msgid ""
 "To create pull requests, select :guilabel:`Azure DevOps` as :ref:`component-"
 "vcs` and configure :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"Um Pull Requests zu erstellen, wählen Sie :guilabel:`Azure DevOps` als "
+":ref:`component-vcs` und konfigurieren Sie "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: admin/code-hosting.rst:546
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: admin/code-hosting.rst:551
-#, fuzzy
-#| msgid "**Configure notifications**:"
 msgid "Pagure notifications"
-msgstr "**Benachrichtigungen konfigurieren**:"
+msgstr "Pagure-Benachrichtigungen"
 
 #: admin/code-hosting.rst:553
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Pagure hooks, add a webhook with destination to "
-#| "``/hooks/pagure/`` URL on your Weblate installation (for example "
-#| "``https://hosted.weblate.org/hooks/pagure/``). This can be done "
-#| "in :guilabel:`Activate Web-hooks` under :guilabel:`Project options`:"
 msgid ""
 "Weblate has support for Pagure hooks. Add a webhook with destination to ``/"
 "hooks/pagure/`` URL on your Weblate installation, for example ``https://"
@@ -5264,9 +5059,9 @@ msgid ""
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
 "Weblate unterstützt Pagure-Hooks. Fügen Sie einen Webhook mit der Ziel-URL "
-"``/hooks/pagure/`` auf Ihrer Weblate-Installation hinzu (zum Beispiel "
-"``https://hosted.weblate.org/hooks/pagure/``). Dies kann "
-"in :guilabel:`Activate Web-hooks` unter :guilabel:`Project options` erfolgen:"
+"``/hooks/pagure/`` auf Ihrer Weblate-Installation hinzu, zum Beispiel "
+"``https://hosted.weblate.org/hooks/pagure/``. Dies kann in "
+":guilabel:`Activate Web-hooks` unter :guilabel:`Project options` erfolgen:"
 
 #: admin/code-hosting.rst:562
 msgid ":http:post:`/hooks/pagure/`"
@@ -5277,11 +5072,6 @@ msgid "Pagure merge requests"
 msgstr "Pagure-Merge-Requests"
 
 #: admin/code-hosting.rst:572
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to allow "
 "pushing translation changes as merge requests instead of pushing directly to "
@@ -5292,13 +5082,6 @@ msgstr ""
 "Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
 
 #: admin/code-hosting.rst:576
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-pagure` creates merge "
-#| "request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -5308,35 +5091,26 @@ msgstr ""
 "Für den Zugriff auf Git-Repositorys ist dies nicht notwendig, das "
 "gewöhnliche :ref:`vcs-git` funktioniert genauso, der einzige Unterschied "
 "ist, wie das Pushen zu einem Repository gehandhabt wird. Mit :ref:`vcs-git` "
-"werden Änderungen direkt in das Repository gepusht, während :ref:`vcs-"
-"pagure` einen Merge Request erstellt."
+"werden Änderungen direkt in das Repository gepusht, während das "
+":guilabel:`Pagure`-Backend einen Merge Request erstellt."
 
 #: admin/code-hosting.rst:581
 msgid ""
 "To create merge requests, select :guilabel:`Pagure` as :ref:`component-vcs` "
 "and configure :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"Um Merge Requests zu erstellen, wählen Sie :guilabel:`Pagure` als "
+":ref:`component-vcs` und konfigurieren Sie :setting:`PAGURE_CREDENTIALS`."
 
 #: admin/code-hosting.rst:587
-#, fuzzy
-#| msgid "**Test the workflow**:"
 msgid "Other workflows"
-msgstr "**Den Arbeitsablauf testen**:"
+msgstr "Andere Arbeitsabläufe"
 
 #: admin/code-hosting.rst:592
-#, fuzzy
-#| msgid "Notifications"
 msgid "Gitee notifications"
-msgstr "Benachrichtigungen"
+msgstr "Gitee-Benachrichtigungen"
 
 #: admin/code-hosting.rst:594
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` "
-#| "for :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on "
-#| "your Weblate installation (for example ``https://hosted.weblate.org/hooks/"
-#| "gitee/``). This can be done in :guilabel:`WebHooks` under "
-#| "repository :guilabel:`Management`."
 msgid ""
 "Weblate has support for Gitee webhooks. Add a :guilabel:`WebHook` "
 "for :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your "
@@ -5346,9 +5120,9 @@ msgid ""
 msgstr ""
 "Weblate unterstützt Gitee-Webhooks. Fügen Sie einen :guilabel:`WebHook` für "
 "das :guilabel:`Push`-Ereignis mit der Ziel-URL ``/hooks/gitee/`` auf Ihrer "
-"Weblate-Installation hinzu (zum Beispiel ``https://hosted.weblate.org/hooks/"
-"gitee/``). Dies kann in :guilabel:`WebHooks` unter "
-"Repository :guilabel:`Management` erfolgen."
+"Weblate-Installation hinzu, zum Beispiel ``https://hosted.weblate.org/hooks/"
+"gitee/``. Dies kann in :guilabel:`WebHooks` unter Repository "
+":guilabel:`Management` erfolgen."
 
 #: admin/code-hosting.rst:602
 msgid "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_"
@@ -5359,25 +5133,19 @@ msgid ":http:post:`/hooks/gitee/`"
 msgstr ":http:post:`/hooks/gitee/`"
 
 #: admin/code-hosting.rst:609
-#, fuzzy
-#| msgid "GitLab merge requests"
 msgid "Gerrit review requests"
-msgstr "GitLab-Merge-Requests"
+msgstr "Gerrit-Review-Requests"
 
 #: admin/code-hosting.rst:611
-#, fuzzy
-#| msgid ""
-#| "Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to "
-#| "allow pushing translation changes as Gerrit review requests, instead of "
-#| "pushing them directly to the repository."
 msgid ""
 "Gerrit support adds a thin layer atop :ref:`vcs-git` using the `git-review`_ "
 "tool to allow pushing translation changes as Gerrit review requests, instead "
 "of pushing them directly to the repository."
 msgstr ""
-"Dies fügt eine dünne Schicht über :ref:`vcs-git` mit dem Werkzeug `git-"
-"review`_ hinzu, um das Pushen von Übersetzungsänderungen als Gerrit-Review-"
-"Requests zu ermöglichen, anstatt sie direkt in das Repository zu pushen."
+"Die Unterstützung von Gerrit fügt eine dünne Schicht über :ref:`vcs-git` mit "
+"dem Werkzeug `git-review`_ hinzu, um das Pushen von Übersetzungsänderungen "
+"als Gerrit-Review-Requests zu ermöglichen, anstatt sie direkt in das "
+"Repository zu pushen."
 
 #: admin/code-hosting.rst:615
 msgid ""
@@ -5386,37 +5154,34 @@ msgid ""
 "the short branch name, such as ``main``; Weblate and ``git-review`` push the "
 "review to ``refs/for/<branch>`` automatically."
 msgstr ""
+"Die optionale :ref:`component-push_branch`-Einstellung wählt den Ziel-Branch "
+"für die Überprüfung in Gerrit aus. Lassen Sie sie leer, um :ref:`component-"
+"branch` zu verwenden. Verwenden Sie den Kurznamen des Branches, z. B. "
+"``main``; Weblate und ``git-review`` pushen die Überprüfung automatisch nach "
+"``refs/for/<branch>``."
 
 #: admin/code-hosting.rst:620
-#, fuzzy
-#| msgid ""
-#| "The Gerrit documentation has the details on the configuration necessary "
-#| "to set up such repositories."
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories. There is no separate code hosting credential "
 "setting for this backend."
 msgstr ""
 "Die Gerrit-Dokumentation enthält Einzelheiten zur Konfiguration, die für die "
-"Einrichtung solcher Repositorys erforderlich ist."
+"Einrichtung solcher Repositorys erforderlich ist. Für dieses Backend gibt es "
+"keine separate Einstellung für Zugangsdaten zum Code-Hosting."
 
 #: admin/code-hosting.rst:627
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Docker credentials"
-msgstr "Subversion-Zugangsdaten"
+msgstr "Docker-Zugangsdaten"
 
 #: admin/code-hosting.rst:629
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials can be configured using "
-#| "environment variables, see :ref:`docker-vcs-config`."
 msgid ""
 "For Docker installations, code hosting API credentials can also be provided "
 "through environment variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"Im Docker-Container können die Zugangsdaten mithilfe von Umgebungsvariablen "
-"konfiguriert werden, siehe :ref:`docker-vcs-config`."
+"Bei Docker-Installationen können die Zugangsdaten für die Code-Hosting-API "
+"auch über Umgebungsvariablen bereitgestellt werden, siehe :ref:`docker-vcs-"
+"config`."
 
 #: admin/componentlists.rst:4
 msgid "Component Lists"
@@ -5679,29 +5444,25 @@ msgstr ""
 "Standardwert ist 10 MB."
 
 #: admin/config.rst:130
-#, fuzzy
-#| msgid ""
-#| "Defines hostnames or domains exempt "
-#| "from :setting:`WEBHOOK_RESTRICT_PRIVATE` for outbound webhook delivery. "
-#| "Entries follow Django host matching semantics, so values such as "
-#| "``hooks.internal.example`` or ``.internal.example`` can be used."
 msgid ""
 "Defines hostnames or domains exempt from :setting:`ASSET_RESTRICT_PRIVATE` "
 "for remote asset downloads that enforce private-target checks. Entries "
 "follow Django host matching semantics, so values such as "
 "``assets.internal.example`` or ``.internal.example`` can be used."
 msgstr ""
-"Definiert Hostnamen oder Domains, die "
-"von :setting:`WEBHOOK_RESTRICT_PRIVATE` für ausgehende Webhook-Zustellung "
-"ausgenommen sind. Die Einträge folgen der Semantik von Django für die Host-"
-"Übereinstimmung, sodass Werte wie ``hooks.internal.example`` oder "
-"``.internal.example`` verwendet werden können."
+"Definiert Hostnamen oder Domains, die von :setting:`ASSET_RESTRICT_PRIVATE` "
+"für Remote-Asset-Downloads ausgenommen sind, bei denen die Überprüfung auf "
+"private Ziele erzwungen wird. Die Einträge folgen der Semantik von Django "
+"für die Host-Übereinstimmung, sodass Werte wie ``assets.internal.example`` "
+"oder ``.internal.example`` verwendet werden können."
 
 #: admin/config.rst:135
 msgid ""
 "This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must "
 "still match the asset domain allowlist."
 msgstr ""
+"Dies ersetzt nicht :setting:`ALLOWED_ASSET_DOMAINS`; Remote-Assets müssen "
+"immer noch mit der Asset-Domain-Positivliste übereinstimmen."
 
 #: admin/config.rst:138 admin/config.rst:1841 admin/config.rst:1875
 #: admin/config.rst:1952
@@ -5709,26 +5470,16 @@ msgid "Default configuration:"
 msgstr "Standardkonfiguration:"
 
 #: admin/config.rst:156
-#, fuzzy
-#| msgid ""
-#| "Reject webhook URLs pointing to internal or non-public addresses unless "
-#| "the target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On "
-#| "by default."
 msgid ""
 "Reject remote asset URLs pointing to internal or non-public addresses unless "
 "the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
-"Lehnt Webhook-URLs die auf interne oder nicht öffentliche Adressen verweisen "
-"ab, sofern der Ziel-Host nicht in :setting:`WEBHOOK_PRIVATE_ALLOWLIST` "
-"enthalten ist. Standardmäßig aktiviert."
+"Lehnt Remote-Asset-URLs die auf interne oder nicht öffentliche Adressen "
+"verweisen ab, sofern der Ziel-Host nicht in "
+":setting:`ASSET_PRIVATE_ALLOWLIST` enthalten ist. Standardmäßig aktiviert."
 
 #: admin/config.rst:160
-#, fuzzy
-#| msgid ""
-#| "When enabled, hostnames that cannot be resolved during validation are "
-#| "rejected unless they are explicitly included "
-#| "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included "
@@ -5737,27 +5488,32 @@ msgid ""
 "add-on."
 msgstr ""
 "Wenn aktiviert, werden Hostnamen, die beim Validieren nicht aufgelöst werden "
-"können, zurückgewiesen, sofern sie nicht explizit "
-"in :setting:`WEBHOOK_PRIVATE_ALLOWLIST` enthalten sind."
+"können, zurückgewiesen, sofern sie nicht explizit in "
+":setting:`ASSET_PRIVATE_ALLOWLIST` enthalten sind. Dies gilt derzeit für "
+"Screenshot-URL-Uploads und Remote-HTML-Downloads für die :ref:`addon-"
+"weblate.cdn.cdnjs`-Erweiterung."
 
 #: admin/config.rst:179
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"Argon2id-Zeitaufwand für die ALTCHA-Proof-of-Work-Challenge. Der "
+"Standardwert ist ``3``."
 
 #: admin/config.rst:181
 msgid ""
 "Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget "
 "v2."
 msgstr ""
+"Ersetzt ``ALTCHA_MAX_NUMBER``, das für das entfernte ALTCHA-Widget v2 galt."
 
 #: admin/config.rst:190
 msgid "Argon2id memory cost in KiB. Defaults to ``65536``."
-msgstr ""
+msgstr "Argon2id-Speicherbedarf in KiB. Der Standardwert ist ``65536``."
 
 #: admin/config.rst:199
 msgid "Argon2id parallelism factor. Defaults to ``1``."
-msgstr ""
+msgstr "Argon2id-Parallelitätsfaktor. Der Standardwert ist ``1``."
 
 #: admin/config.rst:203
 msgid ""
@@ -6033,6 +5789,10 @@ msgid ""
 "so :setting:`CACHE_DIR` has to be writable and mounted on a filesystem that "
 "allows execution. Avoid using ``noexec`` mount options for this directory."
 msgstr ""
+"Weblate speichert generierte Hilfsdateien hier und führt einige davon aus; "
+"daher muss :setting:`CACHE_DIR` beschreibbar sein und auf einem Dateisystem "
+"eingebunden sein, das die Ausführung von Dateien erlaubt. Vermeiden Sie das "
+"Verwenden der Einhängeoption ``noexec`` für dieses Verzeichnis."
 
 #: admin/config.rst:439 admin/config.rst:618
 msgid ""
@@ -6047,10 +5807,8 @@ msgid "The following subdirectories usually exist:"
 msgstr "Üblicherweise existieren folgende Unterverzeichnisse:"
 
 #: admin/config.rst:444
-#, fuzzy
-#| msgid "Generated SSH wrapper scripts used for VCS access."
 msgid "Generated helper files used for VCS access."
-msgstr "Generierte SSH-Wrapper-Skripte für den VCS-Zugriff."
+msgstr "Generierte Hilfsdateien für den VCS-Zugriff."
 
 #: admin/config.rst:446
 msgid ":program:`font-config` cache for :ref:`fonts`."
@@ -7515,17 +7273,14 @@ msgid "Mathematical captcha to be solved by the user."
 msgstr "Mathematisches Captcha, das vom Benutzer gelöst werden muss."
 
 #: admin/config.rst:2110
-#, fuzzy
-#| msgid ""
-#| "Proof of work challenge calculated by the browser. The difficulty can be "
-#| "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`."
 msgstr ""
-"Vom Browser berechnete Proof-of-Work-Challenge. Die Schwierigkeit kann "
-"mit :setting:`ALTCHA_MAX_NUMBER` angepasst werden."
+"Vom Browser berechnete Proof-of-Work-Challenge. Die Schwierigkeit kann mit "
+":setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST` und "
+":setting:`ALTCHA_PARALLELISM` angepasst werden."
 
 #: admin/config.rst:2117
 msgid "Allows you to filter which e-mail addresses can register."
@@ -8013,20 +7768,17 @@ msgstr ""
 "in :setting:`VCS_ALLOW_HOSTS` enthalten sind."
 
 #: admin/config.rst:2571
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls "
-#| "in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls "
 "in :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-"
 "requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
 "pagure-merge-requests`, and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
-"Konfiguriert die minimale Verzögerung in Sekunden zwischen API-Aufrufen von "
-"Drittanbietern in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
-"gitea`, :ref:`vcs-pagure`, und :ref:`vcs-azure-devops`."
+"Konfiguriert die minimale Verzögerung in Sekunden zwischen den API-Aufrufen "
+"von Drittanbietern in :ref:`code-hosting-github-pull-requests`, :ref:`code-"
+"hosting-gitlab-merge-requests`, :ref:`code-hosting-gitea-pull-requests`, "
+":ref:`code-hosting-pagure-merge-requests` und :ref:`code-hosting-azure-"
+"devops-pull-requests`."
 
 #: admin/config.rst:2578
 msgid ""
@@ -8049,11 +7801,6 @@ msgid "The default value is 10."
 msgstr "Der Standardwert ist 10."
 
 #: admin/config.rst:2591
-#, fuzzy
-#| msgid ""
-#| "Configures timeout in seconds for third-party API calls such as forking "
-#| "or creating merge requests in :ref:`vcs-github`, :ref:`vcs-"
-#| "gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures timeout in seconds for third-party API calls such as forking or "
 "creating merge requests in :ref:`code-hosting-github-pull-"
@@ -8062,9 +7809,10 @@ msgid ""
 "and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
 "Konfiguriert die Zeitüberschreitung in Sekunden für API-Aufrufe von "
-"Drittanbietern wie z. B. das Forken oder Erstellen von Merge Requests "
-"in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-"pagure`, und :ref:`vcs-azure-devops`."
+"Drittanbietern wie z. B. das Forken oder Erstellen von Merge Requests in "
+":ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-"
+"requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
+"pagure-merge-requests` und :ref:`code-hosting-azure-devops-pull-requests`."
 
 #: admin/config.rst:2605
 msgid "Configuration of available VCS backends."
@@ -8284,17 +8032,14 @@ msgstr ""
 "Menge an neuem Text durchzuarbeiten."
 
 #: admin/continuous.rst:12
-#, fuzzy
-#| msgid ""
-#| ":doc:`/devel/integration` describes basic ways to integrate your "
-#| "development with Weblate."
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate. :doc:`/admin/code-hosting` lists provider-specific setup steps "
 "for common code hosting sites."
 msgstr ""
 ":doc:`/devel/integration` beschreibt grundlegende Möglichkeiten zur "
-"Integration Ihrer Entwicklung mit Weblate."
+"Integration Ihrer Entwicklung mit Weblate. :doc:`/admin/code-hosting` listet "
+"anbieterspezifische Einrichtungsschritte für gängige Code-Hosting-Sites auf."
 
 #: admin/continuous.rst:17
 msgid "This is the process:"
@@ -8338,16 +8083,12 @@ msgstr ""
 "lokale Repository (siehe :ref:`lazy-commit`)."
 
 #: admin/continuous.rst:24
-#, fuzzy
-#| msgid ""
-#| "Changes are pushed back to the upstream repository (see :ref:`push-"
-#| "changes`)."
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`code-hosting-"
 "push-options`)."
 msgstr ""
-"Änderungen werden in das Upstream-Repository zurückgepusht (siehe :ref:`push-"
-"changes`)."
+"Änderungen werden in das Upstream-Repository zurückgepusht (siehe :ref:`code-"
+"hosting-push-options`)."
 
 #: admin/continuous.rst:76
 msgid ""
@@ -8375,6 +8116,9 @@ msgid ""
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
 "enable_hooks` for this to work."
 msgstr ""
+"Verwenden Sie :ref:`hooks`, um eine Integration mit den meisten gängigen "
+"Code-Hosting-Diensten zu erreichen; siehe :doc:`/admin/code-hosting`. Damit "
+"dies funktioniert, müssen Sie außerdem :ref:`project-enable_hooks`."
 
 #: admin/continuous.rst:91
 msgid ""
@@ -8561,7 +8305,7 @@ msgstr ":guilabel:`Commit`"
 #: admin/continuous.rst:198
 msgid "Commits pending changes stored in Weblate to the local repository."
 msgstr ""
-"Übernimmt die in Weblate gespeicherten ausstehenden Änderungen in das lokale "
+"Committet die in Weblate gespeicherten ausstehenden Änderungen in das lokale "
 "Repository."
 
 #: admin/continuous.rst:199
@@ -8577,15 +8321,14 @@ msgstr ":guilabel:`Push`"
 #: admin/continuous.rst:202
 msgid "Pushes committed local repository changes to the configured upstream."
 msgstr ""
-"Überträgt die im lokalen Repository vorgenommenen Änderungen zum "
-"konfigurierten Upstream."
+"Pusht committete lokale Repository-Änderungen in den konfigurierten Upstream."
 
 #: admin/continuous.rst:203
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
-"Vorgenommene Übersetzungen an Upstream senden, wenn das automatische Pushen "
+"Committete Übersetzungen an Upstream senden, wenn das automatische Pushen "
 "deaktiviert ist oder sich verzögert."
 
 #: admin/continuous.rst:205
@@ -8883,10 +8626,8 @@ msgstr ""
 "überprüfenden Github-Pull-Requests zu vermeiden."
 
 #: admin/continuous.rst:293
-#, fuzzy
-#| msgid "Added digest notifications."
 msgid "Code hosting notifications"
-msgstr "Zusammenfassungsbenachrichtigungen hinzugefügt."
+msgstr "Code-Hosting-Benachrichtigungen"
 
 #: admin/continuous.rst:295
 msgid ""
@@ -8894,51 +8635,58 @@ msgid ""
 "Bitbucket, Pagure, Azure Repos, Gitea, Forgejo, and Gitee are covered "
 "in :doc:`/admin/code-hosting`."
 msgstr ""
+"Anbieterspezifische App- und Webhook-Anweisungen für GitHub, GitLab, "
+"Bitbucket, Pagure, Azure Repos, Gitea, Forgejo und Gitee werden in :doc:`/"
+"admin/code-hosting` behandelt."
 
 #: admin/continuous.rst:309
-#, fuzzy
-#| msgid "Version-specific instructions"
 msgid "Provider-specific notifications"
-msgstr "Versionsspezifische Anweisungen"
+msgstr "Anbieterspezifische Benachrichtigungen"
 
 #: admin/continuous.rst:311
 msgid ""
 "These legacy anchors are kept for compatibility. Current provider-specific "
 "app and webhook setup is documented in :doc:`/admin/code-hosting`."
 msgstr ""
+"Diese veralteten Verweise werden aus Kompatibilitätsgründen beibehalten. Die "
+"aktuelle anbieterspezifische App- und Webhook-Einrichtung ist in :doc:`/"
+"admin/code-hosting` dokumentiert."
 
 #: admin/continuous.rst:316
 msgid ":ref:`GitHub notifications <code-hosting-github-notifications>`"
-msgstr ""
+msgstr ":ref:`GitHub-Benachrichtigungen <code-hosting-github-notifications>`"
 
 #: admin/continuous.rst:317
 msgid ":ref:`GitLab notifications <code-hosting-gitlab-notifications>`"
-msgstr ""
+msgstr ":ref:`GitLab-Benachrichtigungen <code-hosting-gitlab-notifications>`"
 
 #: admin/continuous.rst:318
 msgid ":ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`"
 msgstr ""
+":ref:`Bitbucket-Benachrichtigungen <code-hosting-bitbucket-notifications>`"
 
 #: admin/continuous.rst:319
 msgid ":ref:`Pagure notifications <code-hosting-pagure-notifications>`"
-msgstr ""
+msgstr ":ref:`Pagure-Benachrichtigungen <code-hosting-pagure-notifications>`"
 
 #: admin/continuous.rst:320
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
 msgstr ""
+":ref:`Azure-Repos-Benachrichtigungen <code-hosting-azure-repos-notifications>"
+"`"
 
 #: admin/continuous.rst:321
 msgid ":ref:`Gitea notifications <code-hosting-gitea-notifications>`"
-msgstr ""
+msgstr ":ref:`Gitea-Benachrichtigungen <code-hosting-gitea-notifications>`"
 
 #: admin/continuous.rst:322
 msgid ":ref:`Forgejo notifications <code-hosting-forgejo-notifications>`"
-msgstr ""
+msgstr ":ref:`Forgejo-Benachrichtigungen <code-hosting-forgejo-notifications>`"
 
 #: admin/continuous.rst:323
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
-msgstr ""
+msgstr ":ref:`Gitee-Benachrichtigungen <code-hosting-gitee-notifications>`"
 
 #: admin/continuous.rst:326
 msgid "Automatically updating repositories nightly"
@@ -8956,16 +8704,6 @@ msgstr ""
 "Sie :setting:`AUTO_UPDATE` aktivieren."
 
 #: admin/continuous.rst:337
-#, fuzzy
-#| msgid ""
-#| "Each translation component can have a push URL set up "
-#| "(see :ref:`component-push`), and in that case Weblate will be able to "
-#| "push change to the remote repository. Weblate can be also be configured "
-#| "to automatically push changes on every commit (this is default, "
-#| "see :ref:`component-push_on_commit`). If you do not want changes to be "
-#| "pushed automatically, you can do that manually "
-#| "under :guilabel:`Repository maintenance` or using the API "
-#| "via :option:`wlc push`."
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
@@ -8973,19 +8711,19 @@ msgid ""
 "every commit, see :ref:`component-push_on_commit`."
 msgstr ""
 "Für jede Übersetzungskomponente kann eine Push-URL eingerichtet werden "
-"(siehe :ref:`component-push`) und in diesem Fall kann Weblate Änderungen an "
-"das Remote-Repository weiterleiten. Weblate kann auch so konfiguriert "
-"werden, dass Änderungen automatisch bei jedem Commit gepusht werden (dies "
-"ist die Voreinstellung, siehe :ref:`component-push_on_commit`). Wenn "
-"Änderungen nicht automatisch gepusht werden sollen, können Sie dies manuell "
-"unter :guilabel:`Repository-Wartung` oder über die API per :option:`wlc "
-"push` tun."
+"(siehe :ref:`component-push`), und in diesem Fall kann Weblate Änderungen an "
+"das Remote-Repository pushen. Weblate kann auch so konfiguriert werden, dass "
+"Änderungen automatisch bei jedem Commit gepusht werden, siehe "
+":ref:`component-push_on_commit`."
 
 #: admin/continuous.rst:342
 msgid ""
 "For the push options table and provider-specific pull, merge, and review "
 "request workflows, see :ref:`code-hosting-push-options`."
 msgstr ""
+"Die Tabelle mit den Push-Optionen und die anbieterspezifischen Abläufe für "
+"Pull-, Merge- und Review-Requests finden Sie unter :ref:`code-hosting-push-"
+"options`."
 
 #: admin/continuous.rst:347
 msgid ""
@@ -9781,16 +9519,12 @@ msgid "PostgreSQL, see :ref:`database-setup`"
 msgstr "PostgreSQL, siehe :ref:`database-setup`"
 
 #: admin/install.rst:0
-#, fuzzy
-#| msgid "`wllegal <https://pypi.org/project/wllegal>`_"
 msgid "`rollbar <https://pypi.org/project/rollbar>`__"
-msgstr "`wllegal <https://pypi.org/project/wllegal>`_"
+msgstr "`rollbar <https://pypi.org/project/rollbar>`__"
 
 #: admin/install.rst:243
-#, fuzzy
-#| msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgid ":ref:`collecting-errors`"
-msgstr "Sentry-DSN zur Verwendung für das :ref:`collecting-errors`."
+msgstr ":ref:`collecting-errors`"
 
 #: admin/install.rst:251
 msgid "Integrating SAML 2 IDP into Weblate"
@@ -12281,7 +12015,7 @@ msgid ""
 msgstr ""
 "PostgreSQL 18 hat das Standard-Datenverzeichnis innerhalb des Containers "
 "geändert. Eine häufigere ältere Konfiguration hat das Datenbank-Volume unter "
-"``/var/lib/postgresql/data`` eingehängt, während PostgreSQL 18 nun "
+"``/var/lib/postgresql/data`` eingebunden, während PostgreSQL 18 nun "
 "standardmäßig ``/var/lib/postgresql`` verwendet."
 
 #: admin/install/docker.rst:271
@@ -21573,6 +21307,8 @@ msgid ""
 "The registration CAPTCHA now uses the ALTCHA widget v3 protocol with "
 "Argon2id proof-of-work."
 msgstr ""
+"Das CAPTCHA bei der Registrierung nutzt nun das ALTCHA-Widget-v3-Protokoll "
+"mit Argon2id-Proof-of-Work."
 
 #: changes.rst:47
 msgid ""

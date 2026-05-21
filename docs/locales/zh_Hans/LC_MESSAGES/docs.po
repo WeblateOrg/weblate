@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-12 04:42+0200\n"
-"PO-Revision-Date: 2026-05-13 15:19+0000\n"
+"PO-Revision-Date: 2026-05-16 05:45+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -4265,27 +4265,15 @@ msgid "Gitea pull requests"
 msgstr "Gitea 拉取请求"
 
 #: admin/code-hosting.rst:410
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to "
-#| "allow pushing translation changes as pull requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to allow "
 "pushing translation changes as pull requests instead of pushing directly to "
 "the repository."
 msgstr ""
-"这只是使用 `Gitea API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为拉取请求推送，而不是直接推送到仓库。"
+"这使用 `Gitea API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改作为"
+"拉取请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:414
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-gitea` creates pull "
-#| "requests."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4293,8 +4281,8 @@ msgid ""
 "while the :guilabel:`Gitea` backend creates pull requests."
 msgstr ""
 "不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别是"
-"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-"
-"gitea` 创建拉取请求。"
+"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 "
+":guilabel:`Gitea` 后端创建拉取请求。"
 
 #: admin/code-hosting.rst:419
 msgid ""
@@ -4307,16 +4295,12 @@ msgid "Bitbucket"
 msgstr "Bitbucket"
 
 #: admin/code-hosting.rst:429
-#, fuzzy
-#| msgid ""
-#| "This approach is also used for Hosted Weblate, which has a "
-#| "dedicated :guilabel:`weblate` user for that purpose."
 msgid ""
 "Hosted Weblate has a dedicated :guilabel:`weblate` user for Bitbucket "
 "access, see :ref:`hosted-push`."
 msgstr ""
-"此方式同样用于 Hosted Weblate，Hosted Weblate 有专门的 :guilabel:`weblate` 用"
-"户用于此目的。"
+"Hosted Weblate 有专门的 :guilabel:`weblate` 用户用来访问 Bitbucket，见 "
+":ref:`hosted-push`。"
 
 #: admin/code-hosting.rst:432
 msgid ""
@@ -4325,27 +4309,19 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:438
-#, fuzzy
-#| msgid "Bitbucket authentication"
 msgid "Bitbucket notifications"
-msgstr "Bitbucket 身份认证"
+msgstr "Bitbucket 通知"
 
 #: admin/code-hosting.rst:440
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Bitbucket webhooks, add a webhook which triggers "
-#| "upon repository push, with destination to ``/hooks/bitbucket/`` URL on "
-#| "your Weblate installation (for example ``https://hosted.weblate.org/hooks/"
-#| "bitbucket/``)."
 msgid ""
 "Weblate has support for Bitbucket webhooks. Add a webhook which triggers "
 "upon repository push, with destination to ``/hooks/bitbucket/`` URL on your "
 "Weblate installation, for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``."
 msgstr ""
-"Weblate 已经支持 Bitbucket webhooks，添加仓库推送时触发的 webhook，目的地为你"
-"的 Weblate 安装上的 ``/hooks/bitbucket/``\\ （例如 ``https://"
-"hosted.weblate.org/hooks/bitbucket/``）。"
+"Weblate 支持 Bitbucket webhooks。添加仓库推送时触发的 webhook，目的地为你的 "
+"Weblate 安装上的 ``/hooks/bitbucket/`` ，例如 ``https://hosted.weblate.org/"
+"hooks/bitbucket/``。"
 
 #: admin/code-hosting.rst:448
 msgid ":http:post:`/hooks/bitbucket/`"
@@ -4356,31 +4332,19 @@ msgid "Bitbucket Data Center pull requests"
 msgstr "Bitbucket 数据中心拉取请求"
 
 #: admin/code-hosting.rst:458
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data "
-#| "Center API`_ to allow pushing translation changes as pull requests "
-#| "instead of pushing directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data Center "
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
-"这只是使用 `Bitbucket 数据中心 API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允"
-"许将翻译更改作为拉取请求推送，而不是直接推送到仓库。"
+"这使用 `Bitbucket 数据中心 API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将"
+"翻译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:464
 msgid "This does not support Bitbucket Cloud API."
 msgstr "这不支持 Bitbucket Cloud API。"
 
 #: admin/code-hosting.rst:466
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-bitbucket-data-center` "
-#| "creates pull request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4388,51 +4352,35 @@ msgid ""
 "while the :guilabel:`Bitbucket Data Center` backend creates a pull request."
 msgstr ""
 "不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别是"
-"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-"
-"bitbucket-data-center` 创建拉取请求。"
+"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 "
+":guilabel:`Bitbucket 数据中心` 后端创建拉取请求。"
 
 #: admin/code-hosting.rst:472
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-data-center` by "
-#| "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Data Center` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"配置 :ref:`vcs-bitbucket-data-center`，方法是更"
-"改 :setting:`BITBUCKETSERVER_CREDENTIALS`。"
+"要创建拉去请求，将 :guilabel:`Bitbucket 数据中心` 选为 :ref:`component-vcs` "
+"并配置 :setting:`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:480 vcs.rst:362
 msgid "Bitbucket Cloud pull requests"
 msgstr "Bitbucket Cloud 拉取请求"
 
 #: admin/code-hosting.rst:484
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket "
-#| "Cloud API`_ to allow pushing translation changes as pull requests instead "
-#| "of pushing directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Cloud API`_ "
 "to allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"这只是用 `Bitbucket Cloud API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将"
-"翻译更改作为拉取请求推送，而不是直接推送到仓库。"
+"这使用 `Bitbucket Cloud API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻"
+"译更改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:490
 msgid "This is different from Bitbucket Data Center API."
 msgstr "这和 BitBucket 数据中心 API 不同。"
 
 #: admin/code-hosting.rst:492
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-bitbucket-cloud` "
-#| "creates pull request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4440,41 +4388,26 @@ msgid ""
 "while the :guilabel:`Bitbucket Cloud` backend creates a pull request."
 msgstr ""
 "不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别是"
-"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-"
-"bitbucket-cloud` 创建拉取请求。"
+"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 "
+":guilabel:`Bitbucket Cloud` 后端创建拉取请求。"
 
 #: admin/code-hosting.rst:498
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-cloud` by "
-#| "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Cloud` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"配置 :ref:`vcs-bitbucket-cloud`，方法是更"
-"改 :setting:`BITBUCKETCLOUD_CREDENTIALS`."
+"要创建拉取请求，将 :guilabel:`Bitbucket Cloud` 选为 :ref:`component-vcs` 并配"
+"置 :setting:`BITBUCKETCLOUD_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:506
-#, fuzzy
-#| msgid "Azure OpenAI"
 msgid "Azure DevOps"
-msgstr "Azure OpenAI"
+msgstr "Azure DevOps"
 
 #: admin/code-hosting.rst:511
-#, fuzzy
-#| msgid "Added digest notifications."
 msgid "Azure Repos notifications"
-msgstr "添加了摘要通知。"
+msgstr "Azure 仓库通知"
 
 #: admin/code-hosting.rst:513
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Azure Repos webhooks, add a webhook "
-#| "for :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/azure/``). This can be done "
-#| "in :guilabel:`Service hooks` under :guilabel:`Project settings`."
 msgid ""
 "Weblate has support for Azure Repos webhooks. Add a webhook "
 "for :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL "
@@ -4482,10 +4415,10 @@ msgid ""
 "azure/``. This can be done in :guilabel:`Service hooks` "
 "under :guilabel:`Project settings`."
 msgstr ""
-"Weblate 已经支持 Azure Repos web hooks，为 :guilabel:`Code pushed` 事件添加 "
-"webhook，目的地为你的 Weblate 安装上的 ``/hooks/azure/`` URL（例如 ``https://"
-"hosted.weblate.org/hooks/azure/``）。这可以在 :guilabel:`Project settings` 之"
-"下的 :guilabel:`Service hooks` 中完成。"
+"Weblate 支持 Azure Repos web hooks。为 :guilabel:`Code pushed` 事件添加 "
+"webhook，目的地为你的 Weblate 安装上的 ``/hooks/azure/`` URL，例如 ``https://"
+"hosted.weblate.org/hooks/azure/``。这可以在 :guilabel:`Project settings` 之下"
+"的 :guilabel:`Service hooks` 中完成。"
 
 #: admin/code-hosting.rst:521
 msgid ""
@@ -4513,18 +4446,13 @@ msgstr ""
 "改作为拉取请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:534
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "azure-devops` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while "
 "the :guilabel:`Azure DevOps` backend creates pull requests. The latter is "
 "not needed for merely accessing Git repositories."
 msgstr ""
-":ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-azure-devops` 创建拉取请"
-"求。仅访问 Git 仓库不需要后者。"
+":ref:`vcs-git` 将更改直接推送到仓库，而 :guilabel:`Azure DevOps` 后端创建拉取"
+"请求。仅访问 Git 仓库不需要后者。"
 
 #: admin/code-hosting.rst:538
 msgid ""
@@ -4537,25 +4465,17 @@ msgid "Pagure"
 msgstr ""
 
 #: admin/code-hosting.rst:551
-#, fuzzy
-#| msgid "**Configure notifications**:"
 msgid "Pagure notifications"
-msgstr "**配置通知**："
+msgstr "Pagure 通知"
 
 #: admin/code-hosting.rst:553
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Pagure hooks, add a webhook with destination to "
-#| "``/hooks/pagure/`` URL on your Weblate installation (for example "
-#| "``https://hosted.weblate.org/hooks/pagure/``). This can be done "
-#| "in :guilabel:`Activate Web-hooks` under :guilabel:`Project options`:"
 msgid ""
 "Weblate has support for Pagure hooks. Add a webhook with destination to ``/"
 "hooks/pagure/`` URL on your Weblate installation, for example ``https://"
 "hosted.weblate.org/hooks/pagure/``. This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"Weblate 已经支持 Pagure hooks，添加项目的 webhook，目的地为你的 Weblate 安装"
+"Weblate 已经支持 Pagure hooks。添加项目的 webhook，目的地为你的 Weblate 安装"
 "上的 ``/hooks/pagure/``\\ （例如 ``https://hosted.weblate.org/hooks/pagure/"
 "``）。这可以在 :guilabel:`Project options` 之下的 :guilabel:`Activate Web-"
 "hooks` 中完成："
@@ -4569,18 +4489,13 @@ msgid "Pagure merge requests"
 msgstr "Pagure 合并请求"
 
 #: admin/code-hosting.rst:572
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to allow "
 "pushing translation changes as merge requests instead of pushing directly to "
 "the repository."
 msgstr ""
-"这只是使用 `Pagure API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改"
-"作为合并请求推送，而不是直接推送到仓库。"
+"这使用 `Pagure API`_ 在 :ref:`vcs-git` 上添加了一个薄层，以允许将翻译更改作为"
+"合并请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:576
 #, fuzzy
