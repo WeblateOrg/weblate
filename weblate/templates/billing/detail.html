@@ -221,7 +221,11 @@
                        name="request"
                        value="{% translate "Request approval for Libre hosting" %}" />
               {% endif %}
-              {% include "snippets/libre-checklist.html" %}
+              {% with libre_general_checklist=billing.libre_general_checklist %}
+                {% with libre_component_checklist=billing.libre_component_checklist show_alerts=True %}
+                  {% include "snippets/libre-checklist.html" %}
+                {% endwith %}
+              {% endwith %}
             </div>
             {% if billing.is_libre_trial %}
               <div class="card-footer">

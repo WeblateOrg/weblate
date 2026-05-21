@@ -48,6 +48,12 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.registry import (
+    get_alert_class,
+    get_import_alerts,
+    update_alerts,
+)
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -67,7 +73,7 @@ from weblate.trans.mixins import (
     LockMixin,
     PathMixin,
 )
-from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
+from weblate.trans.models.alert import Alert
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
@@ -3406,8 +3412,24 @@ class Component(  # noqa: PLR0904
         return [alert for alert in self.alert_set.all() if not alert.dismissed]
 
     @cached_property
+    def all_problem_alerts(self) -> list[Alert]:
+        return [alert for alert in self.all_active_alerts if alert.is_problem]
+
+    @cached_property
     def all_alerts(self) -> dict[str, Alert]:
         return {alert.name: alert for alert in self.alert_set.all()}
+
+    def update_alert_caches(self) -> None:
+        if "all_active_alerts" in self.__dict__:
+            self.__dict__["all_active_alerts"] = [
+                item for item in self.all_alerts.values() if not item.dismissed
+            ]
+        if "all_problem_alerts" in self.__dict__:
+            self.__dict__["all_problem_alerts"] = [
+                item
+                for item in self.all_active_alerts
+                if item.severity >= AlertSeverity.ERROR
+            ]
 
     def clear_prefetched_alerts(self) -> None:
         with suppress(AttributeError, KeyError):
@@ -3431,10 +3453,7 @@ class Component(  # noqa: PLR0904
         if alert in self.all_alerts:
             self.all_alerts[alert].delete()
             del self.all_alerts[alert]
-            if "all_active_alerts" in self.__dict__:
-                self.__dict__["all_active_alerts"] = [
-                    item for item in self.all_alerts.values() if not item.dismissed
-                ]
+            self.update_alert_caches()
             self.clear_prefetched_alerts()
             if (
                 self.locked
@@ -3452,17 +3471,19 @@ class Component(  # noqa: PLR0904
             ):
                 self.do_lock(user=None, lock=False, auto=True)
 
-        if ALERTS[alert].link_wide:
+        if get_alert_class(alert).link_wide:
             for component in self.linked_children:
                 component.delete_alert(alert)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
+        alert_class = get_alert_class(alert)
+        severity = alert_class.severity
         if alert in self.all_alerts:
             obj = self.all_alerts[alert]
             created = False
         else:
             obj, created = self.alert_set.get_or_create(
-                name=alert, defaults={"details": details}
+                name=alert, defaults={"details": details, "severity": severity}
             )
             self.all_alerts[alert] = obj
 
@@ -3471,23 +3492,27 @@ class Component(  # noqa: PLR0904
             self.do_lock(user=None, lock=True, auto=True)
 
         # Update details with exception of component removal
-        if not created and not noupdate:
-            obj.details = details
-            obj.save()
+        if not created:
+            update_fields = []
+            if obj.severity != severity:
+                obj.severity = severity
+                update_fields.append("severity")
+            if not noupdate and obj.details != details:
+                obj.details = details
+                update_fields.append("details")
+            if update_fields or not noupdate:
+                obj.save(update_fields=[*update_fields, "updated"])
 
-        if "all_active_alerts" in self.__dict__:
-            self.__dict__["all_active_alerts"] = [
-                item for item in self.all_alerts.values() if not item.dismissed
-            ]
+        self.update_alert_caches()
         self.clear_prefetched_alerts()
 
-        if ALERTS[alert].link_wide:
+        if alert_class.link_wide:
             for component in self.linked_children:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
     def update_import_alerts(self, delete: bool = True) -> None:
         self.log_info("checking triggered alerts")
-        for alert in ALERTS_IMPORT:
+        for alert in get_import_alerts():
             if alert in self.alerts_trigger:
                 self.add_alert(alert, occurrences=self.alerts_trigger[alert])
             elif delete:
@@ -5179,12 +5204,6 @@ class Component(  # noqa: PLR0904
             return gettext("Context")
         # Translators: Translation key for monolingual translations
         return pgettext("Translation key", "Key")
-
-    @cached_property
-    def guidelines(self):
-        from weblate.trans.guide import GUIDELINES  # noqa: PLC0415
-
-        return [guide(self) for guide in GUIDELINES]
 
     @cached_property
     def addons_cache(self) -> AddonCache:

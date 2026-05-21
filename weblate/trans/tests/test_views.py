@@ -722,7 +722,9 @@ class BasicViewTest(ViewTestCase):
 
     def test_view_component_guide(self) -> None:
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
-        self.assertContains(response, "Test/Test")
+        self.assertRedirects(
+            response, f"{self.component.get_absolute_url()}?alerts=1#alerts"
+        )
 
     def test_view_translation(self) -> None:
         response = self.client.get(self.translation.get_absolute_url())

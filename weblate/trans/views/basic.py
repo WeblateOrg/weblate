@@ -1148,17 +1148,7 @@ def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse
 def guide(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
 
-    return render(
-        request,
-        "guide.html",
-        {
-            "object": obj,
-            "path_object": obj,
-            "project": obj.project,
-            "component": obj,
-            "guidelines": obj.guidelines,
-        },
-    )
+    return redirect(f"{obj.get_absolute_url()}?alerts=1#alerts")
 
 
 class ProjectLanguageRedirectView(RedirectView):

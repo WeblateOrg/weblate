@@ -24,9 +24,7 @@
     <div class="card-footer">
       <form class="form-inline">
         <div class="form-group">
-          <a href="{% url return_url path=return_target.get_url_path %}"
-             class="btn btn-primary"
-             id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
+          <a href="{{ return_url }}" class="btn btn-primary" id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
         </div>
         <div class="form-group">
           <input type="checkbox" id="progress-redirect" checked="checked">
