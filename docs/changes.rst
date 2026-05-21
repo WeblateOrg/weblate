@@ -14,6 +14,7 @@ Weblate 2026.6
   Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
 * :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
+* :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories.
 
 .. rubric:: Bug fixes
 

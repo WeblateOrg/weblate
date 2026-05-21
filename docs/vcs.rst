@@ -74,19 +74,22 @@ Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, Azure D
    This section applies to **self-hosted** Weblate instances. If you are using
    Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead.
 
-For self-hosted Weblate, accessing repositories on code hosting sites is typically done by creating a
-dedicated user who is associated with a Weblate SSH key (see
-:ref:`weblate-ssh-key`). This way you associate Weblate SSH key with a single
-user (platforms frequently enforce single use of an SSH key) and grant this user access
-to the repository. You can then use SSH URL to access the repository (see
-:ref:`ssh-repos`).
+For self-hosted Weblate, a single private repository is often easiest to set
+up using an HTTPS repository URL with an access token, see
+:doc:`/admin/code-hosting`.
+
+For multiple repositories, create a dedicated code hosting user associated
+with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate
+Weblate SSH key with a single user, because platforms frequently enforce
+single use of an SSH key. Grant this user access to the repositories, and use
+SSH URLs to access them (see :ref:`ssh-repos`).
 
 .. _ssh-repos:
 
 SSH repositories
 ++++++++++++++++
 
-The most frequently used method to access private repositories is based on SSH.
+One common method to access private repositories is based on SSH.
 Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to access the upstream
 repository this way.
 
