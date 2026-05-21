@@ -33,7 +33,7 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import format_html, format_html_join
+from django.utils.html import escape, format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import normalize_newlines, slugify
@@ -502,9 +502,11 @@ class FuzzyField(forms.BooleanField):
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["label"] = gettext_lazy("Needs editing")
-        kwargs["help_text"] = gettext_lazy(
-            'Strings are usually marked as "Needs editing" after the source '
-            "string is updated, or when marked as such manually."
+        kwargs["help_text"] = escape(
+            gettext_lazy(
+                'Strings are usually marked as "Needs editing" after the source '
+                "string is updated, or when marked as such manually."
+            )
         )
         super().__init__(*args, **kwargs)
         self.widget.attrs["class"] = "fuzzy_checkbox"
