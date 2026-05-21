@@ -203,6 +203,7 @@ module.exports = {
         "hotkeys.js.license": hotkeysLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
+        "argon2id.js.license": altchaLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,
         "bootstrap5_rtl.js.license": bootstrapLicenseTransform,
         "../../styles/vendor/bootstrap5.css.license": bootstrapLicenseTransform,
