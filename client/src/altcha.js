@@ -4,16 +4,17 @@
 
 import * as Altcha from "altcha/i18n";
 
-// Need to manually import and bundle Altcha Argon2ID worker
-import argon2idWorkerSource from "altcha/workers/argon2id?source";
+import "altcha/workers/argon2id?url";
 
-const argon2idWorkerUrl = URL.createObjectURL(
-  new Blob([argon2idWorkerSource], { type: "text/javascript" }),
-);
+function getArgon2idWorkerUrl() {
+  const meta = document.querySelector('meta[name="argon2id-worker-url"]');
+  if (!meta) throw new Error("argon2id-worker-url meta tag missing");
+  return meta.content;
+}
 
 globalThis.$altcha.algorithms.set(
   "ARGON2ID",
-  () => new Worker(argon2idWorkerUrl),
+  () => new Worker(getArgon2idWorkerUrl()),
 );
 
 window.Altcha = Altcha;

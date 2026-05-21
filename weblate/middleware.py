@@ -73,7 +73,7 @@ CSP_DIRECTIVES: CSP_TYPE = {
     "form-action": {"'self'"},
     "manifest-src": {"'self'"},
     # Used by altcha
-    "worker-src": {"'self'", "blob:"},
+    "worker-src": {"'self'"},
 }
 
 # URLs requiring inline javascript
