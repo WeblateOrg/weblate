@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-15 07:00+0000\n"
+"PO-Revision-Date: 2026-05-21 22:59+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -1365,7 +1365,7 @@ msgstr "Použitý systém správy verzií."
 
 #: admin/addons.rst:94
 msgid "Upstream repository URL."
-msgstr "URL upstreamového repozitára."
+msgstr "URL hlavného repozitára."
 
 #: admin/addons.rst:98
 msgid "Absolute path to VCS repository."
@@ -1442,9 +1442,9 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"Dá sa použiť na aktualizáciu prekladových súborov, keď sa zmení upstreamový "
-"zdroj VCS. Aby ste to dosiahli, nezabudnite, že Weblate vidí iba súbory "
-"zapísané do VCS, takže musíte zmeny zapísať ako súčasť skriptu."
+"Dá sa použiť na aktualizáciu prekladových súborov, keď sa zmení hlavný zdroj "
+"VCS. Aby ste to dosiahli, nezabudnite, že Weblate vidí iba súbory zapísané "
+"do VCS, takže musíte zmeny zapísať ako súčasť skriptu."
 
 #: admin/addons.rst:165
 msgid "For example with Gulp you can do it using following code:"
@@ -2791,19 +2791,11 @@ msgstr ""
 "zálohy po dobu 30 dní)."
 
 #: admin/backup.rst:31
-#, fuzzy
-#| msgid ""
-#| "Import validation of uploaded project backups can be tuned "
-#| "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-#| "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgid ""
 "Import validation of uploaded project backups can be tuned "
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
-"Validácia importu nahraných záloh projektu je možné doladiť "
-"pomocou :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-"a :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:38
 msgid ""
@@ -3488,11 +3480,11 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location with no "
 "data loss."
 msgstr ""
-"Repozitáre správy verzií obsahujú kópiu vašich upstreamových repozitárov so "
+"Repozitáre správy verzií obsahujú kópiu vašich hlavných repozitárov so "
 "zmenami Weblate. Ak máte :ref:`component-push_on_commit` povolené pre všetky "
 "vaše prekladové komponenty, všetky zmeny Weblate sú zahrnuté upstream. Nie "
 "je potrebné zálohovať repozitáre na strane Weblate, pretože ich možno znovu "
-"naklonovať z upstreamového umiestnenia bez straty dát."
+"naklonovať z hlavného umiestnenia bez straty dát."
 
 #: admin/backup.rst:417
 msgid "SSH and GPG keys"
@@ -4423,7 +4415,7 @@ msgid ""
 "the upstream repository and chosen branch."
 msgstr ""
 "Ak :ref:`component-push_branch` nie je nastavený, projekt sa forkne a zmeny "
-"sa odošlú cez fork. Ak je nastavený, zmeny sa odošlú do upstream repozitára "
+"sa odošlú cez fork. Ak je nastavený, zmeny sa odošlú do hlavného repozitára "
 "a do zvolenej vetvy."
 
 #: admin/code-hosting.rst:304
@@ -6332,13 +6324,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL a LOCALIZE_CDN_PATH"
 
 #: admin/config.rst:1449
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-"
-#| "on. :setting:`LOCALIZE_CDN_URL` defines root URL where the localization "
-#| "CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path where "
-#| "Weblate should store generated files which will be served at "
-#| "the :setting:`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
 "weblate.cdn.cdnjs` and :ref:`addon-"
@@ -6349,11 +6334,6 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
-"Tieto nastavenia konfigurujú doplnok :ref:`addon-"
-"weblate.cdn.cdnjs`. :setting:`LOCALIZE_CDN_URL` definuje koreňovú URL, kde "
-"je dostupná CDN lokalizácie a :setting:`LOCALIZE_CDN_PATH` definuje cestu, "
-"kde by mal Weblate ukladať vygenerované súbory, ktoré sa budú servírovať "
-"na :setting:`LOCALIZE_CDN_URL`."
 
 #: admin/config.rst:1459
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -7695,7 +7675,7 @@ msgid ""
 "Upstream code hosting is not necessary, you can use Weblate with :ref:`vcs-"
 "local` where there is only the repository inside Weblate."
 msgstr ""
-"Upstreamový hosting kódu nie je nutný, môžete používať Weblate s :ref:`vcs-"
+"Hlavný hosting kódu nie je nutný, môžete používať Weblate s :ref:`vcs-"
 "local`, kde je repozitár iba vo vnútri Weblate."
 
 #: admin/continuous.rst:82
@@ -7913,7 +7893,7 @@ msgstr ":guilabel:`Push`"
 #: admin/continuous.rst:202
 msgid "Pushes committed local repository changes to the configured upstream."
 msgstr ""
-"Odošle zapísané zmeny lokálneho repozitára do nakonfigurovaného upstreamu."
+"Odošle zapísané zmeny lokálneho repozitára do nakonfigurovaného hlavného."
 
 #: admin/continuous.rst:203
 msgid ""
@@ -7932,14 +7912,14 @@ msgid ""
 "Fetches upstream changes and integrates them using the component's "
 "configured :ref:`component-merge_style`."
 msgstr ""
-"Stiahne upstream zmeny a integruje ich pomocou "
-"nakonfigurovaného :ref:`component-merge_style` komponentu."
+"Stiahne hlavné zmeny a integruje ich pomocou nakonfigurovaného "
+":ref:`component-merge_style` komponentu."
 
 #: admin/continuous.rst:207
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
 msgstr ""
-"Synchronizovať Weblate s upstreamom pomocou predvolenej stratégie integrácie."
+"Synchronizovať Weblate s hlavným pomocou predvolenej stratégie integrácie."
 
 #: admin/continuous.rst:209
 msgid ":guilabel:`Update with merge`"
@@ -7947,7 +7927,7 @@ msgstr ":guilabel:`Aktualizácia so zlúčením`"
 
 #: admin/continuous.rst:210
 msgid "Fetches upstream changes and integrates them with an explicit merge."
-msgstr "Stiahne upstreamové zmeny a integruje ich s explicitným zlúčením."
+msgstr "Stiahne hlavné zmeny a integruje ich s explicitným zlúčením."
 
 #: admin/continuous.rst:211
 msgid "Override the default merge style for a single update."
@@ -7962,8 +7942,7 @@ msgid ""
 "Fetches upstream changes and rebases local Weblate commits on top of "
 "upstream."
 msgstr ""
-"Stiahne upstreamové zmeny a rebasuje lokálne zápisy Weblate na vrchol "
-"upstreamu."
+"Stiahne hlavné zmeny a rebasuje lokálne zápisy Weblate na vrchol upstreamu."
 
 #: admin/continuous.rst:215
 msgid "Keep history linear when that matches your workflow."
@@ -7979,8 +7958,8 @@ msgid ""
 "Fetches upstream changes and creates an explicit merge commit even when a "
 "fast-forward would be possible."
 msgstr ""
-"Stiahne upstreamové zmeny a vytvorí explicitný merge commit, aj keď by bol "
-"možný fast-forward."
+"Stiahne hlavné zmeny a vytvorí explicitný merge commit, aj keď by bol možný "
+"fast-forward."
 
 #: admin/continuous.rst:219
 msgid "Preserve merge commits for auditing or branch-management reasons."
@@ -8010,13 +7989,11 @@ msgid ""
 "Resets Weblate's local repository to upstream and discards pending Weblate "
 "changes."
 msgstr ""
-"Resetuje lokálny repozitár Weblate na upstream a zahodí čakajúce zmeny "
-"Weblate."
+"Resetuje lokálny repozitár Weblate na hlavný a zahodí čakajúce zmeny Weblate."
 
 #: admin/continuous.rst:227
 msgid "Use when upstream should overwrite the local Weblate repository state."
-msgstr ""
-"Použiť, keď by upstream mal prepísať stav lokálneho repozitára Weblate."
+msgstr "Použiť, keď by hlavný mal prepísať stav lokálneho repozitára Weblate."
 
 #: admin/continuous.rst:229
 msgid ":guilabel:`Reset and reapply`"
@@ -8027,7 +8004,7 @@ msgid ""
 "Resets Weblate's local repository to upstream while preserving pending "
 "translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
-"Resetuje lokálny repozitár Weblate na upstream pri zachovaní čakajúcich "
+"Resetuje lokálny repozitár Weblate na hlavný pri zachovaní čakajúcich "
 "prekladov. Pozri :ref:`manage-vcs-reset-reapply`."
 
 #: admin/continuous.rst:231
@@ -8099,7 +8076,7 @@ msgid ""
 msgstr ""
 "Operácia :guilabel:`Resetovať a znovu použiť` zachováva čakajúce preklady z "
 "Weblate pri resetovaní stavu lokálneho repozitára tak, aby zodpovedal "
-"upstreamu."
+"hlavnému."
 
 #: admin/continuous.rst:253
 msgid ""
@@ -8150,7 +8127,7 @@ msgstr ""
 "zmeny, ktoré sa udiali po tom, čo ste zlúčili zápisy Weblate. Toto sa "
 "typicky stáva, ak zlúčenie nie je automatizované a čaká dni alebo týždne, "
 "kým ich človek skontroluje. Git potom niekedy už nie je schopný "
-"identifikovať upstream zmeny ako zodpovedajúce tým z Weblate a odmietne "
+"identifikovať hlavné zmeny ako zodpovedajúce tým z Weblate a odmietne "
 "vykonať rebase."
 
 #: admin/continuous.rst:277
@@ -8350,7 +8327,7 @@ msgstr "Niekto iný zmení už zmenený reťazec."
 
 #: admin/continuous.rst:386
 msgid "A merge from upstream occurs."
-msgstr "Dôjde k zlúčeniu z upstreamu."
+msgstr "Dôjde k zlúčeniu z hlavného."
 
 #: admin/continuous.rst:387
 msgid "An explicit commit is requested."
@@ -11928,10 +11905,8 @@ msgid "Defaults to enabled."
 msgstr "Predvolene je táto voľba zapnutá."
 
 #: admin/install/docker.rst:719
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:721
 msgid "Expects a comma-separated list of trusted project slugs."
@@ -12418,10 +12393,8 @@ msgstr ""
 "s kontajnerom tretej strany používaným v :ref:`docker-https-portal`."
 
 #: admin/install/docker.rst:1269
-#, fuzzy
-#| msgid "Configures :setting:`VERSION_DISPLAY`."
 msgid "Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
-msgstr "Konfiguruje :setting:`VERSION_DISPLAY`."
+msgstr ""
 
 #: admin/install/docker.rst:1271 admin/install/docker.rst:1277
 #: admin/install/docker.rst:1298 admin/install/docker.rst:1306
@@ -12432,16 +12405,12 @@ msgid "The value is in bytes."
 msgstr "Hodnota atribútu nie je v úvodzovkách."
 
 #: admin/install/docker.rst:1275
-#, fuzzy
-#| msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgid "Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
-msgstr "Konfiguruje :setting:`IP_PROXY_OFFSET`."
+msgstr ""
 
 #: admin/install/docker.rst:1281
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:1283
 msgid ""
@@ -12450,34 +12419,24 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:1290
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:1296
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:1304
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:1312
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:1320
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
-msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
 
 #: admin/install/docker.rst:1326
 msgid "Code hosting sites credentials"
@@ -13120,12 +13079,10 @@ msgid "Localization CDN"
 msgstr "CDN pre lokalizáciu"
 
 #: admin/install/docker.rst:2132
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid ""
 "Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs` "
 "and :ref:`addon-weblate.cdn.files`."
-msgstr "Konfigurácia pre :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
 
 #: admin/install/docker.rst:2135
 msgid ""
@@ -13140,17 +13097,11 @@ msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr "Jednou z možností je uloženie do adresára dát Weblate:"
 
 #: admin/install/docker.rst:2148
-#, fuzzy
-#| msgid ""
-#| "You are responsible for setting up serving of the files generated by "
-#| "Weblate, it only does stores the files in configured location."
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only stores the files in configured location. See :ref:`cdn-"
 "server-security` for secure serving guidance."
 msgstr ""
-"Ste zodpovední za nastavenie obsluhy súborov generovaných Weblate, on iba "
-"ukladá súbory na nakonfigurované miesto."
 
 #: admin/install/docker.rst:2160
 #, fuzzy
@@ -14950,10 +14901,8 @@ msgid "For example, English uses:"
 msgstr "Napríklad toto pokrýva:"
 
 #: admin/languages.rst:202
-#, fuzzy
-#| msgid "Better naming of plural forms."
 msgid "`GNU gettext manual for plural forms`_"
-msgstr "Lepšie pomenovanie tvarov množného čísla."
+msgstr ""
 
 #: admin/languages.rst:203
 msgid "`GNU gettext plural formula parser`_"
@@ -16715,10 +16664,8 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:247
-#, fuzzy
-#| msgid "Disaster recovery plan"
 msgid "Disable directory listing."
-msgstr "Plán obnovy po katastrofe"
+msgstr ""
 
 #: admin/optionals.rst:248
 msgid "Use HTTPS and make the CDN host read-only from the web server."
@@ -18383,7 +18330,7 @@ msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
-"Môžete nakonfigurovať, ako sa spracúvajú aktualizácie z upstream repozitára. "
+"Môžete nakonfigurovať, ako sa spracúvajú aktualizácie z hlavného repozitára. "
 "Skutočná implementácia závisí od VCS, pozri :doc:`/vcs`."
 
 #: admin/projects.rst:882
@@ -18395,7 +18342,7 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
-"Preskladá zápisy Weblate na vrchol upstream repozitára pri aktualizácii. "
+"Preskladá zápisy Weblate na vrchol hlavného repozitára pri aktualizácii. "
 "Toto poskytuje čistú históriu bez extra merge zápisov."
 
 #: admin/projects.rst:886
@@ -18424,7 +18371,7 @@ msgid ""
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
 msgstr ""
-"Zmeny upstream repozitára sa zlúčia do repozitára Weblate. Toto nastavenie "
+"Zmeny hlavného repozitára sa zlúčia do repozitára Weblate. Toto nastavenie "
 "využíva fast-forward, keď je to možné. Toto je najbezpečnejší spôsob, ale "
 "môže produkovať veľa merge zápisov."
 
@@ -18438,7 +18385,7 @@ msgid ""
 "commit every time (even when fast-forward would be possible). Every Weblate "
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
-"Zmeny upstream repozitára sa zlúčia do repozitára Weblate s vykonaním merge "
+"Zmeny hlavného repozitára sa zlúčia do repozitára Weblate s vykonaním merge "
 "zápisu zakaždým (aj keď by bol možný fast-forward). Každá zmena Weblate sa "
 "objaví ako merge zápis v repozitári Weblate."
 
@@ -18476,7 +18423,7 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
-"Či by mali byť zapísané zmeny automaticky odoslané do upstream repozitára. "
+"Či by mali byť zapísané zmeny automaticky odoslané do hlavného repozitára. "
 "Keď je povolené, odoslanie sa iniciuje, keď Weblate zapíše zmeny do svojho "
 "podkladového repozitára (pozri :ref:`lazy-commit`). Na skutočné povolenie "
 "odosielania musí byť nakonfigurovaná aj :guilabel:`URL odoslania repozitára`."
@@ -18522,7 +18469,7 @@ msgid ""
 "manually."
 msgstr ""
 "Zamkne komponent (a prepojené komponenty, pozri :ref:`internal-urls`) pri "
-"prvom neúspešnom odoslaní alebo zlúčení do jeho upstream repozitára alebo "
+"prvom neúspešnom odoslaní alebo zlúčení do hlavného repozitára alebo "
 "stiahnutí z neho. Toto sa vyhne pridaniu ďalších konfliktov, ktoré by bolo "
 "potrebné riešiť manuálne."
 
@@ -20351,12 +20298,10 @@ msgstr ""
 "kategórie."
 
 #: changes.rst:9
-#, fuzzy
-#| msgid "Group ACLs can now be limited to certain permissions."
 msgid ""
 "Team memberships can now be limited to selected languages for per-user "
 "translation permissions."
-msgstr "Skupinové ACL môžu byť teraz obmedzené na určité oprávnenia."
+msgstr ""
 
 #: changes.rst:12 changes.rst:56 changes/v5.rst:18 changes/v5.rst:104
 #: changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290 changes/v5.rst:334
@@ -20377,26 +20322,16 @@ msgid "Improvements"
 msgstr "Vylepšenia"
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
 "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"V kontajneri Docker je možné toto nakonfigurovať "
-"pomocou :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"a :envvar:`WEBLATE_API_RATELIMIT_USER`."
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
-msgstr "Vylepšený výkon kontrol konzistencie."
+msgstr ""
 
 #: changes.rst:16
 msgid ""
@@ -20615,16 +20550,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 "Added :ref:`addon-weblate.cdn.files` to publish translation files to the "
 "configured CDN."
 msgstr ""
-"Doplnok :ref:`addon-weblate.cdn.cdnjs` poskytuje niekoľko konfiguračných "
-"možností."
 
 #: changes.rst:57
 msgid ""
@@ -22778,7 +22707,7 @@ msgstr "Kompatibilita s databázovým backendom PostgreSQL."
 
 #: changes/v1.rst:133
 msgid "Removes languages removed in upstream git repository."
-msgstr "Odstraňuje jazyky odstránené v upstreamovom git repozitári."
+msgstr "Odstraňuje jazyky odstránené v hlavnom git repozitári."
 
 #: changes/v1.rst:134
 msgid "Improved quality checks processing."
@@ -24732,7 +24661,7 @@ msgstr "Opravené pridávanie skupín s určitými verziami Djanga."
 
 #: changes/v3.rst:45
 msgid "Fixed manual pushing to upstream repository."
-msgstr "Opravené manuálne odosielanie do upstream repozitára."
+msgstr "Opravené manuálne odosielanie do hlavného repozitára."
 
 #: changes/v3.rst:46
 msgid "Improved glossary matching."
@@ -25759,7 +25688,7 @@ msgstr "Správa zápisu doplnku sa teraz dá konfigurovať."
 
 #: changes/v3.rst:347
 msgid "Reduce number of commits when updating upstream repository."
-msgstr "Zníženie počtu zápisov pri aktualizácii upstream repozitára."
+msgstr "Zníženie počtu zápisov pri aktualizácii hlavného repozitára."
 
 #: changes/v3.rst:348
 msgid "Fixed possible metadata loss when moving component between projects."
@@ -28233,7 +28162,7 @@ msgstr "Vylepšený výkon pri spracovaní variantov."
 #: changes/v4.rst:635
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
 msgstr ""
-"Opravené, že doplnok na zlučovanie niekedy preskakoval parsovanie upstream "
+"Opravené, že doplnok na zlučovanie niekedy preskakoval parsovanie hlavných "
 "zmien."
 
 #: changes/v4.rst:636
@@ -30120,7 +30049,7 @@ msgstr "Opravená zmena URL repozitára pri vytváraní komponentu."
 
 #: changes/v4.rst:1204
 msgid "Fixed crash when upstream repository is gone."
-msgstr "Opravený pád, keď upstream repozitár zmizne."
+msgstr "Opravený pád, keď hlavný repozitár zmizne."
 
 #: changes/v4.rst:1207
 msgid "Weblate 4.0.2"
@@ -39743,9 +39672,9 @@ msgstr ""
 "Mnohokrát prekladatelia nájdu problémy so zdrojovými reťazcami. Uistite sa, "
 "že je pre nich ľahké hlásiť takéto problémy. Na zhromaždenie tejto spätnej "
 "väzby môžete nastaviť pole :ref:`component-repoweb` na vašej súčasti "
-"Weblate, aby prekladatelia mohli navrhnúť svoje zmeny do upstream "
-"repozitára. Môžete tiež dostávať komentáre prekladateľov, ak "
-"nastavíte :ref:`component-report_source_bugs`."
+"Weblate, aby prekladatelia mohli navrhnúť svoje zmeny do hlavného "
+"repozitára. Môžete tiež dostávať komentáre prekladateľov, ak nastavíte "
+":ref:`component-report_source_bugs`."
 
 #: devel/community.rst:11
 msgid "Community localization checklist"
@@ -40198,33 +40127,19 @@ msgid "Translating HTML and JavaScript using Weblate CDN"
 msgstr "Prekladanie HTML a JavaScriptu pomocou Weblate CDN"
 
 #: devel/html.rst:6
-#, fuzzy
-#| msgid ""
-#| "Starting with Weblate 4.2 it is possible to export localization to a CDN "
-#| "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgid ""
 "Starting with Weblate 4.2 it is possible to export JavaScript and HTML "
 "localization to a CDN using :ref:`addon-weblate.cdn.cdnjs` add-on. To "
 "publish translation files without the JavaScript loader, use :ref:`addon-"
 "weblate.cdn.files`."
 msgstr ""
-"Od Weblate 4.2 je možné exportovať lokalizáciu do CDN pomocou "
-"doplnku :ref:`addon-weblate.cdn.cdnjs`."
 
 #: devel/html.rst:13
-#, fuzzy
-#| msgid ""
-#| "This feature is configured on Hosted Weblate. It requires additional "
-#| "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
-#| "and :setting:`LOCALIZE_CDN_PATH`."
 msgid ""
 "This feature is configured on Hosted Weblate. It requires additional "
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
 "and :setting:`LOCALIZE_CDN_PATH`. See also :ref:`cdn-server-security`."
 msgstr ""
-"Táto funkcia je nakonfigurovaná na Hosted Weblate. Vyžaduje si dodatočnú "
-"konfiguráciu na vašej inštalácii, pozri :setting:`LOCALIZE_CDN_URL` "
-"a :setting:`LOCALIZE_CDN_PATH`."
 
 #: devel/html.rst:17
 #, fuzzy
@@ -40557,7 +40472,7 @@ msgid ""
 "or from the command-line using :ref:`wlc`."
 msgstr ""
 "Na získanie akýchkoľvek reťazcov nedávno aktualizovaných vo vašom vzdialenom "
-"repozitári VCS do Weblate, povoľte Weblate sťahovať z upstream repozitára. "
+"repozitári VCS do Weblate, povoľte Weblate sťahovať z hlavného repozitára. "
 "Toto sa dá dosiahnuť v používateľskom rozhraní (v :guilabel:`Údržba "
 "repozitára`) alebo z príkazového riadku pomocou :ref:`wlc`."
 
@@ -42912,11 +42827,11 @@ msgid ""
 "(if automatic push is not on)."
 msgstr ""
 "Konflikty pri zlúčení sa občas stávajú, keď je prekladový súbor zmenený "
-"súčasne vo Weblate aj v upstream repozitári. Zvyčajne sa tomu môžete vyhnúť "
+"súčasne vo Weblate aj v hlavnom repozitári. Zvyčajne sa tomu môžete vyhnúť "
 "zlúčením prekladov Weblate pred vykonaním zmien v prekladových súboroch "
 "(napr. pred spustením msgmerge). Stačí povedať Weblate, aby zapísal všetky "
-"čakajúce preklady (môžete to urobiť v :guilabel:`Údržba repozitára` v "
-"menu :guilabel:`Operácie`) a zlúčiť repozitár (ak nie je zapnuté automatické "
+"čakajúce preklady (môžete to urobiť v :guilabel:`Údržba repozitára` v menu "
+":guilabel:`Operácie`) a zlúčiť repozitár (ak nie je zapnuté automatické "
 "odosielanie)."
 
 #: faq.rst:47
@@ -42929,7 +42844,7 @@ msgid ""
 msgstr ""
 "Ak ste už narazili na konflikt pri zlúčení, najjednoduchší spôsob, ako "
 "vyriešiť všetky konflikty lokálne na vašom stroji, je pridať Weblate ako "
-"vzdialený repozitár, zlúčiť ho do upstreamu a opraviť akékoľvek konflikty. "
+"vzdialený repozitár, zlúčiť ho do hlavného a opraviť akékoľvek konflikty. "
 "Akonáhle odošlete zmeny späť, Weblate bude môcť použiť zlúčenú verziu bez "
 "akýchkoľvek iných špeciálnych akcií."
 
@@ -42970,8 +42885,8 @@ msgid ""
 "The workflow usually looks like this when you start from an up-to-date "
 "checkout of the upstream repository:"
 msgstr ""
-"Workflow zvyčajne vyzerá takto, keď začnete z aktuálneho checkoutu upstream "
-"repozitára:"
+"Pracovný postup zvyčajne vyzerá takto, keď začnete z aktuálneho checkoutu "
+"hlavného repozitára:"
 
 #: faq.rst:112
 msgid ""
@@ -42996,8 +42911,8 @@ msgid ""
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
 "Stiahnite a uchovajte lokálny klon Git repozitára Weblate. Tiež získajte "
-"druhý čerstvý lokálny klon upstream Git repozitára (t. j. potrebujete dve "
-"kópie upstream Git repozitára: Neporušenú a pracovnú kópiu):"
+"druhý čerstvý lokálny klon hlavného Git repozitára (t. j. potrebujete dve "
+"kópie hlavného Git repozitára: Neporušenú a pracovnú kópiu):"
 
 #: faq.rst:175
 msgid "How do I translate several branches at once?"
@@ -43108,14 +43023,14 @@ msgid ""
 "repository)."
 msgstr ""
 "Manuálne prikážete Weblate odoslať zmeny (potrebuje prístup na odosielanie "
-"do upstream repozitára)."
+"do hlavného repozitára)."
 
 #: faq.rst:231
 msgid ""
 "Somebody manually merges changes from the Weblate git repository into the "
 "upstream repository."
 msgstr ""
-"Niekto manuálne zlúči zmeny z Git repozitára Weblate do upstream repozitára."
+"Niekto manuálne zlúči zmeny z Git repozitára Weblate do hlavného repozitára."
 
 #: faq.rst:233
 msgid ""
@@ -43124,7 +43039,7 @@ msgid ""
 "upstream repository."
 msgstr ""
 "Niekto prepíše históriu vytvorenú Weblate (napr. odstránením zlučovacích "
-"zápisov), zlúči zmeny a povie Weblate, aby resetoval obsah v upstream "
+"zápisov), zlúči zmeny a povie Weblate, aby resetoval obsah v hlavnom "
 "repozitári."
 
 #: faq.rst:237
@@ -43268,7 +43183,7 @@ msgstr "Uzamknite dotknutý komponent vo Weblate."
 #: faq.rst:321
 msgid "Commit any pending changes and merge them into the upstream repository."
 msgstr ""
-"Zapíšte (commit) všetky čakajúce zmeny a zlúčte ich do upstream repozitára."
+"Zapíšte (commit) všetky čakajúce zmeny a zlúčte ich do hlavného repozitára."
 
 #: faq.rst:322
 msgid ""
@@ -43284,7 +43199,7 @@ msgid ""
 "push them to the upstream repository."
 msgstr ""
 "Vykonajte potrebné zmeny v repozitári (napríklad pomocou :command:`git mv`) "
-"a odošlite ich do upstream repozitára."
+"a odošlite ich do hlavného repozitára."
 
 #: faq.rst:324
 msgid ""
@@ -43528,7 +43443,7 @@ msgstr "Zapíšte (commit) čakajúce zmeny v :ref:`manage-vcs`."
 
 #: faq.rst:462
 msgid "Merge Weblate changes to the upstream repository."
-msgstr "Zlúčte zmeny z Weblate do upstream repozitára."
+msgstr "Zlúčte zmeny z Weblate do hlavného repozitára."
 
 #: faq.rst:463
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
@@ -48556,10 +48471,8 @@ msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr ""
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "**Authentication & authorization:**"
 msgid "Authentication, sessions, and authorization"
-msgstr "**Autentifikácia a autorizácia:**"
+msgstr ""
 
 #: security/threat-model.rst:52
 msgid "Login, 2FA, SSO, teams, permissions, project access, API tokens"
@@ -48601,10 +48514,8 @@ msgid "Webhooks"
 msgstr "Webhook"
 
 #: security/threat-model.rst:61
-#, fuzzy
-#| msgid ":ref:`project` (:ref:`project-check_flags`)."
 msgid ":ref:`hooks`, project :ref:`project-enable_hooks`"
-msgstr ":ref:`project` (:ref:`project-check_flags`)."
+msgstr ""
 
 #: security/threat-model.rst:62
 #, fuzzy
@@ -48613,23 +48524,14 @@ msgid "Background task scheduling and VCS repository updates"
 msgstr "Úlohy na pozadí pomocou Celery"
 
 #: security/threat-model.rst:63
-#, fuzzy
-#| msgid ""
-#| "Treat webhook endpoints as deployment-hardened interfaces and enable them "
-#| "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgid ""
 "In scope as a public, deployment-hardened interface. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"Považovať koncové body webhooku za rozhrania hardened pre nasadenie a "
-"povoliť ich iba tam, kde je to potrebné, pozri :ref:`hooks` a :ref:`project-"
-"enable_hooks`."
 
 #: security/threat-model.rst:64
-#, fuzzy
-#| msgid "**VCS integration**"
 msgid "VCS integration"
-msgstr "**Integrácia VCS**"
+msgstr ""
 
 #: security/threat-model.rst:65
 msgid "Repository URLs, branches, pushes, pulls, merge requests, local clones"
@@ -48912,10 +48814,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:175
-#, fuzzy
-#| msgid "**Database/Datastore**"
 msgid "Weblate to database/datastore"
-msgstr "**Databáza/Úložisko dát**"
+msgstr ""
 
 #: security/threat-model.rst:176
 msgid ""
@@ -49144,18 +49044,11 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:272
-#, fuzzy
-#| msgid ""
-#| "Treat webhook endpoints as deployment-hardened interfaces and enable them "
-#| "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgid ""
 "Exposes webhook endpoints as a public scheduling interface. Abuse resistance "
 "depends on deployment controls. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"Považovať koncové body webhooku za rozhrania hardened pre nasadenie a "
-"povoliť ich iba tam, kde je to potrebné, pozri :ref:`hooks` a :ref:`project-"
-"enable_hooks`."
 
 #: security/threat-model.rst:274
 msgid ""
@@ -49187,12 +49080,10 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:284
-#, fuzzy
-#| msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgid ""
 "Configures accepted HTTP hostnames. *(documented)* "
 "(source: :setting:`ALLOWED_HOSTS`)"
-msgstr "Konfiguruje povolené HTTP hostnames pomocou :setting:`ALLOWED_HOSTS`."
+msgstr ""
 
 #: security/threat-model.rst:285
 msgid ""
@@ -49206,18 +49097,10 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:288
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
 "and :setting:`RATELIMIT_ATTEMPTS`"
 msgstr ""
-"V kontajneri Docker je možné toto nakonfigurovať "
-"pomocou :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"a :envvar:`WEBLATE_API_RATELIMIT_USER`."
 
 #: security/threat-model.rst:290
 msgid ""
@@ -49238,14 +49121,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:297
-#, fuzzy
-#| msgid ""
-#| "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, "
-#| "CSP_FONT_SRC, CSP_FORM_SRC"
 msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
 msgstr ""
-"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC, "
-"CSP_FORM_SRC"
 
 #: security/threat-model.rst:300
 msgid ""
@@ -49266,16 +49143,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:305
-#, fuzzy
-#| msgid ""
-#| "Import validation of uploaded project backups can be tuned "
-#| "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-#| "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgid ":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 msgstr ""
-"Validácia importu nahraných záloh projektu je možné doladiť "
-"pomocou :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-"a :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: security/threat-model.rst:311
 msgid ""
@@ -49321,15 +49190,9 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:331
-#, fuzzy
-#| msgid ""
-#| "Added support for customizing SSH invocation "
-#| "via :setting:`SSH_EXTRA_ARGS`."
 msgid ""
 "Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
-"Pridaná podpora pre prispôsobenie vyvolania SSH "
-"cez :setting:`SSH_EXTRA_ARGS`."
 
 #: security/threat-model.rst:332
 msgid ""
@@ -49452,12 +49315,8 @@ msgid "Translation content"
 msgstr "Kontext prekladu"
 
 #: security/threat-model.rst:367
-#, fuzzy
-#| msgid ""
-#| "Support for starting translation components without existing translations."
 msgid "Source strings, translations, comments, suggestions, glossary entries"
 msgstr ""
-"Podpora pre spúšťanie prekladových komponentov bez existujúcich prekladov."
 
 #: security/threat-model.rst:368
 msgid ""
@@ -49472,10 +49331,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:371
-#, fuzzy
-#| msgid "**Webhook handling**"
 msgid "Webhook endpoints"
-msgstr "**Spracovanie webhooku**"
+msgstr ""
 
 #: security/threat-model.rst:372
 msgid "Headers, event type, body, repository and branch metadata"
@@ -49514,10 +49371,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:382
-#, fuzzy
-#| msgid "Exported repository URL"
 msgid "External repository content"
-msgstr "URL exportovaného repozitára"
+msgstr ""
 
 #: security/threat-model.rst:383
 msgid "Translation files, paths, branch names, commit metadata"
@@ -49558,11 +49413,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:392
-#, fuzzy
-#| msgid "Machine translation services are now configurable per project."
 msgid "Machine translation and external service configuration"
 msgstr ""
-"Služby strojového prekladu sú teraz konfigurovateľné pre každý projekt."
 
 #: security/threat-model.rst:393
 msgid "Provider URLs, credentials, model or service settings"
@@ -49645,10 +49497,8 @@ msgid "Out-of-scope capabilities"
 msgstr "Schopnosti typov prekladov"
 
 #: security/threat-model.rst:426
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "Unauthenticated internet client"
-msgstr "Prispievať môže každý prihlásený používateľ."
+msgstr ""
 
 #: security/threat-model.rst:427
 msgid ""
@@ -49675,37 +49525,21 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:434
-#, fuzzy
-#| msgid ""
-#| "Lists permissions in reStructuredText as a template for :doc:`/admin/"
-#| "access`."
 msgid ""
 "Act outside assigned permissions without exploiting a Weblate flaw. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Vypíše oprávnenia vo formáte reStructuredText ako šablónu pre :doc:`/admin/"
-"access`."
 
 #: security/threat-model.rst:436
 msgid "Reviewer or project manager"
 msgstr ""
 
 #: security/threat-model.rst:437
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (for "
-#| "example separating translation, review, VCS, translation memory, "
-#| "screenshot, and project access management permissions), see :doc:`/admin/"
-#| "access`."
 msgid ""
 "Exercise delegated project, component, language, review, VCS, translation "
 "memory, screenshot, or access-management permissions. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
-"Riadenie prístupu založené na rolách (RBAC) na vynútenie najmenších "
-"oprávnení (napríklad oddelenie oprávnení pre preklad, recenziu, VCS, "
-"prekladovú pamäť, snímky obrazovky a správu prístupu k projektu), "
-"pozri :doc:`/admin/access`."
 
 #: security/threat-model.rst:440
 msgid ""
@@ -49833,21 +49667,11 @@ msgid "Severity tier"
 msgstr "Závažnosť"
 
 #: security/threat-model.rst:483
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (for "
-#| "example separating translation, review, VCS, translation memory, "
-#| "screenshot, and project access management permissions), see :doc:`/admin/"
-#| "access`."
 msgid ""
 "Web authorization separates site, project, component, language, glossary, "
 "VCS, translation memory, screenshot, review, and access management "
 "permissions. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Riadenie prístupu založené na rolách (RBAC) na vynútenie najmenších "
-"oprávnení (napríklad oddelenie oprávnení pre preklad, recenziu, VCS, "
-"prekladovú pamäť, snímky obrazovky a správu prístupu k projektu), "
-"pozri :doc:`/admin/access`."
 
 #: security/threat-model.rst:486
 msgid "Permission assignments match the intended trust relationship."
@@ -49878,10 +49702,8 @@ msgstr ""
 #: security/threat-model.rst:493 security/threat-model.rst:499
 #: security/threat-model.rst:504 security/threat-model.rst:510
 #: security/threat-model.rst:515 security/threat-model.rst:553
-#, fuzzy
-#| msgid "Security"
 msgid "Security-critical."
-msgstr "Zabezpečenie"
+msgstr ""
 
 #: security/threat-model.rst:494
 msgid ""
@@ -49926,14 +49748,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:509
-#, fuzzy
-#| msgid ""
-#| "**Command injection:** Arbitrary code execution due to improper input "
-#| "validation in repository URLs or add-ons."
 msgid "Command injection or arbitrary code execution as the Weblate user."
 msgstr ""
-"**Vloženie príkazu:** Ľubovoľné vykonanie kódu kvôli nesprávnej validácii "
-"vstupu v URL repozitára alebo doplnkoch."
 
 #: security/threat-model.rst:511
 msgid ""
@@ -50401,10 +50217,8 @@ msgid "Requires attacker control of input this model marks trusted."
 msgstr ""
 
 #: security/threat-model.rst:730
-#, fuzzy
-#| msgid "Key Assumptions"
 msgid "`Input assumptions`_"
-msgstr "Kľúčové predpoklady"
+msgstr ""
 
 #: security/threat-model.rst:732
 msgid "Requires a capability this model excludes."
@@ -50431,10 +50245,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:741
-#, fuzzy
-#| msgid "Configuration errors"
 msgid "`Build-time and configuration variants`_"
-msgstr "Chyby v nastavení"
+msgstr ""
 
 #: security/threat-model.rst:743
 #, fuzzy
@@ -50769,7 +50581,7 @@ msgstr "Repozitár po aktualizácii"
 
 #: snippets/addon-events-autogenerated.rst:79
 msgid "Triggered whenever new changes are pulled from the upstream repository."
-msgstr "Spustené vždy, keď sa nové zmeny stiahnu z upstream repozitára."
+msgstr "Spustené vždy, keď sa nové zmeny stiahnu z hlavného repozitára."
 
 #: snippets/addon-events-autogenerated.rst:84
 msgid "Repository pre-commit"
@@ -51719,19 +51531,11 @@ msgstr ""
 "spracovanie pre prekladateľné reťazce."
 
 #: snippets/addons-autogenerated.rst:82
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:84
 msgid ""
@@ -51799,19 +51603,11 @@ msgid "`This add-on has no configuration.`"
 msgstr "`Tento doplnok nemá žiadnu konfiguráciu.`"
 
 #: snippets/addons-autogenerated.rst:126
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:128
 #, fuzzy
@@ -53366,7 +53162,7 @@ msgstr "Pridaná možnosť :guilabel:`Vyhnúť sa medzerám po oddeľovačoch`."
 
 #: snippets/addons-autogenerated.rst:1389
 msgid "Reset repository to upstream"
-msgstr "Obnoviť repozitár na upstream"
+msgstr "Obnoviť na hlavný repozitár"
 
 #: snippets/addons-autogenerated.rst:1395
 #: snippets/addons-autogenerated.rst:1438
@@ -53441,7 +53237,7 @@ msgstr "Odstránenie zastaraných návrhov"
 
 #: snippets/addons-autogenerated.rst:1460
 msgid "Voting threshold"
-msgstr "Prah hlasovania"
+msgstr "Hranica hlasovania"
 
 #: snippets/addons-autogenerated.rst:1460
 #, fuzzy
@@ -53478,8 +53274,8 @@ msgid ""
 "string."
 msgstr ""
 "Aktualizovať všetky súbory prekladov tak, aby zodpovedali jednojazyčnému "
-"základnému súboru upstreamu. Nepoužité reťazce sa odstránia a nové sa "
-"pridajú ako kópie zdrojového reťazca."
+"základnému hlavnému súboru. Nepoužité reťazce sa odstránia a nové sa pridajú "
+"ako kópie zdrojového reťazca."
 
 #: snippets/addons-autogenerated.rst:1492
 msgid ""
@@ -53667,9 +53463,9 @@ msgid ""
 "repository, :doc:`/admin/continuous` describes building blocks and how the "
 "changes flow between them."
 msgstr ""
-"Weblate je navrhnutý tak, aby sa integroval s upstreamovým repozitárom "
-"systému správy verzií, :doc:`/admin/continuous` opisuje stavebné bloky a ako "
-"medzi nimi pretekajú zmeny."
+"Weblate je navrhnutý tak, aby sa integroval s hlavným repozitárom systému "
+"správy verzií, :doc:`/admin/continuous` opisuje stavebné bloky a ako medzi "
+"nimi pretekajú zmeny."
 
 #: snippets/basics.rst:32
 msgid ":ref:`architecture` describes how Weblate works internally."
@@ -58231,17 +58027,13 @@ msgstr "Jednojazyčné aj dvojjazyčné"
 #: snippets/format-features/resourcedictionary-features.rst:27
 #: snippets/format-features/strings-features.rst:27
 #: snippets/format-features/stringsdict-features.rst:27
-#, fuzzy
-#| msgid "Inherited flags can now be discarded, see :ref:`custom-checks`."
 msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
-msgstr "Dedené príznaky teraz možno zahodiť, pozrite :ref:`custom-checks`."
+msgstr ""
 
 #: snippets/format-features/asciidoc-features.rst:28
 #: snippets/format-features/html-features.rst:28
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid ":ref:`check-safe-html`, ``strict-same``"
-msgstr "Preskočiť kontrolu kvality :ref:`check-safe-html`."
+msgstr ""
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -58284,10 +58076,8 @@ msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:28
 #: snippets/format-features/mdx-features.rst:28
-#, fuzzy
-#| msgid "``auto-safe-html``, ``safe-html``"
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
-msgstr "``auto-safe-html``, ``safe-html``"
+msgstr ""
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -60056,7 +59846,7 @@ msgstr "Obnoviť zmeny v internom repozitári"
 
 #: snippets/permissions.rst:305
 msgid "View upstream repository location"
-msgstr "Zobraziť umiestnenie upstream repozitára"
+msgstr "Zobraziť umiestnenie hlavného repozitára"
 
 #: snippets/permissions.rst:315
 msgid "Update the internal repository"
@@ -60350,7 +60140,7 @@ msgstr ":guilabel:`Aktualizovať interný repozitár`"
 #: snippets/roles.rst:59 snippets/roles.rst:81 snippets/roles.rst:109
 #: snippets/roles.rst:139 snippets/roles.rst:196
 msgid ":guilabel:`View upstream repository location`"
-msgstr ":guilabel:`Zobraziť umiestnenie upstream repozitára`"
+msgstr ":guilabel:`Zobraziť umiestnenie hlavného repozitára`"
 
 #: snippets/roles.rst:61
 msgid "`Edit source`"
@@ -63425,7 +63215,7 @@ msgid ""
 msgstr ""
 "Najčastejšie používaná metóda prístupu k súkromným repozitárom je založená "
 "na SSH. Autorizujte verejný SSH kľúč Weblate (pozri :ref:`weblate-ssh-key`) "
-"na prístup k upstream repozitáru týmto spôsobom."
+"na prístup k hlavnému repozitáru týmto spôsobom."
 
 #: vcs.rst:95
 msgid ""
@@ -63787,7 +63577,7 @@ msgid ""
 "repository."
 msgstr ""
 "Používajte opatrne, pretože to môže ľahko viesť k strate zápisov vo vašom "
-"upstream repozitári."
+"hlavnom repozitári."
 
 #: vcs.rst:315
 msgid "Customizing Git configuration"
