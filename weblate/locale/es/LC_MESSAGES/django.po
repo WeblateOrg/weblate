@@ -27,14 +27,15 @@
 # Agustina Giselle <agustinagiselle.translations@gmail.com>, 2026.
 # Deleted User <noreply+48943@weblate.org>, 2026.
 # Adrian Reyes <reyeshernandez.car@gmail.com>, 2026.
+# Libre <6n0n1m0s@proton.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-07 11:25+0000\n"
-"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
+"PO-Revision-Date: 2026-05-21 22:59+0000\n"
+"Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -42,7 +43,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -409,10 +410,8 @@ msgid "Team"
 msgstr "Equipo"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Añadir un usuario a un equipo"
+msgstr "Añadir a un equipo"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -618,10 +617,10 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "{username} añadió al usuario al equipo general del sitio {team}."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
-msgstr "{username} añadió al usuario al equipo general del sitio {team}."
+msgstr ""
+"Acceso a usuario para todo el equipo {team} fue cambiado por {username}."
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -650,10 +649,10 @@ msgid "User was added to the {team} team by {username}."
 msgstr "El usuario fue agregado al equipo {team} por {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "El usuario fue agregado al equipo {team} por {username}."
+msgstr ""
+"El acceso de usuario para el equipo {team} fue modificado por {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -746,14 +745,10 @@ msgstr ""
 "situación es inapropiada."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Si ha sido usted, utilice el restablecimiento de la contraseña para "
-"recuperar el acceso a su cuenta."
+"Si has sido tú, restablece tu contraseña para recuperar el acceso a su "
+"cuenta."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1101,11 +1096,9 @@ msgid "Strings are available for translation"
 msgstr "Las cadenas están disponibles para traducción"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Resumen de la traducción:"
+msgstr "Resumen de la actividad de la traducción"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1718,26 +1711,17 @@ msgstr ""
 "regionalizar JavaScript o HTML."
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Archivos de traducción"
+msgstr "Archivos de traducción CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Publica las traducciones en una red de entrega de contenidos para su uso al "
-"regionalizar JavaScript o HTML."
+msgstr "Publica las traducciones en una red de entrega de contenidos."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "No se puede editar el idioma de base de la traducción."
+msgstr ""
+"Los complementos de archivos de traducción CDN no pueden publicar weblate.js."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2152,23 +2136,19 @@ msgstr ""
 "POTFILES o POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
 msgstr ""
-"El componente tiene que definir un archivo POT para traducciones nuevas."
+"El componente tiene que definir una plantilla gettext para traducciones "
+"nuevas."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
 "El complemento Django espera la plantilla para traducciones nuevas a ser "
-"nombradas \"django.pot\" o \"djangojs.pot\"."
+"nombradas \"django.pot\" o \"djangojs.pot\", \"django.po\", o "
+"\"djangojs.po\"."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2274,15 +2254,12 @@ msgid "Voting threshold"
 msgstr "Umbral de votos"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Umbral para eliminación. Este campo no surte ningún efecto si se desactivan "
-"los votos."
+"Umbral para eliminación. Déjelo vacío para eliminar sugerencias a pesar de "
+"los votos. Este campo no tiene efecto con las votaciones apagadas."
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2767,10 +2744,8 @@ msgstr ""
 "Actualiza la plantilla gettext utilizando convenciones de gettext en Meson."
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Actualiza el archivo POT (Django)"
+msgstr "Actualiza la plantilla gettext (Django)"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -3086,7 +3061,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "Esperaba un objeto."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
