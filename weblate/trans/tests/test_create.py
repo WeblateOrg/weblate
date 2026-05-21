@@ -347,7 +347,7 @@ class CreateTest(ViewTestCase):
                 },
                 follow=True,
             )
-        self.assertContains(response, "Community localization checklist")
+        self.assertContains(response, "Diagnostics")
         self.assertContains(response, "Test/Create Component From Existing @ Weblate")
 
         new_component = Component.objects.get(name="Create Component From Existing")
@@ -409,11 +409,14 @@ class CreateTest(ViewTestCase):
                     "component": component.pk,
                     "branch": "translations",
                 },
-                follow=True,
             )
-        self.assertContains(response, "Return to the component")
 
         component = Component.objects.get(slug="create-component")
+        self.assertRedirects(
+            response,
+            reverse("show_progress", kwargs={"path": component.get_url_path()}),
+            fetch_redirect_response=False,
+        )
         change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "branch")
 

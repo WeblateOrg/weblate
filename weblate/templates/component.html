@@ -21,7 +21,7 @@
     </li>
     {% if alerts %}
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">{% translate "Alerts" %}</a>
+        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">{% translate "Diagnostics" %}</a>
       </li>
     {% endif %}
     <li class="nav-item">
@@ -53,9 +53,11 @@
           <a class="dropdown-item"
              href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
         </li>
-        <li>
-          <a class="dropdown-item" href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
-        </li>
+        {% if alerts %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#alerts" data-bs-toggle="tab" href="#">{% translate "Diagnostics" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     <li class="nav-item dropdown">
@@ -210,6 +212,7 @@
                 {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
               {% endif %}
               {{ alert }}
+              <span class="badge text-bg-secondary">{{ alert.get_severity_display }}</span>
               {% if alert.dismissed %}
                 <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
@@ -224,7 +227,7 @@
                   <input type="hidden" value="{{ alert.name }}" name="dismiss" />
                   <input type="submit"
                          value="{% translate "Dismiss" %}"
-                         class="float-end btn btn-danger" />
+                         class="float-end btn {% if alert.is_problem %}btn-danger{% else %}btn-secondary{% endif %}" />
                   <div class="clearfix"></div>
                 {% endif %}
               </div>

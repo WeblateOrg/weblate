@@ -1115,10 +1115,10 @@ def component_alerts(
             None,
         )
 
-    if component.all_active_alerts:
+    if component.all_problem_alerts:
         yield (
             "state/alert.svg",
-            gettext("Fix this component to clear its alerts."),
+            gettext("Fix this component to clear its diagnostics."),
             f"{component.get_absolute_url()}#alerts",
         )
 
@@ -1137,7 +1137,7 @@ def project_alerts(project: Project) -> Iterable[tuple[str, StrOrPromise, str | 
     if project.has_alerts:
         yield (
             "state/alert.svg",
-            gettext("Some of the components within this project have alerts."),
+            gettext("Some of the components within this project have diagnostics."),
             None,
         )
 

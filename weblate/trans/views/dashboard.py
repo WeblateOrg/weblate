@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import Exists, OuterRef
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -19,8 +20,9 @@ from django.views.decorators.cache import never_cache
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
+from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import CountsReportsForm, ReportsForm, SearchForm
-from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models import Alert, Component, ComponentList, Project, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
@@ -59,7 +61,14 @@ def get_suggestions(
 ) -> list[Translation]:
     """Return suggested translations for user."""
     if not filtered:
-        non_alerts = base.filter(component__alert__isnull=True)
+        problem_alerts = Alert.objects.filter(
+            component_id=OuterRef("component_id"),
+            dismissed=False,
+            severity__gte=AlertSeverity.ERROR,
+        )
+        non_alerts = base.annotate(has_problem_alert=Exists(problem_alerts)).filter(
+            has_problem_alert=False
+        )
         result = get_suggestions(user, user_has_languages, non_alerts, True)
         if result:
             return result

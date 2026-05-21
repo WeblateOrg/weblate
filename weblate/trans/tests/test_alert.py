@@ -6,6 +6,7 @@
 
 import os
 import tempfile
+from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
@@ -15,12 +16,15 @@ from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.registry import update_alerts
+from weblate.trans.alerts.vcs import UpdateFailure
 from weblate.trans.models import Component, Project, Unit
-from weblate.trans.models.alert import UpdateFailure, update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -35,7 +39,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
         return self._create_component("po", "po/*.po")
 
     @override_settings(WEBSITE_ALERTS_ENABLED=False)
-    @patch("weblate.trans.models.alert.get_uri_error", return_value="unreachable")
+    @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
     def test_website_alerts_disabled(self, mocked_get_uri_error) -> None:
         """Test that website alerts are not created when setting is False."""
         self.project.web = "https://example.com/project"
@@ -46,7 +50,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
         mocked_get_uri_error.assert_not_called()
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
-    @patch("weblate.trans.models.alert.get_uri_error", return_value="unreachable")
+    @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
     def test_website_alerts_enabled(self, mocked_get_uri_error) -> None:
         """Test that website alerts are created when setting is True."""
         self.project.web = "https://example.com/project"
@@ -59,7 +63,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
         )
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
-    @patch("weblate.trans.models.alert.get_uri_error")
+    @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_validator_error_without_fetch(
         self, mocked_get_uri_error
     ) -> None:
@@ -78,10 +82,10 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch(
-        "weblate.trans.models.alert.validate_request_url",
+        "weblate.trans.alerts.config.validate_request_url",
         side_effect=ValidationError("URL domain is not allowed."),
     )
-    @patch("weblate.trans.models.alert.get_uri_error")
+    @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_runtime_validation_without_fetch(
         self, mocked_get_uri_error, mocked_validate_request_url
     ) -> None:
@@ -105,8 +109,8 @@ class WebsiteAlertSettingTest(ViewTestCase):
         WEBSITE_ALERTS_ENABLED=True,
         PROJECT_WEB_RESTRICT_ALLOWLIST={"test"},
     )
-    @patch("weblate.trans.models.alert.get_uri_error", return_value=None)
-    @patch("weblate.trans.models.alert.validate_request_url")
+    @patch("weblate.trans.alerts.config.get_uri_error", return_value=None)
+    @patch("weblate.trans.alerts.config.validate_request_url")
     def test_website_alert_respects_project_allowlist(
         self, mocked_validate_request_url, mocked_get_uri_error
     ) -> None:
@@ -129,9 +133,16 @@ class AlertTest(ViewTestCase):
     def create_component(self):
         return self._create_component("po", "po-duplicates/*.dpo", manage_units=True)
 
+    def get_problem_alert_names(self) -> set[str]:
+        return set(
+            self.component.alert_set.filter(
+                severity__gte=AlertSeverity.ERROR
+            ).values_list("name", flat=True)
+        )
+
     def test_duplicates(self) -> None:
         self.assertEqual(
-            set(self.component.alert_set.values_list("name", flat=True)),
+            self.get_problem_alert_names(),
             {
                 "DuplicateLanguage",
                 "DuplicateString",
@@ -154,7 +165,7 @@ class AlertTest(ViewTestCase):
 
         # The alert should have been removed now
         self.assertEqual(
-            set(self.component.alert_set.values_list("name", flat=True)),
+            self.get_problem_alert_names(),
             {
                 "DuplicateLanguage",
                 "BrokenBrowserURL",
@@ -164,7 +175,7 @@ class AlertTest(ViewTestCase):
 
     def test_unused_enforced(self) -> None:
         self.assertEqual(
-            set(self.component.alert_set.values_list("name", flat=True)),
+            self.get_problem_alert_names(),
             {
                 "DuplicateLanguage",
                 "DuplicateString",
@@ -175,7 +186,7 @@ class AlertTest(ViewTestCase):
         self.component.enforced_checks = ["es_format"]
         self.component.save()
         self.assertEqual(
-            set(self.component.alert_set.values_list("name", flat=True)),
+            self.get_problem_alert_names(),
             {
                 "DuplicateLanguage",
                 "DuplicateString",
@@ -194,6 +205,17 @@ class AlertTest(ViewTestCase):
         )
         self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
         self.assertTrue(self.component.alert_set.get(name="BrokenBrowserURL").dismissed)
+
+    def test_existing_alert_updates_last_seen(self) -> None:
+        self.component.add_alert("MissingLicense")
+        alert = self.component.alert_set.get(name="MissingLicense")
+        old_updated = timezone.now() - timedelta(days=1)
+        self.component.alert_set.filter(pk=alert.pk).update(updated=old_updated)
+
+        self.component.add_alert("MissingLicense")
+
+        alert.refresh_from_db()
+        self.assertGreater(alert.updated, old_updated)
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())

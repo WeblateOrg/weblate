@@ -1303,14 +1303,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Duplicates")
-        self.click("Alerts")
+        self.click("Diagnostics")
         self.screenshot("alerts.png")
         self.assertGreater(self.count_elements("#alerts .card"), 0)
 
-        self.click("Insights")
-        with self.wait_for_page_load():
-            self.click("Community localization checklist")
-        self.screenshot("guide.png")
+        guidance = Component.objects.create(
+            name="Guidance",
+            slug="guidance",
+            project=project,
+            repo="https://github.com/WeblateOrg/test.git",
+            filemask="po/*.po",
+            file_format="po",
+        )
+        guidance.add_alert("MissingTranslationInstructions")
+        self.driver.get(f"{self.live_server_url}{guidance.get_absolute_url()}")
+        self.click("Diagnostics")
+        self.screenshot("component-diagnostics.png")
+        self.assert_text_contains("#alerts", "Define translation instructions")
 
     def test_fonts(self) -> None:
         self.create_component()

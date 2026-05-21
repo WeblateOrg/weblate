@@ -15,7 +15,7 @@ from django.utils.translation import gettext, gettext_lazy, npgettext, pgettext
 from weblate.addons.models import ADDONS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models.alert import ALERTS
+from weblate.trans.alerts.registry import get_alert_class
 from weblate.trans.models.change import COMPONENT_ORIGINS
 from weblate.trans.models.project import Project
 from weblate.trans.templatetags.translations import (
@@ -325,7 +325,7 @@ class RenderAlert(BaseDetailsRenderStrategy):
 
     def render_details(self, change: Change) -> StrOrPromise:
         try:
-            return ALERTS[change.details["alert"]].verbose
+            return get_alert_class(change.details["alert"]).verbose
         except KeyError:
             return change.details["alert"]
 

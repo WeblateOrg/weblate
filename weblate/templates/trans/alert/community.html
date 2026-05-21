@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<p>{{ description }}</p>
+
+{% if can_configure %}
+  <p>
+    <a class="btn btn-primary" href="{{ configure_url }}">{% translate "Configure" %}</a>
+    {% if doc_url %}
+      <a class="btn btn-link" href="{{ doc_url }}">{% translate "Documentation" %}</a>
+    {% endif %}
+  </p>
+{% elif doc_url %}
+  <p>
+    <a href="{{ doc_url }}">{% translate "Documentation" %}</a>
+  </p>
+{% endif %}

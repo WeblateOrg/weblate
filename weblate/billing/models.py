@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os.path
 from contextlib import suppress
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import partial
 from pathlib import Path
@@ -27,6 +28,8 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.auth.models import User
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.registry import get_alert_class
 from weblate.trans.models import (
     Alert,
     Component,
@@ -41,20 +44,59 @@ from weblate.utils.stats import prefetch_stats
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
+    from django_stubs_ext import StrOrPromise
+
     from weblate.vcs.base import CommitInfo
 
 
 class LibreCheck:
-    def __init__(self, result, message, component=None) -> None:
+    def __init__(
+        self,
+        result,
+        message,
+        component=None,
+        alerts=None,
+        license_name=None,
+        license_error=None,
+        repository_url=None,
+        file_format=None,
+    ) -> None:
         self.result = result
         self.message = message
         self.component = component
+        self.alerts = alerts or []
+        self.license_name = license_name
+        self.license_error = license_error
+        self.repository_url = repository_url
+        self.file_format = file_format
 
     def __bool__(self) -> bool:
         return self.result
 
     def __str__(self) -> str:
         return self.message
+
+
+@dataclass
+class LibreCheckAlert:
+    alert: Alert
+    message: StrOrPromise
+
+
+def get_component_billing_alerts(component: Component) -> list[LibreCheckAlert]:
+    result = []
+    for alert in component.alert_set.all():
+        try:
+            alert_class = get_alert_class(alert.name)
+        except KeyError:
+            continue
+        result.append(
+            LibreCheckAlert(
+                alert,
+                alert_class.get_description(component),
+            )
+        )
+    return result
 
 
 class PlanQuerySet(models.QuerySet["Plan", "Plan"]):
@@ -619,6 +661,7 @@ class Billing(models.Model):
                 component__project_id__in=project_ids,
                 dismissed=False,
                 name=name,
+                severity__gte=AlertSeverity.ERROR,
             )
             .exclude(component__vcs="local")
             .aggregate(oldest=Min("timestamp"))["oldest"]
@@ -745,7 +788,7 @@ class Billing(models.Model):
             details=self.serialize_inactive_recurring_status(status),
         )
 
-    def _get_libre_checklist(self):
+    def _get_libre_checklist(self, *, include_alerts: bool = True):
         message = ngettext(
             "Contains %d project", "Contains %d projects", self.count_projects
         )
@@ -769,7 +812,14 @@ class Billing(models.Model):
                 yield LibreCheck(False, gettext("Only public projects are allowed"))
         components = Component.objects.filter(
             project__in=self.all_projects
-        ).prefetch_related("project")
+        ).select_related("project")
+        if include_alerts:
+            components = components.prefetch_related(
+                Prefetch(
+                    "alert_set",
+                    queryset=Alert.objects.order_by("-severity", "name"),
+                )
+            )
         yield LibreCheck(
             len(components) > 0,
             ngettext("Contains %d component", "Contains %d components", len(components))
@@ -777,17 +827,12 @@ class Billing(models.Model):
         )
         for component in components:
             license_name = component.get_license_display()
+            license_error = None
             if not component.libre_license:
                 if not license_name:
-                    license_name = format_html(
-                        "<strong>{0}</strong>", gettext("Missing license")
-                    )
+                    license_error = gettext("Missing license")
                 else:
-                    license_name = format_html(
-                        "{0} (<strong>{1}</strong>)",
-                        license_name,
-                        gettext("Not a libre license"),
-                    )
+                    license_error = gettext("Not a libre license")
             if component.license_url:
                 license_name = format_html(
                     '<a href="{0}">{1}</a>', component.license_url, license_name
@@ -810,14 +855,53 @@ class Billing(models.Model):
                     component.get_file_format_display(),
                 ),
                 component=component,
+                alerts=(
+                    get_component_billing_alerts(component) if include_alerts else []
+                ),
+                license_name=license_name,
+                license_error=license_error,
+                repository_url=repo_url,
+                file_format=component.get_file_format_display(),
             )
 
     @cached_property
-    def libre_checklist(self):
+    def libre_checklist(self) -> list[LibreCheck]:
         return list(self._get_libre_checklist())
 
+    @cached_property
+    def libre_checklist_without_alerts(self) -> list[LibreCheck]:
+        return list(self._get_libre_checklist(include_alerts=False))
+
+    @cached_property
+    def libre_general_checklist(self) -> list[LibreCheck]:
+        return [check for check in self.libre_checklist if check.component is None]
+
+    @cached_property
+    def libre_component_checklist(self) -> list[LibreCheck]:
+        return [check for check in self.libre_checklist if check.component is not None]
+
+    @cached_property
+    def libre_general_checklist_without_alerts(self) -> list[LibreCheck]:
+        return [
+            check
+            for check in self.libre_checklist_without_alerts
+            if check.component is None
+        ]
+
+    @cached_property
+    def libre_component_checklist_without_alerts(self) -> list[LibreCheck]:
+        return [
+            check
+            for check in self.libre_checklist_without_alerts
+            if check.component is not None
+        ]
+
     @property
-    def valid_libre(self):
+    def valid_libre_without_alerts(self) -> bool:
+        return all(self.libre_checklist_without_alerts)
+
+    @property
+    def valid_libre(self) -> bool:
         return all(self.libre_checklist)
 
 

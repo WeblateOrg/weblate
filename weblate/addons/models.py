@@ -251,6 +251,7 @@ class Addon(models.Model):
                 original_component.drop_addons_cache()
             self._drop_addons_cache()
             self._clear_pot_guidance_alert()
+            self._clear_recommendation_guidance_alerts()
 
     def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
@@ -336,6 +337,20 @@ class Addon(models.Model):
             component__in=self._affected_components(),
             name="ExtractPotMissingMsgmerge",
         ).delete()
+
+    def _clear_recommendation_guidance_alerts(self) -> None:
+        from weblate.trans.alerts.registry import ALERTS, load_alerts  # noqa: PLC0415
+
+        load_alerts()
+        alert_names = [
+            name
+            for name, alert in ALERTS.items()
+            if getattr(alert, "addon", None) == self.name
+        ]
+        if alert_names:
+            Alert.objects.filter(
+                component__in=self._affected_components(), name__in=alert_names
+            ).delete()
 
     def delete(self, using=None, keep_parents=False):
         # Store history

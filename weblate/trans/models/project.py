@@ -23,6 +23,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
@@ -149,7 +150,10 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
             project.__dict__["has_alerts"] = False
         # Indicate alerts
         for project_id in (
-            queryset.filter(component__alert__dismissed=False)
+            queryset.filter(
+                component__alert__dismissed=False,
+                component__alert__severity__gte=AlertSeverity.ERROR,
+            )
             .values_list("id", flat=True)
             .distinct()
         ):
@@ -378,6 +382,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         super().save(*args, **kwargs)
 
         if old is not None:
+            if (
+                should_track_field(self, "instructions", update_fields)
+                and old.instructions != self.instructions
+            ) or (
+                should_track_field(self, "access_control", update_fields)
+                and old.access_control != self.access_control
+            ):
+                self._clear_translation_instructions_guidance_alert()
+
             # Update alerts if needed
             if old.web != self.web:
                 component_alerts.delay_on_commit(
@@ -393,6 +406,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # Update translation memory on enabled sharing
         if update_tm:
             import_memory.delay_on_commit(self.id)
+
+    def _clear_translation_instructions_guidance_alert(self) -> None:
+        if (
+            self.instructions
+            or self.access_control not in {self.ACCESS_PUBLIC, self.ACCESS_PROTECTED}
+            or settings.REQUIRE_LOGIN
+        ):
+            from weblate.trans.models import Alert  # noqa: PLC0415
+
+            Alert.objects.filter(
+                component__project=self, name="MissingTranslationInstructions"
+            ).delete()
 
     def clean(self) -> None:
         super().clean()
@@ -688,8 +713,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
+    def all_problem_alerts(self) -> QuerySet[Alert]:
+        return self.all_active_alerts.filter(severity__gte=AlertSeverity.ERROR)
+
+    @cached_property
     def has_alerts(self) -> bool:
-        return self.all_active_alerts.exists()
+        return self.all_problem_alerts.exists()
 
     @cached_property
     def all_admins(self) -> QuerySet[User]:

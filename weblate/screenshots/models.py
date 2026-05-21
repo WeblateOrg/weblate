@@ -14,7 +14,7 @@ from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import m2m_changed, post_delete
+from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
@@ -23,9 +23,9 @@ from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
-from weblate.trans.models.alert import update_alerts
 from weblate.trans.signals import vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -132,6 +132,18 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
         name="UnusedScreenshot"
     ).exists():
         update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
+
+
+@receiver(post_save, sender=Screenshot)
+@disable_for_loaddata
+def clear_missing_screenshots_alert(sender, instance: Screenshot, **kwargs) -> None:
+    component = instance.translation.component
+    deleted, _counts = component.alert_set.filter(name="MissingScreenshots").delete()
+    if deleted:
+        component.__dict__.pop("all_alerts", None)
+        component.__dict__.pop("all_active_alerts", None)
+        component.__dict__.pop("all_problem_alerts", None)
+        component.clear_prefetched_alerts()
 
 
 @receiver(post_delete, sender=Screenshot)
