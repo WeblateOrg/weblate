@@ -26,7 +26,7 @@ from crispy_forms.layout import (
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
-from django.core.validators import FileExtensionValidator, validate_slug
+from django.core.validators import FileExtensionValidator
 from django.db.models import Count, Q
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
@@ -49,6 +49,11 @@ from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
+from weblate.lang.forms import (
+    LanguageCodeChoiceField,
+    LimitLanguagesField,
+    get_language_code_choices,
+)
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
@@ -1214,15 +1219,6 @@ class CommentForm(forms.Form):
         ]
 
 
-class LanguageCodeChoiceField(forms.ModelChoiceField):
-    def to_python(self, value):
-        # Add explicit validation here to avoid DataError on invalid input
-        # such as: PostgreSQL text fields cannot contain NUL (0x00) bytes
-        if value:
-            validate_slug(value)
-        return super().to_python(value)
-
-
 class EngageForm(forms.Form):
     """Form to choose language for engagement widgets."""
 
@@ -1466,6 +1462,17 @@ class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
         label=gettext_lazy("Team administrator"),
         help_text=gettext_lazy("Allow user to add or remove users from a team."),
     )
+    limit_languages = LimitLanguagesField(Language.objects.none())
+
+    def __init__(self, *args, team: Group | None = None, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        limit_field = self.fields["limit_languages"]
+        if team and team.defining_project_id:
+            languages = team.defining_project.languages
+        else:
+            languages = Language.objects.order()
+        limit_field.queryset = languages
+        limit_field.choices = get_language_code_choices(languages)
 
 
 class UserBlockForm(UserContributionCleanupForm):
@@ -1511,6 +1518,14 @@ class UserBlockForm(UserContributionCleanupForm):
 
 
 class ReportsForm(forms.Form):
+    layout_fields: ClassVar[tuple[str, ...]] = (
+        "style",
+        "period",
+        "language",
+        "sort_by",
+        "sort_order",
+    )
+
     style = forms.ChoiceField(
         label=gettext_lazy("Report format"),
         help_text=gettext_lazy("Choose a file format for the report"),
@@ -1549,13 +1564,7 @@ class ReportsForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Field("style"),
-            Field("period"),
-            Field("language"),
-            Field("sort_by"),
-            Field("sort_order"),
-        )
+        self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
         if not scope:
             languages = Language.objects.have_translation()
         elif "project" in scope:
@@ -1574,6 +1583,32 @@ class ReportsForm(forms.Form):
             msg = f"Invalid scope: {scope}"
             raise ValueError(msg)
         self.fields["language"].choices += languages.as_choices()
+
+
+class CountsReportsForm(ReportsForm):
+    COUNTING_MODE_UNIQUE = "unique"
+    COUNTING_MODE_ALL = "all"
+    layout_fields = (*ReportsForm.layout_fields, "counting_mode")
+
+    counting_mode = forms.ChoiceField(
+        label=gettext_lazy("Counting mode"),
+        help_text=gettext_lazy(
+            "Choose whether repeated changes on the same string are counted once or "
+            "as separate changes."
+        ),
+        choices=[
+            (
+                COUNTING_MODE_UNIQUE,
+                gettext_lazy("Unique strings"),
+            ),
+            (
+                COUNTING_MODE_ALL,
+                gettext_lazy("All changes"),
+            ),
+        ],
+        initial=COUNTING_MODE_UNIQUE,
+        required=False,
+    )
 
 
 class CleanRepoMixin:
@@ -3473,11 +3508,71 @@ class ProjectUserGroupForm(UserManageForm):
         required=False,
     )
 
-    def __init__(self, project, *args, **kwargs) -> None:
+    def __init__(
+        self,
+        project,
+        *args,
+        group_queryset: QuerySet[Group] | None = None,
+        limit_language_choices: list[tuple[str, str]] | None = None,
+        **kwargs,
+    ) -> None:
         self.project = project
         super().__init__(*args, **kwargs)
         self.fields["user"].widget = forms.HiddenInput()
-        self.fields["groups"].queryset = project.defined_groups.all()
+        groups_queryset = (
+            group_queryset
+            if group_queryset is not None
+            else project.defined_groups.all()
+        )
+        groups = list(groups_queryset)
+        self.fields["groups"].queryset = groups_queryset
+        selected_group_ids = self.get_selected_group_ids()
+        limit_language_queryset = project.languages
+        if limit_language_choices is None:
+            limit_language_choices = get_language_code_choices(limit_language_queryset)
+        for group in groups:
+            self.fields[self.get_limit_languages_field(group)] = LimitLanguagesField(
+                limit_language_queryset,
+                help_text=None,
+                hide_placeholder=True,
+                language_choices=limit_language_choices,
+            )
+            limit_field = self.fields[self.get_limit_languages_field(group)]
+            limit_field.disabled = str(group.pk) not in selected_group_ids
+            limit_field.widget.attrs["aria-label"] = gettext(
+                "Limit languages for %(team)s"
+            ) % {"team": group}
+        self.membership_fields = [
+            {
+                "group": group,
+                "value": str(group.pk),
+                "checkbox_id": f"{self['groups'].id_for_label}_{index}",
+                "checked": str(group.pk) in selected_group_ids,
+                "limit_field": self[self.get_limit_languages_field(group)],
+            }
+            for index, group in enumerate(groups)
+        ]
+
+    def get_selected_group_ids(self) -> set[str]:
+        if self.is_bound:
+            field_name = self.add_prefix("groups")
+            values = self.fields["groups"].widget.value_from_datadict(
+                self.data, self.files, field_name
+            )
+            if values is None:
+                return set()
+            if isinstance(values, (list, tuple)):
+                return {str(value) for value in values}
+            return {str(values)}
+        groups = self.initial.get("groups", ())
+        return {str(group.pk) for group in groups}
+
+    @staticmethod
+    def get_limit_languages_field(group: Group) -> str:
+        return f"limit_languages_{group.pk}"
+
+    def get_limit_languages(self, group: Group):
+        return self.cleaned_data[self.get_limit_languages_field(group)]
 
     def clean(self) -> dict[str, Any]:
         cleaned_data = super().clean()

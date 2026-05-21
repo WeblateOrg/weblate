@@ -19,7 +19,7 @@ from django.views.decorators.cache import never_cache
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
-from weblate.trans.forms import ReportsForm, SearchForm
+from weblate.trans.forms import CountsReportsForm, ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
@@ -328,6 +328,7 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
             ),
             "active_tab_slug": active_tab_slug,
             "reports_form": ReportsForm({}),
+            "reports_count_form": CountsReportsForm({}),
             "all_owned_projects": owned,
             "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
         },

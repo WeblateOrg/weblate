@@ -162,7 +162,10 @@
                   <em>{% translate "Pending invitation" %}</em>
                 </td>
                 <td>
-                  <span class="badge  text-bg-secondary">{{ invitation.group }}</span>
+                  <span class="badge  text-bg-secondary">
+                    {{ invitation.group }}
+                    {% include "snippets/membership-language-limit.html" with membership=invitation only %}
+                  </span>
                 </td>
                 <td>
                   <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">

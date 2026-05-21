@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import os.path
 import re
 import shutil
@@ -1420,6 +1421,27 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             match=[matchers.header_matcher({"Content-Type": "application/json"})],
         )
 
+    def mock_pull_request_response(self, pr_response, pr_status=200) -> None:
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls",
+            json=pr_response,
+            status=pr_status,
+            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+        )
+
+    def assert_pr_head(self, head: str) -> None:
+        pr_calls = [
+            call
+            for call in responses.calls
+            if call.request.url
+            == "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls"
+        ]
+        self.assertEqual(len(pr_calls), 1)
+        request = json.loads(pr_calls[0].request.body or "{}")
+        self.assertEqual(request["head"], head)
+        self.assertEqual(request["base"], self._remote_branch)
+
     def test_api_url_try_gitea(self) -> None:
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
         self.assertEqual(
@@ -1523,6 +1545,111 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_config("remote.test.pushURL"), "git@gitea.io:test/test.git"
         )
+
+    @responses.activate
+    def test_push_with_existing_fork_configures_fork_remote(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
+            json={"message": "repository is already forked by user"},
+            status=409,
+            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+        )
+        responses.add(
+            responses.GET,
+            "https://try.gitea.io/api/v1/repos/test/test",
+            json={
+                "fork": True,
+                "parent": {"full_name": "weblateorg/TEST"},
+                "ssh_url": "git@gitea.io:test/test.git",
+                "clone_url": "https://gitea.io/test/test.git",
+            },
+        )
+        self.mock_pull_request_response(
+            pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+        )
+
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            super().test_push("")
+
+        mocked_push.assert_called_once_with(
+            self.repo.get_credentials(), self._remote_branch, "weblate-test-test"
+        )
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
+        )
+        responses.assert_call_count("https://try.gitea.io/api/v1/repos/test/test", 1)
+        self.assertEqual(
+            self.repo.get_config("remote.test.pushURL"), "git@gitea.io:test/test.git"
+        )
+
+    @responses.activate
+    def test_push_with_same_name_non_fork_rejected(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
+            json={"message": "repository is already forked by user"},
+            status=409,
+            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+        )
+        responses.add(
+            responses.GET,
+            "https://try.gitea.io/api/v1/repos/test/test",
+            json={
+                "fork": False,
+                "ssh_url": "git@gitea.io:test/test.git",
+                "clone_url": "https://gitea.io/test/test.git",
+            },
+        )
+
+        with (
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push,
+            self.assertRaisesMessage(
+                RepositoryError,
+                "Existing repository test/test is not a fork of WeblateOrg/test.",
+            ),
+        ):
+            super().test_push("")
+
+        mocked_push.assert_not_called()
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
+        )
+        responses.assert_call_count("https://try.gitea.io/api/v1/repos/test/test", 1)
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls", 0
+        )
+
+    @responses.activate
+    def test_empty_push_url_with_push_branch_uses_upstream_branch(self) -> None:
+        self.repo.component.push = ""
+        self.repo.component.push_branch = "upstream-branch"
+        self.mock_responses(
+            pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+        )
+
+        super().test_push(self.repo.component.push_branch)
+
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 0
+        )
+        self.assert_pr_head("upstream-branch")
+
+    @responses.activate
+    def test_push_url_with_push_branch_uses_upstream_branch(self) -> None:
+        self.repo.component.push = "https://try.gitea.io/WeblateOrg/test.git"
+        self.repo.component.push_branch = "upstream-branch"
+        self.mock_responses(
+            pr_response={"url": "https://try.gitea.io/WeblateOrg/test/pull/1"}
+        )
+
+        super().test_push(self.repo.component.push_branch)
+
+        responses.assert_call_count(
+            "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 0
+        )
+        self.assert_pr_head("upstream-branch")
 
     @responses.activate
     def test_pull_request_error(self, branch: str = "") -> None:

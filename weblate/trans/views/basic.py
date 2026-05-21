@@ -36,6 +36,7 @@ from weblate.trans.forms import (
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
+    CountsReportsForm,
     DownloadForm,
     ProjectDeleteForm,
     ProjectFilterForm,
@@ -238,6 +239,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
             "percent": translation_percent(stats["translated"], stats["all"]),
             "language": language,
             "translate_object": translate_object,
+            "target_language": translate_object.language if translate_object else None,
             "project_link": format_html(
                 '<a href="{}">{}</a>', project.get_absolute_url(), project.name
             ),
@@ -513,6 +515,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "reports_form": ReportsForm({"project": obj}),
+            "reports_count_form": CountsReportsForm({"project": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
                 request=request,
@@ -605,6 +608,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
             "last_changes": last_changes,
             "last_announcements": last_announcements,
             "reports_form": ReportsForm({"category": obj}),
+            "reports_count_form": CountsReportsForm({"category": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
                 request=request,
@@ -685,6 +689,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
             "component": obj,
             "translations": translations,
             "reports_form": ReportsForm({"component": obj}),
+            "reports_count_form": CountsReportsForm({"component": obj}),
             "last_changes": last_changes,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(

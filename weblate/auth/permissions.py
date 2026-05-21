@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -41,6 +42,140 @@ if TYPE_CHECKING:
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 
 
+@dataclass(frozen=True)
+class PermissionLanguageScope:
+    language_ids: set[int]
+    membership_limited: bool
+
+
+def _has_scoped_permission(
+    permission: str,
+    permissions: set[str],
+    langs: PermissionLanguageScope | None,
+    language_id: int | None = None,
+    *,
+    allow_limited_without_language: bool = False,
+) -> bool:
+    if permission not in permissions:
+        return False
+    if langs is None:
+        return True
+    if language_id is None:
+        # Team language selections have historically limited translation
+        # actions only. Per-membership limits also restrict project and
+        # component checks unless the caller explicitly accepts them.
+        return allow_limited_without_language or not langs.membership_limited
+    return language_id in langs.language_ids
+
+
+def _get_language_scope_components(
+    obj: ProjectLanguage | CategoryLanguage,
+) -> list[tuple[int, int, bool]]:
+    return list(
+        obj.action_translation_set.values_list(
+            "component_id", "component__project_id", "component__restricted"
+        ).distinct()
+    )
+
+
+def _needs_language_scope_component_permissions(
+    user: User, obj: ProjectLanguage | CategoryLanguage
+) -> bool:
+    return user.needs_component_restrictions_filter and (
+        obj.has_restricted_action_translations
+    )
+
+
+def _has_project_language_permission(
+    user: User,
+    permission: str,
+    project: Project,
+    language_id: int,
+    *,
+    allow_limited_without_language: bool = False,
+) -> bool:
+    return any(
+        _has_scoped_permission(
+            permission,
+            permissions,
+            langs,
+            language_id,
+            allow_limited_without_language=allow_limited_without_language,
+        )
+        for permissions, langs in user.get_project_permissions(project)
+    )
+
+
+def _check_language_scope_permission(
+    user: User,
+    permission: str,
+    obj: ProjectLanguage | CategoryLanguage,
+    *,
+    allow_limited_without_language: bool = False,
+) -> bool:
+    language_id = obj.language.id
+    project = obj.project
+    if not check_enforced_2fa(user, project):
+        return False
+
+    project_allowed = _has_project_language_permission(
+        user,
+        permission,
+        project,
+        language_id,
+        allow_limited_without_language=allow_limited_without_language,
+    )
+    if project_allowed and not _needs_language_scope_component_permissions(user, obj):
+        return obj.has_action_translations
+    if not project_allowed and not user.component_permissions:
+        return False
+
+    components = _get_language_scope_components(obj)
+    if not components:
+        return False
+
+    project_ids = {project_id for _component_id, project_id, _restricted in components}
+    projects_by_id = {project.id: project}
+    missing_project_ids = project_ids - projects_by_id.keys()
+    if missing_project_ids:
+        projects_by_id.update(Project.objects.in_bulk(missing_project_ids))
+
+    project_permissions = {
+        project_id: (
+            project_allowed
+            if project_id == project.id
+            else _has_project_language_permission(
+                user,
+                permission,
+                checked_project,
+                language_id,
+                allow_limited_without_language=allow_limited_without_language,
+            )
+        )
+        for project_id, checked_project in projects_by_id.items()
+    }
+
+    for component_id, project_id, restricted in components:
+        project = projects_by_id[project_id]
+        if not check_enforced_2fa(user, project):
+            return False
+        component_allowed = any(
+            _has_scoped_permission(
+                permission,
+                permissions,
+                langs,
+                language_id,
+                allow_limited_without_language=allow_limited_without_language,
+            )
+            for permissions, langs in user.component_permissions.get(component_id, ())
+        )
+        if not component_allowed and (
+            restricted or not project_permissions[project_id]
+        ):
+            return False
+    return True
+
+
 def register_perm(*perms: str):
     def wrap_perm(function: Callable[[User, str, Model], bool | PermissionResult]):
         for perm in perms:
@@ -73,24 +208,40 @@ def check_permission(
     | Category
     | Project
     | ComponentList,
+    *,
+    allow_limited_without_language: bool = False,
 ) -> bool:
     """Check whether user has an object-specific permission."""
     if user.is_superuser:
         return True
-    if isinstance(obj, ProjectLanguage):
-        obj = obj.project
-    if isinstance(obj, CategoryLanguage):
-        obj = obj.category.project
+    if isinstance(obj, (ProjectLanguage, CategoryLanguage)):
+        return _check_language_scope_permission(
+            user,
+            permission,
+            obj,
+            allow_limited_without_language=allow_limited_without_language,
+        )
     if isinstance(obj, Category):
         obj = obj.project
     if isinstance(obj, Project):
         return any(
-            permission in permissions
-            for permissions, _langs in user.get_project_permissions(obj)
+            _has_scoped_permission(
+                permission,
+                permissions,
+                langs,
+                None,
+                allow_limited_without_language=allow_limited_without_language,
+            )
+            for permissions, langs in user.get_project_permissions(obj)
         ) and check_enforced_2fa(user, obj)
     if isinstance(obj, ComponentList):
         return all(
-            check_permission(user, permission, component)
+            check_permission(
+                user,
+                permission,
+                component,
+                allow_limited_without_language=allow_limited_without_language,
+            )
             and check_enforced_2fa(user, component.project)
             for component in obj.components.iterator()
         )
@@ -99,13 +250,23 @@ def check_permission(
             (
                 not obj.restricted
                 and any(
-                    permission in permissions
-                    for permissions, _langs in user.get_project_permissions(obj.project)
+                    _has_scoped_permission(
+                        permission,
+                        permissions,
+                        langs,
+                        allow_limited_without_language=allow_limited_without_language,
+                    )
+                    for permissions, langs in user.get_project_permissions(obj.project)
                 )
             )
             or any(
-                permission in permissions
-                for permissions, _langs in user.component_permissions[obj.pk]
+                _has_scoped_permission(
+                    permission,
+                    permissions,
+                    langs,
+                    allow_limited_without_language=allow_limited_without_language,
+                )
+                for permissions, langs in user.component_permissions.get(obj.pk, ())
             )
         ) and check_enforced_2fa(user, obj.project)
     if isinstance(obj, Unit):
@@ -116,15 +277,17 @@ def check_permission(
             (
                 not obj.component.restricted
                 and any(
-                    permission in permissions and (langs is None or lang in langs)
+                    _has_scoped_permission(permission, permissions, langs, lang)
                     for permissions, langs in user.get_project_permissions(
                         obj.component.project
                     )
                 )
             )
             or any(
-                permission in permissions and (langs is None or lang in langs)
-                for permissions, langs in user.component_permissions[obj.component_id]
+                _has_scoped_permission(permission, permissions, langs, lang)
+                for permissions, langs in user.component_permissions.get(
+                    obj.component_id, ()
+                )
             )
         ) and check_enforced_2fa(user, obj.component.project)
     msg = f"Permission {permission} does not support: {obj.__class__}: {obj!r}"
@@ -215,7 +378,15 @@ def check_can_edit(  # noqa: C901
             )
 
     # Perform usual permission check
-    if not check_permission(user, permission, obj):
+    allow_limited_without_language = isinstance(
+        obj, (Translation, ProjectLanguage, CategoryLanguage)
+    )
+    if not check_permission(
+        user,
+        permission,
+        obj,
+        allow_limited_without_language=allow_limited_without_language,
+    ):
         if not user.is_authenticated:
             # Signing in might help, but user still might need additional privileges
             return Denied(gettext("Sign in to save translations."))
@@ -436,7 +607,14 @@ def check_translation_add(
 
 @register_perm("translation.auto", "unit.bulk_edit")
 def check_autotranslate(
-    user: User, permission: str, translation: Unit | Translation | Component | Project
+    user: User,
+    permission: str,
+    translation: Unit
+    | Translation
+    | CategoryLanguage
+    | Component
+    | ProjectLanguage
+    | Project,
 ) -> bool | PermissionResult:
     if isinstance(translation, Unit):
         translation = translation.translation
@@ -540,9 +718,12 @@ def check_machinery(
 
 @register_perm("translation.delete")
 def check_translation_delete(
-    user: User, permission: str, obj: Translation
+    user: User, permission: str, obj: Translation | CategoryLanguage | ProjectLanguage
 ) -> bool | PermissionResult:
-    if obj.is_source:
+    if (
+        isinstance(obj, (Translation, CategoryLanguage, ProjectLanguage))
+        and obj.is_source
+    ):
         return False
     return check_permission(user, permission, obj)
 
@@ -633,7 +814,7 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
 def check_announcement_delete(
     user: User,
     permission: str,
-    obj: Announcement | Project | Category | Component | None,
+    obj: Announcement | Project | ProjectLanguage | Category | Component | None,
 ) -> bool | PermissionResult:
     if isinstance(obj, Announcement):
         if obj.component_id is not None:
@@ -648,6 +829,11 @@ def check_announcement_delete(
             obj = obj.component
         elif obj.category_id is not None:
             obj = obj.category
+        elif obj.language_id is not None:
+            if obj.project_id is not None:
+                obj = ProjectLanguage(obj.project, obj.language)
+            else:
+                obj = obj.language
         else:
             obj = obj.project
 

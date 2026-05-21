@@ -224,13 +224,13 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The project was scheduled for removal."))
     elif isinstance(obj, ProjectLanguage):
         parent = obj.project
-        for translation in obj.translation_set:
+        for translation in obj.action_translation_set.prefetch():
             translation.remove(request.user)
 
         messages.success(request, gettext("A language in the project was removed."))
     elif isinstance(obj, CategoryLanguage):
         parent = obj.category
-        for translation in obj.translation_set:
+        for translation in obj.action_translation_set.prefetch():
             translation.remove(request.user)
 
         messages.success(request, gettext("A language in the category was removed."))

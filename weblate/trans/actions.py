@@ -196,6 +196,8 @@ class ActionEvents(IntegerChoices):
     PROJECT_SETTING_CHANGE = 95, gettext_lazy("Project setting changed")
     # Translators: Name of event in the history
     COMPONENT_SETTING_CHANGE = 96, gettext_lazy("Component setting changed")
+    # Translators: Name of event in the history
+    USER_ACCESS_CHANGE = 97, gettext_lazy("User access changed")
 
 
 # Actions which are logged
@@ -205,6 +207,7 @@ ACTIONS_LOG = {
     ActionEvents.ACCESS_EDIT,
     ActionEvents.ADD_USER,
     ActionEvents.REMOVE_USER,
+    ActionEvents.USER_ACCESS_CHANGE,
     ActionEvents.REMOVE_COMPONENT,
     ActionEvents.REMOVE_PROJECT,
     ActionEvents.RENAME_PROJECT,

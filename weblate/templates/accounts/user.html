@@ -346,7 +346,10 @@
                       <em>{% translate "Site-wide team" %}</em>
                     </td>
                   {% endif %}
-                  <th>{{ group }}</th>
+                  <th>
+                    {{ group }}
+                    {% include "snippets/membership-language-limit.html" with membership=group.team_membership only %}
+                  </th>
                   <td class="number">{{ group.user__count }}</td>
                   <td>
                     <a href=""
@@ -385,7 +388,12 @@
               {% endfor %}
             </tbody>
           </table>
-          {% crispy group_form %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Add user to a team" %}</h4>
+            </div>
+            <div class="card-body">{% crispy group_form %}</div>
+          </div>
         </div>
 
         <div class="tab-pane" id="edit">

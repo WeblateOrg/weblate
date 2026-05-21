@@ -1383,6 +1383,8 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def lock(self):
+        # Serializes component-wide creation/import operations. Existing string
+        # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
             scope="component:update",
             key=self.pk,

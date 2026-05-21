@@ -1,0 +1,47 @@
+{% load i18n %}
+
+{{ form.non_field_errors }}
+{{ form.user }}
+
+{% if form.user.errors %}{{ form.user.errors }}{% endif %}
+{% if form.groups.errors %}{{ form.groups.errors }}{% endif %}
+
+{% if form.membership_fields %}
+  <table class="table table-sm align-middle mb-2">
+    <thead>
+      <tr>
+        <th>{% translate "Team" %}</th>
+        <th class="w-100">{% translate "Language limit" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for membership in form.membership_fields %}
+        <tr>
+          <td class="text-nowrap">
+            <div class="form-check mb-0">
+              <input type="checkbox"
+                     class="form-check-input project-membership-team-toggle"
+                     name="{{ form.groups.html_name }}"
+                     value="{{ membership.value }}"
+                     id="{{ membership.checkbox_id }}"
+                     data-limit-target="{{ membership.limit_field.id_for_label }}"
+                     {% if membership.checked %}checked{% endif %} />
+              <label class="form-check-label" for="{{ membership.checkbox_id }}">{{ membership.group }}</label>
+            </div>
+          </td>
+          <td>
+            {{ membership.limit_field }}
+            {% if membership.limit_field.errors %}{{ membership.limit_field.errors }}{% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="form-text mb-0">
+    {% translate "Leave the language limit empty to grant access to all languages available to the team. Select languages only to apply an additional filter." %}
+  </p>
+{% else %}
+  <p>
+    <em>{% translate "No teams are available." %}</em>
+  </p>
+{% endif %}

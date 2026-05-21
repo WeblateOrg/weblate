@@ -13,7 +13,7 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import connection
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from weblate_language_data.aliases import ALIASES
@@ -314,6 +314,22 @@ class LanguageTestSequenceMeta(type):
             dict[test_name] = gen_test(*params)
 
         return type.__new__(mcs, name, bases, dict)
+
+
+class LanguageCodeValidationTest(SimpleTestCase):
+    def test_language_data_codes_are_valid(self) -> None:
+        for code, name, _nplurals, _plural_formula in LANGUAGES:
+            with self.subTest(code=code):
+                Language(code=code, name=name, direction="ltr").full_clean(
+                    validate_unique=False
+                )
+
+    def test_language_code_rejects_unsafe_values(self) -> None:
+        for code in ("en US", "en/US", "en:US", "@en", "en@"):
+            with self.subTest(code=code), self.assertRaises(ValidationError):
+                Language(code=code, name="Test", direction="ltr").full_clean(
+                    validate_unique=False
+                )
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):

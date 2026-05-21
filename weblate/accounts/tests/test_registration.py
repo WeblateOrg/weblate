@@ -17,7 +17,7 @@ import responses
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.core import mail
-from django.test import Client, TestCase
+from django.test import Client, SimpleTestCase, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -26,15 +26,20 @@ from rest_framework.authtoken.models import Token
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.pipeline import ensure_valid, handle_invite, store_email
-from weblate.accounts.tasks import cleanup_social_auth
+from weblate.accounts.tasks import (
+    cleanup_social_auth,
+    get_registration_attempt_password_reset_url,
+)
 from weblate.auth.models import (
     Group,
     Invitation,
     InvitationExpiredError,
     InvitationUserMismatchError,
+    TeamMembership,
     User,
 )
 from weblate.auth.views import accept_invitation
+from weblate.lang.models import Language
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -72,6 +77,47 @@ REGISTRATION_SUCCESS = (
     "Click the confirmation link sent to your e-mail inbox "
     "and start using your account."
 )
+
+
+class RegistrationAttemptPasswordResetURLTest(SimpleTestCase):
+    def test_disabled_for_other_activity(self) -> None:
+        self.assertIsNone(get_registration_attempt_password_reset_url("password"))
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        PASSWORD_RESET_URL=None,
+    )
+    def test_disabled_without_email_auth(self) -> None:
+        self.assertIsNone(get_registration_attempt_password_reset_url("connect"))
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        PASSWORD_RESET_URL="https://id.example.net/password-reset",
+    )
+    def test_external_url_without_email_auth(self) -> None:
+        self.assertEqual(
+            get_registration_attempt_password_reset_url("connect"),
+            "https://id.example.net/password-reset",
+        )
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.email.EmailAuth",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        PASSWORD_RESET_URL=None,
+    )
+    def test_internal_url_with_email_auth(self) -> None:
+        self.assertEqual(
+            get_registration_attempt_password_reset_url("register"),
+            reverse("password_reset"),
+        )
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
@@ -394,6 +440,42 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertTrue(invited_user.groups.filter(pk=invited_group.pk).exists())
         self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
 
+    def test_accept_invitation_limit_languages(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        czech = Language.objects.get(code="cs")
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+        invitation.limit_languages.add(czech)
+
+        invitation.accept(None, invited_user)
+
+        membership = TeamMembership.objects.get(user=invited_user, group=invited_group)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)), ["cs"]
+        )
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_accept_invitation_empty_limit_languages_clears_membership(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        czech = Language.objects.get(code="cs")
+        invited_user.groups.add(invited_group)
+        membership = TeamMembership.objects.get(user=invited_user, group=invited_group)
+        membership.limit_languages.add(czech)
+        invitation = Invitation.objects.create(
+            author=author, user=invited_user, group=invited_group
+        )
+
+        invitation.accept(None, invited_user)
+
+        membership.refresh_from_db()
+        self.assertFalse(membership.limit_languages.exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
     def test_invitation_view_accept_handles_expired_race(self) -> None:
         author = User.objects.create_user("author", "author@example.com", "x")
         invited_user = User.objects.create_user("invited", "invited@example.com", "x")
@@ -533,6 +615,41 @@ class RegistrationTest(BaseRegistrationTest):
     def test_double_register(self) -> None:
         """Test double registration from single browser without logout."""
         self.test_double_register_logout(False)
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_verified_account_registration_attempt_links_password_reset(self) -> None:
+        """Test registration attempt notification guides to password reset."""
+        response = self.do_register()
+        self.assertContains(response, REGISTRATION_SUCCESS)
+        confirmation_url = self.assert_registration_mailbox()
+
+        response = self.client.get(confirmation_url, follow=True)
+        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+            response = self.confirm_tos(self.client, response)
+        self.assertRedirects(response, reverse("password"))
+        mail.outbox.clear()
+
+        self.client.post(reverse("logout"))
+
+        data = REGISTRATION_DATA.copy()
+        data["username"] = "second"
+        response = self.do_register(data)
+        self.assertContains(response, REGISTRATION_SUCCESS)
+
+        self.assertEqual(len(mail.outbox), 1)
+        notification = mail.outbox[0]
+        self.assert_notify_mailbox(notification)
+        self.assertEqual(notification.to, [REGISTRATION_DATA["email"]])
+        self.assertIn(
+            "If it was you, reset your password to regain access to your account.",
+            notification.body,
+        )
+        self.assertIn("Reset my password", notification.body)
+        content = notification.alternatives[0][0]
+        self.assertIn(
+            f'href="http://example.com{reverse("password_reset")}"',
+            content,
+        )
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_register_missing(self) -> None:

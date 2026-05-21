@@ -23,6 +23,7 @@ from weblate.auth.models import (
     InvitationExpiredError,
     InvitationUserMismatchError,
 )
+from weblate.auth.utils import prefetch_membership_limit_languages
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next, redirect_param
 from weblate.utils import messages
@@ -91,23 +92,45 @@ class TeamUpdateView(UpdateView):
             result["auto_formset"] = self.auto_formset(instance=self.object)
 
         if self.request.user.has_perm("meta:team.users", self.object):
-            result["users"] = get_paginator(
+            users = get_paginator(
                 self.request,
                 self.object.user_set.filter(is_active=True, is_bot=False).order(),
             )
-            result["add_user_form"] = UserAddTeamForm()
+            memberships = {
+                membership.user_id: membership
+                for membership in self.object.memberships.filter(
+                    user__in=users.object_list
+                ).prefetch_related(prefetch_membership_limit_languages())
+            }
+            for user in users:
+                user.team_membership = memberships.get(user.id)
+            result["users"] = users
+            result["add_user_form"] = UserAddTeamForm(team=self.object)
             result["admins"] = self.object.admins.all()
 
         return result
 
     def handle_add_user(self, request: AuthenticatedHttpRequest):
-        form = UserAddTeamForm(request.POST)
+        form = UserAddTeamForm(request.POST, team=self.object)
         if form.is_valid():
+            user = form.cleaned_data["user"]
+            had_membership = user.team_memberships.filter(group=self.object).exists()
             if form.cleaned_data["make_admin"]:
-                self.object.admins.add(form.cleaned_data["user"])
+                self.object.admins.add(user)
             else:
-                self.object.admins.remove(form.cleaned_data["user"])
-            form.cleaned_data["user"].add_team(request, self.object)
+                self.object.admins.remove(user)
+            user.add_team(request, self.object)
+            # The inline admin toggle links submit add_user=1 without the add-user
+            # form fields, so they should not alter existing language limits.
+            should_update_limit_languages = (
+                request.POST.get("add_user") != "1" or "limit_languages" in request.POST
+            )
+            if should_update_limit_languages:
+                user.team_memberships.get(group=self.object).set_limit_languages(
+                    form.cleaned_data["limit_languages"],
+                    request,
+                    audit=had_membership,
+                )
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())

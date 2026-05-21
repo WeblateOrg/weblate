@@ -328,6 +328,10 @@ ACCOUNT_ACTIVITY = {
         "User was added to the site-wide {team} team by {username}."
     ),
     # Translators: Audit log entry
+    "sitewide-team-change": gettext_lazy(
+        "User access to the site-wide {team} team was changed by {username}."
+    ),
+    # Translators: Audit log entry
     "sitewide-team-remove": gettext_lazy(
         "User was removed from the site-wide {team} team by {username}."
     ),
@@ -339,6 +343,10 @@ ACCOUNT_ACTIVITY = {
     "donate": gettext_lazy("Semiannual support status review was displayed."),
     # Translators: Audit log entry
     "team-add": gettext_lazy("User was added to the {team} team by {username}."),
+    # Translators: Audit log entry
+    "team-change": gettext_lazy(
+        "User access to the {team} team was changed by {username}."
+    ),
     # Translators: Audit log entry
     "team-remove": gettext_lazy("User was removed from the {team} team by {username}."),
     # Translators: Audit log entry
@@ -406,11 +414,11 @@ EXTRA_MESSAGES = {
     ),
     # Translators: Audit log hint
     "register": gettext_lazy(
-        "If it was you, please use a password reset to regain access to your account."
+        "If it was you, reset your password to regain access to your account."
     ),
     # Translators: Audit log hint
     "connect": gettext_lazy(
-        "If it was you, please use a password reset to regain access to your account."
+        "If it was you, reset your password to regain access to your account."
     ),
 }
 

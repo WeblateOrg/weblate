@@ -48,6 +48,7 @@ from weblate.accounts.utils import (
     reset_api_token,
 )
 from weblate.auth.models import Group, User
+from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
@@ -1140,19 +1141,24 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=gettext_lazy("Add user to a team"),
+        label=gettext_lazy("Team"),
         queryset=Group.objects.prefetch_related("defining_project").order(),
         required=True,
+    )
+    limit_languages = LimitLanguagesField(
+        Language.objects.order(), hide_placeholder=True
     )
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.fields["limit_languages"].choices = get_language_code_choices(
+            self.fields["limit_languages"].queryset
+        )
         self.helper = FormHelper(self)
-        self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap5/layout/inline_field.html"
         self.helper.layout = Layout(
             "add_group",
-            Submit("add_group_button", gettext("Add team")),
+            "limit_languages",
+            Submit("add_group_button", gettext("Add to a team")),
         )
 
 

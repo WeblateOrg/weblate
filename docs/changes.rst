@@ -5,16 +5,24 @@ Weblate 2026.6
 
 .. rubric:: New features
 
+* :doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages.
+* Team memberships can now be limited to selected languages for per-user translation permissions.
+
 .. rubric:: Improvements
 
 * Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
   Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
+* Improved performance of the :ref:`check-inconsistent` check on large projects.
+* :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
 
 .. rubric:: Bug fixes
 
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
-* Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
+* Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
+* Searching for strings with content changes without a recorded author now supports ``changed_by:""``, and combined change filters now apply to the same change event.
+* Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository.
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
+* Engage page task links now stay centered and show the target translation language.
 
 .. rubric:: Compatibility
 

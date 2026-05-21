@@ -7,6 +7,7 @@
 import json
 import os
 import tempfile
+import warnings
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -22,7 +23,7 @@ from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.data import SELECTION_MANUAL
-from weblate.auth.models import AutoGroup, Group, Role
+from weblate.auth.models import AutoGroup, Group, Role, TeamMembership
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -287,12 +288,16 @@ class BackupsTest(ViewTestCase):
         team = Group.objects.create(name="Test group", defining_project=self.project)
         team.roles.set([Role.objects.get(name="Translate")])
         team.admins.add(self.user)
+        team.user_set.add(self.user)
         team.language_selection = SELECTION_MANUAL
         team.languages.set(
             [
                 Language.objects.get(code="en"),
                 Language.objects.get(code="ru"),
             ]
+        )
+        TeamMembership.objects.get(user=self.user, group=team).limit_languages.set(
+            [Language.objects.get(code="en")]
         )
         AutoGroup(match="^.*$", group=team).save()
 
@@ -308,6 +313,14 @@ class BackupsTest(ViewTestCase):
             self.assertIn("components/glossary.json", files)
             self.assertIn("vcs/my-category/test/.git/index", files)
             self.assertIn("vcs/glossary/.git/index", files)
+            metadata = json.loads(zipfile.read("weblate-backup.json"))
+            backup_team = next(
+                item for item in metadata["teams"] if item["name"] == team.name
+            )
+            self.assertEqual(
+                backup_team["members"],
+                [{"username": self.user.username, "limit_languages": ["en"]}],
+            )
 
         restore = ProjectBackup(backup.filename)
 
@@ -394,6 +407,14 @@ class BackupsTest(ViewTestCase):
             set(restored_team.user_set.values_list("username", flat=True)),
         )
         self.assertEqual(
+            set(
+                TeamMembership.objects.get(
+                    user__username=self.user.username, group=restored_team
+                ).limit_languages.values_list("code", flat=True)
+            ),
+            {"en"},
+        )
+        self.assertEqual(
             set(team.languages.values_list("code", flat=True)),
             set(restored_team.languages.values_list("code", flat=True)),
         )
@@ -415,6 +436,195 @@ class BackupsTest(ViewTestCase):
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()
+
+    def test_backup_team_members_prefetches_limit_languages(self) -> None:
+        team = Group.objects.create(name="Prefetch team", defining_project=self.project)
+        first_user = type(self.user).objects.create_user(
+            "backup-limit-a", "backup-limit-a@example.com", "x"
+        )
+        second_user = type(self.user).objects.create_user(
+            "backup-limit-b", "backup-limit-b@example.com", "x"
+        )
+        team.user_set.add(first_user, second_user)
+        TeamMembership.objects.get(user=first_user, group=team).limit_languages.set(
+            [Language.objects.get(code="cs")]
+        )
+        TeamMembership.objects.get(user=second_user, group=team).limit_languages.set(
+            [Language.objects.get(code="de")]
+        )
+
+        with self.assertNumQueries(2):
+            self.assertEqual(
+                ProjectBackup.backup_team_members(team),
+                [
+                    {"username": first_user.username, "limit_languages": ["cs"]},
+                    {"username": second_user.username, "limit_languages": ["de"]},
+                ],
+            )
+
+    def test_restore_team_members_accepts_legacy_member_dict(self) -> None:
+        team = Group.objects.create(name="Restore team", defining_project=self.project)
+        user = type(self.user).objects.create_user(
+            "backup-limit-legacy", "backup-limit-legacy@example.com", "x"
+        )
+        backup = ProjectBackup()
+
+        backup.restore_team_members(team, [{"username": user.username}])
+
+        membership = TeamMembership.objects.get(user=user, group=team)
+        self.assertFalse(membership.limit_languages.exists())
+
+    def test_restore_team_members_deduplicates_users(self) -> None:
+        team = Group.objects.create(name="Restore duplicate team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-duplicate", "backup-limit-duplicate@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech, german.code: german}
+
+        with self.assertWarnsRegex(UserWarning, "Conflicting language limits"):
+            backup.restore_team_members(
+                team,
+                [
+                    {"username": user.username, "limit_languages": [czech.code]},
+                    {"username": user.username, "limit_languages": [german.code]},
+                ],
+            )
+
+        self.assertEqual(team.user_set.count(), 1)
+        membership = TeamMembership.objects.get(user=user, group=team)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)), ["de"]
+        )
+
+    def test_restore_team_members_bulk_restores_limit_languages(self) -> None:
+        team = Group.objects.create(name="Restore bulk limit team")
+        first_user = type(self.user).objects.create_user(
+            "backup-limit-bulk-a", "backup-limit-bulk-a@example.com", "x"
+        )
+        second_user = type(self.user).objects.create_user(
+            "backup-limit-bulk-b", "backup-limit-bulk-b@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech, german.code: german}
+
+        with patch.object(
+            TeamMembership,
+            "set_limit_languages",
+            side_effect=AssertionError("restore should use bulk m2m writes"),
+        ):
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": first_user.username,
+                        "limit_languages": [german.code, czech.code, czech.code],
+                    },
+                    {
+                        "username": second_user.username,
+                        "limit_languages": [german.code],
+                    },
+                ],
+            )
+
+        memberships = TeamMembership.objects.filter(group=team).prefetch_related(
+            "limit_languages"
+        )
+        restored_limits = {
+            membership.user.username: sorted(
+                membership.limit_languages.values_list("code", flat=True)
+            )
+            for membership in memberships
+        }
+        self.assertEqual(
+            restored_limits,
+            {
+                first_user.username: ["cs", "de"],
+                second_user.username: ["de"],
+            },
+        )
+
+    def test_restore_team_members_ignores_equivalent_duplicate_limits(self) -> None:
+        team = Group.objects.create(name="Restore equivalent duplicate team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-equivalent", "backup-limit-equivalent@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech, german.code: german}
+
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            warnings.simplefilter("always")
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": user.username,
+                        "limit_languages": [czech.code, german.code],
+                    },
+                    {
+                        "username": user.username,
+                        "limit_languages": [german.code, czech.code],
+                    },
+                ],
+            )
+
+        self.assertEqual(caught_warnings, [])
+
+    def test_restore_team_members_rejects_missing_limit_language(self) -> None:
+        team = Group.objects.create(name="Restore missing limit language team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-missing", "backup-limit-missing@example.com", "x"
+        )
+        backup = ProjectBackup()
+        backup.languages_cache = {}
+
+        with self.assertRaisesRegex(
+            ValueError, "Unknown language codes in limit_languages"
+        ):
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": user.username,
+                        "limit_languages": ["missing"],
+                    }
+                ],
+            )
+
+        self.assertFalse(team.user_set.filter(pk=user.pk).exists())
+
+    def test_restore_team_members_rolls_back_limit_failure(self) -> None:
+        team = Group.objects.create(name="Restore rollback team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-rollback", "backup-limit-rollback@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech}
+
+        with (
+            patch.object(
+                backup, "get_items_from_cache", side_effect=RuntimeError("failed")
+            ),
+            self.assertRaisesRegex(RuntimeError, "failed"),
+        ):
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": user.username,
+                        "limit_languages": [czech.code],
+                    }
+                ],
+            )
+
+        self.assertFalse(team.user_set.filter(pk=user.pk).exists())
 
     def test_restore_synthesizes_source_translation_check_flags(self) -> None:
         source = self.component.source_translation

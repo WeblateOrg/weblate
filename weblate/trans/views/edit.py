@@ -861,7 +861,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
 
-    if not request.user.has_perm("translation.auto", project):
+    if not request.user.has_perm("translation.auto", obj):
         raise PermissionDenied
 
     if update_locked or not autoform.is_valid():

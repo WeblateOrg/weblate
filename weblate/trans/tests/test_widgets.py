@@ -86,6 +86,25 @@ class WidgetsTest(FixtureTestCase):
         )
         self.assertContains(response, "Test")
 
+    def test_view_engage_guessed_language_tasks(self) -> None:
+        self.user.profile.language = "en"
+        self.user.profile.save(update_fields=["language"])
+
+        response = self.client.get(
+            reverse("engage", kwargs={"path": self.project.get_url_path()}),
+            headers={"accept-language": "cs"},
+        )
+
+        target_url = reverse(
+            "translate", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
+        )
+        self.assertContains(response, "Choose what to work on")
+        self.assertContains(response, "row engage-task-list justify-content-center")
+        self.assertContains(response, "Czech")
+        self.assertContains(response, f"{target_url}?q=state:empty")
+        self.assertContains(response, "engage-language-button")
+        self.assertContains(response, "engage-button-language")
+
     def test_view_engage_lang(self) -> None:
         response = self.client.get(
             reverse(
@@ -94,6 +113,7 @@ class WidgetsTest(FixtureTestCase):
         )
         self.assertContains(response, "Test")
         self.assertContains(response, "Choose what to work on")
+        self.assertContains(response, "row engage-task-list justify-content-center")
         self.assertContains(response, "?q=state:empty")
         self.assertNotContains(response, "?q=state:needs-editing")
         self.assertNotContains(response, "?q=has:check%20AND%20state:%3E=translated")
