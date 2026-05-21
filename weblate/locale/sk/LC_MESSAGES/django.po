@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-16 05:45+0000\n"
+"PO-Revision-Date: 2026-05-21 22:59+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -378,10 +378,8 @@ msgid "Team"
 msgstr "Tím"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Pridať používateľa do tímu"
+msgstr "Pridať do tímu"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -588,11 +586,10 @@ msgstr ""
 "{username}."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"Používateľ bol pridaný do celostránkového tímu {team} používateľom "
+"Prístup používateľa do celostránkového tímu {team} bol zmenený používateľom "
 "{username}."
 
 #: weblate/accounts/models.py:336
@@ -624,10 +621,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Používateľ bol pridaný do tímu {team} používateľom {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Používateľ bol pridaný do tímu {team} používateľom {username}."
+msgstr "Prístup používateľa k tímu {team} bol zmenený používateľom {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -718,13 +714,9 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "Prosím, kontaktujte správcov projektu, ak považujete toto za nevhodné."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Ak ste to boli vy, prosím, použite obnovu hesla na získanie prístupu k vášmu "
+"Ak ste to boli vy, obnovte si heslo, aby ste znovu získali prístup k svojmu "
 "účtu."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
@@ -1066,11 +1058,9 @@ msgid "Strings are available for translation"
 msgstr "Reťazce sú dostupné na preklad"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Súhrn prekladu:"
+msgstr "Súhrn prekladovej aktivity"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1669,26 +1659,16 @@ msgstr ""
 "JavaScriptu alebo HTML."
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Prekladové súbory"
+msgstr "Prekladové súbory CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Zverejňuje preklady do siete na doručovanie obsahu na použitie v lokalizácii "
-"JavaScriptu alebo HTML."
+msgstr "Zverejňuje prekladové súbory do siete na doručovanie obsahu."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "Základný jazyk prekladu sa nedá upravovať."
+msgstr "Doplnok CDN pre prekladové súbory nemôže zverejniť súbor weblate.js."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -1714,7 +1694,7 @@ msgstr "Odstraňuje reťazce bez prekladu zo súborov prekladov."
 
 #: weblate/addons/cleanup.py:130
 msgid "Reset repository to upstream"
-msgstr "Obnoviť repozitár na upstream"
+msgstr "Obnoviť na hlavný repozitár"
 
 #: weblate/addons/cleanup.py:132
 msgid "Discards all changes in the Weblate repository each night."
@@ -2089,22 +2069,16 @@ msgstr ""
 "POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "Komponent musí definovať POT súbor pre nové preklady."
+msgstr "Komponent musí definovať gettext šablónu pre nové preklady."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"Doplnok Django očakáva, že šablóna pre nové preklady bude nazvaná "
-"„django.pot“ alebo „djangojs.pot“."
+"Doplnok pre Django očakáva, že šablóna pre nové preklady sa bude volať „"
+"django.pot“, „djangojs.pot“, „django.po“ alebo „djangojs.po“."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2205,17 +2179,16 @@ msgstr "Dní na uchovanie"
 
 #: weblate/addons/forms.py:629
 msgid "Voting threshold"
-msgstr "Prah hlasovania"
+msgstr "Hranica hlasovania"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Prah pre odstránenie. Toto pole nemá žiadny vplyv pri vypnutom hlasovaní."
+"Hranica pre odstránenie. Nechajte prázdne, ak sa majú návrhy odstraňovať bez "
+"ohľadu na počet hlasov. Toto pole nemá žiadny účinok, ak je hlasovanie "
+"vypnuté."
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2691,10 +2664,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "Aktualizuje šablónu gettextu pomocou konvencií gettextu v Mesone."
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Aktualizovať súbor POT (Django)"
+msgstr "Aktualizovať gettext šablónu (Django)"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -2775,8 +2746,8 @@ msgid ""
 "string."
 msgstr ""
 "Aktualizovať všetky súbory prekladov tak, aby zodpovedali jednojazyčnému "
-"základnému súboru upstreamu. Nepoužité reťazce sa odstránia a nové sa "
-"pridajú ako kópie zdrojového reťazca."
+"základnému hlavnému súboru. Nepoužité reťazce sa odstránia a nové sa pridajú "
+"ako kópie zdrojového reťazca."
 
 #: weblate/addons/views.py:160 weblate/addons/views.py:163
 #: weblate/addons/views.py:294
@@ -2997,7 +2968,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "Očakával sa objekt."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3316,7 +3287,7 @@ msgstr "Obnoviť zmeny v internom repozitári"
 #. Translators: Permission name
 #: weblate/auth/data.py:111
 msgid "View upstream repository location"
-msgstr "Zobraziť umiestnenie upstream repozitára"
+msgstr "Zobraziť umiestnenie hlavného repozitára"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:113
@@ -3781,10 +3752,8 @@ msgstr ""
 "Vyžaduje, aby používatelia mali nakonfigurovanú dvojfázovú autentifikáciu."
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
-#| msgid "Songhai languages"
 msgid "Limit languages"
-msgstr "Songhaiština"
+msgstr "Obmedzenie jazykov"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -3793,6 +3762,9 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Obmedzte oprávnenia tohto tímu len na tieto jazyky. Projektové, komponentové "
+"a globálne oprávnenia tohto tímu sa neuplatnia, ak je nastavený jazykový "
+"limit. Prázdny výber použije jazykový výber tímu bez ďalšieho obmedzenia."
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -4641,65 +4613,51 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Chýbajúce parametre pre príznak prekladu: „%s“"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Odkaz Fluent v {sequence} sa môže rozšíriť na HTML tag. Možno použiť "
+"Fluent referencia v {sequence} sa môže rozbaliť na HTML tag. Možno použiť "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
-"Odkaz Fluent v {sequence} sa môže rozšíriť na HTML znakový odkaz. Možno "
+"Fluent referencia v {sequence} sa môže rozbaliť na HTML znakový odkaz. Možno "
 "použiť {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"Sekvencia {sequence} začína HTML uzatváracím tagom, ale názov alebo syntax "
-"nie je platná. Ak nechcete uzatvárací tag, použite {suggestion}."
+"Sekvencia {sequence} sa začína uzatváracou HTML značkou, ale jej názov alebo "
+"syntax nie je platná. Ak nechcete použiť uzatváraciu značku, použite "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"Sekvencia {sequence} začína HTML tagom, ale názov nie je platný. Ak nechcete "
-"začať HTML tagom, použite {suggestion}."
+"Sekvencia {sequence} sa začína HTML značkou, ale jej názov nie je platný. Ak "
+"nechcete začínať HTML značku, použite {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"Sekvencia {sequence} začína HTML tagom, ale tag nie je nikdy uzavretý "
-"{close}. Ak nechcete začať HTML tagom, použite {suggestion}."
+"Sekvencia {sequence} sa začína HTML značkou, ale táto značka nie je nikdy "
+"uzatvorená pomocou {close}. Ak nechcete začínať HTML značku, použite "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:212
 #, python-brace-format
@@ -4710,18 +4668,14 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
 "begin an HTML tag, use {suggestion}."
 msgstr ""
-"Sekvencia {sequence} začína HTML tagom, ale sekvencia {attribute} nie je "
-"platný atribút s hodnotou. Ak nechcete začať HTML tagom, použite "
+"Sekvencia {sequence} sa začína HTML značkou, ale sekvencia {attribute} nie "
+"je platný atribút s hodnotou. Ak nechcete začínať HTML značku, použite "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:246
@@ -4768,18 +4722,14 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML tag {tag} chýba zodpovedajúci koncový tag: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
-"Sekvencia {sequence} začne HTML znakový odkaz, ale nekončí {semicolon}. Ak "
-"nechcete znakový odkaz, použite {suggestion}."
+"Sekvencia {sequence} začne HTML znakový odkaz, ale nekončí pomocou "
+"{semicolon}. Ak nechcete použiť znakový odkaz, použite {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:360
 #, python-brace-format
@@ -4795,21 +4745,18 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Zdroj Fluent by mal byť platným vnútorným HTML."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
-msgstr "Fluent hodnota chýba HTML {tag} tag."
+msgstr "Vo Fluent hodnote chýba HTML značka {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
-"Fluent hodnota chýba HTML {tag} tag pre nasledujúce varianty: {variant_list}."
+"Vo Fluent hodnote chýba HTML značka {tag} pre nasledujúce varianty: "
+"{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1042
 #, python-brace-format
@@ -5371,10 +5318,8 @@ msgid "Markdown syntax does not match source."
 msgstr "Syntax Markdown sa nezhoduje so zdrojom."
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
-msgstr "Preklad neobsahuje URL."
+msgstr "Preklad neobsahuje URL adresu."
 
 #: weblate/checks/markup.py:492 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
@@ -6074,7 +6019,7 @@ msgid ""
 "repository instead."
 msgstr ""
 "Odosielanie nie je podporované cez Weblate Git exporter. Namiesto toho "
-"odošlite do upstreamového repozitára."
+"odošlite do hlavného repozitára."
 
 #: weblate/gitexport/views.py:107
 #, python-brace-format
@@ -6083,7 +6028,7 @@ msgid ""
 "repository instead: {location}"
 msgstr ""
 "Odosielanie nie je podporované cez Weblate Git exporter. Namiesto toho "
-"odošlite do upstreamového repozitára: {location}"
+"odošlite do hlavného repozitára: {location}"
 
 #: weblate/gitexport/views.py:117
 msgid ""
@@ -6091,7 +6036,7 @@ msgid ""
 "Fetch it from the upstream repository first."
 msgstr ""
 "Požadovaná revízia nie je dostupná v lokálnom Git checkout Weblate. Najprv "
-"ju stiahnite z upstream repozitára."
+"ju stiahnite z hlavného repozitára."
 
 #: weblate/gitexport/views.py:122
 #, python-brace-format
@@ -6100,7 +6045,7 @@ msgid ""
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
 "Požadovaná revízia nie je dostupná v lokálnom Git checkout Weblate. Najprv "
-"ju stiahnite z upstream repozitára: {location}"
+"ju stiahnite z hlavného repozitára: {location}"
 
 #: weblate/gitexport/views.py:142
 msgid "Git export failed."
@@ -6208,25 +6153,20 @@ msgstr "Tri"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Nechajte prázdne, aby sa použil jazykový výber tímu bez ďalšieho obmedzenia."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
-msgstr "Limit jazykov"
+msgstr "Obmedzenie jazyka"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Limit jazykov"
+msgstr "Bez obmedzenia jazyka"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "Bol zvolený chybný jazyk!"
+msgstr "Zadajte platný jazykový kód."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -8565,12 +8505,12 @@ msgstr "Cloud"
 #: weblate/templates/accounts/snippets/login-title.html:9
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
-msgstr "Dedikovaný"
+msgstr "Vyhradený"
 
 #: weblate/templates/accounts/snippets/login-title.html:11
 msgctxt "Badge for site title for self-hosted instances"
 msgid "Self-hosted"
-msgstr "Self-hosted"
+msgstr "Vlastný hosting"
 
 #: weblate/templates/accounts/totp.html:27
 msgid ""
@@ -9159,11 +9099,12 @@ msgstr "Inštrukcie pre integráciu"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "Zverejnené prekladové súbory sú dostupné z základnej URL adresy CDN:"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Súbory používajú názvy podľa jazykového kódu s pôvodnou príponou súboru."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9516,6 +9457,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Toto sa kontroluje pri každom novom používateľovi na stránke, bez ohľadu na "
+"to, ktorý projekt používajú."
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -9531,10 +9474,8 @@ msgid "Team administrator"
 msgstr "Správca tímu"
 
 #: weblate/templates/auth/team.html:140
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "Upraviť ďalšie informácie o reťazci"
+msgstr "Žiadne ďalšie obmedzenie"
 
 #: weblate/templates/auth/team.html:148
 #: weblate/templates/trans/project-access-row.html:18
@@ -10733,13 +10674,15 @@ msgstr "Po aktivácii vášho účtu prejdite do sekcie prekladu."
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Vyberte si, na čom chcete pracovať"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Začnite s nepreloženými reťazcami, potom pokračujte kontrolami, revíziou, "
+"návrhmi alebo úpravami."
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -10939,7 +10882,7 @@ msgstr[2] "%(count)s chýbajúcich zápisov"
 
 #: weblate/templates/js/git-status.html:109
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Tým sa aktualizuje repozitár Weblate zmenami z upstreamu."
+msgstr "Tým sa aktualizuje repozitár Weblate zmenami z hlavného."
 
 #: weblate/templates/js/git-status.html:118
 msgid "Allow changes to the Weblate repository"
@@ -11005,19 +10948,19 @@ msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
-"Resetuje repozitár Weblate tak, aby zodpovedal upstreamu, a zahodí všetky "
+"Resetuje repozitár Weblate tak, aby zodpovedal hlavnému, a zahodí všetky "
 "čakajúce zmeny v Weblate."
 
 #: weblate/templates/js/git-status.html:169
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Použite, ak chcete, aby upstream bol autoritou pre preklady."
+msgstr "Použite, ak chcete, aby hlavný bol autoritou pre preklady."
 
 #: weblate/templates/js/git-status.html:170
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Zahodí zmeny v repozitári Weblate a synchronizuje ho s repozitárom upstream."
+"Zahodí zmeny v repozitári Weblate a synchronizuje ho s hlavným repozitárom."
 
 #: weblate/templates/js/git-status.html:177
 msgid "Reset and reapply"
@@ -11028,7 +10971,7 @@ msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
-"Resetuje repozitár Weblate tak, aby zodpovedal upstreamu, a znovu aplikuje "
+"Resetuje repozitár Weblate tak, aby zodpovedal hlavnému, a znovu aplikuje "
 "čakajúce preklady na resetovaný stav repozitára."
 
 #: weblate/templates/js/git-status.html:181
@@ -11040,7 +10983,7 @@ msgid ""
 "Missing language files must already exist upstream or Weblate must be able "
 "to create them for the component."
 msgstr ""
-"Chýbajúce jazykové súbory musia už existovať v upstreame alebo Weblate musí "
+"Chýbajúce jazykové súbory musia už existovať v hlavnom alebo Weblate musí "
 "byť schopný ich vytvoriť pre komponent."
 
 #: weblate/templates/js/git-status.html:188
@@ -11312,9 +11255,9 @@ msgid ""
 "above, open the desired component, and perform the upload there."
 msgstr ""
 "Hromadné nahrávania v celom projekte momentálne nie sú podporované. "
-"Prekladové súbory je potrebné nahrať na jednotlivých prekladoch. Prepnete sa "
-"na kartu „Komponenty“ vyššie, otvoríte požadovaný komponent a vykonáte "
-"nahratie tam."
+"Prekladové súbory je potrebné nahrať na jednotlivých prekladoch samostatne. "
+"Prepnite na kartu „Komponenty“ vyššie, otvorte požadovaný komponent a "
+"vykonajte nahratie priamo tam."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:214 weblate/wladmin/views.py:100
@@ -11377,6 +11320,9 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Táto služba môže odosielať zdrojové reťazce, preklady a súvisiaci kontext "
+"poskytovateľovi tretej strany. Pred jej povolením si preštudujte podmienky a "
+"zásady ochrany osobných údajov daného poskytovateľa."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -12032,22 +11978,16 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s bolo dokončené"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Filter kvality prekladu"
+msgstr "Prekladová aktivita v tomto období:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
-#, fuzzy
-#| msgid "Added user"
 msgid "Added"
-msgstr "Pridaný používateľ"
+msgstr "Pridaný"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "Aktualizovať"
+msgstr "Aktualizované"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:61
@@ -12067,10 +12007,8 @@ msgstr "Nedokončené"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Translation activity summary"
-msgstr "Súhrn prekladu:"
+msgstr "Súhrn prekladovej aktivity"
 
 #: weblate/templates/manage/alerts.html:10
 msgid "Component alerts"
@@ -13554,7 +13492,7 @@ msgstr "Schválenie projektu"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Používanie Weblate bolo schválené upstream projektom."
+msgstr "Používanie Weblate bolo schválené hlavným projektom."
 
 #: weblate/templates/snippets/libre-basic.html:25
 msgid ""
@@ -14259,7 +14197,7 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
-"Upstream repozitár nebol nájdený. Prosím, skontrolujte, či existuje a je "
+"Hlavný repozitár nebol nájdený. Prosím, skontrolujte, či existuje a je "
 "prístupný pre Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:11
@@ -14267,8 +14205,8 @@ msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
-"Upstream repozitár sa nedal prístup. Prosím, skontrolujte, či je prístupný "
-"pre Weblate."
+"Na hlavný repozitár sa nedalo prístupiť. Prosím, skontrolujte, či je "
+"prístupný pre Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:17
 msgid ""
@@ -14285,7 +14223,8 @@ msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
-"Upstream repozitár sa nedal dočasne prístup. Prosím, skúste to znova neskôr."
+"Na hlavný repozitár sa nedalo dočasne pristúpiť. Prosím, skúste to znova "
+"neskôr."
 
 #: weblate/templates/trans/alert/common-repo.html:29
 msgid ""
@@ -14314,7 +14253,7 @@ msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Repozitár Weblate chýba niektoré zápisy z upstreamu. Možno neprijíma "
+"Repozitáru Weblate chýbajú niektoré zápisy z hlavného. Možno neprijíma "
 "notifikácie pri aktualizáciách vzdialeného repozitára."
 
 #: weblate/templates/trans/alert/common-repo.html:50
@@ -14479,7 +14418,7 @@ msgstr "Šablóna pre nové preklady"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "Weblate nemohol zlúčiť zmeny upstreamu pri aktualizácii repozitára."
+msgstr "Weblate nemohol zlúčiť zmeny z hlavného pri aktualizácii repozitára."
 
 #: weblate/templates/trans/alert/missinglicense.html:4
 msgid ""
@@ -14562,7 +14501,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:3
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate nemohol odoslať zmeny do upstreamového repozitára."
+msgstr "Weblate nemohol odoslať zmeny do hlavného repozitára."
 
 #: weblate/templates/trans/alert/pushfailure.html:14
 msgid "Push the repository"
@@ -14573,7 +14512,7 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"Repozitár VCS má veľa zmien v porovnaní s upstreamom. Prosím, zlúčte zmeny "
+"Repozitár VCS má veľa zmien v porovnaní s hlavným. Prosím, zlúčte zmeny "
 "manuálne alebo nastavte odoslanie na automatizáciu tohto."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
@@ -14581,8 +14520,8 @@ msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Repozitár VCS nie je aktuálny s upstreamom. Prosím, zlúčte zmeny manuálne "
-"alebo nastavte háčiky na automatizáciu tohto."
+"Repozitár VCS nie je aktuálny s hlavným. Prosím, zlúčte zmeny manuálne alebo "
+"nastavte háčiky na automatizáciu tohto."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
 #: weblate/trans/models/component.py:516
@@ -14647,7 +14586,7 @@ msgstr "Spravovať snímky obrazovky"
 
 #: weblate/templates/trans/alert/updatefailure.html:3
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr "Weblate nemohol získať zmeny upstreamu pri aktualizácii repozitára."
+msgstr "Weblate nemohol získať zmeny z hlavného pri aktualizácii repozitára."
 
 #: weblate/templates/trans/alert/updatefailure.html:14
 msgid "Update the repository"
@@ -14929,7 +14868,7 @@ msgstr "Zapnúť doplnok:"
 
 #: weblate/templates/trans/merge_instructions.html:5
 msgid "Typical workflow for fixing merge conflicts"
-msgstr "Typický pracovný postup na opravu konfliktov zlúčenia"
+msgstr "Bežný postup, ako vyriešiť konflikty, ktoré vzniknú pri spájaní zmien"
 
 #: weblate/templates/trans/merge_instructions.html:8
 msgid ""
@@ -14938,49 +14877,62 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
-"Exportovaný repozitár Weblate môže byť predvolene plytký, takže tento "
-"pracovný postup funguje najlepšie z aktuálneho upstream checkoutu. "
-"Klonovanie z exportovaného repozitára Weblate alebo použitie zastaraného "
-"upstream checkoutu môže zlyhať aj keď Weblate a upstream sú v "
-"synchronizácii. Podrobnosti nájdete v FAQ nižšie."
+"Weblate vám dáva len „zjednodušenú“ (neúplnú) kópiu repozitára. Preto je "
+"najlepšie pracovať s čerstvou, plnou kópiou originálneho repozitára. Ak si "
+"stiahnete repozitár priamo z Weblate, alebo používate starú kópiu "
+"originálneho repozitára, môže sa stať, že Git zlyhá — aj keď Weblate tvrdí, "
+"že je všetko zosynchronizované. Viac vysvetlenia nájdete v časti FAQ nižšie."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
-msgstr "Otvorte existujúci checkout upstream repozitára alebo vykonajte nový."
+msgstr ""
+"Buď použite svoju aktuálnu kópiu hlavného repozitára, alebo si stiahnite "
+"novú kópiu z originálneho zdroja."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
 msgstr ""
-"Zapísať všetky čakajúce zmeny vo Weblate a zamknúť prekladový komponent."
+"Uložte vo Weblate všetky zmeny, ktoré tam ešte čakajú, a potom zamknite daný "
+"preklad, aby ho počas riešenia konfliktov nikto iný neupravoval."
 
 #: weblate/templates/trans/merge_instructions.html:19
 msgid "Add Weblate exported repository as a remote."
-msgstr "Pridať exportovaný repozitár Weblate ako vzdialený."
+msgstr ""
+"Povedzte Git‑u, kde nájde kópiu repozitára z Weblate, aby si z nej mohol "
+"stiahnuť zmeny."
 
 #: weblate/templates/trans/merge_instructions.html:24
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Zlúčiť zmeny Weblate a vyriešiť akékoľvek konflikty."
+msgstr ""
+"Stiahnite zmeny z Weblate, spojte ich so svojou kópiou repozitára a ak Git "
+"nájde konflikty, otvorte súbory a opravte ich ručne."
 
 #: weblate/templates/trans/merge_instructions.html:30
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
 msgstr ""
-"Prepisovať zmeny Weblate na vrchol upstreamu a vyriešiť akékoľvek konflikty."
+"Zoberte najnovšiu verziu projektu z hlavného repozitára a pripojte k nej "
+"svoje zmeny."
 
 #: weblate/templates/trans/merge_instructions.html:36
 msgid "Push changes into upstream repository."
-msgstr "Odoslať zmeny do upstreamového repozitára."
+msgstr ""
+"Pošlite všetky vyriešené zmeny späť do hlavného (originálneho) repozitára, "
+"aby sa tam uložili."
 
 #: weblate/templates/trans/merge_instructions.html:41
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
 msgstr ""
-"Weblate by teraz mal vidieť aktualizovaný repozitár a vy ho môžete odomknúť."
+"Weblate si teraz všimne, že repozitár je už aktuálny, takže môžete odomknúť "
+"preklad."
 
 #: weblate/templates/trans/merge_instructions.html:50
 msgid "Check the FAQ for info on how to resolve this."
-msgstr "Skontrolujte FAQ pre informácie o tom, ako to vyriešiť."
+msgstr ""
+"Pozrite si FAQ, kde nájdete ďalšie rady a podrobné vysvetlenia k tomuto "
+"problému."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -15009,12 +14961,13 @@ msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
 msgstr ""
+"Nechajte jazykové obmedzenie prázdne, aby ste udelili prístup ku všetkým "
+"jazykom dostupným pre tím. Jazyky vyberajte len vtedy, ak chcete uplatniť "
+"dodatočný filter."
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "Nedostupné"
+msgstr "Nie sú dostupné žiadne tímy."
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -15423,10 +15376,8 @@ msgid "Browse glossary %(name)s"
 msgstr "Prehľadať slovník %(name)s"
 
 #: weblate/templates/translate.html:810
-#, fuzzy
-#| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
-msgstr "Prehľadať slovník %(name)s"
+msgstr "Prehľadať slovník"
 
 #: weblate/templates/translate.html:835
 msgid "No screenshot currently associated."
@@ -16195,11 +16146,8 @@ msgstr "Nastavenie komponentu zmenené"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:200
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "License was changed"
 msgid "User access changed"
-msgstr "Licencia bola zmenená"
+msgstr "Zmenený prístup používateľa"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16386,15 +16334,10 @@ msgid "State: %(state)s"
 msgstr "Stav: %(state)s"
 
 #: weblate/trans/checklists.py:51
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Suggestions pending"
-msgstr "Hlasovanie o návrhoch"
+msgstr "Čakajúce návrhy"
 
 #: weblate/trans/checklists.py:56
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "Vyžaduje kontrolu"
 
@@ -17088,28 +17031,24 @@ msgid "Sort order"
 msgstr "Poradie zoradenia"
 
 #: weblate/trans/forms.py:1594
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Pokračovať"
+msgstr "Režim počítania"
 
 #: weblate/trans/forms.py:1596
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Vyberte, či sa opakované zmeny toho istého reťazca počítajú ako jedna zmena "
+"alebo ako samostatné zmeny."
 
 #: weblate/trans/forms.py:1602
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Nedokončené reťazce"
+msgstr "Unikátne reťazce"
 
 #: weblate/trans/forms.py:1606
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Všetky jazyky"
+msgstr "Všetky zmeny"
 
 #: weblate/trans/forms.py:1625
 msgid "You do not have permission to access this component."
@@ -17129,7 +17068,7 @@ msgstr "Licencia"
 
 #: weblate/trans/forms.py:1863
 msgid "Upstream links"
-msgstr "Odkazy na upstream"
+msgstr "Odkazy na hlavný"
 
 #: weblate/trans/forms.py:1865
 msgid "Listing and access"
@@ -17233,16 +17172,13 @@ msgid "ZIP file containing project backup"
 msgstr "ZIP súbor obsahujúci zálohu projektu"
 
 #: weblate/trans/forms.py:2873
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not load project backup: The backup is from an incompatible version "
-#| "(%(version)s). Please upgrade your Weblate instance."
+#, python-format
 msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
 msgstr ""
-"Nepodarilo sa načítať zálohu projektu: Záloha je z nekompatibilnej verzie "
-"(%(version)s). Prosím, aktualizujte vašu inštanciu Weblate."
+"Záloha je z nekompatibilnej verzie (%(version)s). Prosím, aktualizujte vašu "
+"inštanciu Weblate."
 
 #: weblate/trans/forms.py:2876 weblate/trans/forms.py:2880
 #, python-format
@@ -17407,10 +17343,9 @@ msgid "Expiry cannot be in the past."
 msgstr "Vypršanie nemôže byť v minulosti."
 
 #: weblate/trans/forms.py:3543
-#, fuzzy, python-format
-#| msgid "Manage %(team)s"
+#, python-format
 msgid "Limit languages for %(team)s"
-msgstr "Spravovať %(team)s"
+msgstr "Obmedziť jazyky pre %(team)s"
 
 #: weblate/trans/forms.py:3604
 msgid "Customize translation workflow for this language"
@@ -17719,10 +17654,8 @@ msgid "Parent category has to be different!"
 msgstr "Nadradená kategória musí byť iná!"
 
 #: weblate/trans/models/category.py:207
-#, fuzzy
-#| msgid "Component with this name already exists in the project."
 msgid "Repository path for this category already exists and is not empty."
-msgstr "Súčasť s týmto menom už v projekte existuje."
+msgstr "Cesta repozitára pre túto kategóriu už existuje a nie je prázdna."
 
 #: weblate/trans/models/change.py:72
 msgid "Component created from scratch"
@@ -18141,7 +18074,7 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Definovať, či by Weblate mal zlúčiť upstream repozitár alebo prepísať zmeny "
+"Definovať, či by Weblate mal zlúčiť hlavný repozitár alebo prepísať zmeny "
 "naň."
 
 #: weblate/trans/models/component.py:799
@@ -18185,7 +18118,7 @@ msgstr "Odoslať pri zápise"
 
 #: weblate/trans/models/component.py:857
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Či by mal byť repozitár odoslaný do upstreamu pri každom zápise."
+msgstr "Či by mal byť repozitár odoslaný do hlavného pri každom zápise."
 
 #: weblate/trans/models/component.py:861
 msgid "Age of changes to commit"
@@ -18353,31 +18286,21 @@ msgid_plural ""
 msgstr[0] ""
 "Resetovať repozitár, ale nepodarilo sa znovu aplikovať čakajúce preklady, "
 "pretože %(files)s chýba. Čakajúce zmeny boli zachované. Na obnovenie "
-"pridajte súbor do upstreamu a znovuskenujte, alebo nakonfigurujte komponent "
+"pridajte súbor do hlavného a znovuskenujte, alebo nakonfigurujte komponent "
 "tak, aby Weblate mohol vytvoriť prekladový súbor."
 msgstr[1] ""
 "Resetovať repozitár, ale nepodarilo sa znovu aplikovať čakajúce preklady, "
 "pretože tieto súbory chýbajú: %(files)s. Čakajúce zmeny boli zachované. Na "
-"obnovenie pridajte súbory do upstreamu a znovuskenujte, alebo nakonfigurujte "
+"obnovenie pridajte súbory do hlavného a znovuskenujte, alebo nakonfigurujte "
 "komponent tak, aby Weblate mohol vytvoriť prekladové súbory."
 msgstr[2] ""
 "Resetovať repozitár, ale nepodarilo sa znovu aplikovať čakajúce preklady, "
 "pretože tieto súbory chýbajú: %(files)s. Čakajúce zmeny boli zachované. Na "
-"obnovenie pridajte súbory do upstreamu a znovuskenujte, alebo nakonfigurujte "
+"obnovenie pridajte súbory do hlavného a znovuskenujte, alebo nakonfigurujte "
 "komponent tak, aby Weblate mohol vytvoriť prekladové súbory."
 
 #: weblate/trans/models/component.py:2592
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "%(files)s is missing. Pending changes were kept. To recover, add the file "
-#| "upstream and rescan, or configure the component so Weblate can create the "
-#| "translation file."
-#| msgid_plural ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "these files are missing: %(files)s. Pending changes were kept. To "
-#| "recover, add the files upstream and rescan, or configure the component so "
-#| "Weblate can create the translation files."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s because it is missing. "
 "Pending changes were kept. To recover, add the file upstream and rescan, or "
@@ -18388,20 +18311,20 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
-"Resetovať repozitár, ale nepodarilo sa znovu aplikovať čakajúce preklady, "
-"pretože %(files)s chýba. Čakajúce zmeny boli zachované. Na obnovenie "
-"pridajte súbor do upstreamu a znovuskenujte, alebo nakonfigurujte komponent "
-"tak, aby Weblate mohol vytvoriť prekladový súbor."
+"Synchronizácia súborov nemohla znovu vytvoriť %(files)s, pretože chýba. "
+"Čakajúce zmeny boli zachované. Ak to chcete obnoviť, pridajte hlavný súbor a "
+"znova spustite prehľadávanie, alebo nakonfigurujte komponent tak, aby "
+"Weblate mohol vytvoriť prekladový súbor."
 msgstr[1] ""
-"Resetovať repozitár, ale nepodarilo sa znovu aplikovať čakajúce preklady, "
-"pretože tieto súbory chýbajú: %(files)s. Čakajúce zmeny boli zachované. Na "
-"obnovenie pridajte súbory do upstreamu a znovuskenujte, alebo nakonfigurujte "
-"komponent tak, aby Weblate mohol vytvoriť prekladové súbory."
+"Synchronizácia súborov nemohla znovu vytvoriť tieto súbory, pretože chýbajú: "
+"%(files)s. Čakajúce zmeny boli zachované. Ak ich chcete obnoviť, pridajte "
+"hlavné súbory a znova spustite prehľadávanie, alebo nakonfigurujte komponent "
+"tak, aby Weblate mohol vytvoriť prekladové súbory."
 msgstr[2] ""
-"Resetovať repozitár, ale nepodarilo sa znovu aplikovať čakajúce preklady, "
-"pretože tieto súbory chýbajú: %(files)s. Čakajúce zmeny boli zachované. Na "
-"obnovenie pridajte súbory do upstreamu a znovuskenujte, alebo nakonfigurujte "
-"komponent tak, aby Weblate mohol vytvoriť prekladové súbory."
+"Synchronizácia súborov nemohla znovu vytvoriť tieto súbory, pretože chýbajú: "
+"%(files)s. Čakajúce zmeny boli zachované. Ak ich chcete obnoviť, pridajte "
+"hlavné súbory a znova spustite prehľadávanie, alebo nakonfigurujte komponent "
+"tak, aby Weblate mohol vytvoriť prekladové súbory."
 
 #: weblate/trans/models/component.py:2722
 #, python-format
@@ -18413,16 +18336,13 @@ msgstr ""
 "znovuaplikovaní čakajúcich prekladov. Čakajúce zmeny boli zachované."
 
 #: weblate/trans/models/component.py:2730
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(file)s while reapplying "
-#| "pending translations. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
 msgstr ""
-"Resetovať repozitár, ale nepodarilo sa znovu vytvoriť %(file)s pri "
-"znovuaplikovaní čakajúcich prekladov. Čakajúce zmeny boli zachované."
+"Synchronizácia súborov nemohla znovu vytvoriť %(file)s pred potvrdením "
+"čakajúcich prekladov. Čakajúce zmeny boli zachované."
 
 #: weblate/trans/models/component.py:2749
 #, python-format
@@ -18445,13 +18365,7 @@ msgstr[2] ""
 "zachované."
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(files)s while reapplying "
-#| "pending translations. Pending changes were kept."
-#| msgid_plural ""
-#| "Reset the repository, but could not recreate these files while reapplying "
-#| "pending translations: %(files)s. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -18459,16 +18373,14 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Resetovať repozitár, ale nepodarilo sa znovu vytvoriť %(files)s pri "
-"znovuaplikovaní čakajúcich prekladov. Čakajúce zmeny boli zachované."
+"Synchronizácia súborov nemohla znovu vytvoriť súbor %(files)s pred "
+"potvrdením čakajúcich prekladov. Čakajúce zmeny boli zachované."
 msgstr[1] ""
-"Resetovať repozitár, ale nepodarilo sa znovu vytvoriť tieto súbory pri "
-"znovuaplikovaní čakajúcich prekladov: %(files)s. Čakajúce zmeny boli "
-"zachované."
+"Synchronizácia súborov nemohla znovu vytvoriť tieto súbory pred potvrdením "
+"čakajúcich prekladov: %(files)s. Čakajúce zmeny boli zachované."
 msgstr[2] ""
-"Resetovať repozitár, ale nepodarilo sa znovu vytvoriť tieto súbory pri "
-"znovuaplikovaní čakajúcich prekladov: %(files)s. Čakajúce zmeny boli "
-"zachované."
+"Synchronizácia súborov nemohla znovu vytvoriť tieto súbory pred potvrdením "
+"čakajúcich prekladov: %(files)s. Čakajúce zmeny boli zachované."
 
 #: weblate/trans/models/component.py:2769
 msgid ""
@@ -18479,16 +18391,12 @@ msgstr ""
 "Čakajúce zmeny boli zachované."
 
 #: weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid ""
-#| "Reset the repository, but could not recreate pending translations. "
-#| "Pending changes were kept."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Resetovať repozitár, ale nepodarilo sa znovu vytvoriť čakajúce preklady. "
-"Čakajúce zmeny boli zachované."
+"Synchronizácia súborov nemohla znovu vytvoriť čakajúce preklady. Čakajúce "
+"zmeny boli zachované."
 
 #: weblate/trans/models/component.py:2796
 #, python-format
@@ -19118,10 +19026,8 @@ msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Automatický preklad preskočený, pretože cieľ už neexistuje."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Projekty bez komponentov"
+msgstr "Import zálohy projektu bol dokončený."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19594,7 +19500,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Prebieha import zálohy projektu"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -20350,10 +20256,10 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Nepodarilo sa vyhodnotiť vzorec množného čísla: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Nepodarilo sa vyhodnotiť vzorec množného čísla: {}"
+msgstr ""
+"Nepodarilo sa vyhodnotiť vzorec množného čísla pre počet {count}: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -20361,6 +20267,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Výsledok množnej formulky {result} pre hodnotu {count} je mimo povoleného "
+"rozsahu 0 až {max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -20544,6 +20452,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"ZIP súbor po rozbalení obsahuje %(actual_size)s dát, čo presahuje nastavený "
+"limit %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -20551,11 +20461,11 @@ msgstr "ZIP súbor obsahuje komprimovanú položku, ktorá je príliš veľká."
 
 #: weblate/vcs/base.py:287
 msgid "This will push changes to the upstream repository."
-msgstr "Tým sa odošlú zmeny do upstream repozitára."
+msgstr "Tým sa odošlú zmeny do hlavného repozitára."
 
 #: weblate/vcs/git.py:151
 msgid "This will push changes to the upstream Git repository."
-msgstr "Tým sa odošlú zmeny do upstream Git repozitára."
+msgstr "Tým sa odošlú zmeny do hlavného Git repozitára."
 
 #: weblate/vcs/git.py:864
 msgid "Possible cleanups:"
@@ -20571,6 +20481,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"Názvy vetiev v Gerrite nesmú obsahovať %(chars)s, pretože Gerrit ich "
+"interpretuje ako možnosti pre odosielanie recenzií."
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."
@@ -20582,7 +20494,7 @@ msgstr "Git s vynúteným odoslaním"
 
 #: weblate/vcs/git.py:1156
 msgid "This will force push changes to the upstream repository."
-msgstr "Tým sa vynútene odošlú zmeny do upstream repozitára."
+msgstr "Tým sa vynútene odošlú zmeny do hlavného repozitára."
 
 #: weblate/vcs/git.py:1707
 msgid "Azure DevOps pull request"
@@ -20653,7 +20565,7 @@ msgstr "Bitbucket Cloud merge požiadavka zlúčenia"
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Tým sa odošlú zmeny do upstream Mercurial repozitára."
+msgstr "Tým sa odošlú zmeny do hlavného Mercurial repozitára."
 
 #: weblate/vcs/ssh.py:73
 msgctxt "SSH key type"
