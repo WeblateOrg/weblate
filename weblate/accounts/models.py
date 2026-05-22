@@ -462,17 +462,19 @@ NOTIFY_ACTIVITY = {
 # Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
 USER_AGENT_DEVICE_TYPES: dict[str, str] = {
     # Translators: User agent device type
-    "PC": pgettext_lazy("User agent platform", "PC"),
+    "PC": pgettext_lazy("User agent device type", "PC"),
     # Translators: User agent device type
-    "Other": pgettext_lazy("User agent platform", "Other"),
+    "Other": pgettext_lazy("User agent device type", "Other"),
     # Translators: User agent device type
-    "Generic Smartphone": pgettext_lazy("User agent platform", "Generic Smartphone"),
-    # Translators: User agent device type
-    "Generic Feature Phone": pgettext_lazy(
-        "User agent platform", "Generic Feature Phone"
+    "Generic Smartphone": pgettext_lazy(
+        "User agent device type", "Generic Smartphone"
     ),
     # Translators: User agent device type
-    "iOS-Device": pgettext_lazy("User agent platform", "iOS-Device"),
+    "Generic Feature Phone": pgettext_lazy(
+        "User agent device type", "Generic Feature Phone"
+    ),
+    # Translators: User agent device type
+    "iOS-Device": pgettext_lazy("User agent device type", "iOS-Device"),
 }
 
 
@@ -631,7 +633,7 @@ class AuditLog(models.Model):
         return None
 
     def get_user_agent_display(self) -> str:
-        """Return a localized user agent string."""
+        """Return a user agent string with a localized device/platform segment."""
         ua_string = self.user_agent
         if not ua_string:
             return ""

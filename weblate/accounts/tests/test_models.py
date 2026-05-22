@@ -47,13 +47,14 @@ class AuditLogTestCase(SimpleTestCase):
         self.assertEqual(audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0")
 
     def test_user_agent_display_calls_gettext_for_first_part_only(self) -> None:
-        with mock.patch("weblate.accounts.models.pgettext_lazy") as mocked_gettext:
-            mocked_gettext.side_effect = lambda x: x
+        with mock.patch.dict(
+            "weblate.accounts.models.USER_AGENT_DEVICE_TYPES",
+            {"PC": "Translated PC"},
+            clear=False,
+        ):
             audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
             result = audit.get_user_agent_display()
-            self.assertEqual(mocked_gettext.call_count, 1)
-            mocked_gettext.assert_any_call("PC")
-            self.assertEqual(result, "PC / Linux / Chrome 120.0.0")
+            self.assertEqual(result, "Translated PC / Linux / Chrome 120.0.0")
 
 
 class AuditLogLoggingTestCase(TestCase):
