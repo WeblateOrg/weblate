@@ -7,14 +7,15 @@
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # gattyan61 <gattyan61@gmail.com>, 2025.
 # Romhányi-Kakucska Viktor <viktor@romhanyi.dev>, 2026.
+# Balázs Meskó <meskobalazs@mailbox.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-05 12:55+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-05-22 08:33+0000\n"
+"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -903,13 +904,6 @@ msgstr ""
 "nélküli összetevőihez <component-restricted>`."
 
 #: admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has access to perform certain "
@@ -1795,10 +1789,6 @@ msgid "In prior releases this feature was called whiteboard messages."
 msgstr "Korábbi kiadásokban ezt a funkciót üzenőfal-üzeneteknek hívták."
 
 #: admin/announcements.rst:8
-#, fuzzy
-#| msgid ""
-#| "Provide info to your translators by posting announcements, site-wide, per "
-#| "project, component, or language."
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, category, component, or language."
@@ -1878,19 +1868,14 @@ msgstr ""
 "érvényesen."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Category"
 msgid "Category specified"
-msgstr "Kategória"
+msgstr "Kategória megadva"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the category, including all its components and translations."
 msgstr ""
-"A projekt oldalán jelenik meg, az összes összetevőre és fordításra "
+"A kategória oldalán jelenik meg, az összes összetevőre és fordításra "
 "érvényesen."
 
 #: admin/announcements.rst:43
@@ -2328,21 +2313,14 @@ msgid "Overriding authentication method names and icons"
 msgstr "Hitelesítési módszerek neveinek és ikonjainak felülírása"
 
 #: admin/auth.rst:423
-#, fuzzy
-#| msgid ""
-#| "You can override the authentication method display name and icon using "
-#| "using settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and "
-#| "``SOCIAL_AUTH_<NAME>_TITLE``. For example overriding naming for Auth0 "
-#| "would look like:"
 msgid ""
 "You can override the authentication method display name and icon using "
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
 "A hitelesítési mód megjelenő nevét és ikonját felül lehet írni a következő "
-"beállításokkal: ``SOCIAL_AUTH_<NAME>_IMAGE`` és "
-"``SOCIAL_AUTH_<NAME>_TITLE``. Például az Auth0 megjelenítési nevének "
-"felülírása így nézne ki:"
+"beállításokkal: ``SOCIAL_AUTH_<NAME>_IMAGE`` és ``SOCIAL_AUTH_<NAME>"
+"_TITLE``. Például az Auth0 megjelenítési nevének felülírása így nézne ki:"
 
 #: admin/auth.rst:435
 msgid "Turning off password authentication"
@@ -2869,11 +2847,6 @@ msgstr ""
 "adatait és az előzményeket."
 
 #: admin/backup.rst:23
-#, fuzzy
-#| msgid ""
-#| "The comments and suggestions are backed up with an username of user who "
-#| "did create them. Upon import it is assigned to a matching user. If there "
-#| "is no user with such username, it is assigned to anonymous user."
 msgid ""
 "The comments and suggestions are backed up with the username of the user who "
 "did create them. Upon import it is assigned to a matching user. If there is "
@@ -3137,10 +3110,6 @@ msgstr ""
 "számára a Docker Compose fájlban, például: :file:`/borgbackup` elérési úttal:"
 
 #: admin/backup.rst:154
-#, fuzzy
-#| msgid ""
-#| "The directory where backups will be stored have to be owned by UID 1000, "
-#| "otherwise Weblate won’t be able to write the backups there."
 msgid ""
 "The directory where backups will be stored has to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
@@ -3318,10 +3287,8 @@ msgid "The Borg session might look like this:"
 msgstr "A Borg mentési munkamenet például így nézhet ki:"
 
 #: admin/backup.rst:229
-#, fuzzy
-#| msgid "Choosing Docker image tag"
 msgid "Restoring Docker based setup"
-msgstr "Docker-kép címkéjének kiválasztása"
+msgstr "Docker-alapú telepítés helyreállítása"
 
 #: admin/backup.rst:231
 msgid ""
@@ -3351,10 +3318,8 @@ msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
 
 #: admin/backup.rst:251
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "Távolítsa el a PostgreSQL kötetet:"
+msgstr "Hozza újra létre a PostgreSQL kötetet."
 
 #: admin/backup.rst:259
 msgid ""
@@ -3364,16 +3329,12 @@ msgid ""
 msgstr ""
 
 #: admin/backup.rst:263
-#, fuzzy
-#| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "Indítsa el az adatbázis-konténert:"
+msgstr "Indítsa el az adatbázis-szolgáltatást:"
 
 #: admin/backup.rst:269
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Állítsa vissza az adatbázist a biztonsági mentésből:"
+msgstr "Állítsa helyre az adatbázis biztonsági mentését:"
 
 #: admin/backup.rst:275
 msgid ""
@@ -4033,13 +3994,10 @@ msgstr ""
 "ellenőrzésekben:"
 
 #: admin/checks.rst:162
-#, fuzzy
-#| msgid ""
-#| "Font-family and style is automatically recognized after uploading them:"
 msgid ""
 "Font-family and style are automatically recognized after uploading them:"
 msgstr ""
-"A betűtípus-család és a stílus automatikusan felismerésre kerül a feltöltés "
+"A betűkészletcsalád és a stílus automatikusan felismerésre kerül a feltöltés "
 "után:"
 
 #: admin/checks.rst:166
@@ -4147,10 +4105,8 @@ msgstr ""
 "többes számú alakja nem azonos-e."
 
 #: admin/code-hosting.rst:4
-#, fuzzy
-#| msgid "Code hosting sites credentials"
 msgid "Code hosting integrations"
-msgstr "Kódtároló oldalak hitelesítő adatai"
+msgstr "Kódtároló-integrációk"
 
 #: admin/code-hosting.rst:6
 msgid ""
@@ -4168,28 +4124,20 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:15
-#, fuzzy
-#| msgid "Architecture overview"
 msgid "Setup overview"
-msgstr "Rendszer-architektúra áttekintése"
+msgstr "Telepítési áttekintés"
 
 #: admin/code-hosting.rst:17
-#, fuzzy
-#| msgid "Merge Weblate changes to the upstream repository."
 msgid "Grant Weblate access to the repository."
-msgstr "Vonja össze a Weblate módosításait a forrás tárolóba."
+msgstr "Adjon hozzáférést a Weblate-nek a tárolóhoz."
 
 #: admin/code-hosting.rst:19
-#, fuzzy
-#| msgid ""
-#| "On a Hosted Weblate, this is pre-configured for most of the public sites, "
-#| "please see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
-"A Hosted Weblate esetén ez a legtöbb nyilvános oldalon előre be van állítva, "
-"lásd: :ref:`hosted-push`."
+"A Hosted Weblate esetén adja hozzá a :guilabel:`weblate` felhasználót, ha "
+"elérhető, lásd: :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:21
 msgid ""
