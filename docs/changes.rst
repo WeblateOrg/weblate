@@ -26,6 +26,7 @@ Weblate 2026.6
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
 * Engage page task links now stay centered and show the target translation language.
 * Gettext POT update add-ons now rescan translations after committing updated POT and PO files.
+* Git repositories now update branches correctly when the remote also has a tag with the same name.
 
 .. rubric:: Compatibility
 
