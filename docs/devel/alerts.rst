@@ -51,9 +51,9 @@ Conflicting repository setup
 ----------------------------
 
 This alert is shown when multiple Git components are configured to push to the
-same repository and push branch. This includes pull or merge request workflows,
-and direct pushes to Git repositories. Such a setup can overwrite the shared
-branch.
+same repository and push branch without all of them pulling from that branch.
+This includes pull or merge request workflows, and direct pushes to a separate
+push branch. Such a setup can overwrite the shared branch.
 
 To resolve this, either configure a different :guilabel:`Push branch` for each
 component or share the repository between components using a
