@@ -827,9 +827,10 @@ class GitRepository(Repository):
     def update_remote(self) -> None:
         """Update remote repository."""
         branch = self.validate_branch_name(self.branch)
+        refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         # Update existing branch only, not changing depth
         self.execute(
-            [*self.get_auth_args(), "fetch", "origin", branch],
+            [*self.get_auth_args(), "fetch", "--no-tags", "origin", refspec],
             remote_op="pull",
         )
         self.clean_revision_cache()
