@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-12 01:31+0000\n"
+"PO-Revision-Date: 2026-05-22 02:40+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -38,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -375,10 +375,8 @@ msgid "Team"
 msgstr "团队"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "添加用户到一个团队中"
+msgstr "添加团队"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -575,10 +573,9 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "用户由 {username} 添加到全站 {team} 团队中。"
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
-msgstr "用户由 {username} 添加到全站 {team} 团队中。"
+msgstr "{username} 更改了用户对全站范围 {team} 团队的权限。"
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -607,10 +604,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "用户由 {username} 添加到 {team} 团队中。"
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "用户由 {username} 添加到 {team} 团队中。"
+msgstr "{username} 更改了用户对 {team} 团队的权限。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -701,10 +697,6 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "如果你觉得这不恰当，请联系项目维护人员。"
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr "如果的确是你，请使用密码重置功能重新获得访问你账户的权限。"
 
@@ -1031,11 +1023,9 @@ msgid "Strings are available for translation"
 msgstr "字符串可供翻译"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "翻译概要:"
+msgstr "翻译活动概览"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1606,24 +1596,16 @@ msgid ""
 msgstr "将译文发布到 JavaScript 或 HTML 本地化中使用的内容分发网络。"
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "翻译文件"
+msgstr "翻译文件 CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr "将译文发布到 JavaScript 或 HTML 本地化中使用的内容分发网络。"
+msgstr "将译文发布到内容分发网络。"
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "该翻译的基础语言不可修改。"
+msgstr "翻译文件 CDN 附加组件无法发布 weblate.js。"
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -1992,20 +1974,16 @@ msgstr ""
 "POTFILES.in。"
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "部件必须为新翻译定义 POT 文件。"
+msgstr "部件必须为新翻译定义 gettext 模板。"
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
-msgstr "Django 附加组件预期新翻译的模板命名为 “django.pot” 或 “djangojs.pot”。"
+msgstr ""
+"Django 附加组件预期新翻译的模板命名为 \"django.pot\"、\"djangojs.pot\"、 "
+"\"django.po\" 或 \"djangojs.po\"。"
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2102,13 +2080,10 @@ msgid "Voting threshold"
 msgstr "投票阈值"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
-msgstr "移除阈值。当投票被禁用时该项无效果。"
+msgstr "移除阈值。留空表示不论票数多少都删除建议。关闭投票时该项无效果。"
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2563,10 +2538,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "用 Meson gettext 规范更新 gettext 模板。"
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "更新 POT 文件（Django）"
+msgstr "更新 gettext 模板（Django）"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -3626,9 +3599,8 @@ msgid "Requires users to have two-factor authentication configured."
 msgstr "要求用户配置双因素身份验证。"
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
 msgid "Limit languages"
-msgstr "比哈尔语言(Bihari languages)"
+msgstr "限制语言"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -4450,10 +4422,7 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "缺少的翻译标记参数：“%s”"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
@@ -4462,10 +4431,7 @@ msgstr ""
 "{suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
@@ -4474,10 +4440,7 @@ msgstr ""
 "{suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -4486,23 +4449,16 @@ msgstr ""
 "标签，使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"该序列 {sequence} 以 HTML 标签开头，但其名称无效。如果你不想以 HTML 标签开"
-"头，使用 {suggestion} 。"
+"该序列 {sequence} 以 HTML 标签开头，但其名称无效。如果你不想以 HTML 标签开头"
+"，使用 {suggestion} 。"
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
@@ -4517,18 +4473,14 @@ msgid ""
 msgstr "Fluent 内部 HTML 不应包含 {sequence}。或许使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
 "begin an HTML tag, use {suggestion}."
 msgstr ""
-"序列 {sequence} 以 HTML 标签开头，但该序列 {attribute} 属性不是带值的有效属"
-"性。如果你不想以 HTML 标签开头，请使用 {suggestion}。"
+"序列 {sequence} 以 HTML 标签开头，但该序列 {attribute} 属性不是带值的有效属性"
+"。如果你不想以 HTML 标签开头，请使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:246
 #, python-brace-format
@@ -4570,11 +4522,7 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML {tag} 标签缺少匹配的结束标签：{end}。"
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4597,16 +4545,12 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Fluent 源应该是有效的内部 HTML。"
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "Fluent 值缺少一个 HTML {tag} 标签。"
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
@@ -5150,8 +5094,6 @@ msgid "Markdown syntax does not match source."
 msgstr "Markdown 语法与原文不匹配。"
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "译文不包含 URL。"
 
@@ -5975,22 +5917,16 @@ msgstr ""
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
 msgstr "语言限制"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "语言限制"
+msgstr "无语言限制"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "选择的语言无效！"
+msgstr "输入有效的语言代码。"
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -9095,10 +9031,8 @@ msgid "Team administrator"
 msgstr "团队管理员"
 
 #: weblate/templates/auth/team.html:140
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "编辑字符串额外信息"
+msgstr "无额外限制"
 
 #: weblate/templates/auth/team.html:148
 #: weblate/templates/trans/project-access-row.html:18
@@ -11454,22 +11388,16 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s 已完成"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "翻译质量筛选器"
+msgstr "这一时间段的翻译活动："
 
 #: weblate/templates/mail/translation_activity_summary.html:11
-#, fuzzy
-#| msgid "Added user"
 msgid "Added"
-msgstr "添加了用户"
+msgstr "已添加"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "更新"
+msgstr "已更新"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:61
@@ -11489,10 +11417,8 @@ msgstr "未完成"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Translation activity summary"
-msgstr "翻译概要:"
+msgstr "翻译活动概况"
 
 #: weblate/templates/manage/alerts.html:10
 msgid "Component alerts"
@@ -14236,10 +14162,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "不可用"
+msgstr "团队不可用。"
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -14619,10 +14543,8 @@ msgid "Browse glossary %(name)s"
 msgstr "浏览 %(name)s 术语表"
 
 #: weblate/templates/translate.html:810
-#, fuzzy
-#| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
-msgstr "浏览 %(name)s 术语表"
+msgstr "浏览术语表"
 
 #: weblate/templates/translate.html:835
 msgid "No screenshot currently associated."
@@ -15376,11 +15298,8 @@ msgstr "部件设置已更改"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:200
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "License was changed"
 msgid "User access changed"
-msgstr "许可证被更改"
+msgstr "更改了用户权限"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -15561,15 +15480,10 @@ msgid "State: %(state)s"
 msgstr "状态：%(state)s"
 
 #: weblate/trans/checklists.py:51
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Suggestions pending"
-msgstr "建议投票"
+msgstr "待接受的建议"
 
 #: weblate/trans/checklists.py:56
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "需要复查"
 
@@ -16235,10 +16149,8 @@ msgid "Sort order"
 msgstr "排序顺序"
 
 #: weblate/trans/forms.py:1594
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "继续"
+msgstr "计数模式"
 
 #: weblate/trans/forms.py:1596
 msgid ""
@@ -16247,16 +16159,12 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:1602
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "未完成的字符串"
+msgstr "不同字符串"
 
 #: weblate/trans/forms.py:1606
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "所有语言"
+msgstr "所有更改"
 
 #: weblate/trans/forms.py:1625
 msgid "You do not have permission to access this component."
@@ -16378,15 +16286,11 @@ msgid "ZIP file containing project backup"
 msgstr "包含项目备份的 ZIP 文件"
 
 #: weblate/trans/forms.py:2873
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not load project backup: The backup is from an incompatible version "
-#| "(%(version)s). Please upgrade your Weblate instance."
+#, python-format
 msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
-msgstr ""
-"无法加载项目备份：备份来自不兼容的版本（%(version)s）。请升级 Weblate 实例。"
+msgstr "备份来自不兼容的版本（%(version)s）。请升级 Weblate 实例。"
 
 #: weblate/trans/forms.py:2876 weblate/trans/forms.py:2880
 #, python-format
@@ -16545,10 +16449,9 @@ msgid "Expiry cannot be in the past."
 msgstr "到期时间不能是过去。"
 
 #: weblate/trans/forms.py:3543
-#, fuzzy, python-format
-#| msgid "Manage %(team)s"
+#, python-format
 msgid "Limit languages for %(team)s"
-msgstr "管理 %(team)s"
+msgstr "限制 %(team)s 的语言"
 
 #: weblate/trans/forms.py:3604
 msgid "Customize translation workflow for this language"
@@ -16851,10 +16754,8 @@ msgid "Parent category has to be different!"
 msgstr "主类别必须不同！"
 
 #: weblate/trans/models/category.py:207
-#, fuzzy
-#| msgid "Component with this name already exists in the project."
 msgid "Repository path for this category already exists and is not empty."
-msgstr "项目中已存在叫这个名字的部件。"
+msgstr "该类别的仓库路径已存在且不是空的。"
 
 #: weblate/trans/models/change.py:72
 msgid "Component created from scratch"
@@ -17439,17 +17340,7 @@ msgstr[0] ""
 "译文件。"
 
 #: weblate/trans/models/component.py:2592
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "%(files)s is missing. Pending changes were kept. To recover, add the file "
-#| "upstream and rescan, or configure the component so Weblate can create the "
-#| "translation file."
-#| msgid_plural ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "these files are missing: %(files)s. Pending changes were kept. To "
-#| "recover, add the files upstream and rescan, or configure the component so "
-#| "Weblate can create the translation files."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s because it is missing. "
 "Pending changes were kept. To recover, add the file upstream and rescan, or "
@@ -17460,9 +17351,9 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
-"重置仓库，但无法重新应用待定翻译，因为缺少这些文件：%(files)s。待定更改被保"
-"留。要恢复，请在上游添加文件并重新扫描，或配置该部件，以便 Weblate 可以创建翻"
-"译文件。"
+"文件同步无法重新创建这些文件，因为缺少这些文件：%(files)s。待定更改被保留。要"
+"恢复，请在上游添加文件并重新扫描，或配置该部件，以便 Weblate 可以创建翻译文件"
+"。"
 
 #: weblate/trans/models/component.py:2722
 #, python-format
@@ -17472,14 +17363,11 @@ msgid ""
 msgstr "重置仓库，但无法重新创建 %(file)s 并重新应用待定翻译。待定更改被保留。"
 
 #: weblate/trans/models/component.py:2730
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(file)s while reapplying "
-#| "pending translations. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
-msgstr "重置仓库，但无法重新创建 %(file)s 并重新应用待定翻译。待定更改被保留。"
+msgstr "文件同步无法在提交待定翻译前重新创建 %(file)s 。待定更改被保留。"
 
 #: weblate/trans/models/component.py:2749
 #, python-format
@@ -17494,22 +17382,14 @@ msgstr[0] ""
 "留。"
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(files)s while reapplying "
-#| "pending translations. Pending changes were kept."
-#| msgid_plural ""
-#| "Reset the repository, but could not recreate these files while reapplying "
-#| "pending translations: %(files)s. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
 msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
-msgstr[0] ""
-"重置仓库，但无法重新创建这些文件并重新应用待定翻译：%(files)s。待定更改被保"
-"留。"
+msgstr[0] "文件同步在提交待定翻译前无法重新创建这些文件：%(files)s。待定更改被保留。"
 
 #: weblate/trans/models/component.py:2769
 msgid ""
@@ -17518,14 +17398,10 @@ msgid ""
 msgstr "重置仓库，但无法重建待定翻译。保留了待定更改。"
 
 #: weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid ""
-#| "Reset the repository, but could not recreate pending translations. "
-#| "Pending changes were kept."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
-msgstr "重置仓库，但无法重建待定翻译。保留了待定更改。"
+msgstr "文件同步无法重建待定翻译。保留了待定更改。"
 
 #: weblate/trans/models/component.py:2796
 #, python-format
@@ -18118,10 +17994,8 @@ msgid "Automatic translation skipped because the target no longer exists."
 msgstr "跳过了自动翻译，因目标不再存在。"
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "没有部件的项目"
+msgstr "项目备份导入完成。"
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19259,10 +19133,9 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "无法计算复数公式：{}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "无法计算复数公式：{}"
+msgstr "无法评估复数形式用于计算 {count}：{error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
