@@ -632,18 +632,16 @@ class AuditLog(models.Model):
         return None
 
     def get_user_agent_display(self) -> str:
-        """Return a user agent string with a localized device/platform segment."""
+        """Return a user agent string with a localized first device-type segment."""
         ua_string = self.user_agent
         if not ua_string:
             return ""
 
         parts = ua_string.split(" / ")
-        localized = list(parts)
-        if localized:
-            device_type = localized[0].strip()
-            localized[0] = str(USER_AGENT_DEVICE_TYPES.get(device_type, device_type))
+        device_type = parts[0].strip()
+        parts[0] = str(USER_AGENT_DEVICE_TYPES.get(device_type, device_type))
 
-        return " / ".join(localized)
+        return " / ".join(parts)
 
     def should_notify(self) -> bool:
         return (
