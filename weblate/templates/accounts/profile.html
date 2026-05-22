@@ -513,7 +513,7 @@
                   <td>{{ log.timestamp|naturaltime }}</td>
                   <td>{{ log.get_message }}</td>
                   <td>{{ log.address }}</td>
-                  <td>{{ log.user_agent }}</td>
+                  <td>{{ log.get_user_agent_display }}</td>
                 </tr>
               {% empty %}
                 <tr>
