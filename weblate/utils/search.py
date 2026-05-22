@@ -81,7 +81,7 @@ OPERATOR_MAP = {
     ":>=": "gte",
 }
 
-MAX_PARSED_QUERY_CLAUSES = 4096
+MAX_PARSED_QUERY_CLAUSES = 64
 
 
 @dataclass(slots=True)
