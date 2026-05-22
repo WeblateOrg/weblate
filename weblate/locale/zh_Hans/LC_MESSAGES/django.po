@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-22 02:40+0000\n"
+"PO-Revision-Date: 2026-05-23 09:11+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -2821,7 +2821,7 @@ msgstr "无法获取%(origin)s的%(scope)s锁来执行此操作。"
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "期待一个对象。"
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3609,6 +3609,8 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"将来自这个团队的权限限制到这些语言。设置语言限制时，不设置来自这个团队的项目"
+"级、部件级和全局权限。空选择没有额外限制地团队语言选择。"
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -5913,7 +5915,7 @@ msgstr "三个"
 #: weblate/lang/forms.py:71
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
-msgstr ""
+msgstr "留空没有额外限制地使用团队的语言选择。"
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
@@ -8710,11 +8712,11 @@ msgstr "集成说明"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "可从 CDN 基 URL 获取已发布的翻译文件："
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
-msgstr ""
+msgstr "文件使用带原始文件扩展名的语言代码名。"
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9015,7 +9017,7 @@ msgstr "根据电子邮件地址自动将新创建的用户添加到此团队。
 msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
-msgstr ""
+msgstr "站点上的每一个新用户都要进行该检查，不论使用使用什么项目。"
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -10176,13 +10178,13 @@ msgstr "激活您的账户后，请转到“翻译”部分。"
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "选择要翻译的内容"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
-msgstr ""
+msgstr "从未翻译的字符串开始，然后是检查、核对、建议或编辑。"
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -10779,6 +10781,8 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"此服务可发送源字符串、翻译、和相关上下文到第三方提供商。启用前检查提供商的条"
+"款和隐私政策。"
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -14159,7 +14163,7 @@ msgstr "编辑 %(username)s 的团队成员身份"
 msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
-msgstr ""
+msgstr "将语言限制留空授予团队访问所有语言的权限。仅选择语言来应用附加筛选器。"
 
 #: weblate/templates/trans/project-access-team-form.html:45
 msgid "No teams are available."
@@ -16156,7 +16160,7 @@ msgstr "计数模式"
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
-msgstr ""
+msgstr "选择同一字符串的反复更改算作一次更改还是多次更改。"
 
 #: weblate/trans/forms.py:1602
 msgid "Unique strings"
@@ -18421,7 +18425,7 @@ msgstr "提供的配置不正确，请检查下方错误。"
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "项目备份导入进行中"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -19316,6 +19320,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"该 ZIP 文件解压缩后包含 %(actual_size)s 大小的数据，超出配置的上限 %"
+"(limit_size)s。"
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -19342,7 +19348,7 @@ msgstr "这会推送更改到 Gerrit 进行审校。"
 msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
-msgstr ""
+msgstr "Gerrit 分支名不能包含 %(chars)s，因为 Gerrit 将它们视作审核推送选项。"
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."
