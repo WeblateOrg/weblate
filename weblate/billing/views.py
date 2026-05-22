@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -146,7 +147,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         elif "request" in request.POST and billing.is_libre_trial:
             form = HostingForm(request.POST)
             if form.is_valid():
-                project = billing.projects.get()
+                project = billing.get_projects_queryset().get()
                 subject = f"Hosting request for {project}"
                 billing.payment["libre_request"] = True
                 billing.save(update_fields=["payment"])
@@ -176,8 +177,10 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
 
 @login_required
 def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
-    billings = Billing.objects.for_user(request.user).prefetch_related(
-        "plan", "projects", "invoice_set"
+    billings = (
+        Billing.objects.for_user(request.user)
+        .prefetch()
+        .prefetch_related("invoice_set")
     )
     if not request.user.has_perm("billing.manage") and len(billings) == 1:
         return redirect(billings[0])
@@ -229,16 +232,20 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         return redirect(billing)
 
     other = confirm_form.cleaned_data["other"]
-    if "recurring" in billing.payment:
-        other.payment["recurring"] = billing.payment["recurring"]
-    if "all" in billing.payment:
-        other.payment.setdefault("all", []).extend(billing.payment["all"])
-    other.save()
-    other.owners.add(*billing.owners.all())
-    billing.invoice_set.update(billing=other)
-    billing.billinglog_set.update(billing=other)
-    billing.payment = {}
-    billing.save()
+    with transaction.atomic():
+        if "recurring" in billing.payment:
+            other.payment["recurring"] = billing.payment["recurring"]
+        if "all" in billing.payment:
+            other.payment.setdefault("all", []).extend(billing.payment["all"])
+        other.save()
+        billing.get_projects_queryset().update(workspace=other.workspace)
+        other.owners.add(*billing.owners.all())
+        billing.invoice_set.update(billing=other)
+        billing.billinglog_set.update(billing=other)
+        billing.payment = {}
+        billing.save()
+        billing.check_limits()
+        other.check_limits()
 
     return redirect(confirm_form.cleaned_data["other"])
 

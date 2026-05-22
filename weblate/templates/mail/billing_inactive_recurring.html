@@ -30,7 +30,7 @@
     {% endif %}
   </ul>
 
-  {% with projects=billing.projects.all %}
+  {% with projects=billing.ordered_projects %}
     {% if projects %}
       <p>{% translate "This billing plan covers the following projects:" %}</p>
 

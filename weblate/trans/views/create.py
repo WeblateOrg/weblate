@@ -386,7 +386,7 @@ class CreateComponent(BaseCreateView):
             from weblate.billing.models import Billing  # noqa: PLC0415
 
             self.projects = request.user.managed_projects.filter(
-                billing__in=Billing.objects.get_valid()
+                workspace__billing__in=Billing.objects.get_valid()
             ).order()
         else:
             self.projects = request.user.managed_projects
