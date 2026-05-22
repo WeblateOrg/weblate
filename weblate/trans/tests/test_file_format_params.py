@@ -20,7 +20,7 @@ from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.ttkit import StringsFormat
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import get_default_params_for_file_format
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
 
@@ -403,6 +403,34 @@ class GettextParamsTest(BaseFileFormatsTest):
     def test_msgmerge_nowrap(self) -> None:
         self.update_component_file_params(po_line_wrap=-1)
         self.test_msgmerge(False)
+
+    def test_msgmerge_imports_changed_source(self) -> None:
+        addon = MsgmergeAddon.create(component=self.component, run=False)
+        template = Path(self.component.get_new_base_filename())
+        template.write_text(
+            template.read_text(encoding="utf-8").replace(
+                "Thank you for using Weblate.",
+                "Thank you for using Weblate!",
+            ),
+            encoding="utf-8",
+        )
+
+        addon.post_update(self.component, "", False)
+
+        self.assertTrue(
+            Unit.objects.filter(
+                translation__component=self.component,
+                translation__language__code="cs",
+                source="Thank you for using Weblate!",
+            ).exists()
+        )
+        self.assertFalse(
+            Unit.objects.filter(
+                translation__component=self.component,
+                translation__language__code="cs",
+                source="Thank you for using Weblate.",
+            ).exists()
+        )
 
     def test_store(self) -> None:
         self.update_component_file_params(
