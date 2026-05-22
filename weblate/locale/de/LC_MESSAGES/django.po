@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-22 08:38+0000\n"
+"PO-Revision-Date: 2026-05-23 09:11+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -10229,7 +10229,7 @@ msgstr ""
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:77
 #: weblate/trans/forms.py:2639 weblate/trans/forms.py:2705
 msgid "You do not have permission to change project access control."
-msgstr "Sie haben keine Berechtigung, die Projekt-Zugriffssteuerung zu ändern."
+msgstr "Sie haben keine Berechtigung, die Projektzugriffssteuerung zu ändern."
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:79
 #: weblate/templates/snippets/billing-failure.html:13
@@ -18260,7 +18260,7 @@ msgid ""
 msgstr ""
 "Branch für das Pushen von Änderungen. Leer lassen, um den Repository-Branch "
 "zu verwenden, wenn direkt in das Repository gepusht wird. Wenn Sie Pull/"
-"Merge Requests verwenden, geben Sie einen anderen Branch-Namen als den "
+"Merge Requests verwenden, geben Sie einen anderen Branchnamen als den "
 "Repository-Branch an."
 
 #: weblate/trans/models/component.py:602
@@ -18756,13 +18756,7 @@ msgstr[1] ""
 "%(files)s. Ausstehende Änderungen wurden beibehalten."
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(files)s while reapplying "
-#| "pending translations. Pending changes were kept."
-#| msgid_plural ""
-#| "Reset the repository, but could not recreate these files while reapplying "
-#| "pending translations: %(files)s. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -18770,13 +18764,13 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Das Repository wurde zurückgesetzt, aber %(files)s konnte nicht neu erstellt "
-"werden, beim erneuten Anwenden der ausstehenden Übersetzungen. Ausstehende "
-"Änderungen wurden beibehalten."
+"Die Dateisynchronisierung konnte %(files)s nicht neu erstellen, vor dem "
+"Committen der ausstehenden Übersetzungen. Ausstehende Änderungen wurden "
+"beibehalten."
 msgstr[1] ""
-"Das Repository wurde zurückgesetzt, aber diese Dateien konnten nicht neu "
-"erstellt werden, beim erneuten Anwenden der ausstehenden Übersetzungen: "
-"%(files)s. Ausstehende Änderungen wurden beibehalten."
+"Die Dateisynchronisierung konnte diese Dateien nicht neu erstellen, vor dem "
+"Committen der ausstehenden Übersetzungen: %(files)s. Ausstehende Änderungen "
+"wurden beibehalten."
 
 #: weblate/trans/models/component.py:2769
 msgid ""
@@ -18787,16 +18781,12 @@ msgstr ""
 "nicht neu erstellt werden. Ausstehende Änderungen wurden beibehalten."
 
 #: weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid ""
-#| "Reset the repository, but could not recreate pending translations. "
-#| "Pending changes were kept."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Das Repository wurde zurückgesetzt, aber ausstehende Übersetzungen konnten "
-"nicht neu erstellt werden. Ausstehende Änderungen wurden beibehalten."
+"Die Dateisynchronisierung konnte ausstehende Übersetzungen nicht neu "
+"erstellen. Ausstehende Änderungen wurden beibehalten."
 
 #: weblate/trans/models/component.py:2796
 #, python-format
@@ -19459,10 +19449,8 @@ msgstr ""
 "Automatische Übersetzung übersprungen, da das Ziel nicht mehr existiert."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Projekte ohne Komponenten"
+msgstr "Projektsicherungsimport abgeschlossen."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19938,7 +19926,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Projektsicherungsimport wird durchgeführt"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -20708,10 +20696,11 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Die Pluralformel konnte nicht ausgewertet werden: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Die Pluralformel konnte nicht ausgewertet werden: {}"
+msgstr ""
+"Die Pluralformel konnte nicht ausgewertet werden, für die Anzahl {count}:"
+"{error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -20719,6 +20708,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Das Ergebnis der Pluralformel {result} für die Anzahl {count} liegt "
+"außerhalb des zulässigen Bereichs 0..{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -20914,6 +20905,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Die ZIP-Datei enthält nach dem Entpacken %(actual_size)s an Daten und "
+"überschreitet damit die konfigurierte Grenze von %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -20941,6 +20934,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"Gerrit-Branchnamen dürfen nicht %(chars)s enthalten, da Gerrit diese als "
+"Push-Optionen für die Überprüfung interpretiert."
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."
