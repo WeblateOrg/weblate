@@ -81,6 +81,8 @@ OPERATOR_MAP = {
     ":>=": "gte",
 }
 
+MAX_PARSED_QUERY_CLAUSES = 64
+
 
 @dataclass(slots=True)
 class ParsedQueryClause:
@@ -137,6 +139,11 @@ class ParsedQuery:
         if not self.has_change_query() and not other.has_change_query():
             return ParsedQuery.from_query(self.materialize() & other.materialize())
 
+        new_clause_count = len(self.clauses) * len(other.clauses)
+        if new_clause_count > MAX_PARSED_QUERY_CLAUSES:
+            msg = gettext("Search query is too complex.")
+            raise SearchQueryError(msg)
+
         return ParsedQuery(
             [
                 left.combine_and(right)
@@ -148,6 +155,11 @@ class ParsedQuery:
     def combine_or(self, other: ParsedQuery) -> ParsedQuery:
         if not self.has_change_query() and not other.has_change_query():
             return ParsedQuery.from_query(self.materialize() | other.materialize())
+
+        new_clause_count = len(self.clauses) + len(other.clauses)
+        if new_clause_count > MAX_PARSED_QUERY_CLAUSES:
+            msg = gettext("Search query is too complex.")
+            raise SearchQueryError(msg)
 
         return ParsedQuery([*self.clauses, *other.clauses])
 
