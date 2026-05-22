@@ -3655,6 +3655,51 @@ msgstr ""
         self.assertIs(mocked.call_args.args[1], self.component)
         self.assertEqual(mocked.call_args.args[2], "")
 
+    def test_extract_pot_msgmerge_imports_changed_source(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        MsgmergeAddon.create(component=self.component, run=False)
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
+            encoding="utf-8",
+        )
+        template = Path(self.component.get_new_base_filename())
+        template_content = template.read_text(encoding="utf-8").replace(
+            "Thank you for using Weblate.",
+            "Thank you for using Weblate!",
+        )
+
+        def run_process(component: Component, command: list[str]) -> str:
+            template.write_text(template_content, encoding="utf-8")
+            return ""
+
+        with patch.object(XgettextAddon, "run_process", side_effect=run_process):
+            addon.manual_component(self.component)
+
+        self.assertTrue(
+            Unit.objects.filter(
+                translation__component=self.component,
+                translation__language__code="cs",
+                source="Thank you for using Weblate!",
+            ).exists()
+        )
+        self.assertFalse(
+            Unit.objects.filter(
+                translation__component=self.component,
+                translation__language__code="cs",
+                source="Thank you for using Weblate.",
+            ).exists()
+        )
+
     def test_extract_pot_timeout(self) -> None:
         addon = XgettextAddon.create(
             component=self.component,
