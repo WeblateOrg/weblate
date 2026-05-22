@@ -820,78 +820,7 @@ Default notification settings for every newly created user.
 
 A list of 3-tuples consisting of notification scope, notification frequency and notification handler.
 
-Scopes:
-
-``0``
-   :guilabel:`All`
-``10``
-   :guilabel:`Watched`
-``20``
-   :guilabel:`Administered`
-``30``
-   :guilabel:`Project`
-``40``
-   :guilabel:`Component`
-
-Frequencies:
-
-``0``
-   :guilabel:`No notification`
-``1``
-   :guilabel:`Instant notification`
-``2``
-   :guilabel:`Daily digest`
-``3``
-   :guilabel:`Weekly digest`
-``4``
-   :guilabel:`Monthly digest`
-
-Handlers:
-
-``RepositoryNotification``
-   :guilabel:`Operation was performed in the repository`
-``LockNotification``
-   :guilabel:`Component was locked or unlocked`
-``LicenseNotification``
-   :guilabel:`License was changed`
-``ParseErrorNotification``
-   :guilabel:`Parse error occurred`
-``NewStringNotificaton``
-   :guilabel:`String is available for translation`
-``NewContributorNotificaton``
-   :guilabel:`Contributor made their first translation`
-``NewSuggestionNotificaton``
-   :guilabel:`Suggestion was added`
-``LanguageTranslatedNotificaton``
-   :guilabel:`Language was translated`
-``ComponentTranslatedNotificaton``
-   :guilabel:`Component was translated`
-``NewCommentNotificaton``
-   :guilabel:`Comment was added`
-``MentionCommentNotificaton``
-   :guilabel:`You were mentioned in a comment`
-``LastAuthorCommentNotificaton``
-   :guilabel:`Your translation received a comment`
-``TranslatedStringNotificaton``
-   :guilabel:`String was edited by user`
-``ApprovedStringNotificaton``
-   :guilabel:`String was approved`
-``ChangedStringNotificaton``
-   :guilabel:`String was changed`
-``NewTranslationNotificaton``
-   :guilabel:`New language was added or requested`
-``NewComponentNotificaton``
-   :guilabel:`New translation component was created`
-``NewAnnouncementNotificaton``
-   :guilabel:`Announcement was published`
-``NewAlertNotificaton``
-   :guilabel:`New alert emerged in a component`
-``MergeFailureNotification``
-   :guilabel:`Repository operation failed`
-``PendingSuggestionsNotification``
-   :guilabel:`Pending suggestions exist`
-``ToDoStringsNotification``
-   :guilabel:`Unfinished strings exist`
+.. include:: /snippets/notifications-config.rst
 
 .. note::
 
