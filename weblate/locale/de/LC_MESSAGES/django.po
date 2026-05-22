@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-13 12:13+0000\n"
+"PO-Revision-Date: 2026-05-22 07:40+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -400,10 +400,8 @@ msgid "Team"
 msgstr "Team"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Benutzer zu einem Team hinzufügen"
+msgstr "Zu einem Team hinzufügen"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -610,11 +608,11 @@ msgstr ""
 "Benutzer wurde von {username} zum plattformweiten Team {team} hinzugefügt."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"Benutzer wurde von {username} zum plattformweiten Team {team} hinzugefügt."
+"Benutzerzugriff auf das plattformweite Team {team} wurde von {username} "
+"geändert."
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -644,10 +642,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Benutzer wurde von {username} zum Team {team} hinzugefügt."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Benutzer wurde von {username} zum Team {team} hinzugefügt."
+msgstr "Benutzerzugriff auf Team {team} wurde von {username} geändert."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -746,14 +743,10 @@ msgstr ""
 "halten."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Falls Sie es waren, setzen Sie bitte Ihr Passwort zurück, um wieder Zugang "
-"zu Ihrem Konto zu erhalten."
+"Wenn Sie es waren, setzen Sie Ihr Passwort zurück, um wieder Zugriff auf Ihr "
+"Konto zu erhalten."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1105,11 +1098,9 @@ msgid "Strings are available for translation"
 msgstr "Zeichenketten zum Übersetzen verfügbar"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Zusammenfassung der Übersetzung"
+msgstr "Zusammenfassung der Übersetzungstätigkeit"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1729,30 +1720,22 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Veröffentlicht Übersetzungen in einem Content Delivery-Netzwerk zur "
+"Veröffentlicht Übersetzungen in einem Content Delivery Network zur "
 "Verwendung in der JavaScript- oder HTML-Lokalisierung."
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Übersetzungsdateien"
+msgstr "Übersetzungsdateien-CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Veröffentlicht Übersetzungen in einem Content Delivery-Netzwerk zur "
-"Verwendung in der JavaScript- oder HTML-Lokalisierung."
+msgstr "Veröffentlicht Übersetzungsdateien in einem Content Delivery Network."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "Die Übersetzungsbasissprache kann nicht bearbeitet werden."
+msgstr ""
+"Die Erweiterung für Übersetzungsdateien-CDN kann weblate.js nicht "
+"veröffentlichen."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2169,22 +2152,17 @@ msgstr ""
 "und POTFILES oder POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "Die Komponente muss eine POT-Datei für neue Übersetzungen definieren."
+msgstr ""
+"Die Komponente muss eine gettext-Vorlage für neue Übersetzungen definieren."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
 "Die Django-Erweiterung erwartet, dass die Vorlage für neue Übersetzungen den "
-"Namen „django.pot“ oder „djangojs.pot“ trägt."
+"Namen „django.pot“, „djangojs.pot“, „django.po“ oder „djangojs.pot“ trägt."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2289,15 +2267,13 @@ msgid "Voting threshold"
 msgstr "Abstimmungsschwelle"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Schwellenwert für die Entfernung. Dieses Feld hat keine Auswirkungen, wenn "
-"die Abstimmung deaktiviert ist."
+"Schwellenwert für die Entfernung. Leer lassen, um Übersetzungsvorschläge "
+"unabhängig von der Abstimmung zu entfernen. Dieses Feld hat keine "
+"Auswirkungen, wenn die Abstimmung deaktiviert ist."
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2786,10 +2762,8 @@ msgstr ""
 "Aktualisiert die gettext-Vorlage mithilfe der Meson-gettext-Konventionen."
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "POT-Datei aktualisieren (Django)"
+msgstr "gettext-Vorlage aktualisieren (Django)"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -3098,7 +3072,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "Erwartet ein Objekt."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3884,10 +3858,8 @@ msgstr ""
 "haben."
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "Bihari-Sprachen"
+msgstr "Sprachen begrenzen"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -3896,6 +3868,11 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Beschränken Sie die Berechtigungen dieses Teams auf diese Sprachen. "
+"Projektweite, komponentenweite und globale Berechtigungen von diesem Team "
+"werden nicht gewährt, wenn ein Sprachlimit festgelegt ist. Bei leerer "
+"Auswahl wird die Sprachauswahl des Teams ohne zusätzliche Einschränkung "
+"verwendet."
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -4783,22 +4760,16 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Fehlende Parameter für die Übersetzungsmarkierung: „%s“"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Die Fluent-Referenz in {sequence} könnte zu einem HTML-Tag expandiert "
-"werden. Vielleicht sollten Sie {suggestion} benutzen."
+"Die Fluent-Referenz in {sequence} könnte zu einem HTML-Tag erweitert werden. "
+"Vielleicht sollten Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
@@ -4807,10 +4778,7 @@ msgstr ""
 "expandiert werden. Vielleicht sollten Sie {suggestion} benutzen."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -15254,19 +15222,19 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
-"Das exportierte Repository von Weblate kann standardmäßig flach sein, daher "
+"Das exportierte Weblate-Repository kann standardmäßig flach sein, daher "
 "funktioniert dieser Ablauf am besten mit einem aktuellen Upstream-Checkout. "
 "Das Klonen aus dem exportierten Weblate-Repository oder das Verwenden eines "
 "veralteten Upstream-Checkouts kann fehlschlagen, selbst wenn Weblate und "
-"Upstream synchronisiert sind. Weitere Informationen finden Sie in den FAQ "
-"unten."
+"Upstream synchronisiert sind. Weitere Informationen finden Sie in den unten "
+"stehenden FAQ."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
-"Öffnen Sie einen bestehenden Checkout des Upstream-Repositorys oder führen "
-"Sie einen neuen Checkout durch."
+"Einen bestehenden Checkout des Upstream-Repositorys öffnen oder einen neuen "
+"durchführen."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid ""
@@ -15285,8 +15253,7 @@ msgstr "Weblate-Änderungen zusammenführen und Konflikte beheben."
 
 #: weblate/templates/trans/merge_instructions.html:30
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr ""
-"Die Weblate-Änderungen auf Upstream umbasieren und alle Konflikte beheben."
+msgstr "Weblate-Änderungen auf Upstream umbasieren und alle Konflikte beheben."
 
 #: weblate/templates/trans/merge_instructions.html:36
 msgid "Push changes into upstream repository."
@@ -15296,8 +15263,8 @@ msgstr "Änderungen in das Upstream-Repository pushen."
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
 msgstr ""
-"Weblate sollte nun in der Lage sein, das aktualisierte Repository zu sehen "
-"und Sie können es entsperren."
+"Weblate sollte nun das aktualisierte Repository erkennen und es kann "
+"entsperrt werden."
 
 #: weblate/templates/trans/merge_instructions.html:50
 msgid "Check the FAQ for info on how to resolve this."
