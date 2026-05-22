@@ -503,9 +503,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assertEqual(params.count(end_2026), 2)
 
     def test_changed_query_complexity_limit(self) -> None:
-        query = " AND ".join(
-            "(changed_by:nijel OR changed_by:none)" for _ in range(13)
-        )
+        query = " AND ".join("(changed_by:nijel OR changed_by:none)" for _ in range(13))
         with self.assertRaises(SearchQueryError):
             parse_query(query)
 
