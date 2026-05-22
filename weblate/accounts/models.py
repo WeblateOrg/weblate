@@ -34,6 +34,7 @@ from django.utils.translation import (
     gettext_lazy,
     pgettext_lazy,
 )
+from django_stubs_ext import StrOrPromise
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
@@ -460,7 +461,7 @@ NOTIFY_ACTIVITY = {
 
 
 # Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
-USER_AGENT_DEVICE_TYPES: dict[str, str] = {
+USER_AGENT_DEVICE_TYPES: dict[str, StrOrPromise] = {
     # Translators: User agent device type
     "PC": pgettext_lazy("User agent device type", "PC"),
     # Translators: User agent device type

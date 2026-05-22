@@ -46,7 +46,7 @@ class AuditLogTestCase(SimpleTestCase):
         audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
         self.assertEqual(audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0")
 
-    def test_user_agent_display_calls_gettext_for_first_part_only(self) -> None:
+    def test_user_agent_display_localizes_first_part_via_mapping(self) -> None:
         with mock.patch.dict(
             "weblate.accounts.models.USER_AGENT_DEVICE_TYPES",
             {"PC": "Translated PC"},
