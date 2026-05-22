@@ -27,6 +27,7 @@ Weblate 2026.6
 * Engage page task links now stay centered and show the target translation language.
 * Gettext POT update add-ons now rescan translations after committing updated POT and PO files.
 * Git repositories now update branches correctly when the remote also has a tag with the same name.
+* Conflicting repository setup alerts now allow same-branch direct pushes.
 
 .. rubric:: Compatibility
 

@@ -5285,9 +5285,9 @@ class Component(  # noqa: PLR0904
         if config is None:
             return Component.objects.none()
 
-        push, push_branch = config
+        push, push_branch, pulls_from_push_branch = config
 
-        return (
+        conflicts = (
             Component.objects.filter(
                 push=push,
                 vcs__in=VCS_REGISTRY.git_based,
@@ -5297,10 +5297,15 @@ class Component(  # noqa: PLR0904
             .exclude(vcs="local")
             .filter(Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch))
         )
+        if pulls_from_push_branch:
+            conflicts = conflicts.exclude(
+                Q(push_branch="") | Q(push_branch=F("branch"))
+            )
+        return conflicts
 
     def get_conflicting_repository_setup_config(
         self, old_settings: OldComponentSettings | None = None
-    ) -> tuple[str, str] | None:
+    ) -> tuple[str, str, bool] | None:
         if old_settings is None:
             push = self.push
             push_branch = self.push_branch
@@ -5324,11 +5329,11 @@ class Component(  # noqa: PLR0904
         push_branch = push_branch or branch
         if not push_branch:
             return None
-        return (push, push_branch)
+        return (push, push_branch, push_branch == branch)
 
     def get_conflicting_repository_setup_configs(
         self,
-    ) -> set[tuple[str, str]]:
+    ) -> set[tuple[str, str, bool]]:
         return {
             config
             for config in (
@@ -5349,13 +5354,13 @@ class Component(  # noqa: PLR0904
         )
 
     def cleanup_conflicting_repository_setup_alerts(
-        self, cleanup_configs: set[tuple[str, str]] | None = None
+        self, cleanup_configs: set[tuple[str, str, bool]] | None = None
     ) -> None:
         if cleanup_configs is None:
             cleanup_configs = self.get_conflicting_repository_setup_configs()
 
-        for push, push_branch in cleanup_configs:
-            matching = (
+        for push, push_branch, _pulls_from_push_branch in cleanup_configs:
+            matching = list(
                 Component.objects.filter(
                     push=push,
                     vcs__in=VCS_REGISTRY.git_based,
@@ -5366,10 +5371,22 @@ class Component(  # noqa: PLR0904
                 .filter(
                     Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch)
                 )
+                .values_list("id", "push_branch", "branch")
             )
-            if matching.count() == 1:
+            component_ids = [component_id for component_id, _, _ in matching]
+            unsafe_count = sum(
+                1
+                for _, component_push_branch, component_branch in matching
+                if component_push_branch and component_push_branch != component_branch
+            )
+            if unsafe_count == 0 or len(matching) == 1:
+                stale_component_ids = component_ids
+            else:
+                stale_component_ids = []
+            if stale_component_ids:
                 Alert.objects.filter(
-                    name="ConflictingRepositorySetup", component__in=matching
+                    name="ConflictingRepositorySetup",
+                    component_id__in=stale_component_ids,
                 ).delete()
 
     @cached_property
