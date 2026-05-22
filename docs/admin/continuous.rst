@@ -268,11 +268,26 @@ conflicts can appear when using :ref:`addon-weblate.git.squash` add-on,
 :ref:`component-merge_style` is configured to :guilabel:`Rebase`, or you are
 squashing commits outside of Weblate (for example, when merging a pull request).
 
-The reason for merge conflicts is different in this case - there are changes in
-Weblate which happened after you merged Weblate commits. This typically happens
-if merging is not automated and waits for days or weeks for a human to review
-them. Git is then sometimes no longer able to identify upstream changes as
+The reason for merge conflicts is different in this case. Weblate can have new
+local commits after you merge earlier Weblate commits upstream. This typically
+happens if merging is not automated and changes wait for days or weeks for a
+human review. Git is then sometimes no longer able to identify upstream changes as
 matching the Weblate ones and refuses to perform a rebase.
+
+Squash merging Weblate changes makes this harder to recover from. A squash
+merge creates a new commit instead of preserving the individual Weblate commits
+in the upstream history. Weblate still has the original commits in its local
+repository, and Git can no longer prove that upstream already contains them. If
+the conflict was also resolved manually, the file contents can differ from both
+repositories, so Weblate can keep failing to update even after the pull request
+was merged upstream.
+
+If upstream no longer contains Weblate commits because they were squash merged,
+updating the repository might not be enough. Use :guilabel:`Reset and reapply`
+from :guilabel:`Repository maintenance` to reset Weblate to upstream while
+keeping pending translations; see :ref:`manage-vcs-reset-reapply`. Use
+:guilabel:`Reset and discard` only when upstream should fully replace Weblate's
+local changes.
 
 To approach this, you either need to minimize the amount of pending changes in
 Weblate when you merge a pull request, or avoid the conflicts completely by not
@@ -280,7 +295,12 @@ squashing changes.
 
 Here are few options how to avoid that:
 
-* Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge time. This is the root cause why git doesn't recognize changes after merging.
+* Do not use :ref:`addon-weblate.git.squash` or squash merging for Weblate
+  changes. Squashing is why Git might no longer recognize the changes after
+  merging.
+* When resolving conflicts outside Weblate, merge the Weblate commits with a
+  regular merge commit and push that result upstream. Do not squash merge the
+  conflict-resolution pull request.
 * Let Weblate commit pending changes before merging. This will update the pull request with all its changes, and both repositories will be in sync.
 * Use the review features in Weblate (see :doc:`/workflows`) so that you can automatically merge GitHub pull requests after CI passes.
 * Use locking in Weblate to avoid changes while GitHub pull request is in review.

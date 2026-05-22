@@ -15,6 +15,7 @@ Weblate 2026.6
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
 * :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
 * :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories.
+* :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 
 .. rubric:: Bug fixes
 
