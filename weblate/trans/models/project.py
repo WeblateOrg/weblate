@@ -41,6 +41,7 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Collection, Iterable
+    from uuid import UUID
 
     from ahocorasick_rs import AhoCorasick
 
@@ -111,7 +112,9 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
     def only(self, *fields: str) -> Self:
         only_fields = set(fields)
         # These are used in Project.__init__
-        only_fields.update(("access_control", "translation_review", "source_review"))
+        only_fields.update(
+            ("access_control", "translation_review", "source_review", "workspace")
+        )
         return super().only(*only_fields)
 
     def search(self, query: str) -> Self:
@@ -221,6 +224,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Translation instructions"),
         blank=True,
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
+    )
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        verbose_name=gettext_lazy("Workspace"),
+        on_delete=models.PROTECT,
+        related_name="projects",
+        null=True,
+        blank=True,
+        help_text=gettext_lazy(
+            "Workspace this project belongs to. Standalone projects do not need one."
+        ),
     )
 
     use_shared_tm = models.BooleanField(
@@ -333,6 +347,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     # Used when updating for object removal
     billings_to_update: list[int]
+    # Workspace loaded with this instance; used to detect workspace changes.
+    billing_original_workspace_id: UUID | None
+    # Old workspace captured by pre_save for one post_save billing recalculation.
+    billing_previous_workspace_id: UUID | None
 
     class Meta:
         app_label = "trans"
@@ -352,6 +370,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: TranslationQuerySet | None = None
         self.languages_cache: dict[str, Language] = {}
+        self.billing_original_workspace_id = self.workspace_id
 
     def save(self, *args, **kwargs) -> None:
         from weblate.trans.tasks import component_alerts  # noqa: PLC0415
@@ -406,6 +425,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # Update translation memory on enabled sharing
         if update_tm:
             import_memory.delay_on_commit(self.id)
+        self.billing_original_workspace_id = self.workspace_id
 
     def _clear_translation_instructions_guidance_alert(self) -> None:
         if (
@@ -670,9 +690,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def billings(self) -> list[Billing] | QuerySet[Billing]:
-        if "weblate.billing" not in settings.INSTALLED_APPS:
+        if "weblate.billing" not in settings.INSTALLED_APPS or not self.workspace_id:
             return []
-        return self.billing_set.all()
+        from weblate.billing.models import Billing  # noqa: PLC0415
+
+        objects = Billing.objects
+        if self._state.db is not None:
+            objects = objects.db_manager(self._state.db)
+        return objects.filter(workspace_id=self.workspace_id)
 
     @property
     def billing(self) -> Billing:
@@ -692,7 +717,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def post_create(self, user: User, billing: Billing | None = None) -> None:
         if billing:
-            billing.projects.add(self)
+            billing.add_project(self)
             if billing.plan.change_access_control:
                 self.access_control = Project.ACCESS_PRIVATE
             else:

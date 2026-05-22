@@ -69,11 +69,11 @@ class BillingAdmin(WeblateModelAdmin):
         "last_invoice",
     )
     list_filter = ("plan", "state", "paid", "in_limits")
-    search_fields = ("projects__name", "owners__email", "customer_name")
-    autocomplete_fields = ("projects", "owners")
+    search_fields = ("workspace__projects__name", "owners__email", "customer_name")
+    autocomplete_fields = ("owners",)
 
     def get_queryset(self, request: AuthenticatedHttpRequest):
-        return super().get_queryset(request).prefetch_related("projects", "owners")
+        return super().get_queryset(request).prefetch()
 
     @admin.display(description=gettext_lazy("Projects"))
     def list_projects(self, obj):
@@ -97,7 +97,7 @@ class BillingAdmin(WeblateModelAdmin):
         super().save_related(request, form, formsets, change)
         obj = form.instance
         # Add owners as admin if there is none
-        for project in obj.projects.all():
+        for project in obj.get_projects_queryset():
             group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
                 for user in obj.owners.all():
@@ -113,10 +113,10 @@ class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")
     list_filter = (
         "currency",
-        ("billing__projects", RelatedOnlyFieldListFilter),
+        ("billing__workspace__projects", RelatedOnlyFieldListFilter),
         ("billing__owners", RelatedOnlyFieldListFilter),
     )
-    search_fields = ("billing__projects__name", "ref", "note")
+    search_fields = ("billing__workspace__projects__name", "ref", "note")
     date_hierarchy = "end"
     ordering = ("billing", "-start")
     autocomplete_fields = ("billing",)

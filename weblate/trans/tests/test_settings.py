@@ -99,7 +99,7 @@ class SettingsTest(ViewTestCase):
 
         # Allow editing by creating billing plan
         billing = create_test_billing(self.user)
-        billing.projects.add(self.project)
+        billing.add_project(self.project)
 
         # Editing should now work, but components do not have a license
         response = self.client.post(url, data)

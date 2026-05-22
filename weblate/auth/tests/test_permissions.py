@@ -139,7 +139,7 @@ class PermissionsTest(FixtureComponentTestCase):
 
         project = Project.objects.get(pk=self.project.pk)
         billing = create_test_billing(self.admin)
-        billing.projects.add(project)
+        billing.add_project(project)
 
         # The default plan allows
         self.assertTrue(self.superuser.has_perm("billing:project.permissions", project))

@@ -129,6 +129,14 @@ if [ "$billing_users_migrate" -eq 0 ]; then
     check
 fi
 
+# Add billing projects for workspace migration test
+semver_compare "$1" "<" "2026.6"
+workspace_migrate=$?
+if [ "$workspace_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-workspaces.py"
+    check
+fi
+
 # Add dos-eol flag to project, component, translation and unit
 semver_compare "5.11" "<=" "$1" && semver_compare "$1" "<" "5.17.1"
 dos_eol_migrate=$?
@@ -206,6 +214,12 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+fi
+
+if [ "$workspace_migrate" -eq 0 ]; then
+    # Verify that billing projects have been migrated to workspaces
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-workspaces.py"
+    check
 fi
 
 if [ "$dos_eol_migrate" -eq 0 ]; then
