@@ -34,7 +34,6 @@ from django.utils.translation import (
     gettext_lazy,
     pgettext_lazy,
 )
-from django_stubs_ext import StrOrPromise
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
@@ -83,6 +82,7 @@ if TYPE_CHECKING:
 
     from django.http.request import HttpRequest
     from django_otp.models import Device
+    from django_stubs_ext import StrOrPromise
 
     from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
