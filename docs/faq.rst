@@ -52,6 +52,14 @@ actions.
 
 .. note::
 
+   If you resolve the conflict in a pull request, merge it with a regular merge
+   commit. Do not squash merge it. Squash merging creates a new commit instead
+   of preserving the Weblate commits, so Weblate might not recognize that its
+   local commits are already included upstream and might need a repository
+   reset to recover.
+
+.. note::
+
    Weblate uses shallow clones by default to reduce cloning time and disk
    usage. Because of this, the workflow below works best when you start from an
    up-to-date checkout of the upstream repository. If you clone directly from
