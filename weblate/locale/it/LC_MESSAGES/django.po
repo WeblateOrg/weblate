@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-09 00:13+0000\n"
+"PO-Revision-Date: 2026-05-23 13:42+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:89
@@ -199,6 +199,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Lasciare attiva l'opzione per rimuovere l'attuale chiave API e crearne una "
+"nuova. È consigliato di farlo se si sospetta che la propria password sia "
+"stata compromessa. Disabilitarla per mantenere l'attuale chiave API attiva "
+"dopo aver modificato la password."
 
 #: weblate/accounts/forms.py:781
 msgid "Your password has been changed."
@@ -6353,10 +6357,8 @@ msgid "No language limit"
 msgstr "Limite lingue"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Repeated language code"
 msgid "Enter a valid language code."
-msgstr "Codice lingua ripetuto"
+msgstr "Inserisci un codice lingua valido."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -11761,10 +11763,8 @@ msgstr ""
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "L'account verrà disabilitato dopo la scadenza."
+msgstr "I pagamenti ricorrenti saranno disabilitati per i progetti non nattivi"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -12186,10 +12186,8 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s è stata completata"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Filtro qualità traduzione"
+msgstr "Attività di traduzione nel periodo:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 #, fuzzy
@@ -15208,10 +15206,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "Non disponibile"
+msgstr "Non ci sono team disponibili."
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -17087,9 +17083,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Le stringhe sono generalmente identificate con lo stato \"Necessita di "
-"modifiche\" a seguito dell'aggiornamento del testo originale o di una "
-"segnalazione manuale."
+"Le stringhe vengono etichettate come \"Necessita di modifiche\" quando il "
+"testo sorgente viene aggiornato o quando viene contrassegnato manualmente."
 
 #: weblate/trans/forms.py:521
 msgid "Review state"
@@ -18702,10 +18697,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -18713,11 +18705,13 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Reimposta il repository di Weblate in modo che corrisponda a quello upstream "
-"e ignora tutte le modifiche in sospeso in Weblate."
+"La sincronizzazione del file non ha potuto ricreare %(files)s prima di "
+"confermare la traduzione in sospeso. La modifica in sospeso è stata "
+"mantenuta."
 msgstr[1] ""
-"Reimposta il repository di Weblate in modo che corrisponda a quello upstream "
-"e ignora tutte le modifiche in sospeso in Weblate."
+"La sincronizzazione dei file non ha potuto ricreare questi file prima di "
+"confermare le traduzioni in sospeso: %(files)s. Le modifiche in sospeso sono "
+"state mantenute."
 
 #: weblate/trans/models/component.py:2769
 #, fuzzy
@@ -19399,10 +19393,8 @@ msgstr ""
 "disponibile."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Progetti senza componenti"
+msgstr "Importazione del backup del progetto completata."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -20636,10 +20628,10 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Impossibile valutare formula plurale: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Impossibile valutare formula plurale: {}"
+msgstr ""
+"Impossibile valutare la formula plurale per il conteggio {count}: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
