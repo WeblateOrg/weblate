@@ -46,18 +46,19 @@ class Command(BaseCommand):
             langmap = dict(z.split(":", 1) for z in options["language_map"].split(","))
 
         try:
-            with options["file"].open("rb") as handle:
-                try:
-                    Memory.objects.import_file(
-                        request=None,
-                        fileobj=handle,
-                        langmap=langmap,
-                        source_language=options["source_language"],
-                        target_language=options["target_language"],
-                    )
-                except MemoryImportError as error:
-                    msg = f"Import failed: {error}"
-                    raise CommandError(msg) from error
+            handle = options["file"].open("rb")
         except OSError as error:
             msg = f"Could not open file: {error}"
             raise CommandError(msg) from error
+        with handle:
+            try:
+                Memory.objects.import_file(
+                    request=None,
+                    fileobj=handle,
+                    langmap=langmap,
+                    source_language=options["source_language"],
+                    target_language=options["target_language"],
+                )
+            except MemoryImportError as error:
+                msg = f"Import failed: {error}"
+                raise CommandError(msg) from error

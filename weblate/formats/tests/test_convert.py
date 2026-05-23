@@ -66,50 +66,43 @@ class ConvertFormatTest(BaseFormatTest):
             self.skipTest(
                 f"Test template not provided for {self.format_class.format_id}"
             )
-        translation = template = None
-        try:
-            # Generate test files
-            with NamedTemporaryFile(
-                encoding="utf-8", delete=False, mode="w+"
-            ) as template:
-                template.write(self.CONVERT_TEMPLATE)
-            with NamedTemporaryFile(
-                encoding="utf-8", delete=False, mode="w+"
-            ) as translation:
-                translation.write(self.CONVERT_TRANSLATION)
+        # Generate test files
+        with NamedTemporaryFile(encoding="utf-8", delete=False, mode="w+") as template:
+            template.write(self.CONVERT_TEMPLATE)
+        self.addCleanup(os.unlink, template.name)
+        with NamedTemporaryFile(
+            encoding="utf-8", delete=False, mode="w+"
+        ) as translation:
+            translation.write(self.CONVERT_TRANSLATION)
+        self.addCleanup(os.unlink, translation.name)
 
-            # Parse
-            storage = self.format_class(
-                translation.name,
-                template_store=self.format_class(template.name, is_template=True),
-                existing_units=self.CONVERT_EXISTING,  # type: ignore[arg-type]
-            )
+        # Parse
+        storage = self.format_class(
+            translation.name,
+            template_store=self.format_class(template.name, is_template=True),
+            existing_units=self.CONVERT_EXISTING,  # type: ignore[arg-type]
+        )
 
-            # Ensure it is parsed correctly
-            self.assertEqual(len(storage.content_units), 2)
-            unit1, unit2 = storage.content_units
-            self.assertEqual(unit1.source, "Hello")
-            self.assertEqual(unit1.target, "Ahoj")
-            self.assertEqual(unit2.source, "Bye")
-            self.assertEqual(unit2.target, "")
+        # Ensure it is parsed correctly
+        self.assertEqual(len(storage.content_units), 2)
+        unit1, unit2 = storage.content_units
+        self.assertEqual(unit1.source, "Hello")
+        self.assertEqual(unit1.target, "Ahoj")
+        self.assertEqual(unit2.source, "Bye")
+        self.assertEqual(unit2.target, "")
 
-            # Translation
-            unit2.set_target("Nazdar")
-            unit2.set_state(STATE_TRANSLATED)
+        # Translation
+        unit2.set_target("Nazdar")
+        unit2.set_state(STATE_TRANSLATED)
 
-            # Save
-            storage.save()
+        # Save
+        storage.save()
 
-            # Check translation
-            self.assertEqual(
-                Path(translation.name).read_text(encoding="utf-8"),
-                self.CONVERT_EXPECTED,
-            )
-        finally:
-            if template:
-                os.unlink(template.name)
-            if translation:
-                os.unlink(translation.name)
+        # Check translation
+        self.assertEqual(
+            Path(translation.name).read_text(encoding="utf-8"),
+            self.CONVERT_EXPECTED,
+        )
 
 
 class HTMLFormatTest(ConvertFormatTest):

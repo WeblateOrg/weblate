@@ -69,19 +69,22 @@ class BaseMachineryForm(forms.Form):
             )
         return ValidationError(message)
 
+    def validate_configuration(self) -> None:
+        configuration = self.serialize_form()
+        for field, data in self.fields.items():
+            if not data.required:
+                continue
+            if field not in configuration:
+                return
+        self.validate_endpoint_fields(configuration)
+        if not self.allow_private_targets:
+            configuration = {**configuration, "_project": True}
+        machinery = self.machinery(configuration)
+        machinery.validate_settings()
+
     def clean(self) -> None:
         try:
-            configuration = self.serialize_form()
-            for field, data in self.fields.items():
-                if not data.required:
-                    continue
-                if field not in configuration:
-                    return
-            self.validate_endpoint_fields(configuration)
-            if not self.allow_private_targets:
-                configuration = {**configuration, "_project": True}
-            machinery = self.machinery(configuration)
-            machinery.validate_settings()
+            self.validate_configuration()
         except ValidationError as error:
             if not self.allow_private_targets and self.is_private_target_error(error):
                 raise self.get_private_target_error() from error

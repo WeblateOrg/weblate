@@ -89,32 +89,6 @@ def extract_tar_file(source: tarfile.TarFile, member: tarfile.TarInfo) -> IO[byt
     return source_file
 
 
-def normalize_sdist(path: Path, source_date_epoch: int) -> None:
-    temporary = temporary_path(path)
-    try:
-        with (
-            tarfile.open(path, "r:gz") as source,
-            temporary.open("wb") as raw,
-            gzip.GzipFile(
-                filename="", mode="wb", fileobj=raw, mtime=source_date_epoch
-            ) as gzip_file,
-            tarfile.open(
-                mode="w", fileobj=gzip_file, format=tarfile.PAX_FORMAT
-            ) as target,
-        ):
-            for member in source.getmembers():
-                normalized = normalize_tar_member(member, source_date_epoch)
-                if member.isfile():
-                    with extract_tar_file(source, member) as source_file:
-                        target.addfile(normalized, source_file)
-                else:
-                    target.addfile(normalized)
-        replace_archive(path, temporary)
-    except Exception:
-        temporary.unlink(missing_ok=True)
-        raise
-
-
 def normalized_zip_mode(info: zipfile.ZipInfo) -> int:
     mode = info.external_attr >> 16
     if info.is_dir():
@@ -124,6 +98,34 @@ def normalized_zip_mode(info: zipfile.ZipInfo) -> int:
             return stat.S_IFREG | 0o755
         return stat.S_IFREG | 0o644
     return mode
+
+
+def write_normalized_sdist(path: Path, temporary: Path, source_date_epoch: int) -> None:
+    with (
+        tarfile.open(path, "r:gz") as source,
+        temporary.open("wb") as raw,
+        gzip.GzipFile(
+            filename="", mode="wb", fileobj=raw, mtime=source_date_epoch
+        ) as gzip_file,
+        tarfile.open(mode="w", fileobj=gzip_file, format=tarfile.PAX_FORMAT) as target,
+    ):
+        for member in source.getmembers():
+            normalized = normalize_tar_member(member, source_date_epoch)
+            if member.isfile():
+                with extract_tar_file(source, member) as source_file:
+                    target.addfile(normalized, source_file)
+            else:
+                target.addfile(normalized)
+
+
+def normalize_sdist(path: Path, source_date_epoch: int) -> None:
+    temporary = temporary_path(path)
+    try:
+        write_normalized_sdist(path, temporary, source_date_epoch)
+        replace_archive(path, temporary)
+    except Exception:
+        temporary.unlink(missing_ok=True)
+        raise
 
 
 def normalize_zip_info(info: zipfile.ZipInfo) -> zipfile.ZipInfo:
@@ -145,21 +147,25 @@ def normalize_zip_info(info: zipfile.ZipInfo) -> zipfile.ZipInfo:
     return result
 
 
+def write_normalized_wheel(path: Path, temporary: Path) -> None:
+    with (
+        zipfile.ZipFile(path) as source,
+        zipfile.ZipFile(temporary, "w", allowZip64=True) as target,
+    ):
+        target.comment = source.comment
+        for info in source.infolist():
+            normalized = normalize_zip_info(info)
+            if info.is_dir():
+                target.writestr(normalized, b"")
+            else:
+                with source.open(info) as source_file:
+                    target.writestr(normalized, source_file.read())
+
+
 def normalize_wheel(path: Path) -> None:
     temporary = temporary_path(path)
     try:
-        with (
-            zipfile.ZipFile(path) as source,
-            zipfile.ZipFile(temporary, "w", allowZip64=True) as target,
-        ):
-            target.comment = source.comment
-            for info in source.infolist():
-                normalized = normalize_zip_info(info)
-                if info.is_dir():
-                    target.writestr(normalized, b"")
-                else:
-                    with source.open(info) as source_file:
-                        target.writestr(normalized, source_file.read())
+        write_normalized_wheel(path, temporary)
         replace_archive(path, temporary)
     except Exception:
         temporary.unlink(missing_ok=True)

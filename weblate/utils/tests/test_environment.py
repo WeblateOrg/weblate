@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from contextlib import contextmanager
 from pathlib import Path
 
 from django.conf import settings
@@ -27,6 +28,15 @@ from weblate.utils.environment import (
 )
 from weblate.utils.files import remove_tree
 from weblate.utils.unittest import tempdir_setting
+
+
+@contextmanager
+def cleaned_environment(cleanup):
+    cleanup()
+    try:
+        yield
+    finally:
+        cleanup()
 
 
 class EnvTest(SimpleTestCase):
@@ -287,8 +297,7 @@ class EnvTest(SimpleTestCase):
             for name in toremove:
                 del os.environ[name]
 
-        cleanup()
-        try:
+        with cleaned_environment(cleanup):
             self.assertEqual(get_env_redis_url(), "redis://cache:6379/1")
 
             os.environ["REDIS_TLS"] = "1"
@@ -321,8 +330,6 @@ class EnvTest(SimpleTestCase):
             os.environ["REDIS_HOST"] = ""
             with self.assertRaises(ImproperlyConfigured):
                 get_env_redis_url()
-        finally:
-            cleanup()
 
     def test_saml(self) -> None:
         def cleanup() -> None:
@@ -330,8 +337,7 @@ class EnvTest(SimpleTestCase):
             for name in toremove:
                 del os.environ[name]
 
-        cleanup()
-        try:
+        with cleaned_environment(cleanup):
             self.assertIsNone(get_saml_idp())
             os.environ["WEBLATE_SAML_IDP_ENTITY_ID"] = "https://example.com/entity"
             self.assertEqual(
@@ -370,8 +376,6 @@ class EnvTest(SimpleTestCase):
                     "attr_full_name": "fullname",
                 },
             )
-        finally:
-            cleanup()
 
     def test_email_config(self) -> None:
         def cleanup() -> None:
@@ -381,8 +385,7 @@ class EnvTest(SimpleTestCase):
             for name in toremove:
                 del os.environ[name]
 
-        cleanup()
-        try:
+        with cleaned_environment(cleanup):
             self.assertEqual(get_email_config(), (25, True, False))
 
             # Test SSL/TLS autoconfig for common ports
@@ -414,5 +417,3 @@ class EnvTest(SimpleTestCase):
             os.environ["WEBLATE_EMAIL_USE_SSL"] = "0"
             os.environ["WEBLATE_EMAIL_USE_TLS"] = "1"
             self.assertEqual(get_email_config(), (587, True, False))
-        finally:
-            cleanup()

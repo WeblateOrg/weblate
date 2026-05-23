@@ -31,17 +31,15 @@ class CommandTest(TestCase, TempDirMixin):
         user.profile.save()
         user.profile.watched.add(Project.objects.create(name="name", slug="name"))
 
-        try:
-            self.create_temp()
-            output = os.path.join(self.tempdir, "users.json")
-            call_command("dumpuserdata", output)
+        self.create_temp()
+        self.addCleanup(self.remove_temp)
+        output = os.path.join(self.tempdir, "users.json")
+        call_command("dumpuserdata", output)
 
-            user.profile.languages.clear()
-            user.profile.secondary_languages.clear()
+        user.profile.languages.clear()
+        user.profile.secondary_languages.clear()
 
-            call_command("importuserdata", output)
-        finally:
-            self.remove_temp()
+        call_command("importuserdata", output)
 
         profile = Profile.objects.get(user__username="testuser")
         self.assertEqual(profile.translated, 2000)

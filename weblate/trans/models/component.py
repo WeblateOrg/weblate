@@ -2046,21 +2046,25 @@ class Component(  # noqa: PLR0904
         )
 
     @perform_on_link
+    def update_remote_repository(self) -> str | None:
+        with self.repository.lock:
+            start = time.monotonic()
+            try:
+                previous_revision = self.repository.last_remote_revision
+            except RepositoryError:
+                previous_revision = None
+            self.repository.update_remote()
+            timediff = time.monotonic() - start
+            self.log_info("update took %.2f seconds", timediff)
+            return previous_revision
+
+    @perform_on_link
     def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
         """Pull from remote repository."""
         # Update
         self.log_info("updating repository")
         try:
-            with self.repository.lock:
-                start = time.monotonic()
-                try:
-                    previous_revision = self.repository.last_remote_revision
-                except RepositoryError:
-                    # Repository not yet configured
-                    previous_revision = None
-                self.repository.update_remote()
-                timediff = time.monotonic() - start
-                self.log_info("update took %.2f seconds", timediff)
+            previous_revision = self.update_remote_repository()
         except RepositoryError as error:
             report_error(
                 "Could not update the repository",
@@ -2394,6 +2398,67 @@ class Component(  # noqa: PLR0904
 
         return True
 
+    def reset_repository_to_remote(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        user: User | None,
+        *,
+        keep_changes: bool,
+    ) -> str | None:
+        with self.track_local_head_change() as head_change:
+            repo_unit_filter = Q(translation__component=self) | Q(
+                translation__component__linked_component=self
+            )
+            previous_head = head_change.previous_head or "N/A"
+            # First check we're up to date
+            self.update_remote_branch()
+
+            if keep_changes:
+                # Mark all strings as pending when keeping changes
+                self.do_file_sync(request, do_commit=False, store_disk_state=False)
+            else:
+                # Explicitly remove all pending changes
+                PendingUnitChange.objects.filter(
+                    Q(unit__translation__component=self)
+                    | Q(unit__translation__component__linked_component=self)
+                ).delete()
+            # Remove disk state as we are going to change that
+            Unit.objects.filter(repo_unit_filter).clear_disk_state()
+
+            # Do actual reset
+            self.log_info("resetting to remote repo")
+            self.repository.reset()
+            new_head = head_change.refresh_new_head()
+
+            self.change_set.create(
+                action=ActionEvents.RESET,
+                user=user,
+                details={
+                    "new_head": new_head,
+                    "previous_head": previous_head,
+                },
+            )
+            self.delete_alert("MergeFailure")
+            self.delete_alert("RepositoryOutdated")
+            self.delete_alert("PushFailure")
+
+            if keep_changes and not self.restore_pending_translation_files(
+                request=request, user=user
+            ):
+                return None
+
+            if not keep_changes:
+                self.trigger_post_update(
+                    previous_head=previous_head,
+                    skip_push=False,
+                    user=user,
+                )
+
+                # create translation objects for all files
+                self.create_translations(request=request, force=True)
+
+            return previous_head
+
     @perform_on_link
     def do_reset(
         self,
@@ -2406,57 +2471,9 @@ class Component(  # noqa: PLR0904
 
         user = request.user if request else self.acting_user
         try:
-            with self.track_local_head_change() as head_change:
-                repo_unit_filter = Q(translation__component=self) | Q(
-                    translation__component__linked_component=self
-                )
-                previous_head = head_change.previous_head or "N/A"
-                # First check we're up to date
-                self.update_remote_branch()
-
-                if keep_changes:
-                    # Mark all strings as pending when keeping changes
-                    self.do_file_sync(request, do_commit=False, store_disk_state=False)
-                else:
-                    # Explicitly remove all pending changes
-                    PendingUnitChange.objects.filter(
-                        Q(unit__translation__component=self)
-                        | Q(unit__translation__component__linked_component=self)
-                    ).delete()
-                # Remove disk state as we are going to change that
-                Unit.objects.filter(repo_unit_filter).clear_disk_state()
-
-                # Do actual reset
-                self.log_info("resetting to remote repo")
-                self.repository.reset()
-                new_head = head_change.refresh_new_head()
-
-                self.change_set.create(
-                    action=ActionEvents.RESET,
-                    user=user,
-                    details={
-                        "new_head": new_head,
-                        "previous_head": previous_head,
-                    },
-                )
-                self.delete_alert("MergeFailure")
-                self.delete_alert("RepositoryOutdated")
-                self.delete_alert("PushFailure")
-
-                if keep_changes and not self.restore_pending_translation_files(
-                    request=request, user=user
-                ):
-                    return False
-
-                if not keep_changes:
-                    self.trigger_post_update(
-                        previous_head=previous_head,
-                        skip_push=False,
-                        user=user,
-                    )
-
-                    # create translation objects for all files
-                    self.create_translations(request=request, force=True)
+            previous_head = self.reset_repository_to_remote(
+                request, user, keep_changes=keep_changes
+            )
         except RepositoryError:
             report_error(
                 "Could not reset the repository",
@@ -2467,6 +2484,9 @@ class Component(  # noqa: PLR0904
                 request,
                 gettext("Could not reset to remote branch on %s.") % self,
             )
+            return False
+
+        if previous_head is None:
             return False
 
         if keep_changes:
@@ -3195,15 +3215,25 @@ class Component(  # noqa: PLR0904
     @perform_on_link
     @contextmanager
     def track_local_head_change(self) -> Generator[LocalHeadChange]:
-        """Track local HEAD changes and persist them on successful exit."""
+        """Track local HEAD changes and persist them on exit."""
         head_change = LocalHeadChange(component=self)
         with self.repository.lock:
             head_change.previous_head = self.try_get_local_head_revision()
-            yield head_change
-            if head_change.new_head is None:
-                head_change.refresh_new_head()
-            if self.id and head_change.needs_local_revision_sync:
-                self.store_local_revision()
+            raised = False
+            try:
+                yield head_change
+            except BaseException:
+                raised = True
+                raise
+            finally:
+                try:
+                    if head_change.new_head is None:
+                        head_change.refresh_new_head()
+                    if self.id and head_change.needs_local_revision_sync:
+                        self.store_local_revision()
+                except Exception:
+                    if not raised:
+                        raise
 
     @perform_on_link
     def update_branch(

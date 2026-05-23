@@ -4,6 +4,7 @@
 
 import json
 import os
+from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
@@ -38,6 +39,14 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.wladmin.tasks import backup_service
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
+
+
+@contextmanager
+def restored_environment(name: str, value: str):
+    try:
+        yield
+    finally:
+        os.environ[name] = value
 
 
 class BackupFailureService:
@@ -380,7 +389,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]
         hostsfile = data_path("ssh") / "known_hosts"
-        try:
+        with restored_environment("PATH", oldpath):
             os.environ["PATH"] = f"{get_test_file('')}:{os.environ['PATH']}"
             # Verify there is button for adding
             response = self.client.get(reverse("manage-ssh"))
@@ -453,8 +462,6 @@ class AdminTest(ViewTestCase):
             )
             self.assertContains(response, "Added host key for example.com")
             self.assertTrue(hostsfile.exists())
-        finally:
-            os.environ["PATH"] = oldpath
 
         # Check the file contains it
         self.assertIn("example.com", hostsfile.read_text())
