@@ -9,6 +9,8 @@ import shutil
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+from django.core.exceptions import ValidationError
+from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -17,6 +19,7 @@ from weblate.addons.gettext import XgettextAddon
 from weblate.screenshots.models import Screenshot
 from weblate.trans.alerts.base import AlertSeverity, BaseAlert
 from weblate.trans.alerts.community import (
+    AddonRecommendationAlert,
     ChecklistAlert,
     MissingRepositoryHook,
     MissingSafeHTMLFlag,
@@ -36,6 +39,20 @@ from weblate.trans.alerts.registry import get_alert_class, update_alerts
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import component_alerts
 from weblate.trans.tests.test_views import ViewTestCase
+
+
+class RecommendedGenerateMoAddonTest(SimpleTestCase):
+    def test_recommendation_ignores_invalid_translation_file(self) -> None:
+        component = Mock()
+        component.source_translation.id = 1
+        translation = Mock()
+        translation.get_filename.side_effect = ValidationError(
+            "Invalid symbolic link in a repository."
+        )
+        component.translation_set.exclude.return_value = [translation]
+
+        with patch.object(AddonRecommendationAlert, "is_relevant", return_value=True):
+            self.assertFalse(RecommendedGenerateMoAddon.is_relevant(component))
 
 
 class ExtractorGuidanceAlertTest(ViewTestCase):
