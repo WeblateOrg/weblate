@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-13 12:11+0000\n"
+"PO-Revision-Date: 2026-05-23 09:13+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:210
@@ -929,6 +929,15 @@ msgid ""
 "of those languages. Project-wide, component-wide and global permissions from "
 "that team are not granted for that member."
 msgstr ""
+"Individuele teamlidmaatschappen kunnen deze rechten verder beperken tot "
+"geselecteerde talen. Door de beperking voor de taal per-lid leeg te laten, "
+"wordt geen extra beperking toegepast, naast die van de taalselectie van het "
+"team. Dezelfde beperking voor de taal kan worden ingesteld bij het "
+"uitnodigen van nieuwe gebruikers voor een projectteam. Wanneer een "
+"taalbeperking per-lid is ingesteld, geeft het lidmaatschap alleen rechten "
+"die kunnen worden geëvalueerd voor een van die talen. Projectbrede, "
+"onderdeelbrede en globale rechten van dat team worden niet toegekend voor "
+"dat lid."
 
 #: admin/access.rst:442
 msgid ""
@@ -10980,6 +10989,12 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"De voorbeelden van de configuratiebestanden hieronder worden onderhouden in "
+"de Weblate-boom voor de bron, onder :file:`weblate/examples/`. Ze zijn "
+"opgenomen in brondistributies en in deze documentatie, maar Python-wheels "
+"installeren alleen runtimebestanden. Bij het installeren van Weblate vanuit "
+"PyPI, krijgen de overeenkomende brondistributie of broncheckout voor het "
+"kopiëren van deze voorbeelden."
 
 #: admin/install.rst:1295
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -12571,7 +12586,7 @@ msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:721
 msgid "Expects a comma-separated list of trusted project slugs."
-msgstr ""
+msgstr "Verwacht een kommagescheiden lijst met vertrouwde projectslugs."
 
 #: admin/install/docker.rst:727
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
@@ -12584,6 +12599,7 @@ msgstr "Configureert :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 #: admin/install/docker.rst:737 admin/install/docker.rst:753
 msgid "Expects a comma-separated list of trusted hostnames or domains."
 msgstr ""
+"Verwacht een kommagescheiden lijst met vertrouwde hostnamen of domeinen."
 
 #: admin/install/docker.rst:743
 msgid "Configures :setting:`ASSET_RESTRICT_PRIVATE`."
@@ -13093,6 +13109,8 @@ msgid ""
 "The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also "
 "large enough for uploaded backup files."
 msgstr ""
+"De waarde is in bytes. Zorg ervoor dat :envvar:`CLIENT_MAX_BODY_SIZE` ook "
+"groot genoeg is voor de geüploade back-upbestanden."
 
 #: admin/install/docker.rst:1290
 #, fuzzy
@@ -15683,6 +15701,11 @@ msgid ""
 "forms the language has, and the formula returns the zero-based index of the "
 "plural form to use for a count ``n``."
 msgstr ""
+"De formule gebruikt dezelfde syntaxis voor de expressie als het deel "
+"``plural=`` van de Gettextheader ``Plural-Forms``. De waarde ``nplurals`` "
+"stelt in hoeveel meervoudsvormen de taal heeft en de formule geeft de op nul "
+"gebaseerde index terug voor de te gebruiken meervoudsvorm voor een telling "
+"``n``."
 
 #: admin/languages.rst:185
 msgid ""
@@ -15694,6 +15717,13 @@ msgid ""
 "(``condition ? value1 : value2``). The result must be between ``0`` and "
 "``nplurals - 1``."
 msgstr ""
+"Weblate valideert de formule met de door Python verstrekte Gettextparser. De "
+"geaccepteerde syntaxis is een C-achtige expressie integer met ``n`` als de "
+"enige variabele. Die mag decimale getallen, haakjes, rekenkundige operatoren "
+"(``+``, ``-``, ``*``, ``/``, ``%``), operatoren voor vergelijkingen en "
+"gelijkheid, logische operatoren (``&&``, ``||``, ``!``) en de operator "
+"ternary (``condition ? value1 : value2``) bevatten. Het resultaat moet "
+"liggen tussen ``0`` en ``nplurals - 1``."
 
 #: admin/languages.rst:193
 #, fuzzy
@@ -17499,6 +17529,11 @@ msgid ""
 "them. Configure the web server or CDN serving :setting:`LOCALIZE_CDN_URL` as "
 "a public, read-only static file host."
 msgstr ""
+"De add-ons :ref:`addon-weblate.cdn.cdnjs` en :ref:`addon-weblate.cdn.files` "
+"schrijven bestanden naar :setting:`LOCALIZE_CDN_PATH`; Weblate serveert ze "
+"niet. Configureer de webserver of serveren van CDN "
+":setting:`LOCALIZE_CDN_URL` als een publieke, alleen-lezen statische "
+"bestandshost."
 
 #: admin/optionals.rst:229
 msgid ""
@@ -17508,6 +17543,12 @@ msgid ""
 "data, internal URLs, API examples, repository paths, translator comments, or "
 "file-format metadata that should not be exposed."
 msgstr ""
+"Behandel elk gepubliceerd CDN-bestand als publiek. De add-onspecifieke UUID "
+"in de URL is geen mechanisme voor toegangscontrole. Schakel geen add-ons "
+"voor CDN in voor onderdelen die private tekenreeksen bevatten, niet-"
+"uitgegeven productteksten, klantgegevens, interne URL's, API-voorbeelden, "
+"paden van opslagruimten, opmerkingen van vertalers, of metadata van "
+"bestandsindeling die niet zouden moeten worden weergegeven."
 
 #: admin/optionals.rst:235
 msgid ""
@@ -17518,6 +17559,13 @@ msgid ""
 "Weblate and from the application consuming the translations. Do not share "
 "authentication cookies with the CDN domain."
 msgstr ""
+"De add-on :ref:`addon-weblate.cdn.files` publiceert ruwe vertaalestanden in "
+"indelingen die worden ondersteund door Weblate. Sommige indelingen kunnen "
+"door browsers of andere clients worden geïnterpreteerd als HTML, SVG, XML, "
+"JavaScript, YAML of toepassingsspecifieke configuratie. Serveer de CDN "
+"vanuit een toegewezen domein dat losstaat van Weblate en van de toepassing "
+"die de vertalingen gebruikt. Deel geen cookies voor authenticatie met het "
+"domein van CDN."
 
 #: admin/optionals.rst:242
 #, fuzzy
@@ -17531,6 +17579,9 @@ msgid ""
 "expose Weblate repositories, backups, media, configuration, or the whole "
 "data directory."
 msgstr ""
+"Serveer alleen de map die is geconfigureerd in :setting:`LOCALIZE_CDN_PATH`; "
+"geef geen opslagruimten van Weblate, back-ups, media, configuratie of de "
+"gehele gegevensmap weer."
 
 #: admin/optionals.rst:247
 #, fuzzy
@@ -17540,11 +17591,11 @@ msgstr "Rampen herstelplan"
 
 #: admin/optionals.rst:248
 msgid "Use HTTPS and make the CDN host read-only from the web server."
-msgstr ""
+msgstr "Gebruik HTTPS en maak de CDN-host alleen-lezen vanaf de webserver."
 
 #: admin/optionals.rst:249
 msgid "Send :http:header:`X-Content-Type-Options` with ``nosniff``."
-msgstr ""
+msgstr "Verstuur :http:header:`X-Content-Type-Options` met ``nosniff``."
 
 #: admin/optionals.rst:250
 msgid ""
@@ -17552,6 +17603,9 @@ msgid ""
 "as :mimetype:`text/plain` or :mimetype:`application/octet-stream`; only "
 "serve :file:`weblate.js` as JavaScript."
 msgstr ""
+"Configureer conservatieve MIME-typen. Serveer onbekende vertaalindelingen "
+"als :mimetype:`text/plain` of :mimetype:`application/octet-stream`; serveer "
+"alleen :file:`weblate.js` als JavaScript."
 
 #: admin/optionals.rst:253
 msgid ""
@@ -17559,24 +17613,33 @@ msgid ""
 "browser, consider adding :http:header:`Content-Disposition` with "
 "``attachment``."
 msgstr ""
+"Voor indelingen van ruwe vertalingen die niet bedoeld zijn om te worden "
+"gerenderd in een browser, overweeg om :http:header:`Content-Disposition` toe "
+"te voegen met ``attachment``."
 
 #: admin/optionals.rst:256
 msgid ""
 "Configure ``Access-Control-Allow-Origin`` only for sites that need browser "
 "access to the files."
 msgstr ""
+"Configureer ``Access-Control-Allow-Origin`` alleen voor sites die "
+"browsertoegang tot de bestanden nodig hebben."
 
 #: admin/optionals.rst:258
 msgid ""
 "Set cache lifetimes that match your update expectations, and purge CDN "
 "caches when stale translations must disappear quickly."
 msgstr ""
+"Stel levensduur voor cache in die overeenkomt met de verwachting voor uw "
+"updates en purge CDN-caches als hangende vertalingen snel moeten verdwijnen."
 
 #: admin/optionals.rst:261
 msgid ""
 "The following nginx snippet serves only the configured CDN directory and "
 "applies conservative defaults for raw translation files:"
 msgstr ""
+"De volgende nginx-snipper serveert alleen de geconfigureerde map van CDN en "
+"past conservatieve standaarden toe voor ruwe vertaalbestanden:"
 
 #: admin/optionals.rst:277
 msgid "Signing Git commits with GnuPG"
@@ -21273,6 +21336,9 @@ msgid ""
 "same filters as the changes page, for example ``action``, ``user``, "
 "``exclude_user``, and ``period``."
 msgstr ""
+"Gefilterde RSS-feeds zijn beschikbaar vanaf de browser voor wijzigingen. Die "
+"accepteert dezelfde filters als de pagina voor wijzigingen, bijvoorbeeld "
+"``action``, ``user``, ``exclude_user`` en ``period``."
 
 #: api.rst:3390
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
@@ -21364,6 +21430,8 @@ msgid ""
 ":ref:`Contributor stats <stats>` now de-duplicate repeated work on the same "
 "string by default, with an option to count all changes."
 msgstr ""
+":ref:`Gebruikerstatistieken <stats>` ontdubbelt nu standaard herhaald werk "
+"aan dezelfde tekenreeks, met een optie om alle wijzigingen te tellen."
 
 #: changes.rst:19 changes.rst:73 changes/v5.rst:36 changes/v5.rst:144
 #: changes/v5.rst:213 changes/v5.rst:248 changes/v5.rst:302 changes/v5.rst:341
@@ -21393,12 +21461,17 @@ msgid ""
 "Hardened :http:post:`/api/screenshots/` access checks against private "
 "project enumeration."
 msgstr ""
+"Verharde :http:post:`/api/screenshots/` toegangscontroles tegen nummeren van "
+"private project."
 
 #: changes.rst:21
 msgid ""
 "Registration-attempt account activity e-mails now link to password reset to "
 "help users finish account setup."
 msgstr ""
+"E-mails voor de activiteiten van het account voor pogingen om te registreren "
+"koppelen nu het wachtwoordherstel om gebruikers te helpen het instellen van "
+"het account te voltooien."
 
 #: changes.rst:22
 msgid ""
@@ -21406,24 +21479,35 @@ msgid ""
 "supports ``changed_by:\"\"``, and combined change filters now apply to the "
 "same change event."
 msgstr ""
+"Zoeken naar tekenreeksen met wijzigingen aan de inhoud zonder een "
+"vastgelegde auteur ondersteunt nu ``changed_by:\"\"`` en gecombineerde "
+"wijzigingsfilters zijn nu van toepassing op dezelfde gebeurtenis voor "
+"wijzigen."
 
 #: changes.rst:23
 msgid ""
 "Gitea and Forgejo pull requests no longer reconfigure existing fork remotes "
 "to point to the source repository."
 msgstr ""
+"Pull requests voor Gitea en Forgejo reconfigureren niet langer bestaande "
+"forken op afstand om naar de bronopslagruimte te verwijzen."
 
 #: changes.rst:24
 msgid ""
 "Project and category language translation sessions now keep strings grouped "
 "by component priority and show component switch warnings reliably."
 msgstr ""
+"Sessies voor project- en categorietaalvertalingen houden tekenreeksen nu "
+"gegroepeerd op prioriteit voor het onderdeel en geven betrouwbare "
+"waarschuwingen weer bij wisselen van onderdeel."
 
 #: changes.rst:25
 msgid ""
 "Engage page task links now stay centered and show the target translation "
 "language."
 msgstr ""
+"Links voor het activeren van taken op pagina's blijven nu gecentreerd en "
+"geven de doeltaal voor de vertaling weer."
 
 #: changes.rst:28 changes.rst:89 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -21535,6 +21619,10 @@ msgid ""
 "syntax, with :ref:`file_format_params` shared with :ref:`markdown` for line "
 "wrapping, code blocks, front matter, and placeholder handling."
 msgstr ""
+"Toegevoegde ondersteuning :ref:`mdx` voor het vertalen van Markdown-tekst "
+"waarbij JSX-syntaxis wordt behouden, met :ref:`file_format_params` gedeeld "
+"met :ref:`markdown` voor regeldoorloop, codeblokken, frontmatter en "
+"afhandeling plaatsvervangers."
 
 #: changes.rst:47
 msgid ""
@@ -21542,12 +21630,18 @@ msgid ""
 "automatic suggestions, covering string context, explanations, secondary-"
 "language translations, plurals, failing checks, and placeholders."
 msgstr ""
+"Toegevoegd uitgebreide :ref:`LLM vertaalcontext <llm-translation-context>` "
+"voor automatische suggesties, behandelt inhoud van tekenreeksen, uitleg, "
+"vertalingen in tweede taal, meervouden, mislukte controles en "
+"plaatsvervangers."
 
 #: changes.rst:48
 msgid ""
 "Added a digest-only translation activity summary notification, "
 "see :ref:`notifications`."
 msgstr ""
+"Een notificatie alleen-digestoverzicht vertaalactiviteiten, bekijk "
+":ref:`notifications`."
 
 #: changes.rst:49
 msgid ""
@@ -21588,6 +21682,8 @@ msgid ""
 "The translation memory lookup API can now skip fuzzy matching with the "
 "``exact`` query parameter."
 msgstr ""
+"De opzoek-API voor het vertaalgeheugen kan nu fuzzy overeenkomsten overslaan "
+"met de queryparameter ``exact``."
 
 #: changes.rst:53
 #, fuzzy
@@ -21676,30 +21772,41 @@ msgid ""
 "Added provider-oriented code hosting documentation and Gettext-"
 "style :ref:`plural-formula` guidance."
 msgstr ""
+"Documentatie toegevoegd voor provider-georiënteerd code hosten en "
+"richtlijnen voor Gettext-stijl :ref:`plural-formula`."
 
 #: changes.rst:66
 msgid ""
 "The Python wheel no longer ships source translation catalogs, test files, or "
 "deployment example files, reducing the installed package size."
 msgstr ""
+"Python-wheel heeft niet langer catalogi voor bronvertalingen, testbestanden "
+"of voorbeeldbestanden voor ontwikkelen, wat de grootte van het "
+"geïnstalleerde pakket verkleind."
 
 #: changes.rst:67
 msgid ""
 "The engage page now highlights actionable translation task buckets for "
 "newcomers."
 msgstr ""
+"De activeringspagina accentueert nu opties voor acties voor vertalingstaken "
+"voor nieuwkomers."
 
 #: changes.rst:68
 msgid ""
 ":ref:`RSS feeds <rss>` can now use the same filters as the changes browsing "
 "page."
 msgstr ""
+":ref:`RSS feeds <rss>` kan nu dezelfde filters gebruiken als de pagina voor "
+"browsen."
 
 #: changes.rst:69
 msgid ""
 ":ref:`addon-weblate.gettext.django` now supports gettext PO files used as "
 "templates when they are excluded by the language filter."
 msgstr ""
+":ref:`addon-weblate.gettext.django` ondersteunt nu Gettext PO-bestanden die "
+"worden gebruikt als sjablonen als ze worden uitgesloten door het taalfilter."
 
 #: changes.rst:70
 msgid "Reworked :doc:`/security/threat-model` into a contract-style document."
@@ -53958,10 +54065,8 @@ msgstr ""
 "bestanden via ``https://weblate-cdn.com/``."
 
 #: snippets/addons-autogenerated.rst:120
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation files CDN"
-msgstr "Vlaggen voor vertaling"
+msgstr "Vertaalbestanden CDN"
 
 #: snippets/addons-autogenerated.rst:125 snippets/addons-autogenerated.rst:152
 #: snippets/addons-autogenerated.rst:176 snippets/addons-autogenerated.rst:202
@@ -53992,13 +54097,8 @@ msgstr ""
 "repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:128
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Publiceert vertalingen als CDN voor gebruik in javascript- en html-vertaling."
+msgstr "Publiceert vertaalbestanden in een Content Delivery Network."
 
 #: snippets/addons-autogenerated.rst:132
 msgid ""
@@ -55074,10 +55174,8 @@ msgid "Customize gettext output"
 msgstr "Gettext-uitvoer aanpassen"
 
 #: snippets/addons-autogenerated.rst:1012
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "POT-bestand bijwerken (Django)"
+msgstr "Gettext-sjabloon bijwerken (Django)"
 
 #: snippets/addons-autogenerated.rst:1018
 #: snippets/addons-autogenerated.rst:1065
@@ -55663,15 +55761,12 @@ msgid "Voting threshold"
 msgstr "Stemdrempel"
 
 #: snippets/addons-autogenerated.rst:1460
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Stemdrempel voor verwijdering. Niet van toepassing als stemmen uitgeschakeld "
-"is."
+"Stemdrempel voor verwijderen. Laat leeg om suggesties te verwijderen, "
+"ongeacht de stemmen. Dit veld heeft geen effect als stemmen uitgeschakeld is."
 
 #: snippets/addons-autogenerated.rst:1465
 msgid "Set a timeframe for removal of suggestions."
