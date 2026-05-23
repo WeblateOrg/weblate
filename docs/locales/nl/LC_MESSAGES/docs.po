@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-23 13:42+0000\n"
+"PO-Revision-Date: 2026-05-23 15:21+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -52159,12 +52159,16 @@ msgid ""
 "Submit translation content that downstream applications might consume. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Vertaalinhoud indienen die lagere toepassingen zouden kunnen consumeren. *"
+"(documented)* (source: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:460
 msgid ""
 "Control downstream application escaping, rendering, or review policy outside "
 "Weblate. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Beheer van lagere toepassing escapen, renderen of beleid voor beoordelen "
+"buiten Weblate. *(documented)* (source: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:462
 #, fuzzy
@@ -52177,10 +52181,14 @@ msgid ""
 "Run management commands, change configuration, and access backups. "
 "*(documented)* (source: :doc:`/admin/management`, :doc:`/admin/backup`)"
 msgstr ""
+"Beheeropdrachten uitvoeren, configuratie wijzigen en toegang tot back-ups. *"
+"(documented)* (source: :doc:`/admin/management`, :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:465
 msgid "Local malicious operators are trusted for this model. *(maintainer)*"
 msgstr ""
+"Lokale kwaadwillende operators worden voor dit model vertrouwd. *(maintainer)"
+"*"
 
 #: security/threat-model.rst:467
 msgid ""
@@ -52190,6 +52198,12 @@ msgid ""
 "execute commands through Weblate-controlled workflows, or exhaust bounded "
 "application resources. *(maintainer)*"
 msgstr ""
+"De gemodelleerde aanvaller probeert autorisatie te omzeilen, zonder rechten "
+"vertalingen of gegevens in de opslagruimte aan te passen, private project -"
+"of gebruikersgegevens te onthullen, synchroniseren of misbruiken van de "
+"opslagruimte, onveilige uitgaande verzoeken te activeren, opdrachten uit te "
+"voeren via door Weblate beheerde werkstromen, of bronnen die met de "
+"toepassing zijn verbonden uit te putten. *(maintainer)*"
 
 #: security/threat-model.rst:474
 #, fuzzy
@@ -52211,7 +52225,7 @@ msgstr "Configuratie"
 
 #: security/threat-model.rst:481
 msgid "Violation symptom"
-msgstr ""
+msgstr "Symptoom schending"
 
 #: security/threat-model.rst:482
 #, fuzzy
@@ -52239,28 +52253,34 @@ msgstr ""
 #: security/threat-model.rst:486
 msgid "Permission assignments match the intended trust relationship."
 msgstr ""
+"Toewijzen van rechten komt overeen met de relatie van bedoeld vertrouwen."
 
 #: security/threat-model.rst:487
 msgid "User or token can read or mutate data outside assigned scope."
 msgstr ""
+"Gebruiker of token kan gegevens lezen of muteren buiten toegewezen bereik."
 
 #: security/threat-model.rst:488
 msgid "Security-critical when private data or privileged mutation is exposed."
 msgstr ""
+"Beveiligingskritiek indien private gegevens of geprivilegieerde mutaties "
+"worden weergegeven."
 
 #: security/threat-model.rst:489
 msgid ""
 "Project-scoped API tokens are limited by assigned project/team permissions. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
+"API-tokens in het bereik project zijn beperkt door toegewezen rechten voor "
+"project/team. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:491
 msgid "Token is created and stored by a trusted actor."
-msgstr ""
+msgstr "Token is gemaakt en opgeslagen door een vertrouwde acteur."
 
 #: security/threat-model.rst:492
 msgid "Token can act outside project or team scope."
-msgstr ""
+msgstr "Token kan buiten het bereik van project of team werken."
 
 #: security/threat-model.rst:493 security/threat-model.rst:499
 #: security/threat-model.rst:504 security/threat-model.rst:510
@@ -52276,41 +52296,56 @@ msgid ""
 "proxy settings are correct. *(documented)* (source: :doc:`/admin/"
 "auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Besturingselementen voor authenticatie en sessie beschermen browsersessies "
+"als instellingen voor HTTPS en proxy correct zijn. *(documented)* (source: "
+":doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:497
 msgid "Production HTTPS and secure-cookie settings are enabled."
 msgstr ""
+"Productie-instellingen voor HTTPS en beveiligde cookie zijn ingeschakeld."
 
 #: security/threat-model.rst:498
 msgid "Session fixation, credential bypass, or cross-user session confusion."
 msgstr ""
+"Verwarring over fixeren sessie, omzeilen inloggegevens of sessie tussen "
+"gekruiste gebruikers."
 
 #: security/threat-model.rst:500
 msgid ""
 "User-supplied content rendered by Weblate is expected not to execute script "
 "in other users' browsers. *(maintainer)*"
 msgstr ""
+"Van door de gebruiker verschafte inhoud, gerenderd door Weblate, wordt "
+"verwacht dat ze geen scripts uitvoeren in browsers van andere gebruikers. *"
+"(maintainer)*"
 
 #: security/threat-model.rst:502
 msgid ""
 "Content is displayed through Weblate UI templates and standard escaping."
 msgstr ""
+"Inhoud wordt weergegeven door sjablonen van de UI van Weblate en standaard "
+"escapen."
 
 #: security/threat-model.rst:503
 msgid "Stored or reflected XSS in the Weblate origin."
-msgstr ""
+msgstr "Opgeslagen of weergegeven XSS in de oorsprong van Weblate."
 
 #: security/threat-model.rst:505
 msgid ""
 "Repository, branch, path, and VCS inputs processed by Weblate must not "
 "become shell command execution. *(maintainer)*"
 msgstr ""
+"Invoer voor opslagruimte, branch, pad en VCS, die door Weblate wordt "
+"verwerkt, moet geen shell-opdracht uitvoeren. *(maintainer)*"
 
 #: security/threat-model.rst:507
 msgid ""
 "VCS operations are invoked through Weblate-supported repository workflows "
 "and configured credentials."
 msgstr ""
+"VCS-bewerkingen worden geactiveerd met door Weblate ondersteunde werkstromen "
+"voor opslagruimte en geconfigureerde inloggegevens."
 
 #: security/threat-model.rst:509
 #, fuzzy
@@ -52328,14 +52363,20 @@ msgid ""
 "secrets are not disclosed to actors lacking permission. *(documented)* "
 "(source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`)"
 msgstr ""
+"Private projectgegevens, gebruikersgegevens, inloggegevens, tokens, SSH-"
+"sleutels en geheime 2FA worden niet onthuld aan acteurs die daar geen recht "
+"op hebben. *(documented)* (source: :doc:`/admin/access`, :doc:`/security/"
+"privacy-compliance`)"
 
 #: security/threat-model.rst:513
 msgid "Host, database, and storage permissions are intact."
-msgstr ""
+msgstr "Rechten voor host, database en opslag zijn intact."
 
 #: security/threat-model.rst:514
 msgid "Cross-project data leak, credential exposure, or unauthorized export."
 msgstr ""
+"Lek tussen projecten, weergeven van inloggegevens of niet-geautoriseerd "
+"exporteren."
 
 #: security/threat-model.rst:516
 msgid ""
@@ -52343,6 +52384,10 @@ msgid ""
 "aggregate size, and suspicious compression thresholds. *(documented)* "
 "(source: :doc:`/admin/config`, :ref:`projectbackup`)"
 msgstr ""
+"Back-up importeren weigert archieven die de gedocumenteerde upload "
+"overschrijden, lid, samengevoegde grootte en verdachte drempels voor "
+"compressie. *(documented)* (source: :doc:`/admin/config`, "
+":ref:`projectbackup`)"
 
 #: security/threat-model.rst:518
 #, fuzzy
@@ -52356,10 +52401,13 @@ msgstr ""
 msgid ""
 "Oversized or highly amplified archive is accepted past configured thresholds."
 msgstr ""
+"Overmatig of sterk vergroot archief wordt geaccepteerd buiten de "
+"geconfigureerde drempels."
 
 #: security/threat-model.rst:521
 msgid "Security-critical for single-request DoS; otherwise availability bug."
 msgstr ""
+"Beveiligingskritiek voor enkel-verzoek DoS; anders probleem beschikbaarheid."
 
 #: security/threat-model.rst:522
 msgid ""
@@ -52367,12 +52415,18 @@ msgid ""
 "public targets by default. *(documented)* "
 "(source: :setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 msgstr ""
+"Gedocumenteerde door gebruiker te configureren uitgaande URL-oppervlakken "
+"weigeren standaard interne of niet-publieke doelen. *(documented)* (source: "
+":setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 
 #: security/threat-model.rst:527
 msgid ""
 "Default private-target checks are enabled and no trusted allowlist exemption "
 "applies."
 msgstr ""
+"Standaardcontroles private-doel zijn ingeschakeld en er is geen uitzondering "
+"van toepassing van een toegestane lijst."
 
 #: security/threat-model.rst:529
 msgid ""
@@ -52380,10 +52434,14 @@ msgid ""
 "repository browser URL, outbound webhook URL, or VCS URL reaches an internal "
 "or non-public target despite default controls."
 msgstr ""
+"Een door de gebruiker te configureren URL voor schermafdrukken, URL voor "
+"HTML op afstand, projectwebsite of browserURL voor opslagruimte, uitgaande "
+"URL voor webhaak of VCS-URL bereikt een intern of niet-publiek doel, ondanks "
+"de standaardcontroles."
 
 #: security/threat-model.rst:532
 msgid "Security-critical when it exposes internal services or metadata."
-msgstr ""
+msgstr "Beveiligingskritiek als het interne services of metadata weergeeft."
 
 #: security/threat-model.rst:533
 msgid ""
@@ -52391,38 +52449,52 @@ msgid ""
 "component setting changes in audit logs or history. *(documented)* "
 "(source: :doc:`/security/privacy-compliance`, :doc:`/changes`)"
 msgstr ""
+"Weblate legt wijzigingen vast voor beveiligingsrelevante accounts, rechten "
+"en instellingen voor project of onderdeel in auditlogs of geschiedenis. *"
+"(documented)* (source: :doc:`/security/privacy-compliance`, :doc:`/changes`)"
 
 #: security/threat-model.rst:536
 msgid "Logging is configured and storage is available."
-msgstr ""
+msgstr "Loggen is geconfigureerd en opslag is beschikbaar."
 
 #: security/threat-model.rst:537
 msgid "Missing audit trail for an action Weblate claims to log."
 msgstr ""
+"Ontbrekend spoor voor audit voor een actie waarvan Weblate claimt dat het "
+"die logt."
 
 #: security/threat-model.rst:538
 msgid ""
 "Security-critical when it blocks investigation of privileged changes; "
 "correctness-only for minor event gaps."
 msgstr ""
+"Beveiligingskritiek als het onderzoek blokkeert of geprivilegieerde "
+"wijzigingen; alleen-correct voor gaten van kleinere gebeurtenissen."
 
 #: security/threat-model.rst:540
 msgid ""
 "Rate-limited API and web actions enforce configured rate limits. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 msgstr ""
+"Lading gelimiteerde API- en webacties dwingen geconfigureerde limieten voor "
+"lading af. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 
 #: security/threat-model.rst:542
 msgid "Rate limiting is enabled and backed by a working datastore."
 msgstr ""
+"Limiteren van lading is ingeschakeld en gevolgd door een werkende opslag "
+"voor gegevens."
 
 #: security/threat-model.rst:543
 msgid "Requests exceeding configured thresholds continue to be processed."
 msgstr ""
+"Verzoeken overschrijden geconfigureerde drempels om door te kunnen gaan met "
+"verwerken."
 
 #: security/threat-model.rst:544
 msgid "Availability/security hardening depending on endpoint sensitivity."
 msgstr ""
+"Beschikbaarheid/beveiliging verharden afhankelijk van gevoeligheid eindpunt."
 
 #: security/threat-model.rst:545
 msgid ""
@@ -52431,18 +52503,26 @@ msgid ""
 "VCS repositories are intentionally exposed by :ref:`git-exporter` when that "
 "optional module is enabled. *(maintainer)*"
 msgstr ""
+"Weblate geeft niet met opzet database, gegevensopslag, opslag voor back-up "
+"of ruwe interne opslag direct weer via de publieke webinterface; "
+"geëxporteerde VCS-opslagruimten worden met opzet weergegeven door :ref:`git-"
+"exporter` als die optionele module is ingeschakeld. *(maintainer)*"
 
 #: security/threat-model.rst:549
 msgid ""
 "Deployment does not serve internal storage paths as static files except for "
 "documented export features."
 msgstr ""
+"Uitrollen serveert geen interne opslagpaden als statische bestanden, behalve "
+"voor gedocumenteerde mogelijkheden voor exporteren."
 
 #: security/threat-model.rst:551
 msgid ""
 "Public request retrieves raw internal storage, configuration, or non-"
 "exported repository data."
 msgstr ""
+"Publiek verzoek haalt ruwe interne opslag op, configuratie of niet-"
+"geëxporteerde gegevens uit de opslagruimte."
 
 #: security/threat-model.rst:555
 msgid ""
@@ -52452,10 +52532,16 @@ msgid ""
 "Weblate does not claim a fixed universal resource ceiling independent of "
 "deployment capacity. *(maintainer)*"
 msgstr ""
+"Drempels voor bronnen in dit model zijn gedocumenteerde standaarden voor "
+"configuratie waar ze bestaan, speciaal limieten voor importeren van back-ups "
+"en limieten voor ladingen. Voor grootte van opslagruimte, tellen van "
+"project, tellen van onderdeel en vertaalvolume, claimt Weblate geen vast "
+"universeel plafond voor de bronnen, onafhankelijk van de capaciteit voor "
+"uitrollen. *(maintainer)*"
 
 #: security/threat-model.rst:562
 msgid "Security properties Weblate does not provide"
-msgstr ""
+msgstr "Beveiligingseigenschappen die Weblate niet verschaft"
 
 #: security/threat-model.rst:564
 msgid ""
@@ -52465,6 +52551,12 @@ msgid ""
 "that show only unauthenticated triggering within modeled effects are ``VALID-"
 "HARDENING`` rather than ``BY-DESIGN``. *(maintainer)*"
 msgstr ""
+"Weblate authenticeert niet elke aflevering van een webhaak cryptografisch "
+"voor alle ondersteunde vervalste integraties. Haakeindpunten zijn "
+"compatibiliteit-georiënteerd en uitrol-verhard, in plaats van dat ze uniform "
+"vervalst-geauthenticeerd zijn. Rapporten die alleen niet-geauthenticeerd "
+"activeren laten zien binnen gemodelleerde effecten zijn ``VALID-HARDENING``, "
+"anders dan ``BY-DESIGN``. *(maintainer)*"
 
 #: security/threat-model.rst:570
 msgid ""
@@ -52473,6 +52565,10 @@ msgid ""
 "attribution and authenticity are weaker than for an authenticated user or "
 "token. *(maintainer)*"
 msgstr ""
+"Weblate maakt geen niet-geauthenticeerd equivalent van de webhaak naar een "
+"vertrouwde vervalste identiteit. Verwerken van haken kan bijwerken van "
+"werkstromen activeren, maar attributie en authenticiteit zijn zwakker dan "
+"voor een geauthenticeerde gebruiker of token. *(maintainer)*"
 
 #: security/threat-model.rst:574
 msgid ""
@@ -52480,6 +52576,9 @@ msgid ""
 "operators, third-party add-ons, custom deployment code, VCS clients, or "
 "backup tools. *(maintainer)*"
 msgstr ""
+"Weblate is geen zandbak voor kwaadwillende beheerders, kwaadwillende "
+"operators, add-ons van derde partijen, aangepaste code voor uitrollen, VCS-"
+"cliënten of programma's voor back-ups. *(maintainer)*"
 
 #: security/threat-model.rst:578
 msgid ""
