@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-21 22:59+0000\n"
+"PO-Revision-Date: 2026-05-24 06:32+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -2247,6 +2247,8 @@ msgstr "Përshtatni emrin e përbërësit"
 #: weblate/addons/forms.py:782
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
+"Përdor sintaksë gjedhesh Django. Kjo gjedhe duhet të përfshijë {{ "
+"component }}."
 
 #: weblate/addons/forms.py:786
 msgid "Define the monolingual base filename"
@@ -2316,7 +2318,7 @@ msgstr "Ripohoj se përputhjet më sipër duken të sakta"
 #: weblate/addons/forms.py:914
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "Paracaktim elementar: %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:927
 msgid "format not preset"
@@ -2342,7 +2344,7 @@ msgstr "Një dosje për gjuhë"
 
 #: weblate/addons/forms.py:957
 msgid "Matches files like cs/application.po."
-msgstr ""
+msgstr "Kërkon për përkim me kartela të tilla si cs/application.po."
 
 #: weblate/addons/forms.py:961
 msgid "Gettext locales layout"
@@ -2351,6 +2353,8 @@ msgstr "Skemë vendoresh gettext"
 #: weblate/addons/forms.py:962
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
 msgstr ""
+"Kërkon për përkim me kartela të tilla si locale/cs/LC_MESSAGES/"
+"application.po."
 
 #: weblate/addons/forms.py:966
 msgid "Complex filenames"
@@ -2358,7 +2362,7 @@ msgstr "Emra kompleksë kartelash"
 
 #: weblate/addons/forms.py:967
 msgid "Matches files like src/locale/application.cs.po."
-msgstr ""
+msgstr "Kërkon për përkim me kartela të tilla si src/locale/application.cs.po."
 
 #: weblate/addons/forms.py:971
 msgid "Filename-based language variants"
@@ -2366,7 +2370,7 @@ msgstr "Variante gjuhësh bazuar në emër kartele"
 
 #: weblate/addons/forms.py:972
 msgid "Matches files like news_en.md."
-msgstr ""
+msgstr "Kërkon për përkim me kartela të tilla si news_en.md."
 
 #: weblate/addons/forms.py:976
 msgid "Repeated language code"
@@ -2374,7 +2378,7 @@ msgstr "Kod gjuhe i përsëritur"
 
 #: weblate/addons/forms.py:977
 msgid "Matches files like locale/cs/application/cs.po."
-msgstr ""
+msgstr "Kërkon për përkim me kartela të tilla si locale/cs/application/cs.po."
 
 #: weblate/addons/forms.py:981
 msgid "Split Android strings"
@@ -2383,6 +2387,7 @@ msgstr "Nda vargje Android"
 #: weblate/addons/forms.py:982
 msgid "Matches files like res/values-cs/strings-about.xml."
 msgstr ""
+"Kërkon për përkim me kartela të tilla si res/values-cs/strings-about.xml."
 
 #: weblate/addons/forms.py:986
 msgid "Matching multiple paths"
@@ -2998,7 +3003,7 @@ msgstr "S’u mor dot kyçje %(scope)s për %(origin)s, për të kryer veprimin.
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "Pritej një objekt."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3790,6 +3795,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Kufizo leje nga ky ekip për këto gjuhë. Nga ky ekip s’akordohen leje për "
+"mbarë projektin, për mbarë përbërësin dhe globale, kur është caktuar një "
+"kufi gjuhësh. Përzgjedhja e zbrazët është e barasvlershme me përzgjedhje "
+"gjuhësh ekipi pa kufi shtesë."
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -4027,15 +4036,15 @@ msgstr "Formati i kartelave s’mbulon përditësim vargjesh burim."
 
 #: weblate/auth/utils.py:97
 msgid "The anonymous user can not be assigned to teams."
-msgstr ""
+msgstr "Përdoruesi anonim s’mund t’u caktohet ekipeve."
 
 #: weblate/auth/utils.py:100
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "Përdoruesi joaktiv s’mund t’u caktohet ekipeve."
 
 #: weblate/auth/utils.py:103
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "Këtu s’mund t’u përshoqërohen ekipeve token-ë projektesh."
 
 #: weblate/auth/views.py:154
 msgid "Cannot remove built-in team!"
@@ -5754,12 +5763,14 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"Tejtëdhënat për formë shumësi në kartelë CSV janë jashtë intervali: %(value)"
+"s (maksimum: %(maximum)s)"
 
 #: weblate/formats/ttkit.py:179 weblate/formats/ttkit.py:185
 #: weblate/formats/ttkit.py:190 weblate/formats/ttkit.py:196
 #, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr ""
+msgstr "Tejtëdhëna të pavlefshme id_hash në kartelë CSV: %s"
 
 #: weblate/formats/ttkit.py:209 weblate/formats/ttkit.py:2401
 msgid "Plural form metadata in CSV file requires id_hash."
@@ -5945,12 +5956,12 @@ msgstr "Tejtëdhëna forme shumësi në kartelë CSV lypin source_plural_form."
 #: weblate/formats/ttkit.py:2478
 #, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr ""
+msgstr "Formë shumësi e përsëdytur objektivi në kartelë CSV: %s"
 
 #: weblate/formats/ttkit.py:2487
 #, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr ""
+msgstr "Formë shumësi burimi me përplasje në kartelë CSV: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2667
@@ -6186,6 +6197,8 @@ msgstr "Tre"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Lëreni të zbrazët, që të përdoret përzgjedhja e gjuhëve të ekipit pa kufi "
+"shtesë."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
@@ -7668,6 +7681,8 @@ msgid ""
 "Find a specific translation project, refer to the project's Overview tab and "
 "contact its maintainers directly."
 msgstr ""
+"Gjeni një projekt specifik përkthimi, referojuni skedës Përmbledhje të "
+"projektit dhe lidhuni drejtpërdrejt me mirëmbajtësit e tij."
 
 #: weblate/templates/accounts/contact.html:64
 msgid "Browse projects"
@@ -7682,6 +7697,8 @@ msgid ""
 "Share Weblate development ideas, feature requests, or report bugs in the "
 "upstream issue tracker."
 msgstr ""
+"Ndani me ne ide zhvillimi Weblate-i, kërkesa për veçori të reja, ose "
+"njoftime të metash, te ndjekësi i çështjeve te projekti."
 
 #: weblate/templates/accounts/contact.html:83
 msgid "Open issue tracker"
@@ -7724,6 +7741,8 @@ msgid ""
 "Browse the Weblate documentation for guides on translating, administration, "
 "and configuration."
 msgstr ""
+"Shfletoni dokumentimin e Weblate-it për udhërrëfyes rreth përkthimi, "
+"administrimi dhe formësimi."
 
 #: weblate/templates/accounts/contact.html:121
 msgid "Read the docs"
@@ -7743,6 +7762,8 @@ msgid ""
 "Reach out to the administrators of this server about account, registration, "
 "or server-wide questions that don't fit the topics above."
 msgstr ""
+"Lidhuni me përgjegjësit e këtij shërbyesi, rreth llogarish, regjistrimesh, "
+"ose pyetje lidhur me krejt shërbyesin, që s’hyjnë te temat më sipër."
 
 #: weblate/templates/accounts/contact.html:143
 msgid "Open contact form"
@@ -8820,6 +8841,7 @@ msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
 msgstr ""
+"Pastro në krejt projektet përkthime, sugjerime dhe komente nga %(user)s."
 
 #: weblate/templates/accounts/user.html:459
 #: weblate/templates/accounts/user.html:485
@@ -8873,6 +8895,8 @@ msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
 msgstr ""
+"Zgjidhni cilat kontribute nga <b>%(user)s</b> të pastrohen nëpër krejt "
+"projektet."
 
 #: weblate/templates/accounts/user.html:495
 msgid "Account removal deletes all user private data."
@@ -8909,6 +8933,8 @@ msgstr "Kjo do ta heqë <b>%(user)s</b> nga Weblate-i."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Po e braktisni Weblate-in për të hapur një lidhje profili të dhënë nga %"
+"(user)s."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
@@ -9125,11 +9151,12 @@ msgstr "Udhëzime integrimi"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "Kartela të botuara përkthimi mund të merren që nga URL bazë CDN:"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Kartelat përdorin emra kodesh gjuhësh me zgjatimin origjinal të kartelave."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9150,6 +9177,8 @@ msgid ""
 "Fill the form from a detected or generic repository layout, then edit the "
 "populated values as needed."
 msgstr ""
+"Plotësojeni formularin që nga një skemë depoje e pikasur diku, apo një "
+"elementare, mandej përpunoni vlerat e populluara sipas nevojës."
 
 #: weblate/templates/addons/discovery_presets.html:42
 msgid "Examples:"
@@ -9157,11 +9186,11 @@ msgstr "Shembuj:"
 
 #: weblate/templates/addons/discovery_presets.html:47
 msgid "Detected"
-msgstr ""
+msgstr "E pikasur"
 
 #: weblate/templates/addons/discovery_presets.html:49
 msgid "Generic"
-msgstr ""
+msgstr "Elementare"
 
 #: weblate/templates/addons/discovery_preview.html:8
 msgid "Matched files"
@@ -9264,7 +9293,13 @@ msgid_plural ""
 "    The preview below shows %(action_count)s translation files.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    Paraparja më poshtë shfaq %(action_count)s kartelë përkthimi.\n"
+"  "
 msgstr[1] ""
+"\n"
+"    Paraparja më poshtë shfaq %(action_count)s kartela përkthimi..\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:14
 #, python-format
@@ -9298,7 +9333,15 @@ msgid_plural ""
 "component settings.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      %(failure_count)s shtim i shfaqur s’mund të krijohet me rregullimet e "
+"tanishme të përbërësit.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      %(failure_count)s shtime të shfaqur s’mund të krijohen me rregullimet "
+"e tanishme të përbërësit.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:30
 #, python-format
@@ -9311,7 +9354,13 @@ msgid_plural ""
 "      Showing %(entries)s preview entries.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      Po shfaqet %(entries)s zë paraparjeje.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      Po shfaqen %(entries)s zëra paraparjeje.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:35
 #, python-format
@@ -9352,7 +9401,7 @@ msgstr "Shtime të anashkaluara"
 
 #: weblate/templates/addons/language_consistency_preview.html:93
 msgid "No missing language files would be created."
-msgstr ""
+msgstr "S’u krijuan dot kartela gjuhësh që mungojnë."
 
 #: weblate/templates/addons/pseudolocale.html:4
 msgid "Generated strings"
@@ -9443,6 +9492,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Kjo kontrollohet për çdo përdorues të ri në sajt, pavarësisht cilin projekt "
+"përdorin."
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -10663,13 +10714,15 @@ msgstr ""
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Zgjidhni me se të merreni"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Fillojani me vargje të papërkthyer, mandej vazhdoni me kontrolle, shqyrtime, "
+"sugjerime apo përpunim."
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -10956,6 +11009,8 @@ msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
+"E rikthen depon Weblate që të përputhet me burimin e projektit dhe riaplikon "
+"përkthime pezull mbi gjendjen e rikthyer të depos."
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -10967,6 +11022,8 @@ msgid ""
 "Missing language files must already exist upstream or Weblate must be able "
 "to create them for the component."
 msgstr ""
+"Kartela gjuhësh që mungojnë duhet të ekzistojnë tashmë te burimi, ose "
+"Weblate-i duhet të jetë në gjendje t’i krijojë ato për përbërësin."
 
 #: weblate/templates/js/git-status.html:188
 msgid "Cleanup"
@@ -11306,6 +11363,9 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Ky shërbim mund të dërgojë vargje burim, përkthime dhe kontekst lidhur me to "
+"te një shërbim palë e tretë. Para se ta aktivizoni, shqyrtoni kushte dhe "
+"rregulla privatësie të shërbimit."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -11407,6 +11467,8 @@ msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
 msgstr ""
+"Faturimet vijuese kanë pagesë ripërsëritëse të planifikuar për çaktivizim të "
+"automatizuar, për shkak mosveprimtarie:"
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -11504,6 +11566,9 @@ msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
 msgstr ""
+"Pagesa ripërsëritëse vjetore për planin tuaj të faturimeve do të "
+"çaktivizohet më %(date)s, nga projektet e mbuluar prej saj duket se janë "
+"braktisur."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
@@ -11511,22 +11576,28 @@ msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
 msgstr ""
+"Parashtrimi më i ri i ditur në depo për këto projekte është prej %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
 #, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
 msgstr ""
+"Weblate-i ka ndryshime të pashqyrtuara përkthimesh për këto projekte që nga %"
+"(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
+"Weblate-i ka ndryshime depoje në pritje për t’u depozituar që nga %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
 #, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
 msgstr ""
+"Weblate-i s’ka qenë në gjendje të depozitojë ndryshime depoje që nga %(date)"
+"s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
@@ -11539,7 +11610,7 @@ msgstr ""
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr ""
+msgstr "Pagesa e përsëritshme do të çaktivizohet për projekte joaktivë"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -14008,12 +14079,16 @@ msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> across all "
 "projects."
 msgstr ""
+"Prapakthe përkthimet e fundit të përpunueshme nga <b>%(user)s</b> në krejt "
+"projektet."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:15
 #, python-format
 msgid ""
 "Revert the latest editable translations by <b>%(user)s</b> in this project."
 msgstr ""
+"Prapakthe përkthimet e fundit të përpunueshme nga <b>%(user)s</b> në këtë "
+"projekt."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:27
 #: weblate/trans/forms.py:1444
@@ -14926,6 +15001,9 @@ msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
 msgstr ""
+"Leave the language limit empty Që t’i akordoni ekipit hyrje krejt gjuhëve të "
+"gatshme, lëreni të zbrazët. Përzgjidhni gjuhë vetëm për të aplikuar një "
+"filtër shtesë."
 
 #: weblate/templates/trans/project-access-team-form.html:45
 msgid "No teams are available."
@@ -14940,6 +15018,7 @@ msgstr "Pastro kontribute përdoruesi"
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up in this project."
 msgstr ""
+"Zgjidhni cilat kontribute nga <b>%(user)s</b> të pastrohen në këtë projekt."
 
 #: weblate/templates/trans/project-access.html:158
 #, python-format
@@ -16459,6 +16538,8 @@ msgid ""
 "Lets Weblate update the \"Report-Msgid-Bugs-To\" file header if Source "
 "string bug reporting address is set."
 msgstr ""
+"E lejon Weblate-in të përditësojë kryet “Report-Msgid-Bugs-To” të kartelës, "
+"nëse është ujdisur adresë njoftimi të metash vargu Burim."
 
 #: weblate/trans/file_format_params.py:434
 msgid "YAML indentation"
@@ -16997,6 +17078,8 @@ msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Zgjidhni nëse ndryshime të përsëritura te i njëjti varg numërohen një herë, "
+"apo si ndryshime më vete."
 
 #: weblate/trans/forms.py:1602
 msgid "Unique strings"
@@ -18253,7 +18336,16 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"U rikthye depoja te parazgjedhja, por s’u riaplikuan dot përkthime në pritje "
+"të shqyrtimit, ngaqë mungon %(files)s. Ndryshimet e pashqyrtuara u mbajtën. "
+"Si zgjidhje, shtoni origjinën e kartelave dhe riskanojeni, ose formësojeni "
+"përbërësin, që Weblate-i të mund të krijojë kartelën e përkthimit."
 msgstr[1] ""
+"U rikthye depoja te parazgjedhja, por s’u riaplikuan dot përkthime në pritje "
+"të shqyrtimit, ngaqë mungojnë këto kartela: %(files)s. Ndryshimet e "
+"pashqyrtuara u mbajtën. Si zgjidhje, shtoni origjinën e kartelave dhe "
+"riskanojeni, ose formësojeni përbërësin, që Weblate-i të mund të krijojë "
+"kartelën e përkthimit."
 
 #: weblate/trans/models/component.py:2592
 #, python-format
@@ -18267,7 +18359,15 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
+"Njëkohësimi i kartelave s’mundi të krijojë %(files)s, ngaqë mungon. "
+"Ndryshimet e pashqyrtuara u mbajtën. Për zgjidhje, shtoni burimin e kartelës "
+"dhe riskanojeni, ose formësojeni përbërësin që Weblate-i të mund të krijojë "
+"kartelën e përkthimit."
 msgstr[1] ""
+"Njëkohësimi i kartelave s’mundi të krijojë këto kartela, ngaqë mungojnë: %"
+"(files)s. Ndryshimet e pashqyrtuara u mbajtën. Për zgjidhje, shtoni burimin "
+"e kartelave dhe riskanojeni, ose formësojeni përbërësin që Weblate-i të mund "
+"të krijojë kartelat e përkthimit."
 
 #: weblate/trans/models/component.py:2722
 #, python-format
@@ -18275,6 +18375,9 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"U rikthye depoja te parazgjedhja, por s’u rikrijua dot %(file)s, teksa "
+"riaplikoheshin përkthime në pritje të shqyrtimit. Ndryshimet e pashqyrtuara "
+"u mbajtën."
 
 #: weblate/trans/models/component.py:2730
 #, python-format
@@ -18294,7 +18397,13 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"U rikthye depoja te parazgjedhja, por s’u rikrijua dot %(files)s, teksa "
+"riaplikoheshin përkthime në pritje të shqyrtimit. Ndryshimet e pashqyrtuara "
+"u mbajtën."
 msgstr[1] ""
+"U rikthye depoja te parazgjedhja, por s’u rikrijuan dot këto kartela, teksa "
+"riaplikoheshin përkthime në pritje të shqyrtimit: %(files)s. Ndryshimet e "
+"pashqyrtuara u mbajtën."
 
 #: weblate/trans/models/component.py:2759
 #, python-format
@@ -19260,7 +19369,7 @@ msgstr "Statistika Weblate"
 #: weblate/trans/views/acl.py:107
 #, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr ""
+msgstr "U vunë në plan heqje kontributesh nga %(user)s në këtë projekt."
 
 #: weblate/trans/views/acl.py:171 weblate/trans/views/acl.py:379
 msgid "You can not remove yourself!"
@@ -19281,7 +19390,7 @@ msgstr "Përdorues i bllokuar tashmë te ky projekt."
 #: weblate/trans/views/acl.py:272 weblate/trans/views/acl.py:331
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
-msgstr ""
+msgstr "U vunë në plan prapakthime përpunimesh nga %(user)s në këtë projekt."
 
 #: weblate/trans/views/acl.py:313
 msgid "User is not blocked on this project."
@@ -19423,7 +19532,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Importim kopjeruajtjeje projekti në kryerje e sipër"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -20186,6 +20295,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Përfundimi i formulës së shumësit {result} për numrin {count} është jashtë "
+"intervalit të lejuar 0…{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -20375,6 +20486,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Kartela ZIP përmban %(actual_size)s të dhëna, pas paketimit, duke tejkaluar "
+"kufirin e formësuar sa %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
